@@ -2072,6 +2072,13 @@ export const StorageAccountCreateParameters: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      geoPriorityReplicationStatus: {
+        serializedName: "properties.geoPriorityReplicationStatus",
+        type: {
+          name: "Composite",
+          className: "GeoPriorityReplicationStatus",
+        },
+      },
     },
   },
 };
@@ -2764,6 +2771,21 @@ export const AccountImmutabilityPolicyProperties: coreClient.CompositeMapper = {
   },
 };
 
+export const GeoPriorityReplicationStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GeoPriorityReplicationStatus",
+    modelProperties: {
+      isBlobEnabled: {
+        serializedName: "isBlobEnabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
 export const Endpoints: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3425,6 +3447,13 @@ export const StorageAccountUpdateParameters: coreClient.CompositeMapper = {
         serializedName: "properties.dnsEndpointType",
         type: {
           name: "String",
+        },
+      },
+      geoPriorityReplicationStatus: {
+        serializedName: "properties.geoPriorityReplicationStatus",
+        type: {
+          name: "Composite",
+          className: "GeoPriorityReplicationStatus",
         },
       },
     },
@@ -4879,6 +4908,21 @@ export const ObjectReplicationPolicyPropertiesMetrics: coreClient.CompositeMappe
   type: {
     name: "Composite",
     className: "ObjectReplicationPolicyPropertiesMetrics",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const ObjectReplicationPolicyPropertiesPriorityReplication: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ObjectReplicationPolicyPropertiesPriorityReplication",
     modelProperties: {
       enabled: {
         serializedName: "enabled",
@@ -6458,6 +6502,13 @@ export const ObjectReplicationPolicy: coreClient.CompositeMapper = {
           className: "ObjectReplicationPolicyPropertiesMetrics",
         },
       },
+      priorityReplication: {
+        serializedName: "properties.priorityReplication",
+        type: {
+          name: "Composite",
+          className: "ObjectReplicationPolicyPropertiesPriorityReplication",
+        },
+      },
     },
   },
 };
@@ -7736,6 +7787,13 @@ export const StorageAccount: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Boolean",
+        },
+      },
+      geoPriorityReplicationStatus: {
+        serializedName: "properties.geoPriorityReplicationStatus",
+        type: {
+          name: "Composite",
+          className: "GeoPriorityReplicationStatus",
         },
       },
     },

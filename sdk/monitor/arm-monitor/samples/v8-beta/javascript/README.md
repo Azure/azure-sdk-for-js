@@ -152,7 +152,7 @@ node actionGroupsCreateNotificationsAtActionGroupResourceLevelSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env MONITOR_SUBSCRIPTION_ID="<monitor subscription id>" MONITOR_RESOURCE_GROUP="<monitor resource group>" node actionGroupsCreateNotificationsAtActionGroupResourceLevelSample.js
+cross-env MONITOR_SUBSCRIPTION_ID="<monitor subscription id>" MONITOR_RESOURCE_GROUP="<monitor resource group>" node actionGroupsCreateNotificationsAtActionGroupResourceLevelSample.js
 ```
 
 ## Next Steps

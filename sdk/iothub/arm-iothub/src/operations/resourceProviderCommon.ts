@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ResourceProviderCommon } from "../operationsInterfaces/index.js";
+import type { ResourceProviderCommon } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { IotHubClient } from "../iotHubClient.js";
-import {
+import type { IotHubClient } from "../iotHubClient.js";
+import type {
   ResourceProviderCommonGetSubscriptionQuotaOptionalParams,
-  ResourceProviderCommonGetSubscriptionQuotaResponse
+  ResourceProviderCommonGetSubscriptionQuotaResponse,
 } from "../models/index.js";
 
 /** Class containing ResourceProviderCommon operations. */
@@ -33,12 +33,9 @@ export class ResourceProviderCommonImpl implements ResourceProviderCommon {
    * @param options The options parameters.
    */
   getSubscriptionQuota(
-    options?: ResourceProviderCommonGetSubscriptionQuotaOptionalParams
+    options?: ResourceProviderCommonGetSubscriptionQuotaOptionalParams,
   ): Promise<ResourceProviderCommonGetSubscriptionQuotaResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      getSubscriptionQuotaOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, getSubscriptionQuotaOperationSpec);
   }
 }
 // Operation Specifications
@@ -49,14 +46,14 @@ const getSubscriptionQuotaOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UserSubscriptionQuotaListResult
+      bodyMapper: Mappers.UserSubscriptionQuotaListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

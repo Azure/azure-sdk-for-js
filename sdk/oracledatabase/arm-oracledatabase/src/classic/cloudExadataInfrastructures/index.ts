@@ -1,21 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
-  CloudExadataInfrastructure,
-  CloudExadataInfrastructureUpdate,
-} from "../../models/models.js";
-import {
-  CloudExadataInfrastructuresAddStorageCapacityOptionalParams,
-  CloudExadataInfrastructuresListByResourceGroupOptionalParams,
-  CloudExadataInfrastructuresDeleteOptionalParams,
-  CloudExadataInfrastructuresUpdateOptionalParams,
-  CloudExadataInfrastructuresGetOptionalParams,
-  CloudExadataInfrastructuresCreateOrUpdateOptionalParams,
-  CloudExadataInfrastructuresListBySubscriptionOptionalParams,
-} from "../../api/cloudExadataInfrastructures/options.js";
-import {
+  configureExascale,
   addStorageCapacity,
   listByResourceGroup,
   $delete,
@@ -24,11 +12,33 @@ import {
   createOrUpdate,
   listBySubscription,
 } from "../../api/cloudExadataInfrastructures/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  CloudExadataInfrastructuresConfigureExascaleOptionalParams,
+  CloudExadataInfrastructuresAddStorageCapacityOptionalParams,
+  CloudExadataInfrastructuresListByResourceGroupOptionalParams,
+  CloudExadataInfrastructuresDeleteOptionalParams,
+  CloudExadataInfrastructuresUpdateOptionalParams,
+  CloudExadataInfrastructuresGetOptionalParams,
+  CloudExadataInfrastructuresCreateOrUpdateOptionalParams,
+  CloudExadataInfrastructuresListBySubscriptionOptionalParams,
+} from "../../api/cloudExadataInfrastructures/options.js";
+import type {
+  CloudExadataInfrastructure,
+  CloudExadataInfrastructureUpdate,
+  ConfigureExascaleCloudExadataInfrastructureDetails,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CloudExadataInfrastructures operations. */
 export interface CloudExadataInfrastructuresOperations {
+  /** Configures Exascale on Cloud exadata infrastructure resource */
+  configureExascale: (
+    resourceGroupName: string,
+    cloudexadatainfrastructurename: string,
+    body: ConfigureExascaleCloudExadataInfrastructureDetails,
+    options?: CloudExadataInfrastructuresConfigureExascaleOptionalParams,
+  ) => PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
   /** Perform add storage capacity on exadata infra */
   addStorageCapacity: (
     resourceGroupName: string,
@@ -79,6 +89,13 @@ export interface CloudExadataInfrastructuresOperations {
 
 function _getCloudExadataInfrastructures(context: OracleDatabaseManagementContext) {
   return {
+    configureExascale: (
+      resourceGroupName: string,
+      cloudexadatainfrastructurename: string,
+      body: ConfigureExascaleCloudExadataInfrastructureDetails,
+      options?: CloudExadataInfrastructuresConfigureExascaleOptionalParams,
+    ) =>
+      configureExascale(context, resourceGroupName, cloudexadatainfrastructurename, body, options),
     addStorageCapacity: (
       resourceGroupName: string,
       cloudexadatainfrastructurename: string,

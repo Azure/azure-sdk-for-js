@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Locations } from "../operationsInterfaces/index.js";
+import type { Locations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { HDInsightManagementClient } from "../hDInsightManagementClient.js";
-import {
+import type { HDInsightManagementClient } from "../hDInsightManagementClient.js";
+import type {
   LocationsGetCapabilitiesOptionalParams,
   LocationsGetCapabilitiesResponse,
   LocationsListUsagesOptionalParams,
@@ -49,10 +49,7 @@ export class LocationsImpl implements Locations {
     location: string,
     options?: LocationsGetCapabilitiesOptionalParams,
   ): Promise<LocationsGetCapabilitiesResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      getCapabilitiesOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, getCapabilitiesOperationSpec);
   }
 
   /**
@@ -64,10 +61,7 @@ export class LocationsImpl implements Locations {
     location: string,
     options?: LocationsListUsagesOptionalParams,
   ): Promise<LocationsListUsagesResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listUsagesOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listUsagesOperationSpec);
   }
 
   /**
@@ -79,10 +73,7 @@ export class LocationsImpl implements Locations {
     location: string,
     options?: LocationsListBillingSpecsOptionalParams,
   ): Promise<LocationsListBillingSpecsResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listBillingSpecsOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listBillingSpecsOperationSpec);
   }
 
   /**
@@ -151,11 +142,7 @@ const getCapabilitiesOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -171,11 +158,7 @@ const listUsagesOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -191,11 +174,7 @@ const listBillingSpecsOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -233,11 +212,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -255,11 +230,7 @@ const validateClusterCreateRequestOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,

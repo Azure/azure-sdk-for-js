@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  PrivateEndpointConnection} from "@azure/arm-appcontainers";
 import {
-  PrivateEndpointConnection,
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -12,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update the state of a private endpoint connection for a given managed environment.
  *
  * @summary Update the state of a private endpoint connection for a given managed environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironmentPrivateEndpointConnections_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ManagedEnvironmentPrivateEndpointConnections_CreateOrUpdate.json
  */
 async function updateAPrivateEndpointConnectionByManagedEnvironment(): Promise<void> {
   const subscriptionId =

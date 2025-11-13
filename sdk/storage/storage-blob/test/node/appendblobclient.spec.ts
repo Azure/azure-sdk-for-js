@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type {
-  StorageSharedKeyCredential,
-  ContainerClient,
-  BlobServiceClient,
-} from "../../src/index.js";
+
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
+import type { ContainerClient, BlobServiceClient } from "../../src/index.js";
 import {
   AppendBlobClient,
   newPipeline,
@@ -376,7 +374,7 @@ describe("AppendBlobClient Node.js only", () => {
       assert.equal(err.details?.errorCode, "ConditionNotMet");
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
 
     await newBlobClient.appendBlockFromURL(`${blockBlobClient.url}?${sas}`, 0, content.length, {
       conditions: { tagConditions: "tag = 'val'" },

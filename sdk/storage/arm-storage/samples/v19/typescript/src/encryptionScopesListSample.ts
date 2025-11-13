@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all the encryption scopes available under the specified storage account.
  *
  * @summary Lists all the encryption scopes available under the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountEncryptionScopeList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountEncryptionScopeList.json
  */
 async function storageAccountEncryptionScopeList(): Promise<void> {
   const subscriptionId =

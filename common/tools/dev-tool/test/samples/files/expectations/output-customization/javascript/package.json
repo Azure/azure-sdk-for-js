@@ -23,5 +23,8 @@
   "dependencies": {
     "output-customization": "latest",
     "dotenv": "latest"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }
