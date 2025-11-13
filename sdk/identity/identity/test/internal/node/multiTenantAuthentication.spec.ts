@@ -24,20 +24,17 @@ describe("MultiTenantAuthentication", function () {
     await cleanup();
   });
 
-  it.skipIf(
-    !env.AZURE_IDENTITY_MULTI_TENANT_TENANT_ID ||
-      !env.AZURE_IDENTITY_MULTI_TENANT_CLIENT_ID ||
-      !env.AZURE_IDENTITY_MULTI_TENANT_CLIENT_SECRET,
-  )("supports calling graph with client secret", async function () {
+  it("supports calling graph with client secret", async function (ctx) {
     const [tenantId, clientId, clientSecret] = [
       env.AZURE_IDENTITY_MULTI_TENANT_TENANT_ID,
       env.AZURE_IDENTITY_MULTI_TENANT_CLIENT_ID,
       env.AZURE_IDENTITY_MULTI_TENANT_CLIENT_SECRET,
     ];
 
-    // multi-tenant credentials live in a shared keyvault whose values are mounted in CI, but not in local dev
     if (!tenantId || !clientId || !clientSecret) {
+      // multi-tenant credentials live in a shared keyvault whose values are mounted in CI, but not in local dev
       console.log("Multi-tenant credentials not provided, skipping test");
+      ctx.skip();
     }
 
     const credential = new ClientSecretCredential(

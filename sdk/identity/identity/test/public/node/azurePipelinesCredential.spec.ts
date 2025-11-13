@@ -9,28 +9,31 @@ describe("AzurePipelinesCredential", function () {
   const scope = "https://vault.azure.net/.default";
   const tenantId = process.env.AZURE_SERVICE_CONNECTION_TENANT_ID!;
 
-  it.skipIf(!isLiveMode() || !process.env.AZURE_SERVICE_CONNECTION_ID)(
-    "authenticates with a valid service connection",
-    async function () {
-      // this serviceConnection corresponds to the Azure SDK Test Resources - LiveTestSecrets service
-      const existingServiceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!;
-      // clientId for above service connection
-      const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
-      const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN!;
-      const credential = new AzurePipelinesCredential(
-        tenantId,
-        clientId,
-        existingServiceConnectionId,
-        systemAccessToken,
-      );
-      const token = await credential.getToken(scope);
-      assert.isDefined(token?.token);
-      assert.isDefined(token?.expiresOnTimestamp);
-      if (token?.expiresOnTimestamp) assert.isTrue(token?.expiresOnTimestamp > Date.now());
-    },
-  );
+  it("authenticates with a valid service connection", async function (ctx) {
+    if (!isLiveMode() || !process.env.AZURE_SERVICE_CONNECTION_ID) {
+      ctx.skip();
+    }
+    // this serviceConnection corresponds to the Azure SDK Test Resources - LiveTestSecrets service
+    const existingServiceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!;
+    // clientId for above service connection
+    const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
+    const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN!;
+    const credential = new AzurePipelinesCredential(
+      tenantId,
+      clientId,
+      existingServiceConnectionId,
+      systemAccessToken,
+    );
+    const token = await credential.getToken(scope);
+    assert.isDefined(token?.token);
+    assert.isDefined(token?.expiresOnTimestamp);
+    if (token?.expiresOnTimestamp) assert.isTrue(token?.expiresOnTimestamp > Date.now());
+  });
 
-  it.skipIf(!isLiveMode())("fails with invalid service connection", async function () {
+  it("fails with invalid service connection", async function (ctx) {
+    if (!isLiveMode()) {
+      ctx.skip();
+    }
     // clientId for above service connection
     const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
     const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN!;
@@ -45,7 +48,10 @@ describe("AzurePipelinesCredential", function () {
     await expect(credential.getToken(scope)).rejects.toThrow(regExp);
   });
 
-  it.skipIf(!isLiveMode())("failure includes the expected response headers", async function () {
+  it("failure includes the expected response headers", async function (ctx) {
+    if (!isLiveMode()) {
+      ctx.skip();
+    }
     // clientId for above service connection
     const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
     const existingServiceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!;
@@ -65,10 +71,9 @@ describe("AzurePipelinesCredential", function () {
 
   // TODO: Unskip this test once service confirms expected behavior
   // Currently, the error message is unrelated to `clientId`
-  it.skip("fails with invalid client id", async function () {
+  it.skip("fails with invalid client id", async function (ctx) {
     if (!isLiveMode()) {
-      // Note: This test is already skipped via it.skip, this check is redundant but kept for clarity
-      return;
+      ctx.skip();
     }
     const existingServiceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!;
     const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN!;
@@ -83,7 +88,10 @@ describe("AzurePipelinesCredential", function () {
     await expect(credential.getToken(scope)).rejects.toThrow(regExp);
   });
 
-  it.skipIf(!isLiveMode())("fails with with invalid system access token", async function () {
+  it("fails with with invalid system access token", async function (ctx) {
+    if (!isLiveMode()) {
+      ctx.skip();
+    }
     const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
     const existingServiceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!;
     const credential = new AzurePipelinesCredential(

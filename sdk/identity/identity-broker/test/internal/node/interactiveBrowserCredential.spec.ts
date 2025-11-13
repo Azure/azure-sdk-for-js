@@ -29,61 +29,57 @@ describe("InteractiveBrowserCredential (internal)", () => {
     vi.restoreAllMocks();
   });
 
-  it.skipIf(!isNodeLike || process.platform !== "win32" || isLiveMode() || isPlaybackMode())(
-    "Throws error when no plugin is imported",
-    async () => {
-      // OSX asks for passwords on CI, so we need to skip these tests from our automation
-      // These tests should not run live because this credential requires user interaction.
-      // currently test with broker is hanging, so skipping in playback mode for the ci
-      const winHandle = Buffer.from("srefleqr93285329lskadjffa");
-      const interactiveBrowserCredentialOptions: InteractiveBrowserCredentialNodeOptions = {
-        tenantId: env.AZURE_TENANT_ID,
-        clientId: env.AZURE_CLIENT_ID,
-        brokerOptions: {
-          enabled: true,
-          parentWindowHandle: winHandle,
-        },
-      };
-      assert.throws(() => {
-        new InteractiveBrowserCredential(
-          recorder.configureClientOptions(interactiveBrowserCredentialOptions),
-        );
-      }, "Broker for WAM was requested to be enabled, but no native broker was configured.");
-    },
-  );
-  it.skipIf(!isNodeLike || process.platform !== "win32" || isLiveMode() || isPlaybackMode())(
-    "Accepts interactiveBrowserCredentialOptions",
-    async () => {
-      // OSX asks for passwords on CI, so we need to skip these tests from our automation
-      // These tests should not run live because this credential requires user interaction.
-      // currently test with broker is hanging, so skipping in playback mode for the ci
-      useIdentityPlugin(nativeBrokerPlugin);
-      const winHandle = Buffer.from("srefleqr93285329lskadjffa");
-      const interactiveBrowserCredentialOptions: InteractiveBrowserCredentialNodeOptions = {
-        tenantId: env.AZURE_TENANT_ID,
-        clientId: env.AZURE_CLIENT_ID,
-        brokerOptions: {
-          enabled: true,
-          parentWindowHandle: winHandle,
-        },
-      };
-      const scope = "https://graph.microsoft.com/.default";
-
-      const credential = new InteractiveBrowserCredential(
+  // This test is skipped because:
+  // - OSX asks for passwords on CI, so we need to skip on non-Windows platforms
+  // - The test requires user interaction, so it cannot run in live mode
+  // - The test with broker is hanging, so it's skipped in playback mode for CI
+  it.skip("Throws error when no plugin is imported", async () => {
+    const winHandle = Buffer.from("srefleqr93285329lskadjffa");
+    const interactiveBrowserCredentialOptions: InteractiveBrowserCredentialNodeOptions = {
+      tenantId: env.AZURE_TENANT_ID,
+      clientId: env.AZURE_CLIENT_ID,
+      brokerOptions: {
+        enabled: true,
+        parentWindowHandle: winHandle,
+      },
+    };
+    assert.throws(() => {
+      new InteractiveBrowserCredential(
         recorder.configureClientOptions(interactiveBrowserCredentialOptions),
       );
+    }, "Broker for WAM was requested to be enabled, but no native broker was configured.");
+  });
+  // This test is skipped because:
+  // - OSX asks for passwords on CI, so we need to skip on non-Windows platforms
+  // - The test requires user interaction, so it cannot run in live mode
+  // - The test with broker is hanging, so it's skipped in playback mode for CI
+  it.skip("Accepts interactiveBrowserCredentialOptions", async () => {
+    useIdentityPlugin(nativeBrokerPlugin);
+    const winHandle = Buffer.from("srefleqr93285329lskadjffa");
+    const interactiveBrowserCredentialOptions: InteractiveBrowserCredentialNodeOptions = {
+      tenantId: env.AZURE_TENANT_ID,
+      clientId: env.AZURE_CLIENT_ID,
+      brokerOptions: {
+        enabled: true,
+        parentWindowHandle: winHandle,
+      },
+    };
+    const scope = "https://graph.microsoft.com/.default";
 
-      try {
-        const accessToken = await credential.getToken(scope);
-        assert.exists(accessToken.token);
-        expect(doGetTokenSpy).toHaveBeenCalledOnce();
-        expect(doGetTokenSpy.mock.results[0].value).toEqual(
-          expect.objectContaining({ fromNativeBroker: true }),
-        );
-      } catch (e) {
-        console.log(e);
-        expect(doGetTokenSpy).toHaveBeenCalledOnce();
-      }
-    },
-  );
+    const credential = new InteractiveBrowserCredential(
+      recorder.configureClientOptions(interactiveBrowserCredentialOptions),
+    );
+
+    try {
+      const accessToken = await credential.getToken(scope);
+      assert.exists(accessToken.token);
+      expect(doGetTokenSpy).toHaveBeenCalledOnce();
+      expect(doGetTokenSpy.mock.results[0].value).toEqual(
+        expect.objectContaining({ fromNativeBroker: true }),
+      );
+    } catch (e) {
+      console.log(e);
+      expect(doGetTokenSpy).toHaveBeenCalledOnce();
+    }
+  });
 });
