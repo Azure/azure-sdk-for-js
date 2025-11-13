@@ -76,7 +76,7 @@
     "@azure/logger": "workspace:^",
     "@azure/monitor-opentelemetry-exporter": "workspace:*",
     "@azure/opentelemetry-instrumentation-azure-sdk": "workspace:^",
-    "@microsoft/applicationinsights-web-snippet": "^1.2.2",
+    "@microsoft/applicationinsights-web-snippet": "^1.2.3",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/api-logs": "^0.204.0",
     "@opentelemetry/core": "^2.2.0",
