@@ -37,7 +37,7 @@ async function main() {
     },
   };
 
-  const agentDefintion = {
+  const agentDefinition = {
     kind: "prompt",
     model: deploymentName,
     instructions:
@@ -45,7 +45,7 @@ async function main() {
     tools: [sharepointTool],
   };
 
-  const agent = await project.agents.createVersion("MyAgent", agentDefintion);
+  const agent = await project.agents.createVersion("MyAgent", agentDefinition);
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
   // Send initial request that will trigger the SharePoint tool
