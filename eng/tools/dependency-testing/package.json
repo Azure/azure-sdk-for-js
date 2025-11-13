@@ -24,7 +24,9 @@
     "prettier": "^3.3.3",
     "semver": "^7.5.4",
     "yargs": "^17.7.2",
-    "@azure-tools/eng-package-utils": "file:../eng-package-utils"
+    "@azure-tools/eng-package-utils": "file:../eng-package-utils",
+    "@pnpm/config": "^1002.7.0",
+    "@pnpm/catalogs.resolver": "^1000.0.2"
   },
   "devDependencies": {
     "@types/yargs": "^17.0.33",
