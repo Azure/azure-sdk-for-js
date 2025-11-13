@@ -27,7 +27,8 @@ import {
 } from "./computerUseUtil.js";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["COMPUTER_USE_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const deploymentName =
+  process.env["COMPUTER_USE_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
   // Initialize state machine
@@ -101,7 +102,7 @@ Be direct and efficient. When you reach the search results page, read and descri
     console.log(`\n--- Iteration ${iteration} ---`);
 
     // Check for computer calls in the response
-    const computerCalls = response.output.filter(item => item.type === "computer_call");
+    const computerCalls = response.output.filter((item) => item.type === "computer_call");
 
     if (computerCalls.length === 0) {
       printFinalOutput({

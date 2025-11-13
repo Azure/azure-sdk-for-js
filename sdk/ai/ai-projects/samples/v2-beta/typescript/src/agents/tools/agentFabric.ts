@@ -21,20 +21,7 @@ const fabricProjectConnectionId =
   process.env["FABRIC_PROJECT_CONNECTION_ID"] || "<fabric project connection id>";
 
 export async function main(): Promise<void> {
-  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
-    additionalPolicies: [
-      {
-        policy: {
-          name: "CustomHeaderPolicy",
-          sendRequest: async (request, next) => {
-            request.headers.set("x-ms-oai-response-testenv", "tip2-preview1"); // TODO: remove this line when the feature goes to production
-            return next(request);
-          },
-        },
-        position: "perCall",
-      },
-    ],
-  });
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = await project.getOpenAIClient();
 
   console.log("Creating agent with Microsoft Fabric tool...");
