@@ -3,7 +3,7 @@
 
 import { describe, it, expect, beforeEach } from "vitest";
 import { BaseContinuationTokenManager } from "../../../../../src/queryExecutionContext/ContinuationTokenManager/BaseContinuationTokenManager.js";
-import type { QueryResponseResult } from "../../../../../src/queryExecutionContext/ContinuationTokenManager/BaseContinuationTokenManager.js";
+import type { ParallelQueryResult } from "../../../../../src/queryExecutionContext/parallelQueryResult.js";
 import type { PartitionRangeUpdates } from "../../../../../src/documents/ContinuationToken/PartitionRangeUpdate.js";
 import type { QueryRangeWithContinuationToken } from "../../../../../src/documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import { QueryRange } from "../../../../../src/routing/QueryRange.js";
@@ -32,7 +32,7 @@ class TestContinuationTokenManager extends BaseContinuationTokenManager {
     return undefined;
   }
 
-  protected processQuerySpecificResponse(_responseResult: QueryResponseResult): void {
+  protected processQuerySpecificResponse(_responseResult: ParallelQueryResult): void {
     // No query-specific processing needed for these tests
   }
 
@@ -54,7 +54,9 @@ class TestContinuationTokenManager extends BaseContinuationTokenManager {
    * This simulates receiving updated continuation ranges in a query response.
    */
   public simulatePartitionRangeUpdates(updatedContinuationRanges: PartitionRangeUpdates): void {
-    const mockResponseResult: QueryResponseResult = {
+    const mockResponseResult: ParallelQueryResult = {
+      buffer: [],
+      partitionKeyRangeMap: new Map(),
       updatedContinuationRanges,
     };
 

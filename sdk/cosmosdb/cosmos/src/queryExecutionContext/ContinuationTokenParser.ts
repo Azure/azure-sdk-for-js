@@ -28,7 +28,6 @@ export function parseContinuationTokenFields(continuationToken: string): Continu
       hashedLastResult: parsed.hashedLastResult,
     };
   } catch (error) {
-    // If parsing fails, throw a proper error
     throw new Error(
       `Failed to parse continuation token: ${error instanceof Error ? error.message : String(error)}`,
     );

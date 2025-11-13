@@ -5,7 +5,7 @@ import type { Response } from "../../request/index.js";
 import type { ExecutionContext } from "../ExecutionContext.js";
 import type { ParallelQueryResult } from "../parallelQueryResult.js";
 import { createParallelQueryResult } from "../parallelQueryResult.js";
-import type { OrderByItemWithRid } from "../ContinuationTokenManager/BaseContinuationTokenManager.js";
+import type { OrderByItemWithRid } from "../parallelQueryResult.js";
 
 /** @hidden */
 export class OrderByEndpointComponent implements ExecutionContext {
@@ -41,7 +41,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
       response.result.buffer.length === 0
     ) {
       // Preserve the partitionKeyRangeMap and updatedContinuationRanges from the original response
-      // even when the buffer is empty, as they contain important continuation token information
+      // even when the buffer is empty, as they contain continuation token information
       const originalResult = response?.result as ParallelQueryResult;
       const result = createParallelQueryResult(
         [],

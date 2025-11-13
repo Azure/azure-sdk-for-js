@@ -2,7 +2,22 @@
 // Licensed under the MIT License.
 
 import type { QueryRangeMapping } from "./queryRangeMapping.js";
-import type { OrderByItemWithRid } from "./ContinuationTokenManager/BaseContinuationTokenManager.js";
+
+/**
+ * Represents an ORDER BY item with its associated document resource ID.
+ * Used for tracking ORDER BY criteria and document identity in sorted query results.
+ * @internal
+ */
+export interface OrderByItemWithRid {
+  /**
+   * The ORDER BY values for this document
+   */
+  orderByItems: any[];
+  /**
+   * The resource ID (_rid) of the document
+   */
+  _rid: string;
+}
 
 /**
  * Represents the result structure returned by parallel query execution contexts

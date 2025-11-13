@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { BaseContinuationTokenManager } from "./BaseContinuationTokenManager.js";
-import type { QueryResponseResult, OrderByItemWithRid } from "./BaseContinuationTokenManager.js";
+import type { ParallelQueryResult, OrderByItemWithRid } from "../parallelQueryResult.js";
 import type { OrderByQueryContinuationToken } from "../../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import {
   createOrderByQueryContinuationToken,
@@ -23,7 +23,6 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   constructor(collectionLink: string, initialContinuationToken?: string) {
     super(collectionLink);
 
-    // Handle initialization directly - no deferred complexity needed
     if (initialContinuationToken) {
       this.continuationToken = parseOrderByQueryContinuationToken(initialContinuationToken);
       this.rangeList = this.continuationToken?.rangeMappings || [];
@@ -34,7 +33,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     this.orderByItemsArray = orderByItemsArray;
   }
 
-  protected processQuerySpecificResponse(responseResult: QueryResponseResult): void {
+  protected processQuerySpecificResponse(responseResult: ParallelQueryResult): void {
     if (responseResult.orderByItems) {
       this.setOrderByItemsArray(responseResult.orderByItems);
     }

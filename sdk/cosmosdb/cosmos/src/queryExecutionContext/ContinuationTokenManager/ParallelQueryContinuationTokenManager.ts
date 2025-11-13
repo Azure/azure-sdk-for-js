@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { BaseContinuationTokenManager } from "./BaseContinuationTokenManager.js";
-import type { QueryResponseResult } from "./BaseContinuationTokenManager.js";
+import type { ParallelQueryResult } from "../parallelQueryResult.js";
 import type {
   CompositeQueryContinuationToken,
   QueryRangeWithContinuationToken,
@@ -40,7 +40,6 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
       return { endIndex: 0, processedRanges: [] };
     }
 
-    // Convert QueryRangeMapping objects to QueryRangeWithContinuationToken objects using helper
     const rangeMappings: QueryRangeWithContinuationToken[] = result.processedRangeMappings.map(
       (mapping: QueryRangeMapping) => convertRangeMappingToQueryRange(mapping),
     );
@@ -65,7 +64,7 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
     return this.continuationToken ? serializeCompositeToken(this.continuationToken) : undefined;
   }
 
-  protected processQuerySpecificResponse(_responseResult: QueryResponseResult): void {
+  protected processQuerySpecificResponse(_responseResult: ParallelQueryResult): void {
     // Parallel queries don't need additional response processing
   }
 

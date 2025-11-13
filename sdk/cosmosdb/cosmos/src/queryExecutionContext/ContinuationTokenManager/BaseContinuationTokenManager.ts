@@ -11,34 +11,7 @@ import type {
   PartitionRangeUpdates,
 } from "../../documents/ContinuationToken/PartitionRangeUpdate.js";
 import { PartitionRangeManager } from "../PartitionRangeManager.js";
-
-/**
- * Represents an ORDER BY item with its associated document resource ID.
- * Used for tracking ORDER BY criteria and document identity in sorted query results.
- * @internal
- */
-export interface OrderByItemWithRid {
-  /**
-   * The ORDER BY values for this document
-   */
-  orderByItems: any[];
-  /**
-   * The resource ID (_rid) of the document
-   */
-  _rid: string;
-}
-
-/**
- * Interface representing the result portion of a query response that contains
- * continuation token related data.
- * @internal
- */
-export interface QueryResponseResult {
-  partitionKeyRangeMap?: Map<string, QueryRangeMapping>;
-  updatedContinuationRanges?: PartitionRangeUpdates;
-  orderByItems?: OrderByItemWithRid[];
-  buffer?: any[];
-}
+import type { ParallelQueryResult } from "../parallelQueryResult.js";
 
 /**
  * Base abstract class for continuation token management.
@@ -86,20 +59,22 @@ export abstract class BaseContinuationTokenManager {
   public paginateResults(
     pageSize: number,
     isResponseEmpty: boolean,
-    responseResult?: QueryResponseResult,
+    responseResult?: ParallelQueryResult,
   ): {
     endIndex: number;
     continuationToken?: string;
   } {
+    // Process response data
     if (responseResult) {
       this.processResponseResult(responseResult);
     }
 
     this.removeExhaustedRangesFromRanges();
     const result = this.processRangesForPagination(pageSize, isResponseEmpty);
-
-    this.cleanProcessedData(result.processedRanges, result.endIndex);
     const tokenString = this.generateContinuationTokenString();
+
+    // Clean up processed ranges
+    this.cleanProcessedData(result.processedRanges, result.endIndex);
 
     return {
       endIndex: result.endIndex,
@@ -116,7 +91,7 @@ export abstract class BaseContinuationTokenManager {
   };
 
   protected abstract generateContinuationTokenString(): string | undefined;
-  protected abstract processQuerySpecificResponse(responseResult: QueryResponseResult): void;
+  protected abstract processQuerySpecificResponse(responseResult: ParallelQueryResult): void;
   protected abstract performQuerySpecificCleanup(processedRanges: string[], endIndex: number): void;
 
   private removePartitionRangeMapping(rangeId: string): void {
@@ -144,11 +119,7 @@ export abstract class BaseContinuationTokenManager {
    * Processes the entire response result and updates the continuation token manager state.
    * This encapsulates all response handling logic in one place.
    */
-  private processResponseResult(responseResult: QueryResponseResult): void {
-    if (!responseResult) {
-      return;
-    }
-
+  private processResponseResult(responseResult: ParallelQueryResult): void {
     // Handle partition key range map
     if (responseResult.partitionKeyRangeMap) {
       this.setPartitionKeyRangeMap(responseResult.partitionKeyRangeMap);
@@ -159,7 +130,6 @@ export abstract class BaseContinuationTokenManager {
       this.handlePartitionRangeChanges(responseResult.updatedContinuationRanges);
     }
 
-    // Delegate query-specific processing to subclass
     this.processQuerySpecificResponse(responseResult);
   }
 
