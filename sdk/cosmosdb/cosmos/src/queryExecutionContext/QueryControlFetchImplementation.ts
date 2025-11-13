@@ -26,7 +26,7 @@ export class QueryControlFetchImplementation {
     querySupportsTokens: boolean,
   ) {
     this.querySupportsTokens = querySupportsTokens;
-    
+
     // Initialize continuation token manager immediately for query control
     this.continuationTokenManager = ContinuationTokenManagerFactory.create(
       collectionLink,
@@ -49,7 +49,7 @@ export class QueryControlFetchImplementation {
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<Response<any>> {
     const context = this.context;
-    
+
     // Return buffered data if available
     if (context.fetchBuffer.length > 0) {
       const temp = context.fetchBuffer.slice(0, context.pageSize);
@@ -75,7 +75,7 @@ export class QueryControlFetchImplementation {
 
   private async _handleQueryFetch(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     const context = this.context;
-    
+
     if (context.fetchBuffer.length > 0) {
       const { endIndex, continuationToken } = this.continuationTokenManager.paginateResults(
         context.pageSize,

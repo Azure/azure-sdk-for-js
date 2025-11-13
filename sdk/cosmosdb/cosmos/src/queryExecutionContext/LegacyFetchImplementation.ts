@@ -13,7 +13,7 @@ import type { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionCo
 export class LegacyFetchImplementation {
   constructor(
     private context: PipelinedQueryExecutionContext,
-  ) {}
+  ) { }
 
   async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     const context = this.context;
