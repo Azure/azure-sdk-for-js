@@ -73,7 +73,7 @@ async function main(): Promise<void> {
 
     await delay(WAIT_TIME);
 
-    const searchResults = await searchClient.search("*", undefined, undefined, {
+    const searchResults = await searchClient.search("*", {
       vectorSearchOptions: {
         queries: [
           {
