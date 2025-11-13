@@ -92,11 +92,10 @@ export abstract class BaseContinuationTokenManager {
 
   protected abstract generateContinuationTokenString(): string | undefined;
   protected abstract processQuerySpecificResponse(responseResult: ParallelQueryResult): void;
-  protected abstract performQuerySpecificDataTrim(processedRanges: string[], endIndex: number): void;
-
-  private removePartitionRangeMapping(rangeId: string): void {
-    this.partitionRangeManager.removePartitionRangeMapping(rangeId);
-  }
+  protected abstract performQuerySpecificDataTrim(
+    processedRanges: string[],
+    endIndex: number,
+  ): void;
 
   /**
    * Cleans up processed data after a page has been returned.
@@ -104,15 +103,15 @@ export abstract class BaseContinuationTokenManager {
    */
   private trimProcessedData(processedRanges: string[], endIndex: number): void {
     processedRanges.forEach((rangeId) => {
-      this.removePartitionRangeMapping(rangeId);
+      this.partitionRangeManager.removePartitionRangeMapping(rangeId);
     });
 
     // Delegate query-specific cleanup to subclass
     this.performQuerySpecificDataTrim(processedRanges, endIndex);
   }
 
-  private setPartitionKeyRangeMap(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {
-    this.partitionRangeManager.setPartitionKeyRangeMap(partitionKeyRangeMap);
+  private addPartitionKeyRangeMap(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {
+    this.partitionRangeManager.addPartitionKeyRangeMap(partitionKeyRangeMap);
   }
 
   /**
@@ -122,7 +121,7 @@ export abstract class BaseContinuationTokenManager {
   private processResponseResult(responseResult: ParallelQueryResult): void {
     // Handle partition key range map
     if (responseResult.partitionKeyRangeMap) {
-      this.setPartitionKeyRangeMap(responseResult.partitionKeyRangeMap);
+      this.addPartitionKeyRangeMap(responseResult.partitionKeyRangeMap);
     }
 
     // Handle partition range updates

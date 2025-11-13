@@ -29,13 +29,13 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     }
   }
 
-  private setOrderByItemsArray(orderByItemsArray: OrderByItemWithRid[] | undefined): void {
+  private initializeOrderByItemsArray(orderByItemsArray: OrderByItemWithRid[] | undefined): void {
     this.orderByItemsArray = orderByItemsArray;
   }
 
   protected processQuerySpecificResponse(responseResult: ParallelQueryResult): void {
     if (responseResult.orderByItems) {
-      this.setOrderByItemsArray(responseResult.orderByItems);
+      this.initializeOrderByItemsArray(responseResult.orderByItems);
     }
   }
 

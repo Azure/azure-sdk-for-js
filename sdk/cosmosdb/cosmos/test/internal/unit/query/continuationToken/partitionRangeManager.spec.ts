@@ -51,7 +51,7 @@ describe("PartitionRangeManager", () => {
       rangeMap.set("range1", createMockRangeMapping(10));
       rangeMap.set("range2", createMockRangeMapping(5));
 
-      partitionRangeManager.setPartitionKeyRangeMap(rangeMap);
+      partitionRangeManager.addPartitionKeyRangeMap(rangeMap);
 
       assert.isTrue(partitionRangeManager.hasUnprocessedRanges());
     });
@@ -59,21 +59,21 @@ describe("PartitionRangeManager", () => {
     it("should not overwrite existing range mappings", () => {
       const initialMap = new Map<string, QueryRangeMapping>();
       initialMap.set("range1", createMockRangeMapping(10, "initial-token"));
-      partitionRangeManager.setPartitionKeyRangeMap(initialMap);
+      partitionRangeManager.addPartitionKeyRangeMap(initialMap);
 
       const updateMap = new Map<string, QueryRangeMapping>();
       updateMap.set("range1", createMockRangeMapping(20, "updated-token"));
-      partitionRangeManager.setPartitionKeyRangeMap(updateMap);
+      partitionRangeManager.addPartitionKeyRangeMap(updateMap);
 
       // Should still have unprocessed ranges but original mapping preserved
       assert.isTrue(partitionRangeManager.hasUnprocessedRanges());
     });
 
     it("should handle null/undefined range map", () => {
-      partitionRangeManager.setPartitionKeyRangeMap(null as any);
+      partitionRangeManager.addPartitionKeyRangeMap(null as any);
       assert.isFalse(partitionRangeManager.hasUnprocessedRanges());
 
-      partitionRangeManager.setPartitionKeyRangeMap(undefined as any);
+      partitionRangeManager.addPartitionKeyRangeMap(undefined as any);
       assert.isFalse(partitionRangeManager.hasUnprocessedRanges());
     });
 
@@ -83,7 +83,7 @@ describe("PartitionRangeManager", () => {
       rangeMap.set("range2", createMockRangeMapping(5));
       rangeMap.set("range3", createMockRangeMapping(15));
 
-      partitionRangeManager.setPartitionKeyRangeMap(rangeMap);
+      partitionRangeManager.addPartitionKeyRangeMap(rangeMap);
 
       assert.isTrue(partitionRangeManager.hasUnprocessedRanges());
     });
@@ -93,7 +93,7 @@ describe("PartitionRangeManager", () => {
     it("should remove existing range mapping", () => {
       const rangeMap = new Map<string, QueryRangeMapping>();
       rangeMap.set("range1", createMockRangeMapping(10));
-      partitionRangeManager.setPartitionKeyRangeMap(rangeMap);
+      partitionRangeManager.addPartitionKeyRangeMap(rangeMap);
 
       assert.isTrue(partitionRangeManager.hasUnprocessedRanges());
 
@@ -110,7 +110,7 @@ describe("PartitionRangeManager", () => {
       const rangeMap = new Map<string, QueryRangeMapping>();
       rangeMap.set("range1", createMockRangeMapping(10));
       rangeMap.set("range2", createMockRangeMapping(5));
-      partitionRangeManager.setPartitionKeyRangeMap(rangeMap);
+      partitionRangeManager.addPartitionKeyRangeMap(rangeMap);
 
       partitionRangeManager.removePartitionRangeMapping("range1");
       assert.isTrue(partitionRangeManager.hasUnprocessedRanges());
@@ -126,7 +126,7 @@ describe("PartitionRangeManager", () => {
       const rangeMap = new Map<string, QueryRangeMapping>();
       rangeMap.set("range1", createMockRangeMapping(10));
       rangeMap.set("range2", createMockRangeMapping(5));
-      partitionRangeManager.setPartitionKeyRangeMap(rangeMap);
+      partitionRangeManager.addPartitionKeyRangeMap(rangeMap);
 
       partitionRangeManager.removePartitionRangeMapping("range1");
       partitionRangeManager.removePartitionRangeMapping("range2");
@@ -249,7 +249,7 @@ describe("PartitionRangeManager", () => {
       rangeMap.set("range2", createMockRangeMapping(5));
       rangeMap.set("range3", createMockRangeMapping(15));
       rangeMap.set("range4", createMockRangeMapping(8));
-      partitionRangeManager.setPartitionKeyRangeMap(rangeMap);
+      partitionRangeManager.addPartitionKeyRangeMap(rangeMap);
     });
 
     it("should process ranges that fit within page size", () => {
@@ -311,7 +311,7 @@ describe("PartitionRangeManager", () => {
       rangeMap.set("alpha", createMockRangeMapping(3));
       rangeMap.set("beta", createMockRangeMapping(4));
       rangeMap.set("gamma", createMockRangeMapping(5));
-      orderedManager.setPartitionKeyRangeMap(rangeMap);
+      orderedManager.addPartitionKeyRangeMap(rangeMap);
 
       const result = orderedManager.processOrderByRanges(8);
 
@@ -328,7 +328,7 @@ describe("PartitionRangeManager", () => {
       rangeMap.set("range2", createMockRangeMapping(5));
       rangeMap.set("range3", createMockRangeMapping(15));
       rangeMap.set("range4", createMockRangeMapping(8));
-      partitionRangeManager.setPartitionKeyRangeMap(rangeMap);
+      partitionRangeManager.addPartitionKeyRangeMap(rangeMap);
     });
 
     it("should process ranges that fit within page size", () => {
@@ -400,7 +400,7 @@ describe("PartitionRangeManager", () => {
       rangeMap.set("valid1", createMockRangeMapping(10));
       rangeMap.set("invalid", { itemCount: undefined, continuationToken: "token" } as any);
       rangeMap.set("valid2", createMockRangeMapping(5));
-      managerWithInvalidRanges.setPartitionKeyRangeMap(rangeMap);
+      managerWithInvalidRanges.addPartitionKeyRangeMap(rangeMap);
 
       const result = managerWithInvalidRanges.processParallelRanges(20);
 
@@ -415,7 +415,7 @@ describe("PartitionRangeManager", () => {
       rangeMap.set("valid1", createMockRangeMapping(10));
       rangeMap.set("null-range", null as any);
       rangeMap.set("valid2", createMockRangeMapping(5));
-      managerWithNullRanges.setPartitionKeyRangeMap(rangeMap);
+      managerWithNullRanges.addPartitionKeyRangeMap(rangeMap);
 
       const result = managerWithNullRanges.processParallelRanges(20);
 
@@ -430,7 +430,7 @@ describe("PartitionRangeManager", () => {
       rangeMap.set("first", createMockRangeMapping(3));
       rangeMap.set("second", createMockRangeMapping(4));
       rangeMap.set("third", createMockRangeMapping(5));
-      orderedManager.setPartitionKeyRangeMap(rangeMap);
+      orderedManager.addPartitionKeyRangeMap(rangeMap);
 
       const result = orderedManager.processParallelRanges(8);
 

@@ -12,6 +12,19 @@ import type { QueryRangeMapping } from "./queryRangeMapping.js";
 export class PartitionRangeManager {
   private partitionKeyRangeMap: Map<string, QueryRangeMapping> = new Map();
 
+  constructor(initialPartitionKeyRangeMap?: Map<string, QueryRangeMapping>) {
+    if (initialPartitionKeyRangeMap) {
+      this.partitionKeyRangeMap = new Map(initialPartitionKeyRangeMap);
+    }
+  }
+
+  /**
+   * Gets a copy of the current partition key range map for constructor pattern
+   */
+  public getPartitionKeyRangeMap(): Map<string, QueryRangeMapping> {
+    return new Map(this.partitionKeyRangeMap);
+  }
+
   /**
    * Checks if a continuation token indicates an exhausted partition
    * @param continuationToken - The continuation token to check
@@ -49,7 +62,7 @@ export class PartitionRangeManager {
    * Updates the partition key range map with new mappings from the endpoint response
    * @param partitionKeyRangeMap - Map of range IDs to QueryRangeMapping objects
    */
-  public setPartitionKeyRangeMap(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {
+  public addPartitionKeyRangeMap(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {
     if (partitionKeyRangeMap) {
       for (const [rangeId, mapping] of partitionKeyRangeMap) {
         this.addPartitionRangeMapping(rangeId, mapping);
