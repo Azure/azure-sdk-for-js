@@ -5836,7 +5836,7 @@ importers:
         specifier: catalog:internal
         version: 4.11.1
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: workspace:^
         version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
@@ -5853,6 +5853,9 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.38.0
       playwright:
         specifier: catalog:testing
         version: 1.56.1
