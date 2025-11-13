@@ -151,7 +151,7 @@ export interface KnowledgeBase {
   name: string;
   knowledgeSources: KnowledgeSourceReference[];
   /** Contains configuration options on how to connect to AI models. */
-  models?: KnowledgeBaseModelUnion[];
+  models: KnowledgeBaseModelUnion[];
   retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
   /** The output configuration for this retrieval. */
   outputMode?: KnowledgeRetrievalOutputMode;
@@ -1314,6 +1314,8 @@ export interface VectorSearchCompression {
 export interface RescoringOptions {
   /** If set to true, after the initial search on the compressed vectors, the similarity scores are recalculated using the full-precision vectors. This will improve recall at the expense of latency. */
   enableRescoring?: boolean;
+  /** Default oversampling factor. Oversampling retrieves a greater set of potential documents to offset the resolution loss due to quantization. This increases the set of results that will be rescored on full-precision vectors. Minimum value is 1, meaning no oversampling (1x). This parameter can only be set when 'enableRescoring' is true. Higher values improve recall at the expense of latency. */
+  defaultOversampling?: number;
   /** Controls the storage method for original vectors. This setting is immutable. */
   rescoreStorageMethod?: VectorSearchCompressionRescoreStorageMethod;
 }

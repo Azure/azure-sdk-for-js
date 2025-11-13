@@ -85,7 +85,7 @@ async function main(): Promise<void> {
     // from the client constructor. In that case, you can use the `string[]` type.
     const select = ["hotelName"] as const;
 
-    const searchResults = await searchClient.search("luxury", undefined, undefined, {
+    const searchResults = await searchClient.search("luxury", {
       select,
       searchFields,
       includeTotalCount: true,

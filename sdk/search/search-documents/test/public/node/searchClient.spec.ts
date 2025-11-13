@@ -545,7 +545,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
         ctx.skip();
       }
       const embeddings = await openAIClient.getEmbeddings(
-        env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
+        env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME ?? "embedding-deployment-name",
         ["What are the most luxurious hotels?"],
       );
 
@@ -579,7 +579,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
         ctx.skip();
       }
       const embeddings = await openAIClient.getEmbeddings(
-        env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
+        env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME ?? "embedding-deployment-name",
         ["What are the most luxurious hotels?"],
       );
 
@@ -620,7 +620,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       }
 
       const embeddings = await openAIClient.getEmbeddings(
-        env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
+        env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME ?? "embedding-deployment-name",
         ["What are the most luxurious hotels?"],
       );
 

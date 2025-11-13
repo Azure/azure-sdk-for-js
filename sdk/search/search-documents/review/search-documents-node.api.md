@@ -3299,6 +3299,7 @@ export interface RemoteSharePointKnowledgeSourceParams extends BaseKnowledgeSour
 
 // @public
 export interface RescoringOptions {
+    defaultOversampling?: number;
     enableRescoring?: boolean;
     rescoreStorageMethod?: VectorSearchCompressionRescoreStorageMethod;
 }

@@ -22,7 +22,8 @@ export interface Clients<IndexModel extends object> {
   baseName: string;
   openAIClient: OpenAIClient;
   knowledgeRetrievalClient: KnowledgeRetrievalClient;
-  azureOpenAIParameters: AzureOpenAIParameters;
+  embeddingAzureOpenAIParameters: AzureOpenAIParameters;
+  chatAzureOpenAIParameters: AzureOpenAIParameters;
 }
 
 interface Env {
@@ -108,10 +109,17 @@ export async function createClients<IndexModel extends object>(
   const endPoint: string = assertEnvironmentVariable("ENDPOINT");
   const openAIEndpoint = assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT");
 
-  const azureOpenAIParameters: AzureOpenAIParameters = {
-    deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
+  const embeddingAzureOpenAIParameters: AzureOpenAIParameters = {
+    deploymentId: env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME,
     resourceUrl: env.AZURE_OPENAI_ENDPOINT,
     modelName: "text-embedding-ada-002",
+  };
+
+  
+  const chatAzureOpenAIParameters: AzureOpenAIParameters = {
+    deploymentId: env.AZURE_OPENAI_CHAT_DEPLOYMENT_NAME,
+    resourceUrl: env.AZURE_OPENAI_ENDPOINT,
+    modelName: "gpt-4o",
   };
 
   const searchClient = new SearchClient<IndexModel>(
@@ -156,6 +164,7 @@ export async function createClients<IndexModel extends object>(
     knowledgeRetrievalClient,
     indexName,
     baseName,
-    azureOpenAIParameters,
+    embeddingAzureOpenAIParameters,
+    chatAzureOpenAIParameters,
   };
 }

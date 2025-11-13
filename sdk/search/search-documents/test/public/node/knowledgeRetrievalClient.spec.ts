@@ -19,7 +19,8 @@ import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
 import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup.js";
 
-// To run these tests in local 'live', remove skip. todo: Fix recording issues before checkin to repo and to run in PRs
+// TODO: Remove skip and fix recording issues before enabling these tests in PRs
+// To run these tests locally in 'live' mode, remove the skip modifier
 describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
@@ -28,7 +29,7 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
   let TEST_INDEX_NAME: string;
   let TEST_BASE_NAME: string;
   let knowledgeRetrievalClient: KnowledgeRetrievalClient;
-  let azureOpenAIParameters: AzureOpenAIParameters;
+  let chatAzureOpenAIParameters: AzureOpenAIParameters;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
@@ -41,7 +42,7 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
       knowledgeRetrievalClient,
       indexName: TEST_INDEX_NAME,
       baseName: TEST_BASE_NAME,
-      azureOpenAIParameters,
+      chatAzureOpenAIParameters,
     } = await createClients<Hotel>(
       defaultServiceVersion,
       recorder,
@@ -65,7 +66,7 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
       models: [
         {
           kind: "azureOpenAI",
-          azureOpenAIParameters: { ...azureOpenAIParameters, modelName: "gpt-4o" },
+          azureOpenAIParameters: chatAzureOpenAIParameters,
         },
       ],
       knowledgeSources: [{ name: "searchindex-ks" }],
@@ -113,7 +114,7 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
         models: [
           {
             kind: "azureOpenAI",
-            azureOpenAIParameters: { ...azureOpenAIParameters, modelName: "gpt-4o" },
+            azureOpenAIParameters: chatAzureOpenAIParameters,
           },
         ],
         knowledgeSources: [{ name: "web-ks" }],
@@ -165,7 +166,7 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
         models: [
           {
             kind: "azureOpenAI",
-            azureOpenAIParameters: { ...azureOpenAIParameters, modelName: "gpt-4o" },
+            azureOpenAIParameters: chatAzureOpenAIParameters,
           },
         ],
         knowledgeSources: [{ name: "remotesharepoint-ks" }],

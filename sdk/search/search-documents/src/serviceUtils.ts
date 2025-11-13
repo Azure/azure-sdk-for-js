@@ -996,7 +996,7 @@ export function convertKnowledgeBaseToPublic(knowledgeBase: GeneratedKnowledgeBa
 
   return {
     ...knowledgeBase,
-    models: knowledgeBase.models?.map((model) => convertKnowledgeBaseModelToPublic(model)) || [],
+    models: knowledgeBase.models.map((model) => convertKnowledgeBaseModelToPublic(model)),
     encryptionKey: convertEncryptionKeyToPublic(knowledgeBase.encryptionKey),
   };
 }

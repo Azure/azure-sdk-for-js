@@ -71,7 +71,8 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;
     let TEST_BASE_NAME: string;
-    let azureOpenAIParameters: AzureOpenAIParameters;
+    let embeddingAzureOpenAIParameters: AzureOpenAIParameters;
+    let chatAzureOpenAIParameters: AzureOpenAIParameters;
     let knowledgeBase: KnowledgeBase;
     let knowledgeSource: KnowledgeSource;
 
@@ -83,7 +84,8 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         indexClient,
         indexName: TEST_INDEX_NAME,
         baseName: TEST_BASE_NAME,
-        azureOpenAIParameters,
+        embeddingAzureOpenAIParameters,
+        chatAzureOpenAIParameters
       } = await createClients<Hotel>(
         defaultServiceVersion,
         recorder,
@@ -99,7 +101,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       };
       knowledgeBase = {
         name: "knowledge-base",
-        models: [{ kind: "azureOpenAI", azureOpenAIParameters }],
+        models: [{ kind: "azureOpenAI",  azureOpenAIParameters: chatAzureOpenAIParameters }],
         knowledgeSources: [knowledgeSource],
       };
 
@@ -361,7 +363,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       const vectorizer: AzureOpenAIVectorizer = {
         kind: "azureOpenAI",
         vectorizerName: "vectorizer",
-        parameters: azureOpenAIParameters,
+        parameters: embeddingAzureOpenAIParameters,
       };
       const profile: VectorSearchProfile = {
         name: "profile",
@@ -406,8 +408,9 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     });
   });
 
-  // To run these tests in local 'live', remove skip. todo: Fix recording issues before checkin to repo and to run in PRs
-  describe.skip("preview", () => {
+// TODO: Remove skip and fix recording issues before enabling these tests in PRs
+// To run these tests locally in 'live' mode, remove the skip modifier
+describe.skip("preview", () => {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
     let index: SearchIndex;

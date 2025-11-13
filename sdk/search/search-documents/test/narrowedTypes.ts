@@ -249,7 +249,7 @@ function testNarrowedClient() {
     type VectorFields = NonNullable<
       NonNullable<
         NonNullable<
-          NonNullable<Parameters<(typeof client)["search"]>[1]>["vectorSearchOptions"]
+          NonNullable<Parameters<(typeof client)["search"]>[3]>["vectorSearchOptions"]
         >["queries"]
       >[number]["fields"]
     >;
@@ -260,13 +260,13 @@ function testNarrowedClient() {
   };
 
   async () => {
-    const select1 = await client.search("New", {
+    const select1 = await client.search("New", undefined, undefined, {
       select,
     });
-    const select2 = await client.search("New", {
+    const select2 = await client.search("New", undefined, undefined, {
       select: selectNarrowed,
     });
-    const select3 = await client.search("New", {
+    const select3 = await client.search("New", undefined, undefined, {
       select: ["key", "a", "b/a", "d/b"],
     });
 
@@ -299,13 +299,13 @@ function testNarrowedClient() {
     return suppressUnusedWarning;
   };
   async () => {
-    const select1 = await client.search("New", {
+    const select1 = await client.search("New", undefined, undefined, {
       searchFields: select,
     });
-    const select2 = await client.search("New", {
+    const select2 = await client.search("New", undefined, undefined, {
       searchFields: selectNarrowed,
     });
-    const select3 = await client.search("New", {
+    const select3 = await client.search("New", undefined, undefined, {
       searchFields: ["key", "a", "b/a", "d/b"],
     });
 
@@ -326,15 +326,15 @@ function testNarrowedClient() {
     return suppressUnusedWarning;
   };
   async () => {
-    const select1 = await client.search("New", {
+    const select1 = await client.search("New", undefined, undefined, {
       select,
       searchFields: select,
     });
-    const select2 = await client.search("New", {
+    const select2 = await client.search("New", undefined, undefined, {
       select: selectNarrowed,
       searchFields: selectNarrowed,
     });
-    const select3 = await client.search("New", {
+    const select3 = await client.search("New", undefined, undefined, {
       select: ["key", "a", "b/a", "d/b"],
       searchFields: ["key", "a", "b/a", "d/b"],
     });
@@ -386,7 +386,7 @@ function testWideClient() {
     type VectorFields = NonNullable<
       NonNullable<
         NonNullable<
-          NonNullable<Parameters<(typeof client)["search"]>[1]>["vectorSearchOptions"]
+          NonNullable<Parameters<(typeof client)["search"]>[3]>["vectorSearchOptions"]
         >["queries"]
       >[number]["fields"]
     >;
@@ -395,13 +395,13 @@ function testWideClient() {
   };
 
   async () => {
-    const select1 = await client.search("New", {
+    const select1 = await client.search("New", undefined, undefined, {
       select,
     });
-    const select2 = await client.search("New", {
+    const select2 = await client.search("New", undefined, undefined, {
       select: selectNarrowed,
     });
-    const select3 = await client.search("New", {
+    const select3 = await client.search("New", undefined, undefined, {
       select: ["key", "a", "b/a", "d/b"],
     });
 
@@ -421,13 +421,13 @@ function testWideClient() {
     }
   };
   async () => {
-    const select1 = await client.search("New", {
+    const select1 = await client.search("New", undefined, undefined, {
       searchFields: select,
     });
-    const select2 = await client.search("New", {
+    const select2 = await client.search("New", undefined, undefined, {
       searchFields: selectNarrowed,
     });
-    const select3 = await client.search("New", {
+    const select3 = await client.search("New", undefined, undefined, {
       searchFields: ["key", "a", "b/a", "d/b"],
     });
 
@@ -448,15 +448,15 @@ function testWideClient() {
     return suppressUnusedWarning;
   };
   async () => {
-    const select1 = await client.search("New", {
+    const select1 = await client.search("New", undefined, undefined, {
       select,
       searchFields: select,
     });
-    const select2 = await client.search("New", {
+    const select2 = await client.search("New", undefined, undefined, {
       select: selectNarrowed,
       searchFields: selectNarrowed,
     });
-    const select3 = await client.search("New", {
+    const select3 = await client.search("New", undefined, undefined, {
       select: ["key", "a", "b/a", "d/b"],
       searchFields: ["key", "a", "b/a", "d/b"],
     });

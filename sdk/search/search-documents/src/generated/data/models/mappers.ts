@@ -715,7 +715,7 @@ export const SearchResult: coreClient.CompositeMapper = {
         serializedName: "@search\\.documentDebugInfo",
         type: {
           name: "Composite",
-          className: "_documentDebugInfo",
+          className: "DocumentDebugInfo",
         },
       },
     },
@@ -750,7 +750,7 @@ export const QueryCaptionResult: coreClient.CompositeMapper = {
 export const DocumentDebugInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "_documentDebugInfo",
+    className: "DocumentDebugInfo",
     modelProperties: {
       semantic: {
         serializedName: "semantic",
