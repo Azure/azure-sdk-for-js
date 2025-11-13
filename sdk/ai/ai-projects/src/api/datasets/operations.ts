@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable tsdoc/syntax */
 
-import fs from "fs";
-import nodePath from "path";
+import fs from "node:fs";
+import nodePath from "node:path";
 import { DatasetUploadInternalOptions, AIProjectContext as Client } from "../index.js";
 import {
   _PagedDatasetVersion,
@@ -15,9 +14,14 @@ import {
   pendingUploadRequestSerializer,
   PendingUploadResponse,
   pendingUploadResponseDeserializer,
-  AssetCredentialResponse,
-  assetCredentialResponseDeserializer,
+  DatasetCredential,
+  datasetCredentialDeserializer,
 } from "../../models/models.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   DatasetsGetCredentialsOptionalParams,
   DatasetsPendingUploadOptionalParams,
@@ -27,11 +31,6 @@ import {
   DatasetsListOptionalParams,
   DatasetsListVersionsOptionalParams,
 } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -39,7 +38,6 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 import { ContainerClient } from "@azure/storage-blob";
-
 export function _getCredentialsSend(
   context: Client,
   name: string,
@@ -68,13 +66,13 @@ export function _getCredentialsSend(
 
 export async function _getCredentialsDeserialize(
   result: PathUncheckedResponse,
-): Promise<AssetCredentialResponse> {
+): Promise<DatasetCredential> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return assetCredentialResponseDeserializer(result.body);
+  return datasetCredentialDeserializer(result.body);
 }
 
 /** Get the SAS credential to access the storage account associated with a Dataset version. */
@@ -83,7 +81,7 @@ export async function getCredentials(
   name: string,
   version: string,
   options: DatasetsGetCredentialsOptionalParams = { requestOptions: {} },
-): Promise<AssetCredentialResponse> {
+): Promise<DatasetCredential> {
   const result = await _getCredentialsSend(context, name, version, options);
   return _getCredentialsDeserialize(result);
 }
@@ -138,6 +136,241 @@ export async function pendingUpload(
 ): Promise<PendingUploadResponse> {
   const result = await _pendingUploadSend(context, name, version, pendingUploadRequest, options);
   return _pendingUploadDeserialize(result);
+}
+
+export function _createOrUpdateSend(
+  context: Client,
+  name: string,
+  version: string,
+  datasetVersion: DatasetVersionUnion,
+  options: DatasetsCreateOrUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/datasets/{name}/versions/{version}{?api-version}",
+    {
+      name: name,
+      version: version,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/merge-patch+json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: datasetVersionUnionSerializer(datasetVersion),
+  });
+}
+
+export async function _createOrUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<DatasetVersionUnion> {
+  const expectedStatuses = ["201", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return datasetVersionUnionDeserializer(result.body);
+}
+
+/** Create a new or update an existing DatasetVersion with the given version id */
+export async function createOrUpdate(
+  context: Client,
+  name: string,
+  version: string,
+  datasetVersion: DatasetVersionUnion,
+  options: DatasetsCreateOrUpdateOptionalParams = { requestOptions: {} },
+): Promise<DatasetVersionUnion> {
+  const result = await _createOrUpdateSend(context, name, version, datasetVersion, options);
+  return _createOrUpdateDeserialize(result);
+}
+
+export function _$deleteSend(
+  context: Client,
+  name: string,
+  version: string,
+  options: DatasetsDeleteOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/datasets/{name}/versions/{version}{?api-version}",
+    {
+      name: name,
+      version: version,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return;
+}
+
+/** Delete the specific version of the DatasetVersion. The service returns 204 No Content if the DatasetVersion was deleted successfully or if the DatasetVersion does not exist. */
+export async function $delete(
+  context: Client,
+  name: string,
+  version: string,
+  options: DatasetsDeleteOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _$deleteSend(context, name, version, options);
+  return _$deleteDeserialize(result);
+}
+
+export function _getSend(
+  context: Client,
+  name: string,
+  version: string,
+  options: DatasetsGetOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/datasets/{name}/versions/{version}{?api-version}",
+    {
+      name: name,
+      version: version,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<DatasetVersionUnion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return datasetVersionUnionDeserializer(result.body);
+}
+
+/** Get the specific version of the DatasetVersion. The service returns 404 Not Found error if the DatasetVersion does not exist. */
+export async function get(
+  context: Client,
+  name: string,
+  version: string,
+  options: DatasetsGetOptionalParams = { requestOptions: {} },
+): Promise<DatasetVersionUnion> {
+  const result = await _getSend(context, name, version, options);
+  return _getDeserialize(result);
+}
+
+export function _listSend(
+  context: Client,
+  options: DatasetsListOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/datasets{?api-version}",
+    {
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_PagedDatasetVersion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return _pagedDatasetVersionDeserializer(result.body);
+}
+
+/** List the latest version of each DatasetVersion */
+export function list(
+  context: Client,
+  options: DatasetsListOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<DatasetVersionUnion> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listSend(context, options),
+    _listDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}
+
+export function _listVersionsSend(
+  context: Client,
+  name: string,
+  options: DatasetsListVersionsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/datasets/{name}/versions{?api-version}",
+    {
+      name: name,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listVersionsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_PagedDatasetVersion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return _pagedDatasetVersionDeserializer(result.body);
+}
+
+/** List all versions of the given DatasetVersion */
+export function listVersions(
+  context: Client,
+  name: string,
+  options: DatasetsListVersionsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<DatasetVersionUnion> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listVersionsSend(context, name, options),
+    _listVersionsDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
 }
 
 // Internal helper method to create a new dataset and return a ContainerClient from azure-storage-blob package, to the dataset's blob storage.
@@ -328,250 +561,4 @@ export async function uploadFolder(
   });
 
   return datasetVersion;
-}
-
-export function _createOrUpdateSend(
-  context: Client,
-  name: string,
-  version: string,
-  datasetVersion: DatasetVersionUnion,
-  options: DatasetsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/datasets/{name}/versions/{version}{?api-version}",
-    {
-      name: name,
-      version: version,
-      "api-version": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/merge-patch+json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: datasetVersionUnionSerializer(datasetVersion),
-  });
-}
-
-export async function _createOrUpdateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<DatasetVersionUnion> {
-  const expectedStatuses = ["201", "200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return datasetVersionUnionDeserializer(result.body);
-}
-
-/** Create a new or update an existing DatasetVersion with the given version id */
-export async function createOrUpdate(
-  context: Client,
-  name: string,
-  version: string,
-  datasetVersion: DatasetVersionUnion,
-  options: DatasetsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<DatasetVersionUnion> {
-  const result = await _createOrUpdateSend(context, name, version, datasetVersion, options);
-  return _createOrUpdateDeserialize(result);
-}
-
-export function _$deleteSend(
-  context: Client,
-  name: string,
-  version: string,
-  options: DatasetsDeleteOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/datasets/{name}/versions/{version}{?api-version}",
-    {
-      name: name,
-      version: version,
-      "api-version": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
-}
-
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["204"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return;
-}
-
-/** Delete the specific version of the DatasetVersion */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export async function $delete(
-  context: Client,
-  name: string,
-  version: string,
-  options: DatasetsDeleteOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _$deleteSend(context, name, version, options);
-  return _$deleteDeserialize(result);
-}
-
-export function _getSend(
-  context: Client,
-  name: string,
-  version: string,
-  options: DatasetsGetOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/datasets/{name}/versions/{version}{?api-version}",
-    {
-      name: name,
-      version: version,
-      "api-version": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
-}
-
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<DatasetVersionUnion> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return datasetVersionUnionDeserializer(result.body);
-}
-
-/** Get the specific version of the DatasetVersion */
-export async function get(
-  context: Client,
-  name: string,
-  version: string,
-  options: DatasetsGetOptionalParams = { requestOptions: {} },
-): Promise<DatasetVersionUnion> {
-  const result = await _getSend(context, name, version, options);
-  return _getDeserialize(result);
-}
-
-export function _listSend(
-  context: Client,
-  options: DatasetsListOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/datasets{?api-version}",
-    {
-      "api-version": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
-}
-
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_PagedDatasetVersion> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return _pagedDatasetVersionDeserializer(result.body);
-}
-
-/** List the latest version of each DatasetVersion */
-export function list(
-  context: Client,
-  options: DatasetsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<DatasetVersionUnion> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listSend(context, options),
-    _listDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
-  );
-}
-
-export function _listVersionsSend(
-  context: Client,
-  name: string,
-  options: DatasetsListVersionsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/datasets/{name}/versions{?api-version}",
-    {
-      name: name,
-      "api-version": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
-}
-
-export async function _listVersionsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_PagedDatasetVersion> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return _pagedDatasetVersionDeserializer(result.body);
-}
-
-/** List all versions of the given DatasetVersion */
-export function listVersions(
-  context: Client,
-  name: string,
-  options: DatasetsListVersionsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<DatasetVersionUnion> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listVersionsSend(context, name, options),
-    _listVersionsDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
-  );
 }
