@@ -15,10 +15,11 @@ import { isLiveMode } from "@azure-tools/test-recorder";
 import { getError } from "../../authTestUtils.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import { shouldRunSPTest } from "./utils/utils.js";
 
 expect.extend({ toSupportTracing });
 
-describe("EnvironmentCredential", function () {
+describe.skipIf(shouldRunSPTest())("EnvironmentCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
   const environmentVariableNames = [
@@ -29,6 +30,7 @@ describe("EnvironmentCredential", function () {
     "AZURE_CLIENT_CERTIFICATE_PASSWORD",
     "AZURE_USERNAME",
     "AZURE_PASSWORD",
+    "SKIP_SP_LIVE_TESTS",
   ];
   const cachedValues: Record<string, string | undefined> = {};
 
