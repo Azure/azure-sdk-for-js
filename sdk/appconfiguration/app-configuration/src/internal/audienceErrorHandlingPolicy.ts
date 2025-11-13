@@ -25,8 +25,6 @@ export function audienceErrorHandlingPolicy(isAudienceConfigured: boolean): Pipe
       try {
         return await next(request);
       } catch (error: any) {
-        // Only AggregateAuthenticationError and CredentialUnavailableError should be thrown for the audience error, but we don't want to introduce the dependecy on @azure/identity.
-        // So we catch all exceptions here and inspect whether the AAD error codes are embedded in the exception message.
         if (typeof error.message === "string" && error.message.includes(AadAudienceErrorCode)) {
           if (isAudienceConfigured) {
             throw new RestError(WrongAudienceErrorMessage);

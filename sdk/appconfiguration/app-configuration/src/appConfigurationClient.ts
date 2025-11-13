@@ -197,10 +197,13 @@ export class AppConfigurationClient {
       options?.apiVersion ?? appConfigurationApiVersion,
       internalClientPipelineOptions,
     );
-    this.client.pipeline.addPolicy(audienceErrorHandlingPolicy(options?.audience !== undefined), {
-      phase: "Sign",
-      beforePolicies: [authPolicy.name],
-    });
+    this.client.pipeline.addPolicy(
+      audienceErrorHandlingPolicy(appConfigOptions?.audience !== undefined),
+      {
+        phase: "Sign",
+        beforePolicies: [authPolicy.name],
+      },
+    );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
     this.client.pipeline.addPolicy(queryParamPolicy());
     this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
