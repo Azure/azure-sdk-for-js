@@ -33,7 +33,7 @@ import { logToEnvelope } from "../../src/utils/logUtils.js";
 import { SeverityNumber } from "@opentelemetry/api-logs";
 import type { HrTime } from "@opentelemetry/api";
 import { TraceFlags } from "@opentelemetry/api";
-import { hrTimeToDate } from "../../src/utils/common.js";
+import { hrTimeToDate, serializeAttribute } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 
@@ -170,7 +170,7 @@ describe("logUtils.ts", () => {
         "extra.attribute": "foo",
       };
       const expectedBaseData: Partial<MessageData> = {
-        message: JSON.stringify(complexObject),
+        message: serializeAttribute(complexObject),
         severityLevel: `Information`,
         version: 2,
         properties: expectedProperties,
@@ -193,7 +193,7 @@ describe("logUtils.ts", () => {
       // Verify the message is properly serialized JSON, not "[object Object]"
       const actualMessage = (envelope?.data?.baseData as MessageData)?.message;
       assert.notStrictEqual(actualMessage, "[object Object]");
-      assert.strictEqual(actualMessage, JSON.stringify(complexObject));
+      assert.strictEqual(actualMessage, serializeAttribute(complexObject));
     });
 
     it("should not populate synthetic source on envelope if synthetic type is not defined", () => {
