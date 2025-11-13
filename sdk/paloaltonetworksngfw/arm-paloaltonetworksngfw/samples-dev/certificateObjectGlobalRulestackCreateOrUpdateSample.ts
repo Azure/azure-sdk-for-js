@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  CertificateObjectGlobalRulestackResource} from "@azure/arm-paloaltonetworksngfw";
+import {
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Create a CertificateObjectGlobalRulestackResource
  *
  * @summary Create a CertificateObjectGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/CertificateObjectGlobalRulestack_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/CertificateObjectGlobalRulestack_CreateOrUpdate_MaximumSet_Gen.json
  */
-
-import type { CertificateObjectGlobalRulestackResource } from "@azure/arm-paloaltonetworksngfw";
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function certificateObjectGlobalRulestackCreateOrUpdateMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const name = "armid1";
@@ -26,11 +28,12 @@ async function certificateObjectGlobalRulestackCreateOrUpdateMaximumSetGen(): Pr
   };
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
-  const result = await client.certificateObjectGlobalRulestack.beginCreateOrUpdateAndWait(
-    globalRulestackName,
-    name,
-    resource,
-  );
+  const result =
+    await client.certificateObjectGlobalRulestack.beginCreateOrUpdateAndWait(
+      globalRulestackName,
+      name,
+      resource,
+    );
   console.log(result);
 }
 
@@ -38,7 +41,7 @@ async function certificateObjectGlobalRulestackCreateOrUpdateMaximumSetGen(): Pr
  * This sample demonstrates how to Create a CertificateObjectGlobalRulestackResource
  *
  * @summary Create a CertificateObjectGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/CertificateObjectGlobalRulestack_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/CertificateObjectGlobalRulestack_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function certificateObjectGlobalRulestackCreateOrUpdateMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
@@ -48,11 +51,12 @@ async function certificateObjectGlobalRulestackCreateOrUpdateMinimumSetGen(): Pr
   };
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
-  const result = await client.certificateObjectGlobalRulestack.beginCreateOrUpdateAndWait(
-    globalRulestackName,
-    name,
-    resource,
-  );
+  const result =
+    await client.certificateObjectGlobalRulestack.beginCreateOrUpdateAndWait(
+      globalRulestackName,
+      name,
+      resource,
+    );
   console.log(result);
 }
 

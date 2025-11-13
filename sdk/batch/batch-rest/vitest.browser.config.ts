@@ -3,4 +3,10 @@
 
 import viteConfig from "../../../vitest.browser.shared.config.ts";
 
-export default viteConfig;
+import { mergeConfig } from "vitest/config";
+
+export default mergeConfig(viteConfig, {
+  test: {
+    globalSetup: ["test/global-setup.ts"],
+  },
+});
