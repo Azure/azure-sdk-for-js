@@ -3,26 +3,34 @@
 
 import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to deletes a virtual network link to a DNS forwarding ruleset. WARNING: This operation cannot be undone.
+ * This sample demonstrates how to Deletes a virtual network link to a DNS forwarding ruleset. WARNING: This operation cannot be undone.
  *
- * @summary deletes a virtual network link to a DNS forwarding ruleset. WARNING: This operation cannot be undone.
- * x-ms-original-file: 2025-10-01-preview/VirtualNetworkLink_Delete.json
+ * @summary Deletes a virtual network link to a DNS forwarding ruleset. WARNING: This operation cannot be undone.
+ * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/DnsResolver/preview/2025-10-01-preview/examples/VirtualNetworkLink_Delete.json
  */
-async function deleteVirtualNetworkLinkToADNSForwardingRuleset(): Promise<void> {
+async function deleteVirtualNetworkLinkToADnsForwardingRuleset(): Promise<void> {
+  const subscriptionId =
+    process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||
+    "abdd4249-9f34-4cc6-8e42-c2e32110603e";
+  const resourceGroupName =
+    process.env["DNSRESOLVER_RESOURCE_GROUP"] || "sampleResourceGroup";
+  const dnsForwardingRulesetName = "sampleDnsForwardingRuleset";
+  const virtualNetworkLinkName = "sampleVirtualNetworkLink";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
   const client = new DnsResolverManagementClient(credential, subscriptionId);
-  await client.virtualNetworkLinks.delete(
-    "sampleResourceGroup",
-    "sampleDnsForwardingRuleset",
-    "sampleVirtualNetworkLink",
+  const result = await client.virtualNetworkLinks.beginDeleteAndWait(
+    resourceGroupName,
+    dnsForwardingRulesetName,
+    virtualNetworkLinkName,
   );
+  console.log(result);
 }
 
 async function main(): Promise<void> {
-  await deleteVirtualNetworkLinkToADNSForwardingRuleset();
+  await deleteVirtualNetworkLinkToADnsForwardingRuleset();
 }
 
 main().catch(console.error);

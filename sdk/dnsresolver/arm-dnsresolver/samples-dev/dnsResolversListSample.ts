@@ -3,27 +3,29 @@
 
 import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to lists DNS resolvers in all resource groups of a subscription.
+ * This sample demonstrates how to Lists DNS resolvers in all resource groups of a subscription.
  *
- * @summary lists DNS resolvers in all resource groups of a subscription.
- * x-ms-original-file: 2025-10-01-preview/DnsResolver_ListBySubscription.json
+ * @summary Lists DNS resolvers in all resource groups of a subscription.
+ * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/DnsResolver/preview/2025-10-01-preview/examples/DnsResolver_ListBySubscription.json
  */
-async function listDNSResolversBySubscription(): Promise<void> {
+async function listDnsResolversBySubscription(): Promise<void> {
+  const subscriptionId =
+    process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||
+    "abdd4249-9f34-4cc6-8e42-c2e32110603e";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
   const client = new DnsResolverManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.dnsResolvers.list()) {
     resArray.push(item);
   }
-
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await listDNSResolversBySubscription();
+  await listDnsResolversBySubscription();
 }
 
 main().catch(console.error);

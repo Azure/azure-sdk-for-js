@@ -3,30 +3,35 @@
 
 import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to lists DNS security rules for a DNS resolver policy.
+ * This sample demonstrates how to Lists DNS security rules for a DNS resolver policy.
  *
- * @summary lists DNS security rules for a DNS resolver policy.
- * x-ms-original-file: 2025-10-01-preview/DnsSecurityRule_List.json
+ * @summary Lists DNS security rules for a DNS resolver policy.
+ * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/DnsResolver/preview/2025-10-01-preview/examples/DnsSecurityRule_List.json
  */
-async function listDNSSecurityRulesByDNSResolverPolicy(): Promise<void> {
+async function listDnsSecurityRulesByDnsResolverPolicy(): Promise<void> {
+  const subscriptionId =
+    process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||
+    "abdd4249-9f34-4cc6-8e42-c2e32110603e";
+  const resourceGroupName =
+    process.env["DNSRESOLVER_RESOURCE_GROUP"] || "sampleResourceGroup";
+  const dnsResolverPolicyName = "sampleDnsResolverPolicy";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
   const client = new DnsResolverManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.dnsSecurityRules.list(
-    "sampleResourceGroup",
-    "sampleDnsResolverPolicy",
+    resourceGroupName,
+    dnsResolverPolicyName,
   )) {
     resArray.push(item);
   }
-
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await listDNSSecurityRulesByDNSResolverPolicy();
+  await listDnsSecurityRulesByDnsResolverPolicy();
 }
 
 main().catch(console.error);

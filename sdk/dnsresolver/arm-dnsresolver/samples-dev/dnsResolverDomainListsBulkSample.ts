@@ -1,60 +1,73 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
+import type {
+  DnsResolverDomainListBulk} from "@azure/arm-dnsresolver";
+import {
+  DnsResolverManagementClient,
+} from "@azure/arm-dnsresolver";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to uploads or downloads the list of domains for a DNS Resolver Domain List from a storage link.
+ * This sample demonstrates how to Uploads or downloads the list of domains for a DNS Resolver Domain List from a storage link.
  *
- * @summary uploads or downloads the list of domains for a DNS Resolver Domain List from a storage link.
- * x-ms-original-file: 2025-10-01-preview/DnsResolverDomainList_BulkDownload.json
+ * @summary Uploads or downloads the list of domains for a DNS Resolver Domain List from a storage link.
+ * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/DnsResolver/preview/2025-10-01-preview/examples/DnsResolverDomainList_BulkDownload.json
  */
-async function downloadDNSResolverDomainListDomains(): Promise<void> {
+async function downloadDnsResolverDomainListDomains(): Promise<void> {
+  const subscriptionId =
+    process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||
+    "abdd4249-9f34-4cc6-8e42-c2e32110603e";
+  const resourceGroupName =
+    process.env["DNSRESOLVER_RESOURCE_GROUP"] || "sampleResourceGroup";
+  const dnsResolverDomainListName = "sampleDnsResolverDomainList";
+  const parameters: DnsResolverDomainListBulk = {
+    action: "Download",
+    storageUrl:
+      "https://sampleStorageAccount.blob.core.windows.net/sample-container/sampleBlob.txt?sv=2022-11-02&sr=b&sig=39Up9jzHkxhUIhFEjEh9594DJxe7w6cIRCgOV6ICGS0%3A377&sp=rcw",
+  };
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
   const client = new DnsResolverManagementClient(credential, subscriptionId);
-  const result = await client.dnsResolverDomainLists.bulk(
-    "sampleResourceGroup",
-    "sampleDnsResolverDomainList",
-    {
-      properties: {
-        action: "Download",
-        storageUrl:
-          "https://sampleStorageAccount.blob.core.windows.net/sample-container/sampleBlob.txt?sv=2022-11-02&sr=b&sig=39Up9jzHkxhUIhFEjEh9594DJxe7w6cIRCgOV6ICGS0%3A377&sp=rcw",
-      },
-    },
+  const result = await client.dnsResolverDomainLists.beginBulkAndWait(
+    resourceGroupName,
+    dnsResolverDomainListName,
+    parameters,
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to uploads or downloads the list of domains for a DNS Resolver Domain List from a storage link.
+ * This sample demonstrates how to Uploads or downloads the list of domains for a DNS Resolver Domain List from a storage link.
  *
- * @summary uploads or downloads the list of domains for a DNS Resolver Domain List from a storage link.
- * x-ms-original-file: 2025-10-01-preview/DnsResolverDomainList_BulkUpload.json
+ * @summary Uploads or downloads the list of domains for a DNS Resolver Domain List from a storage link.
+ * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/DnsResolver/preview/2025-10-01-preview/examples/DnsResolverDomainList_BulkUpload.json
  */
-async function uploadDNSResolverDomainListDomains(): Promise<void> {
+async function uploadDnsResolverDomainListDomains(): Promise<void> {
+  const subscriptionId =
+    process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||
+    "abdd4249-9f34-4cc6-8e42-c2e32110603e";
+  const resourceGroupName =
+    process.env["DNSRESOLVER_RESOURCE_GROUP"] || "sampleResourceGroup";
+  const dnsResolverDomainListName = "sampleDnsResolverDomainList";
+  const parameters: DnsResolverDomainListBulk = {
+    action: "Upload",
+    storageUrl:
+      "https://sampleStorageAccount.blob.core.windows.net/sample-container/sampleBlob.txt?sv=2022-11-02&sr=b&sig=39Up9jzHkxhUIhFEjEh9594DJxe7w6cIRCgOV6ICGS0%3A377&sp=rcw",
+  };
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
   const client = new DnsResolverManagementClient(credential, subscriptionId);
-  const result = await client.dnsResolverDomainLists.bulk(
-    "sampleResourceGroup",
-    "sampleDnsResolverDomainList",
-    {
-      properties: {
-        action: "Upload",
-        storageUrl:
-          "https://sampleStorageAccount.blob.core.windows.net/sample-container/sampleBlob.txt?sv=2022-11-02&sr=b&sig=39Up9jzHkxhUIhFEjEh9594DJxe7w6cIRCgOV6ICGS0%3A377&sp=rcw",
-      },
-    },
+  const result = await client.dnsResolverDomainLists.beginBulkAndWait(
+    resourceGroupName,
+    dnsResolverDomainListName,
+    parameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await downloadDNSResolverDomainListDomains();
-  await uploadDNSResolverDomainListDomains();
+  await downloadDnsResolverDomainListDomains();
+  await uploadDnsResolverDomainListDomains();
 }
 
 main().catch(console.error);

@@ -1,42 +1,51 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
+import type {
+  DnsForwardingRuleset} from "@azure/arm-dnsresolver";
+import {
+  DnsResolverManagementClient,
+} from "@azure/arm-dnsresolver";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to creates or updates a DNS forwarding ruleset.
+ * This sample demonstrates how to Creates or updates a DNS forwarding ruleset.
  *
- * @summary creates or updates a DNS forwarding ruleset.
- * x-ms-original-file: 2025-10-01-preview/DnsForwardingRuleset_Put.json
+ * @summary Creates or updates a DNS forwarding ruleset.
+ * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/DnsResolver/preview/2025-10-01-preview/examples/DnsForwardingRuleset_Put.json
  */
-async function upsertDNSForwardingRuleset(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
-  const client = new DnsResolverManagementClient(credential, subscriptionId);
-  const result = await client.dnsForwardingRulesets.createOrUpdate(
-    "sampleResourceGroup",
-    "samplednsForwardingRuleset",
-    {
-      location: "westus2",
-      properties: {
-        dnsResolverOutboundEndpoints: [
-          {
-            id: "/subscriptions/abdd4249-9f34-4cc6-8e42-c2e32110603e/resourceGroups/sampleResourceGroup/providers/Microsoft.Network/dnsResolvers/sampleDnsResolver/outboundEndpoints/sampleOutboundEndpoint0",
-          },
-          {
-            id: "/subscriptions/abdd4249-9f34-4cc6-8e42-c2e32110603e/resourceGroups/sampleResourceGroup/providers/Microsoft.Network/dnsResolvers/sampleDnsResolver/outboundEndpoints/sampleOutboundEndpoint1",
-          },
-        ],
+async function upsertDnsForwardingRuleset(): Promise<void> {
+  const subscriptionId =
+    process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||
+    "abdd4249-9f34-4cc6-8e42-c2e32110603e";
+  const resourceGroupName =
+    process.env["DNSRESOLVER_RESOURCE_GROUP"] || "sampleResourceGroup";
+  const dnsForwardingRulesetName = "samplednsForwardingRuleset";
+  const parameters: DnsForwardingRuleset = {
+    dnsResolverOutboundEndpoints: [
+      {
+        id: "/subscriptions/abdd4249-9f34-4cc6-8e42-c2e32110603e/resourceGroups/sampleResourceGroup/providers/Microsoft.Network/dnsResolvers/sampleDnsResolver/outboundEndpoints/sampleOutboundEndpoint0",
       },
-      tags: { key1: "value1" },
-    },
+      {
+        id: "/subscriptions/abdd4249-9f34-4cc6-8e42-c2e32110603e/resourceGroups/sampleResourceGroup/providers/Microsoft.Network/dnsResolvers/sampleDnsResolver/outboundEndpoints/sampleOutboundEndpoint1",
+      },
+    ],
+    location: "westus2",
+    tags: { key1: "value1" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new DnsResolverManagementClient(credential, subscriptionId);
+  const result = await client.dnsForwardingRulesets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    dnsForwardingRulesetName,
+    parameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await upsertDNSForwardingRuleset();
+  await upsertDnsForwardingRuleset();
 }
 
 main().catch(console.error);

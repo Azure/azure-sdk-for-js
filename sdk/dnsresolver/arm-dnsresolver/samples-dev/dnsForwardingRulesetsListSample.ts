@@ -3,27 +3,29 @@
 
 import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to lists DNS forwarding rulesets in all resource groups of a subscription.
+ * This sample demonstrates how to Lists DNS forwarding rulesets in all resource groups of a subscription.
  *
- * @summary lists DNS forwarding rulesets in all resource groups of a subscription.
- * x-ms-original-file: 2025-10-01-preview/DnsForwardingRuleset_ListBySubscription.json
+ * @summary Lists DNS forwarding rulesets in all resource groups of a subscription.
+ * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/DnsResolver/preview/2025-10-01-preview/examples/DnsForwardingRuleset_ListBySubscription.json
  */
-async function listDNSForwardingRulesetsBySubscription(): Promise<void> {
+async function listDnsForwardingRulesetsBySubscription(): Promise<void> {
+  const subscriptionId =
+    process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||
+    "abdd4249-9f34-4cc6-8e42-c2e32110603e";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
   const client = new DnsResolverManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.dnsForwardingRulesets.list()) {
     resArray.push(item);
   }
-
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await listDNSForwardingRulesetsBySubscription();
+  await listDnsForwardingRulesetsBySubscription();
 }
 
 main().catch(console.error);

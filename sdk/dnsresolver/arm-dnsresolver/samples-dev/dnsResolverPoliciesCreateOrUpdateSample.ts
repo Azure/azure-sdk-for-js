@@ -1,29 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
+import type {
+  DnsResolverPolicy} from "@azure/arm-dnsresolver";
+import {
+  DnsResolverManagementClient,
+} from "@azure/arm-dnsresolver";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to creates or updates a DNS resolver policy.
+ * This sample demonstrates how to Creates or updates a DNS resolver policy.
  *
- * @summary creates or updates a DNS resolver policy.
- * x-ms-original-file: 2025-10-01-preview/DnsResolverPolicy_Put.json
+ * @summary Creates or updates a DNS resolver policy.
+ * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/DnsResolver/preview/2025-10-01-preview/examples/DnsResolverPolicy_Put.json
  */
-async function upsertDNSResolverPolicy(): Promise<void> {
+async function upsertDnsResolverPolicy(): Promise<void> {
+  const subscriptionId =
+    process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||
+    "abdd4249-9f34-4cc6-8e42-c2e32110603e";
+  const resourceGroupName =
+    process.env["DNSRESOLVER_RESOURCE_GROUP"] || "sampleResourceGroup";
+  const dnsResolverPolicyName = "sampleDnsResolverPolicy";
+  const parameters: DnsResolverPolicy = {
+    location: "westus2",
+    tags: { key1: "value1" },
+  };
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
   const client = new DnsResolverManagementClient(credential, subscriptionId);
-  const result = await client.dnsResolverPolicies.createOrUpdate(
-    "sampleResourceGroup",
-    "sampleDnsResolverPolicy",
-    { location: "westus2", tags: { key1: "value1" } },
+  const result = await client.dnsResolverPolicies.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    dnsResolverPolicyName,
+    parameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await upsertDNSResolverPolicy();
+  await upsertDnsResolverPolicy();
 }
 
 main().catch(console.error);

@@ -3,44 +3,55 @@
 
 import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to gets properties of a DNS resolver domain list.
+ * This sample demonstrates how to Gets properties of a DNS resolver domain list.
  *
- * @summary gets properties of a DNS resolver domain list.
- * x-ms-original-file: 2025-10-01-preview/DnsResolverDomainList_BulkDomains_Get.json
+ * @summary Gets properties of a DNS resolver domain list.
+ * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/DnsResolver/preview/2025-10-01-preview/examples/DnsResolverDomainList_BulkDomains_Get.json
  */
-async function retrieveDNSResolverDomainListWithBulkNumberOfDomains(): Promise<void> {
+async function retrieveDnsResolverDomainListWithBulkNumberOfDomains(): Promise<void> {
+  const subscriptionId =
+    process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||
+    "abdd4249-9f34-4cc6-8e42-c2e32110603e";
+  const resourceGroupName =
+    process.env["DNSRESOLVER_RESOURCE_GROUP"] || "sampleResourceGroup";
+  const dnsResolverDomainListName = "sampleDnsResolverDomainList";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
   const client = new DnsResolverManagementClient(credential, subscriptionId);
   const result = await client.dnsResolverDomainLists.get(
-    "sampleResourceGroup",
-    "sampleDnsResolverDomainList",
+    resourceGroupName,
+    dnsResolverDomainListName,
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to gets properties of a DNS resolver domain list.
+ * This sample demonstrates how to Gets properties of a DNS resolver domain list.
  *
- * @summary gets properties of a DNS resolver domain list.
- * x-ms-original-file: 2025-10-01-preview/DnsResolverDomainList_Get.json
+ * @summary Gets properties of a DNS resolver domain list.
+ * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/DnsResolver/preview/2025-10-01-preview/examples/DnsResolverDomainList_Get.json
  */
-async function retrieveDNSResolverDomainListWithLessThan1000Domains(): Promise<void> {
+async function retrieveDnsResolverDomainListWithLessThan1000Domains(): Promise<void> {
+  const subscriptionId =
+    process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||
+    "abdd4249-9f34-4cc6-8e42-c2e32110603e";
+  const resourceGroupName =
+    process.env["DNSRESOLVER_RESOURCE_GROUP"] || "sampleResourceGroup";
+  const dnsResolverDomainListName = "sampleDnsResolverDomainList";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
   const client = new DnsResolverManagementClient(credential, subscriptionId);
   const result = await client.dnsResolverDomainLists.get(
-    "sampleResourceGroup",
-    "sampleDnsResolverDomainList",
+    resourceGroupName,
+    dnsResolverDomainListName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await retrieveDNSResolverDomainListWithBulkNumberOfDomains();
-  await retrieveDNSResolverDomainListWithLessThan1000Domains();
+  await retrieveDnsResolverDomainListWithBulkNumberOfDomains();
+  await retrieveDnsResolverDomainListWithLessThan1000Domains();
 }
 
 main().catch(console.error);
