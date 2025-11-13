@@ -24,7 +24,7 @@ export class VoiceLiveWebSocketBrowser implements VoiceLiveWebSocketLike {
 
   constructor(options: WebSocketFactoryOptions = {}) {
     this._options = {
-      connectionTimeoutMs: 30000,
+      connectionTimeoutInMs: 30000,
       maxMessageSize: 1024 * 1024, // 1MB
       ...options,
     };
@@ -34,7 +34,7 @@ export class VoiceLiveWebSocketBrowser implements VoiceLiveWebSocketLike {
     if (this._ws && this._ws.readyState !== WebSocket.CLOSED) {
       throw new VoiceLiveConnectionError(
         "WebSocket is already connected or connecting",
-        VoiceLiveErrorCodes.ALREADY_CONNECTED,
+        VoiceLiveErrorCodes.AlreadyConnected,
       );
     }
 
@@ -42,12 +42,11 @@ export class VoiceLiveWebSocketBrowser implements VoiceLiveWebSocketLike {
       const timeoutId = setTimeout(() => {
         reject(
           new VoiceLiveConnectionError(
-            `WebSocket connection timeout after ${this._options.connectionTimeoutMs}ms`,
-            VoiceLiveErrorCodes.CONNECTION_TIMEOUT,
+            `WebSocket connection timeout after ${this._options.connectionTimeoutInMs}ms`,
+            VoiceLiveErrorCodes.ConnectionTimeout,
           ),
         );
-      }, this._options.connectionTimeoutMs);
-
+      }, this._options.connectionTimeoutInMs);
       // Handle abort signal
       const abortHandler = (): void => {
         clearTimeout(timeoutId);
@@ -57,7 +56,7 @@ export class VoiceLiveWebSocketBrowser implements VoiceLiveWebSocketLike {
         reject(
           new VoiceLiveConnectionError(
             "WebSocket connection aborted",
-            VoiceLiveErrorCodes.OPERATION_CANCELLED,
+            VoiceLiveErrorCodes.OperationCancelled,
           ),
         );
       };
@@ -109,7 +108,7 @@ export class VoiceLiveWebSocketBrowser implements VoiceLiveWebSocketLike {
               this._onError?.(
                 new VoiceLiveConnectionError(
                   "Failed to read blob data",
-                  VoiceLiveErrorCodes.WEBSOCKET_ERROR,
+                  VoiceLiveErrorCodes.WebSocketError,
                   "blob_read",
                 ),
               );
@@ -125,7 +124,7 @@ export class VoiceLiveWebSocketBrowser implements VoiceLiveWebSocketLike {
           }
           const error = new VoiceLiveConnectionError(
             "WebSocket connection failed",
-            VoiceLiveErrorCodes.WEBSOCKET_ERROR,
+            VoiceLiveErrorCodes.WebSocketError,
             "websocket_connection",
             true,
           );
@@ -140,7 +139,7 @@ export class VoiceLiveWebSocketBrowser implements VoiceLiveWebSocketLike {
         reject(
           new VoiceLiveConnectionError(
             `Failed to create WebSocket: ${error instanceof Error ? error.message : "Unknown error"}`,
-            VoiceLiveErrorCodes.CONNECTION_FAILED,
+            VoiceLiveErrorCodes.ConnectionFailed,
             "websocket_creation",
             false,
             error instanceof Error ? error : new Error(String(error)),
@@ -173,14 +172,14 @@ export class VoiceLiveWebSocketBrowser implements VoiceLiveWebSocketLike {
     if (!this._ws || this._ws.readyState !== WebSocket.OPEN) {
       throw new VoiceLiveConnectionError(
         "WebSocket is not connected",
-        VoiceLiveErrorCodes.NOT_CONNECTED,
+        VoiceLiveErrorCodes.NotConnected,
       );
     }
 
     if (abortSignal?.aborted) {
       throw new VoiceLiveConnectionError(
         "Send operation aborted",
-        VoiceLiveErrorCodes.OPERATION_CANCELLED,
+        VoiceLiveErrorCodes.OperationCancelled,
       );
     }
 
@@ -189,7 +188,7 @@ export class VoiceLiveWebSocketBrowser implements VoiceLiveWebSocketLike {
         reject(
           new VoiceLiveConnectionError(
             "Send operation aborted",
-            VoiceLiveErrorCodes.OPERATION_CANCELLED,
+            VoiceLiveErrorCodes.OperationCancelled,
           ),
         );
       };
@@ -211,7 +210,7 @@ export class VoiceLiveWebSocketBrowser implements VoiceLiveWebSocketLike {
         reject(
           new VoiceLiveConnectionError(
             `Failed to send WebSocket message: ${error instanceof Error ? error.message : "Unknown error"}`,
-            VoiceLiveErrorCodes.WEBSOCKET_ERROR,
+            VoiceLiveErrorCodes.WebSocketError,
             "message_send",
             true,
             error instanceof Error ? error : new Error(String(error)),

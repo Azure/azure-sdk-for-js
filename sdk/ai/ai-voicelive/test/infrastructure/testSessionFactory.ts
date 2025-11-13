@@ -384,10 +384,10 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     };
   }
 
-  async waitForFunctionCall?(callId: string, timeoutMs: number = 5000): Promise<any> {
+  async waitForFunctionCall?(callId: string, timeoutInMs: number = 5000): Promise<any> {
     const startTime = Date.now();
 
-    while (Date.now() - startTime < timeoutMs) {
+    while (Date.now() - startTime < timeoutInMs) {
       const activeCalls = (this as any)._activeFunctionCalls || [];
       const call = activeCalls.find((c: any) => c.callId === callId);
       if (call) {
@@ -488,11 +488,11 @@ export class TestSessionFactory {
   static async waitForSessionState(
     session: VoiceLiveSession,
     targetState: string,
-    timeoutMs: number = TestConstants.DEFAULT_TIMEOUT_MS,
+    timeoutInMs: number = TestConstants.DEFAULT_TIMEOUT_MS,
   ): Promise<void> {
     const startTime = Date.now();
 
-    while (Date.now() - startTime < timeoutMs) {
+    while (Date.now() - startTime < timeoutInMs) {
       // Check session state - this depends on the actual session API
       // For now, we'll use a placeholder
       const currentState = (session as any).connectionState;

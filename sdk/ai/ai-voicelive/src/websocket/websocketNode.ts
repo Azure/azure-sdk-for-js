@@ -25,7 +25,7 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
 
   constructor(options: WebSocketFactoryOptions = {}) {
     this._options = {
-      connectionTimeoutMs: 30000,
+      connectionTimeoutInMs: 30000,
       maxMessageSize: 1024 * 1024, // 1MB
       compression: true,
       ...options,
@@ -36,7 +36,7 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
     if (this._ws && this._ws.readyState !== WebSocket.CLOSED) {
       throw new VoiceLiveConnectionError(
         "WebSocket is already connected or connecting",
-        VoiceLiveErrorCodes.ALREADY_CONNECTED,
+        VoiceLiveErrorCodes.AlreadyConnected,
       );
     }
 
@@ -44,11 +44,11 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
       const timeoutId = setTimeout(() => {
         reject(
           new VoiceLiveConnectionError(
-            `WebSocket connection timeout after ${this._options.connectionTimeoutMs}ms`,
-            VoiceLiveErrorCodes.CONNECTION_TIMEOUT,
+            `WebSocket connection timeout after ${this._options.connectionTimeoutInMs}ms`,
+            VoiceLiveErrorCodes.ConnectionTimeout,
           ),
         );
-      }, this._options.connectionTimeoutMs);
+      }, this._options.connectionTimeoutInMs);
 
       // Handle abort signal
       const abortHandler = (): void => {
@@ -59,7 +59,7 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
         reject(
           new VoiceLiveConnectionError(
             "WebSocket connection aborted",
-            VoiceLiveErrorCodes.OPERATION_CANCELLED,
+            VoiceLiveErrorCodes.OperationCancelled,
           ),
         );
       };
@@ -128,7 +128,7 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
           reject(
             new VoiceLiveConnectionError(
               `WebSocket error: ${error.message}`,
-              VoiceLiveErrorCodes.WEBSOCKET_ERROR,
+              VoiceLiveErrorCodes.WebSocketError,
               "websocket_connection",
               true, // Potentially recoverable
               error,
@@ -143,7 +143,7 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
         reject(
           new VoiceLiveConnectionError(
             `Failed to create WebSocket: ${error instanceof Error ? error.message : "Unknown error"}`,
-            VoiceLiveErrorCodes.CONNECTION_FAILED,
+            VoiceLiveErrorCodes.ConnectionFailed,
             "websocket_creation",
             false,
             error instanceof Error ? error : new Error(String(error)),
@@ -176,14 +176,14 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
     if (!this._ws || this._ws.readyState !== WebSocket.OPEN) {
       throw new VoiceLiveConnectionError(
         "WebSocket is not connected",
-        VoiceLiveErrorCodes.NOT_CONNECTED,
+        VoiceLiveErrorCodes.NotConnected,
       );
     }
 
     if (abortSignal?.aborted) {
       throw new VoiceLiveConnectionError(
         "Send operation aborted",
-        VoiceLiveErrorCodes.OPERATION_CANCELLED,
+        VoiceLiveErrorCodes.OperationCancelled,
       );
     }
 
@@ -192,7 +192,7 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
         reject(
           new VoiceLiveConnectionError(
             "Send operation aborted",
-            VoiceLiveErrorCodes.OPERATION_CANCELLED,
+            VoiceLiveErrorCodes.OperationCancelled,
           ),
         );
       };
@@ -210,7 +210,7 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
           reject(
             new VoiceLiveConnectionError(
               `Failed to send WebSocket message: ${error.message}`,
-              VoiceLiveErrorCodes.WEBSOCKET_ERROR,
+              VoiceLiveErrorCodes.WebSocketError,
               "message_send",
               true,
               error,

@@ -68,7 +68,7 @@ export class CredentialHandler {
       if (!tokenResponse) {
         throw new VoiceLiveAuthenticationError(
           "Failed to acquire access token - credential returned null",
-          VoiceLiveErrorCodes.AUTHENTICATION_FAILED,
+          VoiceLiveErrorCodes.AuthenticationFailed,
         );
       }
 
@@ -88,7 +88,7 @@ export class CredentialHandler {
 
       throw new VoiceLiveAuthenticationError(
         `Failed to obtain access token: ${error instanceof Error ? error.message : "Unknown error"}`,
-        VoiceLiveErrorCodes.AUTHENTICATION_FAILED,
+        VoiceLiveErrorCodes.AuthenticationFailed,
         error instanceof Error ? error : new Error(String(error)),
       );
     }
@@ -165,7 +165,7 @@ export class CredentialHandler {
     if (!this._isApiKey) {
       throw new VoiceLiveAuthenticationError(
         "Cannot update API key on TokenCredential",
-        VoiceLiveErrorCodes.INVALID_CREDENTIALS,
+        VoiceLiveErrorCodes.InvalidCredentials,
       );
     }
 
@@ -176,7 +176,7 @@ export class CredentialHandler {
     } else {
       throw new VoiceLiveAuthenticationError(
         "KeyCredential does not support key updates",
-        VoiceLiveErrorCodes.INVALID_CREDENTIALS,
+        VoiceLiveErrorCodes.InvalidCredentials,
       );
     }
   }

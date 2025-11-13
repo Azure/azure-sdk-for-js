@@ -249,11 +249,11 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
   /**
    * Wait for at least the specified number of messages to be sent
    */
-  async waitForMessages(count: number, timeoutMs = 5000): Promise<void> {
+  async waitForMessages(count: number, timeoutInMs = 5000): Promise<void> {
     const startTime = Date.now();
 
     while (this._sentMessages.length < count) {
-      if (Date.now() - startTime > timeoutMs) {
+      if (Date.now() - startTime > timeoutInMs) {
         throw new Error(`Timeout waiting for ${count} messages. Got ${this._sentMessages.length}`);
       }
       await new Promise((resolve) => setTimeout(resolve, 10));
@@ -263,10 +263,10 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
   /**
    * Wait for a message of a specific type
    */
-  async waitForMessageType(messageType: string, timeoutMs = 5000): Promise<any> {
+  async waitForMessageType(messageType: string, timeoutInMs = 5000): Promise<any> {
     const startTime = Date.now();
 
-    while (Date.now() - startTime < timeoutMs) {
+    while (Date.now() - startTime < timeoutInMs) {
       const messages = this.getMessagesByType(messageType);
       if (messages.length > 0) {
         return messages[messages.length - 1];

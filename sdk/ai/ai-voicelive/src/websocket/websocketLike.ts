@@ -18,7 +18,7 @@ export enum WebSocketState {
  */
 export interface WebSocketFactoryOptions {
   /** Connection timeout in milliseconds */
-  connectionTimeoutMs?: number;
+  connectionTimeoutInMs?: number;
   /** Maximum message size in bytes */
   maxMessageSize?: number;
   /** Enable compression if supported */

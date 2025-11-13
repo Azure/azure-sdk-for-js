@@ -245,6 +245,12 @@ export interface CachedTokenDetails {
 }
 
 // @public
+export function classifyConnectionError(error: VoiceLiveConnectionError | Error | unknown): VoiceLiveConnectionError;
+
+// @public
+export function classifyProtocolError(error: Error, messageType: string): VoiceLiveProtocolError;
+
+// @public
 export interface ClientEvent {
     // (undocumented)
     eventId?: string;
@@ -388,7 +394,7 @@ export enum ConnectionState {
 // @public (undocumented)
 export interface ConnectOptions {
     abortSignal?: AbortSignalLike;
-    timeoutMs?: number;
+    timeoutInMs?: number;
 }
 
 // @public
@@ -417,6 +423,10 @@ export interface ConversationRequestItem {
 
 // @public
 export type ConversationRequestItemUnion = MessageItemUnion | FunctionCallItem | FunctionCallOutputItem | ConversationRequestItem;
+
+// @public (undocumented)
+export interface CreateSessionOptions extends VoiceLiveSessionOptions {
+}
 
 // @public
 export interface DisconnectedEventArgs {
@@ -984,7 +994,7 @@ export interface ResponseTextContentPart extends ContentPart {
 // @public (undocumented)
 export interface SendEventOptions {
     abortSignal?: AbortSignalLike;
-    timeoutMs?: number;
+    timeoutInMs?: number;
 }
 
 // @public
@@ -1381,6 +1391,10 @@ export interface SessionContext extends ConnectionContext {
     readonly sessionId: string;
 }
 
+// @public (undocumented)
+export interface StartSessionOptions extends VoiceLiveSessionOptions {
+}
+
 // @public
 export interface SubscribeOptions {
     abortSignal?: AbortSignalLike;
@@ -1497,12 +1511,10 @@ export class VoiceLiveClient {
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: VoiceLiveClientOptions);
     // (undocumented)
     get apiVersion(): string;
-    // Warning: (ae-forgotten-export) The symbol "CreateSessionOptions" needs to be exported by the entry point index.d.ts
     createSession(model: string, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
     createSession(sessionConfig: RequestSession, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
     // (undocumented)
     get endpoint(): string;
-    // Warning: (ae-forgotten-export) The symbol "StartSessionOptions" needs to be exported by the entry point index.d.ts
     startSession(model: string, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
     startSession(sessionConfig: RequestSession, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
 }
@@ -1529,46 +1541,39 @@ export class VoiceLiveError extends VoiceLiveConnectionError {
 }
 
 // @public
-export class VoiceLiveErrorClassifier {
-    static classifyConnectionError(error: VoiceLiveConnectionError | Error | unknown): VoiceLiveConnectionError;
-    static classifyProtocolError(error: Error, messageType: string): VoiceLiveProtocolError;
-    static classifyWebSocketClose(code: number, reason: string): VoiceLiveConnectionError;
-}
-
-// @public
 export enum VoiceLiveErrorCodes {
     // (undocumented)
-    ALREADY_CONNECTED = "ALREADY_CONNECTED",
+    AlreadyConnected = "ALREADY_CONNECTED",
     // (undocumented)
-    AUTHENTICATION_FAILED = "AUTHENTICATION_FAILED",
+    AuthenticationFailed = "AUTHENTICATION_FAILED",
     // (undocumented)
-    BUFFER_OVERFLOW = "BUFFER_OVERFLOW",
+    BufferOverflow = "BUFFER_OVERFLOW",
     // (undocumented)
-    CONNECTION_FAILED = "CONNECTION_FAILED",
+    ConnectionFailed = "CONNECTION_FAILED",
     // (undocumented)
-    CONNECTION_LOST = "CONNECTION_LOST",
+    ConnectionLost = "CONNECTION_LOST",
     // (undocumented)
-    CONNECTION_TIMEOUT = "CONNECTION_TIMEOUT",
+    ConnectionTimeout = "CONNECTION_TIMEOUT",
     // (undocumented)
-    FORBIDDEN = "FORBIDDEN",
+    Forbidden = "FORBIDDEN",
     // (undocumented)
-    INVALID_CREDENTIALS = "INVALID_CREDENTIALS",
+    InvalidCredentials = "INVALID_CREDENTIALS",
     // (undocumented)
-    INVALID_MESSAGE = "INVALID_MESSAGE",
+    InvalidMessage = "INVALID_MESSAGE",
     // (undocumented)
-    INVALID_STATE = "INVALID_STATE",
+    InvalidState = "INVALID_STATE",
     // (undocumented)
-    MESSAGE_TOO_LARGE = "MESSAGE_TOO_LARGE",
+    MessageTooLarge = "MESSAGE_TOO_LARGE",
     // (undocumented)
-    NOT_CONNECTED = "NOT_CONNECTED",
+    NotConnected = "NOT_CONNECTED",
     // (undocumented)
-    OPERATION_CANCELLED = "OPERATION_CANCELLED",
+    OperationCancelled = "OPERATION_CANCELLED",
     // (undocumented)
-    PROTOCOL_ERROR = "PROTOCOL_ERROR",
+    ProtocolError = "PROTOCOL_ERROR",
     // (undocumented)
-    UNAUTHORIZED = "UNAUTHORIZED",
+    Unauthorized = "UNAUTHORIZED",
     // (undocumented)
-    WEBSOCKET_ERROR = "WEBSOCKET_ERROR"
+    WebSocketError = "WEBSOCKET_ERROR"
 }
 
 // @public
@@ -1653,7 +1658,7 @@ export interface VoiceLiveSessionHandlers {
 
 // @public (undocumented)
 export interface VoiceLiveSessionOptions {
-    connectionTimeoutMs?: number;
+    connectionTimeoutInMs?: number;
     enableDebugLogging?: boolean;
 }
 

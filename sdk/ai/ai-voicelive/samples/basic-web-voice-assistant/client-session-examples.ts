@@ -25,7 +25,7 @@ async function basicHandlerPatternExample() {
 
   // 2. Create and connect a session with model
   const session = await client.startSession('gpt-4o-realtime-preview', {
-    connectionTimeoutMs: 30000
+    connectionTimeoutInMs: 30000
   });
 
   try {

@@ -6,30 +6,30 @@
  */
 export enum VoiceLiveErrorCodes {
   // Connection errors
-  CONNECTION_FAILED = "CONNECTION_FAILED",
-  CONNECTION_TIMEOUT = "CONNECTION_TIMEOUT",
-  CONNECTION_LOST = "CONNECTION_LOST",
-  ALREADY_CONNECTED = "ALREADY_CONNECTED",
-  NOT_CONNECTED = "NOT_CONNECTED",
+  ConnectionFailed = "CONNECTION_FAILED",
+  ConnectionTimeout = "CONNECTION_TIMEOUT",
+  ConnectionLost = "CONNECTION_LOST",
+  AlreadyConnected = "ALREADY_CONNECTED",
+  NotConnected = "NOT_CONNECTED",
 
   // WebSocket errors
-  WEBSOCKET_ERROR = "WEBSOCKET_ERROR",
+  WebSocketError = "WEBSOCKET_ERROR",
 
   // Authentication errors
-  AUTHENTICATION_FAILED = "AUTHENTICATION_FAILED",
-  INVALID_CREDENTIALS = "INVALID_CREDENTIALS",
-  UNAUTHORIZED = "UNAUTHORIZED",
-  FORBIDDEN = "FORBIDDEN",
+  AuthenticationFailed = "AUTHENTICATION_FAILED",
+  InvalidCredentials = "INVALID_CREDENTIALS",
+  Unauthorized = "UNAUTHORIZED",
+  Forbidden = "FORBIDDEN",
 
   // Protocol errors
-  INVALID_MESSAGE = "INVALID_MESSAGE",
-  MESSAGE_TOO_LARGE = "MESSAGE_TOO_LARGE",
-  PROTOCOL_ERROR = "PROTOCOL_ERROR",
-  BUFFER_OVERFLOW = "BUFFER_OVERFLOW",
+  InvalidMessage = "INVALID_MESSAGE",
+  MessageTooLarge = "MESSAGE_TOO_LARGE",
+  ProtocolError = "PROTOCOL_ERROR",
+  BufferOverflow = "BUFFER_OVERFLOW",
 
   // General errors
-  OPERATION_CANCELLED = "OPERATION_CANCELLED",
-  INVALID_STATE = "INVALID_STATE",
+  OperationCancelled = "OPERATION_CANCELLED",
+  InvalidState = "INVALID_STATE",
 }
 
 /**
@@ -114,19 +114,15 @@ export class VoiceLiveError extends VoiceLiveConnectionError {
   }
 }
 
-/**
- * Classifier for WebSocket close events to determine error handling
- */
-export class VoiceLiveErrorClassifier {
   /**
    * Classifies a WebSocket close event and returns appropriate error
    */
-  static classifyWebSocketClose(code: number, reason: string): VoiceLiveConnectionError {
+export function classifyWebSocketClose(code: number, reason: string): VoiceLiveConnectionError {
     switch (code) {
       case 1000: // Normal closure
         return new VoiceLiveConnectionError(
           "WebSocket connection closed normally",
-          VoiceLiveErrorCodes.CONNECTION_LOST,
+          VoiceLiveErrorCodes.ConnectionLost,
           "websocket_close",
           false,
         );
@@ -135,7 +131,7 @@ export class VoiceLiveErrorClassifier {
       case 1006: // Abnormal closure
         return new VoiceLiveConnectionError(
           `WebSocket connection lost: ${reason || "Abnormal closure"}`,
-          VoiceLiveErrorCodes.CONNECTION_LOST,
+          VoiceLiveErrorCodes.ConnectionLost,
           "websocket_close",
           true, // Recoverable
         );
@@ -143,7 +139,7 @@ export class VoiceLiveErrorClassifier {
       case 1008: // Policy violation
         return new VoiceLiveConnectionError(
           `WebSocket policy violation: ${reason}`,
-          VoiceLiveErrorCodes.WEBSOCKET_ERROR,
+          VoiceLiveErrorCodes.WebSocketError,
           "websocket_close",
           false, // Not recoverable
         );
@@ -151,7 +147,7 @@ export class VoiceLiveErrorClassifier {
       case 1011: // Server error
         return new VoiceLiveConnectionError(
           `WebSocket server error: ${reason}`,
-          VoiceLiveErrorCodes.WEBSOCKET_ERROR,
+          VoiceLiveErrorCodes.WebSocketError,
           "websocket_close",
           true, // Recoverable
         );
@@ -159,7 +155,7 @@ export class VoiceLiveErrorClassifier {
       default:
         return new VoiceLiveConnectionError(
           `WebSocket closed with code ${code}: ${reason}`,
-          VoiceLiveErrorCodes.CONNECTION_LOST,
+          VoiceLiveErrorCodes.ConnectionLost,
           "websocket_close",
           true, // Default to recoverable
         );
@@ -169,7 +165,7 @@ export class VoiceLiveErrorClassifier {
   /**
    * Classifies connection errors
    */
-  static classifyConnectionError(
+  export function classifyConnectionError(
     error: VoiceLiveConnectionError | Error | unknown,
   ): VoiceLiveConnectionError {
     if (error instanceof VoiceLiveConnectionError) {
@@ -180,7 +176,7 @@ export class VoiceLiveErrorClassifier {
       if (error.message.includes("timeout")) {
         return new VoiceLiveConnectionError(
           `Connection timeout: ${error.message}`,
-          VoiceLiveErrorCodes.CONNECTION_TIMEOUT,
+          VoiceLiveErrorCodes.ConnectionTimeout,
           "connection",
           true,
           error,
@@ -190,7 +186,7 @@ export class VoiceLiveErrorClassifier {
       if (error.message.includes("ECONNREFUSED") || error.message.includes("ENOTFOUND")) {
         return new VoiceLiveConnectionError(
           `Connection failed: ${error.message}`,
-          VoiceLiveErrorCodes.CONNECTION_FAILED,
+          VoiceLiveErrorCodes.ConnectionFailed,
           "connection",
           true,
           error,
@@ -200,7 +196,7 @@ export class VoiceLiveErrorClassifier {
 
     return new VoiceLiveConnectionError(
       `Unknown connection error: ${error instanceof Error ? error.message : String(error)}`,
-      VoiceLiveErrorCodes.CONNECTION_FAILED,
+      VoiceLiveErrorCodes.ConnectionFailed,
       "connection",
       true,
       error instanceof Error ? error : new Error(String(error)),
@@ -210,11 +206,11 @@ export class VoiceLiveErrorClassifier {
   /**
    * Classifies protocol errors
    */
-  static classifyProtocolError(error: Error, messageType: string): VoiceLiveProtocolError {
+export function classifyProtocolError(error: Error, messageType: string): VoiceLiveProtocolError {
     if (error.message.includes("JSON")) {
       return new VoiceLiveProtocolError(
         `Invalid JSON message: ${error.message}`,
-        VoiceLiveErrorCodes.INVALID_MESSAGE,
+        VoiceLiveErrorCodes.InvalidMessage,
         error,
       );
     }
@@ -222,15 +218,14 @@ export class VoiceLiveErrorClassifier {
     if (error.message.includes("size") || error.message.includes("large")) {
       return new VoiceLiveProtocolError(
         `Message too large: ${error.message}`,
-        VoiceLiveErrorCodes.MESSAGE_TOO_LARGE,
+        VoiceLiveErrorCodes.MessageTooLarge,
         error,
       );
     }
 
     return new VoiceLiveProtocolError(
       `Protocol error in ${messageType}: ${error.message}`,
-      VoiceLiveErrorCodes.PROTOCOL_ERROR,
+      VoiceLiveErrorCodes.ProtocolError,
       error,
     );
   }
-}

@@ -190,6 +190,8 @@ export {
   SendEventOptions,
   AudioStreamOptions,
   TurnOptions,
+  CreateSessionOptions,
+  StartSessionOptions
 } from "./voiceLiveSession.js";
 
 // Handler-based subscription exports (Azure SDK pattern)
@@ -214,5 +216,6 @@ export {
   VoiceLiveAuthenticationError,
   VoiceLiveProtocolError,
   VoiceLiveErrorCodes,
-  VoiceLiveErrorClassifier,
+  classifyConnectionError,
+  classifyProtocolError,
 } from "./errors/index.js";

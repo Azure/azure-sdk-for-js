@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect } from "vitest";
-import { VoiceLiveClient } from "../../src/voiceLiveClient.js";
+import { VoiceLiveClient } from "../../src/index.js";
 import { MockTokenCredential } from "../infrastructure/index.js";
 
 describe("VoiceLiveClient", () => {

@@ -88,7 +88,7 @@ export class VoiceAssistant {
       
       // Create client options for session
       const sessionOptions: any = {
-        connectionTimeoutMs: 30000,
+        connectionTimeoutInMs: 30000,
         enableDebugLogging: config.debugMode !== false // Enable by default
       };
 

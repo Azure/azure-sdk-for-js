@@ -6,7 +6,7 @@ import type { VoiceLiveWebSocketLike } from "./websocketLike.js";
 import {
   VoiceLiveConnectionError,
   VoiceLiveErrorCodes,
-  VoiceLiveErrorClassifier,
+  classifyWebSocketClose,
 } from "../errors/index.js";
 import { logger } from "../logger.js";
 
@@ -75,7 +75,7 @@ export class ConnectionManager {
     if (this._state === ConnectionState.Connecting) {
       throw new VoiceLiveConnectionError(
         "Connection attempt already in progress",
-        VoiceLiveErrorCodes.INVALID_STATE,
+        VoiceLiveErrorCodes.InvalidState,
       );
     }
 
@@ -114,7 +114,7 @@ export class ConnectionManager {
       } else {
         throw new VoiceLiveConnectionError(
           `Failed to connect: ${error instanceof Error ? error.message : "Unknown error"}`,
-          VoiceLiveErrorCodes.CONNECTION_FAILED,
+          VoiceLiveErrorCodes.ConnectionFailed,
           "connection_attempt",
           true,
           error instanceof Error ? error : new Error(String(error)),
@@ -152,7 +152,7 @@ export class ConnectionManager {
     if (!this._websocket || this._state !== ConnectionState.Connected) {
       throw new VoiceLiveConnectionError(
         "Cannot send message: WebSocket not connected",
-        VoiceLiveErrorCodes.NOT_CONNECTED,
+        VoiceLiveErrorCodes.NotConnected,
       );
     }
 
@@ -203,12 +203,12 @@ export class ConnectionManager {
       // Normal close, but unexpected
       error = new VoiceLiveConnectionError(
         "WebSocket connection closed unexpectedly",
-        VoiceLiveErrorCodes.CONNECTION_LOST,
+        VoiceLiveErrorCodes.ConnectionLost,
         "connection_lost",
       );
     } else {
       // Use classifier for other codes
-      error = VoiceLiveErrorClassifier.classifyWebSocketClose(code, reason);
+      error = classifyWebSocketClose(code, reason);
     }
 
     // Always notify of fatal error for unexpected disconnections
@@ -221,7 +221,7 @@ export class ConnectionManager {
   private _handleConnectionError(error: Error): void {
     const connectionError = new VoiceLiveConnectionError(
       `WebSocket error: ${error.message}`,
-      VoiceLiveErrorCodes.WEBSOCKET_ERROR,
+      VoiceLiveErrorCodes.WebSocketError,
       "websocket_error",
       true,
       error,

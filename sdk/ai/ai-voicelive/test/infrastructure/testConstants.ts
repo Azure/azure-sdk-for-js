@@ -180,9 +180,9 @@ export function sleep(ms: number): Promise<void> {
 /**
  * Create a test abort signal that aborts after specified timeout
  */
-export function createTimeoutAbortSignal(timeoutMs: number): AbortSignal {
+export function createTimeoutAbortSignal(timeoutInMs: number): AbortSignal {
   const controller = new AbortController();
-  setTimeout(() => controller.abort(), timeoutMs);
+  setTimeout(() => controller.abort(), timeoutInMs);
   return controller.signal;
 }
 

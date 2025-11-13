@@ -19,7 +19,7 @@ import { ConnectionManager, ConnectionState } from "./websocket/connectionManage
 import { VoiceLiveWebSocketFactory } from "./websocket/websocketFactory.js";
 import { VoiceLiveMessageParser } from "./protocol/messageParser.js";
 import { CredentialHandler } from "./auth/credentialHandler.js";
-import { VoiceLiveConnectionError, VoiceLiveErrorClassifier } from "./errors/index.js";
+import { VoiceLiveConnectionError, classifyConnectionError } from "./errors/index.js";
 import { logger } from "./logger.js";
 import type {
   VoiceLiveSessionHandlers,
@@ -35,7 +35,7 @@ import { SubscriptionManager } from "./handlers/subscriptionManager.js";
 
 export interface VoiceLiveSessionOptions {
   /** Connection timeout in milliseconds */
-  connectionTimeoutMs?: number;
+  connectionTimeoutInMs?: number;
   /** Enable debug logging for development */
   enableDebugLogging?: boolean;
 }
@@ -47,14 +47,14 @@ export interface ConnectOptions {
   /** Abort signal to cancel connection attempt */
   abortSignal?: AbortSignalLike;
   /** Override connection timeout for this operation */
-  timeoutMs?: number;
+  timeoutInMs?: number;
 }
 
 export interface SendEventOptions {
   /** Abort signal to cancel send operation */
   abortSignal?: AbortSignalLike;
   /** Timeout for send operation */
-  timeoutMs?: number;
+  timeoutInMs?: number;
 }
 
 export interface AudioStreamOptions extends SendEventOptions {
@@ -151,12 +151,12 @@ export class VoiceLiveSession {
         () =>
           websocketFactory.create({
             headers: { ...authHeaders },
-            connectionTimeoutMs: this._options.connectionTimeoutMs,
+            connectionTimeoutInMs: this._options.connectionTimeoutInMs,
             compression: true,
           }),
         {
           endpoint: wsUrl,
-          connectionTimeout: options.timeoutMs || this._options.connectionTimeoutMs,
+          connectionTimeout: options.timeoutInMs || this._options.connectionTimeoutInMs,
         },
       );
 
@@ -174,7 +174,7 @@ export class VoiceLiveSession {
       if (error instanceof VoiceLiveConnectionError) {
         throw error;
       } else {
-        throw VoiceLiveErrorClassifier.classifyConnectionError(error);
+        throw classifyConnectionError(error);
       }
     }
   }
@@ -381,7 +381,7 @@ export class VoiceLiveSession {
     options: VoiceLiveSessionOptions,
   ): Required<VoiceLiveSessionOptions> {
     return {
-      connectionTimeoutMs: options.connectionTimeoutMs || 30000,
+      connectionTimeoutInMs: options.connectionTimeoutInMs || 30000,
       enableDebugLogging: options.enableDebugLogging ?? false,
     };
   }
@@ -535,7 +535,7 @@ export class VoiceLiveSession {
         throw error;
       }
 
-      throw VoiceLiveErrorClassifier.classifyConnectionError(error);
+      throw classifyConnectionError(error);
     }
   }
 
