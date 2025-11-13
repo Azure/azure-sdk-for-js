@@ -181,11 +181,7 @@ export class DocumentProducer {
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
       if (headerResponse && headerResponse["x-ms-cosmos-query-execution-info"]) {
-        try {
-          this.queryExecutionInfo = JSON.parse(headerResponse["x-ms-cosmos-query-execution-info"]);
-        } catch (e) {
-          console.warn(`[DocumentProducer] Failed to parse query execution info: ${e}`);
-        }
+        this.queryExecutionInfo = JSON.parse(headerResponse["x-ms-cosmos-query-execution-info"]);
       }
 
       if (this.filter && resources) {
@@ -195,9 +191,7 @@ export class DocumentProducer {
       if (resources !== undefined) {
         // add fetched header to the 1st element in the buffer
         let addHeaderToFetchResult = true;
-        const finalItemIds: any[] = [];
         resources.forEach((element: any) => {
-          finalItemIds.push(element.id || element.payload?.id);
           this.fetchResults.push(
             new FetchResult(
               element,

@@ -104,7 +104,6 @@ export async function processDistinctQueryAndUpdateRangeMap(
     const { itemCount } = rangeMapping;
 
     let lastHashForThisRange: string | undefined;
-    // TODO: add more units
     if (itemCount > 0 && bufferIndex <= originalBuffer.length) {
       const rangeEndIndex = Math.min(bufferIndex + itemCount, originalBuffer.length);
       const lastItemIndex = rangeEndIndex - 1;

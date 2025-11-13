@@ -62,9 +62,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     private correlatedActivityId: string,
     private allPartitionsRanges: QueryRange[],
   ) {
-    // TODO: move to queryiterator: Reject continuation token usage - hybrid queries don't support continuation tokens
     rejectContinuationTokenForUnsupportedQueries(this.options.continuationToken, [
-      QueryTypes.hybridSearch(true), // Hybrid queries always don't support continuation tokens
+      QueryTypes.hybridSearch(true),
     ]);
 
     this.state = HybridQueryExecutionContextBaseStates.uninitialized;
@@ -213,7 +212,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
             const result = await componentExecutionContext.fetchMore(diagnosticNode);
             mergeHeaders(fetchMoreRespHeaders, result.headers);
 
-            // Handle both old array format and new ParallelQueryResult format
             const resultData = result.result;
             if (result && resultData) {
               resultData.forEach((item: any) => {
@@ -237,7 +235,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
             const result = await componentExecutionContext.fetchMore(diagnosticNode);
             mergeHeaders(fetchMoreRespHeaders, result.headers);
 
-            // Handle both old array format and new ParallelQueryResult format
             const resultData = result.result;
             if (result && resultData) {
               resultData.forEach((item: any) => {
@@ -401,7 +398,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
           const result = await componentExecutionContext.fetchMore(diagNode);
           mergeHeaders(fetchMoreRespHeaders, result.headers);
 
-          // Handle both old array format and new ParallelQueryResult format
           const resultData = result.result;
 
           if (result && resultData) {
@@ -425,7 +421,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
           const result = await componentExecutionContext.fetchMore(diagNode);
           mergeHeaders(fetchMoreRespHeaders, result.headers);
 
-          // Handle both old array format and new ParallelQueryResult format
           const resultData = result.result;
           if (result && resultData) {
             resultData.forEach((item: any) => {
