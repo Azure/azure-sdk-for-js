@@ -6,7 +6,7 @@ import type { DeletedKey, KeyClient } from "../../src/index.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import type TestClient from "./utils/testClient.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 
 describe("Keys client - Long Running Operations - recoverDelete", () => {
   const keyPrefix = `lroRecoverDelete${env.CERTIFICATE_NAME || "KeyName"}`;
@@ -73,7 +73,7 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
 
     poller.stopPolling();
     assert.isTrue(poller.isStopped());
-    assert.isUndefined(poller.getOperationState().isCompleted);
+    expect(poller.getOperationState().isCompleted).toBeFalsy();
 
     const serialized = poller.toString();
 
