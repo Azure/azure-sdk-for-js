@@ -45,7 +45,7 @@ export async function main(): Promise<void> {
     instructions:
       "You are a helpful agent that can use SharePoint tools to assist users. Use the available SharePoint tools to answer questions and perform tasks.",
     tools: [sharepointTool],
-  } as any;
+  };
 
   const agent = await project.agents.createVersion("MyAgent", agentDefinition);
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);

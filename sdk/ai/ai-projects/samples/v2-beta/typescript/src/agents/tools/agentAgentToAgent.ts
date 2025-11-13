@@ -38,7 +38,7 @@ export async function main(): Promise<void> {
     model: deploymentName,
     instructions: "You are a helpful assistant.",
     tools: [a2aTool],
-  } as any;
+  };
 
   const agent = await project.agents.createVersion("MyAgent", agentDefinition);
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);

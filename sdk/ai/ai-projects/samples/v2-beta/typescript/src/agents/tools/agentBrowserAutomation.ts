@@ -63,7 +63,7 @@ export async function main(): Promise<void> {
             You can answer questions, provide information, and assist with various tasks 
             related to web browsing using the Browser Automation tool available to you.`,
     tools: [browserAutomationTool],
-  } as any;
+  };
 
   const agent = await project.agents.createVersion("MyAgent", agentDefinition);
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
