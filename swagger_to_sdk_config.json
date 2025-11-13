@@ -33,6 +33,12 @@
   },
   "packageOptions": {
     "breakingChangeLabel": "CI-BreakingChange-JavaScript",
-    "breakingChangesLabel": "BreakingChange-JavaScript-Sdk"
+    "breakingChangesLabel": "BreakingChange-JavaScript-Sdk",
+    "buildScript": {
+      "path": "./eng/scripts/build-sdk.ps1"
+    },
+    "updateChangelogContentScript": {
+      "path": "./eng/scripts/update-changelog-content.ps1"
+    }
   }
 }
