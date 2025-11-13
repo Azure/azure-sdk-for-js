@@ -6,7 +6,7 @@
 
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { NetworkRacks } from "../operationsInterfaces/index.js";
+import type { NetworkMonitors } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -19,33 +19,36 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
-  NetworkRack,
-  NetworkRacksListBySubscriptionNextOptionalParams,
-  NetworkRacksListBySubscriptionOptionalParams,
-  NetworkRacksListBySubscriptionResponse,
-  NetworkRacksListByResourceGroupNextOptionalParams,
-  NetworkRacksListByResourceGroupOptionalParams,
-  NetworkRacksListByResourceGroupResponse,
-  NetworkRacksGetOptionalParams,
-  NetworkRacksGetResponse,
-  NetworkRacksCreateOptionalParams,
-  NetworkRacksCreateResponse,
-  NetworkRackPatch,
-  NetworkRacksUpdateOptionalParams,
-  NetworkRacksUpdateResponse,
-  NetworkRacksDeleteOptionalParams,
-  NetworkRacksDeleteResponse,
-  NetworkRacksListBySubscriptionNextResponse,
-  NetworkRacksListByResourceGroupNextResponse,
+  NetworkMonitor,
+  NetworkMonitorsListBySubscriptionNextOptionalParams,
+  NetworkMonitorsListBySubscriptionOptionalParams,
+  NetworkMonitorsListBySubscriptionResponse,
+  NetworkMonitorsListByResourceGroupNextOptionalParams,
+  NetworkMonitorsListByResourceGroupOptionalParams,
+  NetworkMonitorsListByResourceGroupResponse,
+  NetworkMonitorsGetOptionalParams,
+  NetworkMonitorsGetResponse,
+  NetworkMonitorsCreateOptionalParams,
+  NetworkMonitorsCreateResponse,
+  NetworkMonitorPatch,
+  NetworkMonitorsUpdateOptionalParams,
+  NetworkMonitorsUpdateResponse,
+  NetworkMonitorsDeleteOptionalParams,
+  NetworkMonitorsDeleteResponse,
+  UpdateAdministrativeState,
+  NetworkMonitorsUpdateAdministrativeStateOptionalParams,
+  NetworkMonitorsUpdateAdministrativeStateResponse,
+  NetworkMonitorsListBySubscriptionNextResponse,
+  NetworkMonitorsListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing NetworkRacks operations. */
-export class NetworkRacksImpl implements NetworkRacks {
+/** Class containing NetworkMonitors operations. */
+export class NetworkMonitorsImpl implements NetworkMonitors {
   private readonly client: AzureNetworkFabricManagementServiceAPI;
 
   /**
-   * Initialize a new instance of the class NetworkRacks class.
+   * Initialize a new instance of the class NetworkMonitors class.
    * @param client Reference to the service client
    */
   constructor(client: AzureNetworkFabricManagementServiceAPI) {
@@ -53,12 +56,12 @@ export class NetworkRacksImpl implements NetworkRacks {
   }
 
   /**
-   * List all Network Rack resources in the given subscription
+   * Displays NetworkMonitors list by subscription GET method.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: NetworkRacksListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<NetworkRack> {
+    options?: NetworkMonitorsListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<NetworkMonitor> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -77,10 +80,10 @@ export class NetworkRacksImpl implements NetworkRacks {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: NetworkRacksListBySubscriptionOptionalParams,
+    options?: NetworkMonitorsListBySubscriptionOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<NetworkRack[]> {
-    let result: NetworkRacksListBySubscriptionResponse;
+  ): AsyncIterableIterator<NetworkMonitor[]> {
+    let result: NetworkMonitorsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -99,22 +102,22 @@ export class NetworkRacksImpl implements NetworkRacks {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: NetworkRacksListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<NetworkRack> {
+    options?: NetworkMonitorsListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<NetworkMonitor> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * List all Network Rack resources in the given resource group.
+   * Displays NetworkMonitors list by resource group GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkRacksListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<NetworkRack> {
+    options?: NetworkMonitorsListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<NetworkMonitor> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -138,10 +141,10 @@ export class NetworkRacksImpl implements NetworkRacks {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: NetworkRacksListByResourceGroupOptionalParams,
+    options?: NetworkMonitorsListByResourceGroupOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<NetworkRack[]> {
-    let result: NetworkRacksListByResourceGroupResponse;
+  ): AsyncIterableIterator<NetworkMonitor[]> {
+    let result: NetworkMonitorsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -165,8 +168,8 @@ export class NetworkRacksImpl implements NetworkRacks {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: NetworkRacksListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<NetworkRack> {
+    options?: NetworkMonitorsListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<NetworkMonitor> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options,
@@ -176,12 +179,12 @@ export class NetworkRacksImpl implements NetworkRacks {
   }
 
   /**
-   * List all Network Rack resources in the given subscription
+   * Displays NetworkMonitors list by subscription GET method.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: NetworkRacksListBySubscriptionOptionalParams,
-  ): Promise<NetworkRacksListBySubscriptionResponse> {
+    options?: NetworkMonitorsListBySubscriptionOptionalParams,
+  ): Promise<NetworkMonitorsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec,
@@ -189,14 +192,14 @@ export class NetworkRacksImpl implements NetworkRacks {
   }
 
   /**
-   * List all Network Rack resources in the given resource group.
+   * Displays NetworkMonitors list by resource group GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkRacksListByResourceGroupOptionalParams,
-  ): Promise<NetworkRacksListByResourceGroupResponse> {
+    options?: NetworkMonitorsListByResourceGroupOptionalParams,
+  ): Promise<NetworkMonitorsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec,
@@ -204,44 +207,44 @@ export class NetworkRacksImpl implements NetworkRacks {
   }
 
   /**
-   * Get Network Rack resource details.
+   * Implements NetworkMonitor GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack.
+   * @param networkMonitorName Name of the Network Monitor.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    networkRackName: string,
-    options?: NetworkRacksGetOptionalParams,
-  ): Promise<NetworkRacksGetResponse> {
+    networkMonitorName: string,
+    options?: NetworkMonitorsGetOptionalParams,
+  ): Promise<NetworkMonitorsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, networkRackName, options },
+      { resourceGroupName, networkMonitorName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create Network Rack resource.
+   * Creates NetworkMonitor resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack.
-   * @param resource Request payload.
+   * @param networkMonitorName Name of the Network Monitor.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
-    networkRackName: string,
-    resource: NetworkRack,
-    options?: NetworkRacksCreateOptionalParams,
+    networkMonitorName: string,
+    resource: NetworkMonitor,
+    options?: NetworkMonitorsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<NetworkRacksCreateResponse>,
-      NetworkRacksCreateResponse
+      OperationState<NetworkMonitorsCreateResponse>,
+      NetworkMonitorsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<NetworkRacksCreateResponse> => {
+    ): Promise<NetworkMonitorsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -278,12 +281,12 @@ export class NetworkRacksImpl implements NetworkRacks {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, networkRackName, resource, options },
+      args: { resourceGroupName, networkMonitorName, resource, options },
       spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
-      NetworkRacksCreateResponse,
-      OperationState<NetworkRacksCreateResponse>
+      NetworkMonitorsCreateResponse,
+      OperationState<NetworkMonitorsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -294,21 +297,21 @@ export class NetworkRacksImpl implements NetworkRacks {
   }
 
   /**
-   * Create Network Rack resource.
+   * Creates NetworkMonitor resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack.
-   * @param resource Request payload.
+   * @param networkMonitorName Name of the Network Monitor.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
-    networkRackName: string,
-    resource: NetworkRack,
-    options?: NetworkRacksCreateOptionalParams,
-  ): Promise<NetworkRacksCreateResponse> {
+    networkMonitorName: string,
+    resource: NetworkMonitor,
+    options?: NetworkMonitorsCreateOptionalParams,
+  ): Promise<NetworkMonitorsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
-      networkRackName,
+      networkMonitorName,
       resource,
       options,
     );
@@ -316,27 +319,27 @@ export class NetworkRacksImpl implements NetworkRacks {
   }
 
   /**
-   * Update certain properties of the Network Rack resource.
+   * API to update certain properties of the NetworkMonitor resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack.
-   * @param properties Network Rack properties to update.
+   * @param networkMonitorName Name of the Network Monitor.
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    networkRackName: string,
-    properties: NetworkRackPatch,
-    options?: NetworkRacksUpdateOptionalParams,
+    networkMonitorName: string,
+    properties: NetworkMonitorPatch,
+    options?: NetworkMonitorsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<NetworkRacksUpdateResponse>,
-      NetworkRacksUpdateResponse
+      OperationState<NetworkMonitorsUpdateResponse>,
+      NetworkMonitorsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<NetworkRacksUpdateResponse> => {
+    ): Promise<NetworkMonitorsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -373,12 +376,12 @@ export class NetworkRacksImpl implements NetworkRacks {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, networkRackName, properties, options },
+      args: { resourceGroupName, networkMonitorName, properties, options },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      NetworkRacksUpdateResponse,
-      OperationState<NetworkRacksUpdateResponse>
+      NetworkMonitorsUpdateResponse,
+      OperationState<NetworkMonitorsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -389,21 +392,21 @@ export class NetworkRacksImpl implements NetworkRacks {
   }
 
   /**
-   * Update certain properties of the Network Rack resource.
+   * API to update certain properties of the NetworkMonitor resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack.
-   * @param properties Network Rack properties to update.
+   * @param networkMonitorName Name of the Network Monitor.
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    networkRackName: string,
-    properties: NetworkRackPatch,
-    options?: NetworkRacksUpdateOptionalParams,
-  ): Promise<NetworkRacksUpdateResponse> {
+    networkMonitorName: string,
+    properties: NetworkMonitorPatch,
+    options?: NetworkMonitorsUpdateOptionalParams,
+  ): Promise<NetworkMonitorsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      networkRackName,
+      networkMonitorName,
       properties,
       options,
     );
@@ -411,25 +414,25 @@ export class NetworkRacksImpl implements NetworkRacks {
   }
 
   /**
-   * Delete Network Rack resource.
+   * Deletes layer 2 connectivity between compute nodes by managed by named NetworkMonitor name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack.
+   * @param networkMonitorName Name of the Network Monitor.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    networkRackName: string,
-    options?: NetworkRacksDeleteOptionalParams,
+    networkMonitorName: string,
+    options?: NetworkMonitorsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<NetworkRacksDeleteResponse>,
-      NetworkRacksDeleteResponse
+      OperationState<NetworkMonitorsDeleteResponse>,
+      NetworkMonitorsDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<NetworkRacksDeleteResponse> => {
+    ): Promise<NetworkMonitorsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -466,12 +469,12 @@ export class NetworkRacksImpl implements NetworkRacks {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, networkRackName, options },
+      args: { resourceGroupName, networkMonitorName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      NetworkRacksDeleteResponse,
-      OperationState<NetworkRacksDeleteResponse>
+      NetworkMonitorsDeleteResponse,
+      OperationState<NetworkMonitorsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -482,19 +485,114 @@ export class NetworkRacksImpl implements NetworkRacks {
   }
 
   /**
-   * Delete Network Rack resource.
+   * Deletes layer 2 connectivity between compute nodes by managed by named NetworkMonitor name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack.
+   * @param networkMonitorName Name of the Network Monitor.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    networkRackName: string,
-    options?: NetworkRacksDeleteOptionalParams,
-  ): Promise<NetworkRacksDeleteResponse> {
+    networkMonitorName: string,
+    options?: NetworkMonitorsDeleteOptionalParams,
+  ): Promise<NetworkMonitorsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      networkRackName,
+      networkMonitorName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Enables isolation domain across the fabric or on specified racks.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkMonitorName Name of the Network Monitor.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  async beginUpdateAdministrativeState(
+    resourceGroupName: string,
+    networkMonitorName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkMonitorsUpdateAdministrativeStateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkMonitorsUpdateAdministrativeStateResponse>,
+      NetworkMonitorsUpdateAdministrativeStateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<NetworkMonitorsUpdateAdministrativeStateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkMonitorName, body, options },
+      spec: updateAdministrativeStateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NetworkMonitorsUpdateAdministrativeStateResponse,
+      OperationState<NetworkMonitorsUpdateAdministrativeStateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Enables isolation domain across the fabric or on specified racks.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkMonitorName Name of the Network Monitor.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  async beginUpdateAdministrativeStateAndWait(
+    resourceGroupName: string,
+    networkMonitorName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkMonitorsUpdateAdministrativeStateOptionalParams,
+  ): Promise<NetworkMonitorsUpdateAdministrativeStateResponse> {
+    const poller = await this.beginUpdateAdministrativeState(
+      resourceGroupName,
+      networkMonitorName,
+      body,
       options,
     );
     return poller.pollUntilDone();
@@ -507,8 +605,8 @@ export class NetworkRacksImpl implements NetworkRacks {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: NetworkRacksListBySubscriptionNextOptionalParams,
-  ): Promise<NetworkRacksListBySubscriptionNextResponse> {
+    options?: NetworkMonitorsListBySubscriptionNextOptionalParams,
+  ): Promise<NetworkMonitorsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec,
@@ -524,8 +622,8 @@ export class NetworkRacksImpl implements NetworkRacks {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NetworkRacksListByResourceGroupNextOptionalParams,
-  ): Promise<NetworkRacksListByResourceGroupNextResponse> {
+    options?: NetworkMonitorsListByResourceGroupNextOptionalParams,
+  ): Promise<NetworkMonitorsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec,
@@ -536,11 +634,11 @@ export class NetworkRacksImpl implements NetworkRacks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkRacks",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkMonitors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkRackListResult,
+      bodyMapper: Mappers.NetworkMonitorListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -552,11 +650,11 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkRacks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkMonitors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkRackListResult,
+      bodyMapper: Mappers.NetworkMonitorListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -572,11 +670,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkRacks/{networkRackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkMonitors/{networkMonitorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkRack,
+      bodyMapper: Mappers.NetworkMonitor,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -587,90 +685,90 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkRackName,
+    Parameters.networkMonitorName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkRacks/{networkRackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkMonitors/{networkMonitorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkRack,
+      bodyMapper: Mappers.NetworkMonitor,
     },
     201: {
-      bodyMapper: Mappers.NetworkRack,
+      bodyMapper: Mappers.NetworkMonitor,
     },
     202: {
-      bodyMapper: Mappers.NetworkRack,
+      bodyMapper: Mappers.NetworkMonitor,
     },
     204: {
-      bodyMapper: Mappers.NetworkRack,
+      bodyMapper: Mappers.NetworkMonitor,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource14,
+  requestBody: Parameters.resource12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkRackName,
+    Parameters.networkMonitorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkRacks/{networkRackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkMonitors/{networkMonitorName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkRack,
+      bodyMapper: Mappers.NetworkMonitor,
     },
     201: {
-      bodyMapper: Mappers.NetworkRack,
+      bodyMapper: Mappers.NetworkMonitor,
     },
     202: {
-      bodyMapper: Mappers.NetworkRack,
+      bodyMapper: Mappers.NetworkMonitor,
     },
     204: {
-      bodyMapper: Mappers.NetworkRack,
+      bodyMapper: Mappers.NetworkMonitor,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.properties14,
+  requestBody: Parameters.properties12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkRackName,
+    Parameters.networkMonitorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkRacks/{networkRackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkMonitors/{networkMonitorName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.NetworkRacksDeleteHeaders,
+      headersMapper: Mappers.NetworkMonitorsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.NetworkRacksDeleteHeaders,
+      headersMapper: Mappers.NetworkMonitorsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.NetworkRacksDeleteHeaders,
+      headersMapper: Mappers.NetworkMonitorsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.NetworkRacksDeleteHeaders,
+      headersMapper: Mappers.NetworkMonitorsDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -681,9 +779,41 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkRackName,
+    Parameters.networkMonitorName,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkMonitors/{networkMonitorName}/updateAdministrativeState",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
+    },
+    201: {
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
+    },
+    202: {
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
+    },
+    204: {
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkMonitorName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
@@ -691,7 +821,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkRackListResult,
+      bodyMapper: Mappers.NetworkMonitorListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -710,7 +840,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkRackListResult,
+      bodyMapper: Mappers.NetworkMonitorListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
