@@ -117,7 +117,7 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
 
 export async function createOpenAI(): Promise<OpenAI> {
   const credential = createTestCredential();
-  const projectEndpoint = process.env["OPENAI_PROJECT_ENDPOINT"] || "";
+  const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "";
 
   const scope = "https://ai.azure.com/.default";
   const azureADTokenProvider = await getBearerTokenProvider(credential, scope);
@@ -136,7 +136,7 @@ export function createProjectsClient(
 ): AIProjectClient {
   const credential = createTestCredential();
   const endpoint =
-    process.env["PROJECT_ENDPOINT"] || replaceableVariables.AZURE_AI_PROJECT_ENDPOINT;
+    process.env["AZURE_AI_PROJECT_ENDPOINT"] || replaceableVariables.AZURE_AI_PROJECT_ENDPOINT;
   return new AIProjectClient(
     endpoint,
     credential,
@@ -164,6 +164,6 @@ export function createMockProjectsClient(
     position: "perCall",
   });
   const credential = createTestCredential();
-  const endpoint = process.env["PROJECT_ENDPOINT"] || "";
+  const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "";
   return new AIProjectClient(endpoint, credential, options);
 }
