@@ -56,7 +56,7 @@ async function main() {
     },
   };
 
-  const agentDefintion = {
+  const agentDefinition = {
     kind: "prompt",
     model: deploymentName,
     instructions: `You are an Agent helping with browser automation tasks. 
@@ -65,7 +65,7 @@ async function main() {
     tools: [browserAutomationTool],
   };
 
-  const agent = await project.agents.createVersion("MyAgent", agentDefintion);
+  const agent = await project.agents.createVersion("MyAgent", agentDefinition);
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
   console.log("\nSending browser automation request with streaming...");
