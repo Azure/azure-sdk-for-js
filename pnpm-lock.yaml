@@ -20710,8 +20710,8 @@ importers:
         specifier: ^0.53.0
         version: 0.53.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resource-detector-azure':
-        specifier: ^0.16.0
-        version: 0.16.0(@opentelemetry/api@1.9.0)
+        specifier: ^0.7.0
+        version: 0.7.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources':
         specifier: ^2.2.0
         version: 2.2.0(@opentelemetry/api@1.9.0)
@@ -20760,13 +20760,13 @@ importers:
         version: 0.204.0(@opentelemetry/api@1.9.0)
       '@types/node':
         specifier: 'catalog:'
-        version: 20.19.23
+        version: 20.19.25
       '@vitest/browser-playwright':
         specifier: catalog:testing
-        version: 4.0.7(msw@2.7.3(@types/node@20.19.23)(typescript@5.9.3))(playwright@1.56.1)(vite@7.2.2(@types/node@20.19.23)(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1))(vitest@4.0.7)
+        version: 4.0.8(msw@2.7.3(@types/node@20.19.25)(typescript@5.9.3))(playwright@1.56.1)(vite@7.2.2(@types/node@20.19.25)(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1))(vitest@4.0.8)
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
-        version: 4.0.7(vitest@4.0.7)
+        version: 4.0.8(vitest@4.0.8)
       cross-env:
         specifier: 'catalog:'
         version: 7.0.3
@@ -20775,13 +20775,13 @@ importers:
         version: 16.6.1
       eslint:
         specifier: 'catalog:'
-        version: 9.38.0
+        version: 9.39.1
       prettier:
         specifier: 'catalog:'
         version: 3.6.2
       rimraf:
         specifier: 'catalog:'
-        version: 6.0.1
+        version: 6.1.0
       tshy:
         specifier: 'catalog:'
         version: 3.0.3
@@ -20790,42 +20790,42 @@ importers:
         version: 5.9.3
       vitest:
         specifier: catalog:testing
-        version: 4.0.7(@types/debug@4.1.12)(@types/node@20.19.23)(@vitest/browser-playwright@4.0.7)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.23)(typescript@5.9.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.8(@types/debug@4.1.12)(@types/node@20.19.25)(@vitest/browser-playwright@4.0.8)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.25)(typescript@5.9.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
 
   sdk/monitor/monitor-opentelemetry-exporter:
     dependencies:
       '@azure/core-auth':
-        specifier: workspace:^
+        specifier: ^1.9.0
         version: link:../../core/core-auth
       '@azure/core-client':
-        specifier: workspace:^
+        specifier: ^1.9.2
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
-        specifier: workspace:^
+        specifier: ^1.19.0
         version: link:../../core/core-rest-pipeline
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
       '@opentelemetry/api-logs':
-        specifier: ^0.208.0
-        version: 0.208.0
+        specifier: ^0.205.0
+        version: 0.205.0
       '@opentelemetry/core':
-        specifier: ^2.2.0
+        specifier: ^2.1.0
         version: 2.2.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources':
-        specifier: ^2.2.0
+        specifier: ^2.1.0
         version: 2.2.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-logs':
-        specifier: ^0.208.0
-        version: 0.208.0(@opentelemetry/api@1.9.0)
+        specifier: ^0.205.0
+        version: 0.205.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-metrics':
-        specifier: ^2.2.0
+        specifier: ^2.1.0
         version: 2.2.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base':
-        specifier: ^2.2.0
+        specifier: ^2.1.0
         version: 2.2.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions':
-        specifier: ^1.38.0
+        specifier: ^1.37.0
         version: 1.38.0
       tslib:
         specifier: ^2.8.1
@@ -20844,7 +20844,7 @@ importers:
         specifier: workspace:^
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/logger':
-        specifier: workspace:^
+        specifier: ^1.1.4
         version: link:../../core/logger
       '@opentelemetry/instrumentation':
         specifier: ^0.205.0
@@ -20853,17 +20853,17 @@ importers:
         specifier: ^0.205.0
         version: 0.205.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node':
-        specifier: ^2.2.0
+        specifier: ^2.1.0
         version: 2.2.0(@opentelemetry/api@1.9.0)
       '@types/node':
         specifier: 'catalog:'
-        version: 20.19.25
+        version: 20.19.23
       '@vitest/browser-playwright':
         specifier: catalog:testing
-        version: 4.0.8(msw@2.7.3(@types/node@20.19.25)(typescript@5.9.3))(playwright@1.56.1)(vite@7.2.2(@types/node@20.19.25)(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1))(vitest@4.0.8)
+        version: 4.0.7(msw@2.7.3(@types/node@20.19.23)(typescript@5.9.3))(playwright@1.56.1)(vite@7.2.2(@types/node@20.19.23)(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1))(vitest@4.0.7)
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
-        version: 4.0.8(vitest@4.0.8)
+        version: 4.0.7(vitest@4.0.7)
       cross-env:
         specifier: 'catalog:'
         version: 7.0.3
@@ -20872,7 +20872,7 @@ importers:
         version: 16.6.1
       eslint:
         specifier: 'catalog:'
-        version: 9.39.1
+        version: 9.38.0
       nock:
         specifier: catalog:testing
         version: 13.5.6
@@ -20884,7 +20884,7 @@ importers:
         version: 3.6.2
       rimraf:
         specifier: 'catalog:'
-        version: 6.1.0
+        version: 6.0.1
       tshy:
         specifier: 'catalog:'
         version: 3.0.3
@@ -20893,7 +20893,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: catalog:testing
-        version: 4.0.8(@types/debug@4.1.12)(@types/node@20.19.25)(@vitest/browser-playwright@4.0.8)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.25)(typescript@5.9.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.7(@types/debug@4.1.12)(@types/node@20.19.23)(@vitest/browser-playwright@4.0.7)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.23)(typescript@5.9.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
 
   sdk/monitor/monitor-opentelemetry-perf-tests:
     dependencies:
@@ -34715,8 +34715,8 @@ packages:
     resolution: {integrity: sha512-1BCcU93iwSRZvDAgwUxC/DV4T/406SkMfxGqu5ojc3AvNI+I9GhV7v0J1HljsczuuhcnFLYqD5VmwVXfCGHzxA==}
     engines: {node: ^18.19.0 || >=20.6.0}
 
-  '@opentelemetry/resource-detector-azure@0.16.0':
-    resolution: {integrity: sha512-7ZIgPGsI5/sp4nXXUUyyQ8grg6brJV1U/itQWmZID72Nhvm4k/MhYpjZC80HFId47pMUGkoM3wxbZHfunLSnIw==}
+  '@opentelemetry/resource-detector-azure@0.7.0':
+    resolution: {integrity: sha512-aR2ALsK+b/+5lLDhK9KTK8rcuKg7+sqa/Cg+QCeasqoy7qby70FRtAbQcZGljJ5BLBcVPYjl1hcTYIUyL3Laww==}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
@@ -34753,6 +34753,12 @@ packages:
 
   '@opentelemetry/sdk-logs@0.204.0':
     resolution: {integrity: sha512-y32iNNmpMUVFWSqbNrXE8xY/6EMge+HX3PXsMnCDV4cXT4SNT+W/3NgyMDf80KJL0fUK17/a0NmfXcrBhkFWrg==}
+    engines: {node: ^18.19.0 || >=20.6.0}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.4.0 <1.10.0'
+
+  '@opentelemetry/sdk-logs@0.205.0':
+    resolution: {integrity: sha512-nyqhNQ6eEzPWQU60Nc7+A5LIq8fz3UeIzdEVBQYefB4+msJZ2vuVtRuk9KxPMw1uHoHDtYEwkr2Ct0iG29jU8w==}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.4.0 <1.10.0'
@@ -40626,7 +40632,7 @@ snapshots:
 
   '@opentelemetry/redis-common@0.38.2': {}
 
-  '@opentelemetry/resource-detector-azure@0.16.0(@opentelemetry/api@1.9.0)':
+  '@opentelemetry/resource-detector-azure@0.7.0(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.2.0(@opentelemetry/api@1.9.0)
@@ -40668,6 +40674,13 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.204.0
+      '@opentelemetry/core': 2.1.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 2.1.0(@opentelemetry/api@1.9.0)
+
+  '@opentelemetry/sdk-logs@0.205.0(@opentelemetry/api@1.9.0)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.205.0
       '@opentelemetry/core': 2.1.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 2.1.0(@opentelemetry/api@1.9.0)
 
@@ -41066,7 +41079,7 @@ snapshots:
 
   '@types/bunyan@1.8.11':
     dependencies:
-      '@types/node': 20.19.23
+      '@types/node': 20.19.25
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
@@ -41166,7 +41179,7 @@ snapshots:
 
   '@types/mysql@2.15.27':
     dependencies:
-      '@types/node': 20.19.23
+      '@types/node': 20.19.25
 
   '@types/node-forge@1.3.14':
     dependencies:
@@ -41190,7 +41203,7 @@ snapshots:
 
   '@types/pg@8.15.6':
     dependencies:
-      '@types/node': 20.19.23
+      '@types/node': 20.19.25
       pg-protocol: 1.10.3
       pg-types: 2.2.0
 
