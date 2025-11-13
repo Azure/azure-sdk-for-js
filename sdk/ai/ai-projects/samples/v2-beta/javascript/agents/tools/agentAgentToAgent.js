@@ -33,14 +33,14 @@ async function main() {
     project_connection_id: a2aProjectConnectionId,
   };
 
-  const agentDefintion = {
+  const agentDefinition = {
     kind: "prompt",
     model: deploymentName,
     instructions: "You are a helpful assistant.",
     tools: [a2aTool],
   };
 
-  const agent = await project.agents.createVersion("MyAgent", agentDefintion);
+  const agent = await project.agents.createVersion("MyAgent", agentDefinition);
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
   // Prompt user for input
