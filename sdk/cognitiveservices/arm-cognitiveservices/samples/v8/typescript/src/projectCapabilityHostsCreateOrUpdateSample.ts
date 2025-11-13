@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type {
-  CapabilityHost} from "@azure/arm-cognitiveservices";
+  ProjectCapabilityHost} from "@azure/arm-cognitiveservices";
 import {
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
@@ -24,10 +24,12 @@ async function createOrUpdateProjectCapabilityHost(): Promise<void> {
   const accountName = "account-1";
   const projectName = "project-1";
   const capabilityHostName = "capabilityHostName";
-  const capabilityHost: CapabilityHost = {
+  const capabilityHost: ProjectCapabilityHost = {
     properties: {
-      customerSubnet:
-        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroups/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+      aiServicesConnections: ["aoai_connection"],
+      storageConnections: ["blob_connection"],
+      threadStorageConnections: ["aca_connection"],
+      vectorStoreConnections: ["acs_connection"],
     },
   };
   const credential = new DefaultAzureCredential();

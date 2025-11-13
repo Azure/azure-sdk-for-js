@@ -30,6 +30,7 @@ import {
   ConnectionUpdateContent as ConnectionUpdateContentMapper,
   ConnectionPropertiesV2BasicResource as ConnectionPropertiesV2BasicResourceMapper,
   CapabilityHost as CapabilityHostMapper,
+  ProjectCapabilityHost as ProjectCapabilityHostMapper,
   QuotaTier as QuotaTierMapper,
 } from "../models/mappers.js";
 
@@ -615,6 +616,11 @@ export const capabilityHostName: OperationURLParameter = {
 export const capabilityHost: OperationParameter = {
   parameterPath: "capabilityHost",
   mapper: CapabilityHostMapper,
+};
+
+export const capabilityHost1: OperationParameter = {
+  parameterPath: "capabilityHost",
+  mapper: ProjectCapabilityHostMapper,
 };
 
 export const defaultParam: OperationURLParameter = {
