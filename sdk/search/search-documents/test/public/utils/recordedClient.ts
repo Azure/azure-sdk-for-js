@@ -115,7 +115,6 @@ export async function createClients<IndexModel extends object>(
     modelName: "text-embedding-ada-002",
   };
 
-  
   const chatAzureOpenAIParameters: AzureOpenAIParameters = {
     deploymentId: env.AZURE_OPENAI_CHAT_DEPLOYMENT_NAME,
     resourceUrl: env.AZURE_OPENAI_ENDPOINT,
