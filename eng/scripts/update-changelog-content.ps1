@@ -21,7 +21,7 @@
     - Requires @azure-tools/js-sdk-release-tools to be available via npx.
     - The tool will analyze git history and package changes to update the changelog.
 #>
-[CmdletBinding(SupportsShouldProcess = $true)]
+[CmdletBinding()]
 param (
   [Parameter(Mandatory = $true, HelpMessage = "Absolute path to the SDK repository root")]
   [string]$SdkRepoPath,

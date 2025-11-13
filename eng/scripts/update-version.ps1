@@ -30,7 +30,7 @@
     - Requires @azure-tools/js-sdk-release-tools to be available via npx.
     - The tool will update package.json and CHANGELOG.md with the new version.
 #>
-[CmdletBinding(SupportsShouldProcess = $true)]
+[CmdletBinding()]
 param (
   [Parameter(Mandatory = $true, HelpMessage = "Absolute path to the SDK repository root")]
   [string]$SdkRepoPath,
