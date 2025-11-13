@@ -44,69 +44,75 @@ describe("ClientCertificateCredential (internal)", () => {
     process.env.AZURE_CLIENT_CERTIFICATE_PATH ?? path.join(ASSET_PATH, "fake-cert.pem");
   const scope = "https://graph.microsoft.com/.default";
 
-  it.skipIf(isPlaybackMode() || process.platform === "darwin")("Accepts tokenCachePersistenceOptions", async (ctx) => {
-    // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
-    // This assertion could be provided as parameters, but we don't have that in the public API yet,
-    // and I'm trying to avoid having to generate one ourselves.
-    // OSX asks for passwords on CI, so we need to skip these tests from our automation
+  it.skipIf(isPlaybackMode() || process.platform === "darwin")(
+    "Accepts tokenCachePersistenceOptions",
+    async (ctx) => {
+      // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
+      // This assertion could be provided as parameters, but we don't have that in the public API yet,
+      // and I'm trying to avoid having to generate one ourselves.
+      // OSX asks for passwords on CI, so we need to skip these tests from our automation
 
-    const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
-      enabled: true,
-      name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
-      unsafeAllowUnencryptedStorage: true,
-    };
+      const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
+        enabled: true,
+        name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
+        unsafeAllowUnencryptedStorage: true,
+      };
 
-    // Emptying the token cache before we start.
-    const persistence = await createPersistence(tokenCachePersistenceOptions);
-    persistence?.save("{}");
+      // Emptying the token cache before we start.
+      const persistence = await createPersistence(tokenCachePersistenceOptions);
+      persistence?.save("{}");
 
-    const credential = new ClientCertificateCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      certificatePath,
-      recorder.configureClientOptions({ tokenCachePersistenceOptions }),
-    );
+      const credential = new ClientCertificateCredential(
+        env.AZURE_TENANT_ID!,
+        env.AZURE_CLIENT_ID!,
+        certificatePath,
+        recorder.configureClientOptions({ tokenCachePersistenceOptions }),
+      );
 
-    await credential.getToken(scope);
-    const result = await persistence?.load();
-    const parsedResult = JSON.parse(result!);
-    assert.isDefined(parsedResult.AccessToken);
-  });
+      await credential.getToken(scope);
+      const result = await persistence?.load();
+      const parsedResult = JSON.parse(result!);
+      assert.isDefined(parsedResult.AccessToken);
+    },
+  );
 
-  it.skipIf(isPlaybackMode() || process.platform === "darwin")("Authenticates silently with tokenCachePersistenceOptions", async (ctx) => {
-    // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
-    // This assertion could be provided as parameters, but we don't have that in the public API yet,
-    // and I'm trying to avoid having to generate one ourselves.
-    // OSX asks for passwords on CI, so we need to skip these tests from our automation
+  it.skipIf(isPlaybackMode() || process.platform === "darwin")(
+    "Authenticates silently with tokenCachePersistenceOptions",
+    async (ctx) => {
+      // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
+      // This assertion could be provided as parameters, but we don't have that in the public API yet,
+      // and I'm trying to avoid having to generate one ourselves.
+      // OSX asks for passwords on CI, so we need to skip these tests from our automation
 
-    const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
-      enabled: true,
-      name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
-      unsafeAllowUnencryptedStorage: true,
-    };
+      const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
+        enabled: true,
+        name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
+        unsafeAllowUnencryptedStorage: true,
+      };
 
-    // Emptying the token cache before we start.
-    const persistence = await createPersistence(tokenCachePersistenceOptions);
-    await persistence?.save("{}");
+      // Emptying the token cache before we start.
+      const persistence = await createPersistence(tokenCachePersistenceOptions);
+      await persistence?.save("{}");
 
-    const credential = new ClientCertificateCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      certificatePath,
-      recorder.configureClientOptions({ tokenCachePersistenceOptions }),
-    );
+      const credential = new ClientCertificateCredential(
+        env.AZURE_TENANT_ID!,
+        env.AZURE_CLIENT_ID!,
+        certificatePath,
+        recorder.configureClientOptions({ tokenCachePersistenceOptions }),
+      );
 
-    await credential.getToken(scope);
-    expect(getTokenSilentSpy).toHaveBeenCalledTimes(1);
-    expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
+      await credential.getToken(scope);
+      expect(getTokenSilentSpy).toHaveBeenCalledTimes(1);
+      expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
 
-    await credential.getToken(scope);
-    expect(getTokenSilentSpy).toHaveBeenCalledTimes(2);
+      await credential.getToken(scope);
+      expect(getTokenSilentSpy).toHaveBeenCalledTimes(2);
 
-    // Even though we're providing a file persistence cache,
-    // The Client Credential flow does not return the account information from the authentication service,
-    // so each time getToken gets called, we will have to acquire a new token through the service.
-    // MSAL also doesn't store the account in the cache (getAllAccounts returns an empty array).
-    expect(doGetTokenSpy).toHaveBeenCalledTimes(2);
-  });
+      // Even though we're providing a file persistence cache,
+      // The Client Credential flow does not return the account information from the authentication service,
+      // so each time getToken gets called, we will have to acquire a new token through the service.
+      // MSAL also doesn't store the account in the cache (getAllAccounts returns an empty array).
+      expect(doGetTokenSpy).toHaveBeenCalledTimes(2);
+    },
+  );
 });

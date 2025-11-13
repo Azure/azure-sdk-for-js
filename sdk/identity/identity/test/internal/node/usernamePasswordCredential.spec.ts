@@ -96,32 +96,35 @@ describe("UsernamePasswordCredential (internal)", function () {
     expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
   });
 
-  it.skipIf(isPlaybackMode())("authenticates (with allowLoggingAccountIdentifiers set to true)", async function () {
-    const { clientId, password, tenantId, username } = getUsernamePasswordStaticResources();
-    // The recorder clears the access tokens.
-    const credential = new UsernamePasswordCredential(tenantId, clientId, username, password, {
-      loggingOptions: { allowLoggingAccountIdentifiers: true },
-    });
-    setLogLevel("info");
-    const spy = vi.spyOn(process.stderr, "write");
+  it.skipIf(isPlaybackMode())(
+    "authenticates (with allowLoggingAccountIdentifiers set to true)",
+    async function () {
+      const { clientId, password, tenantId, username } = getUsernamePasswordStaticResources();
+      // The recorder clears the access tokens.
+      const credential = new UsernamePasswordCredential(tenantId, clientId, username, password, {
+        loggingOptions: { allowLoggingAccountIdentifiers: true },
+      });
+      setLogLevel("info");
+      const spy = vi.spyOn(process.stderr, "write");
 
-    const token = await credential.getToken(scope);
-    assert.isDefined(token?.token);
-    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
-    const expectedArgument = spy.mock.calls[spy.mock.calls.length - 2][0];
-    expect(expectedArgument).toBeDefined();
-    const expectedMessage = `azure:identity:info [Authenticated account] Client ID: ${clientId}. Tenant ID: ${tenantId}. User Principal Name: HIDDEN. Object ID (user): HIDDEN`;
-    assert.equal(
-      expectedArgument
-        .toString()
-        .replace(/User Principal Name: [^ ]+. /g, "User Principal Name: HIDDEN. ")
-        .replace(
-          /Object ID .user.: [a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+/g,
-          "Object ID (user): HIDDEN",
-        )
-        .trim(),
-      expectedMessage,
-    );
-    AzureLogger.destroy();
-  });
+      const token = await credential.getToken(scope);
+      assert.isDefined(token?.token);
+      assert.isTrue(token?.expiresOnTimestamp! > Date.now());
+      const expectedArgument = spy.mock.calls[spy.mock.calls.length - 2][0];
+      expect(expectedArgument).toBeDefined();
+      const expectedMessage = `azure:identity:info [Authenticated account] Client ID: ${clientId}. Tenant ID: ${tenantId}. User Principal Name: HIDDEN. Object ID (user): HIDDEN`;
+      assert.equal(
+        expectedArgument
+          .toString()
+          .replace(/User Principal Name: [^ ]+. /g, "User Principal Name: HIDDEN. ")
+          .replace(
+            /Object ID .user.: [a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+/g,
+            "Object ID (user): HIDDEN",
+          )
+          .trim(),
+        expectedMessage,
+      );
+      AzureLogger.destroy();
+    },
+  );
 });

@@ -24,7 +24,11 @@ describe("MultiTenantAuthentication", function () {
     await cleanup();
   });
 
-  it.skipIf(!env.AZURE_IDENTITY_MULTI_TENANT_TENANT_ID || !env.AZURE_IDENTITY_MULTI_TENANT_CLIENT_ID || !env.AZURE_IDENTITY_MULTI_TENANT_CLIENT_SECRET)("supports calling graph with client secret", async function () {
+  it.skipIf(
+    !env.AZURE_IDENTITY_MULTI_TENANT_TENANT_ID ||
+      !env.AZURE_IDENTITY_MULTI_TENANT_CLIENT_ID ||
+      !env.AZURE_IDENTITY_MULTI_TENANT_CLIENT_SECRET,
+  )("supports calling graph with client secret", async function () {
     const [tenantId, clientId, clientSecret] = [
       env.AZURE_IDENTITY_MULTI_TENANT_TENANT_ID,
       env.AZURE_IDENTITY_MULTI_TENANT_CLIENT_ID,

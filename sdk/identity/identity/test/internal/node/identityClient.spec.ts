@@ -111,28 +111,31 @@ describe("IdentityClient", function () {
     return;
   });
 
-  it.skipIf(!isNode)("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function () {
-    process.env.AZURE_AUTHORITY_HOST = "http://totallyinsecure.lol";
-    assert.throws(
-      () => {
-        new IdentityClient();
-      },
-      Error,
-      "The authorityHost address must use the 'https' protocol.",
-    );
-    process.env.AZURE_AUTHORITY_HOST = "httpsomg.com";
-    assert.throws(
-      () => {
-        new IdentityClient();
-      },
-      Error,
-      "The authorityHost address must use the 'https' protocol.",
-    );
+  it.skipIf(!isNode)(
+    "throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided",
+    async function () {
+      process.env.AZURE_AUTHORITY_HOST = "http://totallyinsecure.lol";
+      assert.throws(
+        () => {
+          new IdentityClient();
+        },
+        Error,
+        "The authorityHost address must use the 'https' protocol.",
+      );
+      process.env.AZURE_AUTHORITY_HOST = "httpsomg.com";
+      assert.throws(
+        () => {
+          new IdentityClient();
+        },
+        Error,
+        "The authorityHost address must use the 'https' protocol.",
+      );
 
-    // While we have the environment variable, ensure correct precedence
-    assert(new IdentityClient({ authorityHost: "https://correct.url" }));
-    return;
-  });
+      // While we have the environment variable, ensure correct precedence
+      assert(new IdentityClient({ authorityHost: "https://correct.url" }));
+      return;
+    },
+  );
 
   it("returns a usable error when the authentication response doesn't contain a body", async () => {
     const mockHttpClient: HttpClient = createDefaultHttpClient();

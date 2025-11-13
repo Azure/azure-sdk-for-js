@@ -9,23 +9,26 @@ describe("AzurePipelinesCredential", function () {
   const scope = "https://vault.azure.net/.default";
   const tenantId = process.env.AZURE_SERVICE_CONNECTION_TENANT_ID!;
 
-  it.skipIf(!isLiveMode() || !process.env.AZURE_SERVICE_CONNECTION_ID)("authenticates with a valid service connection", async function () {
-    // this serviceConnection corresponds to the Azure SDK Test Resources - LiveTestSecrets service
-    const existingServiceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!;
-    // clientId for above service connection
-    const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
-    const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN!;
-    const credential = new AzurePipelinesCredential(
-      tenantId,
-      clientId,
-      existingServiceConnectionId,
-      systemAccessToken,
-    );
-    const token = await credential.getToken(scope);
-    assert.isDefined(token?.token);
-    assert.isDefined(token?.expiresOnTimestamp);
-    if (token?.expiresOnTimestamp) assert.isTrue(token?.expiresOnTimestamp > Date.now());
-  });
+  it.skipIf(!isLiveMode() || !process.env.AZURE_SERVICE_CONNECTION_ID)(
+    "authenticates with a valid service connection",
+    async function () {
+      // this serviceConnection corresponds to the Azure SDK Test Resources - LiveTestSecrets service
+      const existingServiceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!;
+      // clientId for above service connection
+      const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
+      const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN!;
+      const credential = new AzurePipelinesCredential(
+        tenantId,
+        clientId,
+        existingServiceConnectionId,
+        systemAccessToken,
+      );
+      const token = await credential.getToken(scope);
+      assert.isDefined(token?.token);
+      assert.isDefined(token?.expiresOnTimestamp);
+      if (token?.expiresOnTimestamp) assert.isTrue(token?.expiresOnTimestamp > Date.now());
+    },
+  );
 
   it.skipIf(!isLiveMode())("fails with invalid service connection", async function () {
     // clientId for above service connection

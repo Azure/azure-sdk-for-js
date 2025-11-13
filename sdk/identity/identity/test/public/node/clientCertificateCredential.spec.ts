@@ -67,43 +67,46 @@ describe("ClientCertificateCredential", function () {
     assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it.skipIf(!fs.existsSync(certificatePath))("allows cancelling the authentication", async function () {
-    // In min-max tests, the certificate file can't be found.
-    if (!fs.existsSync(certificatePath)) {
-      console.log("Failed to locate the certificate file. Skipping.");
-    }
-    const credential = new ClientCertificateCredential(
-      env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
-      env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
-      certificatePath,
-      recorder.configureClientOptions({
-        authorityHost: "https://fake-authority.com",
-        httpClient: {
-          async sendRequest(): Promise<PipelineResponse> {
-            await delay(100);
-            throw new Error("Fake HTTP client.");
+  it.skipIf(!fs.existsSync(certificatePath))(
+    "allows cancelling the authentication",
+    async function () {
+      // In min-max tests, the certificate file can't be found.
+      if (!fs.existsSync(certificatePath)) {
+        console.log("Failed to locate the certificate file. Skipping.");
+      }
+      const credential = new ClientCertificateCredential(
+        env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
+        env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
+        certificatePath,
+        recorder.configureClientOptions({
+          authorityHost: "https://fake-authority.com",
+          httpClient: {
+            async sendRequest(): Promise<PipelineResponse> {
+              await delay(100);
+              throw new Error("Fake HTTP client.");
+            },
           },
-        },
-      }),
-    );
+        }),
+      );
 
-    const controller = new AbortController();
-    const getTokenPromise = credential.getToken(scope, {
-      abortSignal: controller.signal,
-    });
+      const controller = new AbortController();
+      const getTokenPromise = credential.getToken(scope, {
+        abortSignal: controller.signal,
+      });
 
-    await delay(5);
-    controller.abort();
+      await delay(5);
+      controller.abort();
 
-    let error: Error | undefined;
-    try {
-      await getTokenPromise;
-    } catch (e: any) {
-      error = e;
-    }
-    assert.equal(error?.name, "CredentialUnavailableError");
-    assert.isTrue(error?.message.includes("endpoints_resolution_error"));
-  });
+      let error: Error | undefined;
+      try {
+        await getTokenPromise;
+      } catch (e: any) {
+        error = e;
+      }
+      assert.equal(error?.name, "CredentialUnavailableError");
+      assert.isTrue(error?.message.includes("endpoints_resolution_error"));
+    },
+  );
 
   it.skipIf(isPlaybackMode())("supports tracing", async function () {
     // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
