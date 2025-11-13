@@ -145,17 +145,11 @@ export class KnowledgeRetrievalClient {
 
   public async retrieveKnowledge(
     retrievalRequest: KnowledgeBaseRetrievalRequest,
-    querySourceAuthorization?: string,
     options?: RetrieveKnowledgeOptions,
   ): Promise<KnowledgeBaseRetrievalResponse> {
-    const preOptions: RetrieveKnowledgeOptions = {
-      ...(options ?? {}),
-      xMsQuerySourceAuthorization: querySourceAuthorization,
-    };
-
     const { span, updatedOptions } = createSpan(
       "KnowledgeRetrievalClient-retrieveKnowledge",
-      preOptions,
+      options,
     );
 
     try {

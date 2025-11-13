@@ -1,6 +1,6 @@
 # Release History
 
-## 12.3.0-beta.0 (2025-11-17)
+## 12.3.0-beta.1 (2025-11-17)
 
 ### Features Added
 
@@ -14,6 +14,29 @@
 ### Breaking Changes
 
 - Renamed KnowledgeAgent* -> KnowledgeBase*
+- Renamed Knowledge Agent to Knowledge Base across all APIs and models:
+  - All `KnowledgeAgent*` classes renamed to `KnowledgeBase*` equivalents
+  - API paths changed from `/agents` to `/knowledgebases`
+  - All agent-related activity record types updated with new naming convention
+- Removed deprecated Knowledge Agent configuration models:
+  - `KnowledgeAgentOutputConfiguration`
+  - `KnowledgeAgentRequestLimits`
+  - `KnowledgeAgentModel`
+  - `KnowledgeAgentModelKind`
+  - `KnowledgeAgentAzureOpenAIModel`
+- Removed properties from `KnowledgeSourceReference`:
+  - `includeReferences`
+  - `includeReferenceSourceData`
+  - `alwaysQuerySource`
+  - `maxSubQueries`
+  - `rerankerThreshold`
+- Removed `sourceDataSelect` property from `SearchIndexKnowledgeSourceParameters`.
+- Removed properties from `AzureBlobKnowledgeSourceParameters`:
+  - `identity`
+  - `embeddingModel`
+  - `chatCompletionModel`
+  - `ingestionSchedule`
+  - `disableImageVerbalization`
 
 ## 12.2.0-beta.3 (2025-10-07)
 
