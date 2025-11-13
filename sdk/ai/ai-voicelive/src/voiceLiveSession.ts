@@ -559,11 +559,11 @@ export class VoiceLiveSession {
   }
 
   private _generateEventId(): string {
-    return `evt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return `evt_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
   }
 
   private _generateTurnId(): string {
-    return `turn_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return `turn_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
   }
 
   private _arrayBufferToBase64(buffer: ArrayBuffer | Uint8Array): string {
