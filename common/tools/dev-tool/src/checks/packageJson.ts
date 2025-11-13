@@ -141,7 +141,7 @@ export const sideEffects = packageJsonCheck({
 export const noWorkspaceSpecifiersInDependencies = packageJsonCheck({
   description: "non-private packages must not use workspace: specifiers in runtime dependencies",
   tags: ["release"],
-  async check({ packageJson }) {
+  check({ packageJson }) {
     // Skip check for private packages as they are not published
     if (packageJson.private) {
       return;
