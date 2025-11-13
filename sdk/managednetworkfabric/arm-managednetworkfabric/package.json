@@ -1,102 +1,43 @@
 {
   "name": "@azure/arm-managednetworkfabric",
-  "sdk-type": "mgmt",
-  "author": "Microsoft Corporation",
-  "description": "A generated SDK for AzureNetworkFabricManagementServiceAPI.",
-  "version": "1.0.2",
+  "version": "2.0.0-beta.1",
+  "description": "A generated SDK for ManagedNetworkFabricClient.",
   "engines": {
     "node": ">=20.0.0"
   },
-  "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.2",
-    "@azure/core-lro": "^2.5.3",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.19.0",
-    "tslib": "^2.8.1"
-  },
-  "keywords": [
-    "node",
-    "azure",
-    "typescript",
-    "browser",
-    "isomorphic",
-    "cloud"
-  ],
-  "license": "MIT",
-  "main": "./dist/commonjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/commonjs/index.d.ts",
-  "devDependencies": {
-    "@azure-tools/test-credential": "workspace:^",
-    "@azure-tools/test-recorder": "workspace:^",
-    "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/dev-tool": "workspace:^",
-    "@azure/identity": "catalog:internal",
-    "@azure/logger": "^1.1.4",
-    "@types/node": "catalog:",
-    "@vitest/browser-playwright": "catalog:testing",
-    "@vitest/coverage-istanbul": "catalog:testing",
-    "cross-env": "catalog:",
-    "dotenv": "catalog:testing",
-    "playwright": "catalog:testing",
-    "rimraf": "catalog:",
-    "tshy": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:testing"
-  },
-  "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
-  ],
-  "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json",
-    "check-format": "echo skipped",
-    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "execute:samples": "echo skipped",
-    "extract-api": "dev-tool run extract-api",
-    "format": "echo skipped",
-    "lint": "echo skipped",
-    "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "echo skipped",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets"
-  },
   "sideEffects": false,
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/azureNetworkFabricManagementServiceAPI.ts",
-        "prefix": "packageDetails"
-      }
-    ]
-  },
-  "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/managednetworkfabric/arm-managednetworkfabric",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-managednetworkfabric?view=azure-node-preview"
-  },
-  "type": "module",
+  "autoPublish": false,
   "tshy": {
-    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
-      ".": "./src/index.ts"
+      ".": "./src/index.ts",
+      "./api": "./src/api/index.ts",
+      "./api/networkMonitors": "./src/api/networkMonitors/index.ts",
+      "./api/routePolicies": "./src/api/routePolicies/index.ts",
+      "./api/networkTaps": "./src/api/networkTaps/index.ts",
+      "./api/networkTapRules": "./src/api/networkTapRules/index.ts",
+      "./api/networkRacks": "./src/api/networkRacks/index.ts",
+      "./api/networkPacketBrokers": "./src/api/networkPacketBrokers/index.ts",
+      "./api/networkToNetworkInterconnects": "./src/api/networkToNetworkInterconnects/index.ts",
+      "./api/networkFabrics": "./src/api/networkFabrics/index.ts",
+      "./api/networkFabricSkus": "./src/api/networkFabricSkus/index.ts",
+      "./api/networkFabricControllers": "./src/api/networkFabricControllers/index.ts",
+      "./api/networkInterfaces": "./src/api/networkInterfaces/index.ts",
+      "./api/networkDevices": "./src/api/networkDevices/index.ts",
+      "./api/networkDeviceSkus": "./src/api/networkDeviceSkus/index.ts",
+      "./api/neighborGroups": "./src/api/neighborGroups/index.ts",
+      "./api/externalNetworks": "./src/api/externalNetworks/index.ts",
+      "./api/internalNetworks": "./src/api/internalNetworks/index.ts",
+      "./api/l3IsolationDomains": "./src/api/l3IsolationDomains/index.ts",
+      "./api/l2IsolationDomains": "./src/api/l2IsolationDomains/index.ts",
+      "./api/ipPrefixes": "./src/api/ipPrefixes/index.ts",
+      "./api/ipExtendedCommunities": "./src/api/ipExtendedCommunities/index.ts",
+      "./api/ipCommunities": "./src/api/ipCommunities/index.ts",
+      "./api/internetGateways": "./src/api/internetGateways/index.ts",
+      "./api/internetGatewayRules": "./src/api/internetGatewayRules/index.ts",
+      "./api/accessControlLists": "./src/api/accessControlLists/index.ts",
+      "./api/operations": "./src/api/operations/index.ts",
+      "./models": "./src/models/index.ts"
     },
     "dialects": [
       "esm",
@@ -106,10 +47,99 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "../../../tsconfig.src.build.json"
   },
+  "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "sdk-type": "mgmt",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/managednetworkfabric/arm-managednetworkfabric/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/managedNetworkFabricContext.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/core-util": "^1.12.0",
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/logger": "^1.2.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "tshy": "catalog:",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
+  },
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "pnpm pack 2>&1",
+    "lint": "echo skipped",
+    "lint:fix": "echo skipped",
+    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "generate:client": "echo skipped",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test": "npm run test:node && npm run test:browser",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "//sampleConfiguration": {
+    "productName": "@azure/arm-managednetworkfabric",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-managednetworkfabric?view=azure-node-preview"
+  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -129,6 +159,495 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/networkMonitors": {
+      "browser": {
+        "types": "./dist/browser/api/networkMonitors/index.d.ts",
+        "default": "./dist/browser/api/networkMonitors/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/networkMonitors/index.d.ts",
+        "default": "./dist/react-native/api/networkMonitors/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkMonitors/index.d.ts",
+        "default": "./dist/esm/api/networkMonitors/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkMonitors/index.d.ts",
+        "default": "./dist/commonjs/api/networkMonitors/index.js"
+      }
+    },
+    "./api/routePolicies": {
+      "browser": {
+        "types": "./dist/browser/api/routePolicies/index.d.ts",
+        "default": "./dist/browser/api/routePolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/routePolicies/index.d.ts",
+        "default": "./dist/react-native/api/routePolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/routePolicies/index.d.ts",
+        "default": "./dist/esm/api/routePolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/routePolicies/index.d.ts",
+        "default": "./dist/commonjs/api/routePolicies/index.js"
+      }
+    },
+    "./api/networkTaps": {
+      "browser": {
+        "types": "./dist/browser/api/networkTaps/index.d.ts",
+        "default": "./dist/browser/api/networkTaps/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/networkTaps/index.d.ts",
+        "default": "./dist/react-native/api/networkTaps/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkTaps/index.d.ts",
+        "default": "./dist/esm/api/networkTaps/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkTaps/index.d.ts",
+        "default": "./dist/commonjs/api/networkTaps/index.js"
+      }
+    },
+    "./api/networkTapRules": {
+      "browser": {
+        "types": "./dist/browser/api/networkTapRules/index.d.ts",
+        "default": "./dist/browser/api/networkTapRules/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/networkTapRules/index.d.ts",
+        "default": "./dist/react-native/api/networkTapRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkTapRules/index.d.ts",
+        "default": "./dist/esm/api/networkTapRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkTapRules/index.d.ts",
+        "default": "./dist/commonjs/api/networkTapRules/index.js"
+      }
+    },
+    "./api/networkRacks": {
+      "browser": {
+        "types": "./dist/browser/api/networkRacks/index.d.ts",
+        "default": "./dist/browser/api/networkRacks/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/networkRacks/index.d.ts",
+        "default": "./dist/react-native/api/networkRacks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkRacks/index.d.ts",
+        "default": "./dist/esm/api/networkRacks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkRacks/index.d.ts",
+        "default": "./dist/commonjs/api/networkRacks/index.js"
+      }
+    },
+    "./api/networkPacketBrokers": {
+      "browser": {
+        "types": "./dist/browser/api/networkPacketBrokers/index.d.ts",
+        "default": "./dist/browser/api/networkPacketBrokers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/networkPacketBrokers/index.d.ts",
+        "default": "./dist/react-native/api/networkPacketBrokers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkPacketBrokers/index.d.ts",
+        "default": "./dist/esm/api/networkPacketBrokers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkPacketBrokers/index.d.ts",
+        "default": "./dist/commonjs/api/networkPacketBrokers/index.js"
+      }
+    },
+    "./api/networkToNetworkInterconnects": {
+      "browser": {
+        "types": "./dist/browser/api/networkToNetworkInterconnects/index.d.ts",
+        "default": "./dist/browser/api/networkToNetworkInterconnects/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/networkToNetworkInterconnects/index.d.ts",
+        "default": "./dist/react-native/api/networkToNetworkInterconnects/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkToNetworkInterconnects/index.d.ts",
+        "default": "./dist/esm/api/networkToNetworkInterconnects/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkToNetworkInterconnects/index.d.ts",
+        "default": "./dist/commonjs/api/networkToNetworkInterconnects/index.js"
+      }
+    },
+    "./api/networkFabrics": {
+      "browser": {
+        "types": "./dist/browser/api/networkFabrics/index.d.ts",
+        "default": "./dist/browser/api/networkFabrics/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/networkFabrics/index.d.ts",
+        "default": "./dist/react-native/api/networkFabrics/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkFabrics/index.d.ts",
+        "default": "./dist/esm/api/networkFabrics/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkFabrics/index.d.ts",
+        "default": "./dist/commonjs/api/networkFabrics/index.js"
+      }
+    },
+    "./api/networkFabricSkus": {
+      "browser": {
+        "types": "./dist/browser/api/networkFabricSkus/index.d.ts",
+        "default": "./dist/browser/api/networkFabricSkus/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/networkFabricSkus/index.d.ts",
+        "default": "./dist/react-native/api/networkFabricSkus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkFabricSkus/index.d.ts",
+        "default": "./dist/esm/api/networkFabricSkus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkFabricSkus/index.d.ts",
+        "default": "./dist/commonjs/api/networkFabricSkus/index.js"
+      }
+    },
+    "./api/networkFabricControllers": {
+      "browser": {
+        "types": "./dist/browser/api/networkFabricControllers/index.d.ts",
+        "default": "./dist/browser/api/networkFabricControllers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/networkFabricControllers/index.d.ts",
+        "default": "./dist/react-native/api/networkFabricControllers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkFabricControllers/index.d.ts",
+        "default": "./dist/esm/api/networkFabricControllers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkFabricControllers/index.d.ts",
+        "default": "./dist/commonjs/api/networkFabricControllers/index.js"
+      }
+    },
+    "./api/networkInterfaces": {
+      "browser": {
+        "types": "./dist/browser/api/networkInterfaces/index.d.ts",
+        "default": "./dist/browser/api/networkInterfaces/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/networkInterfaces/index.d.ts",
+        "default": "./dist/react-native/api/networkInterfaces/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkInterfaces/index.d.ts",
+        "default": "./dist/esm/api/networkInterfaces/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkInterfaces/index.d.ts",
+        "default": "./dist/commonjs/api/networkInterfaces/index.js"
+      }
+    },
+    "./api/networkDevices": {
+      "browser": {
+        "types": "./dist/browser/api/networkDevices/index.d.ts",
+        "default": "./dist/browser/api/networkDevices/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/networkDevices/index.d.ts",
+        "default": "./dist/react-native/api/networkDevices/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkDevices/index.d.ts",
+        "default": "./dist/esm/api/networkDevices/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkDevices/index.d.ts",
+        "default": "./dist/commonjs/api/networkDevices/index.js"
+      }
+    },
+    "./api/networkDeviceSkus": {
+      "browser": {
+        "types": "./dist/browser/api/networkDeviceSkus/index.d.ts",
+        "default": "./dist/browser/api/networkDeviceSkus/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/networkDeviceSkus/index.d.ts",
+        "default": "./dist/react-native/api/networkDeviceSkus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkDeviceSkus/index.d.ts",
+        "default": "./dist/esm/api/networkDeviceSkus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkDeviceSkus/index.d.ts",
+        "default": "./dist/commonjs/api/networkDeviceSkus/index.js"
+      }
+    },
+    "./api/neighborGroups": {
+      "browser": {
+        "types": "./dist/browser/api/neighborGroups/index.d.ts",
+        "default": "./dist/browser/api/neighborGroups/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/neighborGroups/index.d.ts",
+        "default": "./dist/react-native/api/neighborGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/neighborGroups/index.d.ts",
+        "default": "./dist/esm/api/neighborGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/neighborGroups/index.d.ts",
+        "default": "./dist/commonjs/api/neighborGroups/index.js"
+      }
+    },
+    "./api/externalNetworks": {
+      "browser": {
+        "types": "./dist/browser/api/externalNetworks/index.d.ts",
+        "default": "./dist/browser/api/externalNetworks/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/externalNetworks/index.d.ts",
+        "default": "./dist/react-native/api/externalNetworks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/externalNetworks/index.d.ts",
+        "default": "./dist/esm/api/externalNetworks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/externalNetworks/index.d.ts",
+        "default": "./dist/commonjs/api/externalNetworks/index.js"
+      }
+    },
+    "./api/internalNetworks": {
+      "browser": {
+        "types": "./dist/browser/api/internalNetworks/index.d.ts",
+        "default": "./dist/browser/api/internalNetworks/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/internalNetworks/index.d.ts",
+        "default": "./dist/react-native/api/internalNetworks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/internalNetworks/index.d.ts",
+        "default": "./dist/esm/api/internalNetworks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/internalNetworks/index.d.ts",
+        "default": "./dist/commonjs/api/internalNetworks/index.js"
+      }
+    },
+    "./api/l3IsolationDomains": {
+      "browser": {
+        "types": "./dist/browser/api/l3IsolationDomains/index.d.ts",
+        "default": "./dist/browser/api/l3IsolationDomains/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/l3IsolationDomains/index.d.ts",
+        "default": "./dist/react-native/api/l3IsolationDomains/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/l3IsolationDomains/index.d.ts",
+        "default": "./dist/esm/api/l3IsolationDomains/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/l3IsolationDomains/index.d.ts",
+        "default": "./dist/commonjs/api/l3IsolationDomains/index.js"
+      }
+    },
+    "./api/l2IsolationDomains": {
+      "browser": {
+        "types": "./dist/browser/api/l2IsolationDomains/index.d.ts",
+        "default": "./dist/browser/api/l2IsolationDomains/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/l2IsolationDomains/index.d.ts",
+        "default": "./dist/react-native/api/l2IsolationDomains/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/l2IsolationDomains/index.d.ts",
+        "default": "./dist/esm/api/l2IsolationDomains/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/l2IsolationDomains/index.d.ts",
+        "default": "./dist/commonjs/api/l2IsolationDomains/index.js"
+      }
+    },
+    "./api/ipPrefixes": {
+      "browser": {
+        "types": "./dist/browser/api/ipPrefixes/index.d.ts",
+        "default": "./dist/browser/api/ipPrefixes/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/ipPrefixes/index.d.ts",
+        "default": "./dist/react-native/api/ipPrefixes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/ipPrefixes/index.d.ts",
+        "default": "./dist/esm/api/ipPrefixes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/ipPrefixes/index.d.ts",
+        "default": "./dist/commonjs/api/ipPrefixes/index.js"
+      }
+    },
+    "./api/ipExtendedCommunities": {
+      "browser": {
+        "types": "./dist/browser/api/ipExtendedCommunities/index.d.ts",
+        "default": "./dist/browser/api/ipExtendedCommunities/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/ipExtendedCommunities/index.d.ts",
+        "default": "./dist/react-native/api/ipExtendedCommunities/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/ipExtendedCommunities/index.d.ts",
+        "default": "./dist/esm/api/ipExtendedCommunities/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/ipExtendedCommunities/index.d.ts",
+        "default": "./dist/commonjs/api/ipExtendedCommunities/index.js"
+      }
+    },
+    "./api/ipCommunities": {
+      "browser": {
+        "types": "./dist/browser/api/ipCommunities/index.d.ts",
+        "default": "./dist/browser/api/ipCommunities/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/ipCommunities/index.d.ts",
+        "default": "./dist/react-native/api/ipCommunities/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/ipCommunities/index.d.ts",
+        "default": "./dist/esm/api/ipCommunities/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/ipCommunities/index.d.ts",
+        "default": "./dist/commonjs/api/ipCommunities/index.js"
+      }
+    },
+    "./api/internetGateways": {
+      "browser": {
+        "types": "./dist/browser/api/internetGateways/index.d.ts",
+        "default": "./dist/browser/api/internetGateways/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/internetGateways/index.d.ts",
+        "default": "./dist/react-native/api/internetGateways/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/internetGateways/index.d.ts",
+        "default": "./dist/esm/api/internetGateways/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/internetGateways/index.d.ts",
+        "default": "./dist/commonjs/api/internetGateways/index.js"
+      }
+    },
+    "./api/internetGatewayRules": {
+      "browser": {
+        "types": "./dist/browser/api/internetGatewayRules/index.d.ts",
+        "default": "./dist/browser/api/internetGatewayRules/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/internetGatewayRules/index.d.ts",
+        "default": "./dist/react-native/api/internetGatewayRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/internetGatewayRules/index.d.ts",
+        "default": "./dist/esm/api/internetGatewayRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/internetGatewayRules/index.d.ts",
+        "default": "./dist/commonjs/api/internetGatewayRules/index.js"
+      }
+    },
+    "./api/accessControlLists": {
+      "browser": {
+        "types": "./dist/browser/api/accessControlLists/index.d.ts",
+        "default": "./dist/browser/api/accessControlLists/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/accessControlLists/index.d.ts",
+        "default": "./dist/react-native/api/accessControlLists/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/accessControlLists/index.d.ts",
+        "default": "./dist/esm/api/accessControlLists/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/accessControlLists/index.d.ts",
+        "default": "./dist/commonjs/api/accessControlLists/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operations/index.d.ts",
+        "default": "./dist/react-native/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
     }
-  }
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
 }
