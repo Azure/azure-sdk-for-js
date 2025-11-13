@@ -8402,10 +8402,13 @@ export type PendingUploadType = "None" | "BlobReference";
 
 /** Azure AI Projects API versions */
 export enum KnownApiVersions {
+<<<<<<< HEAD
   /** Azure AI API version 2025-05-01. */
   v2025_05_01 = "2025-05-01",
   /** Azure AI API version 2025-05-15-preview. */
   v2025_05_15_preview = "2025-05-15-preview",
+=======
+>>>>>>> main
   /** Azure AI API version 2025-11-15-preview. */
   v2025_11_15_preview = "2025-11-15-preview",
 }

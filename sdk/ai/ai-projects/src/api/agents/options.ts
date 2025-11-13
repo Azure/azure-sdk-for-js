@@ -3,7 +3,10 @@
 
 import { AgentKind } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
+<<<<<<< HEAD
 import { AgentDefinitionUnion } from "../../models/models.js";
+=======
+>>>>>>> main
 
 /** Optional parameters. */
 export interface AgentsListAgentVersionsOptionalParams extends OperationOptions {
@@ -160,6 +163,7 @@ export interface AgentsCreateAgentOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface AgentsGetAgentOptionalParams extends OperationOptions {}
+<<<<<<< HEAD
 
 /** Configuration for creating an agent from a definition */
 export type CreateAgentFromDefinitionConfig = {
@@ -216,3 +220,5 @@ export type CreateAgentVersionFromManifestConfig = {
 export type CreateAgentVersionConfig =
   | CreateAgentVersionFromDefinitionConfig
   | CreateAgentVersionFromManifestConfig;
+=======
+>>>>>>> main

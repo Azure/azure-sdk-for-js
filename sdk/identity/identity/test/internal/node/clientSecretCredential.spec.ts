@@ -87,8 +87,8 @@ describe("ClientSecretCredential (internal)", function () {
     const spy = vi.spyOn(process.stderr, "write");
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
     const expectedCall = spy.mock.calls.find((x) =>
       (x[0] as any as string).match(/Authenticated account/),
     );

@@ -16,11 +16,16 @@ const readline = require("readline");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+<<<<<<< HEAD
 const deploymentName = process.env["AZURE_AI_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+=======
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+>>>>>>> main
 const fabricProjectConnectionId =
   process.env["FABRIC_PROJECT_CONNECTION_ID"] || "<fabric project connection id>";
 
 async function main() {
+<<<<<<< HEAD
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
     additionalPolicies: [
       {
@@ -35,11 +40,19 @@ async function main() {
       },
     ],
   });
+=======
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+>>>>>>> main
   const openAIClient = await project.getOpenAIClient();
 
   console.log("Creating agent with Microsoft Fabric tool...");
 
+<<<<<<< HEAD
   const agentDefintion = {
+=======
+  // Define Microsoft Fabric tool that connects to Fabric data sources
+  const agent = await project.agents.createVersion("MyFabricAgent", {
+>>>>>>> main
     kind: "prompt",
     model: deploymentName,
     instructions: "You are a helpful assistant.",
@@ -55,9 +68,13 @@ async function main() {
         },
       },
     ],
+<<<<<<< HEAD
   };
 
   const agent = await project.agents.createVersion("MyFabricAgent", agentDefintion);
+=======
+  });
+>>>>>>> main
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
   // Prompt user for input

@@ -37,7 +37,11 @@ export async function main(): Promise<void> {
           city: "London",
           region: "London",
         },
+<<<<<<< HEAD
       } as any,
+=======
+      },
+>>>>>>> main
     ],
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);

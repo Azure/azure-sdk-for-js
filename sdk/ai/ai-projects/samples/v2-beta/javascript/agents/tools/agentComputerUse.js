@@ -26,13 +26,19 @@ const {
 } = require("./computerUseUtil.js");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+<<<<<<< HEAD
 const deploymentName = process.env["COMPUTER_USE_DEPLOYMENT_NAME"] || "<model deployment name>";
+=======
+const deploymentName =
+  process.env["COMPUTER_USE_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+>>>>>>> main
 
 async function main() {
   // Initialize state machine
   let currentState = SearchState.INITIAL;
 
   // Load screenshot assets
+<<<<<<< HEAD
   let screenshots;
   try {
     screenshots = loadScreenshotAssets();
@@ -43,6 +49,10 @@ async function main() {
     );
     throw error;
   }
+=======
+  const screenshots = loadScreenshotAssets();
+  console.log("Successfully loaded screenshot assets");
+>>>>>>> main
 
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
@@ -114,7 +124,14 @@ Be direct and efficient. When you reach the search results page, read and descri
     const computerCalls = response.output.filter((item) => item.type === "computer_call");
 
     if (computerCalls.length === 0) {
+<<<<<<< HEAD
       printFinalOutput(response);
+=======
+      printFinalOutput({
+        output: response.output,
+        status: response.status ?? "",
+      });
+>>>>>>> main
       break;
     }
 

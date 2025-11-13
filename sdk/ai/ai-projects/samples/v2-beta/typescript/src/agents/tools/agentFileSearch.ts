@@ -52,7 +52,11 @@ export async function main(): Promise<void> {
       {
         type: "file_search",
         vector_store_ids: [vectorStore.id],
+<<<<<<< HEAD
       } as any,
+=======
+      },
+>>>>>>> main
     ],
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);

@@ -36,6 +36,7 @@ export async function main(): Promise<void> {
   console.log(`Vector store created (id: ${vectorStore.id})`);
 
   // Upload file to vector store
+<<<<<<< HEAD
   try {
     const fileStream = fs.createReadStream(assetFilePath);
     const uploadedFile = await openAIClient.vectorStores.files.uploadAndPoll(
@@ -49,6 +50,14 @@ export async function main(): Promise<void> {
     console.log(`Error: ${error.message}`);
     console.log("Creating vector store without file for demonstration...");
   }
+=======
+  const fileStream = fs.createReadStream(assetFilePath);
+  const uploadedFile = await openAIClient.vectorStores.files.uploadAndPoll(
+    vectorStore.id,
+    fileStream,
+  );
+  console.log(`File uploaded to vector store (id: ${uploadedFile.id})`);
+>>>>>>> main
 
   // Create agent with file search tool
   const agent = await project.agents.createVersion("StreamingFileSearchAgent", {
@@ -59,8 +68,13 @@ export async function main(): Promise<void> {
     tools: [
       {
         type: "file_search",
+<<<<<<< HEAD
         vectorStoreIds: [vectorStore.id],
       } as any,
+=======
+        vector_store_ids: [vectorStore.id],
+      },
+>>>>>>> main
     ],
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
@@ -162,12 +176,17 @@ export async function main(): Promise<void> {
   console.log("Agent deleted");
 
   // Clean up vector store
+<<<<<<< HEAD
   try {
     await openAIClient.vectorStores.delete(vectorStore.id);
     console.log("Vector store deleted");
   } catch (error: any) {
     console.log(`Warning: Could not delete vector store: ${error.message}`);
   }
+=======
+  await openAIClient.vectorStores.delete(vectorStore.id);
+  console.log("Vector store deleted");
+>>>>>>> main
 
   console.log("\nFile search streaming sample completed!");
 }

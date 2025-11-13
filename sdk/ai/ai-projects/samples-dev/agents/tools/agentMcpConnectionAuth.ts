@@ -14,6 +14,10 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
+<<<<<<< HEAD
+=======
+import OpenAI from "openai";
+>>>>>>> main
 import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -42,7 +46,11 @@ export async function main(): Promise<void> {
         server_url: "https://api.githubcopilot.com/mcp",
         require_approval: "always",
         project_connection_id: mcpProjectConnectionId,
+<<<<<<< HEAD
       } as any,
+=======
+      },
+>>>>>>> main
     ],
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
@@ -65,7 +73,11 @@ export async function main(): Promise<void> {
   );
 
   // Process any MCP approval requests that were generated
+<<<<<<< HEAD
   const inputList: any[] = [];
+=======
+  const inputList: OpenAI.Responses.ResponseInputItem.McpApprovalResponse[] = [];
+>>>>>>> main
   for (const item of response.output) {
     if (item.type === "mcp_approval_request") {
       if (item.server_label === "api-specs" && item.id) {

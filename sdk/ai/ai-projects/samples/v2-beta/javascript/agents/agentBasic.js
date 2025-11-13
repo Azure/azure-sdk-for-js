@@ -41,7 +41,11 @@ async function main() {
 
   // Generate response using the agent
   console.log("\nGenerating response...");
+<<<<<<< HEAD
   const response = await openAIClient.responses.create(
+=======
+  const franceResponse = await openAIClient.responses.create(
+>>>>>>> main
     {
       conversation: conversation.id,
     },
@@ -49,7 +53,11 @@ async function main() {
       body: { agent: { name: agent.name, type: "agent_reference" } },
     },
   );
+<<<<<<< HEAD
   console.log(`Response output: ${response.output_text}`);
+=======
+  console.log(`Response output: ${franceResponse.output_text}`);
+>>>>>>> main
 
   // Add a second user message to the conversation
   console.log("\nAdding a second user message to the conversation...");
@@ -60,7 +68,11 @@ async function main() {
 
   // Generate second response
   console.log("\nGenerating second response...");
+<<<<<<< HEAD
   const response2 = await openAIClient.responses.create(
+=======
+  const capitalResponse = await openAIClient.responses.create(
+>>>>>>> main
     {
       conversation: conversation.id,
     },
@@ -68,7 +80,11 @@ async function main() {
       body: { agent: { name: agent.name, type: "agent_reference" } },
     },
   );
+<<<<<<< HEAD
   console.log(`Response output: ${response2.output_text}`);
+=======
+  console.log(`Response output: ${capitalResponse.output_text}`);
+>>>>>>> main
 
   // Clean up
   console.log("\nCleaning up resources...");

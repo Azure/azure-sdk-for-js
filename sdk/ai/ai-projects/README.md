@@ -91,6 +91,8 @@ Run the code below. Here we assume `deploymentName` (str) is defined. It's the d
 
 Update the `api_version` value with one found in the "Data plane - inference" row [in this table](https://learn.microsoft.com/azure/ai-foundry/openai/reference#api-specs)..
 
+For openai logging, please refer [OpenAI Logging]( https://github.com/openai/openai-node/tree/master?tab=readme-ov-file#logging).
+
 ```ts snippet:openAI
 const openAIClient = await project.getOpenAIClient();
 const response = await openAIClient.responses.create({

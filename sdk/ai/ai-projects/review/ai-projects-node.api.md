@@ -141,15 +141,18 @@ export interface AgentsListAgentVersionsOptionalParams extends OperationOptions 
 
 // @public
 export interface AgentsOperations {
-    create: (name: string, config: CreateAgentConfig) => Promise<Agent>;
-    createVersion: (agentName: string, config: CreateAgentVersionConfig) => Promise<AgentVersion>;
+    create(name: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentOptionalParams): Promise<Agent>;
+    create(name: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentFromManifestOptionalParams): Promise<Agent>;
+    createVersion(agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentVersionOptionalParams): Promise<AgentVersion>;
+    createVersion(agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentVersionFromManifestOptionalParams): Promise<AgentVersion>;
     delete: (agentName: string, options?: AgentsDeleteAgentOptionalParams) => Promise<DeleteAgentResponse>;
     deleteVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteAgentVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
     get: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<Agent>;
     getVersion: (agentName: string, agentVersion: string, options?: AgentsGetAgentVersionOptionalParams) => Promise<AgentVersion>;
     list: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<Agent>;
     listVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersion>;
-    update: (agentName: string, config: UpdateAgentConfig) => Promise<Agent>;
+    update(agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateAgentOptionalParams): Promise<Agent>;
+    update(agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsUpdateAgentFromManifestOptionalParams): Promise<Agent>;
 }
 
 // @public
@@ -732,42 +735,6 @@ export interface CosmosDBIndex extends Index {
 }
 
 // @public
-export type CreateAgentConfig = CreateAgentFromDefinitionConfig | CreateAgentFromManifestConfig;
-
-// @public
-export type CreateAgentFromDefinitionConfig = {
-    type: "definition";
-    definition: AgentDefinitionUnion;
-    options?: AgentsCreateAgentOptionalParams;
-};
-
-// @public
-export type CreateAgentFromManifestConfig = {
-    type: "manifest";
-    manifestId: string;
-    parameterValues: Record<string, any>;
-    options?: AgentsCreateAgentFromManifestOptionalParams;
-};
-
-// @public
-export type CreateAgentVersionConfig = CreateAgentVersionFromDefinitionConfig | CreateAgentVersionFromManifestConfig;
-
-// @public
-export type CreateAgentVersionFromDefinitionConfig = {
-    type: "definition";
-    definition: AgentDefinitionUnion;
-    options?: AgentsCreateAgentVersionOptionalParams;
-};
-
-// @public
-export type CreateAgentVersionFromManifestConfig = {
-    type: "manifest";
-    manifestId: string;
-    parameterValues: Record<string, any>;
-    options?: AgentsCreateAgentVersionFromManifestOptionalParams;
-};
-
-// @public
 export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None" | "AgenticIdentityToken";
 
 // @public
@@ -1187,8 +1154,8 @@ export interface EvaluatorsOperations {
     createVersion: (name: string, evaluatorVersion: EvaluatorVersion, options?: EvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
     deleteVersion: (name: string, version: string, options?: EvaluatorsDeleteVersionOptionalParams) => Promise<void>;
     getVersion: (name: string, version: string, options?: EvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
-    listLatestVersions: (options?: EvaluatorsListLatestVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
-    listVersions: (name: string, options?: EvaluatorsListVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
+    listVersions(name: string, options?: EvaluatorsListVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
+    listVersions(options?: EvaluatorsListLatestVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
     updateVersion: (name: string, version: string, evaluatorVersion: EvaluatorVersion, options?: EvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
 }
 
@@ -1587,8 +1554,6 @@ export type ItemType = "message" | "file_search_call" | "function_call" | "funct
 
 // @public
 export enum KnownApiVersions {
-    v2025_05_01 = "2025-05-01",
-    v2025_05_15_preview = "2025-05-15-preview",
     v2025_11_15_preview = "2025-11-15-preview"
 }
 
@@ -2493,24 +2458,6 @@ export type TriggerType = "Cron" | "Recurrence" | "OneTime";
 
 // @public
 export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Trigger;
-
-// @public
-export type UpdateAgentConfig = UpdateAgentFromDefinitionConfig | UpdateAgentFromManifestConfig;
-
-// @public
-export type UpdateAgentFromDefinitionConfig = {
-    type: "definition";
-    definition: AgentDefinitionUnion;
-    options?: AgentsUpdateAgentOptionalParams;
-};
-
-// @public
-export type UpdateAgentFromManifestConfig = {
-    type: "manifest";
-    manifestId: string;
-    parameterValues: Record<string, any>;
-    options?: AgentsUpdateAgentFromManifestOptionalParams;
-};
 
 // @public
 export interface UserProfileMemoryItem extends MemoryItem {

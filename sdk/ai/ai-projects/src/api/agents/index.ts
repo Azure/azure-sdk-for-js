@@ -28,6 +28,7 @@ export {
   AgentsUpdateAgentOptionalParams,
   AgentsCreateAgentOptionalParams,
   AgentsGetAgentOptionalParams,
+<<<<<<< HEAD
   CreateAgentConfig,
   CreateAgentFromDefinitionConfig,
   CreateAgentFromManifestConfig,
@@ -37,4 +38,6 @@ export {
   CreateAgentVersionConfig,
   CreateAgentVersionFromDefinitionConfig,
   CreateAgentVersionFromManifestConfig,
+=======
+>>>>>>> main
 } from "./options.js";

@@ -25,18 +25,27 @@ import {
   loadScreenshotAssets,
   handleComputerActionAndTakeScreenshot,
   printFinalOutput,
+<<<<<<< HEAD
   type Screenshots,
+=======
+>>>>>>> main
   type ComputerAction,
 } from "./computerUseUtil.js";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+<<<<<<< HEAD
 const deploymentName = process.env["COMPUTER_USE_DEPLOYMENT_NAME"] || "<model deployment name>";
+=======
+const deploymentName =
+  process.env["COMPUTER_USE_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+>>>>>>> main
 
 export async function main(): Promise<void> {
   // Initialize state machine
   let currentState = SearchState.INITIAL;
 
   // Load screenshot assets
+<<<<<<< HEAD
   let screenshots: Screenshots;
   try {
     screenshots = loadScreenshotAssets();
@@ -47,6 +56,10 @@ export async function main(): Promise<void> {
     );
     throw error;
   }
+=======
+  const screenshots = loadScreenshotAssets();
+  console.log("Successfully loaded screenshot assets");
+>>>>>>> main
 
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
@@ -67,7 +80,11 @@ Be direct and efficient. When you reach the search results page, read and descri
         display_width: 1026,
         display_height: 769,
         environment: "windows" as const,
+<<<<<<< HEAD
       } as any,
+=======
+      },
+>>>>>>> main
     ],
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
@@ -112,15 +129,29 @@ Be direct and efficient. When you reach the search results page, read and descri
     console.log(`\n--- Iteration ${iteration} ---`);
 
     // Check for computer calls in the response
+<<<<<<< HEAD
     const computerCalls = response.output.filter((item: any) => item.type === "computer_call");
 
     if (computerCalls.length === 0) {
       printFinalOutput(response as any);
+=======
+    const computerCalls = response.output.filter((item) => item.type === "computer_call");
+
+    if (computerCalls.length === 0) {
+      printFinalOutput({
+        output: response.output,
+        status: response.status ?? "",
+      });
+>>>>>>> main
       break;
     }
 
     // Process the first computer call
+<<<<<<< HEAD
     const computerCall = computerCalls[0] as any;
+=======
+    const computerCall = computerCalls[0];
+>>>>>>> main
     const action: ComputerAction = computerCall.action;
     const callId: string = computerCall.call_id;
 

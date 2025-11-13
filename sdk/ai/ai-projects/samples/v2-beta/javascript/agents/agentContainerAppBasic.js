@@ -54,9 +54,12 @@ async function main() {
       conversation: conversation.id,
     },
     {
+<<<<<<< HEAD
       headers: {
         "accept-encoding": "deflate",
       },
+=======
+>>>>>>> main
       body: {
         agent: {
           type: "agent_reference",
@@ -92,9 +95,12 @@ async function main() {
       conversation: conversation.id,
     },
     {
+<<<<<<< HEAD
       headers: {
         "accept-encoding": "deflate",
       },
+=======
+>>>>>>> main
       body: {
         agent: {
           type: "agent_reference",

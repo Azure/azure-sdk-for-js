@@ -135,14 +135,6 @@ export class AIProjectClient {
       dangerouslyAllowBrowser: true,
     };
 
-    // Check if logging should be enabled via environment variable
-    if (process.env["ENABLE_OPENAI_HTTP_CLIENT"] === "true") {
-      openAIOptions.fetch = (url: string | URL | globalThis.Request, init?: RequestInit) => {
-        console.log("Sending request...", url, JSON.stringify(init, null, 2));
-        return fetch(url, init);
-      };
-    }
-
     const openaiClient = new OpenAI(openAIOptions);
     return overwriteOpenAIClient(openaiClient);
   }
