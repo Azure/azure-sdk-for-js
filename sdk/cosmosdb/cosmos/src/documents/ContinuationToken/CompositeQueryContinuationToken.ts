@@ -57,8 +57,8 @@ export function createCompositeQueryContinuationToken(
   if (!rangeMappings || rangeMappings.length === 0) {
     throw new Error(
       "Failed to create composite continuation token: No partition range mappings provided. " +
-      "This typically indicates an issue with query execution context initialization or partition key range resolution. " +
-      "Ensure the query is properly configured and the container has valid partition ranges.",
+        "This typically indicates an issue with query execution context initialization or partition key range resolution. " +
+        "Ensure the query is properly configured and the container has valid partition ranges.",
     );
   }
 
@@ -116,8 +116,8 @@ export function convertRangeMappingToQueryRange(
   if (!rangeMapping.partitionKeyRange) {
     throw new Error(
       "Failed to convert range mapping: Missing partition key range information. " +
-      "The QueryRangeMapping object must contain a valid partitionKeyRange with min and max boundaries. " +
-      "This may indicate an incomplete partition key range resolution during query setup.",
+        "The QueryRangeMapping object must contain a valid partitionKeyRange with min and max boundaries. " +
+        "This may indicate an incomplete partition key range resolution during query setup.",
     );
   }
 
@@ -153,9 +153,7 @@ export function convertRangeMappingsToQueryRangesWithTokens(
  * @returns QueryRange with standard assumptions (min inclusive, max exclusive)
  * @hidden
  */
-export function convertSimplifiedRangeToQueryRange(
-  simplifiedRange: RangeBoundary,
-): QueryRange {
+export function convertSimplifiedRangeToQueryRange(simplifiedRange: RangeBoundary): QueryRange {
   return new QueryRange(
     simplifiedRange.min,
     simplifiedRange.max,

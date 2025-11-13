@@ -20,12 +20,12 @@ import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import { NonStreamingOrderByDistinctEndpointComponent } from "./EndpointComponent/NonStreamingOrderByDistinctEndpointComponent.js";
 import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStreamingOrderByEndpointComponent.js";
-import { ContinuationTokenManagerFactory } from "./ContinuationTokenManager/ContinuationTokenManagerFactory.js";
 import {
   rejectContinuationTokenForUnsupportedQueries,
   QueryTypes,
 } from "./QueryValidationHelper.js";
 import type { BaseContinuationTokenManager } from "./ContinuationTokenManager/BaseContinuationTokenManager.js";
+import { ContinuationTokenManagerFactory } from "./ContinuationTokenManager/ContinuationTokenManagerFactory.js";
 import { parseContinuationTokenFields } from "./ContinuationTokenParser.js";
 
 /** @hidden */
@@ -38,7 +38,9 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private static DEFAULT_PAGE_SIZE = 10;
   private static DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE = 50000;
   private nonStreamingOrderBy = false;
-  private readonly continuationTokenManager?: BaseContinuationTokenManager;
+  private continuationTokenManager?: BaseContinuationTokenManager;
+  private readonly querySupportsTokens: boolean;
+  private readonly isOrderByQuery: boolean;
 
   constructor(
     private clientContext: ClientContext,
@@ -57,13 +59,15 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
     const sortOrders = partitionedQueryExecutionInfo.queryInfo!.orderBy;
     const isOrderByQuery = Array.isArray(sortOrders) && sortOrders.length > 0;
+    this.isOrderByQuery = isOrderByQuery;
 
     // Pick between Nonstreaming and streaming endpoints
     this.nonStreamingOrderBy = partitionedQueryExecutionInfo.queryInfo!.hasNonStreamingOrderBy;
 
     // Check if this is a GROUP BY query
     const isGroupByQuery =
-      Object.keys(partitionedQueryExecutionInfo.queryInfo!.groupByAliasToAggregateType).length > 0 ||
+      Object.keys(partitionedQueryExecutionInfo.queryInfo!.groupByAliasToAggregateType).length >
+        0 ||
       partitionedQueryExecutionInfo.queryInfo!.aggregates!.length > 0 ||
       partitionedQueryExecutionInfo.queryInfo!.groupByExpressions!.length > 0;
 
@@ -74,6 +78,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     // Determine if this query type supports continuation tokens
     const querySupportsTokens =
       !isUnorderedDistinctQuery && !isGroupByQuery && !this.nonStreamingOrderBy;
+    this.querySupportsTokens = querySupportsTokens;
 
     // Reject continuation token usage for unsupported query types
     if (!querySupportsTokens) {
@@ -84,14 +89,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       ]);
     }
 
-    // Only create continuation token manager for supported queries when query control is enabled
-    if (this.options.enableQueryControl && querySupportsTokens) {
-      this.continuationTokenManager = ContinuationTokenManagerFactory.create(
-        this.collectionLink,
-        this.options.continuationToken,
-        isOrderByQuery,
-      );
-    }
+    // Note: Continuation token manager will be created lazily when we get the first response
 
     // Parse continuation token fields once for reuse in pipeline construction
     const queryContinuationFields = this.options.continuationToken
@@ -116,7 +114,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if (this.vectorSearchBufferSize > maxBufferSize) {
         throw new ErrorResponse(
           `Executing a vector search query with TOP or OFFSET + LIMIT value ${this.vectorSearchBufferSize} larger than the vectorSearchBufferSize ${maxBufferSize} ` +
-          `is not allowed`,
+            `is not allowed`,
         );
       }
 
@@ -294,9 +292,9 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private async _enableQueryControlFetchMoreImplementation(
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<Response<any>> {
-    // Use continuation token logic if manager was created (supported queries)
-    // Otherwise use simplified buffer-only logic (unsupported queries)
-    if (this.continuationTokenManager) {
+    // Use continuation token logic for supported queries when query control is enabled
+    // Otherwise use simplified buffer-only logic
+    if (this.options.enableQueryControl && this.querySupportsTokens) {
       return this._handleQueryFetch(diagnosticNode);
     } else {
       return this._handleSimpleBufferFetch(diagnosticNode);
@@ -330,6 +328,15 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   private async _handleQueryFetch(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+    // Initialize continuation token manager lazily if not already created
+    if (!this.continuationTokenManager) {
+      this.continuationTokenManager = ContinuationTokenManagerFactory.create(
+        this.collectionLink,
+        this.options.continuationToken,
+        this.isOrderByQuery,
+      );
+    }
+
     if (this.fetchBuffer.length > 0) {
       const { endIndex, continuationToken } = this.continuationTokenManager.paginateResults(
         this.pageSize,
@@ -401,8 +408,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     if (!hasTop && !hasLimit) {
       throw new ErrorResponse(
         "Executing a non-streaming search query without TOP or LIMIT can consume a large number of RUs " +
-        "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
-        "with your vector search query.",
+          "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
+          "with your vector search query.",
       );
     }
     return;

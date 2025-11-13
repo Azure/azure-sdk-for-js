@@ -1122,7 +1122,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
       // Debug: Show what we collected
 
-
       // Validate ordering is maintained across continuation boundaries
       for (let i = 1; i < allResults.length; i++) {
         expect(allResults[i].amount).toBeGreaterThanOrEqual(allResults[i - 1].amount);
@@ -1868,7 +1867,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
             sessionToken = response.continuationToken;
           }
         }
-        
 
         // If we have a continuation token, create a new iterator
         if (sessionToken && currentQueryIterator.hasMoreResults()) {
@@ -1901,7 +1899,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
           currentQueryIterator = multiPartitionContainer2.items.query(query, fuzzedOptions);
         } else {
-      
           break;
         }
       }

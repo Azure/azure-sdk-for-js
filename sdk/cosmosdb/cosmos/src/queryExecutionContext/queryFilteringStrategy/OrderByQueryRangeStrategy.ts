@@ -143,8 +143,8 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       // If we can't extract sort orders, we cannot create reliable filter conditions
       throw new Error(
         `Unable to resume ORDER BY query from continuation token. The ORDER BY sort direction configuration ` +
-        `in the query plan is invalid or missing. This may indicate a client version mismatch or corrupted continuation token. ` +
-        `Please retry the query without a continuation token. Original error: ${error}`,
+          `in the query plan is invalid or missing. This may indicate a client version mismatch or corrupted continuation token. ` +
+          `Please retry the query without a continuation token. Original error: ${error}`,
       );
     }
 
@@ -168,8 +168,8 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     if (!orderByExpressions || !Array.isArray(orderByExpressions)) {
       throw new Error(
         "Unable to resume ORDER BY query from continuation token. The ORDER BY field configuration " +
-        "in the query plan is invalid or missing. This may indicate a client version mismatch or corrupted continuation token. " +
-        "Please retry the query without a continuation token.",
+          "in the query plan is invalid or missing. This may indicate a client version mismatch or corrupted continuation token. " +
+          "Please retry the query without a continuation token.",
       );
     }
 
@@ -204,9 +204,9 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
         // This would lead to incorrect query results, so we must fail the entire request
         throw new Error(
           `Unable to resume ORDER BY query from continuation token. The ORDER BY field configuration ` +
-          `in the query plan is invalid or incompatible with the continuation token format. ` +
-          `This may indicate a client version mismatch or corrupted continuation token. ` +
-          `Please retry the query without a continuation token. Original error: ${error}`,
+            `in the query plan is invalid or incompatible with the continuation token format. ` +
+            `This may indicate a client version mismatch or corrupted continuation token. ` +
+            `Please retry the query without a continuation token. Original error: ${error}`,
         );
       }
     }
