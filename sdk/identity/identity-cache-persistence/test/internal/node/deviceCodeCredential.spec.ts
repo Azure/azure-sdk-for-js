@@ -35,15 +35,9 @@ describe("DeviceCodeCredential (internal)", () => {
 
   const scope = "https://graph.microsoft.com/.default";
 
-  it("Accepts tokenCachePersistenceOptions", async (ctx) => {
+  it.skipIf(process.platform === "darwin" || isLiveMode())("Accepts tokenCachePersistenceOptions", async (ctx) => {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
-    if (process.platform === "darwin") {
-      ctx.skip();
-    }
     // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
@@ -67,15 +61,9 @@ describe("DeviceCodeCredential (internal)", () => {
     assert.isDefined(parsedResult.AccessToken);
   });
 
-  it("Authenticates silently with tokenCachePersistenceOptions", async (ctx) => {
+  it.skipIf(process.platform === "darwin" || isLiveMode())("Authenticates silently with tokenCachePersistenceOptions", async (ctx) => {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
-    if (process.platform === "darwin") {
-      ctx.skip();
-    }
     // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
@@ -107,15 +95,9 @@ describe("DeviceCodeCredential (internal)", () => {
     expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
   });
 
-  it("allows passing an authenticationRecord to avoid further manual authentications", async (ctx) => {
+  it.skipIf(process.platform === "darwin" || isLiveMode())("allows passing an authenticationRecord to avoid further manual authentications", async (ctx) => {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
-    if (process.platform === "darwin") {
-      ctx.skip();
-    }
     // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
       name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),

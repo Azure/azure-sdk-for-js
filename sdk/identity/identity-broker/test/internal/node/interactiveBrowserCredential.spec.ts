@@ -29,47 +29,30 @@ describe("InteractiveBrowserCredential (internal)", () => {
     vi.restoreAllMocks();
   });
 
-  it("Throws error when no plugin is imported", async (ctx) => {
-    if (isNodeLike) {
-      // OSX asks for passwords on CI, so we need to skip these tests from our automation
-      if (process.platform !== "win32") {
-        ctx.skip();
-      }
-      // These tests should not run live because this credential requires user interaction.
-      // currently test with broker is hanging, so skipping in playback mode for the ci
-      if (isLiveMode() || isPlaybackMode()) {
-        ctx.skip();
-      }
-      const winHandle = Buffer.from("srefleqr93285329lskadjffa");
-      const interactiveBrowserCredentialOptions: InteractiveBrowserCredentialNodeOptions = {
-        tenantId: env.AZURE_TENANT_ID,
-        clientId: env.AZURE_CLIENT_ID,
-        brokerOptions: {
-          enabled: true,
-          parentWindowHandle: winHandle,
-        },
-      };
-      assert.throws(() => {
-        new InteractiveBrowserCredential(
-          recorder.configureClientOptions(interactiveBrowserCredentialOptions),
-        );
-      }, "Broker for WAM was requested to be enabled, but no native broker was configured.");
-    } else {
-      ctx.skip();
-    }
+  it.skipIf(!isNodeLike || process.platform !== "win32" || isLiveMode() || isPlaybackMode())("Throws error when no plugin is imported", async () => {
+    // OSX asks for passwords on CI, so we need to skip these tests from our automation
+    // These tests should not run live because this credential requires user interaction.
+    // currently test with broker is hanging, so skipping in playback mode for the ci
+    const winHandle = Buffer.from("srefleqr93285329lskadjffa");
+    const interactiveBrowserCredentialOptions: InteractiveBrowserCredentialNodeOptions = {
+      tenantId: env.AZURE_TENANT_ID,
+      clientId: env.AZURE_CLIENT_ID,
+      brokerOptions: {
+        enabled: true,
+        parentWindowHandle: winHandle,
+      },
+    };
+    assert.throws(() => {
+      new InteractiveBrowserCredential(
+        recorder.configureClientOptions(interactiveBrowserCredentialOptions),
+      );
+    }, "Broker for WAM was requested to be enabled, but no native broker was configured.");
   });
-  it("Accepts interactiveBrowserCredentialOptions", async (ctx) => {
-    if (isNodeLike) {
-      // OSX asks for passwords on CI, so we need to skip these tests from our automation
-      if (process.platform !== "win32") {
-        ctx.skip();
-      }
-      // These tests should not run live because this credential requires user interaction.
-      // currently test with broker is hanging, so skipping in playback mode for the ci
-      if (isLiveMode() || isPlaybackMode()) {
-        ctx.skip();
-      }
-      useIdentityPlugin(nativeBrokerPlugin);
+  it.skipIf(!isNodeLike || process.platform !== "win32" || isLiveMode() || isPlaybackMode())("Accepts interactiveBrowserCredentialOptions", async () => {
+    // OSX asks for passwords on CI, so we need to skip these tests from our automation
+    // These tests should not run live because this credential requires user interaction.
+    // currently test with broker is hanging, so skipping in playback mode for the ci
+    useIdentityPlugin(nativeBrokerPlugin);
       const winHandle = Buffer.from("srefleqr93285329lskadjffa");
       const interactiveBrowserCredentialOptions: InteractiveBrowserCredentialNodeOptions = {
         tenantId: env.AZURE_TENANT_ID,
@@ -96,8 +79,5 @@ describe("InteractiveBrowserCredential (internal)", () => {
         console.log(e);
         expect(doGetTokenSpy).toHaveBeenCalledOnce();
       }
-    } else {
-      ctx.skip();
-    }
   });
 });

@@ -44,17 +44,11 @@ describe("ClientCertificateCredential (internal)", () => {
     process.env.AZURE_CLIENT_CERTIFICATE_PATH ?? path.join(ASSET_PATH, "fake-cert.pem");
   const scope = "https://graph.microsoft.com/.default";
 
-  it("Accepts tokenCachePersistenceOptions", async (ctx) => {
-    if (isPlaybackMode()) {
-      // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
-      // This assertion could be provided as parameters, but we don't have that in the public API yet,
-      // and I'm trying to avoid having to generate one ourselves.
-      ctx.skip();
-    }
+  it.skipIf(isPlaybackMode() || process.platform === "darwin")("Accepts tokenCachePersistenceOptions", async (ctx) => {
+    // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
+    // This assertion could be provided as parameters, but we don't have that in the public API yet,
+    // and I'm trying to avoid having to generate one ourselves.
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
-    if (process.platform === "darwin") {
-      ctx.skip();
-    }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
@@ -79,17 +73,11 @@ describe("ClientCertificateCredential (internal)", () => {
     assert.isDefined(parsedResult.AccessToken);
   });
 
-  it("Authenticates silently with tokenCachePersistenceOptions", async (ctx) => {
-    if (isPlaybackMode()) {
-      // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
-      // This assertion could be provided as parameters, but we don't have that in the public API yet,
-      // and I'm trying to avoid having to generate one ourselves.
-      ctx.skip();
-    }
+  it.skipIf(isPlaybackMode() || process.platform === "darwin")("Authenticates silently with tokenCachePersistenceOptions", async (ctx) => {
+    // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
+    // This assertion could be provided as parameters, but we don't have that in the public API yet,
+    // and I'm trying to avoid having to generate one ourselves.
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
-    if (process.platform === "darwin") {
-      ctx.skip();
-    }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,

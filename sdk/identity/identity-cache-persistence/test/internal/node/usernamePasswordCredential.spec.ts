@@ -35,11 +35,8 @@ describe("UsernamePasswordCredential (internal)", () => {
 
   const scope = "https://graph.microsoft.com/.default";
 
-  it("Accepts tokenCachePersistenceOptions", async (ctx) => {
+  it.skipIf(process.platform === "darwin")("Accepts tokenCachePersistenceOptions", async (ctx) => {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
-    if (process.platform === "darwin") {
-      ctx.skip();
-    }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
@@ -65,11 +62,8 @@ describe("UsernamePasswordCredential (internal)", () => {
     assert.isDefined(parsedResult.AccessToken);
   });
 
-  it("Authenticates silently with tokenCachePersistenceOptions", async (ctx) => {
+  it.skipIf(process.platform === "darwin")("Authenticates silently with tokenCachePersistenceOptions", async (ctx) => {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
-    if (process.platform === "darwin") {
-      ctx.skip();
-    }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,

@@ -33,11 +33,8 @@ describe("DeviceCodeCredential", function () {
 
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates with default values", async function (ctx) {
+  it.skipIf(isLiveMode())("authenticates with default values", async function () {
     // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
     const credential = new DeviceCodeCredential(recorder.configureClientOptions({}));
 
     const token = await credential.getToken(scope);
@@ -45,11 +42,8 @@ describe("DeviceCodeCredential", function () {
     assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with provided values", async function (ctx) {
+  it.skipIf(isLiveMode())("authenticates with provided values", async function () {
     // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
         tenantId: env.AZURE_TENANT_ID,
@@ -62,11 +56,8 @@ describe("DeviceCodeCredential", function () {
     assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with specific permissions", async function (ctx) {
+  it.skipIf(isLiveMode())("authenticates with specific permissions", async function () {
     // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
         tenantId: env.AZURE_TENANT_ID,
@@ -80,11 +71,8 @@ describe("DeviceCodeCredential", function () {
     assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates and allows the customization of the prompt callback", async function (ctx) {
+  it.skipIf(isLiveMode())("authenticates and allows the customization of the prompt callback", async function () {
     // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
     const callback: DeviceCodePromptCallback = (info) => {
       console.log("CUSTOMIZED PROMPT CALLBACK", info.message);
     };
@@ -101,16 +89,9 @@ describe("DeviceCodeCredential", function () {
     assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("allows cancelling the authentication", async function (ctx) {
+  it.skipIf(isLiveMode() || isPlaybackMode())("allows cancelling the authentication", async function () {
     // Because of the user interaction, this test works inconsistently in our live test pipelines.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
-
     // On playback we can't quite control the time needed to trigger this error.
-    if (isPlaybackMode()) {
-      ctx.skip();
-    }
 
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
@@ -139,11 +120,8 @@ describe("DeviceCodeCredential", function () {
     assert.match(error.message, /The authentication has been aborted by the caller\./);
   });
 
-  it("allows setting disableAutomaticAuthentication", async function (ctx) {
+  it.skipIf(isLiveMode())("allows setting disableAutomaticAuthentication", async function () {
     // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
         disableAutomaticAuthentication: true,
@@ -165,11 +143,8 @@ describe("DeviceCodeCredential", function () {
     assert.isDefined(account);
   });
 
-  it("supports tracing", async function (ctx) {
+  it.skipIf(isLiveMode())("supports tracing", async function () {
     // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
     await expect(async (tracingOptions: any) => {
       const credential = new DeviceCodeCredential(
         recorder.configureClientOptions({

@@ -24,15 +24,12 @@ describe("ClientCertificateCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach.skipIf(isLiveMode())(async function (ctx) {
     const setup = await msalNodeTestSetup(ctx);
     cleanup = setup.cleanup;
     recorder = setup.recorder;
     await recorder.setMatcher("BodilessMatcher");
-    if (isLiveMode()) {
-      // https://github.com/Azure/azure-sdk-for-js/issues/29929
-      ctx.skip();
-    }
+    // https://github.com/Azure/azure-sdk-for-js/issues/29929
   });
   afterEach(async function () {
     await cleanup();
@@ -70,11 +67,10 @@ describe("ClientCertificateCredential", function () {
     assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("allows cancelling the authentication", async function (ctx) {
+  it.skipIf(!fs.existsSync(certificatePath))("allows cancelling the authentication", async function () {
+    // In min-max tests, the certificate file can't be found.
     if (!fs.existsSync(certificatePath)) {
-      // In min-max tests, the certificate file can't be found.
       console.log("Failed to locate the certificate file. Skipping.");
-      ctx.skip();
     }
     const credential = new ClientCertificateCredential(
       env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
@@ -109,13 +105,10 @@ describe("ClientCertificateCredential", function () {
     assert.isTrue(error?.message.includes("endpoints_resolution_error"));
   });
 
-  it("supports tracing", async function (ctx) {
-    if (isPlaybackMode()) {
-      // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
-      // This assertion could be provided as parameters, but we don't have that in the public API yet,
-      // and I'm trying to avoid having to generate one ourselves.
-      ctx.skip();
-    }
+  it.skipIf(isPlaybackMode())("supports tracing", async function () {
+    // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
+    // This assertion could be provided as parameters, but we don't have that in the public API yet,
+    // and I'm trying to avoid having to generate one ourselves.
     await expect(async (tracingOptions: GetTokenOptions) => {
       const credential = new ClientCertificateCredential(
         env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
