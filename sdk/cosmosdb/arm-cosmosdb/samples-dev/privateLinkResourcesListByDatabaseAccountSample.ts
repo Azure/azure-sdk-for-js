@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the private link resources that need to be created for a Cosmos DB account.
- *
- * @summary Gets the private link resources that need to be created for a Cosmos DB account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBPrivateLinkResourceListGet.json
- */
-
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Gets the private link resources that need to be created for a Cosmos DB account.
+ *
+ * @summary Gets the private link resources that need to be created for a Cosmos DB account.
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/examples/CosmosDBPrivateLinkResourceListGet.json
+ */
 async function getsPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||

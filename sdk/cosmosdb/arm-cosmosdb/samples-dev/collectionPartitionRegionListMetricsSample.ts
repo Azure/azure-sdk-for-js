@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieves the metrics determined by the given filter for the given collection and region, split by partition.
- *
- * @summary Retrieves the metrics determined by the given filter for the given collection and region, split by partition.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBCollectionPartitionRegionGetMetrics.json
- */
-
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Retrieves the metrics determined by the given filter for the given collection and region, split by partition.
+ *
+ * @summary Retrieves the metrics determined by the given filter for the given collection and region, split by partition.
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/examples/CosmosDBCollectionPartitionRegionGetMetrics.json
+ */
 async function cosmosDbDatabaseAccountRegionGetMetrics(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";

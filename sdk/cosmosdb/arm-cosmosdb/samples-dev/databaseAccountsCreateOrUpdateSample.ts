@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
- *
- * @summary Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBDatabaseAccountCreateMax.json
- */
-
+import type {
+  DatabaseAccountCreateUpdateParameters} from "@azure/arm-cosmosdb";
 import {
-  DatabaseAccountCreateUpdateParameters,
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
+ *
+ * @summary Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/examples/CosmosDBDatabaseAccountCreateMax.json
+ */
 async function cosmosDbDatabaseAccountCreateMax(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
@@ -40,10 +40,12 @@ async function cosmosDbDatabaseAccountCreateMax(): Promise<void> {
     createMode: "Default",
     databaseAccountOfferType: "Standard",
     defaultIdentity: "FirstPartyIdentity",
+    defaultPriorityLevel: "Low",
     enableAnalyticalStorage: true,
     enableBurstCapacity: true,
     enableFreeTier: false,
     enablePerRegionPerPartitionAutoscale: true,
+    enablePriorityBasedExecution: true,
     identity: {
       type: "SystemAssigned,UserAssigned",
       userAssignedIdentities: {
@@ -95,7 +97,7 @@ async function cosmosDbDatabaseAccountCreateMax(): Promise<void> {
  * This sample demonstrates how to Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  *
  * @summary Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBDatabaseAccountCreateMin.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/examples/CosmosDBDatabaseAccountCreateMin.json
  */
 async function cosmosDbDatabaseAccountCreateMin(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -127,7 +129,7 @@ async function cosmosDbDatabaseAccountCreateMin(): Promise<void> {
  * This sample demonstrates how to Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  *
  * @summary Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBRestoreDatabaseAccountCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/examples/CosmosDBRestoreDatabaseAccountCreateUpdate.json
  */
 async function cosmosDbRestoreDatabaseAccountCreateUpdateJson(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -175,6 +177,7 @@ async function cosmosDbRestoreDatabaseAccountCreateUpdateJson(): Promise<void> {
         "/subscriptions/subid/providers/Microsoft.DocumentDB/locations/westus/restorableDatabaseAccounts/1a97b4bb-f6a0-430e-ade1-638d781830cc",
       restoreTimestampInUtc: new Date("2021-03-11T22:05:09Z"),
       restoreWithTtlDisabled: false,
+      sourceBackupLocation: "westus",
     },
     tags: {},
   };

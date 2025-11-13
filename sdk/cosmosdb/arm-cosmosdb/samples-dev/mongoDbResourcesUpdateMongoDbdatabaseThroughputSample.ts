@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update RUs per second of the an Azure Cosmos DB MongoDB database
- *
- * @summary Update RUs per second of the an Azure Cosmos DB MongoDB database
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBMongoDBDatabaseThroughputUpdate.json
- */
-
+import type {
+  ThroughputSettingsUpdateParameters} from "@azure/arm-cosmosdb";
 import {
-  ThroughputSettingsUpdateParameters,
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Update RUs per second of the an Azure Cosmos DB MongoDB database
+ *
+ * @summary Update RUs per second of the an Azure Cosmos DB MongoDB database
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/examples/CosmosDBMongoDBDatabaseThroughputUpdate.json
+ */
 async function cosmosDbMongoDbdatabaseThroughputUpdate(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
