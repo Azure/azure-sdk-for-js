@@ -1396,14 +1396,6 @@ export interface StartSessionOptions extends VoiceLiveSessionOptions {
 }
 
 // @public
-export interface SubscribeOptions {
-    abortSignal?: AbortSignalLike;
-    includeAudioEvents?: boolean;
-    includeServerEvents?: boolean;
-    includeTextEvents?: boolean;
-}
-
-// @public
 export interface SystemMessageItem extends MessageItem {
     // (undocumented)
     role: "system";
@@ -1605,7 +1597,7 @@ export class VoiceLiveSession {
     sendEvent(event: ClientEventUnion, options?: SendEventOptions): Promise<void>;
     get sessionId(): string | undefined;
     startAudioTurn(options?: TurnOptions): Promise<string>;
-    subscribe(handlers: VoiceLiveSessionHandlers, _options?: SubscribeOptions): VoiceLiveSubscription;
+    subscribe(handlers: VoiceLiveSessionHandlers): VoiceLiveSubscription;
     updateSession(session: RequestSession, options?: SendEventOptions): Promise<void>;
 }
 

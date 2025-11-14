@@ -24,7 +24,6 @@ import { logger } from "./logger.js";
 import type {
   VoiceLiveSessionHandlers,
   VoiceLiveSubscription,
-  SubscribeOptions,
   ConnectionContext,
   SessionContext,
   ConnectedEventArgs,
@@ -206,13 +205,9 @@ export class VoiceLiveSession {
    * This follows the Azure SDK pattern used by EventHub, Service Bus, etc.
    *
    * @param handlers - Handler functions for different types of events
-   * @param options - Optional configuration for the subscription
    * @returns A subscription object that can be used to stop receiving events
    */
-  subscribe(
-    handlers: VoiceLiveSessionHandlers,
-    _options: SubscribeOptions = {},
-  ): VoiceLiveSubscription {
+  subscribe(handlers: VoiceLiveSessionHandlers): VoiceLiveSubscription {
     this._ensureNotDisposed();
 
     logger.info("Creating VoiceLive session subscription");

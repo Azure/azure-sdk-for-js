@@ -198,7 +198,6 @@ export {
 export type {
   VoiceLiveSessionHandlers,
   VoiceLiveSubscription,
-  SubscribeOptions,
   ConnectionContext,
   SessionContext,
   ConnectedEventArgs,

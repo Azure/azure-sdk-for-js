@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AbortSignalLike } from "@azure/abort-controller";
 import type {
   ServerEventUnion,
   ServerEventError,
@@ -101,20 +100,6 @@ export interface ErrorEventArgs {
   recoverable: boolean;
   /** When the error occurred */
   timestamp: Date;
-}
-
-/**
- * Options for configuring session subscriptions
- */
-export interface SubscribeOptions {
-  /** Signal to abort the subscription */
-  abortSignal?: AbortSignalLike;
-  /** Whether to include detailed server events (default: true) */
-  includeServerEvents?: boolean;
-  /** Whether to include audio events (default: true) */
-  includeAudioEvents?: boolean;
-  /** Whether to include text events (default: true) */
-  includeTextEvents?: boolean;
 }
 
 /**
