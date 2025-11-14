@@ -466,7 +466,10 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       // Test that search with invalid authorization token throws an error
       let errorThrown = false;
       try {
-        await searchClient.search("*", "Invalid token", true);
+        await searchClient.search("*", {
+          xMsQuerySourceAuthorization: "Invalid token",
+          xMsEnableElevatedRead: true,
+        });
       } catch (ex: any) {
         errorThrown = true;
         // Verify it's an auth related error
