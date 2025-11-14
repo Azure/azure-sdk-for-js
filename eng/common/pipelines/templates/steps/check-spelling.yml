@@ -55,7 +55,7 @@ steps:
 
           if ($changedFiles -contains 'eng/common/spelling/package-lock.json') {
             Write-Host "Detected change to cspell package-lock.json. Setting variables to run cspell upgrade verification."
-            New-Item -ItemType Directory -Path '${{ parameters.ArtifactDirectory }}' -Force | Out-Null
+            New-Item -ItemType Directory -Path '${{ parameters.CspellUpgradeArtifactDirectory }}' -Force | Out-Null
             Write-Host "##vso[task.setvariable variable=RunCspellUpgradeVerification]true"
           } else {
             Write-Host "No changes to cspell package-lock.json detected."
@@ -82,13 +82,13 @@ steps:
 
       - pwsh: |
           ./eng/scripts/spell-check-public-api.ps1 `
-            | Tee-Object -FilePath ${{ parameters.ArtifactDirectory }}/spelling-after.txt
+            | Tee-Object -FilePath ${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-after.txt
         condition: and(succeeded(), eq(variables['RunCspellUpgradeVerification'], 'true'))
         displayName: Get public API spelling errors after cspell upgrade
 
       - pwsh: |
           ./eng/scripts/spell-check-public-api.ps1 `
-            | Tee-Object -FilePath ${{ parameters.ArtifactDirectory }}/spelling-before.txt
+            | Tee-Object -FilePath ${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-before.txt
         condition: and(succeeded(), eq(variables['RunCspellUpgradeVerification'], 'true'))
         displayName: Get public API spelling errors before cspell upgrade
         workingDirectory: $(Pipeline.Workspace)/public-api-before
@@ -97,13 +97,13 @@ steps:
       # diff. This step will fail if there are differences.
       - pwsh: |
           diff --unified `
-            ${{ parameters.ArtifactDirectory }}/spelling-before.txt `
-            ${{ parameters.ArtifactDirectory }}/spelling-after.txt | Tee-Object -FilePath ${{ parameters.ArtifactDirectory }}/spelling-diff.txt
+            ${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-before.txt `
+            ${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-after.txt | Tee-Object -FilePath ${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-diff.txt
         condition: and(succeeded(), eq(variables['RunCspellUpgradeVerification'], 'true'))
         displayName: Compare public API spelling errors before and after cspell upgrade
 
       - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
         parameters:
           ArtifactName: cspell-upgrade-check
-          ArtifactPath: ${{ parameters.ArtifactDirectory }}
+          ArtifactPath: ${{ parameters.CspellUpgradeArtifactDirectory }}
           CustomCondition: and(succeededOrFailed(), eq(variables['RunCspellUpgradeVerification'], 'true'))
