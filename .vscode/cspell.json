@@ -199,8 +199,7 @@
         "Viseme",
         "logprobs",
         "Alaw",
-        "Ulaw",
-        "Imend"
+        "Ulaw"
       ]
     },
     {
