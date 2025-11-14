@@ -73,9 +73,6 @@ extends:
         variables:
           - template: /eng/pipelines/templates/variables/globals.yml@self
           - template: /eng/pipelines/templates/variables/image.yml@self
-          # TODO: Revert before merging
-          - name: Skip.Test
-            value: true
 
       - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:
           - template: archetype-js-release.yml@self
