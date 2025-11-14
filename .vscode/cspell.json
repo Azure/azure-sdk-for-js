@@ -196,13 +196,11 @@
     {
       "filename": "sdk/ai/ai-voicelive/**/*.md",
       "words": [
-        [
-          "Viseme",
-          "logprobs",
-          "Alaw",
-          "Ulaw",
-          "Imend"
-        ]
+        "Viseme",
+        "logprobs",
+        "Alaw",
+        "Ulaw",
+        "Imend"
       ]
     },
     {
