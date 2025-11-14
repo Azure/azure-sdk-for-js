@@ -58,13 +58,13 @@ export class VoiceLiveSubscriptionImpl implements VoiceLiveSubscription {
     try {
       switch (eventType) {
         case "connected":
-          await this._handlers.processConnected?.(args as ConnectedEventArgs, context);
+          await this._handlers.onConnected?.(args as ConnectedEventArgs, context);
           break;
         case "disconnected":
-          await this._handlers.processDisconnected?.(args as DisconnectedEventArgs, context);
+          await this._handlers.onDisconnected?.(args as DisconnectedEventArgs, context);
           break;
         case "error":
-          await this._handlers.processError?.(args as ErrorEventArgs, context);
+          await this._handlers.onError?.(args as ErrorEventArgs, context);
           break;
       }
     } catch (error) {
@@ -86,145 +86,145 @@ export class VoiceLiveSubscriptionImpl implements VoiceLiveSubscription {
 
     try {
       // Call the general server event handler
-      await this._handlers.processServerEvent?.(event, context);
+      await this._handlers.onServerEvent?.(event, context);
 
       // Call specific handlers based on event type
       switch (event.type) {
         // Session events
         case "session.created":
-          await this._handlers.processSessionCreated?.(event as any, context);
+          await this._handlers.onSessionCreated?.(event as any, context);
           break;
         case "session.updated":
-          await this._handlers.processSessionUpdated?.(event as any, context);
+          await this._handlers.onSessionUpdated?.(event as any, context);
           break;
         case "session.avatar.connecting":
-          await this._handlers.processSessionAvatarConnecting?.(event as any, context);
+          await this._handlers.onSessionAvatarConnecting?.(event as any, context);
           break;
 
         // Input audio buffer events
         case "input_audio_buffer.committed":
-          await this._handlers.processInputAudioBufferCommitted?.(event as any, context);
+          await this._handlers.onInputAudioBufferCommitted?.(event as any, context);
           break;
         case "input_audio_buffer.cleared":
-          await this._handlers.processInputAudioBufferCleared?.(event as any, context);
+          await this._handlers.onInputAudioBufferCleared?.(event as any, context);
           break;
         case "input_audio_buffer.speech_started":
-          await this._handlers.processInputAudioBufferSpeechStarted?.(event as any, context);
+          await this._handlers.onInputAudioBufferSpeechStarted?.(event as any, context);
           break;
         case "input_audio_buffer.speech_stopped":
-          await this._handlers.processInputAudioBufferSpeechStopped?.(event as any, context);
+          await this._handlers.onInputAudioBufferSpeechStopped?.(event as any, context);
           break;
 
         // Conversation item events
         case "conversation.item.created":
-          await this._handlers.processConversationItemCreated?.(event as any, context);
+          await this._handlers.onConversationItemCreated?.(event as any, context);
           break;
         case "conversation.item.input_audio_transcription.completed":
-          await this._handlers.processConversationItemInputAudioTranscriptionCompleted?.(
+          await this._handlers.onConversationItemInputAudioTranscriptionCompleted?.(
             event as any,
             context,
           );
           break;
         case "conversation.item.input_audio_transcription.failed":
-          await this._handlers.processConversationItemInputAudioTranscriptionFailed?.(
+          await this._handlers.onConversationItemInputAudioTranscriptionFailed?.(
             event as any,
             context,
           );
           break;
         case "conversation.item.input_audio_transcription.delta":
-          await this._handlers.processConversationItemInputAudioTranscriptionDelta?.(
+          await this._handlers.onConversationItemInputAudioTranscriptionDelta?.(
             event as any,
             context,
           );
           break;
         case "conversation.item.truncated":
-          await this._handlers.processConversationItemTruncated?.(event as any, context);
+          await this._handlers.onConversationItemTruncated?.(event as any, context);
           break;
         case "conversation.item.deleted":
-          await this._handlers.processConversationItemDeleted?.(event as any, context);
+          await this._handlers.onConversationItemDeleted?.(event as any, context);
           break;
         case "conversation.item.retrieved":
-          await this._handlers.processConversationItemRetrieved?.(event as any, context);
+          await this._handlers.onConversationItemRetrieved?.(event as any, context);
           break;
 
         // Response lifecycle events
         case "response.created":
-          await this._handlers.processResponseCreated?.(event as any, context);
+          await this._handlers.onResponseCreated?.(event as any, context);
           break;
         case "response.done":
-          await this._handlers.processResponseDone?.(event as any, context);
+          await this._handlers.onResponseDone?.(event as any, context);
           break;
         case "response.output_item.added":
-          await this._handlers.processResponseOutputItemAdded?.(event as any, context);
+          await this._handlers.onResponseOutputItemAdded?.(event as any, context);
           break;
         case "response.output_item.done":
-          await this._handlers.processResponseOutputItemDone?.(event as any, context);
+          await this._handlers.onResponseOutputItemDone?.(event as any, context);
           break;
         case "response.content_part.added":
-          await this._handlers.processResponseContentPartAdded?.(event as any, context);
+          await this._handlers.onResponseContentPartAdded?.(event as any, context);
           break;
         case "response.content_part.done":
-          await this._handlers.processResponseContentPartDone?.(event as any, context);
+          await this._handlers.onResponseContentPartDone?.(event as any, context);
           break;
 
         // Response text events
         case "response.text.delta":
-          await this._handlers.processResponseTextDelta?.(event as any, context);
+          await this._handlers.onResponseTextDelta?.(event as any, context);
           break;
         case "response.text.done":
-          await this._handlers.processResponseTextDone?.(event as any, context);
+          await this._handlers.onResponseTextDone?.(event as any, context);
           break;
 
         // Response audio events
         case "response.audio.delta":
-          await this._handlers.processResponseAudioDelta?.(event as any, context);
+          await this._handlers.onResponseAudioDelta?.(event as any, context);
           break;
         case "response.audio.done":
-          await this._handlers.processResponseAudioDone?.(event as any, context);
+          await this._handlers.onResponseAudioDone?.(event as any, context);
           break;
         case "response.audio_transcript.delta":
-          await this._handlers.processResponseAudioTranscriptDelta?.(event as any, context);
+          await this._handlers.onResponseAudioTranscriptDelta?.(event as any, context);
           break;
         case "response.audio_transcript.done":
-          await this._handlers.processResponseAudioTranscriptDone?.(event as any, context);
+          await this._handlers.onResponseAudioTranscriptDone?.(event as any, context);
           break;
 
         // Response animation events
         case "response.animation_blendshapes.delta":
-          await this._handlers.processResponseAnimationBlendshapeDelta?.(event as any, context);
+          await this._handlers.onResponseAnimationBlendshapeDelta?.(event as any, context);
           break;
         case "response.animation_blendshapes.done":
-          await this._handlers.processResponseAnimationBlendshapeDone?.(event as any, context);
+          await this._handlers.onResponseAnimationBlendshapeDone?.(event as any, context);
           break;
         case "response.animation_viseme.delta":
-          await this._handlers.processResponseAnimationVisemeDelta?.(event as any, context);
+          await this._handlers.onResponseAnimationVisemeDelta?.(event as any, context);
           break;
         case "response.animation_viseme.done":
-          await this._handlers.processResponseAnimationVisemeDone?.(event as any, context);
+          await this._handlers.onResponseAnimationVisemeDone?.(event as any, context);
           break;
 
         // Response timing events
         case "response.audio_timestamp.delta":
-          await this._handlers.processResponseAudioTimestampDelta?.(event as any, context);
+          await this._handlers.onResponseAudioTimestampDelta?.(event as any, context);
           break;
         case "response.audio_timestamp.done":
-          await this._handlers.processResponseAudioTimestampDone?.(event as any, context);
+          await this._handlers.onResponseAudioTimestampDone?.(event as any, context);
           break;
 
         // Function call events
         case "response.function_call_arguments.delta":
-          await this._handlers.processResponseFunctionCallArgumentsDelta?.(event as any, context);
+          await this._handlers.onResponseFunctionCallArgumentsDelta?.(event as any, context);
           break;
         case "response.function_call_arguments.done":
-          await this._handlers.processResponseFunctionCallArgumentsDone?.(event as any, context);
+          await this._handlers.onResponseFunctionCallArgumentsDone?.(event as any, context);
           break;
 
         // Error events
         case "error":
-          await this._handlers.processServerError?.(event as any, context);
+          await this._handlers.onServerError?.(event as any, context);
           break;
 
-        // Note: No default case needed - any unmapped events will still trigger processServerEvent above
+        // Note: No default case needed - any unmapped events will still trigger onServerEvent above
       }
     } catch (error) {
       logger.error(`Error in server event handler for ${event.type}`, {

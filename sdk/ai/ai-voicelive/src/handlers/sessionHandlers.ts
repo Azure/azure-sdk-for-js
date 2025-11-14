@@ -131,45 +131,39 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when the session connects successfully to the VoiceLive service
    */
-  processConnected?: (args: ConnectedEventArgs, context: ConnectionContext) => Promise<void>;
+  onConnected?: (args: ConnectedEventArgs, context: ConnectionContext) => Promise<void>;
 
   /**
    * Called when the session disconnects from the VoiceLive service
    * In fail-fast mode, this indicates the session is permanently dead
    */
-  processDisconnected?: (args: DisconnectedEventArgs, context: ConnectionContext) => Promise<void>;
+  onDisconnected?: (args: DisconnectedEventArgs, context: ConnectionContext) => Promise<void>;
 
   /**
    * Called when an error occurs that makes the session unusable
    * In fail-fast mode, this indicates the session is permanently dead
    */
-  processError?: (args: ErrorEventArgs, context: ConnectionContext) => Promise<void>;
+  onError?: (args: ErrorEventArgs, context: ConnectionContext) => Promise<void>;
 
   /**
    * Called when an error event is received from the server
    */
-  processServerError?: (event: ServerEventError, context: SessionContext) => Promise<void>;
+  onServerError?: (event: ServerEventError, context: SessionContext) => Promise<void>;
 
   /**
    * Called when the session is created on the server
    */
-  processSessionCreated?: (
-    event: ServerEventSessionCreated,
-    context: SessionContext,
-  ) => Promise<void>;
+  onSessionCreated?: (event: ServerEventSessionCreated, context: SessionContext) => Promise<void>;
 
   /**
    * Called when the session configuration is updated
    */
-  processSessionUpdated?: (
-    event: ServerEventSessionUpdated,
-    context: SessionContext,
-  ) => Promise<void>;
+  onSessionUpdated?: (event: ServerEventSessionUpdated, context: SessionContext) => Promise<void>;
 
   /**
    * Called when the server is establishing an avatar media connection
    */
-  processSessionAvatarConnecting?: (
+  onSessionAvatarConnecting?: (
     event: ServerEventSessionAvatarConnecting,
     context: SessionContext,
   ) => Promise<void>;
@@ -181,7 +175,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when the input audio buffer is committed
    */
-  processInputAudioBufferCommitted?: (
+  onInputAudioBufferCommitted?: (
     event: ServerEventInputAudioBufferCommitted,
     context: SessionContext,
   ) => Promise<void>;
@@ -189,7 +183,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when the input audio buffer is cleared
    */
-  processInputAudioBufferCleared?: (
+  onInputAudioBufferCleared?: (
     event: ServerEventInputAudioBufferCleared,
     context: SessionContext,
   ) => Promise<void>;
@@ -197,7 +191,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when speech is detected in the user's audio input
    */
-  processInputAudioBufferSpeechStarted?: (
+  onInputAudioBufferSpeechStarted?: (
     event: ServerEventInputAudioBufferSpeechStarted,
     context: SessionContext,
   ) => Promise<void>;
@@ -205,7 +199,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when speech stops being detected in the user's audio input
    */
-  processInputAudioBufferSpeechStopped?: (
+  onInputAudioBufferSpeechStopped?: (
     event: ServerEventInputAudioBufferSpeechStopped,
     context: SessionContext,
   ) => Promise<void>;
@@ -217,7 +211,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when a conversation item is created
    */
-  processConversationItemCreated?: (
+  onConversationItemCreated?: (
     event: ServerEventConversationItemCreated,
     context: SessionContext,
   ) => Promise<void>;
@@ -225,7 +219,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when input audio transcription is completed
    */
-  processConversationItemInputAudioTranscriptionCompleted?: (
+  onConversationItemInputAudioTranscriptionCompleted?: (
     event: ServerEventConversationItemInputAudioTranscriptionCompleted,
     context: SessionContext,
   ) => Promise<void>;
@@ -233,7 +227,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when input audio transcription fails
    */
-  processConversationItemInputAudioTranscriptionFailed?: (
+  onConversationItemInputAudioTranscriptionFailed?: (
     event: ServerEventConversationItemInputAudioTranscriptionFailed,
     context: SessionContext,
   ) => Promise<void>;
@@ -241,7 +235,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when input audio transcription delta is received
    */
-  processConversationItemInputAudioTranscriptionDelta?: (
+  onConversationItemInputAudioTranscriptionDelta?: (
     event: ServerEventConversationItemInputAudioTranscriptionDelta,
     context: SessionContext,
   ) => Promise<void>;
@@ -249,7 +243,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when a conversation item is truncated
    */
-  processConversationItemTruncated?: (
+  onConversationItemTruncated?: (
     event: ServerEventConversationItemTruncated,
     context: SessionContext,
   ) => Promise<void>;
@@ -257,7 +251,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when a conversation item is deleted
    */
-  processConversationItemDeleted?: (
+  onConversationItemDeleted?: (
     event: ServerEventConversationItemDeleted,
     context: SessionContext,
   ) => Promise<void>;
@@ -265,7 +259,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when a conversation item is retrieved
    */
-  processConversationItemRetrieved?: (
+  onConversationItemRetrieved?: (
     event: ServerEventConversationItemRetrieved,
     context: SessionContext,
   ) => Promise<void>;
@@ -277,20 +271,17 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when a response is created by the assistant
    */
-  processResponseCreated?: (
-    event: ServerEventResponseCreated,
-    context: SessionContext,
-  ) => Promise<void>;
+  onResponseCreated?: (event: ServerEventResponseCreated, context: SessionContext) => Promise<void>;
 
   /**
    * Called when a response is completed by the assistant
    */
-  processResponseDone?: (event: ServerEventResponseDone, context: SessionContext) => Promise<void>;
+  onResponseDone?: (event: ServerEventResponseDone, context: SessionContext) => Promise<void>;
 
   /**
    * Called when a new output item is added to a response
    */
-  processResponseOutputItemAdded?: (
+  onResponseOutputItemAdded?: (
     event: ServerEventResponseOutputItemAdded,
     context: SessionContext,
   ) => Promise<void>;
@@ -298,7 +289,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when an output item is completed
    */
-  processResponseOutputItemDone?: (
+  onResponseOutputItemDone?: (
     event: ServerEventResponseOutputItemDone,
     context: SessionContext,
   ) => Promise<void>;
@@ -306,7 +297,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when a new content part is added to a response
    */
-  processResponseContentPartAdded?: (
+  onResponseContentPartAdded?: (
     event: ServerEventResponseContentPartAdded,
     context: SessionContext,
   ) => Promise<void>;
@@ -314,7 +305,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when a content part is completed
    */
-  processResponseContentPartDone?: (
+  onResponseContentPartDone?: (
     event: ServerEventResponseContentPartDone,
     context: SessionContext,
   ) => Promise<void>;
@@ -326,7 +317,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when text data is received from the assistant (streaming text response)
    */
-  processResponseTextDelta?: (
+  onResponseTextDelta?: (
     event: ServerEventResponseTextDelta,
     context: SessionContext,
   ) => Promise<void>;
@@ -334,7 +325,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when text response is completed
    */
-  processResponseTextDone?: (
+  onResponseTextDone?: (
     event: ServerEventResponseTextDone,
     context: SessionContext,
   ) => Promise<void>;
@@ -346,7 +337,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when audio data is received from the assistant (streaming audio response)
    */
-  processResponseAudioDelta?: (
+  onResponseAudioDelta?: (
     event: ServerEventResponseAudioDelta,
     context: SessionContext,
   ) => Promise<void>;
@@ -354,7 +345,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when audio response is completed
    */
-  processResponseAudioDone?: (
+  onResponseAudioDone?: (
     event: ServerEventResponseAudioDone,
     context: SessionContext,
   ) => Promise<void>;
@@ -362,7 +353,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when audio transcript data is received (what the assistant said as text)
    */
-  processResponseAudioTranscriptDelta?: (
+  onResponseAudioTranscriptDelta?: (
     event: ServerEventResponseAudioTranscriptDelta,
     context: SessionContext,
   ) => Promise<void>;
@@ -370,7 +361,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when audio transcript is completed
    */
-  processResponseAudioTranscriptDone?: (
+  onResponseAudioTranscriptDone?: (
     event: ServerEventResponseAudioTranscriptDone,
     context: SessionContext,
   ) => Promise<void>;
@@ -382,7 +373,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when animation blendshape data is received
    */
-  processResponseAnimationBlendshapeDelta?: (
+  onResponseAnimationBlendshapeDelta?: (
     event: ServerEventResponseAnimationBlendshapeDelta,
     context: SessionContext,
   ) => Promise<void>;
@@ -390,7 +381,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when animation blendshape data is completed
    */
-  processResponseAnimationBlendshapeDone?: (
+  onResponseAnimationBlendshapeDone?: (
     event: ServerEventResponseAnimationBlendshapeDone,
     context: SessionContext,
   ) => Promise<void>;
@@ -398,7 +389,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when animation viseme data is received
    */
-  processResponseAnimationVisemeDelta?: (
+  onResponseAnimationVisemeDelta?: (
     event: ServerEventResponseAnimationVisemeDelta,
     context: SessionContext,
   ) => Promise<void>;
@@ -406,7 +397,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when animation viseme data is completed
    */
-  processResponseAnimationVisemeDone?: (
+  onResponseAnimationVisemeDone?: (
     event: ServerEventResponseAnimationVisemeDone,
     context: SessionContext,
   ) => Promise<void>;
@@ -418,7 +409,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when audio timestamp data is received
    */
-  processResponseAudioTimestampDelta?: (
+  onResponseAudioTimestampDelta?: (
     event: ServerEventResponseAudioTimestampDelta,
     context: SessionContext,
   ) => Promise<void>;
@@ -426,7 +417,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when audio timestamp data is completed
    */
-  processResponseAudioTimestampDone?: (
+  onResponseAudioTimestampDone?: (
     event: ServerEventResponseAudioTimestampDone,
     context: SessionContext,
   ) => Promise<void>;
@@ -438,7 +429,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when function call arguments are received (streaming)
    */
-  processResponseFunctionCallArgumentsDelta?: (
+  onResponseFunctionCallArgumentsDelta?: (
     event: ServerEventResponseFunctionCallArgumentsDelta,
     context: SessionContext,
   ) => Promise<void>;
@@ -446,7 +437,7 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when function call arguments are completed
    */
-  processResponseFunctionCallArgumentsDone?: (
+  onResponseFunctionCallArgumentsDone?: (
     event: ServerEventResponseFunctionCallArgumentsDone,
     context: SessionContext,
   ) => Promise<void>;
@@ -466,7 +457,7 @@ export interface VoiceLiveSessionHandlers {
    *
    * Note: This is called IN ADDITION TO any specific handlers above.
    */
-  processServerEvent?: (event: ServerEventUnion, context: SessionContext) => Promise<void>;
+  onServerEvent?: (event: ServerEventUnion, context: SessionContext) => Promise<void>;
 }
 
 /**

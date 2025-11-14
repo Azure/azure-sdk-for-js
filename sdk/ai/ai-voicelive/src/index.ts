@@ -181,7 +181,7 @@ export {
 
 // Main client export
 export { VoiceLiveClient, VoiceLiveClientOptions } from "./voiceLiveClient.js";
- 
+
 // Session export
 export {
   VoiceLiveSession,

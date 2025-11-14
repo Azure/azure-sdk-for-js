@@ -31,7 +31,7 @@ async function basicHandlerPatternExample() {
   try {
     // 3. Setup Azure SDK handler-based event subscription
     const subscription = session.subscribe({
-      processConnected: async (args, context) => {
+      onConnected: async (args, context) => {
         console.log('🟢 Connected to session:', context.sessionId);
       },
 

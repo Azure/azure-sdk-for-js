@@ -85,19 +85,19 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     // Set up event handlers using subscription pattern
     const subscription = session.subscribe({
-      processResponseAudioDelta: async (event, context) => {
+      onResponseAudioDelta: async (event, context) => {
         // Handle incoming audio chunks
         const audioData = event.delta;
         // Play audio using Web Audio API or other audio system
         playAudioChunk(audioData);
       },
       // @ts-preserve-whitespace
-      processResponseTextDelta: async (event, context) => {
+      onResponseTextDelta: async (event, context) => {
         // Handle incoming text deltas
         console.log("Assistant:", event.delta);
       },
       // @ts-preserve-whitespace
-      processInputAudioTranscriptionCompleted: async (event, context) => {
+      onInputAudioTranscriptionCompleted: async (event, context) => {
         // Handle user speech transcription
         console.log("User said:", event.transcript);
       },
@@ -145,7 +145,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     // Handle function calls
     const subscription = session.subscribe({
-      processResponseFunctionCallArgumentsDone: async (event, context) => {
+      onResponseFunctionCallArgumentsDone: async (event, context) => {
         if (event.name === "get_weather") {
           const args = JSON.parse(event.arguments);
           const weatherData = await getWeatherData(args.location);

@@ -334,19 +334,30 @@ export class VoiceLiveSession {
     await this._sendEvent(createEvent, options);
   }
 
-  // Properties
+  /**
+   * Indicates whether the session is currently connected to the Voice Live service.
+   */
   get isConnected(): boolean {
     return this._connectionManager?.isConnected || false;
   }
 
+  /**
+   * Gets the current connection state of the session.
+   */
   get connectionState(): ConnectionState {
     return this._connectionManager?.state || ConnectionState.Disconnected;
   }
 
+  /**
+   * Gets the current session ID.
+   */
   get sessionId(): string | undefined {
     return this._sessionId;
   }
 
+  /**
+   * Gets the current active audio turn ID.
+   */
   get activeTurnId(): string | undefined {
     return this._activeTurnId;
   }

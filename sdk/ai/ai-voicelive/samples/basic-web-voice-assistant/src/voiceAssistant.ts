@@ -172,7 +172,7 @@ export class VoiceAssistant {
 
   private createEventHandlers(): VoiceLiveSessionHandlers {
     return {
-      processConnected: async (args: ConnectedEventArgs, context: ConnectionContext) => {
+      onConnected: async (args: ConnectedEventArgs, context: ConnectionContext) => {
         console.log('🔔 Connected:', args);
         this.callbacks?.onEventReceived({
           type: 'connected',
@@ -181,7 +181,7 @@ export class VoiceAssistant {
         });
       },
 
-      processDisconnected: async (args: DisconnectedEventArgs, context: ConnectionContext) => {
+      onDisconnected: async (args: DisconnectedEventArgs, context: ConnectionContext) => {
         console.log('🔔 Disconnected:', args);
         this.isConnected = false;
         this.callbacks?.onConnectionStatusChange('disconnected');
@@ -192,7 +192,7 @@ export class VoiceAssistant {
         });
       },
 
-      processError: async (args: ErrorEventArgs, context: ConnectionContext) => {
+      onError: async (args: ErrorEventArgs, context: ConnectionContext) => {
         console.log('🔔 Error:', args);
         this.callbacks?.onError(`Service error: ${args.error.message}`);
         this.callbacks?.onEventReceived({
@@ -202,7 +202,7 @@ export class VoiceAssistant {
         });
       },
 
-      processResponseCreated: async (event, context: SessionContext) => {
+      onResponseCreated: async (event, context: SessionContext) => {
         console.log('🔔 Response Created:', event);
         
         // If this is a new response while another is in progress, it's likely due to barge-in
@@ -236,7 +236,7 @@ export class VoiceAssistant {
         });
       },
 
-      processResponseDone: async (event, context: SessionContext) => {
+      onResponseDone: async (event, context: SessionContext) => {
         console.log('🔔 Response Done:', event);
         console.log('🔔 Final accumulated message:', this.currentAssistantMessage);
         
@@ -264,7 +264,7 @@ export class VoiceAssistant {
         });
       },
 
-      processInputAudioBufferSpeechStarted: async (event, context: SessionContext) => {
+      onInputAudioBufferSpeechStarted: async (event, context: SessionContext) => {
         console.log('🔔 Speech Started:', event);
         this.currentUserTranscription = ''; // Reset transcription
         this.userSpeechStartTime = new Date();
@@ -293,7 +293,7 @@ export class VoiceAssistant {
         });
       },
 
-      processInputAudioBufferSpeechStopped: async (event, context: SessionContext) => {
+      onInputAudioBufferSpeechStopped: async (event, context: SessionContext) => {
         console.log('🔔 Speech Stopped:', event);
         this.callbacks?.onAssistantStatusChange('processing');
         
@@ -308,7 +308,7 @@ export class VoiceAssistant {
       },
 
       // Handle actual text responses from the assistant
-      processResponseTextDelta: async (event, context: SessionContext) => {
+      onResponseTextDelta: async (event, context: SessionContext) => {
         console.log('🔔 Response Text Delta:', event.delta);
         console.log('🔔 Current message so far:', this.currentAssistantMessage);
         
@@ -330,7 +330,7 @@ export class VoiceAssistant {
       },
 
       // Handle audio transcript (what the assistant said as text)
-      processResponseAudioTranscriptDelta: async (event, context: SessionContext) => {
+      onResponseAudioTranscriptDelta: async (event, context: SessionContext) => {
         console.log('🔔 Audio Transcript Delta:', event.delta);
         console.log('🔔 Current transcript so far:', this.currentAssistantMessage);
         
@@ -352,13 +352,13 @@ export class VoiceAssistant {
       },
 
       // Handle user transcription deltas
-      processConversationItemInputAudioTranscriptionDelta: async (event, context: SessionContext) => {
+      onConversationItemInputAudioTranscriptionDelta: async (event, context: SessionContext) => {
         console.log('🔔 User Transcription Delta:', event.delta);
         this.currentUserTranscription += event.delta;
       },
 
       // Handle completed user transcription
-      processConversationItemInputAudioTranscriptionCompleted: async (event, context: SessionContext) => {
+      onConversationItemInputAudioTranscriptionCompleted: async (event, context: SessionContext) => {
         console.log('🔔 User Transcription Completed:', event.transcript);
         
         // Add the complete user transcription to conversation
@@ -374,7 +374,7 @@ export class VoiceAssistant {
       },
 
       // Handle failed user transcription
-      processConversationItemInputAudioTranscriptionFailed: async (event, context: SessionContext) => {
+      onConversationItemInputAudioTranscriptionFailed: async (event, context: SessionContext) => {
         console.log('🔔 User Transcription Failed:', event);
         
         // Add failed transcription indicator
@@ -389,7 +389,7 @@ export class VoiceAssistant {
         this.userSpeechStartTime = undefined;
       },
 
-      processResponseAudioDelta: async (event, context: SessionContext) => {
+      onResponseAudioDelta: async (event, context: SessionContext) => {
         console.log('🔔 Audio Received:', event.delta?.byteLength, 'bytes');
         
         // Add debugging for audio format
@@ -411,7 +411,7 @@ export class VoiceAssistant {
       },
 
       // Catch-all for any server events not handled specifically
-      processServerEvent: async (event, context: SessionContext) => {
+      onServerEvent: async (event, context: SessionContext) => {
         console.log('🔔 Server Event:', event.type, event);
         
         // Just log all events for debugging - specific handlers above handle the processing

@@ -1593,20 +1593,16 @@ export class VoiceLiveProtocolError extends VoiceLiveConnectionError {
 // @public
 export class VoiceLiveSession {
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, apiVersion: string, model: string, options?: VoiceLiveSessionOptions);
-    // (undocumented)
     get activeTurnId(): string | undefined;
     addConversationItem(item: ConversationRequestItem, options?: SendEventOptions): Promise<void>;
     connect(options?: ConnectOptions): Promise<void>;
-    // (undocumented)
     get connectionState(): ConnectionState;
     disconnect(): Promise<void>;
     dispose(): Promise<void>;
     endAudioTurn(turnId?: string, options?: SendEventOptions): Promise<void>;
-    // (undocumented)
     get isConnected(): boolean;
     sendAudio(audioData: ArrayBuffer | Uint8Array, options?: AudioStreamOptions): Promise<void>;
     sendEvent(event: ClientEventUnion, options?: SendEventOptions): Promise<void>;
-    // (undocumented)
     get sessionId(): string | undefined;
     startAudioTurn(options?: TurnOptions): Promise<string>;
     subscribe(handlers: VoiceLiveSessionHandlers, _options?: SubscribeOptions): VoiceLiveSubscription;
@@ -1615,45 +1611,45 @@ export class VoiceLiveSession {
 
 // @public
 export interface VoiceLiveSessionHandlers {
-    processConnected?: (args: ConnectedEventArgs, context: ConnectionContext) => Promise<void>;
-    processConversationItemCreated?: (event: ServerEventConversationItemCreated, context: SessionContext) => Promise<void>;
-    processConversationItemDeleted?: (event: ServerEventConversationItemDeleted, context: SessionContext) => Promise<void>;
-    processConversationItemInputAudioTranscriptionCompleted?: (event: ServerEventConversationItemInputAudioTranscriptionCompleted, context: SessionContext) => Promise<void>;
-    processConversationItemInputAudioTranscriptionDelta?: (event: ServerEventConversationItemInputAudioTranscriptionDelta, context: SessionContext) => Promise<void>;
-    processConversationItemInputAudioTranscriptionFailed?: (event: ServerEventConversationItemInputAudioTranscriptionFailed, context: SessionContext) => Promise<void>;
-    processConversationItemRetrieved?: (event: ServerEventConversationItemRetrieved, context: SessionContext) => Promise<void>;
-    processConversationItemTruncated?: (event: ServerEventConversationItemTruncated, context: SessionContext) => Promise<void>;
-    processDisconnected?: (args: DisconnectedEventArgs, context: ConnectionContext) => Promise<void>;
-    processError?: (args: ErrorEventArgs, context: ConnectionContext) => Promise<void>;
-    processInputAudioBufferCleared?: (event: ServerEventInputAudioBufferCleared, context: SessionContext) => Promise<void>;
-    processInputAudioBufferCommitted?: (event: ServerEventInputAudioBufferCommitted, context: SessionContext) => Promise<void>;
-    processInputAudioBufferSpeechStarted?: (event: ServerEventInputAudioBufferSpeechStarted, context: SessionContext) => Promise<void>;
-    processInputAudioBufferSpeechStopped?: (event: ServerEventInputAudioBufferSpeechStopped, context: SessionContext) => Promise<void>;
-    processResponseAnimationBlendshapeDelta?: (event: ServerEventResponseAnimationBlendshapeDelta, context: SessionContext) => Promise<void>;
-    processResponseAnimationBlendshapeDone?: (event: ServerEventResponseAnimationBlendshapeDone, context: SessionContext) => Promise<void>;
-    processResponseAnimationVisemeDelta?: (event: ServerEventResponseAnimationVisemeDelta, context: SessionContext) => Promise<void>;
-    processResponseAnimationVisemeDone?: (event: ServerEventResponseAnimationVisemeDone, context: SessionContext) => Promise<void>;
-    processResponseAudioDelta?: (event: ServerEventResponseAudioDelta, context: SessionContext) => Promise<void>;
-    processResponseAudioDone?: (event: ServerEventResponseAudioDone, context: SessionContext) => Promise<void>;
-    processResponseAudioTimestampDelta?: (event: ServerEventResponseAudioTimestampDelta, context: SessionContext) => Promise<void>;
-    processResponseAudioTimestampDone?: (event: ServerEventResponseAudioTimestampDone, context: SessionContext) => Promise<void>;
-    processResponseAudioTranscriptDelta?: (event: ServerEventResponseAudioTranscriptDelta, context: SessionContext) => Promise<void>;
-    processResponseAudioTranscriptDone?: (event: ServerEventResponseAudioTranscriptDone, context: SessionContext) => Promise<void>;
-    processResponseContentPartAdded?: (event: ServerEventResponseContentPartAdded, context: SessionContext) => Promise<void>;
-    processResponseContentPartDone?: (event: ServerEventResponseContentPartDone, context: SessionContext) => Promise<void>;
-    processResponseCreated?: (event: ServerEventResponseCreated, context: SessionContext) => Promise<void>;
-    processResponseDone?: (event: ServerEventResponseDone, context: SessionContext) => Promise<void>;
-    processResponseFunctionCallArgumentsDelta?: (event: ServerEventResponseFunctionCallArgumentsDelta, context: SessionContext) => Promise<void>;
-    processResponseFunctionCallArgumentsDone?: (event: ServerEventResponseFunctionCallArgumentsDone, context: SessionContext) => Promise<void>;
-    processResponseOutputItemAdded?: (event: ServerEventResponseOutputItemAdded, context: SessionContext) => Promise<void>;
-    processResponseOutputItemDone?: (event: ServerEventResponseOutputItemDone, context: SessionContext) => Promise<void>;
-    processResponseTextDelta?: (event: ServerEventResponseTextDelta, context: SessionContext) => Promise<void>;
-    processResponseTextDone?: (event: ServerEventResponseTextDone, context: SessionContext) => Promise<void>;
-    processServerError?: (event: ServerEventError, context: SessionContext) => Promise<void>;
-    processServerEvent?: (event: ServerEventUnion, context: SessionContext) => Promise<void>;
-    processSessionAvatarConnecting?: (event: ServerEventSessionAvatarConnecting, context: SessionContext) => Promise<void>;
-    processSessionCreated?: (event: ServerEventSessionCreated, context: SessionContext) => Promise<void>;
-    processSessionUpdated?: (event: ServerEventSessionUpdated, context: SessionContext) => Promise<void>;
+    onConnected?: (args: ConnectedEventArgs, context: ConnectionContext) => Promise<void>;
+    onConversationItemCreated?: (event: ServerEventConversationItemCreated, context: SessionContext) => Promise<void>;
+    onConversationItemDeleted?: (event: ServerEventConversationItemDeleted, context: SessionContext) => Promise<void>;
+    onConversationItemInputAudioTranscriptionCompleted?: (event: ServerEventConversationItemInputAudioTranscriptionCompleted, context: SessionContext) => Promise<void>;
+    onConversationItemInputAudioTranscriptionDelta?: (event: ServerEventConversationItemInputAudioTranscriptionDelta, context: SessionContext) => Promise<void>;
+    onConversationItemInputAudioTranscriptionFailed?: (event: ServerEventConversationItemInputAudioTranscriptionFailed, context: SessionContext) => Promise<void>;
+    onConversationItemRetrieved?: (event: ServerEventConversationItemRetrieved, context: SessionContext) => Promise<void>;
+    onConversationItemTruncated?: (event: ServerEventConversationItemTruncated, context: SessionContext) => Promise<void>;
+    onDisconnected?: (args: DisconnectedEventArgs, context: ConnectionContext) => Promise<void>;
+    onError?: (args: ErrorEventArgs, context: ConnectionContext) => Promise<void>;
+    onInputAudioBufferCleared?: (event: ServerEventInputAudioBufferCleared, context: SessionContext) => Promise<void>;
+    onInputAudioBufferCommitted?: (event: ServerEventInputAudioBufferCommitted, context: SessionContext) => Promise<void>;
+    onInputAudioBufferSpeechStarted?: (event: ServerEventInputAudioBufferSpeechStarted, context: SessionContext) => Promise<void>;
+    onInputAudioBufferSpeechStopped?: (event: ServerEventInputAudioBufferSpeechStopped, context: SessionContext) => Promise<void>;
+    onResponseAnimationBlendshapeDelta?: (event: ServerEventResponseAnimationBlendshapeDelta, context: SessionContext) => Promise<void>;
+    onResponseAnimationBlendshapeDone?: (event: ServerEventResponseAnimationBlendshapeDone, context: SessionContext) => Promise<void>;
+    onResponseAnimationVisemeDelta?: (event: ServerEventResponseAnimationVisemeDelta, context: SessionContext) => Promise<void>;
+    onResponseAnimationVisemeDone?: (event: ServerEventResponseAnimationVisemeDone, context: SessionContext) => Promise<void>;
+    onResponseAudioDelta?: (event: ServerEventResponseAudioDelta, context: SessionContext) => Promise<void>;
+    onResponseAudioDone?: (event: ServerEventResponseAudioDone, context: SessionContext) => Promise<void>;
+    onResponseAudioTimestampDelta?: (event: ServerEventResponseAudioTimestampDelta, context: SessionContext) => Promise<void>;
+    onResponseAudioTimestampDone?: (event: ServerEventResponseAudioTimestampDone, context: SessionContext) => Promise<void>;
+    onResponseAudioTranscriptDelta?: (event: ServerEventResponseAudioTranscriptDelta, context: SessionContext) => Promise<void>;
+    onResponseAudioTranscriptDone?: (event: ServerEventResponseAudioTranscriptDone, context: SessionContext) => Promise<void>;
+    onResponseContentPartAdded?: (event: ServerEventResponseContentPartAdded, context: SessionContext) => Promise<void>;
+    onResponseContentPartDone?: (event: ServerEventResponseContentPartDone, context: SessionContext) => Promise<void>;
+    onResponseCreated?: (event: ServerEventResponseCreated, context: SessionContext) => Promise<void>;
+    onResponseDone?: (event: ServerEventResponseDone, context: SessionContext) => Promise<void>;
+    onResponseFunctionCallArgumentsDelta?: (event: ServerEventResponseFunctionCallArgumentsDelta, context: SessionContext) => Promise<void>;
+    onResponseFunctionCallArgumentsDone?: (event: ServerEventResponseFunctionCallArgumentsDone, context: SessionContext) => Promise<void>;
+    onResponseOutputItemAdded?: (event: ServerEventResponseOutputItemAdded, context: SessionContext) => Promise<void>;
+    onResponseOutputItemDone?: (event: ServerEventResponseOutputItemDone, context: SessionContext) => Promise<void>;
+    onResponseTextDelta?: (event: ServerEventResponseTextDelta, context: SessionContext) => Promise<void>;
+    onResponseTextDone?: (event: ServerEventResponseTextDone, context: SessionContext) => Promise<void>;
+    onServerError?: (event: ServerEventError, context: SessionContext) => Promise<void>;
+    onServerEvent?: (event: ServerEventUnion, context: SessionContext) => Promise<void>;
+    onSessionAvatarConnecting?: (event: ServerEventSessionAvatarConnecting, context: SessionContext) => Promise<void>;
+    onSessionCreated?: (event: ServerEventSessionCreated, context: SessionContext) => Promise<void>;
+    onSessionUpdated?: (event: ServerEventSessionUpdated, context: SessionContext) => Promise<void>;
 }
 
 // @public (undocumented)
