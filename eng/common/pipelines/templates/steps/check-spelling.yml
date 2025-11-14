@@ -66,9 +66,9 @@ steps:
           }
         displayName: Determine if cspell upgrade verification is needed
 
-      # Using `- checkout` will interfere with the job's exisitng checkout and
-      # whether to run this step is based on runtime conditions, so 
-      # sparse-checkout.yml can't be used here.
+      # Using the checkout task interferes with the job's existing checkout. 
+      # sparse-checkout.yml cannot be  used here because it doesn't use runtime
+      # conditions to determine if it should run
       - pwsh: |
           git clone `
             --no-checkout `
@@ -85,16 +85,14 @@ steps:
         displayName: Sparse checkout before state of public API surface area
 
       - pwsh: |
-          ./eng/scripts/spell-check-public-api.ps1 `
-            | Tee-Object -FilePath '${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-after.txt'
-          Get-ChildItem -Path ${{ parameters.CspellUpgradeArtifactDirectory }} -Recurse | Select-Object -Property FullName
+          ./eng/scripts/spell-check-public-api.ps1 > '${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-after.txt'
+          Get-Content '${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-after.txt'
         condition: and(succeeded(), eq(variables['RunCspellUpgradeVerification'], 'true'))
         displayName: Get public API spelling errors after cspell upgrade
 
       - pwsh: |
-          ./eng/scripts/spell-check-public-api.ps1 `
-            | Tee-Object -FilePath '${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-before.txt'
-          Get-ChildItem -Path ${{ parameters.CspellUpgradeArtifactDirectory }} -Recurse | Select-Object -Property FullName
+          ./eng/scripts/spell-check-public-api.ps1 > '${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-before.txt'
+          Get-Content '${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-before.txt'
         condition: and(succeeded(), eq(variables['RunCspellUpgradeVerification'], 'true'))
         displayName: Get public API spelling errors before cspell upgrade
         workingDirectory: $(Pipeline.Workspace)/public-api-before
