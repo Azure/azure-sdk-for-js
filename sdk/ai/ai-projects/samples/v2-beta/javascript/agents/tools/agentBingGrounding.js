@@ -83,7 +83,6 @@ async function main() {
       }
     } else if (event.type === "response.completed") {
       console.log("\nFollow-up completed!");
-      console.log(`Full response: ${event.response.output_text}`);
     }
   }
 
