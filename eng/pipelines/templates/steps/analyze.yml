@@ -14,6 +14,10 @@ steps:
       Artifacts: ${{ parameters.Artifacts }}
 
   - template: /eng/common/pipelines/templates/steps/check-spelling.yml
+    parameters:
+      EnableCspellUpgradeVerification: true
+      CspellUpgradePublicApiCheckoutExpression: /sdk/*/*/review
+
 
   - task: PowerShell@2
     inputs:
