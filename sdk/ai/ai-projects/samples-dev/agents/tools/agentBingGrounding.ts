@@ -77,7 +77,9 @@ export async function main(): Promise<void> {
           if (lastContent.type === "output_text" && lastContent.annotations) {
             for (const annotation of lastContent.annotations) {
               if (annotation.type === "url_citation") {
-                console.log(`URL Citation: ${annotation.url}`);
+                console.log(
+                  `URL Citation: ${annotation.url}, Start index: ${annotation.start_index}, End index: ${annotation.end_index}`,
+                );
               }
             }
           }
