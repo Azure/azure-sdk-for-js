@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -2578,6 +2584,34 @@ export function replicationStatusDeserializer(item: any): ReplicationStatus {
   };
 }
 
+/** Body for the list replications endpoint. If supplied, the body will be used as a filter for example to exclude deleted replications. If omitted, the endpoint returns all replications */
+export interface ListReplicationsRequest {
+  /** Exclude Replications filter. 'None' returns all replications, 'Deleted' excludes deleted replications. Default is 'None' */
+  exclude?: Exclude;
+}
+
+export function listReplicationsRequestSerializer(item: ListReplicationsRequest): any {
+  return { exclude: item["exclude"] };
+}
+
+/** An option to filter out replications. 'None' returns all replications, 'Deleted' excludes deleted replications. Default is 'None' */
+export enum KnownExclude {
+  /** 'None' returns all replications */
+  None = "None",
+  /** 'Deleted' excludes deleted replications */
+  Deleted = "Deleted",
+}
+
+/**
+ * An option to filter out replications. 'None' returns all replications, 'Deleted' excludes deleted replications. Default is 'None' \
+ * {@link KnownExclude} can be used interchangeably with Exclude,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: 'None' returns all replications \
+ * **Deleted**: 'Deleted' excludes deleted replications
+ */
+export type Exclude = string;
+
 /** List Replications */
 export interface _ListReplications {
   /** The Replication items on this page */
@@ -2611,6 +2645,12 @@ export interface Replication {
   remoteVolumeResourceId: string;
   /** The remote region for the other end of the Volume Replication. */
   remoteVolumeRegion?: string;
+  /** The status of the replication */
+  readonly mirrorState?: ReplicationMirrorState;
+  /** Replication creation time */
+  readonly replicationCreationTime?: Date;
+  /** Replication deletion time */
+  readonly replicationDeletionTime?: Date;
 }
 
 export function replicationDeserializer(item: any): Replication {
@@ -2620,8 +2660,36 @@ export function replicationDeserializer(item: any): Replication {
     replicationSchedule: item["replicationSchedule"],
     remoteVolumeResourceId: item["remoteVolumeResourceId"],
     remoteVolumeRegion: item["remoteVolumeRegion"],
+    mirrorState: item["mirrorState"],
+    replicationCreationTime: !item["replicationCreationTime"]
+      ? item["replicationCreationTime"]
+      : new Date(item["replicationCreationTime"]),
+    replicationDeletionTime: !item["replicationDeletionTime"]
+      ? item["replicationDeletionTime"]
+      : new Date(item["replicationDeletionTime"]),
   };
 }
+
+/** The status of the replication */
+export enum KnownReplicationMirrorState {
+  /** Destination volume has not been initialized */
+  Uninitialized = "Uninitialized",
+  /** Destination volume has been initialized and is ready */
+  Mirrored = "Mirrored",
+  /** Destination volume is RW, replication relationship has been broken off */
+  Broken = "Broken",
+}
+
+/**
+ * The status of the replication \
+ * {@link KnownReplicationMirrorState} can be used interchangeably with ReplicationMirrorState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Uninitialized**: Destination volume has not been initialized \
+ * **Mirrored**: Destination volume has been initialized and is ready \
+ * **Broken**: Destination volume is RW, replication relationship has been broken off
+ */
+export type ReplicationMirrorState = string;
 
 /** Authorize request */
 export interface AuthorizeRequest {
@@ -3361,19 +3429,21 @@ export function volumeQuotaRulesPropertiesDeserializer(item: any): VolumeQuotaRu
 
 /** Gets the status of the VolumeQuotaRule at the time the operation was called. */
 export enum KnownNetAppProvisioningState {
-  /** Accepted */
+  /** Resource has been Accepted */
   Accepted = "Accepted",
-  /** Creating */
+  /** Resource is being Created */
   Creating = "Creating",
-  /** Patching */
+  /** Resource is being Patched */
   Patching = "Patching",
-  /** Deleting */
+  /** Resource is updating */
+  Updating = "Updating",
+  /** Resource is being Deleted */
   Deleting = "Deleting",
-  /** Moving */
+  /** Resource is being Moved */
   Moving = "Moving",
-  /** Failed */
+  /** Resource has Failed */
   Failed = "Failed",
-  /** Succeeded */
+  /** Resource has Succeeded */
   Succeeded = "Succeeded",
 }
 
@@ -3382,13 +3452,14 @@ export enum KnownNetAppProvisioningState {
  * {@link KnownNetAppProvisioningState} can be used interchangeably with NetAppProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Accepted**: Accepted \
- * **Creating**: Creating \
- * **Patching**: Patching \
- * **Deleting**: Deleting \
- * **Moving**: Moving \
- * **Failed**: Failed \
- * **Succeeded**: Succeeded
+ * **Accepted**: Resource has been Accepted \
+ * **Creating**: Resource is being Created \
+ * **Patching**: Resource is being Patched \
+ * **Updating**: Resource is updating \
+ * **Deleting**: Resource is being Deleted \
+ * **Moving**: Resource is being Moved \
+ * **Failed**: Resource has Failed \
+ * **Succeeded**: Resource has Succeeded
  */
 export type NetAppProvisioningState = string;
 
@@ -3519,342 +3590,6 @@ export function backupVaultArrayDeserializer(result: Array<BackupVault>): any[] 
   return result.map((item) => {
     return backupVaultDeserializer(item);
   });
-}
-
-/** Bucket resource */
-export interface Bucket extends ProxyResource {
-  /** Bucket properties */
-  properties?: BucketProperties;
-}
-
-export function bucketSerializer(item: Bucket): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : bucketPropertiesSerializer(item["properties"]),
-  };
-}
-
-export function bucketDeserializer(item: any): Bucket {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : bucketPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Bucket resource properties */
-export interface BucketProperties {
-  /** The volume path mounted inside the bucket. The default is the root path '/' if no value is provided when the bucket is created. */
-  path?: string;
-  /** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
-  fileSystemUser?: FileSystemUser;
-  /** Provisioning state of the resource */
-  readonly provisioningState?: NetAppProvisioningState;
-  /**
-   * The bucket credentials status. There states:
-   *
-   * "NoCredentialsSet": Access and Secret key pair have not been generated.
-   * "CredentialsExpired": Access and Secret key pair have expired.
-   * "Active": The certificate has been installed and credentials are unexpired.
-   */
-  readonly status?: CredentialsStatus;
-  /** Properties of the server managing the lifecycle of volume buckets */
-  server?: BucketServerProperties;
-  /** Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. */
-  permissions?: BucketPermissions;
-}
-
-export function bucketPropertiesSerializer(item: BucketProperties): any {
-  return {
-    path: item["path"],
-    fileSystemUser: !item["fileSystemUser"]
-      ? item["fileSystemUser"]
-      : fileSystemUserSerializer(item["fileSystemUser"]),
-    server: !item["server"] ? item["server"] : bucketServerPropertiesSerializer(item["server"]),
-    permissions: item["permissions"],
-  };
-}
-
-export function bucketPropertiesDeserializer(item: any): BucketProperties {
-  return {
-    path: item["path"],
-    fileSystemUser: !item["fileSystemUser"]
-      ? item["fileSystemUser"]
-      : fileSystemUserDeserializer(item["fileSystemUser"]),
-    provisioningState: item["provisioningState"],
-    status: item["status"],
-    server: !item["server"] ? item["server"] : bucketServerPropertiesDeserializer(item["server"]),
-    permissions: item["permissions"],
-  };
-}
-
-/** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
-export interface FileSystemUser {
-  /** The effective NFS User ID and Group ID when accessing the volume data. */
-  nfsUser?: NfsUser;
-  /** The effective CIFS username when accessing the volume data. */
-  cifsUser?: CifsUser;
-}
-
-export function fileSystemUserSerializer(item: FileSystemUser): any {
-  return {
-    nfsUser: !item["nfsUser"] ? item["nfsUser"] : nfsUserSerializer(item["nfsUser"]),
-    cifsUser: !item["cifsUser"] ? item["cifsUser"] : cifsUserSerializer(item["cifsUser"]),
-  };
-}
-
-export function fileSystemUserDeserializer(item: any): FileSystemUser {
-  return {
-    nfsUser: !item["nfsUser"] ? item["nfsUser"] : nfsUserDeserializer(item["nfsUser"]),
-    cifsUser: !item["cifsUser"] ? item["cifsUser"] : cifsUserDeserializer(item["cifsUser"]),
-  };
-}
-
-/** The effective NFS User ID and Group ID when accessing the volume data. */
-export interface NfsUser {
-  /** The NFS user's UID */
-  userId?: number;
-  /** The NFS user's GID */
-  groupId?: number;
-}
-
-export function nfsUserSerializer(item: NfsUser): any {
-  return { userId: item["userId"], groupId: item["groupId"] };
-}
-
-export function nfsUserDeserializer(item: any): NfsUser {
-  return {
-    userId: item["userId"],
-    groupId: item["groupId"],
-  };
-}
-
-/** The effective CIFS username when accessing the volume data. */
-export interface CifsUser {
-  /** The CIFS user's username */
-  username?: string;
-}
-
-export function cifsUserSerializer(item: CifsUser): any {
-  return { username: item["username"] };
-}
-
-export function cifsUserDeserializer(item: any): CifsUser {
-  return {
-    username: item["username"],
-  };
-}
-
-/**
- * The bucket credentials status. There states:
- *
- * "NoCredentialsSet": Access and Secret key pair have not been generated.
- * "CredentialsExpired": Access and Secret key pair have expired.
- * "Active": The certificate has been installed and credentials are unexpired.
- */
-export enum KnownCredentialsStatus {
-  /** Access and Secret key pair have not been generated. */
-  NoCredentialsSet = "NoCredentialsSet",
-  /** Access and Secret key pair have expired. */
-  CredentialsExpired = "CredentialsExpired",
-  /** The certificate has been installed on the bucket server and the bucket credentials are unexpired. */
-  Active = "Active",
-}
-
-/**
- * The bucket credentials status. There states:
- *
- * "NoCredentialsSet": Access and Secret key pair have not been generated.
- * "CredentialsExpired": Access and Secret key pair have expired.
- * "Active": The certificate has been installed and credentials are unexpired. \
- * {@link KnownCredentialsStatus} can be used interchangeably with CredentialsStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NoCredentialsSet**: Access and Secret key pair have not been generated. \
- * **CredentialsExpired**: Access and Secret key pair have expired. \
- * **Active**: The certificate has been installed on the bucket server and the bucket credentials are unexpired.
- */
-export type CredentialsStatus = string;
-
-/** Properties of the server managing the lifecycle of volume buckets */
-export interface BucketServerProperties {
-  /** The host part of the bucket URL, resolving to the bucket IP address and allowed by the server certificate. */
-  fqdn?: string;
-  /** Certificate Common Name taken from the certificate installed on the bucket server */
-  readonly certificateCommonName?: string;
-  /** The bucket server's certificate expiry date. */
-  readonly certificateExpiryDate?: Date;
-  /** The bucket server's IPv4 address */
-  readonly ipAddress?: string;
-  /** A base64-encoded PEM file, which includes both the bucket server's certificate and private key. It is used to authenticate the user and allows access to volume data in a read-only manner. */
-  certificateObject?: string;
-}
-
-export function bucketServerPropertiesSerializer(item: BucketServerProperties): any {
-  return { fqdn: item["fqdn"], certificateObject: item["certificateObject"] };
-}
-
-export function bucketServerPropertiesDeserializer(item: any): BucketServerProperties {
-  return {
-    fqdn: item["fqdn"],
-    certificateCommonName: item["certificateCommonName"],
-    certificateExpiryDate: !item["certificateExpiryDate"]
-      ? item["certificateExpiryDate"]
-      : new Date(item["certificateExpiryDate"]),
-    ipAddress: item["ipAddress"],
-    certificateObject: item["certificateObject"],
-  };
-}
-
-/** Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. */
-export enum KnownBucketPermissions {
-  /** Read-only access to bucket. */
-  ReadOnly = "ReadOnly",
-  /** Read-write access to bucket. */
-  ReadWrite = "ReadWrite",
-}
-
-/**
- * Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. \
- * {@link KnownBucketPermissions} can be used interchangeably with BucketPermissions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ReadOnly**: Read-only access to bucket. \
- * **ReadWrite**: Read-write access to bucket.
- */
-export type BucketPermissions = string;
-
-/** Bucket resource */
-export interface BucketPatch extends ProxyResource {
-  /** Bucket properties */
-  properties?: BucketPatchProperties;
-}
-
-export function bucketPatchSerializer(item: BucketPatch): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : bucketPatchPropertiesSerializer(item["properties"]),
-  };
-}
-
-/** Bucket resource properties for a Patch operation */
-export interface BucketPatchProperties {
-  /** The volume path mounted inside the bucket. */
-  path?: string;
-  /** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
-  fileSystemUser?: FileSystemUser;
-  /** Provisioning state of the resource */
-  readonly provisioningState?: NetAppProvisioningState;
-  /** Properties of the server managing the lifecycle of volume buckets */
-  server?: BucketServerPatchProperties;
-  /** Access permissions for the bucket. Either ReadOnly or ReadWrite. */
-  permissions?: BucketPatchPermissions;
-}
-
-export function bucketPatchPropertiesSerializer(item: BucketPatchProperties): any {
-  return {
-    path: item["path"],
-    fileSystemUser: !item["fileSystemUser"]
-      ? item["fileSystemUser"]
-      : fileSystemUserSerializer(item["fileSystemUser"]),
-    server: !item["server"]
-      ? item["server"]
-      : bucketServerPatchPropertiesSerializer(item["server"]),
-    permissions: item["permissions"],
-  };
-}
-
-/** Properties of the server managing the lifecycle of volume buckets */
-export interface BucketServerPatchProperties {
-  /** The host part of the bucket URL, resolving to the bucket IP address and allowed by the server certificate. */
-  fqdn?: string;
-  /** A base64-encoded PEM file, which includes both the bucket server's certificate and private key. It is used to authenticate the user and allows access to volume data in a read-only manner. */
-  certificateObject?: string;
-}
-
-export function bucketServerPatchPropertiesSerializer(item: BucketServerPatchProperties): any {
-  return { fqdn: item["fqdn"], certificateObject: item["certificateObject"] };
-}
-
-/** Access permissions for the bucket. Either ReadOnly or ReadWrite. */
-export enum KnownBucketPatchPermissions {
-  /** Read-only access to bucket. */
-  ReadOnly = "ReadOnly",
-  /** Read-write access to bucket. */
-  ReadWrite = "ReadWrite",
-}
-
-/**
- * Access permissions for the bucket. Either ReadOnly or ReadWrite. \
- * {@link KnownBucketPatchPermissions} can be used interchangeably with BucketPatchPermissions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ReadOnly**: Read-only access to bucket. \
- * **ReadWrite**: Read-write access to bucket.
- */
-export type BucketPatchPermissions = string;
-
-/** List of volume bucket resources */
-export interface _BucketList {
-  /** The Bucket items on this page */
-  value: Bucket[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _bucketListDeserializer(item: any): _BucketList {
-  return {
-    value: bucketArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function bucketArraySerializer(result: Array<Bucket>): any[] {
-  return result.map((item) => {
-    return bucketSerializer(item);
-  });
-}
-
-export function bucketArrayDeserializer(result: Array<Bucket>): any[] {
-  return result.map((item) => {
-    return bucketDeserializer(item);
-  });
-}
-
-/** The bucket's Access and Secret key pair Expiry Time expressed as the number of days from now. */
-export interface BucketCredentialsExpiry {
-  /** The number of days from now until the newly generated Access and Secret key pair will expire. */
-  keyPairExpiryDays?: number;
-}
-
-export function bucketCredentialsExpirySerializer(item: BucketCredentialsExpiry): any {
-  return { keyPairExpiryDays: item["keyPairExpiryDays"] };
-}
-
-/** Bucket Access Key, Secret Key, and Expiry date and time of the key pair */
-export interface BucketGenerateCredentials {
-  /** The Access Key that is required along with the Secret Key to access the bucket. */
-  readonly accessKey?: string;
-  /** The Secret Key that is required along with the Access Key to access the bucket. */
-  readonly secretKey?: string;
-  /** The bucket's Access and Secret key pair expiry date and time (in UTC). */
-  readonly keyPairExpiry?: Date;
-}
-
-export function bucketGenerateCredentialsDeserializer(item: any): BucketGenerateCredentials {
-  return {
-    accessKey: item["accessKey"],
-    secretKey: item["secretKey"],
-    keyPairExpiry: !item["keyPairExpiry"] ? item["keyPairExpiry"] : new Date(item["keyPairExpiry"]),
-  };
 }
 
 /** Information regarding regionInfo Item. */
@@ -5136,6 +4871,10 @@ export enum KnownCheckNameResourceTypes {
   MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
   /** Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots */
   MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots",
+  /** ANF Backup under a volume , deprecated, use `Microsoft.NetApp/netAppAccounts/backupVaults/backups` instead. */
+  MicrosoftNetAppNetAppAccountsBackupVaultsBackups = "Microsoft.NetApp/netAppAccounts/backupVaults/backups",
+  /** ANF Backup under a Backup Vault */
+  MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesBackups = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/backups",
 }
 
 /**
@@ -5146,7 +4885,9 @@ export enum KnownCheckNameResourceTypes {
  * **Microsoft.NetApp\/netAppAccounts** \
  * **Microsoft.NetApp\/netAppAccounts\/capacityPools** \
  * **Microsoft.NetApp\/netAppAccounts\/capacityPools\/volumes** \
- * **Microsoft.NetApp\/netAppAccounts\/capacityPools\/volumes\/snapshots**
+ * **Microsoft.NetApp\/netAppAccounts\/capacityPools\/volumes\/snapshots** \
+ * **Microsoft.NetApp\/netAppAccounts\/backupVaults\/backups**: ANF Backup under a volume , deprecated, use `Microsoft.NetApp\/netAppAccounts\/backupVaults\/backups` instead. \
+ * **Microsoft.NetApp\/netAppAccounts\/capacityPools\/volumes\/backups**: ANF Backup under a Backup Vault
  */
 export type CheckNameResourceTypes = string;
 
@@ -5232,6 +4973,10 @@ export enum KnownCheckQuotaNameResourceTypes {
   MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
   /** Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots */
   MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots",
+  /** ANF Backup under a volume , deprecated, use `Microsoft.NetApp/netAppAccounts/backupVaults/backups` instead. */
+  MicrosoftNetAppNetAppAccountsBackupVaultsBackups = "Microsoft.NetApp/netAppAccounts/backupVaults/backups",
+  /** ANF Backup under a Backup Vault */
+  MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesBackups = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/backups",
 }
 
 /**
@@ -5242,7 +4987,9 @@ export enum KnownCheckQuotaNameResourceTypes {
  * **Microsoft.NetApp\/netAppAccounts** \
  * **Microsoft.NetApp\/netAppAccounts\/capacityPools** \
  * **Microsoft.NetApp\/netAppAccounts\/capacityPools\/volumes** \
- * **Microsoft.NetApp\/netAppAccounts\/capacityPools\/volumes\/snapshots**
+ * **Microsoft.NetApp\/netAppAccounts\/capacityPools\/volumes\/snapshots** \
+ * **Microsoft.NetApp\/netAppAccounts\/backupVaults\/backups**: ANF Backup under a volume , deprecated, use `Microsoft.NetApp\/netAppAccounts\/backupVaults\/backups` instead. \
+ * **Microsoft.NetApp\/netAppAccounts\/capacityPools\/volumes\/backups**: ANF Backup under a Backup Vault
  */
 export type CheckQuotaNameResourceTypes = string;
 
@@ -5440,6 +5187,8 @@ export function usagePropertiesDeserializer(item: any): UsageProperties {
 export enum KnownVersions {
   /** The 2025-06-01 API version. */
   V20250601 = "2025-06-01",
-  /** The 2025-07-01-preview API version. */
-  V20250701Preview = "2025-07-01-preview",
+  /** The 2025-08-01 API version. */
+  V20250801 = "2025-08-01",
+  /** The 2025-09-01 API version. */
+  V20250901 = "2025-09-01",
 }
