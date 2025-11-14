@@ -64,13 +64,12 @@ try {
   Write-Host "Dependencies installed successfully." -ForegroundColor Green
   Write-Host ""
   
-  # Run the update-changelog command using node
-  $cliPath = Join-Path $releaseToolsPath "node_modules\.bin\update-changelog.cmd"
+  # Run the update-changelog command using npm exec
   Write-Host "Updating CHANGELOG.md..." -ForegroundColor Green
-  Write-Host "Running: $cliPath --sdkRepoPath $resolvedRepoPath --packagePath $resolvedPackagePath" -ForegroundColor Gray
+  Write-Host "Running: npm --prefix $releaseToolsPath exec --no -- update-changelog --sdkRepoPath $resolvedRepoPath --packagePath $resolvedPackagePath" -ForegroundColor Gray
   
   # Execute the command
-  & $cliPath --sdkRepoPath $resolvedRepoPath --packagePath $resolvedPackagePath
+  & npm --prefix $releaseToolsPath exec --no -- update-changelog --sdkRepoPath $resolvedRepoPath --packagePath $resolvedPackagePath
   
   if ($LASTEXITCODE -ne 0) {
     throw "update-changelog command failed with exit code $LASTEXITCODE"

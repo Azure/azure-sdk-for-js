@@ -90,7 +90,6 @@ try {
   Write-Host ""
   
   # Build the command arguments
-  $cliPath = Join-Path $releaseToolsPath "node_modules\.bin\update-version.cmd"
   $cmdArgs = @(
     "--sdkRepoPath", "$resolvedRepoPath"
     "--packagePath", "$resolvedPackagePath"
@@ -108,12 +107,12 @@ try {
     $cmdArgs += "--releaseDate", "$ReleaseDate"
   }
   
-  # Run the update-version command
+  # Run the update-version command using npm exec
   Write-Host "Updating package version..." -ForegroundColor Green
-  Write-Host "Running: $cliPath $($cmdArgs -join ' ')" -ForegroundColor Gray
+  Write-Host "Running: npm --prefix $releaseToolsPath exec --no -- update-version $($cmdArgs -join ' ')" -ForegroundColor Gray
   
   # Execute the command
-  & $cliPath @cmdArgs
+  & npm --prefix $releaseToolsPath exec --no -- update-version @cmdArgs
   
   if ($LASTEXITCODE -ne 0) {
     throw "update-version command failed with exit code $LASTEXITCODE"
