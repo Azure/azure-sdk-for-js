@@ -50,13 +50,12 @@ steps:
             Write-Host "Public API spell check script not found. Skipping upgrade checks."
           }
           Write-Host "Changed Files:"
-          # TODO: Use a common script that lists changed files
-          # Deepen the fetch to ensure there is history to compare. GitHub uses
-          # a merge commit for PRs so the history only needs to be deepend by 1
-          # to get the state of the target branch.
-          git fetch --deepen 1
-          git diff --name-only $(System.PullRequest.TargetBranch) | Tee-Object -Variable changedFiles
-
+          ./eng/common/scripts/Generate-PR-Diff.ps1 `
+            -TargetPath '.' `
+            -ArtifactPath '$(ArtifactStagingDirectory)'
+          $changedFiles = (Get-Content '$(ArtifactStagingDirectory)/diff.json' | ConvertFrom-Json).ChangedFiles
+          Write-Host $changedFiles
+          
           if ($changedFiles -contains 'eng/common/spelling/package-lock.json') {
             Write-Host "Detected change to cspell package-lock.json. Setting variables to run cspell upgrade verification."
             New-Item -ItemType Directory -Path '${{ parameters.CspellUpgradeArtifactDirectory }}' -Force | Out-Null
