@@ -33,12 +33,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   public fetchMoreRespHeaders: CosmosHeaders;
   public endpoint: ExecutionContext;
   public pageSize: number;
-  private vectorSearchBufferSize: number = 0;
   private static DEFAULT_PAGE_SIZE = 10;
   private static DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE = 50000;
-  private nonStreamingOrderBy = false;
-  private readonly querySupportsTokens: boolean;
-  private readonly isOrderByQuery: boolean;
   private readonly fetchImplementation: LegacyFetchImplementation | QueryControlFetchImplementation;
 
   constructor(
@@ -58,15 +54,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
     const sortOrders = partitionedQueryExecutionInfo.queryInfo!.orderBy;
     const isOrderByQuery = Array.isArray(sortOrders) && sortOrders.length > 0;
-    this.isOrderByQuery = isOrderByQuery;
 
     // Pick between Nonstreaming and streaming endpoints
-    this.nonStreamingOrderBy = partitionedQueryExecutionInfo.queryInfo!.hasNonStreamingOrderBy;
+    const nonStreamingOrderBy = partitionedQueryExecutionInfo.queryInfo!.hasNonStreamingOrderBy;
 
     // Check if this is a GROUP BY query
     const isGroupByQuery =
       Object.keys(partitionedQueryExecutionInfo.queryInfo!.groupByAliasToAggregateType).length >
-      0 ||
+        0 ||
       partitionedQueryExecutionInfo.queryInfo!.aggregates!.length > 0 ||
       partitionedQueryExecutionInfo.queryInfo!.groupByExpressions!.length > 0;
 
@@ -76,13 +71,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
     // Determine if this query type supports continuation tokens
     const querySupportsTokens =
-      !isUnorderedDistinctQuery && !isGroupByQuery && !this.nonStreamingOrderBy;
-    this.querySupportsTokens = querySupportsTokens;
+      !isUnorderedDistinctQuery && !isGroupByQuery && !nonStreamingOrderBy;
 
     // Reject continuation token usage for unsupported query types
     if (!querySupportsTokens) {
       rejectContinuationTokenForUnsupportedQueries(this.options.continuationToken, [
-        QueryTypes.nonStreamingOrderBy(this.nonStreamingOrderBy),
+        QueryTypes.nonStreamingOrderBy(nonStreamingOrderBy),
         QueryTypes.groupBy(isGroupByQuery),
         QueryTypes.unorderedDistinct(isUnorderedDistinctQuery),
       ]);
@@ -97,12 +91,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
     // Pick between parallel vs order by execution context
     // TODO: Currently we don't get any field from backend to determine streaming queries
-    if (this.nonStreamingOrderBy) {
+    if (nonStreamingOrderBy) {
       if (!options.allowUnboundedNonStreamingQueries) {
         this.checkQueryConstraints(partitionedQueryExecutionInfo.queryInfo);
       }
 
-      this.vectorSearchBufferSize = this.calculateVectorSearchBufferSize(
+      const vectorSearchBufferSize = this.calculateVectorSearchBufferSize(
         partitionedQueryExecutionInfo.queryInfo,
         options,
       );
@@ -110,10 +104,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         ? options["vectorSearchBufferSize"]
         : PipelinedQueryExecutionContext.DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE;
 
-      if (this.vectorSearchBufferSize > maxBufferSize) {
+      if (vectorSearchBufferSize > maxBufferSize) {
         throw new ErrorResponse(
-          `Executing a vector search query with TOP or OFFSET + LIMIT value ${this.vectorSearchBufferSize} larger than the vectorSearchBufferSize ${maxBufferSize} ` +
-          `is not allowed`,
+          `Executing a vector search query with TOP or OFFSET + LIMIT value ${vectorSearchBufferSize} larger than the vectorSearchBufferSize ${maxBufferSize} ` +
+            `is not allowed`,
         );
       }
 
@@ -133,7 +127,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this.endpoint = new NonStreamingOrderByEndpointComponent(
           context,
           sortOrders,
-          this.vectorSearchBufferSize,
+          vectorSearchBufferSize,
           partitionedQueryExecutionInfo.queryInfo.offset,
           this.emitRawOrderByPayload,
         );
@@ -141,7 +135,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this.endpoint = new NonStreamingOrderByDistinctEndpointComponent(
           context,
           partitionedQueryExecutionInfo.queryInfo,
-          this.vectorSearchBufferSize,
+          vectorSearchBufferSize,
           this.emitRawOrderByPayload,
         );
       }
@@ -236,8 +230,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this,
         this.collectionLink,
         this.options.continuationToken,
-        this.isOrderByQuery,
-        this.querySupportsTokens,
+        isOrderByQuery,
+        querySupportsTokens,
       );
     } else {
       this.fetchImplementation = new LegacyFetchImplementation(this);
@@ -279,8 +273,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     if (!hasTop && !hasLimit) {
       throw new ErrorResponse(
         "Executing a non-streaming search query without TOP or LIMIT can consume a large number of RUs " +
-        "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
-        "with your vector search query.",
+          "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
+          "with your vector search query.",
       );
     }
     return;
