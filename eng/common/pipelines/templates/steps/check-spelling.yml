@@ -89,12 +89,16 @@ steps:
           Get-Content '${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-after.txt'
         condition: and(succeeded(), eq(variables['RunCspellUpgradeVerification'], 'true'))
         displayName: Get public API spelling errors after cspell upgrade
+        # It's possible that cspell found errors, don't fail the build
+        ignoreLASTEXITCODE: true
 
       - pwsh: |
           ./eng/scripts/spell-check-public-api.ps1 > '${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-before.txt'
           Get-Content '${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-before.txt'
         condition: and(succeeded(), eq(variables['RunCspellUpgradeVerification'], 'true'))
         displayName: Get public API spelling errors before cspell upgrade
+        # It's possible that cspell found errors, don't fail the build
+        ignoreLASTEXITCODE: true
         workingDirectory: $(Pipeline.Workspace)/public-api-before
 
       # On Linux the diff command exits with a nonzero exit code if there is a
