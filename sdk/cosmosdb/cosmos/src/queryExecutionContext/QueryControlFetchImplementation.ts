@@ -7,7 +7,6 @@ import { mergeHeaders, getInitialHeader } from "./headerUtils.js";
 import type { BaseContinuationTokenManager } from "./ContinuationTokenManager/BaseContinuationTokenManager.js";
 import { ContinuationTokenManagerFactory } from "./ContinuationTokenManager/ContinuationTokenManagerFactory.js";
 import { Constants } from "../common/index.js";
-import type { FetchContext } from "./FetchInterfaces.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
 
 /**
@@ -18,9 +17,11 @@ export class QueryControlFetchImplementation {
   // Required fields for query control - not optional
   private readonly continuationTokenManager: BaseContinuationTokenManager;
   private readonly querySupportsTokens: boolean;
+  private fetchMoreRespHeaders: Record<string, any>;
 
   constructor(
     private endpoint: ExecutionContext,
+    private pageSize: number,
     collectionLink: string,
     continuationToken: string | undefined,
     isOrderByQuery: boolean,
@@ -38,96 +39,96 @@ export class QueryControlFetchImplementation {
 
   async fetchMore(
     diagnosticNode: DiagnosticNodeInternal,
-    context: FetchContext,
+    fetchBuffer: any[],
   ): Promise<Response<any>> {
+    // Initialize headers fresh for each fetchMore call
+    this.fetchMoreRespHeaders = getInitialHeader();
+
     // Use continuation token logic for supported queries when query control is enabled
     // Otherwise use simplified buffer-only logic
     if (this.querySupportsTokens) {
-      return this._handleQueryFetch(diagnosticNode, context);
+      return this._handleQueryFetch(diagnosticNode, fetchBuffer);
     } else {
-      return this._handleSimpleBufferFetch(diagnosticNode, context);
+      return this._handleSimpleBufferFetch(diagnosticNode, fetchBuffer);
     }
   }
 
   private async _handleSimpleBufferFetch(
     diagnosticNode: DiagnosticNodeInternal,
-    context: FetchContext,
+    fetchBuffer: any[],
   ): Promise<Response<any>> {
     // Return buffered data if available
-    if (context.fetchBuffer.length > 0) {
-      const temp = context.fetchBuffer.slice(0, context.pageSize);
-      context.fetchBuffer.splice(0, context.pageSize); // Remove items in place
-      return { result: temp, headers: context.fetchMoreRespHeaders };
+    if (fetchBuffer.length > 0) {
+      const temp = fetchBuffer.slice(0, this.pageSize);
+      fetchBuffer.splice(0, this.pageSize); // Remove items in place
+      return { result: temp, headers: this.fetchMoreRespHeaders };
     }
 
     // Fetch new data from endpoint
     const response = await this.endpoint.fetchMore!(diagnosticNode);
-    mergeHeaders(context.fetchMoreRespHeaders, response.headers);
+    mergeHeaders(this.fetchMoreRespHeaders, response.headers);
 
     if (!response?.result?.buffer?.length) {
       return this._createEmptyResult(response?.headers);
     }
 
     // Buffer new data and return up to pageSize
-    context.fetchBuffer.length = 0; // Clear existing items
-    context.fetchBuffer.push(...response.result.buffer); // Add new items
-    const temp = context.fetchBuffer.slice(0, context.pageSize);
-    context.fetchBuffer.splice(0, context.pageSize); // Remove returned items in place
+    fetchBuffer.length = 0; // Clear existing items
+    fetchBuffer.push(...response.result.buffer); // Add new items
+    const temp = fetchBuffer.slice(0, this.pageSize);
+    fetchBuffer.splice(0, this.pageSize); // Remove returned items in place
 
-    return { result: temp, headers: context.fetchMoreRespHeaders };
+    return { result: temp, headers: this.fetchMoreRespHeaders };
   }
 
   private async _handleQueryFetch(
     diagnosticNode: DiagnosticNodeInternal,
-    context: FetchContext,
+    fetchBuffer: any[],
   ): Promise<Response<any>> {
-    if (context.fetchBuffer.length > 0) {
+    if (fetchBuffer.length > 0) {
       const { endIndex, continuationToken } = this.continuationTokenManager.paginateResults(
-        context.pageSize,
+        this.pageSize,
         false,
       );
-      const temp = context.fetchBuffer.slice(0, endIndex);
-      context.fetchBuffer.splice(0, endIndex); // Remove returned items in place
-      this._setContinuationTokenInHeaders(continuationToken, context);
+      const temp = fetchBuffer.slice(0, endIndex);
+      fetchBuffer.splice(0, endIndex); // Remove returned items in place
+      this._setContinuationTokenInHeaders(continuationToken);
 
-      return { result: temp, headers: context.fetchMoreRespHeaders };
+      return { result: temp, headers: this.fetchMoreRespHeaders };
     }
 
     // Fetch new data from endpoint
-    context.fetchBuffer.length = 0; // Clear existing items in place
+    fetchBuffer.length = 0; // Clear existing items in place
     const response = await this.endpoint.fetchMore!(diagnosticNode);
-    mergeHeaders(context.fetchMoreRespHeaders, response.headers);
+    mergeHeaders(this.fetchMoreRespHeaders, response.headers);
 
     if (!response?.result?.buffer || response.result.buffer.length === 0) {
       const { continuationToken } = this.continuationTokenManager.paginateResults(
-        context.pageSize,
+        this.pageSize,
         true, // isResponseEmpty = true
         response?.result, // Pass response data for processing
       );
-      this._setContinuationTokenInHeaders(continuationToken, context);
-      return this._createEmptyResult(context.fetchMoreRespHeaders);
+      this._setContinuationTokenInHeaders(continuationToken);
+      return this._createEmptyResult(this.fetchMoreRespHeaders);
     }
 
-    context.fetchBuffer.push(...response.result.buffer); // Add new items to existing buffer
+    fetchBuffer.push(...response.result.buffer); // Add new items to existing buffer
     const { endIndex, continuationToken } = this.continuationTokenManager.paginateResults(
-      context.pageSize,
+      this.pageSize,
       false, // isResponseEmpty = false
       response.result, // Pass response data for processing
     );
 
-    const temp = context.fetchBuffer.slice(0, endIndex);
-    context.fetchBuffer.splice(0, endIndex); // Remove returned items in place
-    this._setContinuationTokenInHeaders(continuationToken, context);
+    const temp = fetchBuffer.slice(0, endIndex);
+    fetchBuffer.splice(0, endIndex); // Remove returned items in place
+    this._setContinuationTokenInHeaders(continuationToken);
 
-    return { result: temp, headers: context.fetchMoreRespHeaders };
+    return { result: temp, headers: this.fetchMoreRespHeaders };
   }
 
-  private _setContinuationTokenInHeaders(
-    continuationToken: string | undefined,
-    context: FetchContext,
-  ): void {
+  private _setContinuationTokenInHeaders(continuationToken: string | undefined): void {
     if (continuationToken) {
-      Object.assign(context.fetchMoreRespHeaders, {
+      Object.assign(this.fetchMoreRespHeaders, {
         [Constants.HttpHeaders.Continuation]: continuationToken,
       });
     }

@@ -4,14 +4,12 @@ import type { ClientContext } from "../ClientContext.js";
 import type { Response, FeedOptions } from "../request/index.js";
 import type { PartitionedQueryExecutionInfo, QueryInfo } from "../request/ErrorResponse.js";
 import { ErrorResponse } from "../request/ErrorResponse.js";
-import type { CosmosHeaders } from "./headerUtils.js";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent.js";
 import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointComponent.js";
 import { OrderedDistinctEndpointComponent } from "./EndpointComponent/OrderedDistinctEndpointComponent.js";
 import { UnorderedDistinctEndpointComponent } from "./EndpointComponent/UnorderedDistinctEndpointComponent.js";
 import { GroupByEndpointComponent } from "./EndpointComponent/GroupByEndpointComponent.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
-import { getInitialHeader } from "./headerUtils.js";
 import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext.js";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.js";
 import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent.js";
@@ -26,14 +24,12 @@ import {
 import { parseContinuationTokenFields } from "./ContinuationTokenParser.js";
 import { LegacyFetchImplementation } from "./LegacyFetchImplementation.js";
 import { QueryControlFetchImplementation } from "./QueryControlFetchImplementation.js";
-import type { FetchContext } from "./FetchInterfaces.js";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
-  public fetchBuffer: any[];
-  public fetchMoreRespHeaders: CosmosHeaders;
-  public endpoint: ExecutionContext;
-  public pageSize: number;
+  private fetchBuffer: any[];
+  private endpoint: ExecutionContext;
+  private pageSize: number;
   private static DEFAULT_PAGE_SIZE = 10;
   private static DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE = 50000;
   private readonly fetchImplementation: LegacyFetchImplementation | QueryControlFetchImplementation;
@@ -53,23 +49,22 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     }
     this.pageSize = this.options.maxItemCount;
 
-    const sortOrders = partitionedQueryExecutionInfo.queryInfo!.orderBy;
+    const sortOrders = partitionedQueryExecutionInfo.queryInfo?.orderBy;
     const isOrderByQuery = Array.isArray(sortOrders) && sortOrders.length > 0;
 
     // Pick between Nonstreaming and streaming endpoints
-    const nonStreamingOrderBy = partitionedQueryExecutionInfo.queryInfo!.hasNonStreamingOrderBy;
+    const nonStreamingOrderBy = partitionedQueryExecutionInfo.queryInfo?.hasNonStreamingOrderBy;
 
     // Check if this is a GROUP BY query
     const isGroupByQuery =
-      Object.keys(partitionedQueryExecutionInfo.queryInfo!.groupByAliasToAggregateType).length >
-        0 ||
-      partitionedQueryExecutionInfo.queryInfo!.aggregates!.length > 0 ||
-      partitionedQueryExecutionInfo.queryInfo!.groupByExpressions!.length > 0;
+      Object.keys(partitionedQueryExecutionInfo.queryInfo?.groupByAliasToAggregateType || {}).length >
+      0 ||
+      (partitionedQueryExecutionInfo.queryInfo?.aggregates?.length || 0) > 0 ||
+      (partitionedQueryExecutionInfo.queryInfo?.groupByExpressions?.length || 0) > 0;
 
     // Check if this is an unordered DISTINCT query
     const isUnorderedDistinctQuery =
-      partitionedQueryExecutionInfo.queryInfo!.distinctType === "Unordered";
-
+      partitionedQueryExecutionInfo.queryInfo?.distinctType === "Unordered";
     // Determine if this query type supports continuation tokens
     const querySupportsTokens =
       !isUnorderedDistinctQuery && !isGroupByQuery && !nonStreamingOrderBy;
@@ -108,7 +103,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if (vectorSearchBufferSize > maxBufferSize) {
         throw new ErrorResponse(
           `Executing a vector search query with TOP or OFFSET + LIMIT value ${vectorSearchBufferSize} larger than the vectorSearchBufferSize ${maxBufferSize} ` +
-            `is not allowed`,
+          `is not allowed`,
         );
       }
 
@@ -229,13 +224,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     if (this.options.enableQueryControl) {
       this.fetchImplementation = new QueryControlFetchImplementation(
         this.endpoint,
+        this.pageSize,
         this.collectionLink,
         this.options.continuationToken,
         isOrderByQuery,
         querySupportsTokens,
       );
     } else {
-      this.fetchImplementation = new LegacyFetchImplementation(this.endpoint);
+      this.fetchImplementation = new LegacyFetchImplementation(this.endpoint, this.pageSize);
     }
   }
 
@@ -248,20 +244,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    this.fetchMoreRespHeaders = getInitialHeader();
-
-    const fetchContext: FetchContext = {
-      fetchBuffer: this.fetchBuffer,
-      fetchMoreRespHeaders: this.fetchMoreRespHeaders,
-      pageSize: this.pageSize,
-    };
-
-    return this.fetchImplementation.fetchMore(diagnosticNode, fetchContext);
-  }
-
-  public createEmptyResult(headers?: CosmosHeaders): Response<any> {
-    const hdrs = headers || getInitialHeader();
-    return { result: [], headers: hdrs };
+    return this.fetchImplementation.fetchMore(diagnosticNode, this.fetchBuffer);
   }
 
   private calculateVectorSearchBufferSize(queryInfo: QueryInfo, options: FeedOptions): number {
@@ -281,8 +264,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     if (!hasTop && !hasLimit) {
       throw new ErrorResponse(
         "Executing a non-streaming search query without TOP or LIMIT can consume a large number of RUs " +
-          "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
-          "with your vector search query.",
+        "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
+        "with your vector search query.",
       );
     }
     return;

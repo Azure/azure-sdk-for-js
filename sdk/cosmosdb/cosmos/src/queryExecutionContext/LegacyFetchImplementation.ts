@@ -3,8 +3,7 @@
 
 import type { Response } from "../request/index.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
-import { mergeHeaders } from "./headerUtils.js";
-import type { FetchContext } from "./FetchInterfaces.js";
+import { mergeHeaders, getInitialHeader } from "./headerUtils.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
 
 /**
@@ -12,17 +11,25 @@ import type { ExecutionContext } from "./ExecutionContext.js";
  * @hidden
  */
 export class LegacyFetchImplementation {
-  constructor(private endpoint: ExecutionContext) {}
+  private fetchMoreRespHeaders: Record<string, any>;
+
+  constructor(
+    private endpoint: ExecutionContext,
+    private pageSize: number,
+  ) { }
 
   async fetchMore(
     diagnosticNode: DiagnosticNodeInternal,
-    context: FetchContext,
+    fetchBuffer: any[],
   ): Promise<Response<any>> {
+    // Initialize headers fresh for each fetchMore call
+    this.fetchMoreRespHeaders = getInitialHeader();
+
     try {
       // Keep fetching until we have enough items or no more results
-      while (context.fetchBuffer.length < context.pageSize && this.endpoint.hasMoreResults()) {
+      while (fetchBuffer.length < this.pageSize && this.endpoint.hasMoreResults()) {
         const response = await this.endpoint.fetchMore!(diagnosticNode);
-        mergeHeaders(context.fetchMoreRespHeaders, response.headers);
+        mergeHeaders(this.fetchMoreRespHeaders, response.headers);
 
         if (
           !response ||
@@ -30,28 +37,28 @@ export class LegacyFetchImplementation {
           !response.result.buffer ||
           response.result.buffer.length === 0
         ) {
-          if (context.fetchBuffer.length > 0) {
-            const temp = [...context.fetchBuffer];
-            context.fetchBuffer.length = 0; // Clear array in place
-            return { result: temp, headers: context.fetchMoreRespHeaders };
+          if (fetchBuffer.length > 0) {
+            const temp = [...fetchBuffer];
+            fetchBuffer.length = 0; // Clear array in place
+            return { result: temp, headers: this.fetchMoreRespHeaders };
           } else {
-            return { result: undefined, headers: context.fetchMoreRespHeaders };
+            return { result: undefined, headers: this.fetchMoreRespHeaders };
           }
         }
-        context.fetchBuffer.push(...response.result.buffer);
+        fetchBuffer.push(...response.result.buffer);
       }
 
       // Return collected items up to pageSize
-      if (context.fetchBuffer.length > 0) {
-        const temp = context.fetchBuffer.slice(0, context.pageSize);
-        context.fetchBuffer.splice(0, context.pageSize); // Remove items in place
-        return { result: temp, headers: context.fetchMoreRespHeaders };
+      if (fetchBuffer.length > 0) {
+        const temp = fetchBuffer.slice(0, this.pageSize);
+        fetchBuffer.splice(0, this.pageSize); // Remove items in place
+        return { result: temp, headers: this.fetchMoreRespHeaders };
       } else {
-        return { result: undefined, headers: context.fetchMoreRespHeaders };
+        return { result: undefined, headers: this.fetchMoreRespHeaders };
       }
     } catch (err: any) {
-      mergeHeaders(context.fetchMoreRespHeaders, err.headers);
-      err.headers = context.fetchMoreRespHeaders;
+      mergeHeaders(this.fetchMoreRespHeaders, err.headers);
+      err.headers = this.fetchMoreRespHeaders;
       throw err;
     }
   }
