@@ -44,6 +44,8 @@ steps:
       - pwsh: |
           if ('true' -eq '$(Skip.SpellCheck)') { 
             Write-Host "Spell check is skipped in this build. Skipping cspell upgrade verification."
+            Write-Host "##vso[task.setvariable variable=RunCspellUpgradeVerification]false"
+            exit 0
           }
           $publicApiCheckExists = Test-Path 'eng/scripts/spell-check-public-api.ps1'
           if (!$publicApiCheckExists) {
