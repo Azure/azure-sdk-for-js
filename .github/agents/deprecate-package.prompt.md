@@ -27,7 +27,7 @@ For each deprecation request (typically labeled `[Deprecate]`):
 ### 2. Remove Package
 
 ```bash
-cd /home/runner/work/azure-sdk-for-js/azure-sdk-for-js
+cd {full path to repository root}
 rm -rf sdk/hdinsight/arm-hdinsightcontainers/  # Example
 ```
 
@@ -35,14 +35,14 @@ Verify with: `ls sdk/hdinsight/arm-hdinsightcontainers/ 2>/dev/null || echo "Rem
 
 ### 3. Update CODEOWNERS
 
-Find and remove the package entry (including comment line if package-specific):
+Find and remove the package entry from `.github/CODEOWNERS`. If a comment line directly above the entry is unique to this package (i.e., not shared with other package entries), remove it as well. If the comment applies to multiple packages, leave it intact.
 
 ```diff
-- # PRLabel: %Mgmt
+- # PRLabel: %Mgmt   # (Remove only if unique to this package)
 - /sdk/hdinsight/arm-hdinsightcontainers/ @qiaozha @MaryGao
 ```
 
-Verify with: `grep "arm-hdinsightcontainers" .github/CODEOWNERS`
+Verify with: `grep "arm-hdinsightcontainers" .github/CODEOWNERS || echo "Entry removed"`
 
 ### 4. Update Lockfile
 
@@ -56,7 +56,7 @@ This removes package entries from pnpm-lock.yaml and updates workspace reference
 
 ```bash
 # For @azure/arm-hdinsightcontainers
-cd /home/runner/work/azure-sdk-for-js/azure-sdk-for-js
+cd {full path to repository root}
 
 # Remove directory
 rm -rf sdk/hdinsight/arm-hdinsightcontainers/
