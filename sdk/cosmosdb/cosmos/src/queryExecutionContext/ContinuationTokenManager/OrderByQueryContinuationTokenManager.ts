@@ -29,13 +29,9 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     }
   }
 
-  private initializeOrderByItemsArray(orderByItemsArray: OrderByItemWithRid[] | undefined): void {
-    this.orderByItemsArray = orderByItemsArray;
-  }
-
   protected processQuerySpecificResponse(responseResult: ParallelQueryResult): void {
     if (responseResult.orderByItems) {
-      this.initializeOrderByItemsArray(responseResult.orderByItems);
+      this.orderByItemsArray = responseResult.orderByItems;
     }
   }
 
