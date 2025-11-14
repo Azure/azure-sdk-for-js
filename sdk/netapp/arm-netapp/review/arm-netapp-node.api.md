@@ -402,105 +402,6 @@ export interface BreakReplicationRequest {
 }
 
 // @public
-export interface Bucket extends ProxyResource {
-    properties?: BucketProperties;
-}
-
-// @public
-export interface BucketCredentialsExpiry {
-    keyPairExpiryDays?: number;
-}
-
-// @public
-export interface BucketGenerateCredentials {
-    readonly accessKey?: string;
-    readonly keyPairExpiry?: Date;
-    readonly secretKey?: string;
-}
-
-// @public
-export interface BucketPatch extends ProxyResource {
-    properties?: BucketPatchProperties;
-}
-
-// @public
-export type BucketPatchPermissions = string;
-
-// @public
-export interface BucketPatchProperties {
-    fileSystemUser?: FileSystemUser;
-    path?: string;
-    permissions?: BucketPatchPermissions;
-    readonly provisioningState?: NetAppProvisioningState;
-    server?: BucketServerPatchProperties;
-}
-
-// @public
-export type BucketPermissions = string;
-
-// @public
-export interface BucketProperties {
-    fileSystemUser?: FileSystemUser;
-    path?: string;
-    permissions?: BucketPermissions;
-    readonly provisioningState?: NetAppProvisioningState;
-    server?: BucketServerProperties;
-    readonly status?: CredentialsStatus;
-}
-
-// @public
-export interface BucketsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface BucketsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface BucketServerPatchProperties {
-    certificateObject?: string;
-    fqdn?: string;
-}
-
-// @public
-export interface BucketServerProperties {
-    readonly certificateCommonName?: string;
-    readonly certificateExpiryDate?: Date;
-    certificateObject?: string;
-    fqdn?: string;
-    readonly ipAddress?: string;
-}
-
-// @public
-export interface BucketsGenerateCredentialsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BucketsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BucketsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BucketsOperations {
-    createOrUpdate: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: Bucket, options?: BucketsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Bucket>, Bucket>;
-    delete: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, options?: BucketsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    generateCredentials: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: BucketCredentialsExpiry, options?: BucketsGenerateCredentialsOptionalParams) => Promise<BucketGenerateCredentials>;
-    get: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, options?: BucketsGetOptionalParams) => Promise<Bucket>;
-    list: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: BucketsListOptionalParams) => PagedAsyncIterableIterator<Bucket>;
-    update: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: BucketPatch, options?: BucketsUpdateOptionalParams) => PollerLike<OperationState<Bucket>, Bucket>;
-}
-
-// @public
-export interface BucketsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface CapacityPool extends TrackedResource {
     readonly etag?: string;
     properties: PoolProperties;
@@ -541,11 +442,6 @@ export type CheckQuotaNameResourceTypes = string;
 export type ChownMode = string;
 
 // @public
-export interface CifsUser {
-    username?: string;
-}
-
-// @public
 export interface ClusterPeerCommandResponse {
     peerAcceptCommand?: string;
 }
@@ -563,9 +459,6 @@ export type CoolAccessTieringPolicy = string;
 
 // @public
 export type CreatedByType = string;
-
-// @public
-export type CredentialsStatus = string;
 
 // @public
 export interface DailySchedule {
@@ -635,6 +528,10 @@ export interface ErrorResponse {
 }
 
 // @public
+type Exclude_2 = string;
+export { Exclude_2 as Exclude }
+
+// @public
 export interface ExportPolicyRule {
     allowedClients?: string;
     chownMode?: ChownMode;
@@ -664,12 +561,6 @@ export interface FilePathAvailabilityRequest {
     availabilityZone?: string | null;
     name: string;
     subnetId: string;
-}
-
-// @public
-export interface FileSystemUser {
-    cifsUser?: CifsUser;
-    nfsUser?: NfsUser;
 }
 
 // @public
@@ -760,30 +651,22 @@ export enum KnownBackupType {
 }
 
 // @public
-export enum KnownBucketPatchPermissions {
-    ReadOnly = "ReadOnly",
-    ReadWrite = "ReadWrite"
-}
-
-// @public
-export enum KnownBucketPermissions {
-    ReadOnly = "ReadOnly",
-    ReadWrite = "ReadWrite"
-}
-
-// @public
 export enum KnownCheckNameResourceTypes {
     MicrosoftNetAppNetAppAccounts = "Microsoft.NetApp/netAppAccounts",
+    MicrosoftNetAppNetAppAccountsBackupVaultsBackups = "Microsoft.NetApp/netAppAccounts/backupVaults/backups",
     MicrosoftNetAppNetAppAccountsCapacityPools = "Microsoft.NetApp/netAppAccounts/capacityPools",
     MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
+    MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesBackups = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/backups",
     MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots"
 }
 
 // @public
 export enum KnownCheckQuotaNameResourceTypes {
     MicrosoftNetAppNetAppAccounts = "Microsoft.NetApp/netAppAccounts",
+    MicrosoftNetAppNetAppAccountsBackupVaultsBackups = "Microsoft.NetApp/netAppAccounts/backupVaults/backups",
     MicrosoftNetAppNetAppAccountsCapacityPools = "Microsoft.NetApp/netAppAccounts/capacityPools",
     MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
+    MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesBackups = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/backups",
     MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots"
 }
 
@@ -815,13 +698,6 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownCredentialsStatus {
-    Active = "Active",
-    CredentialsExpired = "CredentialsExpired",
-    NoCredentialsSet = "NoCredentialsSet"
-}
-
-// @public
 export enum KnownEnableSubvolumes {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -843,6 +719,12 @@ export enum KnownEncryptionType {
 export enum KnownEndpointType {
     Dst = "dst",
     Src = "src"
+}
+
+// @public
+export enum KnownExclude {
+    Deleted = "Deleted",
+    None = "None"
 }
 
 // @public
@@ -921,7 +803,8 @@ export enum KnownNetAppProvisioningState {
     Failed = "Failed",
     Moving = "Moving",
     Patching = "Patching",
-    Succeeded = "Succeeded"
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -956,6 +839,13 @@ export enum KnownRegionStorageToNetworkProximity {
     T1AndT2AndAcrossT2 = "T1AndT2AndAcrossT2",
     T2 = "T2",
     T2AndAcrossT2 = "T2AndAcrossT2"
+}
+
+// @public
+export enum KnownReplicationMirrorState {
+    Broken = "Broken",
+    Mirrored = "Mirrored",
+    Uninitialized = "Uninitialized"
 }
 
 // @public
@@ -1009,7 +899,8 @@ export enum KnownType {
 // @public
 export enum KnownVersions {
     V20250601 = "2025-06-01",
-    V20250701Preview = "2025-07-01-preview"
+    V20250801 = "2025-08-01",
+    V20250901 = "2025-09-01"
 }
 
 // @public
@@ -1140,6 +1031,11 @@ export interface ListQuotaReportResponse {
 }
 
 // @public
+export interface ListReplicationsRequest {
+    exclude?: Exclude_2;
+}
+
+// @public
 export interface LogSpecification {
     displayName?: string;
     name?: string;
@@ -1230,7 +1126,6 @@ export class NetAppManagementClient {
     readonly backupsUnderBackupVault: BackupsUnderBackupVaultOperations;
     readonly backupsUnderVolume: BackupsUnderVolumeOperations;
     readonly backupVaults: BackupVaultsOperations;
-    readonly buckets: BucketsOperations;
     readonly netAppResource: NetAppResourceOperations;
     readonly netAppResourceQuotaLimits: NetAppResourceQuotaLimitsOperations;
     readonly netAppResourceQuotaLimitsAccount: NetAppResourceQuotaLimitsAccountOperations;
@@ -1362,12 +1257,6 @@ export interface NetworkSiblingSet {
 
 // @public
 export type NetworkSiblingSetProvisioningState = string;
-
-// @public
-export interface NfsUser {
-    groupId?: number;
-    userId?: number;
-}
 
 // @public
 export interface NicInfo {
@@ -1569,11 +1458,17 @@ export interface RemotePath {
 // @public
 export interface Replication {
     endpointType?: EndpointType;
+    readonly mirrorState?: ReplicationMirrorState;
     remoteVolumeRegion?: string;
     remoteVolumeResourceId: string;
+    readonly replicationCreationTime?: Date;
+    readonly replicationDeletionTime?: Date;
     readonly replicationId?: string;
     replicationSchedule?: ReplicationSchedule;
 }
+
+// @public
+export type ReplicationMirrorState = string;
 
 // @public
 export interface ReplicationObject {
@@ -2285,6 +2180,7 @@ export interface VolumesListQuotaReportOptionalParams extends OperationOptions {
 
 // @public
 export interface VolumesListReplicationsOptionalParams extends OperationOptions {
+    body?: ListReplicationsRequest;
 }
 
 // @public
