@@ -18,7 +18,7 @@
     
     Updates the CHANGELOG.md for the arm-storage package.
 .NOTES
-    - Requires @azure-tools/js-sdk-release-tools to be available via npx.
+    - Requires js-sdk-release-tools to be installed in eng/common/js-sdk-release-tools.
     - The tool will analyze git history and package changes to update the changelog.
 #>
 [CmdletBinding()]
@@ -49,22 +49,28 @@ try {
   Write-Host "Package Path: $resolvedPackagePath"
   Write-Host ""
   
-  # Build the npx command
-  $npxArgs = @(
-    "--yes"
-    "--package=@azure-tools/js-sdk-release-tools"
-    "--"
-    "update-changelog"
-    "--sdkRepoPath", "$resolvedRepoPath"
-    "--packagePath", "$resolvedPackagePath"
-  )
+  # Install js-sdk-release-tools if needed
+  $releaseToolsPath = Join-Path $resolvedRepoPath "eng\common\js-sdk-release-tools"
+  if (-not (Test-Path $releaseToolsPath)) {
+    throw "Release tools path does not exist: $releaseToolsPath"
+  }
   
-  # Run the update-changelog command using npx
+  Write-Host "Installing js-sdk-release-tools dependencies..." -ForegroundColor Cyan
+  & npm --prefix $releaseToolsPath ci
+  
+  if ($LASTEXITCODE -ne 0) {
+    throw "npm ci failed with exit code $LASTEXITCODE"
+  }
+  Write-Host "Dependencies installed successfully." -ForegroundColor Green
+  Write-Host ""
+  
+  # Run the update-changelog command using node
+  $cliPath = Join-Path $releaseToolsPath "node_modules\.bin\update-changelog.cmd"
   Write-Host "Updating CHANGELOG.md..." -ForegroundColor Green
-  Write-Host "Running: npx $($npxArgs -join ' ')" -ForegroundColor Gray
+  Write-Host "Running: $cliPath --sdkRepoPath $resolvedRepoPath --packagePath $resolvedPackagePath" -ForegroundColor Gray
   
-  # Execute the npx command
-  & npx $npxArgs
+  # Execute the command
+  & $cliPath --sdkRepoPath $resolvedRepoPath --packagePath $resolvedPackagePath
   
   if ($LASTEXITCODE -ne 0) {
     throw "update-changelog command failed with exit code $LASTEXITCODE"

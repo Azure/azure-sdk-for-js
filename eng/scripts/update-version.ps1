@@ -27,7 +27,7 @@
     
     Updates the version for the arm-storage package.
 .NOTES
-    - Requires @azure-tools/js-sdk-release-tools to be available via npx.
+    - Requires js-sdk-release-tools to be installed in eng/common/js-sdk-release-tools.
     - The tool will update package.json and CHANGELOG.md with the new version.
 #>
 [CmdletBinding()]
@@ -74,34 +74,46 @@ try {
   Write-Host "Package Path: $resolvedPackagePath"
   Write-Host ""
   
-  # Build the npx command with optional parameters
-  $npxArgs = @(
-    "--yes"
-    "--package=@azure-tools/js-sdk-release-tools"
-    "--"
-    "update-version"
+  # Install js-sdk-release-tools if needed
+  $releaseToolsPath = Join-Path $resolvedRepoPath "eng\common\js-sdk-release-tools"
+  if (-not (Test-Path $releaseToolsPath)) {
+    throw "Release tools path does not exist: $releaseToolsPath"
+  }
+  
+  Write-Host "Installing js-sdk-release-tools dependencies..." -ForegroundColor Cyan
+  & npm --prefix $releaseToolsPath ci
+  
+  if ($LASTEXITCODE -ne 0) {
+    throw "npm ci failed with exit code $LASTEXITCODE"
+  }
+  Write-Host "Dependencies installed successfully." -ForegroundColor Green
+  Write-Host ""
+  
+  # Build the command arguments
+  $cliPath = Join-Path $releaseToolsPath "node_modules\.bin\update-version.cmd"
+  $cmdArgs = @(
     "--sdkRepoPath", "$resolvedRepoPath"
     "--packagePath", "$resolvedPackagePath"
   )
   
   if ($ReleaseType) {
-    $npxArgs += "--releaseType", "$ReleaseType"
+    $cmdArgs += "--releaseType", "$ReleaseType"
   }
   
   if ($Version) {
-    $npxArgs += "--version", "$Version"
+    $cmdArgs += "--version", "$Version"
   }
   
   if ($ReleaseDate) {
-    $npxArgs += "--releaseDate", "$ReleaseDate"
+    $cmdArgs += "--releaseDate", "$ReleaseDate"
   }
   
-  # Run the update-version command using npx
+  # Run the update-version command
   Write-Host "Updating package version..." -ForegroundColor Green
-  Write-Host "Running: npx $($npxArgs -join ' ')" -ForegroundColor Gray
+  Write-Host "Running: $cliPath $($cmdArgs -join ' ')" -ForegroundColor Gray
   
-  # Execute the npx command
-  & npx $npxArgs
+  # Execute the command
+  & $cliPath @cmdArgs
   
   if ($LASTEXITCODE -ne 0) {
     throw "update-version command failed with exit code $LASTEXITCODE"
