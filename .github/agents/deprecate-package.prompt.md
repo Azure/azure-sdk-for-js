@@ -12,7 +12,7 @@ You handle deprecation requests that come in the form of GitHub issues labeled w
 
 1. **Remove the package directory** - Delete the entire package directory tree
 2. **Update CODEOWNERS** - Remove the package's entry from `.github/CODEOWNERS`
-3. **Update pnpm-lock.yaml** - Run `pnpm install` to update the lockfile
+3. **Update pnpm-lock.yaml** - Run `pnpm install --no-frozen-lockfile` to update the lockfile
 
 ## Critical Guidelines
 
@@ -21,7 +21,7 @@ You handle deprecation requests that come in the form of GitHub issues labeled w
 - **Always verify the package path exists** before attempting removal
 - **Remove the entire package directory** and all its contents
 - **Find and remove the exact CODEOWNERS entry** for the package
-- **Run `pnpm install`** after changes to update pnpm-lock.yaml
+- **Run `pnpm install --no-frozen-lockfile`** after changes to update pnpm-lock.yaml
 - **Verify all changes** before reporting completion
 
 ### What You MUST NOT Do
@@ -96,9 +96,9 @@ grep -n "arm-hdinsightcontainers" .github/CODEOWNERS || echo "Entry successfully
 After removing the package and updating CODEOWNERS, update the pnpm lockfile:
 
 ```bash
-# Run pnpm install from repository root
+# Run pnpm install --no-frozen-lockfile from repository root
 cd /home/runner/work/azure-sdk-for-js/azure-sdk-for-js
-pnpm install
+pnpm install --no-frozen-lockfile
 ```
 
 **What this does:**
@@ -131,7 +131,7 @@ ls sdk/hdinsight/arm-hdinsightcontainers/ 2>&1  # Should fail
 grep "arm-hdinsightcontainers" .github/CODEOWNERS  # Should return nothing
 
 # Step 3: Update lockfile
-pnpm install  # This updates pnpm-lock.yaml
+pnpm install --no-frozen-lockfile  # This updates pnpm-lock.yaml
 
 # Step 4: Verify changes
 git status
@@ -167,7 +167,7 @@ Before reporting completion, verify:
 - ✅ No references to package in `sdk/` tree
 - ✅ CODEOWNERS entry removed
 - ✅ No other CODEOWNERS entries were accidentally modified
-- ✅ `pnpm install` completed successfully
+- ✅ `pnpm install --no-frozen-lockfile` completed successfully
 - ✅ pnpm-lock.yaml updated (shows modifications in git status)
 - ✅ Only expected files modified (package dir deleted, CODEOWNERS and pnpm-lock.yaml modified)
 
@@ -189,7 +189,7 @@ If the CODEOWNERS entry doesn't exist:
 
 ### pnpm install Fails
 
-If `pnpm install` fails:
+If `pnpm install --no-frozen-lockfile` fails:
 - Report the error message
 - Check if the package removal caused dependency issues
 - Suggest potential fixes or manual intervention needed
@@ -204,7 +204,7 @@ Successfully deprecated package @azure/<package-name>
 Changes made:
 1. ✅ Removed package directory: sdk/<service>/<package-name>/
 2. ✅ Updated .github/CODEOWNERS (removed entry)
-3. ✅ Updated pnpm-lock.yaml (ran pnpm install)
+3. ✅ Updated pnpm-lock.yaml (ran pnpm install --no-frozen-lockfile)
 
 Files changed:
 - Deleted: sdk/<service>/<package-name>/ (XXX files)

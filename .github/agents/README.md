@@ -40,14 +40,14 @@ This directory contains custom agent prompts for GitHub Copilot. These agents ar
 
 - Removes package directory and all contents
 - Updates `.github/CODEOWNERS` file
-- Runs `pnpm install` to update lockfile
+- Runs `pnpm install --no-frozen-lockfile` to update lockfile
 - Provides verification steps and error handling
 
 **What it does:**
 
 1. Removes the package directory (e.g., `sdk/hdinsight/arm-hdinsightcontainers/`)
 2. Removes the package entry from `.github/CODEOWNERS`
-3. Updates `pnpm-lock.yaml` by running `pnpm install`
+3. Updates `pnpm-lock.yaml --no-frozen-lockfile` by running `pnpm install`
 
 **Example usage:**
 For issue requesting deprecation of `@azure/arm-hdinsightcontainers`, the agent will:
