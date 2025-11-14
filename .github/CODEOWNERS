@@ -600,9 +600,6 @@
 /sdk/hdinsight/arm-hdinsight/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/hdinsight/arm-hdinsightcontainers/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
 /sdk/healthbot/arm-healthbot/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
