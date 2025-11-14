@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update a managed Cassandra data center. When updating, overwrite all properties. To update only some properties, use PATCH.
- *
- * @summary Create or update a managed Cassandra data center. When updating, overwrite all properties. To update only some properties, use PATCH.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBManagedCassandraDataCenterCreate.json
- */
-
+import type {
+  DataCenterResource} from "@azure/arm-cosmosdb";
 import {
-  DataCenterResource,
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Create or update a managed Cassandra data center. When updating, overwrite all properties. To update only some properties, use PATCH.
+ *
+ * @summary Create or update a managed Cassandra data center. When updating, overwrite all properties. To update only some properties, use PATCH.
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/examples/CosmosDBManagedCassandraDataCenterCreate.json
+ */
 async function cosmosDbManagedCassandraDataCenterCreate(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||

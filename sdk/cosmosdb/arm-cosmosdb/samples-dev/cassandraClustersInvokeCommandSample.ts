@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { CommandPostBody} from "@azure/arm-cosmosdb";
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Invoke a command like nodetool for cassandra maintenance
  *
  * @summary Invoke a command like nodetool for cassandra maintenance
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBManagedCassandraCommand.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/examples/CosmosDBManagedCassandraCommand.json
  */
-
-import { CommandPostBody, CosmosDBManagementClient } from "@azure/arm-cosmosdb";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function cosmosDbManagedCassandraCommand(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||

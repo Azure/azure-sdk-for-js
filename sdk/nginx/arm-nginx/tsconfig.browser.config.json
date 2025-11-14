@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.browser.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-nginx": ["./dist/browser/index.d.ts"],
+      "@azure/arm-nginx/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
+    }
+  }
+}
