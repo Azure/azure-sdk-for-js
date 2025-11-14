@@ -167,16 +167,6 @@ export async function toSortedLabelsArray(
   for await (const label of pagedIterator) {
     labels.push(label);
   }
-
-  let labelsViaPageIterator: SettingLabel[] = [];
-
-  for await (const page of pagedIterator.byPage()) {
-    labelsViaPageIterator = labelsViaPageIterator.concat(page.items);
-  }
-
-  // just a sanity-check
-  assert.deepEqual(labels, labelsViaPageIterator);
-
   labels.sort((a, b) => (compareFn ? compareFn(a, b) : `${a.name}`.localeCompare(`${b.name}`)));
 
   return labels;

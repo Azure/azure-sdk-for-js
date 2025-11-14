@@ -75,6 +75,7 @@
     "Idrg",
     "Kubernetes",
     "Localizable",
+    "logprobs",
     "Lucene",
     "mgmt",
     "MPNS",
@@ -184,6 +185,12 @@
       "filename": "eng/tools/rush-runner.js",
       "words": [
         "Jsons"
+      ]
+    },
+    {
+      "filename": "sdk/ai/ai-projects/review/**/*.md",
+      "words": [
+        "Agentic"
       ]
     },
     {
@@ -467,6 +474,7 @@
         "Sorani",
         "Vectorizable",
         "adlsgen",
+        "agentic",
         "bangla",
         "beider",
         "haase",
@@ -495,6 +503,7 @@
         "Sorani",
         "Vectorizable",
         "adlsgen",
+        "agentic",
         "bangla",
         "beider",
         "haase",

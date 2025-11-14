@@ -19,21 +19,10 @@ You need [an Azure subscription][freesub] and the following resources created to
 1. Create the project using Expo
 
 ```bash
-npx create-expo-app messaging
+npx create-expo-app@3.5.3 messaging
 ```
 
-2. Add TypeScript support by adding a `tsconfig.json` file with following content
-
-```js
-{
-  "extends": "expo/tsconfig.base",
-  "compilerOptions": {
-    "strict": true
-  }
-}
-```
-
-3. Run the following Expo command to start the app. Expo will prompt to install TypeScript and types packages for React/React-Native.
+2. Run the following Expo command to start the app. Expo will prompt to install TypeScript and types packages for React/React-Native.
 
 ```bash
 npx expo start
@@ -45,13 +34,20 @@ Now the application should be bundled and ready to run on device, emulators, or 
 
 ### Add a button and a list box to the app
 
-They will be used to choose a testing scenario and run it. Open App.tsx and replace the content with following code
+They will be used to choose a testing scenario and run it. Create a `azsdktest` directory under `components/`, add a file `test-azure-sdk.tsx` with the following content
 
 ```ts
-import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { Button, StyleSheet, Text, View, FlatList, TouchableOpacity } from "react-native";
+import {
+  Button,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
+import "./src/polyfills";
 import { testSDK } from "./src/testSDK";
 
 const DATA = [
@@ -79,7 +75,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
-export default function App() {
+export function TestAzureSDK() {
   const [selectedId, setSelectedId] = useState(null);
 
   const renderItem = ({ item }) => {
@@ -99,14 +95,13 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>@azure/service-bus test app</Text>
-      <Button title="Run tests!" onPress={() => testSDK(selectedId)} />
       <FlatList
         data={DATA}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         extraData={selectedId}
       />
-      <StatusBar style="auto" />
+      <Button title="Run tests!" onPress={() => testSDK(selectedId)} />
     </View>
   );
 }
@@ -123,54 +118,42 @@ const styles = StyleSheet.create({
 
 ### Add testing code
 
-Add a `src` directory at the root of the project and add the following files
+Add a `src` directory under `components/azsdktest/` and add the following files
 
-- [testSDK.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native-expo/ts/messaging/src/testSDK.ts) - contains the code to run the scenarios.
-- [ehSendEvents.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native-expo/ts/messaging/src/ehSendEvents.ts) - contains the code to send messages to Event Hub.
-- [ehReceiveEvents.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native-expo/ts/messaging/src/ehReceiveEvents.ts) - contains the code to receive messages from Event Hub.
-- [sbSendMessages.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native-expo/ts/messaging/src/sbSendMessages.ts) - contains the code to send messages to Service Bus.
-- [sbReceiveMessages.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native-expo/ts/messaging/src/sbReceiveMessages.ts) - contains the code to receive messages from Service Bus.
-- [wsWrapper.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native-expo/ts/messaging/src/wsWrapper.ts) - contains the code to wrap `WebSocket` implementation in React Native to set default value of its `binaryType` property to `"blob"`.
+- [testSDK.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native-expo/ts/messaging/components/azsdktest/src/testSDK.ts) - contains the code to run the scenarios.
+- [ehSendEvents.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native-expo/ts/messaging/components/azsdktest/src/ehSendEvents.ts) - contains the code to send messages to Event Hub.
+- [ehReceiveEvents.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native-expo/ts/messaging/components/azsdktest/src/ehReceiveEvents.ts) - contains the code to receive messages from Event Hub.
+- [sbSendMessages.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native-expo/ts/messaging/components/azsdktest/src/sbSendMessages.ts) - contains the code to send messages to Service Bus.
+- [sbReceiveMessages.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native-expo/ts/messaging/components/azsdktest/src/sbReceiveMessages.ts) - contains the code to receive messages from Service Bus.
+- [wsWrapper.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native-expo/ts/messaging/components/azsdktest/src/wsWrapper.ts) - contains the code to wrap `WebSocket` implementation in React Native to set default value of its `binaryType` property to `"blob"`.
+- [polyfills.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native-expo/ts/messaging/components/azsdktest/src/polyfills.ts) - contains polyfills
 
 ### Add dependencies
 
 We need to add JavaScript Client SDK libraries for Event Hubs and Service Bus as dependencies.
-We use `@babel/plugin-proposal-async-generator-functions` to help transform async iterator usage.
-We also use `babel-plugin-inline-dotenv` to help load secrets from our `.env` file while developing.
 
 ```shell
-yarn add @azure/event-hubs @azure/service-bus
-yarn add --dev babel-plugin-inline-dotenv @babel/plugin-proposal-async-generator-functions
-```
-
-Then add the following into `babel.config.js` to enable the plugins
-
-```diff
-    presets: ["babel-preset-expo"],
-+    plugins: [
-+      "@babel/plugin-proposal-async-generator-functions",
-+      ["inline-dotenv", { unsafe: true }],
-+    ],
+npm add @azure/event-hubs @azure/service-bus@7.10.0-beta.2
+npx expo customize metro.config.js
 ```
 
 ### Add connection strings to .env file
 
 Create a `.env` file in the project directory. Retrieve your connection strings from Azure portal and add them to the `.env` file. Since this file contains secrets you need to add it to the ignore list if your code is committed to a repository. We also add variables for messaging entity names.
 
-**Note** We use connection string directly here for testing purpose. You should consider the trade-off between security and convenience and better use a backend to dynamically provide secrets to only authenticated users.
+**Note** We use connection string directly here for testing purpose. You should never do this for real applications. Consider the trade-off between security and convenience and better use a backend to dynamically provide secrets to only authenticated users. Please refer to Expo documentation about environment variables.
 
 ```
-# Service Bus
-SERVICEBUS_CONNECTION_STRING=
-QUEUE_NAME=
+EXPO_PUBLIC_SERVICEBUS_CONNECTION_STRING=
+EXPO_PUBLIC_QUEUE_NAME=
 
 # Event Hub
-EVENTHUB_CONNECTION_STRING=
-EVENTHUB_NAME=
-CONSUMER_GROUP_NAME=
+EXPO_PUBLIC_EVENTHUB_CONNECTION_STRING=
+EXPO_PUBLIC_EVENTHUB_NAME=
+EXPO_PUBLIC_CONSUMER_GROUP_NAME=
 ```
 
-**Note**: Whenever you update the .env file again, you need to clear expo cache and rebuild. It can be done by passing `-c` to the start command, for example, in `package.json`
+**Note**: Whenever you update the .env file again, you need to clear expo cache and rebuild. It can be done by passing `-c/--clear` to the start command, for example, in `package.json`
 
 ```diff
 -    "android": "expo start --android",
@@ -179,30 +162,69 @@ CONSUMER_GROUP_NAME=
 
 ### Add polyfills for NodeJS modules
 
-Our dependency `rhea` depends a few NodeJS modules. We need to provide polyfills for them. In this sample, We will be using `node-libs-react-native` and `react-native-get-random-values`. **Note** that it may be possible to slim the polyfills further as the SDK really only needs `process`, and `Buffer` at runtime.
+Our dependency `rhea` depends a few NodeJS modules. We need to provide polyfills for them. In this sample, We will be using
+- buffer
+- os-browserify
+- path-browserify
+- process
+- isomorphic-webcrypto
 
 ```bash
-yarn add node-libs-react-native react-native-get-random-values
+npm add buffer os-browserify path-browserify process isomorphic-webcrypto
 ```
 
-Add a `metro.config.js` to the root of the project with content of
+Update `metro.config.js` under the root of the project with content of
 
 ```js
-module.exports = {
-  resolver: {
-    extraNodeModules: require("node-libs-react-native"),
-  },
+const { getDefaultConfig } = require("expo/metro-config");
+
+/** @type {import('expo/metro-config').MetroConfig} */
+const config = getDefaultConfig(__dirname);
+
+config.resolver.unstable_enablePackageExports = true;
+config.resolver.extraNodeModules = {
+  ...config.resolver.extraNodeModules,
+  crypto: require.resolve("isomorphic-webcrypto/src/react-native"),
+  os: require.resolve("os-browserify"),
+  path: require.resolve("path-browserify"),
+  process: require.resolve("process/browser"),
+  buffer: require.resolve("buffer/"),
 };
+
+module.exports = config;
 ```
 
-In `App.tsx` we need to import the polyfills at the top, before importing any Azure SDK module.
+In `app/(tabs)/index.tsx` we need to import and use our component
 
-```diff
-+import "node-libs-react-native/globals";
-+import "react-native-get-random-values";
-
- import { testSDK } from "./src/testSDK";
 ```
++import { TestAzureSDK } from "@/components/azsdktest/test-azure-sdk";
+import ParallaxScrollView from "@/components/parallax-scroll-view";
+
+// ...
+
+export default function HomeScreen() {
+  return (
+    <ParallaxScrollView
+      headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
+      headerImage={
+        <Image
+          source={require("@/assets/images/partial-react-logo.png")}
+          style={styles.reactLogo}
+        />
+      }
+    >
+      <ThemedView style={styles.titleContainer}>
+        <TestAzureSDK />
+      </ThemedView>
+    </ParallaxScrollView>
+  );
+}
+
+// ...
+```
+
+
+
 
 ### Add a WebSocket wrapper
 
@@ -238,4 +260,4 @@ Then update our testing code to pass the `webSocketOptions` via the client optio
 +  });
 ```
 
-Now the application should work as expected, sending and receiving Event Hub Events/Service Bus messages.
+Now the application should run, allow invoking test to send and receive Event Hub Events/Service Bus messages.

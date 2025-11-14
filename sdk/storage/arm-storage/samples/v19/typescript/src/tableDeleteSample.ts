@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes the table with the specified table name, under the specified account if it exists.
  *
  * @summary Deletes the table with the specified table name, under the specified account if it exists.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/TableOperationDelete.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/TableOperationDelete.json
  */
 async function tableOperationDelete(): Promise<void> {
   const subscriptionId =

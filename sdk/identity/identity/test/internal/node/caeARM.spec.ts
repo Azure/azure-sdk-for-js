@@ -41,8 +41,8 @@ async function challengeFlow(
 
   // First, we retrieve a graph token valid with access to the management service.
   const managementToken = await credential.getToken(managementScope);
-  assert.ok(managementToken?.token);
-  assert.ok(managementToken?.expiresOnTimestamp! > Date.now());
+  assert.isDefined(managementToken?.token);
+  assert.isTrue(managementToken?.expiresOnTimestamp! > Date.now());
   resultingAccessTokens.push(managementToken!);
 
   const client = new IdentityClient(recorder.configureClientOptions({}));
@@ -57,8 +57,8 @@ async function challengeFlow(
 
   // Then, we retrieve a graph token valid to revoke the active sessions.
   const graphToken = await credential.getToken(graphScope);
-  assert.ok(graphToken?.token);
-  assert.ok(graphToken?.expiresOnTimestamp! > Date.now());
+  assert.isDefined(graphToken?.token);
+  assert.isTrue(graphToken?.expiresOnTimestamp! > Date.now());
 
   const subscriptionsRequest2 = await client.sendPostRequestAsync(revokeUrl, {
     headers: {
@@ -123,8 +123,8 @@ async function challengeFlow(
   // Getting a new token at this point should return a token different from the initially obtained.
   // Recordings help us verify that the internal flow indeed happened.
   const finalAccessToken = await credential.getToken(managementScope);
-  assert.ok(finalAccessToken?.token);
-  assert.ok(finalAccessToken?.expiresOnTimestamp! > Date.now());
+  assert.isDefined(finalAccessToken?.token);
+  assert.isTrue(finalAccessToken?.expiresOnTimestamp! > Date.now());
   resultingAccessTokens.push(finalAccessToken!);
 
   return resultingAccessTokens;

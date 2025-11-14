@@ -1,22 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  LocalRulestacksListPredefinedUrlCategoriesOptionalParams} from "@azure/arm-paloaltonetworksngfw";
+import {
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to List predefined URL categories for rulestack
  *
  * @summary List predefined URL categories for rulestack
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_listPredefinedUrlCategories_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/LocalRulestacks_listPredefinedUrlCategories_MaximumSet_Gen.json
  */
-
-import type { LocalRulestacksListPredefinedUrlCategoriesOptionalParams } from "@azure/arm-paloaltonetworksngfw";
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function localRulestacksListPredefinedUrlCategoriesMaximumSetGen(): Promise<void> {
   const subscriptionId =
-    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
-  const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
+    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
+    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
+  const resourceGroupName =
+    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
   const localRulestackName = "lrs1";
   const skip = "a6a321";
   const top = 20;
@@ -26,32 +30,40 @@ async function localRulestacksListPredefinedUrlCategoriesMaximumSetGen(): Promis
   };
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.localRulestacks.listPredefinedUrlCategories(
+  const resArray = new Array();
+  for await (const item of client.localRulestacks.listPredefinedUrlCategories(
     resourceGroupName,
     localRulestackName,
     options,
-  );
-  console.log(result);
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 /**
  * This sample demonstrates how to List predefined URL categories for rulestack
  *
  * @summary List predefined URL categories for rulestack
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_listPredefinedUrlCategories_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/LocalRulestacks_listPredefinedUrlCategories_MinimumSet_Gen.json
  */
 async function localRulestacksListPredefinedUrlCategoriesMinimumSetGen(): Promise<void> {
   const subscriptionId =
-    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
-  const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
+    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
+    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
+  const resourceGroupName =
+    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
   const localRulestackName = "lrs1";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.localRulestacks.listPredefinedUrlCategories(
+  const resArray = new Array();
+  for await (const item of client.localRulestacks.listPredefinedUrlCategories(
     resourceGroupName,
     localRulestackName,
-  );
-  console.log(result);
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main(): Promise<void> {

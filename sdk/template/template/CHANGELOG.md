@@ -5,6 +5,10 @@
 ### Features Added
 - Test Release Pipeline
 
+### Other Changes
+
+- Use Contoso Widget Manager as the template.
+
 ## 1.0.13-beta.1 (2023-11-22)
 
 ### Features Added

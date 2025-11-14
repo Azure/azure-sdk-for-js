@@ -56,7 +56,8 @@ import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging
 import { getPagedAsyncIterator } from "@azure/core-paging";
 import type { PipelinePolicy, RestError } from "@azure/core-rest-pipeline";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy.js";
+import { SyncTokens, syncTokenPolicy } from "./internal/syncTokenPolicy.js";
+import { queryParamPolicy } from "./internal/queryParamPolicy.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type {
@@ -85,6 +86,7 @@ import {
 import { AppConfiguration } from "./generated/src/appConfiguration.js";
 import type { FeatureFlagValue } from "./featureFlag.js";
 import type { SecretReferenceValue } from "./secretReference.js";
+import type { SnapshotReferenceValue } from "./snapshotReference.js";
 import { appConfigKeyCredentialPolicy } from "./appConfigCredential.js";
 import { tracingClient } from "./internal/tracing.js";
 import { logger } from "./logger.js";
@@ -195,6 +197,7 @@ export class AppConfigurationClient {
       internalClientPipelineOptions,
     );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
+    this.client.pipeline.addPolicy(queryParamPolicy());
     this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
   }
 
@@ -225,7 +228,8 @@ export class AppConfigurationClient {
     configurationSetting:
       | AddConfigurationSettingParam
       | AddConfigurationSettingParam<FeatureFlagValue>
-      | AddConfigurationSettingParam<SecretReferenceValue>,
+      | AddConfigurationSettingParam<SecretReferenceValue>
+      | AddConfigurationSettingParam<SnapshotReferenceValue>,
     options: AddConfigurationSettingOptions = {},
   ): Promise<AddConfigurationSettingResponse> {
     return tracingClient.withSpan(
@@ -655,7 +659,8 @@ export class AppConfigurationClient {
     configurationSetting:
       | SetConfigurationSettingParam
       | SetConfigurationSettingParam<FeatureFlagValue>
-      | SetConfigurationSettingParam<SecretReferenceValue>,
+      | SetConfigurationSettingParam<SecretReferenceValue>
+      | SetConfigurationSettingParam<SnapshotReferenceValue>,
     options: SetConfigurationSettingOptions = {},
   ): Promise<SetConfigurationSettingResponse> {
     return tracingClient.withSpan(

@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets all route tables applied to a network interface.
- *
- * @summary Gets all route tables applied to a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkInterfaceEffectiveRouteTableList.json
- */
-
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Gets all route tables applied to a network interface.
+ *
+ * @summary Gets all route tables applied to a network interface.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkInterfaceEffectiveRouteTableList.json
+ */
 async function showNetworkInterfaceEffectiveRouteTables(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";

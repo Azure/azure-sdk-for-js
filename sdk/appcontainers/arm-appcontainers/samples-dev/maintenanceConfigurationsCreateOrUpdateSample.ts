@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  MaintenanceConfigurationResource} from "@azure/arm-appcontainers";
 import {
-  MaintenanceConfigurationResource,
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -12,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create or update the maintenance configuration for Managed Environment.
  *
  * @summary Create or update the maintenance configuration for Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironment_MaintenanceConfigurations_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ManagedEnvironment_MaintenanceConfigurations_CreateOrUpdate.json
  */
 async function managedEnvironmentMaintenanceConfigurationsCreateOrUpdate(): Promise<void> {
   const subscriptionId =

@@ -1,0 +1,115 @@
+---
+page_type: sample
+languages:
+  - javascript
+products:
+  - azure
+urlFragment: ai-projects-javascript-beta
+---
+
+# Azure AI Projects client library samples for JavaScript (Beta)
+
+These sample programs show how to use the JavaScript client libraries for Azure AI Projects in some common scenarios.
+
+| **File Name**                                                                 | **Description**                                                                                                                                                                                                                                                                                  |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [agents/agentBasic.js][agents_agentbasic]                                     | This sample demonstrates how to create an agent, create a conversation, generate responses using the agent, and clean up resources.                                                                                                                                                              |
+| [agents/agentCodeInterpreter.js][agents_agentcodeinterpreter]                 | This sample demonstrates how to create a response with code interpreter tool to solve mathematical equations.                                                                                                                                                                                    |
+| [agents/agentFileSearch.js][agents_agentfilesearch]                           | This sample demonstrates how to create an agent with file search capabilities, upload documents to a vector store, and stream responses that include file search results.                                                                                                                        |
+| [agents/tools/agentAgentToAgent.js][agents_tools_agentagenttoagent]           | This sample demonstrates how to create an agent with A2A tool capabilities, enable inter-agent communication, and process streaming responses.                                                                                                                                                   |
+| [agents/tools/agentAiSearch.js][agents_tools_agentaisearch]                   | This sample demonstrates how to create an agent with Azure AI Search tool capabilities, send queries to search indexed content, and process streaming responses with citations.                                                                                                                  |
+| [agents/tools/agentBingCustomSearch.js][agents_tools_agentbingcustomsearch]   | This sample demonstrates how to create an agent with Bing Custom Search tool capabilities, search custom search instances, and process streaming responses with citations.                                                                                                                       |
+| [agents/tools/agentBrowserAutomation.js][agents_tools_agentbrowserautomation] | This sample demonstrates how to create an agent with Browser Automation tool, perform web browsing tasks, and process streaming responses with browser automation events.                                                                                                                        |
+| [agents/tools/agentComputerUse.js][agents_tools_agentcomputeruse]             | This sample demonstrates how to create a Computer Use Agent that can interact with computer interfaces through simulated actions and screenshots.                                                                                                                                                |
+| [agents/tools/agentFabric.js][agents_tools_agentfabric]                       | This sample demonstrates how to create an agent with Microsoft Fabric tool capabilities, send queries to Fabric data sources, and clean up resources.                                                                                                                                            |
+| [agents/tools/agentFileSearch.js][agents_tools_agentfilesearch]               | This sample demonstrates how to create a vector store, upload a file, create an agent with file search capabilities, generate responses, and clean up resources.                                                                                                                                 |
+| [agents/tools/agentImageGeneration.js][agents_tools_agentimagegeneration]     | This sample demonstrates how to create an agent with ImageGenTool configured for image generation, make requests to generate images from text prompts, extract base64-encoded image data from the response, decode and save the generated image to a local file, and clean up created resources. |
+| [agents/tools/agentMcp.js][agents_tools_agentmcp]                             | This sample demonstrates how to create an agent with MCP tool capabilities, send requests that trigger MCP approval workflows, handle approval requests, and clean up resources.                                                                                                                 |
+| [agents/tools/agentMcpConnectionAuth.js][agents_tools_agentmcpconnectionauth] | This sample demonstrates how to create an agent with MCP tool capabilities using project connection authentication, send requests that trigger MCP approval workflows, handle approval requests, and clean up resources.                                                                         |
+| [agents/tools/agentSharepoint.js][agents_tools_agentsharepoint]               | This sample demonstrates how to create an agent with SharePoint tool capabilities, search SharePoint content, and process streaming responses with citations.                                                                                                                                    |
+| [agents/tools/agentWebSearch.js][agents_tools_agentwebsearch]                 | This sample demonstrates how to create an agent with web search capabilities, send a query to search the web, and clean up resources.                                                                                                                                                            |
+| [responses/responseBasic.js][responses_responsebasic]                         | This sample demonstrates how to create responses with and without conversation context.                                                                                                                                                                                                          |
+| [responses/responseStream.js][responses_responsestream]                       | This sample demonstrates how to create a non-streaming response and then use streaming for a follow-up response with conversation context.                                                                                                                                                       |
+| [agents/agentFunctionTool.js][agents_agentfunctiontool]                       | Demonstrates how to create an agent with function tools, handle function calls, and provide function results to get the final response.                                                                                                                                                          |
+| [agents/agentContainerAppBasic.js][agents_agentcontainerappbasic]             | demonstrates how to use basic container app agent operations.                                                                                                                                                                                                                                    |
+| [agents/agentConversationCurd.js][agents_agentconversationcurd]               | demonstrates how to use basic conversation operations.                                                                                                                                                                                                                                           |
+| [agents/agentCurd.js][agents_agentcurd]                                       | demonstrates how to use basic agent operations.                                                                                                                                                                                                                                                  |
+| [agents/tools/computerUseUtil.js][agents_tools_computeruseutil]               | Utility functions for Computer Use Agent samples. Shared helper functions and classes for Computer Use Agent samples.                                                                                                                                                                            |
+| [connections/connectionsBasics.js][connections_connectionsbasics]             | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all connections, get the properties of a default connection, and get the properties of a connection by its name.                                                                                           |
+| [conversations/conversationsBasics.js][conversations_conversationsbasics]     | This sample demonstrates how to create, retrieve, update, list, and delete conversations using the OpenAI client.                                                                                                                                                                                |
+| [datasets/datasetsBasics.js][datasets_datasetsbasics]                         | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of datasets, upload files/folders, create datasets, manage dataset versions, and delete datasets.                                                                                                             |
+| [deployments/deploymentsBasics.js][deployments_deploymentsbasics]             | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all deployments, get the properties of a deployment by its name, and delete a deployment.                                                                                                                  |
+| [files/filesBasic.js][files_filesbasic]                                       | Using an OpenAI client, this sample demonstrates how to perform files operations: create, retrieve, content, list, and delete.                                                                                                                                                                   |
+| [indexes/indexesBasics.js][indexes_indexesbasics]                             | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all indexes, get the properties of an index by its name, and delete an index.                                                                                                                              |
+| [redTeam/redTeamBasic.js][redteam_redteambasic]                               | Given an AIProjectClient, this sample demonstrates how to create, get, and list Red Team scans.                                                                                                                                                                                                  |
+
+## Prerequisites
+
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
+
+You need [an Azure subscription][freesub] to run these sample programs.
+
+Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
+
+Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].
+
+## Setup
+
+To run the samples using the published version of the package:
+
+1. Install the dependencies using `npm`:
+
+```bash
+npm install
+```
+
+2. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
+
+3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+
+```bash
+node agents/agentBasic.js
+```
+
+Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+
+```bash
+cross-env AZURE_AI_PROJECT_ENDPOINT="<azure ai project endpoint>" MODEL_DEPLOYMENT_NAME="<model deployment name>" node agents/agentBasic.js
+```
+
+## Next Steps
+
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+
+[agents_agentbasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/agentBasic.js
+[agents_agentcodeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/agentCodeInterpreter.js
+[agents_agentfilesearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/agentFileSearch.js
+[agents_tools_agentagenttoagent]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/agentAgentToAgent.js
+[agents_tools_agentaisearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/agentAiSearch.js
+[agents_tools_agentbingcustomsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/agentBingCustomSearch.js
+[agents_tools_agentbrowserautomation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/agentBrowserAutomation.js
+[agents_tools_agentcomputeruse]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/agentComputerUse.js
+[agents_tools_agentfabric]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/agentFabric.js
+[agents_tools_agentfilesearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/agentFileSearch.js
+[agents_tools_agentimagegeneration]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/agentImageGeneration.js
+[agents_tools_agentmcp]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/agentMcp.js
+[agents_tools_agentmcpconnectionauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/agentMcpConnectionAuth.js
+[agents_tools_agentsharepoint]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/agentSharepoint.js
+[agents_tools_agentwebsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/agentWebSearch.js
+[responses_responsebasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/responses/responseBasic.js
+[responses_responsestream]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/responses/responseStream.js
+[agents_agentfunctiontool]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/agentFunctionTool.js
+[agents_agentcontainerappbasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/agentContainerAppBasic.js
+[agents_agentconversationcurd]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/agentConversationCurd.js
+[agents_agentcurd]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/agentCurd.js
+[agents_tools_computeruseutil]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/computerUseUtil.js
+[connections_connectionsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/connections/connectionsBasics.js
+[conversations_conversationsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/conversations/conversationsBasics.js
+[datasets_datasetsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/datasets/datasetsBasics.js
+[deployments_deploymentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/deployments/deploymentsBasics.js
+[files_filesbasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/files/filesBasic.js
+[indexes_indexesbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/indexes/indexesBasics.js
+[redteam_redteambasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/redTeam/redTeamBasic.js
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-projects
+[freesub]: https://azure.microsoft.com/free/
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/README.md

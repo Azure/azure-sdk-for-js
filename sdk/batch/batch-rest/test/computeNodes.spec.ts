@@ -3,19 +3,24 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
+import { createBatchClientV2, createRecorder } from "./utils/recordedClient.js";
 import type {
   BatchClient,
-  CreatePoolParameters,
   CreateNodeUserParameters,
   ReplaceNodeUserParameters,
   UploadBatchServiceLogsOptions,
   UploadNodeLogsParameters,
 } from "../src/index.js";
 import { isUnexpected, type ListNodes200Response, type BatchNodeOutput } from "../src/index.js";
-import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
+import { fakeAzureBatchEndpoint, fakeTestPasswordPlaceholder2 } from "./utils/fakeTestSecrets.js";
 import { getResourceName, waitForNotNull } from "./utils/helpers.js";
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
+import {
+  getBatchAccountKeys,
+  getExistingBatchAccount,
+} from "./utils/arm-resources/batch-account.js";
+import { createBatchWindowsPool, deleteBatchPool } from "./utils/arm-resources/batch-pool.js";
+import { getHoboBatchAccountName } from "./utils/arm-resources/env-const.js";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
 const BASIC_POOL_NUM_VMS = 4;
@@ -25,69 +30,57 @@ describe("Compute node operations", async () => {
   let recorder: Recorder;
   let batchClient: BatchClient;
   let computeNodes: string[];
+  let batchAccountEndpoint = fakeAzureBatchEndpoint;
+  let batchAccountKey = fakeTestPasswordPlaceholder2;
 
   /**
    * Provision helper resources needed for testing jobs
    */
   beforeAll(async () => {
-    if (!isPlaybackMode()) {
-      batchClient = createBatchClient();
-
-      const poolParams: CreatePoolParameters = {
-        body: {
-          id: BASIC_POOL,
-          vmSize: "Standard_D1_v2",
-          virtualMachineConfiguration: {
-            nodeAgentSKUId: "batch.node.windows amd64",
-            imageReference: {
-              publisher: "microsoftwindowsserver",
-              offer: "windowsserver",
-              sku: "2022-datacenter",
-            },
-          },
-          targetDedicatedNodes: BASIC_POOL_NUM_VMS,
-          // Ensures there's a compute node file we can reference later
-          startTask: { commandLine: "cmd /c echo hello > hello.txt" },
-          // Sets up pool user we can reference later
-          userAccounts: [
-            {
-              name: "nonAdminUser",
-              // Recorder sanitizer options will replace password with fakeTestPasswordPlaceholder1
-              password: isPlaybackMode() ? fakeTestPasswordPlaceholder1 : "user_1account_password2",
-              elevationLevel: "nonadmin",
-            },
-          ],
-        },
-        contentType: "application/json; odata=minimalmetadata",
-      };
-
-      const poolPostResult = await batchClient.path("/pools").post(poolParams);
-      if (isUnexpected(poolPostResult)) {
-        assert.fail(`Received unexpected status code from creating pool: ${poolPostResult.status}
-              Unable to provision resource needed for Job Testing.
-              Response Body: ${poolPostResult.body.message}`);
-      }
+    if (isPlaybackMode()) {
+      return;
     }
+
+    const account = await getExistingBatchAccount(getHoboBatchAccountName());
+    batchAccountEndpoint = `https://${account.accountEndpoint!}`;
+
+    const accountKeys = await getBatchAccountKeys(getHoboBatchAccountName());
+
+    batchAccountKey = accountKeys.primary!;
+
+    await createBatchWindowsPool(getHoboBatchAccountName(), BASIC_POOL, BASIC_POOL_NUM_VMS);
+    console.log("created Batch Pool:", BASIC_POOL);
   });
 
   /**
    * Unprovision helper resources after all tests ran
    */
   afterAll(async () => {
-    if (!isPlaybackMode()) {
-      batchClient = createBatchClient();
-
-      const poolDeleteResponse = await batchClient.path("/pools/{poolId}", BASIC_POOL).delete();
-      if (isUnexpected(poolDeleteResponse)) {
-        assert.fail(`Received unexpected status code from deleting pool: ${poolDeleteResponse.status}.Pool Resource Leaked.
-            Respose Body: ${poolDeleteResponse.body.message}`);
-      }
+    if (isPlaybackMode()) {
+      return;
     }
+
+    await deleteBatchPool(getHoboBatchAccountName(), BASIC_POOL);
+    console.log("deleted Batch Pool:", BASIC_POOL);
   });
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    batchClient = createBatchClient(recorder);
+    batchClient = createBatchClientV2({
+      recorder,
+      accountEndpoint: batchAccountEndpoint,
+      accountName: getHoboBatchAccountName(),
+      accountKey: batchAccountKey,
+    });
+
+    recorder.addSanitizers({
+      generalSanitizers: [
+        {
+          target: batchAccountEndpoint,
+          value: fakeAzureBatchEndpoint,
+        },
+      ],
+    });
   });
 
   afterEach(async () => {
@@ -149,7 +142,7 @@ describe("Compute node operations", async () => {
       body: {
         name: TEST_USER,
         isAdmin: false,
-        password: isPlaybackMode() ? fakeTestPasswordPlaceholder1 : "user_1account_password2",
+        password: isPlaybackMode() ? fakeTestPasswordPlaceholder2 : "user_1account_password2",
       },
       contentType: "application/json; odata=minimalmetadata",
     };
@@ -167,7 +160,7 @@ describe("Compute node operations", async () => {
   it("should update a compute node user successfully", async () => {
     const updateUserOptions: ReplaceNodeUserParameters = {
       body: {
-        password: isPlaybackMode() ? fakeTestPasswordPlaceholder1 : "user_1account_password2",
+        password: isPlaybackMode() ? fakeTestPasswordPlaceholder2 : "user_1account_password2",
       },
       contentType: "application/json; odata=minimalmetadata",
     };
