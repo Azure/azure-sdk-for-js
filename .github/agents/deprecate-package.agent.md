@@ -35,10 +35,10 @@ Verify with: `ls sdk/hdinsight/arm-hdinsightcontainers/ 2>/dev/null || echo "Rem
 
 ### 3. Update CODEOWNERS
 
-Find and remove the package entry from `.github/CODEOWNERS`. If a comment line directly above the entry is unique to this package (i.e., not shared with other package entries), remove it as well. If the comment applies to multiple packages, leave it intact.
+Find and remove the package entry from `.github/CODEOWNERS`.
 
 ```diff
-- # PRLabel: %Mgmt   # (Remove only if unique to this package)
+- # PRLabel: %Mgmt
 - /sdk/hdinsight/arm-hdinsightcontainers/ @qiaozha @MaryGao
 ```
 
