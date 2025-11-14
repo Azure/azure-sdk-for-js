@@ -181,7 +181,7 @@ export {
 
 // Main client export
 export { VoiceLiveClient, VoiceLiveClientOptions } from "./voiceLiveClient.js";
-
+ 
 // Session export
 export {
   VoiceLiveSession,
@@ -191,7 +191,7 @@ export {
   AudioStreamOptions,
   TurnOptions,
   CreateSessionOptions,
-  StartSessionOptions
+  StartSessionOptions,
 } from "./voiceLiveSession.js";
 
 // Handler-based subscription exports (Azure SDK pattern)

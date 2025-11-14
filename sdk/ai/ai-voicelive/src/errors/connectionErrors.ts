@@ -114,118 +114,118 @@ export class VoiceLiveError extends VoiceLiveConnectionError {
   }
 }
 
-  /**
-   * Classifies a WebSocket close event and returns appropriate error
-   */
+/**
+ * Classifies a WebSocket close event and returns appropriate error
+ */
 export function classifyWebSocketClose(code: number, reason: string): VoiceLiveConnectionError {
-    switch (code) {
-      case 1000: // Normal closure
-        return new VoiceLiveConnectionError(
-          "WebSocket connection closed normally",
-          VoiceLiveErrorCodes.ConnectionLost,
-          "websocket_close",
-          false,
-        );
+  switch (code) {
+    case 1000: // Normal closure
+      return new VoiceLiveConnectionError(
+        "WebSocket connection closed normally",
+        VoiceLiveErrorCodes.ConnectionLost,
+        "websocket_close",
+        false,
+      );
 
-      case 1001: // Going away
-      case 1006: // Abnormal closure
-        return new VoiceLiveConnectionError(
-          `WebSocket connection lost: ${reason || "Abnormal closure"}`,
-          VoiceLiveErrorCodes.ConnectionLost,
-          "websocket_close",
-          true, // Recoverable
-        );
+    case 1001: // Going away
+    case 1006: // Abnormal closure
+      return new VoiceLiveConnectionError(
+        `WebSocket connection lost: ${reason || "Abnormal closure"}`,
+        VoiceLiveErrorCodes.ConnectionLost,
+        "websocket_close",
+        true, // Recoverable
+      );
 
-      case 1008: // Policy violation
-        return new VoiceLiveConnectionError(
-          `WebSocket policy violation: ${reason}`,
-          VoiceLiveErrorCodes.WebSocketError,
-          "websocket_close",
-          false, // Not recoverable
-        );
+    case 1008: // Policy violation
+      return new VoiceLiveConnectionError(
+        `WebSocket policy violation: ${reason}`,
+        VoiceLiveErrorCodes.WebSocketError,
+        "websocket_close",
+        false, // Not recoverable
+      );
 
-      case 1011: // Server error
-        return new VoiceLiveConnectionError(
-          `WebSocket server error: ${reason}`,
-          VoiceLiveErrorCodes.WebSocketError,
-          "websocket_close",
-          true, // Recoverable
-        );
+    case 1011: // Server error
+      return new VoiceLiveConnectionError(
+        `WebSocket server error: ${reason}`,
+        VoiceLiveErrorCodes.WebSocketError,
+        "websocket_close",
+        true, // Recoverable
+      );
 
-      default:
-        return new VoiceLiveConnectionError(
-          `WebSocket closed with code ${code}: ${reason}`,
-          VoiceLiveErrorCodes.ConnectionLost,
-          "websocket_close",
-          true, // Default to recoverable
-        );
+    default:
+      return new VoiceLiveConnectionError(
+        `WebSocket closed with code ${code}: ${reason}`,
+        VoiceLiveErrorCodes.ConnectionLost,
+        "websocket_close",
+        true, // Default to recoverable
+      );
+  }
+}
+
+/**
+ * Classifies connection errors
+ */
+export function classifyConnectionError(
+  error: VoiceLiveConnectionError | Error | unknown,
+): VoiceLiveConnectionError {
+  if (error instanceof VoiceLiveConnectionError) {
+    return error;
+  }
+
+  if (error instanceof Error) {
+    if (error.message.includes("timeout")) {
+      return new VoiceLiveConnectionError(
+        `Connection timeout: ${error.message}`,
+        VoiceLiveErrorCodes.ConnectionTimeout,
+        "connection",
+        true,
+        error,
+      );
+    }
+
+    if (error.message.includes("ECONNREFUSED") || error.message.includes("ENOTFOUND")) {
+      return new VoiceLiveConnectionError(
+        `Connection failed: ${error.message}`,
+        VoiceLiveErrorCodes.ConnectionFailed,
+        "connection",
+        true,
+        error,
+      );
     }
   }
 
-  /**
-   * Classifies connection errors
-   */
-  export function classifyConnectionError(
-    error: VoiceLiveConnectionError | Error | unknown,
-  ): VoiceLiveConnectionError {
-    if (error instanceof VoiceLiveConnectionError) {
-      return error;
-    }
+  return new VoiceLiveConnectionError(
+    `Unknown connection error: ${error instanceof Error ? error.message : String(error)}`,
+    VoiceLiveErrorCodes.ConnectionFailed,
+    "connection",
+    true,
+    error instanceof Error ? error : new Error(String(error)),
+  );
+}
 
-    if (error instanceof Error) {
-      if (error.message.includes("timeout")) {
-        return new VoiceLiveConnectionError(
-          `Connection timeout: ${error.message}`,
-          VoiceLiveErrorCodes.ConnectionTimeout,
-          "connection",
-          true,
-          error,
-        );
-      }
-
-      if (error.message.includes("ECONNREFUSED") || error.message.includes("ENOTFOUND")) {
-        return new VoiceLiveConnectionError(
-          `Connection failed: ${error.message}`,
-          VoiceLiveErrorCodes.ConnectionFailed,
-          "connection",
-          true,
-          error,
-        );
-      }
-    }
-
-    return new VoiceLiveConnectionError(
-      `Unknown connection error: ${error instanceof Error ? error.message : String(error)}`,
-      VoiceLiveErrorCodes.ConnectionFailed,
-      "connection",
-      true,
-      error instanceof Error ? error : new Error(String(error)),
-    );
-  }
-
-  /**
-   * Classifies protocol errors
-   */
+/**
+ * Classifies protocol errors
+ */
 export function classifyProtocolError(error: Error, messageType: string): VoiceLiveProtocolError {
-    if (error.message.includes("JSON")) {
-      return new VoiceLiveProtocolError(
-        `Invalid JSON message: ${error.message}`,
-        VoiceLiveErrorCodes.InvalidMessage,
-        error,
-      );
-    }
-
-    if (error.message.includes("size") || error.message.includes("large")) {
-      return new VoiceLiveProtocolError(
-        `Message too large: ${error.message}`,
-        VoiceLiveErrorCodes.MessageTooLarge,
-        error,
-      );
-    }
-
+  if (error.message.includes("JSON")) {
     return new VoiceLiveProtocolError(
-      `Protocol error in ${messageType}: ${error.message}`,
-      VoiceLiveErrorCodes.ProtocolError,
+      `Invalid JSON message: ${error.message}`,
+      VoiceLiveErrorCodes.InvalidMessage,
       error,
     );
   }
+
+  if (error.message.includes("size") || error.message.includes("large")) {
+    return new VoiceLiveProtocolError(
+      `Message too large: ${error.message}`,
+      VoiceLiveErrorCodes.MessageTooLarge,
+      error,
+    );
+  }
+
+  return new VoiceLiveProtocolError(
+    `Protocol error in ${messageType}: ${error.message}`,
+    VoiceLiveErrorCodes.ProtocolError,
+    error,
+  );
+}
