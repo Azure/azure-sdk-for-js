@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieves the usages (most recent data) for the given database.
- *
- * @summary Retrieves the usages (most recent data) for the given database.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBDatabaseGetUsages.json
- */
-
+import type {
+  DatabaseListUsagesOptionalParams} from "@azure/arm-cosmosdb";
 import {
-  DatabaseListUsagesOptionalParams,
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Retrieves the usages (most recent data) for the given database.
+ *
+ * @summary Retrieves the usages (most recent data) for the given database.
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/examples/CosmosDBDatabaseGetUsages.json
+ */
 async function cosmosDbDatabaseGetUsages(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
