@@ -51,6 +51,10 @@ steps:
           }
           Write-Host "Changed Files:"
           # TODO: Use a common script that lists changed files
+          # Deepen the fetch to ensure there is history to compare. GitHub uses
+          # a merge commit for PRs so the history only needs to be deepend by 1
+          # to get the state of the target branch.
+          git fetch --deepen 1
           git diff --name-only $(System.PullRequest.TargetBranch) | Tee-Object -Variable changedFiles
 
           if ($changedFiles -contains 'eng/common/spelling/package-lock.json') {
@@ -61,6 +65,7 @@ steps:
             Write-Host "No changes to cspell package-lock.json detected."
             Write-Host "##vso[task.setvariable variable=RunCspellUpgradeVerification]false"
           }
+        displayName: Determine if cspell upgrade verification is needed
 
       # Using `- checkout` will interfere with the job's exisitng checkout and
       # whether to run this step is based on runtime conditions, so 
