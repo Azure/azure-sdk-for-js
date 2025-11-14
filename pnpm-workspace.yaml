@@ -18,7 +18,7 @@ packages:
   - '!sdk/eventhub/event-hubs/test/stress/**'
 
 catalog:
-  '@types/node': ^20.19.24
+  '@types/node': ^20.19.25
   autorest: latest
   cross-env: ^7.0.3
   eslint: ^9.39.1
@@ -47,13 +47,14 @@ catalogs:
     chai-as-promised: ^8.0.1
     chai-exclude: ^3.0.0
     dotenv: ^16.6.1
-    nock: ^13.5.4
-    playwright: ^1.50.1
+    nock: ^13.5.6
+    playwright: ^1.56.1
     vitest: ^4.0.8
 
 linkWorkspacePackages: true
 
 minimumReleaseAge: 1440
+
 minimumReleaseAgeExclude:
   - '@azure/*'
   - '@azure-rest/*'
