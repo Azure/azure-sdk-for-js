@@ -55,7 +55,7 @@ steps:
             -ArtifactPath '$(ArtifactStagingDirectory)'
           $changedFiles = (Get-Content '$(ArtifactStagingDirectory)/diff.json' | ConvertFrom-Json).ChangedFiles
           Write-Host $changedFiles
-          
+
           if ($changedFiles -contains 'eng/common/spelling/package-lock.json') {
             Write-Host "Detected change to cspell package-lock.json. Setting variables to run cspell upgrade verification."
             New-Item -ItemType Directory -Path '${{ parameters.CspellUpgradeArtifactDirectory }}' -Force | Out-Null
@@ -79,7 +79,7 @@ steps:
 
           Set-Location $(Pipeline.Workspace)/public-api-before
           git sparse-checkout init
-          git sparse-checkout set --no-cone '/*' '!/*/' '/eng' '${{ parameters.CspellUpgradePublicApiCheckoutExpression }}'
+          git sparse-checkout set --no-cone '/*' '!/*/' '/eng' '/.vscode' '${{ parameters.CspellUpgradePublicApiCheckoutExpression }}'
           git checkout $(System.PullRequest.TargetBranch)
         condition: and(succeeded(), eq(variables['RunCspellUpgradeVerification'], 'true'))
         displayName: Sparse checkout before state of public API surface area
