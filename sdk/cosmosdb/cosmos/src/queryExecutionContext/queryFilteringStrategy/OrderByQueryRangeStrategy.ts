@@ -34,11 +34,23 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       };
     }
 
-    // create a PartitionRangeFilterResult object empty
+    // Validate that orderByItems is present for ORDER BY queries
+    if (
+      !queryInfo?.orderByItems ||
+      !Array.isArray(queryInfo.orderByItems) ||
+      queryInfo.orderByItems.length === 0
+    ) {
+      throw new Error(
+        "Unable to resume ORDER BY query from continuation token. The ORDER BY field information " +
+          "is missing from the continuation token. This indicates that the continuation token was not " +
+          "generated from an ORDER BY query or has been corrupted. Please verify that you are using " +
+          "a valid continuation token from an ORDER BY query and retry the operation.",
+      );
+    }
+
     const result: PartitionRangeFilterResult = {
       rangeTokenPairs: [],
     };
-
     let filteredRanges: PartitionKeyRange[] = [];
     let resumeRangeFound = false;
 
@@ -57,11 +69,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       );
 
       // Create filtering condition for left ranges based on ORDER BY items and sort orders
-      const leftFilter = this.createRangeFilterCondition(
-        (queryInfo?.orderByItems as any[]) || [], // TODO: improve
-        queryInfo,
-        "left",
-      );
+      const leftFilter = this.createRangeFilterCondition(queryInfo.orderByItems, queryInfo, "left");
 
       const rightRanges = targetRanges.filter((mapping) =>
         this.isRangeAfterAnother(mapping.minInclusive, targetRangeMapping.maxExclusive),
@@ -69,7 +77,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
 
       // Create filtering condition for right ranges based on ORDER BY items and sort orders
       const rightFilter = this.createRangeFilterCondition(
-        (queryInfo?.orderByItems as any[]) || [], // TODO: improve
+        queryInfo.orderByItems,
         queryInfo,
         "right",
       );
@@ -131,10 +139,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     queryInfo: Record<string, unknown> | undefined,
     rangePosition: "left" | "right",
   ): string {
-    if (!orderByItems || orderByItems.length === 0) {
-      return "";
-    }
-
     // Extract sort orders from query info
     let sortOrders: string[];
     try {
@@ -159,10 +163,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       Array.isArray((queryInfo.queryInfo as any).queryInfo.orderByExpressions)
     ) {
       orderByExpressions = (queryInfo.queryInfo as any).queryInfo.orderByExpressions;
-    }
-
-    if (sortOrders.length === 0) {
-      return "";
     }
 
     if (!orderByExpressions || !Array.isArray(orderByExpressions)) {

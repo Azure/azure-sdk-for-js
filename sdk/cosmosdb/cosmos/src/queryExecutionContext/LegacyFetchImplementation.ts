@@ -11,8 +11,6 @@ import type { ExecutionContext } from "./ExecutionContext.js";
  * @hidden
  */
 export class LegacyFetchImplementation {
-  private fetchMoreRespHeaders: Record<string, any>;
-
   constructor(
     private endpoint: ExecutionContext,
     private pageSize: number,
@@ -23,13 +21,13 @@ export class LegacyFetchImplementation {
     fetchBuffer: any[],
   ): Promise<Response<any>> {
     // Initialize headers fresh for each fetchMore call
-    this.fetchMoreRespHeaders = getInitialHeader();
+    const fetchMoreRespHeaders = getInitialHeader();
 
     try {
       // Keep fetching until we have enough items or no more results
       while (fetchBuffer.length < this.pageSize && this.endpoint.hasMoreResults()) {
         const response = await this.endpoint.fetchMore!(diagnosticNode);
-        mergeHeaders(this.fetchMoreRespHeaders, response.headers);
+        mergeHeaders(fetchMoreRespHeaders, response.headers);
 
         if (
           !response ||
@@ -40,9 +38,9 @@ export class LegacyFetchImplementation {
           if (fetchBuffer.length > 0) {
             const temp = [...fetchBuffer];
             fetchBuffer.length = 0; // Clear array in place
-            return { result: temp, headers: this.fetchMoreRespHeaders };
+            return { result: temp, headers: fetchMoreRespHeaders };
           } else {
-            return { result: undefined, headers: this.fetchMoreRespHeaders };
+            return { result: undefined, headers: fetchMoreRespHeaders };
           }
         }
         fetchBuffer.push(...response.result.buffer);
@@ -52,13 +50,13 @@ export class LegacyFetchImplementation {
       if (fetchBuffer.length > 0) {
         const temp = fetchBuffer.slice(0, this.pageSize);
         fetchBuffer.splice(0, this.pageSize); // Remove items in place
-        return { result: temp, headers: this.fetchMoreRespHeaders };
+        return { result: temp, headers: fetchMoreRespHeaders };
       } else {
-        return { result: undefined, headers: this.fetchMoreRespHeaders };
+        return { result: undefined, headers: fetchMoreRespHeaders };
       }
     } catch (err: any) {
-      mergeHeaders(this.fetchMoreRespHeaders, err.headers);
-      err.headers = this.fetchMoreRespHeaders;
+      mergeHeaders(fetchMoreRespHeaders, err.headers);
+      err.headers = fetchMoreRespHeaders;
       throw err;
     }
   }

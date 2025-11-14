@@ -171,14 +171,16 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           }
           // Parse continuation token to get range mappings and check for split/merge scenarios
           const parsedToken = this._parseContinuationToken(this.requestContinuation);
-          const processedContinuationResponse =
-            await this._handlePartitionRangeChanges(parsedToken);
+          const continuationRanges = await this._handlePartitionRangeChanges(parsedToken);
 
-          const continuationRanges = processedContinuationResponse.ranges;
-          const additionalQueryInfo = this._createAdditionalQueryInfo(
-            processedContinuationResponse.orderByItems,
-            processedContinuationResponse.rid,
-          );
+          // For ORDER BY queries, get additional query info directly from parsed token
+          const additionalQueryInfo =
+            queryType === QueryExecutionContextType.OrderBy
+              ? this._createAdditionalQueryInfo(
+                  (parsedToken as OrderByQueryContinuationToken).orderByItems,
+                  (parsedToken as OrderByQueryContinuationToken).documentRid,
+                )
+              : undefined;
 
           const filterResult = rangeManager.filterPartitionRanges(
             targetPartitionRanges,
@@ -191,15 +193,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
           // Create filter context for ORDER BY queries with continuation
           let filterContext: FilterContext | undefined;
-          if (
-            processedContinuationResponse.orderByItems &&
-            processedContinuationResponse.rid &&
-            processedContinuationResponse.skipCount !== undefined
-          ) {
+          if (queryType === QueryExecutionContextType.OrderBy) {
+            const orderByToken = parsedToken as OrderByQueryContinuationToken;
             filterContext = {
-              orderByItems: processedContinuationResponse.orderByItems,
-              rid: processedContinuationResponse.rid,
-              skipCount: processedContinuationResponse.skipCount,
+              orderByItems: orderByToken.orderByItems,
+              rid: orderByToken.documentRid,
+              skipCount: orderByToken.skipCount,
               sortOrders: this.sortOrders || [],
             };
           }
@@ -280,8 +279,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   ): number;
 
   /**
-   * Processes buffered document producers using template method pattern.
-   * Delegates actual processing to subclasses while handling common flow.
+   * Processes buffered document producers
    * @returns A promise that resolves when processing is complete.
    */
   protected async processBufferedDocumentProducers(): Promise<void> {
@@ -295,13 +293,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
   /**
    * Processes a single document producer according to the specific query type.
-   * Subclasses implement this to provide their specific processing behavior.
    */
   protected abstract processDocumentProducer(producer: DocumentProducer): Promise<void>;
 
   /**
    * Determines if processing should continue based on query-specific rules.
-   * Subclasses implement this to provide their specific continuation logic.
    */
   protected abstract shouldContinueProcessing(): boolean;
 
@@ -422,16 +418,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   /**
    * Detects partition splits/merges by analyzing parsed continuation token ranges and comparing with current topology
    * @param parsed - The continuation token containing range mappings to analyze
-   * @returns Object containing processed ranges with EPK info and optional orderByItems and rid for ORDER BY queries
+   * @returns Array of processed ranges with EPK info
    */
   private async _handlePartitionRangeChanges(
     parsed: OrderByQueryContinuationToken | CompositeQueryContinuationToken,
-  ): Promise<{
-    ranges: { range: any; continuationToken?: string; epkMin?: string; epkMax?: string }[];
-    orderByItems?: any[];
-    rid?: string;
-    skipCount?: number;
-  }> {
+  ): Promise<{ range: any; continuationToken?: string; epkMin?: string; epkMax?: string }[]> {
     const processedRanges: {
       range: any;
       continuationToken?: string;
@@ -443,17 +434,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     const rangeMappings = parsed.rangeMappings;
 
     if (!rangeMappings || rangeMappings.length === 0) {
-      const isOrderByQuery = this.getQueryType() === QueryExecutionContextType.OrderBy;
-      return {
-        ranges: [],
-        orderByItems: isOrderByQuery
-          ? (parsed as OrderByQueryContinuationToken).orderByItems
-          : undefined,
-        rid: isOrderByQuery
-          ? (parsed as OrderByQueryContinuationToken).documentRid
-          : (parsed as CompositeQueryContinuationToken).rid,
-        skipCount: isOrderByQuery ? (parsed as OrderByQueryContinuationToken).skipCount : undefined,
-      };
+      return [];
     }
 
     // Check each range mapping for potential splits/merges
@@ -512,17 +493,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       }
     }
 
-    const isOrderByQuery = this.getQueryType() === QueryExecutionContextType.OrderBy;
-    return {
-      ranges: processedRanges,
-      orderByItems: isOrderByQuery
-        ? (parsed as OrderByQueryContinuationToken).orderByItems
-        : undefined,
-      rid: isOrderByQuery
-        ? (parsed as OrderByQueryContinuationToken).documentRid
-        : (parsed as CompositeQueryContinuationToken).rid,
-      skipCount: isOrderByQuery ? (parsed as OrderByQueryContinuationToken).skipCount : undefined,
-    };
+    return processedRanges;
   }
 
   /**
@@ -540,19 +511,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       const parsed = isOrderByQuery
         ? parseOrderByQueryContinuationToken(continuationToken)
         : parseCompositeQueryContinuationToken(continuationToken);
-
-      if (!parsed?.rangeMappings) {
-        throw new ErrorResponse(
-          `Invalid continuation token format. Expected token with rangeMappings property. ` +
-            `Ensure the continuation token was generated by a compatible query and has not been modified.`,
-        );
-      }
-
       return parsed;
     } catch (e) {
-      if (e instanceof ErrorResponse) {
-        throw e;
-      }
       throw new ErrorResponse(
         `Invalid continuation token format. Expected token with rangeMappings property. ` +
           `Ensure the continuation token was generated by a compatible query and has not been modified.`,

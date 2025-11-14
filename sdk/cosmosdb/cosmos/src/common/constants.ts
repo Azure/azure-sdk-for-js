@@ -303,6 +303,14 @@ export const Constants = {
   EncryptionCacheRefreshIntervalInMs: 60000, // 1 minute
 
   RequestTimeoutForReadsInMs: 2000, // 2 seconds
+
+  // Query Execution Constants
+  QueryExecution: {
+    /** Default page size for query execution when maxItemCount is not specified */
+    DEFAULT_PAGE_SIZE: 10,
+    /** Default maximum buffer size for vector search queries */
+    DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE: 50000,
+  },
 };
 
 /**

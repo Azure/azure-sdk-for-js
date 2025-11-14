@@ -17,7 +17,6 @@ export class QueryControlFetchImplementation {
   // Required fields for query control - not optional
   private readonly continuationTokenManager: BaseContinuationTokenManager;
   private readonly querySupportsTokens: boolean;
-  private fetchMoreRespHeaders: Record<string, any>;
 
   constructor(
     private endpoint: ExecutionContext,
@@ -42,31 +41,32 @@ export class QueryControlFetchImplementation {
     fetchBuffer: any[],
   ): Promise<Response<any>> {
     // Initialize headers fresh for each fetchMore call
-    this.fetchMoreRespHeaders = getInitialHeader();
+    const fetchMoreRespHeaders = getInitialHeader();
 
     // Use continuation token logic for supported queries when query control is enabled
     // Otherwise use simplified buffer-only logic
     if (this.querySupportsTokens) {
-      return this._handleQueryFetch(diagnosticNode, fetchBuffer);
+      return this._handleQueryFetch(diagnosticNode, fetchBuffer, fetchMoreRespHeaders);
     } else {
-      return this._handleSimpleBufferFetch(diagnosticNode, fetchBuffer);
+      return this._handleSimpleBufferFetch(diagnosticNode, fetchBuffer, fetchMoreRespHeaders);
     }
   }
 
   private async _handleSimpleBufferFetch(
     diagnosticNode: DiagnosticNodeInternal,
     fetchBuffer: any[],
+    fetchMoreRespHeaders: Record<string, any>,
   ): Promise<Response<any>> {
     // Return buffered data if available
     if (fetchBuffer.length > 0) {
       const temp = fetchBuffer.slice(0, this.pageSize);
       fetchBuffer.splice(0, this.pageSize); // Remove items in place
-      return { result: temp, headers: this.fetchMoreRespHeaders };
+      return { result: temp, headers: fetchMoreRespHeaders };
     }
 
     // Fetch new data from endpoint
     const response = await this.endpoint.fetchMore!(diagnosticNode);
-    mergeHeaders(this.fetchMoreRespHeaders, response.headers);
+    mergeHeaders(fetchMoreRespHeaders, response.headers);
 
     if (!response?.result?.buffer?.length) {
       return this._createEmptyResult(response?.headers);
@@ -78,12 +78,13 @@ export class QueryControlFetchImplementation {
     const temp = fetchBuffer.slice(0, this.pageSize);
     fetchBuffer.splice(0, this.pageSize); // Remove returned items in place
 
-    return { result: temp, headers: this.fetchMoreRespHeaders };
+    return { result: temp, headers: fetchMoreRespHeaders };
   }
 
   private async _handleQueryFetch(
     diagnosticNode: DiagnosticNodeInternal,
     fetchBuffer: any[],
+    fetchMoreRespHeaders: Record<string, any>,
   ): Promise<Response<any>> {
     if (fetchBuffer.length > 0) {
       const { endIndex, continuationToken } = this.continuationTokenManager.paginateResults(
@@ -92,15 +93,15 @@ export class QueryControlFetchImplementation {
       );
       const temp = fetchBuffer.slice(0, endIndex);
       fetchBuffer.splice(0, endIndex); // Remove returned items in place
-      this._setContinuationTokenInHeaders(continuationToken);
+      this._setContinuationTokenInHeaders(continuationToken, fetchMoreRespHeaders);
 
-      return { result: temp, headers: this.fetchMoreRespHeaders };
+      return { result: temp, headers: fetchMoreRespHeaders };
     }
 
     // Fetch new data from endpoint
     fetchBuffer.length = 0; // Clear existing items in place
     const response = await this.endpoint.fetchMore!(diagnosticNode);
-    mergeHeaders(this.fetchMoreRespHeaders, response.headers);
+    mergeHeaders(fetchMoreRespHeaders, response.headers);
 
     if (!response?.result?.buffer || response.result.buffer.length === 0) {
       const { continuationToken } = this.continuationTokenManager.paginateResults(
@@ -108,8 +109,8 @@ export class QueryControlFetchImplementation {
         true, // isResponseEmpty = true
         response?.result, // Pass response data for processing
       );
-      this._setContinuationTokenInHeaders(continuationToken);
-      return this._createEmptyResult(this.fetchMoreRespHeaders);
+      this._setContinuationTokenInHeaders(continuationToken, fetchMoreRespHeaders);
+      return this._createEmptyResult(fetchMoreRespHeaders);
     }
 
     fetchBuffer.push(...response.result.buffer); // Add new items to existing buffer
@@ -121,14 +122,17 @@ export class QueryControlFetchImplementation {
 
     const temp = fetchBuffer.slice(0, endIndex);
     fetchBuffer.splice(0, endIndex); // Remove returned items in place
-    this._setContinuationTokenInHeaders(continuationToken);
+    this._setContinuationTokenInHeaders(continuationToken, fetchMoreRespHeaders);
 
-    return { result: temp, headers: this.fetchMoreRespHeaders };
+    return { result: temp, headers: fetchMoreRespHeaders };
   }
 
-  private _setContinuationTokenInHeaders(continuationToken: string | undefined): void {
+  private _setContinuationTokenInHeaders(
+    continuationToken: string | undefined,
+    fetchMoreRespHeaders: Record<string, any>,
+  ): void {
     if (continuationToken) {
-      Object.assign(this.fetchMoreRespHeaders, {
+      Object.assign(fetchMoreRespHeaders, {
         [Constants.HttpHeaders.Continuation]: continuationToken,
       });
     }
