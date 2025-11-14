@@ -86,13 +86,15 @@ steps:
 
       - pwsh: |
           ./eng/scripts/spell-check-public-api.ps1 `
-            | Tee-Object -FilePath ${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-after.txt
+            | Tee-Object -FilePath '${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-after.txt'
+          Get-ChildItem -Path ${{ parameters.CspellUpgradeArtifactDirectory }} -Recurse | Select-Object -Property FullName
         condition: and(succeeded(), eq(variables['RunCspellUpgradeVerification'], 'true'))
         displayName: Get public API spelling errors after cspell upgrade
 
       - pwsh: |
           ./eng/scripts/spell-check-public-api.ps1 `
-            | Tee-Object -FilePath ${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-before.txt
+            | Tee-Object -FilePath '${{ parameters.CspellUpgradeArtifactDirectory }}/spelling-before.txt'
+          Get-ChildItem -Path ${{ parameters.CspellUpgradeArtifactDirectory }} -Recurse | Select-Object -Property FullName
         condition: and(succeeded(), eq(variables['RunCspellUpgradeVerification'], 'true'))
         displayName: Get public API spelling errors before cspell upgrade
         workingDirectory: $(Pipeline.Workspace)/public-api-before
