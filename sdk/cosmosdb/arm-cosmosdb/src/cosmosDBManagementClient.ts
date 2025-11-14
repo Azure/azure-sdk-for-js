@@ -9,6 +9,9 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import type { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import type * as coreAuth from "@azure/core-auth";
 import {
+  CassandraResourcesImpl,
+  ChaosFaultImpl,
+  CopyJobsImpl,
   DatabaseAccountsImpl,
   OperationsImpl,
   DatabaseImpl,
@@ -22,14 +25,22 @@ import {
   CollectionPartitionImpl,
   PartitionKeyRangeIdImpl,
   PartitionKeyRangeIdRegionImpl,
+  GraphResourcesImpl,
   SqlResourcesImpl,
   MongoDBResourcesImpl,
   TableResourcesImpl,
-  CassandraResourcesImpl,
   GremlinResourcesImpl,
   LocationsImpl,
+  DataTransferJobsImpl,
+  FleetImpl,
+  FleetAnalyticsImpl,
+  FleetspaceImpl,
+  FleetspaceAccountImpl,
+  GarnetClustersImpl,
   CassandraClustersImpl,
   CassandraDataCentersImpl,
+  MongoMIResourcesImpl,
+  NetworkSecurityPerimeterConfigurationsImpl,
   NotebookWorkspacesImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
@@ -46,11 +57,15 @@ import {
   RestorableTablesImpl,
   RestorableTableResourcesImpl,
   ServiceImpl,
-  FleetImpl,
-  FleetspaceImpl,
-  FleetspaceAccountImpl,
+  ThroughputPoolsImpl,
+  ThroughputPoolImpl,
+  ThroughputPoolAccountsImpl,
+  ThroughputPoolAccountImpl,
 } from "./operations/index.js";
 import type {
+  CassandraResources,
+  ChaosFault,
+  CopyJobs,
   DatabaseAccounts,
   Operations,
   Database,
@@ -64,14 +79,22 @@ import type {
   CollectionPartition,
   PartitionKeyRangeId,
   PartitionKeyRangeIdRegion,
+  GraphResources,
   SqlResources,
   MongoDBResources,
   TableResources,
-  CassandraResources,
   GremlinResources,
   Locations,
+  DataTransferJobs,
+  Fleet,
+  FleetAnalytics,
+  Fleetspace,
+  FleetspaceAccount,
+  GarnetClusters,
   CassandraClusters,
   CassandraDataCenters,
+  MongoMIResources,
+  NetworkSecurityPerimeterConfigurations,
   NotebookWorkspaces,
   PrivateEndpointConnections,
   PrivateLinkResources,
@@ -88,9 +111,10 @@ import type {
   RestorableTables,
   RestorableTableResources,
   Service,
-  Fleet,
-  Fleetspace,
-  FleetspaceAccount,
+  ThroughputPools,
+  ThroughputPool,
+  ThroughputPoolAccounts,
+  ThroughputPoolAccount,
 } from "./operationsInterfaces/index.js";
 import type { CosmosDBManagementClientOptionalParams } from "./models/index.js";
 
@@ -102,7 +126,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the CosmosDBManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -126,7 +150,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-cosmosdb/16.4.0`;
+    const packageDetails = `azsdk-js-arm-cosmosdb/16.5.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -176,7 +200,10 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2025-10-15";
+    this.apiVersion = options.apiVersion || "2025-11-01-preview";
+    this.cassandraResources = new CassandraResourcesImpl(this);
+    this.chaosFault = new ChaosFaultImpl(this);
+    this.copyJobs = new CopyJobsImpl(this);
     this.databaseAccounts = new DatabaseAccountsImpl(this);
     this.operations = new OperationsImpl(this);
     this.database = new DatabaseImpl(this);
@@ -190,14 +217,24 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     this.collectionPartition = new CollectionPartitionImpl(this);
     this.partitionKeyRangeId = new PartitionKeyRangeIdImpl(this);
     this.partitionKeyRangeIdRegion = new PartitionKeyRangeIdRegionImpl(this);
+    this.graphResources = new GraphResourcesImpl(this);
     this.sqlResources = new SqlResourcesImpl(this);
     this.mongoDBResources = new MongoDBResourcesImpl(this);
     this.tableResources = new TableResourcesImpl(this);
-    this.cassandraResources = new CassandraResourcesImpl(this);
     this.gremlinResources = new GremlinResourcesImpl(this);
     this.locations = new LocationsImpl(this);
+    this.dataTransferJobs = new DataTransferJobsImpl(this);
+    this.fleet = new FleetImpl(this);
+    this.fleetAnalytics = new FleetAnalyticsImpl(this);
+    this.fleetspace = new FleetspaceImpl(this);
+    this.fleetspaceAccount = new FleetspaceAccountImpl(this);
+    this.garnetClusters = new GarnetClustersImpl(this);
     this.cassandraClusters = new CassandraClustersImpl(this);
     this.cassandraDataCenters = new CassandraDataCentersImpl(this);
+    this.mongoMIResources = new MongoMIResourcesImpl(this);
+    this.networkSecurityPerimeterConfigurations = new NetworkSecurityPerimeterConfigurationsImpl(
+      this,
+    );
     this.notebookWorkspaces = new NotebookWorkspacesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
@@ -214,9 +251,10 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     this.restorableTables = new RestorableTablesImpl(this);
     this.restorableTableResources = new RestorableTableResourcesImpl(this);
     this.service = new ServiceImpl(this);
-    this.fleet = new FleetImpl(this);
-    this.fleetspace = new FleetspaceImpl(this);
-    this.fleetspaceAccount = new FleetspaceAccountImpl(this);
+    this.throughputPools = new ThroughputPoolsImpl(this);
+    this.throughputPool = new ThroughputPoolImpl(this);
+    this.throughputPoolAccounts = new ThroughputPoolAccountsImpl(this);
+    this.throughputPoolAccount = new ThroughputPoolAccountImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -245,6 +283,9 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  cassandraResources: CassandraResources;
+  chaosFault: ChaosFault;
+  copyJobs: CopyJobs;
   databaseAccounts: DatabaseAccounts;
   operations: Operations;
   database: Database;
@@ -258,14 +299,22 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
   collectionPartition: CollectionPartition;
   partitionKeyRangeId: PartitionKeyRangeId;
   partitionKeyRangeIdRegion: PartitionKeyRangeIdRegion;
+  graphResources: GraphResources;
   sqlResources: SqlResources;
   mongoDBResources: MongoDBResources;
   tableResources: TableResources;
-  cassandraResources: CassandraResources;
   gremlinResources: GremlinResources;
   locations: Locations;
+  dataTransferJobs: DataTransferJobs;
+  fleet: Fleet;
+  fleetAnalytics: FleetAnalytics;
+  fleetspace: Fleetspace;
+  fleetspaceAccount: FleetspaceAccount;
+  garnetClusters: GarnetClusters;
   cassandraClusters: CassandraClusters;
   cassandraDataCenters: CassandraDataCenters;
+  mongoMIResources: MongoMIResources;
+  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
   notebookWorkspaces: NotebookWorkspaces;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
@@ -282,7 +331,8 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
   restorableTables: RestorableTables;
   restorableTableResources: RestorableTableResources;
   service: Service;
-  fleet: Fleet;
-  fleetspace: Fleetspace;
-  fleetspaceAccount: FleetspaceAccount;
+  throughputPools: ThroughputPools;
+  throughputPool: ThroughputPool;
+  throughputPoolAccounts: ThroughputPoolAccounts;
+  throughputPoolAccount: ThroughputPoolAccount;
 }
