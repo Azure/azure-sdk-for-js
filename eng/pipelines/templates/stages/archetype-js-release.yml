@@ -38,7 +38,7 @@ stages:
                       ServiceDirectory: template
                       TestPipeline: ${{ parameters.TestPipeline }}
                   - script: >
-                      npm install `ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
+                      ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz && npm install `ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
                     displayName: Validating package can be installed
                     condition: succeeded()
                   - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
