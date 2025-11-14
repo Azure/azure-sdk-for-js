@@ -47,7 +47,7 @@ This directory contains custom agent prompts for GitHub Copilot. These agents ar
 
 1. Removes the package directory (e.g., `sdk/hdinsight/arm-hdinsightcontainers/`)
 2. Removes the package entry from `.github/CODEOWNERS`
-3. Updates `pnpm-lock.yaml --no-frozen-lockfile` by running `pnpm install`
+3. Updates `pnpm-lock.yaml` by running `pnpm install --no-frozen-lockfile`
 
 **Example usage:**
 For issue requesting deprecation of `@azure/arm-hdinsightcontainers`, the agent will:
