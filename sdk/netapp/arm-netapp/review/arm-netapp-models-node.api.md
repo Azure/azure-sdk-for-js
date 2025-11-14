@@ -19,7 +19,6 @@ export interface AccountProperties {
     activeDirectories?: ActiveDirectory[];
     readonly disableShowmount?: boolean | null;
     encryption?: AccountEncryption;
-    ldapConfiguration?: LdapConfiguration;
     readonly multiAdStatus?: MultiAdStatus;
     nfsV4IDDomain?: string | null;
     readonly provisioningState?: string;
@@ -326,9 +325,6 @@ export interface ExportPolicyRule {
 }
 
 // @public
-export type ExternalReplicationSetupStatus = string;
-
-// @public
 export type FileAccessLogs = string;
 
 // @public
@@ -503,15 +499,6 @@ export enum KnownExclude {
 }
 
 // @public
-export enum KnownExternalReplicationSetupStatus {
-    ClusterPeerPending = "ClusterPeerPending",
-    ClusterPeerRequired = "ClusterPeerRequired",
-    NoActionRequired = "NoActionRequired",
-    ReplicationCreateRequired = "ReplicationCreateRequired",
-    VServerPeerRequired = "VServerPeerRequired"
-}
-
-// @public
 export enum KnownFileAccessLogs {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -536,12 +523,6 @@ export enum KnownKeyVaultStatus {
     Error = "Error",
     InUse = "InUse",
     Updating = "Updating"
-}
-
-// @public
-export enum KnownLdapServerType {
-    ActiveDirectory = "ActiveDirectory",
-    OpenLdap = "OpenLDAP"
 }
 
 // @public
@@ -687,79 +668,6 @@ export enum KnownVolumeBackupRelationshipStatus {
 }
 
 // @public
-export enum KnownVolumeLanguage {
-    Ar = "ar",
-    ArUtf8 = "ar.utf-8",
-    C = "c",
-    Cs = "cs",
-    CsUtf8 = "cs.utf-8",
-    CUtf8 = "c.utf-8",
-    Da = "da",
-    DaUtf8 = "da.utf-8",
-    De = "de",
-    DeUtf8 = "de.utf-8",
-    En = "en",
-    EnUs = "en-us",
-    EnUsUtf8 = "en-us.utf-8",
-    EnUtf8 = "en.utf-8",
-    Es = "es",
-    EsUtf8 = "es.utf-8",
-    Fi = "fi",
-    FiUtf8 = "fi.utf-8",
-    Fr = "fr",
-    FrUtf8 = "fr.utf-8",
-    He = "he",
-    HeUtf8 = "he.utf-8",
-    Hr = "hr",
-    HrUtf8 = "hr.utf-8",
-    Hu = "hu",
-    HuUtf8 = "hu.utf-8",
-    It = "it",
-    ItUtf8 = "it.utf-8",
-    Ja = "ja",
-    JaJp932 = "ja-jp.932",
-    JaJp932Utf8 = "ja-jp.932.utf-8",
-    JaJpPck = "ja-jp.pck",
-    JaJpPckUtf8 = "ja-jp.pck.utf-8",
-    JaJpPckV2 = "ja-jp.pck-v2",
-    JaJpPckV2Utf8 = "ja-jp.pck-v2.utf-8",
-    JaUtf8 = "ja.utf-8",
-    JaV1 = "ja-v1",
-    JaV1Utf8 = "ja-v1.utf-8",
-    Ko = "ko",
-    KoUtf8 = "ko.utf-8",
-    Nl = "nl",
-    NlUtf8 = "nl.utf-8",
-    No = "no",
-    NoUtf8 = "no.utf-8",
-    Pl = "pl",
-    PlUtf8 = "pl.utf-8",
-    Pt = "pt",
-    PtUtf8 = "pt.utf-8",
-    Ro = "ro",
-    RoUtf8 = "ro.utf-8",
-    Ru = "ru",
-    RuUtf8 = "ru.utf-8",
-    Sk = "sk",
-    SkUtf8 = "sk.utf-8",
-    Sl = "sl",
-    SlUtf8 = "sl.utf-8",
-    Sv = "sv",
-    SvUtf8 = "sv.utf-8",
-    Tr = "tr",
-    TrUtf8 = "tr.utf-8",
-    Utf8Mb4 = "utf8mb4",
-    Zh = "zh",
-    ZhGbk = "zh.gbk",
-    ZhGbkUtf8 = "zh.gbk.utf-8",
-    ZhTw = "zh-tw",
-    ZhTwBig5 = "zh-tw.big5",
-    ZhTwBig5Utf8 = "zh-tw.big5.utf-8",
-    ZhTwUtf8 = "zh-tw.utf-8",
-    ZhUtf8 = "zh.utf-8"
-}
-
-// @public
 export enum KnownVolumeReplicationRelationshipStatus {
     Idle = "Idle",
     Transferring = "Transferring"
@@ -782,27 +690,10 @@ export enum KnownVolumeStorageToNetworkProximity {
 }
 
 // @public
-export interface LdapConfiguration {
-    certificateCNHost?: string | null;
-    domain?: string;
-    ldapOverTLS?: boolean;
-    ldapServers?: string[];
-    serverCACertificate?: string;
-}
-
-// @public
 export interface LdapSearchScopeOpt {
     groupDN?: string;
     groupMembershipFilter?: string;
     userDN?: string;
-}
-
-// @public
-export type LdapServerType = string;
-
-// @public
-export interface ListQuotaReportResponse {
-    value?: QuotaReport[];
 }
 
 // @public
@@ -1008,16 +899,6 @@ export interface QuotaItemProperties {
 }
 
 // @public
-export interface QuotaReport {
-    isDerivedQuota?: boolean;
-    percentageUsed?: number;
-    quotaLimitTotalInKiBs?: number;
-    quotaLimitUsedInKiBs?: number;
-    quotaTarget?: string;
-    quotaType?: Type;
-}
-
-// @public
 export interface ReestablishReplicationRequest {
     sourceVolumeId?: string;
 }
@@ -1073,10 +954,6 @@ export type ReplicationMirrorState = string;
 export interface ReplicationObject {
     readonly destinationReplications?: DestinationReplication[];
     readonly endpointType?: EndpointType;
-    readonly externalReplicationSetupInfo?: string;
-    readonly externalReplicationSetupStatus?: ExternalReplicationSetupStatus;
-    readonly mirrorState?: MirrorState;
-    readonly relationshipStatus?: VolumeReplicationRelationshipStatus;
     remotePath?: RemotePath;
     remoteVolumeRegion?: string;
     remoteVolumeResourceId?: string;
@@ -1374,9 +1251,6 @@ export interface VolumeGroupVolumeProperties {
 }
 
 // @public
-export type VolumeLanguage = string;
-
-// @public
 export interface VolumePatch {
     readonly id?: string;
     location?: string;
@@ -1450,9 +1324,7 @@ export interface VolumeProperties {
     readonly isRestoring?: boolean;
     kerberosEnabled?: boolean;
     keyVaultPrivateEndpointResourceId?: string;
-    language?: VolumeLanguage;
     ldapEnabled?: boolean;
-    ldapServerType?: LdapServerType;
     readonly maximumNumberOfFiles?: number;
     readonly mountTargets?: MountTargetProperties[];
     networkFeatures?: NetworkFeatures;

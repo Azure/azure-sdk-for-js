@@ -52,7 +52,6 @@ import {
   _createDeserialize as _createDeserializeSnapshots,
 } from "./api/snapshots/operations.js";
 import {
-  _listQuotaReportDeserialize,
   _revertRelocationDeserialize,
   _finalizeRelocationDeserialize,
   _relocateDeserialize,
@@ -319,11 +318,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     {
       deserializer: _createDeserializeSnapshots,
       expectedStatuses: ["201", "202", "200"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/listQuotaReport":
-    {
-      deserializer: _listQuotaReportDeserialize,
-      expectedStatuses: ["202", "200", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/revertRelocation":
     {
