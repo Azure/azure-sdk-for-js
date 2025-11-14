@@ -26,6 +26,7 @@ import {
 import { parseContinuationTokenFields } from "./ContinuationTokenParser.js";
 import { LegacyFetchImplementation } from "./LegacyFetchImplementation.js";
 import { QueryControlFetchImplementation } from "./QueryControlFetchImplementation.js";
+import type { FetchContext } from "./FetchInterfaces.js";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -227,14 +228,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     // Initialize the appropriate fetch implementation based on enableQueryControl
     if (this.options.enableQueryControl) {
       this.fetchImplementation = new QueryControlFetchImplementation(
-        this,
+        this.endpoint,
         this.collectionLink,
         this.options.continuationToken,
         isOrderByQuery,
         querySupportsTokens,
       );
     } else {
-      this.fetchImplementation = new LegacyFetchImplementation(this);
+      this.fetchImplementation = new LegacyFetchImplementation(this.endpoint);
     }
   }
 
@@ -248,7 +249,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     this.fetchMoreRespHeaders = getInitialHeader();
-    return this.fetchImplementation.fetchMore(diagnosticNode);
+
+    const fetchContext: FetchContext = {
+      fetchBuffer: this.fetchBuffer,
+      fetchMoreRespHeaders: this.fetchMoreRespHeaders,
+      pageSize: this.pageSize,
+    };
+
+    return this.fetchImplementation.fetchMore(diagnosticNode, fetchContext);
   }
 
   public createEmptyResult(headers?: CosmosHeaders): Response<any> {

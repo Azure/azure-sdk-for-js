@@ -4,21 +4,24 @@
 import type { Response } from "../request/index.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import { mergeHeaders } from "./headerUtils.js";
-import type { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext.js";
+import type { FetchContext } from "./FetchInterfaces.js";
+import type { ExecutionContext } from "./ExecutionContext.js";
 
 /**
  * Legacy fetch implementation for when enableQueryControl is false
  * @hidden
  */
 export class LegacyFetchImplementation {
-  constructor(private context: PipelinedQueryExecutionContext) {}
+  constructor(private endpoint: ExecutionContext) {}
 
-  async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    const context = this.context;
+  async fetchMore(
+    diagnosticNode: DiagnosticNodeInternal,
+    context: FetchContext,
+  ): Promise<Response<any>> {
     try {
       // Keep fetching until we have enough items or no more results
-      while (context.fetchBuffer.length < context.pageSize && context.endpoint.hasMoreResults()) {
-        const response = await context.endpoint.fetchMore(diagnosticNode);
+      while (context.fetchBuffer.length < context.pageSize && this.endpoint.hasMoreResults()) {
+        const response = await this.endpoint.fetchMore!(diagnosticNode);
         mergeHeaders(context.fetchMoreRespHeaders, response.headers);
 
         if (
@@ -28,8 +31,8 @@ export class LegacyFetchImplementation {
           response.result.buffer.length === 0
         ) {
           if (context.fetchBuffer.length > 0) {
-            const temp = context.fetchBuffer;
-            context.fetchBuffer = [];
+            const temp = [...context.fetchBuffer];
+            context.fetchBuffer.length = 0; // Clear array in place
             return { result: temp, headers: context.fetchMoreRespHeaders };
           } else {
             return { result: undefined, headers: context.fetchMoreRespHeaders };
@@ -41,7 +44,7 @@ export class LegacyFetchImplementation {
       // Return collected items up to pageSize
       if (context.fetchBuffer.length > 0) {
         const temp = context.fetchBuffer.slice(0, context.pageSize);
-        context.fetchBuffer = context.fetchBuffer.slice(context.pageSize);
+        context.fetchBuffer.splice(0, context.pageSize); // Remove items in place
         return { result: temp, headers: context.fetchMoreRespHeaders };
       } else {
         return { result: undefined, headers: context.fetchMoreRespHeaders };
