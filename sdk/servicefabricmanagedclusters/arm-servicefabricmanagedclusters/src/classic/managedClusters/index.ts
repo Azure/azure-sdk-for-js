@@ -91,7 +91,7 @@ export interface ManagedClustersOperations {
     clusterName: string,
     parameters: ManagedClusterUpdateParameters,
     options?: ManagedClustersUpdateOptionalParams,
-  ) => Promise<ManagedCluster>;
+  ) => PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
   /** Create or update a Service Fabric managed cluster resource with the specified name. */
   createOrUpdate: (
     resourceGroupName: string,

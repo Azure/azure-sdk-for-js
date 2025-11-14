@@ -7,10 +7,10 @@ const {
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to update the configuration of a node type of a given managed cluster, only updating tags.
+ * This sample demonstrates how to update the configuration of a node type of a given managed cluster, only updating tags or capacity.
  *
- * @summary update the configuration of a node type of a given managed cluster, only updating tags.
- * x-ms-original-file: 2025-06-01-preview/NodeTypePatchOperationAutoScale_example.json
+ * @summary update the configuration of a node type of a given managed cluster, only updating tags or capacity.
+ * x-ms-original-file: 2025-10-01-preview/NodeTypePatchOperationAutoScale_example.json
  */
 async function patchANodeTypeWhileAutoScaling() {
   const credential = new DefaultAzureCredential();
@@ -24,10 +24,10 @@ async function patchANodeTypeWhileAutoScaling() {
 }
 
 /**
- * This sample demonstrates how to update the configuration of a node type of a given managed cluster, only updating tags.
+ * This sample demonstrates how to update the configuration of a node type of a given managed cluster, only updating tags or capacity.
  *
- * @summary update the configuration of a node type of a given managed cluster, only updating tags.
- * x-ms-original-file: 2025-06-01-preview/NodeTypePatchOperation_example.json
+ * @summary update the configuration of a node type of a given managed cluster, only updating tags or capacity.
+ * x-ms-original-file: 2025-10-01-preview/NodeTypePatchOperation_example.json
  */
 async function patchANodeType() {
   const credential = new DefaultAzureCredential();
