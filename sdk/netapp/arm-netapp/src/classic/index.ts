@@ -8,7 +8,6 @@ export { BackupsUnderAccountOperations } from "./backupsUnderAccount/index.js";
 export { BackupsUnderBackupVaultOperations } from "./backupsUnderBackupVault/index.js";
 export { BackupsUnderVolumeOperations } from "./backupsUnderVolume/index.js";
 export { BackupVaultsOperations } from "./backupVaults/index.js";
-export { BucketsOperations } from "./buckets/index.js";
 export { NetAppResourceOperations } from "./netAppResource/index.js";
 export { NetAppResourceQuotaLimitsOperations } from "./netAppResourceQuotaLimits/index.js";
 export { NetAppResourceQuotaLimitsAccountOperations } from "./netAppResourceQuotaLimitsAccount/index.js";

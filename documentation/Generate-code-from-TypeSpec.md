@@ -56,7 +56,7 @@ Install dependencies to use code-gen-pipeline,
 ```ps
 npm --prefix eng/common/tsp-client ci
 npm install -g @pnpm
-npm install -g @azure-tools/js-sdk-release-tools
+npm --prefix eng/common/js-sdk-release-tools ci
 ```
 
 Create a local json file named generatedInput.json with content similar to that shown below

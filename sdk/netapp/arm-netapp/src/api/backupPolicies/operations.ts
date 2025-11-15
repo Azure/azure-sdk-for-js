@@ -105,7 +105,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "202", "204"];
+  const expectedStatuses = ["200", "202", "204", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -128,7 +128,7 @@ export function $delete(
   backupPolicyName: string,
   options: BackupPoliciesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -170,7 +170,7 @@ export function _updateSend(
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<BackupPolicy> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -189,7 +189,7 @@ export function update(
   body: BackupPolicyPatch,
   options: BackupPoliciesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<BackupPolicy>, BackupPolicy> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
