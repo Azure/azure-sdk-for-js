@@ -3,8 +3,10 @@
 ## 2.0.0-beta.2 (2025-11-17)
 
 ### Breaking changes
-- add back `project.telemetry` route, give users access to get Application Insights connection string for their AI Foundry Project
 
+
+### Features Added
+- add back `project.telemetry` route, give users access to get Application Insights connection string for their AI Foundry Project
 ## 2.0.0-beta.1 (2025-11-12)
 
 ### Breaking changes
