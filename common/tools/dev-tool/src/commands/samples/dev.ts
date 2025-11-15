@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import fs from "fs-extra";
+import { mkdir, symlink } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import { resolveProject } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";
@@ -21,9 +22,9 @@ export default leafCommand(commandInfo, async () => {
   const linkName = path.join(pkg.path, relativeLinkName);
   const relativeLinkTarget = path.relative(linkName, path.join(pkg.path, "samples"));
 
-  await fs.ensureDir(path.dirname(linkName));
+  await mkdir(path.dirname(linkName), { recursive: true });
 
-  if (fs.existsSync(linkName)) {
+  if (existsSync(linkName)) {
     log.error("Link already exists:", linkName);
     log.error("Make sure your samples tree is pristine before running dev-samples.");
     return false;
@@ -31,7 +32,7 @@ export default leafCommand(commandInfo, async () => {
 
   log.info(`Linking ${relativeLinkName} to ${relativeLinkTarget}`);
 
-  await fs.symlink(relativeLinkTarget, linkName);
+  await symlink(relativeLinkTarget, linkName);
 
   return true;
 });

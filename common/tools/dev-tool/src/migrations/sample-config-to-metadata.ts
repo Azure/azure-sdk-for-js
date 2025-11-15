@@ -3,7 +3,7 @@
 
 import path from "node:path";
 
-import { readFile, writeFile } from "fs-extra";
+import { readFile, writeFile } from "node:fs/promises";
 
 import { createMigration } from "../util/migrations";
 import { AzureSdkMetadata, METADATA_KEY } from "../util/resolveProject";
