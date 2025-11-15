@@ -1,0 +1,5 @@
+commit: 135f53fca8db6a50574d79d812720778ef3b27c5
+repo: Azure/azure-rest-api-specs
+additionalDirectories: []
+directory: specification/orbital/Microsoft.PlanetaryComputer
+
