@@ -32,6 +32,4 @@ extends:
         safeName: azureaaiagents
       - name: azure-ai-voicelive
         safeName: azureaivoicelive
-        
-
     
