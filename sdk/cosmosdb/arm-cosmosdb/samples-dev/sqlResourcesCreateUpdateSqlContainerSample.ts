@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update an Azure Cosmos DB SQL container
- *
- * @summary Create or update an Azure Cosmos DB SQL container
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBSqlContainerCreateUpdate.json
- */
-
+import type {
+  SqlContainerCreateUpdateParameters} from "@azure/arm-cosmosdb";
 import {
-  SqlContainerCreateUpdateParameters,
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Create or update an Azure Cosmos DB SQL container
+ *
+ * @summary Create or update an Azure Cosmos DB SQL container
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/examples/CosmosDBSqlContainerCreateUpdate.json
+ */
 async function cosmosDbSqlContainerCreateUpdate(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
@@ -57,6 +57,11 @@ async function cosmosDbSqlContainerCreateUpdate(): Promise<void> {
         indexingPolicy: {
           automatic: true,
           excludedPaths: [],
+          fullTextIndexes: [
+            { path: "/ftPath1" },
+            { path: "/ftPath2" },
+            { path: "/ftPath3" },
+          ],
           includedPaths: [
             {
               path: "/*",

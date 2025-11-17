@@ -280,6 +280,12 @@
 # ServiceLabel: %AI Agents
 # ServiceOwners: @ganeshyb @glharper @dargilco @ZachhK @bobogogo1990
 
+# PRLabel: %Voice Live
+/sdk/ai/ai-voicelive @rhurey @xitzhang
+
+# ServiceLabel: %Voice Live
+# ServiceOwners: @rhurey @xitzhang
+
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
 /sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco
@@ -600,9 +606,6 @@
 /sdk/hdinsight/arm-hdinsight/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/hdinsight/arm-hdinsightcontainers/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
 /sdk/healthbot/arm-healthbot/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -778,6 +781,9 @@
 
 # PRLabel: %Mgmt
 /sdk/mysql/arm-mysql/      @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/mysql/arm-mysql-flexible/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/netapp/arm-netapp/ @qiaozha @MaryGao
@@ -1656,7 +1662,7 @@ sdk/compute/arm-computerecommender/ @qiaozha @MaryGao
 /common/tools/eslint-plugin-azure-sdk*/ @deyaaeldeen @jeremymeng
 
 /tsconfig*.json @mikeharder @Azure/azure-sdk-for-js-core
-/**/tsconfig.json @Azure/azure-sdk-for-js-core
+/sdk/*/*/tsconfig*.json @Azure/azure-sdk-for-js-core
 
 # Managment tsconfig.json
 /sdk/**/arm-*/**/tsconfig.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core

@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieves the list of all Azure Cosmos DB SQL Role Assignments.
- *
- * @summary Retrieves the list of all Azure Cosmos DB SQL Role Assignments.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBSqlRoleAssignmentList.json
- */
-
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Retrieves the list of all Azure Cosmos DB SQL Role Assignments.
+ *
+ * @summary Retrieves the list of all Azure Cosmos DB SQL Role Assignments.
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/examples/CosmosDBSqlRoleAssignmentList.json
+ */
 async function cosmosDbSqlRoleAssignmentList(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";

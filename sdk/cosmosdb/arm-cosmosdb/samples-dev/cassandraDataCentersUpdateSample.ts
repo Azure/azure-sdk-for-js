@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update some of the properties of a managed Cassandra data center.
- *
- * @summary Update some of the properties of a managed Cassandra data center.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBManagedCassandraDataCenterPatch.json
- */
-
+import type {
+  DataCenterResource} from "@azure/arm-cosmosdb";
 import {
-  DataCenterResource,
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Update some of the properties of a managed Cassandra data center.
+ *
+ * @summary Update some of the properties of a managed Cassandra data center.
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/examples/CosmosDBManagedCassandraDataCenterPatch.json
+ */
 async function cosmosDbManagedCassandraDataCenterUpdate(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||

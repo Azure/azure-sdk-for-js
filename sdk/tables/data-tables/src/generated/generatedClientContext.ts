@@ -33,7 +33,7 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-data-tables/13.3.1`;
+    const packageDetails = `azsdk-js-data-tables/13.3.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
