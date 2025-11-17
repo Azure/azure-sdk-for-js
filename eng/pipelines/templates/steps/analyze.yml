@@ -15,7 +15,7 @@ steps:
 
   - template: /eng/common/pipelines/templates/steps/check-spelling.yml
     parameters:
-      EnableCspellUpgradeVerification: true
+      ScriptToValidateUpgrade: eng/scripts/spell-check-public-api.ps1
 
   - task: PowerShell@2
     inputs:
