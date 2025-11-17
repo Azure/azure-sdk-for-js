@@ -1,4 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { KnownVersions } from "./models.js";
+export {
+  IndexedSharePointKnowledgeSource,
+  IndexedSharePointKnowledgeSourceParameters,
+  KnowledgeSourceIngestionParameters,
+  AIServices,
+  KnownKnowledgeSourceIngestionPermissionOption,
+  KnowledgeSourceIngestionPermissionOption,
+  KnownKnowledgeSourceContentExtractionMode,
+  KnowledgeSourceContentExtractionMode,
+  IndexedOneLakeKnowledgeSource,
+  IndexedOneLakeKnowledgeSourceParameters,
+  WebKnowledgeSource,
+  WebKnowledgeSourceParameters,
+  WebKnowledgeSourceDomains,
+  WebKnowledgeSourceDomain,
+  RemoteSharePointKnowledgeSource,
+  RemoteSharePointKnowledgeSourceParameters,
+  ServiceIndexersRuntime,
+  IndexerRuntime,
+  KnowledgeSourceStatus,
+  KnownKnowledgeSourceSynchronizationStatus,
+  KnowledgeSourceSynchronizationStatus,
+  SynchronizationState,
+  CompletedSynchronizationState,
+  KnowledgeSourceStatistics,
+  KnownVersions,
+} from "./models.js";

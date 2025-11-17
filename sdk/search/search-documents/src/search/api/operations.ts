@@ -530,7 +530,7 @@ export function _searchPostSend(
 export async function _searchPostDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SearchDocumentsResult> {
-  const expectedStatuses = ["200"];
+  const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -641,7 +641,7 @@ export function _searchGetSend(
 export async function _searchGetDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SearchDocumentsResult> {
-  const expectedStatuses = ["200"];
+  const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);

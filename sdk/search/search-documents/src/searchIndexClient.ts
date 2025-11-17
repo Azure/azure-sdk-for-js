@@ -466,8 +466,8 @@ export class SearchIndexClient {
       "SearchIndexClient-createOrUpdateAlias",
       options,
       async (updatedOptions) => {
-        const etag = options.onlyIfUnchanged ? alias.etag : undefined;
-        return this.client.createOrUpdateAlias(alias.name, alias, {
+        const etag = options.onlyIfUnchanged ? alias.eTag : undefined;
+        return this.client.createOrUpdateAlias(alias, alias.name, {
           ...updatedOptions,
           ifMatch: etag,
         });
@@ -518,7 +518,7 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         const aliasName: string = typeof alias === "string" ? alias : alias.name;
         const etag =
-          typeof alias === "string" ? undefined : options.onlyIfUnchanged ? alias.etag : undefined;
+          typeof alias === "string" ? undefined : options.onlyIfUnchanged ? alias.eTag : undefined;
 
         await this.client.deleteAlias(aliasName, {
           ...updatedOptions,

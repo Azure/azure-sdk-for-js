@@ -103,7 +103,10 @@
     "eslint": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "playwright": "catalog:testing",
+    "vitest": "catalog:testing"
   },
   "scripts": {
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
@@ -122,5 +125,245 @@
     "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "npm run test:node && npm run test:browser",
     "update-snippets": "dev-tool run update-snippets"
-  }
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./search": {
+      "browser": {
+        "types": "./dist/browser/search/index.d.ts",
+        "default": "./dist/browser/search/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/search/index.d.ts",
+        "default": "./dist/react-native/search/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/search/index.d.ts",
+        "default": "./dist/esm/search/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/search/index.d.ts",
+        "default": "./dist/commonjs/search/index.js"
+      }
+    },
+    "./search/api": {
+      "browser": {
+        "types": "./dist/browser/search/api/index.d.ts",
+        "default": "./dist/browser/search/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/search/api/index.d.ts",
+        "default": "./dist/react-native/search/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/search/api/index.d.ts",
+        "default": "./dist/esm/search/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/search/api/index.d.ts",
+        "default": "./dist/commonjs/search/api/index.js"
+      }
+    },
+    "./searchIndex": {
+      "browser": {
+        "types": "./dist/browser/searchIndex/index.d.ts",
+        "default": "./dist/browser/searchIndex/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/searchIndex/index.d.ts",
+        "default": "./dist/react-native/searchIndex/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/searchIndex/index.d.ts",
+        "default": "./dist/esm/searchIndex/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/searchIndex/index.d.ts",
+        "default": "./dist/commonjs/searchIndex/index.js"
+      }
+    },
+    "./searchIndex/api": {
+      "browser": {
+        "types": "./dist/browser/searchIndex/api/index.d.ts",
+        "default": "./dist/browser/searchIndex/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/searchIndex/api/index.d.ts",
+        "default": "./dist/react-native/searchIndex/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/searchIndex/api/index.d.ts",
+        "default": "./dist/esm/searchIndex/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/searchIndex/api/index.d.ts",
+        "default": "./dist/commonjs/searchIndex/api/index.js"
+      }
+    },
+    "./searchIndexer": {
+      "browser": {
+        "types": "./dist/browser/searchIndexer/index.d.ts",
+        "default": "./dist/browser/searchIndexer/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/searchIndexer/index.d.ts",
+        "default": "./dist/react-native/searchIndexer/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/searchIndexer/index.d.ts",
+        "default": "./dist/esm/searchIndexer/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/searchIndexer/index.d.ts",
+        "default": "./dist/commonjs/searchIndexer/index.js"
+      }
+    },
+    "./searchIndexer/api": {
+      "browser": {
+        "types": "./dist/browser/searchIndexer/api/index.d.ts",
+        "default": "./dist/browser/searchIndexer/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/searchIndexer/api/index.d.ts",
+        "default": "./dist/react-native/searchIndexer/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/searchIndexer/api/index.d.ts",
+        "default": "./dist/esm/searchIndexer/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/searchIndexer/api/index.d.ts",
+        "default": "./dist/commonjs/searchIndexer/api/index.js"
+      }
+    },
+    "./knowledgeBaseRetrieval": {
+      "browser": {
+        "types": "./dist/browser/knowledgeBaseRetrieval/index.d.ts",
+        "default": "./dist/browser/knowledgeBaseRetrieval/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/knowledgeBaseRetrieval/index.d.ts",
+        "default": "./dist/react-native/knowledgeBaseRetrieval/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/knowledgeBaseRetrieval/index.d.ts",
+        "default": "./dist/esm/knowledgeBaseRetrieval/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/knowledgeBaseRetrieval/index.d.ts",
+        "default": "./dist/commonjs/knowledgeBaseRetrieval/index.js"
+      }
+    },
+    "./knowledgeBaseRetrieval/api": {
+      "browser": {
+        "types": "./dist/browser/knowledgeBaseRetrieval/api/index.d.ts",
+        "default": "./dist/browser/knowledgeBaseRetrieval/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/knowledgeBaseRetrieval/api/index.d.ts",
+        "default": "./dist/react-native/knowledgeBaseRetrieval/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/knowledgeBaseRetrieval/api/index.d.ts",
+        "default": "./dist/esm/knowledgeBaseRetrieval/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/knowledgeBaseRetrieval/api/index.d.ts",
+        "default": "./dist/commonjs/knowledgeBaseRetrieval/api/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
+    },
+    "./models/azure/search/documents": {
+      "browser": {
+        "types": "./dist/browser/models/azure/search/documents/index.d.ts",
+        "default": "./dist/browser/models/azure/search/documents/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/azure/search/documents/index.d.ts",
+        "default": "./dist/react-native/models/azure/search/documents/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/azure/search/documents/index.d.ts",
+        "default": "./dist/esm/models/azure/search/documents/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/azure/search/documents/index.d.ts",
+        "default": "./dist/commonjs/models/azure/search/documents/index.js"
+      }
+    },
+    "./models/azure/search/documents/indexes": {
+      "browser": {
+        "types": "./dist/browser/models/azure/search/documents/indexes/index.d.ts",
+        "default": "./dist/browser/models/azure/search/documents/indexes/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/azure/search/documents/indexes/index.d.ts",
+        "default": "./dist/react-native/models/azure/search/documents/indexes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/azure/search/documents/indexes/index.d.ts",
+        "default": "./dist/esm/models/azure/search/documents/indexes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/azure/search/documents/indexes/index.d.ts",
+        "default": "./dist/commonjs/models/azure/search/documents/indexes/index.js"
+      }
+    },
+    "./models/azure/search/documents/knowledgeBase": {
+      "browser": {
+        "types": "./dist/browser/models/azure/search/documents/knowledgeBase/index.d.ts",
+        "default": "./dist/browser/models/azure/search/documents/knowledgeBase/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/azure/search/documents/knowledgeBase/index.d.ts",
+        "default": "./dist/react-native/models/azure/search/documents/knowledgeBase/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/azure/search/documents/knowledgeBase/index.d.ts",
+        "default": "./dist/esm/models/azure/search/documents/knowledgeBase/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/azure/search/documents/knowledgeBase/index.d.ts",
+        "default": "./dist/commonjs/models/azure/search/documents/knowledgeBase/index.js"
+      }
+    }
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
 }

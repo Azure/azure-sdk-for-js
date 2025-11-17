@@ -143,9 +143,14 @@ import type {
   VectorEncodingFormat,
   VectorSearchProfile,
   VectorSearchVectorizerKind,
-  // WebKnowledgeSourceParameters,
   WordDelimiterTokenFilter,
 } from "./models/azure/search/documents/indexes/index.js";
+import type {
+  AIServices,
+  KnowledgeSourceContentExtractionMode,
+  KnowledgeSourceIngestionPermissionOption,
+  WebKnowledgeSourceParameters,
+} from "./models/models.js";
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 
 /**
@@ -3272,7 +3277,7 @@ export interface IndexedSharePointKnowledgeSourceParameters {
   /** SharePoint connection string with format: SharePointOnlineEndpoint=[SharePoint site url];ApplicationId=[Azure AD App ID];ApplicationSecret=[Azure AD App client secret];TenantId=[SharePoint site tenant id] */
   connectionString: string;
   /** Specifies which SharePoint libraries to access. */
-  containerName: IndexedSharePointContainerName;
+  // containerName: IndexedSharePointContainerName;
   /** Optional query to filter SharePoint content. */
   query?: string;
   /** Consolidates all general ingestion settings. */
@@ -3340,7 +3345,7 @@ export interface RemoteSharePointKnowledgeSource extends BaseKnowledgeSource {
   /**
    * The parameters for the knowledge source.
    */
-  remoteSharePointParameters: RemoteSharePointKnowledgeSourceParameters;
+  // remoteSharePointParameters: RemoteSharePointKnowledgeSourceParameters;
 }
 
 /** Consolidates all general ingestion settings for knowledge sources. */
@@ -3376,7 +3381,7 @@ export interface KnowledgeBaseAzureOpenAIModel extends BaseKnowledgeBaseModel {
 export type KnowledgeSourceVectorizer = KnowledgeSourceAzureOpenAIVectorizer;
 
 /** Specifies the Azure OpenAI resource used to vectorize a query string. */
-export interface KnowledgeSourceAzureOpenAIVectorizer extends BaseKnowledgeSourceVectorizer {
+export interface KnowledgeSourceAzureOpenAIVectorizer /* extends BaseKnowledgeSourceVectorizer */ {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "azureOpenAI";
   /** Contains the parameters specific to Azure OpenAI embedding vectorization. */

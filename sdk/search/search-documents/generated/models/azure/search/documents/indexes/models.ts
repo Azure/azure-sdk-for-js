@@ -3,6 +3,16 @@
 
 import { serializeRecord } from "../../../../../static-helpers/serialization/serialize-record.js";
 import {
+  IndexedSharePointKnowledgeSource,
+  IndexedOneLakeKnowledgeSource,
+  WebKnowledgeSource,
+  RemoteSharePointKnowledgeSource,
+  ServiceIndexersRuntime,
+  serviceIndexersRuntimeDeserializer,
+  IndexerRuntime,
+  indexerRuntimeDeserializer,
+} from "../../../../models.js";
+import {
   knowledgeRetrievalReasoningEffortUnionSerializer,
   knowledgeRetrievalReasoningEffortUnionDeserializer,
   KnowledgeRetrievalReasoningEffortUnion,
@@ -282,6 +292,8 @@ export interface SearchIndex {
   vectorSearch?: VectorSearch;
   /** A value indicating whether permission filtering is enabled for the index. */
   permissionFilterOption?: SearchIndexPermissionFilterOption;
+  /** A value indicating whether Purview is enabled for the index. */
+  purviewEnabled?: boolean;
   /** The ETag of the index. */
   eTag?: string;
 }
@@ -329,6 +341,7 @@ export function searchIndexSerializer(item: SearchIndex): any {
       ? item["vectorSearch"]
       : vectorSearchSerializer(item["vectorSearch"]),
     permissionFilterOption: item["permissionFilterOption"],
+    purviewEnabled: item["purviewEnabled"],
     "@odata.etag": item["eTag"],
   };
 }
@@ -376,6 +389,7 @@ export function searchIndexDeserializer(item: any): SearchIndex {
       ? item["vectorSearch"]
       : vectorSearchDeserializer(item["vectorSearch"]),
     permissionFilterOption: item["permissionFilterOption"],
+    purviewEnabled: item["purviewEnabled"],
     eTag: item["@odata.etag"],
   };
 }
@@ -414,6 +428,8 @@ export interface SearchField {
   facetable?: boolean;
   /** A value indicating whether the field should be used as a permission filter. */
   permissionFilter?: PermissionFilter;
+  /** A value indicating whether the field contains sensitivity label information. */
+  sensitivityLabel?: boolean;
   /** The name of the analyzer to use for the field. This option can be used only with searchable fields and it can't be set together with either searchAnalyzer or indexAnalyzer. Once the analyzer is chosen, it cannot be changed for the field. Must be null for complex fields. */
   analyzerName?: LexicalAnalyzerName;
   /** The name of the analyzer used at search time for the field. This option can be used only with searchable fields. It must be set together with indexAnalyzer and it cannot be set together with the analyzer option. This property cannot be set to the name of a language analyzer; use the analyzer property instead if you need a language analyzer. This analyzer can be updated on an existing field. Must be null for complex fields. */
@@ -446,6 +462,7 @@ export function searchFieldSerializer(item: SearchField): any {
     sortable: item["sortable"],
     facetable: item["facetable"],
     permissionFilter: item["permissionFilter"],
+    sensitivityLabel: item["sensitivityLabel"],
     analyzer: item["analyzerName"],
     searchAnalyzer: item["searchAnalyzerName"],
     indexAnalyzer: item["indexAnalyzerName"],
@@ -474,6 +491,7 @@ export function searchFieldDeserializer(item: any): SearchField {
     sortable: item["sortable"],
     facetable: item["facetable"],
     permissionFilter: item["permissionFilter"],
+    sensitivityLabel: item["sensitivityLabel"],
     analyzerName: item["analyzer"],
     searchAnalyzerName: item["searchAnalyzer"],
     indexAnalyzerName: item["indexAnalyzer"],
@@ -5686,7 +5704,7 @@ export function knowledgeBaseSerializer(item: KnowledgeBase): any {
       ? item["retrievalReasoningEffort"]
       : knowledgeRetrievalReasoningEffortUnionSerializer(item["retrievalReasoningEffort"]),
     outputMode: item["outputMode"],
-    eTag: item["eTag"],
+    "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
@@ -5707,7 +5725,7 @@ export function knowledgeBaseDeserializer(item: any): KnowledgeBase {
       ? item["retrievalReasoningEffort"]
       : knowledgeRetrievalReasoningEffortUnionDeserializer(item["retrievalReasoningEffort"]),
     outputMode: item["outputMode"],
-    eTag: item["eTag"],
+    eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
@@ -5912,7 +5930,7 @@ export interface KnowledgeSource {
   /** Optional user-defined description. */
   description?: string;
   /** The type of the knowledge source. */
-  /** The discriminator possible values: searchIndex, azureBlob */
+  /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint */
   kind: KnowledgeSourceKind;
   /** The ETag of the agent. */
   eTag?: string;
@@ -5924,7 +5942,7 @@ export function knowledgeSourceSerializer(item: KnowledgeSource): any {
   return {
     description: item["description"],
     kind: item["kind"],
-    eTag: item["eTag"],
+    "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
@@ -5936,7 +5954,7 @@ export function knowledgeSourceDeserializer(item: any): KnowledgeSource {
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
-    eTag: item["eTag"],
+    eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
@@ -5947,6 +5965,10 @@ export function knowledgeSourceDeserializer(item: any): KnowledgeSource {
 export type KnowledgeSourceUnion =
   | SearchIndexKnowledgeSource
   | AzureBlobKnowledgeSource
+  | IndexedSharePointKnowledgeSource
+  | IndexedOneLakeKnowledgeSource
+  | WebKnowledgeSource
+  | RemoteSharePointKnowledgeSource
   | KnowledgeSource;
 
 export function knowledgeSourceUnionSerializer(item: KnowledgeSourceUnion): any {
@@ -5956,6 +5978,18 @@ export function knowledgeSourceUnionSerializer(item: KnowledgeSourceUnion): any 
 
     case "azureBlob":
       return azureBlobKnowledgeSourceSerializer(item as AzureBlobKnowledgeSource);
+
+    case "indexedSharePoint":
+      return indexedSharePointKnowledgeSourceSerializer(item as IndexedSharePointKnowledgeSource);
+
+    case "indexedOneLake":
+      return indexedOneLakeKnowledgeSourceSerializer(item as IndexedOneLakeKnowledgeSource);
+
+    case "web":
+      return webKnowledgeSourceSerializer(item as WebKnowledgeSource);
+
+    case "remoteSharePoint":
+      return remoteSharePointKnowledgeSourceSerializer(item as RemoteSharePointKnowledgeSource);
 
     default:
       return knowledgeSourceSerializer(item);
@@ -5969,6 +6003,18 @@ export function knowledgeSourceUnionDeserializer(item: any): KnowledgeSourceUnio
 
     case "azureBlob":
       return azureBlobKnowledgeSourceDeserializer(item as AzureBlobKnowledgeSource);
+
+    case "indexedSharePoint":
+      return indexedSharePointKnowledgeSourceDeserializer(item as IndexedSharePointKnowledgeSource);
+
+    case "indexedOneLake":
+      return indexedOneLakeKnowledgeSourceDeserializer(item as IndexedOneLakeKnowledgeSource);
+
+    case "web":
+      return webKnowledgeSourceDeserializer(item as WebKnowledgeSource);
+
+    case "remoteSharePoint":
+      return remoteSharePointKnowledgeSourceDeserializer(item as RemoteSharePointKnowledgeSource);
 
     default:
       return knowledgeSourceDeserializer(item);
@@ -6016,7 +6062,7 @@ export function searchIndexKnowledgeSourceSerializer(item: SearchIndexKnowledgeS
   return {
     description: item["description"],
     kind: item["kind"],
-    eTag: item["eTag"],
+    "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
@@ -6031,7 +6077,7 @@ export function searchIndexKnowledgeSourceDeserializer(item: any): SearchIndexKn
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
-    eTag: item["eTag"],
+    eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
@@ -6078,7 +6124,7 @@ export function azureBlobKnowledgeSourceSerializer(item: AzureBlobKnowledgeSourc
   return {
     description: item["description"],
     kind: item["kind"],
-    eTag: item["eTag"],
+    "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
@@ -6091,7 +6137,7 @@ export function azureBlobKnowledgeSourceDeserializer(item: any): AzureBlobKnowle
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
-    eTag: item["eTag"],
+    eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
@@ -6200,11 +6246,156 @@ export interface CreatedResources {
   additionalProperties?: Record<string, string>;
 }
 
+export function createdResourcesSerializer(item: CreatedResources): any {
+  return { ...serializeRecord(item.additionalProperties ?? {}) };
+}
+
 export function createdResourcesDeserializer(item: any): CreatedResources {
   return {
     additionalProperties: serializeRecord(item, []),
   };
 }
+
+/** Specifies the data to extract from Azure blob storage and tells the indexer which data to extract from image content when "imageAction" is set to a value other than "none".  This applies to embedded image content in a .PDF or other application, or image files such as .jpg and .png, in Azure blobs. */
+export enum KnownBlobIndexerDataToExtract {
+  /** Indexes just the standard blob properties and user-specified metadata. */
+  StorageMetadata = "storageMetadata",
+  /** Extracts metadata provided by the Azure blob storage subsystem and the content-type specific metadata (for example, metadata unique to just .png files are indexed). */
+  AllMetadata = "allMetadata",
+  /** Extracts all metadata and textual content from each blob. */
+  ContentAndMetadata = "contentAndMetadata",
+}
+
+/**
+ * Specifies the data to extract from Azure blob storage and tells the indexer which data to extract from image content when "imageAction" is set to a value other than "none".  This applies to embedded image content in a .PDF or other application, or image files such as .jpg and .png, in Azure blobs. \
+ * {@link KnownBlobIndexerDataToExtract} can be used interchangeably with BlobIndexerDataToExtract,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **storageMetadata**: Indexes just the standard blob properties and user-specified metadata. \
+ * **allMetadata**: Extracts metadata provided by the Azure blob storage subsystem and the content-type specific metadata (for example, metadata unique to just .png files are indexed). \
+ * **contentAndMetadata**: Extracts all metadata and textual content from each blob.
+ */
+export type BlobIndexerDataToExtract = string;
+
+/** Determines how to process embedded images and image files in Azure blob storage.  Setting the "imageAction" configuration to any value other than "none" requires that a skillset also be attached to that indexer. */
+export enum KnownBlobIndexerImageAction {
+  /** Ignores embedded images or image files in the data set.  This is the default. */
+  None = "none",
+  /** Extracts text from images (for example, the word "STOP" from a traffic stop sign), and embeds it into the content field.  This action requires that "dataToExtract" is set to "contentAndMetadata".  A normalized image refers to additional processing resulting in uniform image output, sized and rotated to promote consistent rendering when you include images in visual search results. This information is generated for each image when you use this option. */
+  GenerateNormalizedImages = "generateNormalizedImages",
+  /** Extracts text from images (for example, the word "STOP" from a traffic stop sign), and embeds it into the content field, but treats PDF files differently in that each page will be rendered as an image and normalized accordingly, instead of extracting embedded images.  Non-PDF file types will be treated the same as if "generateNormalizedImages" was set. */
+  GenerateNormalizedImagePerPage = "generateNormalizedImagePerPage",
+}
+
+/**
+ * Determines how to process embedded images and image files in Azure blob storage.  Setting the "imageAction" configuration to any value other than "none" requires that a skillset also be attached to that indexer. \
+ * {@link KnownBlobIndexerImageAction} can be used interchangeably with BlobIndexerImageAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none**: Ignores embedded images or image files in the data set.  This is the default. \
+ * **generateNormalizedImages**: Extracts text from images (for example, the word "STOP" from a traffic stop sign), and embeds it into the content field.  This action requires that "dataToExtract" is set to "contentAndMetadata".  A normalized image refers to additional processing resulting in uniform image output, sized and rotated to promote consistent rendering when you include images in visual search results. This information is generated for each image when you use this option. \
+ * **generateNormalizedImagePerPage**: Extracts text from images (for example, the word "STOP" from a traffic stop sign), and embeds it into the content field, but treats PDF files differently in that each page will be rendered as an image and normalized accordingly, instead of extracting embedded images.  Non-PDF file types will be treated the same as if "generateNormalizedImages" was set.
+ */
+export type BlobIndexerImageAction = string;
+
+/** Represents the parsing mode for indexing from an Azure blob data source. */
+export enum KnownBlobIndexerParsingMode {
+  /** Set to default for normal file processing. */
+  Default = "default",
+  /** Set to text to improve indexing performance on plain text files in blob storage. */
+  Text = "text",
+  /** Set to delimitedText when blobs are plain CSV files. */
+  DelimitedText = "delimitedText",
+  /** Set to json to extract structured content from JSON files. */
+  Json = "json",
+  /** Set to jsonArray to extract individual elements of a JSON array as separate documents. */
+  JsonArray = "jsonArray",
+  /** Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents. */
+  JsonLines = "jsonLines",
+  /** Set to markdown to extract content from markdown files. */
+  Markdown = "markdown",
+}
+
+/**
+ * Represents the parsing mode for indexing from an Azure blob data source. \
+ * {@link KnownBlobIndexerParsingMode} can be used interchangeably with BlobIndexerParsingMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**: Set to default for normal file processing. \
+ * **text**: Set to text to improve indexing performance on plain text files in blob storage. \
+ * **delimitedText**: Set to delimitedText when blobs are plain CSV files. \
+ * **json**: Set to json to extract structured content from JSON files. \
+ * **jsonArray**: Set to jsonArray to extract individual elements of a JSON array as separate documents. \
+ * **jsonLines**: Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents. \
+ * **markdown**: Set to markdown to extract content from markdown files.
+ */
+export type BlobIndexerParsingMode = string;
+
+/** Specifies the max header depth that will be considered while grouping markdown content. Default is `h6`. */
+export enum KnownMarkdownHeaderDepth {
+  /** Indicates that headers up to a level of h1 will be considered while grouping markdown content. */
+  H1 = "h1",
+  /** Indicates that headers up to a level of h2 will be considered while grouping markdown content. */
+  H2 = "h2",
+  /** Indicates that headers up to a level of h3 will be considered while grouping markdown content. */
+  H3 = "h3",
+  /** Indicates that headers up to a level of h4 will be considered while grouping markdown content. */
+  H4 = "h4",
+  /** Indicates that headers up to a level of h5 will be considered while grouping markdown content. */
+  H5 = "h5",
+  /** Indicates that headers up to a level of h6 will be considered while grouping markdown content. This is the default. */
+  H6 = "h6",
+}
+
+/**
+ * Specifies the max header depth that will be considered while grouping markdown content. Default is `h6`. \
+ * {@link KnownMarkdownHeaderDepth} can be used interchangeably with MarkdownHeaderDepth,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **h1**: Indicates that headers up to a level of h1 will be considered while grouping markdown content. \
+ * **h2**: Indicates that headers up to a level of h2 will be considered while grouping markdown content. \
+ * **h3**: Indicates that headers up to a level of h3 will be considered while grouping markdown content. \
+ * **h4**: Indicates that headers up to a level of h4 will be considered while grouping markdown content. \
+ * **h5**: Indicates that headers up to a level of h5 will be considered while grouping markdown content. \
+ * **h6**: Indicates that headers up to a level of h6 will be considered while grouping markdown content. This is the default.
+ */
+export type MarkdownHeaderDepth = string;
+
+/** Specifies the submode that will determine whether a markdown file will be parsed into exactly one search document or multiple search documents. Default is `oneToMany`. */
+export enum KnownMarkdownParsingSubmode {
+  /** Indicates that each section of the markdown file (up to a specified depth) will be parsed into individual search documents. This can result in a single markdown file producing multiple search documents. This is the default sub-mode. */
+  OneToMany = "oneToMany",
+  /** Indicates that each markdown file will be parsed into a single search document. */
+  OneToOne = "oneToOne",
+}
+
+/**
+ * Specifies the submode that will determine whether a markdown file will be parsed into exactly one search document or multiple search documents. Default is `oneToMany`. \
+ * {@link KnownMarkdownParsingSubmode} can be used interchangeably with MarkdownParsingSubmode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **oneToMany**: Indicates that each section of the markdown file (up to a specified depth) will be parsed into individual search documents. This can result in a single markdown file producing multiple search documents. This is the default sub-mode. \
+ * **oneToOne**: Indicates that each markdown file will be parsed into a single search document.
+ */
+export type MarkdownParsingSubmode = string;
+
+/** Determines algorithm for text extraction from PDF files in Azure blob storage. */
+export enum KnownBlobIndexerPDFTextRotationAlgorithm {
+  /** Leverages normal text extraction.  This is the default. */
+  None = "none",
+  /** May produce better and more readable text extraction from PDF files that have rotated text within them.  Note that there may be a small performance speed impact when this parameter is used.  This parameter only applies to PDF files, and only to PDFs with embedded text.  If the rotated text appears within an embedded image in the PDF, this parameter does not apply. */
+  DetectAngles = "detectAngles",
+}
+
+/**
+ * Determines algorithm for text extraction from PDF files in Azure blob storage. \
+ * {@link KnownBlobIndexerPDFTextRotationAlgorithm} can be used interchangeably with BlobIndexerPDFTextRotationAlgorithm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none**: Leverages normal text extraction.  This is the default. \
+ * **detectAngles**: May produce better and more readable text extraction from PDF files that have rotated text within them.  Note that there may be a small performance speed impact when this parameter is used.  This parameter only applies to PDF files, and only to PDFs with embedded text.  If the rotated text appears within an embedded image in the PDF, this parameter does not apply.
+ */
+export type BlobIndexerPDFTextRotationAlgorithm = string;
 
 /** Result from listing knowledge sources. */
 export interface _ListKnowledgeSourcesResult {
@@ -6233,20 +6424,25 @@ export function knowledgeSourceUnionArrayDeserializer(result: Array<KnowledgeSou
 /** Response from a get service statistics request. If successful, it includes service level counters and limits. */
 export interface SearchServiceStatistics {
   /** Service level resource counters. */
-  counters: SearchServiceCounters;
+  counters: ServiceCounters;
   /** Service level general limits. */
-  limits: SearchServiceLimits;
+  limits: ServiceLimits;
+  /** Service level indexer runtime consumption. */
+  indexersRuntime?: ServiceIndexersRuntime;
 }
 
 export function searchServiceStatisticsDeserializer(item: any): SearchServiceStatistics {
   return {
-    counters: searchServiceCountersDeserializer(item["counters"]),
-    limits: searchServiceLimitsDeserializer(item["limits"]),
+    counters: serviceCountersDeserializer(item["counters"]),
+    limits: serviceLimitsDeserializer(item["limits"]),
+    indexersRuntime: !item["indexersRuntime"]
+      ? item["indexersRuntime"]
+      : serviceIndexersRuntimeDeserializer(item["indexersRuntime"]),
   };
 }
 
 /** Represents service-level resource counters and quotas. */
-export interface SearchServiceCounters {
+export interface ServiceCounters {
   /** Total number of aliases. */
   aliasCounter: ResourceCounter;
   /** Total number of documents across all indexes in the service. */
@@ -6267,7 +6463,7 @@ export interface SearchServiceCounters {
   vectorIndexSizeCounter: ResourceCounter;
 }
 
-export function searchServiceCountersDeserializer(item: any): SearchServiceCounters {
+export function serviceCountersDeserializer(item: any): ServiceCounters {
   return {
     aliasCounter: resourceCounterDeserializer(item["aliasesCount"]),
     documentCounter: resourceCounterDeserializer(item["documentCount"]),
@@ -6297,7 +6493,7 @@ export function resourceCounterDeserializer(item: any): ResourceCounter {
 }
 
 /** Represents various service level limits. */
-export interface SearchServiceLimits {
+export interface ServiceLimits {
   /** The maximum allowed fields per index. */
   maxFieldsPerIndex?: number;
   /** The maximum depth which you can nest sub-fields in an index, including the top-level complex field. For example, a/b/c has a nesting depth of 3. */
@@ -6308,15 +6504,18 @@ export interface SearchServiceLimits {
   maxComplexObjectsInCollectionsPerDocument?: number;
   /** The maximum amount of storage in bytes allowed per index. */
   maxStoragePerIndexInBytes?: number;
+  /** The maximum cumulative indexer runtime in seconds allowed for the service. */
+  maxCumulativeIndexerRuntimeSeconds?: number;
 }
 
-export function searchServiceLimitsDeserializer(item: any): SearchServiceLimits {
+export function serviceLimitsDeserializer(item: any): ServiceLimits {
   return {
     maxFieldsPerIndex: item["maxFieldsPerIndex"],
     maxFieldNestingDepthPerIndex: item["maxFieldNestingDepthPerIndex"],
     maxComplexCollectionFieldsPerIndex: item["maxComplexCollectionFieldsPerIndex"],
     maxComplexObjectsInCollectionsPerDocument: item["maxComplexObjectsInCollectionsPerDocument"],
     maxStoragePerIndexInBytes: item["maxStoragePerIndex"],
+    maxCumulativeIndexerRuntimeSeconds: item["maxCumulativeIndexerRuntimeSeconds"],
   };
 }
 
@@ -7038,147 +7237,6 @@ export function indexingParametersConfigurationDeserializer(
   };
 }
 
-/** Represents the parsing mode for indexing from an Azure blob data source. */
-export enum KnownBlobIndexerParsingMode {
-  /** Set to default for normal file processing. */
-  Default = "default",
-  /** Set to text to improve indexing performance on plain text files in blob storage. */
-  Text = "text",
-  /** Set to delimitedText when blobs are plain CSV files. */
-  DelimitedText = "delimitedText",
-  /** Set to json to extract structured content from JSON files. */
-  Json = "json",
-  /** Set to jsonArray to extract individual elements of a JSON array as separate documents. */
-  JsonArray = "jsonArray",
-  /** Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents. */
-  JsonLines = "jsonLines",
-  /** Set to markdown to extract content from markdown files. */
-  Markdown = "markdown",
-}
-
-/**
- * Represents the parsing mode for indexing from an Azure blob data source. \
- * {@link KnownBlobIndexerParsingMode} can be used interchangeably with BlobIndexerParsingMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **default**: Set to default for normal file processing. \
- * **text**: Set to text to improve indexing performance on plain text files in blob storage. \
- * **delimitedText**: Set to delimitedText when blobs are plain CSV files. \
- * **json**: Set to json to extract structured content from JSON files. \
- * **jsonArray**: Set to jsonArray to extract individual elements of a JSON array as separate documents. \
- * **jsonLines**: Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents. \
- * **markdown**: Set to markdown to extract content from markdown files.
- */
-export type BlobIndexerParsingMode = string;
-
-/** Specifies the submode that will determine whether a markdown file will be parsed into exactly one search document or multiple search documents. Default is `oneToMany`. */
-export enum KnownMarkdownParsingSubmode {
-  /** Indicates that each section of the markdown file (up to a specified depth) will be parsed into individual search documents. This can result in a single markdown file producing multiple search documents. This is the default sub-mode. */
-  OneToMany = "oneToMany",
-  /** Indicates that each markdown file will be parsed into a single search document. */
-  OneToOne = "oneToOne",
-}
-
-/**
- * Specifies the submode that will determine whether a markdown file will be parsed into exactly one search document or multiple search documents. Default is `oneToMany`. \
- * {@link KnownMarkdownParsingSubmode} can be used interchangeably with MarkdownParsingSubmode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **oneToMany**: Indicates that each section of the markdown file (up to a specified depth) will be parsed into individual search documents. This can result in a single markdown file producing multiple search documents. This is the default sub-mode. \
- * **oneToOne**: Indicates that each markdown file will be parsed into a single search document.
- */
-export type MarkdownParsingSubmode = string;
-
-/** Specifies the max header depth that will be considered while grouping markdown content. Default is `h6`. */
-export enum KnownMarkdownHeaderDepth {
-  /** Indicates that headers up to a level of h1 will be considered while grouping markdown content. */
-  H1 = "h1",
-  /** Indicates that headers up to a level of h2 will be considered while grouping markdown content. */
-  H2 = "h2",
-  /** Indicates that headers up to a level of h3 will be considered while grouping markdown content. */
-  H3 = "h3",
-  /** Indicates that headers up to a level of h4 will be considered while grouping markdown content. */
-  H4 = "h4",
-  /** Indicates that headers up to a level of h5 will be considered while grouping markdown content. */
-  H5 = "h5",
-  /** Indicates that headers up to a level of h6 will be considered while grouping markdown content. This is the default. */
-  H6 = "h6",
-}
-
-/**
- * Specifies the max header depth that will be considered while grouping markdown content. Default is `h6`. \
- * {@link KnownMarkdownHeaderDepth} can be used interchangeably with MarkdownHeaderDepth,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **h1**: Indicates that headers up to a level of h1 will be considered while grouping markdown content. \
- * **h2**: Indicates that headers up to a level of h2 will be considered while grouping markdown content. \
- * **h3**: Indicates that headers up to a level of h3 will be considered while grouping markdown content. \
- * **h4**: Indicates that headers up to a level of h4 will be considered while grouping markdown content. \
- * **h5**: Indicates that headers up to a level of h5 will be considered while grouping markdown content. \
- * **h6**: Indicates that headers up to a level of h6 will be considered while grouping markdown content. This is the default.
- */
-export type MarkdownHeaderDepth = string;
-
-/** Specifies the data to extract from Azure blob storage and tells the indexer which data to extract from image content when "imageAction" is set to a value other than "none".  This applies to embedded image content in a .PDF or other application, or image files such as .jpg and .png, in Azure blobs. */
-export enum KnownBlobIndexerDataToExtract {
-  /** Indexes just the standard blob properties and user-specified metadata. */
-  StorageMetadata = "storageMetadata",
-  /** Extracts metadata provided by the Azure blob storage subsystem and the content-type specific metadata (for example, metadata unique to just .png files are indexed). */
-  AllMetadata = "allMetadata",
-  /** Extracts all metadata and textual content from each blob. */
-  ContentAndMetadata = "contentAndMetadata",
-}
-
-/**
- * Specifies the data to extract from Azure blob storage and tells the indexer which data to extract from image content when "imageAction" is set to a value other than "none".  This applies to embedded image content in a .PDF or other application, or image files such as .jpg and .png, in Azure blobs. \
- * {@link KnownBlobIndexerDataToExtract} can be used interchangeably with BlobIndexerDataToExtract,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **storageMetadata**: Indexes just the standard blob properties and user-specified metadata. \
- * **allMetadata**: Extracts metadata provided by the Azure blob storage subsystem and the content-type specific metadata (for example, metadata unique to just .png files are indexed). \
- * **contentAndMetadata**: Extracts all metadata and textual content from each blob.
- */
-export type BlobIndexerDataToExtract = string;
-
-/** Determines how to process embedded images and image files in Azure blob storage.  Setting the "imageAction" configuration to any value other than "none" requires that a skillset also be attached to that indexer. */
-export enum KnownBlobIndexerImageAction {
-  /** Ignores embedded images or image files in the data set.  This is the default. */
-  None = "none",
-  /** Extracts text from images (for example, the word "STOP" from a traffic stop sign), and embeds it into the content field.  This action requires that "dataToExtract" is set to "contentAndMetadata".  A normalized image refers to additional processing resulting in uniform image output, sized and rotated to promote consistent rendering when you include images in visual search results. This information is generated for each image when you use this option. */
-  GenerateNormalizedImages = "generateNormalizedImages",
-  /** Extracts text from images (for example, the word "STOP" from a traffic stop sign), and embeds it into the content field, but treats PDF files differently in that each page will be rendered as an image and normalized accordingly, instead of extracting embedded images.  Non-PDF file types will be treated the same as if "generateNormalizedImages" was set. */
-  GenerateNormalizedImagePerPage = "generateNormalizedImagePerPage",
-}
-
-/**
- * Determines how to process embedded images and image files in Azure blob storage.  Setting the "imageAction" configuration to any value other than "none" requires that a skillset also be attached to that indexer. \
- * {@link KnownBlobIndexerImageAction} can be used interchangeably with BlobIndexerImageAction,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **none**: Ignores embedded images or image files in the data set.  This is the default. \
- * **generateNormalizedImages**: Extracts text from images (for example, the word "STOP" from a traffic stop sign), and embeds it into the content field.  This action requires that "dataToExtract" is set to "contentAndMetadata".  A normalized image refers to additional processing resulting in uniform image output, sized and rotated to promote consistent rendering when you include images in visual search results. This information is generated for each image when you use this option. \
- * **generateNormalizedImagePerPage**: Extracts text from images (for example, the word "STOP" from a traffic stop sign), and embeds it into the content field, but treats PDF files differently in that each page will be rendered as an image and normalized accordingly, instead of extracting embedded images.  Non-PDF file types will be treated the same as if "generateNormalizedImages" was set.
- */
-export type BlobIndexerImageAction = string;
-
-/** Determines algorithm for text extraction from PDF files in Azure blob storage. */
-export enum KnownBlobIndexerPDFTextRotationAlgorithm {
-  /** Leverages normal text extraction.  This is the default. */
-  None = "none",
-  /** May produce better and more readable text extraction from PDF files that have rotated text within them.  Note that there may be a small performance speed impact when this parameter is used.  This parameter only applies to PDF files, and only to PDFs with embedded text.  If the rotated text appears within an embedded image in the PDF, this parameter does not apply. */
-  DetectAngles = "detectAngles",
-}
-
-/**
- * Determines algorithm for text extraction from PDF files in Azure blob storage. \
- * {@link KnownBlobIndexerPDFTextRotationAlgorithm} can be used interchangeably with BlobIndexerPDFTextRotationAlgorithm,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **none**: Leverages normal text extraction.  This is the default. \
- * **detectAngles**: May produce better and more readable text extraction from PDF files that have rotated text within them.  Note that there may be a small performance speed impact when this parameter is used.  This parameter only applies to PDF files, and only to PDFs with embedded text.  If the rotated text appears within an embedded image in the PDF, this parameter does not apply.
- */
-export type BlobIndexerPDFTextRotationAlgorithm = string;
-
 /** Specifies the environment in which the indexer should execute. */
 export enum KnownIndexerExecutionEnvironment {
   /** Indicates that the search service can determine where the indexer should execute. This is the default environment when nothing is specified and is the recommended value. */
@@ -7322,23 +7380,31 @@ export interface SearchIndexerStatus {
   name: string;
   /** Overall indexer status. */
   status: IndexerStatus;
+  /** The indexer's cumulative runtime consumption in the service. */
+  runtime?: IndexerRuntime;
   /** The result of the most recent or an in-progress indexer execution. */
   lastResult?: IndexerExecutionResult;
   /** History of the recent indexer executions, sorted in reverse chronological order. */
   executionHistory: IndexerExecutionResult[];
   /** The execution limits for the indexer. */
   limits: SearchIndexerLimits;
+  /** All of the state that defines and dictates the indexer's current execution. */
+  currentState?: IndexerCurrentState;
 }
 
 export function searchIndexerStatusDeserializer(item: any): SearchIndexerStatus {
   return {
     name: item["name"],
     status: item["status"],
+    runtime: !item["runtime"] ? item["runtime"] : indexerRuntimeDeserializer(item["runtime"]),
     lastResult: !item["lastResult"]
       ? item["lastResult"]
       : indexerExecutionResultDeserializer(item["lastResult"]),
     executionHistory: indexerExecutionResultArrayDeserializer(item["executionHistory"]),
     limits: searchIndexerLimitsDeserializer(item["limits"]),
+    currentState: !item["currentState"]
+      ? item["currentState"]
+      : indexerCurrentStateDeserializer(item["currentState"]),
   };
 }
 
@@ -10879,7 +10945,7 @@ export interface ChatCompletionSkill extends SearchIndexerSkill {
   /** API key for authenticating to the model. Both apiKey and authIdentity cannot be specified at the same time. */
   apiKey?: string;
   /** Common language model parameters that customers can tweak. If omitted, reasonable defaults will be applied. */
-  commonModelParameters?: ChatCompletionCommonModelParameters;
+  commonModelParameters?: CommonModelParameters;
   /** Open-type dictionary for model-specific parameters that should be appended to the chat completions call. Follows Azure AI Foundry's extensibility pattern. */
   extraParameters?: Record<string, any>;
   /** How extra parameters are handled by Azure AI Foundry. Default is 'error'. */
@@ -10913,7 +10979,7 @@ export function chatCompletionSkillSerializer(item: ChatCompletionSkill): any {
     apiKey: item["apiKey"],
     commonModelParameters: !item["commonModelParameters"]
       ? item["commonModelParameters"]
-      : chatCompletionCommonModelParametersSerializer(item["commonModelParameters"]),
+      : commonModelParametersSerializer(item["commonModelParameters"]),
     extraParameters: item["extraParameters"],
     extraParametersBehavior: item["extraParametersBehavior"],
     responseFormat: !item["responseFormat"]
@@ -10946,7 +11012,7 @@ export function chatCompletionSkillDeserializer(item: any): ChatCompletionSkill 
     apiKey: item["apiKey"],
     commonModelParameters: !item["commonModelParameters"]
       ? item["commonModelParameters"]
-      : chatCompletionCommonModelParametersDeserializer(item["commonModelParameters"]),
+      : commonModelParametersDeserializer(item["commonModelParameters"]),
     extraParameters: item["extraParameters"],
     extraParametersBehavior: item["extraParametersBehavior"],
     responseFormat: !item["responseFormat"]
@@ -10973,7 +11039,7 @@ export function webApiHttpHeadersDeserializer(item: any): WebApiHttpHeaders {
 }
 
 /** Common language model parameters for Chat Completions. If omitted, default values are used. */
-export interface ChatCompletionCommonModelParameters {
+export interface CommonModelParameters {
   /** The name of the model to use (e.g., 'gpt-4o', etc.). Default is null if not specified. */
   modelName?: string;
   /** A float in the range [-2,2] that reduces or increases likelihood of repeated tokens. Default is 0. */
@@ -10990,11 +11056,9 @@ export interface ChatCompletionCommonModelParameters {
   stop?: string[];
 }
 
-export function chatCompletionCommonModelParametersSerializer(
-  item: ChatCompletionCommonModelParameters,
-): any {
+export function commonModelParametersSerializer(item: CommonModelParameters): any {
   return {
-    modelName: item["modelName"],
+    model: item["modelName"],
     frequencyPenalty: item["frequencyPenalty"],
     presencePenalty: item["presencePenalty"],
     maxTokens: item["maxTokens"],
@@ -11008,11 +11072,9 @@ export function chatCompletionCommonModelParametersSerializer(
   };
 }
 
-export function chatCompletionCommonModelParametersDeserializer(
-  item: any,
-): ChatCompletionCommonModelParameters {
+export function commonModelParametersDeserializer(item: any): CommonModelParameters {
   return {
-    modelName: item["modelName"],
+    modelName: item["model"],
     frequencyPenalty: item["frequencyPenalty"],
     presencePenalty: item["presencePenalty"],
     maxTokens: item["maxTokens"],
