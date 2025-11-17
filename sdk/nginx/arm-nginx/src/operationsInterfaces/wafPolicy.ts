@@ -56,12 +56,7 @@ export interface WafPolicy {
     deploymentName: string,
     wafPolicyName: string,
     options?: WafPolicyCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<WafPolicyCreateResponse>,
-      WafPolicyCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<WafPolicyCreateResponse>, WafPolicyCreateResponse>>;
   /**
    * Create or update the Nginx Waf Policy for given Nginx deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -87,12 +82,7 @@ export interface WafPolicy {
     deploymentName: string,
     wafPolicyName: string,
     options?: WafPolicyDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<WafPolicyDeleteResponse>,
-      WafPolicyDeleteResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<WafPolicyDeleteResponse>, WafPolicyDeleteResponse>>;
   /**
    * Reset the Nginx Waf Policy of given Nginx deployment to default
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

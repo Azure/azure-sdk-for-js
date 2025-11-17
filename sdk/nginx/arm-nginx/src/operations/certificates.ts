@@ -11,12 +11,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { NginxManagementClient } from "../nginxManagementClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   NginxCertificate,
@@ -68,12 +64,7 @@ export class CertificatesImpl implements Certificates {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          deploymentName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, deploymentName, options, settings);
       },
     };
   }
@@ -94,12 +85,7 @@ export class CertificatesImpl implements Certificates {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        deploymentName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, deploymentName, continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -112,11 +98,7 @@ export class CertificatesImpl implements Certificates {
     deploymentName: string,
     options?: CertificatesListOptionalParams,
   ): AsyncIterableIterator<NginxCertificate> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      deploymentName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, deploymentName, options)) {
       yield* page;
     }
   }
@@ -185,8 +167,7 @@ export class CertificatesImpl implements Certificates {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -265,10 +246,7 @@ export class CertificatesImpl implements Certificates {
     certificateName: string,
     options?: CertificatesDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<CertificatesDeleteResponse>,
-      CertificatesDeleteResponse
-    >
+    SimplePollerLike<OperationState<CertificatesDeleteResponse>, CertificatesDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -280,8 +258,7 @@ export class CertificatesImpl implements Certificates {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

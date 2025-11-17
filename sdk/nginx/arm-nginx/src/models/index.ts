@@ -1068,44 +1068,37 @@ export enum KnownNginxDeploymentWafPolicyApplyingStatusCode {
 export type NginxDeploymentWafPolicyApplyingStatusCode = string;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface DeploymentsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeploymentsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type DeploymentsListResponse = NginxDeploymentListResponse;
 
 /** Optional parameters. */
-export interface DeploymentsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeploymentsListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type DeploymentsListByResourceGroupResponse =
-  NginxDeploymentListResponse;
+export type DeploymentsListByResourceGroupResponse = NginxDeploymentListResponse;
 
 /** Optional parameters. */
-export interface DeploymentsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeploymentsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DeploymentsGetResponse = NginxDeployment;
 
 /** Optional parameters. */
-export interface DeploymentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DeploymentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** The Nginx deployment */
   body?: NginxDeployment;
   /** Delay to wait until next poll, in milliseconds. */
@@ -1118,8 +1111,7 @@ export interface DeploymentsCreateOrUpdateOptionalParams
 export type DeploymentsCreateOrUpdateResponse = NginxDeployment;
 
 /** Optional parameters. */
-export interface DeploymentsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DeploymentsUpdateOptionalParams extends coreClient.OperationOptions {
   /** The Nginx deployment update parameters */
   body?: NginxDeploymentUpdateParameters;
   /** Delay to wait until next poll, in milliseconds. */
@@ -1132,8 +1124,7 @@ export interface DeploymentsUpdateOptionalParams
 export type DeploymentsUpdateResponse = NginxDeployment;
 
 /** Optional parameters. */
-export interface DeploymentsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface DeploymentsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1144,8 +1135,7 @@ export interface DeploymentsDeleteOptionalParams
 export type DeploymentsDeleteResponse = DeploymentsDeleteHeaders;
 
 /** Optional parameters. */
-export interface DeploymentsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeploymentsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DeploymentsListNextResponse = NginxDeploymentListResponse;
@@ -1155,12 +1145,10 @@ export interface DeploymentsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type DeploymentsListByResourceGroupNextResponse =
-  NginxDeploymentListResponse;
+export type DeploymentsListByResourceGroupNextResponse = NginxDeploymentListResponse;
 
 /** Optional parameters. */
-export interface ApiKeysListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiKeysListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ApiKeysListResponse = NginxDeploymentApiKeyListResponse;
@@ -1172,8 +1160,7 @@ export interface ApiKeysGetOptionalParams extends coreClient.OperationOptions {}
 export type ApiKeysGetResponse = NginxDeploymentApiKeyResponse;
 
 /** Optional parameters. */
-export interface ApiKeysCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiKeysCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** The API Key object containing fields (e.g. secret text, expiration date) to upsert the key. */
   body?: NginxDeploymentApiKeyRequest;
 }
@@ -1182,33 +1169,28 @@ export interface ApiKeysCreateOrUpdateOptionalParams
 export type ApiKeysCreateOrUpdateResponse = NginxDeploymentApiKeyResponse;
 
 /** Optional parameters. */
-export interface ApiKeysDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiKeysDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ApiKeysListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiKeysListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ApiKeysListNextResponse = NginxDeploymentApiKeyListResponse;
 
 /** Optional parameters. */
-export interface CertificatesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type CertificatesListResponse = NginxCertificateListResponse;
 
 /** Optional parameters. */
-export interface CertificatesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CertificatesGetResponse = NginxCertificate;
 
 /** Optional parameters. */
-export interface CertificatesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface CertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** The certificate */
   body?: NginxCertificate;
   /** Delay to wait until next poll, in milliseconds. */
@@ -1221,8 +1203,7 @@ export interface CertificatesCreateOrUpdateOptionalParams
 export type CertificatesCreateOrUpdateResponse = NginxCertificate;
 
 /** Optional parameters. */
-export interface CertificatesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface CertificatesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1233,29 +1214,25 @@ export interface CertificatesDeleteOptionalParams
 export type CertificatesDeleteResponse = CertificatesDeleteHeaders;
 
 /** Optional parameters. */
-export interface CertificatesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CertificatesListNextResponse = NginxCertificateListResponse;
 
 /** Optional parameters. */
-export interface ConfigurationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ConfigurationsListResponse = NginxConfigurationListResponse;
 
 /** Optional parameters. */
-export interface ConfigurationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ConfigurationsGetResponse = NginxConfigurationResponse;
 
 /** Optional parameters. */
-export interface ConfigurationsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** The NGINX configuration */
   body?: NginxConfigurationRequest;
   /** Delay to wait until next poll, in milliseconds. */
@@ -1268,8 +1245,7 @@ export interface ConfigurationsCreateOrUpdateOptionalParams
 export type ConfigurationsCreateOrUpdateResponse = NginxConfigurationResponse;
 
 /** Optional parameters. */
-export interface ConfigurationsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1280,8 +1256,7 @@ export interface ConfigurationsDeleteOptionalParams
 export type ConfigurationsDeleteResponse = ConfigurationsDeleteHeaders;
 
 /** Optional parameters. */
-export interface ConfigurationsAnalysisOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConfigurationsAnalysisOptionalParams extends coreClient.OperationOptions {
   /** The NGINX configuration to analyze */
   body?: AnalysisCreate;
 }
@@ -1290,37 +1265,31 @@ export interface ConfigurationsAnalysisOptionalParams
 export type ConfigurationsAnalysisResponse = AnalysisResult;
 
 /** Optional parameters. */
-export interface ConfigurationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ConfigurationsListNextResponse = NginxConfigurationListResponse;
 
 /** Optional parameters. */
-export interface DefaultWafPolicyListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DefaultWafPolicyListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type DefaultWafPolicyListResponse =
-  NginxDeploymentDefaultWafPolicyListResponse;
+export type DefaultWafPolicyListResponse = NginxDeploymentDefaultWafPolicyListResponse;
 
 /** Optional parameters. */
-export interface WafPolicyListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WafPolicyListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type WafPolicyListResponse = NginxDeploymentWafPolicyListResponse;
 
 /** Optional parameters. */
-export interface WafPolicyGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WafPolicyGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WafPolicyGetResponse = NginxDeploymentWafPolicy;
 
 /** Optional parameters. */
-export interface WafPolicyCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface WafPolicyCreateOptionalParams extends coreClient.OperationOptions {
   /** The Nginx Deployment Waf Policy */
   body?: NginxDeploymentWafPolicy;
   /** Delay to wait until next poll, in milliseconds. */
@@ -1333,8 +1302,7 @@ export interface WafPolicyCreateOptionalParams
 export type WafPolicyCreateResponse = NginxDeploymentWafPolicy;
 
 /** Optional parameters. */
-export interface WafPolicyDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface WafPolicyDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1345,15 +1313,13 @@ export interface WafPolicyDeleteOptionalParams
 export type WafPolicyDeleteResponse = WafPolicyDeleteHeaders;
 
 /** Optional parameters. */
-export interface WafPolicyListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WafPolicyListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WafPolicyListNextResponse = NginxDeploymentWafPolicyListResponse;
 
 /** Optional parameters. */
-export interface NginxManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface NginxManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

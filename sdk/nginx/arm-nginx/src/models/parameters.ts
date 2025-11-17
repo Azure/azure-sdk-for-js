@@ -97,9 +97,7 @@ export const deploymentName: OperationURLParameter = {
   parameterPath: "deploymentName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$",
-      ),
+      Pattern: new RegExp("^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$"),
     },
     serializedName: "deploymentName",
     required: true,
@@ -135,9 +133,7 @@ export const apiKeyName: OperationURLParameter = {
   parameterPath: "apiKeyName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$",
-      ),
+      Pattern: new RegExp("^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$"),
     },
     serializedName: "apiKeyName",
     required: true,
@@ -156,9 +152,7 @@ export const certificateName: OperationURLParameter = {
   parameterPath: "certificateName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$",
-      ),
+      Pattern: new RegExp("^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$"),
     },
     serializedName: "certificateName",
     required: true,
@@ -201,9 +195,7 @@ export const wafPolicyName: OperationURLParameter = {
   parameterPath: "wafPolicyName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$",
-      ),
+      Pattern: new RegExp("^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$"),
     },
     serializedName: "wafPolicyName",
     required: true,

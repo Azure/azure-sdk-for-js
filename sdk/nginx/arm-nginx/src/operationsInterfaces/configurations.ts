@@ -94,10 +94,7 @@ export interface Configurations {
     configurationName: string,
     options?: ConfigurationsDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ConfigurationsDeleteResponse>,
-      ConfigurationsDeleteResponse
-    >
+    SimplePollerLike<OperationState<ConfigurationsDeleteResponse>, ConfigurationsDeleteResponse>
   >;
   /**
    * Reset the NGINX configuration of given NGINX deployment to default

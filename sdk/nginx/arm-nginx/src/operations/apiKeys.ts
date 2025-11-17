@@ -60,12 +60,7 @@ export class ApiKeysImpl implements ApiKeys {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          deploymentName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, deploymentName, options, settings);
       },
     };
   }
@@ -86,12 +81,7 @@ export class ApiKeysImpl implements ApiKeys {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        deploymentName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, deploymentName, continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -104,11 +94,7 @@ export class ApiKeysImpl implements ApiKeys {
     deploymentName: string,
     options?: ApiKeysListOptionalParams,
   ): AsyncIterableIterator<NginxDeploymentApiKeyResponse> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      deploymentName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, deploymentName, options)) {
       yield* page;
     }
   }

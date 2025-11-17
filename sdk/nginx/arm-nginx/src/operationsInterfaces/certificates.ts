@@ -88,10 +88,7 @@ export interface Certificates {
     certificateName: string,
     options?: CertificatesDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<CertificatesDeleteResponse>,
-      CertificatesDeleteResponse
-    >
+    SimplePollerLike<OperationState<CertificatesDeleteResponse>, CertificatesDeleteResponse>
   >;
   /**
    * Deletes a certificate from the NGINX deployment
