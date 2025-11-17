@@ -32,6 +32,7 @@ describe("TargetPartitionRangeManager", function () {
     it("should create manager with parallel strategy", function () {
       const manager = new TargetPartitionRangeManager({
         queryType: QueryExecutionContextType.Parallel,
+        queryInfo: {},
       });
 
       expect(manager.getStrategyType()).toBe("ParallelQuery");
@@ -40,6 +41,7 @@ describe("TargetPartitionRangeManager", function () {
     it("should create manager with order by strategy", function () {
       const manager = new TargetPartitionRangeManager({
         queryType: QueryExecutionContextType.OrderBy,
+        queryInfo: { orderByItems: [{ item: "testValue" }] },
       });
 
       expect(manager.getStrategyType()).toBe("OrderByQuery");
@@ -55,6 +57,7 @@ describe("TargetPartitionRangeManager", function () {
 
       const manager = new TargetPartitionRangeManager({
         queryType: QueryExecutionContextType.Parallel,
+        queryInfo: {},
         customStrategy,
       });
 
@@ -69,9 +72,11 @@ describe("TargetPartitionRangeManager", function () {
     beforeEach(function () {
       parallelManager = new TargetPartitionRangeManager({
         queryType: QueryExecutionContextType.Parallel,
+        queryInfo: {},
       });
       orderByManager = new TargetPartitionRangeManager({
         queryType: QueryExecutionContextType.OrderBy,
+        queryInfo: { orderByItems: [{ item: "testValue" }] },
       });
     });
 
@@ -92,8 +97,17 @@ describe("TargetPartitionRangeManager", function () {
     it("should filter ranges for order by queries", function () {
       const ranges = [createRange("1", "", "AA")];
       const rangeTokens = [createRangeToken(createRange("1", "", "AA"), "token1")];
+      const queryInfo = {
+        orderByItems: [{ item: "testValue" }],
+        queryInfo: {
+          queryInfo: {
+            orderBy: ["Ascending"],
+            orderByExpressions: ["c.field1"],
+          },
+        },
+      };
 
-      const result = orderByManager.filterPartitionRanges(ranges, rangeTokens);
+      const result = orderByManager.filterPartitionRanges(ranges, rangeTokens, queryInfo);
       expect(result.rangeTokenPairs.length).toBeGreaterThan(0);
     });
 
@@ -117,12 +131,14 @@ describe("TargetPartitionRangeManager", function () {
     it("should update strategy type", function () {
       const manager = new TargetPartitionRangeManager({
         queryType: QueryExecutionContextType.Parallel,
+        queryInfo: {},
       });
 
       expect(manager.getStrategyType()).toBe("ParallelQuery");
 
       manager.updateStrategy({
         queryType: QueryExecutionContextType.OrderBy,
+        queryInfo: { orderByItems: [{ item: "testValue" }] },
       });
 
       expect(manager.getStrategyType()).toBe("OrderByQuery");

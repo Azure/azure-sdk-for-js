@@ -55,11 +55,12 @@ describe("OrderByQueryRangeStrategy", function () {
         expect(result).toEqual({ rangeTokenPairs: [] });
       });
 
-      it("should handle undefined queryInfo", function () {
+      it("should throw error when queryInfo is undefined", function () {
         const ranges = [createRange("1", "", "AA")];
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
-        const result = strategy.filterPartitionRanges(ranges, contRanges, undefined);
-        expect(result.rangeTokenPairs.length).toBe(1);
+        expect(() => {
+          strategy.filterPartitionRanges(ranges, contRanges, undefined);
+        }).toThrow("Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.");
       });
     });
 
@@ -67,7 +68,16 @@ describe("OrderByQueryRangeStrategy", function () {
       it("should handle single target range matching continuation range", function () {
         const targetRange = createRange("1", "", "AA");
         const contRange = createContinuationRange(targetRange, "token1");
-        const result = strategy.filterPartitionRanges([targetRange], [contRange]);
+        const queryInfo = {
+          orderByItems: [{ item: "testValue" }],
+          queryInfo: {
+            queryInfo: {
+              orderBy: ["Ascending"],
+              orderByExpressions: ["c.field1"],
+            },
+          },
+        };
+        const result = strategy.filterPartitionRanges([targetRange], [contRange], queryInfo);
 
         expect(result.rangeTokenPairs.length).toBe(1);
         expect(result.rangeTokenPairs[0].range.id).toBe("1");
@@ -77,7 +87,16 @@ describe("OrderByQueryRangeStrategy", function () {
       it("should handle single target range with different continuation range", function () {
         const targetRange = createRange("2", "AA", "BB");
         const contRange = createContinuationRange(createRange("1", "", "AA"), "token1");
-        const result = strategy.filterPartitionRanges([targetRange], [contRange]);
+        const queryInfo = {
+          orderByItems: [{ item: "testValue" }],
+          queryInfo: {
+            queryInfo: {
+              orderBy: ["Ascending"],
+              orderByExpressions: ["c.field1"],
+            },
+          },
+        };
+        const result = strategy.filterPartitionRanges([targetRange], [contRange], queryInfo);
 
         // The method should return both the target range and the continuation range
         expect(result.rangeTokenPairs.length).toBe(2);
@@ -92,7 +111,16 @@ describe("OrderByQueryRangeStrategy", function () {
         const ranges = [leftRange, targetRange, rightRange];
 
         const contRange = createContinuationRange(targetRange, "token2");
-        const result = strategy.filterPartitionRanges(ranges, [contRange]);
+        const queryInfo = {
+          orderByItems: [{ item: "testValue" }],
+          queryInfo: {
+            queryInfo: {
+              orderBy: ["Ascending"],
+              orderByExpressions: ["c.field1"],
+            },
+          },
+        };
+        const result = strategy.filterPartitionRanges(ranges, [contRange], queryInfo);
 
         expect(result.rangeTokenPairs.length).toBe(3);
 
@@ -113,7 +141,16 @@ describe("OrderByQueryRangeStrategy", function () {
         const targetRange = createRange("3", "CC", "DD");
 
         const contRange = createContinuationRange(targetRange, "token3");
-        const result = strategy.filterPartitionRanges([leftRange1, leftRange2], [contRange]);
+        const queryInfo = {
+          orderByItems: [{ item: "testValue" }],
+          queryInfo: {
+            queryInfo: {
+              orderBy: ["Ascending"],
+              orderByExpressions: ["c.field1"],
+            },
+          },
+        };
+        const result = strategy.filterPartitionRanges([leftRange1, leftRange2], [contRange], queryInfo);
 
         expect(result.rangeTokenPairs.length).toBe(3);
       });
@@ -124,7 +161,16 @@ describe("OrderByQueryRangeStrategy", function () {
         const rightRange2 = createRange("3", "CC", "DD");
 
         const contRange = createContinuationRange(targetRange, "token1");
-        const result = strategy.filterPartitionRanges([rightRange1, rightRange2], [contRange]);
+        const queryInfo = {
+          orderByItems: [{ item: "testValue" }],
+          queryInfo: {
+            queryInfo: {
+              orderBy: ["Ascending"],
+              orderByExpressions: ["c.field1"],
+            },
+          },
+        };
+        const result = strategy.filterPartitionRanges([rightRange1, rightRange2], [contRange], queryInfo);
 
         expect(result.rangeTokenPairs.length).toBe(3);
       });
@@ -136,7 +182,16 @@ describe("OrderByQueryRangeStrategy", function () {
         const range2 = createRange("2", "", "BB");
 
         const contRange = createContinuationRange(range1, "token1");
-        const result = strategy.filterPartitionRanges([range1, range2], [contRange]);
+        const queryInfo = {
+          orderByItems: [{ item: "testValue" }],
+          queryInfo: {
+            queryInfo: {
+              orderBy: ["Ascending"],
+              orderByExpressions: ["c.field1"],
+            },
+          },
+        };
+        const result = strategy.filterPartitionRanges([range1, range2], [contRange], queryInfo);
 
         // When ranges have overlapping boundaries, some may be filtered out
         expect(result.rangeTokenPairs.length).toBe(1);
@@ -148,7 +203,16 @@ describe("OrderByQueryRangeStrategy", function () {
         const range3 = createRange("3", "BB", "CC");
 
         const contRange = createContinuationRange(range2, "token2");
-        const result = strategy.filterPartitionRanges([range1, range2, range3], [contRange]);
+        const queryInfo = {
+          orderByItems: [{ item: "testValue" }],
+          queryInfo: {
+            queryInfo: {
+              orderBy: ["Ascending"],
+              orderByExpressions: ["c.field1"],
+            },
+          },
+        };
+        const result = strategy.filterPartitionRanges([range1, range2, range3], [contRange], queryInfo);
 
         expect(result.rangeTokenPairs.length).toBe(3);
       });
@@ -159,7 +223,16 @@ describe("OrderByQueryRangeStrategy", function () {
         const range2 = createRange("2", "AA", "CC"); // Overlaps with range1
 
         const contRange = createContinuationRange(range1, "token1");
-        const result = strategy.filterPartitionRanges([range1, range2], [contRange]);
+        const queryInfo = {
+          orderByItems: [{ item: "testValue" }],
+          queryInfo: {
+            queryInfo: {
+              orderBy: ["Ascending"],
+              orderByExpressions: ["c.field1"],
+            },
+          },
+        };
+        const result = strategy.filterPartitionRanges([range1, range2], [contRange], queryInfo);
 
         // When ranges have overlapping boundaries, filtering logic may exclude some ranges
         expect(result.rangeTokenPairs.length).toBe(1);
@@ -170,7 +243,16 @@ describe("OrderByQueryRangeStrategy", function () {
         const range2 = createRange("2", "AA", "FF"); // Maximum boundary
 
         const contRange = createContinuationRange(range2, "token2");
-        const result = strategy.filterPartitionRanges([range1, range2], [contRange]);
+        const queryInfo = {
+          orderByItems: [{ item: "testValue" }],
+          queryInfo: {
+            queryInfo: {
+              orderBy: ["Ascending"],
+              orderByExpressions: ["c.field1"],
+            },
+          },
+        };
+        const result = strategy.filterPartitionRanges([range1, range2], [contRange], queryInfo);
 
         expect(result.rangeTokenPairs.length).toBe(2);
       });
@@ -187,7 +269,17 @@ describe("OrderByQueryRangeStrategy", function () {
           createContinuationRange(targetRange2, "token2"), // This should be used
         ];
 
-        const result = strategy.filterPartitionRanges(ranges, contRanges);
+        const queryInfo = {
+          orderByItems: [{ item: "testValue" }],
+          queryInfo: {
+            queryInfo: {
+              orderBy: ["Ascending"],
+              orderByExpressions: ["c.field1"],
+            },
+          },
+        };
+
+        const result = strategy.filterPartitionRanges(ranges, contRanges, queryInfo);
 
         const targetPair = result.rangeTokenPairs.find((p) => p.range.id === "2");
         expect(targetPair?.continuationToken).toBe("token2");
@@ -215,12 +307,13 @@ describe("OrderByQueryRangeStrategy", function () {
         expect(result.rangeTokenPairs[0].filteringCondition).toBeDefined();
       });
 
-      it("should handle missing queryInfo gracefully", function () {
+      it("should throw error when queryInfo is missing", function () {
         const ranges = [createRange("1", "", "AA"), createRange("2", "AA", "BB")];
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
-        const result = strategy.filterPartitionRanges(ranges, contRanges);
-        expect(result.rangeTokenPairs.length).toBe(2);
+        expect(() => {
+          strategy.filterPartitionRanges(ranges, contRanges);
+        }).toThrow("Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.");
       });
     });
 
@@ -236,7 +329,17 @@ describe("OrderByQueryRangeStrategy", function () {
         const targetRange = ranges[50]; // Middle range
         const contRange = createContinuationRange(targetRange, "token50");
 
-        const result = strategy.filterPartitionRanges(ranges, [contRange]);
+        const queryInfo = {
+          orderByItems: [{ item: "testValue" }],
+          queryInfo: {
+            queryInfo: {
+              orderBy: ["Ascending"],
+              orderByExpressions: ["c.field1"],
+            },
+          },
+        };
+
+        const result = strategy.filterPartitionRanges(ranges, [contRange], queryInfo);
         expect(result.rangeTokenPairs.length).toBe(100);
       });
     });
@@ -255,18 +358,36 @@ describe("OrderByQueryRangeStrategy", function () {
         } as PartitionKeyRange;
 
         const contRange = createContinuationRange(validRange, "token1");
+        const queryInfo = {
+          orderByItems: [{ item: "testValue" }],
+          queryInfo: {
+            queryInfo: {
+              orderBy: ["Ascending"],
+              orderByExpressions: ["c.field1"],
+            },
+          },
+        };
 
         // The method may throw with malformed data, so we test that it can handle the scenario
         expect(() => {
-          strategy.filterPartitionRanges([validRange, malformedRange], [contRange]);
+          strategy.filterPartitionRanges([validRange, malformedRange], [contRange], queryInfo);
         }).not.toThrow();
       });
 
       it("should handle empty continuation token", function () {
         const ranges = [createRange("1", "", "AA")];
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "")];
+        const queryInfo = {
+          orderByItems: [{ item: "testValue" }],
+          queryInfo: {
+            queryInfo: {
+              orderBy: ["Ascending"],
+              orderByExpressions: ["c.field1"],
+            },
+          },
+        };
 
-        const result = strategy.filterPartitionRanges(ranges, contRanges);
+        const result = strategy.filterPartitionRanges(ranges, contRanges, queryInfo);
         expect(result.rangeTokenPairs.length).toBe(1);
         expect(result.rangeTokenPairs[0].continuationToken).toBe("");
       });
@@ -274,8 +395,17 @@ describe("OrderByQueryRangeStrategy", function () {
       it("should handle null continuation token", function () {
         const ranges = [createRange("1", "", "AA")];
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), null as any)];
+        const queryInfo = {
+          orderByItems: [{ item: "testValue" }],
+          queryInfo: {
+            queryInfo: {
+              orderBy: ["Ascending"],
+              orderByExpressions: ["c.field1"],
+            },
+          },
+        };
 
-        const result = strategy.filterPartitionRanges(ranges, contRanges);
+        const result = strategy.filterPartitionRanges(ranges, contRanges, queryInfo);
         expect(result.rangeTokenPairs.length).toBe(1);
         expect(result.rangeTokenPairs[0].continuationToken).toBeNull();
       });
@@ -524,14 +654,14 @@ describe("OrderByQueryRangeStrategy", function () {
         }).toThrow(/Unable to resume ORDER BY query from continuation token.*sort direction/);
       });
 
-      it("should handle undefined queryInfo gracefully when no orderByItems", function () {
+      it("should throw error when queryInfo is undefined", function () {
         const ranges = [createRange("1", "", "AA")];
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
-        // When queryInfo is undefined, orderByItems defaults to empty array, so no filter conditions are created
-        const result = strategy.filterPartitionRanges(ranges, contRanges, undefined);
-        expect(result.rangeTokenPairs.length).toBe(1);
-        expect(result.rangeTokenPairs[0].continuationToken).toBe("token1");
+        // When queryInfo is undefined, validation should throw an error
+        expect(() => {
+          strategy.filterPartitionRanges(ranges, contRanges, undefined);
+        }).toThrow("Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.");
       });
 
       it("should work with object-format sort orders", function () {
@@ -555,6 +685,40 @@ describe("OrderByQueryRangeStrategy", function () {
         );
         expect(result.rangeTokenPairs.length).toBe(1);
         expect(result.rangeTokenPairs[0].filteringCondition).toBeDefined();
+      });
+
+      it("should throw error when orderByItems is missing", function () {
+        const ranges = [createRange("1", "", "AA")];
+        const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
+
+        const queryInfoWithoutOrderByItems = {
+          queryInfo: {
+            orderBy: ["Ascending"],
+            orderByExpressions: ["c.field1"],
+          },
+          // Missing orderByItems property
+        };
+
+        expect(() => {
+          strategy.filterPartitionRanges(ranges, contRanges, queryInfoWithoutOrderByItems);
+        }).toThrow("Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.");
+      });
+
+      it("should throw error when orderByItems is empty", function () {
+        const ranges = [createRange("1", "", "AA")];
+        const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
+
+        const queryInfoWithEmptyOrderByItems = {
+          queryInfo: {
+            orderBy: ["Ascending"],
+            orderByExpressions: ["c.field1"],
+          },
+          orderByItems: [] as any[], // Empty array
+        };
+
+        expect(() => {
+          strategy.filterPartitionRanges(ranges, contRanges, queryInfoWithEmptyOrderByItems);
+        }).toThrow("Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.");
       });
     });
   });

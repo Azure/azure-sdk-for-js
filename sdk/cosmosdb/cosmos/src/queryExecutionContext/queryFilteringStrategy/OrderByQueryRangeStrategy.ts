@@ -23,6 +23,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     continuationRanges?: PartitionRangeWithContinuationToken[],
     queryInfo?: Record<string, unknown>,
   ): PartitionRangeFilterResult {
+
     if (
       !targetRanges ||
       targetRanges.length === 0 ||
@@ -34,18 +35,8 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       };
     }
 
-    // Validate that orderByItems is present for ORDER BY queries
-    if (
-      !queryInfo?.orderByItems ||
-      !Array.isArray(queryInfo.orderByItems) ||
-      queryInfo.orderByItems.length === 0
-    ) {
-      throw new Error(
-        "Unable to resume ORDER BY query from continuation token. The ORDER BY field information " +
-          "is missing from the continuation token. This indicates that the continuation token was not " +
-          "generated from an ORDER BY query or has been corrupted. Please verify that you are using " +
-          "a valid continuation token from an ORDER BY query and retry the operation.",
-      );
+    if (!queryInfo?.orderByItems || !Array.isArray(queryInfo.orderByItems) || queryInfo.orderByItems.length === 0) {
+      throw new Error("Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.");
     }
 
     const result: PartitionRangeFilterResult = {
@@ -68,19 +59,17 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
         this.isRangeBeforeAnother(mapping.maxExclusive, targetRangeMapping.minInclusive),
       );
 
+      const orderByItems = queryInfo.orderByItems;
+      
       // Create filtering condition for left ranges based on ORDER BY items and sort orders
-      const leftFilter = this.createRangeFilterCondition(queryInfo.orderByItems, queryInfo, "left");
+      const leftFilter = this.createRangeFilterCondition(orderByItems, queryInfo, "left");
 
       const rightRanges = targetRanges.filter((mapping) =>
         this.isRangeAfterAnother(mapping.minInclusive, targetRangeMapping.maxExclusive),
       );
 
       // Create filtering condition for right ranges based on ORDER BY items and sort orders
-      const rightFilter = this.createRangeFilterCondition(
-        queryInfo.orderByItems,
-        queryInfo,
-        "right",
-      );
+      const rightFilter = this.createRangeFilterCondition(orderByItems, queryInfo, "right");
 
       // Apply filtering logic for left ranges
       if (leftRanges.length > 0) {
@@ -414,4 +403,5 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     // range1 comes after range2 if range1.minInclusive >= range2.maxExclusive
     return this.comparePartitionKeyBoundaries(range1MinInclusive, range2MaxExclusive) >= 0;
   }
+
 }
