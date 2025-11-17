@@ -180,7 +180,7 @@ async function demonstrateClientVsOperationBuckets(): Promise<void> {
 
 // Demonstrates bulk operations with throughput buckets
 async function demonstrateBulkOperationsWithThroughputBucket(): Promise<void> {
-  logStep("Demonstrating bulk operations with throughput bucket 9");
+  logStep("Demonstrating bulk operations with throughput bucket 2");
   
   // Prepare bulk operations
   const operations = [];
@@ -202,16 +202,6 @@ async function demonstrateBulkOperationsWithThroughputBucket(): Promise<void> {
   });
 
   logStep(`Executed ${res.length} bulk operations using throughput bucket 2`);
-
-  // // Clean up bulk items
-  // const deleteOperations = res.map((result) => ({
-  //   operationType: "Delete" as const,
-  //   id: result?.id,
-  //   partitionKey: "bulk-pk"
-  // }));
-  
-  // await globalContainer.items.executeBulkOperations(deleteOperations);
-  logStep("Cleaned up bulk operation test items");
 }
 
 // Demonstrates change feed operations with throughput buckets
@@ -294,7 +284,7 @@ async function runSample(): Promise<void> {
     await handleError(error);
   } finally {
     // Clean up resources
-    if (globalClient!) {
+    if (globalClient) {
       await cleanup();
     }
   }

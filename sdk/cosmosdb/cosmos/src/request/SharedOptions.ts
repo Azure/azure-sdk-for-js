@@ -64,7 +64,7 @@ export interface SharedOptions {
    * Throughput Bucket for a request.
    *
    * <p>Default value is null. In this case, the request can use 100% of the partition throughput. </p>
-   * For more information, visit [Cosmos DB throughput Bucketing](https://aka.ms/cosmsodb-bucketing).
+   * For more information, visit [Cosmos DB throughput Bucketing](https://aka.ms/cosmosdb-bucketing).
    */
   throughputBucket?: number;
 

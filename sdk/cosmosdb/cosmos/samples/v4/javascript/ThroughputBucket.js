@@ -181,7 +181,7 @@ async function demonstrateClientVsOperationBuckets() {
 
 // Demonstrates bulk operations with throughput buckets
 async function demonstrateBulkOperationsWithThroughputBucket() {
-  logStep("Demonstrating bulk operations with throughput bucket 9");
+  logStep("Demonstrating bulk operations with throughput bucket 2");
   
   // Prepare bulk operations
   const operations = [];
@@ -203,7 +203,6 @@ async function demonstrateBulkOperationsWithThroughputBucket() {
   });
 
   logStep(`Executed ${res.length} bulk operations using throughput bucket 2`);
-  logStep("Cleaned up bulk operation test items");
 }
 
 // Demonstrates change feed operations with throughput buckets
