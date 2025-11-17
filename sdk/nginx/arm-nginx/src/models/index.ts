@@ -781,14 +781,6 @@ export interface DeploymentsUpdateHeaders {
   retryAfter?: number;
 }
 
-/** Defines headers for Deployments_delete operation. */
-export interface DeploymentsDeleteHeaders {
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
-}
-
 /** Defines headers for Certificates_createOrUpdate operation. */
 export interface CertificatesCreateOrUpdateHeaders {
   /** A link to the status monitor */
@@ -797,26 +789,10 @@ export interface CertificatesCreateOrUpdateHeaders {
   retryAfter?: number;
 }
 
-/** Defines headers for Certificates_delete operation. */
-export interface CertificatesDeleteHeaders {
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
-}
-
 /** Defines headers for Configurations_createOrUpdate operation. */
 export interface ConfigurationsCreateOrUpdateHeaders {
   /** A link to the status monitor */
   azureAsyncOperation?: string;
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
-}
-
-/** Defines headers for Configurations_delete operation. */
-export interface ConfigurationsDeleteHeaders {
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
@@ -1131,9 +1107,6 @@ export interface DeploymentsDeleteOptionalParams extends coreClient.OperationOpt
   resumeFrom?: string;
 }
 
-/** Contains response data for the delete operation. */
-export type DeploymentsDeleteResponse = DeploymentsDeleteHeaders;
-
 /** Optional parameters. */
 export interface DeploymentsListNextOptionalParams extends coreClient.OperationOptions {}
 
@@ -1210,9 +1183,6 @@ export interface CertificatesDeleteOptionalParams extends coreClient.OperationOp
   resumeFrom?: string;
 }
 
-/** Contains response data for the delete operation. */
-export type CertificatesDeleteResponse = CertificatesDeleteHeaders;
-
 /** Optional parameters. */
 export interface CertificatesListNextOptionalParams extends coreClient.OperationOptions {}
 
@@ -1251,9 +1221,6 @@ export interface ConfigurationsDeleteOptionalParams extends coreClient.Operation
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
-
-/** Contains response data for the delete operation. */
-export type ConfigurationsDeleteResponse = ConfigurationsDeleteHeaders;
 
 /** Optional parameters. */
 export interface ConfigurationsAnalysisOptionalParams extends coreClient.OperationOptions {

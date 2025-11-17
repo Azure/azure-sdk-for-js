@@ -17,7 +17,6 @@ import type {
   DeploymentsUpdateOptionalParams,
   DeploymentsUpdateResponse,
   DeploymentsDeleteOptionalParams,
-  DeploymentsDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -109,9 +108,7 @@ export interface Deployments {
     resourceGroupName: string,
     deploymentName: string,
     options?: DeploymentsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<DeploymentsDeleteResponse>, DeploymentsDeleteResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the NGINX deployment resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -122,5 +119,5 @@ export interface Deployments {
     resourceGroupName: string,
     deploymentName: string,
     options?: DeploymentsDeleteOptionalParams,
-  ): Promise<DeploymentsDeleteResponse>;
+  ): Promise<void>;
 }

@@ -101,8 +101,8 @@ export interface AutoUpgradeProfile {
 export interface Certificates {
     beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CertificatesCreateOrUpdateResponse>, CertificatesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams): Promise<CertificatesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<CertificatesDeleteResponse>, CertificatesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams): Promise<CertificatesDeleteResponse>;
+    beginDelete(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesGetOptionalParams): Promise<CertificatesGetResponse>;
     list(resourceGroupName: string, deploymentName: string, options?: CertificatesListOptionalParams): PagedAsyncIterableIterator<NginxCertificate>;
 }
@@ -124,19 +124,10 @@ export interface CertificatesCreateOrUpdateOptionalParams extends coreClient.Ope
 export type CertificatesCreateOrUpdateResponse = NginxCertificate;
 
 // @public
-export interface CertificatesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
 export interface CertificatesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type CertificatesDeleteResponse = CertificatesDeleteHeaders;
 
 // @public
 export interface CertificatesGetOptionalParams extends coreClient.OperationOptions {
@@ -164,8 +155,8 @@ export interface Configurations {
     analysis(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsAnalysisOptionalParams): Promise<ConfigurationsAnalysisResponse>;
     beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConfigurationsCreateOrUpdateResponse>, ConfigurationsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsCreateOrUpdateOptionalParams): Promise<ConfigurationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ConfigurationsDeleteResponse>, ConfigurationsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsDeleteOptionalParams): Promise<ConfigurationsDeleteResponse>;
+    beginDelete(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsGetOptionalParams): Promise<ConfigurationsGetResponse>;
     list(resourceGroupName: string, deploymentName: string, options?: ConfigurationsListOptionalParams): PagedAsyncIterableIterator<NginxConfigurationResponse>;
 }
@@ -195,19 +186,10 @@ export interface ConfigurationsCreateOrUpdateOptionalParams extends coreClient.O
 export type ConfigurationsCreateOrUpdateResponse = NginxConfigurationResponse;
 
 // @public
-export interface ConfigurationsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
 export interface ConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ConfigurationsDeleteResponse = ConfigurationsDeleteHeaders;
 
 // @public
 export interface ConfigurationsGetOptionalParams extends coreClient.OperationOptions {
@@ -249,8 +231,8 @@ export type DefaultWafPolicyListResponse = NginxDeploymentDefaultWafPolicyListRe
 export interface Deployments {
     beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsCreateOrUpdateResponse>, DeploymentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, deploymentName: string, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<DeploymentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsDeleteResponse>, DeploymentsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<DeploymentsDeleteResponse>;
+    beginDelete(resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, deploymentName: string, options?: DeploymentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsUpdateResponse>, DeploymentsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, deploymentName: string, options?: DeploymentsUpdateOptionalParams): Promise<DeploymentsUpdateResponse>;
     get(resourceGroupName: string, deploymentName: string, options?: DeploymentsGetOptionalParams): Promise<DeploymentsGetResponse>;
@@ -275,19 +257,10 @@ export interface DeploymentsCreateOrUpdateOptionalParams extends coreClient.Oper
 export type DeploymentsCreateOrUpdateResponse = NginxDeployment;
 
 // @public
-export interface DeploymentsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
 export interface DeploymentsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type DeploymentsDeleteResponse = DeploymentsDeleteHeaders;
 
 // @public
 export interface DeploymentsGetOptionalParams extends coreClient.OperationOptions {

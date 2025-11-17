@@ -2090,27 +2090,6 @@ export const DeploymentsUpdateHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const DeploymentsDeleteHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DeploymentsDeleteHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
-    },
-  },
-};
-
 export const CertificatesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2132,27 +2111,6 @@ export const CertificatesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const CertificatesDeleteHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CertificatesDeleteHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
-    },
-  },
-};
-
 export const ConfigurationsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2160,27 +2118,6 @@ export const ConfigurationsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
     modelProperties: {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
-        type: {
-          name: "String",
-        },
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
-    },
-  },
-};
-
-export const ConfigurationsDeleteHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ConfigurationsDeleteHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
         type: {
           name: "String",
         },

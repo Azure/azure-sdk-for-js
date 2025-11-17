@@ -29,7 +29,6 @@ import type {
   DeploymentsUpdateOptionalParams,
   DeploymentsUpdateResponse,
   DeploymentsDeleteOptionalParams,
-  DeploymentsDeleteResponse,
   DeploymentsListNextResponse,
   DeploymentsListByResourceGroupNextResponse,
 } from "../models/index.js";
@@ -376,13 +375,11 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     deploymentName: string,
     options?: DeploymentsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<DeploymentsDeleteResponse>, DeploymentsDeleteResponse>
-  > {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<DeploymentsDeleteResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -421,10 +418,7 @@ export class DeploymentsImpl implements Deployments {
       args: { resourceGroupName, deploymentName, options },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<
-      DeploymentsDeleteResponse,
-      OperationState<DeploymentsDeleteResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -443,7 +437,7 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     deploymentName: string,
     options?: DeploymentsDeleteOptionalParams,
-  ): Promise<DeploymentsDeleteResponse> {
+  ): Promise<void> {
     const poller = await this.beginDelete(resourceGroupName, deploymentName, options);
     return poller.pollUntilDone();
   }
@@ -601,18 +595,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      headersMapper: Mappers.DeploymentsDeleteHeaders,
-    },
-    201: {
-      headersMapper: Mappers.DeploymentsDeleteHeaders,
-    },
-    202: {
-      headersMapper: Mappers.DeploymentsDeleteHeaders,
-    },
-    204: {
-      headersMapper: Mappers.DeploymentsDeleteHeaders,
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },

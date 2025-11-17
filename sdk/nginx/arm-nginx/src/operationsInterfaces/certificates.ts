@@ -14,7 +14,6 @@ import type {
   CertificatesCreateOrUpdateOptionalParams,
   CertificatesCreateOrUpdateResponse,
   CertificatesDeleteOptionalParams,
-  CertificatesDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -87,9 +86,7 @@ export interface Certificates {
     deploymentName: string,
     certificateName: string,
     options?: CertificatesDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<CertificatesDeleteResponse>, CertificatesDeleteResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a certificate from the NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -102,5 +99,5 @@ export interface Certificates {
     deploymentName: string,
     certificateName: string,
     options?: CertificatesDeleteOptionalParams,
-  ): Promise<CertificatesDeleteResponse>;
+  ): Promise<void>;
 }

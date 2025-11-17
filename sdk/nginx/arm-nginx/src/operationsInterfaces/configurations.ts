@@ -14,7 +14,6 @@ import type {
   ConfigurationsCreateOrUpdateOptionalParams,
   ConfigurationsCreateOrUpdateResponse,
   ConfigurationsDeleteOptionalParams,
-  ConfigurationsDeleteResponse,
   ConfigurationsAnalysisOptionalParams,
   ConfigurationsAnalysisResponse,
 } from "../models/index.js";
@@ -93,9 +92,7 @@ export interface Configurations {
     deploymentName: string,
     configurationName: string,
     options?: ConfigurationsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<ConfigurationsDeleteResponse>, ConfigurationsDeleteResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Reset the NGINX configuration of given NGINX deployment to default
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -109,7 +106,7 @@ export interface Configurations {
     deploymentName: string,
     configurationName: string,
     options?: ConfigurationsDeleteOptionalParams,
-  ): Promise<ConfigurationsDeleteResponse>;
+  ): Promise<void>;
   /**
    * Analyze an NGINX configuration without applying it to the NGINXaaS deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

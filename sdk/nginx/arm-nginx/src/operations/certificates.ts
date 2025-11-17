@@ -24,7 +24,6 @@ import type {
   CertificatesCreateOrUpdateOptionalParams,
   CertificatesCreateOrUpdateResponse,
   CertificatesDeleteOptionalParams,
-  CertificatesDeleteResponse,
   CertificatesListNextResponse,
 } from "../models/index.js";
 
@@ -245,13 +244,11 @@ export class CertificatesImpl implements Certificates {
     deploymentName: string,
     certificateName: string,
     options?: CertificatesDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<CertificatesDeleteResponse>, CertificatesDeleteResponse>
-  > {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<CertificatesDeleteResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -290,10 +287,7 @@ export class CertificatesImpl implements Certificates {
       args: { resourceGroupName, deploymentName, certificateName, options },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<
-      CertificatesDeleteResponse,
-      OperationState<CertificatesDeleteResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -314,7 +308,7 @@ export class CertificatesImpl implements Certificates {
     deploymentName: string,
     certificateName: string,
     options?: CertificatesDeleteOptionalParams,
-  ): Promise<CertificatesDeleteResponse> {
+  ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       deploymentName,
@@ -426,18 +420,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates/{certificateName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      headersMapper: Mappers.CertificatesDeleteHeaders,
-    },
-    201: {
-      headersMapper: Mappers.CertificatesDeleteHeaders,
-    },
-    202: {
-      headersMapper: Mappers.CertificatesDeleteHeaders,
-    },
-    204: {
-      headersMapper: Mappers.CertificatesDeleteHeaders,
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },

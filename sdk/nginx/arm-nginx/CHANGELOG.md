@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.3 (2025-11-14)
+## 4.0.0-beta.3 (2025-11-17)
 Compared with version 3.0.0
 
 ### Features Added
@@ -17,13 +17,10 @@ Compared with version 3.0.0
   - Added Interface ApiKeysListOptionalParams
   - Added Interface AutoUpgradeProfile
   - Added Interface CertificatesCreateOrUpdateHeaders
-  - Added Interface CertificatesDeleteHeaders
   - Added Interface ConfigurationsAnalysisOptionalParams
   - Added Interface ConfigurationsCreateOrUpdateHeaders
-  - Added Interface ConfigurationsDeleteHeaders
   - Added Interface DefaultWafPolicyListOptionalParams
   - Added Interface DeploymentsCreateOrUpdateHeaders
-  - Added Interface DeploymentsDeleteHeaders
   - Added Interface DeploymentsUpdateHeaders
   - Added Interface DiagnosticItem
   - Added Interface ErrorAdditionalInfo
@@ -83,11 +80,8 @@ Compared with version 3.0.0
   - Added Type Alias ApiKeysGetResponse
   - Added Type Alias ApiKeysListNextResponse
   - Added Type Alias ApiKeysListResponse
-  - Added Type Alias CertificatesDeleteResponse
   - Added Type Alias ConfigurationsAnalysisResponse
-  - Added Type Alias ConfigurationsDeleteResponse
   - Added Type Alias DefaultWafPolicyListResponse
-  - Added Type Alias DeploymentsDeleteResponse
   - Added Type Alias Level
   - Added Type Alias NginxDeploymentWafPolicyApplyingStatusCode
   - Added Type Alias NginxDeploymentWafPolicyCompilingStatusCode
@@ -105,9 +99,6 @@ Compared with version 3.0.0
   - Added Enum KnownOrigin
 
 ### Breaking Changes
-  - Operation Certificates.beginDeleteAndWait has a new signature
-  - Operation Configurations.beginDeleteAndWait has a new signature
-  - Operation Deployments.beginDeleteAndWait has a new signature
   - Removed Interface ErrorResponseBody
   - Removed Interface NginxConfiguration
   - Removed Interface NginxConfigurationProperties
