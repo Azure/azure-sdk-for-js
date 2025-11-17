@@ -5,8 +5,11 @@
 
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import {
+  bearerTokenAuthenticationPolicy,
+  bearerTokenAuthenticationPolicyName,
+  type Pipeline,
+} from "@azure/core-rest-pipeline";
 import { decode, encode } from "./base64.js";
 import type {
   AutocompleteResult,
@@ -17,10 +20,8 @@ import type {
   SearchRequest as GeneratedSearchRequest,
   VectorQueryUnion as GeneratedVectorQuery,
 } from "./models/azure/search/documents/index.js";
-import {
-  SearchClient as GeneratedClient,
-  SearchClientOptionalParams,
-} from "./search/searchClient.js";
+import type { SearchClientOptionalParams } from "./search/searchClient.js";
+import { SearchClient as GeneratedClient } from "./search/searchClient.js";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
 import type {
   AutocompleteOptions,
@@ -58,8 +59,8 @@ import type { IndexDocumentsClient } from "./searchIndexingBufferedSender.js";
 import { deserialize, serialize } from "./serialization.js";
 import * as utils from "./serviceUtils.js";
 import { createSpan, tracingClient } from "./tracing.js";
-import { ClientOptions, OperationOptions } from "@azure-rest/core-client";
-import { GetDocumentOptionalParams, SuggestPostOptionalParams } from "./search/index.js";
+import type { ClientOptions, OperationOptions } from "@azure-rest/core-client";
+import type { GetDocumentOptionalParams, SuggestPostOptionalParams } from "./search/index.js";
 
 /**
  * Client options used to configure AI Search API requests.
@@ -207,11 +208,13 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
     this.pipeline = this.client.pipeline;
 
+    // TODO: consider leaving the policy in-place instead of removing and re-adding
+    this.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
+
     if (isTokenCredential(credential)) {
       const scope: string = options.audience
         ? `${options.audience}/.default`
         : `${KnownSearchAudience.AzurePublicCloud}/.default`;
-
       this.client.pipeline.addPolicy(
         bearerTokenAuthenticationPolicy({ credential, scopes: scope }),
       );

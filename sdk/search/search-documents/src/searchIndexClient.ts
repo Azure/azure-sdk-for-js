@@ -6,7 +6,10 @@
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import {
+  bearerTokenAuthenticationPolicy,
+  bearerTokenAuthenticationPolicyName,
+} from "@azure/core-rest-pipeline";
 import type {
   AnalyzeResult,
   // KnowledgeSourceStatus,
@@ -181,6 +184,9 @@ export class SearchIndexClient {
 
     this.client = new GeneratedClient(this.endpoint, credential, internalClientPipelineOptions);
     this.pipeline = this.client.pipeline;
+
+    // TODO: consider leaving the policy in-place instead of removing and re-adding
+    this.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
 
     if (isTokenCredential(credential)) {
       const scope: string = this.options.audience

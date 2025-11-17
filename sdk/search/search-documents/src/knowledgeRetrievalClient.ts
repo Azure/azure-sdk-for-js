@@ -6,7 +6,10 @@
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import {
+  bearerTokenAuthenticationPolicy,
+  bearerTokenAuthenticationPolicyName,
+} from "@azure/core-rest-pipeline";
 import type {
   KnowledgeBaseRetrievalRequest,
   KnowledgeBaseRetrievalResponse,
@@ -123,6 +126,9 @@ export class KnowledgeRetrievalClient {
     this.client = new GeneratedClient(endpoint, credential, internalClientPipelineOptions);
 
     this.pipeline = this.client.pipeline;
+
+    // TODO: consider leaving the policy in-place instead of removing and re-adding
+    this.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
 
     if (isTokenCredential(credential)) {
       const scope: string = options.audience

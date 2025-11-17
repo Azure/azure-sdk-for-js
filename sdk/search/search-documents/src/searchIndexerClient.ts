@@ -4,12 +4,13 @@
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import type { SearchIndexerStatus } from "./models/azure/search/documents/indexes/index.js";
 import {
-  SearchIndexerClient as GeneratedClient,
-  SearchIndexerClientOptionalParams,
-} from "./searchIndexer/searchIndexerClient.js";
+  bearerTokenAuthenticationPolicy,
+  bearerTokenAuthenticationPolicyName,
+} from "@azure/core-rest-pipeline";
+import type { SearchIndexerStatus } from "./models/azure/search/documents/indexes/index.js";
+import type { SearchIndexerClientOptionalParams } from "./searchIndexer/searchIndexerClient.js";
+import { SearchIndexerClient as GeneratedClient } from "./searchIndexer/searchIndexerClient.js";
 import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
@@ -41,7 +42,7 @@ import type {
 } from "./serviceModels.js";
 import * as utils from "./serviceUtils.js";
 import { tracingClient } from "./tracing.js";
-import { ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
 
 /**
  * Client options used to configure AI Search API requests.
@@ -141,6 +142,9 @@ export class SearchIndexerClient {
 
     this.client = new GeneratedClient(this.endpoint, credential, internalClientPipelineOptions);
     this.pipeline = this.client.pipeline;
+
+    // TODO: consider leaving the policy in-place instead of removing and re-adding
+    this.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
 
     if (isTokenCredential(credential)) {
       const scope: string = options.audience
