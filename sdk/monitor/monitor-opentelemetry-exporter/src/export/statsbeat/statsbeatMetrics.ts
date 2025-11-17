@@ -25,10 +25,10 @@ export class StatsbeatMetrics {
   protected async getResourceProvider(): Promise<void> {
     // Check resource provider
     this.resourceProvider = StatsbeatResourceProvider.unknown;
-    if (process.env.AKS_ARM_NAMESPACE_ID) {
+    if (process.env.AKS_ARM_NAMESPACE_ID || process.env.KUBERNETES_SERVICE_HOST) {
       // AKS
       this.resourceProvider = StatsbeatResourceProvider.aks;
-      this.resourceIdentifier = process.env.AKS_ARM_NAMESPACE_ID;
+      this.resourceIdentifier = process.env.AKS_ARM_NAMESPACE_ID || process.env.KUBERNETES_SERVICE_HOST || "";
     } else if (process.env.WEBSITE_SITE_NAME && !process.env.FUNCTIONS_WORKER_RUNTIME) {
       // Web apps
       this.resourceProvider = StatsbeatResourceProvider.appsvc;
