@@ -13,7 +13,7 @@
     "create-apimanagement-widget": "bin/execute.cjs"
   },
   "engines": {
-    "node": ">=20.12.0"
+    "node": ">=20.0.0"
   },
   "keywords": [
     "azure",
