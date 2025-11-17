@@ -14,7 +14,7 @@ export class LegacyFetchImplementation {
   constructor(
     private endpoint: ExecutionContext,
     private pageSize: number,
-  ) { }
+  ) {}
 
   async fetchMore(
     diagnosticNode: DiagnosticNodeInternal,
@@ -36,9 +36,9 @@ export class LegacyFetchImplementation {
           response.result.buffer.length === 0
         ) {
           if (fetchBuffer.length > 0) {
-            const temp = [...fetchBuffer];
+            const copiedFetchBuffer = [...fetchBuffer];
             fetchBuffer.length = 0; // Clear array in place
-            return { result: temp, headers: fetchMoreRespHeaders };
+            return { result: copiedFetchBuffer, headers: fetchMoreRespHeaders };
           } else {
             return { result: undefined, headers: fetchMoreRespHeaders };
           }

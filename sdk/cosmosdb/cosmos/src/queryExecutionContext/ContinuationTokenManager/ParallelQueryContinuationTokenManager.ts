@@ -22,9 +22,11 @@ import type { QueryRangeMapping } from "../queryRangeMapping.js";
  */
 export class ParallelQueryContinuationTokenManager extends BaseContinuationTokenManager {
   private continuationToken: CompositeQueryContinuationToken | undefined;
+  private collectionLink: string;
 
   constructor(collectionLink: string, initialContinuationToken?: string) {
-    super(collectionLink);
+    super();
+    this.collectionLink = collectionLink;
     if (initialContinuationToken) {
       this.continuationToken = parseCompositeQueryContinuationToken(initialContinuationToken);
       this.rangeList = this.continuationToken.rangeMappings || [];

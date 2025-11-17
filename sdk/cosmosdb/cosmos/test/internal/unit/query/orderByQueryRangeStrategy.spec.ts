@@ -60,7 +60,9 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
         expect(() => {
           strategy.filterPartitionRanges(ranges, contRanges, undefined);
-        }).toThrow("Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.");
+        }).toThrow(
+          "Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.",
+        );
       });
     });
 
@@ -150,7 +152,11 @@ describe("OrderByQueryRangeStrategy", function () {
             },
           },
         };
-        const result = strategy.filterPartitionRanges([leftRange1, leftRange2], [contRange], queryInfo);
+        const result = strategy.filterPartitionRanges(
+          [leftRange1, leftRange2],
+          [contRange],
+          queryInfo,
+        );
 
         expect(result.rangeTokenPairs.length).toBe(3);
       });
@@ -170,7 +176,11 @@ describe("OrderByQueryRangeStrategy", function () {
             },
           },
         };
-        const result = strategy.filterPartitionRanges([rightRange1, rightRange2], [contRange], queryInfo);
+        const result = strategy.filterPartitionRanges(
+          [rightRange1, rightRange2],
+          [contRange],
+          queryInfo,
+        );
 
         expect(result.rangeTokenPairs.length).toBe(3);
       });
@@ -212,7 +222,11 @@ describe("OrderByQueryRangeStrategy", function () {
             },
           },
         };
-        const result = strategy.filterPartitionRanges([range1, range2, range3], [contRange], queryInfo);
+        const result = strategy.filterPartitionRanges(
+          [range1, range2, range3],
+          [contRange],
+          queryInfo,
+        );
 
         expect(result.rangeTokenPairs.length).toBe(3);
       });
@@ -313,7 +327,9 @@ describe("OrderByQueryRangeStrategy", function () {
 
         expect(() => {
           strategy.filterPartitionRanges(ranges, contRanges);
-        }).toThrow("Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.");
+        }).toThrow(
+          "Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.",
+        );
       });
     });
 
@@ -661,7 +677,9 @@ describe("OrderByQueryRangeStrategy", function () {
         // When queryInfo is undefined, validation should throw an error
         expect(() => {
           strategy.filterPartitionRanges(ranges, contRanges, undefined);
-        }).toThrow("Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.");
+        }).toThrow(
+          "Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.",
+        );
       });
 
       it("should work with object-format sort orders", function () {
@@ -701,7 +719,9 @@ describe("OrderByQueryRangeStrategy", function () {
 
         expect(() => {
           strategy.filterPartitionRanges(ranges, contRanges, queryInfoWithoutOrderByItems);
-        }).toThrow("Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.");
+        }).toThrow(
+          "Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.",
+        );
       });
 
       it("should throw error when orderByItems is empty", function () {
@@ -718,7 +738,9 @@ describe("OrderByQueryRangeStrategy", function () {
 
         expect(() => {
           strategy.filterPartitionRanges(ranges, contRanges, queryInfoWithEmptyOrderByItems);
-        }).toThrow("Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.");
+        }).toThrow(
+          "Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.",
+        );
       });
     });
   });

@@ -21,11 +21,6 @@ import type { ParallelQueryResult } from "../parallelQueryResult.js";
 export abstract class BaseContinuationTokenManager {
   private ranges: QueryRangeWithContinuationToken[] = [];
   private readonly partitionRangeManager: PartitionRangeManager = new PartitionRangeManager();
-  protected readonly collectionLink: string;
-
-  constructor(collectionLink: string) {
-    this.collectionLink = collectionLink;
-  }
 
   /**
    * Provides controlled access to partition range manager for subclasses.

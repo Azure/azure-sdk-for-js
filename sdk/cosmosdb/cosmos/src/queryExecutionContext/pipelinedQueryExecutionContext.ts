@@ -112,7 +112,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   public hasMoreResults(): boolean {
-    return (this.fetchBuffer.length !== 0 || this.endpoint.hasMoreResults());
+    return this.fetchBuffer.length !== 0 || this.endpoint.hasMoreResults();
   }
 
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {

@@ -23,7 +23,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     continuationRanges?: PartitionRangeWithContinuationToken[],
     queryInfo?: Record<string, unknown>,
   ): PartitionRangeFilterResult {
-
     if (
       !targetRanges ||
       targetRanges.length === 0 ||
@@ -35,8 +34,14 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       };
     }
 
-    if (!queryInfo?.orderByItems || !Array.isArray(queryInfo.orderByItems) || queryInfo.orderByItems.length === 0) {
-      throw new Error("Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.");
+    if (
+      !queryInfo?.orderByItems ||
+      !Array.isArray(queryInfo.orderByItems) ||
+      queryInfo.orderByItems.length === 0
+    ) {
+      throw new Error(
+        "Unable to resume ORDER BY query from continuation token. orderByItems is required for ORDER BY queries.",
+      );
     }
 
     const result: PartitionRangeFilterResult = {
@@ -60,7 +65,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       );
 
       const orderByItems = queryInfo.orderByItems;
-      
+
       // Create filtering condition for left ranges based on ORDER BY items and sort orders
       const leftFilter = this.createRangeFilterCondition(orderByItems, queryInfo, "left");
 
@@ -403,5 +408,4 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     // range1 comes after range2 if range1.minInclusive >= range2.maxExclusive
     return this.comparePartitionKeyBoundaries(range1MinInclusive, range2MaxExclusive) >= 0;
   }
-
 }

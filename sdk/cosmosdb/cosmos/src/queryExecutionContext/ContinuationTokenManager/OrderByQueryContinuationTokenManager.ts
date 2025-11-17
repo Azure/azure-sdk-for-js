@@ -19,10 +19,11 @@ import { convertRangeMappingToQueryRange } from "../../documents/ContinuationTok
 export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenManager {
   private continuationToken: OrderByQueryContinuationToken | undefined;
   private orderByItemsArray: OrderByItemWithRid[] | undefined;
+  private collectionLink: string;
 
   constructor(collectionLink: string, initialContinuationToken?: string) {
-    super(collectionLink);
-
+    super();
+    this.collectionLink = collectionLink;
     if (initialContinuationToken) {
       this.continuationToken = parseOrderByQueryContinuationToken(initialContinuationToken);
       this.rangeList = this.continuationToken?.rangeMappings || [];
