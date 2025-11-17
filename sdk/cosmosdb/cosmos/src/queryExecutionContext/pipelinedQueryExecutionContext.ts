@@ -24,7 +24,7 @@ import {
 import { parseContinuationTokenFields } from "./ContinuationTokenParser.js";
 import { LegacyFetchImplementation } from "./LegacyFetchImplementation.js";
 import { QueryControlFetchImplementation } from "./QueryControlFetchImplementation.js";
-import { Constants } from "../common/constants.js";
+import { QueryExecution } from "../common/constants.js";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -51,7 +51,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     }
 
     if (!this.options.maxItemCount) {
-      this.options.maxItemCount = Constants.QueryExecution.DEFAULT_PAGE_SIZE;
+      this.options.maxItemCount = QueryExecution.DEFAULT_PAGE_SIZE;
     }
     const pageSize = this.options.maxItemCount;
 
@@ -112,11 +112,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   public hasMoreResults(): boolean {
-    const bufferHasItems = this.fetchBuffer.length !== 0;
-    const endpointHasMore = this.endpoint.hasMoreResults();
-    const result = bufferHasItems || endpointHasMore;
-
-    return result;
+    return (this.fetchBuffer.length !== 0 || this.endpoint.hasMoreResults());
   }
 
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
@@ -334,7 +330,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   ): void {
     const maxBufferSize = options["vectorSearchBufferSize"]
       ? options["vectorSearchBufferSize"]
-      : Constants.QueryExecution.DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE;
+      : QueryExecution.DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE;
 
     if (vectorSearchBufferSize > maxBufferSize) {
       throw new ErrorResponse(
@@ -352,7 +348,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         ? queryInfo.offset + queryInfo.limit
         : options["vectorSearchBufferSize"] && options["vectorSearchBufferSize"] > 0
           ? options["vectorSearchBufferSize"]
-          : Constants.QueryExecution.DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE;
+          : QueryExecution.DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE;
   }
 
   private checkQueryConstraints(queryInfo: QueryInfo): void {
