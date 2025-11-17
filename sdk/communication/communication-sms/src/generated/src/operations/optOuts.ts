@@ -46,7 +46,7 @@ export class OptOutsImpl implements OptOuts {
     return tracingClient.withSpan(
       "SmsApiClient.add",
       options ?? {},
-      async (options) => {
+      async (options: OptOutsAddOptionalParams) => {
         return this.client.sendOperationRequest(
           { body, options },
           addOperationSpec,
@@ -67,7 +67,7 @@ export class OptOutsImpl implements OptOuts {
     return tracingClient.withSpan(
       "SmsApiClient.remove",
       options ?? {},
-      async (options) => {
+      async (options: OptOutsRemoveOptionalParams) => {
         return this.client.sendOperationRequest(
           { body, options },
           removeOperationSpec,
@@ -88,7 +88,7 @@ export class OptOutsImpl implements OptOuts {
     return tracingClient.withSpan(
       "SmsApiClient.check",
       options ?? {},
-      async (options) => {
+      async (options: OptOutsCheckOptionalParams) => {
         return this.client.sendOperationRequest(
           { body, options },
           checkOperationSpec,

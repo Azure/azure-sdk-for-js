@@ -23,7 +23,8 @@ export async function main() {
   const client = new SmsClient(connectionString);
 
   // construct send parameters
-  const from = process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>";
+  const from =
+    process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>";
   let phoneNumbers: string[];
   if (process.env.TO_PHONE_NUMBERS !== undefined) {
     phoneNumbers = process.env.TO_PHONE_NUMBERS.split(",");
@@ -34,9 +35,7 @@ export async function main() {
   }
 
   // send remove opt out request
-  const optOutRemoveResults = await client.optOuts.remove(
-    from,
-    phoneNumbers);
+  const optOutRemoveResults = await client.getOptOutsClient().remove(from, phoneNumbers);
 
   // individual requests can encounter errors during sending
   // use the "httpStatusCode" property to verify
@@ -44,7 +43,10 @@ export async function main() {
     if (optOutRemoveResult.httpStatusCode == 200) {
       console.log("Success: ", optOutRemoveResult);
     } else {
-      console.error("Something went wrong when trying to send opt out remove request: ", optOutRemoveResult);
+      console.error(
+        "Something went wrong when trying to send opt out remove request: ",
+        optOutRemoveResult,
+      );
     }
   }
 

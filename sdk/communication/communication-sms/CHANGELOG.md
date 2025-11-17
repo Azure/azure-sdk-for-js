@@ -1,24 +1,54 @@
 # Release History
 
+## 1.2.0 (Unreleased)
+
+### Features Added
+
+- Added delivery report functionality to `SmsClient`:
+  - New `SmsClient.getDeliveryReport` method for retrieving message delivery status
+  - Provides detailed information including delivery status, delivery attempts, and timestamps
+  - Supports tracking partner-generated message IDs via `messagingConnectPartnerMessageId` property
+- Improved MessagingConnect partner integration with standard Azure SDK patterns (changed from 1.2.0-beta.4):
+  - Use `Record<string, unknown>` for partner-specific parameters instead of the previous structured approach
+  - Updated structure: `messagingConnect: { partnerId: "PartnerName", partnerParams: { "apiKey": "your-api-key" } }`
+  - Follows Azure SDK design guidelines for flexible parameter collections
+  - Migration from beta: Change `messagingConnect: { apiKey: "your-api-key", partner: "PartnerName" }` to `messagingConnect: { partnerId: "PartnerName", partnerParams: { "apiKey": "your-api-key" } }`
+- Updated opt-out management to follow Azure SDK subclient guidelines:
+  - Renamed `OptOuts` type to `OptOutsClient`
+  - Changed from property access (`client.optOuts`) to method access (`client.getOptOutsClient()`)
+  - Migration: Change `client.optOuts.check()` to `client.getOptOutsClient().check()` (same for `add()` and `remove()`)
+
+### Other Changes
+
+- **Redesigned Opt-Out Management API response types for improved consistency and developer experience**:
+  - `OptOutAddResult` and `OptOutRemoveResult` have been unified into a single `OptOutOperationResult` type since they were functionally identical
+  - `OptOutCheckResult` remains unchanged as it includes the unique `isOptedOut` property for check operations
+  - Updated method signatures:
+    - `OptOutsClient.check()` continues to return `Promise<OptOutCheckResult[]>`
+    - `OptOutsClient.add()` and `OptOutsClient.remove()` now return `Promise<OptOutOperationResult[]>`
+  - **Migration guide**:
+    - Replace `OptOutAddResult` and `OptOutRemoveResult` with `OptOutOperationResult` for Add and Remove operations
+    - No changes needed for `OptOutCheckResult` used in Check operations
+  - This change eliminates duplicate types and provides consistent naming across all opt-out operations
+
 ## 1.2.0-beta.4 (2025-06-16)
 
 ### Features Added
 
 - Introduced Messaging Connect support:
-    - Added a new MessagingConnect field to the SmsSendOptions model.
-    - The MessagingConnect structure includes:
-        - apiKey: used for authenticating Messaging Connect requests.
-        - partner: identifies the Messaging Connect partner.
-    - Supports:
-        - Incoming and outgoing flows for long codes.
-        - Outgoing flow for Dynamic Alpha Sender IDs (DASID).
+  - Added a new MessagingConnect field to the SmsSendOptions model.
+  - The MessagingConnect structure includes:
+    - apiKey: used for authenticating Messaging Connect requests.
+    - partner: identifies the Messaging Connect partner.
+  - Supports:
+    - Incoming and outgoing flows for long codes.
+    - Outgoing flow for Dynamic Alpha Sender IDs (DASID).
 
 ## 1.2.0-beta.3 (2024-12-19)
 
 ### Bugs Fixed
 
 - Fixed Opt Out Remove action
-
 
 ## 1.2.0-beta.2 (2024-12-10)
 

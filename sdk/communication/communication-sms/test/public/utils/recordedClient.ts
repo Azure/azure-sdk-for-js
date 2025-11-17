@@ -5,7 +5,7 @@ import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SmsClient } from "../../../src/index.js";
 import { parseConnectionString } from "@azure/communication-common";
 import type { TokenCredential } from "@azure/core-auth";
-import { createTestCredential } from "@azure-tools/test-credential";
+import { AzureCliCredential } from "@azure/identity";
 
 export interface RecordedClient<T> {
   client: T;
@@ -105,7 +105,7 @@ export async function createRecordedSmsClientWithToken(
       },
     };
   } else {
-    credential = createTestCredential();
+    credential = new AzureCliCredential();
   }
 
   const client = new SmsClient(endpoint, credential, recorder.configureClientOptions({}));

@@ -56,7 +56,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     const client = new SmsClient(endpoint, credential);
     // @ts-preserve-whitespace
-    const optOutCheckResults = await client.optOuts.check(
+    const optOutCheckResults = await client.getOptOutsClient().check(
       "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
       ["<to-phone-number-1>", "<to-phone-number-2>"], // E.164 formatted recipient phone numbers
     );
@@ -78,7 +78,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     const client = new SmsClient(endpoint, credential);
     // @ts-preserve-whitespace
-    const optOutAddResults = await client.optOuts.add(
+    const optOutAddResults = await client.getOptOutsClient().add(
       "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
       ["<to-phone-number-1>", "<to-phone-number-2>"], // E.164 formatted recipient phone numbers
     );
@@ -100,7 +100,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     const client = new SmsClient(endpoint, credential);
     // @ts-preserve-whitespace
-    const optOutRemoveResults = await client.optOuts.remove(
+    const optOutRemoveResults = await client.getOptOutsClient().remove(
       "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
       ["<to-phone-number-1>", "<to-phone-number-2>"], // E.164 formatted recipient phone numbers
     );
@@ -137,6 +137,42 @@ describe("snippets", () => {
       }
     } catch (e) {
       console.error(e.message);
+    }
+  });
+
+  it("ReadmeSampleGetDeliveryReport", async () => {
+    const endpoint = "https://<resource-name>.communication.azure.com";
+    const credential = new DefaultAzureCredential();
+    const client = new SmsClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    // Send SMS with delivery reports enabled
+    const sendResults = await client.send(
+      {
+        from: "<from-phone-number>",
+        to: ["<to-phone-number>"],
+        message: "Hello with delivery report!",
+      },
+      {
+        enableDeliveryReport: true,
+        tag: "custom-tag",
+      },
+    );
+    // @ts-preserve-whitespace
+    // Get delivery report if message was sent successfully
+    if (sendResults[0].successful && sendResults[0].messageId) {
+      try {
+        const deliveryReport = await client.getDeliveryReport(sendResults[0].messageId);
+        console.log("Delivery Status:", deliveryReport.deliveryStatus);
+        console.log("Status Details:", deliveryReport.deliveryStatusDetails);
+        console.log("Tag:", deliveryReport.tag);
+        console.log("Delivery Attempts:", deliveryReport.deliveryAttempts);
+      } catch (error: any) {
+        if (error.statusCode === 404) {
+          console.log("Delivery report not yet available - check again later");
+        } else {
+          console.error("Error retrieving delivery report:", error);
+        }
+      }
     }
   });
 

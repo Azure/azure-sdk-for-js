@@ -18,16 +18,23 @@ export interface CheckOptions extends OperationOptions {
 }
 
 // @public
-export interface MessagingConnectOptions {
-    apiKey: string;
-    partner: string;
+export interface DeliveryAttempt {
+    segmentsFailed: number;
+    segmentsSucceeded: number;
+    timestamp: Date;
 }
 
 // @public
-export interface OptOutAddResult {
-    errorMessage?: string;
-    httpStatusCode: number;
-    to: string;
+export type DeliveryReportDeliveryStatus = string;
+
+// @public
+export interface GetDeliveryReportOptions extends OperationOptions {
+}
+
+// @public
+export interface MessagingConnectOptions {
+    partner: string;
+    partnerParams: Record<string, unknown>;
 }
 
 // @public
@@ -39,7 +46,7 @@ export interface OptOutCheckResult {
 }
 
 // @public
-export interface OptOutRemoveResult {
+export interface OptOutOperationResult {
     errorMessage?: string;
     httpStatusCode: number;
     to: string;
@@ -47,9 +54,9 @@ export interface OptOutRemoveResult {
 
 // @public
 export interface OptOutsClient {
-    add(from: string, to: string[], options?: AddOptions): Promise<OptOutAddResult[]>;
+    add(from: string, to: string[], options?: AddOptions): Promise<OptOutOperationResult[]>;
     check(from: string, to: string[], options?: CheckOptions): Promise<OptOutCheckResult[]>;
-    remove(from: string, to: string[], options?: RemoveOptions): Promise<OptOutRemoveResult[]>;
+    remove(from: string, to: string[], options?: RemoveOptions): Promise<OptOutOperationResult[]>;
 }
 
 // @public
@@ -57,16 +64,39 @@ export interface RemoveOptions extends OperationOptions {
 }
 
 // @public
+export enum ServiceVersion {
+    V2021_03_07 = "2021-03-07",
+    V2026_01_23 = "2026-01-23"
+}
+
+// @public
 export class SmsClient {
     constructor(connectionString: string, options?: SmsClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: SmsClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SmsClientOptions);
-    optOuts: OptOutsClient;
+    readonly apiVersion: ServiceVersion;
+    getDeliveryReport(messageId: string, options?: GetDeliveryReportOptions): Promise<SmsDeliveryReportResult>;
+    getOptOutsClient(): OptOutsClient;
     send(sendRequest: SmsSendRequest, options?: SmsSendOptions): Promise<SmsSendResult[]>;
 }
 
 // @public
 export interface SmsClientOptions extends CommonClientOptions {
+    apiVersion?: ServiceVersion;
+}
+
+// @public
+export interface SmsDeliveryReportResult {
+    deliveryAttempts?: DeliveryAttempt[];
+    deliveryStatus: DeliveryReportDeliveryStatus;
+    deliveryStatusDetails?: string;
+    from: string;
+    httpStatusCode?: number;
+    messageId: string;
+    messagingConnectPartnerMessageId?: string;
+    receivedTimestamp?: Date;
+    tag?: string;
+    to: string;
 }
 
 // @public

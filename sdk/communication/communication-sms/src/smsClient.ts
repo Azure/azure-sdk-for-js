@@ -16,12 +16,21 @@ import { extractOperationOptions } from "./extractOperationOptions.js";
 import { generateSendMessageRequest } from "./utils/smsUtils.js";
 import { logger } from "./logger.js";
 import { tracingClient } from "./generated/src/tracing.js";
-import { OptOutsClient as OptOutsClientImpl } from "./optOutsClient.js";
+import { OptOutsClientImpl, type OptOutsClient } from "./optOutsClient.js";
+import type { ServiceVersion } from "./constants.js";
+import { DEFAULT_API_VERSION } from "./constants.js";
+import type { DeliveryAttempt, DeliveryReportDeliveryStatus } from "./generated/src/index.js";
 
 /**
  * Client options used to configure SMS Client API requests.
  */
-export interface SmsClientOptions extends CommonClientOptions {}
+export interface SmsClientOptions extends CommonClientOptions {
+  /**
+   * The API version to use when making requests to the service.
+   * Defaults to "2026-01-23" if not specified.
+   */
+  apiVersion?: ServiceVersion;
+}
 
 /**
  * Values used to configure Sms message
@@ -65,10 +74,15 @@ export interface SmsSendOptions extends OperationOptions {
 
 /** Defines optional parameters for connecting with the Messaging Connect Partner to deliver SMS. */
 export interface MessagingConnectOptions {
-  /** Represents the API key associated with the customer's account in the Messaging Connect Partner portal. */
-  apiKey: string;
-  /** Specifies the partner associated with the API key. */
+  /**
+   * Specifies the partner name for message delivery.
+   */
   partner: string;
+  /**
+   * Partner-specific parameters as key-value pairs. Must contain at least one parameter
+   * required by the messaging connect partner (e.g., apiKey, servicePlanId, authToken, etc.).
+   */
+  partnerParams: Record<string, unknown>;
 }
 
 /**
@@ -98,77 +112,37 @@ export interface SmsSendResult {
 }
 
 /**
- * A OptOutsClient represents a Client to the Azure Communication Sms service allowing you
- * to call Opt Out Management Api methods.
+ * The result of Delivery Report Get request.
  */
-export interface OptOutsClient {
+export interface SmsDeliveryReportResult {
   /**
-   * Adds phone numbers to the optouts list.
-   *
-   * @param from - The sender's phone number
-   * @param to - The recipient's phone numbers
-   * @param options - Additional request options
+   * The delivery status of the message.
    */
-  add(from: string, to: string[], options?: AddOptions): Promise<OptOutAddResult[]>;
+  deliveryStatus: DeliveryReportDeliveryStatus;
   /**
-   * Checks if phone numbers are in the optouts list.
-   *
-   * @param from - The sender's phone number
-   * @param to - The recipient's phone numbers
-   * @param options - Additional request options
+   * Detailed information about the delivery status.
    */
-  check(from: string, to: string[], options?: CheckOptions): Promise<OptOutCheckResult[]>;
+  deliveryStatusDetails?: string;
   /**
-   * Removes phone numbers from the optouts list.
-   *
-   * @param from - The sender's phone number
-   * @param to - The recipient's phone numbers
-   * @param options - Additional request options
+   * Array of delivery attempts made for this message.
    */
-  remove(from: string, to: string[], options?: RemoveOptions): Promise<OptOutRemoveResult[]>;
-}
-
-/**
- * Client options used to configure OptOuts Client API Add requests.
- */
-export interface AddOptions extends OperationOptions {}
-
-/**
- * Client options used to configure OptOuts Client API Check requests.
- */
-export interface CheckOptions extends OperationOptions {}
-
-/**
- * Client options used to configure OptOuts Client API Remove requests.
- */
-export interface RemoveOptions extends OperationOptions {}
-
-/**
- * The result of Opt Out Check request.
- */
-export interface OptOutCheckResult {
+  deliveryAttempts?: DeliveryAttempt[];
   /**
-   * The recipient's phone number in E.164 format.
+   * The timestamp when the delivery report was received.
    */
-  to: string;
+  receivedTimestamp?: Date;
   /**
-   * Indicates if the recipient's phone number in opted out from receiving messages or not.
+   * Custom tag provided when sending the message.
    */
-  isOptedOut: boolean;
+  tag?: string;
   /**
-   * HTTP Status code.
+   * The identifier of the outgoing message.
    */
-  httpStatusCode: number;
+  messageId: string;
   /**
-   * Optional error message in case of 4xx/5xx/repeatable errors.
+   * The sender's phone number in E.164 format.
    */
-  errorMessage?: string;
-}
-
-/**
- * The result of Opt Out Add request.
- */
-export interface OptOutAddResult {
+  from: string;
   /**
    * The recipient's phone number in E.164 format.
    */
@@ -176,30 +150,18 @@ export interface OptOutAddResult {
   /**
    * HTTP Status code.
    */
-  httpStatusCode: number;
+  httpStatusCode?: number;
   /**
-   * Optional error message in case of 4xx/5xx/repeatable errors.
+   * Optional messaging connect partner-specific message identifier for tracking across messaging connect partners.
+   * This field is populated when messages are sent through messaging connect partners.
    */
-  errorMessage?: string;
+  messagingConnectPartnerMessageId?: string;
 }
 
 /**
- * The result of Opt Out Remove request.
+ * Options to configure delivery report requests.
  */
-export interface OptOutRemoveResult {
-  /**
-   * The recipient's phone number in E.164 format.
-   */
-  to: string;
-  /**
-   * HTTP Status code.
-   */
-  httpStatusCode: number;
-  /**
-   * Optional error message in case of 4xx/5xx/repeatable errors.
-   */
-  errorMessage?: string;
-}
+export interface GetDeliveryReportOptions extends OperationOptions {}
 
 /**
  * Checks whether the type of a value is SmsClientOptions or not.
@@ -211,15 +173,15 @@ const isSmsClientOptions = (options: any): options is SmsClientOptions =>
 
 /**
  * A SmsClient represents a Client to the Azure Communication Sms service allowing you
- * to send SMS messages.
+ * to send SMS messages, retrieve delivery reports, and manage opt-outs.
  */
 export class SmsClient {
   private readonly api: SmsApiClient;
+  private readonly _optOutsClient: OptOutsClient;
   /**
-   * A OptOutsClient represents a Client to the Azure Communication Sms service allowing you
-   * to call Opt Out Management Api methods.
+   * The API version being used by this client.
    */
-  public optOuts: OptOutsClient;
+  public readonly apiVersion: ServiceVersion;
 
   /**
    * Initializes a new instance of the SmsClient class.
@@ -253,6 +215,9 @@ export class SmsClient {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isSmsClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
 
+    // Set the API version, defaulting to the latest version
+    this.apiVersion = options.apiVersion ?? DEFAULT_API_VERSION;
+
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
       ...{
@@ -263,9 +228,17 @@ export class SmsClient {
     };
 
     const authPolicy = createCommunicationAuthPolicy(credential);
-    this.api = new SmsApiClient(url, internalPipelineOptions);
+    this.api = new SmsApiClient(url, { ...internalPipelineOptions, apiVersion: this.apiVersion });
     this.api.pipeline.addPolicy(authPolicy);
-    this.optOuts = new OptOutsClientImpl(this.api);
+    this._optOutsClient = new OptOutsClientImpl(this.api);
+  }
+
+  /**
+   * Gets the OptOutsClient for managing opt-out operations.
+   * @returns The OptOutsClient instance for managing opt-outs.
+   */
+  public getOptOutsClient(): OptOutsClient {
+    return this._optOutsClient;
   }
 
   /**
@@ -279,12 +252,49 @@ export class SmsClient {
     options: SmsSendOptions = { enableDeliveryReport: false },
   ): Promise<SmsSendResult[]> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
-    return tracingClient.withSpan("SmsClient-Send", operationOptions, async (updatedOptions) => {
-      const response = await this.api.sms.send(
-        generateSendMessageRequest(sendRequest, restOptions),
-        updatedOptions,
-      );
-      return response.value;
-    });
+    return tracingClient.withSpan(
+      "SmsClient-Send",
+      operationOptions,
+      async (updatedOptions: OperationOptions) => {
+        const response = await this.api.sms.send(
+          generateSendMessageRequest(sendRequest, restOptions),
+          updatedOptions,
+        );
+        return response.value;
+      },
+    );
+  }
+
+  /**
+   * Gets delivery report for a specific outgoing message.
+   *
+   * @param messageId - The identifier of the outgoing message
+   * @param options - Additional request options
+   */
+  public async getDeliveryReport(
+    messageId: string,
+    options: GetDeliveryReportOptions = {},
+  ): Promise<SmsDeliveryReportResult> {
+    const { operationOptions } = extractOperationOptions(options);
+    return tracingClient.withSpan(
+      "SmsClient-GetDeliveryReport",
+      operationOptions,
+      async (updatedOptions: OperationOptions) => {
+        const response = await this.api.deliveryReports.get(messageId, updatedOptions);
+
+        return {
+          deliveryStatus: response.deliveryStatus,
+          deliveryStatusDetails: response.deliveryStatusDetails,
+          deliveryAttempts: response.deliveryAttempts,
+          receivedTimestamp: response.receivedTimestamp,
+          tag: response.tag,
+          messageId: response.messageId,
+          from: response.from,
+          to: response.to,
+          messagingConnectPartnerMessageId: response.messagingConnectPartnerMessageId,
+          httpStatusCode: 200, // Success case
+        };
+      },
+    );
   }
 }

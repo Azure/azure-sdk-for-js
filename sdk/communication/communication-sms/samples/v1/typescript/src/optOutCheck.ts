@@ -23,7 +23,8 @@ export async function main() {
   const client = new SmsClient(connectionString);
 
   // construct send parameters
-  const from = process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>";
+  const from =
+    process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>";
   let phoneNumbers: string[];
   if (process.env.TO_PHONE_NUMBERS !== undefined) {
     phoneNumbers = process.env.TO_PHONE_NUMBERS.split(",");
@@ -34,9 +35,7 @@ export async function main() {
   }
 
   // send check opt out request
-  const optOutCheckResults = await client.optOuts.check(
-    from,
-    phoneNumbers);
+  const optOutCheckResults = await client.getOptOutsClient().check(from, phoneNumbers);
 
   // individual requests can encounter errors during sending
   // use the "httpStatusCode" property to verify
@@ -44,7 +43,10 @@ export async function main() {
     if (optOutCheckResult.httpStatusCode == 200) {
       console.log("Success: ", optOutCheckResult);
     } else {
-      console.error("Something went wrong when trying to send opt out check request: ", optOutCheckResult);
+      console.error(
+        "Something went wrong when trying to send opt out check request: ",
+        optOutCheckResult,
+      );
     }
   }
 

@@ -60,7 +60,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-05-29-preview",
+    defaultValue: "2026-01-23",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -72,4 +72,15 @@ export const apiVersion: OperationQueryParameter = {
 export const body: OperationParameter = {
   parameterPath: "body",
   mapper: OptOutRequestMapper,
+};
+
+export const outgoingMessageId: OperationURLParameter = {
+  parameterPath: "outgoingMessageId",
+  mapper: {
+    serializedName: "outgoingMessageId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
