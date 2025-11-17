@@ -161,12 +161,7 @@ export class SearchIndexClient {
       requestOptions: {},
     },
   ): Promise<KnowledgeSourceUnion> {
-    return createOrUpdateKnowledgeSource(
-      this._client,
-      knowledgeSource,
-      sourceName,
-      options,
-    );
+    return createOrUpdateKnowledgeSource(this._client, knowledgeSource, sourceName, options);
   }
 
   /** Creates a new knowledge base. */
@@ -206,12 +201,7 @@ export class SearchIndexClient {
     knowledgeBaseName: string,
     options: CreateOrUpdateKnowledgeBaseOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeBase> {
-    return createOrUpdateKnowledgeBase(
-      this._client,
-      knowledgeBase,
-      knowledgeBaseName,
-      options,
-    );
+    return createOrUpdateKnowledgeBase(this._client, knowledgeBase, knowledgeBaseName, options);
   }
 
   /** Creates a new search alias. */
@@ -348,11 +338,6 @@ export class SearchIndexClient {
     synonymMapName: string,
     options: CreateOrUpdateSynonymMapOptionalParams = { requestOptions: {} },
   ): Promise<SynonymMap> {
-    return createOrUpdateSynonymMap(
-      this._client,
-      synonymMap,
-      synonymMapName,
-      options,
-    );
+    return createOrUpdateSynonymMap(this._client, synonymMap, synonymMapName, options);
   }
 }

@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createSearch,
-  SearchContext,
-  SearchClientOptionalParams,
-} from "./api/index.js";
+import { createSearch, SearchContext, SearchClientOptionalParams } from "./api/index.js";
 import {
   SearchDocumentsResult,
   LookupDocument,

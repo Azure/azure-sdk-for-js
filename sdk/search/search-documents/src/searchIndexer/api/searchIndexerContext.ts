@@ -35,9 +35,7 @@ export function createSearchIndexer(
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://search.azure.com/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://search.azure.com/.default"],
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "api-key",
     },
   };

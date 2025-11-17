@@ -13,8 +13,7 @@ export interface KnowledgeBaseRetrievalContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface KnowledgeBaseRetrievalClientOptionalParams
-  extends ClientOptions {
+export interface KnowledgeBaseRetrievalClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -36,9 +35,7 @@ export function createKnowledgeBaseRetrieval(
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://search.azure.com/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://search.azure.com/.default"],
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "api-key",
     },
   };

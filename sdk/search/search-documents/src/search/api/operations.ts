@@ -54,37 +54,34 @@ export function _autocompletePostSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...(options?.querySourceAuthorization !== undefined
-          ? {
-              "x-ms-query-source-authorization":
-                options?.querySourceAuthorization,
-            }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        search: searchText,
-        autocompleteMode: options?.autocompleteMode,
-        filter: options?.filter,
-        fuzzy: options?.useFuzzyMatching,
-        highlightPostTag: options?.highlightPostTag,
-        highlightPreTag: options?.highlightPreTag,
-        minimumCoverage: options?.minimumCoverage,
-        searchFields: options?.searchFields,
-        suggesterName: suggesterName,
-        top: options?.top,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.querySourceAuthorization !== undefined
+        ? {
+            "x-ms-query-source-authorization": options?.querySourceAuthorization,
+          }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      search: searchText,
+      autocompleteMode: options?.autocompleteMode,
+      filter: options?.filter,
+      fuzzy: options?.useFuzzyMatching,
+      highlightPostTag: options?.highlightPostTag,
+      highlightPreTag: options?.highlightPreTag,
+      minimumCoverage: options?.minimumCoverage,
+      searchFields: options?.searchFields,
+      suggesterName: suggesterName,
+      top: options?.top,
+    },
+  });
 }
 
 export async function _autocompletePostDeserialize(
@@ -107,12 +104,7 @@ export async function autocompletePost(
   suggesterName: string,
   options: AutocompletePostOptionalParams = { requestOptions: {} },
 ): Promise<AutocompleteResult> {
-  const result = await _autocompletePostSend(
-    context,
-    searchText,
-    suggesterName,
-    options,
-  );
+  const result = await _autocompletePostSend(context, searchText, suggesterName, options);
   return _autocompletePostDeserialize(result);
 }
 
@@ -146,24 +138,21 @@ export function _autocompleteGetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...(options?.querySourceAuthorization !== undefined
-          ? {
-              "x-ms-query-source-authorization":
-                options?.querySourceAuthorization,
-            }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.querySourceAuthorization !== undefined
+        ? {
+            "x-ms-query-source-authorization": options?.querySourceAuthorization,
+          }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _autocompleteGetDeserialize(
@@ -186,12 +175,7 @@ export async function autocompleteGet(
   suggesterName: string,
   options: AutocompleteGetOptionalParams = { requestOptions: {} },
 ): Promise<AutocompleteResult> {
-  const result = await _autocompleteGetSend(
-    context,
-    searchText,
-    suggesterName,
-    options,
-  );
+  const result = await _autocompleteGetSend(context, searchText, suggesterName, options);
   return _autocompleteGetDeserialize(result);
 }
 
@@ -210,26 +194,23 @@ export function _indexSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...(options?.querySourceAuthorization !== undefined
-          ? {
-              "x-ms-query-source-authorization":
-                options?.querySourceAuthorization,
-            }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: indexDocumentsBatchSerializer(batch),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.querySourceAuthorization !== undefined
+        ? {
+            "x-ms-query-source-authorization": options?.querySourceAuthorization,
+          }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: indexDocumentsBatchSerializer(batch),
+  });
 }
 
 export async function _indexDeserialize(
@@ -271,38 +252,35 @@ export function _suggestPostSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...(options?.querySourceAuthorization !== undefined
-          ? {
-              "x-ms-query-source-authorization":
-                options?.querySourceAuthorization,
-            }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        filter: options?.filter,
-        fuzzy: options?.useFuzzyMatching,
-        highlightPostTag: options?.highlightPostTag,
-        highlightPreTag: options?.highlightPreTag,
-        minimumCoverage: options?.minimumCoverage,
-        orderby: options?.orderBy,
-        search: searchText,
-        searchFields: options?.searchFields,
-        select: options?.select,
-        suggesterName: suggesterName,
-        top: options?.top,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.querySourceAuthorization !== undefined
+        ? {
+            "x-ms-query-source-authorization": options?.querySourceAuthorization,
+          }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      filter: options?.filter,
+      fuzzy: options?.useFuzzyMatching,
+      highlightPostTag: options?.highlightPostTag,
+      highlightPreTag: options?.highlightPreTag,
+      minimumCoverage: options?.minimumCoverage,
+      orderby: options?.orderBy,
+      search: searchText,
+      searchFields: options?.searchFields,
+      select: options?.select,
+      suggesterName: suggesterName,
+      top: options?.top,
+    },
+  });
 }
 
 export async function _suggestPostDeserialize(
@@ -325,12 +303,7 @@ export async function suggestPost(
   suggesterName: string,
   options: SuggestPostOptionalParams = { requestOptions: {} },
 ): Promise<SuggestDocumentsResult> {
-  const result = await _suggestPostSend(
-    context,
-    searchText,
-    suggesterName,
-    options,
-  );
+  const result = await _suggestPostSend(context, searchText, suggesterName, options);
   return _suggestPostDeserialize(result);
 }
 
@@ -373,24 +346,21 @@ export function _suggestGetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...(options?.querySourceAuthorization !== undefined
-          ? {
-              "x-ms-query-source-authorization":
-                options?.querySourceAuthorization,
-            }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.querySourceAuthorization !== undefined
+        ? {
+            "x-ms-query-source-authorization": options?.querySourceAuthorization,
+          }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _suggestGetDeserialize(
@@ -413,12 +383,7 @@ export async function suggestGet(
   suggesterName: string,
   options: SuggestGetOptionalParams = { requestOptions: {} },
 ): Promise<SuggestDocumentsResult> {
-  const result = await _suggestGetSend(
-    context,
-    searchText,
-    suggesterName,
-    options,
-  );
+  const result = await _suggestGetSend(context, searchText, suggesterName, options);
   return _suggestGetDeserialize(result);
 }
 
@@ -443,24 +408,21 @@ export function _getDocumentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...(options?.querySourceAuthorization !== undefined
-          ? {
-              "x-ms-query-source-authorization":
-                options?.querySourceAuthorization,
-            }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.querySourceAuthorization !== undefined
+        ? {
+            "x-ms-query-source-authorization": options?.querySourceAuthorization,
+          }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getDocumentDeserialize(
@@ -509,8 +471,7 @@ export function _searchPostSend(
         : {}),
       ...(options?.querySourceAuthorization !== undefined
         ? {
-            "x-ms-query-source-authorization":
-              options?.querySourceAuthorization,
+            "x-ms-query-source-authorization": options?.querySourceAuthorization,
           }
         : {}),
       accept: "application/json",
@@ -660,24 +621,21 @@ export function _searchGetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...(options?.querySourceAuthorization !== undefined
-          ? {
-              "x-ms-query-source-authorization":
-                options?.querySourceAuthorization,
-            }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.querySourceAuthorization !== undefined
+        ? {
+            "x-ms-query-source-authorization": options?.querySourceAuthorization,
+          }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _searchGetDeserialize(
@@ -716,29 +674,24 @@ export function _getDocumentCountSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...(options?.querySourceAuthorization !== undefined
-          ? {
-              "x-ms-query-source-authorization":
-                options?.querySourceAuthorization,
-            }
-          : {}),
-        accept: "text/plain",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.querySourceAuthorization !== undefined
+        ? {
+            "x-ms-query-source-authorization": options?.querySourceAuthorization,
+          }
+        : {}),
+      accept: "text/plain",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getDocumentCountDeserialize(
-  result: PathUncheckedResponse,
-): Promise<number> {
+export async function _getDocumentCountDeserialize(result: PathUncheckedResponse): Promise<number> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);

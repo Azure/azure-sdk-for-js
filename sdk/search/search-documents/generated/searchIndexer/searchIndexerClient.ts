@@ -134,12 +134,7 @@ export class SearchIndexerClient {
     skillsetName: string,
     options: CreateOrUpdateSkillsetOptionalParams = { requestOptions: {} },
   ): Promise<SearchIndexerSkillset> {
-    return createOrUpdateSkillset(
-      this._client,
-      skillset,
-      skillsetName,
-      options,
-    );
+    return createOrUpdateSkillset(this._client, skillset, skillsetName, options);
   }
 
   /** Returns the current status and execution history of an indexer. */
@@ -261,11 +256,6 @@ export class SearchIndexerClient {
       requestOptions: {},
     },
   ): Promise<SearchIndexerDataSourceConnection> {
-    return createOrUpdateDataSourceConnection(
-      this._client,
-      dataSource,
-      dataSourceName,
-      options,
-    );
+    return createOrUpdateDataSourceConnection(this._client, dataSource, dataSourceName, options);
   }
 }

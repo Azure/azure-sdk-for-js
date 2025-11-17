@@ -142,8 +142,7 @@ export function knowledgeRetrievalMinimalReasoningEffortDeserializer(
 }
 
 /** Run knowledge retrieval with low reasoning effort. */
-export interface KnowledgeRetrievalLowReasoningEffort
-  extends KnowledgeRetrievalReasoningEffort {
+export interface KnowledgeRetrievalLowReasoningEffort extends KnowledgeRetrievalReasoningEffort {
   /** The discriminator value. */
   kind: "low";
 }
@@ -163,8 +162,7 @@ export function knowledgeRetrievalLowReasoningEffortDeserializer(
 }
 
 /** Run knowledge retrieval with medium reasoning effort. */
-export interface KnowledgeRetrievalMediumReasoningEffort
-  extends KnowledgeRetrievalReasoningEffort {
+export interface KnowledgeRetrievalMediumReasoningEffort extends KnowledgeRetrievalReasoningEffort {
   /** The discriminator value. */
   kind: "medium";
 }
@@ -184,8 +182,7 @@ export function knowledgeRetrievalMediumReasoningEffortDeserializer(
 }
 
 /** Run knowledge retrieval with high reasoning effort. */
-export interface KnowledgeRetrievalHighReasoningEffort
-  extends KnowledgeRetrievalReasoningEffort {
+export interface KnowledgeRetrievalHighReasoningEffort extends KnowledgeRetrievalReasoningEffort {
   /** The discriminator value. */
   kind: "high";
 }
@@ -242,9 +239,7 @@ export interface KnowledgeBaseRetrievalRequest {
   knowledgeSourceParams?: KnowledgeSourceParamsUnion[];
 }
 
-export function knowledgeBaseRetrievalRequestSerializer(
-  item: KnowledgeBaseRetrievalRequest,
-): any {
+export function knowledgeBaseRetrievalRequestSerializer(item: KnowledgeBaseRetrievalRequest): any {
   return {
     messages: !item["messages"]
       ? item["messages"]
@@ -256,30 +251,22 @@ export function knowledgeBaseRetrievalRequestSerializer(
     maxOutputSize: item["maxOutputSize"],
     retrievalReasoningEffort: !item["retrievalReasoningEffort"]
       ? item["retrievalReasoningEffort"]
-      : knowledgeRetrievalReasoningEffortUnionSerializer(
-          item["retrievalReasoningEffort"],
-        ),
+      : knowledgeRetrievalReasoningEffortUnionSerializer(item["retrievalReasoningEffort"]),
     includeActivity: item["includeActivity"],
     outputMode: item["outputMode"],
     knowledgeSourceParams: !item["knowledgeSourceParams"]
       ? item["knowledgeSourceParams"]
-      : knowledgeSourceParamsUnionArraySerializer(
-          item["knowledgeSourceParams"],
-        ),
+      : knowledgeSourceParamsUnionArraySerializer(item["knowledgeSourceParams"]),
   };
 }
 
-export function knowledgeBaseMessageArraySerializer(
-  result: Array<KnowledgeBaseMessage>,
-): any[] {
+export function knowledgeBaseMessageArraySerializer(result: Array<KnowledgeBaseMessage>): any[] {
   return result.map((item) => {
     return knowledgeBaseMessageSerializer(item);
   });
 }
 
-export function knowledgeBaseMessageArrayDeserializer(
-  result: Array<KnowledgeBaseMessage>,
-): any[] {
+export function knowledgeBaseMessageArrayDeserializer(result: Array<KnowledgeBaseMessage>): any[] {
   return result.map((item) => {
     return knowledgeBaseMessageDeserializer(item);
   });
@@ -293,18 +280,14 @@ export interface KnowledgeBaseMessage {
   content: KnowledgeBaseMessageContentUnion[];
 }
 
-export function knowledgeBaseMessageSerializer(
-  item: KnowledgeBaseMessage,
-): any {
+export function knowledgeBaseMessageSerializer(item: KnowledgeBaseMessage): any {
   return {
     role: item["role"],
     content: knowledgeBaseMessageContentUnionArraySerializer(item["content"]),
   };
 }
 
-export function knowledgeBaseMessageDeserializer(
-  item: any,
-): KnowledgeBaseMessage {
+export function knowledgeBaseMessageDeserializer(item: any): KnowledgeBaseMessage {
   return {
     role: item["role"],
     content: knowledgeBaseMessageContentUnionArrayDeserializer(item["content"]),
@@ -334,15 +317,11 @@ export interface KnowledgeBaseMessageContent {
   type: KnowledgeBaseMessageContentType;
 }
 
-export function knowledgeBaseMessageContentSerializer(
-  item: KnowledgeBaseMessageContent,
-): any {
+export function knowledgeBaseMessageContentSerializer(item: KnowledgeBaseMessageContent): any {
   return { type: item["type"] };
 }
 
-export function knowledgeBaseMessageContentDeserializer(
-  item: any,
-): KnowledgeBaseMessageContent {
+export function knowledgeBaseMessageContentDeserializer(item: any): KnowledgeBaseMessageContent {
   return {
     type: item["type"],
   };
@@ -359,14 +338,10 @@ export function knowledgeBaseMessageContentUnionSerializer(
 ): any {
   switch (item.type) {
     case "text":
-      return knowledgeBaseMessageTextContentSerializer(
-        item as KnowledgeBaseMessageTextContent,
-      );
+      return knowledgeBaseMessageTextContentSerializer(item as KnowledgeBaseMessageTextContent);
 
     case "image":
-      return knowledgeBaseMessageImageContentSerializer(
-        item as KnowledgeBaseMessageImageContent,
-      );
+      return knowledgeBaseMessageImageContentSerializer(item as KnowledgeBaseMessageImageContent);
 
     default:
       return knowledgeBaseMessageContentSerializer(item);
@@ -378,14 +353,10 @@ export function knowledgeBaseMessageContentUnionDeserializer(
 ): KnowledgeBaseMessageContentUnion {
   switch (item.type) {
     case "text":
-      return knowledgeBaseMessageTextContentDeserializer(
-        item as KnowledgeBaseMessageTextContent,
-      );
+      return knowledgeBaseMessageTextContentDeserializer(item as KnowledgeBaseMessageTextContent);
 
     case "image":
-      return knowledgeBaseMessageImageContentDeserializer(
-        item as KnowledgeBaseMessageImageContent,
-      );
+      return knowledgeBaseMessageImageContentDeserializer(item as KnowledgeBaseMessageImageContent);
 
     default:
       return knowledgeBaseMessageContentDeserializer(item);
@@ -411,8 +382,7 @@ export enum KnownKnowledgeBaseMessageContentType {
 export type KnowledgeBaseMessageContentType = string;
 
 /** Text message type. */
-export interface KnowledgeBaseMessageTextContent
-  extends KnowledgeBaseMessageContent {
+export interface KnowledgeBaseMessageTextContent extends KnowledgeBaseMessageContent {
   /** The discriminator value. */
   type: "text";
   /** The text content. */
@@ -435,8 +405,7 @@ export function knowledgeBaseMessageTextContentDeserializer(
 }
 
 /** Image message type. */
-export interface KnowledgeBaseMessageImageContent
-  extends KnowledgeBaseMessageContent {
+export interface KnowledgeBaseMessageImageContent extends KnowledgeBaseMessageContent {
   /** The discriminator value. */
   type: "image";
   /** The image content. */
@@ -467,15 +436,11 @@ export interface KnowledgeBaseImageContent {
   url: string;
 }
 
-export function knowledgeBaseImageContentSerializer(
-  item: KnowledgeBaseImageContent,
-): any {
+export function knowledgeBaseImageContentSerializer(item: KnowledgeBaseImageContent): any {
   return { url: item["url"] };
 }
 
-export function knowledgeBaseImageContentDeserializer(
-  item: any,
-): KnowledgeBaseImageContent {
+export function knowledgeBaseImageContentDeserializer(item: any): KnowledgeBaseImageContent {
   return {
     url: item["url"],
   };
@@ -496,9 +461,7 @@ export interface KnowledgeRetrievalIntent {
   type: KnowledgeRetrievalIntentType;
 }
 
-export function knowledgeRetrievalIntentSerializer(
-  item: KnowledgeRetrievalIntent,
-): any {
+export function knowledgeRetrievalIntentSerializer(item: KnowledgeRetrievalIntent): any {
   return { type: item["type"] };
 }
 
@@ -507,14 +470,10 @@ export type KnowledgeRetrievalIntentUnion =
   | KnowledgeRetrievalSemanticIntent
   | KnowledgeRetrievalIntent;
 
-export function knowledgeRetrievalIntentUnionSerializer(
-  item: KnowledgeRetrievalIntentUnion,
-): any {
+export function knowledgeRetrievalIntentUnionSerializer(item: KnowledgeRetrievalIntentUnion): any {
   switch (item.type) {
     case "semantic":
-      return knowledgeRetrievalSemanticIntentSerializer(
-        item as KnowledgeRetrievalSemanticIntent,
-      );
+      return knowledgeRetrievalSemanticIntentSerializer(item as KnowledgeRetrievalSemanticIntent);
 
     default:
       return knowledgeRetrievalIntentSerializer(item);
@@ -537,8 +496,7 @@ export enum KnownKnowledgeRetrievalIntentType {
 export type KnowledgeRetrievalIntentType = string;
 
 /** A semantic query intent. */
-export interface KnowledgeRetrievalSemanticIntent
-  extends KnowledgeRetrievalIntent {
+export interface KnowledgeRetrievalSemanticIntent extends KnowledgeRetrievalIntent {
   /** The discriminator value. */
   type: "semantic";
   /** The semantic query to execute */
@@ -576,9 +534,7 @@ export interface KnowledgeSourceParams {
   kind: KnowledgeSourceKind;
 }
 
-export function knowledgeSourceParamsSerializer(
-  item: KnowledgeSourceParams,
-): any {
+export function knowledgeSourceParamsSerializer(item: KnowledgeSourceParams): any {
   return {
     knowledgeSourceName: item["knowledgeSourceName"],
     includeReferences: item["includeReferences"],
@@ -599,19 +555,13 @@ export type KnowledgeSourceParamsUnion =
   | RemoteSharePointKnowledgeSourceParams
   | KnowledgeSourceParams;
 
-export function knowledgeSourceParamsUnionSerializer(
-  item: KnowledgeSourceParamsUnion,
-): any {
+export function knowledgeSourceParamsUnionSerializer(item: KnowledgeSourceParamsUnion): any {
   switch (item.kind) {
     case "searchIndex":
-      return searchIndexKnowledgeSourceParamsSerializer(
-        item as SearchIndexKnowledgeSourceParams,
-      );
+      return searchIndexKnowledgeSourceParamsSerializer(item as SearchIndexKnowledgeSourceParams);
 
     case "azureBlob":
-      return azureBlobKnowledgeSourceParamsSerializer(
-        item as AzureBlobKnowledgeSourceParams,
-      );
+      return azureBlobKnowledgeSourceParamsSerializer(item as AzureBlobKnowledgeSourceParams);
 
     case "indexedSharePoint":
       return indexedSharePointKnowledgeSourceParamsSerializer(
@@ -624,9 +574,7 @@ export function knowledgeSourceParamsUnionSerializer(
       );
 
     case "web":
-      return webKnowledgeSourceParamsSerializer(
-        item as WebKnowledgeSourceParams,
-      );
+      return webKnowledgeSourceParamsSerializer(item as WebKnowledgeSourceParams);
 
     case "remoteSharePoint":
       return remoteSharePointKnowledgeSourceParamsSerializer(
@@ -639,8 +587,7 @@ export function knowledgeSourceParamsUnionSerializer(
 }
 
 /** Specifies runtime parameters for a search index knowledge source */
-export interface SearchIndexKnowledgeSourceParams
-  extends KnowledgeSourceParams {
+export interface SearchIndexKnowledgeSourceParams extends KnowledgeSourceParams {
   /** The discriminator value. */
   kind: "searchIndex";
   /** A filter condition applied to the index (e.g., 'State eq VA'). */
@@ -681,8 +628,7 @@ export function azureBlobKnowledgeSourceParamsSerializer(
 }
 
 /** Specifies runtime parameters for a indexed SharePoint knowledge source */
-export interface IndexedSharePointKnowledgeSourceParams
-  extends KnowledgeSourceParams {
+export interface IndexedSharePointKnowledgeSourceParams extends KnowledgeSourceParams {
   /** The discriminator value. */
   kind: "indexedSharePoint";
 }
@@ -701,8 +647,7 @@ export function indexedSharePointKnowledgeSourceParamsSerializer(
 }
 
 /** Specifies runtime parameters for a indexed OneLake knowledge source */
-export interface IndexedOneLakeKnowledgeSourceParams
-  extends KnowledgeSourceParams {
+export interface IndexedOneLakeKnowledgeSourceParams extends KnowledgeSourceParams {
   /** The discriminator value. */
   kind: "indexedOneLake";
 }
@@ -734,9 +679,7 @@ export interface WebKnowledgeSourceParams extends KnowledgeSourceParams {
   freshness?: string;
 }
 
-export function webKnowledgeSourceParamsSerializer(
-  item: WebKnowledgeSourceParams,
-): any {
+export function webKnowledgeSourceParamsSerializer(item: WebKnowledgeSourceParams): any {
   return {
     knowledgeSourceName: item["knowledgeSourceName"],
     includeReferences: item["includeReferences"],
@@ -752,8 +695,7 @@ export function webKnowledgeSourceParamsSerializer(
 }
 
 /** Specifies runtime parameters for a remote SharePoint knowledge source */
-export interface RemoteSharePointKnowledgeSourceParams
-  extends KnowledgeSourceParams {
+export interface RemoteSharePointKnowledgeSourceParams extends KnowledgeSourceParams {
   /** The discriminator value. */
   kind: "remoteSharePoint";
   /** A filter condition applied to the SharePoint data source. It must be specified in the Keyword Query Language syntax. It will be combined as a conjunction with the filter expression specified in the knowledge source definition. */
@@ -821,16 +763,12 @@ export interface KnowledgeBaseActivityRecord {
   error?: KnowledgeBaseErrorDetail;
 }
 
-export function knowledgeBaseActivityRecordDeserializer(
-  item: any,
-): KnowledgeBaseActivityRecord {
+export function knowledgeBaseActivityRecordDeserializer(item: any): KnowledgeBaseActivityRecord {
   return {
     id: item["id"],
     type: item["type"],
     elapsedMs: item["elapsedMs"],
-    error: !item["error"]
-      ? item["error"]
-      : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
   };
 }
 
@@ -879,9 +817,7 @@ export interface KnowledgeBaseErrorDetail {
   additionalInfo?: KnowledgeBaseErrorAdditionalInfo[];
 }
 
-export function knowledgeBaseErrorDetailDeserializer(
-  item: any,
-): KnowledgeBaseErrorDetail {
+export function knowledgeBaseErrorDetailDeserializer(item: any): KnowledgeBaseErrorDetail {
   return {
     code: item["code"],
     message: item["message"],
@@ -891,9 +827,7 @@ export function knowledgeBaseErrorDetailDeserializer(
       : knowledgeBaseErrorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
-      : knowledgeBaseErrorAdditionalInfoArrayDeserializer(
-          item["additionalInfo"],
-        ),
+      : knowledgeBaseErrorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
@@ -931,8 +865,7 @@ export function knowledgeBaseErrorAdditionalInfoDeserializer(
 }
 
 /** Represents an LLM query planning activity record. */
-export interface KnowledgeBaseModelQueryPlanningActivityRecord
-  extends KnowledgeBaseActivityRecord {
+export interface KnowledgeBaseModelQueryPlanningActivityRecord extends KnowledgeBaseActivityRecord {
   /** The discriminator value. */
   type: "modelQueryPlanning";
   /** The number of input tokens for the LLM query planning activity. */
@@ -948,9 +881,7 @@ export function knowledgeBaseModelQueryPlanningActivityRecordDeserializer(
     id: item["id"],
     type: item["type"],
     elapsedMs: item["elapsedMs"],
-    error: !item["error"]
-      ? item["error"]
-      : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     inputTokens: item["inputTokens"],
     outputTokens: item["outputTokens"],
   };
@@ -974,17 +905,14 @@ export function knowledgeBaseModelAnswerSynthesisActivityRecordDeserializer(
     id: item["id"],
     type: item["type"],
     elapsedMs: item["elapsedMs"],
-    error: !item["error"]
-      ? item["error"]
-      : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     inputTokens: item["inputTokens"],
     outputTokens: item["outputTokens"],
   };
 }
 
 /** Represents an agentic reasoning activity record. */
-export interface KnowledgeBaseAgenticReasoningActivityRecord
-  extends KnowledgeBaseActivityRecord {
+export interface KnowledgeBaseAgenticReasoningActivityRecord extends KnowledgeBaseActivityRecord {
   /** The discriminator value. */
   type: "agenticReasoning";
   /** The number of input tokens for agentic reasoning. */
@@ -1000,15 +928,11 @@ export function knowledgeBaseAgenticReasoningActivityRecordDeserializer(
     id: item["id"],
     type: item["type"],
     elapsedMs: item["elapsedMs"],
-    error: !item["error"]
-      ? item["error"]
-      : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     reasoningTokens: item["reasoningTokens"],
     retrievalReasoningEffort: !item["retrievalReasoningEffort"]
       ? item["retrievalReasoningEffort"]
-      : knowledgeRetrievalReasoningEffortUnionDeserializer(
-          item["retrievalReasoningEffort"],
-        ),
+      : knowledgeRetrievalReasoningEffortUnionDeserializer(item["retrievalReasoningEffort"]),
   };
 }
 
@@ -1035,9 +959,7 @@ export interface KnowledgeBaseReference {
   rerankerScore?: number;
 }
 
-export function knowledgeBaseReferenceDeserializer(
-  item: any,
-): KnowledgeBaseReference {
+export function knowledgeBaseReferenceDeserializer(item: any): KnowledgeBaseReference {
   return {
     type: item["type"],
     id: item["id"],
@@ -1057,9 +979,7 @@ export type KnowledgeBaseReferenceUnion =
   | KnowledgeBaseRemoteSharePointReference
   | KnowledgeBaseReference;
 
-export function knowledgeBaseReferenceUnionDeserializer(
-  item: any,
-): KnowledgeBaseReferenceUnion {
+export function knowledgeBaseReferenceUnionDeserializer(item: any): KnowledgeBaseReferenceUnion {
   switch (item.type) {
     case "searchIndex":
       return knowledgeBaseSearchIndexReferenceDeserializer(
@@ -1067,9 +987,7 @@ export function knowledgeBaseReferenceUnionDeserializer(
       );
 
     case "azureBlob":
-      return knowledgeBaseAzureBlobReferenceDeserializer(
-        item as KnowledgeBaseAzureBlobReference,
-      );
+      return knowledgeBaseAzureBlobReferenceDeserializer(item as KnowledgeBaseAzureBlobReference);
 
     case "indexedSharePoint":
       return knowledgeBaseIndexedSharePointReferenceDeserializer(
@@ -1082,9 +1000,7 @@ export function knowledgeBaseReferenceUnionDeserializer(
       );
 
     case "web":
-      return knowledgeBaseWebReferenceDeserializer(
-        item as KnowledgeBaseWebReference,
-      );
+      return knowledgeBaseWebReferenceDeserializer(item as KnowledgeBaseWebReference);
 
     case "remoteSharePoint":
       return knowledgeBaseRemoteSharePointReferenceDeserializer(
@@ -1097,8 +1013,7 @@ export function knowledgeBaseReferenceUnionDeserializer(
 }
 
 /** Represents an Azure Search document reference. */
-export interface KnowledgeBaseSearchIndexReference
-  extends KnowledgeBaseReference {
+export interface KnowledgeBaseSearchIndexReference extends KnowledgeBaseReference {
   /** The discriminator value. */
   type: "searchIndex";
   /** The document key for the reference. */
@@ -1119,8 +1034,7 @@ export function knowledgeBaseSearchIndexReferenceDeserializer(
 }
 
 /** Represents an Azure Blob Storage document reference. */
-export interface KnowledgeBaseAzureBlobReference
-  extends KnowledgeBaseReference {
+export interface KnowledgeBaseAzureBlobReference extends KnowledgeBaseReference {
   /** The discriminator value. */
   type: "azureBlob";
   /** The blob URL for the reference. */
@@ -1141,8 +1055,7 @@ export function knowledgeBaseAzureBlobReferenceDeserializer(
 }
 
 /** Represents an indexed SharePoint document reference. */
-export interface KnowledgeBaseIndexedSharePointReference
-  extends KnowledgeBaseReference {
+export interface KnowledgeBaseIndexedSharePointReference extends KnowledgeBaseReference {
   /** The discriminator value. */
   type: "indexedSharePoint";
   /** The document URL for the reference. */
@@ -1163,8 +1076,7 @@ export function knowledgeBaseIndexedSharePointReferenceDeserializer(
 }
 
 /** Represents an indexed OneLake document reference. */
-export interface KnowledgeBaseIndexedOneLakeReference
-  extends KnowledgeBaseReference {
+export interface KnowledgeBaseIndexedOneLakeReference extends KnowledgeBaseReference {
   /** The discriminator value. */
   type: "indexedOneLake";
   /** The document URL for the reference. */
@@ -1194,9 +1106,7 @@ export interface KnowledgeBaseWebReference extends KnowledgeBaseReference {
   title?: string;
 }
 
-export function knowledgeBaseWebReferenceDeserializer(
-  item: any,
-): KnowledgeBaseWebReference {
+export function knowledgeBaseWebReferenceDeserializer(item: any): KnowledgeBaseWebReference {
   return {
     type: item["type"],
     id: item["id"],
@@ -1209,8 +1119,7 @@ export function knowledgeBaseWebReferenceDeserializer(
 }
 
 /** Represents a remote SharePoint document reference. */
-export interface KnowledgeBaseRemoteSharePointReference
-  extends KnowledgeBaseReference {
+export interface KnowledgeBaseRemoteSharePointReference extends KnowledgeBaseReference {
   /** The discriminator value. */
   type: "remoteSharePoint";
   /** The url the reference data originated from. */
@@ -1231,9 +1140,7 @@ export function knowledgeBaseRemoteSharePointReferenceDeserializer(
     webUrl: item["webUrl"],
     searchSensitivityLabelInfo: !item["searchSensitivityLabelInfo"]
       ? item["searchSensitivityLabelInfo"]
-      : sharePointSensitivityLabelInfoDeserializer(
-          item["searchSensitivityLabelInfo"],
-        ),
+      : sharePointSensitivityLabelInfoDeserializer(item["searchSensitivityLabelInfo"]),
   };
 }
 

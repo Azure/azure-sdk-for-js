@@ -72,24 +72,20 @@ export function _resetSkillsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-      body: skillNamesSerializer(skillNames),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+    body: skillNamesSerializer(skillNames),
+  });
 }
 
-export async function _resetSkillsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _resetSkillsDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -107,12 +103,7 @@ export async function resetSkills(
   skillsetName: string,
   options: ResetSkillsOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _resetSkillsSend(
-    context,
-    skillNames,
-    skillsetName,
-    options,
-  );
+  const result = await _resetSkillsSend(context, skillNames, skillsetName, options);
   return _resetSkillsDeserialize(result);
 }
 
@@ -130,20 +121,18 @@ export function _createSkillsetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: searchIndexerSkillsetSerializer(skillset),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: searchIndexerSkillsetSerializer(skillset),
+  });
 }
 
 export async function _createSkillsetDeserialize(
@@ -183,18 +172,16 @@ export function _getSkillsetsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getSkillsetsDeserialize(
@@ -234,18 +221,16 @@ export function _getSkillsetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getSkillsetDeserialize(
@@ -286,28 +271,20 @@ export function _deleteSkillsetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        ...(options?.ifNoneMatch !== undefined
-          ? { "If-None-Match": options?.ifNoneMatch }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _deleteSkillsetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _deleteSkillsetDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -340,34 +317,27 @@ export function _createOrUpdateSkillsetSend(
       skillsetName: skillsetName,
       "api%2Dversion": context.apiVersion,
       ignoreResetRequirements: options?.skipIndexerResetRequirementForCache,
-      disableCacheReprocessingChangeDetection:
-        options?.disableCacheReprocessingChangeDetection,
+      disableCacheReprocessingChangeDetection: options?.disableCacheReprocessingChangeDetection,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        ...(options?.ifNoneMatch !== undefined
-          ? { "If-None-Match": options?.ifNoneMatch }
-          : {}),
-        prefer: "return=representation",
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: searchIndexerSkillsetSerializer(skillset),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      prefer: "return=representation",
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: searchIndexerSkillsetSerializer(skillset),
+  });
 }
 
 export async function _createOrUpdateSkillsetDeserialize(
@@ -390,12 +360,7 @@ export async function createOrUpdateSkillset(
   skillsetName: string,
   options: CreateOrUpdateSkillsetOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndexerSkillset> {
-  const result = await _createOrUpdateSkillsetSend(
-    context,
-    skillset,
-    skillsetName,
-    options,
-  );
+  const result = await _createOrUpdateSkillsetSend(context, skillset, skillsetName, options);
   return _createOrUpdateSkillsetDeserialize(result);
 }
 
@@ -414,18 +379,16 @@ export function _getIndexerStatusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getIndexerStatusDeserialize(
@@ -465,20 +428,18 @@ export function _createIndexerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: searchIndexerSerializer(indexer),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: searchIndexerSerializer(indexer),
+  });
 }
 
 export async function _createIndexerDeserialize(
@@ -518,18 +479,16 @@ export function _getIndexersSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getIndexersDeserialize(
@@ -569,18 +528,16 @@ export function _getIndexerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getIndexerDeserialize(
@@ -621,28 +578,20 @@ export function _deleteIndexerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        ...(options?.ifNoneMatch !== undefined
-          ? { "If-None-Match": options?.ifNoneMatch }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _deleteIndexerDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _deleteIndexerDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -675,34 +624,27 @@ export function _createOrUpdateIndexerSend(
       indexerName: indexerName,
       "api%2Dversion": context.apiVersion,
       ignoreResetRequirements: options?.skipIndexerResetRequirementForCache,
-      disableCacheReprocessingChangeDetection:
-        options?.disableCacheReprocessingChangeDetection,
+      disableCacheReprocessingChangeDetection: options?.disableCacheReprocessingChangeDetection,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        ...(options?.ifNoneMatch !== undefined
-          ? { "If-None-Match": options?.ifNoneMatch }
-          : {}),
-        prefer: "return=representation",
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: searchIndexerSerializer(indexer),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      prefer: "return=representation",
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: searchIndexerSerializer(indexer),
+  });
 }
 
 export async function _createOrUpdateIndexerDeserialize(
@@ -725,12 +667,7 @@ export async function createOrUpdateIndexer(
   indexerName: string,
   options: CreateOrUpdateIndexerOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndexer> {
-  const result = await _createOrUpdateIndexerSend(
-    context,
-    indexer,
-    indexerName,
-    options,
-  );
+  const result = await _createOrUpdateIndexerSend(context, indexer, indexerName, options);
   return _createOrUpdateIndexerDeserialize(result);
 }
 
@@ -749,22 +686,18 @@ export function _runIndexerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _runIndexerDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _runIndexerDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -801,26 +734,22 @@ export function _resetDocumentsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-      body: !options["keysOrIds"]
-        ? options["keysOrIds"]
-        : documentKeysOrIdsSerializer(options["keysOrIds"]),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+    body: !options["keysOrIds"]
+      ? options["keysOrIds"]
+      : documentKeysOrIdsSerializer(options["keysOrIds"]),
+  });
 }
 
-export async function _resetDocumentsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _resetDocumentsDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -856,22 +785,18 @@ export function _resyncSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _resyncDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _resyncDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -907,22 +832,18 @@ export function _resetIndexerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _resetIndexerDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _resetIndexerDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -957,20 +878,18 @@ export function _createDataSourceConnectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: searchIndexerDataSourceConnectionSerializer(dataSource),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: searchIndexerDataSourceConnectionSerializer(dataSource),
+  });
 }
 
 export async function _createDataSourceConnectionDeserialize(
@@ -992,11 +911,7 @@ export async function createDataSourceConnection(
   dataSource: SearchIndexerDataSourceConnection,
   options: CreateDataSourceConnectionOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndexerDataSourceConnection> {
-  const result = await _createDataSourceConnectionSend(
-    context,
-    dataSource,
-    options,
-  );
+  const result = await _createDataSourceConnectionSend(context, dataSource, options);
   return _createDataSourceConnectionDeserialize(result);
 }
 
@@ -1014,18 +929,16 @@ export function _getDataSourceConnectionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getDataSourceConnectionsDeserialize(
@@ -1065,18 +978,16 @@ export function _getDataSourceConnectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getDataSourceConnectionDeserialize(
@@ -1098,11 +1009,7 @@ export async function getDataSourceConnection(
   dataSourceName: string,
   options: GetDataSourceConnectionOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndexerDataSourceConnection> {
-  const result = await _getDataSourceConnectionSend(
-    context,
-    dataSourceName,
-    options,
-  );
+  const result = await _getDataSourceConnectionSend(context, dataSourceName, options);
   return _getDataSourceConnectionDeserialize(result);
 }
 
@@ -1121,23 +1028,17 @@ export function _deleteDataSourceConnectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        ...(options?.ifNoneMatch !== undefined
-          ? { "If-None-Match": options?.ifNoneMatch }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _deleteDataSourceConnectionDeserialize(
@@ -1159,11 +1060,7 @@ export async function deleteDataSourceConnection(
   dataSourceName: string,
   options: DeleteDataSourceConnectionOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _deleteDataSourceConnectionSend(
-    context,
-    dataSourceName,
-    options,
-  );
+  const result = await _deleteDataSourceConnectionSend(context, dataSourceName, options);
   return _deleteDataSourceConnectionDeserialize(result);
 }
 
@@ -1186,27 +1083,21 @@ export function _createOrUpdateDataSourceConnectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        ...(options?.ifNoneMatch !== undefined
-          ? { "If-None-Match": options?.ifNoneMatch }
-          : {}),
-        prefer: "return=representation",
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: searchIndexerDataSourceConnectionSerializer(dataSource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      prefer: "return=representation",
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: searchIndexerDataSourceConnectionSerializer(dataSource),
+  });
 }
 
 export async function _createOrUpdateDataSourceConnectionDeserialize(

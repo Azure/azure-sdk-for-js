@@ -33,26 +33,23 @@ export function _retrieveSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.querySourceAuthorization !== undefined
-          ? {
-              "x-ms-query-source-authorization":
-                options?.querySourceAuthorization,
-            }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: knowledgeBaseRetrievalRequestSerializer(retrievalRequest),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.querySourceAuthorization !== undefined
+        ? {
+            "x-ms-query-source-authorization": options?.querySourceAuthorization,
+          }
+        : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: knowledgeBaseRetrievalRequestSerializer(retrievalRequest),
+  });
 }
 
 export async function _retrieveDeserialize(
@@ -73,11 +70,6 @@ export async function retrieve(
   retrievalRequest: KnowledgeBaseRetrievalRequest,
   options: RetrieveOptionalParams = { requestOptions: {} },
 ): Promise<KnowledgeBaseRetrievalResponse> {
-  const result = await _retrieveSend(
-    context,
-    knowledgeBaseName,
-    retrievalRequest,
-    options,
-  );
+  const result = await _retrieveSend(context, knowledgeBaseName, retrievalRequest, options);
   return _retrieveDeserialize(result);
 }

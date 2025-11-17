@@ -44,8 +44,7 @@ export interface DeleteKnowledgeSourceOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface CreateOrUpdateKnowledgeSourceOptionalParams
-  extends OperationOptions {
+export interface CreateOrUpdateKnowledgeSourceOptionalParams extends OperationOptions {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -83,8 +82,7 @@ export interface DeleteKnowledgeBaseOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface CreateOrUpdateKnowledgeBaseOptionalParams
-  extends OperationOptions {
+export interface CreateOrUpdateKnowledgeBaseOptionalParams extends OperationOptions {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -226,8 +224,7 @@ export interface DeleteSynonymMapOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface CreateOrUpdateSynonymMapOptionalParams
-  extends OperationOptions {
+export interface CreateOrUpdateSynonymMapOptionalParams extends OperationOptions {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */

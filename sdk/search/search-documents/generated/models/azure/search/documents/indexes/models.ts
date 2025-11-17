@@ -67,36 +67,28 @@ export interface SearchResourceEncryptionKey {
   identity?: SearchIndexerDataIdentityUnion;
 }
 
-export function searchResourceEncryptionKeySerializer(
-  item: SearchResourceEncryptionKey,
-): any {
+export function searchResourceEncryptionKeySerializer(item: SearchResourceEncryptionKey): any {
   return {
     keyVaultKeyName: item["keyName"],
     keyVaultKeyVersion: item["keyVersion"],
     keyVaultUri: item["vaultUri"],
     accessCredentials: !item["accessCredentials"]
       ? item["accessCredentials"]
-      : azureActiveDirectoryApplicationCredentialsSerializer(
-          item["accessCredentials"],
-        ),
+      : azureActiveDirectoryApplicationCredentialsSerializer(item["accessCredentials"]),
     identity: !item["identity"]
       ? item["identity"]
       : searchIndexerDataIdentityUnionSerializer(item["identity"]),
   };
 }
 
-export function searchResourceEncryptionKeyDeserializer(
-  item: any,
-): SearchResourceEncryptionKey {
+export function searchResourceEncryptionKeyDeserializer(item: any): SearchResourceEncryptionKey {
   return {
     keyName: item["keyVaultKeyName"],
     keyVersion: item["keyVaultKeyVersion"],
     vaultUri: item["keyVaultUri"],
     accessCredentials: !item["accessCredentials"]
       ? item["accessCredentials"]
-      : azureActiveDirectoryApplicationCredentialsDeserializer(
-          item["accessCredentials"],
-        ),
+      : azureActiveDirectoryApplicationCredentialsDeserializer(item["accessCredentials"]),
     identity: !item["identity"]
       ? item["identity"]
       : searchIndexerDataIdentityUnionDeserializer(item["identity"]),
@@ -136,15 +128,11 @@ export interface SearchIndexerDataIdentity {
   odatatype: string;
 }
 
-export function searchIndexerDataIdentitySerializer(
-  item: SearchIndexerDataIdentity,
-): any {
+export function searchIndexerDataIdentitySerializer(item: SearchIndexerDataIdentity): any {
   return { "@odata.type": item["odatatype"] };
 }
 
-export function searchIndexerDataIdentityDeserializer(
-  item: any,
-): SearchIndexerDataIdentity {
+export function searchIndexerDataIdentityDeserializer(item: any): SearchIndexerDataIdentity {
   return {
     odatatype: item["@odata.type"],
   };
@@ -161,9 +149,7 @@ export function searchIndexerDataIdentityUnionSerializer(
 ): any {
   switch (item.odatatype) {
     case "#Microsoft.Azure.Search.DataNoneIdentity":
-      return searchIndexerDataNoneIdentitySerializer(
-        item as SearchIndexerDataNoneIdentity,
-      );
+      return searchIndexerDataNoneIdentitySerializer(item as SearchIndexerDataNoneIdentity);
 
     case "#Microsoft.Azure.Search.DataUserAssignedIdentity":
       return searchIndexerDataUserAssignedIdentitySerializer(
@@ -180,9 +166,7 @@ export function searchIndexerDataIdentityUnionDeserializer(
 ): SearchIndexerDataIdentityUnion {
   switch (item.odatatype) {
     case "#Microsoft.Azure.Search.DataNoneIdentity":
-      return searchIndexerDataNoneIdentityDeserializer(
-        item as SearchIndexerDataNoneIdentity,
-      );
+      return searchIndexerDataNoneIdentityDeserializer(item as SearchIndexerDataNoneIdentity);
 
     case "#Microsoft.Azure.Search.DataUserAssignedIdentity":
       return searchIndexerDataUserAssignedIdentityDeserializer(
@@ -195,15 +179,12 @@ export function searchIndexerDataIdentityUnionDeserializer(
 }
 
 /** Clears the identity property of a datasource. */
-export interface SearchIndexerDataNoneIdentity
-  extends SearchIndexerDataIdentity {
+export interface SearchIndexerDataNoneIdentity extends SearchIndexerDataIdentity {
   /** The discriminator for derived types. */
   odatatype: "#Microsoft.Azure.Search.DataNoneIdentity";
 }
 
-export function searchIndexerDataNoneIdentitySerializer(
-  item: SearchIndexerDataNoneIdentity,
-): any {
+export function searchIndexerDataNoneIdentitySerializer(item: SearchIndexerDataNoneIdentity): any {
   return { "@odata.type": item["odatatype"] };
 }
 
@@ -216,8 +197,7 @@ export function searchIndexerDataNoneIdentityDeserializer(
 }
 
 /** Specifies the identity for a datasource to use. */
-export interface SearchIndexerDataUserAssignedIdentity
-  extends SearchIndexerDataIdentity {
+export interface SearchIndexerDataUserAssignedIdentity extends SearchIndexerDataIdentity {
   /** The fully qualified Azure resource Id of a user assigned managed identity typically in the form "/subscriptions/12345678-1234-1234-1234-1234567890ab/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId" that should have been assigned to the search service. */
   resourceId: string;
   /** A URI fragment specifying the type of identity. */
@@ -248,9 +228,7 @@ export interface ListSynonymMapsResult {
   synonymMaps: SynonymMap[];
 }
 
-export function listSynonymMapsResultDeserializer(
-  item: any,
-): ListSynonymMapsResult {
+export function listSynonymMapsResultDeserializer(item: any): ListSynonymMapsResult {
   return {
     synonymMaps: synonymMapArrayDeserializer(item["value"]),
   };
@@ -408,9 +386,7 @@ export function searchFieldArraySerializer(result: Array<SearchField>): any[] {
   });
 }
 
-export function searchFieldArrayDeserializer(
-  result: Array<SearchField>,
-): any[] {
+export function searchFieldArrayDeserializer(result: Array<SearchField>): any[] {
   return result.map((item) => {
     return searchFieldDeserializer(item);
   });
@@ -482,9 +458,7 @@ export function searchFieldSerializer(item: SearchField): any {
       : item["synonymMapNames"].map((p: any) => {
           return p;
         }),
-    fields: !item["fields"]
-      ? item["fields"]
-      : searchFieldArraySerializer(item["fields"]),
+    fields: !item["fields"] ? item["fields"] : searchFieldArraySerializer(item["fields"]),
   };
 }
 
@@ -512,9 +486,7 @@ export function searchFieldDeserializer(item: any): SearchField {
       : item["synonymMaps"].map((p: any) => {
           return p;
         }),
-    fields: !item["fields"]
-      ? item["fields"]
-      : searchFieldArrayDeserializer(item["fields"]),
+    fields: !item["fields"] ? item["fields"] : searchFieldArrayDeserializer(item["fields"]),
   };
 }
 
@@ -923,17 +895,13 @@ export enum KnownVectorEncodingFormat {
  */
 export type VectorEncodingFormat = string;
 
-export function scoringProfileArraySerializer(
-  result: Array<ScoringProfile>,
-): any[] {
+export function scoringProfileArraySerializer(result: Array<ScoringProfile>): any[] {
   return result.map((item) => {
     return scoringProfileSerializer(item);
   });
 }
 
-export function scoringProfileArrayDeserializer(
-  result: Array<ScoringProfile>,
-): any[] {
+export function scoringProfileArrayDeserializer(result: Array<ScoringProfile>): any[] {
   return result.map((item) => {
     return scoringProfileDeserializer(item);
   });
@@ -954,9 +922,7 @@ export interface ScoringProfile {
 export function scoringProfileSerializer(item: ScoringProfile): any {
   return {
     name: item["name"],
-    text: !item["textWeights"]
-      ? item["textWeights"]
-      : textWeightsSerializer(item["textWeights"]),
+    text: !item["textWeights"] ? item["textWeights"] : textWeightsSerializer(item["textWeights"]),
     functions: !item["functions"]
       ? item["functions"]
       : scoringFunctionUnionArraySerializer(item["functions"]),
@@ -967,9 +933,7 @@ export function scoringProfileSerializer(item: ScoringProfile): any {
 export function scoringProfileDeserializer(item: any): ScoringProfile {
   return {
     name: item["name"],
-    textWeights: !item["text"]
-      ? item["text"]
-      : textWeightsDeserializer(item["text"]),
+    textWeights: !item["text"] ? item["text"] : textWeightsDeserializer(item["text"]),
     functions: !item["functions"]
       ? item["functions"]
       : scoringFunctionUnionArrayDeserializer(item["functions"]),
@@ -993,17 +957,13 @@ export function textWeightsDeserializer(item: any): TextWeights {
   };
 }
 
-export function scoringFunctionUnionArraySerializer(
-  result: Array<ScoringFunctionUnion>,
-): any[] {
+export function scoringFunctionUnionArraySerializer(result: Array<ScoringFunctionUnion>): any[] {
   return result.map((item) => {
     return scoringFunctionUnionSerializer(item);
   });
 }
 
-export function scoringFunctionUnionArrayDeserializer(
-  result: Array<ScoringFunctionUnion>,
-): any[] {
+export function scoringFunctionUnionArrayDeserializer(result: Array<ScoringFunctionUnion>): any[] {
   return result.map((item) => {
     return scoringFunctionUnionDeserializer(item);
   });
@@ -1048,22 +1008,16 @@ export type ScoringFunctionUnion =
   | TagScoringFunction
   | ScoringFunction;
 
-export function scoringFunctionUnionSerializer(
-  item: ScoringFunctionUnion,
-): any {
+export function scoringFunctionUnionSerializer(item: ScoringFunctionUnion): any {
   switch (item.type) {
     case "distance":
       return distanceScoringFunctionSerializer(item as DistanceScoringFunction);
 
     case "freshness":
-      return freshnessScoringFunctionSerializer(
-        item as FreshnessScoringFunction,
-      );
+      return freshnessScoringFunctionSerializer(item as FreshnessScoringFunction);
 
     case "magnitude":
-      return magnitudeScoringFunctionSerializer(
-        item as MagnitudeScoringFunction,
-      );
+      return magnitudeScoringFunctionSerializer(item as MagnitudeScoringFunction);
 
     case "tag":
       return tagScoringFunctionSerializer(item as TagScoringFunction);
@@ -1073,24 +1027,16 @@ export function scoringFunctionUnionSerializer(
   }
 }
 
-export function scoringFunctionUnionDeserializer(
-  item: any,
-): ScoringFunctionUnion {
+export function scoringFunctionUnionDeserializer(item: any): ScoringFunctionUnion {
   switch (item.type) {
     case "distance":
-      return distanceScoringFunctionDeserializer(
-        item as DistanceScoringFunction,
-      );
+      return distanceScoringFunctionDeserializer(item as DistanceScoringFunction);
 
     case "freshness":
-      return freshnessScoringFunctionDeserializer(
-        item as FreshnessScoringFunction,
-      );
+      return freshnessScoringFunctionDeserializer(item as FreshnessScoringFunction);
 
     case "magnitude":
-      return magnitudeScoringFunctionDeserializer(
-        item as MagnitudeScoringFunction,
-      );
+      return magnitudeScoringFunctionDeserializer(item as MagnitudeScoringFunction);
 
     case "tag":
       return tagScoringFunctionDeserializer(item as TagScoringFunction);
@@ -1132,9 +1078,7 @@ export interface DistanceScoringFunction extends ScoringFunction {
   type: "distance";
 }
 
-export function distanceScoringFunctionSerializer(
-  item: DistanceScoringFunction,
-): any {
+export function distanceScoringFunctionSerializer(item: DistanceScoringFunction): any {
   return {
     fieldName: item["fieldName"],
     boost: item["boost"],
@@ -1144,9 +1088,7 @@ export function distanceScoringFunctionSerializer(
   };
 }
 
-export function distanceScoringFunctionDeserializer(
-  item: any,
-): DistanceScoringFunction {
+export function distanceScoringFunctionDeserializer(item: any): DistanceScoringFunction {
   return {
     fieldName: item["fieldName"],
     boost: item["boost"],
@@ -1164,18 +1106,14 @@ export interface DistanceScoringParameters {
   boostingDistance: number;
 }
 
-export function distanceScoringParametersSerializer(
-  item: DistanceScoringParameters,
-): any {
+export function distanceScoringParametersSerializer(item: DistanceScoringParameters): any {
   return {
     referencePointParameter: item["referencePointParameter"],
     boostingDistance: item["boostingDistance"],
   };
 }
 
-export function distanceScoringParametersDeserializer(
-  item: any,
-): DistanceScoringParameters {
+export function distanceScoringParametersDeserializer(item: any): DistanceScoringParameters {
   return {
     referencePointParameter: item["referencePointParameter"],
     boostingDistance: item["boostingDistance"],
@@ -1190,9 +1128,7 @@ export interface FreshnessScoringFunction extends ScoringFunction {
   type: "freshness";
 }
 
-export function freshnessScoringFunctionSerializer(
-  item: FreshnessScoringFunction,
-): any {
+export function freshnessScoringFunctionSerializer(item: FreshnessScoringFunction): any {
   return {
     fieldName: item["fieldName"],
     boost: item["boost"],
@@ -1202,9 +1138,7 @@ export function freshnessScoringFunctionSerializer(
   };
 }
 
-export function freshnessScoringFunctionDeserializer(
-  item: any,
-): FreshnessScoringFunction {
+export function freshnessScoringFunctionDeserializer(item: any): FreshnessScoringFunction {
   return {
     fieldName: item["fieldName"],
     boost: item["boost"],
@@ -1220,15 +1154,11 @@ export interface FreshnessScoringParameters {
   boostingDuration: string;
 }
 
-export function freshnessScoringParametersSerializer(
-  item: FreshnessScoringParameters,
-): any {
+export function freshnessScoringParametersSerializer(item: FreshnessScoringParameters): any {
   return { boostingDuration: item["boostingDuration"] };
 }
 
-export function freshnessScoringParametersDeserializer(
-  item: any,
-): FreshnessScoringParameters {
+export function freshnessScoringParametersDeserializer(item: any): FreshnessScoringParameters {
   return {
     boostingDuration: item["boostingDuration"],
   };
@@ -1242,9 +1172,7 @@ export interface MagnitudeScoringFunction extends ScoringFunction {
   type: "magnitude";
 }
 
-export function magnitudeScoringFunctionSerializer(
-  item: MagnitudeScoringFunction,
-): any {
+export function magnitudeScoringFunctionSerializer(item: MagnitudeScoringFunction): any {
   return {
     fieldName: item["fieldName"],
     boost: item["boost"],
@@ -1254,9 +1182,7 @@ export function magnitudeScoringFunctionSerializer(
   };
 }
 
-export function magnitudeScoringFunctionDeserializer(
-  item: any,
-): MagnitudeScoringFunction {
+export function magnitudeScoringFunctionDeserializer(item: any): MagnitudeScoringFunction {
   return {
     fieldName: item["fieldName"],
     boost: item["boost"],
@@ -1276,9 +1202,7 @@ export interface MagnitudeScoringParameters {
   shouldBoostBeyondRangeByConstant?: boolean;
 }
 
-export function magnitudeScoringParametersSerializer(
-  item: MagnitudeScoringParameters,
-): any {
+export function magnitudeScoringParametersSerializer(item: MagnitudeScoringParameters): any {
   return {
     boostingRangeStart: item["boostingRangeStart"],
     boostingRangeEnd: item["boostingRangeEnd"],
@@ -1286,9 +1210,7 @@ export function magnitudeScoringParametersSerializer(
   };
 }
 
-export function magnitudeScoringParametersDeserializer(
-  item: any,
-): MagnitudeScoringParameters {
+export function magnitudeScoringParametersDeserializer(item: any): MagnitudeScoringParameters {
   return {
     boostingRangeStart: item["boostingRangeStart"],
     boostingRangeEnd: item["boostingRangeEnd"],
@@ -1330,15 +1252,11 @@ export interface TagScoringParameters {
   tagsParameter: string;
 }
 
-export function tagScoringParametersSerializer(
-  item: TagScoringParameters,
-): any {
+export function tagScoringParametersSerializer(item: TagScoringParameters): any {
   return { tagsParameter: item["tagsParameter"] };
 }
 
-export function tagScoringParametersDeserializer(
-  item: any,
-): TagScoringParameters {
+export function tagScoringParametersDeserializer(item: any): TagScoringParameters {
   return {
     tagsParameter: item["tagsParameter"],
   };
@@ -1397,17 +1315,13 @@ export function corsOptionsDeserializer(item: any): CorsOptions {
   };
 }
 
-export function searchSuggesterArraySerializer(
-  result: Array<SearchSuggester>,
-): any[] {
+export function searchSuggesterArraySerializer(result: Array<SearchSuggester>): any[] {
   return result.map((item) => {
     return searchSuggesterSerializer(item);
   });
 }
 
-export function searchSuggesterArrayDeserializer(
-  result: Array<SearchSuggester>,
-): any[] {
+export function searchSuggesterArrayDeserializer(result: Array<SearchSuggester>): any[] {
   return result.map((item) => {
     return searchSuggesterDeserializer(item);
   });
@@ -1443,17 +1357,13 @@ export function searchSuggesterDeserializer(item: any): SearchSuggester {
   };
 }
 
-export function lexicalAnalyzerUnionArraySerializer(
-  result: Array<LexicalAnalyzerUnion>,
-): any[] {
+export function lexicalAnalyzerUnionArraySerializer(result: Array<LexicalAnalyzerUnion>): any[] {
   return result.map((item) => {
     return lexicalAnalyzerUnionSerializer(item);
   });
 }
 
-export function lexicalAnalyzerUnionArrayDeserializer(
-  result: Array<LexicalAnalyzerUnion>,
-): any[] {
+export function lexicalAnalyzerUnionArrayDeserializer(result: Array<LexicalAnalyzerUnion>): any[] {
   return result.map((item) => {
     return lexicalAnalyzerUnionDeserializer(item);
   });
@@ -1487,9 +1397,7 @@ export type LexicalAnalyzerUnion =
   | StopAnalyzer
   | LexicalAnalyzer;
 
-export function lexicalAnalyzerUnionSerializer(
-  item: LexicalAnalyzerUnion,
-): any {
+export function lexicalAnalyzerUnionSerializer(item: LexicalAnalyzerUnion): any {
   switch (item.odatatype) {
     case "#Microsoft.Azure.Search.CustomAnalyzer":
       return customAnalyzerSerializer(item as CustomAnalyzer);
@@ -1508,9 +1416,7 @@ export function lexicalAnalyzerUnionSerializer(
   }
 }
 
-export function lexicalAnalyzerUnionDeserializer(
-  item: any,
-): LexicalAnalyzerUnion {
+export function lexicalAnalyzerUnionDeserializer(item: any): LexicalAnalyzerUnion {
   switch (item.odatatype) {
     case "#Microsoft.Azure.Search.CustomAnalyzer":
       return customAnalyzerDeserializer(item as CustomAnalyzer);
@@ -1847,9 +1753,7 @@ export interface LuceneStandardAnalyzer extends LexicalAnalyzer {
   odatatype: "#Microsoft.Azure.Search.StandardAnalyzer";
 }
 
-export function luceneStandardAnalyzerSerializer(
-  item: LuceneStandardAnalyzer,
-): any {
+export function luceneStandardAnalyzerSerializer(item: LuceneStandardAnalyzer): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -1862,9 +1766,7 @@ export function luceneStandardAnalyzerSerializer(
   };
 }
 
-export function luceneStandardAnalyzerDeserializer(
-  item: any,
-): LuceneStandardAnalyzer {
+export function luceneStandardAnalyzerDeserializer(item: any): LuceneStandardAnalyzer {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -1909,9 +1811,7 @@ export function stopAnalyzerDeserializer(item: any): StopAnalyzer {
   };
 }
 
-export function lexicalTokenizerUnionArraySerializer(
-  result: Array<LexicalTokenizerUnion>,
-): any[] {
+export function lexicalTokenizerUnionArraySerializer(result: Array<LexicalTokenizerUnion>): any[] {
   return result.map((item) => {
     return lexicalTokenizerUnionSerializer(item);
   });
@@ -1959,9 +1859,7 @@ export type LexicalTokenizerUnion =
   | UaxUrlEmailTokenizer
   | LexicalTokenizer;
 
-export function lexicalTokenizerUnionSerializer(
-  item: LexicalTokenizerUnion,
-): any {
+export function lexicalTokenizerUnionSerializer(item: LexicalTokenizerUnion): any {
   switch (item.odatatype) {
     case "#Microsoft.Azure.Search.ClassicTokenizer":
       return classicTokenizerSerializer(item as ClassicTokenizer);
@@ -1973,9 +1871,7 @@ export function lexicalTokenizerUnionSerializer(
       return keywordTokenizerSerializer(item as KeywordTokenizer);
 
     case "#Microsoft.Azure.Search.MicrosoftLanguageTokenizer":
-      return microsoftLanguageTokenizerSerializer(
-        item as MicrosoftLanguageTokenizer,
-      );
+      return microsoftLanguageTokenizerSerializer(item as MicrosoftLanguageTokenizer);
 
     case "#Microsoft.Azure.Search.MicrosoftLanguageStemmingTokenizer":
       return microsoftLanguageStemmingTokenizerSerializer(
@@ -2002,9 +1898,7 @@ export function lexicalTokenizerUnionSerializer(
   }
 }
 
-export function lexicalTokenizerUnionDeserializer(
-  item: any,
-): LexicalTokenizerUnion {
+export function lexicalTokenizerUnionDeserializer(item: any): LexicalTokenizerUnion {
   switch (item.odatatype) {
     case "#Microsoft.Azure.Search.ClassicTokenizer":
       return classicTokenizerDeserializer(item as ClassicTokenizer);
@@ -2016,9 +1910,7 @@ export function lexicalTokenizerUnionDeserializer(
       return keywordTokenizerDeserializer(item as KeywordTokenizer);
 
     case "#Microsoft.Azure.Search.MicrosoftLanguageTokenizer":
-      return microsoftLanguageTokenizerDeserializer(
-        item as MicrosoftLanguageTokenizer,
-      );
+      return microsoftLanguageTokenizerDeserializer(item as MicrosoftLanguageTokenizer);
 
     case "#Microsoft.Azure.Search.MicrosoftLanguageStemmingTokenizer":
       return microsoftLanguageStemmingTokenizerDeserializer(
@@ -2035,9 +1927,7 @@ export function lexicalTokenizerUnionDeserializer(
       return patternTokenizerDeserializer(item as PatternTokenizer);
 
     case "#Microsoft.Azure.Search.StandardTokenizerV2":
-      return luceneStandardTokenizerDeserializer(
-        item as LuceneStandardTokenizer,
-      );
+      return luceneStandardTokenizerDeserializer(item as LuceneStandardTokenizer);
 
     case "#Microsoft.Azure.Search.UaxUrlEmailTokenizer":
       return uaxUrlEmailTokenizerDeserializer(item as UaxUrlEmailTokenizer);
@@ -2174,9 +2064,7 @@ export interface MicrosoftLanguageTokenizer extends LexicalTokenizer {
   odatatype: "#Microsoft.Azure.Search.MicrosoftLanguageTokenizer";
 }
 
-export function microsoftLanguageTokenizerSerializer(
-  item: MicrosoftLanguageTokenizer,
-): any {
+export function microsoftLanguageTokenizerSerializer(item: MicrosoftLanguageTokenizer): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -2186,9 +2074,7 @@ export function microsoftLanguageTokenizerSerializer(
   };
 }
 
-export function microsoftLanguageTokenizerDeserializer(
-  item: any,
-): MicrosoftLanguageTokenizer {
+export function microsoftLanguageTokenizerDeserializer(item: any): MicrosoftLanguageTokenizer {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -2575,9 +2461,7 @@ export interface PathHierarchyTokenizer extends LexicalTokenizer {
   odatatype: "#Microsoft.Azure.Search.PathHierarchyTokenizerV2";
 }
 
-export function pathHierarchyTokenizerSerializer(
-  item: PathHierarchyTokenizer,
-): any {
+export function pathHierarchyTokenizerSerializer(item: PathHierarchyTokenizer): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -2589,9 +2473,7 @@ export function pathHierarchyTokenizerSerializer(
   };
 }
 
-export function pathHierarchyTokenizerDeserializer(
-  item: any,
-): PathHierarchyTokenizer {
+export function pathHierarchyTokenizerDeserializer(item: any): PathHierarchyTokenizer {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -2643,9 +2525,7 @@ export interface LuceneStandardTokenizer extends LexicalTokenizer {
   odatatype: "#Microsoft.Azure.Search.StandardTokenizerV2";
 }
 
-export function luceneStandardTokenizerSerializer(
-  item: LuceneStandardTokenizer,
-): any {
+export function luceneStandardTokenizerSerializer(item: LuceneStandardTokenizer): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -2653,9 +2533,7 @@ export function luceneStandardTokenizerSerializer(
   };
 }
 
-export function luceneStandardTokenizerDeserializer(
-  item: any,
-): LuceneStandardTokenizer {
+export function luceneStandardTokenizerDeserializer(item: any): LuceneStandardTokenizer {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -2671,9 +2549,7 @@ export interface UaxUrlEmailTokenizer extends LexicalTokenizer {
   odatatype: "#Microsoft.Azure.Search.UaxUrlEmailTokenizer";
 }
 
-export function uaxUrlEmailTokenizerSerializer(
-  item: UaxUrlEmailTokenizer,
-): any {
+export function uaxUrlEmailTokenizerSerializer(item: UaxUrlEmailTokenizer): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -2681,9 +2557,7 @@ export function uaxUrlEmailTokenizerSerializer(
   };
 }
 
-export function uaxUrlEmailTokenizerDeserializer(
-  item: any,
-): UaxUrlEmailTokenizer {
+export function uaxUrlEmailTokenizerDeserializer(item: any): UaxUrlEmailTokenizer {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -2691,17 +2565,13 @@ export function uaxUrlEmailTokenizerDeserializer(
   };
 }
 
-export function tokenFilterUnionArraySerializer(
-  result: Array<TokenFilterUnion>,
-): any[] {
+export function tokenFilterUnionArraySerializer(result: Array<TokenFilterUnion>): any[] {
   return result.map((item) => {
     return tokenFilterUnionSerializer(item);
   });
 }
 
-export function tokenFilterUnionArrayDeserializer(
-  result: Array<TokenFilterUnion>,
-): any[] {
+export function tokenFilterUnionArrayDeserializer(result: Array<TokenFilterUnion>): any[] {
   return result.map((item) => {
     return tokenFilterUnionDeserializer(item);
   });
@@ -2766,9 +2636,7 @@ export function tokenFilterUnionSerializer(item: TokenFilterUnion): any {
       return commonGramTokenFilterSerializer(item as CommonGramTokenFilter);
 
     case "#Microsoft.Azure.Search.DictionaryDecompounderTokenFilter":
-      return dictionaryDecompounderTokenFilterSerializer(
-        item as DictionaryDecompounderTokenFilter,
-      );
+      return dictionaryDecompounderTokenFilterSerializer(item as DictionaryDecompounderTokenFilter);
 
     case "#Microsoft.Azure.Search.EdgeNGramTokenFilterV2":
       return edgeNGramTokenFilterSerializer(item as EdgeNGramTokenFilter);
@@ -2780,9 +2648,7 @@ export function tokenFilterUnionSerializer(item: TokenFilterUnion): any {
       return keepTokenFilterSerializer(item as KeepTokenFilter);
 
     case "#Microsoft.Azure.Search.KeywordMarkerTokenFilter":
-      return keywordMarkerTokenFilterSerializer(
-        item as KeywordMarkerTokenFilter,
-      );
+      return keywordMarkerTokenFilterSerializer(item as KeywordMarkerTokenFilter);
 
     case "#Microsoft.Azure.Search.LengthTokenFilter":
       return lengthTokenFilterSerializer(item as LengthTokenFilter);
@@ -2794,14 +2660,10 @@ export function tokenFilterUnionSerializer(item: TokenFilterUnion): any {
       return nGramTokenFilterSerializer(item as NGramTokenFilter);
 
     case "#Microsoft.Azure.Search.PatternCaptureTokenFilter":
-      return patternCaptureTokenFilterSerializer(
-        item as PatternCaptureTokenFilter,
-      );
+      return patternCaptureTokenFilterSerializer(item as PatternCaptureTokenFilter);
 
     case "#Microsoft.Azure.Search.PatternReplaceTokenFilter":
-      return patternReplaceTokenFilterSerializer(
-        item as PatternReplaceTokenFilter,
-      );
+      return patternReplaceTokenFilterSerializer(item as PatternReplaceTokenFilter);
 
     case "#Microsoft.Azure.Search.PhoneticTokenFilter":
       return phoneticTokenFilterSerializer(item as PhoneticTokenFilter);
@@ -2816,9 +2678,7 @@ export function tokenFilterUnionSerializer(item: TokenFilterUnion): any {
       return stemmerTokenFilterSerializer(item as StemmerTokenFilter);
 
     case "#Microsoft.Azure.Search.StemmerOverrideTokenFilter":
-      return stemmerOverrideTokenFilterSerializer(
-        item as StemmerOverrideTokenFilter,
-      );
+      return stemmerOverrideTokenFilterSerializer(item as StemmerOverrideTokenFilter);
 
     case "#Microsoft.Azure.Search.StopwordsTokenFilter":
       return stopwordsTokenFilterSerializer(item as StopwordsTokenFilter);
@@ -2833,9 +2693,7 @@ export function tokenFilterUnionSerializer(item: TokenFilterUnion): any {
       return uniqueTokenFilterSerializer(item as UniqueTokenFilter);
 
     case "#Microsoft.Azure.Search.WordDelimiterTokenFilter":
-      return wordDelimiterTokenFilterSerializer(
-        item as WordDelimiterTokenFilter,
-      );
+      return wordDelimiterTokenFilterSerializer(item as WordDelimiterTokenFilter);
 
     default:
       return tokenFilterSerializer(item);
@@ -2845,9 +2703,7 @@ export function tokenFilterUnionSerializer(item: TokenFilterUnion): any {
 export function tokenFilterUnionDeserializer(item: any): TokenFilterUnion {
   switch (item.odatatype) {
     case "#Microsoft.Azure.Search.AsciiFoldingTokenFilter":
-      return asciiFoldingTokenFilterDeserializer(
-        item as AsciiFoldingTokenFilter,
-      );
+      return asciiFoldingTokenFilterDeserializer(item as AsciiFoldingTokenFilter);
 
     case "#Microsoft.Azure.Search.CjkBigramTokenFilter":
       return cjkBigramTokenFilterDeserializer(item as CjkBigramTokenFilter);
@@ -2870,9 +2726,7 @@ export function tokenFilterUnionDeserializer(item: any): TokenFilterUnion {
       return keepTokenFilterDeserializer(item as KeepTokenFilter);
 
     case "#Microsoft.Azure.Search.KeywordMarkerTokenFilter":
-      return keywordMarkerTokenFilterDeserializer(
-        item as KeywordMarkerTokenFilter,
-      );
+      return keywordMarkerTokenFilterDeserializer(item as KeywordMarkerTokenFilter);
 
     case "#Microsoft.Azure.Search.LengthTokenFilter":
       return lengthTokenFilterDeserializer(item as LengthTokenFilter);
@@ -2884,14 +2738,10 @@ export function tokenFilterUnionDeserializer(item: any): TokenFilterUnion {
       return nGramTokenFilterDeserializer(item as NGramTokenFilter);
 
     case "#Microsoft.Azure.Search.PatternCaptureTokenFilter":
-      return patternCaptureTokenFilterDeserializer(
-        item as PatternCaptureTokenFilter,
-      );
+      return patternCaptureTokenFilterDeserializer(item as PatternCaptureTokenFilter);
 
     case "#Microsoft.Azure.Search.PatternReplaceTokenFilter":
-      return patternReplaceTokenFilterDeserializer(
-        item as PatternReplaceTokenFilter,
-      );
+      return patternReplaceTokenFilterDeserializer(item as PatternReplaceTokenFilter);
 
     case "#Microsoft.Azure.Search.PhoneticTokenFilter":
       return phoneticTokenFilterDeserializer(item as PhoneticTokenFilter);
@@ -2906,9 +2756,7 @@ export function tokenFilterUnionDeserializer(item: any): TokenFilterUnion {
       return stemmerTokenFilterDeserializer(item as StemmerTokenFilter);
 
     case "#Microsoft.Azure.Search.StemmerOverrideTokenFilter":
-      return stemmerOverrideTokenFilterDeserializer(
-        item as StemmerOverrideTokenFilter,
-      );
+      return stemmerOverrideTokenFilterDeserializer(item as StemmerOverrideTokenFilter);
 
     case "#Microsoft.Azure.Search.StopwordsTokenFilter":
       return stopwordsTokenFilterDeserializer(item as StopwordsTokenFilter);
@@ -2923,9 +2771,7 @@ export function tokenFilterUnionDeserializer(item: any): TokenFilterUnion {
       return uniqueTokenFilterDeserializer(item as UniqueTokenFilter);
 
     case "#Microsoft.Azure.Search.WordDelimiterTokenFilter":
-      return wordDelimiterTokenFilterDeserializer(
-        item as WordDelimiterTokenFilter,
-      );
+      return wordDelimiterTokenFilterDeserializer(item as WordDelimiterTokenFilter);
 
     default:
       return tokenFilterDeserializer(item);
@@ -2940,9 +2786,7 @@ export interface AsciiFoldingTokenFilter extends TokenFilter {
   odatatype: "#Microsoft.Azure.Search.AsciiFoldingTokenFilter";
 }
 
-export function asciiFoldingTokenFilterSerializer(
-  item: AsciiFoldingTokenFilter,
-): any {
+export function asciiFoldingTokenFilterSerializer(item: AsciiFoldingTokenFilter): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -2950,9 +2794,7 @@ export function asciiFoldingTokenFilterSerializer(
   };
 }
 
-export function asciiFoldingTokenFilterDeserializer(
-  item: any,
-): AsciiFoldingTokenFilter {
+export function asciiFoldingTokenFilterDeserializer(item: any): AsciiFoldingTokenFilter {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -2970,9 +2812,7 @@ export interface CjkBigramTokenFilter extends TokenFilter {
   odatatype: "#Microsoft.Azure.Search.CjkBigramTokenFilter";
 }
 
-export function cjkBigramTokenFilterSerializer(
-  item: CjkBigramTokenFilter,
-): any {
+export function cjkBigramTokenFilterSerializer(item: CjkBigramTokenFilter): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -2985,9 +2825,7 @@ export function cjkBigramTokenFilterSerializer(
   };
 }
 
-export function cjkBigramTokenFilterDeserializer(
-  item: any,
-): CjkBigramTokenFilter {
+export function cjkBigramTokenFilterDeserializer(item: any): CjkBigramTokenFilter {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -3036,9 +2874,7 @@ export interface CommonGramTokenFilter extends TokenFilter {
   odatatype: "#Microsoft.Azure.Search.CommonGramTokenFilter";
 }
 
-export function commonGramTokenFilterSerializer(
-  item: CommonGramTokenFilter,
-): any {
+export function commonGramTokenFilterSerializer(item: CommonGramTokenFilter): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -3050,9 +2886,7 @@ export function commonGramTokenFilterSerializer(
   };
 }
 
-export function commonGramTokenFilterDeserializer(
-  item: any,
-): CommonGramTokenFilter {
+export function commonGramTokenFilterDeserializer(item: any): CommonGramTokenFilter {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -3124,9 +2958,7 @@ export interface EdgeNGramTokenFilter extends TokenFilter {
   odatatype: "#Microsoft.Azure.Search.EdgeNGramTokenFilterV2";
 }
 
-export function edgeNGramTokenFilterSerializer(
-  item: EdgeNGramTokenFilter,
-): any {
+export function edgeNGramTokenFilterSerializer(item: EdgeNGramTokenFilter): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -3136,9 +2968,7 @@ export function edgeNGramTokenFilterSerializer(
   };
 }
 
-export function edgeNGramTokenFilterDeserializer(
-  item: any,
-): EdgeNGramTokenFilter {
+export function edgeNGramTokenFilterDeserializer(item: any): EdgeNGramTokenFilter {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -3240,9 +3070,7 @@ export interface KeywordMarkerTokenFilter extends TokenFilter {
   odatatype: "#Microsoft.Azure.Search.KeywordMarkerTokenFilter";
 }
 
-export function keywordMarkerTokenFilterSerializer(
-  item: KeywordMarkerTokenFilter,
-): any {
+export function keywordMarkerTokenFilterSerializer(item: KeywordMarkerTokenFilter): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -3253,9 +3081,7 @@ export function keywordMarkerTokenFilterSerializer(
   };
 }
 
-export function keywordMarkerTokenFilterDeserializer(
-  item: any,
-): KeywordMarkerTokenFilter {
+export function keywordMarkerTokenFilterDeserializer(item: any): KeywordMarkerTokenFilter {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -3360,9 +3186,7 @@ export interface PatternCaptureTokenFilter extends TokenFilter {
   odatatype: "#Microsoft.Azure.Search.PatternCaptureTokenFilter";
 }
 
-export function patternCaptureTokenFilterSerializer(
-  item: PatternCaptureTokenFilter,
-): any {
+export function patternCaptureTokenFilterSerializer(item: PatternCaptureTokenFilter): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -3373,9 +3197,7 @@ export function patternCaptureTokenFilterSerializer(
   };
 }
 
-export function patternCaptureTokenFilterDeserializer(
-  item: any,
-): PatternCaptureTokenFilter {
+export function patternCaptureTokenFilterDeserializer(item: any): PatternCaptureTokenFilter {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -3396,9 +3218,7 @@ export interface PatternReplaceTokenFilter extends TokenFilter {
   odatatype: "#Microsoft.Azure.Search.PatternReplaceTokenFilter";
 }
 
-export function patternReplaceTokenFilterSerializer(
-  item: PatternReplaceTokenFilter,
-): any {
+export function patternReplaceTokenFilterSerializer(item: PatternReplaceTokenFilter): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -3407,9 +3227,7 @@ export function patternReplaceTokenFilterSerializer(
   };
 }
 
-export function patternReplaceTokenFilterDeserializer(
-  item: any,
-): PatternReplaceTokenFilter {
+export function patternReplaceTokenFilterDeserializer(item: any): PatternReplaceTokenFilter {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -3437,9 +3255,7 @@ export function phoneticTokenFilterSerializer(item: PhoneticTokenFilter): any {
   };
 }
 
-export function phoneticTokenFilterDeserializer(
-  item: any,
-): PhoneticTokenFilter {
+export function phoneticTokenFilterDeserializer(item: any): PhoneticTokenFilter {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -3553,9 +3369,7 @@ export function snowballTokenFilterSerializer(item: SnowballTokenFilter): any {
   };
 }
 
-export function snowballTokenFilterDeserializer(
-  item: any,
-): SnowballTokenFilter {
+export function snowballTokenFilterDeserializer(item: any): SnowballTokenFilter {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -3847,9 +3661,7 @@ export interface StemmerOverrideTokenFilter extends TokenFilter {
   odatatype: "#Microsoft.Azure.Search.StemmerOverrideTokenFilter";
 }
 
-export function stemmerOverrideTokenFilterSerializer(
-  item: StemmerOverrideTokenFilter,
-): any {
+export function stemmerOverrideTokenFilterSerializer(item: StemmerOverrideTokenFilter): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -3859,9 +3671,7 @@ export function stemmerOverrideTokenFilterSerializer(
   };
 }
 
-export function stemmerOverrideTokenFilterDeserializer(
-  item: any,
-): StemmerOverrideTokenFilter {
+export function stemmerOverrideTokenFilterDeserializer(item: any): StemmerOverrideTokenFilter {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -3885,9 +3695,7 @@ export interface StopwordsTokenFilter extends TokenFilter {
   odatatype: "#Microsoft.Azure.Search.StopwordsTokenFilter";
 }
 
-export function stopwordsTokenFilterSerializer(
-  item: StopwordsTokenFilter,
-): any {
+export function stopwordsTokenFilterSerializer(item: StopwordsTokenFilter): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -3902,9 +3710,7 @@ export function stopwordsTokenFilterSerializer(
   };
 }
 
-export function stopwordsTokenFilterDeserializer(
-  item: any,
-): StopwordsTokenFilter {
+export function stopwordsTokenFilterDeserializer(item: any): StopwordsTokenFilter {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -4076,9 +3882,7 @@ export function truncateTokenFilterSerializer(item: TruncateTokenFilter): any {
   };
 }
 
-export function truncateTokenFilterDeserializer(
-  item: any,
-): TruncateTokenFilter {
+export function truncateTokenFilterDeserializer(item: any): TruncateTokenFilter {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -4136,9 +3940,7 @@ export interface WordDelimiterTokenFilter extends TokenFilter {
   odatatype: "#Microsoft.Azure.Search.WordDelimiterTokenFilter";
 }
 
-export function wordDelimiterTokenFilterSerializer(
-  item: WordDelimiterTokenFilter,
-): any {
+export function wordDelimiterTokenFilterSerializer(item: WordDelimiterTokenFilter): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -4159,9 +3961,7 @@ export function wordDelimiterTokenFilterSerializer(
   };
 }
 
-export function wordDelimiterTokenFilterDeserializer(
-  item: any,
-): WordDelimiterTokenFilter {
+export function wordDelimiterTokenFilterDeserializer(item: any): WordDelimiterTokenFilter {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -4182,17 +3982,13 @@ export function wordDelimiterTokenFilterDeserializer(
   };
 }
 
-export function charFilterUnionArraySerializer(
-  result: Array<CharFilterUnion>,
-): any[] {
+export function charFilterUnionArraySerializer(result: Array<CharFilterUnion>): any[] {
   return result.map((item) => {
     return charFilterUnionSerializer(item);
   });
 }
 
-export function charFilterUnionArrayDeserializer(
-  result: Array<CharFilterUnion>,
-): any[] {
+export function charFilterUnionArrayDeserializer(result: Array<CharFilterUnion>): any[] {
   return result.map((item) => {
     return charFilterUnionDeserializer(item);
   });
@@ -4219,10 +4015,7 @@ export function charFilterDeserializer(item: any): CharFilter {
 }
 
 /** Alias for CharFilterUnion */
-export type CharFilterUnion =
-  | MappingCharFilter
-  | PatternReplaceCharFilter
-  | CharFilter;
+export type CharFilterUnion = MappingCharFilter | PatternReplaceCharFilter | CharFilter;
 
 export function charFilterUnionSerializer(item: CharFilterUnion): any {
   switch (item.odatatype) {
@@ -4230,9 +4023,7 @@ export function charFilterUnionSerializer(item: CharFilterUnion): any {
       return mappingCharFilterSerializer(item as MappingCharFilter);
 
     case "#Microsoft.Azure.Search.PatternReplaceCharFilter":
-      return patternReplaceCharFilterSerializer(
-        item as PatternReplaceCharFilter,
-      );
+      return patternReplaceCharFilterSerializer(item as PatternReplaceCharFilter);
 
     default:
       return charFilterSerializer(item);
@@ -4245,9 +4036,7 @@ export function charFilterUnionDeserializer(item: any): CharFilterUnion {
       return mappingCharFilterDeserializer(item as MappingCharFilter);
 
     case "#Microsoft.Azure.Search.PatternReplaceCharFilter":
-      return patternReplaceCharFilterDeserializer(
-        item as PatternReplaceCharFilter,
-      );
+      return patternReplaceCharFilterDeserializer(item as PatternReplaceCharFilter);
 
     default:
       return charFilterDeserializer(item);
@@ -4292,9 +4081,7 @@ export interface PatternReplaceCharFilter extends CharFilter {
   odatatype: "#Microsoft.Azure.Search.PatternReplaceCharFilter";
 }
 
-export function patternReplaceCharFilterSerializer(
-  item: PatternReplaceCharFilter,
-): any {
+export function patternReplaceCharFilterSerializer(item: PatternReplaceCharFilter): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -4303,9 +4090,7 @@ export function patternReplaceCharFilterSerializer(
   };
 }
 
-export function patternReplaceCharFilterDeserializer(
-  item: any,
-): PatternReplaceCharFilter {
+export function patternReplaceCharFilterDeserializer(item: any): PatternReplaceCharFilter {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -4353,9 +4138,7 @@ export function lexicalNormalizerDeserializer(item: any): LexicalNormalizer {
 /** Alias for LexicalNormalizerUnion */
 export type LexicalNormalizerUnion = CustomNormalizer | LexicalNormalizer;
 
-export function lexicalNormalizerUnionSerializer(
-  item: LexicalNormalizerUnion,
-): any {
+export function lexicalNormalizerUnionSerializer(item: LexicalNormalizerUnion): any {
   switch (item.odatatype) {
     case "#Microsoft.Azure.Search.CustomNormalizer":
       return customNormalizerSerializer(item as CustomNormalizer);
@@ -4365,9 +4148,7 @@ export function lexicalNormalizerUnionSerializer(
   }
 }
 
-export function lexicalNormalizerUnionDeserializer(
-  item: any,
-): LexicalNormalizerUnion {
+export function lexicalNormalizerUnionDeserializer(item: any): LexicalNormalizerUnion {
   switch (item.odatatype) {
     case "#Microsoft.Azure.Search.CustomNormalizer":
       return customNormalizerDeserializer(item as CustomNormalizer);
@@ -4432,50 +4213,35 @@ export function similarityAlgorithmSerializer(item: SimilarityAlgorithm): any {
   return { "@odata.type": item["odatatype"] };
 }
 
-export function similarityAlgorithmDeserializer(
-  item: any,
-): SimilarityAlgorithm {
+export function similarityAlgorithmDeserializer(item: any): SimilarityAlgorithm {
   return {
     odatatype: item["@odata.type"],
   };
 }
 
 /** Alias for SimilarityAlgorithmUnion */
-export type SimilarityAlgorithmUnion =
-  | ClassicSimilarityAlgorithm
-  | BM25SimilarityAlgorithm
-  | SimilarityAlgorithm;
+export type SimilarityAlgorithmUnion = ClassicSimilarity | BM25Similarity | SimilarityAlgorithm;
 
-export function similarityAlgorithmUnionSerializer(
-  item: SimilarityAlgorithmUnion,
-): any {
+export function similarityAlgorithmUnionSerializer(item: SimilarityAlgorithmUnion): any {
   switch (item.odatatype) {
     case "#Microsoft.Azure.Search.ClassicSimilarity":
-      return classicSimilarityAlgorithmSerializer(
-        item as ClassicSimilarityAlgorithm,
-      );
+      return classicSimilaritySerializer(item as ClassicSimilarity);
 
     case "#Microsoft.Azure.Search.BM25Similarity":
-      return bm25SimilarityAlgorithmSerializer(item as BM25SimilarityAlgorithm);
+      return bm25SimilaritySerializer(item as BM25Similarity);
 
     default:
       return similarityAlgorithmSerializer(item);
   }
 }
 
-export function similarityAlgorithmUnionDeserializer(
-  item: any,
-): SimilarityAlgorithmUnion {
+export function similarityAlgorithmUnionDeserializer(item: any): SimilarityAlgorithmUnion {
   switch (item.odatatype) {
     case "#Microsoft.Azure.Search.ClassicSimilarity":
-      return classicSimilarityAlgorithmDeserializer(
-        item as ClassicSimilarityAlgorithm,
-      );
+      return classicSimilarityDeserializer(item as ClassicSimilarity);
 
     case "#Microsoft.Azure.Search.BM25Similarity":
-      return bm25SimilarityAlgorithmDeserializer(
-        item as BM25SimilarityAlgorithm,
-      );
+      return bm25SimilarityDeserializer(item as BM25Similarity);
 
     default:
       return similarityAlgorithmDeserializer(item);
@@ -4483,27 +4249,23 @@ export function similarityAlgorithmUnionDeserializer(
 }
 
 /** Legacy similarity algorithm which uses the Lucene TFIDFSimilarity implementation of TF-IDF. This variation of TF-IDF introduces static document length normalization as well as coordinating factors that penalize documents that only partially match the searched queries. */
-export interface ClassicSimilarityAlgorithm extends SimilarityAlgorithm {
+export interface ClassicSimilarity extends SimilarityAlgorithm {
   /** The discriminator for derived types. */
   odatatype: "#Microsoft.Azure.Search.ClassicSimilarity";
 }
 
-export function classicSimilarityAlgorithmSerializer(
-  item: ClassicSimilarityAlgorithm,
-): any {
+export function classicSimilaritySerializer(item: ClassicSimilarity): any {
   return { "@odata.type": item["odatatype"] };
 }
 
-export function classicSimilarityAlgorithmDeserializer(
-  item: any,
-): ClassicSimilarityAlgorithm {
+export function classicSimilarityDeserializer(item: any): ClassicSimilarity {
   return {
     odatatype: item["@odata.type"],
   };
 }
 
 /** Ranking function based on the Okapi BM25 similarity algorithm. BM25 is a TF-IDF-like algorithm that includes length normalization (controlled by the 'b' parameter) as well as term frequency saturation (controlled by the 'k1' parameter). */
-export interface BM25SimilarityAlgorithm extends SimilarityAlgorithm {
+export interface BM25Similarity extends SimilarityAlgorithm {
   /** This property controls the scaling function between the term frequency of each matching terms and the final relevance score of a document-query pair. By default, a value of 1.2 is used. A value of 0.0 means the score does not scale with an increase in term frequency. */
   k1?: number;
   /** This property controls how the length of a document affects the relevance score. By default, a value of 0.75 is used. A value of 0.0 means no length normalization is applied, while a value of 1.0 means the score is fully normalized by the length of the document. */
@@ -4512,15 +4274,11 @@ export interface BM25SimilarityAlgorithm extends SimilarityAlgorithm {
   odatatype: "#Microsoft.Azure.Search.BM25Similarity";
 }
 
-export function bm25SimilarityAlgorithmSerializer(
-  item: BM25SimilarityAlgorithm,
-): any {
+export function bm25SimilaritySerializer(item: BM25Similarity): any {
   return { "@odata.type": item["odatatype"], k1: item["k1"], b: item["b"] };
 }
 
-export function bm25SimilarityAlgorithmDeserializer(
-  item: any,
-): BM25SimilarityAlgorithm {
+export function bm25SimilarityDeserializer(item: any): BM25Similarity {
   return {
     odatatype: item["@odata.type"],
     k1: item["k1"],
@@ -4554,9 +4312,7 @@ export function semanticSearchDeserializer(item: any): SemanticSearch {
   };
 }
 
-export function semanticConfigurationArraySerializer(
-  result: Array<SemanticConfiguration>,
-): any[] {
+export function semanticConfigurationArraySerializer(result: Array<SemanticConfiguration>): any[] {
   return result.map((item) => {
     return semanticConfigurationSerializer(item);
   });
@@ -4582,27 +4338,19 @@ export interface SemanticConfiguration {
   flightingOptIn?: boolean;
 }
 
-export function semanticConfigurationSerializer(
-  item: SemanticConfiguration,
-): any {
+export function semanticConfigurationSerializer(item: SemanticConfiguration): any {
   return {
     name: item["name"],
-    prioritizedFields: semanticPrioritizedFieldsSerializer(
-      item["prioritizedFields"],
-    ),
+    prioritizedFields: semanticPrioritizedFieldsSerializer(item["prioritizedFields"]),
     rankingOrder: item["rankingOrder"],
     flightingOptIn: item["flightingOptIn"],
   };
 }
 
-export function semanticConfigurationDeserializer(
-  item: any,
-): SemanticConfiguration {
+export function semanticConfigurationDeserializer(item: any): SemanticConfiguration {
   return {
     name: item["name"],
-    prioritizedFields: semanticPrioritizedFieldsDeserializer(
-      item["prioritizedFields"],
-    ),
+    prioritizedFields: semanticPrioritizedFieldsDeserializer(item["prioritizedFields"]),
     rankingOrder: item["rankingOrder"],
     flightingOptIn: item["flightingOptIn"],
   };
@@ -4618,9 +4366,7 @@ export interface SemanticPrioritizedFields {
   keywordsFields?: SemanticField[];
 }
 
-export function semanticPrioritizedFieldsSerializer(
-  item: SemanticPrioritizedFields,
-): any {
+export function semanticPrioritizedFieldsSerializer(item: SemanticPrioritizedFields): any {
   return {
     titleField: !item["titleField"]
       ? item["titleField"]
@@ -4634,9 +4380,7 @@ export function semanticPrioritizedFieldsSerializer(
   };
 }
 
-export function semanticPrioritizedFieldsDeserializer(
-  item: any,
-): SemanticPrioritizedFields {
+export function semanticPrioritizedFieldsDeserializer(item: any): SemanticPrioritizedFields {
   return {
     titleField: !item["titleField"]
       ? item["titleField"]
@@ -4666,17 +4410,13 @@ export function semanticFieldDeserializer(item: any): SemanticField {
   };
 }
 
-export function semanticFieldArraySerializer(
-  result: Array<SemanticField>,
-): any[] {
+export function semanticFieldArraySerializer(result: Array<SemanticField>): any[] {
   return result.map((item) => {
     return semanticFieldSerializer(item);
   });
 }
 
-export function semanticFieldArrayDeserializer(
-  result: Array<SemanticField>,
-): any[] {
+export function semanticFieldArrayDeserializer(result: Array<SemanticField>): any[] {
   return result.map((item) => {
     return semanticFieldDeserializer(item);
   });
@@ -4719,9 +4459,7 @@ export function vectorSearchSerializer(item: VectorSearch): any {
       : vectorSearchProfileArraySerializer(item["profiles"]),
     algorithms: !item["algorithms"]
       ? item["algorithms"]
-      : vectorSearchAlgorithmConfigurationUnionArraySerializer(
-          item["algorithms"],
-        ),
+      : vectorSearchAlgorithmConfigurationUnionArraySerializer(item["algorithms"]),
     vectorizers: !item["vectorizers"]
       ? item["vectorizers"]
       : vectorSearchVectorizerUnionArraySerializer(item["vectorizers"]),
@@ -4738,9 +4476,7 @@ export function vectorSearchDeserializer(item: any): VectorSearch {
       : vectorSearchProfileArrayDeserializer(item["profiles"]),
     algorithms: !item["algorithms"]
       ? item["algorithms"]
-      : vectorSearchAlgorithmConfigurationUnionArrayDeserializer(
-          item["algorithms"],
-        ),
+      : vectorSearchAlgorithmConfigurationUnionArrayDeserializer(item["algorithms"]),
     vectorizers: !item["vectorizers"]
       ? item["vectorizers"]
       : vectorSearchVectorizerUnionArrayDeserializer(item["vectorizers"]),
@@ -4750,17 +4486,13 @@ export function vectorSearchDeserializer(item: any): VectorSearch {
   };
 }
 
-export function vectorSearchProfileArraySerializer(
-  result: Array<VectorSearchProfile>,
-): any[] {
+export function vectorSearchProfileArraySerializer(result: Array<VectorSearchProfile>): any[] {
   return result.map((item) => {
     return vectorSearchProfileSerializer(item);
   });
 }
 
-export function vectorSearchProfileArrayDeserializer(
-  result: Array<VectorSearchProfile>,
-): any[] {
+export function vectorSearchProfileArrayDeserializer(result: Array<VectorSearchProfile>): any[] {
   return result.map((item) => {
     return vectorSearchProfileDeserializer(item);
   });
@@ -4787,9 +4519,7 @@ export function vectorSearchProfileSerializer(item: VectorSearchProfile): any {
   };
 }
 
-export function vectorSearchProfileDeserializer(
-  item: any,
-): VectorSearchProfile {
+export function vectorSearchProfileDeserializer(item: any): VectorSearchProfile {
   return {
     name: item["name"],
     algorithmConfigurationName: item["algorithm"],
@@ -4849,9 +4579,7 @@ export function vectorSearchAlgorithmConfigurationUnionSerializer(
 ): any {
   switch (item.kind) {
     case "hnsw":
-      return hnswAlgorithmConfigurationSerializer(
-        item as HnswAlgorithmConfiguration,
-      );
+      return hnswAlgorithmConfigurationSerializer(item as HnswAlgorithmConfiguration);
 
     case "exhaustiveKnn":
       return exhaustiveKnnAlgorithmConfigurationSerializer(
@@ -4868,9 +4596,7 @@ export function vectorSearchAlgorithmConfigurationUnionDeserializer(
 ): VectorSearchAlgorithmConfigurationUnion {
   switch (item.kind) {
     case "hnsw":
-      return hnswAlgorithmConfigurationDeserializer(
-        item as HnswAlgorithmConfiguration,
-      );
+      return hnswAlgorithmConfigurationDeserializer(item as HnswAlgorithmConfiguration);
 
     case "exhaustiveKnn":
       return exhaustiveKnnAlgorithmConfigurationDeserializer(
@@ -4901,17 +4627,14 @@ export enum KnownVectorSearchAlgorithmKind {
 export type VectorSearchAlgorithmKind = string;
 
 /** Contains configuration options specific to the HNSW approximate nearest neighbors algorithm used during indexing and querying. The HNSW algorithm offers a tunable trade-off between search speed and accuracy. */
-export interface HnswAlgorithmConfiguration
-  extends VectorSearchAlgorithmConfiguration {
+export interface HnswAlgorithmConfiguration extends VectorSearchAlgorithmConfiguration {
   /** Contains the parameters specific to HNSW algorithm. */
   parameters?: HnswParameters;
   /** The name of the kind of algorithm being configured for use with vector search. */
   kind: "hnsw";
 }
 
-export function hnswAlgorithmConfigurationSerializer(
-  item: HnswAlgorithmConfiguration,
-): any {
+export function hnswAlgorithmConfigurationSerializer(item: HnswAlgorithmConfiguration): any {
   return {
     name: item["name"],
     kind: item["kind"],
@@ -4921,9 +4644,7 @@ export function hnswAlgorithmConfigurationSerializer(
   };
 }
 
-export function hnswAlgorithmConfigurationDeserializer(
-  item: any,
-): HnswAlgorithmConfiguration {
+export function hnswAlgorithmConfigurationDeserializer(item: any): HnswAlgorithmConfiguration {
   return {
     name: item["name"],
     kind: item["kind"],
@@ -4988,8 +4709,7 @@ export enum KnownVectorSearchAlgorithmMetric {
 export type VectorSearchAlgorithmMetric = string;
 
 /** Contains configuration options specific to the exhaustive KNN algorithm used during querying, which will perform brute-force search across the entire vector index. */
-export interface ExhaustiveKnnAlgorithmConfiguration
-  extends VectorSearchAlgorithmConfiguration {
+export interface ExhaustiveKnnAlgorithmConfiguration extends VectorSearchAlgorithmConfiguration {
   /** Contains the parameters specific to exhaustive KNN algorithm. */
   parameters?: ExhaustiveKnnParameters;
   /** The name of the kind of algorithm being configured for use with vector search. */
@@ -5026,15 +4746,11 @@ export interface ExhaustiveKnnParameters {
   metric?: VectorSearchAlgorithmMetric;
 }
 
-export function exhaustiveKnnParametersSerializer(
-  item: ExhaustiveKnnParameters,
-): any {
+export function exhaustiveKnnParametersSerializer(item: ExhaustiveKnnParameters): any {
   return { metric: item["metric"] };
 }
 
-export function exhaustiveKnnParametersDeserializer(
-  item: any,
-): ExhaustiveKnnParameters {
+export function exhaustiveKnnParametersDeserializer(item: any): ExhaustiveKnnParameters {
   return {
     metric: item["metric"],
   };
@@ -5065,15 +4781,11 @@ export interface VectorSearchVectorizer {
   kind: VectorSearchVectorizerKind;
 }
 
-export function vectorSearchVectorizerSerializer(
-  item: VectorSearchVectorizer,
-): any {
+export function vectorSearchVectorizerSerializer(item: VectorSearchVectorizer): any {
   return { name: item["vectorizerName"], kind: item["kind"] };
 }
 
-export function vectorSearchVectorizerDeserializer(
-  item: any,
-): VectorSearchVectorizer {
+export function vectorSearchVectorizerDeserializer(item: any): VectorSearchVectorizer {
   return {
     vectorizerName: item["name"],
     kind: item["kind"],
@@ -5088,9 +4800,7 @@ export type VectorSearchVectorizerUnion =
   | AzureMachineLearningVectorizer
   | VectorSearchVectorizer;
 
-export function vectorSearchVectorizerUnionSerializer(
-  item: VectorSearchVectorizerUnion,
-): any {
+export function vectorSearchVectorizerUnionSerializer(item: VectorSearchVectorizerUnion): any {
   switch (item.kind) {
     case "azureOpenAI":
       return azureOpenAIVectorizerSerializer(item as AzureOpenAIVectorizer);
@@ -5099,23 +4809,17 @@ export function vectorSearchVectorizerUnionSerializer(
       return webApiVectorizerSerializer(item as WebApiVectorizer);
 
     case "aiServicesVision":
-      return aiServicesVisionVectorizerSerializer(
-        item as AIServicesVisionVectorizer,
-      );
+      return aiServicesVisionVectorizerSerializer(item as AIServicesVisionVectorizer);
 
     case "aml":
-      return azureMachineLearningVectorizerSerializer(
-        item as AzureMachineLearningVectorizer,
-      );
+      return azureMachineLearningVectorizerSerializer(item as AzureMachineLearningVectorizer);
 
     default:
       return vectorSearchVectorizerSerializer(item);
   }
 }
 
-export function vectorSearchVectorizerUnionDeserializer(
-  item: any,
-): VectorSearchVectorizerUnion {
+export function vectorSearchVectorizerUnionDeserializer(item: any): VectorSearchVectorizerUnion {
   switch (item.kind) {
     case "azureOpenAI":
       return azureOpenAIVectorizerDeserializer(item as AzureOpenAIVectorizer);
@@ -5124,14 +4828,10 @@ export function vectorSearchVectorizerUnionDeserializer(
       return webApiVectorizerDeserializer(item as WebApiVectorizer);
 
     case "aiServicesVision":
-      return aiServicesVisionVectorizerDeserializer(
-        item as AIServicesVisionVectorizer,
-      );
+      return aiServicesVisionVectorizerDeserializer(item as AIServicesVisionVectorizer);
 
     case "aml":
-      return azureMachineLearningVectorizerDeserializer(
-        item as AzureMachineLearningVectorizer,
-      );
+      return azureMachineLearningVectorizerDeserializer(item as AzureMachineLearningVectorizer);
 
     default:
       return vectorSearchVectorizerDeserializer(item);
@@ -5170,9 +4870,7 @@ export interface AzureOpenAIVectorizer extends VectorSearchVectorizer {
   kind: "azureOpenAI";
 }
 
-export function azureOpenAIVectorizerSerializer(
-  item: AzureOpenAIVectorizer,
-): any {
+export function azureOpenAIVectorizerSerializer(item: AzureOpenAIVectorizer): any {
   return {
     name: item["vectorizerName"],
     kind: item["kind"],
@@ -5182,17 +4880,13 @@ export function azureOpenAIVectorizerSerializer(
   };
 }
 
-export function azureOpenAIVectorizerDeserializer(
-  item: any,
-): AzureOpenAIVectorizer {
+export function azureOpenAIVectorizerDeserializer(item: any): AzureOpenAIVectorizer {
   return {
     vectorizerName: item["name"],
     kind: item["kind"],
     parameters: !item["azureOpenAIParameters"]
       ? item["azureOpenAIParameters"]
-      : azureOpenAIVectorizerParametersDeserializer(
-          item["azureOpenAIParameters"],
-        ),
+      : azureOpenAIVectorizerParametersDeserializer(item["azureOpenAIParameters"]),
   };
 }
 
@@ -5303,9 +4997,7 @@ export interface WebApiVectorizerParameters {
   authIdentity?: SearchIndexerDataIdentityUnion;
 }
 
-export function webApiVectorizerParametersSerializer(
-  item: WebApiVectorizerParameters,
-): any {
+export function webApiVectorizerParametersSerializer(item: WebApiVectorizerParameters): any {
   return {
     uri: item["url"],
     httpHeaders: item["httpHeaders"],
@@ -5318,9 +5010,7 @@ export function webApiVectorizerParametersSerializer(
   };
 }
 
-export function webApiVectorizerParametersDeserializer(
-  item: any,
-): WebApiVectorizerParameters {
+export function webApiVectorizerParametersDeserializer(item: any): WebApiVectorizerParameters {
   return {
     url: item["uri"],
     httpHeaders: item["httpHeaders"],
@@ -5341,31 +5031,23 @@ export interface AIServicesVisionVectorizer extends VectorSearchVectorizer {
   kind: "aiServicesVision";
 }
 
-export function aiServicesVisionVectorizerSerializer(
-  item: AIServicesVisionVectorizer,
-): any {
+export function aiServicesVisionVectorizerSerializer(item: AIServicesVisionVectorizer): any {
   return {
     name: item["vectorizerName"],
     kind: item["kind"],
     AIServicesVisionParameters: !item["aiServicesVisionParameters"]
       ? item["aiServicesVisionParameters"]
-      : aiServicesVisionParametersSerializer(
-          item["aiServicesVisionParameters"],
-        ),
+      : aiServicesVisionParametersSerializer(item["aiServicesVisionParameters"]),
   };
 }
 
-export function aiServicesVisionVectorizerDeserializer(
-  item: any,
-): AIServicesVisionVectorizer {
+export function aiServicesVisionVectorizerDeserializer(item: any): AIServicesVisionVectorizer {
   return {
     vectorizerName: item["name"],
     kind: item["kind"],
     aiServicesVisionParameters: !item["AIServicesVisionParameters"]
       ? item["AIServicesVisionParameters"]
-      : aiServicesVisionParametersDeserializer(
-          item["AIServicesVisionParameters"],
-        ),
+      : aiServicesVisionParametersDeserializer(item["AIServicesVisionParameters"]),
   };
 }
 
@@ -5381,9 +5063,7 @@ export interface AIServicesVisionParameters {
   authIdentity?: SearchIndexerDataIdentityUnion;
 }
 
-export function aiServicesVisionParametersSerializer(
-  item: AIServicesVisionParameters,
-): any {
+export function aiServicesVisionParametersSerializer(item: AIServicesVisionParameters): any {
   return {
     modelVersion: item["modelVersion"],
     resourceUri: item["resourceUri"],
@@ -5394,9 +5074,7 @@ export function aiServicesVisionParametersSerializer(
   };
 }
 
-export function aiServicesVisionParametersDeserializer(
-  item: any,
-): AIServicesVisionParameters {
+export function aiServicesVisionParametersDeserializer(item: any): AIServicesVisionParameters {
   return {
     modelVersion: item["modelVersion"],
     resourceUri: item["resourceUri"],
@@ -5544,9 +5222,7 @@ export interface VectorSearchCompression {
   kind: VectorSearchCompressionKind;
 }
 
-export function vectorSearchCompressionSerializer(
-  item: VectorSearchCompression,
-): any {
+export function vectorSearchCompressionSerializer(item: VectorSearchCompression): any {
   return {
     name: item["compressionName"],
     rerankWithOriginalVectors: item["rerankWithOriginalVectors"],
@@ -5559,9 +5235,7 @@ export function vectorSearchCompressionSerializer(
   };
 }
 
-export function vectorSearchCompressionDeserializer(
-  item: any,
-): VectorSearchCompression {
+export function vectorSearchCompressionDeserializer(item: any): VectorSearchCompression {
   return {
     compressionName: item["name"],
     rerankWithOriginalVectors: item["rerankWithOriginalVectors"],
@@ -5580,38 +5254,26 @@ export type VectorSearchCompressionUnion =
   | BinaryQuantizationCompression
   | VectorSearchCompression;
 
-export function vectorSearchCompressionUnionSerializer(
-  item: VectorSearchCompressionUnion,
-): any {
+export function vectorSearchCompressionUnionSerializer(item: VectorSearchCompressionUnion): any {
   switch (item.kind) {
     case "scalarQuantization":
-      return scalarQuantizationCompressionSerializer(
-        item as ScalarQuantizationCompression,
-      );
+      return scalarQuantizationCompressionSerializer(item as ScalarQuantizationCompression);
 
     case "binaryQuantization":
-      return binaryQuantizationCompressionSerializer(
-        item as BinaryQuantizationCompression,
-      );
+      return binaryQuantizationCompressionSerializer(item as BinaryQuantizationCompression);
 
     default:
       return vectorSearchCompressionSerializer(item);
   }
 }
 
-export function vectorSearchCompressionUnionDeserializer(
-  item: any,
-): VectorSearchCompressionUnion {
+export function vectorSearchCompressionUnionDeserializer(item: any): VectorSearchCompressionUnion {
   switch (item.kind) {
     case "scalarQuantization":
-      return scalarQuantizationCompressionDeserializer(
-        item as ScalarQuantizationCompression,
-      );
+      return scalarQuantizationCompressionDeserializer(item as ScalarQuantizationCompression);
 
     case "binaryQuantization":
-      return binaryQuantizationCompressionDeserializer(
-        item as BinaryQuantizationCompression,
-      );
+      return binaryQuantizationCompressionDeserializer(item as BinaryQuantizationCompression);
 
     default:
       return vectorSearchCompressionDeserializer(item);
@@ -5688,9 +5350,7 @@ export interface ScalarQuantizationCompression extends VectorSearchCompression {
   kind: "scalarQuantization";
 }
 
-export function scalarQuantizationCompressionSerializer(
-  item: ScalarQuantizationCompression,
-): any {
+export function scalarQuantizationCompressionSerializer(item: ScalarQuantizationCompression): any {
   return {
     name: item["compressionName"],
     rerankWithOriginalVectors: item["rerankWithOriginalVectors"],
@@ -5720,9 +5380,7 @@ export function scalarQuantizationCompressionDeserializer(
     kind: item["kind"],
     parameters: !item["scalarQuantizationParameters"]
       ? item["scalarQuantizationParameters"]
-      : scalarQuantizationParametersDeserializer(
-          item["scalarQuantizationParameters"],
-        ),
+      : scalarQuantizationParametersDeserializer(item["scalarQuantizationParameters"]),
   };
 }
 
@@ -5732,15 +5390,11 @@ export interface ScalarQuantizationParameters {
   quantizedDataType?: VectorSearchCompressionTarget;
 }
 
-export function scalarQuantizationParametersSerializer(
-  item: ScalarQuantizationParameters,
-): any {
+export function scalarQuantizationParametersSerializer(item: ScalarQuantizationParameters): any {
   return { quantizedDataType: item["quantizedDataType"] };
 }
 
-export function scalarQuantizationParametersDeserializer(
-  item: any,
-): ScalarQuantizationParameters {
+export function scalarQuantizationParametersDeserializer(item: any): ScalarQuantizationParameters {
   return {
     quantizedDataType: item["quantizedDataType"],
   };
@@ -5767,9 +5421,7 @@ export interface BinaryQuantizationCompression extends VectorSearchCompression {
   kind: "binaryQuantization";
 }
 
-export function binaryQuantizationCompressionSerializer(
-  item: BinaryQuantizationCompression,
-): any {
+export function binaryQuantizationCompressionSerializer(item: BinaryQuantizationCompression): any {
   return {
     name: item["compressionName"],
     rerankWithOriginalVectors: item["rerankWithOriginalVectors"],
@@ -5833,9 +5485,7 @@ export function searchIndexArraySerializer(result: Array<SearchIndex>): any[] {
   });
 }
 
-export function searchIndexArrayDeserializer(
-  result: Array<SearchIndex>,
-): any[] {
+export function searchIndexArrayDeserializer(result: Array<SearchIndex>): any[] {
   return result.map((item) => {
     return searchIndexDeserializer(item);
   });
@@ -5851,9 +5501,7 @@ export interface GetIndexStatisticsResult {
   vectorIndexSize: number;
 }
 
-export function getIndexStatisticsResultDeserializer(
-  item: any,
-): GetIndexStatisticsResult {
+export function getIndexStatisticsResultDeserializer(item: any): GetIndexStatisticsResult {
   return {
     documentCount: item["documentCount"],
     storageSize: item["storageSize"],
@@ -5908,17 +5556,13 @@ export function analyzeResultDeserializer(item: any): AnalyzeResult {
   };
 }
 
-export function analyzedTokenInfoArraySerializer(
-  result: Array<AnalyzedTokenInfo>,
-): any[] {
+export function analyzedTokenInfoArraySerializer(result: Array<AnalyzedTokenInfo>): any[] {
   return result.map((item) => {
     return analyzedTokenInfoSerializer(item);
   });
 }
 
-export function analyzedTokenInfoArrayDeserializer(
-  result: Array<AnalyzedTokenInfo>,
-): any[] {
+export function analyzedTokenInfoArrayDeserializer(result: Array<AnalyzedTokenInfo>): any[] {
   return result.map((item) => {
     return analyzedTokenInfoDeserializer(item);
   });
@@ -6002,9 +5646,7 @@ export function searchAliasArraySerializer(result: Array<SearchAlias>): any[] {
   });
 }
 
-export function searchAliasArrayDeserializer(
-  result: Array<SearchAlias>,
-): any[] {
+export function searchAliasArrayDeserializer(result: Array<SearchAlias>): any[] {
   return result.map((item) => {
     return searchAliasDeserializer(item);
   });
@@ -6036,17 +5678,13 @@ export interface KnowledgeBase {
 
 export function knowledgeBaseSerializer(item: KnowledgeBase): any {
   return {
-    knowledgeSources: knowledgeSourceReferenceArraySerializer(
-      item["knowledgeSources"],
-    ),
+    knowledgeSources: knowledgeSourceReferenceArraySerializer(item["knowledgeSources"]),
     models: !item["models"]
       ? item["models"]
       : knowledgeBaseModelUnionArraySerializer(item["models"]),
     retrievalReasoningEffort: !item["retrievalReasoningEffort"]
       ? item["retrievalReasoningEffort"]
-      : knowledgeRetrievalReasoningEffortUnionSerializer(
-          item["retrievalReasoningEffort"],
-        ),
+      : knowledgeRetrievalReasoningEffortUnionSerializer(item["retrievalReasoningEffort"]),
     outputMode: item["outputMode"],
     eTag: item["eTag"],
     encryptionKey: !item["encryptionKey"]
@@ -6061,17 +5699,13 @@ export function knowledgeBaseSerializer(item: KnowledgeBase): any {
 export function knowledgeBaseDeserializer(item: any): KnowledgeBase {
   return {
     name: item["name"],
-    knowledgeSources: knowledgeSourceReferenceArrayDeserializer(
-      item["knowledgeSources"],
-    ),
+    knowledgeSources: knowledgeSourceReferenceArrayDeserializer(item["knowledgeSources"]),
     models: !item["models"]
       ? item["models"]
       : knowledgeBaseModelUnionArrayDeserializer(item["models"]),
     retrievalReasoningEffort: !item["retrievalReasoningEffort"]
       ? item["retrievalReasoningEffort"]
-      : knowledgeRetrievalReasoningEffortUnionDeserializer(
-          item["retrievalReasoningEffort"],
-        ),
+      : knowledgeRetrievalReasoningEffortUnionDeserializer(item["retrievalReasoningEffort"]),
     outputMode: item["outputMode"],
     eTag: item["eTag"],
     encryptionKey: !item["encryptionKey"]
@@ -6105,15 +5739,11 @@ export interface KnowledgeSourceReference {
   name: string;
 }
 
-export function knowledgeSourceReferenceSerializer(
-  item: KnowledgeSourceReference,
-): any {
+export function knowledgeSourceReferenceSerializer(item: KnowledgeSourceReference): any {
   return { name: item["name"] };
 }
 
-export function knowledgeSourceReferenceDeserializer(
-  item: any,
-): KnowledgeSourceReference {
+export function knowledgeSourceReferenceDeserializer(item: any): KnowledgeSourceReference {
   return {
     name: item["name"],
   };
@@ -6153,32 +5783,22 @@ export function knowledgeBaseModelDeserializer(item: any): KnowledgeBaseModel {
 }
 
 /** Alias for KnowledgeBaseModelUnion */
-export type KnowledgeBaseModelUnion =
-  | KnowledgeBaseAzureOpenAIModel
-  | KnowledgeBaseModel;
+export type KnowledgeBaseModelUnion = KnowledgeBaseAzureOpenAIModel | KnowledgeBaseModel;
 
-export function knowledgeBaseModelUnionSerializer(
-  item: KnowledgeBaseModelUnion,
-): any {
+export function knowledgeBaseModelUnionSerializer(item: KnowledgeBaseModelUnion): any {
   switch (item.kind) {
     case "azureOpenAI":
-      return knowledgeBaseAzureOpenAIModelSerializer(
-        item as KnowledgeBaseAzureOpenAIModel,
-      );
+      return knowledgeBaseAzureOpenAIModelSerializer(item as KnowledgeBaseAzureOpenAIModel);
 
     default:
       return knowledgeBaseModelSerializer(item);
   }
 }
 
-export function knowledgeBaseModelUnionDeserializer(
-  item: any,
-): KnowledgeBaseModelUnion {
+export function knowledgeBaseModelUnionDeserializer(item: any): KnowledgeBaseModelUnion {
   switch (item.kind) {
     case "azureOpenAI":
-      return knowledgeBaseAzureOpenAIModelDeserializer(
-        item as KnowledgeBaseAzureOpenAIModel,
-      );
+      return knowledgeBaseAzureOpenAIModelDeserializer(item as KnowledgeBaseAzureOpenAIModel);
 
     default:
       return knowledgeBaseModelDeserializer(item);
@@ -6207,14 +5827,10 @@ export interface KnowledgeBaseAzureOpenAIModel extends KnowledgeBaseModel {
   azureOpenAIParameters: AzureOpenAiParameters;
 }
 
-export function knowledgeBaseAzureOpenAIModelSerializer(
-  item: KnowledgeBaseAzureOpenAIModel,
-): any {
+export function knowledgeBaseAzureOpenAIModelSerializer(item: KnowledgeBaseAzureOpenAIModel): any {
   return {
     kind: item["kind"],
-    azureOpenAIParameters: azureOpenAiParametersSerializer(
-      item["azureOpenAIParameters"],
-    ),
+    azureOpenAIParameters: azureOpenAiParametersSerializer(item["azureOpenAIParameters"]),
   };
 }
 
@@ -6223,9 +5839,7 @@ export function knowledgeBaseAzureOpenAIModelDeserializer(
 ): KnowledgeBaseAzureOpenAIModel {
   return {
     kind: item["kind"],
-    azureOpenAIParameters: azureOpenAiParametersDeserializer(
-      item["azureOpenAIParameters"],
-    ),
+    azureOpenAIParameters: azureOpenAiParametersDeserializer(item["azureOpenAIParameters"]),
   };
 }
 
@@ -6245,9 +5859,7 @@ export interface AzureOpenAiParameters {
   authenticationMethod?: string;
 }
 
-export function azureOpenAiParametersSerializer(
-  item: AzureOpenAiParameters,
-): any {
+export function azureOpenAiParametersSerializer(item: AzureOpenAiParameters): any {
   return {
     resourceUri: item["resourceUri"],
     deploymentId: item["deploymentId"],
@@ -6258,9 +5870,7 @@ export function azureOpenAiParametersSerializer(
   };
 }
 
-export function azureOpenAiParametersDeserializer(
-  item: any,
-): AzureOpenAiParameters {
+export function azureOpenAiParametersDeserializer(item: any): AzureOpenAiParameters {
   return {
     resourceUri: item["resourceUri"],
     deploymentId: item["deploymentId"],
@@ -6277,25 +5887,19 @@ export interface _ListKnowledgeBasesResult {
   value: KnowledgeBase[];
 }
 
-export function _listKnowledgeBasesResultDeserializer(
-  item: any,
-): _ListKnowledgeBasesResult {
+export function _listKnowledgeBasesResultDeserializer(item: any): _ListKnowledgeBasesResult {
   return {
     value: knowledgeBaseArrayDeserializer(item["value"]),
   };
 }
 
-export function knowledgeBaseArraySerializer(
-  result: Array<KnowledgeBase>,
-): any[] {
+export function knowledgeBaseArraySerializer(result: Array<KnowledgeBase>): any[] {
   return result.map((item) => {
     return knowledgeBaseSerializer(item);
   });
 }
 
-export function knowledgeBaseArrayDeserializer(
-  result: Array<KnowledgeBase>,
-): any[] {
+export function knowledgeBaseArrayDeserializer(result: Array<KnowledgeBase>): any[] {
   return result.map((item) => {
     return knowledgeBaseDeserializer(item);
   });
@@ -6345,38 +5949,26 @@ export type KnowledgeSourceUnion =
   | AzureBlobKnowledgeSource
   | KnowledgeSource;
 
-export function knowledgeSourceUnionSerializer(
-  item: KnowledgeSourceUnion,
-): any {
+export function knowledgeSourceUnionSerializer(item: KnowledgeSourceUnion): any {
   switch (item.kind) {
     case "searchIndex":
-      return searchIndexKnowledgeSourceSerializer(
-        item as SearchIndexKnowledgeSource,
-      );
+      return searchIndexKnowledgeSourceSerializer(item as SearchIndexKnowledgeSource);
 
     case "azureBlob":
-      return azureBlobKnowledgeSourceSerializer(
-        item as AzureBlobKnowledgeSource,
-      );
+      return azureBlobKnowledgeSourceSerializer(item as AzureBlobKnowledgeSource);
 
     default:
       return knowledgeSourceSerializer(item);
   }
 }
 
-export function knowledgeSourceUnionDeserializer(
-  item: any,
-): KnowledgeSourceUnion {
+export function knowledgeSourceUnionDeserializer(item: any): KnowledgeSourceUnion {
   switch (item.kind) {
     case "searchIndex":
-      return searchIndexKnowledgeSourceDeserializer(
-        item as SearchIndexKnowledgeSource,
-      );
+      return searchIndexKnowledgeSourceDeserializer(item as SearchIndexKnowledgeSource);
 
     case "azureBlob":
-      return azureBlobKnowledgeSourceDeserializer(
-        item as AzureBlobKnowledgeSource,
-      );
+      return azureBlobKnowledgeSourceDeserializer(item as AzureBlobKnowledgeSource);
 
     default:
       return knowledgeSourceDeserializer(item);
@@ -6420,9 +6012,7 @@ export interface SearchIndexKnowledgeSource extends KnowledgeSource {
   searchIndexParameters: SearchIndexKnowledgeSourceParameters;
 }
 
-export function searchIndexKnowledgeSourceSerializer(
-  item: SearchIndexKnowledgeSource,
-): any {
+export function searchIndexKnowledgeSourceSerializer(item: SearchIndexKnowledgeSource): any {
   return {
     description: item["description"],
     kind: item["kind"],
@@ -6436,9 +6026,7 @@ export function searchIndexKnowledgeSourceSerializer(
   };
 }
 
-export function searchIndexKnowledgeSourceDeserializer(
-  item: any,
-): SearchIndexKnowledgeSource {
+export function searchIndexKnowledgeSourceDeserializer(item: any): SearchIndexKnowledgeSource {
   return {
     name: item["name"],
     description: item["description"],
@@ -6486,9 +6074,7 @@ export interface AzureBlobKnowledgeSource extends KnowledgeSource {
   azureBlobParameters: AzureBlobKnowledgeSourceParameters;
 }
 
-export function azureBlobKnowledgeSourceSerializer(
-  item: AzureBlobKnowledgeSource,
-): any {
+export function azureBlobKnowledgeSourceSerializer(item: AzureBlobKnowledgeSource): any {
   return {
     description: item["description"],
     kind: item["kind"],
@@ -6496,15 +6082,11 @@ export function azureBlobKnowledgeSourceSerializer(
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
-    azureBlobParameters: azureBlobKnowledgeSourceParametersSerializer(
-      item["azureBlobParameters"],
-    ),
+    azureBlobParameters: azureBlobKnowledgeSourceParametersSerializer(item["azureBlobParameters"]),
   };
 }
 
-export function azureBlobKnowledgeSourceDeserializer(
-  item: any,
-): AzureBlobKnowledgeSource {
+export function azureBlobKnowledgeSourceDeserializer(item: any): AzureBlobKnowledgeSource {
   return {
     name: item["name"],
     description: item["description"],
@@ -6601,18 +6183,14 @@ export interface IndexingSchedule {
 export function indexingScheduleSerializer(item: IndexingSchedule): any {
   return {
     interval: item["interval"],
-    startTime: !item["startTime"]
-      ? item["startTime"]
-      : item["startTime"].toISOString(),
+    startTime: !item["startTime"] ? item["startTime"] : item["startTime"].toISOString(),
   };
 }
 
 export function indexingScheduleDeserializer(item: any): IndexingSchedule {
   return {
     interval: item["interval"],
-    startTime: !item["startTime"]
-      ? item["startTime"]
-      : new Date(item["startTime"]),
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
   };
 }
 
@@ -6634,25 +6212,19 @@ export interface _ListKnowledgeSourcesResult {
   value: KnowledgeSourceUnion[];
 }
 
-export function _listKnowledgeSourcesResultDeserializer(
-  item: any,
-): _ListKnowledgeSourcesResult {
+export function _listKnowledgeSourcesResultDeserializer(item: any): _ListKnowledgeSourcesResult {
   return {
     value: knowledgeSourceUnionArrayDeserializer(item["value"]),
   };
 }
 
-export function knowledgeSourceUnionArraySerializer(
-  result: Array<KnowledgeSourceUnion>,
-): any[] {
+export function knowledgeSourceUnionArraySerializer(result: Array<KnowledgeSourceUnion>): any[] {
   return result.map((item) => {
     return knowledgeSourceUnionSerializer(item);
   });
 }
 
-export function knowledgeSourceUnionArrayDeserializer(
-  result: Array<KnowledgeSourceUnion>,
-): any[] {
+export function knowledgeSourceUnionArrayDeserializer(result: Array<KnowledgeSourceUnion>): any[] {
   return result.map((item) => {
     return knowledgeSourceUnionDeserializer(item);
   });
@@ -6666,9 +6238,7 @@ export interface SearchServiceStatistics {
   limits: SearchServiceLimits;
 }
 
-export function searchServiceStatisticsDeserializer(
-  item: any,
-): SearchServiceStatistics {
+export function searchServiceStatisticsDeserializer(item: any): SearchServiceStatistics {
   return {
     counters: searchServiceCountersDeserializer(item["counters"]),
     limits: searchServiceLimitsDeserializer(item["limits"]),
@@ -6697,9 +6267,7 @@ export interface SearchServiceCounters {
   vectorIndexSizeCounter: ResourceCounter;
 }
 
-export function searchServiceCountersDeserializer(
-  item: any,
-): SearchServiceCounters {
+export function searchServiceCountersDeserializer(item: any): SearchServiceCounters {
   return {
     aliasCounter: resourceCounterDeserializer(item["aliasesCount"]),
     documentCounter: resourceCounterDeserializer(item["documentCount"]),
@@ -6709,9 +6277,7 @@ export function searchServiceCountersDeserializer(
     storageSizeCounter: resourceCounterDeserializer(item["storageSize"]),
     synonymMapCounter: resourceCounterDeserializer(item["synonymMaps"]),
     skillsetCounter: resourceCounterDeserializer(item["skillsetCount"]),
-    vectorIndexSizeCounter: resourceCounterDeserializer(
-      item["vectorIndexSize"],
-    ),
+    vectorIndexSizeCounter: resourceCounterDeserializer(item["vectorIndexSize"]),
   };
 }
 
@@ -6744,16 +6310,12 @@ export interface SearchServiceLimits {
   maxStoragePerIndexInBytes?: number;
 }
 
-export function searchServiceLimitsDeserializer(
-  item: any,
-): SearchServiceLimits {
+export function searchServiceLimitsDeserializer(item: any): SearchServiceLimits {
   return {
     maxFieldsPerIndex: item["maxFieldsPerIndex"],
     maxFieldNestingDepthPerIndex: item["maxFieldNestingDepthPerIndex"],
-    maxComplexCollectionFieldsPerIndex:
-      item["maxComplexCollectionFieldsPerIndex"],
-    maxComplexObjectsInCollectionsPerDocument:
-      item["maxComplexObjectsInCollectionsPerDocument"],
+    maxComplexCollectionFieldsPerIndex: item["maxComplexCollectionFieldsPerIndex"],
+    maxComplexObjectsInCollectionsPerDocument: item["maxComplexObjectsInCollectionsPerDocument"],
     maxStoragePerIndexInBytes: item["maxStoragePerIndex"],
   };
 }
@@ -6764,9 +6326,7 @@ export interface _ListIndexStatsSummary {
   readonly indexesStatistics: IndexStatisticsSummary[];
 }
 
-export function _listIndexStatsSummaryDeserializer(
-  item: any,
-): _ListIndexStatsSummary {
+export function _listIndexStatsSummaryDeserializer(item: any): _ListIndexStatsSummary {
   return {
     indexesStatistics: indexStatisticsSummaryArrayDeserializer(item["value"]),
   };
@@ -6792,9 +6352,7 @@ export interface IndexStatisticsSummary {
   readonly vectorIndexSize?: number;
 }
 
-export function indexStatisticsSummaryDeserializer(
-  item: any,
-): IndexStatisticsSummary {
+export function indexStatisticsSummaryDeserializer(item: any): IndexStatisticsSummary {
   return {
     name: item["name"],
     documentCount: item["documentCount"],
@@ -6851,14 +6409,10 @@ export function searchIndexerDataSourceConnectionSerializer(
         }),
     dataChangeDetectionPolicy: !item["dataChangeDetectionPolicy"]
       ? item["dataChangeDetectionPolicy"]
-      : dataChangeDetectionPolicyUnionSerializer(
-          item["dataChangeDetectionPolicy"],
-        ),
+      : dataChangeDetectionPolicyUnionSerializer(item["dataChangeDetectionPolicy"]),
     dataDeletionDetectionPolicy: !item["dataDeletionDetectionPolicy"]
       ? item["dataDeletionDetectionPolicy"]
-      : dataDeletionDetectionPolicyUnionSerializer(
-          item["dataDeletionDetectionPolicy"],
-        ),
+      : dataDeletionDetectionPolicyUnionSerializer(item["dataDeletionDetectionPolicy"]),
     "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -6886,14 +6440,10 @@ export function searchIndexerDataSourceConnectionDeserializer(
         }),
     dataChangeDetectionPolicy: !item["dataChangeDetectionPolicy"]
       ? item["dataChangeDetectionPolicy"]
-      : dataChangeDetectionPolicyUnionDeserializer(
-          item["dataChangeDetectionPolicy"],
-        ),
+      : dataChangeDetectionPolicyUnionDeserializer(item["dataChangeDetectionPolicy"]),
     dataDeletionDetectionPolicy: !item["dataDeletionDetectionPolicy"]
       ? item["dataDeletionDetectionPolicy"]
-      : dataDeletionDetectionPolicyUnionDeserializer(
-          item["dataDeletionDetectionPolicy"],
-        ),
+      : dataDeletionDetectionPolicyUnionDeserializer(item["dataDeletionDetectionPolicy"]),
     eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -6940,15 +6490,11 @@ export interface DataSourceCredentials {
   connectionString?: string;
 }
 
-export function dataSourceCredentialsSerializer(
-  item: DataSourceCredentials,
-): any {
+export function dataSourceCredentialsSerializer(item: DataSourceCredentials): any {
   return { connectionString: item["connectionString"] };
 }
 
-export function dataSourceCredentialsDeserializer(
-  item: any,
-): DataSourceCredentials {
+export function dataSourceCredentialsDeserializer(item: any): DataSourceCredentials {
   return {
     connectionString: item["connectionString"],
   };
@@ -6962,15 +6508,11 @@ export interface SearchIndexerDataContainer {
   query?: string;
 }
 
-export function searchIndexerDataContainerSerializer(
-  item: SearchIndexerDataContainer,
-): any {
+export function searchIndexerDataContainerSerializer(item: SearchIndexerDataContainer): any {
   return { name: item["name"], query: item["query"] };
 }
 
-export function searchIndexerDataContainerDeserializer(
-  item: any,
-): SearchIndexerDataContainer {
+export function searchIndexerDataContainerDeserializer(item: any): SearchIndexerDataContainer {
   return {
     name: item["name"],
     query: item["query"],
@@ -7005,15 +6547,11 @@ export interface DataChangeDetectionPolicy {
   odatatype: string;
 }
 
-export function dataChangeDetectionPolicySerializer(
-  item: DataChangeDetectionPolicy,
-): any {
+export function dataChangeDetectionPolicySerializer(item: DataChangeDetectionPolicy): any {
   return { "@odata.type": item["odatatype"] };
 }
 
-export function dataChangeDetectionPolicyDeserializer(
-  item: any,
-): DataChangeDetectionPolicy {
+export function dataChangeDetectionPolicyDeserializer(item: any): DataChangeDetectionPolicy {
   return {
     odatatype: item["@odata.type"],
   };
@@ -7035,9 +6573,7 @@ export function dataChangeDetectionPolicyUnionSerializer(
       );
 
     case "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy":
-      return sqlIntegratedChangeTrackingPolicySerializer(
-        item as SqlIntegratedChangeTrackingPolicy,
-      );
+      return sqlIntegratedChangeTrackingPolicySerializer(item as SqlIntegratedChangeTrackingPolicy);
 
     default:
       return dataChangeDetectionPolicySerializer(item);
@@ -7064,8 +6600,7 @@ export function dataChangeDetectionPolicyUnionDeserializer(
 }
 
 /** Defines a data change detection policy that captures changes based on the value of a high water mark column. */
-export interface HighWaterMarkChangeDetectionPolicy
-  extends DataChangeDetectionPolicy {
+export interface HighWaterMarkChangeDetectionPolicy extends DataChangeDetectionPolicy {
   /** The name of the high water mark column. */
   highWaterMarkColumnName: string;
   /** A URI fragment specifying the type of data change detection policy. */
@@ -7091,8 +6626,7 @@ export function highWaterMarkChangeDetectionPolicyDeserializer(
 }
 
 /** Defines a data change detection policy that captures changes using the Integrated Change Tracking feature of Azure SQL Database. */
-export interface SqlIntegratedChangeTrackingPolicy
-  extends DataChangeDetectionPolicy {
+export interface SqlIntegratedChangeTrackingPolicy extends DataChangeDetectionPolicy {
   /** A URI fragment specifying the type of data change detection policy. */
   odatatype: "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy";
 }
@@ -7118,15 +6652,11 @@ export interface DataDeletionDetectionPolicy {
   odatatype: string;
 }
 
-export function dataDeletionDetectionPolicySerializer(
-  item: DataDeletionDetectionPolicy,
-): any {
+export function dataDeletionDetectionPolicySerializer(item: DataDeletionDetectionPolicy): any {
   return { "@odata.type": item["odatatype"] };
 }
 
-export function dataDeletionDetectionPolicyDeserializer(
-  item: any,
-): DataDeletionDetectionPolicy {
+export function dataDeletionDetectionPolicyDeserializer(item: any): DataDeletionDetectionPolicy {
   return {
     odatatype: item["@odata.type"],
   };
@@ -7177,8 +6707,7 @@ export function dataDeletionDetectionPolicyUnionDeserializer(
 }
 
 /** Defines a data deletion detection policy that implements a soft-deletion strategy. It determines whether an item should be deleted based on the value of a designated 'soft delete' column. */
-export interface SoftDeleteColumnDeletionDetectionPolicy
-  extends DataDeletionDetectionPolicy {
+export interface SoftDeleteColumnDeletionDetectionPolicy extends DataDeletionDetectionPolicy {
   /** The name of the column to use for soft-deletion detection. */
   softDeleteColumnName?: string;
   /** The marker value that identifies an item as deleted. */
@@ -7208,8 +6737,7 @@ export function softDeleteColumnDeletionDetectionPolicyDeserializer(
 }
 
 /** Defines a data deletion detection policy utilizing Azure Blob Storage's native soft delete feature for deletion detection. */
-export interface NativeBlobSoftDeleteDeletionDetectionPolicy
-  extends DataDeletionDetectionPolicy {
+export interface NativeBlobSoftDeleteDeletionDetectionPolicy extends DataDeletionDetectionPolicy {
   /** A URI fragment specifying the type of data deletion detection policy. */
   odatatype: "#Microsoft.Azure.Search.NativeBlobSoftDeleteDeletionDetectionPolicy";
 }
@@ -7234,13 +6762,9 @@ export interface ListDataSourcesResult {
   dataSources: SearchIndexerDataSourceConnection[];
 }
 
-export function listDataSourcesResultDeserializer(
-  item: any,
-): ListDataSourcesResult {
+export function listDataSourcesResultDeserializer(item: any): ListDataSourcesResult {
   return {
-    dataSources: searchIndexerDataSourceConnectionArrayDeserializer(
-      item["value"],
-    ),
+    dataSources: searchIndexerDataSourceConnectionArrayDeserializer(item["value"]),
   };
 }
 
@@ -7320,9 +6844,7 @@ export function searchIndexerSerializer(item: SearchIndexer): any {
     dataSourceName: item["dataSourceName"],
     skillsetName: item["skillsetName"],
     targetIndexName: item["targetIndexName"],
-    schedule: !item["schedule"]
-      ? item["schedule"]
-      : indexingScheduleSerializer(item["schedule"]),
+    schedule: !item["schedule"] ? item["schedule"] : indexingScheduleSerializer(item["schedule"]),
     parameters: !item["parameters"]
       ? item["parameters"]
       : indexingParametersSerializer(item["parameters"]),
@@ -7337,9 +6859,7 @@ export function searchIndexerSerializer(item: SearchIndexer): any {
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
-    cache: !item["cache"]
-      ? item["cache"]
-      : searchIndexerCacheSerializer(item["cache"]),
+    cache: !item["cache"] ? item["cache"] : searchIndexerCacheSerializer(item["cache"]),
   };
 }
 
@@ -7350,9 +6870,7 @@ export function searchIndexerDeserializer(item: any): SearchIndexer {
     dataSourceName: item["dataSourceName"],
     skillsetName: item["skillsetName"],
     targetIndexName: item["targetIndexName"],
-    schedule: !item["schedule"]
-      ? item["schedule"]
-      : indexingScheduleDeserializer(item["schedule"]),
+    schedule: !item["schedule"] ? item["schedule"] : indexingScheduleDeserializer(item["schedule"]),
     parameters: !item["parameters"]
       ? item["parameters"]
       : indexingParametersDeserializer(item["parameters"]),
@@ -7367,9 +6885,7 @@ export function searchIndexerDeserializer(item: any): SearchIndexer {
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
-    cache: !item["cache"]
-      ? item["cache"]
-      : searchIndexerCacheDeserializer(item["cache"]),
+    cache: !item["cache"] ? item["cache"] : searchIndexerCacheDeserializer(item["cache"]),
   };
 }
 
@@ -7681,17 +7197,13 @@ export enum KnownIndexerExecutionEnvironment {
  */
 export type IndexerExecutionEnvironment = string;
 
-export function fieldMappingArraySerializer(
-  result: Array<FieldMapping>,
-): any[] {
+export function fieldMappingArraySerializer(result: Array<FieldMapping>): any[] {
   return result.map((item) => {
     return fieldMappingSerializer(item);
   });
 }
 
-export function fieldMappingArrayDeserializer(
-  result: Array<FieldMapping>,
-): any[] {
+export function fieldMappingArrayDeserializer(result: Array<FieldMapping>): any[] {
   return result.map((item) => {
     return fieldMappingDeserializer(item);
   });
@@ -7735,15 +7247,11 @@ export interface FieldMappingFunction {
   parameters?: Record<string, any>;
 }
 
-export function fieldMappingFunctionSerializer(
-  item: FieldMappingFunction,
-): any {
+export function fieldMappingFunctionSerializer(item: FieldMappingFunction): any {
   return { name: item["name"], parameters: item["parameters"] };
 }
 
-export function fieldMappingFunctionDeserializer(
-  item: any,
-): FieldMappingFunction {
+export function fieldMappingFunctionDeserializer(item: any): FieldMappingFunction {
   return {
     name: item["name"],
     parameters: item["parameters"],
@@ -7796,17 +7304,13 @@ export function listIndexersResultDeserializer(item: any): ListIndexersResult {
   };
 }
 
-export function searchIndexerArraySerializer(
-  result: Array<SearchIndexer>,
-): any[] {
+export function searchIndexerArraySerializer(result: Array<SearchIndexer>): any[] {
   return result.map((item) => {
     return searchIndexerSerializer(item);
   });
 }
 
-export function searchIndexerArrayDeserializer(
-  result: Array<SearchIndexer>,
-): any[] {
+export function searchIndexerArrayDeserializer(result: Array<SearchIndexer>): any[] {
   return result.map((item) => {
     return searchIndexerDeserializer(item);
   });
@@ -7826,18 +7330,14 @@ export interface SearchIndexerStatus {
   limits: SearchIndexerLimits;
 }
 
-export function searchIndexerStatusDeserializer(
-  item: any,
-): SearchIndexerStatus {
+export function searchIndexerStatusDeserializer(item: any): SearchIndexerStatus {
   return {
     name: item["name"],
     status: item["status"],
     lastResult: !item["lastResult"]
       ? item["lastResult"]
       : indexerExecutionResultDeserializer(item["lastResult"]),
-    executionHistory: indexerExecutionResultArrayDeserializer(
-      item["executionHistory"],
-    ),
+    executionHistory: indexerExecutionResultArrayDeserializer(item["executionHistory"]),
     limits: searchIndexerLimitsDeserializer(item["limits"]),
   };
 }
@@ -7893,9 +7393,7 @@ export interface IndexerExecutionResult {
   finalTrackingState?: string;
 }
 
-export function indexerExecutionResultDeserializer(
-  item: any,
-): IndexerExecutionResult {
+export function indexerExecutionResultDeserializer(item: any): IndexerExecutionResult {
   return {
     status: item["status"],
     statusDetail: item["statusDetail"],
@@ -7904,9 +7402,7 @@ export function indexerExecutionResultDeserializer(
       ? item["currentState"]
       : indexerCurrentStateDeserializer(item["currentState"]),
     errorMessage: item["errorMessage"],
-    startTime: !item["startTime"]
-      ? item["startTime"]
-      : new Date(item["startTime"]),
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
     endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
     errors: searchIndexerErrorArrayDeserializer(item["errors"]),
     warnings: searchIndexerWarningArrayDeserializer(item["warnings"]),
@@ -8002,9 +7498,7 @@ export interface IndexerCurrentState {
   readonly resetDatasourceDocumentIds?: string[];
 }
 
-export function indexerCurrentStateDeserializer(
-  item: any,
-): IndexerCurrentState {
+export function indexerCurrentStateDeserializer(item: any): IndexerCurrentState {
   return {
     mode: item["mode"],
     allDocsInitialTrackingState: item["allDocsInitialTrackingState"],
@@ -8026,9 +7520,7 @@ export function indexerCurrentStateDeserializer(
   };
 }
 
-export function searchIndexerErrorArrayDeserializer(
-  result: Array<SearchIndexerError>,
-): any[] {
+export function searchIndexerErrorArrayDeserializer(result: Array<SearchIndexerError>): any[] {
   return result.map((item) => {
     return searchIndexerErrorDeserializer(item);
   });
@@ -8061,9 +7553,7 @@ export function searchIndexerErrorDeserializer(item: any): SearchIndexerError {
   };
 }
 
-export function searchIndexerWarningArrayDeserializer(
-  result: Array<SearchIndexerWarning>,
-): any[] {
+export function searchIndexerWarningArrayDeserializer(result: Array<SearchIndexerWarning>): any[] {
   return result.map((item) => {
     return searchIndexerWarningDeserializer(item);
   });
@@ -8083,9 +7573,7 @@ export interface SearchIndexerWarning {
   documentationLink?: string;
 }
 
-export function searchIndexerWarningDeserializer(
-  item: any,
-): SearchIndexerWarning {
+export function searchIndexerWarningDeserializer(item: any): SearchIndexerWarning {
   return {
     key: item["key"],
     message: item["message"],
@@ -8113,14 +7601,11 @@ export interface SearchIndexerLimits {
   maxDocumentContentCharactersToExtract?: number;
 }
 
-export function searchIndexerLimitsDeserializer(
-  item: any,
-): SearchIndexerLimits {
+export function searchIndexerLimitsDeserializer(item: any): SearchIndexerLimits {
   return {
     maxRunTime: item["maxRunTime"],
     maxDocumentExtractionSize: item["maxDocumentExtractionSize"],
-    maxDocumentContentCharactersToExtract:
-      item["maxDocumentContentCharactersToExtract"],
+    maxDocumentContentCharactersToExtract: item["maxDocumentContentCharactersToExtract"],
   };
 }
 
@@ -8144,18 +7629,14 @@ export interface SearchIndexerSkillset {
   encryptionKey?: SearchResourceEncryptionKey;
 }
 
-export function searchIndexerSkillsetSerializer(
-  item: SearchIndexerSkillset,
-): any {
+export function searchIndexerSkillsetSerializer(item: SearchIndexerSkillset): any {
   return {
     name: item["name"],
     description: item["description"],
     skills: searchIndexerSkillUnionArraySerializer(item["skills"]),
     cognitiveServices: !item["cognitiveServicesAccount"]
       ? item["cognitiveServicesAccount"]
-      : cognitiveServicesAccountUnionSerializer(
-          item["cognitiveServicesAccount"],
-        ),
+      : cognitiveServicesAccountUnionSerializer(item["cognitiveServicesAccount"]),
     knowledgeStore: !item["knowledgeStore"]
       ? item["knowledgeStore"]
       : searchIndexerKnowledgeStoreSerializer(item["knowledgeStore"]),
@@ -8169,9 +7650,7 @@ export function searchIndexerSkillsetSerializer(
   };
 }
 
-export function searchIndexerSkillsetDeserializer(
-  item: any,
-): SearchIndexerSkillset {
+export function searchIndexerSkillsetDeserializer(item: any): SearchIndexerSkillset {
   return {
     name: item["name"],
     description: item["description"],
@@ -8274,17 +7753,13 @@ export type SearchIndexerSkillUnion =
   | ChatCompletionSkill
   | SearchIndexerSkill;
 
-export function searchIndexerSkillUnionSerializer(
-  item: SearchIndexerSkillUnion,
-): any {
+export function searchIndexerSkillUnionSerializer(item: SearchIndexerSkillUnion): any {
   switch (item.odatatype) {
     case "#Microsoft.Skills.Util.ConditionalSkill":
       return conditionalSkillSerializer(item as ConditionalSkill);
 
     case "#Microsoft.Skills.Text.KeyPhraseExtractionSkill":
-      return keyPhraseExtractionSkillSerializer(
-        item as KeyPhraseExtractionSkill,
-      );
+      return keyPhraseExtractionSkillSerializer(item as KeyPhraseExtractionSkill);
 
     case "#Microsoft.Skills.Vision.OcrSkill":
       return ocrSkillSerializer(item as OcrSkill);
@@ -8314,9 +7789,7 @@ export function searchIndexerSkillUnionSerializer(
       return entityLinkingSkillSerializer(item as EntityLinkingSkill);
 
     case "#Microsoft.Skills.Text.V3.EntityRecognitionSkill":
-      return entityRecognitionSkillV3Serializer(
-        item as EntityRecognitionSkillV3,
-      );
+      return entityRecognitionSkillV3Serializer(item as EntityRecognitionSkillV3);
 
     case "#Microsoft.Skills.Text.PIIDetectionSkill":
       return piiDetectionSkillSerializer(item as PIIDetectionSkill);
@@ -8334,22 +7807,16 @@ export function searchIndexerSkillUnionSerializer(
       return documentExtractionSkillSerializer(item as DocumentExtractionSkill);
 
     case "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill":
-      return documentIntelligenceLayoutSkillSerializer(
-        item as DocumentIntelligenceLayoutSkill,
-      );
+      return documentIntelligenceLayoutSkillSerializer(item as DocumentIntelligenceLayoutSkill);
 
     case "#Microsoft.Skills.Custom.WebApiSkill":
       return webApiSkillSerializer(item as WebApiSkill);
 
     case "#Microsoft.Skills.Custom.AmlSkill":
-      return azureMachineLearningSkillSerializer(
-        item as AzureMachineLearningSkill,
-      );
+      return azureMachineLearningSkillSerializer(item as AzureMachineLearningSkill);
 
     case "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill":
-      return azureOpenAIEmbeddingSkillSerializer(
-        item as AzureOpenAIEmbeddingSkill,
-      );
+      return azureOpenAIEmbeddingSkillSerializer(item as AzureOpenAIEmbeddingSkill);
 
     case "#Microsoft.Skills.Vision.VectorizeSkill":
       return visionVectorizeSkillSerializer(item as VisionVectorizeSkill);
@@ -8362,17 +7829,13 @@ export function searchIndexerSkillUnionSerializer(
   }
 }
 
-export function searchIndexerSkillUnionDeserializer(
-  item: any,
-): SearchIndexerSkillUnion {
+export function searchIndexerSkillUnionDeserializer(item: any): SearchIndexerSkillUnion {
   switch (item.odatatype) {
     case "#Microsoft.Skills.Util.ConditionalSkill":
       return conditionalSkillDeserializer(item as ConditionalSkill);
 
     case "#Microsoft.Skills.Text.KeyPhraseExtractionSkill":
-      return keyPhraseExtractionSkillDeserializer(
-        item as KeyPhraseExtractionSkill,
-      );
+      return keyPhraseExtractionSkillDeserializer(item as KeyPhraseExtractionSkill);
 
     case "#Microsoft.Skills.Vision.OcrSkill":
       return ocrSkillDeserializer(item as OcrSkill);
@@ -8402,9 +7865,7 @@ export function searchIndexerSkillUnionDeserializer(
       return entityLinkingSkillDeserializer(item as EntityLinkingSkill);
 
     case "#Microsoft.Skills.Text.V3.EntityRecognitionSkill":
-      return entityRecognitionSkillV3Deserializer(
-        item as EntityRecognitionSkillV3,
-      );
+      return entityRecognitionSkillV3Deserializer(item as EntityRecognitionSkillV3);
 
     case "#Microsoft.Skills.Text.PIIDetectionSkill":
       return piiDetectionSkillDeserializer(item as PIIDetectionSkill);
@@ -8413,35 +7874,25 @@ export function searchIndexerSkillUnionDeserializer(
       return splitSkillDeserializer(item as SplitSkill);
 
     case "#Microsoft.Skills.Text.CustomEntityLookupSkill":
-      return customEntityLookupSkillDeserializer(
-        item as CustomEntityLookupSkill,
-      );
+      return customEntityLookupSkillDeserializer(item as CustomEntityLookupSkill);
 
     case "#Microsoft.Skills.Text.TranslationSkill":
       return textTranslationSkillDeserializer(item as TextTranslationSkill);
 
     case "#Microsoft.Skills.Util.DocumentExtractionSkill":
-      return documentExtractionSkillDeserializer(
-        item as DocumentExtractionSkill,
-      );
+      return documentExtractionSkillDeserializer(item as DocumentExtractionSkill);
 
     case "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill":
-      return documentIntelligenceLayoutSkillDeserializer(
-        item as DocumentIntelligenceLayoutSkill,
-      );
+      return documentIntelligenceLayoutSkillDeserializer(item as DocumentIntelligenceLayoutSkill);
 
     case "#Microsoft.Skills.Custom.WebApiSkill":
       return webApiSkillDeserializer(item as WebApiSkill);
 
     case "#Microsoft.Skills.Custom.AmlSkill":
-      return azureMachineLearningSkillDeserializer(
-        item as AzureMachineLearningSkill,
-      );
+      return azureMachineLearningSkillDeserializer(item as AzureMachineLearningSkill);
 
     case "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill":
-      return azureOpenAIEmbeddingSkillDeserializer(
-        item as AzureOpenAIEmbeddingSkill,
-      );
+      return azureOpenAIEmbeddingSkillDeserializer(item as AzureOpenAIEmbeddingSkill);
 
     case "#Microsoft.Skills.Vision.VectorizeSkill":
       return visionVectorizeSkillDeserializer(item as VisionVectorizeSkill);
@@ -8482,9 +7933,7 @@ export interface InputFieldMappingEntry {
   inputs?: InputFieldMappingEntry[];
 }
 
-export function inputFieldMappingEntrySerializer(
-  item: InputFieldMappingEntry,
-): any {
+export function inputFieldMappingEntrySerializer(item: InputFieldMappingEntry): any {
   return {
     name: item["name"],
     source: item["source"],
@@ -8495,9 +7944,7 @@ export function inputFieldMappingEntrySerializer(
   };
 }
 
-export function inputFieldMappingEntryDeserializer(
-  item: any,
-): InputFieldMappingEntry {
+export function inputFieldMappingEntryDeserializer(item: any): InputFieldMappingEntry {
   return {
     name: item["name"],
     source: item["source"],
@@ -8532,15 +7979,11 @@ export interface OutputFieldMappingEntry {
   targetName?: string;
 }
 
-export function outputFieldMappingEntrySerializer(
-  item: OutputFieldMappingEntry,
-): any {
+export function outputFieldMappingEntrySerializer(item: OutputFieldMappingEntry): any {
   return { name: item["name"], targetName: item["targetName"] };
 }
 
-export function outputFieldMappingEntryDeserializer(
-  item: any,
-): OutputFieldMappingEntry {
+export function outputFieldMappingEntryDeserializer(item: any): OutputFieldMappingEntry {
   return {
     name: item["name"],
     targetName: item["targetName"],
@@ -8587,9 +8030,7 @@ export interface KeyPhraseExtractionSkill extends SearchIndexerSkill {
   odatatype: "#Microsoft.Skills.Text.KeyPhraseExtractionSkill";
 }
 
-export function keyPhraseExtractionSkillSerializer(
-  item: KeyPhraseExtractionSkill,
-): any {
+export function keyPhraseExtractionSkillSerializer(item: KeyPhraseExtractionSkill): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -8603,9 +8044,7 @@ export function keyPhraseExtractionSkillSerializer(
   };
 }
 
-export function keyPhraseExtractionSkillDeserializer(
-  item: any,
-): KeyPhraseExtractionSkill {
+export function keyPhraseExtractionSkillDeserializer(item: any): KeyPhraseExtractionSkill {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -9560,9 +8999,7 @@ export interface LanguageDetectionSkill extends SearchIndexerSkill {
   odatatype: "#Microsoft.Skills.Text.LanguageDetectionSkill";
 }
 
-export function languageDetectionSkillSerializer(
-  item: LanguageDetectionSkill,
-): any {
+export function languageDetectionSkillSerializer(item: LanguageDetectionSkill): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -9575,9 +9012,7 @@ export function languageDetectionSkillSerializer(
   };
 }
 
-export function languageDetectionSkillDeserializer(
-  item: any,
-): LanguageDetectionSkill {
+export function languageDetectionSkillDeserializer(item: any): LanguageDetectionSkill {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -9668,9 +9103,7 @@ export interface EntityRecognitionSkill extends SearchIndexerSkill {
   odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill";
 }
 
-export function entityRecognitionSkillSerializer(
-  item: EntityRecognitionSkill,
-): any {
+export function entityRecognitionSkillSerializer(item: EntityRecognitionSkill): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -9689,9 +9122,7 @@ export function entityRecognitionSkillSerializer(
   };
 }
 
-export function entityRecognitionSkillDeserializer(
-  item: any,
-): EntityRecognitionSkill {
+export function entityRecognitionSkillDeserializer(item: any): EntityRecognitionSkill {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -10007,9 +9438,7 @@ export interface EntityRecognitionSkillV3 extends SearchIndexerSkill {
   odatatype: "#Microsoft.Skills.Text.V3.EntityRecognitionSkill";
 }
 
-export function entityRecognitionSkillV3Serializer(
-  item: EntityRecognitionSkillV3,
-): any {
+export function entityRecognitionSkillV3Serializer(item: EntityRecognitionSkillV3): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -10028,9 +9457,7 @@ export function entityRecognitionSkillV3Serializer(
   };
 }
 
-export function entityRecognitionSkillV3Deserializer(
-  item: any,
-): EntityRecognitionSkillV3 {
+export function entityRecognitionSkillV3Deserializer(item: any): EntityRecognitionSkillV3 {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -10167,9 +9594,7 @@ export function splitSkillSerializer(item: SplitSkill): any {
     unit: item["unit"],
     azureOpenAITokenizerParameters: !item["azureOpenAITokenizerParameters"]
       ? item["azureOpenAITokenizerParameters"]
-      : azureOpenAITokenizerParametersSerializer(
-          item["azureOpenAITokenizerParameters"],
-        ),
+      : azureOpenAITokenizerParametersSerializer(item["azureOpenAITokenizerParameters"]),
   };
 }
 
@@ -10189,9 +9614,7 @@ export function splitSkillDeserializer(item: any): SplitSkill {
     unit: item["unit"],
     azureOpenAITokenizerParameters: !item["azureOpenAITokenizerParameters"]
       ? item["azureOpenAITokenizerParameters"]
-      : azureOpenAITokenizerParametersDeserializer(
-          item["azureOpenAITokenizerParameters"],
-        ),
+      : azureOpenAITokenizerParametersDeserializer(item["azureOpenAITokenizerParameters"]),
   };
 }
 
@@ -10418,9 +9841,7 @@ export interface CustomEntityLookupSkill extends SearchIndexerSkill {
   odatatype: "#Microsoft.Skills.Text.CustomEntityLookupSkill";
 }
 
-export function customEntityLookupSkillSerializer(
-  item: CustomEntityLookupSkill,
-): any {
+export function customEntityLookupSkillSerializer(item: CustomEntityLookupSkill): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -10439,9 +9860,7 @@ export function customEntityLookupSkillSerializer(
   };
 }
 
-export function customEntityLookupSkillDeserializer(
-  item: any,
-): CustomEntityLookupSkill {
+export function customEntityLookupSkillDeserializer(item: any): CustomEntityLookupSkill {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -10499,17 +9918,13 @@ export enum KnownCustomEntityLookupSkillLanguage {
  */
 export type CustomEntityLookupSkillLanguage = string;
 
-export function customEntityArraySerializer(
-  result: Array<CustomEntity>,
-): any[] {
+export function customEntityArraySerializer(result: Array<CustomEntity>): any[] {
   return result.map((item) => {
     return customEntitySerializer(item);
   });
 }
 
-export function customEntityArrayDeserializer(
-  result: Array<CustomEntity>,
-): any[] {
+export function customEntityArrayDeserializer(result: Array<CustomEntity>): any[] {
   return result.map((item) => {
     return customEntityDeserializer(item);
   });
@@ -10556,9 +9971,7 @@ export function customEntitySerializer(item: CustomEntity): any {
     defaultCaseSensitive: item["defaultCaseSensitive"],
     defaultAccentSensitive: item["defaultAccentSensitive"],
     defaultFuzzyEditDistance: item["defaultFuzzyEditDistance"],
-    aliases: !item["aliases"]
-      ? item["aliases"]
-      : customEntityAliasArraySerializer(item["aliases"]),
+    aliases: !item["aliases"] ? item["aliases"] : customEntityAliasArraySerializer(item["aliases"]),
   };
 }
 
@@ -10581,17 +9994,13 @@ export function customEntityDeserializer(item: any): CustomEntity {
   };
 }
 
-export function customEntityAliasArraySerializer(
-  result: Array<CustomEntityAlias>,
-): any[] {
+export function customEntityAliasArraySerializer(result: Array<CustomEntityAlias>): any[] {
   return result.map((item) => {
     return customEntityAliasSerializer(item);
   });
 }
 
-export function customEntityAliasArrayDeserializer(
-  result: Array<CustomEntityAlias>,
-): any[] {
+export function customEntityAliasArrayDeserializer(result: Array<CustomEntityAlias>): any[] {
   return result.map((item) => {
     return customEntityAliasDeserializer(item);
   });
@@ -10639,9 +10048,7 @@ export interface TextTranslationSkill extends SearchIndexerSkill {
   odatatype: "#Microsoft.Skills.Text.TranslationSkill";
 }
 
-export function textTranslationSkillSerializer(
-  item: TextTranslationSkill,
-): any {
+export function textTranslationSkillSerializer(item: TextTranslationSkill): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -10655,9 +10062,7 @@ export function textTranslationSkillSerializer(
   };
 }
 
-export function textTranslationSkillDeserializer(
-  item: any,
-): TextTranslationSkill {
+export function textTranslationSkillDeserializer(item: any): TextTranslationSkill {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -10911,9 +10316,7 @@ export interface DocumentExtractionSkill extends SearchIndexerSkill {
   odatatype: "#Microsoft.Skills.Util.DocumentExtractionSkill";
 }
 
-export function documentExtractionSkillSerializer(
-  item: DocumentExtractionSkill,
-): any {
+export function documentExtractionSkillSerializer(item: DocumentExtractionSkill): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -10927,9 +10330,7 @@ export function documentExtractionSkillSerializer(
   };
 }
 
-export function documentExtractionSkillDeserializer(
-  item: any,
-): DocumentExtractionSkill {
+export function documentExtractionSkillDeserializer(item: any): DocumentExtractionSkill {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -10979,9 +10380,7 @@ export function documentIntelligenceLayoutSkillSerializer(
         }),
     chunkingProperties: !item["chunkingProperties"]
       ? item["chunkingProperties"]
-      : documentIntelligenceLayoutSkillChunkingPropertiesSerializer(
-          item["chunkingProperties"],
-        ),
+      : documentIntelligenceLayoutSkillChunkingPropertiesSerializer(item["chunkingProperties"]),
   };
 }
 
@@ -11005,9 +10404,7 @@ export function documentIntelligenceLayoutSkillDeserializer(
         }),
     chunkingProperties: !item["chunkingProperties"]
       ? item["chunkingProperties"]
-      : documentIntelligenceLayoutSkillChunkingPropertiesDeserializer(
-          item["chunkingProperties"],
-        ),
+      : documentIntelligenceLayoutSkillChunkingPropertiesDeserializer(item["chunkingProperties"]),
   };
 }
 
@@ -11219,9 +10616,7 @@ export interface AzureMachineLearningSkill extends SearchIndexerSkill {
   odatatype: "#Microsoft.Skills.Custom.AmlSkill";
 }
 
-export function azureMachineLearningSkillSerializer(
-  item: AzureMachineLearningSkill,
-): any {
+export function azureMachineLearningSkillSerializer(item: AzureMachineLearningSkill): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -11238,9 +10633,7 @@ export function azureMachineLearningSkillSerializer(
   };
 }
 
-export function azureMachineLearningSkillDeserializer(
-  item: any,
-): AzureMachineLearningSkill {
+export function azureMachineLearningSkillDeserializer(item: any): AzureMachineLearningSkill {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -11275,9 +10668,7 @@ export interface AzureOpenAIEmbeddingSkill extends SearchIndexerSkill {
   odatatype: "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
 }
 
-export function azureOpenAIEmbeddingSkillSerializer(
-  item: AzureOpenAIEmbeddingSkill,
-): any {
+export function azureOpenAIEmbeddingSkillSerializer(item: AzureOpenAIEmbeddingSkill): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -11296,9 +10687,7 @@ export function azureOpenAIEmbeddingSkillSerializer(
   };
 }
 
-export function azureOpenAIEmbeddingSkillDeserializer(
-  item: any,
-): AzureOpenAIEmbeddingSkill {
+export function azureOpenAIEmbeddingSkillDeserializer(item: any): AzureOpenAIEmbeddingSkill {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -11325,9 +10714,7 @@ export interface VisionVectorizeSkill extends SearchIndexerSkill {
   odatatype: "#Microsoft.Skills.Vision.VectorizeSkill";
 }
 
-export function visionVectorizeSkillSerializer(
-  item: VisionVectorizeSkill,
-): any {
+export function visionVectorizeSkillSerializer(item: VisionVectorizeSkill): any {
   return {
     "@odata.type": item["odatatype"],
     name: item["name"],
@@ -11339,9 +10726,7 @@ export function visionVectorizeSkillSerializer(
   };
 }
 
-export function visionVectorizeSkillDeserializer(
-  item: any,
-): VisionVectorizeSkill {
+export function visionVectorizeSkillDeserializer(item: any): VisionVectorizeSkill {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -11408,9 +10793,7 @@ export function chatCompletionSkillSerializer(item: ChatCompletionSkill): any {
     apiKey: item["apiKey"],
     commonModelParameters: !item["commonModelParameters"]
       ? item["commonModelParameters"]
-      : chatCompletionCommonModelParametersSerializer(
-          item["commonModelParameters"],
-        ),
+      : chatCompletionCommonModelParametersSerializer(item["commonModelParameters"]),
     extraParameters: item["extraParameters"],
     extraParametersBehavior: item["extraParametersBehavior"],
     responseFormat: !item["responseFormat"]
@@ -11420,9 +10803,7 @@ export function chatCompletionSkillSerializer(item: ChatCompletionSkill): any {
   };
 }
 
-export function chatCompletionSkillDeserializer(
-  item: any,
-): ChatCompletionSkill {
+export function chatCompletionSkillDeserializer(item: any): ChatCompletionSkill {
   return {
     odatatype: item["@odata.type"],
     name: item["name"],
@@ -11445,9 +10826,7 @@ export function chatCompletionSkillDeserializer(
     apiKey: item["apiKey"],
     commonModelParameters: !item["commonModelParameters"]
       ? item["commonModelParameters"]
-      : chatCompletionCommonModelParametersDeserializer(
-          item["commonModelParameters"],
-        ),
+      : chatCompletionCommonModelParametersDeserializer(item["commonModelParameters"]),
     extraParameters: item["extraParameters"],
     extraParametersBehavior: item["extraParametersBehavior"],
     responseFormat: !item["responseFormat"]
@@ -11556,9 +10935,7 @@ export interface ChatCompletionResponseFormat {
   jsonSchemaProperties?: ChatCompletionSchemaProperties;
 }
 
-export function chatCompletionResponseFormatSerializer(
-  item: ChatCompletionResponseFormat,
-): any {
+export function chatCompletionResponseFormatSerializer(item: ChatCompletionResponseFormat): any {
   return {
     type: item["type"],
     jsonSchemaProperties: !item["jsonSchemaProperties"]
@@ -11567,16 +10944,12 @@ export function chatCompletionResponseFormatSerializer(
   };
 }
 
-export function chatCompletionResponseFormatDeserializer(
-  item: any,
-): ChatCompletionResponseFormat {
+export function chatCompletionResponseFormatDeserializer(item: any): ChatCompletionResponseFormat {
   return {
     type: item["type"],
     jsonSchemaProperties: !item["jsonSchemaProperties"]
       ? item["jsonSchemaProperties"]
-      : chatCompletionSchemaPropertiesDeserializer(
-          item["jsonSchemaProperties"],
-        ),
+      : chatCompletionSchemaPropertiesDeserializer(item["jsonSchemaProperties"]),
   };
 }
 
@@ -11620,9 +10993,7 @@ export function chatCompletionSchemaPropertiesSerializer(
     name: item["name"],
     description: item["description"],
     strict: item["strict"],
-    schema: !item["schema"]
-      ? item["schema"]
-      : chatCompletionSchemaSerializer(item["schema"]),
+    schema: !item["schema"] ? item["schema"] : chatCompletionSchemaSerializer(item["schema"]),
   };
 }
 
@@ -11633,9 +11004,7 @@ export function chatCompletionSchemaPropertiesDeserializer(
     name: item["name"],
     description: item["description"],
     strict: item["strict"],
-    schema: !item["schema"]
-      ? item["schema"]
-      : chatCompletionSchemaDeserializer(item["schema"]),
+    schema: !item["schema"] ? item["schema"] : chatCompletionSchemaDeserializer(item["schema"]),
   };
 }
 
@@ -11651,9 +11020,7 @@ export interface ChatCompletionSchema {
   additionalProperties?: boolean;
 }
 
-export function chatCompletionSchemaSerializer(
-  item: ChatCompletionSchema,
-): any {
+export function chatCompletionSchemaSerializer(item: ChatCompletionSchema): any {
   return {
     type: item["type"],
     properties: item["properties"],
@@ -11666,9 +11033,7 @@ export function chatCompletionSchemaSerializer(
   };
 }
 
-export function chatCompletionSchemaDeserializer(
-  item: any,
-): ChatCompletionSchema {
+export function chatCompletionSchemaDeserializer(item: any): ChatCompletionSchema {
   return {
     type: item["type"],
     properties: item["properties"],
@@ -11690,15 +11055,11 @@ export interface CognitiveServicesAccount {
   description?: string;
 }
 
-export function cognitiveServicesAccountSerializer(
-  item: CognitiveServicesAccount,
-): any {
+export function cognitiveServicesAccountSerializer(item: CognitiveServicesAccount): any {
   return { "@odata.type": item["odatatype"], description: item["description"] };
 }
 
-export function cognitiveServicesAccountDeserializer(
-  item: any,
-): CognitiveServicesAccount {
+export function cognitiveServicesAccountDeserializer(item: any): CognitiveServicesAccount {
   return {
     odatatype: item["@odata.type"],
     description: item["description"],
@@ -11713,27 +11074,19 @@ export type CognitiveServicesAccountUnion =
   | AIServicesAccountIdentity
   | CognitiveServicesAccount;
 
-export function cognitiveServicesAccountUnionSerializer(
-  item: CognitiveServicesAccountUnion,
-): any {
+export function cognitiveServicesAccountUnionSerializer(item: CognitiveServicesAccountUnion): any {
   switch (item.odatatype) {
     case "#Microsoft.Azure.Search.DefaultCognitiveServices":
-      return defaultCognitiveServicesAccountSerializer(
-        item as DefaultCognitiveServicesAccount,
-      );
+      return defaultCognitiveServicesAccountSerializer(item as DefaultCognitiveServicesAccount);
 
     case "#Microsoft.Azure.Search.CognitiveServicesByKey":
-      return cognitiveServicesAccountKeySerializer(
-        item as CognitiveServicesAccountKey,
-      );
+      return cognitiveServicesAccountKeySerializer(item as CognitiveServicesAccountKey);
 
     case "#Microsoft.Azure.Search.AIServicesByKey":
       return aiServicesAccountKeySerializer(item as AIServicesAccountKey);
 
     case "#Microsoft.Azure.Search.AIServicesByIdentity":
-      return aiServicesAccountIdentitySerializer(
-        item as AIServicesAccountIdentity,
-      );
+      return aiServicesAccountIdentitySerializer(item as AIServicesAccountIdentity);
 
     default:
       return cognitiveServicesAccountSerializer(item);
@@ -11745,22 +11098,16 @@ export function cognitiveServicesAccountUnionDeserializer(
 ): CognitiveServicesAccountUnion {
   switch (item.odatatype) {
     case "#Microsoft.Azure.Search.DefaultCognitiveServices":
-      return defaultCognitiveServicesAccountDeserializer(
-        item as DefaultCognitiveServicesAccount,
-      );
+      return defaultCognitiveServicesAccountDeserializer(item as DefaultCognitiveServicesAccount);
 
     case "#Microsoft.Azure.Search.CognitiveServicesByKey":
-      return cognitiveServicesAccountKeyDeserializer(
-        item as CognitiveServicesAccountKey,
-      );
+      return cognitiveServicesAccountKeyDeserializer(item as CognitiveServicesAccountKey);
 
     case "#Microsoft.Azure.Search.AIServicesByKey":
       return aiServicesAccountKeyDeserializer(item as AIServicesAccountKey);
 
     case "#Microsoft.Azure.Search.AIServicesByIdentity":
-      return aiServicesAccountIdentityDeserializer(
-        item as AIServicesAccountIdentity,
-      );
+      return aiServicesAccountIdentityDeserializer(item as AIServicesAccountIdentity);
 
     default:
       return cognitiveServicesAccountDeserializer(item);
@@ -11768,8 +11115,7 @@ export function cognitiveServicesAccountUnionDeserializer(
 }
 
 /** An empty object that represents the default Azure AI service resource for a skillset. */
-export interface DefaultCognitiveServicesAccount
-  extends CognitiveServicesAccount {
+export interface DefaultCognitiveServicesAccount extends CognitiveServicesAccount {
   /** A URI fragment specifying the type of Azure AI service resource attached to a skillset. */
   odatatype: "#Microsoft.Azure.Search.DefaultCognitiveServices";
 }
@@ -11797,9 +11143,7 @@ export interface CognitiveServicesAccountKey extends CognitiveServicesAccount {
   odatatype: "#Microsoft.Azure.Search.CognitiveServicesByKey";
 }
 
-export function cognitiveServicesAccountKeySerializer(
-  item: CognitiveServicesAccountKey,
-): any {
+export function cognitiveServicesAccountKeySerializer(item: CognitiveServicesAccountKey): any {
   return {
     "@odata.type": item["odatatype"],
     description: item["description"],
@@ -11807,9 +11151,7 @@ export function cognitiveServicesAccountKeySerializer(
   };
 }
 
-export function cognitiveServicesAccountKeyDeserializer(
-  item: any,
-): CognitiveServicesAccountKey {
+export function cognitiveServicesAccountKeyDeserializer(item: any): CognitiveServicesAccountKey {
   return {
     odatatype: item["@odata.type"],
     description: item["description"],
@@ -11827,9 +11169,7 @@ export interface AIServicesAccountKey extends CognitiveServicesAccount {
   odatatype: "#Microsoft.Azure.Search.AIServicesByKey";
 }
 
-export function aiServicesAccountKeySerializer(
-  item: AIServicesAccountKey,
-): any {
+export function aiServicesAccountKeySerializer(item: AIServicesAccountKey): any {
   return {
     "@odata.type": item["odatatype"],
     description: item["description"],
@@ -11838,9 +11178,7 @@ export function aiServicesAccountKeySerializer(
   };
 }
 
-export function aiServicesAccountKeyDeserializer(
-  item: any,
-): AIServicesAccountKey {
+export function aiServicesAccountKeyDeserializer(item: any): AIServicesAccountKey {
   return {
     odatatype: item["@odata.type"],
     description: item["description"],
@@ -11859,9 +11197,7 @@ export interface AIServicesAccountIdentity extends CognitiveServicesAccount {
   odatatype: "#Microsoft.Azure.Search.AIServicesByIdentity";
 }
 
-export function aiServicesAccountIdentitySerializer(
-  item: AIServicesAccountIdentity,
-): any {
+export function aiServicesAccountIdentitySerializer(item: AIServicesAccountIdentity): any {
   return {
     "@odata.type": item["odatatype"],
     description: item["description"],
@@ -11872,9 +11208,7 @@ export function aiServicesAccountIdentitySerializer(
   };
 }
 
-export function aiServicesAccountIdentityDeserializer(
-  item: any,
-): AIServicesAccountIdentity {
+export function aiServicesAccountIdentityDeserializer(item: any): AIServicesAccountIdentity {
   return {
     odatatype: item["@odata.type"],
     description: item["description"],
@@ -11897,14 +11231,10 @@ export interface SearchIndexerKnowledgeStore {
   parameters?: SearchIndexerKnowledgeStoreParameters;
 }
 
-export function searchIndexerKnowledgeStoreSerializer(
-  item: SearchIndexerKnowledgeStore,
-): any {
+export function searchIndexerKnowledgeStoreSerializer(item: SearchIndexerKnowledgeStore): any {
   return {
     storageConnectionString: item["storageConnectionString"],
-    projections: searchIndexerKnowledgeStoreProjectionArraySerializer(
-      item["projections"],
-    ),
+    projections: searchIndexerKnowledgeStoreProjectionArraySerializer(item["projections"]),
     identity: !item["identity"]
       ? item["identity"]
       : searchIndexerDataIdentityUnionSerializer(item["identity"]),
@@ -11914,14 +11244,10 @@ export function searchIndexerKnowledgeStoreSerializer(
   };
 }
 
-export function searchIndexerKnowledgeStoreDeserializer(
-  item: any,
-): SearchIndexerKnowledgeStore {
+export function searchIndexerKnowledgeStoreDeserializer(item: any): SearchIndexerKnowledgeStore {
   return {
     storageConnectionString: item["storageConnectionString"],
-    projections: searchIndexerKnowledgeStoreProjectionArrayDeserializer(
-      item["projections"],
-    ),
+    projections: searchIndexerKnowledgeStoreProjectionArrayDeserializer(item["projections"]),
     identity: !item["identity"]
       ? item["identity"]
       : searchIndexerDataIdentityUnionDeserializer(item["identity"]),
@@ -11963,19 +11289,13 @@ export function searchIndexerKnowledgeStoreProjectionSerializer(
   return {
     tables: !item["tables"]
       ? item["tables"]
-      : searchIndexerKnowledgeStoreTableProjectionSelectorArraySerializer(
-          item["tables"],
-        ),
+      : searchIndexerKnowledgeStoreTableProjectionSelectorArraySerializer(item["tables"]),
     objects: !item["objects"]
       ? item["objects"]
-      : searchIndexerKnowledgeStoreObjectProjectionSelectorArraySerializer(
-          item["objects"],
-        ),
+      : searchIndexerKnowledgeStoreObjectProjectionSelectorArraySerializer(item["objects"]),
     files: !item["files"]
       ? item["files"]
-      : searchIndexerKnowledgeStoreFileProjectionSelectorArraySerializer(
-          item["files"],
-        ),
+      : searchIndexerKnowledgeStoreFileProjectionSelectorArraySerializer(item["files"]),
   };
 }
 
@@ -11985,19 +11305,13 @@ export function searchIndexerKnowledgeStoreProjectionDeserializer(
   return {
     tables: !item["tables"]
       ? item["tables"]
-      : searchIndexerKnowledgeStoreTableProjectionSelectorArrayDeserializer(
-          item["tables"],
-        ),
+      : searchIndexerKnowledgeStoreTableProjectionSelectorArrayDeserializer(item["tables"]),
     objects: !item["objects"]
       ? item["objects"]
-      : searchIndexerKnowledgeStoreObjectProjectionSelectorArrayDeserializer(
-          item["objects"],
-        ),
+      : searchIndexerKnowledgeStoreObjectProjectionSelectorArrayDeserializer(item["objects"]),
     files: !item["files"]
       ? item["files"]
-      : searchIndexerKnowledgeStoreFileProjectionSelectorArrayDeserializer(
-          item["files"],
-        ),
+      : searchIndexerKnowledgeStoreFileProjectionSelectorArrayDeserializer(item["files"]),
   };
 }
 
@@ -12066,9 +11380,7 @@ export function searchIndexerKnowledgeStoreObjectProjectionSelectorArrayDeserial
   result: Array<SearchIndexerKnowledgeStoreObjectProjectionSelector>,
 ): any[] {
   return result.map((item) => {
-    return searchIndexerKnowledgeStoreObjectProjectionSelectorDeserializer(
-      item,
-    );
+    return searchIndexerKnowledgeStoreObjectProjectionSelectorDeserializer(item);
   });
 }
 
@@ -12190,26 +11502,18 @@ export interface SearchIndexerIndexProjection {
   parameters?: SearchIndexerIndexProjectionsParameters;
 }
 
-export function searchIndexerIndexProjectionSerializer(
-  item: SearchIndexerIndexProjection,
-): any {
+export function searchIndexerIndexProjectionSerializer(item: SearchIndexerIndexProjection): any {
   return {
-    selectors: searchIndexerIndexProjectionSelectorArraySerializer(
-      item["selectors"],
-    ),
+    selectors: searchIndexerIndexProjectionSelectorArraySerializer(item["selectors"]),
     parameters: !item["parameters"]
       ? item["parameters"]
       : searchIndexerIndexProjectionsParametersSerializer(item["parameters"]),
   };
 }
 
-export function searchIndexerIndexProjectionDeserializer(
-  item: any,
-): SearchIndexerIndexProjection {
+export function searchIndexerIndexProjectionDeserializer(item: any): SearchIndexerIndexProjection {
   return {
-    selectors: searchIndexerIndexProjectionSelectorArrayDeserializer(
-      item["selectors"],
-    ),
+    selectors: searchIndexerIndexProjectionSelectorArrayDeserializer(item["selectors"]),
     parameters: !item["parameters"]
       ? item["parameters"]
       : searchIndexerIndexProjectionsParametersDeserializer(item["parameters"]),
@@ -12395,17 +11699,13 @@ export interface ListSkillsetsResult {
   skillsets: SearchIndexerSkillset[];
 }
 
-export function listSkillsetsResultDeserializer(
-  item: any,
-): ListSkillsetsResult {
+export function listSkillsetsResultDeserializer(item: any): ListSkillsetsResult {
   return {
     skillsets: searchIndexerSkillsetArrayDeserializer(item["value"]),
   };
 }
 
-export function searchIndexerSkillsetArraySerializer(
-  result: Array<SearchIndexerSkillset>,
-): any[] {
+export function searchIndexerSkillsetArraySerializer(result: Array<SearchIndexerSkillset>): any[] {
   return result.map((item) => {
     return searchIndexerSkillsetSerializer(item);
   });

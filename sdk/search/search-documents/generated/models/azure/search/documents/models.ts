@@ -17,9 +17,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -42,26 +40,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -75,9 +67,7 @@ export interface ErrorAdditionalInfo {
   info?: Record<string, string>;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
     info: item["info"],
@@ -110,15 +100,11 @@ export interface SearchDocumentsResult {
   readonly semanticQueryRewritesResultType?: SemanticQueryRewritesResultType;
 }
 
-export function searchDocumentsResultSerializer(
-  item: SearchDocumentsResult,
-): any {
+export function searchDocumentsResultSerializer(item: SearchDocumentsResult): any {
   return item;
 }
 
-export function searchDocumentsResultDeserializer(
-  item: any,
-): SearchDocumentsResult {
+export function searchDocumentsResultDeserializer(item: any): SearchDocumentsResult {
   return {
     count: item["@odata.count"],
     coverage: item["@search.coverage"],
@@ -136,11 +122,9 @@ export function searchDocumentsResultDeserializer(
       : searchRequestDeserializer(item["@search.nextPageParameters"]),
     results: searchResultArrayDeserializer(item["value"]),
     nextLink: item["@odata.nextLink"],
-    semanticPartialResponseReason:
-      item["@search.semanticPartialResponseReason"],
+    semanticPartialResponseReason: item["@search.semanticPartialResponseReason"],
     semanticPartialResponseType: item["@search.semanticPartialResponseType"],
-    semanticQueryRewritesResultType:
-      item["@search.semanticQueryRewritesResultType"],
+    semanticQueryRewritesResultType: item["@search.semanticQueryRewritesResultType"],
   };
 }
 
@@ -149,9 +133,7 @@ export function facetResultArrayRecordSerializer(
 ): Record<string, any> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : facetResultArraySerializer(item[key]);
+    result[key] = !item[key] ? item[key] : facetResultArraySerializer(item[key]);
   });
   return result;
 }
@@ -161,9 +143,7 @@ export function facetResultArrayRecordDeserializer(
 ): Record<string, Array<FacetResult>> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : facetResultArrayDeserializer(item[key]);
+    result[key] = !item[key] ? item[key] : facetResultArrayDeserializer(item[key]);
   });
   return result;
 }
@@ -174,9 +154,7 @@ export function facetResultArraySerializer(result: Array<FacetResult>): any[] {
   });
 }
 
-export function facetResultArrayDeserializer(
-  result: Array<FacetResult>,
-): any[] {
+export function facetResultArrayDeserializer(result: Array<FacetResult>): any[] {
   return result.map((item) => {
     return facetResultDeserializer(item);
   });
@@ -212,17 +190,13 @@ export function facetResultDeserializer(item: any): FacetResult {
   };
 }
 
-export function queryAnswerResultArraySerializer(
-  result: Array<QueryAnswerResult>,
-): any[] {
+export function queryAnswerResultArraySerializer(result: Array<QueryAnswerResult>): any[] {
   return result.map((item) => {
     return queryAnswerResultSerializer(item);
   });
 }
 
-export function queryAnswerResultArrayDeserializer(
-  result: Array<QueryAnswerResult>,
-): any[] {
+export function queryAnswerResultArrayDeserializer(result: Array<QueryAnswerResult>): any[] {
   return result.map((item) => {
     return queryAnswerResultDeserializer(item);
   });
@@ -254,12 +228,7 @@ export function queryAnswerResultSerializer(item: QueryAnswerResult): any {
 
 export function queryAnswerResultDeserializer(item: any): QueryAnswerResult {
   return {
-    additionalProperties: serializeRecord(item, [
-      "score",
-      "key",
-      "text",
-      "highlights",
-    ]),
+    additionalProperties: serializeRecord(item, ["score", "key", "text", "highlights"]),
     score: item["score"],
     key: item["key"],
     text: item["text"],
@@ -293,13 +262,9 @@ export interface QueryRewritesDebugInfo {
   readonly vectors?: QueryRewritesValuesDebugInfo[];
 }
 
-export function queryRewritesDebugInfoDeserializer(
-  item: any,
-): QueryRewritesDebugInfo {
+export function queryRewritesDebugInfoDeserializer(item: any): QueryRewritesDebugInfo {
   return {
-    text: !item["text"]
-      ? item["text"]
-      : queryRewritesValuesDebugInfoDeserializer(item["text"]),
+    text: !item["text"] ? item["text"] : queryRewritesValuesDebugInfoDeserializer(item["text"]),
     vectors: !item["vectors"]
       ? item["vectors"]
       : queryRewritesValuesDebugInfoArrayDeserializer(item["vectors"]),
@@ -314,9 +279,7 @@ export interface QueryRewritesValuesDebugInfo {
   readonly rewrites?: string[];
 }
 
-export function queryRewritesValuesDebugInfoDeserializer(
-  item: any,
-): QueryRewritesValuesDebugInfo {
+export function queryRewritesValuesDebugInfoDeserializer(item: any): QueryRewritesValuesDebugInfo {
   return {
     inputQuery: item["inputQuery"],
     rewrites: !item["rewrites"]
@@ -860,17 +823,13 @@ export enum KnownQueryRewritesType {
  */
 export type QueryRewritesType = string;
 
-export function vectorQueryUnionArraySerializer(
-  result: Array<VectorQueryUnion>,
-): any[] {
+export function vectorQueryUnionArraySerializer(result: Array<VectorQueryUnion>): any[] {
   return result.map((item) => {
     return vectorQueryUnionSerializer(item);
   });
 }
 
-export function vectorQueryUnionArrayDeserializer(
-  result: Array<VectorQueryUnion>,
-): any[] {
+export function vectorQueryUnionArrayDeserializer(result: Array<VectorQueryUnion>): any[] {
   return result.map((item) => {
     return vectorQueryUnionDeserializer(item);
   });
@@ -948,14 +907,10 @@ export function vectorQueryUnionSerializer(item: VectorQueryUnion): any {
       return vectorizableTextQuerySerializer(item as VectorizableTextQuery);
 
     case "imageUrl":
-      return vectorizableImageUrlQuerySerializer(
-        item as VectorizableImageUrlQuery,
-      );
+      return vectorizableImageUrlQuerySerializer(item as VectorizableImageUrlQuery);
 
     case "imageBinary":
-      return vectorizableImageBinaryQuerySerializer(
-        item as VectorizableImageBinaryQuery,
-      );
+      return vectorizableImageBinaryQuerySerializer(item as VectorizableImageBinaryQuery);
 
     default:
       return vectorQuerySerializer(item);
@@ -971,14 +926,10 @@ export function vectorQueryUnionDeserializer(item: any): VectorQueryUnion {
       return vectorizableTextQueryDeserializer(item as VectorizableTextQuery);
 
     case "imageUrl":
-      return vectorizableImageUrlQueryDeserializer(
-        item as VectorizableImageUrlQuery,
-      );
+      return vectorizableImageUrlQueryDeserializer(item as VectorizableImageUrlQuery);
 
     case "imageBinary":
-      return vectorizableImageBinaryQueryDeserializer(
-        item as VectorizableImageBinaryQuery,
-      );
+      return vectorizableImageBinaryQueryDeserializer(item as VectorizableImageBinaryQuery);
 
     default:
       return vectorQueryDeserializer(item);
@@ -1008,14 +959,10 @@ export type VectorThresholdUnion =
   | SearchScoreThreshold
   | VectorThreshold;
 
-export function vectorThresholdUnionSerializer(
-  item: VectorThresholdUnion,
-): any {
+export function vectorThresholdUnionSerializer(item: VectorThresholdUnion): any {
   switch (item.kind) {
     case "vectorSimilarity":
-      return vectorSimilarityThresholdSerializer(
-        item as VectorSimilarityThreshold,
-      );
+      return vectorSimilarityThresholdSerializer(item as VectorSimilarityThreshold);
 
     case "searchScore":
       return searchScoreThresholdSerializer(item as SearchScoreThreshold);
@@ -1025,14 +972,10 @@ export function vectorThresholdUnionSerializer(
   }
 }
 
-export function vectorThresholdUnionDeserializer(
-  item: any,
-): VectorThresholdUnion {
+export function vectorThresholdUnionDeserializer(item: any): VectorThresholdUnion {
   switch (item.kind) {
     case "vectorSimilarity":
-      return vectorSimilarityThresholdDeserializer(
-        item as VectorSimilarityThreshold,
-      );
+      return vectorSimilarityThresholdDeserializer(item as VectorSimilarityThreshold);
 
     case "searchScore":
       return searchScoreThresholdDeserializer(item as SearchScoreThreshold);
@@ -1068,15 +1011,11 @@ export interface VectorSimilarityThreshold extends VectorThreshold {
   kind: "vectorSimilarity";
 }
 
-export function vectorSimilarityThresholdSerializer(
-  item: VectorSimilarityThreshold,
-): any {
+export function vectorSimilarityThresholdSerializer(item: VectorSimilarityThreshold): any {
   return { kind: item["kind"], value: item["value"] };
 }
 
-export function vectorSimilarityThresholdDeserializer(
-  item: any,
-): VectorSimilarityThreshold {
+export function vectorSimilarityThresholdDeserializer(item: any): VectorSimilarityThreshold {
   return {
     kind: item["kind"],
     value: item["value"],
@@ -1091,15 +1030,11 @@ export interface SearchScoreThreshold extends VectorThreshold {
   kind: "searchScore";
 }
 
-export function searchScoreThresholdSerializer(
-  item: SearchScoreThreshold,
-): any {
+export function searchScoreThresholdSerializer(item: SearchScoreThreshold): any {
   return { kind: item["kind"], value: item["value"] };
 }
 
-export function searchScoreThresholdDeserializer(
-  item: any,
-): SearchScoreThreshold {
+export function searchScoreThresholdDeserializer(item: any): SearchScoreThreshold {
   return {
     kind: item["kind"],
     value: item["value"],
@@ -1186,9 +1121,7 @@ export interface VectorizableTextQuery extends VectorQuery {
   kind: "text";
 }
 
-export function vectorizableTextQuerySerializer(
-  item: VectorizableTextQuery,
-): any {
+export function vectorizableTextQuerySerializer(item: VectorizableTextQuery): any {
   return {
     k: item["kNearestNeighbors"],
     fields: item["fields"],
@@ -1206,9 +1139,7 @@ export function vectorizableTextQuerySerializer(
   };
 }
 
-export function vectorizableTextQueryDeserializer(
-  item: any,
-): VectorizableTextQuery {
+export function vectorizableTextQueryDeserializer(item: any): VectorizableTextQuery {
   return {
     kNearestNeighbors: item["k"],
     fields: item["fields"],
@@ -1234,9 +1165,7 @@ export interface VectorizableImageUrlQuery extends VectorQuery {
   kind: "imageUrl";
 }
 
-export function vectorizableImageUrlQuerySerializer(
-  item: VectorizableImageUrlQuery,
-): any {
+export function vectorizableImageUrlQuerySerializer(item: VectorizableImageUrlQuery): any {
   return {
     k: item["kNearestNeighbors"],
     fields: item["fields"],
@@ -1253,9 +1182,7 @@ export function vectorizableImageUrlQuerySerializer(
   };
 }
 
-export function vectorizableImageUrlQueryDeserializer(
-  item: any,
-): VectorizableImageUrlQuery {
+export function vectorizableImageUrlQueryDeserializer(item: any): VectorizableImageUrlQuery {
   return {
     kNearestNeighbors: item["k"],
     fields: item["fields"],
@@ -1280,9 +1207,7 @@ export interface VectorizableImageBinaryQuery extends VectorQuery {
   kind: "imageBinary";
 }
 
-export function vectorizableImageBinaryQuerySerializer(
-  item: VectorizableImageBinaryQuery,
-): any {
+export function vectorizableImageBinaryQuerySerializer(item: VectorizableImageBinaryQuery): any {
   return {
     k: item["kNearestNeighbors"],
     fields: item["fields"],
@@ -1299,9 +1224,7 @@ export function vectorizableImageBinaryQuerySerializer(
   };
 }
 
-export function vectorizableImageBinaryQueryDeserializer(
-  item: any,
-): VectorizableImageBinaryQuery {
+export function vectorizableImageBinaryQueryDeserializer(item: any): VectorizableImageBinaryQuery {
   return {
     kNearestNeighbors: item["k"],
     fields: item["fields"],
@@ -1379,17 +1302,13 @@ export enum KnownHybridCountAndFacetMode {
  */
 export type HybridCountAndFacetMode = string;
 
-export function searchResultArraySerializer(
-  result: Array<SearchResult>,
-): any[] {
+export function searchResultArraySerializer(result: Array<SearchResult>): any[] {
   return result.map((item) => {
     return searchResultSerializer(item);
   });
 }
 
-export function searchResultArrayDeserializer(
-  result: Array<SearchResult>,
-): any[] {
+export function searchResultArrayDeserializer(result: Array<SearchResult>): any[] {
   return result.map((item) => {
     return searchResultDeserializer(item);
   });
@@ -1449,17 +1368,13 @@ export function searchResultDeserializer(item: any): SearchResult {
   };
 }
 
-export function queryCaptionResultArraySerializer(
-  result: Array<QueryCaptionResult>,
-): any[] {
+export function queryCaptionResultArraySerializer(result: Array<QueryCaptionResult>): any[] {
   return result.map((item) => {
     return queryCaptionResultSerializer(item);
   });
 }
 
-export function queryCaptionResultArrayDeserializer(
-  result: Array<QueryCaptionResult>,
-): any[] {
+export function queryCaptionResultArrayDeserializer(result: Array<QueryCaptionResult>): any[] {
   return result.map((item) => {
     return queryCaptionResultDeserializer(item);
   });
@@ -1491,9 +1406,7 @@ export function queryCaptionResultDeserializer(item: any): QueryCaptionResult {
   };
 }
 
-export function documentDebugInfoArrayDeserializer(
-  result: Array<DocumentDebugInfo>,
-): any[] {
+export function documentDebugInfoArrayDeserializer(result: Array<DocumentDebugInfo>): any[] {
   return result.map((item) => {
     return documentDebugInfoDeserializer(item);
   });
@@ -1514,9 +1427,7 @@ export function documentDebugInfoDeserializer(item: any): DocumentDebugInfo {
     semantic: !item["semantic"]
       ? item["semantic"]
       : semanticDebugInfoDeserializer(item["semantic"]),
-    vectors: !item["vectors"]
-      ? item["vectors"]
-      : vectorsDebugInfoDeserializer(item["vectors"]),
+    vectors: !item["vectors"] ? item["vectors"] : vectorsDebugInfoDeserializer(item["vectors"]),
     innerHits: !item["innerHits"]
       ? item["innerHits"]
       : queryResultDocumentInnerHitArrayRecordDeserializer(item["innerHits"]),
@@ -1542,14 +1453,10 @@ export function semanticDebugInfoDeserializer(item: any): SemanticDebugInfo {
       : queryResultDocumentSemanticFieldDeserializer(item["titleField"]),
     contentFields: !item["contentFields"]
       ? item["contentFields"]
-      : queryResultDocumentSemanticFieldArrayDeserializer(
-          item["contentFields"],
-        ),
+      : queryResultDocumentSemanticFieldArrayDeserializer(item["contentFields"]),
     keywordFields: !item["keywordFields"]
       ? item["keywordFields"]
-      : queryResultDocumentSemanticFieldArrayDeserializer(
-          item["keywordFields"],
-        ),
+      : queryResultDocumentSemanticFieldArrayDeserializer(item["keywordFields"]),
     rerankerInput: !item["rerankerInput"]
       ? item["rerankerInput"]
       : queryResultDocumentRerankerInputDeserializer(item["rerankerInput"]),
@@ -1646,9 +1553,7 @@ export interface QueryResultDocumentSubscores {
   readonly documentBoost?: number;
 }
 
-export function queryResultDocumentSubscoresDeserializer(
-  item: any,
-): QueryResultDocumentSubscores {
+export function queryResultDocumentSubscoresDeserializer(item: any): QueryResultDocumentSubscores {
   return {
     text: !item["text"] ? item["text"] : textResultDeserializer(item["text"]),
     vectors: !item["vectors"]
@@ -1683,9 +1588,7 @@ export function singleVectorFieldResultRecordDeserializer(
 ): Record<string, SingleVectorFieldResult> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : singleVectorFieldResultDeserializer(item[key]);
+    result[key] = !item[key] ? item[key] : singleVectorFieldResultDeserializer(item[key]);
   });
   return result;
 }
@@ -1698,9 +1601,7 @@ export interface SingleVectorFieldResult {
   readonly vectorSimilarity?: number;
 }
 
-export function singleVectorFieldResultDeserializer(
-  item: any,
-): SingleVectorFieldResult {
+export function singleVectorFieldResultDeserializer(item: any): SingleVectorFieldResult {
   return {
     searchScore: item["searchScore"],
     vectorSimilarity: item["vectorSimilarity"],
@@ -1712,9 +1613,7 @@ export function queryResultDocumentInnerHitArrayRecordDeserializer(
 ): Record<string, Array<QueryResultDocumentInnerHit>> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : queryResultDocumentInnerHitArrayDeserializer(item[key]);
+    result[key] = !item[key] ? item[key] : queryResultDocumentInnerHitArrayDeserializer(item[key]);
   });
   return result;
 }
@@ -1735,9 +1634,7 @@ export interface QueryResultDocumentInnerHit {
   readonly vectors?: Record<string, SingleVectorFieldResult>[];
 }
 
-export function queryResultDocumentInnerHitDeserializer(
-  item: any,
-): QueryResultDocumentInnerHit {
+export function queryResultDocumentInnerHitDeserializer(item: any): QueryResultDocumentInnerHit {
   return {
     ordinal: item["ordinal"],
     vectors: !item["vectors"]
@@ -1820,26 +1717,20 @@ export interface SuggestDocumentsResult {
   coverage?: number;
 }
 
-export function suggestDocumentsResultDeserializer(
-  item: any,
-): SuggestDocumentsResult {
+export function suggestDocumentsResultDeserializer(item: any): SuggestDocumentsResult {
   return {
     results: suggestResultArrayDeserializer(item["value"]),
     coverage: item["@search.coverage"],
   };
 }
 
-export function suggestResultArraySerializer(
-  result: Array<SuggestResult>,
-): any[] {
+export function suggestResultArraySerializer(result: Array<SuggestResult>): any[] {
   return result.map((item) => {
     return suggestResultSerializer(item);
   });
 }
 
-export function suggestResultArrayDeserializer(
-  result: Array<SuggestResult>,
-): any[] {
+export function suggestResultArrayDeserializer(result: Array<SuggestResult>): any[] {
   return result.map((item) => {
     return suggestResultDeserializer(item);
   });
@@ -1928,25 +1819,19 @@ export interface IndexDocumentsResult {
   results: IndexingResult[];
 }
 
-export function indexDocumentsResultDeserializer(
-  item: any,
-): IndexDocumentsResult {
+export function indexDocumentsResultDeserializer(item: any): IndexDocumentsResult {
   return {
     results: indexingResultArrayDeserializer(item["value"]),
   };
 }
 
-export function indexingResultArraySerializer(
-  result: Array<IndexingResult>,
-): any[] {
+export function indexingResultArraySerializer(result: Array<IndexingResult>): any[] {
   return result.map((item) => {
     return indexingResultSerializer(item);
   });
 }
 
-export function indexingResultArrayDeserializer(
-  result: Array<IndexingResult>,
-): any[] {
+export function indexingResultArrayDeserializer(result: Array<IndexingResult>): any[] {
   return result.map((item) => {
     return indexingResultDeserializer(item);
   });
@@ -1997,17 +1882,13 @@ export function autocompleteResultDeserializer(item: any): AutocompleteResult {
   };
 }
 
-export function autocompleteItemArraySerializer(
-  result: Array<AutocompleteItem>,
-): any[] {
+export function autocompleteItemArraySerializer(result: Array<AutocompleteItem>): any[] {
   return result.map((item) => {
     return autocompleteItemSerializer(item);
   });
 }
 
-export function autocompleteItemArrayDeserializer(
-  result: Array<AutocompleteItem>,
-): any[] {
+export function autocompleteItemArrayDeserializer(result: Array<AutocompleteItem>): any[] {
   return result.map((item) => {
     return autocompleteItemDeserializer(item);
   });

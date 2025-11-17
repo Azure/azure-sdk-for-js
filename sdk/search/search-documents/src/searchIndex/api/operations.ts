@@ -97,18 +97,16 @@ export function _listIndexStatsSummarySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listIndexStatsSummaryDeserialize(
@@ -151,18 +149,16 @@ export function _getServiceStatisticsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getServiceStatisticsDeserialize(
@@ -201,20 +197,18 @@ export function _createKnowledgeSourceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: knowledgeSourceUnionSerializer(knowledgeSource),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: knowledgeSourceUnionSerializer(knowledgeSource),
+  });
 }
 
 export async function _createKnowledgeSourceDeserialize(
@@ -236,11 +230,7 @@ export async function createKnowledgeSource(
   knowledgeSource: KnowledgeSourceUnion,
   options: CreateKnowledgeSourceOptionalParams = { requestOptions: {} },
 ): Promise<KnowledgeSourceUnion> {
-  const result = await _createKnowledgeSourceSend(
-    context,
-    knowledgeSource,
-    options,
-  );
+  const result = await _createKnowledgeSourceSend(context, knowledgeSource, options);
   return _createKnowledgeSourceDeserialize(result);
 }
 
@@ -257,18 +247,16 @@ export function _listKnowledgeSourcesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listKnowledgeSourcesDeserialize(
@@ -313,18 +301,16 @@ export function _getKnowledgeSourceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getKnowledgeSourceDeserialize(
@@ -365,23 +351,17 @@ export function _deleteKnowledgeSourceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        ...(options?.ifNoneMatch !== undefined
-          ? { "If-None-Match": options?.ifNoneMatch }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _deleteKnowledgeSourceDeserialize(
@@ -423,27 +403,21 @@ export function _createOrUpdateKnowledgeSourceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        ...(options?.ifNoneMatch !== undefined
-          ? { "If-None-Match": options?.ifNoneMatch }
-          : {}),
-        prefer: "return=representation",
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: knowledgeSourceUnionSerializer(knowledgeSource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      prefer: "return=representation",
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: knowledgeSourceUnionSerializer(knowledgeSource),
+  });
 }
 
 export async function _createOrUpdateKnowledgeSourceDeserialize(
@@ -489,20 +463,18 @@ export function _createKnowledgeBaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: knowledgeBaseSerializer(knowledgeBase),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: knowledgeBaseSerializer(knowledgeBase),
+  });
 }
 
 export async function _createKnowledgeBaseDeserialize(
@@ -524,11 +496,7 @@ export async function createKnowledgeBase(
   knowledgeBase: KnowledgeBase,
   options: CreateKnowledgeBaseOptionalParams = { requestOptions: {} },
 ): Promise<KnowledgeBase> {
-  const result = await _createKnowledgeBaseSend(
-    context,
-    knowledgeBase,
-    options,
-  );
+  const result = await _createKnowledgeBaseSend(context, knowledgeBase, options);
   return _createKnowledgeBaseDeserialize(result);
 }
 
@@ -545,18 +513,16 @@ export function _listKnowledgeBasesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listKnowledgeBasesDeserialize(
@@ -601,18 +567,16 @@ export function _getKnowledgeBaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getKnowledgeBaseDeserialize(
@@ -634,11 +598,7 @@ export async function getKnowledgeBase(
   knowledgeBaseName: string,
   options: GetKnowledgeBaseOptionalParams = { requestOptions: {} },
 ): Promise<KnowledgeBase> {
-  const result = await _getKnowledgeBaseSend(
-    context,
-    knowledgeBaseName,
-    options,
-  );
+  const result = await _getKnowledgeBaseSend(context, knowledgeBaseName, options);
   return _getKnowledgeBaseDeserialize(result);
 }
 
@@ -657,23 +617,17 @@ export function _deleteKnowledgeBaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        ...(options?.ifNoneMatch !== undefined
-          ? { "If-None-Match": options?.ifNoneMatch }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _deleteKnowledgeBaseDeserialize(
@@ -695,11 +649,7 @@ export async function deleteKnowledgeBase(
   knowledgeBaseName: string,
   options: DeleteKnowledgeBaseOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _deleteKnowledgeBaseSend(
-    context,
-    knowledgeBaseName,
-    options,
-  );
+  const result = await _deleteKnowledgeBaseSend(context, knowledgeBaseName, options);
   return _deleteKnowledgeBaseDeserialize(result);
 }
 
@@ -719,27 +669,21 @@ export function _createOrUpdateKnowledgeBaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        ...(options?.ifNoneMatch !== undefined
-          ? { "If-None-Match": options?.ifNoneMatch }
-          : {}),
-        prefer: "return=representation",
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: knowledgeBaseSerializer(knowledgeBase),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      prefer: "return=representation",
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: knowledgeBaseSerializer(knowledgeBase),
+  });
 }
 
 export async function _createOrUpdateKnowledgeBaseDeserialize(
@@ -785,25 +729,21 @@ export function _createAliasSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: searchAliasSerializer(alias),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: searchAliasSerializer(alias),
+  });
 }
 
-export async function _createAliasDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SearchAlias> {
+export async function _createAliasDeserialize(result: PathUncheckedResponse): Promise<SearchAlias> {
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -837,18 +777,16 @@ export function _listAliasesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listAliasesDeserialize(
@@ -893,23 +831,19 @@ export function _getAliasSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getAliasDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SearchAlias> {
+export async function _getAliasDeserialize(result: PathUncheckedResponse): Promise<SearchAlias> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -945,28 +879,20 @@ export function _deleteAliasSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        ...(options?.ifNoneMatch !== undefined
-          ? { "If-None-Match": options?.ifNoneMatch }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _deleteAliasDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _deleteAliasDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1003,27 +929,21 @@ export function _createOrUpdateAliasSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        ...(options?.ifNoneMatch !== undefined
-          ? { "If-None-Match": options?.ifNoneMatch }
-          : {}),
-        prefer: "return=representation",
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: searchAliasSerializer(alias),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      prefer: "return=representation",
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: searchAliasSerializer(alias),
+  });
 }
 
 export async function _createOrUpdateAliasDeserialize(
@@ -1046,12 +966,7 @@ export async function createOrUpdateAlias(
   aliasName: string,
   options: CreateOrUpdateAliasOptionalParams = { requestOptions: {} },
 ): Promise<SearchAlias> {
-  const result = await _createOrUpdateAliasSend(
-    context,
-    alias,
-    aliasName,
-    options,
-  );
+  const result = await _createOrUpdateAliasSend(context, alias, aliasName, options);
   return _createOrUpdateAliasDeserialize(result);
 }
 
@@ -1071,26 +986,23 @@ export function _analyzeTextSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...(options?.querySourceAuthorization !== undefined
-          ? {
-              "x-ms-query-source-authorization":
-                options?.querySourceAuthorization,
-            }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: analyzeTextOptionsSerializer(request),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.querySourceAuthorization !== undefined
+        ? {
+            "x-ms-query-source-authorization": options?.querySourceAuthorization,
+          }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: analyzeTextOptionsSerializer(request),
+  });
 }
 
 export async function _analyzeTextDeserialize(
@@ -1132,24 +1044,21 @@ export function _getIndexStatisticsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...(options?.querySourceAuthorization !== undefined
-          ? {
-              "x-ms-query-source-authorization":
-                options?.querySourceAuthorization,
-            }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.querySourceAuthorization !== undefined
+        ? {
+            "x-ms-query-source-authorization": options?.querySourceAuthorization,
+          }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getIndexStatisticsDeserialize(
@@ -1189,25 +1098,21 @@ export function _createIndexSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: searchIndexSerializer(index),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: searchIndexSerializer(index),
+  });
 }
 
-export async function _createIndexDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SearchIndex> {
+export async function _createIndexDeserialize(result: PathUncheckedResponse): Promise<SearchIndex> {
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1242,18 +1147,16 @@ export function _listIndexesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listIndexesDeserialize(
@@ -1298,29 +1201,24 @@ export function _getIndexSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...(options?.querySourceAuthorization !== undefined
-          ? {
-              "x-ms-query-source-authorization":
-                options?.querySourceAuthorization,
-            }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.querySourceAuthorization !== undefined
+        ? {
+            "x-ms-query-source-authorization": options?.querySourceAuthorization,
+          }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getIndexDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SearchIndex> {
+export async function _getIndexDeserialize(result: PathUncheckedResponse): Promise<SearchIndex> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1356,34 +1254,25 @@ export function _deleteIndexSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        ...(options?.ifNoneMatch !== undefined
-          ? { "If-None-Match": options?.ifNoneMatch }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...(options?.querySourceAuthorization !== undefined
-          ? {
-              "x-ms-query-source-authorization":
-                options?.querySourceAuthorization,
-            }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.querySourceAuthorization !== undefined
+        ? {
+            "x-ms-query-source-authorization": options?.querySourceAuthorization,
+          }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _deleteIndexDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _deleteIndexDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1421,33 +1310,26 @@ export function _createOrUpdateIndexSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        ...(options?.ifNoneMatch !== undefined
-          ? { "If-None-Match": options?.ifNoneMatch }
-          : {}),
-        prefer: "return=representation",
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...(options?.querySourceAuthorization !== undefined
-          ? {
-              "x-ms-query-source-authorization":
-                options?.querySourceAuthorization,
-            }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: searchIndexSerializer(index),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      prefer: "return=representation",
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.querySourceAuthorization !== undefined
+        ? {
+            "x-ms-query-source-authorization": options?.querySourceAuthorization,
+          }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: searchIndexSerializer(index),
+  });
 }
 
 export async function _createOrUpdateIndexDeserialize(
@@ -1470,12 +1352,7 @@ export async function createOrUpdateIndex(
   indexName: string,
   options: CreateOrUpdateIndexOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndex> {
-  const result = await _createOrUpdateIndexSend(
-    context,
-    index,
-    indexName,
-    options,
-  );
+  const result = await _createOrUpdateIndexSend(context, index, indexName, options);
   return _createOrUpdateIndexDeserialize(result);
 }
 
@@ -1493,20 +1370,18 @@ export function _createSynonymMapSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: synonymMapSerializer(synonymMap),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: synonymMapSerializer(synonymMap),
+  });
 }
 
 export async function _createSynonymMapDeserialize(
@@ -1546,18 +1421,16 @@ export function _getSynonymMapsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getSynonymMapsDeserialize(
@@ -1597,18 +1470,16 @@ export function _getSynonymMapSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getSynonymMapDeserialize(
@@ -1649,28 +1520,20 @@ export function _deleteSynonymMapSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        ...(options?.ifNoneMatch !== undefined
-          ? { "If-None-Match": options?.ifNoneMatch }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _deleteSynonymMapDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _deleteSynonymMapDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1707,27 +1570,21 @@ export function _createOrUpdateSynonymMapSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        ...(options?.ifNoneMatch !== undefined
-          ? { "If-None-Match": options?.ifNoneMatch }
-          : {}),
-        prefer: "return=representation",
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: synonymMapSerializer(synonymMap),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      prefer: "return=representation",
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: synonymMapSerializer(synonymMap),
+  });
 }
 
 export async function _createOrUpdateSynonymMapDeserialize(
@@ -1750,11 +1607,6 @@ export async function createOrUpdateSynonymMap(
   synonymMapName: string,
   options: CreateOrUpdateSynonymMapOptionalParams = { requestOptions: {} },
 ): Promise<SynonymMap> {
-  const result = await _createOrUpdateSynonymMapSend(
-    context,
-    synonymMap,
-    synonymMapName,
-    options,
-  );
+  const result = await _createOrUpdateSynonymMapSend(context, synonymMap, synonymMapName, options);
   return _createOrUpdateSynonymMapDeserialize(result);
 }
