@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List all NGINX deployments under the specified resource group.
- *
- * @summary List all NGINX deployments under the specified resource group.
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_ListByResourceGroup.json
- */
-
 import { NginxManagementClient } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to List all NGINX deployments under the specified resource group.
+ *
+ * @summary List all NGINX deployments under the specified resource group.
+ * x-ms-original-file: specification/nginx/resource-manager/Nginx.NginxPlus/preview/2025-03-01-preview/examples/Deployments_ListByResourceGroup.json
+ */
 async function deploymentsListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["NGINX_SUBSCRIPTION_ID"] ||
@@ -21,7 +20,7 @@ async function deploymentsListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.deployments.listByResourceGroup(
+  for await (const item of client.deployments.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

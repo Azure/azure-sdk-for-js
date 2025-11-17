@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update the NGINX deployment
- *
- * @summary Update the NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_Update.json
- */
-
 import { NginxManagementClient } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Update the NGINX deployment
+ *
+ * @summary Update the NGINX deployment
+ * x-ms-original-file: specification/nginx/resource-manager/Nginx.NginxPlus/preview/2025-03-01-preview/examples/Deployments_Update.json
+ */
 async function deploymentsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["NGINX_SUBSCRIPTION_ID"] ||
@@ -32,7 +31,7 @@ async function deploymentsUpdate(): Promise<void> {
  * This sample demonstrates how to Update the NGINX deployment
  *
  * @summary Update the NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_UpdateSubnet.json
+ * x-ms-original-file: specification/nginx/resource-manager/Nginx.NginxPlus/preview/2025-03-01-preview/examples/Deployments_UpdateSubnet.json
  */
 async function deploymentsUpdateSubnet(): Promise<void> {
   const subscriptionId =

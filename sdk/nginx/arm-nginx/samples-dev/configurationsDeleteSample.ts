@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Reset the NGINX configuration of given NGINX deployment to default
- *
- * @summary Reset the NGINX configuration of given NGINX deployment to default
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Configurations_Delete.json
- */
-
 import { NginxManagementClient } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Reset the NGINX configuration of given NGINX deployment to default
+ *
+ * @summary Reset the NGINX configuration of given NGINX deployment to default
+ * x-ms-original-file: specification/nginx/resource-manager/Nginx.NginxPlus/preview/2025-03-01-preview/examples/Configurations_Delete.json
+ */
 async function configurationsDelete(): Promise<void> {
   const subscriptionId =
     process.env["NGINX_SUBSCRIPTION_ID"] ||

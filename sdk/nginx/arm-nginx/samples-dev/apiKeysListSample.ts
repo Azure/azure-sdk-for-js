@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List all API Keys of the given Nginx deployment
- *
- * @summary List all API Keys of the given Nginx deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/ApiKeys_List.json
- */
-
 import { NginxManagementClient } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to List all API Keys of the given Nginx deployment
+ *
+ * @summary List all API Keys of the given Nginx deployment
+ * x-ms-original-file: specification/nginx/resource-manager/Nginx.NginxPlus/preview/2025-03-01-preview/examples/ApiKeys_List.json
+ */
 async function apiKeysList(): Promise<void> {
   const subscriptionId =
     process.env["NGINX_SUBSCRIPTION_ID"] ||
@@ -22,7 +21,7 @@ async function apiKeysList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.apiKeys.list(
+  for await (const item of client.apiKeys.list(
     resourceGroupName,
     deploymentName,
   )) {

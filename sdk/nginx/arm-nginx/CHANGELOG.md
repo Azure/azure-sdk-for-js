@@ -1,4 +1,111 @@
 # Release History
+
+## 4.0.0-beta.3 (2025-11-17)
+Compared with version 3.0.0
+
+### Features Added
+  - Added operation group ApiKeys
+  - Added operation group DefaultWafPolicy
+  - Added operation group WafPolicy
+  - Added operation Configurations.analysis
+  - Added Interface AnalysisCreate
+  - Added Interface AnalysisDiagnostic
+  - Added Interface AnalysisResult
+  - Added Interface ApiKeysCreateOrUpdateOptionalParams
+  - Added Interface ApiKeysDeleteOptionalParams
+  - Added Interface ApiKeysGetOptionalParams
+  - Added Interface ApiKeysListOptionalParams
+  - Added Interface AutoUpgradeProfile
+  - Added Interface CertificatesCreateOrUpdateHeaders
+  - Added Interface ConfigurationsAnalysisOptionalParams
+  - Added Interface ConfigurationsCreateOrUpdateHeaders
+  - Added Interface DefaultWafPolicyListOptionalParams
+  - Added Interface DeploymentsCreateOrUpdateHeaders
+  - Added Interface DeploymentsUpdateHeaders
+  - Added Interface DiagnosticItem
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface NginxCertificateErrorResponseBody
+  - Added Interface NginxConfigurationProtectedFileRequest
+  - Added Interface NginxConfigurationProtectedFileResponse
+  - Added Interface NginxConfigurationRequest
+  - Added Interface NginxConfigurationRequestProperties
+  - Added Interface NginxConfigurationResponse
+  - Added Interface NginxConfigurationResponseProperties
+  - Added Interface NginxDeploymentApiKeyListResponse
+  - Added Interface NginxDeploymentApiKeyRequest
+  - Added Interface NginxDeploymentApiKeyRequestProperties
+  - Added Interface NginxDeploymentApiKeyResponse
+  - Added Interface NginxDeploymentApiKeyResponseProperties
+  - Added Interface NginxDeploymentDefaultWafPolicyListResponse
+  - Added Interface NginxDeploymentDefaultWafPolicyProperties
+  - Added Interface NginxDeploymentWafPolicy
+  - Added Interface NginxDeploymentWafPolicyApplyingStatus
+  - Added Interface NginxDeploymentWafPolicyCompilingStatus
+  - Added Interface NginxDeploymentWafPolicyListResponse
+  - Added Interface NginxDeploymentWafPolicyMetadata
+  - Added Interface NginxDeploymentWafPolicyMetadataProperties
+  - Added Interface NginxDeploymentWafPolicyProperties
+  - Added Interface Operation
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface ScaleProfile
+  - Added Interface TrackedResource
+  - Added Interface WafPolicyCreateHeaders
+  - Added Interface WafPolicyCreateOptionalParams
+  - Added Interface WafPolicyDeleteHeaders
+  - Added Interface WafPolicyDeleteOptionalParams
+  - Added Interface WafPolicyGetOptionalParams
+  - Added Interface WafPolicyListOptionalParams
+  - Added Interface WebApplicationFirewallComponentVersions
+  - Added Interface WebApplicationFirewallPackage
+  - Added Interface WebApplicationFirewallSettings
+  - Added Interface WebApplicationFirewallStatus
+  - Interface NginxCertificateProperties has a new optional parameter certificateError
+  - Interface NginxCertificateProperties has a new optional parameter keyVaultSecretCreated
+  - Interface NginxCertificateProperties has a new optional parameter keyVaultSecretVersion
+  - Interface NginxCertificateProperties has a new optional parameter sha1Thumbprint
+  - Interface NginxDeploymentProperties has a new optional parameter autoUpgradeProfile
+  - Interface NginxDeploymentProperties has a new optional parameter dataplaneApiEndpoint
+  - Interface NginxDeploymentProperties has a new optional parameter webApplicationFirewallSettings
+  - Interface NginxDeploymentProperties has a new optional parameter webApplicationFirewallStatus
+  - Interface NginxDeploymentScalingProperties has a new optional parameter profiles
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter autoUpgradeProfile
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter networkProfile
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter webApplicationFirewallSettings
+  - Added Type Alias ActionType
+  - Added Type Alias ActivationState
+  - Added Type Alias ApiKeysCreateOrUpdateResponse
+  - Added Type Alias ApiKeysGetResponse
+  - Added Type Alias ApiKeysListNextResponse
+  - Added Type Alias ApiKeysListResponse
+  - Added Type Alias ConfigurationsAnalysisResponse
+  - Added Type Alias DefaultWafPolicyListResponse
+  - Added Type Alias Level
+  - Added Type Alias NginxDeploymentWafPolicyApplyingStatusCode
+  - Added Type Alias NginxDeploymentWafPolicyCompilingStatusCode
+  - Added Type Alias Origin
+  - Added Type Alias WafPolicyCreateResponse
+  - Added Type Alias WafPolicyDeleteResponse
+  - Added Type Alias WafPolicyGetResponse
+  - Added Type Alias WafPolicyListNextResponse
+  - Added Type Alias WafPolicyListResponse
+  - Added Enum KnownActionType
+  - Added Enum KnownActivationState
+  - Added Enum KnownLevel
+  - Added Enum KnownNginxDeploymentWafPolicyApplyingStatusCode
+  - Added Enum KnownNginxDeploymentWafPolicyCompilingStatusCode
+  - Added Enum KnownOrigin
+
+### Breaking Changes
+  - Removed Interface ErrorResponseBody
+  - Removed Interface NginxConfiguration
+  - Removed Interface NginxConfigurationProperties
+  - Removed Interface ResourceProviderDefaultErrorResponse
+  - Interface NginxDeploymentProperties no longer has parameter managedResourceGroup
+  - Parameter location of interface NginxDeployment is now required
+
     
 ## 4.0.0-beta.2 (2025-02-20)
 Compared with version 3.0.0

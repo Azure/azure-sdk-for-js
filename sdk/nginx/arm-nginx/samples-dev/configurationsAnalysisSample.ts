@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Analyze an NGINX configuration without applying it to the NGINXaaS deployment
- *
- * @summary Analyze an NGINX configuration without applying it to the NGINXaaS deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Configurations_Analysis.json
- */
-
 import { NginxManagementClient } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Analyze an NGINX configuration without applying it to the NGINXaaS deployment
+ *
+ * @summary Analyze an NGINX configuration without applying it to the NGINXaaS deployment
+ * x-ms-original-file: specification/nginx/resource-manager/Nginx.NginxPlus/preview/2025-03-01-preview/examples/Configurations_Analysis.json
+ */
 async function configurationsAnalysis(): Promise<void> {
   const subscriptionId =
     process.env["NGINX_SUBSCRIPTION_ID"] ||
