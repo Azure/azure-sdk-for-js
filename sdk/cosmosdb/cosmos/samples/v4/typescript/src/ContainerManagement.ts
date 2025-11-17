@@ -231,23 +231,16 @@ async function run(): Promise<void> {
     await containerForDeletion.items.create(city);
   }
 
-  // Query to verify items before deletion
-  const beforeDeletionQuery = "SELECT c.id, c.name, c.state FROM c WHERE c.state = 'WA'";
-  const { resources: waItemsBefore } = await containerForDeletion.items.query(beforeDeletionQuery).fetchAll();
-  console.log(`Items in WA before deletion: ${waItemsBefore.length}`);
-
   // Delete all items for partition key 'WA'
   await containerForDeletion.deleteAllItemsForPartitionKey("WA");
   console.log("Deleted all items for partition key 'WA'");
 
   // Query to verify items after deletion
-  const { resources: waItemsAfter } = await containerForDeletion.items.query(beforeDeletionQuery).fetchAll();
-  console.log(`Items in WA after deletion: ${waItemsAfter.length}`);
-
-  // Verify IL items are still present
-  const ilQuery = "SELECT c.id, c.name, c.state FROM c WHERE c.state = 'IL'";
-  const { resources: ilItems } = await containerForDeletion.items.query(ilQuery).fetchAll();
-  console.log(`Items in IL (should remain): ${ilItems.length}`);
+  const queryToVerify = "SELECT c.id, c.name, c.state FROM c WHERE c.state = 'WA'";
+  const { resources: waItems } = await containerForDeletion.items
+    .query(queryToVerify)
+    .fetchAll();
+  console.log(`Items in WA after deletion: ${waItems.length}`);
 
   // Clean up the container
   await containerForDeletion.delete();
