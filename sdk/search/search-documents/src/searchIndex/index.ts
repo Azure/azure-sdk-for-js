@@ -1,0 +1,37 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export { SearchIndexClient } from "./searchIndexClient.js";
+export {
+  ListIndexStatsSummaryOptionalParams,
+  GetServiceStatisticsOptionalParams,
+  CreateKnowledgeSourceOptionalParams,
+  ListKnowledgeSourcesOptionalParams,
+  GetKnowledgeSourceOptionalParams,
+  DeleteKnowledgeSourceOptionalParams,
+  CreateOrUpdateKnowledgeSourceOptionalParams,
+  CreateKnowledgeBaseOptionalParams,
+  ListKnowledgeBasesOptionalParams,
+  GetKnowledgeBaseOptionalParams,
+  DeleteKnowledgeBaseOptionalParams,
+  CreateOrUpdateKnowledgeBaseOptionalParams,
+  CreateAliasOptionalParams,
+  ListAliasesOptionalParams,
+  GetAliasOptionalParams,
+  DeleteAliasOptionalParams,
+  CreateOrUpdateAliasOptionalParams,
+  AnalyzeTextOptionalParams,
+  GetIndexStatisticsOptionalParams,
+  CreateIndexOptionalParams,
+  ListIndexesOptionalParams,
+  GetIndexOptionalParams,
+  DeleteIndexOptionalParams,
+  CreateOrUpdateIndexOptionalParams,
+  CreateSynonymMapOptionalParams,
+  GetSynonymMapsOptionalParams,
+  GetSynonymMapOptionalParams,
+  DeleteSynonymMapOptionalParams,
+  CreateOrUpdateSynonymMapOptionalParams,
+  SearchIndexContext,
+  SearchIndexClientOptionalParams,
+} from "./api/index.js";

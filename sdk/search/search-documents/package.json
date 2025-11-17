@@ -1,124 +1,28 @@
 {
   "name": "@azure/search-documents",
-  "version": "12.3.0-beta.1",
-  "description": "Azure client library to use AI Search for node.js and browser.",
-  "sdk-type": "client",
-  "main": "./dist/commonjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/commonjs/index.d.ts",
-  "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,mts}\" \"test/**/*.{ts,mts}\" \"samples-dev/**/*.{ts,mts}\" \"*.{js,mjs,json}\"",
-    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
-    "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "dev-tool run build-package && dev-tool run extract-api",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,mts}\" \"test/**/*.{ts,mts}\" \"samples-dev/**/*.{ts,mts}\" \"*.{js,mjs,json}\"",
-    "generate:client": "autorest --typescript swagger/Service.md & autorest --typescript swagger/Data.md & autorest --typescript swagger/KnowledgeBase.md & wait",
-    "generate:embeddings": "ts-node scripts/generateSampleEmbeddings.ts",
-    "lint": "eslint package.json src test samples-dev",
-    "lint:fix": "eslint package.json src test samples-dev --fix --fix-type [problem,suggestion]",
-    "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "test:node": "dev-tool run test:vitest --test-proxy-debug",
-    "update-snippets": "dev-tool run update-snippets"
-  },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE"
-  ],
-  "browser": "./dist/browser/index.js",
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/constants.ts",
-        "prefix": "SDK_VERSION"
-      },
-      {
-        "path": "src/generated/data/searchClient.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "src/generated/service/searchServiceClient.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "swagger/Data.md",
-        "prefix": "package-version"
-      },
-      {
-        "path": "swagger/Service.md",
-        "prefix": "package-version"
-      }
-    ]
-  },
-  "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": [
-    "azure",
-    "cloud"
-  ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
+  "version": "1.0.0-beta.1",
+  "description": "A generated SDK for KnowledgeBaseRetrievalClient.",
   "engines": {
     "node": ">=20.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents",
   "sideEffects": false,
-  "dependencies": {
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.2",
-    "@azure/core-http-compat": "^2.1.2",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.18.0",
-    "@azure/core-tracing": "^1.2.0",
-    "@azure/core-util": "^1.11.0",
-    "@azure/logger": "^1.1.4",
-    "events": "^3.0.0",
-    "tslib": "^2.8.1"
-  },
-  "devDependencies": {
-    "@azure-tools/test-credential": "workspace:^",
-    "@azure-tools/test-recorder": "workspace:^",
-    "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/dev-tool": "workspace:^",
-    "@azure/eslint-plugin-azure-sdk": "workspace:^",
-    "@azure/identity": "catalog:internal",
-    "@azure/openai": "1.0.0-beta.12",
-    "@types/node": "catalog:",
-    "@vitest/browser-playwright": "catalog:testing",
-    "@vitest/coverage-istanbul": "catalog:testing",
-    "cross-env": "catalog:",
-    "dotenv": "catalog:testing",
-    "eslint": "catalog:",
-    "playwright": "catalog:testing",
-    "prettier": "catalog:",
-    "rimraf": "catalog:",
-    "tshy": "catalog:",
-    "type-plus": "^7.6.2",
-    "typescript": "catalog:",
-    "vitest": "catalog:testing"
-  },
-  "//sampleConfiguration": {
-    "productName": "Azure Search Documents",
-    "productSlugs": [
-      "azure",
-      "azure-cognitive-search",
-      "azure-search"
-    ],
-    "requiredResources": {
-      "Azure Search Documents instance": "https://learn.microsoft.com/azure/search/search-create-service-portal"
-    }
-  },
-  "type": "module",
+  "autoPublish": false,
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
-      ".": "./src/index.ts"
+      ".": "./src/index.ts",
+      "./search": "./src/search/index.ts",
+      "./search/api": "./src/search/api/index.ts",
+      "./searchIndex": "./src/searchIndex/index.ts",
+      "./searchIndex/api": "./src/searchIndex/api/index.ts",
+      "./searchIndexer": "./src/searchIndexer/index.ts",
+      "./searchIndexer/api": "./src/searchIndexer/api/index.ts",
+      "./knowledgeBaseRetrieval": "./src/knowledgeBaseRetrieval/index.ts",
+      "./knowledgeBaseRetrieval/api": "./src/knowledgeBaseRetrieval/api/index.ts",
+      "./models": "./src/models/index.ts",
+      "./models/azure/search/documents": "./src/models/azure/search/documents/index.ts",
+      "./models/azure/search/documents/indexes": "./src/models/azure/search/documents/indexes/index.ts",
+      "./models/azure/search/documents/knowledgeBase": "./src/models/azure/search/documents/knowledgeBase/index.ts"
     },
     "dialects": [
       "esm",
@@ -131,25 +35,92 @@
     "selfLink": false,
     "project": "../../../tsconfig.src.build.json"
   },
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
+  "type": "module",
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "sdk-type": "client",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "/home/maorleger/workspace/azure-sdk-for-js/sdk/search/search-documents/generated/search/api/searchContext.ts",
+        "prefix": "userAgentInfo"
       },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
+      {
+        "path": "/home/maorleger/workspace/azure-sdk-for-js/sdk/search/search-documents/generated/searchIndex/api/searchIndexContext.ts",
+        "prefix": "userAgentInfo"
       },
-      "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
+      {
+        "path": "/home/maorleger/workspace/azure-sdk-for-js/sdk/search/search-documents/generated/searchIndexer/api/searchIndexerContext.ts",
+        "prefix": "userAgentInfo"
       },
-      "require": {
-        "types": "./dist/commonjs/index.d.ts",
-        "default": "./dist/commonjs/index.js"
+      {
+        "path": "/home/maorleger/workspace/azure-sdk-for-js/sdk/search/search-documents/generated/knowledgeBaseRetrieval/api/knowledgeBaseRetrievalContext.ts",
+        "prefix": "userAgentInfo"
       }
-    }
+    ]
+  },
+  "dependencies": {
+    "@azure/core-util": "^1.12.0",
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-tracing": "^1.0.0",
+    "@azure/logger": "^1.2.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "tshy": "catalog:",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "typescript": "catalog:"
+  },
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "pnpm pack 2>&1",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
+    "build:samples": "echo skipped",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "execute:samples": "echo skipped",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "generate:client": "echo skipped",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test": "npm run test:node && npm run test:browser",
+    "update-snippets": "dev-tool run update-snippets"
   }
 }
