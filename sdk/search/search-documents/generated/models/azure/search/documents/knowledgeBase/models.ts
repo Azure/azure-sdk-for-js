@@ -698,8 +698,12 @@ export function webKnowledgeSourceParamsSerializer(item: WebKnowledgeSourceParam
 export interface RemoteSharePointKnowledgeSourceParams extends KnowledgeSourceParams {
   /** The discriminator value. */
   kind: "remoteSharePoint";
-  /** A filter condition applied to the SharePoint data source. It must be specified in the Keyword Query Language syntax. It will be combined as a conjunction with the filter expression specified in the knowledge source definition. */
-  filterExpressionAddOn?: string;
+  /** Keyword Query Language (KQL) expression with queryable SharePoint properties and attributes to scope the retrieval before the query runs. See documentation: https://learn.microsoft.com/en-us/sharepoint/dev/general-development/keyword-query-language-kql-syntax-reference */
+  filterExpression?: string;
+  /** A list of metadata fields to be returned for each item in the response. Only retrievable metadata properties can be included in this list. By default, no metadata is returned. Optional. */
+  resourceMetadata?: string[];
+  /** Container ID for SharePoint Embedded connection. When this is null, it will use SharePoint Online. */
+  containerTypeId?: string;
 }
 
 export function remoteSharePointKnowledgeSourceParamsSerializer(
@@ -712,7 +716,13 @@ export function remoteSharePointKnowledgeSourceParamsSerializer(
     alwaysQuerySource: item["alwaysQuerySource"],
     rerankerThreshold: item["rerankerThreshold"],
     kind: item["kind"],
-    filterExpressionAddOn: item["filterExpressionAddOn"],
+    filterExpression: item["filterExpression"],
+    resourceMetadata: !item["resourceMetadata"]
+      ? item["resourceMetadata"]
+      : item["resourceMetadata"].map((p: any) => {
+          return p;
+        }),
+    containerTypeId: item["containerTypeId"],
   };
 }
 

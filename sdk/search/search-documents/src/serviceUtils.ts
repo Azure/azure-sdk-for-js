@@ -128,6 +128,7 @@ import type {
   WebApiVectorizer,
 } from "./serviceModels.js";
 import { isComplexField } from "./serviceModels.js";
+import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 
 export const defaultServiceVersion = "2025-11-01-Preview";
 
@@ -1015,8 +1016,8 @@ export function convertKnowledgeBaseToGenerated(
 }
 
 export function convertKnowledgeSourceToPublic(
-  knowledgeSource: GeneratedKnowledgeSource | undefined,
-): KnowledgeSource | undefined {
+  knowledgeSource: GeneratedKnowledgeSource,
+): KnowledgeSource {
   if (!knowledgeSource) {
     return knowledgeSource;
   }
@@ -1149,4 +1150,29 @@ function convertAzureOpenAIParametersToPublic(
   params: GeneratedAzureOpenAIParameters,
 ): AzureOpenAIParameters {
   return { ...params, authIdentity: convertSearchIndexerDataIdentityToPublic(params.authIdentity) };
+}
+
+export function mapPagedAsyncIterable<T, U>(
+  iter: PagedAsyncIterableIterator<T>,
+  mapper: (x: T) => U,
+): PagedAsyncIterableIterator<U> {
+  return {
+    async next() {
+      const result = await iter.next();
+
+      return {
+        ...result,
+        value: result.value && mapper(result.value),
+      };
+    },
+    [Symbol.asyncIterator]() {
+      return this;
+    },
+    async *byPage(settings) {
+      const iteratorByPage = iter.byPage(settings);
+      for await (const page of iteratorByPage) {
+        yield page.map(mapper);
+      }
+    },
+  };
 }

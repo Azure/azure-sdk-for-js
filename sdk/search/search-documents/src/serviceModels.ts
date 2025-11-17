@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure/core-client";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
   AIFoundryModelCatalogName,
-  AIServices,
+  // AIServices,
   AIServicesAccountKey,
   AsciiFoldingTokenFilter,
   AzureMachineLearningSkill,
@@ -13,7 +13,7 @@ import type {
   AzureOpenAITokenizerParameters,
   CognitiveServicesAccount as BaseCognitiveServicesAccount,
   KnowledgeBaseModel as BaseKnowledgeBaseModel,
-  KnowledgeSourceVectorizer as BaseKnowledgeSourceVectorizer,
+  // KnowledgeSourceVectorizer as BaseKnowledgeSourceVectorizer,
   SearchIndexerSkill as BaseSearchIndexerSkill,
   BinaryQuantizationCompression,
   BM25Similarity,
@@ -48,15 +48,15 @@ import type {
   FieldMapping,
   FreshnessScoringFunction,
   HighWaterMarkChangeDetectionPolicy,
-  IndexedSharePointContainerName,
+  // IndexedSharePointContainerName,
   IndexerPermissionOption,
   IndexingSchedule,
   IndexProjectionMode,
   IndexStatisticsSummary,
   KeepTokenFilter,
   KeywordMarkerTokenFilter,
-  KnowledgeSourceContentExtractionMode,
-  KnowledgeSourceIngestionPermissionOption,
+  // KnowledgeSourceContentExtractionMode,
+  // KnowledgeSourceIngestionPermissionOption,
   KnownBlobIndexerDataToExtract,
   KnownBlobIndexerImageAction,
   KnownBlobIndexerParsingMode,
@@ -101,13 +101,13 @@ import type {
   NativeBlobSoftDeleteDeletionDetectionPolicy,
   NGramTokenizer,
   OcrLineEnding,
-  PathHierarchyTokenizerV2 as PathHierarchyTokenizer,
+  PathHierarchyTokenizer,
   PatternCaptureTokenFilter,
   PatternReplaceCharFilter,
   PatternReplaceTokenFilter,
   PermissionFilter,
   PhoneticTokenFilter,
-  RemoteSharePointKnowledgeSourceParameters,
+  // RemoteSharePointKnowledgeSourceParameters,
   ScalarQuantizationCompression,
   ScoringFunctionAggregation,
   SearchAlias,
@@ -118,7 +118,7 @@ import type {
   SearchIndexerKnowledgeStoreProjection,
   SearchIndexKnowledgeSourceParameters,
   SearchIndexPermissionFilterOption,
-  Suggester as SearchSuggester,
+  SearchSuggester,
   SemanticSearch,
   SentimentSkillV3,
   ServiceCounters,
@@ -143,9 +143,9 @@ import type {
   VectorEncodingFormat,
   VectorSearchProfile,
   VectorSearchVectorizerKind,
-  WebKnowledgeSourceParameters,
+  // WebKnowledgeSourceParameters,
   WordDelimiterTokenFilter,
-} from "./generated/service/models/index.js";
+} from "./models/azure/search/documents/indexes/index.js";
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 
 /**

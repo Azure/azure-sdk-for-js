@@ -7690,7 +7690,7 @@ export function searchIndexerSkillUnionArrayDeserializer(
 /** Base type for skills. */
 export interface SearchIndexerSkill {
   /** The discriminator for derived types. */
-  /** The discriminator possible values: #Microsoft.Skills.Util.ConditionalSkill, #Microsoft.Skills.Text.KeyPhraseExtractionSkill, #Microsoft.Skills.Vision.OcrSkill, #Microsoft.Skills.Vision.ImageAnalysisSkill, #Microsoft.Skills.Text.LanguageDetectionSkill, #Microsoft.Skills.Util.ShaperSkill, #Microsoft.Skills.Text.MergeSkill, #Microsoft.Skills.Text.EntityRecognitionSkill, #Microsoft.Skills.Text.SentimentSkill, #Microsoft.Skills.Text.V3.SentimentSkill, #Microsoft.Skills.Text.V3.EntityLinkingSkill, #Microsoft.Skills.Text.V3.EntityRecognitionSkill, #Microsoft.Skills.Text.PIIDetectionSkill, #Microsoft.Skills.Text.SplitSkill, #Microsoft.Skills.Text.CustomEntityLookupSkill, #Microsoft.Skills.Text.TranslationSkill, #Microsoft.Skills.Util.DocumentExtractionSkill, #Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill, #Microsoft.Skills.Custom.WebApiSkill, #Microsoft.Skills.Custom.AmlSkill, #Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill, #Microsoft.Skills.Vision.VectorizeSkill, #Microsoft.Skills.Custom.ChatCompletionSkill */
+  /** The discriminator possible values: #Microsoft.Skills.Util.ConditionalSkill, #Microsoft.Skills.Text.KeyPhraseExtractionSkill, #Microsoft.Skills.Vision.OcrSkill, #Microsoft.Skills.Vision.ImageAnalysisSkill, #Microsoft.Skills.Text.LanguageDetectionSkill, #Microsoft.Skills.Util.ShaperSkill, #Microsoft.Skills.Text.MergeSkill, #Microsoft.Skills.Text.EntityRecognitionSkill, #Microsoft.Skills.Text.SentimentSkill, #Microsoft.Skills.Text.V3.SentimentSkill, #Microsoft.Skills.Text.V3.EntityLinkingSkill, #Microsoft.Skills.Text.V3.EntityRecognitionSkill, #Microsoft.Skills.Text.PIIDetectionSkill, #Microsoft.Skills.Text.SplitSkill, #Microsoft.Skills.Text.CustomEntityLookupSkill, #Microsoft.Skills.Text.TranslationSkill, #Microsoft.Skills.Util.DocumentExtractionSkill, #Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill, #Microsoft.Skills.Custom.WebApiSkill, #Microsoft.Skills.Custom.AmlSkill, #Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill, #Microsoft.Skills.Vision.VectorizeSkill, #Microsoft.Skills.Util.ContentUnderstandingSkill, #Microsoft.Skills.Custom.ChatCompletionSkill */
   odatatype: string;
   /** The name of the skill which uniquely identifies it within the skillset. A skill with no name defined will be given a default name of its 1-based index in the skills array, prefixed with the character '#'. */
   name?: string;
@@ -7750,6 +7750,7 @@ export type SearchIndexerSkillUnion =
   | AzureMachineLearningSkill
   | AzureOpenAIEmbeddingSkill
   | VisionVectorizeSkill
+  | ContentUnderstandingSkill
   | ChatCompletionSkill
   | SearchIndexerSkill;
 
@@ -7820,6 +7821,9 @@ export function searchIndexerSkillUnionSerializer(item: SearchIndexerSkillUnion)
 
     case "#Microsoft.Skills.Vision.VectorizeSkill":
       return visionVectorizeSkillSerializer(item as VisionVectorizeSkill);
+
+    case "#Microsoft.Skills.Util.ContentUnderstandingSkill":
+      return contentUnderstandingSkillSerializer(item as ContentUnderstandingSkill);
 
     case "#Microsoft.Skills.Custom.ChatCompletionSkill":
       return chatCompletionSkillSerializer(item as ChatCompletionSkill);
@@ -7896,6 +7900,9 @@ export function searchIndexerSkillUnionDeserializer(item: any): SearchIndexerSki
 
     case "#Microsoft.Skills.Vision.VectorizeSkill":
       return visionVectorizeSkillDeserializer(item as VisionVectorizeSkill);
+
+    case "#Microsoft.Skills.Util.ContentUnderstandingSkill":
+      return contentUnderstandingSkillDeserializer(item as ContentUnderstandingSkill);
 
     case "#Microsoft.Skills.Custom.ChatCompletionSkill":
       return chatCompletionSkillDeserializer(item as ChatCompletionSkill);
@@ -10737,6 +10744,119 @@ export function visionVectorizeSkillDeserializer(item: any): VisionVectorizeSkil
     modelVersion: item["modelVersion"],
   };
 }
+
+/** A skill that leverages Azure AI Content Understanding to process and extract structured insights from documents, enabling enriched, searchable content for enhanced document indexing and retrieval. */
+export interface ContentUnderstandingSkill extends SearchIndexerSkill {
+  /** Controls the cardinality of the content extracted from the document by the skill. */
+  extractionOptions?: ContentUnderstandingSkillExtractionOptions[];
+  /** Controls the cardinality for chunking the content. */
+  chunkingProperties?: ContentUnderstandingSkillChunkingProperties;
+  /** A URI fragment specifying the type of skill. */
+  odataType: "#Microsoft.Skills.Util.ContentUnderstandingSkill";
+}
+
+export function contentUnderstandingSkillSerializer(item: ContentUnderstandingSkill): any {
+  return {
+    "@odata.type": item["odatatype"],
+    name: item["name"],
+    description: item["description"],
+    context: item["context"],
+    inputs: inputFieldMappingEntryArraySerializer(item["inputs"]),
+    outputs: outputFieldMappingEntryArraySerializer(item["outputs"]),
+    extractionOptions: !item["extractionOptions"]
+      ? item["extractionOptions"]
+      : item["extractionOptions"].map((p: any) => {
+          return p;
+        }),
+    chunkingProperties: !item["chunkingProperties"]
+      ? item["chunkingProperties"]
+      : contentUnderstandingSkillChunkingPropertiesSerializer(item["chunkingProperties"]),
+    "@odata.type": item["odataType"],
+  };
+}
+
+export function contentUnderstandingSkillDeserializer(item: any): ContentUnderstandingSkill {
+  return {
+    odatatype: item["@odata.type"],
+    name: item["name"],
+    description: item["description"],
+    context: item["context"],
+    inputs: inputFieldMappingEntryArrayDeserializer(item["inputs"]),
+    outputs: outputFieldMappingEntryArrayDeserializer(item["outputs"]),
+    extractionOptions: !item["extractionOptions"]
+      ? item["extractionOptions"]
+      : item["extractionOptions"].map((p: any) => {
+          return p;
+        }),
+    chunkingProperties: !item["chunkingProperties"]
+      ? item["chunkingProperties"]
+      : contentUnderstandingSkillChunkingPropertiesDeserializer(item["chunkingProperties"]),
+    odataType: item["@odata.type"],
+  };
+}
+
+/** Controls the cardinality of the content extracted from the document by the skill. */
+export enum KnownContentUnderstandingSkillExtractionOptions {
+  /** Specify that image content should be extracted from the document. */
+  Images = "images",
+  /** Specify that location metadata should be extracted from the document. */
+  LocationMetadata = "locationMetadata",
+}
+
+/**
+ * Controls the cardinality of the content extracted from the document by the skill. \
+ * {@link KnownContentUnderstandingSkillExtractionOptions} can be used interchangeably with ContentUnderstandingSkillExtractionOptions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **images**: Specify that image content should be extracted from the document. \
+ * **locationMetadata**: Specify that location metadata should be extracted from the document.
+ */
+export type ContentUnderstandingSkillExtractionOptions = string;
+
+/** Controls the cardinality for chunking the content. */
+export interface ContentUnderstandingSkillChunkingProperties {
+  /** The unit of the chunk. */
+  unit?: ContentUnderstandingSkillChunkingUnit;
+  /** The maximum chunk length in characters. Default is 500. */
+  maximumLength?: number;
+  /** The length of overlap provided between two text chunks. Default is 0. */
+  overlapLength?: number;
+}
+
+export function contentUnderstandingSkillChunkingPropertiesSerializer(
+  item: ContentUnderstandingSkillChunkingProperties,
+): any {
+  return {
+    unit: item["unit"],
+    maximumLength: item["maximumLength"],
+    overlapLength: item["overlapLength"],
+  };
+}
+
+export function contentUnderstandingSkillChunkingPropertiesDeserializer(
+  item: any,
+): ContentUnderstandingSkillChunkingProperties {
+  return {
+    unit: item["unit"],
+    maximumLength: item["maximumLength"],
+    overlapLength: item["overlapLength"],
+  };
+}
+
+/** Controls the cardinality of the chunk unit. Default is 'characters' */
+export enum KnownContentUnderstandingSkillChunkingUnit {
+  /** Specifies chunk by characters. */
+  Characters = "characters",
+}
+
+/**
+ * Controls the cardinality of the chunk unit. Default is 'characters' \
+ * {@link KnownContentUnderstandingSkillChunkingUnit} can be used interchangeably with ContentUnderstandingSkillChunkingUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **characters**: Specifies chunk by characters.
+ */
+export type ContentUnderstandingSkillChunkingUnit = string;
 
 /** A skill that calls a language model via Azure AI Foundry's Chat Completions endpoint. */
 export interface ChatCompletionSkill extends SearchIndexerSkill {
