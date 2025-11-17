@@ -1,0 +1,40 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { IoTOperationsClient } = require("@azure/arm-iotoperations");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to create a InstanceResource
+ *
+ * @summary create a InstanceResource
+ * x-ms-original-file: 2025-10-01/Instance_CreateOrUpdate_MaximumSet_Gen.json
+ */
+async function instanceCreateOrUpdate() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
+  const client = new IoTOperationsClient(credential, subscriptionId);
+  const result = await client.instance.createOrUpdate("rgiotoperations", "aio-instance", {
+    properties: {
+      schemaRegistryRef: {
+        resourceId:
+          "/subscriptions/0000000-0000-0000-0000-000000000000/resourceGroups/resourceGroup123/providers/Microsoft.DeviceRegistry/schemaRegistries/resource-name123",
+      },
+      description: "kpqtgocs",
+    },
+    extendedLocation: {
+      name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
+      type: "CustomLocation",
+    },
+    identity: { type: "None", userAssignedIdentities: {} },
+    tags: {},
+    location: "eastus2",
+  });
+  console.log(result);
+}
+
+async function main() {
+  await instanceCreateOrUpdate();
+}
+
+main().catch(console.error);
