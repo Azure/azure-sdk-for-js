@@ -90,6 +90,7 @@
     "prettier": "catalog:",
     "rimraf": "catalog:",
     "tshy": "catalog:",
+    "tsx": "latest",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
