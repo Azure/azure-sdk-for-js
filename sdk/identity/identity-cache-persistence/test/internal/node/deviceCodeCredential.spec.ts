@@ -35,11 +35,11 @@ describe("DeviceCodeCredential (internal)", () => {
 
   const scope = "https://graph.microsoft.com/.default";
 
+  // OSX asks for passwords on CI, so we need to skip these tests from our automation
+  // These tests should not run live because this credential requires user interaction.
   it.skipIf(process.platform === "darwin" || isLiveMode())(
     "Accepts tokenCachePersistenceOptions",
     async (ctx) => {
-      // OSX asks for passwords on CI, so we need to skip these tests from our automation
-      // These tests should not run live because this credential requires user interaction.
 
       const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
         enabled: true,
