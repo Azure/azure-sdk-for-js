@@ -113,10 +113,7 @@ Compared with version 3.0.0
   - Removed Interface NginxConfigurationProperties
   - Removed Interface ResourceProviderDefaultErrorResponse
   - Interface NginxDeploymentProperties no longer has parameter managedResourceGroup
-  - Parameter value of interface NginxCertificateListResponse is now required
-  - Parameter value of interface NginxConfigurationListResponse is now required
   - Parameter location of interface NginxDeployment is now required
-  - Parameter value of interface NginxDeploymentListResponse is now required
 
     
 ## 4.0.0-beta.2 (2025-02-20)
