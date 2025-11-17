@@ -1311,3 +1311,217 @@ describe.skipIf(skipTestForSignOff)(
     });
   },
 );
+
+describe("Change Feed with Priority Level", { timeout: 20000 }, () => {
+  let container: Container;
+
+  beforeAll(async () => {
+    const containerDef: ContainerDefinition = {
+      partitionKey: {
+        paths: ["/name"],
+        version: PartitionKeyDefinitionVersion.V1,
+      },
+    };
+    const throughput: RequestOptions = { offerThroughput: 21000 };
+    container = await getTestContainer("changefeed Priority Level", undefined, containerDef, throughput);
+
+    // Create initial items for testing
+    for (let i = 1; i < 11; i++) {
+      await container.items.create({ name: "sample1", key: i });
+      await container.items.create({ name: "sample2", key: i });
+    }
+  });
+
+  it("should use PriorityLevel.Low for ChangeFeed operations", async () => {
+    const { PriorityLevel } = await import("../../../src/documents/PriorityLevel.js");
+
+    const feedRanges = await container.getFeedRanges();
+
+    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(feedRanges[0]),
+      priorityLevel: PriorityLevel.Low,
+    };
+    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+    let processedItems = 0;
+    while (iterator.hasMoreResults) {
+      const { result: items } = await iterator.readNext();
+      if (items.length === 0) break;
+
+      processedItems += items.length;
+      // Verify we can process items successfully with Low priority
+      assert(items.length > 0, "Should receive items with Low priority");
+
+      // Stop after processing some items to avoid infinite loop
+      if (processedItems >= 10) break;
+    }
+
+    assert(processedItems >= 10, "Should have processed at least 10 items with Low priority");
+  });
+
+  it("should use PriorityLevel.High for ChangeFeed operations", async () => {
+    const { PriorityLevel } = await import("../../../src/documents/PriorityLevel.js");
+
+    const feedRanges = await container.getFeedRanges();
+
+    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(feedRanges[0]),
+      priorityLevel: PriorityLevel.High,
+    };
+    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+    let processedItems = 0;
+    while (iterator.hasMoreResults) {
+      const { result: items } = await iterator.readNext();
+      if (items.length === 0) break;
+
+      processedItems += items.length;
+      // Verify we can process items successfully with High priority
+      assert(items.length > 0, "Should receive items with High priority");
+
+      // Stop after processing some items to avoid infinite loop
+      if (processedItems >= 10) break;
+    }
+
+    assert(processedItems >= 10, "Should have processed at least 10 items with High priority");
+  });
+
+  it("should use PriorityLevel with ChangeFeedStartFrom.Now()", async () => {
+    const { PriorityLevel } = await import("../../../src/documents/PriorityLevel.js");
+
+    const feedRanges = await container.getFeedRanges();
+
+    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Now(feedRanges[0]),
+      priorityLevel: PriorityLevel.Low,
+    };
+    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+    let continuationToken = undefined;
+
+    while (iterator.hasMoreResults) {
+      const res = await iterator.readNext();
+      // Initially there will be no results as no new changes since creation of iterator
+      if (res.statusCode === StatusCodes.NotModified) {
+        continuationToken = res.continuationToken;
+        break;
+      }
+    }
+
+    // Add new documents to the container
+    await changeFeedAllVersionsInsertItems(container, 21, 25);
+
+    let counter = 0;
+    const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+      priorityLevel: PriorityLevel.Low,
+    };
+    const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
+
+    while (iterator2.hasMoreResults) {
+      const { result: items } = await iterator2.readNext();
+      if (items.length === 0) break;
+
+      counter += items.length;
+      assert(items.length > 0, "Should receive new items with Low priority");
+
+      // Stop after processing some new items
+      if (counter >= 8) break;
+    }
+
+    assert(counter >= 8, "Should have processed at least 8 new items with Low priority");
+  });
+
+  it("should use PriorityLevel with partition key", async () => {
+    const { PriorityLevel } = await import("../../../src/documents/PriorityLevel.js");
+
+    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning("sample1"),
+      priorityLevel: PriorityLevel.Low,
+    };
+    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+    let processedItems = 0;
+    while (iterator.hasMoreResults) {
+      const { result: items } = await iterator.readNext();
+      if (items.length === 0) break;
+
+      processedItems += items.length;
+
+      // Verify all items have the correct partition key
+      for (const item of items) {
+        assert.strictEqual((item as any).name, "sample1", "All items should have partition key 'sample1'");
+      }
+
+      // Stop after processing some items
+      if (processedItems >= 5) break;
+    }
+
+    assert(processedItems >= 5, "Should have processed at least 5 items for partition key with Low priority");
+  });
+
+  it("should use PriorityLevel with ChangeFeedMode.AllVersionsAndDeletes", async () => {
+    const { PriorityLevel } = await import("../../../src/documents/PriorityLevel.js");
+
+    const feedRanges = await container.getFeedRanges();
+
+    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Now(feedRanges[0]),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+      priorityLevel: PriorityLevel.Low,
+    };
+    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+    let continuationToken = undefined;
+
+    while (iterator.hasMoreResults) {
+      const res = await iterator.readNext();
+      if (res.statusCode === StatusCodes.NotModified) {
+        continuationToken = res.continuationToken;
+        break;
+      }
+    }
+
+    // Add, modify, and delete documents to test all versions and deletes mode
+    await changeFeedAllVersionsInsertItems(container, 26, 28);
+    await changeFeedAllVersionsUpsertItems(container, 26, 28, 30);
+    await changeFeedAllVersionsDeleteItems(container, 26, 28);
+
+    let counter = 0;
+    const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+      priorityLevel: PriorityLevel.Low,
+    };
+    const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
+
+    while (iterator2.hasMoreResults) {
+      const { result: items } = await iterator2.readNext();
+      if (items.length === 0) break;
+
+      counter += items.length;
+
+      // Verify all items have metadata for all versions and deletes mode
+      for (const item of items) {
+        assert((item as any).metadata, "Items should have metadata in AllVersionsAndDeletes mode");
+        assert((item as any).metadata.operationType, "Items should have operationType in metadata");
+      }
+
+      // Stop after processing some items
+      if (counter >= 6) break;
+    }
+
+    assert(counter >= 6, "Should have processed at least 6 items in AllVersionsAndDeletes mode with Low priority");
+  });
+
+  afterAll(async () => {
+    if (container) {
+      await container.delete();
+    }
+  });
+});

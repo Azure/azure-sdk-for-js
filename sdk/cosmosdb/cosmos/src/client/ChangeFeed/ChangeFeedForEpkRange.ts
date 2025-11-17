@@ -423,6 +423,10 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       feedOptions.excludedLocations = this.changeFeedOptions.excludedLocations;
     }
 
+    if (this.changeFeedOptions.priorityLevel) {
+      feedOptions.priorityLevel = this.changeFeedOptions.priorityLevel;
+    }
+
     if (feedRange.continuationToken) {
       feedOptions.accessCondition = {
         type: Constants.HttpHeaders.IfNoneMatch,

@@ -167,6 +167,10 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       feedOptions.excludedLocations = this.changeFeedOptions.excludedLocations;
     }
 
+    if (this.changeFeedOptions.priorityLevel) {
+      feedOptions.priorityLevel = this.changeFeedOptions.priorityLevel;
+    }
+
     const continuation = this.continuationToken.Continuation;
     if (continuation) {
       feedOptions.accessCondition = {
