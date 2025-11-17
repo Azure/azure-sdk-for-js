@@ -10,7 +10,11 @@ import { sendGraphRequest } from "./popTokenClient.js";
 import { describe, it, assert } from "vitest";
 
 describe("InteractiveBrowserCredential", function () {
-  it("supports pop token authentication", async function () {
+  // This test is skipped because:
+  // - OSX asks for passwords on CI, so we need to skip on non-Windows platforms
+  // - The test requires user interaction, so it cannot run in live mode
+  // - The test is not supported in playback mode
+  it.skip("supports pop token authentication", async function () {
     useIdentityPlugin(nativeBrokerPlugin);
     const winHandle = Buffer.from("srefleqr93285329lskadjffa");
     const interactiveBrowserCredentialOptions: InteractiveBrowserCredentialNodeOptions = {
