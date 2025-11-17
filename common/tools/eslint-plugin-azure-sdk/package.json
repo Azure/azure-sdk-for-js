@@ -89,7 +89,7 @@
     "eslint-plugin-tsdoc": "^0.4.0"
   },
   "dependencies": {
-    "@eslint/compat": "^1.2.4",
+    "@eslint/compat": "^2.0.0",
     "@eslint/js": "^9.9.0",
     "@types/eslint": "^9.6.0",
     "@types/estree": "~1.0.0",
