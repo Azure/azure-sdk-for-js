@@ -1371,7 +1371,7 @@ importers:
         specifier: ^11.0.3
         version: 11.0.3
       inquirer:
-        specifier: ^12.11.0
+        specifier: 12.11.1
         version: 12.11.1(@types/node@20.19.25)
       mustache:
         specifier: ^4.2.0
