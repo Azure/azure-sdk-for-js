@@ -84,10 +84,10 @@ describe.skipIf(shouldRunSPTest())("EnvironmentCredential", function () {
     },
   );
 
+  // Live test run not supported on CI at the moment. Locally should work though.
   it.skipIf(isLiveMode())(
     "authenticates with a client certificate and password on the environment variables",
     async function () {
-      // Live test run not supported on CI at the moment. Locally should work though.
       // The following environment variables must be set for this to work.
       // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
       process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;

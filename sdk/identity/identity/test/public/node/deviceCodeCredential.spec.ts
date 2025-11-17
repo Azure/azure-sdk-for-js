@@ -92,12 +92,11 @@ describe("DeviceCodeCredential", function () {
     },
   );
 
+  // Because of the user interaction, this test works inconsistently in our live test pipelines.
+  // On playback we can't quite control the time needed to trigger this error.
   it.skipIf(isLiveMode() || isPlaybackMode())(
     "allows cancelling the authentication",
     async function () {
-      // Because of the user interaction, this test works inconsistently in our live test pipelines.
-      // On playback we can't quite control the time needed to trigger this error.
-
       const credential = new DeviceCodeCredential(
         recorder.configureClientOptions({
           tenantId: env.AZURE_TENANT_ID,
