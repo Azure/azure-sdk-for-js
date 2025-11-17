@@ -1,0 +1,6 @@
+This file marks the successful resolution of pnpm-lock.yaml merge conflict for PR #36655.
+
+Resolution completed at: 2025-11-17T23:18:16Z
+Merge commit: df839a511ab33d6dc9b8d58d7697bfe27a08bae3
+
+The pnpm-lock.yaml file was regenerated using `pnpm install --no-frozen-lockfile` after merging origin/main.
