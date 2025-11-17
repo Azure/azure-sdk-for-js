@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -728,8 +734,6 @@ export interface VolumeProperties {
   keyVaultPrivateEndpointResourceId?: string;
   /** Specifies whether LDAP is enabled or not for a given NFS volume. */
   ldapEnabled?: boolean;
-  /** Specifies the type of LDAP server for a given NFS volume. */
-  ldapServerType?: LdapServerType;
   /** Specifies whether Cool Access(tiering) is enabled for the volume. */
   coolAccess?: boolean;
   /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
@@ -785,8 +789,6 @@ export interface VolumeProperties {
   readonly originatingResourceId?: string | null;
   /** Space shared by short term clone volume with parent volume in bytes. */
   readonly inheritedSizeInBytes?: number | null;
-  /** Language supported for volume. */
-  language?: VolumeLanguage;
 }
 
 export function volumePropertiesSerializer(item: VolumeProperties): any {
@@ -824,7 +826,6 @@ export function volumePropertiesSerializer(item: VolumeProperties): any {
     encryptionKeySource: item["encryptionKeySource"],
     keyVaultPrivateEndpointResourceId: item["keyVaultPrivateEndpointResourceId"],
     ldapEnabled: item["ldapEnabled"],
-    ldapServerType: item["ldapServerType"],
     coolAccess: item["coolAccess"],
     coolnessPeriod: item["coolnessPeriod"],
     coolAccessRetrievalPolicy: item["coolAccessRetrievalPolicy"],
@@ -842,7 +843,6 @@ export function volumePropertiesSerializer(item: VolumeProperties): any {
       : placementKeyValuePairsArraySerializer(item["placementRules"]),
     enableSubvolumes: item["enableSubvolumes"],
     isLargeVolume: item["isLargeVolume"],
-    language: item["language"],
   };
 }
 
@@ -892,7 +892,6 @@ export function volumePropertiesDeserializer(item: any): VolumeProperties {
     encryptionKeySource: item["encryptionKeySource"],
     keyVaultPrivateEndpointResourceId: item["keyVaultPrivateEndpointResourceId"],
     ldapEnabled: item["ldapEnabled"],
-    ldapServerType: item["ldapServerType"],
     coolAccess: item["coolAccess"],
     coolnessPeriod: item["coolnessPeriod"],
     coolAccessRetrievalPolicy: item["coolAccessRetrievalPolicy"],
@@ -924,7 +923,6 @@ export function volumePropertiesDeserializer(item: any): VolumeProperties {
     isLargeVolume: item["isLargeVolume"],
     originatingResourceId: item["originatingResourceId"],
     inheritedSizeInBytes: item["inheritedSizeInBytes"],
-    language: item["language"],
   };
 }
 
@@ -1242,14 +1240,6 @@ export interface ReplicationObject {
   remoteVolumeRegion?: string;
   /** A list of destination replications */
   readonly destinationReplications?: DestinationReplication[];
-  /** Property that only applies to external replications. Provides a machine-readable value for the status of the external replication setup. */
-  readonly externalReplicationSetupStatus?: ExternalReplicationSetupStatus;
-  /** Contains human-readable instructions on what the next step is to finish the external replication setup. */
-  readonly externalReplicationSetupInfo?: string;
-  /** The mirror state property describes the current status of data replication for a replication. It provides insight into whether the data is actively being mirrored, if the replication process has been paused, or if it has yet to be initialized. */
-  readonly mirrorState?: MirrorState;
-  /** The status of the Volume Replication */
-  readonly relationshipStatus?: VolumeReplicationRelationshipStatus;
 }
 
 export function replicationObjectSerializer(item: ReplicationObject): any {
@@ -1274,10 +1264,6 @@ export function replicationObjectDeserializer(item: any): ReplicationObject {
     destinationReplications: !item["destinationReplications"]
       ? item["destinationReplications"]
       : destinationReplicationArrayDeserializer(item["destinationReplications"]),
-    externalReplicationSetupStatus: item["externalReplicationSetupStatus"],
-    externalReplicationSetupInfo: item["externalReplicationSetupInfo"],
-    mirrorState: item["mirrorState"],
-    relationshipStatus: item["relationshipStatus"],
   };
 }
 
@@ -1392,72 +1378,6 @@ export enum KnownReplicationType {
  * **CrossZoneReplication**: Cross zone replication
  */
 export type ReplicationType = string;
-
-/** Property that only applies to external replications. Provides a machine-readable value for the status of the external replication setup. */
-export enum KnownExternalReplicationSetupStatus {
-  /** Your cluster needs to be peered by using the 'peerExternalCluster' action */
-  ClusterPeerRequired = "ClusterPeerRequired",
-  /** The peering needs to be accepted on your cluster before the setup can proceed */
-  ClusterPeerPending = "ClusterPeerPending",
-  /** Need to call 'authorizeExternalReplication' and accept the returned 'vserver peer accept' command on your cluster to finish setting up the external replication */
-  VServerPeerRequired = "VServerPeerRequired",
-  /** Need to call 'authorizeExternalReplication' to finish setting up the external replication */
-  ReplicationCreateRequired = "ReplicationCreateRequired",
-  /** External Replication setup is complete, you can now monitor the 'mirrorState' in the replication status for the health of the replication */
-  NoActionRequired = "NoActionRequired",
-}
-
-/**
- * Property that only applies to external replications. Provides a machine-readable value for the status of the external replication setup. \
- * {@link KnownExternalReplicationSetupStatus} can be used interchangeably with ExternalReplicationSetupStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ClusterPeerRequired**: Your cluster needs to be peered by using the 'peerExternalCluster' action \
- * **ClusterPeerPending**: The peering needs to be accepted on your cluster before the setup can proceed \
- * **VServerPeerRequired**: Need to call 'authorizeExternalReplication' and accept the returned 'vserver peer accept' command on your cluster to finish setting up the external replication \
- * **ReplicationCreateRequired**: Need to call 'authorizeExternalReplication' to finish setting up the external replication \
- * **NoActionRequired**: External Replication setup is complete, you can now monitor the 'mirrorState' in the replication status for the health of the replication
- */
-export type ExternalReplicationSetupStatus = string;
-
-/** The status of the replication */
-export enum KnownMirrorState {
-  /** Uninitialized */
-  Uninitialized = "Uninitialized",
-  /** Mirrored */
-  Mirrored = "Mirrored",
-  /** Broken */
-  Broken = "Broken",
-}
-
-/**
- * The status of the replication \
- * {@link KnownMirrorState} can be used interchangeably with MirrorState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Uninitialized** \
- * **Mirrored** \
- * **Broken**
- */
-export type MirrorState = string;
-
-/** Status of the volume replication relationship */
-export enum KnownVolumeReplicationRelationshipStatus {
-  /** Idle */
-  Idle = "Idle",
-  /** Transferring */
-  Transferring = "Transferring",
-}
-
-/**
- * Status of the volume replication relationship \
- * {@link KnownVolumeReplicationRelationshipStatus} can be used interchangeably with VolumeReplicationRelationshipStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Idle** \
- * **Transferring**
- */
-export type VolumeReplicationRelationshipStatus = string;
 
 /** Volume Snapshot Properties */
 export interface VolumeSnapshotProperties {
@@ -1584,24 +1504,6 @@ export enum KnownEncryptionKeySource {
  */
 export type EncryptionKeySource = string;
 
-/** The type of the LDAP server */
-export enum KnownLdapServerType {
-  /** The volume should use Active Directory for LDAP connections. */
-  ActiveDirectory = "ActiveDirectory",
-  /** The volume should use OpenLDAP for LDAP connections. */
-  OpenLdap = "OpenLDAP",
-}
-
-/**
- * The type of the LDAP server \
- * {@link KnownLdapServerType} can be used interchangeably with LdapServerType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ActiveDirectory**: The volume should use Active Directory for LDAP connections. \
- * **OpenLDAP**: The volume should use OpenLDAP for LDAP connections.
- */
-export type LdapServerType = string;
-
 /**
  * coolAccessRetrievalPolicy determines the data retrieval behavior from the cool tier to standard storage based on the read pattern for cool access enabled volumes. The possible values for this field are:
  * Default - Data will be pulled from cool tier to standard storage on random reads. This policy is the default.
@@ -1702,225 +1604,6 @@ export enum KnownEnableSubvolumes {
  * **Disabled**: subvolumes are not enabled
  */
 export type EnableSubvolumes = string;
-
-/** Language supported for volume. */
-export enum KnownVolumeLanguage {
-  /** Posix with UTF-8 */
-  CUtf8 = "c.utf-8",
-  /** UTF-8 with 4 byte character support */
-  Utf8Mb4 = "utf8mb4",
-  /** Arabic - Deprecated */
-  Ar = "ar",
-  /** Arabic with UTF-8 */
-  ArUtf8 = "ar.utf-8",
-  /** Croatian - Deprecated */
-  Hr = "hr",
-  /** Croatian with UTF-8 */
-  HrUtf8 = "hr.utf-8",
-  /** Czech - Deprecated */
-  Cs = "cs",
-  /** Czech with UTF-8 */
-  CsUtf8 = "cs.utf-8",
-  /** Danish - Deprecated */
-  Da = "da",
-  /** Danish with UTF-8 */
-  DaUtf8 = "da.utf-8",
-  /** Dutch - Deprecated */
-  Nl = "nl",
-  /** Dutch with UTF-8 */
-  NlUtf8 = "nl.utf-8",
-  /** English - Deprecated */
-  En = "en",
-  /** English with UTF-8 */
-  EnUtf8 = "en.utf-8",
-  /** Finnish - Deprecated */
-  Fi = "fi",
-  /** Finnish with UTF-8 */
-  FiUtf8 = "fi.utf-8",
-  /** French - Deprecated */
-  Fr = "fr",
-  /** French with UTF-8 */
-  FrUtf8 = "fr.utf-8",
-  /** German - Deprecated */
-  De = "de",
-  /** German with UTF-8 */
-  DeUtf8 = "de.utf-8",
-  /** Hebrew - Deprecated */
-  He = "he",
-  /** Hebrew with UTF-8 */
-  HeUtf8 = "he.utf-8",
-  /** Hungarian - Deprecated */
-  Hu = "hu",
-  /** Hungarian with UTF-8 */
-  HuUtf8 = "hu.utf-8",
-  /** Italian - Deprecated */
-  It = "it",
-  /** Italian with UTF-8 */
-  ItUtf8 = "it.utf-8",
-  /** Japanese euc-j - Deprecated */
-  Ja = "ja",
-  /** Japanese euc-j with UTF-8 */
-  JaUtf8 = "ja.utf-8",
-  /** Japanese euc-j - Deprecated */
-  JaV1 = "ja-v1",
-  /** Japanese euc-j with UTF-8 */
-  JaV1Utf8 = "ja-v1.utf-8",
-  /** Japanese pck */
-  JaJpPck = "ja-jp.pck",
-  /** Japanese pck with UTF-8 - Deprecated */
-  JaJpPckUtf8 = "ja-jp.pck.utf-8",
-  /** Japanese cp932 */
-  JaJp932 = "ja-jp.932",
-  /** Japanese cp932 with UTF-8 - Deprecated */
-  JaJp932Utf8 = "ja-jp.932.utf-8",
-  /** Japanese pck - sjis */
-  JaJpPckV2 = "ja-jp.pck-v2",
-  /** Japanese pck - sjis with UTF-8 - Deprecated */
-  JaJpPckV2Utf8 = "ja-jp.pck-v2.utf-8",
-  /** Korean - Deprecated */
-  Ko = "ko",
-  /** Korean with UTF-8 */
-  KoUtf8 = "ko.utf-8",
-  /** Norwegian - Deprecated */
-  No = "no",
-  /** Norwegian with UTF-8 */
-  NoUtf8 = "no.utf-8",
-  /** Polish - Deprecated */
-  Pl = "pl",
-  /** Polish with UTF-8 */
-  PlUtf8 = "pl.utf-8",
-  /** Portuguese - Deprecated */
-  Pt = "pt",
-  /** Portuguese with UTF-8 */
-  PtUtf8 = "pt.utf-8",
-  /** Posix - Deprecated */
-  C = "c",
-  /** Romanian - Deprecated */
-  Ro = "ro",
-  /** Romanian with UTF-8 */
-  RoUtf8 = "ro.utf-8",
-  /** Russian - Deprecated */
-  Ru = "ru",
-  /** Russian with UTF-8 */
-  RuUtf8 = "ru.utf-8",
-  /** Simplified Chinese - Deprecated */
-  Zh = "zh",
-  /** Simplified Chinese with UTF-8 */
-  ZhUtf8 = "zh.utf-8",
-  /** Simplified gbk Chinese */
-  ZhGbk = "zh.gbk",
-  /** Simplified gbk Chinese with UTF-8 - Deprecated */
-  ZhGbkUtf8 = "zh.gbk.utf-8",
-  /** Traditional Chinese BIG 5 */
-  ZhTwBig5 = "zh-tw.big5",
-  /** Traditional Chinese BIG 5 with UTF-8 - Deprecated */
-  ZhTwBig5Utf8 = "zh-tw.big5.utf-8",
-  /** Traditional Chinese EUC-TW */
-  ZhTw = "zh-tw",
-  /** Traditional Chinese EUC-TW with UTF-8 - Deprecated */
-  ZhTwUtf8 = "zh-tw.utf-8",
-  /** Slovak - Deprecated */
-  Sk = "sk",
-  /** Slovak with UTF-8 */
-  SkUtf8 = "sk.utf-8",
-  /** Slovenian - Deprecated */
-  Sl = "sl",
-  /** Slovenian with UTF-8 */
-  SlUtf8 = "sl.utf-8",
-  /** Spanish - Deprecated */
-  Es = "es",
-  /** Spanish with UTF-8 */
-  EsUtf8 = "es.utf-8",
-  /** Swedish - Deprecated */
-  Sv = "sv",
-  /** Swedish with UTF-8 */
-  SvUtf8 = "sv.utf-8",
-  /** Turkish - Deprecated */
-  Tr = "tr",
-  /** Turkish with UTF-8 */
-  TrUtf8 = "tr.utf-8",
-  /** US English - Deprecated */
-  EnUs = "en-us",
-  /** US English with UTF-8 */
-  EnUsUtf8 = "en-us.utf-8",
-}
-
-/**
- * Language supported for volume. \
- * {@link KnownVolumeLanguage} can be used interchangeably with VolumeLanguage,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **c.utf-8**: Posix with UTF-8 \
- * **utf8mb4**: UTF-8 with 4 byte character support \
- * **ar**: Arabic - Deprecated \
- * **ar.utf-8**: Arabic with UTF-8 \
- * **hr**: Croatian - Deprecated \
- * **hr.utf-8**: Croatian with UTF-8 \
- * **cs**: Czech - Deprecated \
- * **cs.utf-8**: Czech with UTF-8 \
- * **da**: Danish - Deprecated \
- * **da.utf-8**: Danish with UTF-8 \
- * **nl**: Dutch - Deprecated \
- * **nl.utf-8**: Dutch with UTF-8 \
- * **en**: English - Deprecated \
- * **en.utf-8**: English with UTF-8 \
- * **fi**: Finnish - Deprecated \
- * **fi.utf-8**: Finnish with UTF-8 \
- * **fr**: French - Deprecated \
- * **fr.utf-8**: French with UTF-8 \
- * **de**: German - Deprecated \
- * **de.utf-8**: German with UTF-8 \
- * **he**: Hebrew - Deprecated \
- * **he.utf-8**: Hebrew with UTF-8 \
- * **hu**: Hungarian - Deprecated \
- * **hu.utf-8**: Hungarian with UTF-8 \
- * **it**: Italian - Deprecated \
- * **it.utf-8**: Italian with UTF-8 \
- * **ja**: Japanese euc-j - Deprecated \
- * **ja.utf-8**: Japanese euc-j with UTF-8 \
- * **ja-v1**: Japanese euc-j - Deprecated \
- * **ja-v1.utf-8**: Japanese euc-j with UTF-8 \
- * **ja-jp.pck**: Japanese pck \
- * **ja-jp.pck.utf-8**: Japanese pck with UTF-8 - Deprecated \
- * **ja-jp.932**: Japanese cp932 \
- * **ja-jp.932.utf-8**: Japanese cp932 with UTF-8 - Deprecated \
- * **ja-jp.pck-v2**: Japanese pck - sjis \
- * **ja-jp.pck-v2.utf-8**: Japanese pck - sjis with UTF-8 - Deprecated \
- * **ko**: Korean - Deprecated \
- * **ko.utf-8**: Korean with UTF-8 \
- * **no**: Norwegian - Deprecated \
- * **no.utf-8**: Norwegian with UTF-8 \
- * **pl**: Polish - Deprecated \
- * **pl.utf-8**: Polish with UTF-8 \
- * **pt**: Portuguese - Deprecated \
- * **pt.utf-8**: Portuguese with UTF-8 \
- * **c**: Posix - Deprecated \
- * **ro**: Romanian - Deprecated \
- * **ro.utf-8**: Romanian with UTF-8 \
- * **ru**: Russian - Deprecated \
- * **ru.utf-8**: Russian with UTF-8 \
- * **zh**: Simplified Chinese - Deprecated \
- * **zh.utf-8**: Simplified Chinese with UTF-8 \
- * **zh.gbk**: Simplified gbk Chinese \
- * **zh.gbk.utf-8**: Simplified gbk Chinese with UTF-8 - Deprecated \
- * **zh-tw.big5**: Traditional Chinese BIG 5 \
- * **zh-tw.big5.utf-8**: Traditional Chinese BIG 5 with UTF-8 - Deprecated \
- * **zh-tw**: Traditional Chinese EUC-TW \
- * **zh-tw.utf-8**: Traditional Chinese EUC-TW with UTF-8 - Deprecated \
- * **sk**: Slovak - Deprecated \
- * **sk.utf-8**: Slovak with UTF-8 \
- * **sl**: Slovenian - Deprecated \
- * **sl.utf-8**: Slovenian with UTF-8 \
- * **es**: Spanish - Deprecated \
- * **es.utf-8**: Spanish with UTF-8 \
- * **sv**: Swedish - Deprecated \
- * **sv.utf-8**: Swedish with UTF-8 \
- * **tr**: Turkish - Deprecated \
- * **tr.utf-8**: Turkish with UTF-8 \
- * **en-us**: US English - Deprecated \
- * **en-us.utf-8**: US English with UTF-8
- */
-export type VolumeLanguage = string;
 
 /** List of volume group resources */
 export interface _VolumeGroupList {
@@ -2200,6 +1883,27 @@ export enum KnownVolumeBackupRelationshipStatus {
  * **Unknown**
  */
 export type VolumeBackupRelationshipStatus = string;
+
+/** The status of the replication */
+export enum KnownMirrorState {
+  /** Uninitialized */
+  Uninitialized = "Uninitialized",
+  /** Mirrored */
+  Mirrored = "Mirrored",
+  /** Broken */
+  Broken = "Broken",
+}
+
+/**
+ * The status of the replication \
+ * {@link KnownMirrorState} can be used interchangeably with MirrorState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Uninitialized** \
+ * **Mirrored** \
+ * **Broken**
+ */
+export type MirrorState = string;
 
 /** Restore status */
 export interface RestoreStatus {
@@ -2578,6 +2282,52 @@ export function replicationStatusDeserializer(item: any): ReplicationStatus {
   };
 }
 
+/** Status of the volume replication relationship */
+export enum KnownVolumeReplicationRelationshipStatus {
+  /** Idle */
+  Idle = "Idle",
+  /** Transferring */
+  Transferring = "Transferring",
+}
+
+/**
+ * Status of the volume replication relationship \
+ * {@link KnownVolumeReplicationRelationshipStatus} can be used interchangeably with VolumeReplicationRelationshipStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Idle** \
+ * **Transferring**
+ */
+export type VolumeReplicationRelationshipStatus = string;
+
+/** Body for the list replications endpoint. If supplied, the body will be used as a filter for example to exclude deleted replications. If omitted, the endpoint returns all replications */
+export interface ListReplicationsRequest {
+  /** Exclude Replications filter. 'None' returns all replications, 'Deleted' excludes deleted replications. Default is 'None' */
+  exclude?: Exclude;
+}
+
+export function listReplicationsRequestSerializer(item: ListReplicationsRequest): any {
+  return { exclude: item["exclude"] };
+}
+
+/** An option to filter out replications. 'None' returns all replications, 'Deleted' excludes deleted replications. Default is 'None' */
+export enum KnownExclude {
+  /** 'None' returns all replications */
+  None = "None",
+  /** 'Deleted' excludes deleted replications */
+  Deleted = "Deleted",
+}
+
+/**
+ * An option to filter out replications. 'None' returns all replications, 'Deleted' excludes deleted replications. Default is 'None' \
+ * {@link KnownExclude} can be used interchangeably with Exclude,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: 'None' returns all replications \
+ * **Deleted**: 'Deleted' excludes deleted replications
+ */
+export type Exclude = string;
+
 /** List Replications */
 export interface _ListReplications {
   /** The Replication items on this page */
@@ -2611,6 +2361,12 @@ export interface Replication {
   remoteVolumeResourceId: string;
   /** The remote region for the other end of the Volume Replication. */
   remoteVolumeRegion?: string;
+  /** The status of the replication */
+  readonly mirrorState?: ReplicationMirrorState;
+  /** Replication creation time */
+  readonly replicationCreationTime?: Date;
+  /** Replication deletion time */
+  readonly replicationDeletionTime?: Date;
 }
 
 export function replicationDeserializer(item: any): Replication {
@@ -2620,8 +2376,36 @@ export function replicationDeserializer(item: any): Replication {
     replicationSchedule: item["replicationSchedule"],
     remoteVolumeResourceId: item["remoteVolumeResourceId"],
     remoteVolumeRegion: item["remoteVolumeRegion"],
+    mirrorState: item["mirrorState"],
+    replicationCreationTime: !item["replicationCreationTime"]
+      ? item["replicationCreationTime"]
+      : new Date(item["replicationCreationTime"]),
+    replicationDeletionTime: !item["replicationDeletionTime"]
+      ? item["replicationDeletionTime"]
+      : new Date(item["replicationDeletionTime"]),
   };
 }
+
+/** The status of the replication */
+export enum KnownReplicationMirrorState {
+  /** Destination volume has not been initialized */
+  Uninitialized = "Uninitialized",
+  /** Destination volume has been initialized and is ready */
+  Mirrored = "Mirrored",
+  /** Destination volume is RW, replication relationship has been broken off */
+  Broken = "Broken",
+}
+
+/**
+ * The status of the replication \
+ * {@link KnownReplicationMirrorState} can be used interchangeably with ReplicationMirrorState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Uninitialized**: Destination volume has not been initialized \
+ * **Mirrored**: Destination volume has been initialized and is ready \
+ * **Broken**: Destination volume is RW, replication relationship has been broken off
+ */
+export type ReplicationMirrorState = string;
 
 /** Authorize request */
 export interface AuthorizeRequest {
@@ -2692,75 +2476,6 @@ export interface RelocateVolumeRequest {
 export function relocateVolumeRequestSerializer(item: RelocateVolumeRequest): any {
   return { creationToken: item["creationToken"] };
 }
-
-/** Quota Report for volume */
-export interface ListQuotaReportResponse {
-  /** List of quota reports */
-  value?: QuotaReport[];
-}
-
-export function listQuotaReportResponseDeserializer(item: any): ListQuotaReportResponse {
-  return {
-    value: !item["value"] ? item["value"] : quotaReportArrayDeserializer(item["value"]),
-  };
-}
-
-export function quotaReportArrayDeserializer(result: Array<QuotaReport>): any[] {
-  return result.map((item) => {
-    return quotaReportDeserializer(item);
-  });
-}
-
-/** Quota report record properties */
-export interface QuotaReport {
-  /** Type of quota */
-  quotaType?: Type;
-  /** UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running ‘id’ or ‘getent’ command for the user or group and SID can be found by running <wmic useraccount where name='user-name' get sid> */
-  quotaTarget?: string;
-  /** Specifies the current usage in kibibytes for the user/group quota. */
-  quotaLimitUsedInKiBs?: number;
-  /** Specifies the total size limit in kibibytes for the user/group quota. */
-  quotaLimitTotalInKiBs?: number;
-  /** Percentage of used size compared to total size. */
-  percentageUsed?: number;
-  /** Flag to indicate whether the quota is derived from default quota. */
-  isDerivedQuota?: boolean;
-}
-
-export function quotaReportDeserializer(item: any): QuotaReport {
-  return {
-    quotaType: item["quotaType"],
-    quotaTarget: item["quotaTarget"],
-    quotaLimitUsedInKiBs: item["quotaLimitUsedInKiBs"],
-    quotaLimitTotalInKiBs: item["quotaLimitTotalInKiBs"],
-    percentageUsed: item["percentageUsed"],
-    isDerivedQuota: item["isDerivedQuota"],
-  };
-}
-
-/** Type of quota */
-export enum KnownType {
-  /** Default user quota */
-  DefaultUserQuota = "DefaultUserQuota",
-  /** Default group quota */
-  DefaultGroupQuota = "DefaultGroupQuota",
-  /** Individual user quota */
-  IndividualUserQuota = "IndividualUserQuota",
-  /** Individual group quota */
-  IndividualGroupQuota = "IndividualGroupQuota",
-}
-
-/**
- * Type of quota \
- * {@link KnownType} can be used interchangeably with Type,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **DefaultUserQuota**: Default user quota \
- * **DefaultGroupQuota**: Default group quota \
- * **IndividualUserQuota**: Individual user quota \
- * **IndividualGroupQuota**: Individual group quota
- */
-export type Type = string;
 
 /** Snapshot of a Volume */
 export interface Snapshot extends ProxyResource {
@@ -3361,19 +3076,21 @@ export function volumeQuotaRulesPropertiesDeserializer(item: any): VolumeQuotaRu
 
 /** Gets the status of the VolumeQuotaRule at the time the operation was called. */
 export enum KnownNetAppProvisioningState {
-  /** Accepted */
+  /** Resource has been Accepted */
   Accepted = "Accepted",
-  /** Creating */
+  /** Resource is being Created */
   Creating = "Creating",
-  /** Patching */
+  /** Resource is being Patched */
   Patching = "Patching",
-  /** Deleting */
+  /** Resource is updating */
+  Updating = "Updating",
+  /** Resource is being Deleted */
   Deleting = "Deleting",
-  /** Moving */
+  /** Resource is being Moved */
   Moving = "Moving",
-  /** Failed */
+  /** Resource has Failed */
   Failed = "Failed",
-  /** Succeeded */
+  /** Resource has Succeeded */
   Succeeded = "Succeeded",
 }
 
@@ -3382,15 +3099,40 @@ export enum KnownNetAppProvisioningState {
  * {@link KnownNetAppProvisioningState} can be used interchangeably with NetAppProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Accepted**: Accepted \
- * **Creating**: Creating \
- * **Patching**: Patching \
- * **Deleting**: Deleting \
- * **Moving**: Moving \
- * **Failed**: Failed \
- * **Succeeded**: Succeeded
+ * **Accepted**: Resource has been Accepted \
+ * **Creating**: Resource is being Created \
+ * **Patching**: Resource is being Patched \
+ * **Updating**: Resource is updating \
+ * **Deleting**: Resource is being Deleted \
+ * **Moving**: Resource is being Moved \
+ * **Failed**: Resource has Failed \
+ * **Succeeded**: Resource has Succeeded
  */
 export type NetAppProvisioningState = string;
+
+/** Type of quota */
+export enum KnownType {
+  /** Default user quota */
+  DefaultUserQuota = "DefaultUserQuota",
+  /** Default group quota */
+  DefaultGroupQuota = "DefaultGroupQuota",
+  /** Individual user quota */
+  IndividualUserQuota = "IndividualUserQuota",
+  /** Individual group quota */
+  IndividualGroupQuota = "IndividualGroupQuota",
+}
+
+/**
+ * Type of quota \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DefaultUserQuota**: Default user quota \
+ * **DefaultGroupQuota**: Default group quota \
+ * **IndividualUserQuota**: Individual user quota \
+ * **IndividualGroupQuota**: Individual group quota
+ */
+export type Type = string;
 
 /** Patchable Quota Rule of a Volume */
 export interface VolumeQuotaRulePatch {
@@ -3519,342 +3261,6 @@ export function backupVaultArrayDeserializer(result: Array<BackupVault>): any[] 
   return result.map((item) => {
     return backupVaultDeserializer(item);
   });
-}
-
-/** Bucket resource */
-export interface Bucket extends ProxyResource {
-  /** Bucket properties */
-  properties?: BucketProperties;
-}
-
-export function bucketSerializer(item: Bucket): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : bucketPropertiesSerializer(item["properties"]),
-  };
-}
-
-export function bucketDeserializer(item: any): Bucket {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : bucketPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Bucket resource properties */
-export interface BucketProperties {
-  /** The volume path mounted inside the bucket. The default is the root path '/' if no value is provided when the bucket is created. */
-  path?: string;
-  /** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
-  fileSystemUser?: FileSystemUser;
-  /** Provisioning state of the resource */
-  readonly provisioningState?: NetAppProvisioningState;
-  /**
-   * The bucket credentials status. There states:
-   *
-   * "NoCredentialsSet": Access and Secret key pair have not been generated.
-   * "CredentialsExpired": Access and Secret key pair have expired.
-   * "Active": The certificate has been installed and credentials are unexpired.
-   */
-  readonly status?: CredentialsStatus;
-  /** Properties of the server managing the lifecycle of volume buckets */
-  server?: BucketServerProperties;
-  /** Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. */
-  permissions?: BucketPermissions;
-}
-
-export function bucketPropertiesSerializer(item: BucketProperties): any {
-  return {
-    path: item["path"],
-    fileSystemUser: !item["fileSystemUser"]
-      ? item["fileSystemUser"]
-      : fileSystemUserSerializer(item["fileSystemUser"]),
-    server: !item["server"] ? item["server"] : bucketServerPropertiesSerializer(item["server"]),
-    permissions: item["permissions"],
-  };
-}
-
-export function bucketPropertiesDeserializer(item: any): BucketProperties {
-  return {
-    path: item["path"],
-    fileSystemUser: !item["fileSystemUser"]
-      ? item["fileSystemUser"]
-      : fileSystemUserDeserializer(item["fileSystemUser"]),
-    provisioningState: item["provisioningState"],
-    status: item["status"],
-    server: !item["server"] ? item["server"] : bucketServerPropertiesDeserializer(item["server"]),
-    permissions: item["permissions"],
-  };
-}
-
-/** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
-export interface FileSystemUser {
-  /** The effective NFS User ID and Group ID when accessing the volume data. */
-  nfsUser?: NfsUser;
-  /** The effective CIFS username when accessing the volume data. */
-  cifsUser?: CifsUser;
-}
-
-export function fileSystemUserSerializer(item: FileSystemUser): any {
-  return {
-    nfsUser: !item["nfsUser"] ? item["nfsUser"] : nfsUserSerializer(item["nfsUser"]),
-    cifsUser: !item["cifsUser"] ? item["cifsUser"] : cifsUserSerializer(item["cifsUser"]),
-  };
-}
-
-export function fileSystemUserDeserializer(item: any): FileSystemUser {
-  return {
-    nfsUser: !item["nfsUser"] ? item["nfsUser"] : nfsUserDeserializer(item["nfsUser"]),
-    cifsUser: !item["cifsUser"] ? item["cifsUser"] : cifsUserDeserializer(item["cifsUser"]),
-  };
-}
-
-/** The effective NFS User ID and Group ID when accessing the volume data. */
-export interface NfsUser {
-  /** The NFS user's UID */
-  userId?: number;
-  /** The NFS user's GID */
-  groupId?: number;
-}
-
-export function nfsUserSerializer(item: NfsUser): any {
-  return { userId: item["userId"], groupId: item["groupId"] };
-}
-
-export function nfsUserDeserializer(item: any): NfsUser {
-  return {
-    userId: item["userId"],
-    groupId: item["groupId"],
-  };
-}
-
-/** The effective CIFS username when accessing the volume data. */
-export interface CifsUser {
-  /** The CIFS user's username */
-  username?: string;
-}
-
-export function cifsUserSerializer(item: CifsUser): any {
-  return { username: item["username"] };
-}
-
-export function cifsUserDeserializer(item: any): CifsUser {
-  return {
-    username: item["username"],
-  };
-}
-
-/**
- * The bucket credentials status. There states:
- *
- * "NoCredentialsSet": Access and Secret key pair have not been generated.
- * "CredentialsExpired": Access and Secret key pair have expired.
- * "Active": The certificate has been installed and credentials are unexpired.
- */
-export enum KnownCredentialsStatus {
-  /** Access and Secret key pair have not been generated. */
-  NoCredentialsSet = "NoCredentialsSet",
-  /** Access and Secret key pair have expired. */
-  CredentialsExpired = "CredentialsExpired",
-  /** The certificate has been installed on the bucket server and the bucket credentials are unexpired. */
-  Active = "Active",
-}
-
-/**
- * The bucket credentials status. There states:
- *
- * "NoCredentialsSet": Access and Secret key pair have not been generated.
- * "CredentialsExpired": Access and Secret key pair have expired.
- * "Active": The certificate has been installed and credentials are unexpired. \
- * {@link KnownCredentialsStatus} can be used interchangeably with CredentialsStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NoCredentialsSet**: Access and Secret key pair have not been generated. \
- * **CredentialsExpired**: Access and Secret key pair have expired. \
- * **Active**: The certificate has been installed on the bucket server and the bucket credentials are unexpired.
- */
-export type CredentialsStatus = string;
-
-/** Properties of the server managing the lifecycle of volume buckets */
-export interface BucketServerProperties {
-  /** The host part of the bucket URL, resolving to the bucket IP address and allowed by the server certificate. */
-  fqdn?: string;
-  /** Certificate Common Name taken from the certificate installed on the bucket server */
-  readonly certificateCommonName?: string;
-  /** The bucket server's certificate expiry date. */
-  readonly certificateExpiryDate?: Date;
-  /** The bucket server's IPv4 address */
-  readonly ipAddress?: string;
-  /** A base64-encoded PEM file, which includes both the bucket server's certificate and private key. It is used to authenticate the user and allows access to volume data in a read-only manner. */
-  certificateObject?: string;
-}
-
-export function bucketServerPropertiesSerializer(item: BucketServerProperties): any {
-  return { fqdn: item["fqdn"], certificateObject: item["certificateObject"] };
-}
-
-export function bucketServerPropertiesDeserializer(item: any): BucketServerProperties {
-  return {
-    fqdn: item["fqdn"],
-    certificateCommonName: item["certificateCommonName"],
-    certificateExpiryDate: !item["certificateExpiryDate"]
-      ? item["certificateExpiryDate"]
-      : new Date(item["certificateExpiryDate"]),
-    ipAddress: item["ipAddress"],
-    certificateObject: item["certificateObject"],
-  };
-}
-
-/** Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. */
-export enum KnownBucketPermissions {
-  /** Read-only access to bucket. */
-  ReadOnly = "ReadOnly",
-  /** Read-write access to bucket. */
-  ReadWrite = "ReadWrite",
-}
-
-/**
- * Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. \
- * {@link KnownBucketPermissions} can be used interchangeably with BucketPermissions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ReadOnly**: Read-only access to bucket. \
- * **ReadWrite**: Read-write access to bucket.
- */
-export type BucketPermissions = string;
-
-/** Bucket resource */
-export interface BucketPatch extends ProxyResource {
-  /** Bucket properties */
-  properties?: BucketPatchProperties;
-}
-
-export function bucketPatchSerializer(item: BucketPatch): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : bucketPatchPropertiesSerializer(item["properties"]),
-  };
-}
-
-/** Bucket resource properties for a Patch operation */
-export interface BucketPatchProperties {
-  /** The volume path mounted inside the bucket. */
-  path?: string;
-  /** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
-  fileSystemUser?: FileSystemUser;
-  /** Provisioning state of the resource */
-  readonly provisioningState?: NetAppProvisioningState;
-  /** Properties of the server managing the lifecycle of volume buckets */
-  server?: BucketServerPatchProperties;
-  /** Access permissions for the bucket. Either ReadOnly or ReadWrite. */
-  permissions?: BucketPatchPermissions;
-}
-
-export function bucketPatchPropertiesSerializer(item: BucketPatchProperties): any {
-  return {
-    path: item["path"],
-    fileSystemUser: !item["fileSystemUser"]
-      ? item["fileSystemUser"]
-      : fileSystemUserSerializer(item["fileSystemUser"]),
-    server: !item["server"]
-      ? item["server"]
-      : bucketServerPatchPropertiesSerializer(item["server"]),
-    permissions: item["permissions"],
-  };
-}
-
-/** Properties of the server managing the lifecycle of volume buckets */
-export interface BucketServerPatchProperties {
-  /** The host part of the bucket URL, resolving to the bucket IP address and allowed by the server certificate. */
-  fqdn?: string;
-  /** A base64-encoded PEM file, which includes both the bucket server's certificate and private key. It is used to authenticate the user and allows access to volume data in a read-only manner. */
-  certificateObject?: string;
-}
-
-export function bucketServerPatchPropertiesSerializer(item: BucketServerPatchProperties): any {
-  return { fqdn: item["fqdn"], certificateObject: item["certificateObject"] };
-}
-
-/** Access permissions for the bucket. Either ReadOnly or ReadWrite. */
-export enum KnownBucketPatchPermissions {
-  /** Read-only access to bucket. */
-  ReadOnly = "ReadOnly",
-  /** Read-write access to bucket. */
-  ReadWrite = "ReadWrite",
-}
-
-/**
- * Access permissions for the bucket. Either ReadOnly or ReadWrite. \
- * {@link KnownBucketPatchPermissions} can be used interchangeably with BucketPatchPermissions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ReadOnly**: Read-only access to bucket. \
- * **ReadWrite**: Read-write access to bucket.
- */
-export type BucketPatchPermissions = string;
-
-/** List of volume bucket resources */
-export interface _BucketList {
-  /** The Bucket items on this page */
-  value: Bucket[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _bucketListDeserializer(item: any): _BucketList {
-  return {
-    value: bucketArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function bucketArraySerializer(result: Array<Bucket>): any[] {
-  return result.map((item) => {
-    return bucketSerializer(item);
-  });
-}
-
-export function bucketArrayDeserializer(result: Array<Bucket>): any[] {
-  return result.map((item) => {
-    return bucketDeserializer(item);
-  });
-}
-
-/** The bucket's Access and Secret key pair Expiry Time expressed as the number of days from now. */
-export interface BucketCredentialsExpiry {
-  /** The number of days from now until the newly generated Access and Secret key pair will expire. */
-  keyPairExpiryDays?: number;
-}
-
-export function bucketCredentialsExpirySerializer(item: BucketCredentialsExpiry): any {
-  return { keyPairExpiryDays: item["keyPairExpiryDays"] };
-}
-
-/** Bucket Access Key, Secret Key, and Expiry date and time of the key pair */
-export interface BucketGenerateCredentials {
-  /** The Access Key that is required along with the Secret Key to access the bucket. */
-  readonly accessKey?: string;
-  /** The Secret Key that is required along with the Access Key to access the bucket. */
-  readonly secretKey?: string;
-  /** The bucket's Access and Secret key pair expiry date and time (in UTC). */
-  readonly keyPairExpiry?: Date;
-}
-
-export function bucketGenerateCredentialsDeserializer(item: any): BucketGenerateCredentials {
-  return {
-    accessKey: item["accessKey"],
-    secretKey: item["secretKey"],
-    keyPairExpiry: !item["keyPairExpiry"] ? item["keyPairExpiry"] : new Date(item["keyPairExpiry"]),
-  };
 }
 
 /** Information regarding regionInfo Item. */
@@ -4033,8 +3439,6 @@ export interface AccountProperties {
   nfsV4IDDomain?: string | null;
   /** MultiAD Status for the account */
   readonly multiAdStatus?: MultiAdStatus;
-  /** LDAP Configuration for the account. */
-  ldapConfiguration?: LdapConfiguration;
 }
 
 export function accountPropertiesSerializer(item: AccountProperties): any {
@@ -4046,9 +3450,6 @@ export function accountPropertiesSerializer(item: AccountProperties): any {
       ? item["encryption"]
       : accountEncryptionSerializer(item["encryption"]),
     nfsV4IDDomain: item["nfsV4IDDomain"],
-    ldapConfiguration: !item["ldapConfiguration"]
-      ? item["ldapConfiguration"]
-      : ldapConfigurationSerializer(item["ldapConfiguration"]),
   };
 }
 
@@ -4064,9 +3465,6 @@ export function accountPropertiesDeserializer(item: any): AccountProperties {
     disableShowmount: item["disableShowmount"],
     nfsV4IDDomain: item["nfsV4IDDomain"],
     multiAdStatus: item["multiAdStatus"],
-    ldapConfiguration: !item["ldapConfiguration"]
-      ? item["ldapConfiguration"]
-      : ldapConfigurationDeserializer(item["ldapConfiguration"]),
   };
 }
 
@@ -4418,48 +3816,6 @@ export enum KnownMultiAdStatus {
  * **Enabled**: Account is MultiAD enabled
  */
 export type MultiAdStatus = string;
-
-/** LDAP configuration */
-export interface LdapConfiguration {
-  /** Name of the LDAP configuration domain */
-  domain?: string;
-  /** List of LDAP server IP addresses (IPv4 only) for the LDAP domain. */
-  ldapServers?: string[];
-  /** Specifies whether or not the LDAP traffic needs to be secured via TLS. */
-  ldapOverTLS?: boolean;
-  /** When LDAP over SSL/TLS is enabled, the LDAP client is required to have base64 encoded ldap servers CA certificate. */
-  serverCACertificate?: string;
-  /** The CN host name used while generating the certificate, LDAP Over TLS requires the CN host name to create DNS host entry. */
-  certificateCNHost?: string | null;
-}
-
-export function ldapConfigurationSerializer(item: LdapConfiguration): any {
-  return {
-    domain: item["domain"],
-    ldapServers: !item["ldapServers"]
-      ? item["ldapServers"]
-      : item["ldapServers"].map((p: any) => {
-          return p;
-        }),
-    ldapOverTLS: item["ldapOverTLS"],
-    serverCACertificate: item["serverCACertificate"],
-    certificateCNHost: item["certificateCNHost"],
-  };
-}
-
-export function ldapConfigurationDeserializer(item: any): LdapConfiguration {
-  return {
-    domain: item["domain"],
-    ldapServers: !item["ldapServers"]
-      ? item["ldapServers"]
-      : item["ldapServers"].map((p: any) => {
-          return p;
-        }),
-    ldapOverTLS: item["ldapOverTLS"],
-    serverCACertificate: item["serverCACertificate"],
-    certificateCNHost: item["certificateCNHost"],
-  };
-}
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
@@ -5136,6 +4492,10 @@ export enum KnownCheckNameResourceTypes {
   MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
   /** Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots */
   MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots",
+  /** ANF Backup under a volume , deprecated, use `Microsoft.NetApp/netAppAccounts/backupVaults/backups` instead. */
+  MicrosoftNetAppNetAppAccountsBackupVaultsBackups = "Microsoft.NetApp/netAppAccounts/backupVaults/backups",
+  /** ANF Backup under a Backup Vault */
+  MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesBackups = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/backups",
 }
 
 /**
@@ -5146,7 +4506,9 @@ export enum KnownCheckNameResourceTypes {
  * **Microsoft.NetApp\/netAppAccounts** \
  * **Microsoft.NetApp\/netAppAccounts\/capacityPools** \
  * **Microsoft.NetApp\/netAppAccounts\/capacityPools\/volumes** \
- * **Microsoft.NetApp\/netAppAccounts\/capacityPools\/volumes\/snapshots**
+ * **Microsoft.NetApp\/netAppAccounts\/capacityPools\/volumes\/snapshots** \
+ * **Microsoft.NetApp\/netAppAccounts\/backupVaults\/backups**: ANF Backup under a volume , deprecated, use `Microsoft.NetApp\/netAppAccounts\/backupVaults\/backups` instead. \
+ * **Microsoft.NetApp\/netAppAccounts\/capacityPools\/volumes\/backups**: ANF Backup under a Backup Vault
  */
 export type CheckNameResourceTypes = string;
 
@@ -5232,6 +4594,10 @@ export enum KnownCheckQuotaNameResourceTypes {
   MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
   /** Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots */
   MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots",
+  /** ANF Backup under a volume , deprecated, use `Microsoft.NetApp/netAppAccounts/backupVaults/backups` instead. */
+  MicrosoftNetAppNetAppAccountsBackupVaultsBackups = "Microsoft.NetApp/netAppAccounts/backupVaults/backups",
+  /** ANF Backup under a Backup Vault */
+  MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesBackups = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/backups",
 }
 
 /**
@@ -5242,7 +4608,9 @@ export enum KnownCheckQuotaNameResourceTypes {
  * **Microsoft.NetApp\/netAppAccounts** \
  * **Microsoft.NetApp\/netAppAccounts\/capacityPools** \
  * **Microsoft.NetApp\/netAppAccounts\/capacityPools\/volumes** \
- * **Microsoft.NetApp\/netAppAccounts\/capacityPools\/volumes\/snapshots**
+ * **Microsoft.NetApp\/netAppAccounts\/capacityPools\/volumes\/snapshots** \
+ * **Microsoft.NetApp\/netAppAccounts\/backupVaults\/backups**: ANF Backup under a volume , deprecated, use `Microsoft.NetApp\/netAppAccounts\/backupVaults\/backups` instead. \
+ * **Microsoft.NetApp\/netAppAccounts\/capacityPools\/volumes\/backups**: ANF Backup under a Backup Vault
  */
 export type CheckQuotaNameResourceTypes = string;
 
@@ -5440,6 +4808,8 @@ export function usagePropertiesDeserializer(item: any): UsageProperties {
 export enum KnownVersions {
   /** The 2025-06-01 API version. */
   V20250601 = "2025-06-01",
-  /** The 2025-07-01-preview API version. */
-  V20250701Preview = "2025-07-01-preview",
+  /** The 2025-08-01 API version. */
+  V20250801 = "2025-08-01",
+  /** The 2025-09-01 API version. */
+  V20250901 = "2025-09-01",
 }
