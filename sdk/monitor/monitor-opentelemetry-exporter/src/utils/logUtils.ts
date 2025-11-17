@@ -19,6 +19,7 @@ import {
   serializeAttribute,
 } from "./common.js";
 import type { ReadableLogRecord } from "@opentelemetry/sdk-logs";
+import type { AnyValue } from "@opentelemetry/api-logs";
 import {
   ATTR_EXCEPTION_MESSAGE,
   ATTR_EXCEPTION_STACKTRACE,
@@ -50,7 +51,7 @@ import {
  * @internal
  */
 export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | undefined {
-  const time = hrTimeToDate(log.hrTime);
+  const time = hrTimeToDate(log.hrTime)
   const sampleRate = 100;
   const instrumentationKey = ikey;
   const tags = createTagsFromLog(log);
@@ -59,6 +60,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   let name: string;
   let baseType: string;
   let baseData: MonitorDomain;
+  let postProperties: Record<string, AnyValue> = {}
 
   const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
   const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
@@ -95,8 +97,15 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   } else if (isMessageType) {
     name = ApplicationInsightsMessageName;
     baseType = ApplicationInsightsMessageBaseType;
+    let message = log.body
+    if (typeof log.body === "object" && log.body !== null && 'message' in log.body) {
+      message = serializeAttribute(log.body.message);
+      // remove message property from properties to allow it be moved to post properties which will be added to customDimensions
+      const { message: msg, ...otherProperties } = log.body;
+      postProperties = { ...postProperties, ...otherProperties };
+    }
     const messageData: MessageData = {
-      message: serializeAttribute(log.body),
+      message: serializeAttribute(message),
       severityLevel: String(getSeverity(log.severityNumber)),
       version: 2,
     };
@@ -120,6 +129,9 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     for (const key of Object.keys(properties)) {
       properties[key] = String(properties[key]).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
     }
+  }
+  for (const key of Object.keys(postProperties)) {
+    properties[key] = serializeAttribute(postProperties[key])
   }
   return {
     name,
