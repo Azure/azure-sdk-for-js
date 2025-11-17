@@ -397,7 +397,7 @@ export class VoiceAssistant {
           console.log('🔊 Audio chunk details:', {
             byteLength: event.delta.byteLength,
             samples: event.delta.byteLength / 2,
-            durationMs: (event.delta.byteLength / 2 / 24000) * 1000
+            durationInMs: (event.delta.byteLength / 2 / 24000) * 1000
           });
           
           // Handle streaming audio
@@ -519,8 +519,8 @@ export class VoiceAssistant {
         turnDetection: {
           type: 'server_vad',
           threshold: 0.5,
-          prefixPaddingMs: 300,
-          silenceDurationMs: 500
+          prefixPaddingInMs: 300,
+          silenceDurationInMs: 500
         }
       });
       
