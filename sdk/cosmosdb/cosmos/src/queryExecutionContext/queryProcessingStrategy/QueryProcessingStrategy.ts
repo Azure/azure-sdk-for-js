@@ -42,4 +42,13 @@ export interface QueryProcessingStrategy {
     targetPartitionId: string | undefined,
     partitionTargetRangeId: string,
   ): FilterContext | undefined;
+
+  /**
+   * Parses continuation token based on query type
+   * @param continuationToken - The continuation token string to parse
+   * @returns Parsed continuation token object
+   */
+  parseContinuationToken(
+    continuationToken: string,
+  ): OrderByQueryContinuationToken | CompositeQueryContinuationToken;
 }

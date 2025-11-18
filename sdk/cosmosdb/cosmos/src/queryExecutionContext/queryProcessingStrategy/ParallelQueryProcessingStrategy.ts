@@ -3,6 +3,7 @@
 
 import type { OrderByQueryContinuationToken } from "../../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import type { CompositeQueryContinuationToken } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
+import { parseCompositeQueryContinuationToken } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import type { FilterContext } from "../queryFilteringStrategy/FilterStrategy.js";
 import type { QueryProcessingStrategy } from "./QueryProcessingStrategy.js";
 
@@ -39,5 +40,14 @@ export class ParallelQueryProcessingStrategy implements QueryProcessingStrategy 
     _partitionTargetRangeId: string,
   ): FilterContext | undefined {
     return undefined;
+  }
+
+  /**
+   * Parses parallel/composite continuation token
+   */
+  parseContinuationToken(
+    continuationToken: string,
+  ): OrderByQueryContinuationToken | CompositeQueryContinuationToken {
+    return parseCompositeQueryContinuationToken(continuationToken);
   }
 }

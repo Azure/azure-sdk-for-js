@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { OrderByQueryContinuationToken } from "../../documents/ContinuationToken/OrderByQueryContinuationToken.js";
+import { parseOrderByQueryContinuationToken } from "../../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import type { CompositeQueryContinuationToken } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import type { FilterContext } from "../queryFilteringStrategy/FilterStrategy.js";
 import type { QueryProcessingStrategy } from "./QueryProcessingStrategy.js";
@@ -51,5 +52,14 @@ export class OrderByQueryProcessingStrategy implements QueryProcessingStrategy {
     if (!filterContext) return undefined;
     const isTargetPartition = targetPartitionId === partitionTargetRangeId;
     return isTargetPartition ? filterContext : undefined;
+  }
+
+  /**
+   * Parses ORDER BY continuation token
+   */
+  parseContinuationToken(
+    continuationToken: string,
+  ): OrderByQueryContinuationToken | CompositeQueryContinuationToken {
+    return parseOrderByQueryContinuationToken(continuationToken);
   }
 }

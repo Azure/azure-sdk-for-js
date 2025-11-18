@@ -30,9 +30,7 @@ import type {
   RangeBoundary,
   CompositeQueryContinuationToken,
 } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
-import { parseOrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import type { OrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
-import { parseCompositeQueryContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import { createParallelQueryResult } from "./parallelQueryResult.js";
 import type {
   PartitionRangeUpdate,
@@ -466,12 +464,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     continuationToken: string,
   ): OrderByQueryContinuationToken | CompositeQueryContinuationToken {
     try {
-      const isOrderByQuery = this.sortOrders && this.sortOrders.length > 0;
-
-      const parsed = isOrderByQuery
-        ? parseOrderByQueryContinuationToken(continuationToken)
-        : parseCompositeQueryContinuationToken(continuationToken);
-      return parsed;
+      return this.queryProcessingStrategy.parseContinuationToken(continuationToken);
     } catch (e) {
       throw new ErrorResponse(
         `Invalid continuation token format. Expected token with rangeMappings property. ` +
