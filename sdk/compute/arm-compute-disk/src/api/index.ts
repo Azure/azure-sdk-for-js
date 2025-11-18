@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export {
-  createCompute,
-  ComputeContext,
-  ComputeClientOptionalParams,
-} from "./computeContext.js";
+  createComputeManagement,
+  ComputeManagementContext,
+  ComputeManagementClientOptionalParams,
+} from "./computeManagementContext.js";

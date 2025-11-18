@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-disk";
+import { ComputeManagementClient } from "@azure/arm-compute-disk";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,19 +13,24 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function updateADiskEncryptionSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.diskEncryptionSets.update("myResourceGroup", "myDiskEncryptionSet", {
-    properties: {
-      activeKey: {
-        sourceVault: {
-          id: "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.diskEncryptionSets.update(
+    "myResourceGroup",
+    "myDiskEncryptionSet",
+    {
+      properties: {
+        activeKey: {
+          sourceVault: {
+            id: "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault",
+          },
+          keyUrl:
+            "https://myvmvault.vault-int.azure-int.net/keys/keyName/keyVersion",
         },
-        keyUrl: "https://myvmvault.vault-int.azure-int.net/keys/keyName/keyVersion",
+        encryptionType: "EncryptionAtRestWithCustomerKey",
       },
-      encryptionType: "EncryptionAtRestWithCustomerKey",
+      tags: { department: "Development", project: "Encryption" },
     },
-    tags: { department: "Development", project: "Encryption" },
-  });
+  );
   console.log(result);
 }
 
@@ -38,17 +43,22 @@ async function updateADiskEncryptionSet(): Promise<void> {
 async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.diskEncryptionSets.update("myResourceGroup", "myDiskEncryptionSet", {
-    identity: { type: "SystemAssigned" },
-    properties: {
-      activeKey: {
-        keyUrl: "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.diskEncryptionSets.update(
+    "myResourceGroup",
+    "myDiskEncryptionSet",
+    {
+      identity: { type: "SystemAssigned" },
+      properties: {
+        activeKey: {
+          keyUrl:
+            "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1",
+        },
+        encryptionType: "EncryptionAtRestWithCustomerKey",
+        rotationToLatestKeyVersionEnabled: true,
       },
-      encryptionType: "EncryptionAtRestWithCustomerKey",
-      rotationToLatestKeyVersionEnabled: true,
     },
-  });
+  );
   console.log(result);
 }
 
@@ -61,17 +71,22 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
 async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.diskEncryptionSets.update("myResourceGroup", "myDiskEncryptionSet", {
-    identity: { type: "SystemAssigned" },
-    properties: {
-      activeKey: {
-        keyUrl: "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.diskEncryptionSets.update(
+    "myResourceGroup",
+    "myDiskEncryptionSet",
+    {
+      identity: { type: "SystemAssigned" },
+      properties: {
+        activeKey: {
+          keyUrl:
+            "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1",
+        },
+        encryptionType: "EncryptionAtRestWithCustomerKey",
+        rotationToLatestKeyVersionEnabled: true,
       },
-      encryptionType: "EncryptionAtRestWithCustomerKey",
-      rotationToLatestKeyVersionEnabled: true,
     },
-  });
+  );
   console.log(result);
 }
 

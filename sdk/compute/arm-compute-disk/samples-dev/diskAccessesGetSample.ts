@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-disk";
+import { ComputeManagementClient } from "@azure/arm-compute-disk";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,8 +13,11 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getInformationAboutADiskAccessResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.diskAccesses.get("myResourceGroup", "myDiskAccess");
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.diskAccesses.get(
+    "myResourceGroup",
+    "myDiskAccess",
+  );
   console.log(result);
 }
 
@@ -27,8 +30,11 @@ async function getInformationAboutADiskAccessResource(): Promise<void> {
 async function getInformationAboutADiskAccessResourceWithPrivateEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.diskAccesses.get("myResourceGroup", "myDiskAccess");
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.diskAccesses.get(
+    "myResourceGroup",
+    "myDiskAccess",
+  );
   console.log(result);
 }
 

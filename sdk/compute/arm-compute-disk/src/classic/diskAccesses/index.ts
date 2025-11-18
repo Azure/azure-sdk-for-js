@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeContext } from "../../api/computeContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listPrivateEndpointConnections,
   deleteAPrivateEndpointConnection,
@@ -118,7 +118,7 @@ export interface DiskAccessesOperations {
   ) => Promise<DiskAccess>;
 }
 
-function _getDiskAccesses(context: ComputeContext) {
+function _getDiskAccesses(context: ComputeManagementContext) {
   return {
     listPrivateEndpointConnections: (
       resourceGroupName: string,
@@ -222,7 +222,7 @@ function _getDiskAccesses(context: ComputeContext) {
 }
 
 export function _getDiskAccessesOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): DiskAccessesOperations {
   return {
     ..._getDiskAccesses(context),

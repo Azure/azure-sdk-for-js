@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-disk";
+import { ComputeManagementClient } from "@azure/arm-compute-disk";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,8 +13,11 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function deleteADiskEncryptionSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  await client.diskEncryptionSets.delete("myResourceGroup", "myDiskEncryptionSet");
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  await client.diskEncryptionSets.delete(
+    "myResourceGroup",
+    "myDiskEncryptionSet",
+  );
 }
 
 async function main(): Promise<void> {

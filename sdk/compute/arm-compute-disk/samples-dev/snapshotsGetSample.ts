@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-disk";
+import { ComputeManagementClient } from "@azure/arm-compute-disk";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getInformationAboutASnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.snapshots.get("myResourceGroup", "mySnapshot");
   console.log(result);
 }
@@ -27,8 +27,11 @@ async function getInformationAboutASnapshot(): Promise<void> {
 async function getInformationAboutAnIncrementalSnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.snapshots.get("myResourceGroup", "myIncrementalSnapshot");
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.snapshots.get(
+    "myResourceGroup",
+    "myIncrementalSnapshot",
+  );
   console.log(result);
 }
 

@@ -11,7 +11,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { ComputeClient } from "./computeClient.js";
+export { ComputeManagementClient } from "./computeManagementClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   Disk,
@@ -120,7 +120,7 @@ export {
   DiskRestorePointProperties,
   KnownVersions,
 } from "./models/index.js";
-export { ComputeClientOptionalParams } from "./api/index.js";
+export { ComputeManagementClientOptionalParams } from "./api/index.js";
 export {
   DiskAccessesListPrivateEndpointConnectionsOptionalParams,
   DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,

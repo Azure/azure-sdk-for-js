@@ -922,7 +922,7 @@ export enum KnownDiskSecurityTypes {
   /** Trusted Launch provides security features such as secure boot and virtual Trusted Platform Module (vTPM) */
   TrustedLaunch = "TrustedLaunch",
   /** Indicates Confidential VM disk with only VM guest state encrypted */
-  ConfidentialVMVMGuestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
+  ConfidentialVMVmguestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
   /** Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a platform managed key */
   ConfidentialVMDiskEncryptedWithPlatformKey = "ConfidentialVM_DiskEncryptedWithPlatformKey",
   /** Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a customer managed key */

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-disk";
+import { ComputeManagementClient } from "@azure/arm-compute-disk";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,15 +13,19 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function createAManagedDiskWithAvailabilityPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      creationData: { createOption: "Empty" },
-      diskSizeGB: 1024,
-      availabilityPolicy: { actionOnDiskDelay: "AutomaticReattach" },
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        creationData: { createOption: "Empty" },
+        diskSizeGB: 1024,
+        availabilityPolicy: { actionOnDiskDelay: "AutomaticReattach" },
+      },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -34,17 +38,21 @@ async function createAManagedDiskWithAvailabilityPolicy(): Promise<void> {
 async function createAManagedDiskByCopyingASnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      creationData: {
-        createOption: "Copy",
-        sourceResourceId:
-          "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        creationData: {
+          createOption: "Copy",
+          sourceResourceId:
+            "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+        },
       },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -57,18 +65,23 @@ async function createAManagedDiskByCopyingASnapshot(): Promise<void> {
 async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      creationData: {
-        createOption: "Import",
-        storageAccountId:
-          "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
-        sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        creationData: {
+          createOption: "Import",
+          storageAccountId:
+            "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
+          sourceUri:
+            "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+        },
       },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -81,16 +94,21 @@ async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscri
 async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      creationData: {
-        createOption: "Import",
-        sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        creationData: {
+          createOption: "Import",
+          sourceUri:
+            "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+        },
       },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -103,24 +121,28 @@ async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscripti
 async function createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscriptionId}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      osType: "Windows",
-      securityProfile: {
-        securityType: "ConfidentialVM_DiskEncryptedWithCustomerKey",
-        secureVMDiskEncryptionSetId:
-          "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
-      },
-      creationData: {
-        createOption: "FromImage",
-        imageReference: {
-          id: "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        osType: "Windows",
+        securityProfile: {
+          securityType: "ConfidentialVM_DiskEncryptedWithCustomerKey",
+          secureVMDiskEncryptionSetId:
+            "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
+        },
+        creationData: {
+          createOption: "FromImage",
+          imageReference: {
+            id: "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0",
+          },
         },
       },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -133,11 +155,15 @@ async function createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey
 async function createAnEmptyManagedDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: { creationData: { createOption: "Empty" }, diskSizeGB: 200 },
-  });
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: { creationData: { createOption: "Empty" }, diskSizeGB: 200 },
+    },
+  );
   console.log(result);
 }
 
@@ -150,19 +176,23 @@ async function createAnEmptyManagedDisk(): Promise<void> {
 async function createAManagedDiskFromAPlatformImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscriptionId}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      osType: "Windows",
-      creationData: {
-        createOption: "FromImage",
-        imageReference: {
-          id: "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        osType: "Windows",
+        creationData: {
+          createOption: "FromImage",
+          imageReference: {
+            id: "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0",
+          },
         },
       },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -175,20 +205,24 @@ async function createAManagedDiskFromAPlatformImage(): Promise<void> {
 async function createAManagedDiskFromAnAzureComputeGalleryCommunityImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscriptionId}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      osType: "Windows",
-      creationData: {
-        createOption: "FromImage",
-        galleryImageReference: {
-          communityGalleryImageId:
-            "/CommunityGalleries/{communityGalleryPublicGalleryName}/Images/{imageName}/Versions/1.0.0",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        osType: "Windows",
+        creationData: {
+          createOption: "FromImage",
+          galleryImageReference: {
+            communityGalleryImageId:
+              "/CommunityGalleries/{communityGalleryPublicGalleryName}/Images/{imageName}/Versions/1.0.0",
+          },
         },
       },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -201,20 +235,24 @@ async function createAManagedDiskFromAnAzureComputeGalleryCommunityImage(): Prom
 async function createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscriptionId}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      osType: "Windows",
-      creationData: {
-        createOption: "FromImage",
-        galleryImageReference: {
-          sharedGalleryImageId:
-            "/SharedGalleries/{sharedGalleryUniqueName}/Images/{imageName}/Versions/1.0.0",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        osType: "Windows",
+        creationData: {
+          createOption: "FromImage",
+          galleryImageReference: {
+            sharedGalleryImageId:
+              "/SharedGalleries/{sharedGalleryUniqueName}/Images/{imageName}/Versions/1.0.0",
+          },
         },
       },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -227,19 +265,23 @@ async function createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage(): P
 async function createAManagedDiskFromAnAzureComputeGalleryImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscriptionId}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      osType: "Windows",
-      creationData: {
-        createOption: "FromImage",
-        galleryImageReference: {
-          id: "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Providers/Microsoft.Compute/Galleries/{galleryName}/Images/{imageName}/Versions/1.0.0",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        osType: "Windows",
+        creationData: {
+          createOption: "FromImage",
+          galleryImageReference: {
+            id: "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Providers/Microsoft.Compute/Galleries/{galleryName}/Images/{imageName}/Versions/1.0.0",
+          },
         },
       },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -252,17 +294,21 @@ async function createAManagedDiskFromAnAzureComputeGalleryImage(): Promise<void>
 async function createAManagedDiskFromElasticSanVolumeSnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      creationData: {
-        createOption: "CopyFromSanSnapshot",
-        elasticSanResourceId:
-          "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.ElasticSan/elasticSans/myElasticSan/volumegroups/myElasticSanVolumeGroup/snapshots/myElasticSanVolumeSnapshot",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        creationData: {
+          createOption: "CopyFromSanSnapshot",
+          elasticSanResourceId:
+            "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.ElasticSan/elasticSans/myElasticSan/volumegroups/myElasticSanVolumeGroup/snapshots/myElasticSanVolumeSnapshot",
+        },
       },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -275,17 +321,21 @@ async function createAManagedDiskFromElasticSanVolumeSnapshot(): Promise<void> {
 async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk2", {
-    location: "West US",
-    properties: {
-      creationData: {
-        createOption: "Copy",
-        sourceResourceId:
-          "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk1",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk2",
+    {
+      location: "West US",
+      properties: {
+        creationData: {
+          createOption: "Copy",
+          sourceResourceId:
+            "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk1",
+        },
       },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -298,23 +348,30 @@ async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSu
 async function createAManagedDiskFromImportSecureCreateOption(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      osType: "Windows",
-      securityProfile: {
-        securityType: "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
-      },
-      creationData: {
-        createOption: "ImportSecure",
-        storageAccountId:
-          "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
-        sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
-        securityDataUri: "https://mystorageaccount.blob.core.windows.net/osimages/vmgs.vhd",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        osType: "Windows",
+        securityProfile: {
+          securityType:
+            "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
+        },
+        creationData: {
+          createOption: "ImportSecure",
+          storageAccountId:
+            "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
+          sourceUri:
+            "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+          securityDataUri:
+            "https://mystorageaccount.blob.core.windows.net/osimages/vmgs.vhd",
+        },
       },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -327,24 +384,32 @@ async function createAManagedDiskFromImportSecureCreateOption(): Promise<void> {
 async function createAManagedDiskFromImportSecureCreateOptionWithMetadataURIForConfidentialVM(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      osType: "Windows",
-      securityProfile: {
-        securityType: "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
-      },
-      creationData: {
-        createOption: "ImportSecure",
-        storageAccountId:
-          "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
-        sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
-        securityDataUri: "https://mystorageaccount.blob.core.windows.net/osimages/vmgs.vhd",
-        securityMetadataUri: "https://mystorageaccount.blob.core.windows.net/osimages/vmmd.vhd",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        osType: "Windows",
+        securityProfile: {
+          securityType:
+            "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
+        },
+        creationData: {
+          createOption: "ImportSecure",
+          storageAccountId:
+            "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
+          sourceUri:
+            "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+          securityDataUri:
+            "https://mystorageaccount.blob.core.windows.net/osimages/vmgs.vhd",
+          securityMetadataUri:
+            "https://mystorageaccount.blob.core.windows.net/osimages/vmmd.vhd",
+        },
       },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -357,18 +422,22 @@ async function createAManagedDiskFromImportSecureCreateOptionWithMetadataURIForC
 async function createAManagedDiskFromUploadPreparedSecureCreateOption(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      osType: "Windows",
-      securityProfile: { securityType: "TrustedLaunch" },
-      creationData: {
-        createOption: "UploadPreparedSecure",
-        uploadSizeBytes: 10737418752,
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        osType: "Windows",
+        securityProfile: { securityType: "TrustedLaunch" },
+        creationData: {
+          createOption: "UploadPreparedSecure",
+          uploadSizeBytes: 10737418752,
+        },
       },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -381,12 +450,16 @@ async function createAManagedDiskFromUploadPreparedSecureCreateOption(): Promise
 async function createAnEmptyManagedDiskInExtendedLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    extendedLocation: { type: "EdgeZone", name: "{edge-zone-id}" },
-    properties: { creationData: { createOption: "Empty" }, diskSizeGB: 200 },
-  });
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      extendedLocation: { type: "EdgeZone", name: "{edge-zone-id}" },
+      properties: { creationData: { createOption: "Empty" }, diskSizeGB: 200 },
+    },
+  );
   console.log(result);
 }
 
@@ -399,13 +472,17 @@ async function createAnEmptyManagedDiskInExtendedLocation(): Promise<void> {
 async function createAManagedDiskWithPerformancePlus(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      creationData: { createOption: "Upload", performancePlus: true },
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        creationData: { createOption: "Upload", performancePlus: true },
+      },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -418,13 +495,17 @@ async function createAManagedDiskWithPerformancePlus(): Promise<void> {
 async function createAManagedUploadDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      creationData: { createOption: "Upload", uploadSizeBytes: 10737418752 },
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        creationData: { createOption: "Upload", uploadSizeBytes: 10737418752 },
+      },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -437,15 +518,19 @@ async function createAManagedUploadDisk(): Promise<void> {
 async function createAManagedDiskWithDataAccessAuthMode(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      creationData: { createOption: "Empty" },
-      diskSizeGB: 200,
-      dataAccessAuthMode: "AzureActiveDirectory",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        creationData: { createOption: "Empty" },
+        diskSizeGB: 200,
+        dataAccessAuthMode: "AzureActiveDirectory",
+      },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -458,17 +543,21 @@ async function createAManagedDiskWithDataAccessAuthMode(): Promise<void> {
 async function createAManagedDiskAndAssociateWithDiskAccessResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      creationData: { createOption: "Empty" },
-      diskSizeGB: 200,
-      networkAccessPolicy: "AllowPrivate",
-      diskAccessId:
-        "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/{existing-diskAccess-name}",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        creationData: { createOption: "Empty" },
+        diskSizeGB: 200,
+        networkAccessPolicy: "AllowPrivate",
+        diskAccessId:
+          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/{existing-diskAccess-name}",
+      },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -481,18 +570,22 @@ async function createAManagedDiskAndAssociateWithDiskAccessResource(): Promise<v
 async function createAManagedDiskAndAssociateWithDiskEncryptionSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      creationData: { createOption: "Empty" },
-      diskSizeGB: 200,
-      encryption: {
-        diskEncryptionSetId:
-          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        creationData: { createOption: "Empty" },
+        diskSizeGB: 200,
+        encryption: {
+          diskEncryptionSetId:
+            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+        },
       },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -505,15 +598,19 @@ async function createAManagedDiskAndAssociateWithDiskEncryptionSet(): Promise<vo
 async function createAnUltraManagedDiskWithLogicalSectorSize512E(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    sku: { name: "UltraSSD_LRS" },
-    properties: {
-      creationData: { createOption: "Empty", logicalSectorSize: 512 },
-      diskSizeGB: 200,
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      sku: { name: "UltraSSD_LRS" },
+      properties: {
+        creationData: { createOption: "Empty", logicalSectorSize: 512 },
+        diskSizeGB: 200,
+      },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -526,15 +623,19 @@ async function createAnUltraManagedDiskWithLogicalSectorSize512E(): Promise<void
 async function createAManagedDiskWithOptimizedForFrequentAttach(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    properties: {
-      creationData: { createOption: "Empty" },
-      diskSizeGB: 200,
-      optimizedForFrequentAttach: true,
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      properties: {
+        creationData: { createOption: "Empty" },
+        diskSizeGB: 200,
+        optimizedForFrequentAttach: true,
+      },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -547,17 +648,21 @@ async function createAManagedDiskWithOptimizedForFrequentAttach(): Promise<void>
 async function createAManagedDiskWithPremiumV2AccountType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myPremiumV2Disk", {
-    location: "West US",
-    sku: { name: "PremiumV2_LRS" },
-    properties: {
-      creationData: { createOption: "Empty" },
-      diskSizeGB: 200,
-      diskIopsReadWrite: 125,
-      diskMBpsReadWrite: 3000,
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myPremiumV2Disk",
+    {
+      location: "West US",
+      sku: { name: "PremiumV2_LRS" },
+      properties: {
+        creationData: { createOption: "Empty" },
+        diskSizeGB: 200,
+        diskIopsReadWrite: 125,
+        diskMBpsReadWrite: 3000,
+      },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -570,12 +675,16 @@ async function createAManagedDiskWithPremiumV2AccountType(): Promise<void> {
 async function createAManagedDiskWithSsdZrsAccountType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "West US",
-    sku: { name: "Premium_ZRS" },
-    properties: { creationData: { createOption: "Empty" }, diskSizeGB: 200 },
-  });
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "West US",
+      sku: { name: "Premium_ZRS" },
+      properties: { creationData: { createOption: "Empty" }, diskSizeGB: 200 },
+    },
+  );
   console.log(result);
 }
 
@@ -588,20 +697,24 @@ async function createAManagedDiskWithSsdZrsAccountType(): Promise<void> {
 async function createAManagedDiskWithSecurityProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
-    location: "North Central US",
-    properties: {
-      osType: "Windows",
-      securityProfile: { securityType: "TrustedLaunch" },
-      creationData: {
-        createOption: "FromImage",
-        imageReference: {
-          id: "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/uswest/Publishers/Microsoft/ArtifactTypes/VMImage/Offers/{offer}",
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myDisk",
+    {
+      location: "North Central US",
+      properties: {
+        osType: "Windows",
+        securityProfile: { securityType: "TrustedLaunch" },
+        creationData: {
+          createOption: "FromImage",
+          imageReference: {
+            id: "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/uswest/Publishers/Microsoft/ArtifactTypes/VMImage/Offers/{offer}",
+          },
         },
       },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -614,18 +727,22 @@ async function createAManagedDiskWithSecurityProfile(): Promise<void> {
 async function createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.disks.createOrUpdate("myResourceGroup", "myUltraReadOnlyDisk", {
-    location: "West US",
-    sku: { name: "UltraSSD_LRS" },
-    properties: {
-      creationData: { createOption: "Empty", logicalSectorSize: 4096 },
-      diskSizeGB: 200,
-      diskIopsReadWrite: 125,
-      diskMBpsReadWrite: 3000,
-      encryption: { type: "EncryptionAtRestWithPlatformKey" },
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.disks.createOrUpdate(
+    "myResourceGroup",
+    "myUltraReadOnlyDisk",
+    {
+      location: "West US",
+      sku: { name: "UltraSSD_LRS" },
+      properties: {
+        creationData: { createOption: "Empty", logicalSectorSize: 4096 },
+        diskSizeGB: 200,
+        diskIopsReadWrite: 125,
+        diskMBpsReadWrite: 3000,
+        encryption: { type: "EncryptionAtRestWithPlatformKey" },
+      },
     },
-  });
+  );
   console.log(result);
 }
 

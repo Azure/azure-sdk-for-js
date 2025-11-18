@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-disk";
+import { ComputeManagementClient } from "@azure/arm-compute-disk";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function createADiskEncryptionSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskEncryptionSets.createOrUpdate(
     "myResourceGroup",
     "myDiskEncryptionSet",
@@ -43,7 +43,7 @@ async function createADiskEncryptionSet(): Promise<void> {
 async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskEncryptionSets.createOrUpdate(
     "myResourceGroup",
     "myDiskEncryptionSet",
@@ -52,7 +52,8 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription():
       identity: { type: "SystemAssigned" },
       properties: {
         activeKey: {
-          keyUrl: "https://myvaultdifferentsub.vault-int.azure-int.net/keys/{key}",
+          keyUrl:
+            "https://myvaultdifferentsub.vault-int.azure-int.net/keys/{key}",
         },
         encryptionType: "EncryptionAtRestWithCustomerKey",
       },
@@ -70,7 +71,7 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription():
 async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskEncryptionSets.createOrUpdate(
     "myResourceGroup",
     "myDiskEncryptionSet",
@@ -85,7 +86,8 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant(): Promi
       },
       properties: {
         activeKey: {
-          keyUrl: "https://myvaultdifferenttenant.vault-int.azure-int.net/keys/{key}",
+          keyUrl:
+            "https://myvaultdifferenttenant.vault-int.azure-int.net/keys/{key}",
         },
         encryptionType: "EncryptionAtRestWithCustomerKey",
         federatedClientId: "00000000-0000-0000-0000-000000000000",

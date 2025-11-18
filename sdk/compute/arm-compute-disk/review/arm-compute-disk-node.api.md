@@ -66,8 +66,8 @@ export interface CloudError {
 }
 
 // @public (undocumented)
-export class ComputeClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeClientOptionalParams);
+export class ComputeManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeManagementClientOptionalParams);
     readonly diskAccesses: DiskAccessesOperations;
     readonly diskEncryptionSets: DiskEncryptionSetsOperations;
     readonly diskRestorePoint: DiskRestorePointOperations;
@@ -77,7 +77,7 @@ export class ComputeClient {
 }
 
 // @public
-export interface ComputeClientOptionalParams extends ClientOptions {
+export interface ComputeManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
@@ -736,7 +736,7 @@ export enum KnownDiskSecurityTypes {
     ConfidentialVMDiskEncryptedWithCustomerKey = "ConfidentialVM_DiskEncryptedWithCustomerKey",
     ConfidentialVMDiskEncryptedWithPlatformKey = "ConfidentialVM_DiskEncryptedWithPlatformKey",
     ConfidentialVMNonPersistedTPM = "ConfidentialVM_NonPersistedTPM",
-    ConfidentialVMVMGuestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
+    ConfidentialVMVmguestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
     TrustedLaunch = "TrustedLaunch"
 }
 
@@ -945,7 +945,7 @@ export interface Resource {
 }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ComputeClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ComputeManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {

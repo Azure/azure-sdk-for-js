@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
   DiskAccess,

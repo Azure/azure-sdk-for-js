@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-disk";
+import { ComputeManagementClient } from "@azure/arm-compute-disk";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,9 +13,11 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function listAllSnapshotsInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.snapshots.listByResourceGroup("myResourceGroup")) {
+  for await (const item of client.snapshots.listByResourceGroup(
+    "myResourceGroup",
+  )) {
     resArray.push(item);
   }
 

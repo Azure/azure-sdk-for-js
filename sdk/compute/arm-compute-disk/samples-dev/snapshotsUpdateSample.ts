@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-disk";
+import { ComputeManagementClient } from "@azure/arm-compute-disk";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,11 +13,15 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function updateASnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.snapshots.update("myResourceGroup", "mySnapshot", {
-    properties: { diskSizeGB: 20 },
-    tags: { department: "Development", project: "UpdateSnapshots" },
-  });
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.snapshots.update(
+    "myResourceGroup",
+    "mySnapshot",
+    {
+      properties: { diskSizeGB: 20 },
+      tags: { department: "Development", project: "UpdateSnapshots" },
+    },
+  );
   console.log(result);
 }
 
@@ -30,14 +34,18 @@ async function updateASnapshot(): Promise<void> {
 async function updateASnapshotWithAcceleratedNetworking(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.snapshots.update("myResourceGroup", "mySnapshot", {
-    properties: {
-      diskSizeGB: 20,
-      supportedCapabilities: { acceleratedNetwork: false },
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.snapshots.update(
+    "myResourceGroup",
+    "mySnapshot",
+    {
+      properties: {
+        diskSizeGB: 20,
+        supportedCapabilities: { acceleratedNetwork: false },
+      },
+      tags: { department: "Development", project: "UpdateSnapshots" },
     },
-    tags: { department: "Development", project: "UpdateSnapshots" },
-  });
+  );
   console.log(result);
 }
 
