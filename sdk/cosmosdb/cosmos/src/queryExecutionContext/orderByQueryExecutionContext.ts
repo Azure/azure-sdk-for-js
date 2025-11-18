@@ -5,7 +5,7 @@ import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse.js"
 import type { FeedOptions } from "../request/FeedOptions.js";
 import type { DocumentProducer } from "./documentProducer.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+
 import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator.js";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
@@ -15,8 +15,7 @@ import { OrderByQueryProcessingStrategy } from "./queryProcessingStrategy/OrderB
 /** @hidden */
 export class OrderByQueryExecutionContext
   extends ParallelQueryExecutionContextBase
-  implements ExecutionContext
-{
+  implements ExecutionContext {
   private orderByComparator: any;
   /**
    * Provides the OrderByQueryExecutionContext.
@@ -117,21 +116,5 @@ export class OrderByQueryExecutionContext
     return this.isUnfilledQueueEmpty();
   }
 
-  /**
-   * Fetches more results from the query execution context.
-   * @param diagnosticNode - Optional diagnostic node for tracing.
-   * @returns A promise that resolves to the fetched results.
-   * @hidden
-   */
-  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<any> {
-    try {
-      await this.bufferDocumentProducers(diagnosticNode);
-      await this.fillBufferFromBufferQueue();
-      const drainedItemsResponse = await this.drainBufferedItems();
-      return drainedItemsResponse;
-    } catch (error) {
-      console.error("Error fetching more results:", error);
-      throw error;
-    }
-  }
+
 }

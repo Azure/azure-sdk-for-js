@@ -4,8 +4,7 @@
 import type { DocumentProducer } from "./documentProducer.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase.js";
-import type { Response } from "../request/index.js";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+
 import { TargetPartitionRangeManager } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
 import { ParallelQueryProcessingStrategy } from "./queryProcessingStrategy/ParallelQueryProcessingStrategy.js";
 
@@ -16,8 +15,7 @@ import { ParallelQueryProcessingStrategy } from "./queryProcessingStrategy/Paral
  */
 export class ParallelQueryExecutionContext
   extends ParallelQueryExecutionContextBase
-  implements ExecutionContext
-{
+  implements ExecutionContext {
   constructor(
     clientContext: any,
     collectionLink: string,
@@ -95,23 +93,5 @@ export class ParallelQueryExecutionContext
     return true; // Process all buffered items in parallel queries
   }
 
-  /**
-   * Fetches more results from the query execution context.
-   * @param diagnosticNode - Optional diagnostic node for tracing.
-   * @returns A promise that resolves to the fetched results.
-   * @hidden
-   */
-  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
-    try {
-      // Buffer document producers and fill buffer from the queue
-      await this.bufferDocumentProducers(diagnosticNode);
-      await this.fillBufferFromBufferQueue();
-      // Drain buffered items
-      return this.drainBufferedItems();
-    } catch (error) {
-      // Handle any errors that occur during fetching
-      console.error("Error fetching more documents:", error);
-      throw error;
-    }
-  }
+
 }
