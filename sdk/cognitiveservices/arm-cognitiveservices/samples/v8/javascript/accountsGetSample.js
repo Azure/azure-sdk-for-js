@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Returns a Cognitive Services account specified by the parameters.
  *
  * @summary Returns a Cognitive Services account specified by the parameters.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/GetAccount.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/GetAccount.json
  */
 async function getAccount() {
   const subscriptionId =
