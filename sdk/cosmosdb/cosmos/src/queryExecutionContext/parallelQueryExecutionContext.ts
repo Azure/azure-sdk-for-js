@@ -16,7 +16,8 @@ import { ParallelQueryProcessingStrategy } from "./queryProcessingStrategy/Paral
  */
 export class ParallelQueryExecutionContext
   extends ParallelQueryExecutionContextBase
-  implements ExecutionContext {
+  implements ExecutionContext
+{
   constructor(
     clientContext: any,
     collectionLink: string,
@@ -44,7 +45,6 @@ export class ParallelQueryExecutionContext
       processingStrategy,
     );
   }
-
 
   // Overriding documentProducerComparator for ParallelQueryExecutionContexts
   /**
@@ -85,6 +85,4 @@ export class ParallelQueryExecutionContext
   protected shouldProcessBufferedProducers(): boolean {
     return true; // Process all buffered items in parallel queries
   }
-
-
 }

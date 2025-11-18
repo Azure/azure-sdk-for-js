@@ -16,7 +16,8 @@ import { OrderByQueryProcessingStrategy } from "./queryProcessingStrategy/OrderB
 /** @hidden */
 export class OrderByQueryExecutionContext
   extends ParallelQueryExecutionContextBase
-  implements ExecutionContext {
+  implements ExecutionContext
+{
   private orderByComparator: any;
   /**
    * Provides the OrderByQueryExecutionContext.
@@ -107,6 +108,4 @@ export class OrderByQueryExecutionContext
     // For ORDER BY, only process when no unfilled producers remain to maintain order
     return this.isUnfilledQueueEmpty();
   }
-
-
 }
