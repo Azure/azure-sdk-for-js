@@ -6,7 +6,7 @@ The Network Cloud APIs provide management of the Azure Operator Nexus compute re
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/networkcloud/arm-networkcloud) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-networkcloud) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-networkcloud) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-networkcloud?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
