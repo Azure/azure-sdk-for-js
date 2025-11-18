@@ -10,7 +10,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates an admin rule.
  *
  * @summary Creates or updates an admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerAdminRulePut_NetworkGroupSource.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerAdminRulePut_NetworkGroupSource.json
  */
 async function createAAdminRuleWithNetworkGroupAsSourceOrDestination(): Promise<void> {
   const subscriptionId =
@@ -56,7 +56,7 @@ async function createAAdminRuleWithNetworkGroupAsSourceOrDestination(): Promise<
  * This sample demonstrates how to Creates or updates an admin rule.
  *
  * @summary Creates or updates an admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerAdminRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerAdminRulePut.json
  */
 async function createAnAdminRule(): Promise<void> {
   const subscriptionId =

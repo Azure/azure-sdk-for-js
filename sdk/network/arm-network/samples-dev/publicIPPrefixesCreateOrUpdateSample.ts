@@ -10,7 +10,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates a static or dynamic public IP prefix.
  *
  * @summary Creates or updates a static or dynamic public IP prefix.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PublicIpPrefixCreateCustomizedValues.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PublicIpPrefixCreateCustomizedValues.json
  */
 async function createPublicIPPrefixAllocationMethod(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -36,7 +36,7 @@ async function createPublicIPPrefixAllocationMethod(): Promise<void> {
  * This sample demonstrates how to Creates or updates a static or dynamic public IP prefix.
  *
  * @summary Creates or updates a static or dynamic public IP prefix.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PublicIpPrefixCreateDefaults.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PublicIpPrefixCreateDefaults.json
  */
 async function createPublicIPPrefixDefaults(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -61,7 +61,7 @@ async function createPublicIPPrefixDefaults(): Promise<void> {
  * This sample demonstrates how to Creates or updates a static or dynamic public IP prefix.
  *
  * @summary Creates or updates a static or dynamic public IP prefix.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PublicIpPrefixCreateDefaultsStandardV2Sku.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PublicIpPrefixCreateDefaultsStandardV2Sku.json
  */
 async function createPublicIPPrefixDefaultsWithStandardV2Sku(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance Inbound Security Rules.
  *
  * @summary Creates or updates the specified Network Virtual Appliance Inbound Security Rules.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/InboundSecurityRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/InboundSecurityRulePut.json
  */
 async function createNetworkVirtualApplianceInboundSecurityRules(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

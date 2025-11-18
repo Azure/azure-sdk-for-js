@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specified NSP access rule by name.
  *
  * @summary Gets the specified NSP access rule by name.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NspAccessRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NspAccessRuleGet.json
  */
 async function nspAccessRuleGet(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
