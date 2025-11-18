@@ -1,0 +1,38 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to Description for Microsoft.CertificateRegistration to get the list of detectors for this RP.
+ *
+ * @summary Description for Microsoft.CertificateRegistration to get the list of detectors for this RP.
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2024-11-01/examples/Diagnostics_ListAppServiceCertificateOrderDetectorResponse.json
+ */
+
+import { WebSiteManagementClient } from "@azure/arm-appservice";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
+async function listAppServiceCertificateDetectorResponse(): Promise<void> {
+  const subscriptionId =
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
+    "5700fc96-77b4-4f8d-afce-c353d8c443bd";
+  const resourceGroupName =
+    process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
+  const certificateOrderName = "SampleCertificateOrderName";
+  const credential = new DefaultAzureCredential();
+  const client = new WebSiteManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.certificateOrdersDiagnostics.listAppServiceCertificateOrderDetectorResponse(
+    resourceGroupName,
+    certificateOrderName,
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
+}
+
+async function main(): Promise<void> {
+  await listAppServiceCertificateDetectorResponse();
+}
+
+main().catch(console.error);
