@@ -12,6 +12,7 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { ComputeManagementClient } from "./computeManagementClient.js";
+export { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   Disk,

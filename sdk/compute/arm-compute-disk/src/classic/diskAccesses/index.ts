@@ -35,6 +35,10 @@ import {
   PrivateLinkResourceListResult,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  SimplePollerLike,
+  getSimplePoller,
+} from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DiskAccesses operations. */
@@ -52,6 +56,20 @@ export interface DiskAccessesOperations {
     privateEndpointConnectionName: string,
     options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use deleteAPrivateEndpointConnection instead */
+  beginDeleteAPrivateEndpointConnection: (
+    resourceGroupName: string,
+    diskAccessName: string,
+    privateEndpointConnectionName: string,
+    options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use deleteAPrivateEndpointConnection instead */
+  beginDeleteAPrivateEndpointConnectionAndWait: (
+    resourceGroupName: string,
+    diskAccessName: string,
+    privateEndpointConnectionName: string,
+    options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
+  ) => Promise<void>;
   /** Approve or reject a private endpoint connection under disk access resource, this can't be used to create a new private endpoint connection. */
   updateAPrivateEndpointConnection: (
     resourceGroupName: string,
@@ -63,6 +81,27 @@ export interface DiskAccessesOperations {
     OperationState<PrivateEndpointConnection>,
     PrivateEndpointConnection
   >;
+  /** @deprecated use updateAPrivateEndpointConnection instead */
+  beginUpdateAPrivateEndpointConnection: (
+    resourceGroupName: string,
+    diskAccessName: string,
+    privateEndpointConnectionName: string,
+    privateEndpointConnection: PrivateEndpointConnection,
+    options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnection>,
+      PrivateEndpointConnection
+    >
+  >;
+  /** @deprecated use updateAPrivateEndpointConnection instead */
+  beginUpdateAPrivateEndpointConnectionAndWait: (
+    resourceGroupName: string,
+    diskAccessName: string,
+    privateEndpointConnectionName: string,
+    privateEndpointConnection: PrivateEndpointConnection,
+    options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
+  ) => Promise<PrivateEndpointConnection>;
   /** Gets information about a private endpoint connection under a disk access resource. */
   getAPrivateEndpointConnection: (
     resourceGroupName: string,
@@ -96,6 +135,18 @@ export interface DiskAccessesOperations {
     diskAccessName: string,
     options?: DiskAccessesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    diskAccessName: string,
+    options?: DiskAccessesDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    diskAccessName: string,
+    options?: DiskAccessesDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates (patches) a disk access resource. */
   update: (
     resourceGroupName: string,
@@ -103,6 +154,20 @@ export interface DiskAccessesOperations {
     diskAccess: DiskAccessUpdate,
     options?: DiskAccessesUpdateOptionalParams,
   ) => PollerLike<OperationState<DiskAccess>, DiskAccess>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    diskAccessName: string,
+    diskAccess: DiskAccessUpdate,
+    options?: DiskAccessesUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<DiskAccess>, DiskAccess>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    diskAccessName: string,
+    diskAccess: DiskAccessUpdate,
+    options?: DiskAccessesUpdateOptionalParams,
+  ) => Promise<DiskAccess>;
   /** Creates or updates a disk access resource */
   createOrUpdate: (
     resourceGroupName: string,
@@ -110,6 +175,20 @@ export interface DiskAccessesOperations {
     diskAccess: DiskAccess,
     options?: DiskAccessesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<DiskAccess>, DiskAccess>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    diskAccessName: string,
+    diskAccess: DiskAccess,
+    options?: DiskAccessesCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<DiskAccess>, DiskAccess>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    diskAccessName: string,
+    diskAccess: DiskAccess,
+    options?: DiskAccessesCreateOrUpdateOptionalParams,
+  ) => Promise<DiskAccess>;
   /** Gets information about a disk access resource. */
   get: (
     resourceGroupName: string,
@@ -144,6 +223,36 @@ function _getDiskAccesses(context: ComputeManagementContext) {
         privateEndpointConnectionName,
         options,
       ),
+    beginDeleteAPrivateEndpointConnection: async (
+      resourceGroupName: string,
+      diskAccessName: string,
+      privateEndpointConnectionName: string,
+      options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
+    ) => {
+      const poller = deleteAPrivateEndpointConnection(
+        context,
+        resourceGroupName,
+        diskAccessName,
+        privateEndpointConnectionName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAPrivateEndpointConnectionAndWait: async (
+      resourceGroupName: string,
+      diskAccessName: string,
+      privateEndpointConnectionName: string,
+      options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
+    ) => {
+      return await deleteAPrivateEndpointConnection(
+        context,
+        resourceGroupName,
+        diskAccessName,
+        privateEndpointConnectionName,
+        options,
+      );
+    },
     updateAPrivateEndpointConnection: (
       resourceGroupName: string,
       diskAccessName: string,
@@ -159,6 +268,40 @@ function _getDiskAccesses(context: ComputeManagementContext) {
         privateEndpointConnection,
         options,
       ),
+    beginUpdateAPrivateEndpointConnection: async (
+      resourceGroupName: string,
+      diskAccessName: string,
+      privateEndpointConnectionName: string,
+      privateEndpointConnection: PrivateEndpointConnection,
+      options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
+    ) => {
+      const poller = updateAPrivateEndpointConnection(
+        context,
+        resourceGroupName,
+        diskAccessName,
+        privateEndpointConnectionName,
+        privateEndpointConnection,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAPrivateEndpointConnectionAndWait: async (
+      resourceGroupName: string,
+      diskAccessName: string,
+      privateEndpointConnectionName: string,
+      privateEndpointConnection: PrivateEndpointConnection,
+      options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
+    ) => {
+      return await updateAPrivateEndpointConnection(
+        context,
+        resourceGroupName,
+        diskAccessName,
+        privateEndpointConnectionName,
+        privateEndpointConnection,
+        options,
+      );
+    },
     getAPrivateEndpointConnection: (
       resourceGroupName: string,
       diskAccessName: string,
@@ -193,6 +336,27 @@ function _getDiskAccesses(context: ComputeManagementContext) {
       diskAccessName: string,
       options?: DiskAccessesDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, diskAccessName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      diskAccessName: string,
+      options?: DiskAccessesDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        diskAccessName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      diskAccessName: string,
+      options?: DiskAccessesDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, diskAccessName, options);
+    },
     update: (
       resourceGroupName: string,
       diskAccessName: string,
@@ -200,6 +364,36 @@ function _getDiskAccesses(context: ComputeManagementContext) {
       options?: DiskAccessesUpdateOptionalParams,
     ) =>
       update(context, resourceGroupName, diskAccessName, diskAccess, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      diskAccessName: string,
+      diskAccess: DiskAccessUpdate,
+      options?: DiskAccessesUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        diskAccessName,
+        diskAccess,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      diskAccessName: string,
+      diskAccess: DiskAccessUpdate,
+      options?: DiskAccessesUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        diskAccessName,
+        diskAccess,
+        options,
+      );
+    },
     createOrUpdate: (
       resourceGroupName: string,
       diskAccessName: string,
@@ -213,6 +407,36 @@ function _getDiskAccesses(context: ComputeManagementContext) {
         diskAccess,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      diskAccessName: string,
+      diskAccess: DiskAccess,
+      options?: DiskAccessesCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        diskAccessName,
+        diskAccess,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      diskAccessName: string,
+      diskAccess: DiskAccess,
+      options?: DiskAccessesCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        diskAccessName,
+        diskAccess,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       diskAccessName: string,

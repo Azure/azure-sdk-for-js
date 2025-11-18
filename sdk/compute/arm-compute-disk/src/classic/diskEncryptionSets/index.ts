@@ -25,6 +25,10 @@ import {
   DiskEncryptionSetUpdate,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  SimplePollerLike,
+  getSimplePoller,
+} from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DiskEncryptionSets operations. */
@@ -55,6 +59,18 @@ export interface DiskEncryptionSetsOperations {
     diskEncryptionSetName: string,
     options?: DiskEncryptionSetsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    diskEncryptionSetName: string,
+    options?: DiskEncryptionSetsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    diskEncryptionSetName: string,
+    options?: DiskEncryptionSetsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates (patches) a disk encryption set. */
   update: (
     resourceGroupName: string,
@@ -62,6 +78,22 @@ export interface DiskEncryptionSetsOperations {
     diskEncryptionSet: DiskEncryptionSetUpdate,
     options?: DiskEncryptionSetsUpdateOptionalParams,
   ) => PollerLike<OperationState<DiskEncryptionSet>, DiskEncryptionSet>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    diskEncryptionSetName: string,
+    diskEncryptionSet: DiskEncryptionSetUpdate,
+    options?: DiskEncryptionSetsUpdateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<DiskEncryptionSet>, DiskEncryptionSet>
+  >;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    diskEncryptionSetName: string,
+    diskEncryptionSet: DiskEncryptionSetUpdate,
+    options?: DiskEncryptionSetsUpdateOptionalParams,
+  ) => Promise<DiskEncryptionSet>;
   /** Creates or updates a disk encryption set */
   createOrUpdate: (
     resourceGroupName: string,
@@ -69,6 +101,22 @@ export interface DiskEncryptionSetsOperations {
     diskEncryptionSet: DiskEncryptionSet,
     options?: DiskEncryptionSetsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<DiskEncryptionSet>, DiskEncryptionSet>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    diskEncryptionSetName: string,
+    diskEncryptionSet: DiskEncryptionSet,
+    options?: DiskEncryptionSetsCreateOrUpdateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<DiskEncryptionSet>, DiskEncryptionSet>
+  >;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    diskEncryptionSetName: string,
+    diskEncryptionSet: DiskEncryptionSet,
+    options?: DiskEncryptionSetsCreateOrUpdateOptionalParams,
+  ) => Promise<DiskEncryptionSet>;
   /** Gets information about a disk encryption set. */
   get: (
     resourceGroupName: string,
@@ -101,6 +149,32 @@ function _getDiskEncryptionSets(context: ComputeManagementContext) {
       diskEncryptionSetName: string,
       options?: DiskEncryptionSetsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, diskEncryptionSetName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      diskEncryptionSetName: string,
+      options?: DiskEncryptionSetsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        diskEncryptionSetName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      diskEncryptionSetName: string,
+      options?: DiskEncryptionSetsDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        diskEncryptionSetName,
+        options,
+      );
+    },
     update: (
       resourceGroupName: string,
       diskEncryptionSetName: string,
@@ -114,6 +188,36 @@ function _getDiskEncryptionSets(context: ComputeManagementContext) {
         diskEncryptionSet,
         options,
       ),
+    beginUpdate: async (
+      resourceGroupName: string,
+      diskEncryptionSetName: string,
+      diskEncryptionSet: DiskEncryptionSetUpdate,
+      options?: DiskEncryptionSetsUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        diskEncryptionSetName,
+        diskEncryptionSet,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      diskEncryptionSetName: string,
+      diskEncryptionSet: DiskEncryptionSetUpdate,
+      options?: DiskEncryptionSetsUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        diskEncryptionSetName,
+        diskEncryptionSet,
+        options,
+      );
+    },
     createOrUpdate: (
       resourceGroupName: string,
       diskEncryptionSetName: string,
@@ -127,6 +231,36 @@ function _getDiskEncryptionSets(context: ComputeManagementContext) {
         diskEncryptionSet,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      diskEncryptionSetName: string,
+      diskEncryptionSet: DiskEncryptionSet,
+      options?: DiskEncryptionSetsCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        diskEncryptionSetName,
+        diskEncryptionSet,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      diskEncryptionSetName: string,
+      diskEncryptionSet: DiskEncryptionSet,
+      options?: DiskEncryptionSetsCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        diskEncryptionSetName,
+        diskEncryptionSet,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       diskEncryptionSetName: string,

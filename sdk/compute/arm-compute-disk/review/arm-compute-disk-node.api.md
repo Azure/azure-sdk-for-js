@@ -7,6 +7,7 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
@@ -212,6 +213,26 @@ export interface DiskAccessesListPrivateEndpointConnectionsOptionalParams extend
 
 // @public
 export interface DiskAccessesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccess, options?: DiskAccessesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DiskAccess>, DiskAccess>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccess, options?: DiskAccessesCreateOrUpdateOptionalParams) => Promise<DiskAccess>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, diskAccessName: string, options?: DiskAccessesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, diskAccessName: string, options?: DiskAccessesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeleteAPrivateEndpointConnection: (resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAPrivateEndpointConnectionAndWait: (resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccessUpdate, options?: DiskAccessesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DiskAccess>, DiskAccess>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccessUpdate, options?: DiskAccessesUpdateOptionalParams) => Promise<DiskAccess>;
+    // @deprecated (undocumented)
+    beginUpdateAPrivateEndpointConnection: (resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    // @deprecated (undocumented)
+    beginUpdateAPrivateEndpointConnectionAndWait: (resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams) => Promise<PrivateEndpointConnection>;
     createOrUpdate: (resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccess, options?: DiskAccessesCreateOrUpdateOptionalParams) => PollerLike<OperationState<DiskAccess>, DiskAccess>;
     delete: (resourceGroupName: string, diskAccessName: string, options?: DiskAccessesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     deleteAPrivateEndpointConnection: (resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -294,6 +315,18 @@ export interface DiskEncryptionSetsListOptionalParams extends OperationOptions {
 
 // @public
 export interface DiskEncryptionSetsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSet, options?: DiskEncryptionSetsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DiskEncryptionSet>, DiskEncryptionSet>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSet, options?: DiskEncryptionSetsCreateOrUpdateOptionalParams) => Promise<DiskEncryptionSet>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSetUpdate, options?: DiskEncryptionSetsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DiskEncryptionSet>, DiskEncryptionSet>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSetUpdate, options?: DiskEncryptionSetsUpdateOptionalParams) => Promise<DiskEncryptionSet>;
     createOrUpdate: (resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSet, options?: DiskEncryptionSetsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DiskEncryptionSet>, DiskEncryptionSet>;
     delete: (resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsGetOptionalParams) => Promise<DiskEncryptionSet>;
@@ -411,6 +444,14 @@ export interface DiskRestorePointListByRestorePointOptionalParams extends Operat
 
 // @public
 export interface DiskRestorePointOperations {
+    // @deprecated (undocumented)
+    beginGrantAccess: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, grantAccessData: GrantAccessData, options?: DiskRestorePointGrantAccessOptionalParams) => Promise<SimplePollerLike<OperationState<AccessUri>, AccessUri>>;
+    // @deprecated (undocumented)
+    beginGrantAccessAndWait: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, grantAccessData: GrantAccessData, options?: DiskRestorePointGrantAccessOptionalParams) => Promise<AccessUri>;
+    // @deprecated (undocumented)
+    beginRevokeAccess: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointRevokeAccessOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRevokeAccessAndWait: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointRevokeAccessOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointGetOptionalParams) => Promise<DiskRestorePoint>;
     grantAccess: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, grantAccessData: GrantAccessData, options?: DiskRestorePointGrantAccessOptionalParams) => PollerLike<OperationState<AccessUri>, AccessUri>;
     listByRestorePoint: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, options?: DiskRestorePointListByRestorePointOptionalParams) => PagedAsyncIterableIterator<DiskRestorePoint>;
@@ -488,6 +529,26 @@ export interface DisksListOptionalParams extends OperationOptions {
 
 // @public
 export interface DisksOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, diskName: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Disk>, Disk>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, diskName: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams) => Promise<Disk>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, diskName: string, options?: DisksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, diskName: string, options?: DisksDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginGrantAccess: (resourceGroupName: string, diskName: string, grantAccessData: GrantAccessData, options?: DisksGrantAccessOptionalParams) => Promise<SimplePollerLike<OperationState<AccessUri>, AccessUri>>;
+    // @deprecated (undocumented)
+    beginGrantAccessAndWait: (resourceGroupName: string, diskName: string, grantAccessData: GrantAccessData, options?: DisksGrantAccessOptionalParams) => Promise<AccessUri>;
+    // @deprecated (undocumented)
+    beginRevokeAccess: (resourceGroupName: string, diskName: string, options?: DisksRevokeAccessOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRevokeAccessAndWait: (resourceGroupName: string, diskName: string, options?: DisksRevokeAccessOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, diskName: string, disk: DiskUpdate, options?: DisksUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Disk>, Disk>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, diskName: string, disk: DiskUpdate, options?: DisksUpdateOptionalParams) => Promise<Disk>;
     createOrUpdate: (resourceGroupName: string, diskName: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams) => PollerLike<OperationState<Disk>, Disk>;
     delete: (resourceGroupName: string, diskName: string, options?: DisksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, diskName: string, options?: DisksGetOptionalParams) => Promise<Disk>;
@@ -960,6 +1021,28 @@ export interface ShareInfoElement {
 }
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface Snapshot extends TrackedResource {
     completionPercent?: number;
     copyCompletionError?: CopyCompletionError;
@@ -1056,6 +1139,26 @@ export interface SnapshotsListOptionalParams extends OperationOptions {
 
 // @public
 export interface SnapshotsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, snapshotName: string, snapshot: Snapshot, options?: SnapshotsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Snapshot>, Snapshot>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, snapshotName: string, snapshot: Snapshot, options?: SnapshotsCreateOrUpdateOptionalParams) => Promise<Snapshot>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginGrantAccess: (resourceGroupName: string, snapshotName: string, grantAccessData: GrantAccessData, options?: SnapshotsGrantAccessOptionalParams) => Promise<SimplePollerLike<OperationState<AccessUri>, AccessUri>>;
+    // @deprecated (undocumented)
+    beginGrantAccessAndWait: (resourceGroupName: string, snapshotName: string, grantAccessData: GrantAccessData, options?: SnapshotsGrantAccessOptionalParams) => Promise<AccessUri>;
+    // @deprecated (undocumented)
+    beginRevokeAccess: (resourceGroupName: string, snapshotName: string, options?: SnapshotsRevokeAccessOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRevokeAccessAndWait: (resourceGroupName: string, snapshotName: string, options?: SnapshotsRevokeAccessOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, snapshotName: string, snapshot: SnapshotUpdate, options?: SnapshotsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Snapshot>, Snapshot>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, snapshotName: string, snapshot: SnapshotUpdate, options?: SnapshotsUpdateOptionalParams) => Promise<Snapshot>;
     createOrUpdate: (resourceGroupName: string, snapshotName: string, snapshot: Snapshot, options?: SnapshotsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Snapshot>, Snapshot>;
     delete: (resourceGroupName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, snapshotName: string, options?: SnapshotsGetOptionalParams) => Promise<Snapshot>;
