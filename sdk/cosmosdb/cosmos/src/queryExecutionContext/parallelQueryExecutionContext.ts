@@ -33,6 +33,25 @@ export class ParallelQueryExecutionContext
     // Create parallel query processing strategy
     const processingStrategy = new ParallelQueryProcessingStrategy();
 
+    const comparator = (docProd1: DocumentProducer, docProd2: DocumentProducer): number => {
+      const aMinInclusive = docProd1.targetPartitionKeyRange.minInclusive;
+      const bMinInclusive = docProd2.targetPartitionKeyRange.minInclusive;
+
+      // Sort empty string first, then lexicographically (original logic)
+      if (aMinInclusive === bMinInclusive) {
+        // If minInclusive values are the same, check minEPK ranges if they exist
+        const aMinEpk = docProd1.startEpk;
+        const bMinEpk = docProd2.startEpk;
+        if (aMinEpk && bMinEpk) {
+          return aMinEpk < bMinEpk ? -1 : 1;
+        }
+        return 0;
+      }
+      if (aMinInclusive === "") return -1;
+      if (bMinInclusive === "") return 1;
+      return aMinInclusive < bMinInclusive ? -1 : 1;
+    };
+
     // Calling on base class constructor
     super(
       clientContext,
@@ -43,20 +62,8 @@ export class ParallelQueryExecutionContext
       correlatedActivityId,
       rangeManager,
       processingStrategy,
+      comparator,
     );
-  }
-
-  // Overriding documentProducerComparator for ParallelQueryExecutionContexts
-  /**
-   * Provides a Comparator for document producers using the min value of the corresponding target partition.
-   * @returns Comparator Function
-   * @hidden
-   */
-  public documentProducerComparator(
-    docProd1: DocumentProducer,
-    docProd2: DocumentProducer,
-  ): number {
-    return this.compareDocumentProducersByRange(docProd2, docProd1);
   }
 
   /**

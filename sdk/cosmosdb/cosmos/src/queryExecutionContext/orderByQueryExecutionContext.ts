@@ -18,7 +18,7 @@ export class OrderByQueryExecutionContext
   extends ParallelQueryExecutionContextBase
   implements ExecutionContext
 {
-  private orderByComparator: any;
+  private readonly orderByComparator: any;
   /**
    * Provides the OrderByQueryExecutionContext.
    * This class is capable of handling orderby queries and dervives from ParallelQueryExecutionContextBase.
@@ -47,6 +47,16 @@ export class OrderByQueryExecutionContext
     // Create ORDER BY query processing strategy
     const processingStrategy = new OrderByQueryProcessingStrategy();
 
+    // Create ORDER BY comparator (need to access sortOrders from partitionedQueryExecutionInfo)
+    const orderByComparator = new OrderByDocumentProducerComparator(
+      partitionedQueryExecutionInfo.queryInfo.orderBy,
+    );
+
+    // Create comparator function for ORDER BY queries
+    const comparator = (docProd1: DocumentProducer, docProd2: DocumentProducer): number => {
+      return orderByComparator.compare(docProd1, docProd2);
+    };
+
     // Calling on base class constructor
     super(
       clientContext,
@@ -57,18 +67,11 @@ export class OrderByQueryExecutionContext
       correlatedActivityId,
       rangeManager,
       processingStrategy,
+      comparator,
     );
-    this.orderByComparator = new OrderByDocumentProducerComparator(this.sortOrders);
-  }
 
-  // Overriding documentProducerComparator for OrderByQueryExecutionContexts
-  /**
-   * Provides a Comparator for document producers which respects orderby sort order.
-   * @returns Comparator Function
-   * @hidden
-   */
-  public documentProducerComparator(docProd1: DocumentProducer, docProd2: DocumentProducer): any {
-    return this.orderByComparator.compare(docProd1, docProd2);
+    // Set the instance property after super call
+    this.orderByComparator = orderByComparator;
   }
 
   /**

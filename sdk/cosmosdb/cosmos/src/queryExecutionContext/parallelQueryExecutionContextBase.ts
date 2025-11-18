@@ -56,15 +56,15 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   protected readonly sortOrders: any;
   private readonly requestContinuation: any;
   protected respHeaders: CosmosHeaders;
-  protected unfilledDocumentProducersQueue: PriorityQueue<DocumentProducer>;
-  protected bufferedDocumentProducersQueue: PriorityQueue<DocumentProducer>;
+  protected readonly unfilledDocumentProducersQueue: PriorityQueue<DocumentProducer>;
+  protected readonly bufferedDocumentProducersQueue: PriorityQueue<DocumentProducer>;
   // TODO: update type of buffer from any --> generic can be used here
   protected buffer: any[];
   protected partitionDataPatchMap: Map<string, QueryRangeMapping> = new Map();
   protected patchCounter: number = 0;
-  private updatedContinuationRanges: Map<string, PartitionRangeUpdate> = new Map();
-  private sem: any;
-  private diagnosticNodeWrapper: {
+  private readonly updatedContinuationRanges: Map<string, PartitionRangeUpdate> = new Map();
+  private readonly sem: any;
+  private readonly diagnosticNodeWrapper: {
     consumed: boolean;
     diagnosticNode: DiagnosticNodeInternal;
   };
@@ -82,14 +82,18 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @hidden
    */
   constructor(
-    private clientContext: ClientContext,
-    private collectionLink: string,
-    private query: string | SqlQuerySpec,
-    private options: FeedOptions,
-    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
-    private correlatedActivityId: string,
-    private rangeManager: TargetPartitionRangeManager,
-    private queryProcessingStrategy: QueryProcessingStrategy,
+    private readonly clientContext: ClientContext,
+    private readonly collectionLink: string,
+    private readonly query: string | SqlQuerySpec,
+    private readonly options: FeedOptions,
+    private readonly partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
+    private readonly correlatedActivityId: string,
+    private readonly rangeManager: TargetPartitionRangeManager,
+    private readonly queryProcessingStrategy: QueryProcessingStrategy,
+    private readonly documentProducerComparator: (
+      dp1: DocumentProducer,
+      dp2: DocumentProducer,
+    ) => number,
   ) {
     this.clientContext = clientContext;
     this.collectionLink = collectionLink;
@@ -126,7 +130,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.unfilledDocumentProducersQueue = new PriorityQueue<DocumentProducer>(
       (a: DocumentProducer, b: DocumentProducer) => this.compareDocumentProducersByRange(a, b),
     );
-    // The comparator is supplied by the derived class
     this.bufferedDocumentProducersQueue = new PriorityQueue<DocumentProducer>(
       (a: DocumentProducer, b: DocumentProducer) => this.documentProducerComparator(b, a),
     );
@@ -246,11 +249,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.sem.take(createDocumentProducersAndFillUpPriorityQueueFunc);
   }
 
-  protected abstract documentProducerComparator(
-    dp1: DocumentProducer,
-    dp2: DocumentProducer,
-  ): number;
-
   /**
    * Processes buffered document producers
    * @returns A promise that resolves when processing is complete.
@@ -355,14 +353,14 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   /**
    * Moves a producer to the unfilled queue for later processing.
    */
-  protected moveToUnfilledQueue(producer: DocumentProducer): void {
+  private moveToUnfilledQueue(producer: DocumentProducer): void {
     this.unfilledDocumentProducersQueue.enq(producer);
   }
 
   /**
    * Re-queues a producer to the buffered queue for further processing.
    */
-  protected requeueProducer(producer: DocumentProducer): void {
+  private requeueProducer(producer: DocumentProducer): void {
     this.bufferedDocumentProducersQueue.enq(producer);
   }
 
@@ -382,7 +380,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @returns Comparison result for priority queue ordering
    * @hidden
    */
-  protected compareDocumentProducersByRange(a: DocumentProducer, b: DocumentProducer): number {
+  private compareDocumentProducersByRange(a: DocumentProducer, b: DocumentProducer): number {
     const aMinInclusive = a.targetPartitionKeyRange.minInclusive;
     const bMinInclusive = b.targetPartitionKeyRange.minInclusive;
     const minInclusiveComparison = bMinInclusive.localeCompare(aMinInclusive);
@@ -729,7 +727,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       return this.drainBufferedItems();
     } catch (error) {
       // Handle any errors that occur during fetching
-      console.error("Error fetching more documents:", error);
       throw error;
     }
   }
@@ -785,7 +782,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       filter,
     );
   }
-  protected async drainBufferedItems(): Promise<Response<any>> {
+  private async drainBufferedItems(): Promise<Response<any>> {
     return new Promise<Response<any>>((resolve, reject) => {
       this.sem.take(() => {
         if (this.err) {
@@ -858,7 +855,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @param diagnosticNode - The diagnostic node for logging and tracing.
    * @returns A promise that resolves when buffering is complete.
    */
-  protected async bufferDocumentProducers(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
+  private async bufferDocumentProducers(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.sem.take(async () => {
         if (this.err) {
@@ -985,7 +982,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * Uses template method pattern - delegates actual processing to subclasses.
    * @returns A promise that resolves when the buffer is filled.
    */
-  protected async fillBufferFromBufferQueue(): Promise<void> {
+  private async fillBufferFromBufferQueue(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.sem.take(async () => {
         if (this.err) {
