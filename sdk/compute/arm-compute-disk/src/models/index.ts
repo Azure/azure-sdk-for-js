@@ -2034,7 +2034,7 @@ export type DiskRestorePointListByRestorePointNextResponse =
   DiskRestorePointList;
 
 /** Optional parameters. */
-export interface ComputeManagementClientOptionalParams
+export interface ComputeDiskClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;

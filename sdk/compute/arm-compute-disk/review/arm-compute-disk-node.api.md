@@ -53,10 +53,10 @@ export interface CloudError {
 }
 
 // @public (undocumented)
-export class ComputeManagementClient extends coreClient.ServiceClient {
+export class ComputeDiskClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ComputeManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ComputeDiskClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -74,7 +74,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
 }
 
 // @public
-export interface ComputeManagementClientOptionalParams extends coreClient.ServiceClientOptions {
+export interface ComputeDiskClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;

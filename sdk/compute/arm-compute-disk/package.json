@@ -2,7 +2,7 @@
   "name": "@azure/arm-compute-disk",
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
-  "description": "A generated SDK for ComputeManagementClient.",
+  "description": "A generated SDK for ComputeDiskClient.",
   "version": "1.0.0-beta.1",
   "engines": {
     "node": ">=20.0.0"
@@ -78,7 +78,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/computeManagementClient.ts",
+        "path": "src/computeDiskClient.ts",
         "prefix": "packageDetails"
       }
     ]

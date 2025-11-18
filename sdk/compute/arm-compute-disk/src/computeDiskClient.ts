@@ -26,15 +26,15 @@ import type {
   Snapshots,
   DiskRestorePointOperations,
 } from "./operationsInterfaces/index.js";
-import type { ComputeManagementClientOptionalParams } from "./models/index.js";
+import type { ComputeDiskClientOptionalParams } from "./models/index.js";
 
-export class ComputeManagementClient extends coreClient.ServiceClient {
+export class ComputeDiskClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
 
   /**
-   * Initializes a new instance of the ComputeManagementClient class.
+   * Initializes a new instance of the ComputeDiskClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
@@ -42,7 +42,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ComputeManagementClientOptionalParams,
+    options?: ComputeDiskClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -55,7 +55,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: ComputeManagementClientOptionalParams = {
+    const defaults: ComputeDiskClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials,
     };

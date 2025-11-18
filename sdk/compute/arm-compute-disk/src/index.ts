@@ -7,5 +7,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper.js";
 export * from "./models/index.js";
-export { ComputeManagementClient } from "./computeManagementClient.js";
+export { ComputeDiskClient } from "./computeDiskClient.js";
 export * from "./operationsInterfaces/index.js";

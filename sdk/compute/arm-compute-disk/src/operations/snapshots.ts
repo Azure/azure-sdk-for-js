@@ -10,7 +10,7 @@ import type { Snapshots } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { ComputeManagementClient } from "../computeManagementClient.js";
+import type { ComputeDiskClient } from "../computeDiskClient.js";
 import type {
   SimplePollerLike,
   OperationState} from "@azure/core-lro";
@@ -45,13 +45,13 @@ import type {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Snapshots operations. */
 export class SnapshotsImpl implements Snapshots {
-  private readonly client: ComputeManagementClient;
+  private readonly client: ComputeDiskClient;
 
   /**
    * Initialize a new instance of the class Snapshots class.
    * @param client Reference to the service client
    */
-  constructor(client: ComputeManagementClient) {
+  constructor(client: ComputeDiskClient) {
     this.client = client;
   }
 

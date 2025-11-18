@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeManagementClient } from "../src/index.js";
+import { ComputeDiskClient } from "../src/index.js";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,
@@ -12,7 +12,7 @@ import { describe, it } from "vitest";
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const client = new ComputeManagementClient(
+    const client = new ComputeDiskClient(
       new DefaultAzureCredential(),
       subscriptionId,
     );
@@ -24,7 +24,7 @@ describe("snippets", () => {
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
     });
-    const client = new ComputeManagementClient(credential, subscriptionId);
+    const client = new ComputeDiskClient(credential, subscriptionId);
   });
 
   it("SetLogLevel", async () => {
