@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Approve or reject private end point connection for a private link service in a subscription.
  *
  * @summary Approve or reject private end point connection for a private link service in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PrivateLinkServiceUpdatePrivateEndpointConnection.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PrivateLinkServiceUpdatePrivateEndpointConnection.json
  */
 async function approveOrRejectPrivateEndPointConnectionForAPrivateLinkService(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";

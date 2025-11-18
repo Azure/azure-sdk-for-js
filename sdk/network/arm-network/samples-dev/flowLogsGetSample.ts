@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a flow log resource by name.
  *
  * @summary Gets a flow log resource by name.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkWatcherFlowLogGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkWatcherFlowLogGet.json
  */
 async function getFlowLog(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

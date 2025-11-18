@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates a Express Route Circuit Connection in the specified express route circuits.
  *
  * @summary Creates or updates a Express Route Circuit Connection in the specified express route circuits.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/ExpressRouteCircuitConnectionCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/ExpressRouteCircuitConnectionCreate.json
  */
 async function expressRouteCircuitConnectionCreate(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid1";

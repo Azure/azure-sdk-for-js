@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates Reachability Analysis Runs.
  *
  * @summary Creates Reachability Analysis Runs.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/ReachabilityAnalysisRunPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/ReachabilityAnalysisRunPut.json
  */
 async function reachabilityAnalysisRunCreate(): Promise<void> {
   const subscriptionId =

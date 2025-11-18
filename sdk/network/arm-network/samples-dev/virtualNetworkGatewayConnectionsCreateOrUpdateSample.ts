@@ -13,13 +13,23 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates a virtual network gateway connection in the specified resource group.
  *
  * @summary Creates or updates a virtual network gateway connection in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkGatewayConnectionCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkGatewayConnectionCreate.json
  */
 async function createVirtualNetworkGatewayConnectionS2S(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayConnectionName = "connS2S";
   const parameters: VirtualNetworkGatewayConnection = {
+    authenticationType: "Certificate",
+    certificateAuthentication: {
+      inboundAuthCertificateChain: [
+        "MIIC+TCCAeGgAwIBAgIQFOJUqDaxV5xJcKpTKO...",
+        "MIIC+TCCAeGgAwIBAgIQPJerInitNblK7yBgkqh...",
+      ],
+      inboundAuthCertificateSubjectName: "CN=rootCert.com",
+      outboundAuthCertificate:
+        "https://customerKv.vault.azure.net/Certificates/outBoundcert/Version",
+    },
     connectionMode: "Default",
     connectionProtocol: "IKEv2",
     connectionType: "IPsec",

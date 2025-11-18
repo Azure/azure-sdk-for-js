@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Retrieves the details of all RouteTables.
  *
  * @summary Retrieves the details of all RouteTables.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/HubRouteTableList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/HubRouteTableList.json
  */
 async function routeTableList(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

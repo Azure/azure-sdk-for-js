@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Retrieves a network manager routing configuration.
  *
  * @summary Retrieves a network manager routing configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerRoutingConfigurationGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerRoutingConfigurationGet.json
  */
 async function getRoutingConfigurations(): Promise<void> {
   const subscriptionId =

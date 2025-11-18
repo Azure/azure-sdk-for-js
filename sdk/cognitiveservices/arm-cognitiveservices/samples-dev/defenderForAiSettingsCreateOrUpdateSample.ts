@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  DefenderForAISetting} from "@azure/arm-cognitiveservices";
 import {
-  DefenderForAISetting,
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -12,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or Updates the specified Defender for AI setting.
  *
  * @summary Creates or Updates the specified Defender for AI setting.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/PutDefenderForAISetting.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/PutDefenderForAISetting.json
  */
 async function putDefenderForAiSetting(): Promise<void> {
   const subscriptionId =
