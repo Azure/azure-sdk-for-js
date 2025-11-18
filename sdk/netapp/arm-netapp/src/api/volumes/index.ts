@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  listQuotaReport,
   revertRelocation,
   finalizeRelocation,
   relocate,
@@ -32,7 +31,6 @@ export {
   get,
 } from "./operations.js";
 export {
-  VolumesListQuotaReportOptionalParams,
   VolumesRevertRelocationOptionalParams,
   VolumesFinalizeRelocationOptionalParams,
   VolumesRelocateOptionalParams,
