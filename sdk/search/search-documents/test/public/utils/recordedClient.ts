@@ -19,10 +19,11 @@ export interface Clients<IndexModel extends object> {
   indexClient: SearchIndexClient;
   indexerClient: SearchIndexerClient;
   indexName: string;
-  agentName: string;
+  baseName: string;
   openAIClient: OpenAIClient;
   knowledgeRetrievalClient: KnowledgeRetrievalClient;
-  azureOpenAIParameters: AzureOpenAIParameters;
+  embeddingAzureOpenAIParameters: AzureOpenAIParameters;
+  chatAzureOpenAIParameters: AzureOpenAIParameters;
 }
 
 interface Env {
@@ -95,23 +96,29 @@ export async function createClients<IndexModel extends object>(
   serviceVersion: string,
   recorder: Recorder,
   indexName: string,
-  agentName: string,
+  baseName: string,
 ): Promise<Clients<IndexModel>> {
   const recorderOptions = createRecorderStartOptions();
   await recorder.start(recorderOptions);
 
   indexName = recorder.variable("TEST_INDEX_NAME", indexName);
-  agentName = recorder.variable("TEST_AGENT_NAME", agentName);
+  baseName = recorder.variable("TEST_BASE_NAME", baseName);
 
   const credential = createTestCredential();
 
   const endPoint: string = assertEnvironmentVariable("ENDPOINT");
   const openAIEndpoint = assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT");
 
-  const azureOpenAIParameters: AzureOpenAIParameters = {
-    deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
+  const embeddingAzureOpenAIParameters: AzureOpenAIParameters = {
+    deploymentId: env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME,
     resourceUrl: env.AZURE_OPENAI_ENDPOINT,
     modelName: "text-embedding-ada-002",
+  };
+
+  const chatAzureOpenAIParameters: AzureOpenAIParameters = {
+    deploymentId: env.AZURE_OPENAI_CHAT_DEPLOYMENT_NAME,
+    resourceUrl: env.AZURE_OPENAI_ENDPOINT,
+    modelName: "gpt-4o",
   };
 
   const searchClient = new SearchClient<IndexModel>(
@@ -143,7 +150,7 @@ export async function createClients<IndexModel extends object>(
   );
   const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
     endPoint,
-    agentName,
+    baseName,
     credential,
     recorder.configureClientOptions({}),
   );
@@ -155,7 +162,8 @@ export async function createClients<IndexModel extends object>(
     openAIClient,
     knowledgeRetrievalClient,
     indexName,
-    agentName,
-    azureOpenAIParameters,
+    baseName,
+    embeddingAzureOpenAIParameters,
+    chatAzureOpenAIParameters,
   };
 }

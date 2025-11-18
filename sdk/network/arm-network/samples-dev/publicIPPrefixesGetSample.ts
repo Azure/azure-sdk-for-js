@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specified public IP prefix in a specified resource group.
  *
  * @summary Gets the specified public IP prefix in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PublicIpPrefixGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PublicIpPrefixGet.json
  */
 async function getPublicIPPrefix(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getPublicIPPrefix(): Promise<void> {
  * This sample demonstrates how to Gets the specified public IP prefix in a specified resource group.
  *
  * @summary Gets the specified public IP prefix in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PublicIpPrefixGetStandardV2Sku.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PublicIpPrefixGetStandardV2Sku.json
  */
 async function getPublicIPPrefixWithStandardV2Sku(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

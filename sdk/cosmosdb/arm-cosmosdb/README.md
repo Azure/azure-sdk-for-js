@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure CosmosDBManagement client.
 
-Azure Cosmos DB Database Service Resource Provider REST API
+Azure Cosmos DB Role Based Access Control Resource Provider REST API
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/arm-cosmosdb) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-cosmosdb) |

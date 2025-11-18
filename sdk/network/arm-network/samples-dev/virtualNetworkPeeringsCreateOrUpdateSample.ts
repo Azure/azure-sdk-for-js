@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates a peering in the specified virtual network.
  *
  * @summary Creates or updates a peering in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkV6SubnetPeeringCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkV6SubnetPeeringCreate.json
  */
 async function createV6SubnetPeering(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -49,7 +49,7 @@ async function createV6SubnetPeering(): Promise<void> {
  * This sample demonstrates how to Creates or updates a peering in the specified virtual network.
  *
  * @summary Creates or updates a peering in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkPeeringCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkPeeringCreate.json
  */
 async function createPeering(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -80,7 +80,7 @@ async function createPeering(): Promise<void> {
  * This sample demonstrates how to Creates or updates a peering in the specified virtual network.
  *
  * @summary Creates or updates a peering in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkPeeringCreateWithRemoteVirtualNetworkEncryption.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkPeeringCreateWithRemoteVirtualNetworkEncryption.json
  */
 async function createPeeringWithRemoteVirtualNetworkEncryption(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -111,7 +111,7 @@ async function createPeeringWithRemoteVirtualNetworkEncryption(): Promise<void> 
  * This sample demonstrates how to Creates or updates a peering in the specified virtual network.
  *
  * @summary Creates or updates a peering in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkSubnetPeeringCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkSubnetPeeringCreate.json
  */
 async function createSubnetPeering(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -146,7 +146,7 @@ async function createSubnetPeering(): Promise<void> {
  * This sample demonstrates how to Creates or updates a peering in the specified virtual network.
  *
  * @summary Creates or updates a peering in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkPeeringSync.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkPeeringSync.json
  */
 async function syncPeering(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -182,7 +182,7 @@ async function syncPeering(): Promise<void> {
  * This sample demonstrates how to Creates or updates a peering in the specified virtual network.
  *
  * @summary Creates or updates a peering in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkV6SubnetPeeringSync.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkV6SubnetPeeringSync.json
  */
 async function syncV6SubnetPeering(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -220,7 +220,7 @@ async function syncV6SubnetPeering(): Promise<void> {
  * This sample demonstrates how to Creates or updates a peering in the specified virtual network.
  *
  * @summary Creates or updates a peering in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkSubnetPeeringSync.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkSubnetPeeringSync.json
  */
 async function syncSubnetPeering(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

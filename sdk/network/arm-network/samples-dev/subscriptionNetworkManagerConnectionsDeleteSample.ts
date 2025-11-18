@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete specified connection created by this subscription.
  *
  * @summary Delete specified connection created by this subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerConnectionSubscriptionDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerConnectionSubscriptionDelete.json
  */
 async function deleteSubscriptionNetworkManagerConnection(): Promise<void> {
   const subscriptionId =

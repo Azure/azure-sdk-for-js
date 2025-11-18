@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets all route tables applied to a network interface.
  *
  * @summary Gets all route tables applied to a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkInterfaceEffectiveRouteTableList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkInterfaceEffectiveRouteTableList.json
  */
 async function showNetworkInterfaceEffectiveRouteTables(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

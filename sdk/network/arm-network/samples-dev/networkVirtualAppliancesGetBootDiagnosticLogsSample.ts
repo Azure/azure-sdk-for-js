@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Retrieves the boot diagnostic logs for a VM instance belonging to the specified Network Virtual Appliance.
  *
  * @summary Retrieves the boot diagnostic logs for a VM instance belonging to the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkVirtualApplianceBootDiagnostics.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkVirtualApplianceBootDiagnostics.json
  */
 async function retrieveBootDiagnosticLogsForAGivenNvaVmssInstance(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

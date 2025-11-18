@@ -218,8 +218,36 @@ export const FacetResult: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      avg: {
+        serializedName: "avg",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      min: {
+        serializedName: "min",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      max: {
+        serializedName: "max",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
       sum: {
         serializedName: "sum",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      cardinality: {
+        serializedName: "cardinality",
         readOnly: true,
         type: {
           name: "Number",
@@ -687,7 +715,7 @@ export const SearchResult: coreClient.CompositeMapper = {
         serializedName: "@search\\.documentDebugInfo",
         type: {
           name: "Composite",
-          className: "_documentDebugInfo",
+          className: "DocumentDebugInfo",
         },
       },
     },
@@ -722,7 +750,7 @@ export const QueryCaptionResult: coreClient.CompositeMapper = {
 export const DocumentDebugInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "_documentDebugInfo",
+    className: "DocumentDebugInfo",
     modelProperties: {
       semantic: {
         serializedName: "semantic",

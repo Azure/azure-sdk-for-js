@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./knowledgeAgents.js";
+export * from "./knowledgeBases.js";
 export * from "./knowledgeSources.js";
 export * from "./dataSources.js";
 export * from "./indexers.js";

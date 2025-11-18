@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specified load balancer.
  *
  * @summary Gets the specified load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/LoadBalancerGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/LoadBalancerGet.json
  */
 async function getLoadBalancer(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getLoadBalancer(): Promise<void> {
  * This sample demonstrates how to Gets the specified load balancer.
  *
  * @summary Gets the specified load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/LoadBalancerGetInboundNatRulePortMapping.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/LoadBalancerGetInboundNatRulePortMapping.json
  */
 async function getLoadBalancerWithInboundNatRulePortMapping(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

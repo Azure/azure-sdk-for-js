@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Batch operation to add blocklist items.
  *
  * @summary Batch operation to add blocklist items.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/AddRaiBlocklistItems.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/AddRaiBlocklistItems.json
  */
 async function addRaiBlocklistItems() {
   const subscriptionId =
