@@ -6,11 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { RecorderStartOptions } from "@azure-tools/test-recorder";
-import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { CertificateRegistrationManagementClient } from "../src/certificateRegistrationManagementClient.js";
+import { DomainRegistrationManagementClient } from "../src/domainRegistrationManagementClient.js";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
@@ -28,10 +27,10 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("CertificateRegistration test", () => {
+describe("DomainRegistration test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
-  let client: CertificateRegistrationManagementClient;
+  let client: DomainRegistrationManagementClient;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
@@ -39,7 +38,7 @@ describe("CertificateRegistration test", () => {
     subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new CertificateRegistrationManagementClient(
+    client = new DomainRegistrationManagementClient(
       credential,
       subscriptionId,
       recorder.configureClientOptions({}),
@@ -50,9 +49,9 @@ describe("CertificateRegistration test", () => {
     await recorder.stop();
   });
 
-  it("certificateRegistrationProvider listOperations test", async function () {
+  it("domainRegistrationProvider listOperations test", async function () {
     const resArray = new Array();
-    for await (const item of client.certificateRegistrationProvider.listOperations()) {
+    for await (let item of client.domainRegistrationProvider.listOperations()) {
       resArray.push(item);
     }
     assert.ok(resArray);
