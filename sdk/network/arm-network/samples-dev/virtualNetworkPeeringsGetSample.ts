@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specified virtual network peering.
  *
  * @summary Gets the specified virtual network peering.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkV6SubnetPeeringGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkV6SubnetPeeringGet.json
  */
 async function getV6SubnetPeering(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function getV6SubnetPeering(): Promise<void> {
  * This sample demonstrates how to Gets the specified virtual network peering.
  *
  * @summary Gets the specified virtual network peering.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkPeeringGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkPeeringGet.json
  */
 async function getPeering(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -51,7 +51,7 @@ async function getPeering(): Promise<void> {
  * This sample demonstrates how to Gets the specified virtual network peering.
  *
  * @summary Gets the specified virtual network peering.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkPeeringGetWithRemoteVirtualNetworkEncryption.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkPeeringGetWithRemoteVirtualNetworkEncryption.json
  */
 async function getPeeringWithRemoteVirtualNetworkEncryption(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -72,7 +72,7 @@ async function getPeeringWithRemoteVirtualNetworkEncryption(): Promise<void> {
  * This sample demonstrates how to Gets the specified virtual network peering.
  *
  * @summary Gets the specified virtual network peering.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkSubnetPeeringGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkSubnetPeeringGet.json
  */
 async function getSubnetPeering(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

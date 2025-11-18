@@ -10,7 +10,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates network profile tags.
  *
  * @summary Updates network profile tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkProfileUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkProfileUpdateTags.json
  */
 async function updateNetworkProfileTags(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

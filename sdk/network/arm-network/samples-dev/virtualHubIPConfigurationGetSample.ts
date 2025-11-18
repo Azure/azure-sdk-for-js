@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Retrieves the details of a Virtual Hub Ip configuration.
  *
  * @summary Retrieves the details of a Virtual Hub Ip configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualHubIpConfigurationGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualHubIpConfigurationGet.json
  */
 async function virtualHubVirtualHubRouteTableV2Get(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

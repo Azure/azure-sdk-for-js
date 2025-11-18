@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets all virtual network peerings in a virtual network.
  *
  * @summary Gets all virtual network peerings in a virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkPeeringList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkPeeringList.json
  */
 async function listPeerings(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function listPeerings(): Promise<void> {
  * This sample demonstrates how to Gets all virtual network peerings in a virtual network.
  *
  * @summary Gets all virtual network peerings in a virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkPeeringListWithRemoteVirtualNetworkEncryption.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkPeeringListWithRemoteVirtualNetworkEncryption.json
  */
 async function listPeeringsWithRemoteVirtualNetworkEncryption(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

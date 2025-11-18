@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Trigger abort migration for the virtual network gateway.
  *
  * @summary Trigger abort migration for the virtual network gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkGatewayAbortMigration.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkGatewayAbortMigration.json
  */
 async function virtualNetworkGatewayAbortMigration(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

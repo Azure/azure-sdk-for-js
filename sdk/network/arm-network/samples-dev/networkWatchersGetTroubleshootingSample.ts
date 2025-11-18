@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Initiate troubleshooting on a specified resource.
  *
  * @summary Initiate troubleshooting on a specified resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkWatcherTroubleshootGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkWatcherTroubleshootGet.json
  */
 async function getTroubleshooting(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
