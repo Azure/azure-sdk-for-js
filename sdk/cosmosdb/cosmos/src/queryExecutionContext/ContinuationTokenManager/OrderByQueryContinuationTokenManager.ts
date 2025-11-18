@@ -18,7 +18,7 @@ import { convertRangeMappingToQueryRange } from "../../documents/ContinuationTok
  */
 export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenManager {
   private continuationToken: OrderByQueryContinuationToken | undefined;
-  private orderByItemsArray: OrderByItemWithRid[] | undefined;
+  private orderByItemsArray: OrderByItemWithRid[] = [];
   private collectionLink: string;
 
   constructor(collectionLink: string, initialContinuationToken?: string) {
@@ -31,9 +31,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   }
 
   protected processQuerySpecificResponse(responseResult: ParallelQueryResult): void {
-    if (responseResult.orderByItems) {
-      this.orderByItemsArray = responseResult.orderByItems;
-    }
+    this.orderByItemsArray = responseResult.orderByItems || [];
   }
 
   protected performQuerySpecificDataTrim(_processedRanges: string[], endIndex: number): void {
@@ -41,12 +39,10 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   }
 
   private sliceOrderByItemsArray(endIndex: number): void {
-    if (this.orderByItemsArray) {
-      if (endIndex === 0 || endIndex >= this.orderByItemsArray.length) {
-        this.orderByItemsArray = [];
-      } else {
-        this.orderByItemsArray = this.orderByItemsArray.slice(endIndex);
-      }
+    if (endIndex === 0 || endIndex >= this.orderByItemsArray.length) {
+      this.orderByItemsArray = [];
+    } else {
+      this.orderByItemsArray = this.orderByItemsArray.slice(endIndex);
     }
   }
 
@@ -99,8 +95,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     let lastOrderByItems: any[] | undefined;
     let documentRid: string;
     let skipCount: number = 0;
-
-    if (rangeProcessingResult.endIndex > 0 && this.orderByItemsArray) {
+    if (rangeProcessingResult.endIndex > 0 && this.orderByItemsArray.length > 0) {
       const lastItemIndexOnPage = rangeProcessingResult.endIndex - 1;
 
       if (lastItemIndexOnPage < this.orderByItemsArray.length) {
