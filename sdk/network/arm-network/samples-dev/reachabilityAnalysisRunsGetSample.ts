@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets Reachability Analysis Run.
  *
  * @summary Gets Reachability Analysis Run.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/ReachabilityAnalysisRunGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/ReachabilityAnalysisRunGet.json
  */
 async function reachabilityAnalysisRunGet(): Promise<void> {
   const subscriptionId =

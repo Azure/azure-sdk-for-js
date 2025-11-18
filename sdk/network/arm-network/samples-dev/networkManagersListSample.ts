@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to List network managers in a resource group.
  *
  * @summary List network managers in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerList.json
  */
 async function listNetworkManager(): Promise<void> {
   const subscriptionId =

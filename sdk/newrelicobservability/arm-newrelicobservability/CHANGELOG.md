@@ -1,21 +1,71 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 2.0.0-beta.1 (2025-11-11)
+Compared with version 1.1.0
 
 ### Features Added
+  - Added operation group SaaS
+  - Added operation MonitoredSubscriptions.beginCreateOrUpdate
+  - Added operation MonitoredSubscriptions.beginCreateOrUpdateAndWait
+  - Added operation Monitors.beginLinkSaaS
+  - Added operation Monitors.beginLinkSaaSAndWait
+  - Added operation Monitors.beginResubscribe
+  - Added operation Monitors.beginResubscribeAndWait
+  - Added operation Monitors.beginUpdate
+  - Added operation Monitors.beginUpdateAndWait
+  - Added operation Monitors.latestLinkedSaaS
+  - Added operation Monitors.refreshIngestionKey
+  - Added Interface ActivateSaaSParameterRequest
+  - Added Interface LatestLinkedSaaSResponse
+  - Added Interface MonitoredSubscriptionsCreateOrUpdateHeaders
+  - Added Interface MonitoredSubscriptionsCreateOrUpdateOptionalParams
+  - Added Interface MonitorsLatestLinkedSaaSOptionalParams
+  - Added Interface MonitorsLinkSaaSHeaders
+  - Added Interface MonitorsLinkSaaSOptionalParams
+  - Added Interface MonitorsRefreshIngestionKeyOptionalParams
+  - Added Interface MonitorsResubscribeHeaders
+  - Added Interface MonitorsResubscribeOptionalParams
+  - Added Interface MonitorsUpdateHeaders
+  - Added Interface ResubscribeProperties
+  - Added Interface SaaSActivateResourceOptionalParams
+  - Added Interface SaaSData
+  - Added Interface SaaSResourceDetailsResponse
+  - Interface MarketplaceSaaSInfo has a new optional parameter offerId
+  - Interface MarketplaceSaaSInfo has a new optional parameter publisherId
+  - Interface MonitoredSubscriptionProperties has a new optional parameter systemData
+  - Interface MonitoredSubscriptionsDeleteHeaders has a new optional parameter retryAfter
+  - Interface MonitoredSubscriptionsUpdateHeaders has a new optional parameter retryAfter
+  - Interface MonitorsCreateOrUpdateHeaders has a new optional parameter azureAsyncOperation
+  - Interface MonitorsDeleteHeaders has a new optional parameter azureAsyncOperation
+  - Interface MonitorsUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface MonitorsUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface NewRelicMonitorResource has a new optional parameter saaSData
+  - Interface NewRelicMonitorResourceUpdate has a new optional parameter saaSData
+  - Interface TagRulesCreateOrUpdateHeaders has a new optional parameter azureAsyncOperation
+  - Interface TagRulesDeleteHeaders has a new optional parameter azureAsyncOperation
+  - Added Type Alias MonitoredSubscriptionsCreateOrUpdateResponse
+  - Added Type Alias MonitorsLatestLinkedSaaSResponse
+  - Added Type Alias MonitorsLinkSaaSResponse
+  - Added Type Alias MonitorsResubscribeResponse
+  - Added Type Alias SaaSActivateResourceResponse
 
 ### Breaking Changes
+  - Removed operation MonitoredSubscriptions.beginCreateorUpdate
+  - Removed operation MonitoredSubscriptions.beginCreateorUpdateAndWait
+  - Removed operation Monitors.update
+  - Removed Interface AppServicesGetParameter
+  - Removed Interface HostsGetParameter
+  - Removed Interface MetricsRequestParameter
+  - Removed Interface MetricsStatusRequestParameter
+  - Removed Interface MonitoredSubscriptionsCreateorUpdateOptionalParams
+  - Removed Interface SwitchBillingParameter
+  - Parameter value of interface ConnectedPartnerResourcesListResponse is now required
+  - Parameter value of interface LinkedResourceListResponse is now required
+  - Parameter value of interface MonitoredSubscriptionPropertiesList is now required
+  - Removed Type Alias BillingCycle
+  - Removed Enum KnownBillingCycle
 
-### Bugs Fixed
-
-### Other Changes
-
-## 1.1.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 1.1.0 (2024-03-08)
     
 ### Features Added

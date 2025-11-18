@@ -10,7 +10,7 @@ import "dotenv/config";
  * This sample demonstrates how to Patch Tags for a Network Security Perimeter.
  *
  * @summary Patch Tags for a Network Security Perimeter.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkSecurityPerimeterPatch.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkSecurityPerimeterPatch.json
  */
 async function patchNetworkSecurityPerimeter(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";

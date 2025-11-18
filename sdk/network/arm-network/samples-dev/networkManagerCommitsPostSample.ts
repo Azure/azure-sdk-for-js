@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Post a Network Manager Commit.
  *
  * @summary Post a Network Manager Commit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerCommitPost.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerCommitPost.json
  */
 async function networkManageCommitPost(): Promise<void> {
   const subscriptionId =
