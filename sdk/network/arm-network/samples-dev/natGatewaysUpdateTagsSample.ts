@@ -10,7 +10,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates nat gateway tags.
  *
  * @summary Updates nat gateway tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NatGatewayUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NatGatewayUpdateTags.json
  */
 async function updateNatGatewayTags(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function updateNatGatewayTags(): Promise<void> {
  * This sample demonstrates how to Updates nat gateway tags.
  *
  * @summary Updates nat gateway tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NatGatewayUpdateTagsStandardV2Sku.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NatGatewayUpdateTagsStandardV2Sku.json
  */
 async function updateNatGatewayWithStandardV2SkuTags(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

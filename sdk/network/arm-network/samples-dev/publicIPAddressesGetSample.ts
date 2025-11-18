@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specified public IP address in a specified resource group.
  *
  * @summary Gets the specified public IP address in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PublicIpAddressGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PublicIpAddressGet.json
  */
 async function getPublicIPAddress(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getPublicIPAddress(): Promise<void> {
  * This sample demonstrates how to Gets the specified public IP address in a specified resource group.
  *
  * @summary Gets the specified public IP address in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PublicIpAddressGetStandardV2Sku.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PublicIpAddressGetStandardV2Sku.json
  */
 async function getPublicIPAddressWithStandardV2Sku(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

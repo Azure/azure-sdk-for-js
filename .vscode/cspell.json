@@ -194,6 +194,15 @@
       ]
     },
     {
+      "filename": "sdk/ai/ai-voicelive/**/*.md",
+      "words": [
+        "Viseme",
+        "logprobs",
+        "Alaw",
+        "Ulaw"
+      ]
+    },
+    {
       "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/**/*.md",
       "words": [
         "APIM",
