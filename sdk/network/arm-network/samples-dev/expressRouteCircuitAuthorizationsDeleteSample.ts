@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes the specified authorization from the specified express route circuit.
  *
  * @summary Deletes the specified authorization from the specified express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/ExpressRouteCircuitAuthorizationDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/ExpressRouteCircuitAuthorizationDelete.json
  */
 async function deleteExpressRouteCircuitAuthorization(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

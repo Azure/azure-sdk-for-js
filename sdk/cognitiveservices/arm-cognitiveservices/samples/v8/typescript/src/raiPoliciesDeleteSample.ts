@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes the specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary Deletes the specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/DeleteRaiPolicy.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/DeleteRaiPolicy.json
  */
 async function deleteRaiPolicy(): Promise<void> {
   const subscriptionId =

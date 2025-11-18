@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  VirtualMachinesPowerOffOptionalParams} from "@azure/arm-compute";
 import {
-  VirtualMachinesPowerOffOptionalParams,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";

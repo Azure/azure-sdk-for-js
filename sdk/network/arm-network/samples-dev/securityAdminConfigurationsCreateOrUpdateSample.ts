@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates a network manager security admin configuration.
  *
  * @summary Creates or updates a network manager security admin configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerSecurityAdminConfigurationPut_ManualAggregation.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerSecurityAdminConfigurationPut_ManualAggregation.json
  */
 async function createManualModeSecurityAdminConfiguration(): Promise<void> {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function createManualModeSecurityAdminConfiguration(): Promise<void> {
  * This sample demonstrates how to Creates or updates a network manager security admin configuration.
  *
  * @summary Creates or updates a network manager security admin configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerSecurityAdminConfigurationPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerSecurityAdminConfigurationPut.json
  */
 async function createNetworkManagerSecurityAdminConfiguration(): Promise<void> {
   const subscriptionId =

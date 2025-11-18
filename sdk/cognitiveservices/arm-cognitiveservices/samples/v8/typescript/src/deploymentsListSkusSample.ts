@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists the specified deployments skus associated with the Cognitive Services account.
  *
  * @summary Lists the specified deployments skus associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListDeploymentSkus.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListDeploymentSkus.json
  */
 async function listDeploymentSkus(): Promise<void> {
   const subscriptionId =

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to List Content Filters types.
  *
  * @summary List Content Filters types.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListRaiContentFilters.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListRaiContentFilters.json
  */
 async function listRaiContentFilters(): Promise<void> {
   const subscriptionId =

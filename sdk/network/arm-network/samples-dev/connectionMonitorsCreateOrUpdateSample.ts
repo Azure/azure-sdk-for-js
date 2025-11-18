@@ -10,7 +10,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create or update a connection monitor.
  *
  * @summary Create or update a connection monitor.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkWatcherConnectionMonitorCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkWatcherConnectionMonitorCreate.json
  */
 async function createConnectionMonitorV1(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -59,7 +59,7 @@ async function createConnectionMonitorV1(): Promise<void> {
  * This sample demonstrates how to Create or update a connection monitor.
  *
  * @summary Create or update a connection monitor.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkWatcherConnectionMonitorV2Create.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkWatcherConnectionMonitorV2Create.json
  */
 async function createConnectionMonitorV2(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -119,7 +119,7 @@ async function createConnectionMonitorV2(): Promise<void> {
  * This sample demonstrates how to Create or update a connection monitor.
  *
  * @summary Create or update a connection monitor.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkWatcherConnectionMonitorCreateWithArcNetwork.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkWatcherConnectionMonitorCreateWithArcNetwork.json
  */
 async function createConnectionMonitorWithArcNetwork(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

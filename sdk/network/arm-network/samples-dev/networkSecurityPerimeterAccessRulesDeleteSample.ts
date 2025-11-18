@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes an NSP access rule.
  *
  * @summary Deletes an NSP access rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NspAccessRuleDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NspAccessRuleDelete.json
  */
 async function nspAccessRulesDelete(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";

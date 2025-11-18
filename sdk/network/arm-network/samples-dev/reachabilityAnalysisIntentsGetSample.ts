@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get the Reachability Analysis Intent.
  *
  * @summary Get the Reachability Analysis Intent.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/ReachabilityAnalysisIntentGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/ReachabilityAnalysisIntentGet.json
  */
 async function reachabilityAnalysisIntentGet(): Promise<void> {
   const subscriptionId =

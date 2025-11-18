@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Update the state of specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary Update the state of specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/PutRaiPolicy.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/PutRaiPolicy.json
  */
 async function putRaiPolicy() {
   const subscriptionId =
