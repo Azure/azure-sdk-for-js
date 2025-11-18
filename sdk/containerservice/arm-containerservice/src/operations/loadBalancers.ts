@@ -6,7 +6,7 @@
 
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { Machines } from "../operationsInterfaces/index.js";
+import type { LoadBalancers } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -19,24 +19,26 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
-  Machine,
-  MachinesListNextOptionalParams,
-  MachinesListOptionalParams,
-  MachinesListResponse,
-  MachinesGetOptionalParams,
-  MachinesGetResponse,
-  MachinesCreateOrUpdateOptionalParams,
-  MachinesCreateOrUpdateResponse,
-  MachinesListNextResponse,
+  LoadBalancer,
+  LoadBalancersListByManagedClusterNextOptionalParams,
+  LoadBalancersListByManagedClusterOptionalParams,
+  LoadBalancersListByManagedClusterResponse,
+  LoadBalancersGetOptionalParams,
+  LoadBalancersGetResponse,
+  LoadBalancersCreateOrUpdateOptionalParams,
+  LoadBalancersCreateOrUpdateResponse,
+  LoadBalancersDeleteOptionalParams,
+  LoadBalancersDeleteResponse,
+  LoadBalancersListByManagedClusterNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Machines operations. */
-export class MachinesImpl implements Machines {
+/** Class containing LoadBalancers operations. */
+export class LoadBalancersImpl implements LoadBalancers {
   private readonly client: ContainerServiceClient;
 
   /**
-   * Initialize a new instance of the class Machines class.
+   * Initialize a new instance of the class LoadBalancers class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerServiceClient) {
@@ -44,22 +46,19 @@ export class MachinesImpl implements Machines {
   }
 
   /**
-   * Gets a list of machines in the specified agent pool.
+   * Gets a list of load balancers in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
-  public list(
+  public listByManagedCluster(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
-    options?: MachinesListOptionalParams,
-  ): PagedAsyncIterableIterator<Machine> {
-    const iter = this.listPagingAll(
+    options?: LoadBalancersListByManagedClusterOptionalParams,
+  ): PagedAsyncIterableIterator<LoadBalancer> {
+    const iter = this.listByManagedClusterPagingAll(
       resourceGroupName,
       resourceName,
-      agentPoolName,
       options,
     );
     return {
@@ -73,10 +72,9 @@ export class MachinesImpl implements Machines {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
+        return this.listByManagedClusterPagingPage(
           resourceGroupName,
           resourceName,
-          agentPoolName,
           options,
           settings,
         );
@@ -84,20 +82,18 @@ export class MachinesImpl implements Machines {
     };
   }
 
-  private async *listPagingPage(
+  private async *listByManagedClusterPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
-    options?: MachinesListOptionalParams,
+    options?: LoadBalancersListByManagedClusterOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Machine[]> {
-    let result: MachinesListResponse;
+  ): AsyncIterableIterator<LoadBalancer[]> {
+    let result: LoadBalancersListByManagedClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
+      result = await this._listByManagedCluster(
         resourceGroupName,
         resourceName,
-        agentPoolName,
         options,
       );
       const page = result.value || [];
@@ -106,10 +102,9 @@ export class MachinesImpl implements Machines {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
+      result = await this._listByManagedClusterNext(
         resourceGroupName,
         resourceName,
-        agentPoolName,
         continuationToken,
         options,
       );
@@ -120,16 +115,14 @@ export class MachinesImpl implements Machines {
     }
   }
 
-  private async *listPagingAll(
+  private async *listByManagedClusterPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
-    options?: MachinesListOptionalParams,
-  ): AsyncIterableIterator<Machine> {
-    for await (const page of this.listPagingPage(
+    options?: LoadBalancersListByManagedClusterOptionalParams,
+  ): AsyncIterableIterator<LoadBalancer> {
+    for await (const page of this.listByManagedClusterPagingPage(
       resourceGroupName,
       resourceName,
-      agentPoolName,
       options,
     )) {
       yield* page;
@@ -137,71 +130,90 @@ export class MachinesImpl implements Machines {
   }
 
   /**
-   * Gets a list of machines in the specified agent pool.
+   * Gets a list of load balancers in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
-  private _list(
+  private _listByManagedCluster(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
-    options?: MachinesListOptionalParams,
-  ): Promise<MachinesListResponse> {
+    options?: LoadBalancersListByManagedClusterOptionalParams,
+  ): Promise<LoadBalancersListByManagedClusterResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, agentPoolName, options },
-      listOperationSpec,
+      { resourceGroupName, resourceName, options },
+      listByManagedClusterOperationSpec,
     );
   }
 
   /**
-   * Get a specific machine in the specified agent pool.
+   * Gets the specified load balancer.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
-   * @param machineName Host name of the machine.
+   * @param loadBalancerName The name of the load balancer.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
-    machineName: string,
-    options?: MachinesGetOptionalParams,
-  ): Promise<MachinesGetResponse> {
+    loadBalancerName: string,
+    options?: LoadBalancersGetOptionalParams,
+  ): Promise<LoadBalancersGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, agentPoolName, machineName, options },
+      { resourceGroupName, resourceName, loadBalancerName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a machine in the specified agent pool.
+   * Creates or updates a load balancer in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
-   * @param machineName Host name of the machine.
-   * @param parameters The machine to create or update.
+   * @param loadBalancerName The name of the load balancer.
+   * @param parameters The load balancer to create or update.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
+  createOrUpdate(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
-    machineName: string,
-    parameters: Machine,
-    options?: MachinesCreateOrUpdateOptionalParams,
+    loadBalancerName: string,
+    parameters: LoadBalancer,
+    options?: LoadBalancersCreateOrUpdateOptionalParams,
+  ): Promise<LoadBalancersCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        resourceName,
+        loadBalancerName,
+        parameters,
+        options,
+      },
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Deletes a load balancer in the specified managed cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param loadBalancerName The name of the load balancer.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    resourceName: string,
+    loadBalancerName: string,
+    options?: LoadBalancersDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<MachinesCreateOrUpdateResponse>,
-      MachinesCreateOrUpdateResponse
+      OperationState<LoadBalancersDeleteResponse>,
+      LoadBalancersDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<MachinesCreateOrUpdateResponse> => {
+    ): Promise<LoadBalancersDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -238,19 +250,12 @@ export class MachinesImpl implements Machines {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        resourceName,
-        agentPoolName,
-        machineName,
-        parameters,
-        options,
-      },
-      spec: createOrUpdateOperationSpec,
+      args: { resourceGroupName, resourceName, loadBalancerName, options },
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      MachinesCreateOrUpdateResponse,
-      OperationState<MachinesCreateOrUpdateResponse>
+      LoadBalancersDeleteResponse,
+      OperationState<LoadBalancersDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -260,63 +265,55 @@ export class MachinesImpl implements Machines {
   }
 
   /**
-   * Creates or updates a machine in the specified agent pool.
+   * Deletes a load balancer in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
-   * @param machineName Host name of the machine.
-   * @param parameters The machine to create or update.
+   * @param loadBalancerName The name of the load balancer.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateAndWait(
+  async beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
-    machineName: string,
-    parameters: Machine,
-    options?: MachinesCreateOrUpdateOptionalParams,
-  ): Promise<MachinesCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
+    loadBalancerName: string,
+    options?: LoadBalancersDeleteOptionalParams,
+  ): Promise<LoadBalancersDeleteResponse> {
+    const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
-      agentPoolName,
-      machineName,
-      parameters,
+      loadBalancerName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListNext
+   * ListByManagedClusterNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param nextLink The nextLink from the previous successful call to the ListByManagedCluster method.
    * @param options The options parameters.
    */
-  private _listNext(
+  private _listByManagedClusterNext(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     nextLink: string,
-    options?: MachinesListNextOptionalParams,
-  ): Promise<MachinesListNextResponse> {
+    options?: LoadBalancersListByManagedClusterNextOptionalParams,
+  ): Promise<LoadBalancersListByManagedClusterNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, agentPoolName, nextLink, options },
-      listNextOperationSpec,
+      { resourceGroupName, resourceName, nextLink, options },
+      listByManagedClusterNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/machines",
+const listByManagedClusterOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/loadBalancers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineListResult,
+      bodyMapper: Mappers.LoadBalancerListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -328,17 +325,16 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/machines/{machineName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/loadBalancers/{loadBalancerName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Machine,
+      bodyMapper: Mappers.LoadBalancer,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -350,62 +346,76 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.agentPoolName,
-    Parameters.machineName,
+    Parameters.loadBalancerName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/machines/{machineName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/loadBalancers/{loadBalancerName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Machine,
-      headersMapper: Mappers.MachinesCreateOrUpdateHeaders,
+      bodyMapper: Mappers.LoadBalancer,
     },
     201: {
-      bodyMapper: Mappers.Machine,
-      headersMapper: Mappers.MachinesCreateOrUpdateHeaders,
-    },
-    202: {
-      bodyMapper: Mappers.Machine,
-      headersMapper: Mappers.MachinesCreateOrUpdateHeaders,
-    },
-    204: {
-      bodyMapper: Mappers.Machine,
-      headersMapper: Mappers.MachinesCreateOrUpdateHeaders,
+      bodyMapper: Mappers.LoadBalancer,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.MachinesCreateOrUpdateExceptionHeaders,
     },
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.agentPoolName,
-    Parameters.machineName,
+    Parameters.loadBalancerName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/loadBalancers/{loadBalancerName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.LoadBalancersDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.LoadBalancersDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.LoadBalancersDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.LoadBalancersDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.LoadBalancersDeleteExceptionHeaders,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.loadBalancerName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByManagedClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineListResult,
+      bodyMapper: Mappers.LoadBalancerListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -417,7 +427,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.nextLink,
-    Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

@@ -15,14 +15,21 @@ import {
   ManagedClusterServicePrincipalProfile as ManagedClusterServicePrincipalProfileMapper,
   ManagedClusterAADProfile as ManagedClusterAADProfileMapper,
   RunCommandRequest as RunCommandRequestMapper,
+  RebalanceLoadBalancersRequestBody as RebalanceLoadBalancersRequestBodyMapper,
   MaintenanceConfiguration as MaintenanceConfigurationMapper,
   ManagedNamespace as ManagedNamespaceMapper,
   AgentPool as AgentPoolMapper,
   AgentPoolDeleteMachinesParameter as AgentPoolDeleteMachinesParameterMapper,
+  Machine as MachineMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   PrivateLinkResource as PrivateLinkResourceMapper,
   Snapshot as SnapshotMapper,
+  ManagedClusterSnapshot as ManagedClusterSnapshotMapper,
   TrustedAccessRoleBinding as TrustedAccessRoleBindingMapper,
+  LoadBalancer as LoadBalancerMapper,
+  IdentityBinding as IdentityBindingMapper,
+  JWTAuthenticator as JWTAuthenticatorMapper,
+  MeshMembership as MeshMembershipMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -52,7 +59,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-09-01",
+    defaultValue: "2025-09-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -105,7 +112,9 @@ export const resourceName: OperationURLParameter = {
   parameterPath: "resourceName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"),
+      Pattern: new RegExp(
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
+      ),
       MaxLength: 63,
       MinLength: 1,
     },
@@ -190,6 +199,16 @@ export const parameters1: OperationParameter = {
   mapper: TagsObjectMapper,
 };
 
+export const ignorePodDisruptionBudget: OperationQueryParameter = {
+  parameterPath: ["options", "ignorePodDisruptionBudget"],
+  mapper: {
+    serializedName: "ignore-pod-disruption-budget",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedClusterServicePrincipalProfileMapper,
@@ -216,11 +235,28 @@ export const commandId: OperationURLParameter = {
   },
 };
 
+export const version: OperationURLParameter = {
+  parameterPath: "version",
+  mapper: {
+    constraints: {
+      MaxLength: 24,
+      MinLength: 1,
+    },
+    serializedName: "version",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const mode: OperationURLParameter = {
   parameterPath: "mode",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"),
+      Pattern: new RegExp(
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
+      ),
       MaxLength: 24,
       MinLength: 1,
     },
@@ -230,6 +266,11 @@ export const mode: OperationURLParameter = {
       name: "String",
     },
   },
+};
+
+export const parameters4: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: RebalanceLoadBalancersRequestBodyMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -255,7 +296,7 @@ export const configName: OperationURLParameter = {
   },
 };
 
-export const parameters4: OperationParameter = {
+export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: MaintenanceConfigurationMapper,
 };
@@ -276,7 +317,7 @@ export const managedNamespaceName: OperationURLParameter = {
   },
 };
 
-export const parameters5: OperationParameter = {
+export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedNamespaceMapper,
 };
@@ -297,24 +338,35 @@ export const agentPoolName: OperationURLParameter = {
   },
 };
 
-export const parameters6: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: AgentPoolMapper,
-};
-
-export const ignorePodDisruptionBudget: OperationQueryParameter = {
-  parameterPath: ["options", "ignorePodDisruptionBudget"],
-  mapper: {
-    serializedName: "ignore-pod-disruption-budget",
-    type: {
-      name: "Boolean",
-    },
-  },
 };
 
 export const machines: OperationParameter = {
   parameterPath: "machines",
   mapper: AgentPoolDeleteMachinesParameterMapper,
+};
+
+export const machineName: OperationURLParameter = {
+  parameterPath: "machineName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[a-z][a-z0-9]{0,11}$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,39}$",
+      ),
+    },
+    serializedName: "machineName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters8: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: MachineMapper,
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -328,19 +380,38 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   },
 };
 
-export const parameters7: OperationParameter = {
+export const parameters9: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper,
 };
 
-export const parameters8: OperationParameter = {
+export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateLinkResourceMapper,
 };
 
-export const parameters9: OperationParameter = {
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters11: OperationParameter = {
   parameterPath: "parameters",
   mapper: SnapshotMapper,
+};
+
+export const parameters12: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ManagedClusterSnapshotMapper,
 };
 
 export const trustedAccessRoleBindingName: OperationURLParameter = {
@@ -364,16 +435,86 @@ export const trustedAccessRoleBinding: OperationParameter = {
   mapper: TrustedAccessRoleBindingMapper,
 };
 
-export const machineName: OperationURLParameter = {
-  parameterPath: "machineName",
+export const loadBalancerName: OperationURLParameter = {
+  parameterPath: "loadBalancerName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9][-_a-zA-Z0-9]{0,39}$"),
+      Pattern: new RegExp("^[a-z][a-z0-9]{0,11}$"),
+      MaxLength: 12,
+      MinLength: 1,
     },
-    serializedName: "machineName",
+    serializedName: "loadBalancerName",
     required: true,
     type: {
       name: "String",
     },
   },
+};
+
+export const parameters13: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: LoadBalancerMapper,
+};
+
+export const identityBindingName: OperationURLParameter = {
+  parameterPath: "identityBindingName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]{0,63}$"),
+      MaxLength: 63,
+      MinLength: 1,
+    },
+    serializedName: "identityBindingName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters14: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: IdentityBindingMapper,
+};
+
+export const jwtAuthenticatorName: OperationURLParameter = {
+  parameterPath: "jwtAuthenticatorName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]{0,23}$"),
+      MaxLength: 24,
+      MinLength: 1,
+    },
+    serializedName: "jwtAuthenticatorName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters15: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: JWTAuthenticatorMapper,
+};
+
+export const meshMembershipName: OperationURLParameter = {
+  parameterPath: "meshMembershipName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z0-9]{0,62}$"),
+      MaxLength: 63,
+      MinLength: 1,
+    },
+    serializedName: "meshMembershipName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters16: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: MeshMembershipMapper,
 };

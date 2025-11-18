@@ -6,7 +6,7 @@
 
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { TrustedAccessRoleBindings } from "../operationsInterfaces/index.js";
+import type { IdentityBindings } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -19,28 +19,26 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
-  TrustedAccessRoleBinding,
-  TrustedAccessRoleBindingsListNextOptionalParams,
-  TrustedAccessRoleBindingsListOptionalParams,
-  TrustedAccessRoleBindingsListResponse,
-  TrustedAccessRoleBindingsGetOptionalParams,
-  TrustedAccessRoleBindingsGetResponse,
-  TrustedAccessRoleBindingsCreateOrUpdateOptionalParams,
-  TrustedAccessRoleBindingsCreateOrUpdateResponse,
-  TrustedAccessRoleBindingsDeleteOptionalParams,
-  TrustedAccessRoleBindingsDeleteResponse,
-  TrustedAccessRoleBindingsListNextResponse,
+  IdentityBinding,
+  IdentityBindingsListByManagedClusterNextOptionalParams,
+  IdentityBindingsListByManagedClusterOptionalParams,
+  IdentityBindingsListByManagedClusterResponse,
+  IdentityBindingsGetOptionalParams,
+  IdentityBindingsGetResponse,
+  IdentityBindingsCreateOrUpdateOptionalParams,
+  IdentityBindingsCreateOrUpdateResponse,
+  IdentityBindingsDeleteOptionalParams,
+  IdentityBindingsDeleteResponse,
+  IdentityBindingsListByManagedClusterNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing TrustedAccessRoleBindings operations. */
-export class TrustedAccessRoleBindingsImpl
-  implements TrustedAccessRoleBindings
-{
+/** Class containing IdentityBindings operations. */
+export class IdentityBindingsImpl implements IdentityBindings {
   private readonly client: ContainerServiceClient;
 
   /**
-   * Initialize a new instance of the class TrustedAccessRoleBindings class.
+   * Initialize a new instance of the class IdentityBindings class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerServiceClient) {
@@ -48,17 +46,21 @@ export class TrustedAccessRoleBindingsImpl
   }
 
   /**
-   * List trusted access role bindings.
+   * Gets a list of identity bindings in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
-  public list(
+  public listByManagedCluster(
     resourceGroupName: string,
     resourceName: string,
-    options?: TrustedAccessRoleBindingsListOptionalParams,
-  ): PagedAsyncIterableIterator<TrustedAccessRoleBinding> {
-    const iter = this.listPagingAll(resourceGroupName, resourceName, options);
+    options?: IdentityBindingsListByManagedClusterOptionalParams,
+  ): PagedAsyncIterableIterator<IdentityBinding> {
+    const iter = this.listByManagedClusterPagingAll(
+      resourceGroupName,
+      resourceName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -70,7 +72,7 @@ export class TrustedAccessRoleBindingsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
+        return this.listByManagedClusterPagingPage(
           resourceGroupName,
           resourceName,
           options,
@@ -80,23 +82,27 @@ export class TrustedAccessRoleBindingsImpl
     };
   }
 
-  private async *listPagingPage(
+  private async *listByManagedClusterPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: TrustedAccessRoleBindingsListOptionalParams,
+    options?: IdentityBindingsListByManagedClusterOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<TrustedAccessRoleBinding[]> {
-    let result: TrustedAccessRoleBindingsListResponse;
+  ): AsyncIterableIterator<IdentityBinding[]> {
+    let result: IdentityBindingsListByManagedClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, resourceName, options);
+      result = await this._listByManagedCluster(
+        resourceGroupName,
+        resourceName,
+        options,
+      );
       const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
+      result = await this._listByManagedClusterNext(
         resourceGroupName,
         resourceName,
         continuationToken,
@@ -109,12 +115,12 @@ export class TrustedAccessRoleBindingsImpl
     }
   }
 
-  private async *listPagingAll(
+  private async *listByManagedClusterPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: TrustedAccessRoleBindingsListOptionalParams,
-  ): AsyncIterableIterator<TrustedAccessRoleBinding> {
-    for await (const page of this.listPagingPage(
+    options?: IdentityBindingsListByManagedClusterOptionalParams,
+  ): AsyncIterableIterator<IdentityBinding> {
+    for await (const page of this.listByManagedClusterPagingPage(
       resourceGroupName,
       resourceName,
       options,
@@ -124,70 +130,65 @@ export class TrustedAccessRoleBindingsImpl
   }
 
   /**
-   * List trusted access role bindings.
+   * Gets a list of identity bindings in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
-  private _list(
+  private _listByManagedCluster(
     resourceGroupName: string,
     resourceName: string,
-    options?: TrustedAccessRoleBindingsListOptionalParams,
-  ): Promise<TrustedAccessRoleBindingsListResponse> {
+    options?: IdentityBindingsListByManagedClusterOptionalParams,
+  ): Promise<IdentityBindingsListByManagedClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec,
+      listByManagedClusterOperationSpec,
     );
   }
 
   /**
-   * Get a trusted access role binding.
+   * Gets the specified Identity Binding.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param trustedAccessRoleBindingName The name of trusted access role binding.
+   * @param identityBindingName The name of the identity binding.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     resourceName: string,
-    trustedAccessRoleBindingName: string,
-    options?: TrustedAccessRoleBindingsGetOptionalParams,
-  ): Promise<TrustedAccessRoleBindingsGetResponse> {
+    identityBindingName: string,
+    options?: IdentityBindingsGetOptionalParams,
+  ): Promise<IdentityBindingsGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        resourceName,
-        trustedAccessRoleBindingName,
-        options,
-      },
+      { resourceGroupName, resourceName, identityBindingName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create or update a trusted access role binding
+   * Creates or updates an identity binding in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param trustedAccessRoleBindingName The name of trusted access role binding.
-   * @param trustedAccessRoleBinding A trusted access role binding
+   * @param identityBindingName The name of the identity binding.
+   * @param parameters The identity binding to create or update.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     resourceName: string,
-    trustedAccessRoleBindingName: string,
-    trustedAccessRoleBinding: TrustedAccessRoleBinding,
-    options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams,
+    identityBindingName: string,
+    parameters: IdentityBinding,
+    options?: IdentityBindingsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<TrustedAccessRoleBindingsCreateOrUpdateResponse>,
-      TrustedAccessRoleBindingsCreateOrUpdateResponse
+      OperationState<IdentityBindingsCreateOrUpdateResponse>,
+      IdentityBindingsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse> => {
+    ): Promise<IdentityBindingsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -227,70 +228,71 @@ export class TrustedAccessRoleBindingsImpl
       args: {
         resourceGroupName,
         resourceName,
-        trustedAccessRoleBindingName,
-        trustedAccessRoleBinding,
+        identityBindingName,
+        parameters,
         options,
       },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      TrustedAccessRoleBindingsCreateOrUpdateResponse,
-      OperationState<TrustedAccessRoleBindingsCreateOrUpdateResponse>
+      IdentityBindingsCreateOrUpdateResponse,
+      OperationState<IdentityBindingsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or update a trusted access role binding
+   * Creates or updates an identity binding in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param trustedAccessRoleBindingName The name of trusted access role binding.
-   * @param trustedAccessRoleBinding A trusted access role binding
+   * @param identityBindingName The name of the identity binding.
+   * @param parameters The identity binding to create or update.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     resourceName: string,
-    trustedAccessRoleBindingName: string,
-    trustedAccessRoleBinding: TrustedAccessRoleBinding,
-    options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams,
-  ): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse> {
+    identityBindingName: string,
+    parameters: IdentityBinding,
+    options?: IdentityBindingsCreateOrUpdateOptionalParams,
+  ): Promise<IdentityBindingsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
-      trustedAccessRoleBindingName,
-      trustedAccessRoleBinding,
+      identityBindingName,
+      parameters,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a trusted access role binding.
+   * Deletes an identity binding in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param trustedAccessRoleBindingName The name of trusted access role binding.
+   * @param identityBindingName The name of the identity binding.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    trustedAccessRoleBindingName: string,
-    options?: TrustedAccessRoleBindingsDeleteOptionalParams,
+    identityBindingName: string,
+    options?: IdentityBindingsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<TrustedAccessRoleBindingsDeleteResponse>,
-      TrustedAccessRoleBindingsDeleteResponse
+      OperationState<IdentityBindingsDeleteResponse>,
+      IdentityBindingsDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<TrustedAccessRoleBindingsDeleteResponse> => {
+    ): Promise<IdentityBindingsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -327,75 +329,71 @@ export class TrustedAccessRoleBindingsImpl
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        resourceName,
-        trustedAccessRoleBindingName,
-        options,
-      },
+      args: { resourceGroupName, resourceName, identityBindingName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      TrustedAccessRoleBindingsDeleteResponse,
-      OperationState<TrustedAccessRoleBindingsDeleteResponse>
+      IdentityBindingsDeleteResponse,
+      OperationState<IdentityBindingsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete a trusted access role binding.
+   * Deletes an identity binding in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param trustedAccessRoleBindingName The name of trusted access role binding.
+   * @param identityBindingName The name of the identity binding.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    trustedAccessRoleBindingName: string,
-    options?: TrustedAccessRoleBindingsDeleteOptionalParams,
-  ): Promise<TrustedAccessRoleBindingsDeleteResponse> {
+    identityBindingName: string,
+    options?: IdentityBindingsDeleteOptionalParams,
+  ): Promise<IdentityBindingsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
-      trustedAccessRoleBindingName,
+      identityBindingName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListNext
+   * ListByManagedClusterNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param nextLink The nextLink from the previous successful call to the ListByManagedCluster method.
    * @param options The options parameters.
    */
-  private _listNext(
+  private _listByManagedClusterNext(
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: TrustedAccessRoleBindingsListNextOptionalParams,
-  ): Promise<TrustedAccessRoleBindingsListNextResponse> {
+    options?: IdentityBindingsListByManagedClusterNextOptionalParams,
+  ): Promise<IdentityBindingsListByManagedClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listNextOperationSpec,
+      listByManagedClusterNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings",
+const listByManagedClusterOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrustedAccessRoleBindingListResult,
+      bodyMapper: Mappers.IdentityBindingListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -412,11 +410,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrustedAccessRoleBinding,
+      bodyMapper: Mappers.IdentityBinding,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -428,62 +426,68 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.trustedAccessRoleBindingName,
+    Parameters.identityBindingName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.TrustedAccessRoleBinding,
+      bodyMapper: Mappers.IdentityBinding,
+      headersMapper: Mappers.IdentityBindingsCreateOrUpdateHeaders,
     },
     201: {
-      bodyMapper: Mappers.TrustedAccessRoleBinding,
+      bodyMapper: Mappers.IdentityBinding,
+      headersMapper: Mappers.IdentityBindingsCreateOrUpdateHeaders,
     },
     202: {
-      bodyMapper: Mappers.TrustedAccessRoleBinding,
+      bodyMapper: Mappers.IdentityBinding,
+      headersMapper: Mappers.IdentityBindingsCreateOrUpdateHeaders,
     },
     204: {
-      bodyMapper: Mappers.TrustedAccessRoleBinding,
+      bodyMapper: Mappers.IdentityBinding,
+      headersMapper: Mappers.IdentityBindingsCreateOrUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.IdentityBindingsCreateOrUpdateExceptionHeaders,
     },
   },
-  requestBody: Parameters.trustedAccessRoleBinding,
+  requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.trustedAccessRoleBindingName,
+    Parameters.identityBindingName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders,
+      headersMapper: Mappers.IdentityBindingsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders,
+      headersMapper: Mappers.IdentityBindingsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders,
+      headersMapper: Mappers.IdentityBindingsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders,
+      headersMapper: Mappers.IdentityBindingsDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.IdentityBindingsDeleteExceptionHeaders,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -492,17 +496,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.trustedAccessRoleBindingName,
+    Parameters.identityBindingName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const listByManagedClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrustedAccessRoleBindingListResult,
+      bodyMapper: Mappers.IdentityBindingListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

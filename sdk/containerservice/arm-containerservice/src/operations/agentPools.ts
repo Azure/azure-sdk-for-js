@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { createHttpPoller } from "@azure/core-lro";
+import type {
+  SimplePollerLike,
+  OperationState} from "@azure/core-lro";
+import {
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   AgentPool,
@@ -29,6 +33,8 @@ import type {
   AgentPoolsDeleteResponse,
   AgentPoolsGetUpgradeProfileOptionalParams,
   AgentPoolsGetUpgradeProfileResponse,
+  AgentPoolsCompleteUpgradeOptionalParams,
+  AgentPoolsCompleteUpgradeResponse,
   AgentPoolDeleteMachinesParameter,
   AgentPoolsDeleteMachinesOptionalParams,
   AgentPoolsDeleteMachinesResponse,
@@ -74,7 +80,12 @@ export class AgentPoolsImpl implements AgentPools {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceGroupName, resourceName, options, settings);
+        return this.listPagingPage(
+          resourceGroupName,
+          resourceName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -95,7 +106,12 @@ export class AgentPoolsImpl implements AgentPools {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(resourceGroupName, resourceName, continuationToken, options);
+      result = await this._listNext(
+        resourceGroupName,
+        resourceName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -108,7 +124,11 @@ export class AgentPoolsImpl implements AgentPools {
     resourceName: string,
     options?: AgentPoolsListOptionalParams,
   ): AsyncIterableIterator<AgentPool> {
-    for await (const page of this.listPagingPage(resourceGroupName, resourceName, options)) {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      resourceName,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -116,7 +136,7 @@ export class AgentPoolsImpl implements AgentPools {
   /**
    * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
    * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, a 409 error code is returned.
+   * completes before cancellation can take place, an error is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
@@ -143,7 +163,8 @@ export class AgentPoolsImpl implements AgentPools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -190,7 +211,7 @@ export class AgentPoolsImpl implements AgentPools {
   /**
    * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
    * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, a 409 error code is returned.
+   * completes before cancellation can take place, an error is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
@@ -277,7 +298,8 @@ export class AgentPoolsImpl implements AgentPools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -363,7 +385,12 @@ export class AgentPoolsImpl implements AgentPools {
     resourceName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AgentPoolsDeleteResponse>,
+      AgentPoolsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -374,7 +401,8 @@ export class AgentPoolsImpl implements AgentPools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -430,7 +458,12 @@ export class AgentPoolsImpl implements AgentPools {
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams,
   ): Promise<AgentPoolsDeleteResponse> {
-    const poller = await this.beginDelete(resourceGroupName, resourceName, agentPoolName, options);
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      resourceName,
+      agentPoolName,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
@@ -451,6 +484,101 @@ export class AgentPoolsImpl implements AgentPools {
       { resourceGroupName, resourceName, agentPoolName, options },
       getUpgradeProfileOperationSpec,
     );
+  }
+
+  /**
+   * Completes the upgrade operation for the specified agent pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param options The options parameters.
+   */
+  async beginCompleteUpgrade(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options?: AgentPoolsCompleteUpgradeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AgentPoolsCompleteUpgradeResponse>,
+      AgentPoolsCompleteUpgradeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<AgentPoolsCompleteUpgradeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, agentPoolName, options },
+      spec: completeUpgradeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AgentPoolsCompleteUpgradeResponse,
+      OperationState<AgentPoolsCompleteUpgradeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Completes the upgrade operation for the specified agent pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param options The options parameters.
+   */
+  async beginCompleteUpgradeAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options?: AgentPoolsCompleteUpgradeOptionalParams,
+  ): Promise<AgentPoolsCompleteUpgradeResponse> {
+    const poller = await this.beginCompleteUpgrade(
+      resourceGroupName,
+      resourceName,
+      agentPoolName,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -483,7 +611,8 @@ export class AgentPoolsImpl implements AgentPools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -601,7 +730,8 @@ export class AgentPoolsImpl implements AgentPools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -782,7 +912,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -820,7 +950,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.ignorePodDisruptionBudget],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.ignorePodDisruptionBudget,
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -840,6 +973,38 @@ const getUpgradeProfileOperationSpec: coreClient.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.agentPoolName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const completeUpgradeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/completeUpgrade",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.AgentPoolsCompleteUpgradeHeaders,
+    },
+    201: {
+      headersMapper: Mappers.AgentPoolsCompleteUpgradeHeaders,
+    },
+    202: {
+      headersMapper: Mappers.AgentPoolsCompleteUpgradeHeaders,
+    },
+    204: {
+      headersMapper: Mappers.AgentPoolsCompleteUpgradeHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.AgentPoolsCompleteUpgradeExceptionHeaders,
     },
   },
   queryParameters: [Parameters.apiVersion],

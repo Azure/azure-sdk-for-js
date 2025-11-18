@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { createHttpPoller } from "@azure/core-lro";
+import type {
+  SimplePollerLike,
+  OperationState} from "@azure/core-lro";
+import {
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   ManagedNamespace,
@@ -57,7 +61,11 @@ export class ManagedNamespacesImpl implements ManagedNamespaces {
     resourceName: string,
     options?: ManagedNamespacesListByManagedClusterOptionalParams,
   ): PagedAsyncIterableIterator<ManagedNamespace> {
-    const iter = this.listByManagedClusterPagingAll(resourceGroupName, resourceName, options);
+    const iter = this.listByManagedClusterPagingAll(
+      resourceGroupName,
+      resourceName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -88,7 +96,11 @@ export class ManagedNamespacesImpl implements ManagedNamespaces {
     let result: ManagedNamespacesListByManagedClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByManagedCluster(resourceGroupName, resourceName, options);
+      result = await this._listByManagedCluster(
+        resourceGroupName,
+        resourceName,
+        options,
+      );
       const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -190,7 +202,8 @@ export class ManagedNamespacesImpl implements ManagedNamespaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -294,7 +307,8 @@ export class ManagedNamespacesImpl implements ManagedNamespaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -496,7 +510,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.ManagedNamespacesCreateOrUpdateExceptionHeaders,
     },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

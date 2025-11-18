@@ -5,7 +5,10 @@
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { TrustedAccessRole, TrustedAccessRolesListOptionalParams } from "../models/index.js";
+import type {
+  TrustedAccessRole,
+  TrustedAccessRolesListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TrustedAccessRoles. */

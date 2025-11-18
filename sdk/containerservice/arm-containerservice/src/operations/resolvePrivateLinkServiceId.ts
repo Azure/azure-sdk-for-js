@@ -16,7 +16,9 @@ import type {
 } from "../models/index.js";
 
 /** Class containing ResolvePrivateLinkServiceId operations. */
-export class ResolvePrivateLinkServiceIdImpl implements ResolvePrivateLinkServiceId {
+export class ResolvePrivateLinkServiceIdImpl
+  implements ResolvePrivateLinkServiceId
+{
   private readonly client: ContainerServiceClient;
 
   /**
@@ -60,7 +62,7 @@ const postOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

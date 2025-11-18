@@ -6,26 +6,26 @@
 
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { TrustedAccessRoles } from "../operationsInterfaces/index.js";
+import type { ContainerService } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ContainerServiceClient } from "../containerServiceClient.js";
 import type {
-  TrustedAccessRole,
-  TrustedAccessRolesListNextOptionalParams,
-  TrustedAccessRolesListOptionalParams,
-  TrustedAccessRolesListResponse,
-  TrustedAccessRolesListNextResponse,
+  NodeImageVersion,
+  ContainerServiceListNodeImageVersionsNextOptionalParams,
+  ContainerServiceListNodeImageVersionsOptionalParams,
+  ContainerServiceListNodeImageVersionsResponse,
+  ContainerServiceListNodeImageVersionsNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing TrustedAccessRoles operations. */
-export class TrustedAccessRolesImpl implements TrustedAccessRoles {
+/** Class containing ContainerService operations. */
+export class ContainerServiceImpl implements ContainerService {
   private readonly client: ContainerServiceClient;
 
   /**
-   * Initialize a new instance of the class TrustedAccessRoles class.
+   * Initialize a new instance of the class ContainerService class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerServiceClient) {
@@ -33,15 +33,17 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
   }
 
   /**
-   * List supported trusted access roles.
+   * Only returns the latest version of each node image. For example there may be an
+   * AKSUbuntu-1804gen2containerd-2024.01.26, but only AKSUbuntu-1804gen2containerd-2024.02.02 is visible
+   * in this list.
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */
-  public list(
+  public listNodeImageVersions(
     location: string,
-    options?: TrustedAccessRolesListOptionalParams,
-  ): PagedAsyncIterableIterator<TrustedAccessRole> {
-    const iter = this.listPagingAll(location, options);
+    options?: ContainerServiceListNodeImageVersionsOptionalParams,
+  ): PagedAsyncIterableIterator<NodeImageVersion> {
+    const iter = this.listNodeImageVersionsPagingAll(location, options);
     return {
       next() {
         return iter.next();
@@ -53,27 +55,35 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(location, options, settings);
+        return this.listNodeImageVersionsPagingPage(
+          location,
+          options,
+          settings,
+        );
       },
     };
   }
 
-  private async *listPagingPage(
+  private async *listNodeImageVersionsPagingPage(
     location: string,
-    options?: TrustedAccessRolesListOptionalParams,
+    options?: ContainerServiceListNodeImageVersionsOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<TrustedAccessRole[]> {
-    let result: TrustedAccessRolesListResponse;
+  ): AsyncIterableIterator<NodeImageVersion[]> {
+    let result: ContainerServiceListNodeImageVersionsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(location, options);
+      result = await this._listNodeImageVersions(location, options);
       const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(location, continuationToken, options);
+      result = await this._listNodeImageVersionsNext(
+        location,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -81,56 +91,61 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
     }
   }
 
-  private async *listPagingAll(
+  private async *listNodeImageVersionsPagingAll(
     location: string,
-    options?: TrustedAccessRolesListOptionalParams,
-  ): AsyncIterableIterator<TrustedAccessRole> {
-    for await (const page of this.listPagingPage(location, options)) {
+    options?: ContainerServiceListNodeImageVersionsOptionalParams,
+  ): AsyncIterableIterator<NodeImageVersion> {
+    for await (const page of this.listNodeImageVersionsPagingPage(
+      location,
+      options,
+    )) {
       yield* page;
     }
   }
 
   /**
-   * List supported trusted access roles.
+   * Only returns the latest version of each node image. For example there may be an
+   * AKSUbuntu-1804gen2containerd-2024.01.26, but only AKSUbuntu-1804gen2containerd-2024.02.02 is visible
+   * in this list.
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */
-  private _list(
+  private _listNodeImageVersions(
     location: string,
-    options?: TrustedAccessRolesListOptionalParams,
-  ): Promise<TrustedAccessRolesListResponse> {
+    options?: ContainerServiceListNodeImageVersionsOptionalParams,
+  ): Promise<ContainerServiceListNodeImageVersionsResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec,
+      listNodeImageVersionsOperationSpec,
     );
   }
 
   /**
-   * ListNext
+   * ListNodeImageVersionsNext
    * @param location The name of the Azure region.
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param nextLink The nextLink from the previous successful call to the ListNodeImageVersions method.
    * @param options The options parameters.
    */
-  private _listNext(
+  private _listNodeImageVersionsNext(
     location: string,
     nextLink: string,
-    options?: TrustedAccessRolesListNextOptionalParams,
-  ): Promise<TrustedAccessRolesListNextResponse> {
+    options?: ContainerServiceListNodeImageVersionsNextOptionalParams,
+  ): Promise<ContainerServiceListNodeImageVersionsNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listNextOperationSpec,
+      listNodeImageVersionsNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/trustedAccessRoles",
+const listNodeImageVersionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/nodeImageVersions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrustedAccessRoleListResult,
+      bodyMapper: Mappers.NodeImageVersionsListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -145,12 +160,12 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const listNodeImageVersionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrustedAccessRoleListResult,
+      bodyMapper: Mappers.NodeImageVersionsListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
