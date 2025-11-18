@@ -4,31 +4,31 @@
 
 ```ts
 
-import type { Client } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PollerLike } from '@azure/core-lro';
+import { Client } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ComputeDiskContext, resourceGroupName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: ComputeContext, resourceGroupName: string, snapshotName: string, snapshot: Snapshot, options?: SnapshotsCreateOrUpdateOptionalParams): PollerLike<OperationState<Snapshot>, Snapshot>;
+export function createOrUpdate(context: ComputeDiskContext, resourceGroupName: string, snapshotName: string, snapshot: Snapshot, options?: SnapshotsCreateOrUpdateOptionalParams): PollerLike<OperationState<Snapshot>, Snapshot>;
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, snapshotName: string, options?: SnapshotsGetOptionalParams): Promise<Snapshot>;
+export function get(context: ComputeDiskContext, resourceGroupName: string, snapshotName: string, options?: SnapshotsGetOptionalParams): Promise<Snapshot>;
 
 // @public
-export function grantAccess(context: ComputeContext, resourceGroupName: string, snapshotName: string, grantAccessData: GrantAccessData, options?: SnapshotsGrantAccessOptionalParams): PollerLike<OperationState<AccessUri>, AccessUri>;
+export function grantAccess(context: ComputeDiskContext, resourceGroupName: string, snapshotName: string, grantAccessData: GrantAccessData, options?: SnapshotsGrantAccessOptionalParams): PollerLike<OperationState<AccessUri>, AccessUri>;
 
 // @public
-export function list(context: ComputeContext, options?: SnapshotsListOptionalParams): PagedAsyncIterableIterator<Snapshot>;
+export function list(context: ComputeDiskContext, options?: SnapshotsListOptionalParams): PagedAsyncIterableIterator<Snapshot>;
 
 // @public
-export function listByResourceGroup(context: ComputeContext, resourceGroupName: string, options?: SnapshotsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Snapshot>;
+export function listByResourceGroup(context: ComputeDiskContext, resourceGroupName: string, options?: SnapshotsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Snapshot>;
 
 // @public
-export function revokeAccess(context: ComputeContext, resourceGroupName: string, snapshotName: string, options?: SnapshotsRevokeAccessOptionalParams): PollerLike<OperationState<void>, void>;
+export function revokeAccess(context: ComputeDiskContext, resourceGroupName: string, snapshotName: string, options?: SnapshotsRevokeAccessOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface SnapshotsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -68,7 +68,7 @@ export interface SnapshotsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, snapshotName: string, snapshot: SnapshotUpdate, options?: SnapshotsUpdateOptionalParams): PollerLike<OperationState<Snapshot>, Snapshot>;
+export function update(context: ComputeDiskContext, resourceGroupName: string, snapshotName: string, snapshot: SnapshotUpdate, options?: SnapshotsUpdateOptionalParams): PollerLike<OperationState<Snapshot>, Snapshot>;
 
 // (No @packageDocumentation comment for this package)
 

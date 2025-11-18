@@ -82,19 +82,52 @@ export type DataAccessAuthMode = string;
 
 // @public
 export interface Disk extends TrackedResource {
+    availabilityPolicy?: AvailabilityPolicy;
+    burstingEnabled?: boolean;
+    readonly burstingEnabledTime?: Date;
+    completionPercent?: number;
+    creationData: CreationData;
+    dataAccessAuthMode?: DataAccessAuthMode;
+    diskAccessId?: string;
+    diskIopsReadOnly?: number;
+    diskIopsReadWrite?: number;
+    diskMBpsReadOnly?: number;
+    diskMBpsReadWrite?: number;
+    readonly diskSizeBytes?: number;
+    diskSizeGB?: number;
+    readonly diskState?: DiskState;
+    encryption?: Encryption;
+    encryptionSettingsCollection?: EncryptionSettingsCollection;
     extendedLocation?: ExtendedLocation;
+    hyperVGeneration?: HyperVGeneration;
+    readonly lastOwnershipUpdateTime?: Date;
     readonly managedBy?: string;
     readonly managedByExtended?: string[];
-    properties?: DiskProperties;
+    maxShares?: number;
+    networkAccessPolicy?: NetworkAccessPolicy;
+    optimizedForFrequentAttach?: boolean;
+    osType?: OperatingSystemTypes;
+    readonly propertyUpdatesInProgress?: PropertyUpdatesInProgress;
+    readonly provisioningState?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
+    purchasePlan?: DiskPurchasePlan;
+    securityProfile?: DiskSecurityProfile;
+    readonly shareInfo?: ShareInfoElement[];
     sku?: DiskSku;
+    supportedCapabilities?: SupportedCapabilities;
+    supportsHibernation?: boolean;
+    tier?: string;
+    readonly timeCreated?: Date;
+    readonly uniqueId?: string;
     zones?: string[];
 }
 
 // @public
 export interface DiskAccess extends TrackedResource {
     extendedLocation?: ExtendedLocation;
-    // (undocumented)
-    properties?: DiskAccessProperties;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: string;
+    readonly timeCreated?: Date;
 }
 
 // @public
@@ -114,9 +147,15 @@ export type DiskCreateOption = string;
 
 // @public
 export interface DiskEncryptionSet extends TrackedResource {
+    activeKey?: KeyForDiskEncryptionSet;
+    readonly autoKeyRotationError?: ApiError;
+    encryptionType?: DiskEncryptionSetType;
+    federatedClientId?: string;
     identity?: EncryptionSetIdentity;
-    // (undocumented)
-    properties?: EncryptionSetProperties;
+    readonly lastKeyRotationTimestamp?: Date;
+    readonly previousKeys?: KeyForDiskEncryptionSet[];
+    readonly provisioningState?: string;
+    rotationToLatestKeyVersionEnabled?: boolean;
 }
 
 // @public
@@ -127,8 +166,11 @@ export type DiskEncryptionSetType = string;
 
 // @public
 export interface DiskEncryptionSetUpdate {
+    activeKey?: KeyForDiskEncryptionSet;
+    encryptionType?: DiskEncryptionSetType;
+    federatedClientId?: string;
     identity?: EncryptionSetIdentity;
-    properties?: DiskEncryptionSetUpdateProperties;
+    rotationToLatestKeyVersionEnabled?: boolean;
     tags?: Record<string, string>;
 }
 
@@ -187,7 +229,24 @@ export interface DiskPurchasePlan {
 
 // @public
 export interface DiskRestorePoint extends ProxyResource {
-    properties?: DiskRestorePointProperties;
+    completionPercent?: number;
+    diskAccessId?: string;
+    readonly encryption?: Encryption;
+    readonly familyId?: string;
+    hyperVGeneration?: HyperVGeneration;
+    readonly logicalSectorSize?: number;
+    networkAccessPolicy?: NetworkAccessPolicy;
+    readonly osType?: OperatingSystemTypes;
+    publicNetworkAccess?: PublicNetworkAccess;
+    purchasePlan?: DiskPurchasePlan;
+    readonly replicationState?: string;
+    securityProfile?: DiskSecurityProfile;
+    readonly sourceResourceId?: string;
+    readonly sourceResourceLocation?: string;
+    readonly sourceUniqueId?: string;
+    supportedCapabilities?: SupportedCapabilities;
+    supportsHibernation?: boolean;
+    readonly timeCreated?: Date;
 }
 
 // @public
@@ -235,9 +294,29 @@ export type DiskStorageAccountTypes = string;
 
 // @public
 export interface DiskUpdate {
-    properties?: DiskUpdateProperties;
+    availabilityPolicy?: AvailabilityPolicy;
+    burstingEnabled?: boolean;
+    dataAccessAuthMode?: DataAccessAuthMode;
+    diskAccessId?: string;
+    diskIopsReadOnly?: number;
+    diskIopsReadWrite?: number;
+    diskMBpsReadOnly?: number;
+    diskMBpsReadWrite?: number;
+    diskSizeGB?: number;
+    encryption?: Encryption;
+    encryptionSettingsCollection?: EncryptionSettingsCollection;
+    maxShares?: number;
+    networkAccessPolicy?: NetworkAccessPolicy;
+    optimizedForFrequentAttach?: boolean;
+    osType?: OperatingSystemTypes;
+    readonly propertyUpdatesInProgress?: PropertyUpdatesInProgress;
+    publicNetworkAccess?: PublicNetworkAccess;
+    purchasePlan?: DiskPurchasePlan;
     sku?: DiskSku;
+    supportedCapabilities?: SupportedCapabilities;
+    supportsHibernation?: boolean;
     tags?: Record<string, string>;
+    tier?: string;
 }
 
 // @public
@@ -435,7 +514,7 @@ export enum KnownDiskSecurityTypes {
     ConfidentialVMDiskEncryptedWithCustomerKey = "ConfidentialVM_DiskEncryptedWithCustomerKey",
     ConfidentialVMDiskEncryptedWithPlatformKey = "ConfidentialVM_DiskEncryptedWithPlatformKey",
     ConfidentialVMNonPersistedTPM = "ConfidentialVM_NonPersistedTPM",
-    ConfidentialVMVMGuestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
+    ConfidentialVMVmguestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
     TrustedLaunch = "TrustedLaunch"
 }
 
@@ -561,7 +640,9 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends ProxyResource {
-    properties?: PrivateEndpointConnectionProperties;
+    readonly privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
@@ -579,9 +660,11 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
 export interface PrivateLinkResource {
+    readonly groupId?: string;
     readonly id?: string;
     readonly name?: string;
-    properties?: PrivateLinkResourceProperties;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
     readonly type?: string;
 }
 
@@ -634,10 +717,33 @@ export interface ShareInfoElement {
 
 // @public
 export interface Snapshot extends TrackedResource {
+    completionPercent?: number;
+    copyCompletionError?: CopyCompletionError;
+    creationData: CreationData;
+    dataAccessAuthMode?: DataAccessAuthMode;
+    diskAccessId?: string;
+    readonly diskSizeBytes?: number;
+    diskSizeGB?: number;
+    readonly diskState?: DiskState;
+    encryption?: Encryption;
+    encryptionSettingsCollection?: EncryptionSettingsCollection;
     extendedLocation?: ExtendedLocation;
+    hyperVGeneration?: HyperVGeneration;
+    incremental?: boolean;
+    readonly incrementalSnapshotFamilyId?: string;
     readonly managedBy?: string;
-    properties?: SnapshotProperties;
+    networkAccessPolicy?: NetworkAccessPolicy;
+    osType?: OperatingSystemTypes;
+    readonly provisioningState?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
+    purchasePlan?: DiskPurchasePlan;
+    securityProfile?: DiskSecurityProfile;
     sku?: SnapshotSku;
+    readonly snapshotAccessState?: SnapshotAccessState;
+    supportedCapabilities?: SupportedCapabilities;
+    supportsHibernation?: boolean;
+    readonly timeCreated?: Date;
+    readonly uniqueId?: string;
 }
 
 // @public
@@ -682,8 +788,18 @@ export type SnapshotStorageAccountTypes = string;
 
 // @public
 export interface SnapshotUpdate {
-    properties?: SnapshotUpdateProperties;
+    dataAccessAuthMode?: DataAccessAuthMode;
+    diskAccessId?: string;
+    diskSizeGB?: number;
+    encryption?: Encryption;
+    encryptionSettingsCollection?: EncryptionSettingsCollection;
+    networkAccessPolicy?: NetworkAccessPolicy;
+    osType?: OperatingSystemTypes;
+    publicNetworkAccess?: PublicNetworkAccess;
     sku?: SnapshotSku;
+    readonly snapshotAccessState?: SnapshotAccessState;
+    supportedCapabilities?: SupportedCapabilities;
+    supportsHibernation?: boolean;
     tags?: Record<string, string>;
 }
 

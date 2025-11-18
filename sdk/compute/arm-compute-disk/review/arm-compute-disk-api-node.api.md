@@ -4,24 +4,24 @@
 
 ```ts
 
-import type { Client } from '@azure-rest/core-client';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { TokenCredential } from '@azure/core-auth';
+import { Client } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface ComputeClientOptionalParams extends ClientOptions {
+export interface ComputeDiskClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface ComputeContext extends Client {
+export interface ComputeDiskContext extends Client {
     apiVersion: string;
     subscriptionId: string;
 }
 
 // @public
-export function createCompute(credential: TokenCredential, subscriptionId: string, options?: ComputeClientOptionalParams): ComputeContext;
+export function createComputeDisk(credential: TokenCredential, subscriptionId: string, options?: ComputeDiskClientOptionalParams): ComputeDiskContext;
 
 // (No @packageDocumentation comment for this package)
 
