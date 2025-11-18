@@ -15,6 +15,253 @@ export interface AdvancedSettings {
 }
 
 // @public
+export interface AkriConnectorAllocatedDevice {
+    readonly deviceInboundEndpointName: string;
+    readonly deviceName: string;
+}
+
+// @public
+export interface AkriConnectorProperties {
+    readonly allocatedDevices?: AkriConnectorAllocatedDevice[];
+    readonly healthState?: ResourceHealthState;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface AkriConnectorResource extends ProxyResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: AkriConnectorProperties;
+}
+
+// @public
+export interface AkriConnectorsContainerRegistry extends AkriConnectorsRegistrySettings {
+    containerRegistrySettings: AkriConnectorsContainerRegistrySettings;
+    registrySettingsType: "ContainerRegistry";
+}
+
+// @public
+export interface AkriConnectorsContainerRegistrySettings {
+    imagePullSecrets?: AkriConnectorsImagePullSecret[];
+    registry: string;
+}
+
+// @public
+export interface AkriConnectorsDiagnosticsLogs {
+    level?: string;
+}
+
+// @public
+export interface AkriConnectorsDigest extends AkriConnectorsTagDigestSettings {
+    digest: string;
+    tagDigestType: "Digest";
+}
+
+// @public
+export type AkriConnectorsImagePullPolicy = string;
+
+// @public
+export interface AkriConnectorsImagePullSecret {
+    secretRef: string;
+}
+
+// @public
+export interface AkriConnectorsMqttAuthentication {
+    method: AkriConnectorsMqttAuthenticationMethod;
+}
+
+// @public
+export type AkriConnectorsMqttAuthenticationMethod = string;
+
+// @public
+export type AkriConnectorsMqttAuthenticationUnion = AkriConnectorsServiceAccountAuthentication | AkriConnectorsMqttAuthentication;
+
+// @public
+export interface AkriConnectorsMqttConnectionConfiguration {
+    authentication?: AkriConnectorsMqttAuthenticationUnion;
+    host?: string;
+    keepAliveSeconds?: number;
+    maxInflightMessages?: number;
+    protocol?: AkriConnectorsMqttProtocolType;
+    sessionExpirySeconds?: number;
+    tls?: TlsProperties;
+}
+
+// @public
+export type AkriConnectorsMqttProtocolType = string;
+
+// @public
+export interface AkriConnectorsRegistryEndpointRef extends AkriConnectorsRegistrySettings {
+    registryEndpointRef: string;
+    registrySettingsType: "RegistryEndpointRef";
+}
+
+// @public
+export interface AkriConnectorsRegistrySettings {
+    // (undocumented)
+    registrySettingsType: AkriConnectorsRegistrySettingsType;
+}
+
+// @public
+export type AkriConnectorsRegistrySettingsType = string;
+
+// @public
+export type AkriConnectorsRegistrySettingsUnion = AkriConnectorsRegistryEndpointRef | AkriConnectorsContainerRegistry | AkriConnectorsRegistrySettings;
+
+// @public
+export interface AkriConnectorsSecret {
+    secretAlias: string;
+    secretKey: string;
+    secretRef: string;
+}
+
+// @public
+export interface AkriConnectorsServiceAccountAuthentication extends AkriConnectorsMqttAuthentication {
+    method: "ServiceAccountToken";
+    serviceAccountTokenSettings: AkriConnectorsServiceAccountTokenSettings;
+}
+
+// @public
+export interface AkriConnectorsServiceAccountTokenSettings {
+    audience: string;
+}
+
+// @public
+export interface AkriConnectorsTag extends AkriConnectorsTagDigestSettings {
+    tag: string;
+    tagDigestType: "Tag";
+}
+
+// @public
+export interface AkriConnectorsTagDigestSettings {
+    tagDigestType: AkriConnectorsTagDigestType;
+}
+
+// @public
+export type AkriConnectorsTagDigestSettingsUnion = AkriConnectorsTag | AkriConnectorsDigest | AkriConnectorsTagDigestSettings;
+
+// @public
+export type AkriConnectorsTagDigestType = string;
+
+// @public
+export interface AkriConnectorTemplateAioMetadata {
+    aioMaxVersion?: string;
+    aioMinVersion?: string;
+}
+
+// @public
+export interface AkriConnectorTemplateAllocation {
+    policy: AkriConnectorTemplateAllocationPolicy;
+}
+
+// @public
+export type AkriConnectorTemplateAllocationPolicy = string;
+
+// @public
+export type AkriConnectorTemplateAllocationUnion = AkriConnectorTemplateBucketizedAllocation | AkriConnectorTemplateAllocation;
+
+// @public
+export interface AkriConnectorTemplateBucketizedAllocation extends AkriConnectorTemplateAllocation {
+    bucketSize: number;
+    policy: "Bucketized";
+}
+
+// @public
+export interface AkriConnectorTemplateDeviceInboundEndpointType {
+    displayName?: string;
+    endpointType: string;
+    version?: string;
+}
+
+// @public
+export interface AkriConnectorTemplateDiagnostics {
+    logs: AkriConnectorsDiagnosticsLogs;
+}
+
+// @public
+export interface AkriConnectorTemplateManagedConfiguration extends AkriConnectorTemplateRuntimeConfiguration {
+    managedConfigurationSettings: AkriConnectorTemplateManagedConfigurationSettingsUnion;
+    runtimeConfigurationType: "ManagedConfiguration";
+}
+
+// @public
+export interface AkriConnectorTemplateManagedConfigurationSettings {
+    additionalConfiguration?: Record<string, string>;
+    allocation?: AkriConnectorTemplateAllocationUnion;
+    managedConfigurationType: AkriConnectorTemplateManagedConfigurationType;
+    persistentVolumeClaims?: AkriConnectorTemplatePersistentVolumeClaim[];
+    persistentVolumeClaimTemplates?: Record<string, any>[];
+    secrets?: AkriConnectorsSecret[];
+    trustSettings?: AkriConnectorTemplateTrustList;
+}
+
+// @public
+export type AkriConnectorTemplateManagedConfigurationSettingsUnion = AkriConnectorTemplateRuntimeImageConfiguration | AkriConnectorTemplateRuntimeStatefulSetConfiguration | AkriConnectorTemplateManagedConfigurationSettings;
+
+// @public
+export type AkriConnectorTemplateManagedConfigurationType = string;
+
+// @public
+export interface AkriConnectorTemplatePersistentVolumeClaim {
+    claimName: string;
+    mountPath: string;
+}
+
+// @public
+export interface AkriConnectorTemplateProperties {
+    aioMetadata?: AkriConnectorTemplateAioMetadata;
+    connectorMetadataRef?: string;
+    deviceInboundEndpointTypes: AkriConnectorTemplateDeviceInboundEndpointType[];
+    diagnostics?: AkriConnectorTemplateDiagnostics;
+    readonly healthState?: ResourceHealthState;
+    mqttConnectionConfiguration?: AkriConnectorsMqttConnectionConfiguration;
+    readonly provisioningState?: ProvisioningState;
+    runtimeConfiguration: AkriConnectorTemplateRuntimeConfigurationUnion;
+}
+
+// @public
+export interface AkriConnectorTemplateResource extends ProxyResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: AkriConnectorTemplateProperties;
+}
+
+// @public
+export interface AkriConnectorTemplateRuntimeConfiguration {
+    runtimeConfigurationType: AkriConnectorTemplateRuntimeConfigurationType;
+}
+
+// @public
+export type AkriConnectorTemplateRuntimeConfigurationType = string;
+
+// @public
+export type AkriConnectorTemplateRuntimeConfigurationUnion = AkriConnectorTemplateManagedConfiguration | AkriConnectorTemplateRuntimeConfiguration;
+
+// @public
+export interface AkriConnectorTemplateRuntimeImageConfiguration extends AkriConnectorTemplateManagedConfigurationSettings {
+    imageConfigurationSettings: AkriConnectorTemplateRuntimeImageConfigurationSettings;
+    managedConfigurationType: "ImageConfiguration";
+}
+
+// @public
+export interface AkriConnectorTemplateRuntimeImageConfigurationSettings {
+    imageName: string;
+    imagePullPolicy?: AkriConnectorsImagePullPolicy;
+    registrySettings?: AkriConnectorsRegistrySettingsUnion;
+    replicas?: number;
+    tagDigestSettings?: AkriConnectorsTagDigestSettingsUnion;
+}
+
+// @public
+export interface AkriConnectorTemplateRuntimeStatefulSetConfiguration extends AkriConnectorTemplateManagedConfigurationSettings {
+    managedConfigurationType: "StatefulSetConfiguration";
+    statefulSetConfigurationSettings: Record<string, any>;
+}
+
+// @public
+export interface AkriConnectorTemplateTrustList {
+    trustListSecretRef: string;
+}
+
+// @public
 export interface AuthorizationConfig {
     cache?: OperationalMode;
     rules?: AuthorizationRule[];
@@ -25,6 +272,11 @@ export interface AuthorizationRule {
     brokerResources: BrokerResourceRule[];
     principals: PrincipalDefinition;
     stateStoreResources?: StateStoreResourceRule[];
+}
+
+// @public
+export interface AzureDeviceRegistryNamespaceRef {
+    resourceId: string;
 }
 
 // @public
@@ -46,12 +298,13 @@ export type BrokerAuthenticationMethod = string;
 // @public
 export interface BrokerAuthenticationProperties {
     authenticationMethods: BrokerAuthenticatorMethods[];
+    readonly healthState?: ResourceHealthState;
     readonly provisioningState?: ProvisioningState;
 }
 
 // @public
 export interface BrokerAuthenticationResource extends ProxyResource {
-    extendedLocation: ExtendedLocation;
+    extendedLocation?: ExtendedLocation;
     properties?: BrokerAuthenticationProperties;
 }
 
@@ -83,6 +336,7 @@ export interface BrokerAuthenticatorMethodSat {
 
 // @public
 export interface BrokerAuthenticatorMethodX509 {
+    additionalValidation?: BrokerAuthenticatorValidationMethods;
     authorizationAttributes?: Record<string, BrokerAuthenticatorMethodX509Attributes>;
     trustedClientCaCert?: string;
 }
@@ -94,14 +348,18 @@ export interface BrokerAuthenticatorMethodX509Attributes {
 }
 
 // @public
+export type BrokerAuthenticatorValidationMethods = string;
+
+// @public
 export interface BrokerAuthorizationProperties {
     authorizationPolicies: AuthorizationConfig;
+    readonly healthState?: ResourceHealthState;
     readonly provisioningState?: ProvisioningState;
 }
 
 // @public
 export interface BrokerAuthorizationResource extends ProxyResource {
-    extendedLocation: ExtendedLocation;
+    extendedLocation?: ExtendedLocation;
     properties?: BrokerAuthorizationProperties;
 }
 
@@ -115,6 +373,7 @@ export interface BrokerDiagnostics {
 
 // @public
 export interface BrokerListenerProperties {
+    readonly healthState?: ResourceHealthState;
     ports: ListenerPort[];
     readonly provisioningState?: ProvisioningState;
     serviceName?: string;
@@ -123,12 +382,30 @@ export interface BrokerListenerProperties {
 
 // @public
 export interface BrokerListenerResource extends ProxyResource {
-    extendedLocation: ExtendedLocation;
+    extendedLocation?: ExtendedLocation;
     properties?: BrokerListenerProperties;
 }
 
 // @public
 export type BrokerMemoryProfile = string;
+
+// @public
+export interface BrokerPersistence {
+    encryption?: BrokerPersistenceEncryption;
+    maxSize: string;
+    persistentVolumeClaimSpec?: VolumeClaimSpec;
+    retain?: BrokerRetainMessagesPolicyUnion;
+    stateStore?: BrokerStateStorePolicyUnion;
+    subscriberQueue?: BrokerSubscriberQueuePolicyUnion;
+}
+
+// @public
+export interface BrokerPersistenceEncryption {
+    mode: OperationalMode;
+}
+
+// @public
+export type BrokerPersistencePolicyMode = string;
 
 // @public
 export interface BrokerProperties {
@@ -137,7 +414,9 @@ export interface BrokerProperties {
     diagnostics?: BrokerDiagnostics;
     diskBackedMessageBuffer?: DiskBackedMessageBuffer;
     generateResourceLimits?: GenerateResourceLimits;
+    readonly healthState?: ResourceHealthState;
     memoryProfile?: BrokerMemoryProfile;
+    persistence?: BrokerPersistence;
     readonly provisioningState?: ProvisioningState;
 }
 
@@ -146,7 +425,7 @@ export type BrokerProtocolType = string;
 
 // @public
 export interface BrokerResource extends ProxyResource {
-    extendedLocation: ExtendedLocation;
+    extendedLocation?: ExtendedLocation;
     properties?: BrokerProperties;
 }
 
@@ -159,6 +438,90 @@ export interface BrokerResourceRule {
     method: BrokerResourceDefinitionMethods;
     topics?: string[];
 }
+
+// @public
+export interface BrokerRetainMessagesCustomPolicy extends BrokerRetainMessagesPolicy {
+    mode: "Custom";
+    retainSettings: BrokerRetainMessagesSettings;
+}
+
+// @public
+export interface BrokerRetainMessagesDynamic {
+    mode: OperationalMode;
+}
+
+// @public
+export interface BrokerRetainMessagesPolicy {
+    mode: BrokerPersistencePolicyMode;
+}
+
+// @public
+export type BrokerRetainMessagesPolicyUnion = BrokerRetainMessagesCustomPolicy | BrokerRetainMessagesPolicy;
+
+// @public
+export interface BrokerRetainMessagesSettings {
+    dynamic?: BrokerRetainMessagesDynamic;
+    topics?: string[];
+}
+
+// @public
+export interface BrokerStateStoreCustomPolicy extends BrokerStateStorePolicy {
+    mode: "Custom";
+    stateStoreSettings: BrokerStateStorePolicySettings;
+}
+
+// @public
+export interface BrokerStateStoreDynamic {
+    mode: OperationalMode;
+}
+
+// @public
+export type BrokerStateStoreKeyType = string;
+
+// @public
+export interface BrokerStateStorePolicy {
+    mode: BrokerPersistencePolicyMode;
+}
+
+// @public
+export interface BrokerStateStorePolicyResources {
+    keys: string[];
+    keyType: BrokerStateStoreKeyType;
+}
+
+// @public
+export interface BrokerStateStorePolicySettings {
+    dynamic?: BrokerStateStoreDynamic;
+    stateStoreResources?: BrokerStateStorePolicyResources[];
+}
+
+// @public
+export type BrokerStateStorePolicyUnion = BrokerStateStoreCustomPolicy | BrokerStateStorePolicy;
+
+// @public
+export interface BrokerSubscriberQueueCustomPolicy extends BrokerSubscriberQueuePolicy {
+    mode: "Custom";
+    subscriberQueueSettings: BrokerSubscriberQueueCustomPolicySettings;
+}
+
+// @public
+export interface BrokerSubscriberQueueCustomPolicySettings {
+    dynamic?: BrokerSubscriberQueueDynamic;
+    subscriberClientIds?: string[];
+}
+
+// @public
+export interface BrokerSubscriberQueueDynamic {
+    mode: OperationalMode;
+}
+
+// @public
+export interface BrokerSubscriberQueuePolicy {
+    mode: BrokerPersistencePolicyMode;
+}
+
+// @public
+export type BrokerSubscriberQueuePolicyUnion = BrokerSubscriberQueueCustomPolicy | BrokerSubscriberQueuePolicy;
 
 // @public
 export interface Cardinality {
@@ -254,14 +617,47 @@ export interface DataflowBuiltInTransformationSettings {
 }
 
 // @public
+export interface DataflowDestinationAddIfNotPresentHeaderAction extends DataflowDestinationHeaderAction {
+    actionType: "AddIfNotPresent";
+    key: string;
+    value: string;
+}
+
+// @public
+export interface DataflowDestinationAddOrReplaceHeaderAction extends DataflowDestinationHeaderAction {
+    actionType: "AddOrReplace";
+    key: string;
+    value: string;
+}
+
+// @public
+export interface DataflowDestinationHeaderAction {
+    actionType: DataflowHeaderActionType;
+}
+
+// @public
+export type DataflowDestinationHeaderActionUnion = DataflowDestinationAddIfNotPresentHeaderAction | DataflowDestinationRemoveHeaderAction | DataflowDestinationAddOrReplaceHeaderAction | DataflowDestinationHeaderAction;
+
+// @public
 export interface DataflowDestinationOperationSettings {
     dataDestination: string;
     endpointRef: string;
+    headers?: DataflowDestinationHeaderActionUnion[];
+}
+
+// @public
+export interface DataflowDestinationRemoveHeaderAction extends DataflowDestinationHeaderAction {
+    actionType: "Remove";
+    key: string;
 }
 
 // @public
 export interface DataflowEndpointAuthenticationAccessToken {
     secretRef: string;
+}
+
+// @public
+export interface DataflowEndpointAuthenticationAnonymous {
 }
 
 // @public
@@ -351,6 +747,9 @@ export interface DataflowEndpointFabricOneLakeNames {
 export type DataflowEndpointFabricPathType = string;
 
 // @public
+export type DataflowEndpointHostType = string;
+
+// @public
 export interface DataflowEndpointKafka {
     authentication: DataflowEndpointKafkaAuthentication;
     batching?: DataflowEndpointKafkaBatching;
@@ -420,25 +819,201 @@ export interface DataflowEndpointMqttAuthentication {
 }
 
 // @public
+export interface DataflowEndpointOpenTelemetry {
+    authentication: DataflowOpenTelemetryAuthenticationUnion;
+    batching?: BatchingConfiguration;
+    host: string;
+    tls?: TlsProperties;
+}
+
+// @public
 export interface DataflowEndpointProperties {
     dataExplorerSettings?: DataflowEndpointDataExplorer;
     dataLakeStorageSettings?: DataflowEndpointDataLakeStorage;
     endpointType: EndpointType;
     fabricOneLakeSettings?: DataflowEndpointFabricOneLake;
+    readonly healthState?: ResourceHealthState;
+    hostType?: DataflowEndpointHostType;
     kafkaSettings?: DataflowEndpointKafka;
     localStorageSettings?: DataflowEndpointLocalStorage;
     mqttSettings?: DataflowEndpointMqtt;
+    openTelemetrySettings?: DataflowEndpointOpenTelemetry;
     readonly provisioningState?: ProvisioningState;
 }
 
 // @public
 export interface DataflowEndpointResource extends ProxyResource {
-    extendedLocation: ExtendedLocation;
+    extendedLocation?: ExtendedLocation;
     properties?: DataflowEndpointProperties;
 }
 
 // @public
+export interface DataflowGraphConnectionInput {
+    name: string;
+    schema?: DataflowGraphConnectionSchemaSettings;
+}
+
+// @public
+export interface DataflowGraphConnectionOutput {
+    name: string;
+}
+
+// @public
+export type DataflowGraphConnectionSchemaSerializationFormat = string;
+
+// @public
+export interface DataflowGraphConnectionSchemaSettings {
+    schemaRef?: string;
+    serializationFormat?: DataflowGraphConnectionSchemaSerializationFormat;
+}
+
+// @public
+export interface DataflowGraphDestinationAddIfNotPresentHeaderAction extends DataflowGraphDestinationHeaderAction {
+    // (undocumented)
+    actionType: "AddIfNotPresent";
+    key: string;
+    value: string;
+}
+
+// @public
+export interface DataflowGraphDestinationAddOrReplaceHeaderAction extends DataflowGraphDestinationHeaderAction {
+    // (undocumented)
+    actionType: "AddOrReplace";
+    key: string;
+    value: string;
+}
+
+// @public
+export interface DataflowGraphDestinationHeaderAction {
+    actionType: DataflowGraphDestinationHeaderActionType;
+}
+
+// @public
+export type DataflowGraphDestinationHeaderActionType = string;
+
+// @public
+export type DataflowGraphDestinationHeaderActionUnion = DataflowGraphDestinationAddIfNotPresentHeaderAction | DataflowGraphDestinationRemoveHeaderAction | DataflowGraphDestinationAddOrReplaceHeaderAction | DataflowGraphDestinationHeaderAction;
+
+// @public
+export interface DataflowGraphDestinationNode extends DataflowGraphNode {
+    destinationSettings: DataflowGraphDestinationNodeSettings;
+    nodeType: "Destination";
+}
+
+// @public
+export interface DataflowGraphDestinationNodeSettings {
+    dataDestination: string;
+    endpointRef: string;
+    headers?: DataflowGraphDestinationHeaderActionUnion[];
+}
+
+// @public
+export interface DataflowGraphDestinationRemoveHeaderAction extends DataflowGraphDestinationHeaderAction {
+    // (undocumented)
+    actionType: "Remove";
+    key: string;
+}
+
+// @public
+export interface DataflowGraphGraphNode extends DataflowGraphNode {
+    graphSettings: DataflowGraphNodeGraphSettings;
+    nodeType: "Graph";
+}
+
+// @public
+export interface DataflowGraphGraphNodeConfiguration {
+    key: string;
+    value: string;
+}
+
+// @public
+export interface DataflowGraphNode {
+    name: string;
+    nodeType: DataflowGraphNodeType;
+}
+
+// @public
+export interface DataflowGraphNodeConnection {
+    from: DataflowGraphConnectionInput;
+    to: DataflowGraphConnectionOutput;
+}
+
+// @public
+export interface DataflowGraphNodeGraphSettings {
+    artifact: string;
+    configuration?: DataflowGraphGraphNodeConfiguration[];
+    registryEndpointRef: string;
+}
+
+// @public
+export type DataflowGraphNodeType = string;
+
+// @public
+export type DataflowGraphNodeUnion = DataflowGraphSourceNode | DataflowGraphGraphNode | DataflowGraphDestinationNode | DataflowGraphNode;
+
+// @public
+export interface DataflowGraphProperties {
+    readonly healthState?: ResourceHealthState;
+    mode?: OperationalMode;
+    nodeConnections: DataflowGraphNodeConnection[];
+    nodes: DataflowGraphNodeUnion[];
+    readonly provisioningState?: ProvisioningState;
+    requestDiskPersistence?: OperationalMode;
+}
+
+// @public
+export interface DataflowGraphResource extends ProxyResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: DataflowGraphProperties;
+}
+
+// @public
+export interface DataflowGraphSourceNode extends DataflowGraphNode {
+    nodeType: "Source";
+    sourceSettings: DataflowGraphSourceSettings;
+}
+
+// @public
+export interface DataflowGraphSourceSettings {
+    assetRef?: string;
+    dataSources: string[];
+    endpointRef: string;
+}
+
+// @public
+export type DataflowHeaderActionType = string;
+
+// @public
 export type DataflowMappingType = string;
+
+// @public
+export interface DataflowOpenTelemetryAnonymousAuthentication extends DataflowOpenTelemetryAuthentication {
+    anonymousSettings: DataflowEndpointAuthenticationAnonymous;
+    method: "Anonymous";
+}
+
+// @public
+export interface DataflowOpenTelemetryAuthentication {
+    method: DataflowOpenTelemetryAuthenticationMethod;
+}
+
+// @public
+export type DataflowOpenTelemetryAuthenticationMethod = string;
+
+// @public
+export type DataflowOpenTelemetryAuthenticationUnion = DataflowOpenTelemetryServiceAccountAuthentication | DataflowOpenTelemetryX509CertificateAuthentication | DataflowOpenTelemetryAnonymousAuthentication | DataflowOpenTelemetryAuthentication;
+
+// @public
+export interface DataflowOpenTelemetryServiceAccountAuthentication extends DataflowOpenTelemetryAuthentication {
+    method: "ServiceAccountToken";
+    serviceAccountTokenSettings: DataflowEndpointAuthenticationServiceAccountToken;
+}
+
+// @public
+export interface DataflowOpenTelemetryX509CertificateAuthentication extends DataflowOpenTelemetryAuthentication {
+    method: "X509Certificate";
+    x509CertificateSettings: DataflowEndpointAuthenticationX509;
+}
 
 // @public
 export interface DataflowOperation {
@@ -452,26 +1027,29 @@ export interface DataflowOperation {
 // @public
 export interface DataflowProfileProperties {
     diagnostics?: ProfileDiagnostics;
+    readonly healthState?: ResourceHealthState;
     instanceCount?: number;
     readonly provisioningState?: ProvisioningState;
 }
 
 // @public
 export interface DataflowProfileResource extends ProxyResource {
-    extendedLocation: ExtendedLocation;
+    extendedLocation?: ExtendedLocation;
     properties?: DataflowProfileProperties;
 }
 
 // @public
 export interface DataflowProperties {
+    readonly healthState?: ResourceHealthState;
     mode?: OperationalMode;
     operations: DataflowOperation[];
     readonly provisioningState?: ProvisioningState;
+    requestDiskPersistence?: OperationalMode;
 }
 
 // @public
 export interface DataflowResource extends ProxyResource {
-    extendedLocation: ExtendedLocation;
+    extendedLocation?: ExtendedLocation;
     properties?: DataflowProperties;
 }
 
@@ -503,6 +1081,26 @@ export interface DiskBackedMessageBuffer {
 export type EndpointType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExtendedLocation {
     name: string;
     type: ExtendedLocationType;
@@ -529,6 +1127,15 @@ export interface GenerateResourceLimits {
 }
 
 // @public
+export interface InstanceFeature {
+    mode?: InstanceFeatureMode;
+    settings?: Record<string, OperationalMode>;
+}
+
+// @public
+export type InstanceFeatureMode = string;
+
+// @public
 export interface InstancePatchModel {
     identity?: ManagedServiceIdentity;
     tags?: Record<string, string>;
@@ -536,7 +1143,11 @@ export interface InstancePatchModel {
 
 // @public
 export interface InstanceProperties {
+    adrNamespaceRef?: AzureDeviceRegistryNamespaceRef;
+    defaultSecretProviderClassRef?: SecretProviderClassRef;
     description?: string;
+    features?: Record<string, InstanceFeature>;
+    readonly healthState?: ResourceHealthState;
     readonly provisioningState?: ProvisioningState;
     schemaRegistryRef: SchemaRegistryRef;
     readonly version?: string;
@@ -558,10 +1169,61 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAkriConnectorsImagePullPolicy {
+    Always = "Always",
+    IfNotPresent = "IfNotPresent",
+    Never = "Never"
+}
+
+// @public
+export enum KnownAkriConnectorsMqttAuthenticationMethod {
+    ServiceAccountToken = "ServiceAccountToken"
+}
+
+// @public
+export enum KnownAkriConnectorsMqttProtocolType {
+    Mqtt = "Mqtt"
+}
+
+// @public
+export enum KnownAkriConnectorsRegistrySettingsType {
+    ContainerRegistry = "ContainerRegistry",
+    RegistryEndpointRef = "RegistryEndpointRef"
+}
+
+// @public
+export enum KnownAkriConnectorsTagDigestType {
+    Digest = "Digest",
+    Tag = "Tag"
+}
+
+// @public
+export enum KnownAkriConnectorTemplateAllocationPolicy {
+    Bucketized = "Bucketized"
+}
+
+// @public
+export enum KnownAkriConnectorTemplateManagedConfigurationType {
+    ImageConfiguration = "ImageConfiguration",
+    StatefulSetConfiguration = "StatefulSetConfiguration"
+}
+
+// @public
+export enum KnownAkriConnectorTemplateRuntimeConfigurationType {
+    ManagedConfiguration = "ManagedConfiguration"
+}
+
+// @public
 export enum KnownBrokerAuthenticationMethod {
     Custom = "Custom",
     ServiceAccountToken = "ServiceAccountToken",
     X509 = "X509"
+}
+
+// @public
+export enum KnownBrokerAuthenticatorValidationMethods {
+    AzureDeviceRegistry = "AzureDeviceRegistry",
+    None = "None"
 }
 
 // @public
@@ -570,6 +1232,13 @@ export enum KnownBrokerMemoryProfile {
     Low = "Low",
     Medium = "Medium",
     Tiny = "Tiny"
+}
+
+// @public
+export enum KnownBrokerPersistencePolicyMode {
+    All = "All",
+    Custom = "Custom",
+    None = "None"
 }
 
 // @public
@@ -583,6 +1252,13 @@ export enum KnownBrokerResourceDefinitionMethods {
     Connect = "Connect",
     Publish = "Publish",
     Subscribe = "Subscribe"
+}
+
+// @public
+export enum KnownBrokerStateStoreKeyType {
+    Binary = "Binary",
+    Pattern = "Pattern",
+    String = "String"
 }
 
 // @public
@@ -625,6 +1301,16 @@ export enum KnownDataflowEndpointFabricPathType {
 }
 
 // @public
+export enum KnownDataflowEndpointHostType {
+    CustomKafka = "CustomKafka",
+    CustomMqtt = "CustomMqtt",
+    EventGrid = "EventGrid",
+    Eventhub = "Eventhub",
+    FabricRT = "FabricRT",
+    LocalBroker = "LocalBroker"
+}
+
+// @public
 export enum KnownDataflowEndpointKafkaAcks {
     All = "All",
     One = "One",
@@ -648,12 +1334,48 @@ export enum KnownDataflowEndpointKafkaPartitionStrategy {
 }
 
 // @public
+export enum KnownDataflowGraphConnectionSchemaSerializationFormat {
+    Avro = "Avro",
+    Delta = "Delta",
+    Json = "Json",
+    Parquet = "Parquet"
+}
+
+// @public
+export enum KnownDataflowGraphDestinationHeaderActionType {
+    AddIfNotPresent = "AddIfNotPresent",
+    AddOrReplace = "AddOrReplace",
+    Remove = "Remove"
+}
+
+// @public
+export enum KnownDataflowGraphNodeType {
+    Destination = "Destination",
+    Graph = "Graph",
+    Source = "Source"
+}
+
+// @public
+export enum KnownDataflowHeaderActionType {
+    AddIfNotPresent = "AddIfNotPresent",
+    AddOrReplace = "AddOrReplace",
+    Remove = "Remove"
+}
+
+// @public
 export enum KnownDataflowMappingType {
     BuiltInFunction = "BuiltInFunction",
     Compute = "Compute",
     NewProperties = "NewProperties",
     PassThrough = "PassThrough",
     Rename = "Rename"
+}
+
+// @public
+export enum KnownDataflowOpenTelemetryAuthenticationMethod {
+    Anonymous = "Anonymous",
+    ServiceAccountToken = "ServiceAccountToken",
+    X509Certificate = "X509Certificate"
 }
 
 // @public
@@ -670,7 +1392,8 @@ export enum KnownEndpointType {
     FabricOneLake = "FabricOneLake",
     Kafka = "Kafka",
     LocalStorage = "LocalStorage",
-    Mqtt = "Mqtt"
+    Mqtt = "Mqtt",
+    OpenTelemetry = "OpenTelemetry"
 }
 
 // @public
@@ -687,6 +1410,13 @@ export enum KnownFabricOneLakeAuthMethod {
 // @public
 export enum KnownFilterType {
     Filter = "Filter"
+}
+
+// @public
+export enum KnownInstanceFeatureMode {
+    Disabled = "Disabled",
+    Preview = "Preview",
+    Stable = "Stable"
 }
 
 // @public
@@ -778,6 +1508,28 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownRegistryEndpointAuthenticationMethod {
+    Anonymous = "Anonymous",
+    ArtifactPullSecret = "ArtifactPullSecret",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
+}
+
+// @public
+export enum KnownRegistryEndpointTrustedSigningKeyType {
+    ConfigMap = "ConfigMap",
+    Secret = "Secret"
+}
+
+// @public
+export enum KnownResourceHealthState {
+    Available = "Available",
+    Degraded = "Degraded",
+    Unavailable = "Unavailable",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownServiceType {
     ClusterIp = "ClusterIp",
     LoadBalancer = "LoadBalancer",
@@ -824,7 +1576,9 @@ export enum KnownTransformationSerializationFormat {
 
 // @public
 export enum KnownVersions {
-    "V2024-11-01" = "2024-11-01"
+    "V2024-11-01" = "2024-11-01",
+    _20251001 = "2025-10-01",
+    V20250401 = "2025-04-01"
 }
 
 // @public
@@ -876,8 +1630,8 @@ export type MqttRetainType = string;
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -930,12 +1684,109 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export interface RegistryEndpointAnonymousAuthentication extends RegistryEndpointAuthentication {
+    anonymousSettings: RegistryEndpointAnonymousSettings;
+    method: "Anonymous";
+}
+
+// @public
+export interface RegistryEndpointAnonymousSettings {
+}
+
+// @public
+export interface RegistryEndpointArtifactPullSecretAuthentication extends RegistryEndpointAuthentication {
+    artifactPullSecretSettings: RegistryEndpointArtifactPullSecretSettings;
+    method: "ArtifactPullSecret";
+}
+
+// @public
+export interface RegistryEndpointArtifactPullSecretSettings {
+    secretRef: string;
+}
+
+// @public
+export interface RegistryEndpointAuthentication {
+    method: RegistryEndpointAuthenticationMethod;
+}
+
+// @public
+export type RegistryEndpointAuthenticationMethod = string;
+
+// @public
+export type RegistryEndpointAuthenticationUnion = RegistryEndpointSystemAssignedIdentityAuthentication | RegistryEndpointUserAssignedIdentityAuthentication | RegistryEndpointAnonymousAuthentication | RegistryEndpointArtifactPullSecretAuthentication | RegistryEndpointAuthentication;
+
+// @public
+export interface RegistryEndpointProperties {
+    authentication: RegistryEndpointAuthenticationUnion;
+    codeSigningCas?: RegistryEndpointTrustedSigningKeyUnion[];
+    readonly healthState?: ResourceHealthState;
+    host: string;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface RegistryEndpointResource extends ProxyResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: RegistryEndpointProperties;
+}
+
+// @public
+export interface RegistryEndpointSystemAssignedIdentityAuthentication extends RegistryEndpointAuthentication {
+    method: "SystemAssignedManagedIdentity";
+    systemAssignedManagedIdentitySettings: RegistryEndpointSystemAssignedManagedIdentitySettings;
+}
+
+// @public
+export interface RegistryEndpointSystemAssignedManagedIdentitySettings {
+    audience?: string;
+}
+
+// @public
+export interface RegistryEndpointTrustedSigningKey {
+    type: RegistryEndpointTrustedSigningKeyType;
+}
+
+// @public
+export interface RegistryEndpointTrustedSigningKeyConfigMap extends RegistryEndpointTrustedSigningKey {
+    configMapRef: string;
+    type: "ConfigMap";
+}
+
+// @public
+export interface RegistryEndpointTrustedSigningKeySecret extends RegistryEndpointTrustedSigningKey {
+    secretRef: string;
+    type: "Secret";
+}
+
+// @public
+export type RegistryEndpointTrustedSigningKeyType = string;
+
+// @public
+export type RegistryEndpointTrustedSigningKeyUnion = RegistryEndpointTrustedSigningKeySecret | RegistryEndpointTrustedSigningKeyConfigMap | RegistryEndpointTrustedSigningKey;
+
+// @public
+export interface RegistryEndpointUserAssignedIdentityAuthentication extends RegistryEndpointAuthentication {
+    method: "UserAssignedManagedIdentity";
+    userAssignedManagedIdentitySettings: RegistryEndpointUserAssignedManagedIdentitySettings;
+}
+
+// @public
+export interface RegistryEndpointUserAssignedManagedIdentitySettings {
+    clientId: string;
+    scope?: string;
+    tenantId: string;
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export type ResourceHealthState = string;
 
 // @public
 export interface SanForCert {
@@ -945,6 +1796,11 @@ export interface SanForCert {
 
 // @public
 export interface SchemaRegistryRef {
+    resourceId: string;
+}
+
+// @public
+export interface SecretProviderClassRef {
     resourceId: string;
 }
 
@@ -1040,8 +1896,14 @@ export interface UserAssignedIdentity {
 
 // @public
 export interface VolumeClaimResourceRequirements {
+    claims?: VolumeClaimResourceRequirementsClaims[];
     limits?: Record<string, string>;
     requests?: Record<string, string>;
+}
+
+// @public
+export interface VolumeClaimResourceRequirementsClaims {
+    name: string;
 }
 
 // @public

@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { IoTOperationsClient } from "@azure/arm-iotoperations";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to create a BrokerListenerResource
  *
  * @summary create a BrokerListenerResource
- * x-ms-original-file: 2024-11-01/BrokerListener_CreateOrUpdate_Complex.json
+ * x-ms-original-file: 2025-10-01/BrokerListener_CreateOrUpdate_Complex.json
  */
-
-import { IoTOperationsClient } from "@azure/arm-iotoperations";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function brokerListenerCreateOrUpdateComplex(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
@@ -53,7 +52,7 @@ async function brokerListenerCreateOrUpdateComplex(): Promise<void> {
         ],
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -65,7 +64,7 @@ async function brokerListenerCreateOrUpdateComplex(): Promise<void> {
  * This sample demonstrates how to create a BrokerListenerResource
  *
  * @summary create a BrokerListenerResource
- * x-ms-original-file: 2024-11-01/BrokerListener_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-10-01/BrokerListener_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function brokerListenerCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -110,7 +109,7 @@ async function brokerListenerCreateOrUpdate(): Promise<void> {
         serviceType: "ClusterIp",
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -122,7 +121,7 @@ async function brokerListenerCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to create a BrokerListenerResource
  *
  * @summary create a BrokerListenerResource
- * x-ms-original-file: 2024-11-01/BrokerListener_CreateOrUpdate_Simple.json
+ * x-ms-original-file: 2025-10-01/BrokerListener_CreateOrUpdate_Simple.json
  */
 async function brokerListenerCreateOrUpdateSimple(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -136,7 +135,7 @@ async function brokerListenerCreateOrUpdateSimple(): Promise<void> {
     {
       properties: { ports: [{ port: 1883 }] },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },

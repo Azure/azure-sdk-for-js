@@ -1,4 +1,236 @@
 # Release History
+
+## 2.0.0 (2025-11-18)
+
+### Features Added
+  - Added operation group AkriConnectorOperations
+  - Added operation group AkriConnectorTemplateOperations
+  - Added operation group DataflowGraphOperations
+  - Added operation group RegistryEndpointOperations
+  - Added Interface AkriConnectorAllocatedDevice
+  - Added Interface AkriConnectorCreateOrUpdateOptionalParams
+  - Added Interface AkriConnectorDeleteOptionalParams
+  - Added Interface AkriConnectorGetOptionalParams
+  - Added Interface AkriConnectorListByTemplateOptionalParams
+  - Added Interface AkriConnectorProperties
+  - Added Interface AkriConnectorResource
+  - Added Interface AkriConnectorsContainerRegistry
+  - Added Interface AkriConnectorsContainerRegistrySettings
+  - Added Interface AkriConnectorsDiagnosticsLogs
+  - Added Interface AkriConnectorsDigest
+  - Added Interface AkriConnectorsImagePullSecret
+  - Added Interface AkriConnectorsMqttAuthentication
+  - Added Interface AkriConnectorsMqttConnectionConfiguration
+  - Added Interface AkriConnectorsRegistryEndpointRef
+  - Added Interface AkriConnectorsRegistrySettings
+  - Added Interface AkriConnectorsSecret
+  - Added Interface AkriConnectorsServiceAccountAuthentication
+  - Added Interface AkriConnectorsServiceAccountTokenSettings
+  - Added Interface AkriConnectorsTag
+  - Added Interface AkriConnectorsTagDigestSettings
+  - Added Interface AkriConnectorTemplateAioMetadata
+  - Added Interface AkriConnectorTemplateAllocation
+  - Added Interface AkriConnectorTemplateBucketizedAllocation
+  - Added Interface AkriConnectorTemplateCreateOrUpdateOptionalParams
+  - Added Interface AkriConnectorTemplateDeleteOptionalParams
+  - Added Interface AkriConnectorTemplateDeviceInboundEndpointType
+  - Added Interface AkriConnectorTemplateDiagnostics
+  - Added Interface AkriConnectorTemplateGetOptionalParams
+  - Added Interface AkriConnectorTemplateListByInstanceResourceOptionalParams
+  - Added Interface AkriConnectorTemplateManagedConfiguration
+  - Added Interface AkriConnectorTemplateManagedConfigurationSettings
+  - Added Interface AkriConnectorTemplatePersistentVolumeClaim
+  - Added Interface AkriConnectorTemplateProperties
+  - Added Interface AkriConnectorTemplateResource
+  - Added Interface AkriConnectorTemplateRuntimeConfiguration
+  - Added Interface AkriConnectorTemplateRuntimeImageConfiguration
+  - Added Interface AkriConnectorTemplateRuntimeImageConfigurationSettings
+  - Added Interface AkriConnectorTemplateRuntimeStatefulSetConfiguration
+  - Added Interface AkriConnectorTemplateTrustList
+  - Added Interface AzureDeviceRegistryNamespaceRef
+  - Added Interface BrokerPersistence
+  - Added Interface BrokerPersistenceEncryption
+  - Added Interface BrokerRetainMessagesCustomPolicy
+  - Added Interface BrokerRetainMessagesDynamic
+  - Added Interface BrokerRetainMessagesPolicy
+  - Added Interface BrokerRetainMessagesSettings
+  - Added Interface BrokerStateStoreCustomPolicy
+  - Added Interface BrokerStateStoreDynamic
+  - Added Interface BrokerStateStorePolicy
+  - Added Interface BrokerStateStorePolicyResources
+  - Added Interface BrokerStateStorePolicySettings
+  - Added Interface BrokerSubscriberQueueCustomPolicy
+  - Added Interface BrokerSubscriberQueueCustomPolicySettings
+  - Added Interface BrokerSubscriberQueueDynamic
+  - Added Interface BrokerSubscriberQueuePolicy
+  - Added Interface DataflowDestinationAddIfNotPresentHeaderAction
+  - Added Interface DataflowDestinationAddOrReplaceHeaderAction
+  - Added Interface DataflowDestinationHeaderAction
+  - Added Interface DataflowDestinationRemoveHeaderAction
+  - Added Interface DataflowEndpointAuthenticationAnonymous
+  - Added Interface DataflowEndpointOpenTelemetry
+  - Added Interface DataflowGraphConnectionInput
+  - Added Interface DataflowGraphConnectionOutput
+  - Added Interface DataflowGraphConnectionSchemaSettings
+  - Added Interface DataflowGraphCreateOrUpdateOptionalParams
+  - Added Interface DataflowGraphDeleteOptionalParams
+  - Added Interface DataflowGraphDestinationAddIfNotPresentHeaderAction
+  - Added Interface DataflowGraphDestinationAddOrReplaceHeaderAction
+  - Added Interface DataflowGraphDestinationHeaderAction
+  - Added Interface DataflowGraphDestinationNode
+  - Added Interface DataflowGraphDestinationNodeSettings
+  - Added Interface DataflowGraphDestinationRemoveHeaderAction
+  - Added Interface DataflowGraphGetOptionalParams
+  - Added Interface DataflowGraphGraphNode
+  - Added Interface DataflowGraphGraphNodeConfiguration
+  - Added Interface DataflowGraphListByDataflowProfileOptionalParams
+  - Added Interface DataflowGraphNode
+  - Added Interface DataflowGraphNodeConnection
+  - Added Interface DataflowGraphNodeGraphSettings
+  - Added Interface DataflowGraphProperties
+  - Added Interface DataflowGraphResource
+  - Added Interface DataflowGraphSourceNode
+  - Added Interface DataflowGraphSourceSettings
+  - Added Interface DataflowOpenTelemetryAnonymousAuthentication
+  - Added Interface DataflowOpenTelemetryAuthentication
+  - Added Interface DataflowOpenTelemetryServiceAccountAuthentication
+  - Added Interface DataflowOpenTelemetryX509CertificateAuthentication
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface InstanceFeature
+  - Added Interface RegistryEndpointAnonymousAuthentication
+  - Added Interface RegistryEndpointAnonymousSettings
+  - Added Interface RegistryEndpointArtifactPullSecretAuthentication
+  - Added Interface RegistryEndpointArtifactPullSecretSettings
+  - Added Interface RegistryEndpointAuthentication
+  - Added Interface RegistryEndpointCreateOrUpdateOptionalParams
+  - Added Interface RegistryEndpointDeleteOptionalParams
+  - Added Interface RegistryEndpointGetOptionalParams
+  - Added Interface RegistryEndpointListByInstanceResourceOptionalParams
+  - Added Interface RegistryEndpointProperties
+  - Added Interface RegistryEndpointResource
+  - Added Interface RegistryEndpointSystemAssignedIdentityAuthentication
+  - Added Interface RegistryEndpointSystemAssignedManagedIdentitySettings
+  - Added Interface RegistryEndpointTrustedSigningKey
+  - Added Interface RegistryEndpointTrustedSigningKeyConfigMap
+  - Added Interface RegistryEndpointTrustedSigningKeySecret
+  - Added Interface RegistryEndpointUserAssignedIdentityAuthentication
+  - Added Interface RegistryEndpointUserAssignedManagedIdentitySettings
+  - Added Interface SecretProviderClassRef
+  - Added Interface VolumeClaimResourceRequirementsClaims
+  - Interface BrokerAuthenticationProperties has a new optional parameter healthState
+  - Interface BrokerAuthenticatorMethodX509 has a new optional parameter additionalValidation
+  - Interface BrokerAuthorizationProperties has a new optional parameter healthState
+  - Interface BrokerListenerProperties has a new optional parameter healthState
+  - Interface BrokerProperties has a new optional parameter healthState
+  - Interface BrokerProperties has a new optional parameter persistence
+  - Interface DataflowDestinationOperationSettings has a new optional parameter headers
+  - Interface DataflowEndpointProperties has a new optional parameter healthState
+  - Interface DataflowEndpointProperties has a new optional parameter hostType
+  - Interface DataflowEndpointProperties has a new optional parameter openTelemetrySettings
+  - Interface DataflowProfileProperties has a new optional parameter healthState
+  - Interface DataflowProperties has a new optional parameter healthState
+  - Interface DataflowProperties has a new optional parameter requestDiskPersistence
+  - Interface InstanceProperties has a new optional parameter adrNamespaceRef
+  - Interface InstanceProperties has a new optional parameter defaultSecretProviderClassRef
+  - Interface InstanceProperties has a new optional parameter features
+  - Interface InstanceProperties has a new optional parameter healthState
+  - Interface IoTOperationsClientOptionalParams has a new optional parameter cloudSetting
+  - Interface VolumeClaimResourceRequirements has a new optional parameter claims
+  - Added Type Alias AkriConnectorsImagePullPolicy
+  - Added Type Alias AkriConnectorsMqttAuthenticationMethod
+  - Added Type Alias AkriConnectorsMqttAuthenticationUnion
+  - Added Type Alias AkriConnectorsMqttProtocolType
+  - Added Type Alias AkriConnectorsRegistrySettingsType
+  - Added Type Alias AkriConnectorsRegistrySettingsUnion
+  - Added Type Alias AkriConnectorsTagDigestSettingsUnion
+  - Added Type Alias AkriConnectorsTagDigestType
+  - Added Type Alias AkriConnectorTemplateAllocationPolicy
+  - Added Type Alias AkriConnectorTemplateAllocationUnion
+  - Added Type Alias AkriConnectorTemplateManagedConfigurationSettingsUnion
+  - Added Type Alias AkriConnectorTemplateManagedConfigurationType
+  - Added Type Alias AkriConnectorTemplateRuntimeConfigurationType
+  - Added Type Alias AkriConnectorTemplateRuntimeConfigurationUnion
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BrokerAuthenticatorValidationMethods
+  - Added Type Alias BrokerPersistencePolicyMode
+  - Added Type Alias BrokerRetainMessagesPolicyUnion
+  - Added Type Alias BrokerStateStoreKeyType
+  - Added Type Alias BrokerStateStorePolicyUnion
+  - Added Type Alias BrokerSubscriberQueuePolicyUnion
+  - Added Type Alias DataflowDestinationHeaderActionUnion
+  - Added Type Alias DataflowEndpointHostType
+  - Added Type Alias DataflowGraphConnectionSchemaSerializationFormat
+  - Added Type Alias DataflowGraphDestinationHeaderActionType
+  - Added Type Alias DataflowGraphDestinationHeaderActionUnion
+  - Added Type Alias DataflowGraphNodeType
+  - Added Type Alias DataflowGraphNodeUnion
+  - Added Type Alias DataflowHeaderActionType
+  - Added Type Alias DataflowOpenTelemetryAuthenticationMethod
+  - Added Type Alias DataflowOpenTelemetryAuthenticationUnion
+  - Added Type Alias InstanceFeatureMode
+  - Added Type Alias RegistryEndpointAuthenticationMethod
+  - Added Type Alias RegistryEndpointAuthenticationUnion
+  - Added Type Alias RegistryEndpointTrustedSigningKeyType
+  - Added Type Alias RegistryEndpointTrustedSigningKeyUnion
+  - Added Type Alias ResourceHealthState
+  - Added Enum AzureClouds
+  - Added Enum KnownAkriConnectorsImagePullPolicy
+  - Added Enum KnownAkriConnectorsMqttAuthenticationMethod
+  - Added Enum KnownAkriConnectorsMqttProtocolType
+  - Added Enum KnownAkriConnectorsRegistrySettingsType
+  - Added Enum KnownAkriConnectorsTagDigestType
+  - Added Enum KnownAkriConnectorTemplateAllocationPolicy
+  - Added Enum KnownAkriConnectorTemplateManagedConfigurationType
+  - Added Enum KnownAkriConnectorTemplateRuntimeConfigurationType
+  - Added Enum KnownBrokerAuthenticatorValidationMethods
+  - Added Enum KnownBrokerPersistencePolicyMode
+  - Added Enum KnownBrokerStateStoreKeyType
+  - Added Enum KnownDataflowEndpointHostType
+  - Added Enum KnownDataflowGraphConnectionSchemaSerializationFormat
+  - Added Enum KnownDataflowGraphDestinationHeaderActionType
+  - Added Enum KnownDataflowGraphNodeType
+  - Added Enum KnownDataflowHeaderActionType
+  - Added Enum KnownDataflowOpenTelemetryAuthenticationMethod
+  - Added Enum KnownInstanceFeatureMode
+  - Added Enum KnownRegistryEndpointAuthenticationMethod
+  - Added Enum KnownRegistryEndpointTrustedSigningKeyType
+  - Added Enum KnownResourceHealthState
+  - Enum KnownEndpointType has a new value OpenTelemetry
+  - Enum KnownVersions has a new value _20251001
+  - Enum KnownVersions has a new value V20250401
+
+### Breaking Changes
+  - Operation BrokerAuthenticationOperations.createOrUpdate has a new signature
+  - Operation BrokerAuthenticationOperations.get has a new signature
+  - Operation BrokerAuthenticationOperations.listByResourceGroup has a new signature
+  - Operation BrokerAuthorizationOperations.createOrUpdate has a new signature
+  - Operation BrokerAuthorizationOperations.get has a new signature
+  - Operation BrokerAuthorizationOperations.listByResourceGroup has a new signature
+  - Operation BrokerListenerOperations.createOrUpdate has a new signature
+  - Operation BrokerListenerOperations.get has a new signature
+  - Operation BrokerListenerOperations.listByResourceGroup has a new signature
+  - Operation BrokerOperations.createOrUpdate has a new signature
+  - Operation BrokerOperations.get has a new signature
+  - Operation BrokerOperations.listByResourceGroup has a new signature
+  - Operation DataflowEndpointOperations.createOrUpdate has a new signature
+  - Operation DataflowEndpointOperations.get has a new signature
+  - Operation DataflowEndpointOperations.listByResourceGroup has a new signature
+  - Operation DataflowOperations.createOrUpdate has a new signature
+  - Operation DataflowOperations.get has a new signature
+  - Operation DataflowOperations.listByResourceGroup has a new signature
+  - Operation DataflowProfileOperations.createOrUpdate has a new signature
+  - Operation DataflowProfileOperations.get has a new signature
+  - Operation DataflowProfileOperations.listByResourceGroup has a new signature
+  - Parameter extendedLocation of interface BrokerAuthenticationResource is now optional
+  - Parameter extendedLocation of interface BrokerAuthorizationResource is now optional
+  - Parameter extendedLocation of interface BrokerListenerResource is now optional
+  - Parameter extendedLocation of interface BrokerResource is now optional
+  - Parameter extendedLocation of interface DataflowEndpointResource is now optional
+  - Parameter extendedLocation of interface DataflowProfileResource is now optional
+  - Parameter extendedLocation of interface DataflowResource is now optional
+
     
 ## 1.0.0 (2024-12-13)
 
