@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 import PriorityQueue from "priorityqueuejs";
 import semaphore from "semaphore";
-import type { AzureLogger } from "@azure/logger";
-import { createClientLogger } from "@azure/logger";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes.js";
 import type { FeedOptions, Response } from "../request/index.js";
 import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse.js";
@@ -38,9 +36,6 @@ import type {
 } from "../documents/ContinuationToken/PartitionRangeUpdate.js";
 
 /** @hidden */
-const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
-
-/** @hidden */
 export enum ParallelQueryExecutionContextBaseStates {
   started = "started",
   inProgress = "inProgress",
@@ -55,12 +50,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private routingProvider: SmartRoutingMapProvider;
   private readonly requestContinuation: any;
   private respHeaders: CosmosHeaders;
-  protected readonly unfilledDocumentProducersQueue: PriorityQueue<DocumentProducer>;
-  protected readonly bufferedDocumentProducersQueue: PriorityQueue<DocumentProducer>;
+  private readonly unfilledDocumentProducersQueue: PriorityQueue<DocumentProducer>;
+  private readonly bufferedDocumentProducersQueue: PriorityQueue<DocumentProducer>;
   // TODO: update type of buffer from any --> generic can be used here
-  protected buffer: any[];
-  protected partitionDataPatchMap: Map<string, QueryRangeMapping> = new Map();
-  protected patchCounter: number = 0;
+  private buffer: any[];
+  private partitionDataPatchMap: Map<string, QueryRangeMapping> = new Map();
+  private patchCounter: number = 0;
   private readonly updatedContinuationRanges: Map<string, PartitionRangeUpdate> = new Map();
   private readonly sem: any;
   private readonly diagnosticNodeWrapper: {
@@ -137,19 +132,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       // ensure the lock is released after finishing up
       try {
         const targetPartitionRanges = await this._onTargetPartitionRanges();
-
-        const maxDegreeOfParallelism =
-          options.maxDegreeOfParallelism === undefined || options.maxDegreeOfParallelism < 1
-            ? targetPartitionRanges.length
-            : Math.min(options.maxDegreeOfParallelism, targetPartitionRanges.length);
-
-        logger.info(
-          "Query starting against " +
-            targetPartitionRanges.length +
-            " ranges with parallelism of " +
-            maxDegreeOfParallelism,
-        );
-
         let filteredPartitionKeyRanges = [];
         // The document producers generated from filteredPartitionKeyRanges
         const targetPartitionQueryExecutionContextList: DocumentProducer[] = [];
