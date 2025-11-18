@@ -256,7 +256,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @returns A promise that resolves when processing is complete.
    */
   protected async processBufferedDocumentProducers(): Promise<void> {
-    while (this.hasBufferedProducers() && this.shouldContinueProcessing()) {
+    while (this.hasBufferedProducers() && this.shouldProcessBufferedProducers()) {
       const producer = this.getNextBufferedProducer();
       if (!producer) break;
 
@@ -265,14 +265,42 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   }
 
   /**
-   * Processes a single document producer according to the specific query type.
+   * Processes a single document producer using template method pattern.
+   * Common structure with query-specific processing delegated to subclasses.
    */
-  protected abstract processDocumentProducer(producer: DocumentProducer): Promise<void>;
+  protected async processDocumentProducer(producer: DocumentProducer): Promise<void> {
+    const response = await this.fetchFromProducer(producer);
+    this._mergeWithActiveResponseHeaders(response.headers);
+
+    if (response.result) {
+      this.addToBuffer(response.result);
+      this.handlePartitionMapping(producer, response.result);
+    }
+
+    // Handle producer lifecycle
+    if (producer.peakNextItem() !== undefined) {
+      this.requeueProducer(producer);
+    } else if (producer.hasMoreResults()) {
+      this.moveToUnfilledQueue(producer);
+    }
+  }
 
   /**
-   * Determines if processing should continue based on query-specific rules.
+   * Fetches data from a document producer - implemented by subclasses.
    */
-  protected abstract shouldContinueProcessing(): boolean;
+  protected abstract fetchFromProducer(producer: DocumentProducer): Promise<Response<any>>;
+
+  /**
+   * Handles partition mapping updates - implemented by subclasses.
+   */
+  protected abstract handlePartitionMapping(producer: DocumentProducer, result: any): void;
+
+
+
+  /**
+   * Determines if buffered producers should continue to be processed based on query-specific rules.
+   */
+  protected abstract shouldProcessBufferedProducers(): boolean;
 
   /**
    * Checks if there are buffered document producers ready for processing.

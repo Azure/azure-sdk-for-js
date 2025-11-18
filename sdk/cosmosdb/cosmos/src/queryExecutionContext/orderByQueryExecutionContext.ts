@@ -5,6 +5,7 @@ import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse.js"
 import type { FeedOptions } from "../request/FeedOptions.js";
 import type { DocumentProducer } from "./documentProducer.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
+import type { Response } from "../request/index.js";
 
 import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator.js";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase.js";
@@ -70,48 +71,39 @@ export class OrderByQueryExecutionContext
   }
 
   /**
-   * Processes a document producer for ORDER BY queries.
-   * Handles item-by-item processing to maintain sort order.
-   * @hidden
+   * Fetches next single item from producer for ORDER BY processing.
    */
-  protected async processDocumentProducer(producer: DocumentProducer): Promise<void> {
-    const { result, headers } = await producer.fetchNextItem();
-    this._mergeWithActiveResponseHeaders(headers);
-
-    if (result) {
-      this.addToBuffer(result);
-
-      // Determine which continuation token to use based on buffer state
-      const hasMoreBufferedItems = producer.peakNextItem() !== undefined;
-      const continuationTokenToUse = hasMoreBufferedItems
-        ? producer.previousContinuationToken
-        : producer.continuationToken;
-
-      // Use ORDER BY partition mapping with merge logic
-      this.updatePartitionMapping(
-        {
-          itemCount: 1,
-          partitionKeyRange: producer.targetPartitionKeyRange,
-          continuationToken: continuationTokenToUse,
-        },
-        true,
-      ); // true = mergeWithExisting for ORDER BY
-    }
-
-    // Handle producer lifecycle for ORDER BY processing
-    if (producer.peakNextItem() !== undefined) {
-      this.requeueProducer(producer);
-    } else if (producer.hasMoreResults()) {
-      this.moveToUnfilledQueue(producer);
-    }
+  protected async fetchFromProducer(producer: DocumentProducer): Promise<Response<any>> {
+    return await producer.fetchNextItem();
   }
 
   /**
-   * Determines if processing should continue for ORDER BY queries.
+   * Updates partition mapping for ORDER BY query with special continuation token logic.
+   */
+  protected handlePartitionMapping(producer: DocumentProducer, _result: any): void {
+    // Determine which continuation token to use based on buffer state
+    const hasMoreBufferedItems = producer.peakNextItem() !== undefined;
+    const continuationTokenToUse = hasMoreBufferedItems
+      ? producer.previousContinuationToken
+      : producer.continuationToken;
+
+    // Use ORDER BY partition mapping with merge logic
+    this.updatePartitionMapping(
+      {
+        itemCount: 1,
+        partitionKeyRange: producer.targetPartitionKeyRange,
+        continuationToken: continuationTokenToUse,
+      },
+      true, // true = mergeWithExisting for ORDER BY
+    );
+  }
+
+  /**
+   * Determines if buffered producers should continue to be processed for ORDER BY queries.
    * For ORDER BY, only process when no unfilled producers remain to maintain order.
    * @hidden
    */
-  protected shouldContinueProcessing(): boolean {
+  protected shouldProcessBufferedProducers(): boolean {
     // For ORDER BY, only process when no unfilled producers remain to maintain order
     return this.isUnfilledQueueEmpty();
   }

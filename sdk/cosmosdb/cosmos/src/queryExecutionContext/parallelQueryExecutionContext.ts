@@ -4,6 +4,7 @@
 import type { DocumentProducer } from "./documentProducer.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase.js";
+import type { Response } from "../request/index.js";
 
 import { TargetPartitionRangeManager } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
 import { ParallelQueryProcessingStrategy } from "./queryProcessingStrategy/ParallelQueryProcessingStrategy.js";
@@ -44,7 +45,6 @@ export class ParallelQueryExecutionContext
     );
   }
 
-  // Instance members are inherited
 
   // Overriding documentProducerComparator for ParallelQueryExecutionContexts
   /**
@@ -60,36 +60,29 @@ export class ParallelQueryExecutionContext
   }
 
   /**
-   * Processes a document producer for parallel queries.
-   * Handles batch processing of all buffered items.
-   * @hidden
+   * Fetches all buffered items from producer for parallel processing.
    */
-  protected async processDocumentProducer(producer: DocumentProducer): Promise<void> {
-    const { result, headers } = await producer.fetchBufferedItems();
-    this._mergeWithActiveResponseHeaders(headers);
+  protected async fetchFromProducer(producer: DocumentProducer): Promise<Response<any>> {
+    return await producer.fetchBufferedItems();
+  }
 
-    // Update partition mapping for continuation token generation
+  /**
+   * Updates partition mapping for parallel query continuation tokens.
+   */
+  protected handlePartitionMapping(producer: DocumentProducer, result: any): void {
     this.updatePartitionMapping({
       itemCount: result?.length || 0,
       partitionKeyRange: producer.targetPartitionKeyRange,
       continuationToken: producer.continuationToken,
     });
-
-    // Add results to buffer
-    this.addToBuffer(result);
-
-    // Handle producer lifecycle
-    if (producer.hasMoreResults()) {
-      this.moveToUnfilledQueue(producer);
-    }
   }
 
   /**
-   * Determines if processing should continue for parallel queries.
+   * Determines if buffered producers should continue to be processed for parallel queries.
    * For parallel queries, we process all buffered producers.
    * @hidden
    */
-  protected shouldContinueProcessing(): boolean {
+  protected shouldProcessBufferedProducers(): boolean {
     return true; // Process all buffered items in parallel queries
   }
 
