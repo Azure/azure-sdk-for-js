@@ -11,7 +11,7 @@ import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
 /** Compute Client */
-export interface ComputeManagementContext extends Client {
+export interface ComputeDiskContext extends Client {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion: string;
@@ -20,7 +20,7 @@ export interface ComputeManagementContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface ComputeManagementClientOptionalParams extends ClientOptions {
+export interface ComputeDiskClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -29,11 +29,11 @@ export interface ComputeManagementClientOptionalParams extends ClientOptions {
 }
 
 /** Compute Client */
-export function createComputeManagement(
+export function createComputeDisk(
   credential: TokenCredential,
   subscriptionId: string,
-  options: ComputeManagementClientOptionalParams = {},
-): ComputeManagementContext {
+  options: ComputeDiskClientOptionalParams = {},
+): ComputeDiskContext {
   const endpointUrl =
     options.endpoint ??
     getArmEndpoint(options.cloudSetting) ??
@@ -69,9 +69,5 @@ export function createComputeManagement(
       return next(req);
     },
   });
-  return {
-    ...clientContext,
-    apiVersion,
-    subscriptionId,
-  } as ComputeManagementContext;
+  return { ...clientContext, apiVersion, subscriptionId } as ComputeDiskContext;
 }

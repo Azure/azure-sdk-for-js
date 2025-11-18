@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeDiskContext } from "../../api/computeDiskContext.js";
 import {
   revokeAccess,
   grantAccess,
@@ -158,7 +158,7 @@ export interface SnapshotsOperations {
   ) => Promise<Snapshot>;
 }
 
-function _getSnapshots(context: ComputeManagementContext) {
+function _getSnapshots(context: ComputeDiskContext) {
   return {
     revokeAccess: (
       resourceGroupName: string,
@@ -348,7 +348,7 @@ function _getSnapshots(context: ComputeManagementContext) {
 }
 
 export function _getSnapshotsOperations(
-  context: ComputeManagementContext,
+  context: ComputeDiskContext,
 ): SnapshotsOperations {
   return {
     ..._getSnapshots(context),

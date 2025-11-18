@@ -67,8 +67,8 @@ export interface CloudError {
 }
 
 // @public (undocumented)
-export class ComputeManagementClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeManagementClientOptionalParams);
+export class ComputeDiskClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeDiskClientOptionalParams);
     readonly diskAccesses: DiskAccessesOperations;
     readonly diskEncryptionSets: DiskEncryptionSetsOperations;
     readonly diskRestorePoint: DiskRestorePointOperations;
@@ -78,7 +78,7 @@ export class ComputeManagementClient {
 }
 
 // @public
-export interface ComputeManagementClientOptionalParams extends ClientOptions {
+export interface ComputeDiskClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
@@ -1006,7 +1006,7 @@ export interface Resource {
 }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ComputeManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ComputeDiskClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {

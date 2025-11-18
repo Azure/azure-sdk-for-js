@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeDiskContext } from "../../api/computeDiskContext.js";
 import {
   listAssociatedResources,
   list,
@@ -125,7 +125,7 @@ export interface DiskEncryptionSetsOperations {
   ) => Promise<DiskEncryptionSet>;
 }
 
-function _getDiskEncryptionSets(context: ComputeManagementContext) {
+function _getDiskEncryptionSets(context: ComputeDiskContext) {
   return {
     listAssociatedResources: (
       resourceGroupName: string,
@@ -270,7 +270,7 @@ function _getDiskEncryptionSets(context: ComputeManagementContext) {
 }
 
 export function _getDiskEncryptionSetsOperations(
-  context: ComputeManagementContext,
+  context: ComputeDiskContext,
 ): DiskEncryptionSetsOperations {
   return {
     ..._getDiskEncryptionSets(context),

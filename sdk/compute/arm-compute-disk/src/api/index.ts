@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export {
-  createComputeManagement,
-  ComputeManagementContext,
-  ComputeManagementClientOptionalParams,
-} from "./computeManagementContext.js";
+  createComputeDisk,
+  ComputeDiskContext,
+  ComputeDiskClientOptionalParams,
+} from "./computeDiskContext.js";
