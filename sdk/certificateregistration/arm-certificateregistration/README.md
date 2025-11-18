@@ -6,7 +6,7 @@ Certificate Registration Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/certificateregistration/arm-certificateregistration) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-certificateregistration) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-certificateregistration) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-certificateregistration?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

@@ -6,7 +6,7 @@ Domain Registration Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/domainregistration/arm-domainregistration) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-domainregistration) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-domainregistration) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-domainregistration?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
