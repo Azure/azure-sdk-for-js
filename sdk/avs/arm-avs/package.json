@@ -33,7 +33,8 @@
       "./api/locations": "./src/api/locations/index.ts",
       "./api/operations": "./src/api/operations/index.ts",
       "./api/workloadNetworks": "./src/api/workloadNetworks/index.ts",
-      "./models": "./src/models/index.ts"
+      "./models": "./src/models/index.ts",
+      "./compat": "./src/compat/lro.ts"
     },
     "dialects": [
       "esm",
@@ -568,6 +569,24 @@
       "require": {
         "types": "./dist/commonjs/models/index.d.ts",
         "default": "./dist/commonjs/models/index.js"
+      }
+    },
+    "./compat": {
+      "browser": {
+        "types": "./dist/browser/compat/lro.d.ts",
+        "default": "./dist/browser/compat/lro.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/compat/lro.d.ts",
+        "default": "./dist/react-native/compat/lro.js"
+      },
+      "import": {
+        "types": "./dist/esm/compat/lro.d.ts",
+        "default": "./dist/esm/compat/lro.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/compat/lro.d.ts",
+        "default": "./dist/commonjs/compat/lro.js"
       }
     }
   },
