@@ -15,10 +15,11 @@ import { isLiveMode } from "@azure-tools/test-recorder";
 import { getError } from "../../authTestUtils.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import { shouldRunSPTest } from "./utils/utils.js";
 
 expect.extend({ toSupportTracing });
 
-describe("EnvironmentCredential", function () {
+describe.skipIf(shouldRunSPTest())("EnvironmentCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
   const environmentVariableNames = [
@@ -29,6 +30,7 @@ describe("EnvironmentCredential", function () {
     "AZURE_CLIENT_CERTIFICATE_PASSWORD",
     "AZURE_USERNAME",
     "AZURE_PASSWORD",
+    "SKIP_SP_LIVE_TESTS",
   ];
   const cachedValues: Record<string, string | undefined> = {};
 
@@ -60,8 +62,8 @@ describe("EnvironmentCredential", function () {
     const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("authenticates with a client certificate on the environment variables", async function (ctx) {
@@ -78,8 +80,8 @@ describe("EnvironmentCredential", function () {
     const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("authenticates with a client certificate and password on the environment variables", async function (ctx) {
@@ -98,8 +100,8 @@ describe("EnvironmentCredential", function () {
     const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("finds and uses client username/password environment variables", async () => {
@@ -174,10 +176,9 @@ describe("EnvironmentCredential", function () {
     const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
     const error = await getError(credential.getToken(scope));
     assert.equal(error.name, "CredentialUnavailableError");
-    assert.ok(
-      error.message.indexOf(
-        "EnvironmentCredential is unavailable. No underlying credential could be used.",
-      ) > -1,
+    assert.include(
+      error.message,
+      "EnvironmentCredential is unavailable. No underlying credential could be used.",
     );
   });
 
@@ -189,6 +190,6 @@ describe("EnvironmentCredential", function () {
     const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
     const error = await getError(credential.getToken(scope));
     assert.equal(error.name, "AuthenticationError");
-    assert.ok(error.message.indexOf("EnvironmentCredential authentication failed.") > -1);
+    assert.include(error.message, "EnvironmentCredential authentication failed.");
   });
 });

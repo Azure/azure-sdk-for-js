@@ -9,9 +9,13 @@ import type { InternalClientPipelineOptions } from "@azure/core-client";
 import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import type { AnalyzeResult, IndexStatisticsSummary } from "./generated/service/models/index.js";
+import type {
+  AnalyzeResult,
+  IndexStatisticsSummary,
+  KnowledgeSourceStatus,
+} from "./generated/service/models/index.js";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient.js";
-import type { KnowledgeAgent } from "./knowledgeAgentModels.js";
+import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 import type { KnowledgeRetrievalClientOptions as GetKnowledgeRetrievalClientOptions } from "./knowledgeRetrievalClient.js";
 import { KnowledgeRetrievalClient } from "./knowledgeRetrievalClient.js";
 import { logger } from "./logger.js";
@@ -25,36 +29,37 @@ import type {
   AnalyzeTextOptions,
   CreateAliasOptions,
   CreateIndexOptions,
-  CreateKnowledgeAgentOptions,
+  CreateKnowledgeBaseOptions,
   CreateKnowledgeSourceOptions,
   CreateOrUpdateAliasOptions,
   CreateOrUpdateIndexOptions,
-  CreateOrUpdateKnowledgeAgentOptions,
+  CreateOrUpdateKnowledgeBaseOptions,
   CreateOrUpdateKnowledgeSourceOptions,
   CreateOrUpdateSynonymMapOptions,
   CreateSynonymMapOptions,
   DeleteAliasOptions,
   DeleteIndexOptions,
-  DeleteKnowledgeAgentOptions,
+  DeleteKnowledgeBaseOptions,
   DeleteKnowledgeSourceOptions,
   DeleteSynonymMapOptions,
   GetAliasOptions,
   GetIndexOptions,
   GetIndexStatisticsOptions,
   GetIndexStatsSummaryOptions,
-  GetKnowledgeAgentOptions,
+  GetKnowledgeBaseOptions,
   GetKnowledgeSourceOptions,
+  GetKnowledgeSourceStatusOptions,
   GetServiceStatisticsOptions,
   GetSynonymMapsOptions,
   IndexIterator,
   IndexNameIterator,
   IndexStatisticsSummaryIterator,
-  KnowledgeAgentIterator,
+  KnowledgeBaseIterator,
   KnowledgeSource,
   KnowledgeSourceIterator,
   ListAliasesOptions,
   ListIndexesOptions,
-  ListKnowledgeAgentsOptions,
+  ListKnowledgeBasesOptions,
   ListKnowledgeSourcesOptions,
   ListSynonymMapsOptions,
   SearchIndex,
@@ -884,21 +889,21 @@ export class SearchIndexClient {
   }
 
   /**
-   * Creates a new agent.
-   * @param knowledgeAgent - definition of the agent to create.
+   * Creates a new knowledgebase.
+   * @param knowledgeBase - definition of the knowledgebase to create.
    * @param options - options parameters.
    */
-  public async createKnowledgeAgent(
-    knowledgeAgent: KnowledgeAgent,
-    options?: CreateKnowledgeAgentOptions,
-  ): Promise<KnowledgeAgent> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-createKnowledgeAgent", options);
+  public async createKnowledgeBase(
+    knowledgeBase: KnowledgeBase,
+    options?: CreateKnowledgeBaseOptions,
+  ): Promise<KnowledgeBase> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-createKnowledgeBase", options);
     try {
-      const result = await this.client.knowledgeAgents.create(
-        utils.convertKnowledgeAgentToGenerated(knowledgeAgent)!,
+      const result = await this.client.knowledgeBases.create(
+        utils.convertKnowledgeBaseToGenerated(knowledgeBase)!,
         updatedOptions,
       );
-      return utils.convertKnowledgeAgentToPublic(result)!;
+      return utils.convertKnowledgeBaseToPublic(result)!;
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -911,32 +916,32 @@ export class SearchIndexClient {
   }
 
   /**
-   * Creates a new agent or updates an agent if it already exists.
-   * @param agentName - name of the agent to create or update.
-   * @param knowledgeAgent - definition of the agent to create or update.
+   * Creates a new knowledge base or updates a knowledge base if it already exists.
+   * @param knowledgeBaseName - name of the knowledge base to create or update.
+   * @param knowledgeBase - definition of the knowledge base to create or update.
    * @param options - options parameters.
    */
-  public async createOrUpdateKnowledgeAgent(
-    agentName: string,
-    knowledgeAgent: KnowledgeAgent,
-    options?: CreateOrUpdateKnowledgeAgentOptions,
-  ): Promise<KnowledgeAgent> {
+  public async createOrUpdateKnowledgeBase(
+    knowledgeBaseName: string,
+    knowledgeBase: KnowledgeBase,
+    options?: CreateOrUpdateKnowledgeBaseOptions,
+  ): Promise<KnowledgeBase> {
     const { span, updatedOptions } = createSpan(
-      "SearchIndexClient-createOrUpdateKnowledgeAgent",
+      "SearchIndexClient-createOrUpdateKnowledgeBase",
       options,
     );
     try {
-      const etag = updatedOptions.onlyIfUnchanged ? knowledgeAgent.etag : undefined;
+      const etag = updatedOptions.onlyIfUnchanged ? knowledgeBase.etag : undefined;
 
-      const result = await this.client.knowledgeAgents.createOrUpdate(
-        agentName,
-        utils.convertKnowledgeAgentToGenerated(knowledgeAgent)!,
+      const result = await this.client.knowledgeBases.createOrUpdate(
+        knowledgeBaseName,
+        utils.convertKnowledgeBaseToGenerated(knowledgeBase)!,
         {
           ...updatedOptions,
           ifMatch: etag,
         },
       );
-      return utils.convertKnowledgeAgentToPublic(result)!;
+      return utils.convertKnowledgeBaseToPublic(result)!;
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -949,18 +954,18 @@ export class SearchIndexClient {
   }
 
   /**
-   * Retrieves an agent definition.
-   * @param agentName - name of the agent to retrieve.
+   * Retrieves a knowledge base definition.
+   * @param knowledgeBaseName - name of the knowledge base to retrieve.
    * @param options - options parameters.
    */
-  public async getKnowledgeAgent(
-    agentName: string,
-    options?: GetKnowledgeAgentOptions,
-  ): Promise<KnowledgeAgent> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-getKnowledgeAgent", options);
+  public async getKnowledgeBase(
+    knowledgeBaseName: string,
+    options?: GetKnowledgeBaseOptions,
+  ): Promise<KnowledgeBase> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-getKnowledgeBase", options);
     try {
-      const result = await this.client.knowledgeAgents.get(agentName, updatedOptions);
-      return utils.convertKnowledgeAgentToPublic(result)!;
+      const result = await this.client.knowledgeBases.get(knowledgeBaseName, updatedOptions);
+      return utils.convertKnowledgeBaseToPublic(result)!;
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -972,16 +977,16 @@ export class SearchIndexClient {
     }
   }
 
-  private async *listKnowledgeAgentsPage(
-    options: ListKnowledgeAgentsOptions = {},
-  ): AsyncIterableIterator<KnowledgeAgent[]> {
+  private async *listKnowledgeBasesPage(
+    options: ListKnowledgeBasesOptions = {},
+  ): AsyncIterableIterator<KnowledgeBase[]> {
     const { span, updatedOptions } = createSpan(
-      "SearchIndexClient-listKnowledgeAgentsPage",
+      "SearchIndexClient-listKnowledgeBasesPage",
       options,
     );
     try {
-      const { knowledgeAgents } = await this.client.knowledgeAgents.list(updatedOptions);
-      const mapped = knowledgeAgents.map((agent) => utils.convertKnowledgeAgentToPublic(agent)!);
+      const { knowledgeBases } = await this.client.knowledgeBases.list(updatedOptions);
+      const mapped = knowledgeBases.map((base) => utils.convertKnowledgeBaseToPublic(base)!);
       yield mapped;
     } catch (e: any) {
       span.setStatus({
@@ -994,20 +999,20 @@ export class SearchIndexClient {
     }
   }
 
-  private async *listKnowledgeAgentsAll(
-    options: ListKnowledgeAgentsOptions = {},
-  ): AsyncIterableIterator<KnowledgeAgent> {
-    for await (const page of this.listKnowledgeAgentsPage(options)) {
+  private async *listKnowledgeBasesAll(
+    options: ListKnowledgeBasesOptions = {},
+  ): AsyncIterableIterator<KnowledgeBase> {
+    for await (const page of this.listKnowledgeBasesPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Retrieves a list of existing KnowledgeAgents in the service.
-   * @param options - Options to the list knowledge agents operation.
+   * Retrieves a list of existing KnowledgeBases in the service.
+   * @param options - Options to the list knowledge bases operation.
    */
-  public listKnowledgeAgents(options: ListKnowledgeAgentsOptions = {}): KnowledgeAgentIterator {
-    const iter = this.listKnowledgeAgentsAll(options);
+  public listKnowledgeBases(options: ListKnowledgeBasesOptions = {}): KnowledgeBaseIterator {
+    const iter = this.listKnowledgeBasesAll(options);
 
     return {
       next() {
@@ -1017,40 +1022,43 @@ export class SearchIndexClient {
         return this;
       },
       byPage: () => {
-        return this.listKnowledgeAgentsPage(options);
+        return this.listKnowledgeBasesPage(options);
       },
     };
   }
 
   /**
-   * Deletes an existing agent.
-   * @param agentName - name of the agent to delete.
+   * Deletes an existing knowledge base.
+   * @param knowledgeBaseName - name of the knowledge base to delete.
    * @param options - options parameters.
    */
-  public async deleteKnowledgeAgent(
-    agentName: string,
-    options?: DeleteKnowledgeAgentOptions,
+  public async deleteKnowledgeBase(
+    knowledgeBaseName: string,
+    options?: DeleteKnowledgeBaseOptions,
   ): Promise<void>;
   /**
-   * Deletes an existing agent.
-   * @param agent - the agent to delete.
+   * Deletes an existing knowledge base.
+   * @param knowledgeBase - the knowledge base to delete.
    * @param options - options parameters.
    */
-  public async deleteKnowledgeAgent(
-    agent: KnowledgeAgent,
-    options?: DeleteKnowledgeAgentOptions,
+  public async deleteKnowledgeBase(
+    knowledgeBase: KnowledgeBase,
+    options?: DeleteKnowledgeBaseOptions,
   ): Promise<void>;
-  public async deleteKnowledgeAgent(
-    agent: string | KnowledgeAgent,
-    options?: DeleteKnowledgeAgentOptions,
+  public async deleteKnowledgeBase(
+    knowledgeBase: string | KnowledgeBase,
+    options?: DeleteKnowledgeBaseOptions,
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-deleteKnowledgeAgent", options);
+    const { span, updatedOptions } = createSpan("SearchIndexClient-deleteKnowledgeBase", options);
     try {
-      const agentName = typeof agent === "string" ? agent : agent.name;
+      const knowledgeBaseName =
+        typeof knowledgeBase === "string" ? knowledgeBase : knowledgeBase.name;
       const etag =
-        typeof agent !== "string" && updatedOptions.onlyIfUnchanged ? agent.etag : undefined;
+        typeof knowledgeBase !== "string" && updatedOptions.onlyIfUnchanged
+          ? knowledgeBase.etag
+          : undefined;
 
-      const result = await this.client.knowledgeAgents.delete(agentName, {
+      const result = await this.client.knowledgeBases.delete(knowledgeBaseName, {
         ...updatedOptions,
         ifMatch: etag,
       });
@@ -1246,6 +1254,33 @@ export class SearchIndexClient {
   }
 
   /**
+   * Returns the current status and synchronization history of a knowledge source.
+   * @param sourceName - The name of the knowledge source for which to retrieve status.
+   * @param options - The options parameters.
+   */
+  public async getKnowledgeSourceStatus(
+    sourceName: string,
+    options?: GetKnowledgeSourceStatusOptions,
+  ): Promise<KnowledgeSourceStatus> {
+    const { span, updatedOptions } = createSpan(
+      "SearchIndexClient-getKnowledgeSourceStatus",
+      options,
+    );
+    try {
+      const result = await this.client.knowledgeSources.getStatus(sourceName, updatedOptions);
+      return result;
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Retrieves the SearchClient corresponding to this SearchIndexClient
    * @param indexName - Name of the index
    * @param options - SearchClient Options
@@ -1267,16 +1302,16 @@ export class SearchIndexClient {
 
   /**
    * Retrieves the KnowledgeRetrievalClient corresponding to this SearchIndexClient
-   * @param agentName - Name of the agent
+   * @param knowledgeBaseName - Name of the knowledge base
    * @param options - KnowledgeRetrievalClient Options
    */
   public getKnowledgeRetrievalClient(
-    agentName: string,
+    knowledgeBaseName: string,
     options?: GetKnowledgeRetrievalClientOptions,
   ): KnowledgeRetrievalClient {
     return new KnowledgeRetrievalClient(
       this.endpoint,
-      agentName,
+      knowledgeBaseName,
       this.credential,
       options || this.options,
     );

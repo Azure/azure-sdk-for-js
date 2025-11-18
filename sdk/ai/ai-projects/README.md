@@ -1,15 +1,17 @@
 # Azure AI Projects client library for JavaScript
 
-The AI Projects client library provides easy access to resources in your Azure AI Foundry project.
+The AI Projects client library provides easy access to resources in your Microsoft Foundry project.
 Use it to:
 
 - **Create and run Agents** using the `.agents` property on the client.
-- **Get an AzureOpenAI client** using the `.inference.azureOpenAI` method.
+- **Get an OpenAI client** using the `.getOpenAIClient.` method.
 - **Enumerate AI Models** deployed to your Foundry Project using the `.deployments` operations.
 - **Enumerate connected Azure resources** in your Foundry project using the `.connections` operations.
 - **Upload documents and create Datasets** to reference them using the `.datasets` operations.
+- **Upload, retrieve, list, and delete files** using the OpenAI client obtained from `.getOpenAIClient()`. upload files to be used for fine-tuning and other AI model operations.
 - **Create and enumerate Search Indexes** using the `.indexes` operations.
-- **Enable OpenTelemetry tracing** using the `enable_telemetry` function.
+
+The client library uses version `2025-11-15-preview` of the Microsoft Foundry [data plane REST APIs](https://aka.ms/azsdk/azure-ai-projects/rest-api-reference).
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples)
@@ -26,12 +28,14 @@ Use it to:
 - [Key concepts](#key-concepts)
   - [Create and authenticate the client](#create-and-authenticate-the-client)
 - [Examples](#examples)
+  - [Performing Responses operations using OpenAI client](#performing-responses-operations-using-openai-client)
   - [Performing Agent operations](#performing-agent-operations)
-  - [Get an authenticated AzureOpenAI client](#get-an-authenticated-azureopenai-client)
   - [Deployments operations](#deployments-operations)
   - [Connections operations](#connections-operations)
   - [Dataset operations](#dataset-operations)
+  - [Files operations](#files-operations)
   - [Indexes operations](#indexes-operations)
+- [Tracing](#tracing)
 - [Troubleshooting](#troubleshooting)
   - [Exceptions](#exceptions)
   - [Reporting issues](#reporting-issues)
@@ -44,7 +48,7 @@ Use it to:
 
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - An [Azure subscription][azure_sub].
-- A [project in Azure AI Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects?tabs=ai-studio).
+- A [project in Microsoft Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects?tabs=ai-studio).
 
 ### Authorization
 
@@ -64,64 +68,99 @@ npm install @azure/ai-projects @azure/identity
 
 ### Create and authenticate the client
 
-To construct an `AIProjectsClient`, the `endpoint` can be fetched from [endpoint][ai_project_client_endpoint]. Below we will assume the environment variable `AZURE_AI_PROJECT_ENDPOINT_STRING` was defined to hold this value:
+To construct an `AIProjectsClient`, the `projectEndpoint` can be fetched from [projectEndpoint][ai_project_client_endpoint]. Below we will assume the environment variable `AZURE_AI_PROJECT_ENDPOINT_STRING` was defined to hold this value:
 
 ```ts snippet:setup
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const client = new AIProjectClient(endpoint, new DefaultAzureCredential());
+const projectEndpoint =
+  process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const client = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 ```
 
-The client uses API version `v1`, refer to the [API documentation][ai_foundry_data_plane_rest_apis] to learn more about the supported features.
+The client uses API version `2025-11-15-preview`, refer to the [API documentation][ai_foundry_data_plane_rest_apis] to learn more about the supported features.
 
 ## Examples
 
-### Performing Agent operations
+### Performing Responses operations using OpenAI client
 
-The `.agents` property on the `AIProjectClient` gives you access to an authenticated `AgentsClient` from the `azure-ai-agents` package. Below we show how to create an agent and delete it. To see what you can do with the `agent` you created, see the [many samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples) associated with the `azure-ai-agents` package.
-
-```ts snippet:agentsSample
-const agent = await project.agents.createAgent("gpt-4o", {
-  name: "my-agent",
-  instructions: "You are a helpful agent",
-});
-console.log(`Created agent, agent ID : ${agent.id}`);
-
-// Do something with your Agent!
-// See samples here https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples
-await project.agents.deleteAgent(agent.id);
-console.log(`Deleted agent, agent ID: ${agent.id}`);
-```
-
-### Get an authenticated AzureOpenAI client
-
-Your Azure AI Foundry project may have one or more OpenAI models deployed that support chat completions. Use the code below to get an authenticated [AzureOpenAI](https://github.com/openai/openai-python?tab=readme-ov-file#microsoft-azure-openai) from the [openai](https://pypi.org/project/openai/) package, and execute a chat completions call.
+Your Microsoft Foundry project may have one or more OpenAI models deployed that support chat completions. Use the code below to get an authenticated [OpenAI](https://github.com/openai/openai-python?tab=readme-ov-file#microsoft-azure-openai) from the [openai](https://pypi.org/project/openai/) package, and execute a chat completions call.
 
 Run the code below. Here we assume `deploymentName` (str) is defined. It's the deployment name of an AI model in your Foundry Project. As shown in the "Models + endpoints" tab, under the "Name" column.
 
-Update the `api_version` value with one found in the "Data plane - inference" row [in this table](https://learn.microsoft.com/azure/ai-foundry/openai/reference#api-specs).
+Update the `api_version` value with one found in the "Data plane - inference" row [in this table](https://learn.microsoft.com/azure/ai-foundry/openai/reference#api-specs)..
 
-You also have the option (not shown) to explicitly specify the Azure OpenAI connection name in your AI Foundry Project, which the `inference.azureOpenAI` method will use to get the inference endpoint and authentication credentials. If not present the default Azure OpenAI connection will be used.
+For openai logging, please refer [OpenAI Logging]( https://github.com/openai/openai-node/tree/master?tab=readme-ov-file#logging).
 
 ```ts snippet:openAI
-const client = await project.inference.azureOpenAI({
-  // The API version should match the version of the Azure OpenAI resource.
-  apiVersion: "2024-10-21",
-});
-const response = await client.chat.completions.create({
+const openAIClient = await project.getOpenAIClient();
+const response = await openAIClient.responses.create({
   model: deploymentName,
-  messages: [{ role: "user", content: "How many feet are in a mile?" }],
+  input: "What is the size of France in square miles?",
 });
 console.log("response = ", JSON.stringify(response, null, 2));
 ```
 
-See the "inference" folder in the [package samples][samples] for additional samples.
+See the "responses" folder in the [package samples][samples] for additional samples, including streaming responses.
 
+### Performing Agent operations
+
+The `.agents` property on the `AIProjectsClient` gives you access to all Agent operations. Agents use an extension of the
+OpenAI Responses protocol, so you will likely need to get an `OpenAI` client to do Agent operations, as shown in the example below.
+
+```ts snippet:agents
+const openAIClient = await project.getOpenAIClient();
+const agent = await project.agents.createVersion("my-agent-basic", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions: "You are a helpful assistant that answers general questions",
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+const conversation = await openAIClient.conversations.create({
+  items: [
+    { type: "message", role: "user", content: "What is the size of France in square miles?" },
+  ],
+});
+console.log(`Created conversation with initial user message (id: ${conversation.id})`);
+// Generate response using the agent
+console.log("\nGenerating response...");
+const response = await openAIClient.responses.create(
+  {
+    conversation: conversation.id,
+  },
+  {
+    body: { agent: { name: agent.name, type: "agent_reference" } },
+  },
+);
+console.log(`Response output: ${response.output_text}`);
+// Add a second user message to the conversation
+console.log("\nAdding a second user message to the conversation...");
+await openAIClient.conversations.items.create(conversation.id, {
+  items: [{ type: "message", role: "user", content: "And what is the capital city?" }],
+});
+console.log("Added a second user message to the conversation");
+// Generate second response
+console.log("\nGenerating second response...");
+const response2 = await openAIClient.responses.create(
+  {
+    conversation: conversation.id,
+  },
+  {
+    body: { agent: { name: agent.name, type: "agent_reference" } },
+  },
+);
+console.log(`Response output: ${response2.output_text}`);
+// Clean up
+console.log("\nCleaning up resources...");
+await openAIClient.conversations.delete(conversation.id);
+console.log("Conversation deleted");
+await project.agents.deleteVersion(agent.name, agent.version);
+console.log("Agent deleted");
+```
 ### Deployments operations
 
-The code below shows some Deployments operations, which allow you to enumerate the AI models deployed to your AI Foundry Projects. These models can be seen in the "Models + endpoints" tab in your AI Foundry Project. Full samples can be found under the "deployment" folder in the [package samples][samples].
+The code below shows some Deployments operations, which allow you to enumerate the AI models deployed to your Microsoft Foundry Projects. These models can be seen in the "Models + endpoints" tab in your Microsoft Foundry Project. Full samples can be found under the "deployment" folder in the [package samples][samples].
 
 ```ts snippet:deployments
 import { ModelDeployment } from "@azure/ai-projects";
@@ -180,7 +219,7 @@ if (deployments.length > 0) {
 
 ### Connections operations
 
-The code below shows some Connection operations, which allow you to enumerate the Azure Resources connected to your AI Foundry Projects. These connections can be seen in the "Management Center", in the "Connected resources" tab in your AI Foundry Project. Full samples can be found under the "connections" folder in the [package samples][samples].
+The code below shows some Connection operations, which allow you to enumerate the Azure Resources connected to your Microsoft Foundry Projects. These connections can be seen in the "Management Center", in the "Connected resources" tab in your Microsoft Foundry Project. Full samples can be found under the "connections" folder in the [package samples][samples].
 
 ```ts snippet:connections
 import { Connection } from "@azure/ai-projects";
@@ -294,6 +333,38 @@ await project.datasets.delete(datasetName, dataset3.version);
 console.log("All specified Datasets have been deleted.");
 ```
 
+### Files operations
+
+The code below shows some Files operations using the OpenAI client, which allow you to upload, retrieve, list, and delete files. These operations are useful for working with files that can be used for fine-tuning and other AI model operations. Full samples can be found under the "files" folder in the [package samples][samples].
+
+```ts snippet:files
+const openAIClient = await project.getOpenAIClient();
+console.log("Uploading file");
+const created = await openAIClient.files.create({
+  file: fs.createReadStream(filePath),
+  purpose: "fine-tune",
+});
+console.log(`Uploaded file with ID: ${created.id}`);
+const uploadedFile = await openAIClient.files.retrieve(created.id);
+console.log("Processed file metadata:\n", JSON.stringify(uploadedFile, null, 2));
+console.log(`Retrieving file content with ID: ${uploadedFile.id}`);
+const contentResponse = await openAIClient.files.content(uploadedFile.id);
+const buf = Buffer.from(await contentResponse.arrayBuffer());
+console.log(buf.toString("utf-8"));
+// 4) List all files
+console.log("Listing all files:");
+const filesList = await openAIClient.files.list();
+for (const f of filesList.data ?? []) {
+  console.log(JSON.stringify(f));
+}
+// 5) Delete the file
+console.log(`Deleting file with ID: ${uploadedFile.id}`);
+const deleted = await openAIClient.files.delete(uploadedFile.id);
+console.log(
+  `Successfully deleted file: ${deleted?.id || uploadedFile.id}, deleted=${String(deleted?.deleted ?? true)}`,
+);
+```
+
 ### Indexes operations
 
 The code below shows some Indexes operations. Full samples can be found under the "indexes"
@@ -331,6 +402,11 @@ for await (const i of allIndexes) {
 console.log("Delete the Index versions created above:");
 await project.indexes.delete(indexName, version);
 ```
+## Tracing
+
+**Note:** Tracing functionality is in preliminary preview and is subject to change. Spans, attributes, and events may be modified in future versions.
+
+You can add an Application Insights Azure resource to your Microsoft Foundry project. See the Tracing tab in your Microsoft Foundry project. If one was enabled, you can get the Application Insights connection string, configure your AI Projects client, and observe the full execution path through Azure Monitor. Typically, you might want to start tracing before you create a client or Agent.
 
 ## Troubleshooting
 
