@@ -19,7 +19,6 @@ import type { FilterContext, FilterStrategy } from "./queryFilteringStrategy/Fil
 import { RidSkipCountFilter } from "./queryFilteringStrategy/RidSkipCountFilter.js";
 import {
   TargetPartitionRangeManager,
-  QueryExecutionContextType,
 } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
 import {
   DiagnosticNodeInternal,
@@ -92,6 +91,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     private options: FeedOptions,
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
     private correlatedActivityId: string,
+    private rangeManager: TargetPartitionRangeManager,
+    private queryProcessingStrategy: any,
   ) {
     this.clientContext = clientContext;
     this.collectionLink = collectionLink;
@@ -156,33 +157,20 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         const targetPartitionQueryExecutionContextList: DocumentProducer[] = [];
 
         if (this.requestContinuation) {
-          // Determine the query type based on the context
-          const queryType = this.getQueryType();
-          let rangeManager: TargetPartitionRangeManager;
-
-          if (queryType === QueryExecutionContextType.OrderBy) {
-            rangeManager = TargetPartitionRangeManager.createForOrderByQuery({
-              queryInfo: this.partitionedQueryExecutionInfo,
-            });
-          } else {
-            rangeManager = TargetPartitionRangeManager.createForParallelQuery({
-              queryInfo: this.partitionedQueryExecutionInfo,
-            });
-          }
           // Parse continuation token to get range mappings and check for split/merge scenarios
           const parsedToken = this._parseContinuationToken(this.requestContinuation);
           const continuationRanges = await this._handlePartitionRangeChanges(parsedToken);
 
           // For ORDER BY queries, get additional query info directly from parsed token
-          const additionalQueryInfo =
-            queryType === QueryExecutionContextType.OrderBy
-              ? this._createAdditionalQueryInfo(
-                  (parsedToken as OrderByQueryContinuationToken).orderByItems,
-                  (parsedToken as OrderByQueryContinuationToken).documentRid,
-                )
-              : undefined;
+          const isOrderByQuery = this.sortOrders && this.sortOrders.length > 0;
+          const additionalQueryInfo = isOrderByQuery
+            ? this._createAdditionalQueryInfo(
+                (parsedToken as OrderByQueryContinuationToken).orderByItems,
+                (parsedToken as OrderByQueryContinuationToken).documentRid,
+              )
+            : undefined;
 
-          const filterResult = rangeManager.filterPartitionRanges(
+          const filterResult = this.rangeManager.filterPartitionRanges(
             targetPartitionRanges,
             continuationRanges,
             additionalQueryInfo,
@@ -193,7 +181,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
           // Create filter context for ORDER BY queries with continuation
           let filterContext: FilterContext | undefined;
-          if (queryType === QueryExecutionContextType.OrderBy) {
+          if (isOrderByQuery) {
             const orderByToken = parsedToken as OrderByQueryContinuationToken;
             filterContext = {
               orderByItems: orderByToken.orderByItems,
@@ -220,7 +208,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             // Only apply filter to target partition for ORDER BY queries
             // For ORDER BY queries, the target partition is the last range in continuation ranges
             let partitionFilterContext: FilterContext | undefined;
-            if (filterContext && this.getQueryType() === QueryExecutionContextType.OrderBy) {
+            if (filterContext && isOrderByQuery) {
               const targetPartitionId =
                 continuationRanges.length > 0 &&
                 continuationRanges[continuationRanges.length - 1].range
@@ -400,13 +388,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     return minInclusiveComparison;
   }
 
-  private getQueryType(): QueryExecutionContextType {
-    const isOrderByQuery = this.sortOrders && this.sortOrders.length > 0;
-    const queryType = isOrderByQuery
-      ? QueryExecutionContextType.OrderBy
-      : QueryExecutionContextType.Parallel;
-    return queryType;
-  }
+
 
   private _createAdditionalQueryInfo(orderByItems?: any[], rid?: string): any {
     const info: any = {};

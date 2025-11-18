@@ -9,6 +9,7 @@ import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeIntern
 import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator.js";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
+import { TargetPartitionRangeManager } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
 
 /** @hidden */
 export class OrderByQueryExecutionContext
@@ -37,6 +38,13 @@ export class OrderByQueryExecutionContext
     partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
     correlatedActivityId: string,
   ) {
+    const rangeManager = TargetPartitionRangeManager.createForOrderByQuery({
+      queryInfo: partitionedQueryExecutionInfo,
+    });
+    
+    // Create ORDER BY query processing strategy (placeholder)
+    const processingStrategy: any = null;
+
     // Calling on base class constructor
     super(
       clientContext,
@@ -45,6 +53,8 @@ export class OrderByQueryExecutionContext
       options,
       partitionedQueryExecutionInfo,
       correlatedActivityId,
+      rangeManager,
+      processingStrategy,
     );
     this.orderByComparator = new OrderByDocumentProducerComparator(this.sortOrders);
   }

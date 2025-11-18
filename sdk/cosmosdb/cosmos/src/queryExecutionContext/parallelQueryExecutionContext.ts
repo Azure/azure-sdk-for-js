@@ -6,6 +6,7 @@ import type { ExecutionContext } from "./ExecutionContext.js";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase.js";
 import type { Response } from "../request/index.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { TargetPartitionRangeManager } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
 
 /**
  * Provides the ParallelQueryExecutionContext.
@@ -16,6 +17,34 @@ export class ParallelQueryExecutionContext
   extends ParallelQueryExecutionContextBase
   implements ExecutionContext
 {
+  constructor(
+    clientContext: any,
+    collectionLink: string,
+    query: any,
+    options: any,
+    partitionedQueryExecutionInfo: any,
+    correlatedActivityId: string,
+  ) {
+    const rangeManager = TargetPartitionRangeManager.createForParallelQuery({
+      queryInfo: partitionedQueryExecutionInfo,
+    });
+    
+    // Create parallel query processing strategy (placeholder)
+    const processingStrategy: any = null;
+
+    // Calling on base class constructor
+    super(
+      clientContext,
+      collectionLink,
+      query,
+      options,
+      partitionedQueryExecutionInfo,
+      correlatedActivityId,
+      rangeManager,
+      processingStrategy,
+    );
+  }
+
   // Instance members are inherited
 
   // Overriding documentProducerComparator for ParallelQueryExecutionContexts
