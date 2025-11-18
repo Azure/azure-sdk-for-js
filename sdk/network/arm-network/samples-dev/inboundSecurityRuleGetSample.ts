@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Retrieves the available specified Network Virtual Appliance Inbound Security Rules Collection.
  *
  * @summary Retrieves the available specified Network Virtual Appliance Inbound Security Rules Collection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/InboundSecurityRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/InboundSecurityRuleGet.json
  */
 async function createNetworkVirtualApplianceInboundSecurityRules(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

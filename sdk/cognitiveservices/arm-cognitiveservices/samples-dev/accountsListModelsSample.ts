@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to List available Models for the requested Cognitive Services account
  *
  * @summary List available Models for the requested Cognitive Services account
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListAccountModels.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListAccountModels.json
  */
 async function listAccountModels(): Promise<void> {
   const subscriptionId =

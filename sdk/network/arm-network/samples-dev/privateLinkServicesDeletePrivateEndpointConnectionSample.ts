@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete private end point connection for a private link service in a subscription.
  *
  * @summary Delete private end point connection for a private link service in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PrivateLinkServiceDeletePrivateEndpointConnection.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PrivateLinkServiceDeletePrivateEndpointConnection.json
  */
 async function deletePrivateEndPointConnectionForAPrivateLinkService(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
