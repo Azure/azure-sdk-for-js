@@ -1,22 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import { ComputeContext } from "../../api/computeContext.js";
 import {
   revokeAccess,
   grantAccess,
   listByRestorePoint,
   get,
 } from "../../api/diskRestorePoint/operations.js";
-import type {
+import {
   DiskRestorePointRevokeAccessOptionalParams,
   DiskRestorePointGrantAccessOptionalParams,
   DiskRestorePointListByRestorePointOptionalParams,
   DiskRestorePointGetOptionalParams,
 } from "../../api/diskRestorePoint/options.js";
-import type { GrantAccessData, AccessUri, DiskRestorePoint } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  GrantAccessData,
+  AccessUri,
+  DiskRestorePoint,
+} from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DiskRestorePoint operations. */
 export interface DiskRestorePointOperations {

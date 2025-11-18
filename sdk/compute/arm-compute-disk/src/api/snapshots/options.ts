@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure-rest/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface SnapshotsRevokeAccessOptionalParams extends OperationOptions {
@@ -19,7 +19,8 @@ export interface SnapshotsGrantAccessOptionalParams extends OperationOptions {
 export interface SnapshotsListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SnapshotsListByResourceGroupOptionalParams extends OperationOptions {}
+export interface SnapshotsListByResourceGroupOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface SnapshotsDeleteOptionalParams extends OperationOptions {
@@ -34,7 +35,8 @@ export interface SnapshotsUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface SnapshotsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface SnapshotsCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { revokeAccess, grantAccess, listByRestorePoint, get } from "./operations.js";
+export {
+  revokeAccess,
+  grantAccess,
+  listByRestorePoint,
+  get,
+} from "./operations.js";
 export {
   DiskRestorePointRevokeAccessOptionalParams,
   DiskRestorePointGrantAccessOptionalParams,

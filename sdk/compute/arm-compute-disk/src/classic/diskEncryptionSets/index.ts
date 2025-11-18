@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import { ComputeContext } from "../../api/computeContext.js";
 import {
   listAssociatedResources,
   list,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/diskEncryptionSets/operations.js";
-import type {
+import {
   DiskEncryptionSetsListAssociatedResourcesOptionalParams,
   DiskEncryptionSetsListOptionalParams,
   DiskEncryptionSetsListByResourceGroupOptionalParams,
@@ -20,9 +20,12 @@ import type {
   DiskEncryptionSetsCreateOrUpdateOptionalParams,
   DiskEncryptionSetsGetOptionalParams,
 } from "../../api/diskEncryptionSets/options.js";
-import type { DiskEncryptionSet, DiskEncryptionSetUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  DiskEncryptionSet,
+  DiskEncryptionSetUpdate,
+} from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DiskEncryptionSets operations. */
 export interface DiskEncryptionSetsOperations {
@@ -80,8 +83,15 @@ function _getDiskEncryptionSets(context: ComputeContext) {
       resourceGroupName: string,
       diskEncryptionSetName: string,
       options?: DiskEncryptionSetsListAssociatedResourcesOptionalParams,
-    ) => listAssociatedResources(context, resourceGroupName, diskEncryptionSetName, options),
-    list: (options?: DiskEncryptionSetsListOptionalParams) => list(context, options),
+    ) =>
+      listAssociatedResources(
+        context,
+        resourceGroupName,
+        diskEncryptionSetName,
+        options,
+      ),
+    list: (options?: DiskEncryptionSetsListOptionalParams) =>
+      list(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: DiskEncryptionSetsListByResourceGroupOptionalParams,
@@ -96,14 +106,27 @@ function _getDiskEncryptionSets(context: ComputeContext) {
       diskEncryptionSetName: string,
       diskEncryptionSet: DiskEncryptionSetUpdate,
       options?: DiskEncryptionSetsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, diskEncryptionSetName, diskEncryptionSet, options),
+    ) =>
+      update(
+        context,
+        resourceGroupName,
+        diskEncryptionSetName,
+        diskEncryptionSet,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       diskEncryptionSetName: string,
       diskEncryptionSet: DiskEncryptionSet,
       options?: DiskEncryptionSetsCreateOrUpdateOptionalParams,
     ) =>
-      createOrUpdate(context, resourceGroupName, diskEncryptionSetName, diskEncryptionSet, options),
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        diskEncryptionSetName,
+        diskEncryptionSet,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       diskEncryptionSetName: string,

@@ -1,31 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext as Client } from "../index.js";
-import type {
-  DiskAccess,
-  PrivateEndpointConnection,
-  DiskAccessUpdate,
-  _DiskAccessList,
-  PrivateLinkResourceListResult,
-  _PrivateEndpointConnectionListResult,
-} from "../../models/models.js";
+import { ComputeContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  DiskAccess,
   diskAccessSerializer,
   diskAccessDeserializer,
+  PrivateEndpointConnection,
   privateEndpointConnectionSerializer,
   privateEndpointConnectionDeserializer,
+  DiskAccessUpdate,
   diskAccessUpdateSerializer,
+  _DiskAccessList,
   _diskAccessListDeserializer,
+  PrivateLinkResourceListResult,
   privateLinkResourceListResultDeserializer,
+  _PrivateEndpointConnectionListResult,
   _privateEndpointConnectionListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   DiskAccessesListPrivateEndpointConnectionsOptionalParams,
   DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
   DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
@@ -38,9 +38,13 @@ import type {
   DiskAccessesCreateOrUpdateOptionalParams,
   DiskAccessesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listPrivateEndpointConnectionsSend(
   context: Client,
@@ -62,13 +66,15 @@ export function _listPrivateEndpointConnectionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listPrivateEndpointConnectionsDeserialize(
@@ -95,7 +101,13 @@ export function listPrivateEndpointConnections(
 ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
   return buildPagedAsyncIterator(
     context,
-    () => _listPrivateEndpointConnectionsSend(context, resourceGroupName, diskAccessName, options),
+    () =>
+      _listPrivateEndpointConnectionsSend(
+        context,
+        resourceGroupName,
+        diskAccessName,
+        options,
+      ),
     _listPrivateEndpointConnectionsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -124,7 +136,9 @@ export function _deleteAPrivateEndpointConnectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _deleteAPrivateEndpointConnectionDeserialize(
@@ -193,15 +207,17 @@ export function _updateAPrivateEndpointConnectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: privateEndpointConnectionSerializer(privateEndpointConnection),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: privateEndpointConnectionSerializer(privateEndpointConnection),
+    });
 }
 
 export async function _updateAPrivateEndpointConnectionDeserialize(
@@ -227,7 +243,10 @@ export function updateAPrivateEndpointConnection(
   options: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection> {
+): PollerLike<
+  OperationState<PrivateEndpointConnection>,
+  PrivateEndpointConnection
+> {
   return getLongRunningPoller(
     context,
     _updateAPrivateEndpointConnectionDeserialize,
@@ -246,7 +265,10 @@ export function updateAPrivateEndpointConnection(
         ),
       resourceLocationConfig: "location",
     },
-  ) as PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+  ) as PollerLike<
+    OperationState<PrivateEndpointConnection>,
+    PrivateEndpointConnection
+  >;
 }
 
 export function _getAPrivateEndpointConnectionSend(
@@ -271,13 +293,15 @@ export function _getAPrivateEndpointConnectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getAPrivateEndpointConnectionDeserialize(
@@ -333,13 +357,15 @@ export function _getPrivateLinkResourcesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getPrivateLinkResourcesDeserialize(
@@ -387,16 +413,20 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listDeserialize(result: PathUncheckedResponse): Promise<_DiskAccessList> {
+export async function _listDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_DiskAccessList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -439,13 +469,15 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -496,10 +528,14 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "202", "204", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -522,12 +558,18 @@ export function $delete(
   diskAccessName: string,
   options: DiskAccessesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _$deleteSend(context, resourceGroupName, diskAccessName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["200", "202", "204", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(context, resourceGroupName, diskAccessName, options),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -549,18 +591,22 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: diskAccessUpdateSerializer(diskAccess),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: diskAccessUpdateSerializer(diskAccess),
+    });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<DiskAccess> {
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<DiskAccess> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -579,13 +625,24 @@ export function update(
   diskAccess: DiskAccessUpdate,
   options: DiskAccessesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DiskAccess>, DiskAccess> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, diskAccessName, diskAccess, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<DiskAccess>, DiskAccess>;
+  return getLongRunningPoller(
+    context,
+    _updateDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _updateSend(
+          context,
+          resourceGroupName,
+          diskAccessName,
+          diskAccess,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<DiskAccess>, DiskAccess>;
 }
 
 export function _createOrUpdateSend(
@@ -607,15 +664,17 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: diskAccessSerializer(diskAccess),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: diskAccessSerializer(diskAccess),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -639,13 +698,24 @@ export function createOrUpdate(
   diskAccess: DiskAccess,
   options: DiskAccessesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DiskAccess>, DiskAccess> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "202", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceGroupName, diskAccessName, diskAccess, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<DiskAccess>, DiskAccess>;
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          resourceGroupName,
+          diskAccessName,
+          diskAccess,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<DiskAccess>, DiskAccess>;
 }
 
 export function _getSend(
@@ -666,16 +736,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<DiskAccess> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<DiskAccess> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -693,6 +767,11 @@ export async function get(
   diskAccessName: string,
   options: DiskAccessesGetOptionalParams = { requestOptions: {} },
 ): Promise<DiskAccess> {
-  const result = await _getSend(context, resourceGroupName, diskAccessName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    diskAccessName,
+    options,
+  );
   return _getDeserialize(result);
 }

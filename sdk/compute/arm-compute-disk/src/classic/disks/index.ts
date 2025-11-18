@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import { ComputeContext } from "../../api/computeContext.js";
 import {
   revokeAccess,
   grantAccess,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/disks/operations.js";
-import type {
+import {
   DisksRevokeAccessOptionalParams,
   DisksGrantAccessOptionalParams,
   DisksListOptionalParams,
@@ -22,9 +22,14 @@ import type {
   DisksCreateOrUpdateOptionalParams,
   DisksGetOptionalParams,
 } from "../../api/disks/options.js";
-import type { Disk, DiskUpdate, GrantAccessData, AccessUri } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  Disk,
+  DiskUpdate,
+  GrantAccessData,
+  AccessUri,
+} from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Disks operations. */
 export interface DisksOperations {
@@ -93,14 +98,24 @@ function _getDisks(context: ComputeContext) {
       diskName: string,
       grantAccessData: GrantAccessData,
       options?: DisksGrantAccessOptionalParams,
-    ) => grantAccess(context, resourceGroupName, diskName, grantAccessData, options),
+    ) =>
+      grantAccess(
+        context,
+        resourceGroupName,
+        diskName,
+        grantAccessData,
+        options,
+      ),
     list: (options?: DisksListOptionalParams) => list(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: DisksListByResourceGroupOptionalParams,
     ) => listByResourceGroup(context, resourceGroupName, options),
-    delete: (resourceGroupName: string, diskName: string, options?: DisksDeleteOptionalParams) =>
-      $delete(context, resourceGroupName, diskName, options),
+    delete: (
+      resourceGroupName: string,
+      diskName: string,
+      options?: DisksDeleteOptionalParams,
+    ) => $delete(context, resourceGroupName, diskName, options),
     update: (
       resourceGroupName: string,
       diskName: string,
@@ -113,8 +128,11 @@ function _getDisks(context: ComputeContext) {
       disk: Disk,
       options?: DisksCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, diskName, disk, options),
-    get: (resourceGroupName: string, diskName: string, options?: DisksGetOptionalParams) =>
-      get(context, resourceGroupName, diskName, options),
+    get: (
+      resourceGroupName: string,
+      diskName: string,
+      options?: DisksGetOptionalParams,
+    ) => get(context, resourceGroupName, diskName, options),
   };
 }
 

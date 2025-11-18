@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import { ComputeContext } from "../../api/computeContext.js";
 import {
   listPrivateEndpointConnections,
   deleteAPrivateEndpointConnection,
@@ -15,7 +15,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/diskAccesses/operations.js";
-import type {
+import {
   DiskAccessesListPrivateEndpointConnectionsOptionalParams,
   DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
   DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
@@ -28,14 +28,14 @@ import type {
   DiskAccessesCreateOrUpdateOptionalParams,
   DiskAccessesGetOptionalParams,
 } from "../../api/diskAccesses/options.js";
-import type {
+import {
   DiskAccess,
   PrivateEndpointConnection,
   DiskAccessUpdate,
   PrivateLinkResourceListResult,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DiskAccesses operations. */
 export interface DiskAccessesOperations {
@@ -59,7 +59,10 @@ export interface DiskAccessesOperations {
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
     options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
-  ) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+  ) => PollerLike<
+    OperationState<PrivateEndpointConnection>,
+    PrivateEndpointConnection
+  >;
   /** Gets information about a private endpoint connection under a disk access resource. */
   getAPrivateEndpointConnection: (
     resourceGroupName: string,
@@ -74,7 +77,9 @@ export interface DiskAccessesOperations {
     options?: DiskAccessesGetPrivateLinkResourcesOptionalParams,
   ) => Promise<PrivateLinkResourceListResult>;
   /** Lists all the disk access resources under a subscription. */
-  list: (options?: DiskAccessesListOptionalParams) => PagedAsyncIterableIterator<DiskAccess>;
+  list: (
+    options?: DiskAccessesListOptionalParams,
+  ) => PagedAsyncIterableIterator<DiskAccess>;
   /** Lists all the disk access resources under a resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
@@ -119,7 +124,13 @@ function _getDiskAccesses(context: ComputeContext) {
       resourceGroupName: string,
       diskAccessName: string,
       options?: DiskAccessesListPrivateEndpointConnectionsOptionalParams,
-    ) => listPrivateEndpointConnections(context, resourceGroupName, diskAccessName, options),
+    ) =>
+      listPrivateEndpointConnections(
+        context,
+        resourceGroupName,
+        diskAccessName,
+        options,
+      ),
     deleteAPrivateEndpointConnection: (
       resourceGroupName: string,
       diskAccessName: string,
@@ -165,7 +176,13 @@ function _getDiskAccesses(context: ComputeContext) {
       resourceGroupName: string,
       diskAccessName: string,
       options?: DiskAccessesGetPrivateLinkResourcesOptionalParams,
-    ) => getPrivateLinkResources(context, resourceGroupName, diskAccessName, options),
+    ) =>
+      getPrivateLinkResources(
+        context,
+        resourceGroupName,
+        diskAccessName,
+        options,
+      ),
     list: (options?: DiskAccessesListOptionalParams) => list(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
@@ -181,13 +198,21 @@ function _getDiskAccesses(context: ComputeContext) {
       diskAccessName: string,
       diskAccess: DiskAccessUpdate,
       options?: DiskAccessesUpdateOptionalParams,
-    ) => update(context, resourceGroupName, diskAccessName, diskAccess, options),
+    ) =>
+      update(context, resourceGroupName, diskAccessName, diskAccess, options),
     createOrUpdate: (
       resourceGroupName: string,
       diskAccessName: string,
       diskAccess: DiskAccess,
       options?: DiskAccessesCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, diskAccessName, diskAccess, options),
+    ) =>
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        diskAccessName,
+        diskAccess,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       diskAccessName: string,
@@ -196,7 +221,9 @@ function _getDiskAccesses(context: ComputeContext) {
   };
 }
 
-export function _getDiskAccessesOperations(context: ComputeContext): DiskAccessesOperations {
+export function _getDiskAccessesOperations(
+  context: ComputeContext,
+): DiskAccessesOperations {
   return {
     ..._getDiskAccesses(context),
   };

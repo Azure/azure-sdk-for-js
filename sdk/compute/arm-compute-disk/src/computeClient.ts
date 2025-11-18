@@ -1,20 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext, ComputeClientOptionalParams } from "./api/index.js";
-import { createCompute } from "./api/index.js";
-import type { DiskAccessesOperations } from "./classic/diskAccesses/index.js";
-import { _getDiskAccessesOperations } from "./classic/diskAccesses/index.js";
-import type { DiskEncryptionSetsOperations } from "./classic/diskEncryptionSets/index.js";
-import { _getDiskEncryptionSetsOperations } from "./classic/diskEncryptionSets/index.js";
-import type { DiskRestorePointOperations } from "./classic/diskRestorePoint/index.js";
-import { _getDiskRestorePointOperations } from "./classic/diskRestorePoint/index.js";
-import type { DisksOperations } from "./classic/disks/index.js";
-import { _getDisksOperations } from "./classic/disks/index.js";
-import type { SnapshotsOperations } from "./classic/snapshots/index.js";
-import { _getSnapshotsOperations } from "./classic/snapshots/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  createCompute,
+  ComputeContext,
+  ComputeClientOptionalParams,
+} from "./api/index.js";
+import {
+  DiskAccessesOperations,
+  _getDiskAccessesOperations,
+} from "./classic/diskAccesses/index.js";
+import {
+  DiskEncryptionSetsOperations,
+  _getDiskEncryptionSetsOperations,
+} from "./classic/diskEncryptionSets/index.js";
+import {
+  DiskRestorePointOperations,
+  _getDiskRestorePointOperations,
+} from "./classic/diskRestorePoint/index.js";
+import { DisksOperations, _getDisksOperations } from "./classic/disks/index.js";
+import {
+  SnapshotsOperations,
+  _getSnapshotsOperations,
+} from "./classic/snapshots/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export { ComputeClientOptionalParams } from "./api/computeContext.js";
 

@@ -1,28 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext as Client } from "../index.js";
-import type {
-  GrantAccessData,
-  AccessUri,
-  Snapshot,
-  SnapshotUpdate,
-  _SnapshotList,
-} from "../../models/models.js";
+import { ComputeContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  GrantAccessData,
   grantAccessDataSerializer,
+  AccessUri,
   accessUriDeserializer,
+  Snapshot,
   snapshotSerializer,
   snapshotDeserializer,
+  SnapshotUpdate,
   snapshotUpdateSerializer,
+  _SnapshotList,
   _snapshotListDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   SnapshotsRevokeAccessOptionalParams,
   SnapshotsGrantAccessOptionalParams,
   SnapshotsListOptionalParams,
@@ -32,9 +32,13 @@ import type {
   SnapshotsCreateOrUpdateOptionalParams,
   SnapshotsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _revokeAccessSend(
   context: Client,
@@ -54,10 +58,14 @@ export function _revokeAccessSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .post({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _revokeAccessDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _revokeAccessDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -75,12 +83,18 @@ export function revokeAccess(
   snapshotName: string,
   options: SnapshotsRevokeAccessOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _revokeAccessDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _revokeAccessSend(context, resourceGroupName, snapshotName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _revokeAccessDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _revokeAccessSend(context, resourceGroupName, snapshotName, options),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _grantAccessSend(
@@ -102,18 +116,22 @@ export function _grantAccessSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: grantAccessDataSerializer(grantAccessData),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: grantAccessDataSerializer(grantAccessData),
+    });
 }
 
-export async function _grantAccessDeserialize(result: PathUncheckedResponse): Promise<AccessUri> {
+export async function _grantAccessDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AccessUri> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -132,13 +150,24 @@ export function grantAccess(
   grantAccessData: GrantAccessData,
   options: SnapshotsGrantAccessOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AccessUri>, AccessUri> {
-  return getLongRunningPoller(context, _grantAccessDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _grantAccessSend(context, resourceGroupName, snapshotName, grantAccessData, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<AccessUri>, AccessUri>;
+  return getLongRunningPoller(
+    context,
+    _grantAccessDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _grantAccessSend(
+          context,
+          resourceGroupName,
+          snapshotName,
+          grantAccessData,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<AccessUri>, AccessUri>;
 }
 
 export function _listSend(
@@ -155,16 +184,20 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listDeserialize(result: PathUncheckedResponse): Promise<_SnapshotList> {
+export async function _listDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_SnapshotList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -205,13 +238,15 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -260,10 +295,14 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "202", "204", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -286,12 +325,18 @@ export function $delete(
   snapshotName: string,
   options: SnapshotsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _$deleteSend(context, resourceGroupName, snapshotName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["200", "202", "204", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(context, resourceGroupName, snapshotName, options),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -313,18 +358,22 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: snapshotUpdateSerializer(snapshot),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: snapshotUpdateSerializer(snapshot),
+    });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Snapshot> {
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Snapshot> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -343,13 +392,24 @@ export function update(
   snapshot: SnapshotUpdate,
   options: SnapshotsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Snapshot>, Snapshot> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, snapshotName, snapshot, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<Snapshot>, Snapshot>;
+  return getLongRunningPoller(
+    context,
+    _updateDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _updateSend(
+          context,
+          resourceGroupName,
+          snapshotName,
+          snapshot,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<Snapshot>, Snapshot>;
 }
 
 export function _createOrUpdateSend(
@@ -371,18 +431,22 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: snapshotSerializer(snapshot),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: snapshotSerializer(snapshot),
+    });
 }
 
-export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Snapshot> {
+export async function _createOrUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Snapshot> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -401,13 +465,24 @@ export function createOrUpdate(
   snapshot: Snapshot,
   options: SnapshotsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Snapshot>, Snapshot> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "202", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceGroupName, snapshotName, snapshot, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<Snapshot>, Snapshot>;
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          resourceGroupName,
+          snapshotName,
+          snapshot,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<Snapshot>, Snapshot>;
 }
 
 export function _getSend(
@@ -428,16 +503,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<Snapshot> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Snapshot> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -455,6 +534,11 @@ export async function get(
   snapshotName: string,
   options: SnapshotsGetOptionalParams = { requestOptions: {} },
 ): Promise<Snapshot> {
-  const result = await _getSend(context, resourceGroupName, snapshotName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    snapshotName,
+    options,
+  );
   return _getDeserialize(result);
 }

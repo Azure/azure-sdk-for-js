@@ -9,8 +9,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Disk resource. */
 export interface Disk extends TrackedResource {
-  /** Disk resource properties. */
-  properties?: DiskProperties;
   /** A relative URI containing the ID of the VM that has the disk attached. */
   readonly managedBy?: string;
   /** List of relative URIs containing the IDs of the VMs that have the disk attached. maxShares should be set to a value greater than one for disks to allow attaching them to multiple VMs. */
@@ -21,15 +19,79 @@ export interface Disk extends TrackedResource {
   zones?: string[];
   /** The extended location where the disk will be created. Extended location cannot be changed. */
   extendedLocation?: ExtendedLocation;
+  /** The time when the disk was created. */
+  readonly timeCreated?: Date;
+  /** The Operating System type. */
+  osType?: OperatingSystemTypes;
+  /** The hypervisor generation of the Virtual Machine. Applicable to OS disks only. */
+  hyperVGeneration?: HyperVGeneration;
+  /** Purchase plan information for the the image from which the OS disk was created. E.g. - {name: 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer} */
+  purchasePlan?: DiskPurchasePlan;
+  /** List of supported capabilities for the image from which the OS disk was created. */
+  supportedCapabilities?: SupportedCapabilities;
+  /** Disk source information. CreationData information cannot be changed after the disk has been created. */
+  creationData: CreationData;
+  /** If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size. */
+  diskSizeGB?: number;
+  /** The size of the disk in bytes. This field is read only. */
+  readonly diskSizeBytes?: number;
+  /** Unique Guid identifying the resource. */
+  readonly uniqueId?: string;
+  /** Encryption settings collection used for Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot. */
+  encryptionSettingsCollection?: EncryptionSettingsCollection;
+  /** The disk provisioning state. */
+  readonly provisioningState?: string;
+  /** The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes. */
+  diskIopsReadWrite?: number;
+  /** The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. */
+  diskMBpsReadWrite?: number;
+  /** The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One operation can transfer between 4k and 256k bytes. */
+  diskIopsReadOnly?: number;
+  /** The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. */
+  diskMBpsReadOnly?: number;
+  /** The state of the disk. */
+  readonly diskState?: DiskState;
+  /** Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys. */
+  encryption?: Encryption;
+  /** The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a disk that can be mounted on multiple VMs at the same time. */
+  maxShares?: number;
+  /** Details of the list of all VMs that have the disk attached. maxShares should be set to a value greater than one for disks to allow attaching them to multiple VMs. */
+  readonly shareInfo?: ShareInfoElement[];
+  /** Policy for accessing the disk via network. */
+  networkAccessPolicy?: NetworkAccessPolicy;
+  /** ARM id of the DiskAccess resource for using private endpoints on disks. */
+  diskAccessId?: string;
+  /** Latest time when bursting was last enabled on a disk. */
+  readonly burstingEnabledTime?: Date;
+  /** Performance tier of the disk (e.g, P4, S10) as described here: https://azure.microsoft.com/en-us/pricing/details/managed-disks/. Does not apply to Ultra disks. */
+  tier?: string;
+  /** Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is disabled by default. Does not apply to Ultra disks. */
+  burstingEnabled?: boolean;
+  /** Properties of the disk for which update is pending. */
+  readonly propertyUpdatesInProgress?: PropertyUpdatesInProgress;
+  /** Indicates the OS on a disk supports hibernation. */
+  supportsHibernation?: boolean;
+  /** Contains the security related information for the resource. */
+  securityProfile?: DiskSecurityProfile;
+  /** Percentage complete for the background copy when a resource is created via the CopyStart operation. */
+  completionPercent?: number;
+  /** Policy for controlling export on the disk. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** Additional authentication requirements when exporting or uploading to a disk or snapshot. */
+  dataAccessAuthMode?: DataAccessAuthMode;
+  /** Setting this property to true improves reliability and performance of data disks that are frequently (more than 5 times a day) by detached from one virtual machine and attached to another. This property should not be set for disks that are not detached and attached frequently as it causes the disks to not align with the fault domain of the virtual machine. */
+  optimizedForFrequentAttach?: boolean;
+  /** The UTC time when the ownership state of the disk was last changed i.e., the time the disk was last attached or detached from a VM or the time when the VM to which the disk was attached was deallocated or started. */
+  readonly lastOwnershipUpdateTime?: Date;
+  /** Determines how platform treats disk failures */
+  availabilityPolicy?: AvailabilityPolicy;
 }
 
 export function diskSerializer(item: Disk): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : diskPropertiesSerializer(item["properties"]),
+    properties: diskPropertiesSerializer(item),
     sku: !item["sku"] ? item["sku"] : diskSkuSerializer(item["sku"]),
     zones: !item["zones"]
       ? item["zones"]
@@ -52,9 +114,9 @@ export function diskDeserializer(item: any): Disk {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : diskPropertiesDeserializer(item["properties"]),
+      : diskPropertiesDeserializer(item["properties"])),
     managedBy: item["managedBy"],
     managedByExtended: !item["managedByExtended"]
       ? item["managedByExtended"]
@@ -157,12 +219,16 @@ export function diskPropertiesSerializer(item: DiskProperties): any {
     diskSizeGB: item["diskSizeGB"],
     encryptionSettingsCollection: !item["encryptionSettingsCollection"]
       ? item["encryptionSettingsCollection"]
-      : encryptionSettingsCollectionSerializer(item["encryptionSettingsCollection"]),
+      : encryptionSettingsCollectionSerializer(
+          item["encryptionSettingsCollection"],
+        ),
     diskIOPSReadWrite: item["diskIopsReadWrite"],
     diskMBpsReadWrite: item["diskMBpsReadWrite"],
     diskIOPSReadOnly: item["diskIopsReadOnly"],
     diskMBpsReadOnly: item["diskMBpsReadOnly"],
-    encryption: !item["encryption"] ? item["encryption"] : encryptionSerializer(item["encryption"]),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : encryptionSerializer(item["encryption"]),
     maxShares: item["maxShares"],
     networkAccessPolicy: item["networkAccessPolicy"],
     diskAccessId: item["diskAccessId"],
@@ -184,7 +250,9 @@ export function diskPropertiesSerializer(item: DiskProperties): any {
 
 export function diskPropertiesDeserializer(item: any): DiskProperties {
   return {
-    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
+    timeCreated: !item["timeCreated"]
+      ? item["timeCreated"]
+      : new Date(item["timeCreated"]),
     osType: item["osType"],
     hyperVGeneration: item["hyperVGeneration"],
     purchasePlan: !item["purchasePlan"]
@@ -199,7 +267,9 @@ export function diskPropertiesDeserializer(item: any): DiskProperties {
     uniqueId: item["uniqueId"],
     encryptionSettingsCollection: !item["encryptionSettingsCollection"]
       ? item["encryptionSettingsCollection"]
-      : encryptionSettingsCollectionDeserializer(item["encryptionSettingsCollection"]),
+      : encryptionSettingsCollectionDeserializer(
+          item["encryptionSettingsCollection"],
+        ),
     provisioningState: item["provisioningState"],
     diskIopsReadWrite: item["diskIOPSReadWrite"],
     diskMBpsReadWrite: item["diskMBpsReadWrite"],
@@ -222,7 +292,9 @@ export function diskPropertiesDeserializer(item: any): DiskProperties {
     burstingEnabled: item["burstingEnabled"],
     propertyUpdatesInProgress: !item["propertyUpdatesInProgress"]
       ? item["propertyUpdatesInProgress"]
-      : propertyUpdatesInProgressDeserializer(item["propertyUpdatesInProgress"]),
+      : propertyUpdatesInProgressDeserializer(
+          item["propertyUpdatesInProgress"],
+        ),
     supportsHibernation: item["supportsHibernation"],
     securityProfile: !item["securityProfile"]
       ? item["securityProfile"]
@@ -303,7 +375,9 @@ export interface SupportedCapabilities {
   supportedSecurityOption?: SupportedSecurityOption;
 }
 
-export function supportedCapabilitiesSerializer(item: SupportedCapabilities): any {
+export function supportedCapabilitiesSerializer(
+  item: SupportedCapabilities,
+): any {
   return {
     diskControllerTypes: item["diskControllerTypes"],
     acceleratedNetwork: item["acceleratedNetwork"],
@@ -312,7 +386,9 @@ export function supportedCapabilitiesSerializer(item: SupportedCapabilities): an
   };
 }
 
-export function supportedCapabilitiesDeserializer(item: any): SupportedCapabilities {
+export function supportedCapabilitiesDeserializer(
+  item: any,
+): SupportedCapabilities {
   return {
     diskControllerTypes: item["diskControllerTypes"],
     acceleratedNetwork: item["acceleratedNetwork"],
@@ -541,7 +617,9 @@ export interface EncryptionSettingsCollection {
   encryptionSettingsVersion?: string;
 }
 
-export function encryptionSettingsCollectionSerializer(item: EncryptionSettingsCollection): any {
+export function encryptionSettingsCollectionSerializer(
+  item: EncryptionSettingsCollection,
+): any {
   return {
     enabled: item["enabled"],
     encryptionSettings: !item["encryptionSettings"]
@@ -551,7 +629,9 @@ export function encryptionSettingsCollectionSerializer(item: EncryptionSettingsC
   };
 }
 
-export function encryptionSettingsCollectionDeserializer(item: any): EncryptionSettingsCollection {
+export function encryptionSettingsCollectionDeserializer(
+  item: any,
+): EncryptionSettingsCollection {
   return {
     enabled: item["enabled"],
     encryptionSettings: !item["encryptionSettings"]
@@ -585,7 +665,9 @@ export interface EncryptionSettingsElement {
   keyEncryptionKey?: KeyVaultAndKeyReference;
 }
 
-export function encryptionSettingsElementSerializer(item: EncryptionSettingsElement): any {
+export function encryptionSettingsElementSerializer(
+  item: EncryptionSettingsElement,
+): any {
   return {
     diskEncryptionKey: !item["diskEncryptionKey"]
       ? item["diskEncryptionKey"]
@@ -596,7 +678,9 @@ export function encryptionSettingsElementSerializer(item: EncryptionSettingsElem
   };
 }
 
-export function encryptionSettingsElementDeserializer(item: any): EncryptionSettingsElement {
+export function encryptionSettingsElementDeserializer(
+  item: any,
+): EncryptionSettingsElement {
   return {
     diskEncryptionKey: !item["diskEncryptionKey"]
       ? item["diskEncryptionKey"]
@@ -615,14 +699,18 @@ export interface KeyVaultAndSecretReference {
   secretUrl: string;
 }
 
-export function keyVaultAndSecretReferenceSerializer(item: KeyVaultAndSecretReference): any {
+export function keyVaultAndSecretReferenceSerializer(
+  item: KeyVaultAndSecretReference,
+): any {
   return {
     sourceVault: sourceVaultSerializer(item["sourceVault"]),
     secretUrl: item["secretUrl"],
   };
 }
 
-export function keyVaultAndSecretReferenceDeserializer(item: any): KeyVaultAndSecretReference {
+export function keyVaultAndSecretReferenceDeserializer(
+  item: any,
+): KeyVaultAndSecretReference {
   return {
     sourceVault: sourceVaultDeserializer(item["sourceVault"]),
     secretUrl: item["secretUrl"],
@@ -653,14 +741,18 @@ export interface KeyVaultAndKeyReference {
   keyUrl: string;
 }
 
-export function keyVaultAndKeyReferenceSerializer(item: KeyVaultAndKeyReference): any {
+export function keyVaultAndKeyReferenceSerializer(
+  item: KeyVaultAndKeyReference,
+): any {
   return {
     sourceVault: sourceVaultSerializer(item["sourceVault"]),
     keyUrl: item["keyUrl"],
   };
 }
 
-export function keyVaultAndKeyReferenceDeserializer(item: any): KeyVaultAndKeyReference {
+export function keyVaultAndKeyReferenceDeserializer(
+  item: any,
+): KeyVaultAndKeyReference {
   return {
     sourceVault: sourceVaultDeserializer(item["sourceVault"]),
     keyUrl: item["keyUrl"],
@@ -746,7 +838,9 @@ export enum KnownEncryptionType {
  */
 export type EncryptionType = string;
 
-export function shareInfoElementArrayDeserializer(result: Array<ShareInfoElement>): any[] {
+export function shareInfoElementArrayDeserializer(
+  result: Array<ShareInfoElement>,
+): any[] {
   return result.map((item) => {
     return shareInfoElementDeserializer(item);
   });
@@ -791,7 +885,9 @@ export interface PropertyUpdatesInProgress {
   targetTier?: string;
 }
 
-export function propertyUpdatesInProgressDeserializer(item: any): PropertyUpdatesInProgress {
+export function propertyUpdatesInProgressDeserializer(
+  item: any,
+): PropertyUpdatesInProgress {
   return {
     targetTier: item["targetTier"],
   };
@@ -812,7 +908,9 @@ export function diskSecurityProfileSerializer(item: DiskSecurityProfile): any {
   };
 }
 
-export function diskSecurityProfileDeserializer(item: any): DiskSecurityProfile {
+export function diskSecurityProfileDeserializer(
+  item: any,
+): DiskSecurityProfile {
   return {
     securityType: item["securityType"],
     secureVMDiskEncryptionSetId: item["secureVMDiskEncryptionSetId"],
@@ -1074,7 +1172,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -1135,7 +1235,9 @@ export interface ApiError {
 
 export function apiErrorDeserializer(item: any): ApiError {
   return {
-    details: !item["details"] ? item["details"] : apiErrorBaseArrayDeserializer(item["details"]),
+    details: !item["details"]
+      ? item["details"]
+      : apiErrorBaseArrayDeserializer(item["details"]),
     innererror: !item["innererror"]
       ? item["innererror"]
       : innerErrorDeserializer(item["innererror"]),
@@ -1145,7 +1247,9 @@ export function apiErrorDeserializer(item: any): ApiError {
   };
 }
 
-export function apiErrorBaseArrayDeserializer(result: Array<ApiErrorBase>): any[] {
+export function apiErrorBaseArrayDeserializer(
+  result: Array<ApiErrorBase>,
+): any[] {
   return result.map((item) => {
     return apiErrorBaseDeserializer(item);
   });
@@ -1186,19 +1290,57 @@ export function innerErrorDeserializer(item: any): InnerError {
 
 /** Disk update resource. */
 export interface DiskUpdate {
-  /** Disk resource update properties. */
-  properties?: DiskUpdateProperties;
   /** Resource tags */
   tags?: Record<string, string>;
   /** The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, StandardSSD_ZRS, or PremiumV2_LRS. */
   sku?: DiskSku;
+  /** the Operating System type. */
+  osType?: OperatingSystemTypes;
+  /** If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size. */
+  diskSizeGB?: number;
+  /** Encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot. */
+  encryptionSettingsCollection?: EncryptionSettingsCollection;
+  /** The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes. */
+  diskIopsReadWrite?: number;
+  /** The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. */
+  diskMBpsReadWrite?: number;
+  /** The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One operation can transfer between 4k and 256k bytes. */
+  diskIopsReadOnly?: number;
+  /** The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. */
+  diskMBpsReadOnly?: number;
+  /** The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a disk that can be mounted on multiple VMs at the same time. */
+  maxShares?: number;
+  /** Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys. */
+  encryption?: Encryption;
+  /** Policy for accessing the disk via network. */
+  networkAccessPolicy?: NetworkAccessPolicy;
+  /** ARM id of the DiskAccess resource for using private endpoints on disks. */
+  diskAccessId?: string;
+  /** Performance tier of the disk (e.g, P4, S10) as described here: https://azure.microsoft.com/en-us/pricing/details/managed-disks/. Does not apply to Ultra disks. */
+  tier?: string;
+  /** Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is disabled by default. Does not apply to Ultra disks. */
+  burstingEnabled?: boolean;
+  /** Purchase plan information to be added on the OS disk */
+  purchasePlan?: DiskPurchasePlan;
+  /** List of supported capabilities to be added on the OS disk. */
+  supportedCapabilities?: SupportedCapabilities;
+  /** Properties of the disk for which update is pending. */
+  readonly propertyUpdatesInProgress?: PropertyUpdatesInProgress;
+  /** Indicates the OS on a disk supports hibernation. */
+  supportsHibernation?: boolean;
+  /** Policy for controlling export on the disk. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** Additional authentication requirements when exporting or uploading to a disk or snapshot. */
+  dataAccessAuthMode?: DataAccessAuthMode;
+  /** Setting this property to true improves reliability and performance of data disks that are frequently (more than 5 times a day) by detached from one virtual machine and attached to another. This property should not be set for disks that are not detached and attached frequently as it causes the disks to not align with the fault domain of the virtual machine. */
+  optimizedForFrequentAttach?: boolean;
+  /** Determines how platform treats disk failures */
+  availabilityPolicy?: AvailabilityPolicy;
 }
 
 export function diskUpdateSerializer(item: DiskUpdate): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : diskUpdatePropertiesSerializer(item["properties"]),
+    properties: diskUpdatePropertiesSerializer(item),
     tags: item["tags"],
     sku: !item["sku"] ? item["sku"] : diskSkuSerializer(item["sku"]),
   };
@@ -1250,19 +1392,25 @@ export interface DiskUpdateProperties {
   availabilityPolicy?: AvailabilityPolicy;
 }
 
-export function diskUpdatePropertiesSerializer(item: DiskUpdateProperties): any {
+export function diskUpdatePropertiesSerializer(
+  item: DiskUpdateProperties,
+): any {
   return {
     osType: item["osType"],
     diskSizeGB: item["diskSizeGB"],
     encryptionSettingsCollection: !item["encryptionSettingsCollection"]
       ? item["encryptionSettingsCollection"]
-      : encryptionSettingsCollectionSerializer(item["encryptionSettingsCollection"]),
+      : encryptionSettingsCollectionSerializer(
+          item["encryptionSettingsCollection"],
+        ),
     diskIOPSReadWrite: item["diskIopsReadWrite"],
     diskMBpsReadWrite: item["diskMBpsReadWrite"],
     diskIOPSReadOnly: item["diskIopsReadOnly"],
     diskMBpsReadOnly: item["diskMBpsReadOnly"],
     maxShares: item["maxShares"],
-    encryption: !item["encryption"] ? item["encryption"] : encryptionSerializer(item["encryption"]),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : encryptionSerializer(item["encryption"]),
     networkAccessPolicy: item["networkAccessPolicy"],
     diskAccessId: item["diskAccessId"],
     tier: item["tier"],
@@ -1390,18 +1538,21 @@ export function accessUriDeserializer(item: any): AccessUri {
 
 /** disk access resource. */
 export interface DiskAccess extends TrackedResource {
-  properties?: DiskAccessProperties;
   /** The extended location where the disk access will be created. Extended location cannot be changed. */
   extendedLocation?: ExtendedLocation;
+  /** A readonly collection of private endpoint connections created on the disk. Currently only one endpoint connection is supported. */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** The disk access resource provisioning state. */
+  readonly provisioningState?: string;
+  /** The time when the disk access was created. */
+  readonly timeCreated?: Date;
 }
 
 export function diskAccessSerializer(item: DiskAccess): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : diskAccessPropertiesSerializer(item["properties"]),
+    properties: diskAccessPropertiesSerializer(item),
     extendedLocation: !item["extendedLocation"]
       ? item["extendedLocation"]
       : extendedLocationSerializer(item["extendedLocation"]),
@@ -1418,9 +1569,9 @@ export function diskAccessDeserializer(item: any): DiskAccess {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : diskAccessPropertiesDeserializer(item["properties"]),
+      : diskAccessPropertiesDeserializer(item["properties"])),
     extendedLocation: !item["extendedLocation"]
       ? item["extendedLocation"]
       : extendedLocationDeserializer(item["extendedLocation"]),
@@ -1437,17 +1588,25 @@ export interface DiskAccessProperties {
   readonly timeCreated?: Date;
 }
 
-export function diskAccessPropertiesSerializer(item: DiskAccessProperties): any {
+export function diskAccessPropertiesSerializer(
+  item: DiskAccessProperties,
+): any {
   return item;
 }
 
-export function diskAccessPropertiesDeserializer(item: any): DiskAccessProperties {
+export function diskAccessPropertiesDeserializer(
+  item: any,
+): DiskAccessProperties {
   return {
     privateEndpointConnections: !item["privateEndpointConnections"]
       ? item["privateEndpointConnections"]
-      : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
+      : privateEndpointConnectionArrayDeserializer(
+          item["privateEndpointConnections"],
+        ),
     provisioningState: item["provisioningState"],
-    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
+    timeCreated: !item["timeCreated"]
+      ? item["timeCreated"]
+      : new Date(item["timeCreated"]),
   };
 }
 
@@ -1469,19 +1628,23 @@ export function privateEndpointConnectionArrayDeserializer(
 
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnection extends ProxyResource {
-  /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  /** The resource of private end point. */
+  readonly privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between DiskAccess and Virtual Network. */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+  /** The provisioning state of the private endpoint connection resource. */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
-export function privateEndpointConnectionSerializer(item: PrivateEndpointConnection): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : privateEndpointConnectionPropertiesSerializer(item["properties"]),
-  };
+export function privateEndpointConnectionSerializer(
+  item: PrivateEndpointConnection,
+): any {
+  return { properties: privateEndpointConnectionPropertiesSerializer(item) };
 }
 
-export function privateEndpointConnectionDeserializer(item: any): PrivateEndpointConnection {
+export function privateEndpointConnectionDeserializer(
+  item: any,
+): PrivateEndpointConnection {
   return {
     id: item["id"],
     name: item["name"],
@@ -1489,9 +1652,9 @@ export function privateEndpointConnectionDeserializer(item: any): PrivateEndpoin
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : privateEndpointConnectionPropertiesDeserializer(item["properties"]),
+      : privateEndpointConnectionPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -1509,9 +1672,10 @@ export function privateEndpointConnectionPropertiesSerializer(
   item: PrivateEndpointConnectionProperties,
 ): any {
   return {
-    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
-      item["privateLinkServiceConnectionState"],
-    ),
+    privateLinkServiceConnectionState:
+      privateLinkServiceConnectionStateSerializer(
+        item["privateLinkServiceConnectionState"],
+      ),
   };
 }
 
@@ -1522,9 +1686,10 @@ export function privateEndpointConnectionPropertiesDeserializer(
     privateEndpoint: !item["privateEndpoint"]
       ? item["privateEndpoint"]
       : privateEndpointDeserializer(item["privateEndpoint"]),
-    privateLinkServiceConnectionState: privateLinkServiceConnectionStateDeserializer(
-      item["privateLinkServiceConnectionState"],
-    ),
+    privateLinkServiceConnectionState:
+      privateLinkServiceConnectionStateDeserializer(
+        item["privateLinkServiceConnectionState"],
+      ),
     provisioningState: item["provisioningState"],
   };
 }
@@ -1681,11 +1846,15 @@ export function privateLinkResourceListResultDeserializer(
   item: any,
 ): PrivateLinkResourceListResult {
   return {
-    value: !item["value"] ? item["value"] : privateLinkResourceArrayDeserializer(item["value"]),
+    value: !item["value"]
+      ? item["value"]
+      : privateLinkResourceArrayDeserializer(item["value"]),
   };
 }
 
-export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkResource>): any[] {
+export function privateLinkResourceArrayDeserializer(
+  result: Array<PrivateLinkResource>,
+): any[] {
   return result.map((item) => {
     return privateLinkResourceDeserializer(item);
   });
@@ -1693,21 +1862,27 @@ export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkRe
 
 /** A private link resource */
 export interface PrivateLinkResource {
-  /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
   /** private link resource Id */
   readonly id?: string;
   /** private link resource name */
   readonly name?: string;
   /** private link resource type */
   readonly type?: string;
+  /** The private link resource group id. */
+  readonly groupId?: string;
+  /** The private link resource required member names. */
+  readonly requiredMembers?: string[];
+  /** The private link resource DNS zone name. */
+  requiredZoneNames?: string[];
 }
 
-export function privateLinkResourceDeserializer(item: any): PrivateLinkResource {
+export function privateLinkResourceDeserializer(
+  item: any,
+): PrivateLinkResource {
   return {
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : privateLinkResourcePropertiesDeserializer(item["properties"]),
+      : privateLinkResourcePropertiesDeserializer(item["properties"])),
     id: item["id"],
     name: item["name"],
     type: item["type"],
@@ -1761,18 +1936,31 @@ export function _privateEndpointConnectionListResultDeserializer(
 
 /** disk encryption set resource. */
 export interface DiskEncryptionSet extends TrackedResource {
-  properties?: EncryptionSetProperties;
   /** The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. */
   identity?: EncryptionSetIdentity;
+  /** The type of key used to encrypt the data of the disk. */
+  encryptionType?: DiskEncryptionSetType;
+  /** The key vault key which is currently used by this disk encryption set. */
+  activeKey?: KeyForDiskEncryptionSet;
+  /** A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation. */
+  readonly previousKeys?: KeyForDiskEncryptionSet[];
+  /** The disk encryption set provisioning state. */
+  readonly provisioningState?: string;
+  /** Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. */
+  rotationToLatestKeyVersionEnabled?: boolean;
+  /** The time when the active key of this disk encryption set was updated. */
+  readonly lastKeyRotationTimestamp?: Date;
+  /** The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed. */
+  readonly autoKeyRotationError?: ApiError;
+  /** Multi-tenant application client id to access key vault in a different tenant. Setting the value to 'None' will clear the property. */
+  federatedClientId?: string;
 }
 
 export function diskEncryptionSetSerializer(item: DiskEncryptionSet): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : encryptionSetPropertiesSerializer(item["properties"]),
+    properties: encryptionSetPropertiesSerializer(item),
     identity: !item["identity"]
       ? item["identity"]
       : encryptionSetIdentitySerializer(item["identity"]),
@@ -1789,9 +1977,9 @@ export function diskEncryptionSetDeserializer(item: any): DiskEncryptionSet {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : encryptionSetPropertiesDeserializer(item["properties"]),
+      : encryptionSetPropertiesDeserializer(item["properties"])),
     identity: !item["identity"]
       ? item["identity"]
       : encryptionSetIdentityDeserializer(item["identity"]),
@@ -1818,18 +2006,23 @@ export interface EncryptionSetProperties {
   federatedClientId?: string;
 }
 
-export function encryptionSetPropertiesSerializer(item: EncryptionSetProperties): any {
+export function encryptionSetPropertiesSerializer(
+  item: EncryptionSetProperties,
+): any {
   return {
     encryptionType: item["encryptionType"],
     activeKey: !item["activeKey"]
       ? item["activeKey"]
       : keyForDiskEncryptionSetSerializer(item["activeKey"]),
-    rotationToLatestKeyVersionEnabled: item["rotationToLatestKeyVersionEnabled"],
+    rotationToLatestKeyVersionEnabled:
+      item["rotationToLatestKeyVersionEnabled"],
     federatedClientId: item["federatedClientId"],
   };
 }
 
-export function encryptionSetPropertiesDeserializer(item: any): EncryptionSetProperties {
+export function encryptionSetPropertiesDeserializer(
+  item: any,
+): EncryptionSetProperties {
   return {
     encryptionType: item["encryptionType"],
     activeKey: !item["activeKey"]
@@ -1839,7 +2032,8 @@ export function encryptionSetPropertiesDeserializer(item: any): EncryptionSetPro
       ? item["previousKeys"]
       : keyForDiskEncryptionSetArrayDeserializer(item["previousKeys"]),
     provisioningState: item["provisioningState"],
-    rotationToLatestKeyVersionEnabled: item["rotationToLatestKeyVersionEnabled"],
+    rotationToLatestKeyVersionEnabled:
+      item["rotationToLatestKeyVersionEnabled"],
     lastKeyRotationTimestamp: !item["lastKeyRotationTimestamp"]
       ? item["lastKeyRotationTimestamp"]
       : new Date(item["lastKeyRotationTimestamp"]),
@@ -1879,7 +2073,9 @@ export interface KeyForDiskEncryptionSet {
   keyUrl: string;
 }
 
-export function keyForDiskEncryptionSetSerializer(item: KeyForDiskEncryptionSet): any {
+export function keyForDiskEncryptionSetSerializer(
+  item: KeyForDiskEncryptionSet,
+): any {
   return {
     sourceVault: !item["sourceVault"]
       ? item["sourceVault"]
@@ -1888,7 +2084,9 @@ export function keyForDiskEncryptionSetSerializer(item: KeyForDiskEncryptionSet)
   };
 }
 
-export function keyForDiskEncryptionSetDeserializer(item: any): KeyForDiskEncryptionSet {
+export function keyForDiskEncryptionSetDeserializer(
+  item: any,
+): KeyForDiskEncryptionSet {
   return {
     sourceVault: !item["sourceVault"]
       ? item["sourceVault"]
@@ -1925,23 +2123,31 @@ export interface EncryptionSetIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }
 
-export function encryptionSetIdentitySerializer(item: EncryptionSetIdentity): any {
+export function encryptionSetIdentitySerializer(
+  item: EncryptionSetIdentity,
+): any {
   return {
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
       ? item["userAssignedIdentities"]
-      : userAssignedIdentitiesValueRecordSerializer(item["userAssignedIdentities"]),
+      : userAssignedIdentitiesValueRecordSerializer(
+          item["userAssignedIdentities"],
+        ),
   };
 }
 
-export function encryptionSetIdentityDeserializer(item: any): EncryptionSetIdentity {
+export function encryptionSetIdentityDeserializer(
+  item: any,
+): EncryptionSetIdentity {
   return {
     type: item["type"],
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     userAssignedIdentities: !item["userAssignedIdentities"]
       ? item["userAssignedIdentities"]
-      : userAssignedIdentitiesValueRecordDeserializer(item["userAssignedIdentities"]),
+      : userAssignedIdentitiesValueRecordDeserializer(
+          item["userAssignedIdentities"],
+        ),
   };
 }
 
@@ -1974,7 +2180,9 @@ export function userAssignedIdentitiesValueRecordSerializer(
 ): Record<string, any> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : userAssignedIdentitiesValueSerializer(item[key]);
+    result[key] = !item[key]
+      ? item[key]
+      : userAssignedIdentitiesValueSerializer(item[key]);
   });
   return result;
 }
@@ -1984,7 +2192,9 @@ export function userAssignedIdentitiesValueRecordDeserializer(
 ): Record<string, UserAssignedIdentitiesValue> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : userAssignedIdentitiesValueDeserializer(item[key]);
+    result[key] = !item[key]
+      ? item[key]
+      : userAssignedIdentitiesValueDeserializer(item[key]);
   });
   return result;
 }
@@ -1997,11 +2207,15 @@ export interface UserAssignedIdentitiesValue {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitiesValueSerializer(item: UserAssignedIdentitiesValue): any {
+export function userAssignedIdentitiesValueSerializer(
+  item: UserAssignedIdentitiesValue,
+): any {
   return item;
 }
 
-export function userAssignedIdentitiesValueDeserializer(item: any): UserAssignedIdentitiesValue {
+export function userAssignedIdentitiesValueDeserializer(
+  item: any,
+): UserAssignedIdentitiesValue {
   return {
     principalId: item["principalId"],
     clientId: item["clientId"],
@@ -2010,19 +2224,25 @@ export function userAssignedIdentitiesValueDeserializer(item: any): UserAssigned
 
 /** disk encryption set update resource. */
 export interface DiskEncryptionSetUpdate {
-  /** disk encryption set resource update properties. */
-  properties?: DiskEncryptionSetUpdateProperties;
   /** Resource tags */
   tags?: Record<string, string>;
   /** The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. */
   identity?: EncryptionSetIdentity;
+  /** The type of key used to encrypt the data of the disk. */
+  encryptionType?: DiskEncryptionSetType;
+  /** Key Vault Key Url to be used for server side encryption of Managed Disks and Snapshots */
+  activeKey?: KeyForDiskEncryptionSet;
+  /** Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. */
+  rotationToLatestKeyVersionEnabled?: boolean;
+  /** Multi-tenant application client id to access key vault in a different tenant. Setting the value to 'None' will clear the property. */
+  federatedClientId?: string;
 }
 
-export function diskEncryptionSetUpdateSerializer(item: DiskEncryptionSetUpdate): any {
+export function diskEncryptionSetUpdateSerializer(
+  item: DiskEncryptionSetUpdate,
+): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : diskEncryptionSetUpdatePropertiesSerializer(item["properties"]),
+    properties: diskEncryptionSetUpdatePropertiesSerializer(item),
     tags: item["tags"],
     identity: !item["identity"]
       ? item["identity"]
@@ -2050,7 +2270,8 @@ export function diskEncryptionSetUpdatePropertiesSerializer(
     activeKey: !item["activeKey"]
       ? item["activeKey"]
       : keyForDiskEncryptionSetSerializer(item["activeKey"]),
-    rotationToLatestKeyVersionEnabled: item["rotationToLatestKeyVersionEnabled"],
+    rotationToLatestKeyVersionEnabled:
+      item["rotationToLatestKeyVersionEnabled"],
     federatedClientId: item["federatedClientId"],
   };
 }
@@ -2063,20 +2284,26 @@ export interface _DiskEncryptionSetList {
   nextLink?: string;
 }
 
-export function _diskEncryptionSetListDeserializer(item: any): _DiskEncryptionSetList {
+export function _diskEncryptionSetListDeserializer(
+  item: any,
+): _DiskEncryptionSetList {
   return {
     value: diskEncryptionSetArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function diskEncryptionSetArraySerializer(result: Array<DiskEncryptionSet>): any[] {
+export function diskEncryptionSetArraySerializer(
+  result: Array<DiskEncryptionSet>,
+): any[] {
   return result.map((item) => {
     return diskEncryptionSetSerializer(item);
   });
 }
 
-export function diskEncryptionSetArrayDeserializer(result: Array<DiskEncryptionSet>): any[] {
+export function diskEncryptionSetArrayDeserializer(
+  result: Array<DiskEncryptionSet>,
+): any[] {
   return result.map((item) => {
     return diskEncryptionSetDeserializer(item);
   });
@@ -2101,23 +2328,67 @@ export function _resourceUriListDeserializer(item: any): _ResourceUriList {
 
 /** Snapshot resource. */
 export interface Snapshot extends TrackedResource {
-  /** Snapshot resource properties. */
-  properties?: SnapshotProperties;
   /** Unused. Always Null. */
   readonly managedBy?: string;
   /** The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot */
   sku?: SnapshotSku;
   /** The extended location where the snapshot will be created. Extended location cannot be changed. */
   extendedLocation?: ExtendedLocation;
+  /** The time when the snapshot was created. */
+  readonly timeCreated?: Date;
+  /** The Operating System type. */
+  osType?: OperatingSystemTypes;
+  /** The hypervisor generation of the Virtual Machine. Applicable to OS disks only. */
+  hyperVGeneration?: HyperVGeneration;
+  /** Purchase plan information for the image from which the source disk for the snapshot was originally created. */
+  purchasePlan?: DiskPurchasePlan;
+  /** List of supported capabilities for the image from which the source disk from the snapshot was originally created. */
+  supportedCapabilities?: SupportedCapabilities;
+  /** Disk source information. CreationData information cannot be changed after the disk has been created. */
+  creationData: CreationData;
+  /** If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size. */
+  diskSizeGB?: number;
+  /** The size of the disk in bytes. This field is read only. */
+  readonly diskSizeBytes?: number;
+  /** The state of the snapshot. */
+  readonly diskState?: DiskState;
+  /** Unique Guid identifying the resource. */
+  readonly uniqueId?: string;
+  /** Encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot. */
+  encryptionSettingsCollection?: EncryptionSettingsCollection;
+  /** The disk provisioning state. */
+  readonly provisioningState?: string;
+  /** Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full snapshots and can be diffed. */
+  incremental?: boolean;
+  /** Incremental snapshots for a disk share an incremental snapshot family id. The Get Page Range Diff API can only be called on incremental snapshots with the same family id. */
+  readonly incrementalSnapshotFamilyId?: string;
+  /** Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys. */
+  encryption?: Encryption;
+  /** Policy for accessing the disk via network. */
+  networkAccessPolicy?: NetworkAccessPolicy;
+  /** ARM id of the DiskAccess resource for using private endpoints on disks. */
+  diskAccessId?: string;
+  /** Contains the security related information for the resource. */
+  securityProfile?: DiskSecurityProfile;
+  /** Indicates the OS on a snapshot supports hibernation. */
+  supportsHibernation?: boolean;
+  /** Policy for controlling export on the disk. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** Percentage complete for the background copy when a resource is created via the CopyStart operation. */
+  completionPercent?: number;
+  /** Indicates the error details if the background copy of a resource created via the CopyStart operation fails. */
+  copyCompletionError?: CopyCompletionError;
+  /** Additional authentication requirements when exporting or uploading to a disk or snapshot. */
+  dataAccessAuthMode?: DataAccessAuthMode;
+  /** The state of snapshot which determines the access availability of the snapshot. */
+  readonly snapshotAccessState?: SnapshotAccessState;
 }
 
 export function snapshotSerializer(item: Snapshot): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : snapshotPropertiesSerializer(item["properties"]),
+    properties: snapshotPropertiesSerializer(item),
     sku: !item["sku"] ? item["sku"] : snapshotSkuSerializer(item["sku"]),
     extendedLocation: !item["extendedLocation"]
       ? item["extendedLocation"]
@@ -2135,9 +2406,9 @@ export function snapshotDeserializer(item: any): Snapshot {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : snapshotPropertiesDeserializer(item["properties"]),
+      : snapshotPropertiesDeserializer(item["properties"])),
     managedBy: item["managedBy"],
     sku: !item["sku"] ? item["sku"] : snapshotSkuDeserializer(item["sku"]),
     extendedLocation: !item["extendedLocation"]
@@ -2212,9 +2483,13 @@ export function snapshotPropertiesSerializer(item: SnapshotProperties): any {
     diskSizeGB: item["diskSizeGB"],
     encryptionSettingsCollection: !item["encryptionSettingsCollection"]
       ? item["encryptionSettingsCollection"]
-      : encryptionSettingsCollectionSerializer(item["encryptionSettingsCollection"]),
+      : encryptionSettingsCollectionSerializer(
+          item["encryptionSettingsCollection"],
+        ),
     incremental: item["incremental"],
-    encryption: !item["encryption"] ? item["encryption"] : encryptionSerializer(item["encryption"]),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : encryptionSerializer(item["encryption"]),
     networkAccessPolicy: item["networkAccessPolicy"],
     diskAccessId: item["diskAccessId"],
     securityProfile: !item["securityProfile"]
@@ -2232,7 +2507,9 @@ export function snapshotPropertiesSerializer(item: SnapshotProperties): any {
 
 export function snapshotPropertiesDeserializer(item: any): SnapshotProperties {
   return {
-    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
+    timeCreated: !item["timeCreated"]
+      ? item["timeCreated"]
+      : new Date(item["timeCreated"]),
     osType: item["osType"],
     hyperVGeneration: item["hyperVGeneration"],
     purchasePlan: !item["purchasePlan"]
@@ -2248,7 +2525,9 @@ export function snapshotPropertiesDeserializer(item: any): SnapshotProperties {
     uniqueId: item["uniqueId"],
     encryptionSettingsCollection: !item["encryptionSettingsCollection"]
       ? item["encryptionSettingsCollection"]
-      : encryptionSettingsCollectionDeserializer(item["encryptionSettingsCollection"]),
+      : encryptionSettingsCollectionDeserializer(
+          item["encryptionSettingsCollection"],
+        ),
     provisioningState: item["provisioningState"],
     incremental: item["incremental"],
     incrementalSnapshotFamilyId: item["incrementalSnapshotFamilyId"],
@@ -2283,7 +2562,9 @@ export function copyCompletionErrorSerializer(item: CopyCompletionError): any {
   return { errorCode: item["errorCode"], errorMessage: item["errorMessage"] };
 }
 
-export function copyCompletionErrorDeserializer(item: any): CopyCompletionError {
+export function copyCompletionErrorDeserializer(
+  item: any,
+): CopyCompletionError {
   return {
     errorCode: item["errorCode"],
     errorMessage: item["errorMessage"],
@@ -2374,19 +2655,37 @@ export type SnapshotStorageAccountTypes = string;
 
 /** Snapshot update resource. */
 export interface SnapshotUpdate {
-  /** Snapshot resource update properties. */
-  properties?: SnapshotUpdateProperties;
   /** Resource tags */
   tags?: Record<string, string>;
   /** The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot */
   sku?: SnapshotSku;
+  /** the Operating System type. */
+  osType?: OperatingSystemTypes;
+  /** If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size. */
+  diskSizeGB?: number;
+  /** Encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot. */
+  encryptionSettingsCollection?: EncryptionSettingsCollection;
+  /** Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys. */
+  encryption?: Encryption;
+  /** Policy for accessing the disk via network. */
+  networkAccessPolicy?: NetworkAccessPolicy;
+  /** ARM id of the DiskAccess resource for using private endpoints on disks. */
+  diskAccessId?: string;
+  /** Indicates the OS on a snapshot supports hibernation. */
+  supportsHibernation?: boolean;
+  /** Policy for controlling export on the disk. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** Additional authentication requirements when exporting or uploading to a disk or snapshot. */
+  dataAccessAuthMode?: DataAccessAuthMode;
+  /** List of supported capabilities for the image from which the OS disk was created. */
+  supportedCapabilities?: SupportedCapabilities;
+  /** The state of snapshot which determines the access availability of the snapshot. */
+  readonly snapshotAccessState?: SnapshotAccessState;
 }
 
 export function snapshotUpdateSerializer(item: SnapshotUpdate): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : snapshotUpdatePropertiesSerializer(item["properties"]),
+    properties: snapshotUpdatePropertiesSerializer(item),
     tags: item["tags"],
     sku: !item["sku"] ? item["sku"] : snapshotSkuSerializer(item["sku"]),
   };
@@ -2418,14 +2717,20 @@ export interface SnapshotUpdateProperties {
   readonly snapshotAccessState?: SnapshotAccessState;
 }
 
-export function snapshotUpdatePropertiesSerializer(item: SnapshotUpdateProperties): any {
+export function snapshotUpdatePropertiesSerializer(
+  item: SnapshotUpdateProperties,
+): any {
   return {
     osType: item["osType"],
     diskSizeGB: item["diskSizeGB"],
     encryptionSettingsCollection: !item["encryptionSettingsCollection"]
       ? item["encryptionSettingsCollection"]
-      : encryptionSettingsCollectionSerializer(item["encryptionSettingsCollection"]),
-    encryption: !item["encryption"] ? item["encryption"] : encryptionSerializer(item["encryption"]),
+      : encryptionSettingsCollectionSerializer(
+          item["encryptionSettingsCollection"],
+        ),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : encryptionSerializer(item["encryption"]),
     networkAccessPolicy: item["networkAccessPolicy"],
     diskAccessId: item["diskAccessId"],
     supportsHibernation: item["supportsHibernation"],
@@ -2466,8 +2771,42 @@ export function snapshotArrayDeserializer(result: Array<Snapshot>): any[] {
 
 /** Properties of disk restore point */
 export interface DiskRestorePoint extends ProxyResource {
-  /** Properties of an incremental disk restore point */
-  properties?: DiskRestorePointProperties;
+  /** The timestamp of restorePoint creation */
+  readonly timeCreated?: Date;
+  /** arm id of source disk or source disk restore point. */
+  readonly sourceResourceId?: string;
+  /** The Operating System type. */
+  readonly osType?: OperatingSystemTypes;
+  /** The hypervisor generation of the Virtual Machine. Applicable to OS disks only. */
+  hyperVGeneration?: HyperVGeneration;
+  /** Purchase plan information for the the image from which the OS disk was created. */
+  purchasePlan?: DiskPurchasePlan;
+  /** List of supported capabilities for the image from which the OS disk was created. */
+  supportedCapabilities?: SupportedCapabilities;
+  /** id of the backing snapshot's MIS family */
+  readonly familyId?: string;
+  /** unique incarnation id of the source disk */
+  readonly sourceUniqueId?: string;
+  /** Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys. */
+  readonly encryption?: Encryption;
+  /** Indicates the OS on a disk supports hibernation. */
+  supportsHibernation?: boolean;
+  /** Policy for accessing the disk via network. */
+  networkAccessPolicy?: NetworkAccessPolicy;
+  /** Policy for controlling export on the disk. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** ARM id of the DiskAccess resource for using private endpoints on disks. */
+  diskAccessId?: string;
+  /** Percentage complete for the background copy of disk restore point when source resource is from a different region. */
+  completionPercent?: number;
+  /** Replication state of disk restore point when source resource is from a different region. */
+  readonly replicationState?: string;
+  /** Location of source disk or source disk restore point when source resource is from a different region. */
+  readonly sourceResourceLocation?: string;
+  /** Contains the security related information for the resource. */
+  securityProfile?: DiskSecurityProfile;
+  /** Logical sector size in bytes for disk restore points of UltraSSD_LRS and PremiumV2_LRS disks. Supported values are 512 and 4096. 4096 is the default. */
+  readonly logicalSectorSize?: number;
 }
 
 export function diskRestorePointDeserializer(item: any): DiskRestorePoint {
@@ -2478,9 +2817,9 @@ export function diskRestorePointDeserializer(item: any): DiskRestorePoint {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : diskRestorePointPropertiesDeserializer(item["properties"]),
+      : diskRestorePointPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -2524,9 +2863,13 @@ export interface DiskRestorePointProperties {
   readonly logicalSectorSize?: number;
 }
 
-export function diskRestorePointPropertiesDeserializer(item: any): DiskRestorePointProperties {
+export function diskRestorePointPropertiesDeserializer(
+  item: any,
+): DiskRestorePointProperties {
   return {
-    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
+    timeCreated: !item["timeCreated"]
+      ? item["timeCreated"]
+      : new Date(item["timeCreated"]),
     sourceResourceId: item["sourceResourceId"],
     osType: item["osType"],
     hyperVGeneration: item["hyperVGeneration"],
@@ -2563,14 +2906,18 @@ export interface _DiskRestorePointList {
   nextLink?: string;
 }
 
-export function _diskRestorePointListDeserializer(item: any): _DiskRestorePointList {
+export function _diskRestorePointListDeserializer(
+  item: any,
+): _DiskRestorePointList {
   return {
     value: diskRestorePointArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function diskRestorePointArrayDeserializer(result: Array<DiskRestorePoint>): any[] {
+export function diskRestorePointArrayDeserializer(
+  result: Array<DiskRestorePoint>,
+): any[] {
   return result.map((item) => {
     return diskRestorePointDeserializer(item);
   });

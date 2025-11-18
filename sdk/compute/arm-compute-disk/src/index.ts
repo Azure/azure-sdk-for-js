@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import {
+  AzureClouds,
+  AzureSupportedClouds,
+} from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,

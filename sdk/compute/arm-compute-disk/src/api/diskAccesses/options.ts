@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure-rest/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface DiskAccessesListPrivateEndpointConnectionsOptionalParams
@@ -22,16 +22,19 @@ export interface DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams
 }
 
 /** Optional parameters. */
-export interface DiskAccessesGetAPrivateEndpointConnectionOptionalParams extends OperationOptions {}
+export interface DiskAccessesGetAPrivateEndpointConnectionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface DiskAccessesGetPrivateLinkResourcesOptionalParams extends OperationOptions {}
+export interface DiskAccessesGetPrivateLinkResourcesOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface DiskAccessesListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface DiskAccessesListByResourceGroupOptionalParams extends OperationOptions {}
+export interface DiskAccessesListByResourceGroupOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface DiskAccessesDeleteOptionalParams extends OperationOptions {
@@ -46,7 +49,8 @@ export interface DiskAccessesUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface DiskAccessesCreateOrUpdateOptionalParams extends OperationOptions {
+export interface DiskAccessesCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

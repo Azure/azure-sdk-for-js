@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import { ComputeContext } from "../../api/computeContext.js";
 import {
   revokeAccess,
   grantAccess,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/snapshots/operations.js";
-import type {
+import {
   SnapshotsRevokeAccessOptionalParams,
   SnapshotsGrantAccessOptionalParams,
   SnapshotsListOptionalParams,
@@ -22,9 +22,14 @@ import type {
   SnapshotsCreateOrUpdateOptionalParams,
   SnapshotsGetOptionalParams,
 } from "../../api/snapshots/options.js";
-import type { GrantAccessData, AccessUri, Snapshot, SnapshotUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  GrantAccessData,
+  AccessUri,
+  Snapshot,
+  SnapshotUpdate,
+} from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Snapshots operations. */
 export interface SnapshotsOperations {
@@ -42,7 +47,9 @@ export interface SnapshotsOperations {
     options?: SnapshotsGrantAccessOptionalParams,
   ) => PollerLike<OperationState<AccessUri>, AccessUri>;
   /** Lists snapshots under a subscription. */
-  list: (options?: SnapshotsListOptionalParams) => PagedAsyncIterableIterator<Snapshot>;
+  list: (
+    options?: SnapshotsListOptionalParams,
+  ) => PagedAsyncIterableIterator<Snapshot>;
   /** Lists snapshots under a resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
@@ -93,7 +100,14 @@ function _getSnapshots(context: ComputeContext) {
       snapshotName: string,
       grantAccessData: GrantAccessData,
       options?: SnapshotsGrantAccessOptionalParams,
-    ) => grantAccess(context, resourceGroupName, snapshotName, grantAccessData, options),
+    ) =>
+      grantAccess(
+        context,
+        resourceGroupName,
+        snapshotName,
+        grantAccessData,
+        options,
+      ),
     list: (options?: SnapshotsListOptionalParams) => list(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
@@ -115,13 +129,25 @@ function _getSnapshots(context: ComputeContext) {
       snapshotName: string,
       snapshot: Snapshot,
       options?: SnapshotsCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, snapshotName, snapshot, options),
-    get: (resourceGroupName: string, snapshotName: string, options?: SnapshotsGetOptionalParams) =>
-      get(context, resourceGroupName, snapshotName, options),
+    ) =>
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        snapshotName,
+        snapshot,
+        options,
+      ),
+    get: (
+      resourceGroupName: string,
+      snapshotName: string,
+      options?: SnapshotsGetOptionalParams,
+    ) => get(context, resourceGroupName, snapshotName, options),
   };
 }
 
-export function _getSnapshotsOperations(context: ComputeContext): SnapshotsOperations {
+export function _getSnapshotsOperations(
+  context: ComputeContext,
+): SnapshotsOperations {
   return {
     ..._getSnapshots(context),
   };
