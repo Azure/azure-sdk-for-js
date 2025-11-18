@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets information about the specified application security group.
  *
  * @summary Gets information about the specified application security group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/ApplicationSecurityGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/ApplicationSecurityGroupGet.json
  */
 async function getApplicationSecurityGroup(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

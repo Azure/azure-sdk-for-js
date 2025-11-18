@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Resets the VpnLink connection specified.
  *
  * @summary Resets the VpnLink connection specified.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VpnSiteLinkConnectionReset.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VpnSiteLinkConnectionReset.json
  */
 async function resetVpnLinkConnection(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

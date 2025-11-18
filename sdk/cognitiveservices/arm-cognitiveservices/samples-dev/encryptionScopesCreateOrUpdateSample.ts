@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  EncryptionScope} from "@azure/arm-cognitiveservices";
 import {
-  EncryptionScope,
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -12,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update the state of specified encryptionScope associated with the Cognitive Services account.
  *
  * @summary Update the state of specified encryptionScope associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/PutEncryptionScope.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/PutEncryptionScope.json
  */
 async function putEncryptionScope(): Promise<void> {
   const subscriptionId =

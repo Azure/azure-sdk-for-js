@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists active security admin rules in a network manager.
  *
  * @summary Lists active security admin rules in a network manager.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerActiveSecurityAdminRulesList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerActiveSecurityAdminRulesList.json
  */
 async function listActiveSecurityAdminRules(): Promise<void> {
   const subscriptionId =
