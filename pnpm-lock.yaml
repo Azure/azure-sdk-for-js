@@ -4380,7 +4380,7 @@ importers:
         version: 16.6.1
       eslint:
         specifier: 'catalog:'
-        version: 9.38.0
+        version: 9.39.1
       playwright:
         specifier: catalog:testing
         version: 1.56.1
@@ -6028,7 +6028,7 @@ importers:
         version: 16.6.1
       eslint:
         specifier: 'catalog:'
-        version: 9.38.0
+        version: 9.39.1
       playwright:
         specifier: catalog:testing
         version: 1.56.1
