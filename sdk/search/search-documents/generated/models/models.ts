@@ -628,6 +628,75 @@ export function indexerRuntimeDeserializer(item: any): IndexerRuntime {
   };
 }
 
+/** The type of activity record. */
+export enum KnownKnowledgeBaseActivityRecordType {
+  /** Search index retrieval activity. */
+  SearchIndex = "searchIndex",
+  /** Azure Blob retrieval activity. */
+  AzureBlob = "azureBlob",
+  /** Indexed SharePoint retrieval activity. */
+  IndexedSharePoint = "indexedSharePoint",
+  /** Indexed OneLake retrieval activity. */
+  IndexedOneLake = "indexedOneLake",
+  /** Web retrieval activity. */
+  Web = "web",
+  /** Remote SharePoint retrieval activity. */
+  RemoteSharePoint = "remoteSharePoint",
+  /** LLM query planning activity. */
+  ModelQueryPlanning = "modelQueryPlanning",
+  /** LLM answer synthesis activity. */
+  ModelAnswerSynthesis = "modelAnswerSynthesis",
+  /** Agentic reasoning activity. */
+  AgenticReasoning = "agenticReasoning",
+}
+
+/**
+ * The type of activity record. \
+ * {@link KnownKnowledgeBaseActivityRecordType} can be used interchangeably with KnowledgeBaseActivityRecordType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **searchIndex**: Search index retrieval activity. \
+ * **azureBlob**: Azure Blob retrieval activity. \
+ * **indexedSharePoint**: Indexed SharePoint retrieval activity. \
+ * **indexedOneLake**: Indexed OneLake retrieval activity. \
+ * **web**: Web retrieval activity. \
+ * **remoteSharePoint**: Remote SharePoint retrieval activity. \
+ * **modelQueryPlanning**: LLM query planning activity. \
+ * **modelAnswerSynthesis**: LLM answer synthesis activity. \
+ * **agenticReasoning**: Agentic reasoning activity.
+ */
+export type KnowledgeBaseActivityRecordType = string;
+
+/** The type of reference. */
+export enum KnownKnowledgeBaseReferenceType {
+  /** Search index document reference. */
+  SearchIndex = "searchIndex",
+  /** Azure Blob document reference. */
+  AzureBlob = "azureBlob",
+  /** Indexed SharePoint document reference. */
+  IndexedSharePoint = "indexedSharePoint",
+  /** Indexed OneLake document reference. */
+  IndexedOneLake = "indexedOneLake",
+  /** Web document reference. */
+  Web = "web",
+  /** Remote SharePoint document reference. */
+  RemoteSharePoint = "remoteSharePoint",
+}
+
+/**
+ * The type of reference. \
+ * {@link KnownKnowledgeBaseReferenceType} can be used interchangeably with KnowledgeBaseReferenceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **searchIndex**: Search index document reference. \
+ * **azureBlob**: Azure Blob document reference. \
+ * **indexedSharePoint**: Indexed SharePoint document reference. \
+ * **indexedOneLake**: Indexed OneLake document reference. \
+ * **web**: Web document reference. \
+ * **remoteSharePoint**: Remote SharePoint document reference.
+ */
+export type KnowledgeBaseReferenceType = string;
+
 /** Represents the status and synchronization history of a knowledge source. */
 export interface KnowledgeSourceStatus {
   /** The current synchronization status. */

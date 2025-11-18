@@ -2640,7 +2640,7 @@ export interface SemanticConfiguration {
 
 // @public
 export interface SemanticField {
-    fieldName: string;
+    name: string;
 }
 
 // @public

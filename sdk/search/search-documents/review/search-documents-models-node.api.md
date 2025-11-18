@@ -59,6 +59,12 @@ export interface IndexerRuntime {
 }
 
 // @public
+export type KnowledgeBaseActivityRecordType = string;
+
+// @public
+export type KnowledgeBaseReferenceType = string;
+
+// @public
 export type KnowledgeSourceContentExtractionMode = string;
 
 // @public
@@ -108,6 +114,29 @@ export interface KnowledgeSourceStatus {
 
 // @public
 export type KnowledgeSourceSynchronizationStatus = string;
+
+// @public
+export enum KnownKnowledgeBaseActivityRecordType {
+    AgenticReasoning = "agenticReasoning",
+    AzureBlob = "azureBlob",
+    IndexedOneLake = "indexedOneLake",
+    IndexedSharePoint = "indexedSharePoint",
+    ModelAnswerSynthesis = "modelAnswerSynthesis",
+    ModelQueryPlanning = "modelQueryPlanning",
+    RemoteSharePoint = "remoteSharePoint",
+    SearchIndex = "searchIndex",
+    Web = "web"
+}
+
+// @public
+export enum KnownKnowledgeBaseReferenceType {
+    AzureBlob = "azureBlob",
+    IndexedOneLake = "indexedOneLake",
+    IndexedSharePoint = "indexedSharePoint",
+    RemoteSharePoint = "remoteSharePoint",
+    SearchIndex = "searchIndex",
+    Web = "web"
+}
 
 // @public
 export enum KnownKnowledgeSourceContentExtractionMode {

@@ -24,7 +24,7 @@ export interface KnowledgeBaseActivityRecord {
     elapsedMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
-    type: string;
+    type: KnowledgeBaseActivityRecordType;
 }
 
 // @public
@@ -124,7 +124,7 @@ export interface KnowledgeBaseReference {
     id: string;
     rerankerScore?: number;
     sourceData?: Record<string, string>;
-    type: string;
+    type: KnowledgeBaseReferenceType;
 }
 
 // @public

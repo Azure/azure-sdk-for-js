@@ -4423,16 +4423,16 @@ export function semanticPrioritizedFieldsDeserializer(item: any): SemanticPriori
 /** A field that is used as part of the semantic configuration. */
 export interface SemanticField {
   /** File name */
-  fieldName: string;
+  name: string;
 }
 
 export function semanticFieldSerializer(item: SemanticField): any {
-  return { fieldName: item["fieldName"] };
+  return { fieldName: item["name"] };
 }
 
 export function semanticFieldDeserializer(item: any): SemanticField {
   return {
-    fieldName: item["fieldName"],
+    name: item["fieldName"],
   };
 }
 

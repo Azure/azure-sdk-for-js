@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { KnowledgeBaseActivityRecordType, KnowledgeBaseReferenceType } from "../../../../models.js";
 import { KnowledgeSourceKind } from "../indexes/models.js";
 
 /**
@@ -760,13 +761,13 @@ export function knowledgeBaseActivityRecordUnionArrayDeserializer(
   });
 }
 
-/** Base type for activity records. */
+/** Base type for activity records. Tracks execution details, timing, and errors for knowledge base operations. */
 export interface KnowledgeBaseActivityRecord {
   /** The ID of the activity record. */
   id: number;
   /** The type of the activity record. */
   /** The discriminator possible values: modelQueryPlanning, modelAnswerSynthesis, agenticReasoning */
-  type: string;
+  type: KnowledgeBaseActivityRecordType;
   /** The elapsed time in milliseconds for the retrieval activity. */
   elapsedMs?: number;
   /** The error detail explaining why the operation failed. This property is only included when the activity does not succeed. */
@@ -958,7 +959,7 @@ export function knowledgeBaseReferenceUnionArrayDeserializer(
 export interface KnowledgeBaseReference {
   /** The type of the reference. */
   /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint */
-  type: string;
+  type: KnowledgeBaseReferenceType;
   /** The ID of the reference. */
   id: string;
   /** The source activity ID for the reference. */

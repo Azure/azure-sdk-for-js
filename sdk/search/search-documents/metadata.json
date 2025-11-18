@@ -402,6 +402,8 @@
       "@azure/search-documents!KnownIndexProjectionMode:enum": "Search.IndexProjectionMode",
       "@azure/search-documents!KnownKnowledgeBaseMessageContentType:enum": "Search.KnowledgeBaseMessageContentType",
       "@azure/search-documents!KnownKnowledgeRetrievalIntentType:enum": "Search.KnowledgeRetrievalIntentType",
+      "@azure/search-documents!KnownKnowledgeBaseActivityRecordType:enum": "Search.KnowledgeBaseActivityRecordType",
+      "@azure/search-documents!KnownKnowledgeBaseReferenceType:enum": "Search.KnowledgeBaseReferenceType",
       "@azure/search-documents!KnownIndexerResyncOption:enum": "Search.IndexerResyncOption",
       "@azure/search-documents!KnownKnowledgeSourceSynchronizationStatus:enum": "Search.KnowledgeSourceSynchronizationStatus",
       "@azure/search-documents!SearchClient#autocompletePost:member(1)": "Customizations.SearchClient.Documents.autocompletePost",

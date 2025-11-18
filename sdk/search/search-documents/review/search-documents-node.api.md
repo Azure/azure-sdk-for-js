@@ -223,7 +223,8 @@ export interface BaseKnowledgeBaseActivityRecord {
     elapsedMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
-    type: string;
+    // Warning: (ae-forgotten-export) The symbol "KnowledgeBaseActivityRecordType" needs to be exported by the entry point index.d.ts
+    type: KnowledgeBaseActivityRecordType;
 }
 
 // @public
@@ -244,7 +245,8 @@ export interface BaseKnowledgeBaseReference {
     id: string;
     rerankerScore?: number;
     sourceData?: Record<string, string>;
-    type: string;
+    // Warning: (ae-forgotten-export) The symbol "KnowledgeBaseReferenceType" needs to be exported by the entry point index.d.ts
+    type: KnowledgeBaseReferenceType;
 }
 
 // @public
@@ -3658,7 +3660,7 @@ export type SemanticErrorReason = `${KnownSemanticErrorReason}`;
 
 // @public
 export interface SemanticField {
-    fieldName: string;
+    name: string;
 }
 
 // @public
