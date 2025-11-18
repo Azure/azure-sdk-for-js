@@ -1636,6 +1636,9 @@ sdk/containerservice/arm-containerservicesafeguards/ @qiaozha @MaryGao
 sdk/workloadorchestration/arm-workloadorchestration/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+sdk/disconnectedoperations/arm-disconnectedoperations/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 sdk/compute/arm-computerecommender/ @qiaozha @MaryGao
 
 ###########
