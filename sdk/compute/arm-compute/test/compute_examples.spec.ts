@@ -6,15 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ComputeManagementClient } from "../src/computeManagementClient.js";
-import {
-  NetworkManagementClient,
-  VirtualNetwork,
-  NetworkInterface,
-  Subnet,
-} from "@azure/arm-network";
+import type { VirtualNetwork, NetworkInterface, Subnet } from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
@@ -75,7 +72,7 @@ describe("Compute test", () => {
     await recorder.stop();
   });
 
-  //network_client.virtualNetworks.createOrUpdate
+  // network_client.virtualNetworks.createOrUpdate
   async function createVirtualNetwork(): Promise<void> {
     const parameter: VirtualNetwork = {
       location: location,
@@ -102,7 +99,7 @@ describe("Compute test", () => {
     );
   }
 
-  //network_client.networkInterfaces.createOrUpdate
+  // network_client.networkInterfaces.createOrUpdate
   async function createNetworkInterface(
     group_name: any,
     location: any,

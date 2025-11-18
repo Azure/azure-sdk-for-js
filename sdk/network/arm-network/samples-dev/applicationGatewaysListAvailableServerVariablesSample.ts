@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all available server variables.
  *
  * @summary Lists all available server variables.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/ApplicationGatewayAvailableServerVariablesGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/ApplicationGatewayAvailableServerVariablesGet.json
  */
 async function getAvailableServerVariables(): Promise<void> {
   const subscriptionId =

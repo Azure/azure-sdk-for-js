@@ -598,6 +598,8 @@ export interface ApplicationGatewayOnDemandProbe {
   timeout?: number;
   /** Whether the host header should be picked from the backend http settings. Default value is false. */
   pickHostNameFromBackendHttpSettings?: boolean;
+  /** Whether to send Proxy Protocol header along with the Health Probe over TCP or TLS protocol. Default value is false. */
+  enableProbeProxyProtocolHeader?: boolean;
   /** Criterion for classifying a healthy probe response. */
   match?: ApplicationGatewayProbeHealthResponseMatch;
   /** Reference to backend pool of application gateway to which probe request will be sent. */
@@ -5952,6 +5954,16 @@ export interface VirtualNetworkGatewayConnectionTunnelProperties {
   bgpPeeringAddress?: string;
 }
 
+/** Certificate Authentication information for a certificate based authentication connection. */
+export interface CertificateAuthentication {
+  /** Keyvault secret ID for outbound authentication certificate. */
+  outboundAuthCertificate?: string;
+  /** Inbound authentication certificate subject name. */
+  inboundAuthCertificateSubjectName?: string;
+  /** Inbound authentication certificate public keys. */
+  inboundAuthCertificateChain?: string[];
+}
+
 /** Response for the ListVirtualNetworkGatewayConnections API service call. */
 export interface VirtualNetworkGatewayConnectionListResult {
   /** A list of VirtualNetworkGatewayConnection resources that exists in a resource group. */
@@ -7349,6 +7361,8 @@ export interface ApplicationGatewayProbe extends SubResource {
   minServers?: number;
   /** Criterion for classifying a healthy probe response. */
   match?: ApplicationGatewayProbeHealthResponseMatch;
+  /** Whether to send Proxy Protocol header along with the Health Probe over TCP or TLS protocol. Default value is false. */
+  enableProbeProxyProtocolHeader?: boolean;
   /**
    * The provisioning state of the probe resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -7778,7 +7792,7 @@ export interface Subnet extends SubResource {
   applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
   /** Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty. */
   sharingScope?: SharingScope;
-  /** Set this property to false to disable default outbound connectivity for all VMs in the subnet. This property can only be set at the time of subnet creation and cannot be updated for an existing subnet. */
+  /** Set this property to false to disable default outbound connectivity for all VMs in the subnet. */
   defaultOutboundAccess?: boolean;
   /** A list of IPAM Pools for allocating IP address prefixes. */
   ipamPoolPrefixAllocations?: IpamPoolPrefixAllocation[];
@@ -8105,6 +8119,8 @@ export interface ApplicationGatewayBackendSettings extends SubResource {
   hostName?: string;
   /** Whether to pick server name indication from the host name of the backend server for Tls protocol. Default value is false. */
   pickHostNameFromBackendAddress?: boolean;
+  /** Whether to send Proxy Protocol header to backend servers over TCP or TLS protocols. Default value is false. */
+  enableL4ClientIpPreservation?: boolean;
   /**
    * The provisioning state of the backend HTTP settings resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -10255,6 +10271,8 @@ export interface PrivateLinkService extends Resource {
   ipConfigurations?: PrivateLinkServiceIpConfiguration[];
   /** The destination IP address of the private link service. */
   destinationIPAddress?: string;
+  /** The access mode of the private link service. */
+  accessMode?: AccessMode;
   /**
    * An array of references to the network interfaces created for this private link service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -11400,6 +11418,8 @@ export interface LoadBalancer extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /** Indicates the scope of the load balancer: external (Public) or internal (Private). */
+  scope?: LoadBalancerScope;
 }
 
 /** The Managed Network resource */
@@ -12000,6 +12020,10 @@ export interface VirtualNetworkGatewayConnection extends Resource {
   expressRouteGatewayBypass?: boolean;
   /** Bypass the ExpressRoute gateway when accessing private-links. ExpressRoute FastPath (expressRouteGatewayBypass) must be enabled. */
   enablePrivateLinkFastPath?: boolean;
+  /** Gateway connection authentication type. */
+  authenticationType?: ConnectionAuthenticationType;
+  /** Certificate Authentication information for a certificate based authentication connection. */
+  certificateAuthentication?: CertificateAuthentication;
 }
 
 /** VirtualRouter Resource. */
@@ -12608,6 +12632,8 @@ export interface NetworkManagerRoutingConfiguration extends ChildResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceGuid?: string;
+  /** Route table usage mode defines which route table will be used by the configuration. If not defined, this will default to 'ManagedOnly'. */
+  routeTableUsageMode?: RouteTableUsageMode;
 }
 
 /** Defines the routing rule collection. */
@@ -14155,6 +14181,24 @@ export enum KnownNetworkInterfaceNicType {
  * **Elastic**
  */
 export type NetworkInterfaceNicType = string;
+
+/** Known values of {@link AccessMode} that the service accepts. */
+export enum KnownAccessMode {
+  /** Allows unrestricted access to the private link service. */
+  Default = "Default",
+  /** Limits access to subscriptions which are inside visibility list only. */
+  Restricted = "Restricted",
+}
+
+/**
+ * Defines values for AccessMode. \
+ * {@link KnownAccessMode} can be used interchangeably with AccessMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: Allows unrestricted access to the private link service. \
+ * **Restricted**: Limits access to subscriptions which are inside visibility list only.
+ */
+export type AccessMode = string;
 
 /** Known values of {@link NetworkInterfaceMigrationPhase} that the service accepts. */
 export enum KnownNetworkInterfaceMigrationPhase {
@@ -15959,6 +16003,24 @@ export enum KnownLoadBalancerOutboundRuleProtocol {
  */
 export type LoadBalancerOutboundRuleProtocol = string;
 
+/** Known values of {@link LoadBalancerScope} that the service accepts. */
+export enum KnownLoadBalancerScope {
+  /** Public */
+  Public = "Public",
+  /** Private */
+  Private = "Private",
+}
+
+/**
+ * Defines values for LoadBalancerScope. \
+ * {@link KnownLoadBalancerScope} can be used interchangeably with LoadBalancerScope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Public** \
+ * **Private**
+ */
+export type LoadBalancerScope = string;
+
 /** Known values of {@link EffectiveRouteSource} that the service accepts. */
 export enum KnownEffectiveRouteSource {
   /** Unknown */
@@ -16277,11 +16339,29 @@ export enum KnownScopeConnectionState {
  */
 export type ScopeConnectionState = string;
 
+/** Known values of {@link RouteTableUsageMode} that the service accepts. */
+export enum KnownRouteTableUsageMode {
+  /** Only route tables managed by the routing configuration will be used. */
+  ManagedOnly = "ManagedOnly",
+  /** Use existing user-defined route tables already associated with resources. */
+  UseExisting = "UseExisting",
+}
+
+/**
+ * Defines values for RouteTableUsageMode. \
+ * {@link KnownRouteTableUsageMode} can be used interchangeably with RouteTableUsageMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ManagedOnly**: Only route tables managed by the routing configuration will be used. \
+ * **UseExisting**: Use existing user-defined route tables already associated with resources.
+ */
+export type RouteTableUsageMode = string;
+
 /** Known values of {@link DisableBgpRoutePropagation} that the service accepts. */
 export enum KnownDisableBgpRoutePropagation {
-  /** False */
+  /** BGP route propagation is enabled. */
   False = "False",
-  /** True */
+  /** BGP route propagation is disabled. */
   True = "True",
 }
 
@@ -16290,16 +16370,16 @@ export enum KnownDisableBgpRoutePropagation {
  * {@link KnownDisableBgpRoutePropagation} can be used interchangeably with DisableBgpRoutePropagation,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **False** \
- * **True**
+ * **False**: BGP route propagation is enabled. \
+ * **True**: BGP route propagation is disabled.
  */
 export type DisableBgpRoutePropagation = string;
 
 /** Known values of {@link RoutingRuleDestinationType} that the service accepts. */
 export enum KnownRoutingRuleDestinationType {
-  /** AddressPrefix */
+  /** Destination specified as an IP address prefix (CIDR). */
   AddressPrefix = "AddressPrefix",
-  /** ServiceTag */
+  /** Destination specified as an Azure service tag. */
   ServiceTag = "ServiceTag",
 }
 
@@ -16308,22 +16388,22 @@ export enum KnownRoutingRuleDestinationType {
  * {@link KnownRoutingRuleDestinationType} can be used interchangeably with RoutingRuleDestinationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AddressPrefix** \
- * **ServiceTag**
+ * **AddressPrefix**: Destination specified as an IP address prefix (CIDR). \
+ * **ServiceTag**: Destination specified as an Azure service tag.
  */
 export type RoutingRuleDestinationType = string;
 
 /** Known values of {@link RoutingRuleNextHopType} that the service accepts. */
 export enum KnownRoutingRuleNextHopType {
-  /** Internet */
+  /** Forward traffic to the Internet. */
   Internet = "Internet",
-  /** NoNextHop */
+  /** No next hop will be used. */
   NoNextHop = "NoNextHop",
-  /** VirtualAppliance */
+  /** Forward traffic to a specified virtual appliance IP address. */
   VirtualAppliance = "VirtualAppliance",
-  /** VirtualNetworkGateway */
+  /** Forward traffic to the virtual network gateway. */
   VirtualNetworkGateway = "VirtualNetworkGateway",
-  /** VnetLocal */
+  /** Keep traffic within the local virtual network */
   VnetLocal = "VnetLocal",
 }
 
@@ -16332,11 +16412,11 @@ export enum KnownRoutingRuleNextHopType {
  * {@link KnownRoutingRuleNextHopType} can be used interchangeably with RoutingRuleNextHopType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Internet** \
- * **NoNextHop** \
- * **VirtualAppliance** \
- * **VirtualNetworkGateway** \
- * **VnetLocal**
+ * **Internet**: Forward traffic to the Internet. \
+ * **NoNextHop**: No next hop will be used. \
+ * **VirtualAppliance**: Forward traffic to a specified virtual appliance IP address. \
+ * **VirtualNetworkGateway**: Forward traffic to the virtual network gateway. \
+ * **VnetLocal**: Keep traffic within the local virtual network
  */
 export type RoutingRuleNextHopType = string;
 
@@ -18349,6 +18429,24 @@ export enum KnownFailoverTestStatusForSingleTest {
  * **Expired**
  */
 export type FailoverTestStatusForSingleTest = string;
+
+/** Known values of {@link ConnectionAuthenticationType} that the service accepts. */
+export enum KnownConnectionAuthenticationType {
+  /** Pre-shared key authentication method for VPN gateway connections. */
+  PSK = "PSK",
+  /** Certificate-based authentication method for VPN gateway connections. */
+  Certificate = "Certificate",
+}
+
+/**
+ * Defines values for ConnectionAuthenticationType. \
+ * {@link KnownConnectionAuthenticationType} can be used interchangeably with ConnectionAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PSK**: Pre-shared key authentication method for VPN gateway connections. \
+ * **Certificate**: Certificate-based authentication method for VPN gateway connections.
+ */
+export type ConnectionAuthenticationType = string;
 
 /** Known values of {@link VirtualNetworkGatewayMigrationType} that the service accepts. */
 export enum KnownVirtualNetworkGatewayMigrationType {

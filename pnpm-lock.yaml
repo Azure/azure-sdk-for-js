@@ -5921,7 +5921,7 @@ importers:
         specifier: catalog:internal
         version: 4.11.1
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: workspace:^
         version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
@@ -5938,6 +5938,9 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.1
       playwright:
         specifier: catalog:testing
         version: 1.56.1
@@ -21637,22 +21640,22 @@ importers:
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../test-utils/test-credential
       '@azure-tools/test-recorder':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../test-utils/recorder
       '@azure-tools/test-utils-vitest':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
       '@azure/dev-tool':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
         version: 4.11.1
       '@azure/logger':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'

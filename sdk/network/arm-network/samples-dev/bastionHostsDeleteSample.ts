@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes the specified Bastion Host.
  *
  * @summary Deletes the specified Bastion Host.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/BastionHostDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/BastionHostDelete.json
  */
 async function deleteBastionHost(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function deleteBastionHost(): Promise<void> {
  * This sample demonstrates how to Deletes the specified Bastion Host.
  *
  * @summary Deletes the specified Bastion Host.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/BastionHostDeveloperDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/BastionHostDeveloperDelete.json
  */
 async function deleteDeveloperBastionHost(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

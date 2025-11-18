@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates a connection between an ExpressRoute gateway and an ExpressRoute circuit.
  *
  * @summary Creates a connection between an ExpressRoute gateway and an ExpressRoute circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/ExpressRouteConnectionCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/ExpressRouteConnectionCreate.json
  */
 async function expressRouteConnectionCreate(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to List Associated Resource in the Pool.
  *
  * @summary List Associated Resource in the Pool.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/IpamPools_ListAssociatedResources.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/IpamPools_ListAssociatedResources.json
  */
 async function ipamPoolsListAssociatedResources(): Promise<void> {
   const subscriptionId =
