@@ -322,7 +322,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   /**
    * Adds items to the result buffer. Handles both single items and arrays.
    */
-  protected addToBuffer(items: any[] | any): void {
+  private addToBuffer(items: any[] | any): void {
     if (Array.isArray(items)) {
       if (items.length > 0) {
         this.buffer.push(...items);
