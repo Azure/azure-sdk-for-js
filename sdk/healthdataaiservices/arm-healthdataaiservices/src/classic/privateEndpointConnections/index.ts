@@ -1,32 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HealthDataAIServicesContext } from "../../api/healthDataAIServicesContext.js";
+import type { HealthDataAIServicesContext } from "../../api/healthDataAIServicesContext.js";
 import {
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsCreateOptionalParams,
-  PrivateEndpointConnectionsDeleteOptionalParams,
+  listByDeidService,
+  $delete,
+  create,
+  get,
+} from "../../api/privateEndpointConnections/operations.js";
+import type {
   PrivateEndpointConnectionsListByDeidServiceOptionalParams,
-} from "../../api/options.js";
-import {
-  privateEndpointConnectionsGet,
-  privateEndpointConnectionsCreate,
-  privateEndpointConnectionsDelete,
-  privateEndpointConnectionsListByDeidService,
-} from "../../api/privateEndpointConnections/index.js";
-import { PrivateEndpointConnectionResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsCreateOptionalParams,
+  PrivateEndpointConnectionsGetOptionalParams,
+} from "../../api/privateEndpointConnections/options.js";
+import type { PrivateEndpointConnectionResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateEndpointConnections operations. */
 export interface PrivateEndpointConnectionsOperations {
-  /** Get a specific private connection */
-  get: (
+  /** List private endpoint connections on the given resource */
+  listByDeidService: (
+    resourceGroupName: string,
+    deidServiceName: string,
+    options?: PrivateEndpointConnectionsListByDeidServiceOptionalParams,
+  ) => PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
+  /** Delete the private endpoint connection */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
+  delete: (
     resourceGroupName: string,
     deidServiceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams,
-  ) => Promise<PrivateEndpointConnectionResource>;
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Create a Private endpoint connection */
   create: (
     resourceGroupName: string,
@@ -38,40 +49,29 @@ export interface PrivateEndpointConnectionsOperations {
     OperationState<PrivateEndpointConnectionResource>,
     PrivateEndpointConnectionResource
   >;
-  /** Delete the private endpoint connection */
-  delete: (
+  /** Get a specific private connection */
+  get: (
     resourceGroupName: string,
     deidServiceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** List private endpoint connections on the given resource */
-  listByDeidService: (
-    resourceGroupName: string,
-    deidServiceName: string,
-    options?: PrivateEndpointConnectionsListByDeidServiceOptionalParams,
-  ) => PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
+    options?: PrivateEndpointConnectionsGetOptionalParams,
+  ) => Promise<PrivateEndpointConnectionResource>;
 }
 
-export function getPrivateEndpointConnections(
-  context: HealthDataAIServicesContext,
-  subscriptionId: string,
-) {
+function _getPrivateEndpointConnections(context: HealthDataAIServicesContext) {
   return {
-    get: (
+    listByDeidService: (
+      resourceGroupName: string,
+      deidServiceName: string,
+      options?: PrivateEndpointConnectionsListByDeidServiceOptionalParams,
+    ) => listByDeidService(context, resourceGroupName, deidServiceName, options),
+    delete: (
       resourceGroupName: string,
       deidServiceName: string,
       privateEndpointConnectionName: string,
-      options?: PrivateEndpointConnectionsGetOptionalParams,
+      options?: PrivateEndpointConnectionsDeleteOptionalParams,
     ) =>
-      privateEndpointConnectionsGet(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        deidServiceName,
-        privateEndpointConnectionName,
-        options,
-      ),
+      $delete(context, resourceGroupName, deidServiceName, privateEndpointConnectionName, options),
     create: (
       resourceGroupName: string,
       deidServiceName: string,
@@ -79,49 +79,27 @@ export function getPrivateEndpointConnections(
       resource: PrivateEndpointConnectionResource,
       options?: PrivateEndpointConnectionsCreateOptionalParams,
     ) =>
-      privateEndpointConnectionsCreate(
+      create(
         context,
-        subscriptionId,
         resourceGroupName,
         deidServiceName,
         privateEndpointConnectionName,
         resource,
         options,
       ),
-    delete: (
+    get: (
       resourceGroupName: string,
       deidServiceName: string,
       privateEndpointConnectionName: string,
-      options?: PrivateEndpointConnectionsDeleteOptionalParams,
-    ) =>
-      privateEndpointConnectionsDelete(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        deidServiceName,
-        privateEndpointConnectionName,
-        options,
-      ),
-    listByDeidService: (
-      resourceGroupName: string,
-      deidServiceName: string,
-      options?: PrivateEndpointConnectionsListByDeidServiceOptionalParams,
-    ) =>
-      privateEndpointConnectionsListByDeidService(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        deidServiceName,
-        options,
-      ),
+      options?: PrivateEndpointConnectionsGetOptionalParams,
+    ) => get(context, resourceGroupName, deidServiceName, privateEndpointConnectionName, options),
   };
 }
 
-export function getPrivateEndpointConnectionsOperations(
+export function _getPrivateEndpointConnectionsOperations(
   context: HealthDataAIServicesContext,
-  subscriptionId: string,
 ): PrivateEndpointConnectionsOperations {
   return {
-    ...getPrivateEndpointConnections(context, subscriptionId),
+    ..._getPrivateEndpointConnections(context),
   };
 }

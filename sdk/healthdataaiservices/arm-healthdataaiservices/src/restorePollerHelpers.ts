@@ -1,25 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HealthDataAIServicesClient } from "./healthDataAIServicesClient.js";
+import type { HealthDataAIServicesClient } from "./healthDataAIServicesClient.js";
 import {
-  _deidServicesCreateDeserialize,
-  _deidServicesUpdateDeserialize,
-  _deidServicesDeleteDeserialize,
-} from "./api/deidServices/index.js";
+  _$deleteDeserialize,
+  _createDeserialize,
+} from "./api/privateEndpointConnections/operations.js";
 import {
-  _privateEndpointConnectionsCreateDeserialize,
-  _privateEndpointConnectionsDeleteDeserialize,
-} from "./api/privateEndpointConnections/index.js";
+  _$deleteDeserialize as _$deleteDeserializeDeidServices,
+  _updateDeserialize,
+  _createDeserialize as _createDeserializeDeidServices,
+} from "./api/deidServices/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -79,35 +75,35 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 }
 
 interface DeserializationHelper {
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
-      deserializer: _deidServicesCreateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
-    {
-      deserializer: _deidServicesUpdateDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
-    {
-      deserializer: _deidServicesDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
+      deserializer: _$deleteDeserialize,
+      expectedStatuses: ["202", "204", "200", "201"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
-      deserializer: _privateEndpointConnectionsCreateDeserialize,
-      expectedStatuses: ["200", "201"],
+      deserializer: _createDeserialize,
+      expectedStatuses: ["200", "201", "202"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
     {
-      deserializer: _privateEndpointConnectionsDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
+      deserializer: _$deleteDeserializeDeidServices,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
+    {
+      deserializer: _updateDeserialize,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
+    {
+      deserializer: _createDeserializeDeidServices,
+      expectedStatuses: ["200", "201", "202"],
     },
 };
 

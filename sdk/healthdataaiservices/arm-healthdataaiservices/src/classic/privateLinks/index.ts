@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HealthDataAIServicesContext } from "../../api/healthDataAIServicesContext.js";
-import { PrivateLinksListByDeidServiceOptionalParams } from "../../api/options.js";
-import { privateLinksListByDeidService } from "../../api/privateLinks/index.js";
-import { PrivateLinkResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { HealthDataAIServicesContext } from "../../api/healthDataAIServicesContext.js";
+import { listByDeidService } from "../../api/privateLinks/operations.js";
+import type { PrivateLinksListByDeidServiceOptionalParams } from "../../api/privateLinks/options.js";
+import type { PrivateLinkResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PrivateLinks operations. */
 export interface PrivateLinksOperations {
@@ -17,28 +17,20 @@ export interface PrivateLinksOperations {
   ) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
 
-export function getPrivateLinks(context: HealthDataAIServicesContext, subscriptionId: string) {
+function _getPrivateLinks(context: HealthDataAIServicesContext) {
   return {
     listByDeidService: (
       resourceGroupName: string,
       deidServiceName: string,
       options?: PrivateLinksListByDeidServiceOptionalParams,
-    ) =>
-      privateLinksListByDeidService(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        deidServiceName,
-        options,
-      ),
+    ) => listByDeidService(context, resourceGroupName, deidServiceName, options),
   };
 }
 
-export function getPrivateLinksOperations(
+export function _getPrivateLinksOperations(
   context: HealthDataAIServicesContext,
-  subscriptionId: string,
 ): PrivateLinksOperations {
   return {
-    ...getPrivateLinks(context, subscriptionId),
+    ..._getPrivateLinks(context),
   };
 }

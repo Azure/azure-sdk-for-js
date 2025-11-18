@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -10,14 +11,20 @@ import {
 export { HealthDataAIServicesClient } from "./healthDataAIServicesClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  PrivateLinkResource,
-  PrivateLinkResourceProperties,
-  ProxyResource,
-  Resource,
-  SystemData,
-  KnownCreatedByType,
-  CreatedByType,
-  PrivateEndpointConnectionResource,
+  Operation,
+  OperationDisplay,
+  KnownOrigin,
+  Origin,
+  KnownActionType,
+  ActionType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  DeidService,
+  DeidServiceProperties,
+  KnownProvisioningState,
+  ProvisioningState,
+  PrivateEndpointConnection,
   PrivateEndpointConnectionProperties,
   PrivateEndpoint,
   PrivateLinkServiceConnectionState,
@@ -25,43 +32,42 @@ export {
   PrivateEndpointServiceConnectionStatus,
   KnownPrivateEndpointConnectionProvisioningState,
   PrivateEndpointConnectionProvisioningState,
-  DeidService,
-  DeidServiceProperties,
-  KnownProvisioningState,
-  ProvisioningState,
-  PrivateEndpointConnection,
   PublicNetworkAccess,
   ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
+  Resource,
+  SystemData,
+  KnownCreatedByType,
+  CreatedByType,
   TrackedResource,
   DeidUpdate,
   ManagedServiceIdentityUpdate,
   DeidPropertiesUpdate,
-  Operation,
-  OperationDisplay,
-  KnownOrigin,
-  Origin,
-  KnownActionType,
-  ActionType,
+  PrivateEndpointConnectionResource,
+  ProxyResource,
+  PrivateLinkResource,
+  PrivateLinkResourceProperties,
   KnownVersions,
 } from "./models/index.js";
+export { HealthDataAIServicesClientOptionalParams } from "./api/index.js";
 export {
-  HealthDataAIServicesClientOptionalParams,
-  OperationsListOptionalParams,
-  DeidServicesGetOptionalParams,
-  DeidServicesListByResourceGroupOptionalParams,
-  DeidServicesListBySubscriptionOptionalParams,
-  DeidServicesCreateOptionalParams,
-  DeidServicesUpdateOptionalParams,
   DeidServicesDeleteOptionalParams,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsCreateOptionalParams,
-  PrivateEndpointConnectionsDeleteOptionalParams,
+  DeidServicesUpdateOptionalParams,
+  DeidServicesCreateOptionalParams,
+  DeidServicesListBySubscriptionOptionalParams,
+  DeidServicesListByResourceGroupOptionalParams,
+  DeidServicesGetOptionalParams,
+} from "./api/deidServices/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
+export {
   PrivateEndpointConnectionsListByDeidServiceOptionalParams,
-  PrivateLinksListByDeidServiceOptionalParams,
-} from "./api/index.js";
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsCreateOptionalParams,
+  PrivateEndpointConnectionsGetOptionalParams,
+} from "./api/privateEndpointConnections/index.js";
+export { PrivateLinksListByDeidServiceOptionalParams } from "./api/privateLinks/index.js";
 export {
   DeidServicesOperations,
   OperationsOperations,
@@ -69,3 +75,4 @@ export {
   PrivateLinksOperations,
 } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, AzureSupportedClouds };
