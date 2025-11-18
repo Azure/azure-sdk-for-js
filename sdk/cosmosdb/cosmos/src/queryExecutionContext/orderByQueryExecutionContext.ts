@@ -10,6 +10,7 @@ import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComp
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import { TargetPartitionRangeManager } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
+import { OrderByQueryProcessingStrategy } from "./queryProcessingStrategy/OrderByQueryProcessingStrategy.js";
 
 /** @hidden */
 export class OrderByQueryExecutionContext
@@ -41,9 +42,9 @@ export class OrderByQueryExecutionContext
     const rangeManager = TargetPartitionRangeManager.createForOrderByQuery({
       queryInfo: partitionedQueryExecutionInfo,
     });
-    
-    // Create ORDER BY query processing strategy (placeholder)
-    const processingStrategy: any = null;
+
+    // Create ORDER BY query processing strategy
+    const processingStrategy = new OrderByQueryProcessingStrategy();
 
     // Calling on base class constructor
     super(

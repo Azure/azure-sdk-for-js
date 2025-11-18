@@ -7,6 +7,7 @@ import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionConte
 import type { Response } from "../request/index.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import { TargetPartitionRangeManager } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
+import { ParallelQueryProcessingStrategy } from "./queryProcessingStrategy/ParallelQueryProcessingStrategy.js";
 
 /**
  * Provides the ParallelQueryExecutionContext.
@@ -28,9 +29,9 @@ export class ParallelQueryExecutionContext
     const rangeManager = TargetPartitionRangeManager.createForParallelQuery({
       queryInfo: partitionedQueryExecutionInfo,
     });
-    
-    // Create parallel query processing strategy (placeholder)
-    const processingStrategy: any = null;
+
+    // Create parallel query processing strategy
+    const processingStrategy = new ParallelQueryProcessingStrategy();
 
     // Calling on base class constructor
     super(

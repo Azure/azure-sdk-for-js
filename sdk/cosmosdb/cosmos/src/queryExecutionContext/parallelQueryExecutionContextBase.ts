@@ -17,9 +17,8 @@ import { DocumentProducer } from "./documentProducer.js";
 import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
 import type { FilterContext, FilterStrategy } from "./queryFilteringStrategy/FilterStrategy.js";
 import { RidSkipCountFilter } from "./queryFilteringStrategy/RidSkipCountFilter.js";
-import {
-  TargetPartitionRangeManager,
-} from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
+import { TargetPartitionRangeManager } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
+import type { QueryProcessingStrategy } from "./queryProcessingStrategy/QueryProcessingStrategy.js";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
@@ -92,7 +91,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
     private correlatedActivityId: string,
     private rangeManager: TargetPartitionRangeManager,
-    private queryProcessingStrategy: any,
+    private queryProcessingStrategy: QueryProcessingStrategy,
   ) {
     this.clientContext = clientContext;
     this.collectionLink = collectionLink;
@@ -161,14 +160,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           const parsedToken = this._parseContinuationToken(this.requestContinuation);
           const continuationRanges = await this._handlePartitionRangeChanges(parsedToken);
 
-          // For ORDER BY queries, get additional query info directly from parsed token
-          const isOrderByQuery = this.sortOrders && this.sortOrders.length > 0;
-          const additionalQueryInfo = isOrderByQuery
-            ? this._createAdditionalQueryInfo(
-                (parsedToken as OrderByQueryContinuationToken).orderByItems,
-                (parsedToken as OrderByQueryContinuationToken).documentRid,
-              )
-            : undefined;
+          // Use strategy to create additional query info from parsed token
+          const additionalQueryInfo =
+            this.queryProcessingStrategy.createAdditionalQueryInfo(parsedToken);
 
           const filterResult = this.rangeManager.filterPartitionRanges(
             targetPartitionRanges,
@@ -179,17 +173,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // Extract ranges and tokens from the combined result
           const rangeTokenPairs = filterResult.rangeTokenPairs;
 
-          // Create filter context for ORDER BY queries with continuation
-          let filterContext: FilterContext | undefined;
-          if (isOrderByQuery) {
-            const orderByToken = parsedToken as OrderByQueryContinuationToken;
-            filterContext = {
-              orderByItems: orderByToken.orderByItems,
-              rid: orderByToken.documentRid,
-              skipCount: orderByToken.skipCount,
-              sortOrders: this.sortOrders || [],
-            };
-          }
+          // Use strategy to create filter context for continuation token processing
+          const filterContext = this.queryProcessingStrategy.createFilterContext(
+            parsedToken,
+            this.sortOrders || [],
+          );
 
           rangeTokenPairs.forEach((rangeTokenPair) => {
             const partitionTargetRange = rangeTokenPair.range;
@@ -205,18 +193,17 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             const startEpk = matchingContinuationRange?.epkMin;
             const endEpk = matchingContinuationRange?.epkMax;
 
-            // Only apply filter to target partition for ORDER BY queries
-            // For ORDER BY queries, the target partition is the last range in continuation ranges
-            let partitionFilterContext: FilterContext | undefined;
-            if (filterContext && isOrderByQuery) {
-              const targetPartitionId =
-                continuationRanges.length > 0 &&
-                continuationRanges[continuationRanges.length - 1].range
-                  ? continuationRanges[continuationRanges.length - 1].range.id
-                  : undefined;
-              const isTargetPartition = targetPartitionId === partitionTargetRange.id;
-              partitionFilterContext = isTargetPartition ? filterContext : undefined;
-            }
+            // Use strategy to determine partition-specific filter context
+            const targetPartitionId =
+              continuationRanges.length > 0 &&
+              continuationRanges[continuationRanges.length - 1].range
+                ? continuationRanges[continuationRanges.length - 1].range.id
+                : undefined;
+            const partitionFilterContext = this.queryProcessingStrategy.getPartitionFilterContext(
+              filterContext,
+              targetPartitionId,
+              partitionTargetRange.id,
+            );
 
             const documentProducer = this._createTargetPartitionQueryExecutionContext(
               partitionTargetRange,
@@ -386,15 +373,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     }
 
     return minInclusiveComparison;
-  }
-
-
-
-  private _createAdditionalQueryInfo(orderByItems?: any[], rid?: string): any {
-    const info: any = {};
-    if (orderByItems) info.orderByItems = orderByItems;
-    if (rid) info.rid = rid;
-    return Object.keys(info).length > 0 ? info : undefined;
   }
 
   /**
