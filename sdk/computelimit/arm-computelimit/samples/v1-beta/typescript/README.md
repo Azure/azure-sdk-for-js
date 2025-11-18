@@ -1,4 +1,4 @@
-# @azure/arm-computelimit client library samples for TypeScript
+# @azure/arm-computelimit client library samples for TypeScript (Beta)
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-computelimit in some common scenarios.
 
@@ -64,15 +64,15 @@ node dist/guestSubscriptionsCreateSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[guestsubscriptionscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/typescript/src/guestSubscriptionsCreateSample.ts
-[guestsubscriptionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/typescript/src/guestSubscriptionsDeleteSample.ts
-[guestsubscriptionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/typescript/src/guestSubscriptionsGetSample.ts
-[guestsubscriptionslistbysubscriptionlocationresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/typescript/src/guestSubscriptionsListBySubscriptionLocationResourceSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/typescript/src/operationsListSample.ts
-[sharedlimitscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/typescript/src/sharedLimitsCreateSample.ts
-[sharedlimitsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/typescript/src/sharedLimitsDeleteSample.ts
-[sharedlimitsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/typescript/src/sharedLimitsGetSample.ts
-[sharedlimitslistbysubscriptionlocationresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1/typescript/src/sharedLimitsListBySubscriptionLocationResourceSample.ts
+[guestsubscriptionscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/typescript/src/guestSubscriptionsCreateSample.ts
+[guestsubscriptionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/typescript/src/guestSubscriptionsDeleteSample.ts
+[guestsubscriptionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/typescript/src/guestSubscriptionsGetSample.ts
+[guestsubscriptionslistbysubscriptionlocationresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/typescript/src/guestSubscriptionsListBySubscriptionLocationResourceSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/typescript/src/operationsListSample.ts
+[sharedlimitscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/typescript/src/sharedLimitsCreateSample.ts
+[sharedlimitsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/typescript/src/sharedLimitsDeleteSample.ts
+[sharedlimitsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/typescript/src/sharedLimitsGetSample.ts
+[sharedlimitslistbysubscriptionlocationresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/computelimit/arm-computelimit/samples/v1-beta/typescript/src/sharedLimitsListBySubscriptionLocationResourceSample.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-computelimit?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computelimit/arm-computelimit/README.md

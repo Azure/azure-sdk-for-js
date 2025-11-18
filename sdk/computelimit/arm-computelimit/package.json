@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-computelimit",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.1",
   "description": "A generated SDK for ComputeLimitClient.",
   "engines": {
     "node": ">=20.0.0"
