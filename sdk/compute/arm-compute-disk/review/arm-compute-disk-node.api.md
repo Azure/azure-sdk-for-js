@@ -128,7 +128,7 @@ export interface Disk extends TrackedResource {
     burstingEnabled?: boolean;
     readonly burstingEnabledTime?: Date;
     completionPercent?: number;
-    creationData: CreationData;
+    creationData?: CreationData;
     dataAccessAuthMode?: DataAccessAuthMode;
     diskAccessId?: string;
     diskIopsReadOnly?: number;
@@ -368,7 +368,7 @@ export interface DiskProperties {
     burstingEnabled?: boolean;
     readonly burstingEnabledTime?: Date;
     completionPercent?: number;
-    creationData: CreationData;
+    creationData?: CreationData;
     dataAccessAuthMode?: DataAccessAuthMode;
     diskAccessId?: string;
     diskIopsReadOnly?: number;
@@ -1046,7 +1046,7 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
 export interface Snapshot extends TrackedResource {
     completionPercent?: number;
     copyCompletionError?: CopyCompletionError;
-    creationData: CreationData;
+    creationData?: CreationData;
     dataAccessAuthMode?: DataAccessAuthMode;
     diskAccessId?: string;
     readonly diskSizeBytes?: number;
@@ -1080,7 +1080,7 @@ export type SnapshotAccessState = string;
 export interface SnapshotProperties {
     completionPercent?: number;
     copyCompletionError?: CopyCompletionError;
-    creationData: CreationData;
+    creationData?: CreationData;
     dataAccessAuthMode?: DataAccessAuthMode;
     diskAccessId?: string;
     readonly diskSizeBytes?: number;
