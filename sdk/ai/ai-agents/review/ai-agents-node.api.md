@@ -107,7 +107,7 @@ export interface AgentsNamedToolChoice {
 }
 
 // @public
-export type AgentsNamedToolChoiceType = "function" | "code_interpreter" | "file_search" | "bing_grounding" | "fabric_dataagent" | "sharepoint_grounding" | "azure_ai_search" | "bing_custom_search" | "connected_agent" | "deep_research" | "mcp";
+export type AgentsNamedToolChoiceType = "function" | "code_interpreter" | "file_search" | "bing_grounding" | "fabric_dataagent" | "sharepoint_grounding" | "azure_ai_search" | "bing_custom_search" | "connected_agent" | "deep_research" | "mcp" | "computer_use_preview";
 
 // @public
 export interface AgentsResponseFormat {
@@ -277,6 +277,14 @@ export interface BrowserAutomationToolParameters {
 }
 
 // @public
+export interface ClickAction extends ComputerUseAction {
+    button: MouseButton;
+    type: "click";
+    x: number;
+    y: number;
+}
+
+// @public
 export interface CodeInterpreterToolDefinition extends ToolDefinition {
     type: "code_interpreter";
 }
@@ -285,6 +293,44 @@ export interface CodeInterpreterToolDefinition extends ToolDefinition {
 export interface CodeInterpreterToolResource {
     dataSources?: VectorStoreDataSource[];
     fileIds?: string[];
+}
+
+// @public
+export interface ComputerScreenshot {
+    fileId?: string;
+    imageUrl?: string;
+    type: "computer_screenshot";
+}
+
+// @public
+export interface ComputerToolOutput extends StructuredToolOutput {
+    acknowledgedSafetyChecks?: SafetyCheck[];
+    output: ComputerScreenshot;
+    type: "computer_call_output";
+}
+
+// @public
+export interface ComputerUseAction {
+    type: string;
+}
+
+// @public
+export type ComputerUseActionUnion = ClickAction | DoubleClickAction | DragAction | KeyPressAction | MoveAction | ScreenshotAction | ScrollAction | TypeAction | WaitAction | ComputerUseAction;
+
+// @public
+export type ComputerUseEnvironment = "windows" | "mac" | "linux" | "browser";
+
+// @public
+export interface ComputerUseToolDefinition extends ToolDefinition {
+    computerUsePreview: ComputerUseToolParameters;
+    type: "computer_use_preview";
+}
+
+// @public
+export interface ComputerUseToolParameters {
+    displayHeight: number;
+    displayWidth: number;
+    environment: ComputerUseEnvironment;
 }
 
 // @public
@@ -313,6 +359,12 @@ export enum connectionToolType {
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
+
+// @public
+export interface CoordinatePoint {
+    x: number;
+    y: number;
+}
 
 // @public
 export interface CreateAgentOptionalParams extends OperationOptions {
@@ -370,6 +422,19 @@ export interface DeleteAgentOptionalParams extends OperationOptions {
 // @public
 export enum DoneEvent {
     Done = "done"
+}
+
+// @public
+export interface DoubleClickAction extends ComputerUseAction {
+    type: "double_click";
+    x: number;
+    y: number;
+}
+
+// @public
+export interface DragAction extends ComputerUseAction {
+    path: CoordinatePoint[];
+    type: "drag";
 }
 
 // @public
@@ -521,6 +586,12 @@ export interface IncompleteRunDetails {
 export function isOutputOfType<T extends {
     type: string;
 }>(output: RequiredAction | RequiredToolCall | ToolDefinitionUnion, type: string): output is T;
+
+// @public
+export interface KeyPressAction extends ComputerUseAction {
+    keys: string[];
+    type: "keypress";
+}
 
 // @public
 export enum KnownVersions {
@@ -891,6 +962,16 @@ export interface MicrosoftFabricToolDefinition extends ToolDefinition {
 }
 
 // @public
+export type MouseButton = "left" | "right" | "wheel" | "back" | "forward";
+
+// @public
+export interface MoveAction extends ComputerUseAction {
+    type: "move";
+    x: number;
+    y: number;
+}
+
+// @public
 export interface OpenApiAnonymousAuthDetails extends OpenApiAuthDetails {
     type: "anonymous";
 }
@@ -986,6 +1067,18 @@ export interface RequiredAction {
 export type RequiredActionUnion = SubmitToolOutputsAction | SubmitToolApprovalAction | RequiredAction;
 
 // @public
+export interface RequiredComputerUseToolCall extends RequiredToolCall {
+    computerUsePreview: RequiredComputerUseToolCallDetails;
+    type: "computer_use_preview";
+}
+
+// @public
+export interface RequiredComputerUseToolCallDetails {
+    action: ComputerUseActionUnion;
+    pendingSafetyChecks: SafetyCheck[];
+}
+
+// @public
 export interface RequiredFunctionToolCall extends RequiredToolCall {
     function: RequiredFunctionToolCallDetails;
     type: "function";
@@ -1012,7 +1105,7 @@ export interface RequiredToolCall {
 }
 
 // @public
-export type RequiredToolCallUnion = RequiredFunctionToolCall | RequiredMcpToolCall | RequiredToolCall;
+export type RequiredToolCallUnion = RequiredFunctionToolCall | RequiredMcpToolCall | RequiredComputerUseToolCall | RequiredToolCall;
 
 // @public
 export type ResponseFormat = "text" | "json_object";
@@ -1091,7 +1184,7 @@ export interface RunsOperations {
     createThreadAndRun: (assistantId: string, options?: CreateThreadAndRunOptionalParams) => AgentRunResponse;
     get: (threadId: string, runId: string, options?: RunsGetRunOptionalParams) => Promise<ThreadRun>;
     list: (threadId: string, options?: RunsListRunsOptionalParams) => PagedAsyncIterableIterator<ThreadRun>;
-    submitToolOutputs: (threadId: string, runId: string, toolOutputs: ToolOutput[], options?: RunsSubmitToolOutputsToRunOptionalParams) => AgentRunResponse;
+    submitToolOutputs: (threadId: string, runId: string, toolOutputs: StructuredToolOutputUnion[], options?: RunsSubmitToolOutputsToRunOptionalParams) => AgentRunResponse;
     update: (threadId: string, runId: string, options?: RunsUpdateRunOptionalParams) => Promise<ThreadRun>;
 }
 
@@ -1099,7 +1192,7 @@ export interface RunsOperations {
 export interface RunsSubmitToolOutputsToRunOptionalParams extends OperationOptions {
     stream?: boolean | null;
     toolApprovals?: ToolApproval[];
-    toolOutputs?: ToolOutput[];
+    toolOutputs?: StructuredToolOutputUnion[];
 }
 
 // @public
@@ -1206,6 +1299,20 @@ export interface RunStepCompletionUsage {
 }
 
 // @public
+export interface RunStepComputerUseToolCall extends RunStepToolCall {
+    computerUsePreview: RunStepComputerUseToolCallDetails;
+    type: "computer_use_preview";
+}
+
+// @public
+export interface RunStepComputerUseToolCallDetails {
+    acknowledgedSafetyChecks?: SafetyCheck[];
+    action: ComputerUseActionUnion;
+    output: ComputerScreenshot;
+    pendingSafetyChecks: SafetyCheck[];
+}
+
+// @public
 export interface RunStepConnectedAgent {
     agentId?: string;
     arguments?: string;
@@ -1299,6 +1406,20 @@ export type RunStepDeltaCodeInterpreterOutputUnion = RunStepDeltaCodeInterpreter
 export interface RunStepDeltaCodeInterpreterToolCall extends RunStepDeltaToolCall {
     codeInterpreter?: RunStepDeltaCodeInterpreterDetailItemObject;
     type: "code_interpreter";
+}
+
+// @public
+export interface RunStepDeltaComputerUseDetails {
+    acknowledgedSafetyChecks?: SafetyCheck[];
+    action?: ComputerUseActionUnion;
+    output?: ComputerScreenshot;
+    pendingSafetyChecks?: SafetyCheck[];
+}
+
+// @public
+export interface RunStepDeltaComputerUseToolCall extends RunStepDeltaToolCall {
+    computerUsePreview?: RunStepDeltaComputerUseDetails;
+    type: "computer_use_preview";
 }
 
 // @public
@@ -1408,7 +1529,7 @@ export interface RunStepDeltaToolCallObject extends RunStepDeltaDetail {
 }
 
 // @public
-export type RunStepDeltaToolCallUnion = RunStepDeltaMcpToolCall | RunStepDeltaOpenAPIToolCall | RunStepDeltaConnectedAgentToolCall | RunStepDeltaFunctionToolCall | RunStepDeltaFileSearchToolCall | RunStepDeltaCodeInterpreterToolCall | RunStepDeltaBingGroundingToolCall | RunStepDeltaCustomBingGroundingToolCall | RunStepDeltaAzureFunctionToolCall | RunStepDeltaDeepResearchToolCall | RunStepDeltaAzureAISearchToolCall | RunStepDeltaMicrosoftFabricToolCall | RunStepDeltaSharepointToolCall | RunStepDeltaToolCall;
+export type RunStepDeltaToolCallUnion = RunStepDeltaMcpToolCall | RunStepDeltaOpenAPIToolCall | RunStepDeltaConnectedAgentToolCall | RunStepDeltaFunctionToolCall | RunStepDeltaFileSearchToolCall | RunStepDeltaCodeInterpreterToolCall | RunStepDeltaBingGroundingToolCall | RunStepDeltaCustomBingGroundingToolCall | RunStepDeltaAzureFunctionToolCall | RunStepDeltaDeepResearchToolCall | RunStepDeltaAzureAISearchToolCall | RunStepDeltaComputerUseToolCall | RunStepDeltaMicrosoftFabricToolCall | RunStepDeltaSharepointToolCall | RunStepDeltaToolCall;
 
 // @public
 export interface RunStepDetails {
@@ -1553,7 +1674,7 @@ export interface RunStepToolCallDetails extends RunStepDetails {
 }
 
 // @public
-export type RunStepToolCallUnion = RunStepCodeInterpreterToolCall | RunStepFileSearchToolCall | RunStepBingGroundingToolCall | RunStepAzureAISearchToolCall | RunStepBrowserAutomationToolCall | RunStepMcpToolCall | RunStepSharepointToolCall | RunStepMicrosoftFabricToolCall | RunStepBingCustomSearchToolCall | RunStepAzureFunctionToolCall | RunStepFunctionToolCall | RunStepOpenAPIToolCall | RunStepDeepResearchToolCall | RunStepConnectedAgentToolCall | RunStepToolCall;
+export type RunStepToolCallUnion = RunStepCodeInterpreterToolCall | RunStepFileSearchToolCall | RunStepBingGroundingToolCall | RunStepAzureAISearchToolCall | RunStepBrowserAutomationToolCall | RunStepMcpToolCall | RunStepComputerUseToolCall | RunStepSharepointToolCall | RunStepMicrosoftFabricToolCall | RunStepBingCustomSearchToolCall | RunStepAzureFunctionToolCall | RunStepFunctionToolCall | RunStepOpenAPIToolCall | RunStepDeepResearchToolCall | RunStepConnectedAgentToolCall | RunStepToolCall;
 
 // @public
 export type RunStepType = "message_creation" | "tool_calls" | "activities";
@@ -1578,6 +1699,27 @@ export interface RunsUpdateRunOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface SafetyCheck {
+    code?: string;
+    id: string;
+    message?: string;
+}
+
+// @public
+export interface ScreenshotAction extends ComputerUseAction {
+    type: "screenshot";
+}
+
+// @public
+export interface ScrollAction extends ComputerUseAction {
+    scrollX: number;
+    scrollY: number;
+    type: "scroll";
+    x: number;
+    y: number;
+}
+
+// @public
 export interface SharepointGroundingToolParameters {
     connectionList?: ToolConnection[];
 }
@@ -1587,6 +1729,15 @@ export interface SharepointToolDefinition extends ToolDefinition {
     sharepointGrounding: SharepointGroundingToolParameters;
     type: "sharepoint_grounding";
 }
+
+// @public
+export interface StructuredToolOutput {
+    toolCallId?: string;
+    type: string;
+}
+
+// @public
+export type StructuredToolOutputUnion = ToolOutput | ComputerToolOutput | StructuredToolOutput;
 
 // @public
 export interface SubmitToolApprovalAction extends RequiredAction {
@@ -1736,12 +1887,12 @@ export interface ToolDefinition {
 }
 
 // @public
-export type ToolDefinitionUnion = CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | BingCustomSearchToolDefinition | ConnectedAgentToolDefinition | DeepResearchToolDefinition | MCPToolDefinition | AzureFunctionToolDefinition | BrowserAutomationToolDefinition | ToolDefinition;
+export type ToolDefinitionUnion = CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | BingCustomSearchToolDefinition | ConnectedAgentToolDefinition | DeepResearchToolDefinition | MCPToolDefinition | ComputerUseToolDefinition | AzureFunctionToolDefinition | BrowserAutomationToolDefinition | ToolDefinition;
 
 // @public
-export interface ToolOutput {
+export interface ToolOutput extends StructuredToolOutput {
     output?: string;
-    toolCallId?: string;
+    type: "function_call_output";
 }
 
 // @public
@@ -1806,6 +1957,10 @@ export class ToolUtility {
         definition: CodeInterpreterToolDefinition;
         resources: ToolResources;
     };
+    // (undocumented)
+    static createComputerUseTool(displayWidth: number, displayHeight: number, env: ComputerUseEnvironment): {
+        definition: ComputerUseToolDefinition;
+    };
     static createConnectedAgentTool(id: string, name: string, description: string): {
         definition: ConnectedAgentToolDefinition;
     };
@@ -1837,6 +1992,12 @@ export interface TruncationObject {
 
 // @public
 export type TruncationStrategy = "auto" | "last_messages";
+
+// @public
+export interface TypeAction extends ComputerUseAction {
+    text: string;
+    type: "type";
+}
 
 // @public
 export interface UpdateAgentOptionalParams extends OperationOptions {
@@ -2125,6 +2286,11 @@ export interface VectorStoreStaticChunkingStrategyResponse extends VectorStoreCh
 
 // @public
 export type VectorStoreStatus = "expired" | "in_progress" | "completed";
+
+// @public
+export interface WaitAction extends ComputerUseAction {
+    type: "wait";
+}
 
 // (No @packageDocumentation comment for this package)
 
