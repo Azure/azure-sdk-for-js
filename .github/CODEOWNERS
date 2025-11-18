@@ -480,6 +480,12 @@
 /sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/domainregistration/arm-domainregistration/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/certificateregistration/arm-certificateregistration/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/customer-insights/arm-customerinsights/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt

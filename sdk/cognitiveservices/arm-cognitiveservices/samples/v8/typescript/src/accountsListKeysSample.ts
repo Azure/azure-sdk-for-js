@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists the account keys for the specified Cognitive Services account.
  *
  * @summary Lists the account keys for the specified Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListKeys.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListKeys.json
  */
 async function listKeys(): Promise<void> {
   const subscriptionId =
