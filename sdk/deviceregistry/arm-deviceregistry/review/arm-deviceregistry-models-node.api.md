@@ -159,6 +159,11 @@ export interface BillingContainerProperties {
 }
 
 // @public
+export interface BrokerStateStoreDestinationConfiguration {
+    key: string;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -185,8 +190,86 @@ export interface Dataset {
 }
 
 // @public
+export interface DatasetBrokerStateStoreDestination extends DatasetDestination {
+    configuration: BrokerStateStoreDestinationConfiguration;
+    target: "BrokerStateStore";
+}
+
+// @public
+export interface DatasetDestination {
+    target?: DatasetDestinationTarget;
+}
+
+// @public
+export type DatasetDestinationTarget = string;
+
+// @public
+export type DatasetDestinationUnion = DatasetMqttDestination | DatasetBrokerStateStoreDestination | DatasetStorageDestination | DatasetDestination;
+
+// @public
+export interface DatasetMqttDestination extends DatasetDestination {
+    configuration: MqttDestinationConfiguration;
+    target: "Mqtt";
+}
+
+// @public
+export interface DatasetStorageDestination extends DatasetDestination {
+    configuration: StorageDestinationConfiguration;
+    target: "Storage";
+}
+
+// @public
+export interface DeviceMessagingEndpoint {
+    address: string;
+    endpointType?: string;
+}
+
+// @public
+export interface DeviceRef {
+    deviceName: string;
+    endpointName: string;
+}
+
+// @public
+export interface DeviceStatus {
+    readonly config?: StatusConfig;
+    readonly endpoints?: DeviceStatusEndpoints;
+}
+
+// @public
+export interface DeviceStatusEndpoint {
+    readonly error?: StatusError;
+}
+
+// @public
+export interface DeviceStatusEndpoints {
+    readonly inbound?: Record<string, DeviceStatusEndpoint>;
+}
+
+// @public
+export interface DiscoveredInboundEndpoints {
+    additionalConfiguration?: string;
+    address: string;
+    endpointType: string;
+    lastUpdatedOn?: Date;
+    supportedAuthenticationMethods?: AuthenticationMethod[];
+    version?: string;
+}
+
+// @public
+export interface DiscoveredMessagingEndpoints {
+    inbound?: Record<string, DiscoveredInboundEndpoints>;
+    outbound?: DiscoveredOutboundEndpoints;
+}
+
+// @public
+export interface DiscoveredOutboundEndpoints {
+    assigned: Record<string, DeviceMessagingEndpoint>;
+}
+
+// @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -197,6 +280,14 @@ export interface ErrorDetail {
     readonly details?: ErrorDetail[];
     readonly message?: string;
     readonly target?: string;
+}
+
+// @public
+export interface ErrorDetails {
+    readonly code?: string;
+    readonly correlationId?: string;
+    readonly info?: string;
+    readonly message?: string;
 }
 
 // @public
@@ -219,12 +310,55 @@ export interface EventBase {
 }
 
 // @public
+export interface EventDestination {
+    target?: EventDestinationTarget;
+}
+
+// @public
+export type EventDestinationTarget = string;
+
+// @public
+export type EventDestinationUnion = EventMqttDestination | EventStorageDestination | EventDestination;
+
+// @public
+export interface EventMqttDestination extends EventDestination {
+    configuration: MqttDestinationConfiguration;
+    target: "Mqtt";
+}
+
+// @public
 export type EventObservabilityMode = string;
+
+// @public
+export interface EventStorageDestination extends EventDestination {
+    configuration: StorageDestinationConfiguration;
+    target: "Storage";
+}
 
 // @public
 export interface ExtendedLocation {
     name: string;
     type: string;
+}
+
+// @public
+export type Format = string;
+
+// @public
+export interface HostAuthentication {
+    method: AuthenticationMethod;
+    usernamePasswordCredentials?: UsernamePasswordCredentials;
+    x509Credentials?: X509CertificateCredentials;
+}
+
+// @public
+export interface InboundEndpoints {
+    additionalConfiguration?: string;
+    address: string;
+    authentication?: HostAuthentication;
+    endpointType: string;
+    trustSettings?: TrustSettings;
+    version?: string;
 }
 
 // @public
@@ -257,9 +391,48 @@ export enum KnownDataPointObservabilityMode {
 }
 
 // @public
+export enum KnownDatasetDestinationTarget {
+    BrokerStateStore = "BrokerStateStore",
+    Mqtt = "Mqtt",
+    Storage = "Storage"
+}
+
+// @public
+export enum KnownEventDestinationTarget {
+    Mqtt = "Mqtt",
+    Storage = "Storage"
+}
+
+// @public
 export enum KnownEventObservabilityMode {
     Log = "Log",
     None = "None"
+}
+
+// @public
+export enum KnownFormat {
+    Delta10 = "Delta/1.0",
+    JsonSchemaDraft7 = "JsonSchema/draft-07"
+}
+
+// @public
+export enum KnownManagementActionType {
+    Call = "Call",
+    Read = "Read",
+    Write = "Write"
+}
+
+// @public
+export enum KnownMqttDestinationQos {
+    Qos0 = "Qos0",
+    Qos1 = "Qos1"
+}
+
+// @public
+export enum KnownNamespaceDiscoveredManagementActionType {
+    Call = "Call",
+    Read = "Read",
+    Write = "Write"
 }
 
 // @public
@@ -279,6 +452,28 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownSchemaType {
+    MessageSchema = "MessageSchema"
+}
+
+// @public
+export enum KnownScope {
+    Resources = "Resources"
+}
+
+// @public
+export enum KnownStreamDestinationTarget {
+    Mqtt = "Mqtt",
+    Storage = "Storage"
+}
+
+// @public
+export enum KnownSystemAssignedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned"
+}
+
+// @public
 export enum KnownTopicRetainType {
     Keep = "Keep",
     Never = "Never"
@@ -286,7 +481,33 @@ export enum KnownTopicRetainType {
 
 // @public
 export enum KnownVersions {
-    V20241101 = "2024-11-01"
+    V20241101 = "2024-11-01",
+    V20251001 = "2025-10-01"
+}
+
+// @public
+export interface ManagementAction {
+    actionConfiguration?: string;
+    actionType?: ManagementActionType;
+    name: string;
+    targetUri: string;
+    timeoutInSeconds?: number;
+    topic?: string;
+    typeRef?: string;
+}
+
+// @public
+export type ManagementActionType = string;
+
+// @public
+export interface ManagementGroup {
+    actions?: ManagementAction[];
+    dataSource?: string;
+    defaultTimeoutInSeconds?: number;
+    defaultTopic?: string;
+    managementGroupConfiguration?: string;
+    name: string;
+    typeRef?: string;
 }
 
 // @public
@@ -294,6 +515,469 @@ export interface MessageSchemaReference {
     readonly schemaName: string;
     readonly schemaRegistryNamespace: string;
     readonly schemaVersion: string;
+}
+
+// @public
+export interface Messaging {
+    endpoints?: Record<string, MessagingEndpoint>;
+}
+
+// @public
+export interface MessagingEndpoint {
+    address: string;
+    endpointType?: string;
+    resourceId?: string;
+}
+
+// @public
+export interface MessagingEndpoints {
+    inbound?: Record<string, InboundEndpoints>;
+    outbound?: OutboundEndpoints;
+}
+
+// @public
+export interface MqttDestinationConfiguration {
+    qos?: MqttDestinationQos;
+    retain?: TopicRetainType;
+    topic: string;
+    ttl?: number;
+}
+
+// @public
+export type MqttDestinationQos = string;
+
+// @public
+export interface Namespace extends TrackedResource {
+    identity?: SystemAssignedServiceIdentity;
+    properties?: NamespaceProperties;
+}
+
+// @public
+export interface NamespaceAsset extends TrackedResource {
+    extendedLocation: ExtendedLocation;
+    properties?: NamespaceAssetProperties;
+}
+
+// @public
+export interface NamespaceAssetProperties {
+    assetTypeRefs?: string[];
+    attributes?: Record<string, any>;
+    datasets?: NamespaceDataset[];
+    defaultDatasetsConfiguration?: string;
+    defaultDatasetsDestinations?: DatasetDestinationUnion[];
+    defaultEventsConfiguration?: string;
+    defaultEventsDestinations?: EventDestinationUnion[];
+    defaultManagementGroupsConfiguration?: string;
+    defaultStreamsConfiguration?: string;
+    defaultStreamsDestinations?: StreamDestinationUnion[];
+    description?: string;
+    deviceRef: DeviceRef;
+    discoveredAssetRefs?: string[];
+    displayName?: string;
+    documentationUri?: string;
+    enabled?: boolean;
+    eventGroups?: NamespaceEventGroup[];
+    externalAssetId?: string;
+    hardwareRevision?: string;
+    readonly lastTransitionTime?: Date;
+    managementGroups?: ManagementGroup[];
+    manufacturer?: string;
+    manufacturerUri?: string;
+    model?: string;
+    productCode?: string;
+    readonly provisioningState?: ProvisioningState;
+    serialNumber?: string;
+    softwareRevision?: string;
+    readonly status?: NamespaceAssetStatus;
+    streams?: NamespaceStream[];
+    readonly uuid?: string;
+    readonly version?: number;
+}
+
+// @public
+export interface NamespaceAssetStatus {
+    readonly config?: StatusConfig;
+    readonly datasets?: NamespaceAssetStatusDataset[];
+    readonly eventGroups?: NamespaceAssetStatusEventGroup[];
+    readonly managementGroups?: NamespaceAssetStatusManagementGroup[];
+    readonly streams?: NamespaceAssetStatusStream[];
+}
+
+// @public
+export interface NamespaceAssetStatusDataset {
+    readonly error?: StatusError;
+    readonly messageSchemaReference?: NamespaceMessageSchemaReference;
+    readonly name: string;
+}
+
+// @public
+export interface NamespaceAssetStatusEvent {
+    readonly error?: StatusError;
+    readonly messageSchemaReference?: NamespaceMessageSchemaReference;
+    readonly name: string;
+}
+
+// @public
+export interface NamespaceAssetStatusEventGroup {
+    readonly events?: NamespaceAssetStatusEvent[];
+    readonly name: string;
+}
+
+// @public
+export interface NamespaceAssetStatusManagementAction {
+    readonly error?: StatusError;
+    readonly name: string;
+    readonly requestMessageSchemaReference?: NamespaceMessageSchemaReference;
+    readonly responseMessageSchemaReference?: NamespaceMessageSchemaReference;
+}
+
+// @public
+export interface NamespaceAssetStatusManagementGroup {
+    readonly actions?: NamespaceAssetStatusManagementAction[];
+    readonly name: string;
+}
+
+// @public
+export interface NamespaceAssetStatusStream {
+    readonly error?: StatusError;
+    readonly messageSchemaReference?: NamespaceMessageSchemaReference;
+    readonly name: string;
+}
+
+// @public
+export interface NamespaceAssetUpdate {
+    properties?: NamespaceAssetUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface NamespaceAssetUpdateProperties {
+    assetTypeRefs?: string[];
+    attributes?: Record<string, any>;
+    datasets?: NamespaceDataset[];
+    defaultDatasetsConfiguration?: string;
+    defaultDatasetsDestinations?: DatasetDestinationUnion[];
+    defaultEventsConfiguration?: string;
+    defaultEventsDestinations?: EventDestinationUnion[];
+    defaultManagementGroupsConfiguration?: string;
+    defaultStreamsConfiguration?: string;
+    defaultStreamsDestinations?: StreamDestinationUnion[];
+    description?: string;
+    displayName?: string;
+    documentationUri?: string;
+    enabled?: boolean;
+    eventGroups?: NamespaceEventGroup[];
+    hardwareRevision?: string;
+    managementGroups?: ManagementGroup[];
+    manufacturer?: string;
+    manufacturerUri?: string;
+    model?: string;
+    productCode?: string;
+    serialNumber?: string;
+    softwareRevision?: string;
+    streams?: NamespaceStream[];
+}
+
+// @public
+export interface NamespaceDataset {
+    dataPoints?: NamespaceDatasetDataPoint[];
+    datasetConfiguration?: string;
+    dataSource?: string;
+    destinations?: DatasetDestinationUnion[];
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceDatasetDataPoint {
+    dataPointConfiguration?: string;
+    dataSource: string;
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceDevice extends TrackedResource {
+    readonly etag?: string;
+    extendedLocation?: ExtendedLocation;
+    properties?: NamespaceDeviceProperties;
+}
+
+// @public
+export interface NamespaceDeviceProperties {
+    attributes?: Record<string, any>;
+    discoveredDeviceRef?: string;
+    enabled?: boolean;
+    endpoints?: MessagingEndpoints;
+    externalDeviceId?: string;
+    readonly lastTransitionTime?: Date;
+    manufacturer?: string;
+    model?: string;
+    operatingSystem?: string;
+    operatingSystemVersion?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly status?: DeviceStatus;
+    readonly uuid?: string;
+    readonly version?: number;
+}
+
+// @public
+export interface NamespaceDeviceUpdate {
+    properties?: NamespaceDeviceUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface NamespaceDeviceUpdateProperties {
+    attributes?: Record<string, any>;
+    enabled?: boolean;
+    endpoints?: MessagingEndpoints;
+    operatingSystemVersion?: string;
+}
+
+// @public
+export interface NamespaceDiscoveredAsset extends TrackedResource {
+    extendedLocation: ExtendedLocation;
+    properties?: NamespaceDiscoveredAssetProperties;
+}
+
+// @public
+export interface NamespaceDiscoveredAssetProperties {
+    assetTypeRefs?: string[];
+    attributes?: Record<string, any>;
+    datasets?: NamespaceDiscoveredDataset[];
+    defaultDatasetsConfiguration?: string;
+    defaultDatasetsDestinations?: DatasetDestinationUnion[];
+    defaultEventsConfiguration?: string;
+    defaultEventsDestinations?: EventDestinationUnion[];
+    defaultManagementGroupsConfiguration?: string;
+    defaultStreamsConfiguration?: string;
+    defaultStreamsDestinations?: StreamDestinationUnion[];
+    description?: string;
+    deviceRef: DeviceRef;
+    discoveryId: string;
+    displayName?: string;
+    documentationUri?: string;
+    eventGroups?: NamespaceDiscoveredEventGroup[];
+    externalAssetId?: string;
+    hardwareRevision?: string;
+    managementGroups?: NamespaceDiscoveredManagementGroup[];
+    manufacturer?: string;
+    manufacturerUri?: string;
+    model?: string;
+    productCode?: string;
+    readonly provisioningState?: ProvisioningState;
+    serialNumber?: string;
+    softwareRevision?: string;
+    streams?: NamespaceDiscoveredStream[];
+    version: number;
+}
+
+// @public
+export interface NamespaceDiscoveredAssetUpdate {
+    properties?: NamespaceDiscoveredAssetUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface NamespaceDiscoveredAssetUpdateProperties {
+    assetTypeRefs?: string[];
+    attributes?: Record<string, any>;
+    datasets?: NamespaceDiscoveredDataset[];
+    defaultDatasetsConfiguration?: string;
+    defaultDatasetsDestinations?: DatasetDestinationUnion[];
+    defaultEventsConfiguration?: string;
+    defaultEventsDestinations?: EventDestinationUnion[];
+    defaultManagementGroupsConfiguration?: string;
+    defaultStreamsConfiguration?: string;
+    defaultStreamsDestinations?: StreamDestinationUnion[];
+    description?: string;
+    deviceRef?: DeviceRef;
+    discoveryId?: string;
+    displayName?: string;
+    documentationUri?: string;
+    eventGroups?: NamespaceDiscoveredEventGroup[];
+    hardwareRevision?: string;
+    managementGroups?: NamespaceDiscoveredManagementGroup[];
+    manufacturer?: string;
+    manufacturerUri?: string;
+    model?: string;
+    productCode?: string;
+    serialNumber?: string;
+    softwareRevision?: string;
+    streams?: NamespaceDiscoveredStream[];
+    version?: number;
+}
+
+// @public
+export interface NamespaceDiscoveredDataset {
+    dataPoints?: NamespaceDiscoveredDatasetDataPoint[];
+    datasetConfiguration?: string;
+    dataSource?: string;
+    destinations?: DatasetDestinationUnion[];
+    lastUpdatedOn?: Date;
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceDiscoveredDatasetDataPoint {
+    dataPointConfiguration?: string;
+    dataSource: string;
+    lastUpdatedOn?: Date;
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceDiscoveredDevice extends TrackedResource {
+    extendedLocation: ExtendedLocation;
+    properties?: NamespaceDiscoveredDeviceProperties;
+}
+
+// @public
+export interface NamespaceDiscoveredDeviceProperties {
+    attributes?: Record<string, any>;
+    discoveryId: string;
+    endpoints?: DiscoveredMessagingEndpoints;
+    externalDeviceId?: string;
+    manufacturer?: string;
+    model?: string;
+    operatingSystem?: string;
+    operatingSystemVersion?: string;
+    readonly provisioningState?: ProvisioningState;
+    version: number;
+}
+
+// @public
+export interface NamespaceDiscoveredDeviceUpdate {
+    properties?: NamespaceDiscoveredDeviceUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface NamespaceDiscoveredDeviceUpdateProperties {
+    attributes?: Record<string, any>;
+    discoveryId?: string;
+    endpoints?: DiscoveredMessagingEndpoints;
+    externalDeviceId?: string;
+    operatingSystemVersion?: string;
+    version?: number;
+}
+
+// @public
+export interface NamespaceDiscoveredEvent {
+    dataSource?: string;
+    destinations?: EventDestinationUnion[];
+    eventConfiguration?: string;
+    lastUpdatedOn?: Date;
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceDiscoveredEventGroup {
+    dataSource?: string;
+    defaultDestinations?: EventDestinationUnion[];
+    eventGroupConfiguration?: string;
+    events?: NamespaceDiscoveredEvent[];
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceDiscoveredManagementAction {
+    actionConfiguration?: string;
+    actionType?: NamespaceDiscoveredManagementActionType;
+    lastUpdatedOn?: Date;
+    name: string;
+    targetUri: string;
+    timeoutInSeconds?: number;
+    topic?: string;
+    typeRef?: string;
+}
+
+// @public
+export type NamespaceDiscoveredManagementActionType = string;
+
+// @public
+export interface NamespaceDiscoveredManagementGroup {
+    actions?: NamespaceDiscoveredManagementAction[];
+    dataSource?: string;
+    defaultTimeoutInSeconds?: number;
+    defaultTopic?: string;
+    lastUpdatedOn?: Date;
+    managementGroupConfiguration?: string;
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceDiscoveredStream {
+    destinations?: StreamDestinationUnion[];
+    lastUpdatedOn?: Date;
+    name: string;
+    streamConfiguration?: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceEvent {
+    dataSource?: string;
+    destinations?: EventDestinationUnion[];
+    eventConfiguration?: string;
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceEventGroup {
+    dataSource?: string;
+    defaultDestinations?: EventDestinationUnion[];
+    eventGroupConfiguration?: string;
+    events?: NamespaceEvent[];
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceMessageSchemaReference {
+    readonly schemaName: string;
+    readonly schemaRegistryNamespace: string;
+    readonly schemaVersion: string;
+}
+
+// @public
+export interface NamespaceMigrateRequest {
+    resourceIds?: string[];
+    scope?: Scope;
+}
+
+// @public
+export interface NamespaceProperties {
+    messaging?: Messaging;
+    readonly provisioningState?: ProvisioningState;
+    readonly uuid?: string;
+}
+
+// @public
+export interface NamespaceStream {
+    destinations?: StreamDestinationUnion[];
+    name: string;
+    streamConfiguration?: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceUpdate {
+    identity?: SystemAssignedServiceIdentity;
+    properties?: NamespaceUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface NamespaceUpdateProperties {
+    messaging?: Messaging;
 }
 
 // @public
@@ -330,6 +1014,12 @@ export interface OperationStatusResult {
 export type Origin = string;
 
 // @public
+export interface OutboundEndpoints {
+    assigned: Record<string, DeviceMessagingEndpoint>;
+    unassigned?: Record<string, DeviceMessagingEndpoint>;
+}
+
+// @public
 export type ProvisioningState = string;
 
 // @public
@@ -343,6 +1033,123 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export interface Schema extends ProxyResource {
+    properties?: SchemaProperties;
+}
+
+// @public
+export interface SchemaProperties {
+    description?: string;
+    displayName?: string;
+    format: Format;
+    readonly provisioningState?: ProvisioningState;
+    schemaType: SchemaType;
+    tags?: Record<string, string>;
+    readonly uuid?: string;
+}
+
+// @public
+export interface SchemaRegistry extends TrackedResource {
+    identity?: SystemAssignedServiceIdentity;
+    properties?: SchemaRegistryProperties;
+}
+
+// @public
+export interface SchemaRegistryProperties {
+    description?: string;
+    displayName?: string;
+    namespace: string;
+    readonly provisioningState?: ProvisioningState;
+    storageAccountContainerUrl: string;
+    readonly uuid?: string;
+}
+
+// @public
+export interface SchemaRegistryUpdate {
+    identity?: SystemAssignedServiceIdentity;
+    properties?: SchemaRegistryUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface SchemaRegistryUpdateProperties {
+    description?: string;
+    displayName?: string;
+}
+
+// @public
+export type SchemaType = string;
+
+// @public
+export interface SchemaVersion extends ProxyResource {
+    properties?: SchemaVersionProperties;
+}
+
+// @public
+export interface SchemaVersionProperties {
+    description?: string;
+    readonly hash?: string;
+    readonly provisioningState?: ProvisioningState;
+    schemaContent: string;
+    readonly uuid?: string;
+}
+
+// @public
+export type Scope = string;
+
+// @public
+export interface StatusConfig {
+    readonly error?: StatusError;
+    readonly lastTransitionTime?: Date;
+    readonly version?: number;
+}
+
+// @public
+export interface StatusError {
+    readonly code?: string;
+    readonly details?: ErrorDetails[];
+    readonly message?: string;
+}
+
+// @public
+export interface StorageDestinationConfiguration {
+    path: string;
+}
+
+// @public
+export interface StreamDestination {
+    target?: StreamDestinationTarget;
+}
+
+// @public
+export type StreamDestinationTarget = string;
+
+// @public
+export type StreamDestinationUnion = StreamMqttDestination | StreamStorageDestination | StreamDestination;
+
+// @public
+export interface StreamMqttDestination extends StreamDestination {
+    configuration: MqttDestinationConfiguration;
+    target: "Mqtt";
+}
+
+// @public
+export interface StreamStorageDestination extends StreamDestination {
+    configuration: StorageDestinationConfiguration;
+    target: "Storage";
+}
+
+// @public
+export interface SystemAssignedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: SystemAssignedServiceIdentityType;
+}
+
+// @public
+export type SystemAssignedServiceIdentityType = string;
 
 // @public
 export interface SystemData {
@@ -370,9 +1177,21 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
+export interface TrustSettings {
+    trustList?: string;
+}
+
+// @public
 export interface UsernamePasswordCredentials {
     passwordSecretName: string;
     usernameSecretName: string;
+}
+
+// @public
+export interface X509CertificateCredentials {
+    certificateSecretName: string;
+    intermediateCertificatesSecretName?: string;
+    keySecretName?: string;
 }
 
 // @public

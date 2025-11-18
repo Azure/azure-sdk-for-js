@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AccountKeyMetadata {
@@ -919,6 +919,12 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     databaseAccounts: DatabaseAccounts;
     // (undocumented)
+    fleet: Fleet;
+    // (undocumented)
+    fleetspace: Fleetspace;
+    // (undocumented)
+    fleetspaceAccount: FleetspaceAccount;
+    // (undocumented)
     gremlinResources: GremlinResources;
     // (undocumented)
     locations: Locations;
@@ -1024,6 +1030,7 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
     customerManagedKeyStatus?: string;
     databaseAccountOfferType: "Standard";
     defaultIdentity?: string;
+    defaultPriorityLevel?: DefaultPriorityLevel;
     disableKeyBasedMetadataWriteAccess?: boolean;
     disableLocalAuth?: boolean;
     enableAnalyticalStorage?: boolean;
@@ -1034,6 +1041,7 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
     enableMultipleWriteLocations?: boolean;
     enablePartitionMerge?: boolean;
     enablePerRegionPerPartitionAutoscale?: boolean;
+    enablePriorityBasedExecution?: boolean;
     identity?: ManagedServiceIdentity;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
@@ -1063,6 +1071,7 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
     customerManagedKeyStatus?: string;
     readonly databaseAccountOfferType?: "Standard";
     defaultIdentity?: string;
+    defaultPriorityLevel?: DefaultPriorityLevel;
     disableKeyBasedMetadataWriteAccess?: boolean;
     disableLocalAuth?: boolean;
     readonly documentEndpoint?: string;
@@ -1074,6 +1083,7 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
     enableMultipleWriteLocations?: boolean;
     enablePartitionMerge?: boolean;
     enablePerRegionPerPartitionAutoscale?: boolean;
+    enablePriorityBasedExecution?: boolean;
     readonly failoverPolicies?: FailoverPolicy[];
     identity?: ManagedServiceIdentity;
     readonly instanceId?: string;
@@ -1081,6 +1091,7 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
     isVirtualNetworkFilterEnabled?: boolean;
     readonly keysMetadata?: DatabaseAccountKeysMetadata;
     keyVaultKeyUri?: string;
+    readonly keyVaultKeyUriVersion?: string;
     kind?: DatabaseAccountKind;
     readonly locations?: Location[];
     minimalTlsVersion?: MinimalTlsVersion;
@@ -1351,6 +1362,7 @@ export interface DatabaseAccountUpdateParameters {
     cors?: CorsPolicy[];
     customerManagedKeyStatus?: string;
     defaultIdentity?: string;
+    defaultPriorityLevel?: DefaultPriorityLevel;
     disableKeyBasedMetadataWriteAccess?: boolean;
     disableLocalAuth?: boolean;
     enableAnalyticalStorage?: boolean;
@@ -1361,6 +1373,7 @@ export interface DatabaseAccountUpdateParameters {
     enableMultipleWriteLocations?: boolean;
     enablePartitionMerge?: boolean;
     enablePerRegionPerPartitionAutoscale?: boolean;
+    enablePriorityBasedExecution?: boolean;
     identity?: ManagedServiceIdentity;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
@@ -1461,6 +1474,9 @@ export type DedicatedGatewayType = string;
 export type DefaultConsistencyLevel = "Eventual" | "Session" | "BoundedStaleness" | "Strong" | "ConsistentPrefix";
 
 // @public
+export type DefaultPriorityLevel = string;
+
+// @public
 export type DistanceFunction = string;
 
 // @public
@@ -1505,6 +1521,285 @@ export interface FailoverPolicy {
     failoverPriority?: number;
     readonly id?: string;
     locationName?: string;
+}
+
+// @public
+export interface Fleet {
+    beginDelete(resourceGroupName: string, fleetName: string, options?: FleetDeleteOptionalParams): Promise<SimplePollerLike<OperationState<FleetDeleteResponse>, FleetDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, fleetName: string, options?: FleetDeleteOptionalParams): Promise<FleetDeleteResponse>;
+    create(resourceGroupName: string, fleetName: string, body: FleetResource, options?: FleetCreateOptionalParams): Promise<FleetCreateResponse>;
+    get(resourceGroupName: string, fleetName: string, options?: FleetGetOptionalParams): Promise<FleetGetResponse>;
+    list(options?: FleetListOptionalParams): PagedAsyncIterableIterator<FleetResource>;
+    listByResourceGroup(resourceGroupName: string, options?: FleetListByResourceGroupOptionalParams): PagedAsyncIterableIterator<FleetResource>;
+    update(resourceGroupName: string, fleetName: string, options?: FleetUpdateOptionalParams): Promise<FleetUpdateResponse>;
+}
+
+// @public
+export interface FleetCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetCreateResponse = FleetResource;
+
+// @public
+export interface FleetDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface FleetDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FleetDeleteResponse = FleetDeleteHeaders;
+
+// @public
+export interface FleetGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetGetResponse = FleetResource;
+
+// @public
+export interface FleetListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetListByResourceGroupNextResponse = FleetListResult;
+
+// @public
+export interface FleetListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetListByResourceGroupResponse = FleetListResult;
+
+// @public
+export interface FleetListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetListNextResponse = FleetListResult;
+
+// @public
+export interface FleetListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetListResponse = FleetListResult;
+
+// @public
+export interface FleetListResult {
+    readonly nextLink?: string;
+    readonly value?: FleetResource[];
+}
+
+// @public
+export interface FleetResource extends TrackedResource {
+    provisioningState?: Status;
+}
+
+// @public
+export interface FleetResourceUpdate {
+    provisioningState?: Status;
+}
+
+// @public
+export interface Fleetspace {
+    beginCreate(resourceGroupName: string, fleetName: string, fleetspaceName: string, body: FleetspaceResource, options?: FleetspaceCreateOptionalParams): Promise<SimplePollerLike<OperationState<FleetspaceCreateResponse>, FleetspaceCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, fleetName: string, fleetspaceName: string, body: FleetspaceResource, options?: FleetspaceCreateOptionalParams): Promise<FleetspaceCreateResponse>;
+    beginDelete(resourceGroupName: string, fleetName: string, fleetspaceName: string, options?: FleetspaceDeleteOptionalParams): Promise<SimplePollerLike<OperationState<FleetspaceDeleteResponse>, FleetspaceDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, fleetName: string, fleetspaceName: string, options?: FleetspaceDeleteOptionalParams): Promise<FleetspaceDeleteResponse>;
+    beginUpdate(resourceGroupName: string, fleetName: string, fleetspaceName: string, options?: FleetspaceUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FleetspaceUpdateResponse>, FleetspaceUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, fleetName: string, fleetspaceName: string, options?: FleetspaceUpdateOptionalParams): Promise<FleetspaceUpdateResponse>;
+    get(resourceGroupName: string, fleetName: string, fleetspaceName: string, options?: FleetspaceGetOptionalParams): Promise<FleetspaceGetResponse>;
+    list(resourceGroupName: string, fleetName: string, options?: FleetspaceListOptionalParams): PagedAsyncIterableIterator<FleetspaceResource>;
+}
+
+// @public
+export interface FleetspaceAccount {
+    beginCreate(resourceGroupName: string, fleetName: string, fleetspaceName: string, fleetspaceAccountName: string, body: FleetspaceAccountResource, options?: FleetspaceAccountCreateOptionalParams): Promise<SimplePollerLike<OperationState<FleetspaceAccountCreateResponse>, FleetspaceAccountCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, fleetName: string, fleetspaceName: string, fleetspaceAccountName: string, body: FleetspaceAccountResource, options?: FleetspaceAccountCreateOptionalParams): Promise<FleetspaceAccountCreateResponse>;
+    beginDelete(resourceGroupName: string, fleetName: string, fleetspaceName: string, fleetspaceAccountName: string, options?: FleetspaceAccountDeleteOptionalParams): Promise<SimplePollerLike<OperationState<FleetspaceAccountDeleteResponse>, FleetspaceAccountDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, fleetName: string, fleetspaceName: string, fleetspaceAccountName: string, options?: FleetspaceAccountDeleteOptionalParams): Promise<FleetspaceAccountDeleteResponse>;
+    get(resourceGroupName: string, fleetName: string, fleetspaceName: string, fleetspaceAccountName: string, options?: FleetspaceAccountGetOptionalParams): Promise<FleetspaceAccountGetResponse>;
+    list(resourceGroupName: string, fleetName: string, fleetspaceName: string, options?: FleetspaceAccountListOptionalParams): PagedAsyncIterableIterator<FleetspaceAccountResource>;
+}
+
+// @public
+export interface FleetspaceAccountCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FleetspaceAccountCreateResponse = FleetspaceAccountResource;
+
+// @public
+export interface FleetspaceAccountDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface FleetspaceAccountDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FleetspaceAccountDeleteResponse = FleetspaceAccountDeleteHeaders;
+
+// @public
+export interface FleetspaceAccountGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetspaceAccountGetResponse = FleetspaceAccountResource;
+
+// @public
+export interface FleetspaceAccountListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetspaceAccountListNextResponse = FleetspaceAccountListResult;
+
+// @public
+export interface FleetspaceAccountListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetspaceAccountListResponse = FleetspaceAccountListResult;
+
+// @public
+export interface FleetspaceAccountListResult {
+    readonly nextLink?: string;
+    readonly value?: FleetspaceAccountResource[];
+}
+
+// @public
+export interface FleetspaceAccountPropertiesGlobalDatabaseAccountProperties {
+    armLocation?: string;
+    resourceId?: string;
+}
+
+// @public
+export interface FleetspaceAccountResource extends ProxyResourceAutoGenerated {
+    globalDatabaseAccountProperties?: FleetspaceAccountPropertiesGlobalDatabaseAccountProperties;
+    provisioningState?: Status;
+}
+
+// @public
+export interface FleetspaceCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FleetspaceCreateResponse = FleetspaceResource;
+
+// @public
+export interface FleetspaceDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface FleetspaceDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FleetspaceDeleteResponse = FleetspaceDeleteHeaders;
+
+// @public
+export interface FleetspaceGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetspaceGetResponse = FleetspaceResource;
+
+// @public
+export interface FleetspaceListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetspaceListNextResponse = FleetspaceListResult;
+
+// @public
+export interface FleetspaceListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetspaceListResponse = FleetspaceListResult;
+
+// @public
+export interface FleetspaceListResult {
+    readonly nextLink?: string;
+    readonly value?: FleetspaceResource[];
+}
+
+// @public
+export type FleetspacePropertiesFleetspaceApiKind = string;
+
+// @public
+export type FleetspacePropertiesServiceTier = string;
+
+// @public
+export interface FleetspacePropertiesThroughputPoolConfiguration {
+    maxThroughput?: number;
+    minThroughput?: number;
+}
+
+// @public
+export interface FleetspaceResource extends ProxyResourceAutoGenerated {
+    dataRegions?: string[];
+    fleetspaceApiKind?: FleetspacePropertiesFleetspaceApiKind;
+    provisioningState?: Status;
+    serviceTier?: FleetspacePropertiesServiceTier;
+    throughputPoolConfiguration?: FleetspacePropertiesThroughputPoolConfiguration;
+}
+
+// @public
+export interface FleetspaceUpdate {
+    dataRegions?: string[];
+    fleetspaceApiKind?: FleetspacePropertiesFleetspaceApiKind;
+    provisioningState?: Status;
+    serviceTier?: FleetspacePropertiesServiceTier;
+    throughputPoolConfiguration?: FleetspacePropertiesThroughputPoolConfiguration;
+}
+
+// @public
+export interface FleetspaceUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface FleetspaceUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: FleetspaceUpdate;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FleetspaceUpdateResponse = FleetspaceResource;
+
+// @public
+export interface FleetUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: FleetResourceUpdate;
+}
+
+// @public
+export type FleetUpdateResponse = FleetResource;
+
+// @public
+export interface FullTextIndexPath {
+    path: string;
 }
 
 // @public
@@ -1878,6 +2173,7 @@ export interface IndexingPolicy {
     automatic?: boolean;
     compositeIndexes?: CompositePath[][];
     excludedPaths?: ExcludedPath[];
+    fullTextIndexes?: FullTextIndexPath[];
     includedPaths?: IncludedPath[];
     indexingMode?: IndexingMode;
     spatialIndexes?: SpatialSpec[];
@@ -2027,10 +2323,27 @@ export enum KnownDedicatedGatewayType {
 }
 
 // @public
+export enum KnownDefaultPriorityLevel {
+    High = "High",
+    Low = "Low"
+}
+
+// @public
 export enum KnownDistanceFunction {
     Cosine = "cosine",
     Dotproduct = "dotproduct",
     Euclidean = "euclidean"
+}
+
+// @public
+export enum KnownFleetspacePropertiesFleetspaceApiKind {
+    NoSQL = "NoSQL"
+}
+
+// @public
+export enum KnownFleetspacePropertiesServiceTier {
+    BusinessCritical = "BusinessCritical",
+    GeneralPurpose = "GeneralPurpose"
 }
 
 // @public
@@ -2190,11 +2503,16 @@ export enum KnownSpatialType {
 
 // @public
 export enum KnownStatus {
+    Canceled = "Canceled",
+    Creating = "Creating",
     Deleting = "Deleting",
+    Failed = "Failed",
     Initializing = "Initializing",
     InternallyReady = "InternallyReady",
     Online = "Online",
-    Uninitialized = "Uninitialized"
+    Succeeded = "Succeeded",
+    Uninitialized = "Uninitialized",
+    Updating = "Updating"
 }
 
 // @public
@@ -2238,6 +2556,7 @@ export enum KnownUnitType {
 
 // @public
 export enum KnownVectorDataType {
+    Float16 = "float16",
     Float32 = "float32",
     Int8 = "int8",
     Uint8 = "uint8"
@@ -3265,6 +3584,10 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export interface ProxyResourceAutoGenerated extends ResourceAutoGenerated {
+}
+
+// @public
 export type PublicNetworkAccess = string;
 
 // @public
@@ -3283,6 +3606,14 @@ export interface RegionForOnlineOffline {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface ResourceAutoGenerated {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -3743,6 +4074,7 @@ export interface RestoreParameters extends RestoreParametersBase {
     databasesToRestore?: DatabaseRestoreResource[];
     gremlinDatabasesToRestore?: GremlinDatabaseRestoreResource[];
     restoreMode?: RestoreMode;
+    sourceBackupLocation?: string;
     tablesToRestore?: string[];
 }
 
@@ -4793,6 +5125,14 @@ export interface ThroughputSettingsUpdateParameters extends ARMResourcePropertie
 }
 
 // @public
+export interface TrackedResource extends ResourceAutoGenerated {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export type TriggerOperation = string;
 
 // @public
@@ -4846,8 +5186,11 @@ export interface VectorEmbeddingPolicy {
 
 // @public (undocumented)
 export interface VectorIndex {
+    indexingSearchListSize?: number;
     path: string;
+    quantizationByteSize?: number;
     type: VectorIndexType;
+    vectorIndexShardKey?: string[];
 }
 
 // @public

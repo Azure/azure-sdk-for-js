@@ -1,5 +1,65 @@
 # Release History
 
+## 24.0.0 (2025-11-12)
+
+### Features Added
+  - Added operation group ManagedNamespaces
+  - Added Interface LocalDNSOverride
+  - Added Interface LocalDNSProfile
+  - Added Interface ManagedNamespace
+  - Added Interface ManagedNamespaceListResult
+  - Added Interface ManagedNamespacesCreateOrUpdateExceptionHeaders
+  - Added Interface ManagedNamespacesCreateOrUpdateHeaders
+  - Added Interface ManagedNamespacesCreateOrUpdateOptionalParams
+  - Added Interface ManagedNamespacesDeleteExceptionHeaders
+  - Added Interface ManagedNamespacesDeleteHeaders
+  - Added Interface ManagedNamespacesDeleteOptionalParams
+  - Added Interface ManagedNamespacesGetOptionalParams
+  - Added Interface ManagedNamespacesListByManagedClusterOptionalParams
+  - Added Interface ManagedNamespacesListCredentialOptionalParams
+  - Added Interface ManagedNamespacesUpdateOptionalParams
+  - Added Interface NamespaceProperties
+  - Added Interface NetworkPolicies
+  - Added Interface ResourceQuota
+  - Interface AgentPool has a new optional parameter localDNSProfile
+  - Interface IstioEgressGateway has a new optional parameter gatewayConfigurationName
+  - Interface IstioEgressGateway has a new optional parameter namespace
+  - Interface ManagedClusterAgentPoolProfile has a new optional parameter localDNSProfile
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter localDNSProfile
+  - Added Type Alias AdoptionPolicy
+  - Added Type Alias DeletePolicy
+  - Added Type Alias LocalDNSForwardDestination
+  - Added Type Alias LocalDNSForwardPolicy
+  - Added Type Alias LocalDNSMode
+  - Added Type Alias LocalDNSProtocol
+  - Added Type Alias LocalDNSQueryLogging
+  - Added Type Alias LocalDNSServeStale
+  - Added Type Alias LocalDNSState
+  - Added Type Alias ManagedNamespacesCreateOrUpdateResponse
+  - Added Type Alias ManagedNamespacesDeleteResponse
+  - Added Type Alias ManagedNamespacesGetResponse
+  - Added Type Alias ManagedNamespacesListByManagedClusterNextResponse
+  - Added Type Alias ManagedNamespacesListByManagedClusterResponse
+  - Added Type Alias ManagedNamespacesListCredentialResponse
+  - Added Type Alias ManagedNamespacesUpdateResponse
+  - Added Type Alias NamespaceProvisioningState
+  - Added Type Alias PolicyRule
+  - Added Enum KnownAdoptionPolicy
+  - Added Enum KnownDeletePolicy
+  - Added Enum KnownLocalDNSForwardDestination
+  - Added Enum KnownLocalDNSForwardPolicy
+  - Added Enum KnownLocalDNSMode
+  - Added Enum KnownLocalDNSProtocol
+  - Added Enum KnownLocalDNSQueryLogging
+  - Added Enum KnownLocalDNSServeStale
+  - Added Enum KnownLocalDNSState
+  - Added Enum KnownNamespaceProvisioningState
+  - Added Enum KnownPolicyRule
+  - Enum KnownWorkloadRuntime has a new value KataVmIsolation
+
+### Breaking Changes
+  - Interface IstioEgressGateway has a new required parameter name
+
 ## 24.0.0-beta.1 (2025-10-23)
 Compared with version 23.0.0
 

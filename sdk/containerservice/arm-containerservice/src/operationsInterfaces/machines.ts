@@ -5,14 +5,11 @@
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
 import type {
   Machine,
   MachinesListOptionalParams,
   MachinesGetOptionalParams,
   MachinesGetResponse,
-  MachinesCreateOrUpdateOptionalParams,
-  MachinesCreateOrUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +33,7 @@ export interface Machines {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
-   * @param machineName Host name of the machine.
+   * @param machineName host name of the machine
    * @param options The options parameters.
    */
   get(
@@ -46,40 +43,4 @@ export interface Machines {
     machineName: string,
     options?: MachinesGetOptionalParams,
   ): Promise<MachinesGetResponse>;
-  /**
-   * Creates or updates a machine in the specified agent pool.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
-   * @param machineName Host name of the machine.
-   * @param parameters The machine to create or update.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdate(
-    resourceGroupName: string,
-    resourceName: string,
-    agentPoolName: string,
-    machineName: string,
-    parameters: Machine,
-    options?: MachinesCreateOrUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<MachinesCreateOrUpdateResponse>, MachinesCreateOrUpdateResponse>
-  >;
-  /**
-   * Creates or updates a machine in the specified agent pool.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
-   * @param machineName Host name of the machine.
-   * @param parameters The machine to create or update.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    resourceName: string,
-    agentPoolName: string,
-    machineName: string,
-    parameters: Machine,
-    options?: MachinesCreateOrUpdateOptionalParams,
-  ): Promise<MachinesCreateOrUpdateResponse>;
 }

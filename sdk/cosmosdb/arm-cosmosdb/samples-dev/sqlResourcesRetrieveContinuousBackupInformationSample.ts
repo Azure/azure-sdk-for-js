@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieves continuous backup information for a container resource.
- *
- * @summary Retrieves continuous backup information for a container resource.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBSqlContainerBackupInformation.json
- */
-
+import type {
+  ContinuousBackupRestoreLocation} from "@azure/arm-cosmosdb";
 import {
-  ContinuousBackupRestoreLocation,
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Retrieves continuous backup information for a container resource.
+ *
+ * @summary Retrieves continuous backup information for a container resource.
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/examples/CosmosDBSqlContainerBackupInformation.json
+ */
 async function cosmosDbSqlContainerBackupInformation(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
