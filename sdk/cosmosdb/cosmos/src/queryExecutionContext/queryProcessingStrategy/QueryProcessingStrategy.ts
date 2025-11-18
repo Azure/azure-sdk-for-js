@@ -22,12 +22,10 @@ export interface QueryProcessingStrategy {
   /**
    * Creates filter context for continuation token processing
    * @param parsedToken - The parsed continuation token
-   * @param sortOrders - Sort orders from query info
    * @returns Filter context or undefined
    */
   createFilterContext(
     parsedToken: OrderByQueryContinuationToken | CompositeQueryContinuationToken,
-    sortOrders: any[],
   ): FilterContext | undefined;
 
   /**

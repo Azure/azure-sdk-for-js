@@ -53,9 +53,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private state: any;
   private static readonly STATES = ParallelQueryExecutionContextBaseStates;
   private routingProvider: SmartRoutingMapProvider;
-  protected readonly sortOrders: any;
   private readonly requestContinuation: any;
-  protected respHeaders: CosmosHeaders;
+  private respHeaders: CosmosHeaders;
   protected readonly unfilledDocumentProducersQueue: PriorityQueue<DocumentProducer>;
   protected readonly bufferedDocumentProducersQueue: PriorityQueue<DocumentProducer>;
   // TODO: update type of buffer from any --> generic can be used here
@@ -113,7 +112,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.err = undefined;
     this.state = ParallelQueryExecutionContextBase.STATES.started;
     this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
-    this.sortOrders = this.partitionedQueryExecutionInfo.queryInfo.orderBy;
     this.buffer = [];
     this.requestContinuation = options ? options.continuationToken || options.continuation : null;
 
@@ -175,10 +173,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           const rangeTokenPairs = filterResult.rangeTokenPairs;
 
           // Use strategy to create filter context for continuation token processing
-          const filterContext = this.queryProcessingStrategy.createFilterContext(
-            parsedToken,
-            this.sortOrders || [],
-          );
+          const filterContext = this.queryProcessingStrategy.createFilterContext(parsedToken);
 
           rangeTokenPairs.forEach((rangeTokenPair) => {
             const partitionTargetRange = rangeTokenPair.range;

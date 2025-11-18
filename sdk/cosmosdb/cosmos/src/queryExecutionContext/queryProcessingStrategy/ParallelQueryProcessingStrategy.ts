@@ -26,7 +26,6 @@ export class ParallelQueryProcessingStrategy implements QueryProcessingStrategy 
    */
   createFilterContext(
     _parsedToken: OrderByQueryContinuationToken | CompositeQueryContinuationToken,
-    _sortOrders: any[],
   ): FilterContext | undefined {
     return undefined;
   }

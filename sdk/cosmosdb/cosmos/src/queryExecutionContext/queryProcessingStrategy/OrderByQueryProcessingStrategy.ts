@@ -12,6 +12,7 @@ import type { QueryProcessingStrategy } from "./QueryProcessingStrategy.js";
  * @hidden
  */
 export class OrderByQueryProcessingStrategy implements QueryProcessingStrategy {
+  constructor(private readonly sortOrders: any[]) {}
   /**
    * Creates additional query info from ORDER BY continuation token
    */
@@ -30,14 +31,13 @@ export class OrderByQueryProcessingStrategy implements QueryProcessingStrategy {
    */
   createFilterContext(
     parsedToken: OrderByQueryContinuationToken | CompositeQueryContinuationToken,
-    sortOrders: any[],
   ): FilterContext | undefined {
     const orderByToken = parsedToken as OrderByQueryContinuationToken;
     return {
       orderByItems: orderByToken.orderByItems,
       rid: orderByToken.documentRid,
       skipCount: orderByToken.skipCount,
-      sortOrders: sortOrders || [],
+      sortOrders: this.sortOrders,
     };
   }
 

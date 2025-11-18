@@ -44,8 +44,10 @@ export class OrderByQueryExecutionContext
       queryInfo: partitionedQueryExecutionInfo,
     });
 
-    // Create ORDER BY query processing strategy
-    const processingStrategy = new OrderByQueryProcessingStrategy();
+    // Create ORDER BY query processing strategy with sortOrders
+    const processingStrategy = new OrderByQueryProcessingStrategy(
+      partitionedQueryExecutionInfo.queryInfo.orderBy,
+    );
 
     // Create ORDER BY comparator (need to access sortOrders from partitionedQueryExecutionInfo)
     const orderByComparator = new OrderByDocumentProducerComparator(
