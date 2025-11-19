@@ -1,10 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { ClientContext } from "../ClientContext.js";
+import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse.js";
+import type { FeedOptions } from "../request/FeedOptions.js";
 import type { DocumentProducer } from "./documentProducer.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase.js";
 import type { Response } from "../request/index.js";
+import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 
 import { TargetPartitionRangeManager } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
 import { ParallelQueryProcessingStrategy } from "./queryProcessingStrategy/ParallelQueryProcessingStrategy.js";
@@ -16,14 +20,13 @@ import { ParallelQueryProcessingStrategy } from "./queryProcessingStrategy/Paral
  */
 export class ParallelQueryExecutionContext
   extends ParallelQueryExecutionContextBase
-  implements ExecutionContext
-{
+  implements ExecutionContext {
   constructor(
-    clientContext: any,
+    clientContext: ClientContext,
     collectionLink: string,
-    query: any,
-    options: any,
-    partitionedQueryExecutionInfo: any,
+    query: string | SqlQuerySpec,
+    options: FeedOptions,
+    partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
     correlatedActivityId: string,
   ) {
     const rangeManager = TargetPartitionRangeManager.createForParallelQuery({
@@ -54,7 +57,7 @@ export class ParallelQueryExecutionContext
    * Fetches all buffered items from producer for parallel processing.
    */
   protected async fetchFromProducer(producer: DocumentProducer): Promise<Response<any>> {
-    return await producer.fetchBufferedItems();
+    return producer.fetchBufferedItems();
   }
 
   /**

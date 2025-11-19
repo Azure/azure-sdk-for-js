@@ -51,7 +51,7 @@ export class TestParallelQueryExecutionContext
    * Fetches all buffered items from producer for testing.
    */
   protected async fetchFromProducer(producer: DocumentProducer): Promise<Response<any>> {
-    return await producer.fetchBufferedItems();
+    return producer.fetchBufferedItems();
   }
 
   /**
