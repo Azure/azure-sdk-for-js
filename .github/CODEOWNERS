@@ -1644,6 +1644,9 @@ sdk/workloadorchestration/arm-workloadorchestration/ @qiaozha @MaryGao
 # PRLabel: %Mgmt
 sdk/compute/arm-computerecommender/ @qiaozha @MaryGao
 
+# PRLabel: %Mgmt
+sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao
+
 ###########
 # Config
 ###########

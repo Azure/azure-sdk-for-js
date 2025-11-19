@@ -50,5 +50,6 @@ https://learn.microsoft.com/javascript/api/@azure/arm-storagediscovery?view=azur
 https://learn.microsoft.com/javascript/api/@azure/arm-azurestackhcivm?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-workloadorchestration?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-computerecommender?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/arm-computelimit?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-certificateregistration?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-domainregistration?view=azure-node-preview
