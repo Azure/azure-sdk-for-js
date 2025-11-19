@@ -1,5 +1,15 @@
 # Release History
 
+## 18.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 18.0.0 (2025-11-18)
 The App Service has been divided into three separate services: App Service, Domain Registration, and Certificate Registration. APIs for Domain Registration are available in the @azure/arm-domainregistration package, and APIs for Certificate Registration are provided in the @azure/arm-certificateregistration package.
 
