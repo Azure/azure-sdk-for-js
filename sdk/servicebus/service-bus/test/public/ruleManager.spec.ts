@@ -386,13 +386,13 @@ describe("RuleManager tests", () => {
         subscription,
         expectedOrders,
       );
-      received.every((m) =>
+      for (const m of received) {
         assert.isDefined(
           m.applicationProperties,
           "expecting valid applicationProperties on message",
-        ),
-      );
-      received.every((m) => assert.equal(m.applicationProperties!["priority"], "high"));
+        );
+        assert.equal(m.applicationProperties!["priority"], "high");
+      }
     });
 
     it("created sql filter on the message property works", async () => {
@@ -453,13 +453,13 @@ describe("RuleManager tests", () => {
         subscription,
         expectedOrders,
       );
-      received.every((m) =>
+      for (const m of received) {
         assert.isDefined(
           m.applicationProperties,
           "expecting valid applicationProperties on message",
-        ),
-      );
-      received.every((m) => assert.equal(m.applicationProperties!["priority"], "high"));
+        );
+        assert.equal(m.applicationProperties!["priority"], "high");
+      }
     });
 
     it("created sql filter works using overload without action argument", async () => {
@@ -486,12 +486,12 @@ describe("RuleManager tests", () => {
         subscription,
         expectedOrders,
       );
-      received.every((m) =>
+      for (const m of received) {
         assert.isDefined(
           m.applicationProperties,
           "expecting valid applicationProperties on message",
-        ),
-      );
+        );
+      }
     });
   });
 });
