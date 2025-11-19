@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { VirtualMachine, ComputeManagementClient } from "@azure/arm-compute";
+import type { VirtualMachine} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -407,6 +408,67 @@ async function createAVMWithDiskControllerType(): Promise<void> {
       },
     },
     userData: "U29tZSBDdXN0b20gRGF0YQ==",
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmName,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ *
+ * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_Create_WithFips1403Enabled.json
+ */
+async function createAVMWithFips1403Enabled(): Promise<void> {
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const vmName = "{vm-name}";
+  const parameters: VirtualMachine = {
+    additionalCapabilities: { enableFips1403Encryption: true },
+    diagnosticsProfile: {
+      bootDiagnostics: {
+        enabled: true,
+        storageUri:
+          "http://{existing-storage-account-name}.blob.core.windows.net",
+      },
+    },
+    hardwareProfile: { vmSize: "Standard_D2s_v3" },
+    location: "eastus2euap",
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
+    },
+    osProfile: {
+      adminPassword: "{your-password}",
+      adminUsername: "{your-username}",
+      computerName: "{vm-name}",
+    },
+    storageProfile: {
+      imageReference: {
+        offer: "WindowsServer",
+        publisher: "MicrosoftWindowsServer",
+        sku: "2019-Datacenter",
+        version: "latest",
+      },
+      osDisk: {
+        name: "vmOSdisk",
+        caching: "ReadWrite",
+        createOption: "FromImage",
+        managedDisk: { storageAccountType: "Standard_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -3049,6 +3111,7 @@ async function main(): Promise<void> {
   await createAVMFromACommunityGalleryImage();
   await createAVMFromASharedGalleryImage();
   await createAVMWithDiskControllerType();
+  await createAVMWithFips1403Enabled();
   await createAVMWithHibernationEnabled();
   await createAVMWithProxyAgentSettingsOfEnabledAndMode();
   await createAVMWithUefiSettingsOfSecureBootAndVTpm();

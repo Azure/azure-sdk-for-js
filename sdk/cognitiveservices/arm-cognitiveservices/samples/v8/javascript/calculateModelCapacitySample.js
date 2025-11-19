@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Model capacity calculator.
  *
  * @summary Model capacity calculator.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/CalculateModelCapacity.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/CalculateModelCapacity.json
  */
 async function calculateModelCapacity() {
   const subscriptionId =

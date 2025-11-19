@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
  *
  * @summary Create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/CreateProject.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/CreateProject.json
  */
 async function createProject() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function createProject() {
  * This sample demonstrates how to Create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
  *
  * @summary Create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/CreateProjectMin.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/CreateProjectMin.json
  */
 async function createProjectMin() {
   const subscriptionId =

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Contains extra metadata on each revision, including supported revisions, cluster compatibility and available upgrades
  *
  * @summary Contains extra metadata on each revision, including supported revisions, cluster compatibility and available upgrades
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/ManagedClustersList_MeshRevisionProfiles.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/ManagedClustersList_MeshRevisionProfiles.json
  */
 async function listMeshRevisionProfilesInALocation(): Promise<void> {
   const subscriptionId =

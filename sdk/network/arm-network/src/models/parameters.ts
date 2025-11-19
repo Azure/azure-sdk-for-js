@@ -230,7 +230,7 @@ export const applicationGatewayName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-10-01",
+    defaultValue: "2025-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {

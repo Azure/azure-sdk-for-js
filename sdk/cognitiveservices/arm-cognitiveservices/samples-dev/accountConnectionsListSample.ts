@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  AccountConnectionsListOptionalParams} from "@azure/arm-cognitiveservices";
 import {
-  AccountConnectionsListOptionalParams,
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -12,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all the available  Cognitive Services account connections under the specified account.
  *
  * @summary Lists all the available  Cognitive Services account connections under the specified account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/AccountConnection/list.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/AccountConnection/list.json
  */
 async function listAccountConnections(): Promise<void> {
   const subscriptionId =

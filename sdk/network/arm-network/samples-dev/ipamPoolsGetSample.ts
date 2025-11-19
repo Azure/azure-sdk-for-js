@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specific Pool resource.
  *
  * @summary Gets the specific Pool resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/IpamPools_Get.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/IpamPools_Get.json
  */
 async function ipamPoolsGet(): Promise<void> {
   const subscriptionId =

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists the specified network group.
  *
  * @summary Lists the specified network group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerGroupList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerGroupList.json
  */
 async function networkGroupsList(): Promise<void> {
   const subscriptionId =

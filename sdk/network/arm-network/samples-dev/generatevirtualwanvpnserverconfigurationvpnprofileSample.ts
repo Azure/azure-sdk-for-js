@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Generates a unique VPN profile for P2S clients for VirtualWan and associated VpnServerConfiguration combination in the specified resource group.
  *
  * @summary Generates a unique VPN profile for P2S clients for VirtualWan and associated VpnServerConfiguration combination in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/GenerateVirtualWanVpnServerConfigurationVpnProfile.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/GenerateVirtualWanVpnServerConfigurationVpnProfile.json
  */
 async function generateVirtualWanVpnServerConfigurationVpnProfile(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

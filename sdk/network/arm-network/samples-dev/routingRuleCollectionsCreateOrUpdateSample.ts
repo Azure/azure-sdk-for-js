@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates a routing rule collection.
  *
  * @summary Creates or updates a routing rule collection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerRoutingRuleCollectionPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerRoutingRuleCollectionPut.json
  */
 async function createOrUpdateARoutingRuleCollection(): Promise<void> {
   const subscriptionId =
