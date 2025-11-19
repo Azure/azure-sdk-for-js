@@ -6,7 +6,7 @@
 
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { Monitors } from "../operationsInterfaces/index.js";
+import type { MonitoredSubscriptions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -15,31 +15,28 @@ import type { SimplePollerLike, OperationState } from "@azure/core-lro";
 import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
-  ElasticMonitorResource,
-  MonitorsListNextOptionalParams,
-  MonitorsListOptionalParams,
-  MonitorsListResponse,
-  MonitorsListByResourceGroupNextOptionalParams,
-  MonitorsListByResourceGroupOptionalParams,
-  MonitorsListByResourceGroupResponse,
-  MonitorsGetOptionalParams,
-  MonitorsGetResponse,
-  MonitorsCreateOptionalParams,
-  MonitorsCreateResponse,
-  MonitorsUpdateOptionalParams,
-  MonitorsUpdateResponse,
-  MonitorsDeleteOptionalParams,
-  MonitorsListNextResponse,
-  MonitorsListByResourceGroupNextResponse,
+  MonitoredSubscriptionProperties,
+  MonitoredSubscriptionsListNextOptionalParams,
+  MonitoredSubscriptionsListOptionalParams,
+  MonitoredSubscriptionsListResponse,
+  MonitoredSubscriptionsGetOptionalParams,
+  MonitoredSubscriptionsGetResponse,
+  MonitoredSubscriptionsCreateorUpdateOptionalParams,
+  MonitoredSubscriptionsCreateorUpdateResponse,
+  MonitoredSubscriptionsUpdateOptionalParams,
+  MonitoredSubscriptionsUpdateResponse,
+  MonitoredSubscriptionsDeleteOptionalParams,
+  MonitoredSubscriptionsDeleteResponse,
+  MonitoredSubscriptionsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Monitors operations. */
-export class MonitorsImpl implements Monitors {
+/** Class containing MonitoredSubscriptions operations. */
+export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
   private readonly client: MicrosoftElastic;
 
   /**
-   * Initialize a new instance of the class Monitors class.
+   * Initialize a new instance of the class MonitoredSubscriptions class.
    * @param client Reference to the service client
    */
   constructor(client: MicrosoftElastic) {
@@ -47,14 +44,18 @@ export class MonitorsImpl implements Monitors {
   }
 
   /**
-   * List all Elastic monitor resources within a specified subscription, helping you audit and manage
-   * your monitoring setup.
+   * List all subscriptions currently being monitored by the Elastic monitor resource, helping you manage
+   * observability.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   public list(
-    options?: MonitorsListOptionalParams,
-  ): PagedAsyncIterableIterator<ElasticMonitorResource> {
-    const iter = this.listPagingAll(options);
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitoredSubscriptionsListOptionalParams,
+  ): PagedAsyncIterableIterator<MonitoredSubscriptionProperties> {
+    const iter = this.listPagingAll(resourceGroupName, monitorName, options);
     return {
       next() {
         return iter.next();
@@ -66,26 +67,28 @@ export class MonitorsImpl implements Monitors {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(options, settings);
+        return this.listPagingPage(resourceGroupName, monitorName, options, settings);
       },
     };
   }
 
   private async *listPagingPage(
-    options?: MonitorsListOptionalParams,
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitoredSubscriptionsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<ElasticMonitorResource[]> {
-    let result: MonitorsListResponse;
+  ): AsyncIterableIterator<MonitoredSubscriptionProperties[]> {
+    let result: MonitoredSubscriptionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(options);
+      result = await this._list(resourceGroupName, monitorName, options);
       const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+      result = await this._listNext(resourceGroupName, monitorName, continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -94,131 +97,76 @@ export class MonitorsImpl implements Monitors {
   }
 
   private async *listPagingAll(
-    options?: MonitorsListOptionalParams,
-  ): AsyncIterableIterator<ElasticMonitorResource> {
-    for await (const page of this.listPagingPage(options)) {
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitoredSubscriptionsListOptionalParams,
+  ): AsyncIterableIterator<MonitoredSubscriptionProperties> {
+    for await (const page of this.listPagingPage(resourceGroupName, monitorName, options)) {
       yield* page;
     }
   }
 
   /**
-   * List all Elastic monitor resources within a specified resource group of the subscription, helping
-   * you audit and manage your monitoring setup.
+   * List all subscriptions currently being monitored by the Elastic monitor resource, helping you manage
+   * observability.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
-  public listByResourceGroup(
+  private _list(
     resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<ElasticMonitorResource> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
-      },
-    };
-  }
-
-  private async *listByResourceGroupPagingPage(
-    resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<ElasticMonitorResource[]> {
-    let result: MonitorsListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      const page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
-      continuationToken = result.nextLink;
-      const page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByResourceGroupPagingAll(
-    resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<ElasticMonitorResource> {
-    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List all Elastic monitor resources within a specified subscription, helping you audit and manage
-   * your monitoring setup.
-   * @param options The options parameters.
-   */
-  private _list(options?: MonitorsListOptionalParams): Promise<MonitorsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
-   * List all Elastic monitor resources within a specified resource group of the subscription, helping
-   * you audit and manage your monitoring setup.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams,
-  ): Promise<MonitorsListByResourceGroupResponse> {
+    monitorName: string,
+    options?: MonitoredSubscriptionsListOptionalParams,
+  ): Promise<MonitoredSubscriptionsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
+      { resourceGroupName, monitorName, options },
+      listOperationSpec,
     );
   }
 
   /**
-   * Get detailed properties of a specific Elastic monitor resource, helping you manage observability and
-   * performance.
+   * Get detailed information about all subscriptions currently being monitored by the Elastic monitor
+   * resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
+   * @param configurationName The configuration name. Only 'default' value is supported.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetOptionalParams,
-  ): Promise<MonitorsGetResponse> {
+    configurationName: string,
+    options?: MonitoredSubscriptionsGetOptionalParams,
+  ): Promise<MonitoredSubscriptionsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, options },
+      { resourceGroupName, monitorName, configurationName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create a new Elastic monitor resource in your Azure subscription, enabling observability and
-   * monitoring of your Azure resources through Elastic.
+   * Add subscriptions to be monitored by the Elastic monitor resource, enabling observability and
+   * monitoring.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
+   * @param configurationName The configuration name. Only 'default' value is supported.
    * @param options The options parameters.
    */
-  async beginCreate(
+  async beginCreateorUpdate(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsCreateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<MonitorsCreateResponse>, MonitorsCreateResponse>> {
+    configurationName: string,
+    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MonitoredSubscriptionsCreateorUpdateResponse>,
+      MonitoredSubscriptionsCreateorUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<MonitorsCreateResponse> => {
+    ): Promise<MonitoredSubscriptionsCreateorUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -254,53 +202,66 @@ export class MonitorsImpl implements Monitors {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, monitorName, options },
-      spec: createOperationSpec,
+      args: { resourceGroupName, monitorName, configurationName, options },
+      spec: createorUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      MonitorsCreateResponse,
-      OperationState<MonitorsCreateResponse>
+      MonitoredSubscriptionsCreateorUpdateResponse,
+      OperationState<MonitoredSubscriptionsCreateorUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create a new Elastic monitor resource in your Azure subscription, enabling observability and
-   * monitoring of your Azure resources through Elastic.
+   * Add subscriptions to be monitored by the Elastic monitor resource, enabling observability and
+   * monitoring.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
+   * @param configurationName The configuration name. Only 'default' value is supported.
    * @param options The options parameters.
    */
-  async beginCreateAndWait(
+  async beginCreateorUpdateAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsCreateOptionalParams,
-  ): Promise<MonitorsCreateResponse> {
-    const poller = await this.beginCreate(resourceGroupName, monitorName, options);
+    configurationName: string,
+    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams,
+  ): Promise<MonitoredSubscriptionsCreateorUpdateResponse> {
+    const poller = await this.beginCreateorUpdate(
+      resourceGroupName,
+      monitorName,
+      configurationName,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
   /**
-   * Update an existing Elastic monitor resource in your Azure subscription, ensuring optimal
-   * observability and performance.
+   * Update subscriptions to be monitored by the Elastic monitor resource, ensuring optimal observability
+   * and performance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
+   * @param configurationName The configuration name. Only 'default' value is supported.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsUpdateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<MonitorsUpdateResponse>, MonitorsUpdateResponse>> {
+    configurationName: string,
+    options?: MonitoredSubscriptionsUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MonitoredSubscriptionsUpdateResponse>,
+      MonitoredSubscriptionsUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<MonitorsUpdateResponse> => {
+    ): Promise<MonitoredSubscriptionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -336,53 +297,66 @@ export class MonitorsImpl implements Monitors {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, monitorName, options },
+      args: { resourceGroupName, monitorName, configurationName, options },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      MonitorsUpdateResponse,
-      OperationState<MonitorsUpdateResponse>
+      MonitoredSubscriptionsUpdateResponse,
+      OperationState<MonitoredSubscriptionsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Update an existing Elastic monitor resource in your Azure subscription, ensuring optimal
-   * observability and performance.
+   * Update subscriptions to be monitored by the Elastic monitor resource, ensuring optimal observability
+   * and performance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
+   * @param configurationName The configuration name. Only 'default' value is supported.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsUpdateOptionalParams,
-  ): Promise<MonitorsUpdateResponse> {
-    const poller = await this.beginUpdate(resourceGroupName, monitorName, options);
+    configurationName: string,
+    options?: MonitoredSubscriptionsUpdateOptionalParams,
+  ): Promise<MonitoredSubscriptionsUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      monitorName,
+      configurationName,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete an existing Elastic monitor resource from your Azure subscription, removing its observability
+   * Delete subscriptions being monitored by the Elastic monitor resource, removing their observability
    * and monitoring capabilities.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
+   * @param configurationName The configuration name. Only 'default' value is supported.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    configurationName: string,
+    options?: MonitoredSubscriptionsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MonitoredSubscriptionsDeleteResponse>,
+      MonitoredSubscriptionsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<MonitoredSubscriptionsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -418,10 +392,13 @@ export class MonitorsImpl implements Monitors {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, monitorName, options },
+      args: { resourceGroupName, monitorName, configurationName, options },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      MonitoredSubscriptionsDeleteResponse,
+      OperationState<MonitoredSubscriptionsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
     });
@@ -430,47 +407,44 @@ export class MonitorsImpl implements Monitors {
   }
 
   /**
-   * Delete an existing Elastic monitor resource from your Azure subscription, removing its observability
+   * Delete subscriptions being monitored by the Elastic monitor resource, removing their observability
    * and monitoring capabilities.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
+   * @param configurationName The configuration name. Only 'default' value is supported.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDelete(resourceGroupName, monitorName, options);
+    configurationName: string,
+    options?: MonitoredSubscriptionsDeleteOptionalParams,
+  ): Promise<MonitoredSubscriptionsDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      monitorName,
+      configurationName,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
   /**
    * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    nextLink: string,
-    options?: MonitorsListNextOptionalParams,
-  ): Promise<MonitorsListNextResponse> {
-    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
-  }
-
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNext(
     resourceGroupName: string,
+    monitorName: string,
     nextLink: string,
-    options?: MonitorsListByResourceGroupNextOptionalParams,
-  ): Promise<MonitorsListByResourceGroupNextResponse> {
+    options?: MonitoredSubscriptionsListNextOptionalParams,
+  ): Promise<MonitoredSubscriptionsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec,
+      { resourceGroupName, monitorName, nextLink, options },
+      listNextOperationSpec,
     );
   }
 }
@@ -478,46 +452,14 @@ export class MonitorsImpl implements Monitors {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/monitors",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/monitoredSubscriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticMonitorResourceListResponse,
+      bodyMapper: Mappers.MonitoredSubscriptionPropertiesList,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ElasticMonitorResourceListResponse,
-    },
-    default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ElasticMonitorResource,
-    },
-    default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -530,80 +472,112 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}",
-  httpMethod: "PUT",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/monitoredSubscriptions/{configurationName}",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticMonitorResource,
-    },
-    201: {
-      bodyMapper: Mappers.ElasticMonitorResource,
-    },
-    202: {
-      bodyMapper: Mappers.ElasticMonitorResource,
-    },
-    204: {
-      bodyMapper: Mappers.ElasticMonitorResource,
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
+    Parameters.configurationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createorUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/monitoredSubscriptions/{configurationName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
+    },
+    201: {
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
+    },
+    202: {
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
+    },
+    204: {
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/monitoredSubscriptions/{configurationName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticMonitorResource,
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
     },
     201: {
-      bodyMapper: Mappers.ElasticMonitorResource,
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
     },
     202: {
-      bodyMapper: Mappers.ElasticMonitorResource,
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
     },
     204: {
-      bodyMapper: Mappers.ElasticMonitorResource,
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/monitoredSubscriptions/{configurationName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.MonitoredSubscriptionsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.MonitoredSubscriptionsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.MonitoredSubscriptionsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.MonitoredSubscriptionsDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -612,6 +586,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -621,25 +596,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticMonitorResourceListResponse,
+      bodyMapper: Mappers.MonitoredSubscriptionPropertiesList,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
-    },
-  },
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ElasticMonitorResourceListResponse,
-    },
-    default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
@@ -647,6 +607,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
