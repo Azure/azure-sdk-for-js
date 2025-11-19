@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { FailoverInput, IotHubManualFailoverOptionalParams } from "../models/index.js";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type { FailoverInput, IotHubManualFailoverOptionalParams } from "../models/index.js";
 
 /** Interface representing a IotHub. */
 export interface IotHub {
@@ -25,7 +25,7 @@ export interface IotHub {
     iotHubName: string,
     resourceGroupName: string,
     failoverInput: FailoverInput,
-    options?: IotHubManualFailoverOptionalParams
+    options?: IotHubManualFailoverOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Manually initiate a failover for the IoT Hub to its secondary region. To learn more, see
@@ -41,6 +41,6 @@ export interface IotHub {
     iotHubName: string,
     resourceGroupName: string,
     failoverInput: FailoverInput,
-    options?: IotHubManualFailoverOptionalParams
+    options?: IotHubManualFailoverOptionalParams,
   ): Promise<void>;
 }

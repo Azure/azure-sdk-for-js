@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get the Pool Usage.
  *
  * @summary Get the Pool Usage.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/IpamPools_GetPoolUsage.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/IpamPools_GetPoolUsage.json
  */
 async function ipamPoolsGetPoolUsage(): Promise<void> {
   const subscriptionId =

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to This operation retrieves a list of routes the virtual network gateway has learned, including routes learned from BGP peers.
  *
  * @summary This operation retrieves a list of routes the virtual network gateway has learned, including routes learned from BGP peers.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkGatewayLearnedRoutes.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkGatewayLearnedRoutes.json
  */
 async function getVirtualNetworkGatewayLearnedRoutes(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

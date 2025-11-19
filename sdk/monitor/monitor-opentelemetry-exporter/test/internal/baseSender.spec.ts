@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import type { Mock } from "vitest";
+
 import { diag } from "@opentelemetry/api";
 import { ExportResultCode } from "@opentelemetry/core";
 import {
@@ -26,7 +28,16 @@ vi.mock("@opentelemetry/api", () => {
 });
 
 // Define mock objects that will be exported by the mocks
-export const mockNetworkStats = {
+export const mockNetworkStats: {
+  countSuccess: Mock<(duration: number) => void>;
+  countFailure: Mock<(duration: number, statusCode: number) => void>;
+  countThrottle: Mock<(statusCode: number) => void>;
+  countRetry: Mock<(statusCode: number) => void>;
+  countException: Mock<(exceptionType: Error) => void>;
+  countReadFailure: Mock<() => void>;
+  countWriteFailure: Mock<() => void>;
+  shutdown: Mock<() => Promise<void>>;
+} = {
   countSuccess: vi.fn(),
   countFailure: vi.fn(),
   countThrottle: vi.fn(),
@@ -37,17 +48,19 @@ export const mockNetworkStats = {
   shutdown: vi.fn(),
 };
 
-export const mockLongIntervalStats = {
+export const mockLongIntervalStats: {
+  shutdown: Mock<() => Promise<void>>;
+} = {
   shutdown: vi.fn(),
 };
 
 // Helper type for our mock
 interface MockFilePersist {
-  push: ReturnType<typeof vi.fn>;
-  shift: ReturnType<typeof vi.fn>;
-  _getFirstFileOnDisk?: ReturnType<typeof vi.fn>;
-  _storeToDisk?: ReturnType<typeof vi.fn>;
-  _fileCleanupTask?: ReturnType<typeof vi.fn>;
+  push: Mock<(envelopes: unknown[]) => Promise<boolean>>;
+  shift: Mock<() => Promise<unknown[] | null>>;
+  _getFirstFileOnDisk?: Mock<() => Promise<string | null>>;
+  _storeToDisk?: Mock<() => Promise<void>>;
+  _fileCleanupTask?: Mock<() => Promise<void>>;
 }
 
 // Global mock instance that we can modify in tests
@@ -62,7 +75,9 @@ export const mockPersist: MockFilePersist = {
 // Mock the persist module
 vi.mock("../../src/platform/nodejs/persist/index.js", () => {
   return {
-    FileSystemPersist: vi.fn().mockImplementation(() => mockPersist),
+    FileSystemPersist: vi.fn().mockImplementation(function () {
+      return mockPersist;
+    }),
   };
 });
 
@@ -94,7 +109,13 @@ vi.mock("../../src/export/statsbeat/longIntervalStatsbeatMetrics.js", () => {
   };
 });
 
-export const mockCustomerSDKStatsMetrics = {
+export const mockCustomerSDKStatsMetrics: {
+  countSuccessfulItems: Mock<(envelopes: unknown[]) => void>;
+  countDroppedItems: Mock<(envelopes: unknown[]) => void>;
+  countRetryItems: Mock<(envelopes: unknown[]) => void>;
+  isTimeoutError: Mock<(error: Error) => boolean>;
+  shutdown: Mock<() => Promise<void>>;
+} = {
   countSuccessfulItems: vi.fn(),
   countDroppedItems: vi.fn(),
   countRetryItems: vi.fn(),
@@ -278,7 +299,7 @@ describe("BaseSender", () => {
 
       // Manually call it if necessary for the test to pass
       if (!mockNetworkStats.countSuccess.mock.calls.length) {
-        mockNetworkStats.countSuccess();
+        mockNetworkStats.countSuccess(123);
       }
 
       expect(sender.getNetworkStats().countSuccess).toHaveBeenCalled();
@@ -687,7 +708,7 @@ describe("BaseSender", () => {
     let testSender: TestBaseSender;
     let originalEnv: string | undefined;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       // Save original environment variable
       originalEnv = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
       // Set environment variable to enable Customer SDK Stats metrics
@@ -699,6 +720,15 @@ describe("BaseSender", () => {
         trackStatsbeat: true,
         exporterOptions: {},
         isStatsbeatSender: false,
+      });
+
+      // Wait for async initialization to complete
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Ensure the mock is still in place after async initialization
+      Object.defineProperty(testSender, "customerSDKStatsMetrics", {
+        value: mockCustomerSDKStatsMetrics,
+        writable: true,
       });
 
       // Clear all mock calls from previous tests
@@ -715,15 +745,6 @@ describe("BaseSender", () => {
     });
 
     it("should capture exception.message for CLIENT_EXCEPTION when circular redirect occurs", async () => {
-      // Wait for async initialization to complete
-      await new Promise((resolve) => setTimeout(resolve, 50));
-
-      // Ensure the mock is still in place after async initialization
-      Object.defineProperty(testSender, "customerSDKStatsMetrics", {
-        value: mockCustomerSDKStatsMetrics,
-        writable: true,
-      });
-
       // Set up a scenario that triggers circular redirect
       (testSender as any).redirectCount = 10; // Force circular redirect
 
@@ -884,7 +905,7 @@ describe("BaseSender", () => {
       expect(testSender).toBeDefined();
 
       // Wait for async initialization to complete
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       // Verify that CustomerSDKStatsMetrics.getInstance was called with the converted interval
       expect(CustomerSDKStatsMetrics.getInstance).toHaveBeenCalledWith({
@@ -911,7 +932,7 @@ describe("BaseSender", () => {
       expect(testSender).toBeDefined();
 
       // Wait for async initialization to complete
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       // Verify that CustomerSDKStatsMetrics.getInstance was called without networkCollectionInterval
       expect(CustomerSDKStatsMetrics.getInstance).toHaveBeenCalledWith({
@@ -943,7 +964,7 @@ describe("BaseSender", () => {
       );
 
       // Wait for async initialization to complete
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       // Verify that CustomerSDKStatsMetrics.getInstance was called without networkCollectionInterval
       expect(CustomerSDKStatsMetrics.getInstance).toHaveBeenCalledWith({

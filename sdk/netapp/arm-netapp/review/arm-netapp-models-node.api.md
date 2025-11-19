@@ -19,7 +19,6 @@ export interface AccountProperties {
     activeDirectories?: ActiveDirectory[];
     readonly disableShowmount?: boolean | null;
     encryption?: AccountEncryption;
-    ldapConfiguration?: LdapConfiguration;
     readonly multiAdStatus?: MultiAdStatus;
     nfsV4IDDomain?: string | null;
     readonly provisioningState?: string;
@@ -182,68 +181,6 @@ export interface BreakReplicationRequest {
 }
 
 // @public
-export interface Bucket extends ProxyResource {
-    properties?: BucketProperties;
-}
-
-// @public
-export interface BucketCredentialsExpiry {
-    keyPairExpiryDays?: number;
-}
-
-// @public
-export interface BucketGenerateCredentials {
-    readonly accessKey?: string;
-    readonly keyPairExpiry?: Date;
-    readonly secretKey?: string;
-}
-
-// @public
-export interface BucketPatch extends ProxyResource {
-    properties?: BucketPatchProperties;
-}
-
-// @public
-export type BucketPatchPermissions = string;
-
-// @public
-export interface BucketPatchProperties {
-    fileSystemUser?: FileSystemUser;
-    path?: string;
-    permissions?: BucketPatchPermissions;
-    readonly provisioningState?: NetAppProvisioningState;
-    server?: BucketServerPatchProperties;
-}
-
-// @public
-export type BucketPermissions = string;
-
-// @public
-export interface BucketProperties {
-    fileSystemUser?: FileSystemUser;
-    path?: string;
-    permissions?: BucketPermissions;
-    readonly provisioningState?: NetAppProvisioningState;
-    server?: BucketServerProperties;
-    readonly status?: CredentialsStatus;
-}
-
-// @public
-export interface BucketServerPatchProperties {
-    certificateObject?: string;
-    fqdn?: string;
-}
-
-// @public
-export interface BucketServerProperties {
-    readonly certificateCommonName?: string;
-    readonly certificateExpiryDate?: Date;
-    certificateObject?: string;
-    fqdn?: string;
-    readonly ipAddress?: string;
-}
-
-// @public
 export interface CapacityPool extends TrackedResource {
     readonly etag?: string;
     properties: PoolProperties;
@@ -284,11 +221,6 @@ export type CheckQuotaNameResourceTypes = string;
 export type ChownMode = string;
 
 // @public
-export interface CifsUser {
-    username?: string;
-}
-
-// @public
 export interface ClusterPeerCommandResponse {
     peerAcceptCommand?: string;
 }
@@ -301,9 +233,6 @@ export type CoolAccessTieringPolicy = string;
 
 // @public
 export type CreatedByType = string;
-
-// @public
-export type CredentialsStatus = string;
 
 // @public
 export interface DailySchedule {
@@ -373,6 +302,10 @@ export interface ErrorResponse {
 }
 
 // @public
+type Exclude_2 = string;
+export { Exclude_2 as Exclude }
+
+// @public
 export interface ExportPolicyRule {
     allowedClients?: string;
     chownMode?: ChownMode;
@@ -392,9 +325,6 @@ export interface ExportPolicyRule {
 }
 
 // @public
-export type ExternalReplicationSetupStatus = string;
-
-// @public
 export type FileAccessLogs = string;
 
 // @public
@@ -402,12 +332,6 @@ export interface FilePathAvailabilityRequest {
     availabilityZone?: string | null;
     name: string;
     subnetId: string;
-}
-
-// @public
-export interface FileSystemUser {
-    cifsUser?: CifsUser;
-    nfsUser?: NfsUser;
 }
 
 // @public
@@ -498,30 +422,22 @@ export enum KnownBackupType {
 }
 
 // @public
-export enum KnownBucketPatchPermissions {
-    ReadOnly = "ReadOnly",
-    ReadWrite = "ReadWrite"
-}
-
-// @public
-export enum KnownBucketPermissions {
-    ReadOnly = "ReadOnly",
-    ReadWrite = "ReadWrite"
-}
-
-// @public
 export enum KnownCheckNameResourceTypes {
     MicrosoftNetAppNetAppAccounts = "Microsoft.NetApp/netAppAccounts",
+    MicrosoftNetAppNetAppAccountsBackupVaultsBackups = "Microsoft.NetApp/netAppAccounts/backupVaults/backups",
     MicrosoftNetAppNetAppAccountsCapacityPools = "Microsoft.NetApp/netAppAccounts/capacityPools",
     MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
+    MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesBackups = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/backups",
     MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots"
 }
 
 // @public
 export enum KnownCheckQuotaNameResourceTypes {
     MicrosoftNetAppNetAppAccounts = "Microsoft.NetApp/netAppAccounts",
+    MicrosoftNetAppNetAppAccountsBackupVaultsBackups = "Microsoft.NetApp/netAppAccounts/backupVaults/backups",
     MicrosoftNetAppNetAppAccountsCapacityPools = "Microsoft.NetApp/netAppAccounts/capacityPools",
     MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
+    MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesBackups = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/backups",
     MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots"
 }
 
@@ -553,13 +469,6 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownCredentialsStatus {
-    Active = "Active",
-    CredentialsExpired = "CredentialsExpired",
-    NoCredentialsSet = "NoCredentialsSet"
-}
-
-// @public
 export enum KnownEnableSubvolumes {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -584,12 +493,9 @@ export enum KnownEndpointType {
 }
 
 // @public
-export enum KnownExternalReplicationSetupStatus {
-    ClusterPeerPending = "ClusterPeerPending",
-    ClusterPeerRequired = "ClusterPeerRequired",
-    NoActionRequired = "NoActionRequired",
-    ReplicationCreateRequired = "ReplicationCreateRequired",
-    VServerPeerRequired = "VServerPeerRequired"
+export enum KnownExclude {
+    Deleted = "Deleted",
+    None = "None"
 }
 
 // @public
@@ -617,12 +523,6 @@ export enum KnownKeyVaultStatus {
     Error = "Error",
     InUse = "InUse",
     Updating = "Updating"
-}
-
-// @public
-export enum KnownLdapServerType {
-    ActiveDirectory = "ActiveDirectory",
-    OpenLdap = "OpenLDAP"
 }
 
 // @public
@@ -659,7 +559,8 @@ export enum KnownNetAppProvisioningState {
     Failed = "Failed",
     Moving = "Moving",
     Patching = "Patching",
-    Succeeded = "Succeeded"
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -694,6 +595,13 @@ export enum KnownRegionStorageToNetworkProximity {
     T1AndT2AndAcrossT2 = "T1AndT2AndAcrossT2",
     T2 = "T2",
     T2AndAcrossT2 = "T2AndAcrossT2"
+}
+
+// @public
+export enum KnownReplicationMirrorState {
+    Broken = "Broken",
+    Mirrored = "Mirrored",
+    Uninitialized = "Uninitialized"
 }
 
 // @public
@@ -747,7 +655,8 @@ export enum KnownType {
 // @public
 export enum KnownVersions {
     V20250601 = "2025-06-01",
-    V20250701Preview = "2025-07-01-preview"
+    V20250801 = "2025-08-01",
+    V20250901 = "2025-09-01"
 }
 
 // @public
@@ -756,79 +665,6 @@ export enum KnownVolumeBackupRelationshipStatus {
     Idle = "Idle",
     Transferring = "Transferring",
     Unknown = "Unknown"
-}
-
-// @public
-export enum KnownVolumeLanguage {
-    Ar = "ar",
-    ArUtf8 = "ar.utf-8",
-    C = "c",
-    Cs = "cs",
-    CsUtf8 = "cs.utf-8",
-    CUtf8 = "c.utf-8",
-    Da = "da",
-    DaUtf8 = "da.utf-8",
-    De = "de",
-    DeUtf8 = "de.utf-8",
-    En = "en",
-    EnUs = "en-us",
-    EnUsUtf8 = "en-us.utf-8",
-    EnUtf8 = "en.utf-8",
-    Es = "es",
-    EsUtf8 = "es.utf-8",
-    Fi = "fi",
-    FiUtf8 = "fi.utf-8",
-    Fr = "fr",
-    FrUtf8 = "fr.utf-8",
-    He = "he",
-    HeUtf8 = "he.utf-8",
-    Hr = "hr",
-    HrUtf8 = "hr.utf-8",
-    Hu = "hu",
-    HuUtf8 = "hu.utf-8",
-    It = "it",
-    ItUtf8 = "it.utf-8",
-    Ja = "ja",
-    JaJp932 = "ja-jp.932",
-    JaJp932Utf8 = "ja-jp.932.utf-8",
-    JaJpPck = "ja-jp.pck",
-    JaJpPckUtf8 = "ja-jp.pck.utf-8",
-    JaJpPckV2 = "ja-jp.pck-v2",
-    JaJpPckV2Utf8 = "ja-jp.pck-v2.utf-8",
-    JaUtf8 = "ja.utf-8",
-    JaV1 = "ja-v1",
-    JaV1Utf8 = "ja-v1.utf-8",
-    Ko = "ko",
-    KoUtf8 = "ko.utf-8",
-    Nl = "nl",
-    NlUtf8 = "nl.utf-8",
-    No = "no",
-    NoUtf8 = "no.utf-8",
-    Pl = "pl",
-    PlUtf8 = "pl.utf-8",
-    Pt = "pt",
-    PtUtf8 = "pt.utf-8",
-    Ro = "ro",
-    RoUtf8 = "ro.utf-8",
-    Ru = "ru",
-    RuUtf8 = "ru.utf-8",
-    Sk = "sk",
-    SkUtf8 = "sk.utf-8",
-    Sl = "sl",
-    SlUtf8 = "sl.utf-8",
-    Sv = "sv",
-    SvUtf8 = "sv.utf-8",
-    Tr = "tr",
-    TrUtf8 = "tr.utf-8",
-    Utf8Mb4 = "utf8mb4",
-    Zh = "zh",
-    ZhGbk = "zh.gbk",
-    ZhGbkUtf8 = "zh.gbk.utf-8",
-    ZhTw = "zh-tw",
-    ZhTwBig5 = "zh-tw.big5",
-    ZhTwBig5Utf8 = "zh-tw.big5.utf-8",
-    ZhTwUtf8 = "zh-tw.utf-8",
-    ZhUtf8 = "zh.utf-8"
 }
 
 // @public
@@ -854,15 +690,6 @@ export enum KnownVolumeStorageToNetworkProximity {
 }
 
 // @public
-export interface LdapConfiguration {
-    certificateCNHost?: string | null;
-    domain?: string;
-    ldapOverTLS?: boolean;
-    ldapServers?: string[];
-    serverCACertificate?: string;
-}
-
-// @public
 export interface LdapSearchScopeOpt {
     groupDN?: string;
     groupMembershipFilter?: string;
@@ -870,11 +697,8 @@ export interface LdapSearchScopeOpt {
 }
 
 // @public
-export type LdapServerType = string;
-
-// @public
-export interface ListQuotaReportResponse {
-    value?: QuotaReport[];
+export interface ListReplicationsRequest {
+    exclude?: Exclude_2;
 }
 
 // @public
@@ -978,12 +802,6 @@ export interface NetworkSiblingSet {
 export type NetworkSiblingSetProvisioningState = string;
 
 // @public
-export interface NfsUser {
-    groupId?: number;
-    userId?: number;
-}
-
-// @public
 export interface NicInfo {
     readonly ipAddress?: string;
     volumeResourceIds?: string[];
@@ -1081,16 +899,6 @@ export interface QuotaItemProperties {
 }
 
 // @public
-export interface QuotaReport {
-    isDerivedQuota?: boolean;
-    percentageUsed?: number;
-    quotaLimitTotalInKiBs?: number;
-    quotaLimitUsedInKiBs?: number;
-    quotaTarget?: string;
-    quotaType?: Type;
-}
-
-// @public
 export interface ReestablishReplicationRequest {
     sourceVolumeId?: string;
 }
@@ -1130,20 +938,22 @@ export interface RemotePath {
 // @public
 export interface Replication {
     endpointType?: EndpointType;
+    readonly mirrorState?: ReplicationMirrorState;
     remoteVolumeRegion?: string;
     remoteVolumeResourceId: string;
+    readonly replicationCreationTime?: Date;
+    readonly replicationDeletionTime?: Date;
     readonly replicationId?: string;
     replicationSchedule?: ReplicationSchedule;
 }
 
 // @public
+export type ReplicationMirrorState = string;
+
+// @public
 export interface ReplicationObject {
     readonly destinationReplications?: DestinationReplication[];
     readonly endpointType?: EndpointType;
-    readonly externalReplicationSetupInfo?: string;
-    readonly externalReplicationSetupStatus?: ExternalReplicationSetupStatus;
-    readonly mirrorState?: MirrorState;
-    readonly relationshipStatus?: VolumeReplicationRelationshipStatus;
     remotePath?: RemotePath;
     remoteVolumeRegion?: string;
     remoteVolumeResourceId?: string;
@@ -1441,9 +1251,6 @@ export interface VolumeGroupVolumeProperties {
 }
 
 // @public
-export type VolumeLanguage = string;
-
-// @public
 export interface VolumePatch {
     readonly id?: string;
     location?: string;
@@ -1517,9 +1324,7 @@ export interface VolumeProperties {
     readonly isRestoring?: boolean;
     kerberosEnabled?: boolean;
     keyVaultPrivateEndpointResourceId?: string;
-    language?: VolumeLanguage;
     ldapEnabled?: boolean;
-    ldapServerType?: LdapServerType;
     readonly maximumNumberOfFiles?: number;
     readonly mountTargets?: MountTargetProperties[];
     networkFeatures?: NetworkFeatures;

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to The GetBgpPeerStatus operation retrieves the status of all BGP peers.
  *
  * @summary The GetBgpPeerStatus operation retrieves the status of all BGP peers.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkGatewayGetBGPPeerStatus.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkGatewayGetBGPPeerStatus.json
  */
 async function getVirtualNetworkGatewayBgpPeerStatus(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

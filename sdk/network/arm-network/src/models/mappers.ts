@@ -1613,6 +1613,12 @@ export const ApplicationGatewayOnDemandProbe: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      enableProbeProxyProtocolHeader: {
+        serializedName: "enableProbeProxyProtocolHeader",
+        type: {
+          name: "Boolean",
+        },
+      },
       match: {
         serializedName: "match",
         type: {
@@ -16810,6 +16816,38 @@ export const VirtualNetworkGatewayConnectionTunnelProperties: coreClient.Composi
   },
 };
 
+export const CertificateAuthentication: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CertificateAuthentication",
+    modelProperties: {
+      outboundAuthCertificate: {
+        serializedName: "outboundAuthCertificate",
+        type: {
+          name: "String",
+        },
+      },
+      inboundAuthCertificateSubjectName: {
+        serializedName: "inboundAuthCertificateSubjectName",
+        type: {
+          name: "String",
+        },
+      },
+      inboundAuthCertificateChain: {
+        serializedName: "inboundAuthCertificateChain",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const VirtualNetworkGatewayConnectionListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -20724,6 +20762,12 @@ export const ApplicationGatewayProbe: coreClient.CompositeMapper = {
           className: "ApplicationGatewayProbeHealthResponseMatch",
         },
       },
+      enableProbeProxyProtocolHeader: {
+        serializedName: "properties.enableProbeProxyProtocolHeader",
+        type: {
+          name: "Boolean",
+        },
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -22624,6 +22668,12 @@ export const ApplicationGatewayBackendSettings: coreClient.CompositeMapper = {
       },
       pickHostNameFromBackendAddress: {
         serializedName: "properties.pickHostNameFromBackendAddress",
+        type: {
+          name: "Boolean",
+        },
+      },
+      enableL4ClientIpPreservation: {
+        serializedName: "properties.enableL4ClientIpPreservation",
         type: {
           name: "Boolean",
         },
@@ -27727,6 +27777,12 @@ export const PrivateLinkService: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      accessMode: {
+        serializedName: "properties.accessMode",
+        type: {
+          name: "String",
+        },
+      },
       networkInterfaces: {
         serializedName: "properties.networkInterfaces",
         readOnly: true,
@@ -30784,6 +30840,12 @@ export const LoadBalancer: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      scope: {
+        serializedName: "properties.scope",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -32333,6 +32395,19 @@ export const VirtualNetworkGatewayConnection: coreClient.CompositeMapper = {
         serializedName: "properties.enablePrivateLinkFastPath",
         type: {
           name: "Boolean",
+        },
+      },
+      authenticationType: {
+        serializedName: "properties.authenticationType",
+        type: {
+          name: "String",
+        },
+      },
+      certificateAuthentication: {
+        serializedName: "properties.certificateAuthentication",
+        type: {
+          name: "Composite",
+          className: "CertificateAuthentication",
         },
       },
     },
@@ -33892,6 +33967,13 @@ export const NetworkManagerRoutingConfiguration: coreClient.CompositeMapper = {
       resourceGuid: {
         serializedName: "properties.resourceGuid",
         readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      routeTableUsageMode: {
+        defaultValue: "ManagedOnly",
+        serializedName: "properties.routeTableUsageMode",
         type: {
           name: "String",
         },

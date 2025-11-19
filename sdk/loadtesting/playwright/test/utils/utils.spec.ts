@@ -109,6 +109,7 @@ describe("Service Utils", () => {
     vi.stubEnv(InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION, Constants.LatestAPIVersion);
     vi.spyOn(console, "error");
     vi.spyOn(console, "log");
+    vi.mocked(process.exit).mockReset();
   });
 
   afterEach(() => {

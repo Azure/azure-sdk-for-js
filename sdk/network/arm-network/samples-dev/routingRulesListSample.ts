@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to List all network manager routing configuration routing rules.
  *
  * @summary List all network manager routing configuration routing rules.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerRoutingRuleList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerRoutingRuleList.json
  */
 async function listRoutingRules(): Promise<void> {
   const subscriptionId =

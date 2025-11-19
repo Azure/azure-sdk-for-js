@@ -220,7 +220,7 @@ export class AdvancedThreatProtectionSettingsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "original-uri",
     });
     await poller.poll();
     return poller;

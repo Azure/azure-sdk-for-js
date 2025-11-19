@@ -10,6 +10,7 @@ import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { PaloAltoNetworksCloudngfw } from "../src/paloAltoNetworksCloudngfw.js";
+import type { LocalRulestackResource } from "../src/models/models.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
@@ -31,6 +32,9 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
+// Generate a unique resource name for this test run
+const testResourceName = "testjs";
+
 describe("paloaltonetworksngfw test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
@@ -51,8 +55,8 @@ describe("paloaltonetworksngfw test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
+    resourceGroup = "test-prakgupta-rg";
+    resourcename = testResourceName;
   });
 
   afterEach(async () => {
@@ -78,18 +82,24 @@ describe("paloaltonetworksngfw test", () => {
   });
 
   it("localRulestacks list test", async () => {
-    const resArray = new Array();
+    const resArray: LocalRulestackResource[] = [];
     for await (const item of client.localRulestacks.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
+    // Check that our resource exists in the list
+    const foundResource = resArray.find((item) => item.name === resourcename);
+    assert.ok(foundResource, `Resource ${resourcename} should exist in the list`);
   });
 
   it("localRulestacks delete test", async () => {
-    const resArray = new Array();
-    for await (const item of client.localRulestacks.listByResourceGroup(resourceGroup)) {
-      resArray.push(item);
+    await client.localRulestacks.beginDeleteAndWait(resourceGroup, resourcename);
+    // Verify the resource no longer exists by trying to get it
+    try {
+      await client.localRulestacks.get(resourceGroup, resourcename);
+      assert.fail("Resource should have been deleted");
+    } catch (error: any) {
+      // Expected: resource should not be found
+      assert.ok(error.statusCode === 404 || error.message.includes("NotFound"));
     }
-    assert.equal(resArray.length, 0);
   });
 });

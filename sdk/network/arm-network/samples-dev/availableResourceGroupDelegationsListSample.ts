@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets all of the available subnet delegations for this resource group in this region.
  *
  * @summary Gets all of the available subnet delegations for this resource group in this region.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/AvailableDelegationsResourceGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/AvailableDelegationsResourceGroupGet.json
  */
 async function getAvailableDelegationsInTheResourceGroup(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";

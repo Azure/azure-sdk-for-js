@@ -10,7 +10,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates a network security group tags.
  *
  * @summary Updates a network security group tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkSecurityGroupUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkSecurityGroupUpdateTags.json
  */
 async function updateNetworkSecurityGroupTags(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

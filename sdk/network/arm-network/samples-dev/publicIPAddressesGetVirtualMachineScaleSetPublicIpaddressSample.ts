@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get the specified public IP address in a virtual machine scale set.
  *
  * @summary Get the specified public IP address in a virtual machine scale set.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VmssPublicIpGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VmssPublicIpGet.json
  */
 async function getVmssPublicIP(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

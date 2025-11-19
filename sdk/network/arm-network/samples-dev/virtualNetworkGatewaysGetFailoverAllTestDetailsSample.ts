@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to This operation retrieves the details of all the failover tests performed on the gateway for different peering locations
  *
  * @summary This operation retrieves the details of all the failover tests performed on the gateway for different peering locations
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkGatewayGetFailoverAllTestsDetails.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkGatewayGetFailoverAllTestsDetails.json
  */
 async function virtualNetworkGatewayGetFailoverAllTestsDetails(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

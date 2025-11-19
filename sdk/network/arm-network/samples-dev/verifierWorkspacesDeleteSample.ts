@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes Verifier Workspace.
  *
  * @summary Deletes Verifier Workspace.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VerifierWorkspaceDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VerifierWorkspaceDelete.json
  */
 async function verifierWorkspaceDelete(): Promise<void> {
   const subscriptionId =

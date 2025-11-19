@@ -115,7 +115,7 @@ describe("MetricHandler", () => {
       process.env = env;
       process.env.APPLICATION_INSIGHTS_NO_STANDARD_METRICS = undefined;
       createHandler();
-      assert.ok(handler["_standardMetrics"], "Standard metrics not loaded");
+      assert.isDefined(handler["_standardMetrics"], "Standard metrics not loaded");
     });
 
     it("standard metrics disabled if env var present", () => {
@@ -123,7 +123,7 @@ describe("MetricHandler", () => {
       env["APPLICATION_INSIGHTS_NO_STANDARD_METRICS"] = "true";
       process.env = env;
       createHandler();
-      assert.ok(!handler["_standardMetrics"], "Standard metrics loaded");
+      assert.isUndefined(handler["_standardMetrics"], "Standard metrics loaded");
     });
   });
 

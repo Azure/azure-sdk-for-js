@@ -277,27 +277,32 @@ describe("#LiveMetrics", () => {
       [],
       new Map<string, number>(),
     );
-    assert.ok(monitoringDataPoints[0].metrics?.length === 11);
-    assert.ok(
-      monitoringDataPoints[0].metrics![6].name === QuickPulseMetricNames.PHYSICAL_BYTES.toString(),
+    assert.equal(monitoringDataPoints[0].metrics?.length, 11);
+    assert.equal(
+      monitoringDataPoints[0].metrics![6].name,
+      QuickPulseMetricNames.PHYSICAL_BYTES.toString(),
     );
-    assert.ok(monitoringDataPoints[0].metrics![6].value > 0);
-    assert.ok(
-      monitoringDataPoints[0].metrics![7].name === QuickPulseMetricNames.COMMITTED_BYTES.toString(),
+    assert.isTrue(monitoringDataPoints[0].metrics![6].value > 0);
+    assert.equal(
+      monitoringDataPoints[0].metrics![7].name,
+      QuickPulseMetricNames.COMMITTED_BYTES.toString(),
     );
-    assert.ok(
-      monitoringDataPoints[0].metrics![7].value === monitoringDataPoints[0].metrics![6].value,
+    assert.equal(
+      monitoringDataPoints[0].metrics![7].value,
+      monitoringDataPoints[0].metrics![6].value,
     );
-    assert.ok(
-      monitoringDataPoints[0].metrics![8].name ===
-        QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED.toString(),
+    assert.equal(
+      monitoringDataPoints[0].metrics![8].name,
+      QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED.toString(),
     );
-    assert.ok(monitoringDataPoints[0].metrics![8].value >= 0);
-    assert.ok(
-      monitoringDataPoints[0].metrics![9].name === QuickPulseMetricNames.PROCESSOR_TIME.toString(),
+    assert.isTrue(monitoringDataPoints[0].metrics![8].value >= 0);
+    assert.equal(
+      monitoringDataPoints[0].metrics![9].name,
+      QuickPulseMetricNames.PROCESSOR_TIME.toString(),
     );
-    assert.ok(
-      monitoringDataPoints[0].metrics![9].value === monitoringDataPoints[0].metrics![8].value,
+    assert.equal(
+      monitoringDataPoints[0].metrics![9].value,
+      monitoringDataPoints[0].metrics![8].value,
     );
   });
 
@@ -530,33 +535,38 @@ describe("#LiveMetrics", () => {
       [],
       new Map<string, number>(),
     );
-    assert.ok(monitoringDataPoints[0].metrics?.length === 11);
-    assert.ok(
-      monitoringDataPoints[0].metrics![6].name === QuickPulseMetricNames.PHYSICAL_BYTES.toString(),
+    assert.equal(monitoringDataPoints[0].metrics?.length, 11);
+    assert.equal(
+      monitoringDataPoints[0].metrics![6].name,
+      QuickPulseMetricNames.PHYSICAL_BYTES.toString(),
     );
-    assert.ok(monitoringDataPoints[0].metrics![6].value > 0);
-    assert.ok(
-      monitoringDataPoints[0].metrics![7].name === QuickPulseMetricNames.COMMITTED_BYTES.toString(),
+    assert.isTrue(monitoringDataPoints[0].metrics![6].value > 0);
+    assert.equal(
+      monitoringDataPoints[0].metrics![7].name,
+      QuickPulseMetricNames.COMMITTED_BYTES.toString(),
     );
-    assert.ok(
-      monitoringDataPoints[0].metrics![7].value === monitoringDataPoints[0].metrics![6].value,
+    assert.equal(
+      monitoringDataPoints[0].metrics![7].value,
+      monitoringDataPoints[0].metrics![6].value,
     );
-    assert.ok(
-      monitoringDataPoints[0].metrics![8].name ===
-        QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED.toString(),
+    assert.equal(
+      monitoringDataPoints[0].metrics![8].name,
+      QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED.toString(),
     );
-    assert.ok(monitoringDataPoints[0].metrics![8].value >= 0);
-    assert.ok(
-      monitoringDataPoints[0].metrics![9].name === QuickPulseMetricNames.PROCESSOR_TIME.toString(),
+    assert.isTrue(monitoringDataPoints[0].metrics![8].value >= 0);
+    assert.equal(
+      monitoringDataPoints[0].metrics![9].name,
+      QuickPulseMetricNames.PROCESSOR_TIME.toString(),
     );
-    assert.ok(
-      monitoringDataPoints[0].metrics![9].value === monitoringDataPoints[0].metrics![8].value,
+    assert.equal(
+      monitoringDataPoints[0].metrics![9].value,
+      monitoringDataPoints[0].metrics![8].value,
     );
   });
 
   it("should retrieve meter provider", () => {
     autoCollect.activateMetrics();
-    assert.ok(autoCollect.getMeterProvider());
+    assert.isDefined(autoCollect.getMeterProvider());
   });
 
   it("should not collect when disabled", async () => {

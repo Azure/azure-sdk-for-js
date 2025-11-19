@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates an identity binding in the specified managed cluster.
  *
  * @summary Creates or updates an identity binding in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/IdentityBindings_Create_Or_Update.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/IdentityBindings_Create_Or_Update.json
  */
 async function createOrUpdateIdentityBinding(): Promise<void> {
   const subscriptionId =
