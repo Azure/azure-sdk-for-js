@@ -28,7 +28,10 @@ interface ContinuationTokenTestCase {
     hasLimit?: boolean;
     hasSkipCount?: boolean;
     hasRid?: boolean;
+    hasHashedLastResult?: boolean;
     expectNoContinuationToken?: boolean; // For queries that don't support continuation
+    shouldNotHaveCompositeToken?: boolean;
+    shouldNotHaveOrderByItems?: boolean;
   };
   expectedTokenValues?: {
     orderByItemsCount?: number;
@@ -40,9 +43,11 @@ interface ContinuationTokenTestCase {
     rangeMappingsMinCount?: number;
     groupByValuesType?: "array" | "object";
     expectUndefined?: boolean; // For cases where no token is expected
+    ridMinLength?: number;
+    limitGreaterThan?: number;
+    offsetGreaterThanOrEqual?: number;
+    skipCountGreaterThanOrEqual?: number;
   };
-  tokenParser: (token: string) => any;
-  validator: (parsedToken: any) => boolean;
   requiresMultiPartition?: boolean;
   description: string;
 }
@@ -59,22 +64,13 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     expectedTokenStructure: {
       hasRangeMappings: true,
       hasRid: true,
-      hasCompositeToken: false,
-      hasOrderByItems: false,
+      shouldNotHaveCompositeToken: true,
+      shouldNotHaveOrderByItems: true,
     },
     expectedTokenValues: {
       ridType: "string",
       rangeMappingsMinCount: 1,
-    },
-    tokenParser: (token) => JSON.parse(token),
-    validator: (parsed) => {
-      return (
-        parsed.rangeMappings &&
-        Array.isArray(parsed.rangeMappings) &&
-        typeof parsed.rid === "string" &&
-        !parsed.compositeToken &&
-        !parsed.orderByItems
-      );
+      ridMinLength: 1,
     },
     requiresMultiPartition: false,
     description:
@@ -92,15 +88,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     expectedTokenValues: {
       ridType: "string",
       rangeMappingsMinCount: 1,
-    },
-    tokenParser: (token) => JSON.parse(token),
-    validator: (parsed) => {
-      return (
-        parsed.rangeMappings &&
-        Array.isArray(parsed.rangeMappings) &&
-        typeof parsed.rid === "string" &&
-        parsed.rid.length > 0
-      );
+      ridMinLength: 1,
     },
     requiresMultiPartition: false,
     description: "Projection queries should use parallel execution with composite tokens",
@@ -116,22 +104,14 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
       hasOrderByItems: true,
       hasSkipCount: true,
       hasRid: true,
+      hasRangeMappings: true,
     },
     expectedTokenValues: {
       orderByItemsCount: 1,
       skipCountInitial: 1,
       ridType: "string",
       compositeTokenType: "string",
-    },
-    tokenParser: (token) => JSON.parse(token),
-    validator: (parsed) => {
-      return (
-        parsed.rangeMappings &&
-        Array.isArray(parsed.rangeMappings) &&
-        Array.isArray(parsed.orderByItems) &&
-        typeof parsed.skipCount === "number" &&
-        typeof parsed.rid === "string"
-      );
+      skipCountGreaterThanOrEqual: 0,
     },
     requiresMultiPartition: true,
     description: "ORDER BY queries should produce OrderByQueryContinuationToken with orderByItems",
@@ -146,22 +126,14 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
       hasOrderByItems: true,
       hasSkipCount: true,
       hasRid: true,
+      hasRangeMappings: true,
     },
     expectedTokenValues: {
       orderByItemsCount: 1,
       skipCountInitial: 1,
       ridType: "string",
       compositeTokenType: "string",
-    },
-    tokenParser: (token) => JSON.parse(token),
-    validator: (parsed) => {
-      return (
-        parsed.rangeMappings &&
-        Array.isArray(parsed.rangeMappings) &&
-        parsed.orderByItems &&
-        parsed.orderByItems.length > 0 &&
-        typeof parsed.skipCount === "number"
-      );
+      skipCountGreaterThanOrEqual: 0,
     },
     requiresMultiPartition: true,
     description: "ORDER BY DESC should maintain proper ordering with continuation tokens",
@@ -176,21 +148,13 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
       hasOrderByItems: true,
       hasSkipCount: true,
       hasRid: true,
+      hasRangeMappings: true,
     },
     expectedTokenValues: {
       orderByItemsCount: 2,
       skipCountInitial: 1,
       ridType: "string",
       compositeTokenType: "string",
-    },
-    tokenParser: (token) => JSON.parse(token),
-    validator: (parsed) => {
-      return (
-        parsed.rangeMappings &&
-        Array.isArray(parsed.rangeMappings) &&
-        parsed.orderByItems &&
-        parsed.orderByItems.length > 0
-      );
     },
     requiresMultiPartition: true,
     description: "Multi-field ORDER BY should handle complex ordering scenarios",
@@ -210,15 +174,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
       limitValue: 8,
       ridType: "string",
       rangeMappingsMinCount: 1,
-    },
-    tokenParser: (token) => JSON.parse(token),
-    validator: (parsed) => {
-      return (
-        parsed.rangeMappings &&
-        typeof parsed.limit === "number" &&
-        parsed.limit > 0 &&
-        typeof parsed.rid === "string"
-      );
+      limitGreaterThan: 0,
     },
     requiresMultiPartition: false,
     description: "TOP queries should track remaining limit in continuation token",
@@ -237,15 +193,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     expectedTokenValues: {
       ridType: "string",
       rangeMappingsMinCount: 1,
-    },
-    tokenParser: (token) => JSON.parse(token),
-    validator: (parsed) => {
-      return (
-        parsed.rangeMappings &&
-        typeof parsed.offset === "number" &&
-        typeof parsed.limit === "number" &&
-        typeof parsed.rid === "string"
-      );
+      offsetGreaterThanOrEqual: 0,
     },
     requiresMultiPartition: false,
     description: "OFFSET LIMIT combination should maintain both offset and limit state",
@@ -262,8 +210,6 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     expectedTokenValues: {
       expectUndefined: true,
     },
-    tokenParser: (_token) => null, // No token expected
-    validator: (_parsed) => true, // No validation needed for undefined tokens
     requiresMultiPartition: true,
     description:
       "Unordered DISTINCT queries should return undefined continuation tokens as they don't support continuation",
@@ -278,22 +224,15 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
       hasOrderByItems: true,
       hasSkipCount: true,
       hasRid: true,
+      hasRangeMappings: true,
+      hasHashedLastResult: true,
     },
     expectedTokenValues: {
       ridType: "string",
       orderByItemsCount: 1,
       skipCountInitial: 1,
       compositeTokenType: "string",
-    },
-    tokenParser: (token) => JSON.parse(token),
-    validator: (parsed) => {
-      return (
-        parsed.rangeMappings &&
-        parsed.orderByItems &&
-        parsed.hashedLastResult &&
-        Array.isArray(parsed.orderByItems) &&
-        typeof parsed.skipCount === "number"
-      );
+      skipCountGreaterThanOrEqual: 0,
     },
     requiresMultiPartition: true,
     description: "DISTINCT with ORDER BY should support continuation tokens",
@@ -310,8 +249,6 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     expectedTokenValues: {
       expectUndefined: true,
     },
-    tokenParser: (_token) => null, // No token expected
-    validator: (_parsed) => true, // No validation needed for undefined tokens
     requiresMultiPartition: true,
     description:
       "COUNT aggregates don't support continuation tokens as they require full aggregation",
@@ -327,8 +264,6 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     expectedTokenValues: {
       expectUndefined: true,
     },
-    tokenParser: (_token) => null, // No token expected
-    validator: (_parsed) => true, // No validation needed for undefined tokens
     requiresMultiPartition: true,
     description:
       "SUM aggregates don't support continuation tokens as they require full aggregation",
@@ -344,8 +279,6 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     expectedTokenValues: {
       expectUndefined: true,
     },
-    tokenParser: (_token) => null, // No token expected
-    validator: (_parsed) => true, // No validation needed for undefined tokens
     requiresMultiPartition: true,
     description:
       "AVG aggregates don't support continuation tokens as they require full aggregation",
@@ -361,8 +294,6 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     expectedTokenValues: {
       expectUndefined: true,
     },
-    tokenParser: (_token) => null, // No token expected
-    validator: (_parsed) => true, // No validation needed for undefined tokens
     requiresMultiPartition: true,
     description:
       "MIN/MAX aggregates don't support continuation tokens as they require full aggregation",
@@ -379,8 +310,6 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     expectedTokenValues: {
       expectUndefined: true,
     },
-    tokenParser: (_token) => null, // No token expected
-    validator: (_parsed) => true, // No validation needed for undefined tokens
     requiresMultiPartition: true,
     description:
       "GROUP BY queries don't support continuation tokens as they require full aggregation",
@@ -396,21 +325,12 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
       hasOrderByItems: true,
       hasSkipCount: true,
       hasRid: true,
+      hasRangeMappings: true,
     },
     expectedTokenValues: {
       ridType: "string",
       orderByItemsCount: 1,
       skipCountInitial: 2,
-    },
-    tokenParser: (token) => JSON.parse(token),
-    validator: (parsed) => {
-      return (
-        parsed.rangeMappings &&
-        Array.isArray(parsed.rangeMappings) &&
-        parsed.orderByItems &&
-        Array.isArray(parsed.orderByItems) &&
-        parsed.orderByItems.length > 0
-      );
     },
     requiresMultiPartition: true,
     description: "JOIN with ORDER BY should produce OrderBy continuation tokens",
@@ -430,10 +350,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
       ridType: "string",
       orderByItemsCount: 1,
       skipCountInitial: 1,
-    },
-    tokenParser: (token) => JSON.parse(token),
-    validator: (parsed) => {
-      return parsed.rangeMappings && parsed.orderByItems && typeof parsed.skipCount === "number";
+      skipCountGreaterThanOrEqual: 0,
     },
     requiresMultiPartition: true,
     description: "Filtered ORDER BY queries should maintain ordering with predicates",
@@ -625,91 +542,20 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
           );
         }
 
-        // Parse and validate token structure
+        // Parse and validate token structure using declarative properties
         let parsedToken: any;
         try {
-          parsedToken = testCase.tokenParser(continuationToken);
+          parsedToken = JSON.parse(continuationToken);
         } catch (error) {
           throw new Error(`Failed to parse continuation token: ${error.message}`);
         }
 
-        // Validate token structure
-        const isValid = testCase.validator(parsedToken);
-        expect(isValid).toBe(true);
-
-        // Validate expected structure elements
-        const structure = testCase.expectedTokenStructure;
-
-        if (structure.hasRangeMappings) {
-          expect(parsedToken.rangeMappings).toBeDefined();
-          expect(Array.isArray(parsedToken.rangeMappings)).toBe(true);
-        }
-
-        if (structure.hasOrderByItems) {
-          expect(parsedToken.orderByItems).toBeDefined();
-          expect(Array.isArray(parsedToken.orderByItems)).toBe(true);
-        }
-
-        if (structure.hasOffset) {
-          expect(parsedToken.offset).toBeDefined();
-          expect(typeof parsedToken.offset).toBe("number");
-          expect(parsedToken.offset).toBeGreaterThanOrEqual(0);
-        }
-
-        if (structure.hasLimit) {
-          expect(parsedToken.limit).toBeDefined();
-          expect(typeof parsedToken.limit).toBe("number");
-          expect(parsedToken.limit).toBeGreaterThan(0);
-        }
-
-        if (structure.hasSkipCount) {
-          expect(parsedToken.skipCount).toBeDefined();
-          expect(typeof parsedToken.skipCount).toBe("number");
-          expect(parsedToken.skipCount).toBeGreaterThanOrEqual(0);
-        }
-
-        if (structure.hasRid) {
-          expect(parsedToken.rid).toBeDefined();
-          expect(typeof parsedToken.rid).toBe("string");
-          expect(parsedToken.rid.length).toBeGreaterThan(0);
-        }
-
-        // Validate expected token values if provided
-        if (testCase.expectedTokenValues) {
-          const expectedValues = testCase.expectedTokenValues;
-
-          if (expectedValues.ridType) {
-            expect(typeof parsedToken.rid).toBe(expectedValues.ridType);
-          }
-
-          if (expectedValues.rangeMappingsMinCount !== undefined) {
-            expect(parsedToken.rangeMappings?.length).toBeGreaterThanOrEqual(
-              expectedValues.rangeMappingsMinCount,
-            );
-          }
-
-          if (expectedValues.orderByItemsCount !== undefined) {
-            expect(parsedToken.orderByItems?.length).toBe(expectedValues.orderByItemsCount);
-          }
-
-          if (expectedValues.skipCountInitial !== undefined) {
-            expect(parsedToken.skipCount).toBe(expectedValues.skipCountInitial);
-          }
-
-          if (expectedValues.offsetValue !== undefined) {
-            expect(parsedToken.offset).toBe(expectedValues.offsetValue);
-          }
-
-          if (expectedValues.limitValue !== undefined) {
-            expect(parsedToken.limit).toBe(expectedValues.limitValue);
-          }
-
-          if (expectedValues.groupByValuesType) {
-            expect(Array.isArray(parsedToken.groupByValues)).toBe(
-              expectedValues.groupByValuesType === "array",
-            );
-          }
-        }
+        // Validate using declarative properties
+        validateTokenStructure(
+          parsedToken,
+          testCase.expectedTokenStructure,
+          testCase.expectedTokenValues
+        );
 
         // Test token reusability
         await testTokenReusability(
@@ -930,7 +776,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
         // GROUP BY queries should NOT produce continuation tokens
         expect(result.continuationToken).toBeUndefined();
-        result.resources.forEach((group) => {});
+        result.resources.forEach((group) => { });
       }
 
       // Verify we got multiple categories and all results at once
@@ -1972,6 +1818,93 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       expect(amountStats.max).toBeLessThanOrEqual(100);
     });
   });
+
+  // Helper function to validate token structure using declarative properties
+  function validateTokenStructure(
+    parsedToken: any,
+    expectedStructure: any,
+    expectedValues?: any
+  ): void {
+    // Validate structure properties
+    if (expectedStructure.hasRangeMappings) {
+      expect(parsedToken.rangeMappings).toBeDefined();
+      expect(Array.isArray(parsedToken.rangeMappings)).toBe(true);
+    }
+    if (expectedStructure.hasOrderByItems) {
+      expect(parsedToken.orderByItems).toBeDefined();
+      expect(Array.isArray(parsedToken.orderByItems)).toBe(true);
+    }
+    if (expectedStructure.hasOffset) {
+      expect(parsedToken.offset).toBeDefined();
+      expect(typeof parsedToken.offset).toBe("number");
+      expect(parsedToken.offset).toBeGreaterThanOrEqual(0);
+    }
+    if (expectedStructure.hasLimit) {
+      expect(parsedToken.limit).toBeDefined();
+      expect(typeof parsedToken.limit).toBe("number");
+      expect(parsedToken.limit).toBeGreaterThan(0);
+    }
+    if (expectedStructure.hasSkipCount) {
+      expect(parsedToken.skipCount).toBeDefined();
+      expect(typeof parsedToken.skipCount).toBe("number");
+      expect(parsedToken.skipCount).toBeGreaterThanOrEqual(0);
+    }
+    if (expectedStructure.hasRid) {
+      expect(parsedToken.rid).toBeDefined();
+      expect(typeof parsedToken.rid).toBe("string");
+      expect(parsedToken.rid.length).toBeGreaterThan(0);
+    }
+    if (expectedStructure.hasHashedLastResult) {
+      expect(parsedToken.hashedLastResult).toBeDefined();
+    }
+    if (expectedStructure.shouldNotHaveCompositeToken) {
+      expect(parsedToken.compositeToken).toBeUndefined();
+    }
+    if (expectedStructure.shouldNotHaveOrderByItems) {
+      expect(parsedToken.orderByItems).toBeUndefined();
+    }
+
+    // Validate expected values
+    if (expectedValues) {
+      if (expectedValues.ridType) {
+        expect(typeof parsedToken.rid).toBe(expectedValues.ridType);
+      }
+      if (expectedValues.ridMinLength !== undefined) {
+        expect(parsedToken.rid?.length).toBeGreaterThanOrEqual(expectedValues.ridMinLength);
+      }
+      if (expectedValues.rangeMappingsMinCount !== undefined) {
+        expect(parsedToken.rangeMappings?.length).toBeGreaterThanOrEqual(
+          expectedValues.rangeMappingsMinCount,
+        );
+      }
+      if (expectedValues.orderByItemsCount !== undefined) {
+        expect(parsedToken.orderByItems?.length).toBe(expectedValues.orderByItemsCount);
+      }
+      if (expectedValues.skipCountInitial !== undefined) {
+        expect(parsedToken.skipCount).toBe(expectedValues.skipCountInitial);
+      }
+      if (expectedValues.skipCountGreaterThanOrEqual !== undefined) {
+        expect(parsedToken.skipCount).toBeGreaterThanOrEqual(expectedValues.skipCountGreaterThanOrEqual);
+      }
+      if (expectedValues.offsetValue !== undefined) {
+        expect(parsedToken.offset).toBe(expectedValues.offsetValue);
+      }
+      if (expectedValues.offsetGreaterThanOrEqual !== undefined) {
+        expect(parsedToken.offset).toBeGreaterThanOrEqual(expectedValues.offsetGreaterThanOrEqual);
+      }
+      if (expectedValues.limitValue !== undefined) {
+        expect(parsedToken.limit).toBe(expectedValues.limitValue);
+      }
+      if (expectedValues.limitGreaterThan !== undefined) {
+        expect(parsedToken.limit).toBeGreaterThan(expectedValues.limitGreaterThan);
+      }
+      if (expectedValues.groupByValuesType) {
+        expect(Array.isArray(parsedToken.groupByValues)).toBe(
+          expectedValues.groupByValuesType === "array",
+        );
+      }
+    }
+  }
 
   /**
    * Test that continuation token can be reused successfully
