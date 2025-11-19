@@ -6408,10 +6408,10 @@ importers:
         version: 20.19.25
       '@vitest/browser-playwright':
         specifier: catalog:testing
-        version: 4.0.9(msw@2.7.3(@types/node@20.19.25)(typescript@5.9.3))(playwright@1.56.1)(vite@7.2.2(@types/node@20.19.25)(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1))(vitest@4.0.9)
+        version: 4.0.10(msw@2.7.3(@types/node@20.19.25)(typescript@5.9.3))(playwright@1.56.1)(vite@7.2.2(@types/node@20.19.25)(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1))(vitest@4.0.10)
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
-        version: 4.0.9(vitest@4.0.9)
+        version: 4.0.10(vitest@4.0.10)
       cross-env:
         specifier: 'catalog:'
         version: 7.0.3
@@ -6438,7 +6438,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: catalog:testing
-        version: 4.0.9(@types/debug@4.1.12)(@types/node@20.19.25)(@vitest/browser-playwright@4.0.9)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.25)(typescript@5.9.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.10(@types/debug@4.1.12)(@types/node@20.19.25)(@vitest/browser-playwright@4.0.10)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.25)(typescript@5.9.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
 
   sdk/computeschedule/arm-computeschedule:
     dependencies:
@@ -21728,19 +21728,19 @@ importers:
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../test-utils/test-credential
       '@azure-tools/test-recorder':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../test-utils/recorder
       '@azure-tools/test-utils-vitest':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
       '@azure/dev-tool':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../../common/tools/dev-tool
       '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
