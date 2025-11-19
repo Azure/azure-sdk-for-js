@@ -20,9 +20,7 @@ function mockCreateEventProcessor(
   mockImpl: (typeof client)["_createEventProcessor"],
 ): void {
   vi.spyOn(
-    client as EventHubConsumerClient & {
-      _createEventProcessor: (typeof client)["_createEventProcessor"];
-    },
+    client as any,
     "_createEventProcessor",
   ).mockImplementation(mockImpl as any);
 }
