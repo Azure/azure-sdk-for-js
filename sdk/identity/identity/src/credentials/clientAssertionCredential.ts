@@ -24,7 +24,6 @@ export class ClientAssertionCredential implements TokenCredential {
   private tenantId: string;
   private additionallyAllowedTenantIds: string[];
   private getAssertion: () => Promise<string>;
-  private options: ClientAssertionCredentialOptions;
 
   /**
    * Creates an instance of the ClientAssertionCredential with the details
@@ -64,12 +63,10 @@ export class ClientAssertionCredential implements TokenCredential {
       options?.additionallyAllowedTenants,
     );
 
-    this.options = options;
     this.getAssertion = getAssertion;
     this.msalClient = createMsalClient(clientId, tenantId, {
       ...options,
       logger,
-      tokenCredentialOptions: this.options,
     });
   }
 

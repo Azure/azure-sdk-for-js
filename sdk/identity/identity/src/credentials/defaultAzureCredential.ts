@@ -202,7 +202,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
  * This function checks that all environment variables in `options.requiredEnvVars` are set and non-empty.
  * If any are missing or empty, it throws an error.
  */
-function validateRequiredEnvVars(options?: DefaultAzureCredentialOptions) {
+function validateRequiredEnvVars(options?: DefaultAzureCredentialOptions): void {
   if (options?.requiredEnvVars) {
     const requiredVars = Array.isArray(options.requiredEnvVars)
       ? options.requiredEnvVars

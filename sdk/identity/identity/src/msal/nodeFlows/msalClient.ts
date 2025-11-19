@@ -4,6 +4,7 @@
 import * as msal from "@azure/msal-node";
 
 import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import type { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import type { AuthenticationRecord, CertificateParts } from "../types.js";
 import type { CredentialLogger } from "../../util/logging.js";
 import { credentialLogger, formatSuccess } from "../../util/logging.js";
@@ -234,17 +235,21 @@ export interface MsalClientOptions {
   /**
    * A custom authority host.
    */
-  authorityHost?: IdentityClient["tokenCredentialOptions"]["authorityHost"];
+  authorityHost?: string;
 
   /**
    * Allows users to configure settings for logging policy options, allow logging account information and personally identifiable information for customer support.
    */
-  loggingOptions?: IdentityClient["tokenCredentialOptions"]["loggingOptions"];
-
-  /**
-   * The token credential options for the MsalClient.
-   */
-  tokenCredentialOptions?: IdentityClient["tokenCredentialOptions"];
+  loggingOptions?: LogPolicyOptions & {
+    /**
+     * Allows logging account information once the authentication flow succeeds.
+     */
+    allowLoggingAccountIdentifiers?: boolean;
+    /**
+     * Allows logging personally identifiable information for customer support.
+     */
+    enableUnsafeSupportLogging?: boolean;
+  };
 
   /**
    * Determines whether instance discovery is disabled.
@@ -285,7 +290,7 @@ export function generateMsalConfiguration(
   const authority = getAuthority(resolvedTenant, getAuthorityHost(msalClientOptions));
 
   const httpClient = new IdentityClient({
-    ...msalClientOptions.tokenCredentialOptions,
+    ...msalClientOptions,
     authorityHost: authority,
     loggingOptions: msalClientOptions.loggingOptions,
   });
