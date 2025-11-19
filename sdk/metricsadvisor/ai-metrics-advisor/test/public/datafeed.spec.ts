@@ -186,7 +186,7 @@ matrix([[true, false]] as const, async (useAad) => {
           } as DataFeedDescriptor;
           const actual = await client.createDataFeed(feed);
 
-          assert.ok(actual.id, "Expecting valid data feed id");
+          assert.isDefined(actual.id, "Expecting valid data feed id");
           createdAzureBlobDataFeedId = actual.id;
 
           assert.equal(actual.schema.metrics?.length, 2, "Expecting two metrics");
@@ -227,7 +227,7 @@ matrix([[true, false]] as const, async (useAad) => {
             options.accessMode as DataFeedAccessMode,
             "options.accessMode mismatch",
           );
-          assert.ok(
+          assert.isDefined(
             actual.missingDataPointFillSettings,
             "Expecting valid options.missingDataPointFillSettings",
           );
@@ -236,7 +236,7 @@ matrix([[true, false]] as const, async (useAad) => {
             options.missingDataPointFillSettings!.fillType,
             "options.missingDataPointFillSettings.fillType mismatch",
           );
-          assert.ok(
+          assert.isDefined(
             actual.missingDataPointFillSettings!.fillType,
             "Expecting valid options.missingDataPointFillSettings.fillType",
           );
@@ -248,13 +248,13 @@ matrix([[true, false]] as const, async (useAad) => {
               "options.missingDataPointFillSettings.customFillValue mismatch",
             );
           }
-          assert.ok(actual.rollupSettings, "Expecting valid options.rollupSettings");
+          assert.isDefined(actual.rollupSettings, "Expecting valid options.rollupSettings");
           assert.equal(
             actual.rollupSettings!.rollupType,
             options.rollupSettings!.rollupType,
             "options.missingDataPointFillSettings.rollupType mismatch",
           );
-          assert.ok(
+          assert.isDefined(
             actual.rollupSettings!.rollupType,
             "Expecting valid options.missingDataPointFillSettings.fillType",
           );
@@ -353,7 +353,7 @@ matrix([[true, false]] as const, async (useAad) => {
             actionLinkTemplate: "Updated Azure Blob action link template",
           };
           const updated = await client.updateDataFeed(createdAzureBlobDataFeedId, patch);
-          assert.ok(updated.id, "Expecting valid data feed");
+          assert.isDefined(updated.id, "Expecting valid data feed");
           assert.equal(updated.source.dataSourceType, "AzureBlob");
           assert.deepStrictEqual(
             updated.source,
@@ -365,7 +365,10 @@ matrix([[true, false]] as const, async (useAad) => {
           );
           assert.deepStrictEqual(updated.ingestionSettings, expectedIngestionSettings);
           assert.equal(updated.description, "Updated Azure Blob description");
-          assert.ok(updated.rollupSettings, "Expecting valid updated.options.rollupSettings");
+          assert.isDefined(
+            updated.rollupSettings,
+            "Expecting valid updated.options.rollupSettings",
+          );
           assert.equal(updated.rollupSettings!.rollupType, "AlreadyRollup");
           assert.equal((updated.rollupSettings! as any).rollupIdentificationValue, "__Existing__");
           assert.equal(updated.missingDataPointFillSettings?.fillType, "PreviousValue");
@@ -396,7 +399,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ...options,
           } as DataFeedDescriptor);
 
-          assert.ok(actual.id, "Expecting valid data feed id");
+          assert.isDefined(actual.id, "Expecting valid data feed id");
           createdAppFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "AzureApplicationInsights");
           if (actual.source.dataSourceType === "AzureApplicationInsights") {
@@ -432,7 +435,7 @@ matrix([[true, false]] as const, async (useAad) => {
           } as DataFeedDescriptor;
           const actual = await client.createDataFeed(feed);
 
-          assert.ok(actual.id, "Expecting valid data feed id");
+          assert.isDefined(actual.id, "Expecting valid data feed id");
           createdSqlServerFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "SqlServer");
           if (actual.source.dataSourceType === "SqlServer") {
@@ -451,9 +454,9 @@ matrix([[true, false]] as const, async (useAad) => {
             },
           });
           let result = getYieldedValue(await iterator.next());
-          assert.ok(result.status, "Expecting first data feed");
+          assert.isDefined(result.status, "Expecting first data feed");
           result = getYieldedValue(await iterator.next());
-          assert.ok(result.status, "Expecting second data feed");
+          assert.isDefined(result.status, "Expecting second data feed");
         });
 
         it("lists datafeed by pages", async () => {
@@ -500,7 +503,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ...options,
           } as DataFeedDescriptor);
 
-          assert.ok(actual.id, "Expecting valid data feed id");
+          assert.isDefined(actual.id, "Expecting valid data feed id");
           createdCosmosFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "AzureCosmosDB");
           if (actual.source.dataSourceType === "AzureCosmosDB") {
@@ -535,7 +538,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ...options,
           } as DataFeedDescriptor);
 
-          assert.ok(actual.id, "Expecting valid data feed id");
+          assert.isDefined(actual.id, "Expecting valid data feed id");
           createdAzureDataExplorerFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "AzureDataExplorer");
           if (actual.source.dataSourceType === "AzureDataExplorer") {
@@ -569,7 +572,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ...options,
           } as DataFeedDescriptor);
 
-          assert.ok(actual.id, "Expecting valid data feed id");
+          assert.isDefined(actual.id, "Expecting valid data feed id");
           createdAzureTableFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "AzureTable");
           if (actual.source.dataSourceType === "AzureTable") {
@@ -603,7 +606,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ...options,
           } as DataFeedDescriptor);
 
-          assert.ok(actual.id, "Expecting valid data feed id");
+          assert.isDefined(actual.id, "Expecting valid data feed id");
           createdInfluxFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "InfluxDB");
           if (actual.source.dataSourceType === "InfluxDB") {
@@ -636,7 +639,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ...options,
           } as DataFeedDescriptor);
 
-          assert.ok(actual.id, "Expecting valid data feed id");
+          assert.isDefined(actual.id, "Expecting valid data feed id");
           createdMongoDbFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "MongoDB");
           if (actual.source.dataSourceType === "MongoDB") {
@@ -670,7 +673,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ...options,
           } as DataFeedDescriptor);
 
-          assert.ok(actual.id, "Expecting valid data feed id");
+          assert.isDefined(actual.id, "Expecting valid data feed id");
           createdMySqlFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "MySql");
           if (actual.source.dataSourceType === "MySql") {
@@ -706,7 +709,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ...options,
           } as DataFeedDescriptor);
 
-          assert.ok(actual.id, "Expecting valid data feed id");
+          assert.isDefined(actual.id, "Expecting valid data feed id");
           createdDataLakeGenId = actual.id;
           assert.equal(actual.source.dataSourceType, "AzureDataLakeStorageGen2");
           if (actual.source.dataSourceType === "AzureDataLakeStorageGen2") {
@@ -738,7 +741,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ...options,
           } as DataFeedDescriptor);
 
-          assert.ok(actual.id, "Expecting valid data feed id");
+          assert.isDefined(actual.id, "Expecting valid data feed id");
           createdEventhubsId = actual.id;
           assert.equal(actual.source.dataSourceType, expectedSource.dataSourceType);
           if (actual.source.dataSourceType === "AzureEventHubs") {
@@ -771,7 +774,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ...options,
           } as DataFeedDescriptor);
 
-          assert.ok(actual.id, "Expecting valid data feed id");
+          assert.isDefined(actual.id, "Expecting valid data feed id");
           createdLogAnalyticsId = actual.id;
           assert.equal(actual.source.dataSourceType, expectedSource.dataSourceType);
           if (actual.source.dataSourceType === "AzureLogAnalytics") {
@@ -806,7 +809,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ...options,
           } as DataFeedDescriptor);
 
-          assert.ok(actual.id, "Expecting valid data feed id");
+          assert.isDefined(actual.id, "Expecting valid data feed id");
           createdPostGreSqlId = actual.id;
           assert.equal(actual.source.dataSourceType, "PostgreSql");
           if (actual.source.dataSourceType === "PostgreSql") {
@@ -839,7 +842,7 @@ matrix([[true, false]] as const, async (useAad) => {
             },
           };
           const updated = await client.updateDataFeed(createdPostGreSqlId, patch);
-          assert.ok(updated.id, "Expecting valid data feed");
+          assert.isDefined(updated.id, "Expecting valid data feed");
           assert.equal(updated.source.dataSourceType, "MongoDB");
 
           assert.deepStrictEqual(
