@@ -1,5 +1,15 @@
 # Release History
 
+## 34.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 34.2.0 (2025-11-12)
 
 ### Features Added
