@@ -1,5 +1,11 @@
 # Release History
 
+### 1.14.3 (Unreleased)
+
+### Features Added
+
+- Allow configuring additional metric views through `AzureMonitorOpenTelemetryOptions` and pass them to the NodeSDK.
+
 ### 1.14.2 (2025-11-13)
 
 ### Bugs Fixed
