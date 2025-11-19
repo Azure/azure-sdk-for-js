@@ -2,18 +2,21 @@
   "servers": {
     "azure-sdk-mcp": {
       "type": "stdio",
-      "command": "pwsh",
+      "command": "dotnet",
       "args": [
-        "${workspaceFolder}/eng/common/mcp/azure-sdk-mcp.ps1",
-        "-Run"
+        "run",
+        "--project",
+        "D:/GithubSource/tmpSource/azure-sdk-tools/tools/azsdk-cli/Azure.Sdk.Tools.Cli",
+        "--configuration",
+        "Debug",
+        "--",
+        "start"
       ]
     },
     "ESLint": {
       "type": "stdio",
       "command": "npx",
-      "args": [
-        "@eslint/mcp@latest"
-      ]
-    },
+      "args": ["@eslint/mcp@latest"]
+    }
   }
 }
