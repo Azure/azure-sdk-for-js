@@ -33,24 +33,8 @@ export class ParallelQueryExecutionContext
     // Create parallel query processing strategy
     const processingStrategy = new ParallelQueryProcessingStrategy();
 
-    const comparator = (docProd1: DocumentProducer, docProd2: DocumentProducer): number => {
-      const aMinInclusive = docProd1.targetPartitionKeyRange.minInclusive;
-      const bMinInclusive = docProd2.targetPartitionKeyRange.minInclusive;
-
-      // Sort empty string first, then lexicographically (original logic)
-      if (aMinInclusive === bMinInclusive) {
-        // If minInclusive values are the same, check minEPK ranges if they exist
-        const aMinEpk = docProd1.startEpk;
-        const bMinEpk = docProd2.startEpk;
-        if (aMinEpk && bMinEpk) {
-          return aMinEpk < bMinEpk ? -1 : 1;
-        }
-        return 0;
-      }
-      if (aMinInclusive === "") return -1;
-      if (bMinInclusive === "") return 1;
-      return aMinInclusive < bMinInclusive ? -1 : 1;
-    };
+    // Create comparator for document producers
+    const comparator = ParallelQueryExecutionContext.createDocumentProducerComparator();
 
     // Calling on base class constructor
     super(
@@ -74,25 +58,41 @@ export class ParallelQueryExecutionContext
   }
 
   /**
-   * Gets the continuation token to use for parallel queries.
-   */
-  protected getContinuationToken(producer: DocumentProducer): string {
-    return producer.continuationToken;
-  }
-
-  /**
-   * Determines if partition mapping should merge with existing for parallel queries.
-   */
-  protected shouldMergeWithExisting(): boolean {
-    return false; // Parallel queries don't merge
-  }
-
-  /**
    * Determines if buffered producers should continue to be processed for parallel queries.
    * For parallel queries, we process all buffered producers.
+   * @param _isUnfilledQueueEmpty - Whether the unfilled queue is empty (ignored for parallel queries)
    * @hidden
    */
-  protected shouldProcessBufferedProducers(): boolean {
+  protected shouldProcessBufferedProducers(_isUnfilledQueueEmpty: boolean): boolean {
     return true; // Process all buffered items in parallel queries
+  }
+
+  /**
+   * Creates a comparator function for sorting document producers in parallel queries.
+   * Sorts by partition key range minInclusive values, with empty string first,
+   * then lexicographically. Uses EPK ranges as secondary sort when minInclusive values are identical.
+   */
+  private static createDocumentProducerComparator(): (
+    docProd1: DocumentProducer,
+    docProd2: DocumentProducer,
+  ) => number {
+    return (docProd1: DocumentProducer, docProd2: DocumentProducer): number => {
+      const aMinInclusive = docProd1.targetPartitionKeyRange.minInclusive;
+      const bMinInclusive = docProd2.targetPartitionKeyRange.minInclusive;
+
+      // Sort empty string first, then lexicographically (original logic)
+      if (aMinInclusive === bMinInclusive) {
+        // If minInclusive values are the same, check minEPK ranges if they exist
+        const aMinEpk = docProd1.startEpk;
+        const bMinEpk = docProd2.startEpk;
+        if (aMinEpk && bMinEpk) {
+          return aMinEpk < bMinEpk ? -1 : 1;
+        }
+        return 0;
+      }
+      if (aMinInclusive === "") return -1;
+      if (bMinInclusive === "") return 1;
+      return aMinInclusive < bMinInclusive ? -1 : 1;
+    };
   }
 }

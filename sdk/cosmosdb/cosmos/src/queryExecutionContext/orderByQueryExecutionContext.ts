@@ -91,28 +91,13 @@ export class OrderByQueryExecutionContext
   }
 
   /**
-   * Gets the continuation token to use for ORDER BY queries.
-   * Uses previous token if more items are buffered, current token otherwise.
-   */
-  protected getContinuationToken(producer: DocumentProducer): string {
-    const hasMoreBufferedItems = producer.peakNextItem() !== undefined;
-    return hasMoreBufferedItems ? producer.previousContinuationToken : producer.continuationToken;
-  }
-
-  /**
-   * Determines if partition mapping should merge with existing for ORDER BY queries.
-   */
-  protected shouldMergeWithExisting(): boolean {
-    return true; // ORDER BY queries merge with existing partitions
-  }
-
-  /**
    * Determines if buffered producers should continue to be processed for ORDER BY queries.
    * For ORDER BY, only process when no unfilled producers remain to maintain order.
+   * @param isUnfilledQueueEmpty - Whether the unfilled queue is empty
    * @hidden
    */
-  protected shouldProcessBufferedProducers(): boolean {
+  protected shouldProcessBufferedProducers(isUnfilledQueueEmpty: boolean): boolean {
     // For ORDER BY, only process when no unfilled producers remain to maintain order
-    return this.isUnfilledQueueEmpty();
+    return isUnfilledQueueEmpty;
   }
 }

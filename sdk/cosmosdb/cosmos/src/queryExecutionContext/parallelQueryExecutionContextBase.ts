@@ -165,7 +165,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @returns A promise that resolves when processing is complete.
    */
   private async processBufferedDocumentProducers(): Promise<void> {
-    while (this.hasBufferedProducers() && this.shouldProcessBufferedProducers()) {
+    while (
+      this.hasBufferedProducers() &&
+      this.shouldProcessBufferedProducers(this.isUnfilledQueueEmpty())
+    ) {
       const producer = this.getNextBufferedProducer();
       if (!producer) break;
 
@@ -206,48 +209,40 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private handlePartitionMapping(producer: DocumentProducer, result: any): void {
     const itemCount = result?.length || 0;
     const continuationToken = this.getContinuationToken(producer);
-    const shouldMerge = this.shouldMergeWithExisting();
-
     const mapping = {
       itemCount,
       partitionKeyRange: producer.targetPartitionKeyRange,
       continuationToken,
     };
 
-    this.updatePartitionMapping(mapping, shouldMerge);
+    this.updatePartitionMapping(mapping);
   }
 
   /**
    * Gets the continuation token to use - implemented by subclasses.
    */
-  protected abstract getContinuationToken(producer: DocumentProducer): string;
-
-  /**
-   * Determines if partition mapping should merge with existing - implemented by subclasses.
-   */
-  protected abstract shouldMergeWithExisting(): boolean;
-
+  private getContinuationToken(producer: DocumentProducer): string {
+    const hasMoreBufferedItems = producer.peakNextItem() !== undefined;
+    return hasMoreBufferedItems ? producer.previousContinuationToken : producer.continuationToken;
+  }
   /**
    * Determines if buffered producers should continue to be processed based on query-specific rules.
+   * @param isUnfilledQueueEmpty - Whether the unfilled queue is empty
    */
-  protected abstract shouldProcessBufferedProducers(): boolean;
+  protected abstract shouldProcessBufferedProducers(isUnfilledQueueEmpty: boolean): boolean;
 
   /**
    * Updates partition mapping - creates new entry or merges with existing for ORDER BY queries.
    */
-  private updatePartitionMapping(mapping: QueryRangeMapping, mergeWithExisting = false): void {
-    if (mergeWithExisting) {
-      // ORDER BY logic: try to merge with current partition
-      const currentPatch = this.partitionDataPatchMap.get(this.patchCounter.toString());
-      const isSamePartition = currentPatch?.partitionKeyRange?.id === mapping.partitionKeyRange.id;
+  private updatePartitionMapping(mapping: QueryRangeMapping): void {
+    const currentPatch = this.partitionDataPatchMap.get(this.patchCounter.toString());
+    const isSamePartition = currentPatch?.partitionKeyRange?.id === mapping.partitionKeyRange.id;
 
-      if (isSamePartition && currentPatch) {
-        currentPatch.itemCount += mapping.itemCount;
-        currentPatch.continuationToken = mapping.continuationToken;
-        return;
-      }
+    if (isSamePartition && currentPatch) {
+      currentPatch.itemCount += mapping.itemCount;
+      currentPatch.continuationToken = mapping.continuationToken;
+      return;
     }
-
     // Create new partition mapping entry
     this.partitionDataPatchMap.set((++this.patchCounter).toString(), mapping);
   }
