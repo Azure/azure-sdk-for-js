@@ -189,7 +189,7 @@ const res = await queryIterator.fetchNext();
  Read more about merge here: [docs](https://learn.microsoft.com/azure/cosmos-db/merge)
 
 #### RU Bucketing (Preview)
-Read more about RU Bucketing here: https://aka.ms/cosmosdb-bucketing
+Read more about RU Bucketing here: https://aka.ms/cosmsodb-bucketing
 
 #### Partial hierarchical partition key support in Change Feed [#27059](https://github.com/Azure/azure-sdk-for-js/issues/27059)
 This feature adds support for partial hierarchical partition key in Change Feed allowing the SDK to work seamlessly with partial Hierarchical partition keys, returning accurate change feed results regardless of which partition key components are provided in the iterator. 
