@@ -16,7 +16,7 @@ pnpm build --filter=<your-package-name>...
 
 Install `js-sdk-release-tools`
 ```
-npm install -g @azure-tools/js-sdk-release-tools
+npm --prefix eng/common/js-sdk-release-tools ci
 ```
 
 After you build your package, run
