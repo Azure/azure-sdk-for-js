@@ -48,6 +48,61 @@ import {
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
+function getHeaderValue(headers: any, name: string): string | undefined {
+  if (!headers) {
+    return undefined;
+  }
+  if (typeof headers.get === "function") {
+    return headers.get(name) ?? headers.get(name.toLowerCase());
+  }
+  return headers[name] ?? headers[name.toLowerCase()];
+}
+
+function setHeaderValue(headers: any, name: string, value: string): void {
+  if (!headers) {
+    return;
+  }
+  if (typeof headers.set === "function") {
+    headers.set(name, value);
+  } else {
+    headers[name] = value;
+  }
+}
+
+function ensureOperationLocationHeader(
+  response: PathUncheckedResponse,
+  context: Client,
+  name: string,
+  options: MemoryStoresUpdateMemoriesOptionalParams,
+): void {
+  const existingHeader =
+    getHeaderValue(response.headers, "Operation-Location") ??
+    getHeaderValue(response.headers, "operation-location");
+  if (existingHeader) {
+    return;
+  }
+
+  const updateId = response.body?.result?.update_id ?? response.body?.update_id;
+  if (!updateId) {
+    throw createRestError("Missing update_id for memory store update operation.", response);
+  }
+
+  const operationLocation = expandUrlTemplate(
+    "/memory_stores/{name}/updates/{update_id}{?api-version}",
+    {
+      name: name,
+      update_id: updateId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+
+  setHeaderValue(response.headers, "operation-location", operationLocation);
+  setHeaderValue(response.headers, "Operation-Location", operationLocation);
+}
+
 export function _deleteScopeSend(
   context: Client,
   name: string,
@@ -212,7 +267,11 @@ export function updateMemories(
   return getLongRunningPoller(context, _updateMemoriesDeserialize, ["202", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
+    getInitialResponse: async () => {
+      const response = await _updateMemoriesSend(context, name, scope, options);
+      ensureOperationLocationHeader(response, context, name, options);
+      return response;
+    },
   }) as PollerLike<OperationState<MemoryStoreUpdateResult>, MemoryStoreUpdateResult>;
 }
 
