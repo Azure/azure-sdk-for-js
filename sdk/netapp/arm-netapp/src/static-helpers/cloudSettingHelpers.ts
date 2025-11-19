@@ -23,7 +23,9 @@ export type AzureSupportedClouds = `${AzureClouds}`;
  * @returns The ARM endpoint URL for the specified cloud, or undefined if cloudSetting is undefined.
  * @throws {Error} Throws an error if an unknown cloud setting is provided.
  */
-export function getArmEndpoint(cloudSetting?: AzureSupportedClouds): string | undefined {
+export function getArmEndpoint(
+  cloudSetting?: AzureSupportedClouds,
+): string | undefined {
   if (cloudSetting === undefined) {
     return undefined;
   }

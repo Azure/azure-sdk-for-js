@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list and describe all NetApp accounts in the resource group.
  *
  * @summary list and describe all NetApp accounts in the resource group.
- * x-ms-original-file: 2025-09-01/Accounts_List.json
+ * x-ms-original-file: 2025-09-01-preview/Accounts_List.json
  */
 async function accountsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

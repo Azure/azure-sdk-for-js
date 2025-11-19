@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to migrate the backups under a NetApp account to backup vault
  *
  * @summary migrate the backups under a NetApp account to backup vault
- * x-ms-original-file: 2025-09-01/BackupsUnderAccount_Migrate.json
+ * x-ms-original-file: 2025-09-01-preview/BackupsUnderAccount_Migrate.json
  */
 async function backupsUnderAccountMigrate(): Promise<void> {
   const credential = new DefaultAzureCredential();

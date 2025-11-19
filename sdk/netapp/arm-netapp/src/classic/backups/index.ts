@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
   getVolumeLatestRestoreStatus,
   getLatestStatus,
@@ -11,7 +11,7 @@ import {
   create,
   get,
 } from "../../api/backups/operations.js";
-import type {
+import {
   BackupsGetVolumeLatestRestoreStatusOptionalParams,
   BackupsGetLatestStatusOptionalParams,
   BackupsListByVaultOptionalParams,
@@ -20,9 +20,9 @@ import type {
   BackupsCreateOptionalParams,
   BackupsGetOptionalParams,
 } from "../../api/backups/options.js";
-import type { Backup, BackupStatus, RestoreStatus } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Backup, BackupStatus, RestoreStatus } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Backups operations. */
 export interface BackupsOperations {
@@ -112,27 +112,58 @@ function _getBackups(context: NetAppManagementContext) {
       poolName: string,
       volumeName: string,
       options?: BackupsGetLatestStatusOptionalParams,
-    ) => getLatestStatus(context, resourceGroupName, accountName, poolName, volumeName, options),
+    ) =>
+      getLatestStatus(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     listByVault: (
       resourceGroupName: string,
       accountName: string,
       backupVaultName: string,
       options?: BackupsListByVaultOptionalParams,
-    ) => listByVault(context, resourceGroupName, accountName, backupVaultName, options),
+    ) =>
+      listByVault(
+        context,
+        resourceGroupName,
+        accountName,
+        backupVaultName,
+        options,
+      ),
     delete: (
       resourceGroupName: string,
       accountName: string,
       backupVaultName: string,
       backupName: string,
       options?: BackupsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, accountName, backupVaultName, backupName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        accountName,
+        backupVaultName,
+        backupName,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       accountName: string,
       backupVaultName: string,
       backupName: string,
       options?: BackupsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, accountName, backupVaultName, backupName, options),
+    ) =>
+      update(
+        context,
+        resourceGroupName,
+        accountName,
+        backupVaultName,
+        backupName,
+        options,
+      ),
     create: (
       resourceGroupName: string,
       accountName: string,
@@ -141,18 +172,36 @@ function _getBackups(context: NetAppManagementContext) {
       body: Backup,
       options?: BackupsCreateOptionalParams,
     ) =>
-      create(context, resourceGroupName, accountName, backupVaultName, backupName, body, options),
+      create(
+        context,
+        resourceGroupName,
+        accountName,
+        backupVaultName,
+        backupName,
+        body,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       accountName: string,
       backupVaultName: string,
       backupName: string,
       options?: BackupsGetOptionalParams,
-    ) => get(context, resourceGroupName, accountName, backupVaultName, backupName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        accountName,
+        backupVaultName,
+        backupName,
+        options,
+      ),
   };
 }
 
-export function _getBackupsOperations(context: NetAppManagementContext): BackupsOperations {
+export function _getBackupsOperations(
+  context: NetAppManagementContext,
+): BackupsOperations {
   return {
     ..._getBackups(context),
   };

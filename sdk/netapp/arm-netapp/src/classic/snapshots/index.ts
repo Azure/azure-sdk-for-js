@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
   restoreFiles,
   list,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/snapshots/operations.js";
-import type {
+import {
   SnapshotsRestoreFilesOptionalParams,
   SnapshotsListOptionalParams,
   SnapshotsDeleteOptionalParams,
@@ -18,9 +18,13 @@ import type {
   SnapshotsCreateOptionalParams,
   SnapshotsGetOptionalParams,
 } from "../../api/snapshots/options.js";
-import type { Snapshot, SnapshotPatch, SnapshotRestoreFiles } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  Snapshot,
+  SnapshotPatch,
+  SnapshotRestoreFiles,
+} from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Snapshots operations. */
 export interface SnapshotsOperations {
@@ -114,7 +118,15 @@ function _getSnapshots(context: NetAppManagementContext) {
       poolName: string,
       volumeName: string,
       options?: SnapshotsListOptionalParams,
-    ) => list(context, resourceGroupName, accountName, poolName, volumeName, options),
+    ) =>
+      list(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     delete: (
       resourceGroupName: string,
       accountName: string,
@@ -123,7 +135,15 @@ function _getSnapshots(context: NetAppManagementContext) {
       snapshotName: string,
       options?: SnapshotsDeleteOptionalParams,
     ) =>
-      $delete(context, resourceGroupName, accountName, poolName, volumeName, snapshotName, options),
+      $delete(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        snapshotName,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       accountName: string,
@@ -169,11 +189,22 @@ function _getSnapshots(context: NetAppManagementContext) {
       volumeName: string,
       snapshotName: string,
       options?: SnapshotsGetOptionalParams,
-    ) => get(context, resourceGroupName, accountName, poolName, volumeName, snapshotName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        snapshotName,
+        options,
+      ),
   };
 }
 
-export function _getSnapshotsOperations(context: NetAppManagementContext): SnapshotsOperations {
+export function _getSnapshotsOperations(
+  context: NetAppManagementContext,
+): SnapshotsOperations {
   return {
     ..._getSnapshots(context),
   };

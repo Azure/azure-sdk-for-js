@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns the list of group Ids for a specific LDAP User
  *
  * @summary returns the list of group Ids for a specific LDAP User
- * x-ms-original-file: 2025-09-01/GroupIdListForLDAPUser.json
+ * x-ms-original-file: 2025-09-01-preview/GroupIdListForLDAPUser.json
  */
 async function getGroupIdListForUser(): Promise<void> {
   const credential = new DefaultAzureCredential();

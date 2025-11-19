@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import { get, list } from "../../api/netAppResourceUsages/operations.js";
-import type {
+import {
   NetAppResourceUsagesGetOptionalParams,
   NetAppResourceUsagesListOptionalParams,
 } from "../../api/netAppResourceUsages/options.js";
-import type { UsageResult } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { UsageResult } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NetAppResourceUsages operations. */
 export interface NetAppResourceUsagesOperations {
@@ -27,10 +27,15 @@ export interface NetAppResourceUsagesOperations {
 
 function _getNetAppResourceUsages(context: NetAppManagementContext) {
   return {
-    get: (location: string, usageType: string, options?: NetAppResourceUsagesGetOptionalParams) =>
-      get(context, location, usageType, options),
-    list: (location: string, options?: NetAppResourceUsagesListOptionalParams) =>
-      list(context, location, options),
+    get: (
+      location: string,
+      usageType: string,
+      options?: NetAppResourceUsagesGetOptionalParams,
+    ) => get(context, location, usageType, options),
+    list: (
+      location: string,
+      options?: NetAppResourceUsagesListOptionalParams,
+    ) => list(context, location, options),
   };
 }
 

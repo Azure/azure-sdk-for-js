@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Client, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError } from "@azure-rest/core-client";
+import {
+  Client,
+  createRestError,
+  PathUncheckedResponse,
+} from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 
 /**
@@ -40,11 +43,17 @@ export interface PagedAsyncIterableIterator<
   /**
    * The connection to the async iterator, part of the iteration protocol
    */
-  [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+  [Symbol.asyncIterator](): PagedAsyncIterableIterator<
+    TElement,
+    TPage,
+    TPageSettings
+  >;
   /**
    * Return an AsyncIterableIterator that works a page at a time
    */
-  byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+  byPage: (
+    settings?: TPageSettings,
+  ) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
 }
 
 /**
@@ -62,11 +71,15 @@ export interface PagedResult<
   /**
    * A method that returns a page of results.
    */
-  getPage: (pageLink?: string) => Promise<{ page: TPage; nextPageLink?: string } | undefined>;
+  getPage: (
+    pageLink?: string,
+  ) => Promise<{ page: TPage; nextPageLink?: string } | undefined>;
   /**
    * a function to implement the `byPage` method on the paged async iterator.
    */
-  byPage?: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+  byPage?: (
+    settings?: TPageSettings,
+  ) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
 
   /**
    * A function to extract elements from a page.
@@ -80,6 +93,7 @@ export interface PagedResult<
 export interface BuildPagedAsyncIteratorOptions {
   itemName?: string;
   nextLinkName?: string;
+  nextLinkMethod?: "GET" | "POST";
 }
 
 /**
@@ -99,12 +113,15 @@ export function buildPagedAsyncIterator<
 ): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
   const itemName = options.itemName ?? "value";
   const nextLinkName = options.nextLinkName ?? "nextLink";
+  const nextLinkMethod = options.nextLinkMethod ?? "GET";
   const pagedResult: PagedResult<TElement, TPage, TPageSettings> = {
     getPage: async (pageLink?: string) => {
       const result =
         pageLink === undefined
           ? await getInitialResponse()
-          : await client.pathUnchecked(pageLink).get();
+          : nextLinkMethod === "POST"
+            ? await client.pathUnchecked(pageLink).post()
+            : await client.pathUnchecked(pageLink).get();
       checkPagingRequest(result, expectedStatuses);
       const results = await processResponseBody(result as TResponse);
       const nextLink = getNextLink(results, nextLinkName);
@@ -139,7 +156,9 @@ function getPagedAsyncIterator<
 >(
   pagedResult: PagedResult<TElement, TPage, TPageSettings>,
 ): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
-  const iter = getItemAsyncIterator<TElement, TPage, TPageSettings>(pagedResult);
+  const iter = getItemAsyncIterator<TElement, TPage, TPageSettings>(
+    pagedResult,
+  );
   return {
     next() {
       return iter.next();
@@ -158,7 +177,11 @@ function getPagedAsyncIterator<
   };
 }
 
-async function* getItemAsyncIterator<TElement, TPage, TPageSettings extends PageSettings>(
+async function* getItemAsyncIterator<
+  TElement,
+  TPage,
+  TPageSettings extends PageSettings,
+>(
   pagedResult: PagedResult<TElement, TPage, TPageSettings>,
 ): AsyncIterableIterator<TElement> {
   const pages = getPageAsyncIterator(pagedResult);
@@ -167,14 +190,20 @@ async function* getItemAsyncIterator<TElement, TPage, TPageSettings extends Page
   }
 }
 
-async function* getPageAsyncIterator<TElement, TPage, TPageSettings extends PageSettings>(
+async function* getPageAsyncIterator<
+  TElement,
+  TPage,
+  TPageSettings extends PageSettings,
+>(
   pagedResult: PagedResult<TElement, TPage, TPageSettings>,
   options: {
     pageLink?: string;
   } = {},
 ): AsyncIterableIterator<ContinuablePage<TElement, TPage>> {
   const { pageLink } = options;
-  let response = await pagedResult.getPage(pageLink ?? pagedResult.firstPageLink);
+  let response = await pagedResult.getPage(
+    pageLink ?? pagedResult.firstPageLink,
+  );
   if (!response) {
     return;
   }
@@ -202,7 +231,11 @@ function getNextLink(body: unknown, nextLinkName?: string): string | undefined {
 
   const nextLink = (body as Record<string, unknown>)[nextLinkName];
 
-  if (typeof nextLink !== "string" && typeof nextLink !== "undefined" && nextLink !== null) {
+  if (
+    typeof nextLink !== "string" &&
+    typeof nextLink !== "undefined" &&
+    nextLink !== null
+  ) {
     throw new RestError(
       `Body Property ${nextLinkName} should be a string or undefined or null but got ${typeof nextLink}`,
     );
@@ -232,7 +265,10 @@ function getElements<T = unknown>(body: unknown, itemName: string): T[] {
 /**
  * Checks if a request failed
  */
-function checkPagingRequest(response: PathUncheckedResponse, expectedStatuses: string[]): void {
+function checkPagingRequest(
+  response: PathUncheckedResponse,
+  expectedStatuses: string[],
+): void {
   if (!expectedStatuses.includes(response.status)) {
     throw createRestError(
       `Pagination failed with unexpected statusCode ${response.status}`,

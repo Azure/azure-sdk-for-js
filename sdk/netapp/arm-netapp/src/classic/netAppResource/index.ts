@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
   updateNetworkSiblingSet,
   queryNetworkSiblingSet,
@@ -10,7 +10,7 @@ import {
   checkFilePathAvailability,
   checkNameAvailability,
 } from "../../api/netAppResource/operations.js";
-import type {
+import {
   NetAppResourceUpdateNetworkSiblingSetOptionalParams,
   NetAppResourceQueryNetworkSiblingSetOptionalParams,
   NetAppResourceQueryRegionInfoOptionalParams,
@@ -18,7 +18,7 @@ import type {
   NetAppResourceCheckFilePathAvailabilityOptionalParams,
   NetAppResourceCheckNameAvailabilityOptionalParams,
 } from "../../api/netAppResource/options.js";
-import type {
+import {
   RegionInfo,
   ResourceNameAvailabilityRequest,
   CheckAvailabilityResponse,
@@ -28,7 +28,7 @@ import type {
   NetworkSiblingSet,
   UpdateNetworkSiblingSetRequest,
 } from "../../models/models.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetAppResource operations. */
 export interface NetAppResourceOperations {
@@ -81,8 +81,10 @@ function _getNetAppResource(context: NetAppManagementContext) {
       body: QueryNetworkSiblingSetRequest,
       options?: NetAppResourceQueryNetworkSiblingSetOptionalParams,
     ) => queryNetworkSiblingSet(context, location, body, options),
-    queryRegionInfo: (location: string, options?: NetAppResourceQueryRegionInfoOptionalParams) =>
-      queryRegionInfo(context, location, options),
+    queryRegionInfo: (
+      location: string,
+      options?: NetAppResourceQueryRegionInfoOptionalParams,
+    ) => queryRegionInfo(context, location, options),
     checkQuotaAvailability: (
       location: string,
       body: QuotaAvailabilityRequest,

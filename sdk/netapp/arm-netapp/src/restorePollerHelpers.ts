@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementClient } from "./netAppManagementClient.js";
+import { NetAppManagementClient } from "./netAppManagementClient.js";
 import { _updateNetworkSiblingSetDeserialize } from "./api/netAppResource/operations.js";
 import {
   _getMetadataDeserialize,
@@ -27,10 +27,68 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeAccounts,
 } from "./api/accounts/operations.js";
 import {
+  _$deleteDeserialize as _$deleteDeserializeActiveDirectoryConfigs,
+  _updateDeserialize as _updateDeserializeActiveDirectoryConfigs,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeActiveDirectoryConfigs,
+} from "./api/activeDirectoryConfigs/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeElasticBackups,
+  _updateDeserialize as _updateDeserializeElasticBackups,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeElasticBackups,
+} from "./api/elasticBackups/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeElasticBackupPolicies,
+  _updateDeserialize as _updateDeserializeElasticBackupPolicies,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeElasticBackupPolicies,
+} from "./api/elasticBackupPolicies/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeElasticBackupVaults,
+  _updateDeserialize as _updateDeserializeElasticBackupVaults,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeElasticBackupVaults,
+} from "./api/elasticBackupVaults/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeElasticSnapshotPolicies,
+  _updateDeserialize as _updateDeserializeElasticSnapshotPolicies,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeElasticSnapshotPolicies,
+} from "./api/elasticSnapshotPolicies/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeElasticSnapshots,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeElasticSnapshots,
+} from "./api/elasticSnapshots/operations.js";
+import {
+  _revertDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeElasticVolumes,
+  _updateDeserialize as _updateDeserializeElasticVolumes,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeElasticVolumes,
+} from "./api/elasticVolumes/operations.js";
+import {
+  _changeZoneDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeElasticCapacityPools,
+  _updateDeserialize as _updateDeserializeElasticCapacityPools,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeElasticCapacityPools,
+} from "./api/elasticCapacityPools/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeElasticAccounts,
+  _updateDeserialize as _updateDeserializeElasticAccounts,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeElasticAccounts,
+} from "./api/elasticAccounts/operations.js";
+import {
+  _poolChangeDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeCaches,
+  _updateDeserialize as _updateDeserializeCaches,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeCaches,
+} from "./api/caches/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeBuckets,
+  _updateDeserialize as _updateDeserializeBuckets,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeBuckets,
+} from "./api/buckets/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializeBackupVaults,
   _updateDeserialize as _updateDeserializeBackupVaults,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeBackupVaults,
 } from "./api/backupVaults/operations.js";
+import { _clearSuspectsDeserialize } from "./api/ransomwareReports/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeVolumeQuotaRules,
   _updateDeserialize as _updateDeserializeVolumeQuotaRules,
@@ -52,10 +110,11 @@ import {
   _createDeserialize as _createDeserializeSnapshots,
 } from "./api/snapshots/operations.js";
 import {
+  _listQuotaReportDeserialize,
   _revertRelocationDeserialize,
   _finalizeRelocationDeserialize,
   _relocateDeserialize,
-  _poolChangeDeserialize,
+  _poolChangeDeserialize as _poolChangeDeserializeVolumes,
   _performReplicationTransferDeserialize,
   _finalizeExternalReplicationDeserialize,
   _authorizeExternalReplicationDeserialize,
@@ -70,7 +129,7 @@ import {
   _breakFileLocksDeserialize,
   _splitCloneFromParentDeserialize,
   _resetCifsPasswordDeserialize,
-  _revertDeserialize,
+  _revertDeserialize as _revertDeserializeVolumes,
   _populateAvailabilityZoneDeserialize,
   _$deleteDeserialize as _$deleteDeserializeVolumes,
   _updateDeserialize as _updateDeserializeVolumes,
@@ -86,10 +145,17 @@ import {
   _createDeserialize as _createDeserializeVolumeGroups,
 } from "./api/volumeGroups/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
-import { deserializeState } from "@azure/core-lro";
+import {
+  OperationOptions,
+  PathUncheckedResponse,
+} from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  PollerLike,
+  OperationState,
+  deserializeState,
+  ResourceLocationConfig,
+} from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -113,7 +179,9 @@ export interface RestorePollerOptions<
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   client: NetAppManagementClient,
   serializedState: string,
-  sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
+  sourceOperation: (
+    ...args: any[]
+  ) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,
 ): PollerLike<OperationState<TResult>, TResult> {
   const pollerConfig = deserializeState(serializedState).config;
@@ -244,6 +312,181 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrUpdateDeserializeAccounts,
       expectedStatuses: ["200", "201", "202"],
     },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/activeDirectoryConfigs/{activeDirectoryConfigName}":
+    {
+      deserializer: _$deleteDeserializeActiveDirectoryConfigs,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/activeDirectoryConfigs/{activeDirectoryConfigName}":
+    {
+      deserializer: _updateDeserializeActiveDirectoryConfigs,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/activeDirectoryConfigs/{activeDirectoryConfigName}":
+    {
+      deserializer: _createOrUpdateDeserializeActiveDirectoryConfigs,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticBackupVaults/{backupVaultName}/elasticBackups/{backupName}":
+    {
+      deserializer: _$deleteDeserializeElasticBackups,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticBackupVaults/{backupVaultName}/elasticBackups/{backupName}":
+    {
+      deserializer: _updateDeserializeElasticBackups,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticBackupVaults/{backupVaultName}/elasticBackups/{backupName}":
+    {
+      deserializer: _createOrUpdateDeserializeElasticBackups,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticBackupPolicies/{backupPolicyName}":
+    {
+      deserializer: _$deleteDeserializeElasticBackupPolicies,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticBackupPolicies/{backupPolicyName}":
+    {
+      deserializer: _updateDeserializeElasticBackupPolicies,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticBackupPolicies/{backupPolicyName}":
+    {
+      deserializer: _createOrUpdateDeserializeElasticBackupPolicies,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticBackupVaults/{backupVaultName}":
+    {
+      deserializer: _$deleteDeserializeElasticBackupVaults,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticBackupVaults/{backupVaultName}":
+    {
+      deserializer: _updateDeserializeElasticBackupVaults,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticBackupVaults/{backupVaultName}":
+    {
+      deserializer: _createOrUpdateDeserializeElasticBackupVaults,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticSnapshotPolicies/{snapshotPolicyName}":
+    {
+      deserializer: _$deleteDeserializeElasticSnapshotPolicies,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticSnapshotPolicies/{snapshotPolicyName}":
+    {
+      deserializer: _updateDeserializeElasticSnapshotPolicies,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticSnapshotPolicies/{snapshotPolicyName}":
+    {
+      deserializer: _createOrUpdateDeserializeElasticSnapshotPolicies,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticCapacityPools/{poolName}/elasticVolumes/{volumeName}/elasticSnapshots/{snapshotName}":
+    {
+      deserializer: _$deleteDeserializeElasticSnapshots,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticCapacityPools/{poolName}/elasticVolumes/{volumeName}/elasticSnapshots/{snapshotName}":
+    {
+      deserializer: _createOrUpdateDeserializeElasticSnapshots,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticCapacityPools/{poolName}/elasticVolumes/{volumeName}/revert":
+    {
+      deserializer: _revertDeserialize,
+      expectedStatuses: ["202", "200", "201"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticCapacityPools/{poolName}/elasticVolumes/{volumeName}":
+    {
+      deserializer: _$deleteDeserializeElasticVolumes,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticCapacityPools/{poolName}/elasticVolumes/{volumeName}":
+    {
+      deserializer: _updateDeserializeElasticVolumes,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticCapacityPools/{poolName}/elasticVolumes/{volumeName}":
+    {
+      deserializer: _createOrUpdateDeserializeElasticVolumes,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticCapacityPools/{poolName}/changeZone":
+    {
+      deserializer: _changeZoneDeserialize,
+      expectedStatuses: ["202", "200", "201"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticCapacityPools/{poolName}":
+    {
+      deserializer: _$deleteDeserializeElasticCapacityPools,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticCapacityPools/{poolName}":
+    {
+      deserializer: _updateDeserializeElasticCapacityPools,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticCapacityPools/{poolName}":
+    {
+      deserializer: _createOrUpdateDeserializeElasticCapacityPools,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}":
+    {
+      deserializer: _$deleteDeserializeElasticAccounts,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}":
+    {
+      deserializer: _updateDeserializeElasticAccounts,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}":
+    {
+      deserializer: _createOrUpdateDeserializeElasticAccounts,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches/{cacheName}/poolChange":
+    {
+      deserializer: _poolChangeDeserialize,
+      expectedStatuses: ["202", "200", "201"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches/{cacheName}":
+    {
+      deserializer: _$deleteDeserializeCaches,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches/{cacheName}":
+    {
+      deserializer: _updateDeserializeCaches,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches/{cacheName}":
+    {
+      deserializer: _createOrUpdateDeserializeCaches,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets/{bucketName}":
+    {
+      deserializer: _$deleteDeserializeBuckets,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets/{bucketName}":
+    {
+      deserializer: _updateDeserializeBuckets,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets/{bucketName}":
+    {
+      deserializer: _createOrUpdateDeserializeBuckets,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}":
     {
       deserializer: _$deleteDeserializeBackupVaults,
@@ -258,6 +501,11 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     {
       deserializer: _createOrUpdateDeserializeBackupVaults,
       expectedStatuses: ["200", "201", "202"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/ransomwareReports/{ransomwareReportName}/clearSuspects":
+    {
+      deserializer: _clearSuspectsDeserialize,
+      expectedStatuses: ["202", "200", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}":
     {
@@ -319,6 +567,11 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createDeserializeSnapshots,
       expectedStatuses: ["201", "202", "200"],
     },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/listQuotaReport":
+    {
+      deserializer: _listQuotaReportDeserialize,
+      expectedStatuses: ["202", "200", "201"],
+    },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/revertRelocation":
     {
       deserializer: _revertRelocationDeserialize,
@@ -336,7 +589,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/poolChange":
     {
-      deserializer: _poolChangeDeserialize,
+      deserializer: _poolChangeDeserializeVolumes,
       expectedStatuses: ["202", "200", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/performReplicationTransfer":
@@ -411,7 +664,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/revert":
     {
-      deserializer: _revertDeserialize,
+      deserializer: _revertDeserializeVolumes,
       expectedStatuses: ["202", "200", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/populateAvailabilityZone":
@@ -487,17 +740,24 @@ function getDeserializationHelper(
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;

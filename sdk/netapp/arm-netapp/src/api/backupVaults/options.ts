@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure-rest/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface BackupVaultsListByNetAppAccountOptionalParams extends OperationOptions {}
+export interface BackupVaultsListByNetAppAccountOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface BackupVaultsDeleteOptionalParams extends OperationOptions {
@@ -19,7 +20,8 @@ export interface BackupVaultsUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface BackupVaultsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface BackupVaultsCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

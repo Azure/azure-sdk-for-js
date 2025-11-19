@@ -1,17 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
-import { listByNetAppAccount, $delete, create, get } from "../../api/volumeGroups/operations.js";
-import type {
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import {
+  listByNetAppAccount,
+  $delete,
+  create,
+  get,
+} from "../../api/volumeGroups/operations.js";
+import {
   VolumeGroupsListByNetAppAccountOptionalParams,
   VolumeGroupsDeleteOptionalParams,
   VolumeGroupsCreateOptionalParams,
   VolumeGroupsGetOptionalParams,
 } from "../../api/volumeGroups/options.js";
-import type { VolumeGroupDetails, VolumeGroup } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { VolumeGroupDetails, VolumeGroup } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VolumeGroups operations. */
 export interface VolumeGroupsOperations {
@@ -62,14 +67,29 @@ function _getVolumeGroups(context: NetAppManagementContext) {
       accountName: string,
       volumeGroupName: string,
       options?: VolumeGroupsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, accountName, volumeGroupName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        accountName,
+        volumeGroupName,
+        options,
+      ),
     create: (
       resourceGroupName: string,
       accountName: string,
       volumeGroupName: string,
       body: VolumeGroupDetails,
       options?: VolumeGroupsCreateOptionalParams,
-    ) => create(context, resourceGroupName, accountName, volumeGroupName, body, options),
+    ) =>
+      create(
+        context,
+        resourceGroupName,
+        accountName,
+        volumeGroupName,
+        body,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       accountName: string,

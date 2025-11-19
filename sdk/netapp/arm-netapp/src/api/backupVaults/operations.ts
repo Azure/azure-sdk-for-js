@@ -1,29 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext as Client } from "../index.js";
-import type { BackupVault, BackupVaultPatch, _BackupVaultsList } from "../../models/models.js";
+import { NetAppManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  BackupVault,
   backupVaultSerializer,
   backupVaultDeserializer,
+  BackupVaultPatch,
   backupVaultPatchSerializer,
+  _BackupVaultsList,
   _backupVaultsListDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   BackupVaultsListByNetAppAccountOptionalParams,
   BackupVaultsDeleteOptionalParams,
   BackupVaultsUpdateOptionalParams,
   BackupVaultsCreateOrUpdateOptionalParams,
   BackupVaultsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByNetAppAccountSend(
   context: Client,
@@ -45,13 +53,15 @@ export function _listByNetAppAccountSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByNetAppAccountDeserialize(
@@ -78,7 +88,13 @@ export function listByNetAppAccount(
 ): PagedAsyncIterableIterator<BackupVault> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByNetAppAccountSend(context, resourceGroupName, accountName, options),
+    () =>
+      _listByNetAppAccountSend(
+        context,
+        resourceGroupName,
+        accountName,
+        options,
+      ),
     _listByNetAppAccountDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -105,10 +121,14 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -132,13 +152,24 @@ export function $delete(
   backupVaultName: string,
   options: BackupVaultsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _$deleteSend(context, resourceGroupName, accountName, backupVaultName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["202", "204", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(
+          context,
+          resourceGroupName,
+          accountName,
+          backupVaultName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -162,18 +193,22 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: backupVaultPatchSerializer(body),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: backupVaultPatchSerializer(body),
+    });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<BackupVault> {
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<BackupVault> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -193,13 +228,25 @@ export function update(
   body: BackupVaultPatch,
   options: BackupVaultsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<BackupVault>, BackupVault> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, accountName, backupVaultName, body, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<BackupVault>, BackupVault>;
+  return getLongRunningPoller(
+    context,
+    _updateDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _updateSend(
+          context,
+          resourceGroupName,
+          accountName,
+          backupVaultName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<BackupVault>, BackupVault>;
 }
 
 export function _createOrUpdateSend(
@@ -223,15 +270,17 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: backupVaultSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: backupVaultSerializer(body),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -256,13 +305,25 @@ export function createOrUpdate(
   body: BackupVault,
   options: BackupVaultsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<BackupVault>, BackupVault> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceGroupName, accountName, backupVaultName, body, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<BackupVault>, BackupVault>;
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "201", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          resourceGroupName,
+          accountName,
+          backupVaultName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<BackupVault>, BackupVault>;
 }
 
 export function _getSend(
@@ -285,16 +346,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<BackupVault> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<BackupVault> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -313,6 +378,12 @@ export async function get(
   backupVaultName: string,
   options: BackupVaultsGetOptionalParams = { requestOptions: {} },
 ): Promise<BackupVault> {
-  const result = await _getSend(context, resourceGroupName, accountName, backupVaultName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    accountName,
+    backupVaultName,
+    options,
+  );
   return _getDeserialize(result);
 }

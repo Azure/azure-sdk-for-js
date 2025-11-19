@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get details of the specified network sibling set.
  *
  * @summary get details of the specified network sibling set.
- * x-ms-original-file: 2025-09-01/NetworkSiblingSet_Query.json
+ * x-ms-original-file: 2025-09-01-preview/NetworkSiblingSet_Query.json
  */
 async function networkSiblingSetQuery(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -17,7 +17,7 @@ async function networkSiblingSetQuery(): Promise<void> {
   const result = await client.netAppResource.queryNetworkSiblingSet("eastus", {
     networkSiblingSetId: "9760acf5-4638-11e7-9bdb-020073ca3333",
     subnetId:
-      "/subscriptions/9760acf5-4638-11e7-9bdb-020073ca7778/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testVnet/subnets/testSubnet",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testVnet/subnets/testSubnet",
   });
   console.log(result);
 }

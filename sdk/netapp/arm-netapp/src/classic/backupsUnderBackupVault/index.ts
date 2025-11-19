@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import { restoreFiles } from "../../api/backupsUnderBackupVault/operations.js";
-import type { BackupsUnderBackupVaultRestoreFilesOptionalParams } from "../../api/backupsUnderBackupVault/options.js";
-import type { BackupRestoreFiles } from "../../models/models.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { BackupsUnderBackupVaultRestoreFilesOptionalParams } from "../../api/backupsUnderBackupVault/options.js";
+import { BackupRestoreFiles } from "../../models/models.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BackupsUnderBackupVault operations. */
 export interface BackupsUnderBackupVaultOperations {

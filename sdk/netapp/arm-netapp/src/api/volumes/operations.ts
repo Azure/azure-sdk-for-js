@@ -1,51 +1,54 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext as Client } from "../index.js";
-import type {
-  Volume,
-  VolumePatch,
-  _VolumeList,
-  VolumeRevert,
-  GetGroupIdListForLdapUserRequest,
-  GetGroupIdListForLdapUserResponse,
-  ReestablishReplicationRequest,
-  ReplicationStatus,
-  _ListReplications,
-  Replication,
-  AuthorizeRequest,
-  PeerClusterForVolumeMigrationRequest,
-  ClusterPeerCommandResponse,
-  SvmPeerCommandResponse,
-  PoolChangeRequest,
-} from "../../models/models.js";
+import { NetAppManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  Volume,
   volumeSerializer,
   volumeDeserializer,
+  VolumePatch,
   volumePatchSerializer,
+  _VolumeList,
   _volumeListDeserializer,
+  VolumeRevert,
   volumeRevertSerializer,
   breakFileLocksRequestSerializer,
+  GetGroupIdListForLdapUserRequest,
   getGroupIdListForLdapUserRequestSerializer,
+  GetGroupIdListForLdapUserResponse,
   getGroupIdListForLdapUserResponseDeserializer,
   breakReplicationRequestSerializer,
+  ReestablishReplicationRequest,
   reestablishReplicationRequestSerializer,
+  ReplicationStatus,
   replicationStatusDeserializer,
   listReplicationsRequestSerializer,
+  _ListReplications,
   _listReplicationsDeserializer,
+  Replication,
+  AuthorizeRequest,
   authorizeRequestSerializer,
+  PeerClusterForVolumeMigrationRequest,
   peerClusterForVolumeMigrationRequestSerializer,
+  ClusterPeerCommandResponse,
   clusterPeerCommandResponseDeserializer,
+  SvmPeerCommandResponse,
   svmPeerCommandResponseDeserializer,
+  PoolChangeRequest,
   poolChangeRequestSerializer,
   relocateVolumeRequestSerializer,
+  ListQuotaReportResponse,
+  listQuotaReportResponseDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
+  VolumesListQuotaReportOptionalParams,
   VolumesRevertRelocationOptionalParams,
   VolumesFinalizeRelocationOptionalParams,
   VolumesRelocateOptionalParams,
@@ -74,9 +77,95 @@ import type {
   VolumesCreateOrUpdateOptionalParams,
   VolumesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _listQuotaReportSend(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  poolName: string,
+  volumeName: string,
+  options: VolumesListQuotaReportOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/listQuotaReport{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      accountName: accountName,
+      poolName: poolName,
+      volumeName: volumeName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _listQuotaReportDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ListQuotaReportResponse> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return listQuotaReportResponseDeserializer(result.body);
+}
+
+/** A long-running resource action. */
+export function listQuotaReport(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  poolName: string,
+  volumeName: string,
+  options: VolumesListQuotaReportOptionalParams = { requestOptions: {} },
+): PollerLike<
+  OperationState<ListQuotaReportResponse>,
+  ListQuotaReportResponse
+> {
+  return getLongRunningPoller(
+    context,
+    _listQuotaReportDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _listQuotaReportSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<
+    OperationState<ListQuotaReportResponse>,
+    ListQuotaReportResponse
+  >;
+}
 
 export function _revertRelocationSend(
   context: Client,
@@ -100,10 +189,14 @@ export function _revertRelocationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .post({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _revertRelocationDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _revertRelocationDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -123,13 +216,25 @@ export function revertRelocation(
   volumeName: string,
   options: VolumesRevertRelocationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _revertRelocationDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _revertRelocationSend(context, resourceGroupName, accountName, poolName, volumeName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _revertRelocationDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _revertRelocationSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _finalizeRelocationSend(
@@ -154,10 +259,14 @@ export function _finalizeRelocationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .post({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _finalizeRelocationDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _finalizeRelocationDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -177,20 +286,25 @@ export function finalizeRelocation(
   volumeName: string,
   options: VolumesFinalizeRelocationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _finalizeRelocationDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _finalizeRelocationSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _finalizeRelocationDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _finalizeRelocationSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _relocateSend(
@@ -215,14 +329,20 @@ export function _relocateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["body"] ? options["body"] : relocateVolumeRequestSerializer(options["body"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options["body"]
+        ? options["body"]
+        : relocateVolumeRequestSerializer(options["body"]),
+    });
 }
 
-export async function _relocateDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _relocateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -242,13 +362,25 @@ export function relocate(
   volumeName: string,
   options: VolumesRelocateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _relocateDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _relocateSend(context, resourceGroupName, accountName, poolName, volumeName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _relocateDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _relocateSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _poolChangeSend(
@@ -274,14 +406,18 @@ export function _poolChangeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: poolChangeRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: poolChangeRequestSerializer(body),
+    });
 }
 
-export async function _poolChangeDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _poolChangeDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -302,13 +438,26 @@ export function poolChange(
   body: PoolChangeRequest,
   options: VolumesPoolChangeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _poolChangeDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _poolChangeSend(context, resourceGroupName, accountName, poolName, volumeName, body, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _poolChangeDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _poolChangeSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _performReplicationTransferSend(
@@ -335,7 +484,9 @@ export function _performReplicationTransferSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .post({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _performReplicationTransferDeserialize(
@@ -407,7 +558,9 @@ export function _finalizeExternalReplicationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .post({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _finalizeExternalReplicationDeserialize(
@@ -479,13 +632,15 @@ export function _authorizeExternalReplicationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _authorizeExternalReplicationDeserialize(
@@ -530,7 +685,10 @@ export function authorizeExternalReplication(
         ),
       resourceLocationConfig: "location",
     },
-  ) as PollerLike<OperationState<SvmPeerCommandResponse>, SvmPeerCommandResponse>;
+  ) as PollerLike<
+    OperationState<SvmPeerCommandResponse>,
+    SvmPeerCommandResponse
+  >;
 }
 
 export function _peerExternalClusterSend(
@@ -556,15 +714,17 @@ export function _peerExternalClusterSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: peerClusterForVolumeMigrationRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: peerClusterForVolumeMigrationRequestSerializer(body),
+    });
 }
 
 export async function _peerExternalClusterDeserialize(
@@ -589,22 +749,33 @@ export function peerExternalCluster(
   volumeName: string,
   body: PeerClusterForVolumeMigrationRequest,
   options: VolumesPeerExternalClusterOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ClusterPeerCommandResponse>, ClusterPeerCommandResponse> {
-  return getLongRunningPoller(context, _peerExternalClusterDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _peerExternalClusterSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        body,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<ClusterPeerCommandResponse>, ClusterPeerCommandResponse>;
+): PollerLike<
+  OperationState<ClusterPeerCommandResponse>,
+  ClusterPeerCommandResponse
+> {
+  return getLongRunningPoller(
+    context,
+    _peerExternalClusterDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _peerExternalClusterSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<
+    OperationState<ClusterPeerCommandResponse>,
+    ClusterPeerCommandResponse
+  >;
 }
 
 export function _reInitializeReplicationSend(
@@ -631,7 +802,9 @@ export function _reInitializeReplicationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .post({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _reInitializeReplicationDeserialize(
@@ -658,20 +831,25 @@ export function reInitializeReplication(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _reInitializeReplicationDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _reInitializeReplicationSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _reInitializeReplicationDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _reInitializeReplicationSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _authorizeReplicationSend(
@@ -697,11 +875,13 @@ export function _authorizeReplicationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: authorizeRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: authorizeRequestSerializer(body),
+    });
 }
 
 export async function _authorizeReplicationDeserialize(
@@ -727,21 +907,26 @@ export function authorizeReplication(
   body: AuthorizeRequest,
   options: VolumesAuthorizeReplicationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _authorizeReplicationDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _authorizeReplicationSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        body,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _authorizeReplicationDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _authorizeReplicationSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _deleteReplicationSend(
@@ -766,10 +951,14 @@ export function _deleteReplicationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .post({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _deleteReplicationDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteReplicationDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -789,20 +978,25 @@ export function deleteReplication(
   volumeName: string,
   options: VolumesDeleteReplicationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _deleteReplicationDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _deleteReplicationSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _deleteReplicationDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _deleteReplicationSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _resyncReplicationSend(
@@ -827,10 +1021,14 @@ export function _resyncReplicationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .post({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _resyncReplicationDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _resyncReplicationDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -850,20 +1048,25 @@ export function resyncReplication(
   volumeName: string,
   options: VolumesResyncReplicationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _resyncReplicationDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _resyncReplicationSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _resyncReplicationDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _resyncReplicationSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _listReplicationsSend(
@@ -888,15 +1091,19 @@ export function _listReplicationsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["body"] ? options["body"] : listReplicationsRequestSerializer(options["body"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: !options["body"]
+        ? options["body"]
+        : listReplicationsRequestSerializer(options["body"]),
+    });
 }
 
 export async function _listReplicationsDeserialize(
@@ -924,7 +1131,14 @@ export function listReplications(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _listReplicationsSend(context, resourceGroupName, accountName, poolName, volumeName, options),
+      _listReplicationsSend(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     _listReplicationsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -953,13 +1167,15 @@ export function _replicationStatusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _replicationStatusDeserialize(
@@ -1018,11 +1234,13 @@ export function _reestablishReplicationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: reestablishReplicationRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: reestablishReplicationRequestSerializer(body),
+    });
 }
 
 export async function _reestablishReplicationDeserialize(
@@ -1048,21 +1266,26 @@ export function reestablishReplication(
   body: ReestablishReplicationRequest,
   options: VolumesReestablishReplicationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _reestablishReplicationDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _reestablishReplicationSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        body,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _reestablishReplicationDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _reestablishReplicationSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _breakReplicationSend(
@@ -1087,14 +1310,20 @@ export function _breakReplicationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["body"] ? options["body"] : breakReplicationRequestSerializer(options["body"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options["body"]
+        ? options["body"]
+        : breakReplicationRequestSerializer(options["body"]),
+    });
 }
 
-export async function _breakReplicationDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _breakReplicationDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1114,13 +1343,25 @@ export function breakReplication(
   volumeName: string,
   options: VolumesBreakReplicationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _breakReplicationDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _breakReplicationSend(context, resourceGroupName, accountName, poolName, volumeName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _breakReplicationDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _breakReplicationSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _listGetGroupIdListForLdapUserSend(
@@ -1148,15 +1389,17 @@ export function _listGetGroupIdListForLdapUserSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: getGroupIdListForLdapUserRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: getGroupIdListForLdapUserRequestSerializer(body),
+    });
 }
 
 export async function _listGetGroupIdListForLdapUserDeserialize(
@@ -1234,14 +1477,20 @@ export function _breakFileLocksSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["body"] ? options["body"] : breakFileLocksRequestSerializer(options["body"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options["body"]
+        ? options["body"]
+        : breakFileLocksRequestSerializer(options["body"]),
+    });
 }
 
-export async function _breakFileLocksDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _breakFileLocksDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1261,13 +1510,25 @@ export function breakFileLocks(
   volumeName: string,
   options: VolumesBreakFileLocksOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _breakFileLocksDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _breakFileLocksSend(context, resourceGroupName, accountName, poolName, volumeName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _breakFileLocksDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _breakFileLocksSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _splitCloneFromParentSend(
@@ -1292,13 +1553,15 @@ export function _splitCloneFromParentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _splitCloneFromParentDeserialize(
@@ -1323,20 +1586,25 @@ export function splitCloneFromParent(
   volumeName: string,
   options: VolumesSplitCloneFromParentOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Volume>, Volume> {
-  return getLongRunningPoller(context, _splitCloneFromParentDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _splitCloneFromParentSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<Volume>, Volume>;
+  return getLongRunningPoller(
+    context,
+    _splitCloneFromParentDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _splitCloneFromParentSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<Volume>, Volume>;
 }
 
 export function _resetCifsPasswordSend(
@@ -1361,10 +1629,14 @@ export function _resetCifsPasswordSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .post({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _resetCifsPasswordDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _resetCifsPasswordDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1384,20 +1656,25 @@ export function resetCifsPassword(
   volumeName: string,
   options: VolumesResetCifsPasswordOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _resetCifsPasswordDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _resetCifsPasswordSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _resetCifsPasswordDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _resetCifsPasswordSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _revertSend(
@@ -1423,14 +1700,18 @@ export function _revertSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: volumeRevertSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: volumeRevertSerializer(body),
+    });
 }
 
-export async function _revertDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _revertDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1451,13 +1732,26 @@ export function revert(
   body: VolumeRevert,
   options: VolumesRevertOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _revertDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _revertSend(context, resourceGroupName, accountName, poolName, volumeName, body, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _revertDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _revertSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _populateAvailabilityZoneSend(
@@ -1484,13 +1778,15 @@ export function _populateAvailabilityZoneSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _populateAvailabilityZoneDeserialize(
@@ -1558,16 +1854,20 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listDeserialize(result: PathUncheckedResponse): Promise<_VolumeList> {
+export async function _listDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_VolumeList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1618,10 +1918,14 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1646,13 +1950,25 @@ export function $delete(
   volumeName: string,
   options: VolumesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _$deleteSend(context, resourceGroupName, accountName, poolName, volumeName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["202", "204", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -1678,18 +1994,22 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: volumePatchSerializer(body),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: volumePatchSerializer(body),
+    });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Volume> {
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Volume> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1710,13 +2030,26 @@ export function update(
   body: VolumePatch,
   options: VolumesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Volume>, Volume> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, accountName, poolName, volumeName, body, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<Volume>, Volume>;
+  return getLongRunningPoller(
+    context,
+    _updateDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _updateSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<Volume>, Volume>;
 }
 
 export function _createOrUpdateSend(
@@ -1742,18 +2075,22 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: volumeSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: volumeSerializer(body),
+    });
 }
 
-export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Volume> {
+export async function _createOrUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Volume> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1774,21 +2111,26 @@ export function createOrUpdate(
   body: Volume,
   options: VolumesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Volume>, Volume> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        body,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<Volume>, Volume>;
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "201", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<Volume>, Volume>;
 }
 
 export function _getSend(
@@ -1813,16 +2155,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<Volume> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Volume> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);

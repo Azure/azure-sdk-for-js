@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import { migrateBackups } from "../../api/backupsUnderAccount/operations.js";
-import type { BackupsUnderAccountMigrateBackupsOptionalParams } from "../../api/backupsUnderAccount/options.js";
-import type { BackupsMigrationRequest } from "../../models/models.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { BackupsUnderAccountMigrateBackupsOptionalParams } from "../../api/backupsUnderAccount/options.js";
+import { BackupsMigrationRequest } from "../../models/models.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BackupsUnderAccount operations. */
 export interface BackupsUnderAccountOperations {

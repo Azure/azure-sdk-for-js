@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EncryptionTransitionRequest, ChangeKeyVault } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import {
+  EncryptionTransitionRequest,
+  ChangeKeyVault,
+} from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AccountsChangeKeyVaultOptionalParams extends OperationOptions {
@@ -13,13 +16,15 @@ export interface AccountsChangeKeyVaultOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AccountsGetChangeKeyVaultInformationOptionalParams extends OperationOptions {
+export interface AccountsGetChangeKeyVaultInformationOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface AccountsTransitionToCmkOptionalParams extends OperationOptions {
+export interface AccountsTransitionToCmkOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** The required parameters to perform encryption transition. */
@@ -27,13 +32,15 @@ export interface AccountsTransitionToCmkOptionalParams extends OperationOptions 
 }
 
 /** Optional parameters. */
-export interface AccountsRenewCredentialsOptionalParams extends OperationOptions {
+export interface AccountsRenewCredentialsOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface AccountsListBySubscriptionOptionalParams extends OperationOptions {}
+export interface AccountsListBySubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AccountsListOptionalParams extends OperationOptions {}

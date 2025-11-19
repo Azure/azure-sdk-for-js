@@ -1,27 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext as Client } from "../index.js";
-import type { VolumeGroupDetails, _VolumeGroupList, VolumeGroup } from "../../models/models.js";
+import { NetAppManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  VolumeGroupDetails,
   volumeGroupDetailsSerializer,
   volumeGroupDetailsDeserializer,
+  _VolumeGroupList,
   _volumeGroupListDeserializer,
+  VolumeGroup,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   VolumeGroupsListByNetAppAccountOptionalParams,
   VolumeGroupsDeleteOptionalParams,
   VolumeGroupsCreateOptionalParams,
   VolumeGroupsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByNetAppAccountSend(
   context: Client,
@@ -43,13 +51,15 @@ export function _listByNetAppAccountSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByNetAppAccountDeserialize(
@@ -76,7 +86,13 @@ export function listByNetAppAccount(
 ): PagedAsyncIterableIterator<VolumeGroup> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByNetAppAccountSend(context, resourceGroupName, accountName, options),
+    () =>
+      _listByNetAppAccountSend(
+        context,
+        resourceGroupName,
+        accountName,
+        options,
+      ),
     _listByNetAppAccountDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -103,10 +119,14 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "202", "204", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -130,13 +150,24 @@ export function $delete(
   volumeGroupName: string,
   options: VolumeGroupsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _$deleteSend(context, resourceGroupName, accountName, volumeGroupName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["200", "202", "204", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(
+          context,
+          resourceGroupName,
+          accountName,
+          volumeGroupName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _createSend(
@@ -160,15 +191,17 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: volumeGroupDetailsSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: volumeGroupDetailsSerializer(body),
+    });
 }
 
 export async function _createDeserialize(
@@ -193,13 +226,25 @@ export function create(
   body: VolumeGroupDetails,
   options: VolumeGroupsCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<VolumeGroupDetails>, VolumeGroupDetails> {
-  return getLongRunningPoller(context, _createDeserialize, ["201", "200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createSend(context, resourceGroupName, accountName, volumeGroupName, body, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<VolumeGroupDetails>, VolumeGroupDetails>;
+  return getLongRunningPoller(
+    context,
+    _createDeserialize,
+    ["201", "200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createSend(
+          context,
+          resourceGroupName,
+          accountName,
+          volumeGroupName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<VolumeGroupDetails>, VolumeGroupDetails>;
 }
 
 export function _getSend(
@@ -222,16 +267,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<VolumeGroupDetails> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<VolumeGroupDetails> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -250,6 +299,12 @@ export async function get(
   volumeGroupName: string,
   options: VolumeGroupsGetOptionalParams = { requestOptions: {} },
 ): Promise<VolumeGroupDetails> {
-  const result = await _getSend(context, resourceGroupName, accountName, volumeGroupName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    accountName,
+    volumeGroupName,
+    options,
+  );
   return _getDeserialize(result);
 }

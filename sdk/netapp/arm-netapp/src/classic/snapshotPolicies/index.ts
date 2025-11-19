@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
   listVolumes,
   list,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/snapshotPolicies/operations.js";
-import type {
+import {
   SnapshotPoliciesListVolumesOptionalParams,
   SnapshotPoliciesListOptionalParams,
   SnapshotPoliciesDeleteOptionalParams,
@@ -18,13 +18,13 @@ import type {
   SnapshotPoliciesCreateOptionalParams,
   SnapshotPoliciesGetOptionalParams,
 } from "../../api/snapshotPolicies/options.js";
-import type {
+import {
   SnapshotPolicy,
   SnapshotPolicyPatch,
   SnapshotPolicyVolumeList,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SnapshotPolicies operations. */
 export interface SnapshotPoliciesOperations {
@@ -85,7 +85,14 @@ function _getSnapshotPolicies(context: NetAppManagementContext) {
       accountName: string,
       snapshotPolicyName: string,
       options?: SnapshotPoliciesListVolumesOptionalParams,
-    ) => listVolumes(context, resourceGroupName, accountName, snapshotPolicyName, options),
+    ) =>
+      listVolumes(
+        context,
+        resourceGroupName,
+        accountName,
+        snapshotPolicyName,
+        options,
+      ),
     list: (
       resourceGroupName: string,
       accountName: string,
@@ -96,27 +103,51 @@ function _getSnapshotPolicies(context: NetAppManagementContext) {
       accountName: string,
       snapshotPolicyName: string,
       options?: SnapshotPoliciesDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, accountName, snapshotPolicyName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        accountName,
+        snapshotPolicyName,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       accountName: string,
       snapshotPolicyName: string,
       body: SnapshotPolicyPatch,
       options?: SnapshotPoliciesUpdateOptionalParams,
-    ) => update(context, resourceGroupName, accountName, snapshotPolicyName, body, options),
+    ) =>
+      update(
+        context,
+        resourceGroupName,
+        accountName,
+        snapshotPolicyName,
+        body,
+        options,
+      ),
     create: (
       resourceGroupName: string,
       accountName: string,
       snapshotPolicyName: string,
       body: SnapshotPolicy,
       options?: SnapshotPoliciesCreateOptionalParams,
-    ) => create(context, resourceGroupName, accountName, snapshotPolicyName, body, options),
+    ) =>
+      create(
+        context,
+        resourceGroupName,
+        accountName,
+        snapshotPolicyName,
+        body,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       accountName: string,
       snapshotPolicyName: string,
       options?: SnapshotPoliciesGetOptionalParams,
-    ) => get(context, resourceGroupName, accountName, snapshotPolicyName, options),
+    ) =>
+      get(context, resourceGroupName, accountName, snapshotPolicyName, options),
   };
 }
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to provides storage to network proximity and logical zone mapping information.
  *
  * @summary provides storage to network proximity and logical zone mapping information.
- * x-ms-original-file: 2025-09-01/RegionInfo.json
+ * x-ms-original-file: 2025-09-01-preview/RegionInfo.json
  */
 async function regionInfoQuery(): Promise<void> {
   const credential = new DefaultAzureCredential();

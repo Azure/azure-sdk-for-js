@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure-rest/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface SnapshotPoliciesListVolumesOptionalParams extends OperationOptions {}
+export interface SnapshotPoliciesListVolumesOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface SnapshotPoliciesListOptionalParams extends OperationOptions {}
@@ -22,7 +23,8 @@ export interface SnapshotPoliciesUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface SnapshotPoliciesCreateOptionalParams extends OperationOptions {}
+export interface SnapshotPoliciesCreateOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface SnapshotPoliciesGetOptionalParams extends OperationOptions {}

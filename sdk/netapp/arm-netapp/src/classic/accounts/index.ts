@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
   changeKeyVault,
   getChangeKeyVaultInformation,
@@ -14,7 +14,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/accounts/operations.js";
-import type {
+import {
   AccountsChangeKeyVaultOptionalParams,
   AccountsGetChangeKeyVaultInformationOptionalParams,
   AccountsTransitionToCmkOptionalParams,
@@ -26,13 +26,13 @@ import type {
   AccountsCreateOrUpdateOptionalParams,
   AccountsGetOptionalParams,
 } from "../../api/accounts/options.js";
-import type {
+import {
   NetAppAccount,
   NetAppAccountPatch,
   GetKeyVaultStatusResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Accounts operations. */
 export interface AccountsOperations {
@@ -47,7 +47,10 @@ export interface AccountsOperations {
     resourceGroupName: string,
     accountName: string,
     options?: AccountsGetChangeKeyVaultInformationOptionalParams,
-  ) => PollerLike<OperationState<GetKeyVaultStatusResponse>, GetKeyVaultStatusResponse>;
+  ) => PollerLike<
+    OperationState<GetKeyVaultStatusResponse>,
+    GetKeyVaultStatusResponse
+  >;
   /** Transitions all volumes in a VNet to a different encryption key source (Microsoft-managed key or Azure Key Vault). Operation fails if targeted volumes share encryption sibling set with volumes from another account. */
   transitionToCmk: (
     resourceGroupName: string,
@@ -113,7 +116,13 @@ function _getAccounts(context: NetAppManagementContext) {
       resourceGroupName: string,
       accountName: string,
       options?: AccountsGetChangeKeyVaultInformationOptionalParams,
-    ) => getChangeKeyVaultInformation(context, resourceGroupName, accountName, options),
+    ) =>
+      getChangeKeyVaultInformation(
+        context,
+        resourceGroupName,
+        accountName,
+        options,
+      ),
     transitionToCmk: (
       resourceGroupName: string,
       accountName: string,
@@ -145,12 +154,17 @@ function _getAccounts(context: NetAppManagementContext) {
       body: NetAppAccount,
       options?: AccountsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, accountName, body, options),
-    get: (resourceGroupName: string, accountName: string, options?: AccountsGetOptionalParams) =>
-      get(context, resourceGroupName, accountName, options),
+    get: (
+      resourceGroupName: string,
+      accountName: string,
+      options?: AccountsGetOptionalParams,
+    ) => get(context, resourceGroupName, accountName, options),
   };
 }
 
-export function _getAccountsOperations(context: NetAppManagementContext): AccountsOperations {
+export function _getAccountsOperations(
+  context: NetAppManagementContext,
+): AccountsOperations {
   return {
     ..._getAccounts(context),
   };

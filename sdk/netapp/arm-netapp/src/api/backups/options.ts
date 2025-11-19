@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BackupPatch } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { BackupPatch } from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface BackupsGetVolumeLatestRestoreStatusOptionalParams extends OperationOptions {}
+export interface BackupsGetVolumeLatestRestoreStatusOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BackupsGetLatestStatusOptionalParams extends OperationOptions {}
+export interface BackupsGetLatestStatusOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface BackupsListByVaultOptionalParams extends OperationOptions {

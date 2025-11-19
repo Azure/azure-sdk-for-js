@@ -8,17 +8,20 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to check if a file path is available.
  *
  * @summary check if a file path is available.
- * x-ms-original-file: 2025-09-01/CheckFilePathAvailability.json
+ * x-ms-original-file: 2025-09-01-preview/CheckFilePathAvailability.json
  */
 async function checkFilePathAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetAppManagementClient(credential, subscriptionId);
-  const result = await client.netAppResource.checkFilePathAvailability("eastus", {
-    name: "my-exact-filepth",
-    subnetId:
-      "/subscriptions/9760acf5-4638-11e7-9bdb-020073ca7778/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3",
-  });
+  const result = await client.netAppResource.checkFilePathAvailability(
+    "eastus",
+    {
+      name: "my-exact-filepth",
+      subnetId:
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3",
+    },
+  );
   console.log(result);
 }
 

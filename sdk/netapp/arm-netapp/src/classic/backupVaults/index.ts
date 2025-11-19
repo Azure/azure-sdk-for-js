@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
   listByNetAppAccount,
   $delete,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/backupVaults/operations.js";
-import type {
+import {
   BackupVaultsListByNetAppAccountOptionalParams,
   BackupVaultsDeleteOptionalParams,
   BackupVaultsUpdateOptionalParams,
   BackupVaultsCreateOrUpdateOptionalParams,
   BackupVaultsGetOptionalParams,
 } from "../../api/backupVaults/options.js";
-import type { BackupVault, BackupVaultPatch } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { BackupVault, BackupVaultPatch } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BackupVaults operations. */
 export interface BackupVaultsOperations {
@@ -77,21 +77,44 @@ function _getBackupVaults(context: NetAppManagementContext) {
       accountName: string,
       backupVaultName: string,
       options?: BackupVaultsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, accountName, backupVaultName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        accountName,
+        backupVaultName,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       accountName: string,
       backupVaultName: string,
       body: BackupVaultPatch,
       options?: BackupVaultsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, accountName, backupVaultName, body, options),
+    ) =>
+      update(
+        context,
+        resourceGroupName,
+        accountName,
+        backupVaultName,
+        body,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       accountName: string,
       backupVaultName: string,
       body: BackupVault,
       options?: BackupVaultsCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, accountName, backupVaultName, body, options),
+    ) =>
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        accountName,
+        backupVaultName,
+        body,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       accountName: string,

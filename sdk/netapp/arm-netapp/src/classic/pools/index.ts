@@ -1,18 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
-import { list, $delete, update, createOrUpdate, get } from "../../api/pools/operations.js";
-import type {
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import {
+  list,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/pools/operations.js";
+import {
   PoolsListOptionalParams,
   PoolsDeleteOptionalParams,
   PoolsUpdateOptionalParams,
   PoolsCreateOrUpdateOptionalParams,
   PoolsGetOptionalParams,
 } from "../../api/pools/options.js";
-import type { CapacityPool, CapacityPoolPatch } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { CapacityPool, CapacityPoolPatch } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Pools operations. */
 export interface PoolsOperations {
@@ -61,8 +67,11 @@ export interface PoolsOperations {
 
 function _getPools(context: NetAppManagementContext) {
   return {
-    list: (resourceGroupName: string, accountName: string, options?: PoolsListOptionalParams) =>
-      list(context, resourceGroupName, accountName, options),
+    list: (
+      resourceGroupName: string,
+      accountName: string,
+      options?: PoolsListOptionalParams,
+    ) => list(context, resourceGroupName, accountName, options),
     delete: (
       resourceGroupName: string,
       accountName: string,
@@ -75,14 +84,23 @@ function _getPools(context: NetAppManagementContext) {
       poolName: string,
       body: CapacityPoolPatch,
       options?: PoolsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, accountName, poolName, body, options),
+    ) =>
+      update(context, resourceGroupName, accountName, poolName, body, options),
     createOrUpdate: (
       resourceGroupName: string,
       accountName: string,
       poolName: string,
       body: CapacityPool,
       options?: PoolsCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, accountName, poolName, body, options),
+    ) =>
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        body,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       accountName: string,
@@ -92,7 +110,9 @@ function _getPools(context: NetAppManagementContext) {
   };
 }
 
-export function _getPoolsOperations(context: NetAppManagementContext): PoolsOperations {
+export function _getPoolsOperations(
+  context: NetAppManagementContext,
+): PoolsOperations {
   return {
     ..._getPools(context),
   };

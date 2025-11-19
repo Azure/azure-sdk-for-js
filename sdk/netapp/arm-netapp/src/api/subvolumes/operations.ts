@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext as Client } from "../index.js";
-import type {
-  SubvolumeInfo,
-  SubvolumePatchRequest,
-  _SubvolumesList,
-  SubvolumeModel,
-} from "../../models/models.js";
+import { NetAppManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  SubvolumeInfo,
   subvolumeInfoSerializer,
   subvolumeInfoDeserializer,
+  SubvolumePatchRequest,
   subvolumePatchRequestSerializer,
+  _SubvolumesList,
   _subvolumesListDeserializer,
+  SubvolumeModel,
   subvolumeModelDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   SubvolumesGetMetadataOptionalParams,
   SubvolumesListByVolumeOptionalParams,
   SubvolumesDeleteOptionalParams,
@@ -28,9 +28,13 @@ import type {
   SubvolumesCreateOptionalParams,
   SubvolumesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getMetadataSend(
   context: Client,
@@ -56,13 +60,15 @@ export function _getMetadataSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getMetadataDeserialize(
@@ -88,21 +94,26 @@ export function getMetadata(
   subvolumeName: string,
   options: SubvolumesGetMetadataOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SubvolumeModel>, SubvolumeModel> {
-  return getLongRunningPoller(context, _getMetadataDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _getMetadataSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        subvolumeName,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<SubvolumeModel>, SubvolumeModel>;
+  return getLongRunningPoller(
+    context,
+    _getMetadataDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _getMetadataSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          subvolumeName,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<SubvolumeModel>, SubvolumeModel>;
 }
 
 export function _listByVolumeSend(
@@ -127,13 +138,15 @@ export function _listByVolumeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByVolumeDeserialize(
@@ -160,7 +173,15 @@ export function listByVolume(
 ): PagedAsyncIterableIterator<SubvolumeInfo> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByVolumeSend(context, resourceGroupName, accountName, poolName, volumeName, options),
+    () =>
+      _listByVolumeSend(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     _listByVolumeDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -191,10 +212,14 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "202", "204", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -220,21 +245,26 @@ export function $delete(
   subvolumeName: string,
   options: SubvolumesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _$deleteSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        subvolumeName,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["200", "202", "204", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          subvolumeName,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -262,18 +292,22 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: subvolumePatchRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: subvolumePatchRequestSerializer(body),
+    });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<SubvolumeInfo> {
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<SubvolumeInfo> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -295,22 +329,27 @@ export function update(
   body: SubvolumePatchRequest,
   options: SubvolumesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SubvolumeInfo>, SubvolumeInfo> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        subvolumeName,
-        body,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<SubvolumeInfo>, SubvolumeInfo>;
+  return getLongRunningPoller(
+    context,
+    _updateDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _updateSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          subvolumeName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<SubvolumeInfo>, SubvolumeInfo>;
 }
 
 export function _createSend(
@@ -338,18 +377,22 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: subvolumeInfoSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: subvolumeInfoSerializer(body),
+    });
 }
 
-export async function _createDeserialize(result: PathUncheckedResponse): Promise<SubvolumeInfo> {
+export async function _createDeserialize(
+  result: PathUncheckedResponse,
+): Promise<SubvolumeInfo> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -371,22 +414,27 @@ export function create(
   body: SubvolumeInfo,
   options: SubvolumesCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SubvolumeInfo>, SubvolumeInfo> {
-  return getLongRunningPoller(context, _createDeserialize, ["200", "201", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        subvolumeName,
-        body,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<SubvolumeInfo>, SubvolumeInfo>;
+  return getLongRunningPoller(
+    context,
+    _createDeserialize,
+    ["200", "201", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          subvolumeName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<SubvolumeInfo>, SubvolumeInfo>;
 }
 
 export function _getSend(
@@ -413,16 +461,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<SubvolumeInfo> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<SubvolumeInfo> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);

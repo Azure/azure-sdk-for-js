@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the specified capacity pool
  *
  * @summary delete the specified capacity pool
- * x-ms-original-file: 2025-09-01/Pools_Delete.json
+ * x-ms-original-file: 2025-09-01-preview/Pools_Delete.json
  */
 async function poolsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

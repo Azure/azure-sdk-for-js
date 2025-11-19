@@ -1,28 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext as Client } from "../index.js";
-import type {
-  NetAppAccount,
-  NetAppAccountPatch,
-  _NetAppAccountList,
-  GetKeyVaultStatusResponse,
-} from "../../models/models.js";
+import { NetAppManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  NetAppAccount,
   netAppAccountSerializer,
   netAppAccountDeserializer,
+  NetAppAccountPatch,
   netAppAccountPatchSerializer,
+  _NetAppAccountList,
   _netAppAccountListDeserializer,
   encryptionTransitionRequestSerializer,
+  GetKeyVaultStatusResponse,
   getKeyVaultStatusResponseDeserializer,
   changeKeyVaultSerializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   AccountsChangeKeyVaultOptionalParams,
   AccountsGetChangeKeyVaultInformationOptionalParams,
   AccountsTransitionToCmkOptionalParams,
@@ -34,9 +34,13 @@ import type {
   AccountsCreateOrUpdateOptionalParams,
   AccountsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _changeKeyVaultSend(
   context: Client,
@@ -56,14 +60,20 @@ export function _changeKeyVaultSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["body"] ? options["body"] : changeKeyVaultSerializer(options["body"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options["body"]
+        ? options["body"]
+        : changeKeyVaultSerializer(options["body"]),
+    });
 }
 
-export async function _changeKeyVaultDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _changeKeyVaultDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -81,12 +91,18 @@ export function changeKeyVault(
   accountName: string,
   options: AccountsChangeKeyVaultOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _changeKeyVaultDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _changeKeyVaultSend(context, resourceGroupName, accountName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _changeKeyVaultDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _changeKeyVaultSend(context, resourceGroupName, accountName, options),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _getChangeKeyVaultInformationSend(
@@ -109,13 +125,15 @@ export function _getChangeKeyVaultInformationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getChangeKeyVaultInformationDeserialize(
@@ -139,7 +157,10 @@ export function getChangeKeyVaultInformation(
   options: AccountsGetChangeKeyVaultInformationOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<GetKeyVaultStatusResponse>, GetKeyVaultStatusResponse> {
+): PollerLike<
+  OperationState<GetKeyVaultStatusResponse>,
+  GetKeyVaultStatusResponse
+> {
   return getLongRunningPoller(
     context,
     _getChangeKeyVaultInformationDeserialize,
@@ -148,10 +169,18 @@ export function getChangeKeyVaultInformation(
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
       getInitialResponse: () =>
-        _getChangeKeyVaultInformationSend(context, resourceGroupName, accountName, options),
+        _getChangeKeyVaultInformationSend(
+          context,
+          resourceGroupName,
+          accountName,
+          options,
+        ),
       resourceLocationConfig: "azure-async-operation",
     },
-  ) as PollerLike<OperationState<GetKeyVaultStatusResponse>, GetKeyVaultStatusResponse>;
+  ) as PollerLike<
+    OperationState<GetKeyVaultStatusResponse>,
+    GetKeyVaultStatusResponse
+  >;
 }
 
 export function _transitionToCmkSend(
@@ -172,16 +201,20 @@ export function _transitionToCmkSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["body"]
-      ? options["body"]
-      : encryptionTransitionRequestSerializer(options["body"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options["body"]
+        ? options["body"]
+        : encryptionTransitionRequestSerializer(options["body"]),
+    });
 }
 
-export async function _transitionToCmkDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _transitionToCmkDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -199,13 +232,18 @@ export function transitionToCmk(
   accountName: string,
   options: AccountsTransitionToCmkOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _transitionToCmkDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _transitionToCmkSend(context, resourceGroupName, accountName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _transitionToCmkDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _transitionToCmkSend(context, resourceGroupName, accountName, options),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _renewCredentialsSend(
@@ -226,10 +264,14 @@ export function _renewCredentialsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .post({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _renewCredentialsDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _renewCredentialsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -247,13 +289,18 @@ export function renewCredentials(
   accountName: string,
   options: AccountsRenewCredentialsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _renewCredentialsDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _renewCredentialsSend(context, resourceGroupName, accountName, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _renewCredentialsDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _renewCredentialsSend(context, resourceGroupName, accountName, options),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _listBySubscriptionSend(
@@ -270,13 +317,15 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -322,16 +371,20 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listDeserialize(result: PathUncheckedResponse): Promise<_NetAppAccountList> {
+export async function _listDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_NetAppAccountList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -375,10 +428,14 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -401,12 +458,18 @@ export function $delete(
   accountName: string,
   options: AccountsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _$deleteSend(context, resourceGroupName, accountName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["202", "204", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(context, resourceGroupName, accountName, options),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -428,18 +491,22 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: netAppAccountPatchSerializer(body),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: netAppAccountPatchSerializer(body),
+    });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<NetAppAccount> {
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<NetAppAccount> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -458,12 +525,18 @@ export function update(
   body: NetAppAccountPatch,
   options: AccountsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<NetAppAccount>, NetAppAccount> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _updateSend(context, resourceGroupName, accountName, body, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<NetAppAccount>, NetAppAccount>;
+  return getLongRunningPoller(
+    context,
+    _updateDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _updateSend(context, resourceGroupName, accountName, body, options),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<NetAppAccount>, NetAppAccount>;
 }
 
 export function _createOrUpdateSend(
@@ -485,15 +558,17 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: netAppAccountSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: netAppAccountSerializer(body),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -517,13 +592,24 @@ export function createOrUpdate(
   body: NetAppAccount,
   options: AccountsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<NetAppAccount>, NetAppAccount> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceGroupName, accountName, body, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<NetAppAccount>, NetAppAccount>;
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "201", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          resourceGroupName,
+          accountName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<NetAppAccount>, NetAppAccount>;
 }
 
 export function _getSend(
@@ -544,16 +630,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<NetAppAccount> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<NetAppAccount> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -571,6 +661,11 @@ export async function get(
   accountName: string,
   options: AccountsGetOptionalParams = { requestOptions: {} },
 ): Promise<NetAppAccount> {
-  const result = await _getSend(context, resourceGroupName, accountName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    accountName,
+    options,
+  );
   return _getDeserialize(result);
 }

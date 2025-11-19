@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
+  listQuotaReport,
   revertRelocation,
   finalizeRelocation,
   relocate,
@@ -31,7 +32,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/volumes/operations.js";
-import type {
+import {
+  VolumesListQuotaReportOptionalParams,
   VolumesRevertRelocationOptionalParams,
   VolumesFinalizeRelocationOptionalParams,
   VolumesRelocateOptionalParams,
@@ -60,7 +62,7 @@ import type {
   VolumesCreateOrUpdateOptionalParams,
   VolumesGetOptionalParams,
 } from "../../api/volumes/options.js";
-import type {
+import {
   Volume,
   VolumePatch,
   VolumeRevert,
@@ -74,12 +76,24 @@ import type {
   ClusterPeerCommandResponse,
   SvmPeerCommandResponse,
   PoolChangeRequest,
+  ListQuotaReportResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Volumes operations. */
 export interface VolumesOperations {
+  /** A long-running resource action. */
+  listQuotaReport: (
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesListQuotaReportOptionalParams,
+  ) => PollerLike<
+    OperationState<ListQuotaReportResponse>,
+    ListQuotaReportResponse
+  >;
   /** Reverts the volume relocation process, cleans up the new volume and starts using the former-existing volume. */
   revertRelocation: (
     resourceGroupName: string,
@@ -136,7 +150,10 @@ export interface VolumesOperations {
     poolName: string,
     volumeName: string,
     options?: VolumesAuthorizeExternalReplicationOptionalParams,
-  ) => PollerLike<OperationState<SvmPeerCommandResponse>, SvmPeerCommandResponse>;
+  ) => PollerLike<
+    OperationState<SvmPeerCommandResponse>,
+    SvmPeerCommandResponse
+  >;
   /** Starts peering the external cluster for this migration volume */
   peerExternalCluster: (
     resourceGroupName: string,
@@ -145,7 +162,10 @@ export interface VolumesOperations {
     volumeName: string,
     body: PeerClusterForVolumeMigrationRequest,
     options?: VolumesPeerExternalClusterOptionalParams,
-  ) => PollerLike<OperationState<ClusterPeerCommandResponse>, ClusterPeerCommandResponse>;
+  ) => PollerLike<
+    OperationState<ClusterPeerCommandResponse>,
+    ClusterPeerCommandResponse
+  >;
   /** Re-Initializes the replication connection on the destination volume */
   reInitializeReplication: (
     resourceGroupName: string,
@@ -315,27 +335,66 @@ export interface VolumesOperations {
 
 function _getVolumes(context: NetAppManagementContext) {
   return {
+    listQuotaReport: (
+      resourceGroupName: string,
+      accountName: string,
+      poolName: string,
+      volumeName: string,
+      options?: VolumesListQuotaReportOptionalParams,
+    ) =>
+      listQuotaReport(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     revertRelocation: (
       resourceGroupName: string,
       accountName: string,
       poolName: string,
       volumeName: string,
       options?: VolumesRevertRelocationOptionalParams,
-    ) => revertRelocation(context, resourceGroupName, accountName, poolName, volumeName, options),
+    ) =>
+      revertRelocation(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     finalizeRelocation: (
       resourceGroupName: string,
       accountName: string,
       poolName: string,
       volumeName: string,
       options?: VolumesFinalizeRelocationOptionalParams,
-    ) => finalizeRelocation(context, resourceGroupName, accountName, poolName, volumeName, options),
+    ) =>
+      finalizeRelocation(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     relocate: (
       resourceGroupName: string,
       accountName: string,
       poolName: string,
       volumeName: string,
       options?: VolumesRelocateOptionalParams,
-    ) => relocate(context, resourceGroupName, accountName, poolName, volumeName, options),
+    ) =>
+      relocate(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     poolChange: (
       resourceGroupName: string,
       accountName: string,
@@ -343,7 +402,16 @@ function _getVolumes(context: NetAppManagementContext) {
       volumeName: string,
       body: PoolChangeRequest,
       options?: VolumesPoolChangeOptionalParams,
-    ) => poolChange(context, resourceGroupName, accountName, poolName, volumeName, body, options),
+    ) =>
+      poolChange(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        body,
+        options,
+      ),
     performReplicationTransfer: (
       resourceGroupName: string,
       accountName: string,
@@ -444,28 +512,60 @@ function _getVolumes(context: NetAppManagementContext) {
       poolName: string,
       volumeName: string,
       options?: VolumesDeleteReplicationOptionalParams,
-    ) => deleteReplication(context, resourceGroupName, accountName, poolName, volumeName, options),
+    ) =>
+      deleteReplication(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     resyncReplication: (
       resourceGroupName: string,
       accountName: string,
       poolName: string,
       volumeName: string,
       options?: VolumesResyncReplicationOptionalParams,
-    ) => resyncReplication(context, resourceGroupName, accountName, poolName, volumeName, options),
+    ) =>
+      resyncReplication(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     listReplications: (
       resourceGroupName: string,
       accountName: string,
       poolName: string,
       volumeName: string,
       options?: VolumesListReplicationsOptionalParams,
-    ) => listReplications(context, resourceGroupName, accountName, poolName, volumeName, options),
+    ) =>
+      listReplications(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     replicationStatus: (
       resourceGroupName: string,
       accountName: string,
       poolName: string,
       volumeName: string,
       options?: VolumesReplicationStatusOptionalParams,
-    ) => replicationStatus(context, resourceGroupName, accountName, poolName, volumeName, options),
+    ) =>
+      replicationStatus(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     reestablishReplication: (
       resourceGroupName: string,
       accountName: string,
@@ -489,7 +589,15 @@ function _getVolumes(context: NetAppManagementContext) {
       poolName: string,
       volumeName: string,
       options?: VolumesBreakReplicationOptionalParams,
-    ) => breakReplication(context, resourceGroupName, accountName, poolName, volumeName, options),
+    ) =>
+      breakReplication(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     listGetGroupIdListForLdapUser: (
       resourceGroupName: string,
       accountName: string,
@@ -513,7 +621,15 @@ function _getVolumes(context: NetAppManagementContext) {
       poolName: string,
       volumeName: string,
       options?: VolumesBreakFileLocksOptionalParams,
-    ) => breakFileLocks(context, resourceGroupName, accountName, poolName, volumeName, options),
+    ) =>
+      breakFileLocks(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     splitCloneFromParent: (
       resourceGroupName: string,
       accountName: string,
@@ -521,14 +637,29 @@ function _getVolumes(context: NetAppManagementContext) {
       volumeName: string,
       options?: VolumesSplitCloneFromParentOptionalParams,
     ) =>
-      splitCloneFromParent(context, resourceGroupName, accountName, poolName, volumeName, options),
+      splitCloneFromParent(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     resetCifsPassword: (
       resourceGroupName: string,
       accountName: string,
       poolName: string,
       volumeName: string,
       options?: VolumesResetCifsPasswordOptionalParams,
-    ) => resetCifsPassword(context, resourceGroupName, accountName, poolName, volumeName, options),
+    ) =>
+      resetCifsPassword(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     revert: (
       resourceGroupName: string,
       accountName: string,
@@ -536,7 +667,16 @@ function _getVolumes(context: NetAppManagementContext) {
       volumeName: string,
       body: VolumeRevert,
       options?: VolumesRevertOptionalParams,
-    ) => revert(context, resourceGroupName, accountName, poolName, volumeName, body, options),
+    ) =>
+      revert(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        body,
+        options,
+      ),
     populateAvailabilityZone: (
       resourceGroupName: string,
       accountName: string,
@@ -564,7 +704,15 @@ function _getVolumes(context: NetAppManagementContext) {
       poolName: string,
       volumeName: string,
       options?: VolumesDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, accountName, poolName, volumeName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       accountName: string,
@@ -572,7 +720,16 @@ function _getVolumes(context: NetAppManagementContext) {
       volumeName: string,
       body: VolumePatch,
       options?: VolumesUpdateOptionalParams,
-    ) => update(context, resourceGroupName, accountName, poolName, volumeName, body, options),
+    ) =>
+      update(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        body,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       accountName: string,
@@ -581,18 +738,36 @@ function _getVolumes(context: NetAppManagementContext) {
       body: Volume,
       options?: VolumesCreateOrUpdateOptionalParams,
     ) =>
-      createOrUpdate(context, resourceGroupName, accountName, poolName, volumeName, body, options),
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        body,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       accountName: string,
       poolName: string,
       volumeName: string,
       options?: VolumesGetOptionalParams,
-    ) => get(context, resourceGroupName, accountName, poolName, volumeName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
   };
 }
 
-export function _getVolumesOperations(context: NetAppManagementContext): VolumesOperations {
+export function _getVolumesOperations(
+  context: NetAppManagementContext,
+): VolumesOperations {
   return {
     ..._getVolumes(context),
   };

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
   getMetadata,
   listByVolume,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/subvolumes/operations.js";
-import type {
+import {
   SubvolumesGetMetadataOptionalParams,
   SubvolumesListByVolumeOptionalParams,
   SubvolumesDeleteOptionalParams,
@@ -18,9 +18,13 @@ import type {
   SubvolumesCreateOptionalParams,
   SubvolumesGetOptionalParams,
 } from "../../api/subvolumes/options.js";
-import type { SubvolumeInfo, SubvolumePatchRequest, SubvolumeModel } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  SubvolumeInfo,
+  SubvolumePatchRequest,
+  SubvolumeModel,
+} from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Subvolumes operations. */
 export interface SubvolumesOperations {
@@ -111,7 +115,15 @@ function _getSubvolumes(context: NetAppManagementContext) {
       poolName: string,
       volumeName: string,
       options?: SubvolumesListByVolumeOptionalParams,
-    ) => listByVolume(context, resourceGroupName, accountName, poolName, volumeName, options),
+    ) =>
+      listByVolume(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     delete: (
       resourceGroupName: string,
       accountName: string,
@@ -174,11 +186,22 @@ function _getSubvolumes(context: NetAppManagementContext) {
       volumeName: string,
       subvolumeName: string,
       options?: SubvolumesGetOptionalParams,
-    ) => get(context, resourceGroupName, accountName, poolName, volumeName, subvolumeName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        subvolumeName,
+        options,
+      ),
   };
 }
 
-export function _getSubvolumesOperations(context: NetAppManagementContext): SubvolumesOperations {
+export function _getSubvolumesOperations(
+  context: NetAppManagementContext,
+): SubvolumesOperations {
   return {
     ..._getSubvolumes(context),
   };

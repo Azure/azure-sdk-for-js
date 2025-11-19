@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
   listByVolume,
   $delete,
@@ -9,16 +9,16 @@ import {
   create,
   get,
 } from "../../api/volumeQuotaRules/operations.js";
-import type {
+import {
   VolumeQuotaRulesListByVolumeOptionalParams,
   VolumeQuotaRulesDeleteOptionalParams,
   VolumeQuotaRulesUpdateOptionalParams,
   VolumeQuotaRulesCreateOptionalParams,
   VolumeQuotaRulesGetOptionalParams,
 } from "../../api/volumeQuotaRules/options.js";
-import type { VolumeQuotaRule, VolumeQuotaRulePatch } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { VolumeQuotaRule, VolumeQuotaRulePatch } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VolumeQuotaRules operations. */
 export interface VolumeQuotaRulesOperations {
@@ -83,7 +83,15 @@ function _getVolumeQuotaRules(context: NetAppManagementContext) {
       poolName: string,
       volumeName: string,
       options?: VolumeQuotaRulesListByVolumeOptionalParams,
-    ) => listByVolume(context, resourceGroupName, accountName, poolName, volumeName, options),
+    ) =>
+      listByVolume(
+        context,
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options,
+      ),
     delete: (
       resourceGroupName: string,
       accountName: string,

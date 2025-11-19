@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get details of the specified subvolume
  *
  * @summary get details of the specified subvolume
- * x-ms-original-file: 2025-09-01/Subvolumes_Metadata.json
+ * x-ms-original-file: 2025-09-01-preview/Subvolumes_Metadata.json
  */
 async function subvolumesMetadata(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch a subvolume
  *
  * @summary patch a subvolume
- * x-ms-original-file: 2025-09-01/Subvolumes_Update.json
+ * x-ms-original-file: 2025-09-01-preview/Subvolumes_Update.json
  */
 async function subvolumesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

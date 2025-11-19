@@ -1,22 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   BreakFileLocksRequest,
   BreakReplicationRequest,
   ListReplicationsRequest,
   RelocateVolumeRequest,
 } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface VolumesRevertRelocationOptionalParams extends OperationOptions {
+export interface VolumesListQuotaReportOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface VolumesFinalizeRelocationOptionalParams extends OperationOptions {
+export interface VolumesRevertRelocationOptionalParams
+  extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface VolumesFinalizeRelocationOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -36,70 +44,82 @@ export interface VolumesPoolChangeOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface VolumesPerformReplicationTransferOptionalParams extends OperationOptions {
+export interface VolumesPerformReplicationTransferOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface VolumesFinalizeExternalReplicationOptionalParams extends OperationOptions {
+export interface VolumesFinalizeExternalReplicationOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface VolumesAuthorizeExternalReplicationOptionalParams extends OperationOptions {
+export interface VolumesAuthorizeExternalReplicationOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface VolumesPeerExternalClusterOptionalParams extends OperationOptions {
+export interface VolumesPeerExternalClusterOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface VolumesReInitializeReplicationOptionalParams extends OperationOptions {
+export interface VolumesReInitializeReplicationOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface VolumesAuthorizeReplicationOptionalParams extends OperationOptions {
+export interface VolumesAuthorizeReplicationOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface VolumesDeleteReplicationOptionalParams extends OperationOptions {
+export interface VolumesDeleteReplicationOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface VolumesResyncReplicationOptionalParams extends OperationOptions {
+export interface VolumesResyncReplicationOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface VolumesListReplicationsOptionalParams extends OperationOptions {
+export interface VolumesListReplicationsOptionalParams
+  extends OperationOptions {
   /** The content of the action request */
   body?: ListReplicationsRequest;
 }
 
 /** Optional parameters. */
-export interface VolumesReplicationStatusOptionalParams extends OperationOptions {}
+export interface VolumesReplicationStatusOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface VolumesReestablishReplicationOptionalParams extends OperationOptions {
+export interface VolumesReestablishReplicationOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface VolumesBreakReplicationOptionalParams extends OperationOptions {
+export interface VolumesBreakReplicationOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** Optional body to force break the replication. */
@@ -107,7 +127,8 @@ export interface VolumesBreakReplicationOptionalParams extends OperationOptions 
 }
 
 /** Optional parameters. */
-export interface VolumesListGetGroupIdListForLdapUserOptionalParams extends OperationOptions {
+export interface VolumesListGetGroupIdListForLdapUserOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -121,13 +142,15 @@ export interface VolumesBreakFileLocksOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface VolumesSplitCloneFromParentOptionalParams extends OperationOptions {
+export interface VolumesSplitCloneFromParentOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface VolumesResetCifsPasswordOptionalParams extends OperationOptions {
+export interface VolumesResetCifsPasswordOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -139,7 +162,8 @@ export interface VolumesRevertOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface VolumesPopulateAvailabilityZoneOptionalParams extends OperationOptions {
+export interface VolumesPopulateAvailabilityZoneOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
