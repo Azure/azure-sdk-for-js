@@ -7,62 +7,63 @@ import type {
 } from "../../../../src/queryExecutionContext/index.js";
 import { ParallelQueryExecutionContextBase } from "../../../../src/queryExecutionContext/index.js";
 import type { Response } from "../../../../src/request/index.js";
-import type { DiagnosticNodeInternal } from "../../../../src/diagnostics/DiagnosticNodeInternal.js";
+import type { ClientContext } from "../../../../src/ClientContext.js";
+import type { FeedOptions, PartitionedQueryExecutionInfo } from "../../../../src/request/index.js";
+import type { SqlQuerySpec } from "../../../../src/queryExecutionContext/SqlQuerySpec.js";
+import { TargetPartitionRangeManager } from "../../../../src/queryExecutionContext/queryFilteringStrategy/TargetPartitionRangeManager.js";
+import { ParallelQueryProcessingStrategy } from "../../../../src/queryExecutionContext/queryProcessingStrategy/ParallelQueryProcessingStrategy.js";
 
 export class TestParallelQueryExecutionContext
   extends ParallelQueryExecutionContextBase
   implements ExecutionContext
 {
-  public documentProducerComparator(
-    docProd1: DocumentProducer,
-    docProd2: DocumentProducer,
-  ): number {
-    return docProd1.generation - docProd2.generation;
-  }
-
-  /**
-   * Processes a single document producer for testing.
-   * Implements the abstract method from the base class.
-   */
-  protected async processDocumentProducer(producer: DocumentProducer): Promise<void> {
-    // Fetch items from the document producer
-    const response = await producer.fetchBufferedItems();
-
-    // Add results to buffer using the helper method
-    this.addToBuffer(response.result);
-
-    // Update partition mapping for continuation token generation
-    this.updatePartitionMapping({
-      itemCount: response.result?.length || 0,
-      partitionKeyRange: producer.targetPartitionKeyRange,
-      continuationToken: producer.continuationToken,
+  constructor(
+    clientContext: ClientContext,
+    collectionLink: string,
+    query: string | SqlQuerySpec,
+    options: FeedOptions,
+    partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
+    correlatedActivityId: string,
+  ) {
+    const rangeManager = TargetPartitionRangeManager.createForParallelQuery({
+      queryInfo: partitionedQueryExecutionInfo,
     });
 
-    // Merge headers using the base class method
-    this._mergeWithActiveResponseHeaders(response.headers);
+    const processingStrategy = new ParallelQueryProcessingStrategy();
 
-    // Handle producer lifecycle
-    if (producer.hasMoreResults()) {
-      this.moveToUnfilledQueue(producer);
-    }
+    const comparator = (docProd1: DocumentProducer, docProd2: DocumentProducer): number => {
+      return docProd1.generation - docProd2.generation;
+    };
+
+    super(
+      clientContext,
+      collectionLink,
+      query,
+      options,
+      partitionedQueryExecutionInfo,
+      correlatedActivityId,
+      rangeManager,
+      processingStrategy,
+      comparator,
+    );
   }
 
   /**
-   * Determines if processing should continue for testing.
-   * For tests, we process all buffered items like parallel queries.
+   * Fetches all buffered items from producer for testing.
    */
-  protected shouldContinueProcessing(): boolean {
+  protected async fetchFromProducer(producer: DocumentProducer): Promise<Response<any>> {
+    return await producer.fetchBufferedItems();
+  }
+
+  /**
+   * Determines if buffered producers should continue to be processed for testing.
+   * For tests, we process all buffered items like parallel queries.
+   * @param _isUnfilledQueueEmpty - Whether the unfilled queue is empty (ignored for testing)
+   */
+  protected shouldProcessBufferedProducers(_isUnfilledQueueEmpty: boolean): boolean {
     return true; // Process all buffered items for testing
   }
 
-  private async bufferMore(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
-    // TODO: need to update headers from here, so make sure it returns it
-    await this.bufferDocumentProducers(diagnosticNode);
-    await this.fillBufferFromBufferQueue();
-  }
-
-  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
-    await this.bufferMore(diagnosticNode);
-    return this.drainBufferedItems();
-  }
+  // Note: Using the public fetchMore from base class since private methods are not accessible
+  // The base class fetchMore already handles bufferDocumentProducers, fillBufferFromBufferQueue, and drainBufferedItems
 }

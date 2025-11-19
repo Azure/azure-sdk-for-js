@@ -169,7 +169,6 @@ describe("parallelQueryExecutionContextBase", () => {
         partitionedQueryExecutionInfo,
         correlatedActivityId,
       );
-      context["options"] = options;
 
       // Call bufferDocumentProducers
       await context["bufferDocumentProducers"](createDummyDiagnosticNode());
@@ -217,7 +216,6 @@ describe("parallelQueryExecutionContextBase", () => {
         partitionedQueryExecutionInfo,
         correlatedActivityId,
       );
-      context["options"] = options;
 
       // Create a spy for semaphore.release
       const releaseSpy = vi.spyOn(context["sem"], "leave");
@@ -279,7 +277,6 @@ describe("parallelQueryExecutionContextBase", () => {
         partitionedQueryExecutionInfo,
         correlatedActivityId,
       );
-      context["options"] = options;
 
       context["err"] = {
         code: 404,
@@ -382,7 +379,6 @@ describe("parallelQueryExecutionContextBase", () => {
         partitionedQueryExecutionInfo,
         correlatedActivityId,
       );
-      context["options"] = options;
     });
 
     it("should return an empty array if buffer is empty", async () => {
@@ -744,8 +740,6 @@ describe("parallelQueryExecutionContextBase", () => {
       ]);
 
       // Mock the _createTargetPartitionQueryExecutionContext to return DocumentProducers with specific EPK values
-      const originalCreateMethod =
-        TestParallelQueryExecutionContext.prototype["_createTargetPartitionQueryExecutionContext"];
       vi.spyOn(
         TestParallelQueryExecutionContext.prototype,
         "_createTargetPartitionQueryExecutionContext" as any,

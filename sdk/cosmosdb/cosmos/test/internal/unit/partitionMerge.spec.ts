@@ -200,7 +200,6 @@ describe("Partition-Merge", function () {
     partitionedQueryExecutionInfo,
     correlatedActivityId,
   );
-  context["options"] = options;
 
   it("there should be 2 document producers in the unfilledDocumentProducersQueue as there are two partition key ranges", async function () {
     // Assert that the priority queue has 2 document producers
