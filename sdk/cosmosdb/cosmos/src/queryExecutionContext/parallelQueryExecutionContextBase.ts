@@ -167,7 +167,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * Processes buffered document producers
    * @returns A promise that resolves when processing is complete.
    */
-  protected async processBufferedDocumentProducers(): Promise<void> {
+  private async processBufferedDocumentProducers(): Promise<void> {
     while (this.hasBufferedProducers() && this.shouldProcessBufferedProducers()) {
       const producer = this.getNextBufferedProducer();
       if (!producer) break;
@@ -180,7 +180,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * Processes a single document producer using template method pattern.
    * Common structure with query-specific processing delegated to subclasses.
    */
-  protected async processDocumentProducer(producer: DocumentProducer): Promise<void> {
+  private async processDocumentProducer(producer: DocumentProducer): Promise<void> {
     const response = await this.fetchFromProducer(producer);
     this._mergeWithActiveResponseHeaders(response.headers);
 
@@ -203,9 +203,37 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   protected abstract fetchFromProducer(producer: DocumentProducer): Promise<Response<any>>;
 
   /**
-   * Handles partition mapping updates - implemented by subclasses.
+   * Handles partition mapping updates - implemented in base class using template method pattern.
+   * Child classes provide query-specific parameters through abstract methods.
    */
-  protected abstract handlePartitionMapping(producer: DocumentProducer, result: any): void;
+  private handlePartitionMapping(producer: DocumentProducer, result: any): void {
+    const itemCount = this.getItemCount(result);
+    const continuationToken = this.getContinuationToken(producer);
+    const shouldMerge = this.shouldMergeWithExisting();
+
+    const mapping = {
+      itemCount,
+      partitionKeyRange: producer.targetPartitionKeyRange,
+      continuationToken,
+    };
+
+    this.updatePartitionMapping(mapping, shouldMerge);
+  }
+
+  /**
+   * Gets the item count from the result - implemented by subclasses.
+   */
+  protected abstract getItemCount(result: any): number;
+
+  /**
+   * Gets the continuation token to use - implemented by subclasses.
+   */
+  protected abstract getContinuationToken(producer: DocumentProducer): string;
+
+  /**
+   * Determines if partition mapping should merge with existing - implemented by subclasses.
+   */
+  protected abstract shouldMergeWithExisting(): boolean;
 
   /**
    * Determines if buffered producers should continue to be processed based on query-specific rules.
@@ -215,7 +243,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   /**
    * Updates partition mapping - creates new entry or merges with existing for ORDER BY queries.
    */
-  protected updatePartitionMapping(mapping: QueryRangeMapping, mergeWithExisting = false): void {
+  private updatePartitionMapping(mapping: QueryRangeMapping, mergeWithExisting = false): void {
     if (mergeWithExisting) {
       // ORDER BY logic: try to merge with current partition
       const currentPatch = this.partitionDataPatchMap.get(this.patchCounter.toString());

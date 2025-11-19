@@ -16,8 +16,7 @@ import { OrderByQueryProcessingStrategy } from "./queryProcessingStrategy/OrderB
 /** @hidden */
 export class OrderByQueryExecutionContext
   extends ParallelQueryExecutionContextBase
-  implements ExecutionContext
-{
+  implements ExecutionContext {
   private readonly orderByComparator: any;
   /**
    * Provides the OrderByQueryExecutionContext.
@@ -84,24 +83,28 @@ export class OrderByQueryExecutionContext
   }
 
   /**
-   * Updates partition mapping for ORDER BY query with special continuation token logic.
+   * Gets the item count from the result for ORDER BY queries.
    */
-  protected handlePartitionMapping(producer: DocumentProducer, _result: any): void {
-    // Determine which continuation token to use based on buffer state
+  protected getItemCount(_result: any): number {
+    return 1; // ORDER BY processes one item at a time
+  }
+
+  /**
+   * Gets the continuation token to use for ORDER BY queries.
+   * Uses previous token if more items are buffered, current token otherwise.
+   */
+  protected getContinuationToken(producer: DocumentProducer): string {
     const hasMoreBufferedItems = producer.peakNextItem() !== undefined;
-    const continuationTokenToUse = hasMoreBufferedItems
+    return hasMoreBufferedItems
       ? producer.previousContinuationToken
       : producer.continuationToken;
+  }
 
-    // Use ORDER BY partition mapping with merge logic
-    this.updatePartitionMapping(
-      {
-        itemCount: 1,
-        partitionKeyRange: producer.targetPartitionKeyRange,
-        continuationToken: continuationTokenToUse,
-      },
-      true, // true = mergeWithExisting for ORDER BY
-    );
+  /**
+   * Determines if partition mapping should merge with existing for ORDER BY queries.
+   */
+  protected shouldMergeWithExisting(): boolean {
+    return true; // ORDER BY queries merge with existing partitions
   }
 
   /**

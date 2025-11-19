@@ -72,16 +72,27 @@ export class ParallelQueryExecutionContext
   protected async fetchFromProducer(producer: DocumentProducer): Promise<Response<any>> {
     return await producer.fetchBufferedItems();
   }
+  
 
   /**
-   * Updates partition mapping for parallel query continuation tokens.
+   * Gets the item count from the result for parallel queries.
    */
-  protected handlePartitionMapping(producer: DocumentProducer, result: any): void {
-    this.updatePartitionMapping({
-      itemCount: result?.length || 0,
-      partitionKeyRange: producer.targetPartitionKeyRange,
-      continuationToken: producer.continuationToken,
-    });
+  protected getItemCount(result: any): number {
+    return result?.length || 0;
+  }
+
+  /**
+   * Gets the continuation token to use for parallel queries.
+   */
+  protected getContinuationToken(producer: DocumentProducer): string {
+    return producer.continuationToken;
+  }
+
+  /**
+   * Determines if partition mapping should merge with existing for parallel queries.
+   */
+  protected shouldMergeWithExisting(): boolean {
+    return false; // Parallel queries don't merge
   }
 
   /**
