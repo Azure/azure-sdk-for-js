@@ -61,21 +61,15 @@ try {
   if (-not (Test-Path $SdkRepoPath)) {
     throw "SDK repository path does not exist: $SdkRepoPath"
   }
-  
-  $resolvedRepoPath = Resolve-Path $SdkRepoPath -ErrorAction Stop
-  Write-Host "SDK Repository: $resolvedRepoPath"
-  
   # Validate package path
   if (-not (Test-Path $PackagePath)) {
     throw "Package path does not exist: $PackagePath"
   }
-  
-  $resolvedPackagePath = Resolve-Path $PackagePath -ErrorAction Stop
-  Write-Host "Package Path: $resolvedPackagePath"
-  Write-Host ""
+
+  Push-Location $SdkRepoPath
   
   # Install js-sdk-release-tools if needed
-  $releaseToolsPath = Join-Path $resolvedRepoPath "eng\common\js-sdk-release-tools"
+  $releaseToolsPath = "eng\common\js-sdk-release-tools"
   if (-not (Test-Path $releaseToolsPath)) {
     throw "Release tools path does not exist: $releaseToolsPath"
   }
@@ -89,31 +83,29 @@ try {
   Write-Host "Dependencies installed successfully." -ForegroundColor Green
   Write-Host ""
   
-  # Build the command arguments
-  $cmdArgs = @(
-    "--sdkRepoPath", "$resolvedRepoPath",
-    "--packagePath", "$resolvedPackagePath"
-  )
+  # Build the command arguments string
+  $cmdArgs = "--sdkRepoPath $SdkRepoPath --packagePath $PackagePath"
   
   if ($ReleaseType) {
-    $cmdArgs += "--releaseType", "$ReleaseType"
+    $cmdArgs += " --releaseType $ReleaseType"
   }
   
   if ($Version) {
-    $cmdArgs += "--version", "$Version"
+    $cmdArgs += " --version $Version"
   }
   
   if ($ReleaseDate) {
-    $cmdArgs += "--releaseDate", "$ReleaseDate"
+    $cmdArgs += " --releaseDate $ReleaseDate"
   }
   
-  # Run the update-version command directly
+  # Run the update-version command using npm exec
   Write-Host "Updating package version..." -ForegroundColor Green
-  $updateVersionCmd = Join-Path $releaseToolsPath "node_modules\.bin\update-version.ps1"
-  Write-Host "Running: $updateVersionCmd $($cmdArgs -join ' ')" -ForegroundColor Gray
   
-  # Execute the command
-  & $updateVersionCmd @cmdArgs
+  # Execute the command from SDK repository root
+  $command = "npm --prefix $releaseToolsPath exec --no -- update-version -- $cmdArgs"
+  Write-Host "Running: $command" -ForegroundColor Gray
+  Write-Host ""
+  Invoke-Expression $command
   
   if ($LASTEXITCODE -ne 0) {
     throw "update-version command failed with exit code $LASTEXITCODE"
@@ -126,4 +118,7 @@ catch {
   Write-Host ""
   Write-Host "Update version failed: $($_.Exception.Message)" -ForegroundColor Red
   exit 1
+}
+finally {
+  Pop-Location
 }

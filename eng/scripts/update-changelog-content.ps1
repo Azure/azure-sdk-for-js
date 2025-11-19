@@ -36,21 +36,15 @@ try {
   if (-not (Test-Path $SdkRepoPath)) {
     throw "SDK repository path does not exist: $SdkRepoPath"
   }
-  
-  $resolvedRepoPath = Resolve-Path $SdkRepoPath -ErrorAction Stop
-  Write-Host "SDK Repository: $resolvedRepoPath"
-  
   # Validate package path
   if (-not (Test-Path $PackagePath)) {
     throw "Package path does not exist: $PackagePath"
   }
-  
-  $resolvedPackagePath = Resolve-Path $PackagePath -ErrorAction Stop
-  Write-Host "Package Path: $resolvedPackagePath"
-  Write-Host ""
+
+  Push-Location $SdkRepoPath
   
   # Install js-sdk-release-tools if needed
-  $releaseToolsPath = Join-Path $resolvedRepoPath "eng\common\js-sdk-release-tools"
+  $releaseToolsPath = "eng\common\js-sdk-release-tools"
   if (-not (Test-Path $releaseToolsPath)) {
     throw "Release tools path does not exist: $releaseToolsPath"
   }
@@ -64,13 +58,15 @@ try {
   Write-Host "Dependencies installed successfully." -ForegroundColor Green
   Write-Host ""
   
-  # Run the update-changelog command directly
+ 
+  # Run the update-changelog command using npm exec
   Write-Host "Updating CHANGELOG.md..." -ForegroundColor Green
-  $updateChangelogCmd = Join-Path $releaseToolsPath "node_modules\.bin\update-changelog.ps1"
-  Write-Host "Running: $updateChangelogCmd --sdkRepoPath $resolvedRepoPath --packagePath $resolvedPackagePath" -ForegroundColor Gray
   
-  # Execute the command
-  & $updateChangelogCmd --sdkRepoPath $resolvedRepoPath --packagePath $resolvedPackagePath
+  # Execute the command from SDK repository root
+  $command = "npm --prefix $releaseToolsPath exec --no -- update-changelog -- --sdkRepoPath `"$SdkRepoPath`" --packagePath `"$PackagePath`""
+  Write-Host "Running: $command" -ForegroundColor Gray
+  Write-Host ""
+  Invoke-Expression $command
   
   if ($LASTEXITCODE -ne 0) {
     throw "update-changelog command failed with exit code $LASTEXITCODE"
@@ -83,4 +79,7 @@ catch {
   Write-Host ""
   Write-Host "Update changelog failed: $($_.Exception.Message)" -ForegroundColor Red
   exit 1
+}
+finally {
+  Pop-Location
 }
