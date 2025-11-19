@@ -164,6 +164,7 @@ describe("Main functions", () => {
       views: [customView],
     };
     useAzureMonitor(config);
+    // eslint-disable-next-line no-underscore-dangle
     const meterConfig = (_getSdkInstance() as any)?._meterProviderConfig;
     expect(meterConfig).toBeDefined();
     expect(meterConfig?.views).toContain(customView);
