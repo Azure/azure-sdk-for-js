@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or Update a Certificate.
- *
- * @summary Create or Update a Certificate.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ConnectedEnvironmentsCertificate_CreateOrUpdate.json
- */
-
-import {
+import type {
   Certificate,
-  ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams,
+  ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams} from "@azure/arm-appcontainers";
+import {
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Create or Update a Certificate.
+ *
+ * @summary Create or Update a Certificate.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ConnectedEnvironmentsCertificate_CreateOrUpdate.json
+ */
 async function createOrUpdateCertificate(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
@@ -35,12 +35,13 @@ async function createOrUpdateCertificate(): Promise<void> {
     { certificateEnvelope };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.connectedEnvironmentsCertificates.createOrUpdate(
-    resourceGroupName,
-    connectedEnvironmentName,
-    certificateName,
-    options,
-  );
+  const result =
+    await client.connectedEnvironmentsCertificates.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      connectedEnvironmentName,
+      certificateName,
+      options,
+    );
   console.log(result);
 }
 

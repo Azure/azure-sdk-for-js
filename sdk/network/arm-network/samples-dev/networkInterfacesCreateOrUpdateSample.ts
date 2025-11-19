@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a network interface.
- *
- * @summary Creates or updates a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkInterfaceCreate.json
- */
-
 import type { NetworkInterface} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Creates or updates a network interface.
+ *
+ * @summary Creates or updates a network interface.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkInterfaceCreate.json
+ */
 async function createNetworkInterface(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
@@ -48,7 +47,7 @@ async function createNetworkInterface(): Promise<void> {
  * This sample demonstrates how to Creates or updates a network interface.
  *
  * @summary Creates or updates a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkInterfaceCreateGatewayLoadBalancerConsumer.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkInterfaceCreateGatewayLoadBalancerConsumer.json
  */
 async function createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

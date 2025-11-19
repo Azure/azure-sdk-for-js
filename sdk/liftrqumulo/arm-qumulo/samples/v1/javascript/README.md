@@ -43,7 +43,7 @@ node fileSystemsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env LIFTRQUMULO_SUBSCRIPTION_ID="<liftrqumulo subscription id>" LIFTRQUMULO_RESOURCE_GROUP="<liftrqumulo resource group>" node fileSystemsCreateOrUpdateSample.js
+cross-env LIFTRQUMULO_SUBSCRIPTION_ID="<liftrqumulo subscription id>" LIFTRQUMULO_RESOURCE_GROUP="<liftrqumulo resource group>" node fileSystemsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

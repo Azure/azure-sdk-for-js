@@ -73,7 +73,7 @@ node azureDevOpsConnectorCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env SECURITYDEVOPS_SUBSCRIPTION_ID="<securitydevops subscription id>" SECURITYDEVOPS_RESOURCE_GROUP="<securitydevops resource group>" node azureDevOpsConnectorCreateOrUpdateSample.js
+cross-env SECURITYDEVOPS_SUBSCRIPTION_ID="<securitydevops subscription id>" SECURITYDEVOPS_RESOURCE_GROUP="<securitydevops resource group>" node azureDevOpsConnectorCreateOrUpdateSample.js
 ```
 
 ## Next Steps

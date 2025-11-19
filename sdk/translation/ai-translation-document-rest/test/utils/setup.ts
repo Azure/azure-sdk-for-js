@@ -26,7 +26,13 @@ declare module "vitest" {
   type MyEnvVarKeys = {
     [K in (typeof EnvVarKeys)[keyof typeof EnvVarKeys]]: string;
   };
-  export interface ProvidedContext extends MyEnvVarKeys {
+  export interface ProvidedContext
+    extends Omit<
+      MyEnvVarKeys,
+      | typeof EnvVarKeys.DISABLE_LOCAL_AUTH
+      | typeof EnvVarKeys.TEST_MODE
+      | typeof EnvVarKeys.CONTAINERS
+    > {
     [EnvVarKeys.TEST_MODE]: string | undefined;
     [EnvVarKeys.DISABLE_LOCAL_AUTH]: boolean;
     [EnvVarKeys.CONTAINERS]: KnownContainers;

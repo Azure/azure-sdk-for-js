@@ -1,22 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  LocalRulesGetCountersOptionalParams} from "@azure/arm-paloaltonetworksngfw";
+import {
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Get counters
  *
  * @summary Get counters
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRules_getCounters_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/LocalRules_getCounters_MaximumSet_Gen.json
  */
-
-import type { LocalRulesGetCountersOptionalParams } from "@azure/arm-paloaltonetworksngfw";
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function localRulesGetCountersMaximumSetGen(): Promise<void> {
   const subscriptionId =
-    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
-  const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "firewall-rg";
+    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
+    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
+  const resourceGroupName =
+    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "firewall-rg";
   const localRulestackName = "lrs1";
   const priority = "1";
   const firewallName = "firewall1";
@@ -36,12 +40,14 @@ async function localRulesGetCountersMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Get counters
  *
  * @summary Get counters
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRules_getCounters_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/LocalRules_getCounters_MinimumSet_Gen.json
  */
 async function localRulesGetCountersMinimumSetGen(): Promise<void> {
   const subscriptionId =
-    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
-  const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "firewall-rg";
+    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
+    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
+  const resourceGroupName =
+    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "firewall-rg";
   const localRulestackName = "lrs1";
   const priority = "1";
   const credential = new DefaultAzureCredential();

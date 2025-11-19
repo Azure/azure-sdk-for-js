@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Disconnect vpn connections of virtual network gateway in the specified resource group.
- *
- * @summary Disconnect vpn connections of virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkGatewaysDisconnectP2sVpnConnections.json
- */
-
 import type {
   P2SVpnConnectionRequest} from "@azure/arm-network";
 import {
@@ -16,6 +9,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Disconnect vpn connections of virtual network gateway in the specified resource group.
+ *
+ * @summary Disconnect vpn connections of virtual network gateway in the specified resource group.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkGatewaysDisconnectP2sVpnConnections.json
+ */
 async function disconnectVpnConnectionsFromVirtualNetworkGateway(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =

@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Migrate load balancer to IP Based
- *
- * @summary Migrate load balancer to IP Based
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/MigrateLoadBalancerToIPBased.json
- */
-
 import type {
   MigrateLoadBalancerToIpBasedRequest,
   LoadBalancersMigrateToIpBasedOptionalParams} from "@azure/arm-network";
@@ -17,6 +10,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Migrate load balancer to IP Based
+ *
+ * @summary Migrate load balancer to IP Based
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/MigrateLoadBalancerToIPBased.json
+ */
 async function migrateLoadBalancerToIPBased(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const groupName = "rg1";

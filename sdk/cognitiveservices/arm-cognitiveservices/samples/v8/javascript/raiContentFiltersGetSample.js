@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Get Content Filters by Name.
  *
  * @summary Get Content Filters by Name.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/GetRaiContentFilter.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/GetRaiContentFilter.json
  */
 async function getRaiContentFilters() {
   const subscriptionId =

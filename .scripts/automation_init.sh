@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
-npm install -g @azure-tools/typespec-client-generator-cli@0.21.0
+echo "Install tsp-client"
+cd eng/common/tsp-client
+npm ci
+cd ../../..
 npm install -g pnpm
 npm install -g @azure-tools/js-sdk-release-tools

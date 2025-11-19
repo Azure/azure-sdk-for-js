@@ -64,7 +64,7 @@ describe("DeviceCodeCredential (internal)", () => {
     await credential.getToken(scope);
     const result = await persistence?.load();
     const parsedResult = JSON.parse(result!);
-    assert.ok(parsedResult.AccessToken);
+    assert.isDefined(parsedResult.AccessToken);
   });
 
   it("Authenticates silently with tokenCachePersistenceOptions", async (ctx) => {
@@ -100,7 +100,7 @@ describe("DeviceCodeCredential (internal)", () => {
     // The cache should have a token a this point
     const result = await persistence?.load();
     const parsedResult = JSON.parse(result!);
-    assert.ok(parsedResult.AccessToken);
+    assert.isDefined(parsedResult.AccessToken);
 
     await credential.getToken(scope);
     expect(getTokenSilentSpy).toHaveBeenCalledTimes(2);
@@ -135,7 +135,7 @@ describe("DeviceCodeCredential (internal)", () => {
     );
 
     const account = await credential.authenticate(scope);
-    assert.ok(account);
+    assert.isDefined(account);
     expect(getTokenSilentSpy).toHaveBeenCalledTimes(1);
     expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
 
@@ -151,11 +151,11 @@ describe("DeviceCodeCredential (internal)", () => {
     // The cache should have a token a this point
     const result = await persistence?.load();
     const parsedResult = JSON.parse(result!);
-    assert.ok(parsedResult.AccessToken);
+    assert.isDefined(parsedResult.AccessToken);
 
     const token = await credential2.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
     expect(getTokenSilentSpy).toHaveBeenCalledTimes(2);
 
     // Resolved with issue - https://github.com/Azure/azure-sdk-for-js/issues/24349

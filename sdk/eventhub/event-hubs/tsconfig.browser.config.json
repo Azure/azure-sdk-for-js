@@ -5,6 +5,7 @@
       "@azure/event-hubs": ["./dist/browser/index.d.ts"],
       "@azure/event-hubs/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "noFallthroughCasesInSwitch": false
   }
 }

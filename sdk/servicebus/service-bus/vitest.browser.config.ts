@@ -30,4 +30,8 @@ const config = mergeConfig(
 
 delete config.test.fakeTimers;
 
+if (process.env.TEST_MODE !== "live") {
+  config.test.include = ["dist-test/browser/test/internal/unit/*.spec.js"];
+}
+
 export default config;

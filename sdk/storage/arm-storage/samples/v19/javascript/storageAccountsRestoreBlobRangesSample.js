@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Restore blobs in the specified blob ranges
  *
  * @summary Restore blobs in the specified blob ranges
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/BlobRangesRestore.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/BlobRangesRestore.json
  */
 async function blobRangesRestore() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Creates a new queue with the specified queue name, under the specified account.
  *
  * @summary Creates a new queue with the specified queue name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/QueueOperationPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/QueueOperationPut.json
  */
 async function queueOperationPut() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -27,7 +27,7 @@ async function queueOperationPut() {
  * This sample demonstrates how to Creates a new queue with the specified queue name, under the specified account.
  *
  * @summary Creates a new queue with the specified queue name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/QueueOperationPutWithMetadata.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/QueueOperationPutWithMetadata.json
  */
 async function queueOperationPutWithMetadata() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

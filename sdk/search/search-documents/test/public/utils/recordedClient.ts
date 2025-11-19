@@ -6,14 +6,24 @@ import type { Recorder, RecorderStartOptions, SanitizerOptions } from "@azure-to
 import { assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
 import { isDefined } from "@azure/core-util";
 import { OpenAIClient } from "@azure/openai";
-import { SearchClient, SearchIndexClient, SearchIndexerClient } from "../../../src/index.js";
+import type { AzureOpenAIParameters } from "../../../src/index.js";
+import {
+  KnowledgeRetrievalClient,
+  SearchClient,
+  SearchIndexClient,
+  SearchIndexerClient,
+} from "../../../src/index.js";
 
 export interface Clients<IndexModel extends object> {
   searchClient: SearchClient<IndexModel>;
   indexClient: SearchIndexClient;
   indexerClient: SearchIndexerClient;
   indexName: string;
+  baseName: string;
   openAIClient: OpenAIClient;
+  knowledgeRetrievalClient: KnowledgeRetrievalClient;
+  embeddingAzureOpenAIParameters: AzureOpenAIParameters;
+  chatAzureOpenAIParameters: AzureOpenAIParameters;
 }
 
 interface Env {
@@ -86,16 +96,30 @@ export async function createClients<IndexModel extends object>(
   serviceVersion: string,
   recorder: Recorder,
   indexName: string,
+  baseName: string,
 ): Promise<Clients<IndexModel>> {
   const recorderOptions = createRecorderStartOptions();
   await recorder.start(recorderOptions);
 
   indexName = recorder.variable("TEST_INDEX_NAME", indexName);
+  baseName = recorder.variable("TEST_BASE_NAME", baseName);
 
   const credential = createTestCredential();
 
   const endPoint: string = assertEnvironmentVariable("ENDPOINT");
   const openAIEndpoint = assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT");
+
+  const embeddingAzureOpenAIParameters: AzureOpenAIParameters = {
+    deploymentId: env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME,
+    resourceUrl: env.AZURE_OPENAI_ENDPOINT,
+    modelName: "text-embedding-ada-002",
+  };
+
+  const chatAzureOpenAIParameters: AzureOpenAIParameters = {
+    deploymentId: env.AZURE_OPENAI_CHAT_DEPLOYMENT_NAME,
+    resourceUrl: env.AZURE_OPENAI_ENDPOINT,
+    modelName: "gpt-4o",
+  };
 
   const searchClient = new SearchClient<IndexModel>(
     endPoint,
@@ -124,12 +148,22 @@ export async function createClients<IndexModel extends object>(
     credential,
     recorder.configureClientOptions({}),
   );
+  const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
+    endPoint,
+    baseName,
+    credential,
+    recorder.configureClientOptions({}),
+  );
 
   return {
     searchClient,
     indexClient,
     indexerClient,
-    indexName,
     openAIClient,
+    knowledgeRetrievalClient,
+    indexName,
+    baseName,
+    embeddingAzureOpenAIParameters,
+    chatAzureOpenAIParameters,
   };
 }

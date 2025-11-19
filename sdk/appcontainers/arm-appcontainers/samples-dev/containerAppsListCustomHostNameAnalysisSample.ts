@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Analyzes a custom hostname for a Container App
- *
- * @summary Analyzes a custom hostname for a Container App
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ContainerApps_ListCustomHostNameAnalysis.json
- */
-
+import type {
+  ContainerAppsListCustomHostNameAnalysisOptionalParams} from "@azure/arm-appcontainers";
 import {
-  ContainerAppsListCustomHostNameAnalysisOptionalParams,
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Analyzes a custom hostname for a Container App
+ *
+ * @summary Analyzes a custom hostname for a Container App
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ContainerApps_ListCustomHostNameAnalysis.json
+ */
 async function analyzeCustomHostname(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||

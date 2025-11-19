@@ -32,7 +32,7 @@
   "dependencies": {
     "@azure/arm-servicefabricmanagedclusters": "next",
     "dotenv": "latest",
-    "@azure/identity": "^4.6.0"
+    "@azure/identity": "^4.9.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

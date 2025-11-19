@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a subnet in the specified virtual network.
- *
- * @summary Creates or updates a subnet in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/SubnetCreate.json
- */
-
 import type { Subnet} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Creates or updates a subnet in the specified virtual network.
+ *
+ * @summary Creates or updates a subnet in the specified virtual network.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/SubnetCreate.json
+ */
 async function createSubnet(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -35,7 +34,7 @@ async function createSubnet(): Promise<void> {
  * This sample demonstrates how to Creates or updates a subnet in the specified virtual network.
  *
  * @summary Creates or updates a subnet in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/SubnetCreateWithDelegation.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/SubnetCreateWithDelegation.json
  */
 async function createSubnetWithADelegation(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -59,7 +58,7 @@ async function createSubnetWithADelegation(): Promise<void> {
  * This sample demonstrates how to Creates or updates a subnet in the specified virtual network.
  *
  * @summary Creates or updates a subnet in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/SubnetCreateServiceEndpoint.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/SubnetCreateServiceEndpoint.json
  */
 async function createSubnetWithServiceEndpoints(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -86,7 +85,7 @@ async function createSubnetWithServiceEndpoints(): Promise<void> {
  * This sample demonstrates how to Creates or updates a subnet in the specified virtual network.
  *
  * @summary Creates or updates a subnet in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/SubnetCreateServiceEndpointNetworkIdentifier.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/SubnetCreateServiceEndpointNetworkIdentifier.json
  */
 async function createSubnetWithServiceEndpointsWithNetworkIdentifier(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -120,7 +119,7 @@ async function createSubnetWithServiceEndpointsWithNetworkIdentifier(): Promise<
  * This sample demonstrates how to Creates or updates a subnet in the specified virtual network.
  *
  * @summary Creates or updates a subnet in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/SubnetCreateWithSharingScope.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/SubnetCreateWithSharingScope.json
  */
 async function createSubnetWithSharingScope(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

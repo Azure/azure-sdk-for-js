@@ -6,12 +6,12 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get the Managed Http Routes in a given managed environment.
+ * This sample demonstrates how to List the Http Route Configs in a given managed environment.
  *
- * @summary Get the Managed Http Routes in a given managed environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/HttpRouteConfig_ListByManagedEnvironment.json
+ * @summary List the Http Route Configs in a given managed environment.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/HttpRouteConfig_ListByManagedEnvironment.json
  */
-async function listManagedHttpRoutesByManagedEnvironment(): Promise<void> {
+async function listHttpRouteConfigsByManagedEnvironment(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -31,7 +31,7 @@ async function listManagedHttpRoutesByManagedEnvironment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listManagedHttpRoutesByManagedEnvironment();
+  await listHttpRouteConfigsByManagedEnvironment();
 }
 
 main().catch(console.error);

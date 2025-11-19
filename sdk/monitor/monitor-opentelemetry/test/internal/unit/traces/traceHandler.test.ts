@@ -172,8 +172,8 @@ describe("Library/TraceHandler", () => {
       );
       assert.deepStrictEqual(spans[0].kind, 1, "Span Kind");
       assert.deepStrictEqual(spans[0].status.code, 0, "Span Success"); // Success
-      assert.ok(spans[0].startTime);
-      assert.ok(spans[0].endTime);
+      assert.isDefined(spans[0].startTime);
+      assert.isDefined(spans[0].endTime);
       assert.deepStrictEqual(spans[0].attributes["http.host"], `localhost:${mockHttpServerPort}`);
       assert.deepStrictEqual(spans[0].attributes["http.method"], "GET");
       assert.deepStrictEqual(spans[0].attributes["http.status_code"], 200);
@@ -193,8 +193,8 @@ describe("Library/TraceHandler", () => {
       );
       assert.deepStrictEqual(spans[1].kind, 2, "Span Kind");
       assert.deepStrictEqual(spans[1].status.code, 0, "Span Success"); // Success
-      assert.ok(spans[1].startTime);
-      assert.ok(spans[1].endTime);
+      assert.isDefined(spans[1].startTime);
+      assert.isDefined(spans[1].endTime);
       assert.deepStrictEqual(spans[1].attributes["http.host"], `localhost:${mockHttpServerPort}`);
       assert.deepStrictEqual(spans[1].attributes["http.method"], "GET");
       assert.deepStrictEqual(spans[1].attributes["http.status_code"], 200);

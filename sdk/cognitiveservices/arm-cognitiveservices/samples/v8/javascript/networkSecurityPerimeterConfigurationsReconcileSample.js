@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Reconcile the NSP configuration for an account.
  *
  * @summary Reconcile the NSP configuration for an account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ReconcileNetworkSecurityPerimeterConfigurations.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ReconcileNetworkSecurityPerimeterConfigurations.json
  */
 async function reconcileNetworkSecurityPerimeterConfigurations() {
   const subscriptionId =

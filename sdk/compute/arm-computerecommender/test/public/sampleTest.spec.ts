@@ -8,7 +8,7 @@ import { assert, beforeEach, afterEach, it, describe } from "vitest";
 describe("My test", () => {
   // let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async function (_ctx) {
     // uncomment if recorded tests are added
     // recorder = await createRecorder(ctx);
   });

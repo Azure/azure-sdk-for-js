@@ -1,23 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
+import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
-  ApplicationResource,
-  ApplicationUpdateParameters,
-  RuntimeResumeApplicationUpgradeParameters,
-} from "../../models/models.js";
-import {
-  ApplicationsStartRollbackOptionalParams,
-  ApplicationsResumeUpgradeOptionalParams,
-  ApplicationsReadUpgradeOptionalParams,
-  ApplicationsListOptionalParams,
-  ApplicationsDeleteOptionalParams,
-  ApplicationsUpdateOptionalParams,
-  ApplicationsCreateOrUpdateOptionalParams,
-  ApplicationsGetOptionalParams,
-} from "../../api/applications/options.js";
-import {
+  updateUpgrade,
   startRollback,
   resumeUpgrade,
   readUpgrade,
@@ -27,11 +13,36 @@ import {
   createOrUpdate,
   get,
 } from "../../api/applications/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  ApplicationsUpdateUpgradeOptionalParams,
+  ApplicationsStartRollbackOptionalParams,
+  ApplicationsResumeUpgradeOptionalParams,
+  ApplicationsReadUpgradeOptionalParams,
+  ApplicationsListOptionalParams,
+  ApplicationsDeleteOptionalParams,
+  ApplicationsUpdateOptionalParams,
+  ApplicationsCreateOrUpdateOptionalParams,
+  ApplicationsGetOptionalParams,
+} from "../../api/applications/options.js";
+import type {
+  ApplicationResource,
+  ApplicationUpdateParameters,
+  RuntimeResumeApplicationUpgradeParameters,
+  RuntimeUpdateApplicationUpgradeParameters,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Applications operations. */
 export interface ApplicationsOperations {
+  /** Send a request to update the current application upgrade. */
+  updateUpgrade: (
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    parameters: RuntimeUpdateApplicationUpgradeParameters,
+    options?: ApplicationsUpdateUpgradeOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Send a request to start a rollback of the current application upgrade. This will start rolling back the application to the previous version. */
   startRollback: (
     resourceGroupName: string,
@@ -99,6 +110,14 @@ export interface ApplicationsOperations {
 
 function _getApplications(context: ServiceFabricManagedClustersManagementContext) {
   return {
+    updateUpgrade: (
+      resourceGroupName: string,
+      clusterName: string,
+      applicationName: string,
+      parameters: RuntimeUpdateApplicationUpgradeParameters,
+      options?: ApplicationsUpdateUpgradeOptionalParams,
+    ) =>
+      updateUpgrade(context, resourceGroupName, clusterName, applicationName, parameters, options),
     startRollback: (
       resourceGroupName: string,
       clusterName: string,

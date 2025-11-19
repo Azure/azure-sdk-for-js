@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets logic app's connections.
  *
  * @summary Gets logic app's connections.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/LogicApps_ListConnections.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/LogicApps_ListConnections.json
  */
 async function listTheWorkflowsConfigurationConnections(): Promise<void> {
   const subscriptionId =

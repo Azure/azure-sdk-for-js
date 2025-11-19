@@ -4,10 +4,7 @@
 /**
  * @summary SecretReference represents a configuration setting that references as KeyVault secret.
  */
-const {
-  AppConfigurationClient,
-  secretReferenceContentType,
-} = require("@azure/app-configuration");
+const { AppConfigurationClient, secretReferenceContentType } = require("@azure/app-configuration");
 const { SecretClient } = require("@azure/keyvault-secrets");
 const { DefaultAzureCredential } = require("@azure/identity");
 
@@ -37,8 +34,8 @@ async function main() {
   console.log(`Use configuration provider to load and resolve secret reference`);
   const appConfigProvider = await load(endpoint, credential, {
     keyVaultOptions: {
-      credential: credential
-    }
+      credential: credential,
+    },
   });
 
   console.log(`Secret value: ${appConfigProvider.get(secretName)}`);

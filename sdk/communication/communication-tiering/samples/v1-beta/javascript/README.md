@@ -50,7 +50,7 @@ node getAcquiredNumberLimits.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" node getAcquiredNumberLimits.js
+cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" node getAcquiredNumberLimits.js
 ```
 
 ## Next Steps

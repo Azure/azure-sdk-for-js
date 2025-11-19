@@ -51,7 +51,7 @@ node queryMultipleResources.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env METRICS_ENDPOINT="<metrics endpoint>" METRICS_RESOURCE_IDS="<metrics resource ids>" METRICS_RESOURCE_NAMESPACE="<metrics resource namespace>" node queryMultipleResources.js
+cross-env METRICS_ENDPOINT="<metrics endpoint>" METRICS_RESOURCE_IDS="<metrics resource ids>" METRICS_RESOURCE_NAMESPACE="<metrics resource namespace>" node queryMultipleResources.js
 ```
 
 ## Next Steps

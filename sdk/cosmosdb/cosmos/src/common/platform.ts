@@ -15,9 +15,6 @@ export function getUserAgent(
   if (hostFramework) {
     ua = ua + " " + hostFramework;
   }
-  if (optionsOrConnectionString) {
-    ua = ua + addFeatureFlagsToUserAgent(optionsOrConnectionString);
-  }
   if (optionsOrConnectionString && optionsOrConnectionString.userAgentSuffix) {
     ua = ua + " " + optionsOrConnectionString.userAgentSuffix;
   }
@@ -41,6 +38,7 @@ function userAgentDetails(): string {
 
 /**
  * @hidden
+ * TODO: This function was getting used to track PPAF. Now by default PPAF is enabled. We need to revisit this function.
  */
 export function addFeatureFlagsToUserAgent(optionsOrConnectionString: CosmosClientOptions): string {
   let featureFlag = 0;

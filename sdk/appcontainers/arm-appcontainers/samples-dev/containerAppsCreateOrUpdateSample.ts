@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { ContainerApp} from "@azure/arm-appcontainers";
+import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Create or update a Container App.
  *
  * @summary Create or update a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ContainerApps_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ContainerApps_CreateOrUpdate.json
  */
-
-import { ContainerApp, ContainerAppsAPIClient } from "@azure/arm-appcontainers";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function createOrUpdateContainerApp(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
@@ -21,6 +21,13 @@ async function createOrUpdateContainerApp(): Promise<void> {
   const containerAppEnvelope: ContainerApp = {
     configuration: {
       dapr: {
+        appHealth: {
+          path: "/health",
+          enabled: true,
+          probeIntervalSeconds: 3,
+          probeTimeoutMilliseconds: 1000,
+          threshold: 3,
+        },
         appPort: 3000,
         appProtocol: "http",
         enableApiLogging: true,
@@ -28,6 +35,7 @@ async function createOrUpdateContainerApp(): Promise<void> {
         httpMaxRequestSize: 10,
         httpReadBufferSize: 30,
         logLevel: "debug",
+        maxConcurrency: 10,
       },
       identitySettings: [
         {
@@ -212,7 +220,65 @@ async function createOrUpdateContainerApp(): Promise<void> {
  * This sample demonstrates how to Create or update a Container App.
  *
  * @summary Create or update a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ContainerApps_ManagedBy_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ContainerApps_Kind_FunctionApp_CreateOrUpdate.json
+ */
+async function createOrUpdateFunctionAppKind(): Promise<void> {
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
+  const containerAppName = "testcontainerAppFunctionKind";
+  const containerAppEnvelope: ContainerApp = {
+    configuration: {
+      activeRevisionsMode: "Single",
+      ingress: { allowInsecure: false, external: true, targetPort: 80 },
+    },
+    kind: "functionapp",
+    location: "East Us",
+    managedBy:
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Web/sites/testcontainerAppFunctionKind",
+    managedEnvironmentId:
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/testmanagedenv3",
+    template: {
+      containers: [
+        {
+          name: "function-app-container",
+          env: [
+            {
+              name: "AzureWebJobsStorage",
+              value:
+                "DefaultEndpointsProtocol=https;AccountName=mystorageaccount;AccountKey=mykey;EndpointSuffix=core.windows.net",
+            },
+            { name: "FUNCTIONS_WORKER_RUNTIME", value: "dotnet" },
+            { name: "WEBSITES_ENABLE_APP_SERVICE_STORAGE", value: "false" },
+          ],
+          image: "mcr.microsoft.com/azure-functions/dotnet:4",
+          resources: { cpu: 0.5, memory: "1.0Gi" },
+        },
+      ],
+      scale: {
+        cooldownPeriod: 300,
+        maxReplicas: 10,
+        minReplicas: 0,
+        pollingInterval: 30,
+      },
+    },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ContainerAppsAPIClient(credential, subscriptionId);
+  const result = await client.containerApps.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    containerAppName,
+    containerAppEnvelope,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Create or update a Container App.
+ *
+ * @summary Create or update a Container App.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ContainerApps_ManagedBy_CreateOrUpdate.json
  */
 async function createOrUpdateManagedByApp(): Promise<void> {
   const subscriptionId =
@@ -280,7 +346,7 @@ async function createOrUpdateManagedByApp(): Promise<void> {
  * This sample demonstrates how to Create or update a Container App.
  *
  * @summary Create or update a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ContainerApps_TcpApp_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ContainerApps_TcpApp_CreateOrUpdate.json
  */
 async function createOrUpdateTcpApp(): Promise<void> {
   const subscriptionId =
@@ -340,10 +406,61 @@ async function createOrUpdateTcpApp(): Promise<void> {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to Create or update a Container App.
+ *
+ * @summary Create or update a Container App.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ContainerApps_Kind_WorkflowApp_CreateOrUpdate.json
+ */
+async function createOrUpdateWorkflowAppKind(): Promise<void> {
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
+  const containerAppName = "testcontainerAppKind";
+  const containerAppEnvelope: ContainerApp = {
+    configuration: {
+      activeRevisionsMode: "Single",
+      ingress: { allowInsecure: false, external: true, targetPort: 443 },
+    },
+    kind: "workflowapp",
+    location: "East Us",
+    managedBy:
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Web/sites/testcontainerAppKind",
+    managedEnvironmentId:
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/testmanagedenv3",
+    template: {
+      containers: [
+        {
+          name: "logicapps-container",
+          image: "default/logicapps-base:latest",
+          resources: { cpu: 1, memory: "2.0Gi" },
+        },
+      ],
+      scale: {
+        cooldownPeriod: 350,
+        maxReplicas: 30,
+        minReplicas: 1,
+        pollingInterval: 35,
+      },
+    },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ContainerAppsAPIClient(credential, subscriptionId);
+  const result = await client.containerApps.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    containerAppName,
+    containerAppEnvelope,
+  );
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await createOrUpdateContainerApp();
+  await createOrUpdateFunctionAppKind();
   await createOrUpdateManagedByApp();
   await createOrUpdateTcpApp();
+  await createOrUpdateWorkflowAppKind();
 }
 
 main().catch(console.error);

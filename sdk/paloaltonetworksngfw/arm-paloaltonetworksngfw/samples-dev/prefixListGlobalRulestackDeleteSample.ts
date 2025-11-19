@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete a PrefixListGlobalRulestackResource
- *
- * @summary Delete a PrefixListGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PrefixListGlobalRulestack_Delete_MaximumSet_Gen.json
- */
-
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Delete a PrefixListGlobalRulestackResource
+ *
+ * @summary Delete a PrefixListGlobalRulestackResource
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PrefixListGlobalRulestack_Delete_MaximumSet_Gen.json
+ */
 async function prefixListGlobalRulestackDeleteMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const name = "armid1";
@@ -28,7 +27,7 @@ async function prefixListGlobalRulestackDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Delete a PrefixListGlobalRulestackResource
  *
  * @summary Delete a PrefixListGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PrefixListGlobalRulestack_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PrefixListGlobalRulestack_Delete_MinimumSet_Gen.json
  */
 async function prefixListGlobalRulestackDeleteMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";

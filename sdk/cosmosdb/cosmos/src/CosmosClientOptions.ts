@@ -38,6 +38,13 @@ export interface CosmosClientOptions {
    * to authenticate requests to Cosmos
    */
   aadCredentials?: TokenCredential;
+  /**
+   * @internal
+   * Optional custom AAD scope to override the default account-based scope for authentication.
+   * If not provided, the default scope will be constructed from the endpoint URL.
+   * When provided, no fallback mechanism will be applied if authentication fails.
+   */
+  aadScope?: string;
   /** An array of {@link Permission} objects. */
   permissionFeed?: PermissionDefinition[];
   /** An instance of {@link ConnectionPolicy} class.

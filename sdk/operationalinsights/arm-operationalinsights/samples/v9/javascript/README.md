@@ -108,7 +108,7 @@ node availableServiceTiersListByWorkspaceSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env OPERATIONALINSIGHTS_SUBSCRIPTION_ID="<operationalinsights subscription id>" OPERATIONALINSIGHTS_RESOURCE_GROUP="<operationalinsights resource group>" node availableServiceTiersListByWorkspaceSample.js
+cross-env OPERATIONALINSIGHTS_SUBSCRIPTION_ID="<operationalinsights subscription id>" OPERATIONALINSIGHTS_RESOURCE_GROUP="<operationalinsights resource group>" node availableServiceTiersListByWorkspaceSample.js
 ```
 
 ## Next Steps

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get the storage task assignment properties
  *
  * @summary Get the storage task assignment properties
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/storageTaskAssignmentsCrud/GetStorageTaskAssignment.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/storageTaskAssignmentsCrud/GetStorageTaskAssignment.json
  */
 async function getStorageTaskAssignment(): Promise<void> {
   const subscriptionId =

@@ -1,4 +1,130 @@
 # Release History
+
+## 1.3.0-beta.1 (2025-11-11)
+Compared with version 1.2.0
+
+### Features Added
+  - Added operation BareMetalMachines.beginRunDataExtractsRestricted
+  - Added operation BareMetalMachines.beginRunDataExtractsRestrictedAndWait
+  - Added operation StorageAppliances.beginRunReadCommands
+  - Added operation StorageAppliances.beginRunReadCommandsAndWait
+  - Added operation VirtualMachines.beginAssignRelay
+  - Added operation VirtualMachines.beginAssignRelayAndWait
+  - Added Interface ActionState
+  - Added Interface BareMetalMachinesRunDataExtractsRestrictedHeaders
+  - Added Interface BareMetalMachinesRunDataExtractsRestrictedOptionalParams
+  - Added Interface CertificateInfo
+  - Added Interface CloudServicesNetworkStorageOptions
+  - Added Interface CloudServicesNetworkStorageOptionsPatch
+  - Added Interface CloudServicesNetworkStorageStatus
+  - Added Interface CommandOutputOverride
+  - Added Interface StepState
+  - Added Interface StorageApplianceCommandSpecification
+  - Added Interface StorageApplianceRunReadCommandsParameters
+  - Added Interface StorageAppliancesRunReadCommandsHeaders
+  - Added Interface StorageAppliancesRunReadCommandsOptionalParams
+  - Added Interface VirtualMachineAssignRelayParameters
+  - Added Interface VirtualMachinesAssignRelayHeaders
+  - Added Interface VirtualMachinesAssignRelayOptionalParams
+  - Interface AgentPoolsListByKubernetesClusterOptionalParams has a new optional parameter skipToken
+  - Interface AgentPoolsListByKubernetesClusterOptionalParams has a new optional parameter top
+  - Interface BareMetalMachine has a new optional parameter actionStates
+  - Interface BareMetalMachine has a new optional parameter caCertificate
+  - Interface BareMetalMachineKeySet has a new optional parameter privilegeLevelName
+  - Interface BareMetalMachineKeySetsListByClusterOptionalParams has a new optional parameter skipToken
+  - Interface BareMetalMachineKeySetsListByClusterOptionalParams has a new optional parameter top
+  - Interface BareMetalMachineReplaceParameters has a new optional parameter safeguardMode
+  - Interface BareMetalMachineReplaceParameters has a new optional parameter storagePolicy
+  - Interface BareMetalMachinesListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface BareMetalMachinesListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface BareMetalMachinesListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface BareMetalMachinesListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface BmcKeySetsListByClusterOptionalParams has a new optional parameter skipToken
+  - Interface BmcKeySetsListByClusterOptionalParams has a new optional parameter top
+  - Interface CloudServicesNetwork has a new optional parameter storageOptions
+  - Interface CloudServicesNetwork has a new optional parameter storageStatus
+  - Interface CloudServicesNetworkPatchParameters has a new optional parameter storageOptions
+  - Interface CloudServicesNetworksListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface CloudServicesNetworksListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface CloudServicesNetworksListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface CloudServicesNetworksListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface Cluster has a new optional parameter actionStates
+  - Interface ClusterManagersListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface ClusterManagersListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface ClusterManagersListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface ClusterManagersListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface ClustersListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface ClustersListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface ClustersListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface ClustersListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface CommandOutputSettings has a new optional parameter overrides
+  - Interface ConsolesListByVirtualMachineOptionalParams has a new optional parameter skipToken
+  - Interface ConsolesListByVirtualMachineOptionalParams has a new optional parameter top
+  - Interface KubernetesClusterFeaturesListByKubernetesClusterOptionalParams has a new optional parameter skipToken
+  - Interface KubernetesClusterFeaturesListByKubernetesClusterOptionalParams has a new optional parameter top
+  - Interface KubernetesClustersListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface KubernetesClustersListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface KubernetesClustersListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface KubernetesClustersListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface L2NetworksListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface L2NetworksListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface L2NetworksListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface L2NetworksListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface L3NetworksListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface L3NetworksListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface L3NetworksListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface L3NetworksListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface MetricsConfigurationsListByClusterOptionalParams has a new optional parameter skipToken
+  - Interface MetricsConfigurationsListByClusterOptionalParams has a new optional parameter top
+  - Interface RacksListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface RacksListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface RacksListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface RacksListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface SecretArchiveReference has a new optional parameter keyVaultUri
+  - Interface StorageAppliance has a new optional parameter caCertificate
+  - Interface StorageAppliancesListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface StorageAppliancesListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface StorageAppliancesListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface StorageAppliancesListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface TrunkedNetworksListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface TrunkedNetworksListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface TrunkedNetworksListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface TrunkedNetworksListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface VirtualMachine has a new optional parameter identity
+  - Interface VirtualMachine has a new optional parameter networkDataContent
+  - Interface VirtualMachine has a new optional parameter userDataContent
+  - Interface VirtualMachinePatchParameters has a new optional parameter identity
+  - Interface VirtualMachinesListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface VirtualMachinesListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface VirtualMachinesListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface VirtualMachinesListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface Volume has a new optional parameter allocatedSizeMiB
+  - Interface Volume has a new optional parameter storageApplianceId
+  - Interface VolumesListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface VolumesListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface VolumesListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface VolumesListBySubscriptionOptionalParams has a new optional parameter top
+  - Added Type Alias ActionStateStatus
+  - Added Type Alias BareMetalMachineReplaceSafeguardMode
+  - Added Type Alias BareMetalMachineReplaceStoragePolicy
+  - Added Type Alias BareMetalMachinesRunDataExtractsRestrictedResponse
+  - Added Type Alias CloudServicesNetworkStorageMode
+  - Added Type Alias CloudServicesNetworkStorageStatusStatus
+  - Added Type Alias CommandOutputType
+  - Added Type Alias RelayType
+  - Added Type Alias StepStateStatus
+  - Added Type Alias StorageAppliancesRunReadCommandsResponse
+  - Added Type Alias VirtualMachinesAssignRelayResponse
+  - Added Enum KnownActionStateStatus
+  - Added Enum KnownBareMetalMachineReplaceSafeguardMode
+  - Added Enum KnownBareMetalMachineReplaceStoragePolicy
+  - Added Enum KnownCloudServicesNetworkStorageMode
+  - Added Enum KnownCloudServicesNetworkStorageStatusStatus
+  - Added Enum KnownCommandOutputType
+  - Added Enum KnownRelayType
+  - Added Enum KnownStepStateStatus
+  - Enum KnownBareMetalMachineKeySetPrivilegeLevel has a new value Other
+
     
 ## 1.2.0 (2025-06-09)
     

@@ -126,7 +126,7 @@ node dist/attestationsCreateOrUpdateAtResourceGroupSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env POLICYINSIGHTS_SUBSCRIPTION_ID="<policyinsights subscription id>" POLICYINSIGHTS_RESOURCE_GROUP="<policyinsights resource group>" node dist/attestationsCreateOrUpdateAtResourceGroupSample.js
+cross-env POLICYINSIGHTS_SUBSCRIPTION_ID="<policyinsights subscription id>" POLICYINSIGHTS_RESOURCE_GROUP="<policyinsights resource group>" node dist/attestationsCreateOrUpdateAtResourceGroupSample.js
 ```
 
 ## Next Steps

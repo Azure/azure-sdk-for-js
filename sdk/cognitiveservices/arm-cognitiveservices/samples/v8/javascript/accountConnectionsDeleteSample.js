@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Delete Cognitive Services account connection by name.
  *
  * @summary Delete Cognitive Services account connection by name.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/AccountConnection/delete.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/AccountConnection/delete.json
  */
 async function deleteAccountConnection() {
   const subscriptionId =

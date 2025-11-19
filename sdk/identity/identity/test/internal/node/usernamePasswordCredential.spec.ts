@@ -109,8 +109,8 @@ describe("UsernamePasswordCredential (internal)", function () {
     const spy = vi.spyOn(process.stderr, "write");
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
     const expectedArgument = spy.mock.calls[spy.mock.calls.length - 2][0];
     expect(expectedArgument).toBeDefined();
     const expectedMessage = `azure:identity:info [Authenticated account] Client ID: ${clientId}. Tenant ID: ${tenantId}. User Principal Name: HIDDEN. Object ID (user): HIDDEN`;

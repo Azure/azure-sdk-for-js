@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Revoke user delegation keys.
  *
  * @summary Revoke user delegation keys.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountRevokeUserDelegationKeys.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountRevokeUserDelegationKeys.json
  */
 async function storageAccountRevokeUserDelegationKeys(): Promise<void> {
   const subscriptionId =

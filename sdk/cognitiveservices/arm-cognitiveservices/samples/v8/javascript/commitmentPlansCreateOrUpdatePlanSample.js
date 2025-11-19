@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Create Cognitive Services commitment plan.
  *
  * @summary Create Cognitive Services commitment plan.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/CreateSharedCommitmentPlan.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/CreateSharedCommitmentPlan.json
  */
 async function createCommitmentPlan() {
   const subscriptionId =

@@ -10,7 +10,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
  *
  * @summary Create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/LocalUserCreate.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/LocalUserCreate.json
  */
 async function createLocalUser(): Promise<void> {
   const subscriptionId =
@@ -46,7 +46,7 @@ async function createLocalUser(): Promise<void> {
  * This sample demonstrates how to Create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
  *
  * @summary Create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/LocalUserCreateNFSv3Enabled.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/LocalUserCreateNFSv3Enabled.json
  */
 async function createNfSv3EnabledLocalUser(): Promise<void> {
   const subscriptionId =
@@ -73,7 +73,7 @@ async function createNfSv3EnabledLocalUser(): Promise<void> {
  * This sample demonstrates how to Create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
  *
  * @summary Create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/LocalUserUpdate.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/LocalUserUpdate.json
  */
 async function updateLocalUser(): Promise<void> {
   const subscriptionId =

@@ -1,15 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
-import { ApplicationTypeResource, ApplicationTypeUpdateParameters } from "../../models/models.js";
-import {
-  ApplicationTypesListOptionalParams,
-  ApplicationTypesDeleteOptionalParams,
-  ApplicationTypesUpdateOptionalParams,
-  ApplicationTypesCreateOrUpdateOptionalParams,
-  ApplicationTypesGetOptionalParams,
-} from "../../api/applicationTypes/options.js";
+import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
   list,
   $delete,
@@ -17,8 +9,19 @@ import {
   createOrUpdate,
   get,
 } from "../../api/applicationTypes/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  ApplicationTypesListOptionalParams,
+  ApplicationTypesDeleteOptionalParams,
+  ApplicationTypesUpdateOptionalParams,
+  ApplicationTypesCreateOrUpdateOptionalParams,
+  ApplicationTypesGetOptionalParams,
+} from "../../api/applicationTypes/options.js";
+import type {
+  ApplicationTypeResource,
+  ApplicationTypeUpdateParameters,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ApplicationTypes operations. */
 export interface ApplicationTypesOperations {

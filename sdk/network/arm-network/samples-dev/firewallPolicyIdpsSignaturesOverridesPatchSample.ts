@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Will update the status of policy's signature overrides for IDPS
- *
- * @summary Will update the status of policy's signature overrides for IDPS
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/FirewallPolicySignatureOverridesPatch.json
- */
-
 import type {
   SignaturesOverrides} from "@azure/arm-network";
 import {
@@ -16,6 +9,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Will update the status of policy's signature overrides for IDPS
+ *
+ * @summary Will update the status of policy's signature overrides for IDPS
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/FirewallPolicySignatureOverridesPatch.json
+ */
 async function patchSignatureOverrides(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||

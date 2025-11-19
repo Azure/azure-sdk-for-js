@@ -99,7 +99,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       error = err;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
   });
 
   it("generateAccountSASQueryParameters should not work with invalid service", async () => {
@@ -132,7 +132,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       error = err;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
   });
 
   it("generateAccountSASQueryParameters should not work with invalid resource type", async () => {
@@ -168,7 +168,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       error = err;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
   });
 
   it("generateQueueSASQueryParameters should work for queue", async () => {
@@ -296,7 +296,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const messageContent = "hello";
 
     const eResult = await queuesClientwithSAS.sendMessage(messageContent);
-    assert.ok(eResult.messageId);
+    assert.isDefined(eResult.messageId);
     const pResult = await queuesClientwithSAS.peekMessages();
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
     const dResult = await queuesClientwithSAS.receiveMessages({
@@ -313,8 +313,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       dResult.receivedMessageItems[0].messageId,
       dResult.receivedMessageItems[0].popReceipt,
     );
-    assert.ok(deleteResult.requestId);
-    assert.ok(deleteResult.clientRequestId);
+    assert.isDefined(deleteResult.requestId);
+    assert.isDefined(deleteResult.clientRequestId);
 
     // const cResult = await queuesClientwithSAS.clear(); //This request is not authorized to perform this operation. As testing, this is service's current behavior.
   });
@@ -466,7 +466,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     try {
       await queueClient.create();
     } catch (err) {
-      assert.ok((err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"));
+      assert.isTrue(
+        (err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"),
+      );
     }
   });
 });

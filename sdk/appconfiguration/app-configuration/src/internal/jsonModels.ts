@@ -7,6 +7,7 @@
 export type JsonFeatureFlagValue = {
   conditions: {
     client_filters: { name: string; parameters?: Record<string, unknown> }[];
+    requirement_type?: "All" | "Any";
   };
   description?: string;
   enabled: boolean;
@@ -21,4 +22,13 @@ export type JsonFeatureFlagValue = {
  */
 export interface JsonSecretReferenceValue {
   uri: string;
+}
+
+// snapshot reference
+
+/**
+ * @internal
+ */
+export interface JsonSnapshotReferenceValue {
+  snapshot_name: string;
 }

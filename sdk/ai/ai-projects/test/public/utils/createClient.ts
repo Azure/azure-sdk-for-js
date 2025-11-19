@@ -4,8 +4,7 @@
 import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AIProjectClient } from "../../../src/index.js";
-import type { ClientOptions } from "@azure-rest/core-client";
+import { AIProjectClient, AIProjectClientOptionalParams } from "../../../src/index.js";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
@@ -13,7 +12,9 @@ const replaceableVariables: Record<string, string> = {
   GENERIC_STRING: "Sanitized",
   ENDPOINT: "Sanitized.azure.com",
   DEPLOYMENT_NAME: "DeepSeek-V3",
-  AZURE_AI_PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/project1",
+  AZURE_AI_PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/test-project",
+  PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/test-project",
+  OPENAI_PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/test-project/openai",
   AZURE_STORAGE_CONNECTION_NAME: "00000",
   DEPLOYMENT_GPT_MODEL: "gpt-4o",
   EMBEDDING_DEPLOYMENT_NAME: "text-embedding-3-large",
@@ -114,12 +115,12 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
 
 export function createProjectsClient(
   recorder?: Recorder,
-  options?: ClientOptions,
+  options?: AIProjectClientOptionalParams,
 ): AIProjectClient {
   const credential = createTestCredential();
   const endpoint =
     process.env["AZURE_AI_PROJECT_ENDPOINT"] || replaceableVariables.AZURE_AI_PROJECT_ENDPOINT;
-  return AIProjectClient.fromEndpoint(
+  return new AIProjectClient(
     endpoint,
     credential,
     recorder ? recorder.configureClientOptions(options ?? {}) : options,
@@ -129,11 +130,11 @@ export function createProjectsClient(
 export function createMockProjectsClient(
   responseFn: (request: PipelineRequest) => Partial<PipelineResponse>,
 ): AIProjectClient {
-  const options: ClientOptions = { additionalPolicies: [] };
+  const options: AIProjectClientOptionalParams = { additionalPolicies: [] };
   options.additionalPolicies?.push({
     policy: {
       name: "RequestMockPolicy",
-      sendRequest: async (req) => {
+      sendRequest: async (req: PipelineRequest) => {
         const response = responseFn(req);
         return {
           headers: createHttpHeaders(),
@@ -147,5 +148,5 @@ export function createMockProjectsClient(
   });
   const credential = createTestCredential();
   const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "";
-  return AIProjectClient.fromEndpoint(endpoint, credential, options);
+  return new AIProjectClient(endpoint, credential, options);
 }

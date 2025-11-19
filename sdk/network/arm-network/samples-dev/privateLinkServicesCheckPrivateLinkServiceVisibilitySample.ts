@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Checks whether the subscription is visible to private link service.
- *
- * @summary Checks whether the subscription is visible to private link service.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/CheckPrivateLinkServiceVisibility.json
- */
-
 import type {
   CheckPrivateLinkServiceVisibilityRequest} from "@azure/arm-network";
 import {
@@ -16,6 +9,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Checks whether the subscription is visible to private link service.
+ *
+ * @summary Checks whether the subscription is visible to private link service.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/CheckPrivateLinkServiceVisibility.json
+ */
 async function checkPrivateLinkServiceVisibility(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "westus";

@@ -25,9 +25,9 @@ describe("AzurePipelinesCredential", function () {
       systemAccessToken,
     );
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
+    assert.isDefined(token?.token);
     assert.isDefined(token?.expiresOnTimestamp);
-    if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
+    if (token?.expiresOnTimestamp) assert.isTrue(token?.expiresOnTimestamp > Date.now());
   });
 
   it("fails with invalid service connection", async function (ctx) {

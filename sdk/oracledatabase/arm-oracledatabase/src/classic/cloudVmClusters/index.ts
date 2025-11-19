@@ -1,25 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
-import {
-  CloudVmCluster,
-  CloudVmClusterUpdate,
-  AddRemoveDbNode,
-  PrivateIpAddressesFilter,
-  PrivateIpAddressProperties,
-} from "../../models/models.js";
-import {
-  CloudVmClustersListPrivateIpAddressesOptionalParams,
-  CloudVmClustersRemoveVmsOptionalParams,
-  CloudVmClustersAddVmsOptionalParams,
-  CloudVmClustersListByResourceGroupOptionalParams,
-  CloudVmClustersDeleteOptionalParams,
-  CloudVmClustersUpdateOptionalParams,
-  CloudVmClustersGetOptionalParams,
-  CloudVmClustersCreateOrUpdateOptionalParams,
-  CloudVmClustersListBySubscriptionOptionalParams,
-} from "../../api/cloudVmClusters/options.js";
+import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
   listPrivateIpAddresses,
   removeVms,
@@ -31,8 +13,26 @@ import {
   createOrUpdate,
   listBySubscription,
 } from "../../api/cloudVmClusters/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  CloudVmClustersListPrivateIpAddressesOptionalParams,
+  CloudVmClustersRemoveVmsOptionalParams,
+  CloudVmClustersAddVmsOptionalParams,
+  CloudVmClustersListByResourceGroupOptionalParams,
+  CloudVmClustersDeleteOptionalParams,
+  CloudVmClustersUpdateOptionalParams,
+  CloudVmClustersGetOptionalParams,
+  CloudVmClustersCreateOrUpdateOptionalParams,
+  CloudVmClustersListBySubscriptionOptionalParams,
+} from "../../api/cloudVmClusters/options.js";
+import type {
+  CloudVmCluster,
+  CloudVmClusterUpdate,
+  AddRemoveDbNode,
+  PrivateIpAddressesFilter,
+  PrivateIpAddressProperties,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CloudVmClusters operations. */
 export interface CloudVmClustersOperations {

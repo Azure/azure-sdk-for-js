@@ -7,24 +7,24 @@ import { describe, it, assert } from "vitest";
 describe("context.ts", () => {
   it("#constructor", () => {
     const context = getInstance();
-    assert.ok(Context.nodeVersion, "Missing nodeVersion");
-    assert.ok(Context.opentelemetryVersion, "Missing opentelemetryVersion");
-    assert.ok(Context.sdkVersion, "Missing sdkVersion");
-    assert.ok(context.tags["ai.internal.sdkVersion"], "Missing ai.internal.sdkVersion");
+    assert.isDefined(Context.nodeVersion, "Missing nodeVersion");
+    assert.isDefined(Context.opentelemetryVersion, "Missing opentelemetryVersion");
+    assert.isDefined(Context.sdkVersion, "Missing sdkVersion");
+    assert.isDefined(context.tags["ai.internal.sdkVersion"], "Missing ai.internal.sdkVersion");
   });
 
   it("#_loadInternalContext", () => {
     const context = getInstance();
     context["_loadInternalContext"]();
-    assert.ok(
+    assert.isTrue(
       context.tags["ai.internal.sdkVersion"].startsWith("node"),
       "Wrong ai.internal.sdkVersion",
     );
-    assert.ok(
+    assert.isTrue(
       context.tags["ai.internal.sdkVersion"].indexOf(":otel") > 0,
       "Wrong ai.internal.sdkVersion",
     );
-    assert.ok(
+    assert.isTrue(
       context.tags["ai.internal.sdkVersion"].indexOf(":ext") > 0,
       "Wrong ai.internal.sdkVersion",
     );
@@ -32,15 +32,15 @@ describe("context.ts", () => {
     process.env["AZURE_MONITOR_PREFIX"] = "testPrefix_";
     process.env["AZURE_MONITOR_DISTRO_VERSION"] = "_testDistroVersion";
     context["_loadInternalContext"]();
-    assert.ok(
+    assert.isTrue(
       context.tags["ai.internal.sdkVersion"].startsWith("testPrefix_node"),
       "Wrong ai.internal.sdkVersion",
     );
-    assert.ok(
+    assert.isTrue(
       context.tags["ai.internal.sdkVersion"].indexOf(":otel") > 0,
       "Wrong ai.internal.sdkVersion",
     );
-    assert.ok(
+    assert.isTrue(
       context.tags["ai.internal.sdkVersion"].endsWith(":dst_testDistroVersion"),
       "Wrong ai.internal.sdkVersion",
     );
@@ -52,7 +52,7 @@ describe("context.ts", () => {
     process.env = newEnv;
     const context = new Context();
     context["_loadInternalContext"]();
-    assert.ok(
+    assert.isTrue(
       context.tags["ai.internal.sdkVersion"].endsWith(":sha_testShimVersion"),
       "Wrong ai.internal.sdkVersion",
     );

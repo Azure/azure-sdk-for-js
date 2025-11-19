@@ -77,6 +77,7 @@ If a change requires updates to the core packages, you will remind the user to r
 ### Pre-requisites
 
 - To use MCP tool calls, user must have PowerShell installed. Provide [PowerShell installation instructions](https://learn.microsoft.com/powershell/scripting/install/installing-powershell?view=powershell-7.5) if not installed, and recommend restarting VSCode to start the MCP server.
+- Always run the [`azsdk_verify_setup`](../eng/common/instructions/azsdk-tools/verify-setup.instructions.md) tool to check the user's development environment setup for using SDK MCP tools. DO NOT PROCEED with running other tools before completing this step. Only skip for queries that don't need tools.
 
 ## Azure SDK Guidelines
 
@@ -107,25 +108,4 @@ When possible, refer to the Azure SDK for JS Design Guidelines for specific exam
 
 ## SDK release
 
-There are two tools to help with SDK releases:
-
-- Check SDK release readiness
-- Release SDK
-
-### Check SDK Release Readiness
-
-Run `CheckPackageReleaseReadiness` to verify if the package is ready for release. This tool checks:
-
-- API review status
-- Change log status
-- Package name approval(If package is new and releasing a preview version)
-- Release date is set in release tracker
-
-### Release SDK
-
-Run `ReleasePackage` to release the package. This tool requires package name and language as inputs. It will:
-
-- Check if the package is ready for release
-- Identify the release pipeline
-- Trigger the release pipeline.
-  User needs to approve the release stage in the pipeline after it is triggered.
+For detailed workflow instructions, see [SDK Release](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/common/instructions/copilot/sdk-release.instructions.md).

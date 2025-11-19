@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a database
- *
- * @summary Creates a database
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseDatabasesCreate.json
- */
-
+import type {
+  Database} from "@azure/arm-redisenterprisecache";
 import {
-  Database,
   RedisEnterpriseManagementClient,
 } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Creates a database
+ *
+ * @summary Creates a database
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseDatabasesCreate.json
+ */
 async function redisEnterpriseDatabasesCreate(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
@@ -55,7 +55,7 @@ async function redisEnterpriseDatabasesCreate(): Promise<void> {
  * This sample demonstrates how to Creates a database
  *
  * @summary Creates a database
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseDatabasesNoClusterCacheCreate.json
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseDatabasesNoClusterCacheCreate.json
  */
 async function redisEnterpriseDatabasesCreateNoClusterCache(): Promise<void> {
   const subscriptionId =
@@ -89,7 +89,7 @@ async function redisEnterpriseDatabasesCreateNoClusterCache(): Promise<void> {
  * This sample demonstrates how to Creates a database
  *
  * @summary Creates a database
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseDatabasesCreateWithGeoReplication.json
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseDatabasesCreateWithGeoReplication.json
  */
 async function redisEnterpriseDatabasesCreateWithActiveGeoReplication(): Promise<void> {
   const subscriptionId =

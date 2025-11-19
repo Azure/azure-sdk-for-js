@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to get the list of available Service Fabric resource provider API operations.
  *
  * @summary get the list of available Service Fabric resource provider API operations.
- * x-ms-original-file: 2025-03-01-preview/OperationsList_example.json
+ * x-ms-original-file: 2025-06-01-preview/OperationsList_example.json
  */
-
-import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function listTheOperationsForTheProvider(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";

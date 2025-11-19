@@ -16,7 +16,11 @@ import {
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
-import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
+import {
+  AnonymousCredential,
+  StorageSharedKeyCredential,
+  storageSharedKeyCredentialPolicy,
+} from "@azure/storage-common";
 import type { BlobDeleteOptions, BlobSetTierOptions } from "./Clients.js";
 import { BlobClient } from "./Clients.js";
 import type { AccessTier } from "./generatedModels.js";
@@ -31,10 +35,8 @@ import {
   HTTP_LINE_ENDING,
   StorageOAuthScopes,
 } from "./utils/constants.js";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import { tracingClient } from "./utils/tracing.js";
 import { authorizeRequestOnTenantChallenge, serializationPolicy } from "@azure/core-client";
-import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2.js";
 
 /**
  * A request associated with a batch operation.

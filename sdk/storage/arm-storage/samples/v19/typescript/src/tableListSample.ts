@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a list of all the tables under the specified storage account
  *
  * @summary Gets a list of all the tables under the specified storage account
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/TableOperationList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/TableOperationList.json
  */
 async function tableOperationList(): Promise<void> {
   const subscriptionId =

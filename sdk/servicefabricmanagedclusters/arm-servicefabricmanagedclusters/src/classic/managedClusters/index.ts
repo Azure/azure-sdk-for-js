@@ -1,26 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
-import {
-  ManagedCluster,
-  ManagedClusterUpdateParameters,
-  FaultSimulationIdContent,
-  FaultSimulation,
-  FaultSimulationContentWrapper,
-} from "../../models/models.js";
-import {
-  ManagedClustersStopFaultSimulationOptionalParams,
-  ManagedClustersStartFaultSimulationOptionalParams,
-  ManagedClustersListFaultSimulationOptionalParams,
-  ManagedClustersGetFaultSimulationOptionalParams,
-  ManagedClustersListBySubscriptionOptionalParams,
-  ManagedClustersListByResourceGroupOptionalParams,
-  ManagedClustersDeleteOptionalParams,
-  ManagedClustersUpdateOptionalParams,
-  ManagedClustersCreateOrUpdateOptionalParams,
-  ManagedClustersGetOptionalParams,
-} from "../../api/managedClusters/options.js";
+import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
   stopFaultSimulation,
   startFaultSimulation,
@@ -33,8 +14,27 @@ import {
   createOrUpdate,
   get,
 } from "../../api/managedClusters/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  ManagedClustersStopFaultSimulationOptionalParams,
+  ManagedClustersStartFaultSimulationOptionalParams,
+  ManagedClustersListFaultSimulationOptionalParams,
+  ManagedClustersGetFaultSimulationOptionalParams,
+  ManagedClustersListBySubscriptionOptionalParams,
+  ManagedClustersListByResourceGroupOptionalParams,
+  ManagedClustersDeleteOptionalParams,
+  ManagedClustersUpdateOptionalParams,
+  ManagedClustersCreateOrUpdateOptionalParams,
+  ManagedClustersGetOptionalParams,
+} from "../../api/managedClusters/options.js";
+import type {
+  ManagedCluster,
+  ManagedClusterUpdateParameters,
+  FaultSimulationIdContent,
+  FaultSimulation,
+  FaultSimulationContentWrapper,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedClusters operations. */
 export interface ManagedClustersOperations {

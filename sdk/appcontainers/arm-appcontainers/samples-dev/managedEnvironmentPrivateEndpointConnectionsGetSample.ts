@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get a private endpoint connection for a given managed environment.
  *
  * @summary Get a private endpoint connection for a given managed environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironmentPrivateEndpointConnections_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ManagedEnvironmentPrivateEndpointConnections_Get.json
  */
 async function getAPrivateEndpointConnectionByManagedEnvironment(): Promise<void> {
   const subscriptionId =

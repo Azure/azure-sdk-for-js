@@ -697,7 +697,7 @@ function withAzurePipelinesCredential() {
 
 ## Chaining credentials
 
-The `ChainedTokenCredential` class provides the ability to link together multiple credential instances to be tried sequentially when authenticating. For more information, see [ChainedTokenCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#use-chainedtokencredential-for-granularity).
+The `ChainedTokenCredential` class provides the ability to link together multiple credential instances to be tried sequentially when authenticating. For more information, see [ChainedTokenCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#chainedtokencredential-overview).
 
 ## Authenticating With Azure Stack using Azure Identity
 

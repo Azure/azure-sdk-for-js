@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create or update the object replication policy of the storage account.
  *
  * @summary Create or update the object replication policy of the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountCreateObjectReplicationPolicyOnDestination.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountCreateObjectReplicationPolicyOnDestination.json
  */
 async function storageAccountCreateObjectReplicationPolicyOnDestination(): Promise<void> {
   const subscriptionId =
@@ -24,6 +24,7 @@ async function storageAccountCreateObjectReplicationPolicyOnDestination(): Promi
   const properties: ObjectReplicationPolicy = {
     destinationAccount: "dst112",
     metrics: { enabled: true },
+    priorityReplication: { enabled: true },
     rules: [
       {
         destinationContainer: "dcont139",
@@ -49,7 +50,7 @@ async function storageAccountCreateObjectReplicationPolicyOnDestination(): Promi
  * This sample demonstrates how to Create or update the object replication policy of the storage account.
  *
  * @summary Create or update the object replication policy of the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountCreateObjectReplicationPolicyOnSource.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountCreateObjectReplicationPolicyOnSource.json
  */
 async function storageAccountCreateObjectReplicationPolicyOnSource(): Promise<void> {
   const subscriptionId =
@@ -60,6 +61,7 @@ async function storageAccountCreateObjectReplicationPolicyOnSource(): Promise<vo
   const properties: ObjectReplicationPolicy = {
     destinationAccount: "dst112",
     metrics: { enabled: true },
+    priorityReplication: { enabled: true },
     rules: [
       {
         destinationContainer: "dcont139",
@@ -89,7 +91,7 @@ async function storageAccountCreateObjectReplicationPolicyOnSource(): Promise<vo
  * This sample demonstrates how to Create or update the object replication policy of the storage account.
  *
  * @summary Create or update the object replication policy of the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountUpdateObjectReplicationPolicyOnDestination.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountUpdateObjectReplicationPolicyOnDestination.json
  */
 async function storageAccountUpdateObjectReplicationPolicyOnDestination(): Promise<void> {
   const subscriptionId =
@@ -100,6 +102,7 @@ async function storageAccountUpdateObjectReplicationPolicyOnDestination(): Promi
   const properties: ObjectReplicationPolicy = {
     destinationAccount: "dst112",
     metrics: { enabled: true },
+    priorityReplication: { enabled: true },
     rules: [
       {
         destinationContainer: "dcont139",
@@ -127,7 +130,7 @@ async function storageAccountUpdateObjectReplicationPolicyOnDestination(): Promi
  * This sample demonstrates how to Create or update the object replication policy of the storage account.
  *
  * @summary Create or update the object replication policy of the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountUpdateObjectReplicationPolicyOnSource.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountUpdateObjectReplicationPolicyOnSource.json
  */
 async function storageAccountUpdateObjectReplicationPolicyOnSource(): Promise<void> {
   const subscriptionId =
@@ -138,6 +141,7 @@ async function storageAccountUpdateObjectReplicationPolicyOnSource(): Promise<vo
   const properties: ObjectReplicationPolicy = {
     destinationAccount: "dst112",
     metrics: { enabled: true },
+    priorityReplication: { enabled: true },
     rules: [
       {
         destinationContainer: "dcont139",

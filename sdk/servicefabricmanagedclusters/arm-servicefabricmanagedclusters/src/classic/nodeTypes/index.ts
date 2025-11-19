@@ -1,32 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
-import {
-  FaultSimulationIdContent,
-  FaultSimulation,
-  FaultSimulationContentWrapper,
-  NodeType,
-  NodeTypeUpdateParameters,
-  NodeTypeActionParameters,
-} from "../../models/models.js";
-import {
-  NodeTypesListFaultSimulationOptionalParams,
-  NodeTypesGetFaultSimulationOptionalParams,
-  NodeTypesStopFaultSimulationOptionalParams,
-  NodeTypesStartFaultSimulationOptionalParams,
-  NodeTypesStartOptionalParams,
-  NodeTypesRestartOptionalParams,
-  NodeTypesReimageOptionalParams,
-  NodeTypesRedeployOptionalParams,
-  NodeTypesDeleteNodeOptionalParams,
-  NodeTypesDeallocateOptionalParams,
-  NodeTypesListByManagedClustersOptionalParams,
-  NodeTypesDeleteOptionalParams,
-  NodeTypesUpdateOptionalParams,
-  NodeTypesCreateOrUpdateOptionalParams,
-  NodeTypesGetOptionalParams,
-} from "../../api/nodeTypes/options.js";
+import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
   listFaultSimulation,
   getFaultSimulation,
@@ -44,8 +19,33 @@ import {
   createOrUpdate,
   get,
 } from "../../api/nodeTypes/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  NodeTypesListFaultSimulationOptionalParams,
+  NodeTypesGetFaultSimulationOptionalParams,
+  NodeTypesStopFaultSimulationOptionalParams,
+  NodeTypesStartFaultSimulationOptionalParams,
+  NodeTypesStartOptionalParams,
+  NodeTypesRestartOptionalParams,
+  NodeTypesReimageOptionalParams,
+  NodeTypesRedeployOptionalParams,
+  NodeTypesDeleteNodeOptionalParams,
+  NodeTypesDeallocateOptionalParams,
+  NodeTypesListByManagedClustersOptionalParams,
+  NodeTypesDeleteOptionalParams,
+  NodeTypesUpdateOptionalParams,
+  NodeTypesCreateOrUpdateOptionalParams,
+  NodeTypesGetOptionalParams,
+} from "../../api/nodeTypes/options.js";
+import type {
+  FaultSimulationIdContent,
+  FaultSimulation,
+  FaultSimulationContentWrapper,
+  NodeType,
+  NodeTypeUpdateParameters,
+  NodeTypeActionParameters,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NodeTypes operations. */
 export interface NodeTypesOperations {

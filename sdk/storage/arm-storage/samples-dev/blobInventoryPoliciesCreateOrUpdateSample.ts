@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Sets the blob inventory policy to the specified storage account.
  *
  * @summary Sets the blob inventory policy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountSetBlobInventoryPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountSetBlobInventoryPolicy.json
  */
 async function storageAccountSetBlobInventoryPolicy(): Promise<void> {
   const subscriptionId =
@@ -96,7 +96,7 @@ async function storageAccountSetBlobInventoryPolicy(): Promise<void> {
  * This sample demonstrates how to Sets the blob inventory policy to the specified storage account.
  *
  * @summary Sets the blob inventory policy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount.json
  */
 async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount(): Promise<void> {
   const subscriptionId =
@@ -197,7 +197,7 @@ async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForH
  * This sample demonstrates how to Sets the blob inventory policy to the specified storage account.
  *
  * @summary Sets the blob inventory policy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount.json
  */
 async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount(): Promise<void> {
   const subscriptionId =

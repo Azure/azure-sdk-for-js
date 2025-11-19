@@ -527,6 +527,24 @@ export enum KnownRollingUpgradeMode {
 }
 
 // @public
+export enum KnownRuntimeFailureAction {
+    Manual = "Manual",
+    Rollback = "Rollback"
+}
+
+// @public
+export enum KnownRuntimeRollingUpgradeMode {
+    Monitored = "Monitored",
+    UnmonitoredAuto = "UnmonitoredAuto",
+    UnmonitoredManual = "UnmonitoredManual"
+}
+
+// @public
+export enum KnownRuntimeUpgradeKind {
+    Rolling = "Rolling"
+}
+
+// @public
 export enum KnownSecurityEncryptionType {
     DiskWithVMGuestState = "DiskWithVMGuestState",
     VMGuestStateOnly = "VMGuestStateOnly"
@@ -611,8 +629,8 @@ export enum KnownUpdateType {
 // @public
 export enum KnownVersions {
     V20241101Preview = "2024-11-01-preview",
-    // (undocumented)
-    V20250301Preview = "2025-03-01-preview"
+    V20250301Preview = "2025-03-01-preview",
+    V20250601Preview = "2025-06-01-preview"
 }
 
 // @public
@@ -701,6 +719,7 @@ export interface ManagedClusterProperties {
     enableAutoOSUpgrade?: boolean;
     enableHttpGatewayExclusiveAuthMode?: boolean;
     enableIpv6?: boolean;
+    enableOutboundOnlyNodeTypes?: boolean;
     enableServicePublicIP?: boolean;
     fabricSettings?: SettingsSectionDescription[];
     readonly fqdn?: string;
@@ -854,6 +873,7 @@ export interface NodeTypeProperties {
     evictionPolicy?: EvictionPolicyType;
     frontendConfigurations?: FrontendConfiguration[];
     hostGroupId?: string;
+    isOutboundOnly?: boolean;
     isPrimary: boolean;
     isSpotVM?: boolean;
     isStateless?: boolean;
@@ -1007,9 +1027,55 @@ export interface RollingUpgradeMonitoringPolicy {
 }
 
 // @public
+export interface RuntimeApplicationHealthPolicy {
+    considerWarningAsError: boolean;
+    defaultServiceTypeHealthPolicy?: RuntimeServiceTypeHealthPolicy;
+    maxPercentUnhealthyDeployedApplications: number;
+    serviceTypeHealthPolicyMap?: Record<string, RuntimeServiceTypeHealthPolicy>;
+}
+
+// @public
+export type RuntimeFailureAction = string;
+
+// @public
 export interface RuntimeResumeApplicationUpgradeParameters {
     upgradeDomainName?: string;
 }
+
+// @public
+export type RuntimeRollingUpgradeMode = string;
+
+// @public
+export interface RuntimeRollingUpgradeUpdateMonitoringPolicy {
+    failureAction?: RuntimeFailureAction;
+    forceRestart?: boolean;
+    healthCheckRetryTimeoutInMilliseconds?: string;
+    healthCheckStableDurationInMilliseconds?: string;
+    healthCheckWaitDurationInMilliseconds?: string;
+    instanceCloseDelayDurationInSeconds?: number;
+    replicaSetCheckTimeoutInMilliseconds?: number;
+    rollingUpgradeMode: RuntimeRollingUpgradeMode;
+    upgradeDomainTimeoutInMilliseconds?: string;
+    upgradeTimeoutInMilliseconds?: string;
+}
+
+// @public
+export interface RuntimeServiceTypeHealthPolicy {
+    maxPercentUnhealthyPartitionsPerService: number;
+    maxPercentUnhealthyReplicasPerPartition: number;
+    maxPercentUnhealthyServices: number;
+}
+
+// @public
+export interface RuntimeUpdateApplicationUpgradeParameters {
+    applicationHealthPolicy?: RuntimeApplicationHealthPolicy;
+    name: string;
+    updateDescription?: RuntimeRollingUpgradeUpdateMonitoringPolicy;
+    upgradeKind: RuntimeUpgradeKind;
+}
+
+// @public
+export type RuntimeUpgradeKind = string;
 
 // @public
 export interface ScalingMechanism {
@@ -1053,6 +1119,7 @@ export type ServiceCorrelationScheme = string;
 // @public
 export interface ServiceEndpoint {
     locations?: string[];
+    networkIdentifier?: string;
     service: string;
 }
 

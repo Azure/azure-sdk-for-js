@@ -156,7 +156,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       error = err;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
   });
 
   it("generateAccountSASQueryParameters should not work with invalid service", async () => {
@@ -189,7 +189,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       error = err;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
   });
 
   it("generateAccountSASQueryParameters should not work with invalid resource type", async () => {
@@ -225,7 +225,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       error = err;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
   });
 
   it("generateDataLakeSASQueryParameters should work for filesystem", async () => {
@@ -1044,10 +1044,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     try {
       serviceClientWithSAS.generateAccountSasUrl();
     } catch (err: any) {
-      assert.ok(err instanceof RangeError);
+      assert.instanceOf(err, RangeError);
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("DataLakeServiceClient.generateAccountSasUrl() should work with default parameters", async () => {
@@ -1131,10 +1131,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     try {
       await fileSystemClientWithSAS.generateSasUrl({});
     } catch (err: any) {
-      assert.ok(err instanceof RangeError);
+      assert.instanceOf(err, RangeError);
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
 
     await fileSystemClient.deleteIfExists();
   });
@@ -1229,7 +1229,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const directoryClientWithSAS = new DataLakeDirectoryClient(sasURL);
     configureStorageClient(recorder, directoryClientWithSAS);
     await directoryClientWithSAS.create();
-    assert.ok(await directoryClientWithSAS.exists());
+    assert.isTrue(await directoryClientWithSAS.exists());
   });
 
   it("DataLakeFileClient.generateSasUrl() with encryptionscope should work", async function (ctx) {
@@ -1263,7 +1263,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const fileClientWithSAS = new DataLakeFileClient(sasURL);
     configureStorageClient(recorder, fileClientWithSAS);
     await fileClientWithSAS.create();
-    assert.ok(await fileClientWithSAS.exists());
+    assert.isTrue(await fileClientWithSAS.exists());
   });
 
   it("listPaths with invalid SAS should fail", async () => {
@@ -1295,7 +1295,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     try {
       await fileSystemClientWithSAS.listPaths();
     } catch (err) {
-      assert.ok((err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"));
+      assert.isTrue(
+        (err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"),
+      );
     }
   });
 });
@@ -1546,10 +1548,10 @@ describe("SAS generation Node.js only for directory SAS", () => {
     try {
       await directoryClientWithSAS.generateSasUrl({});
     } catch (err: any) {
-      assert.ok(err instanceof RangeError);
+      assert.instanceOf(err, RangeError);
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("DataLakeFileClient.generateSasUrl() should work", async () => {
@@ -1578,10 +1580,10 @@ describe("SAS generation Node.js only for directory SAS", () => {
     try {
       await fileClientWithSAS.generateSasUrl({});
     } catch (err: any) {
-      assert.ok(err instanceof RangeError);
+      assert.instanceOf(err, RangeError);
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("generateDataLakeSASQueryParameters should work for directory with access policy", async () => {

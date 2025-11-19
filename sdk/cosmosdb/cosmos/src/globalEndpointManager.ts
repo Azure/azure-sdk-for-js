@@ -40,15 +40,30 @@ export class GlobalEndpointManager {
 
   public preferredLocationsCount: number;
   /**
-   * Flag to enable/disable the Per Partition Level Failover (PPAF)
+   * Flag to enable/disable the Per Partition Level Failover (PPAF). Contains the value from the Connection policy.
    * @internal
    */
-  public enablePartitionLevelFailover: boolean;
+  private enablePartitionLevelFailover: boolean;
   /**
-   * Flag to enable/disable the Per Partition Level Circuit Breaker (PPCB)
+   * Flag to enable/disable the Per Partition Level Circuit Breaker (PPCB). Contains the value from the Connection policy.
    * @internal
    */
-  public enablePartitionLevelCircuitBreaker: boolean;
+  private enablePartitionLevelCircuitBreaker: boolean;
+  /**
+   * Cached PPAF enablement status from the last account refresh
+   * @internal
+   */
+  public lastKnownPPAFEnabled: boolean;
+  /**
+   * Cached circuit breaker timer enablement status
+   * @internal
+   */
+  public lastKnownPPCBEnabled: boolean;
+  /**
+   * Event that is raised when circuit breaker timer should start or stop based on PPAF/PPCB status changes
+   * @internal
+   */
+  public onEnablePartitionLevelFailoverConfigChanged?: (isEnabled: boolean) => void;
 
   /**
    * @param options - The document client instance.
@@ -69,8 +84,9 @@ export class GlobalEndpointManager {
     this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
     this.enablePartitionLevelFailover = options.connectionPolicy.enablePartitionLevelFailover;
     this.enablePartitionLevelCircuitBreaker =
-      options.connectionPolicy.enablePartitionLevelCircuitBreaker ||
-      options.connectionPolicy.enablePartitionLevelFailover;
+      options.connectionPolicy.enablePartitionLevelCircuitBreaker;
+    this.lastKnownPPCBEnabled = options.connectionPolicy.enablePartitionLevelCircuitBreaker;
+    this.lastKnownPPAFEnabled = false;
   }
 
   /**
@@ -228,7 +244,9 @@ export class GlobalEndpointManager {
       this.writeableLocations = resourceResponse.resource.writableLocations;
       this.readableLocations = resourceResponse.resource.readableLocations;
       this.enableMultipleWriteLocations = resourceResponse.resource.enableMultipleWritableLocations;
-      this.refreshPPAFFeatureFlag(resourceResponse.resource.enablePerPartitionFailover);
+      if (this.enablePartitionLevelFailover) {
+        this.refreshPPAFFeatureFlag(resourceResponse.resource);
+      }
     }
 
     const locations = isReadRequest(operationType)
@@ -302,9 +320,11 @@ export class GlobalEndpointManager {
       this.isRefreshing = true;
       const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint(diagnosticNode);
       if (databaseAccount) {
+        if (this.enablePartitionLevelFailover) {
+          this.refreshPPAFFeatureFlag(databaseAccount);
+        }
         this.refreshStaleUnavailableLocations();
         this.refreshEndpoints(databaseAccount);
-        this.refreshPPAFFeatureFlag(databaseAccount.enablePerPartitionFailover);
       }
       this.isRefreshing = false;
     }
@@ -457,16 +477,32 @@ export class GlobalEndpointManager {
   }
 
   /**
-   * Refreshes the enablePartitionLevelFailover and enablePartitionLevelCircuitBreaker flag
-   * based on the value from database account.
-   * @param enablePerPartitionFailover - value from database account
+   * Checks for changes in PPAF enablement status and raises events if they have changed.
+   * It also manages circuit breaker timer state.
+   * @internal
    */
-  private refreshPPAFFeatureFlag(enablePerPartitionFailover: boolean): void {
-    // If the enablePartitionLevelFailover is true, but PPAF is not enabled on the account,
-    // we will override it to false.
-    if (enablePerPartitionFailover === false) {
-      this.enablePartitionLevelFailover = enablePerPartitionFailover;
-      this.enablePartitionLevelCircuitBreaker = enablePerPartitionFailover;
+  private refreshPPAFFeatureFlag(databaseAccount: DatabaseAccount): void {
+    let shouldEnableCircuitBreakerTimer = false;
+    if (this.enablePartitionLevelCircuitBreaker) {
+      // If PPCB is enabled in connection policy, always run circuit breaker
+      shouldEnableCircuitBreakerTimer = true;
+    } else {
+      // If PPCB is disabled, circuit breaker timer depends on PPAF flags
+      if (!this.enablePartitionLevelFailover) {
+        // If PPAF is disabled in connection policy, don't run circuit breaker ever.
+        shouldEnableCircuitBreakerTimer = false;
+      } else {
+        shouldEnableCircuitBreakerTimer =
+          databaseAccount.enablePerPartitionFailover ?? this.lastKnownPPAFEnabled ?? false;
+      }
+    }
+
+    this.lastKnownPPAFEnabled = databaseAccount.enablePerPartitionFailover;
+
+    // Only trigger callback if the circuit breaker timer state has changed
+    if (this.lastKnownPPCBEnabled !== shouldEnableCircuitBreakerTimer) {
+      this.lastKnownPPCBEnabled = shouldEnableCircuitBreakerTimer;
+      this.onEnablePartitionLevelFailoverConfigChanged?.(shouldEnableCircuitBreakerTimer);
     }
   }
 }

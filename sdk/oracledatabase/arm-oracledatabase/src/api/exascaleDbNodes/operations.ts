@@ -1,36 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { OracleDatabaseManagementContext as Client } from "../index.js";
+import type {
   DbNodeAction,
-  dbNodeActionSerializer,
   ExascaleDbNode,
-  exascaleDbNodeDeserializer,
   _ExascaleDbNodeListResult,
-  _exascaleDbNodeListResultDeserializer,
   DbActionResponse,
-  dbActionResponseDeserializer,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  dbNodeActionSerializer,
+  exascaleDbNodeDeserializer,
+  _exascaleDbNodeListResultDeserializer,
+  dbActionResponseDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   ExascaleDbNodesActionOptionalParams,
   ExascaleDbNodesListByParentOptionalParams,
   ExascaleDbNodesGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _actionSend(
   context: Client,

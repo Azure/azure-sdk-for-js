@@ -1,5 +1,17 @@
 # Release History
 
+### 1.14.2 (2025-11-13)
+
+### Bugs Fixed
+
+- Fix azure SDK dependency version imports.
+
+### 1.14.1 (2025-11-10)
+
+### Bugs Fixed
+
+- Fix dynamically importing the monitor-opentelemetry packages in Next.js.
+
 ### 1.14.0 (2025-09-16)
 
 ### Other Changes

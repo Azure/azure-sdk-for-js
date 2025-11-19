@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Regenerates one of the access keys or Kerberos keys for the specified storage account.
  *
  * @summary Regenerates one of the access keys or Kerberos keys for the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountRegenerateKerbKey.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountRegenerateKerbKey.json
  */
 async function storageAccountRegenerateKerbKey(): Promise<void> {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function storageAccountRegenerateKerbKey(): Promise<void> {
  * This sample demonstrates how to Regenerates one of the access keys or Kerberos keys for the specified storage account.
  *
  * @summary Regenerates one of the access keys or Kerberos keys for the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountRegenerateKey.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountRegenerateKey.json
  */
 async function storageAccountRegenerateKey(): Promise<void> {
   const subscriptionId =

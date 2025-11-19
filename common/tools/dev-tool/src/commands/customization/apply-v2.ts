@@ -262,14 +262,16 @@ export default leafCommand(commandInfo, async (options) => {
         ],
         {
           captureExitCode: true,
+          captureOutput: true,
           cwd: info.path,
         },
       );
 
-      if (mergeResult.exitCode === 1) {
+      // The exit value of this program is negative on error, and the number of conflicts otherwise (truncated to 127 if there are more than that many conflicts). If the merge was clean, the exit value is 0.
+      if (mergeResult.exitCode > 0) {
         conflicts.push(normalized);
-      } else if (mergeResult.exitCode > 1) {
-        log(`❌ Failed to merge ${normalized}.`);
+      } else if (mergeResult.exitCode < 0) {
+        log(`❌ Failed to merge ${normalized} due to error ${mergeResult.output}.`);
         return false;
       }
     }

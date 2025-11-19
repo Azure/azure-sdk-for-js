@@ -1,4 +1,49 @@
 # Release History
+
+## 2.0.0-beta.1 (2025-11-13)
+Compared with version 1.2.0
+
+### Features Added
+  - Added Interface DnsForwardingRulesetsCreateOrUpdateHeaders
+  - Added Interface DnsForwardingRulesetsDeleteHeaders
+  - Added Interface DnsForwardingRulesetsUpdateHeaders
+  - Added Interface DnsResolverDomainListsCreateOrUpdateHeaders
+  - Added Interface DnsResolverPoliciesCreateOrUpdateHeaders
+  - Added Interface DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateHeaders
+  - Added Interface DnsResolversCreateOrUpdateHeaders
+  - Added Interface DnsResolversDeleteHeaders
+  - Added Interface DnsResolversUpdateHeaders
+  - Added Interface DnsSecurityRulesCreateOrUpdateHeaders
+  - Added Interface InboundEndpointsCreateOrUpdateHeaders
+  - Added Interface InboundEndpointsDeleteHeaders
+  - Added Interface InboundEndpointsUpdateHeaders
+  - Added Interface OutboundEndpointsCreateOrUpdateHeaders
+  - Added Interface OutboundEndpointsDeleteHeaders
+  - Added Interface OutboundEndpointsUpdateHeaders
+  - Added Interface VirtualNetworkLinksCreateOrUpdateHeaders
+  - Added Interface VirtualNetworkLinksDeleteHeaders
+  - Added Interface VirtualNetworkLinksUpdateHeaders
+  - Interface DnsResolverDomainListsBulkHeaders has a new optional parameter retryAfter
+  - Interface DnsResolverDomainListsDeleteHeaders has a new optional parameter retryAfter
+  - Interface DnsResolverDomainListsUpdateHeaders has a new optional parameter retryAfter
+  - Interface DnsResolverPoliciesDeleteHeaders has a new optional parameter retryAfter
+  - Interface DnsResolverPoliciesUpdateHeaders has a new optional parameter retryAfter
+  - Interface DnsResolverPolicyVirtualNetworkLinksDeleteHeaders has a new optional parameter retryAfter
+  - Interface DnsResolverPolicyVirtualNetworkLinksUpdateHeaders has a new optional parameter retryAfter
+  - Interface DnsSecurityRule has a new optional parameter managedDomainLists
+  - Interface DnsSecurityRulePatch has a new optional parameter managedDomainLists
+  - Interface DnsSecurityRulesDeleteHeaders has a new optional parameter retryAfter
+  - Interface DnsSecurityRulesUpdateHeaders has a new optional parameter retryAfter
+  - Added Type Alias ManagedDomainList
+  - Added Enum KnownManagedDomainList
+
+### Breaking Changes
+  - Operation DnsSecurityRules.beginCreateOrUpdate has a new signature
+  - Operation DnsSecurityRules.beginCreateOrUpdateAndWait has a new signature
+  - Operation DnsSecurityRules.beginUpdateAndWait has a new signature
+  - Operation DnsSecurityRules.get has a new signature
+  - Parameter dnsResolverDomainLists of interface DnsSecurityRule is now optional
+
     
 ## 1.2.0 (2025-06-11)
     

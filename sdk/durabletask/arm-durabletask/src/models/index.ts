@@ -16,6 +16,8 @@ export {
   KnownProvisioningState,
   ProvisioningState,
   SchedulerSku,
+  KnownSchedulerSkuName,
+  SchedulerSkuName,
   KnownRedundancyState,
   RedundancyState,
   TrackedResource,

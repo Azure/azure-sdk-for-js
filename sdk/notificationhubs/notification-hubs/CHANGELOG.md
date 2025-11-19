@@ -1,14 +1,10 @@
 # Release History
 
-## 2.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 2.0.2 (2025-10-07)
 
 ### Bugs Fixed
 
-### Other Changes
+- Properly handle single-element headers of template registrations [PR #36114](https://github.com/Azure/azure-sdk-for-js/pull/36114).
 
 ## 2.0.0 (2024-10-14)
 

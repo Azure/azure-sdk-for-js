@@ -693,7 +693,6 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
       },
       nodeImageVersion: {
         serializedName: "nodeImageVersion",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -745,12 +744,6 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
       },
       enableNodePublicIP: {
         serializedName: "enableNodePublicIP",
-        type: {
-          name: "Boolean",
-        },
-      },
-      enableCustomCATrust: {
-        serializedName: "enableCustomCATrust",
         type: {
           name: "Boolean",
         },
@@ -954,6 +947,13 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
         type: {
           name: "Composite",
           className: "LocalDNSProfile",
+        },
+      },
+      nodeCustomizationProfile: {
+        serializedName: "nodeCustomizationProfile",
+        type: {
+          name: "Composite",
+          className: "NodeCustomizationProfile",
         },
       },
     },
@@ -1797,6 +1797,21 @@ export const LocalDNSOverride: coreClient.CompositeMapper = {
       serveStale: {
         defaultValue: "Immediate",
         serializedName: "serveStale",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NodeCustomizationProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeCustomizationProfile",
+    modelProperties: {
+      nodeCustomizationId: {
+        serializedName: "nodeCustomizationId",
         type: {
           name: "String",
         },
@@ -3643,6 +3658,13 @@ export const ManagedClusterIngressProfile: coreClient.CompositeMapper = {
           className: "ManagedClusterIngressProfileWebAppRouting",
         },
       },
+      applicationLoadBalancer: {
+        serializedName: "applicationLoadBalancer",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterIngressProfileApplicationLoadBalancer",
+        },
+      },
     },
   },
 };
@@ -3694,6 +3716,13 @@ export const ManagedClusterIngressProfileWebAppRouting: coreClient.CompositeMapp
           className: "ManagedClusterIngressProfileNginx",
         },
       },
+      defaultDomain: {
+        serializedName: "defaultDomain",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterIngressDefaultDomainProfile",
+        },
+      },
       identity: {
         serializedName: "identity",
         type: {
@@ -3714,6 +3743,50 @@ export const ManagedClusterIngressProfileNginx: coreClient.CompositeMapper = {
         serializedName: "defaultIngressControllerType",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedClusterIngressDefaultDomainProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterIngressDefaultDomainProfile",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      domainName: {
+        serializedName: "domainName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedClusterIngressProfileApplicationLoadBalancer: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterIngressProfileApplicationLoadBalancer",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "UserAssignedIdentity",
         },
       },
     },
@@ -4077,6 +4150,12 @@ export const IstioComponents: coreClient.CompositeMapper = {
           },
         },
       },
+      proxyRedirectionMechanism: {
+        serializedName: "proxyRedirectionMechanism",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -4328,6 +4407,21 @@ export const SchedulerInstanceProfile: coreClient.CompositeMapper = {
         serializedName: "schedulerConfigMode",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedClusterHostedSystemProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterHostedSystemProfile",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
         },
       },
     },
@@ -5261,6 +5355,19 @@ export const AgentPoolUpgradeProfile: coreClient.CompositeMapper = {
           },
         },
       },
+      recentlyUsedVersions: {
+        serializedName: "properties.recentlyUsedVersions",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AgentPoolRecentlyUsedVersion",
+            },
+          },
+        },
+      },
       latestNodeImageVersion: {
         serializedName: "properties.latestNodeImageVersion",
         type: {
@@ -5292,6 +5399,33 @@ export const AgentPoolUpgradeProfilePropertiesUpgradesItem: coreClient.Composite
         serializedName: "isOutOfSupport",
         type: {
           name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const AgentPoolRecentlyUsedVersion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolRecentlyUsedVersion",
+    modelProperties: {
+      orchestratorVersion: {
+        serializedName: "orchestratorVersion",
+        type: {
+          name: "String",
+        },
+      },
+      nodeImageVersion: {
+        serializedName: "nodeImageVersion",
+        type: {
+          name: "String",
+        },
+      },
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime",
         },
       },
     },
@@ -7271,6 +7405,57 @@ export const JWTAuthenticatorExtraClaimMappingExpression: coreClient.CompositeMa
   },
 };
 
+export const MeshMembershipsListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MeshMembershipsListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MeshMembership",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const MeshMembershipProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MeshMembershipProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      managedMeshID: {
+        serializedName: "managedMeshID",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const ManagedClusterAgentPoolProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7644,7 +7829,6 @@ export const AgentPool: coreClient.CompositeMapper = {
       },
       nodeImageVersion: {
         serializedName: "properties.nodeImageVersion",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -7696,12 +7880,6 @@ export const AgentPool: coreClient.CompositeMapper = {
       },
       enableNodePublicIP: {
         serializedName: "properties.enableNodePublicIP",
-        type: {
-          name: "Boolean",
-        },
-      },
-      enableCustomCATrust: {
-        serializedName: "properties.enableCustomCATrust",
         type: {
           name: "Boolean",
         },
@@ -7905,6 +8083,13 @@ export const AgentPool: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "LocalDNSProfile",
+        },
+      },
+      nodeCustomizationProfile: {
+        serializedName: "properties.nodeCustomizationProfile",
+        type: {
+          name: "Composite",
+          className: "NodeCustomizationProfile",
         },
       },
     },
@@ -8325,6 +8510,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
           className: "SchedulerProfile",
         },
       },
+      hostedSystemProfile: {
+        serializedName: "properties.hostedSystemProfile",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterHostedSystemProfile",
+        },
+      },
       status: {
         serializedName: "properties.status",
         type: {
@@ -8569,6 +8761,36 @@ export const JWTAuthenticator: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "JWTAuthenticatorProperties",
+        },
+      },
+    },
+  },
+};
+
+export const MeshMembership: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MeshMembership",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      managedBy: {
+        serializedName: "managedBy",
+        type: {
+          name: "String",
+        },
+      },
+      eTag: {
+        serializedName: "eTag",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "MeshMembershipProperties",
         },
       },
     },
@@ -9146,6 +9368,21 @@ export const JWTAuthenticatorsDeleteExceptionHeaders: coreClient.CompositeMapper
     modelProperties: {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const MeshMembershipsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MeshMembershipsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
         type: {
           name: "String",
         },

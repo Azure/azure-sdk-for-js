@@ -22,3 +22,4 @@ export * from "./trustedAccessRoleBindings.js";
 export * from "./loadBalancers.js";
 export * from "./identityBindings.js";
 export * from "./jWTAuthenticators.js";
+export * from "./meshMemberships.js";

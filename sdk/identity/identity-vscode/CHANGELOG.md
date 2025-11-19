@@ -1,16 +1,10 @@
 # Release History
 
-## 2.1.0 (Unreleased)
+## 2.1.0 (2025-11-06)
 
 ### Features Added
 
-- Added support for Mac OS broker authentication via VSCode. [#35683](https://github.com/Azure/azure-sdk-for-js/pull/35683)
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added support for Linux broker authentication via VSCode. [#36460](https://github.com/Azure/azure-sdk-for-js/pull/36460)
 
 ## 2.0.0 (2025-08-05)
 

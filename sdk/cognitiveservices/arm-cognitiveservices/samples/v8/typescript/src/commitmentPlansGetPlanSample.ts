@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns a Cognitive Services commitment plan specified by the parameters.
  *
  * @summary Returns a Cognitive Services commitment plan specified by the parameters.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/GetSharedCommitmentPlan.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/GetSharedCommitmentPlan.json
  */
 async function getCommitmentPlan(): Promise<void> {
   const subscriptionId =

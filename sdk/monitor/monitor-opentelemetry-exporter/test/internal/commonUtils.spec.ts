@@ -97,7 +97,7 @@ describe("commonUtils.ts", () => {
       const defResource = defaultResource();
       const resource = resourceFromAttributes({ ...defResource.attributes });
       const tags: Tags = createTagsFromResource(resource);
-      assert.ok(tags["ai.cloud.role"].startsWith("unknown_service"), "wrong ai.cloud.role");
+      assert.isTrue(tags["ai.cloud.role"].startsWith("unknown_service"), "wrong ai.cloud.role");
     });
 
     describe("#createProperties", () => {
@@ -111,8 +111,8 @@ describe("commonUtils.ts", () => {
         attr = serializeAttribute({ test: "value" });
         assert.strictEqual(attr, '{"test":"value"}');
         attr = serializeAttribute(new Error("testError") as any);
-        assert.ok(attr.includes('"stack":"Error: testError'));
-        assert.ok(attr.includes('"message":"testError"'));
+        assert.isTrue(attr.includes('"stack":"Error: testError'));
+        assert.isTrue(attr.includes('"message":"testError"'));
       });
     });
   });

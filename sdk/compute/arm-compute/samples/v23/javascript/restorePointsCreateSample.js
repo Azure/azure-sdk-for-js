@@ -49,6 +49,7 @@ async function createARestorePoint() {
         id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123",
       },
     ],
+    instantAccessDurationMinutes: 120,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);

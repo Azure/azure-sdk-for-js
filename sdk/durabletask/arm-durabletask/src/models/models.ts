@@ -158,21 +158,14 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** A Durable Task Scheduler resource */
@@ -275,7 +268,7 @@ export type ProvisioningState = string;
 /** The SKU (Stock Keeping Unit) assigned to this durable task scheduler */
 export interface SchedulerSku {
   /** The name of the SKU */
-  name: string;
+  name: SchedulerSkuName;
   /** The SKU capacity. This allows scale out/in for the resource and impacts zone redundancy */
   capacity?: number;
   /** Indicates whether the current SKU configuration is zone redundant */
@@ -293,6 +286,24 @@ export function schedulerSkuDeserializer(item: any): SchedulerSku {
     redundancyState: item["redundancyState"],
   };
 }
+
+/** The name of the Stock Keeping Unit (SKU) of a Durable Task Scheduler */
+export enum KnownSchedulerSkuName {
+  /** Dedicated SKU */
+  Dedicated = "Dedicated",
+  /** Consumption SKU */
+  Consumption = "Consumption",
+}
+
+/**
+ * The name of the Stock Keeping Unit (SKU) of a Durable Task Scheduler \
+ * {@link KnownSchedulerSkuName} can be used interchangeably with SchedulerSkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Dedicated**: Dedicated SKU \
+ * **Consumption**: Consumption SKU
+ */
+export type SchedulerSkuName = string;
 
 /** The state of the resource redundancy */
 export enum KnownRedundancyState {
@@ -407,7 +418,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -460,7 +471,7 @@ export function schedulerPropertiesUpdateSerializer(item: SchedulerPropertiesUpd
 /** The SKU (Stock Keeping Unit) properties to be updated */
 export interface SchedulerSkuUpdate {
   /** The name of the SKU */
-  name?: string;
+  name?: SchedulerSkuName;
   /** The SKU capacity. This allows scale out/in for the resource and impacts zone redundancy */
   capacity?: number;
   /** Indicates whether the current SKU configuration is zone redundant */
@@ -734,8 +745,6 @@ export function retentionPolicyArrayDeserializer(result: Array<RetentionPolicy>)
 
 /** API Versions */
 export enum KnownVersions {
-  /** 2024-10-01-preview */
-  V20241001Preview = "2024-10-01-preview",
-  /** 2025-04-01-preview */
-  V20250401Preview = "2025-04-01-preview",
+  /** 2025-11-01 */
+  V20251101 = "2025-11-01",
 }

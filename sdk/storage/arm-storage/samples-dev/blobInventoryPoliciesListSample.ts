@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the blob inventory policy associated with the specified storage account.
  *
  * @summary Gets the blob inventory policy associated with the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountListBlobInventoryPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountListBlobInventoryPolicy.json
  */
 async function storageAccountGetBlobInventoryPolicy(): Promise<void> {
   const subscriptionId =

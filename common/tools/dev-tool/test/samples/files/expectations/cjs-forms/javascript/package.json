@@ -25,5 +25,8 @@
     "dotenv": "latest",
     "@azure/test1": "latest",
     "@azure-test2/test2": "next"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }

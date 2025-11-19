@@ -1,5 +1,15 @@
 # Release History
 
+## 19.1.0 (2025-10-17)
+
+### Features Added
+  - Added Interface GeoPriorityReplicationStatus
+  - Added Interface ObjectReplicationPolicyPropertiesPriorityReplication
+  - Interface ObjectReplicationPolicy has a new optional parameter priorityReplication
+  - Interface StorageAccount has a new optional parameter geoPriorityReplicationStatus
+  - Interface StorageAccountCreateParameters has a new optional parameter geoPriorityReplicationStatus
+  - Interface StorageAccountUpdateParameters has a new optional parameter geoPriorityReplicationStatus
+
 ## 19.0.0 (2025-09-22)
 
 ### Features Added

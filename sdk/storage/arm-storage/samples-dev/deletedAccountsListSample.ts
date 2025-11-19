@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists deleted accounts under the subscription.
  *
  * @summary Lists deleted accounts under the subscription.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/DeletedAccountList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/DeletedAccountList.json
  */
 async function deletedAccountList(): Promise<void> {
   const subscriptionId =

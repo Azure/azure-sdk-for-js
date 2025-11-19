@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to List all the storage task assignments in an account
  *
  * @summary List all the storage task assignments in an account
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/storageTaskAssignmentsList/ListStorageTaskAssignmentsForAccount.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/storageTaskAssignmentsList/ListStorageTaskAssignmentsForAccount.json
  */
 async function listStorageTaskAssignmentsForAccount() {
   const subscriptionId =

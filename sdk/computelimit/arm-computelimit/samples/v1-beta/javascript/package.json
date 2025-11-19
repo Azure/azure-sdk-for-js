@@ -1,0 +1,36 @@
+{
+  "name": "@azure-samples/arm-computelimit-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "@azure/arm-computelimit client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/computelimit/arm-computelimit"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computelimit/arm-computelimit",
+  "dependencies": {
+    "@azure/arm-computelimit": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^4.11.1"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
+  }
+}

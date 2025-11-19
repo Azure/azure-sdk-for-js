@@ -12,6 +12,7 @@ import type {
 import { RestError } from "./restError.js";
 import { createHttpHeaders } from "./httpHeaders.js";
 import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
+import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
 
 /**
  * Checks if the body is a Blob or Blob-like
@@ -221,15 +222,7 @@ function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
 }
 
 interface BuildRequestBodyResponse {
-  body:
-    | string
-    | Blob
-    | ReadableStream<Uint8Array>
-    | ArrayBuffer
-    | ArrayBufferView
-    | FormData
-    | null
-    | undefined;
+  body?: BodyInit | null;
   streaming: boolean;
 }
 
@@ -239,9 +232,19 @@ function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
     throw new Error("Node streams are not supported in browser environment.");
   }
 
-  return isWebReadableStream(body)
-    ? { streaming: true, body: buildBodyStream(body, { onProgress: request.onUploadProgress }) }
-    : { streaming: false, body };
+  if (isWebReadableStream(body)) {
+    return {
+      streaming: true,
+      body: buildBodyStream(body, { onProgress: request.onUploadProgress }),
+    };
+  } else if (typeof body === "object" && body && "buffer" in body) {
+    // ArrayBufferView
+    return { streaming: false, body: arrayBufferViewToArrayBuffer(body) };
+  } else if (body === undefined) {
+    return { streaming: false };
+  } else {
+    return { streaming: false, body };
+  }
 }
 
 /**

@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable tsdoc/syntax */
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
-import { IndexUnion } from "../../models/models.js";
+import { createOrUpdate, $delete, get, list, listVersions } from "../../api/indexes/operations.js";
 import {
   IndexesCreateOrUpdateOptionalParams,
   IndexesDeleteOptionalParams,
@@ -11,7 +10,7 @@ import {
   IndexesListOptionalParams,
   IndexesListVersionsOptionalParams,
 } from "../../api/indexes/options.js";
-import { createOrUpdate, $delete, get, list, listVersions } from "../../api/indexes/operations.js";
+import { IndexUnion } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Indexes operations. */
@@ -23,14 +22,9 @@ export interface IndexesOperations {
     index: IndexUnion,
     options?: IndexesCreateOrUpdateOptionalParams,
   ) => Promise<IndexUnion>;
-  /** Delete the specific version of the Index */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
+  /** Delete the specific version of the Index. The service returns 204 No Content if the Index was deleted successfully or if the Index does not exist. */
   delete: (name: string, version: string, options?: IndexesDeleteOptionalParams) => Promise<void>;
-  /** Get the specific version of the Index */
+  /** Get the specific version of the Index. The service returns 404 Not Found error if the Index does not exist. */
   get: (name: string, version: string, options?: IndexesGetOptionalParams) => Promise<IndexUnion>;
   /** List the latest version of each Index */
   list: (options?: IndexesListOptionalParams) => PagedAsyncIterableIterator<IndexUnion>;

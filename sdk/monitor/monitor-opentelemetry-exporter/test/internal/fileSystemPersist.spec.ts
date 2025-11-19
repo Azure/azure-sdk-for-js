@@ -6,7 +6,10 @@ import { describe, it, assert, expect, beforeEach, vi, afterEach } from "vitest"
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { FileSystemPersist } from "../../src/platform/nodejs/persist/fileSystemPersist.js";
+import {
+  FileSystemPersist,
+  getStorageDirectory,
+} from "../../src/platform/nodejs/persist/fileSystemPersist.js";
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import { promisify } from "node:util";
 import { FileAccessControl } from "../../src/platform/nodejs/persist/fileAccessControl.js";
@@ -18,12 +21,7 @@ const readFileAsync = promisify(fs.readFile);
 const unlinkAsync = promisify(fs.unlink);
 
 const instrumentationKey = "abc";
-const tempDir = path.join(
-  os.tmpdir(),
-  "Microsoft",
-  "AzureMonitor",
-  `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`,
-);
+const tempDir = getStorageDirectory(instrumentationKey, os.tmpdir());
 
 const deleteFolderRecursive = (dirPath: string): void => {
   if (fs.existsSync(dirPath)) {
@@ -51,7 +49,7 @@ const assertFirstFile = async (tempDirectory: string, expectation: unknown): Pro
   const files = origFiles.filter((f) =>
     path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
   );
-  assert.ok(files.length > 0);
+  assert.isTrue(files.length > 0);
 
   // Assert file matches expectation
   const firstFile = files[0];
@@ -85,12 +83,8 @@ describe("FileSystemPersist", () => {
 
     it("custom storageDirectory", async () => {
       const customPath = path.join(os.tmpdir(), "TestFolder");
-      const tempDirectory = path.join(
-        customPath,
-        "Microsoft",
-        "AzureMonitor",
-        `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`,
-      );
+      const tempDirectory = getStorageDirectory(instrumentationKey, customPath);
+
       deleteFolderRecursive(tempDirectory);
       const envelope: Envelope = {
         name: "name",
@@ -262,6 +256,52 @@ describe("FileSystemPersist", () => {
 
       // Restore the spy
       mockConfirmDirExists.mockRestore();
+    });
+  });
+
+  describe("#getStorageDirectory", () => {
+    it("should handle userInfo failure and use empty string for user segment", async () => {
+      const originalUserInfo = os.userInfo;
+
+      vi.spyOn(os, "userInfo").mockImplementation(() => {
+        throw new Error("Unable to get user info");
+      });
+
+      const testInstrumentationKey = "test-ikey";
+      const customStorageDir = os.tmpdir();
+
+      try {
+        const result = getStorageDirectory(testInstrumentationKey, customStorageDir);
+
+        expect(result).toBeDefined();
+        expect(typeof result).toBe("string");
+        expect(result.length).toBeGreaterThan(0);
+
+        expect(result).toContain(customStorageDir);
+
+        expect(result).toContain("Microsoft-AzureMonitor-");
+
+        expect(result).toContain(FileSystemPersist.TEMPDIR_PREFIX + testInstrumentationKey);
+
+        const result2 = getStorageDirectory(testInstrumentationKey, customStorageDir);
+        expect(result).toBe(result2);
+      } finally {
+        os.userInfo = originalUserInfo;
+        vi.restoreAllMocks();
+      }
+    });
+
+    it("should create different paths for different instrumentation keys", () => {
+      const storageDir = os.tmpdir();
+      const path1 = getStorageDirectory("ikey1", storageDir);
+      const path2 = getStorageDirectory("ikey2", storageDir);
+
+      expect(path1).not.toBe(path2);
+
+      expect(path1).toContain("Microsoft-AzureMonitor-");
+      expect(path2).toContain("Microsoft-AzureMonitor-");
+      expect(path1).toContain(FileSystemPersist.TEMPDIR_PREFIX + "ikey1");
+      expect(path2).toContain(FileSystemPersist.TEMPDIR_PREFIX + "ikey2");
     });
   });
 });
