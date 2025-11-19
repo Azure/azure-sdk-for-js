@@ -72,14 +72,6 @@ export class ParallelQueryExecutionContext
   protected async fetchFromProducer(producer: DocumentProducer): Promise<Response<any>> {
     return await producer.fetchBufferedItems();
   }
-  
-
-  /**
-   * Gets the item count from the result for parallel queries.
-   */
-  protected getItemCount(result: any): number {
-    return result?.length || 0;
-  }
 
   /**
    * Gets the continuation token to use for parallel queries.

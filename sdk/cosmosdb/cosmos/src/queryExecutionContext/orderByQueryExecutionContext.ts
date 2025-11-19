@@ -16,7 +16,8 @@ import { OrderByQueryProcessingStrategy } from "./queryProcessingStrategy/OrderB
 /** @hidden */
 export class OrderByQueryExecutionContext
   extends ParallelQueryExecutionContextBase
-  implements ExecutionContext {
+  implements ExecutionContext
+{
   private readonly orderByComparator: any;
   /**
    * Provides the OrderByQueryExecutionContext.
@@ -79,14 +80,14 @@ export class OrderByQueryExecutionContext
    * Fetches next single item from producer for ORDER BY processing.
    */
   protected async fetchFromProducer(producer: DocumentProducer): Promise<Response<any>> {
-    return await producer.fetchNextItem();
-  }
-
-  /**
-   * Gets the item count from the result for ORDER BY queries.
-   */
-  protected getItemCount(_result: any): number {
-    return 1; // ORDER BY processes one item at a time
+    const response = await producer.fetchNextItem();
+    if (response && response.result) {
+      return {
+        result: [response.result],
+        headers: response.headers,
+      };
+    }
+    return response;
   }
 
   /**
@@ -95,9 +96,7 @@ export class OrderByQueryExecutionContext
    */
   protected getContinuationToken(producer: DocumentProducer): string {
     const hasMoreBufferedItems = producer.peakNextItem() !== undefined;
-    return hasMoreBufferedItems
-      ? producer.previousContinuationToken
-      : producer.continuationToken;
+    return hasMoreBufferedItems ? producer.previousContinuationToken : producer.continuationToken;
   }
 
   /**

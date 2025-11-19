@@ -272,7 +272,7 @@ export class DocumentProducer {
       if (result === undefined || result.length === 0) {
         return { result: undefined, headers };
       }
-      return { result, headers }; //
+      return { result, headers };
     } catch (err: any) {
       this._updateStates(err, err.item === undefined);
       throw err;
