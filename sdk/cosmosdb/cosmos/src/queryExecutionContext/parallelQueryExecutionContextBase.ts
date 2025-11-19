@@ -137,11 +137,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @returns true if there is other elements to process in the ParallelQueryExecutionContextBase.
    */
   public hasMoreResults(): boolean {
-    const hasError = !!this.err;
-    const bufferLength = this.buffer.length;
-    const isEnded = this.state === ParallelQueryExecutionContextBase.STATES.ended;
-    const result = !hasError && (bufferLength > 0 || !isEnded);
-    return result;
+    return !this.err && (this.buffer.length > 0 || this.state !== ParallelQueryExecutionContextBase.STATES.ended);
   }
 
   /**
