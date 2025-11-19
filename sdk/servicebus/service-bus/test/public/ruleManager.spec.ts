@@ -120,17 +120,17 @@ describe("RuleManager tests", () => {
       assert.equal(rules.length, 3);
 
       const sqlRules = rules.filter((r) => r.name === sqlRuleName);
-      assert.ok(sqlRules.length >= 1, "expecting at least one sql rule");
-      assert.ok(sqlRules[0], "expecting valid sql rule");
+      assert.isAtLeast(sqlRules.length, 1, "expecting at least one sql rule");
+      assert.isDefined(sqlRules[0], "expecting valid sql rule");
       const sqlRule = sqlRules[0];
       assert.equal((sqlRule.filter as SqlRuleFilter).sqlExpression, "price > 10");
 
       const correlationRules = rules.filter((r) => r.name === correlationRuleName);
-      assert.ok(correlationRules.length >= 1, "expecting at least one correlation rule");
-      assert.ok(correlationRules[0], "expecting valid correlation rule");
+      assert.isAtLeast(correlationRules.length, 1, "expecting at least one correlation rule");
+      assert.isDefined(correlationRules[0], "expecting valid correlation rule");
       const correlationRule = correlationRules[0];
       assert.equal(correlationRule.action.sqlExpression, "Set CorrelationId = 'newValue'");
-      assert.ok(correlationRule.filter);
+      assert.isDefined(correlationRule.filter);
       const correlationFilter = correlationRule.filter as CorrelationRuleFilter;
       assert.equal(correlationFilter.correlationId, "correlationId");
       assert.equal(correlationFilter.subject, "label");
@@ -292,8 +292,8 @@ describe("RuleManager tests", () => {
 
       const rules = await getRules(ruleManager);
       const filteredRules = rules.filter((r) => r.name === defaultRuleName);
-      assert.ok(filteredRules.length >= 1, "expecting at least one rule");
-      assert.ok(filteredRules[0], "expecting valid default rule");
+      assert.isAtLeast(filteredRules.length, 1, "expecting at least one rule");
+      assert.isDefined(filteredRules[0], "expecting valid default rule");
 
       await ruleManager.deleteRule(defaultRuleName);
       await ruleManager.createRule("BooleanFilter", { sqlExpression: "1=1" });
@@ -308,8 +308,8 @@ describe("RuleManager tests", () => {
 
       const rules = await getRules(ruleManager);
       const filteredRules = rules.filter((r) => r.name === defaultRuleName);
-      assert.ok(filteredRules.length >= 1, "expecting at least one rule");
-      assert.ok(filteredRules[0], "expecting valid default rule");
+      assert.isAtLeast(filteredRules.length, 1, "expecting at least one rule");
+      assert.isDefined(filteredRules[0], "expecting valid default rule");
 
       await ruleManager.deleteRule(defaultRuleName);
       const ruleName = "BooleanFilter";
@@ -333,8 +333,8 @@ describe("RuleManager tests", () => {
 
       const rules = await getRules(ruleManager);
       const filteredRules = rules.filter((r) => r.name === defaultRuleName);
-      assert.ok(filteredRules.length >= 1, "expecting at least one rule");
-      assert.ok(filteredRules[0], "expecting valid default rule");
+      assert.isAtLeast(filteredRules.length, 1, "expecting at least one rule");
+      assert.isDefined(filteredRules[0], "expecting valid default rule");
 
       await ruleManager.deleteRule(defaultRuleName);
       const ruleName = "CorrelationMsgPropertyRule";
@@ -350,8 +350,8 @@ describe("RuleManager tests", () => {
 
       const rules = await getRules(ruleManager);
       const filteredRules = rules.filter((r) => r.name === defaultRuleName);
-      assert.ok(filteredRules.length >= 1, "expecting at least one rule");
-      assert.ok(filteredRules[0], "expecting valid default rule");
+      assert.isAtLeast(filteredRules.length, 1, "expecting at least one rule");
+      assert.isDefined(filteredRules[0], "expecting valid default rule");
 
       await ruleManager.deleteRule(defaultRuleName);
       const ruleName = "CorrelationUserPropertyRule";
@@ -367,8 +367,8 @@ describe("RuleManager tests", () => {
 
       const rules = await getRules(ruleManager);
       const filteredRules = rules.filter((r) => r.name === defaultRuleName);
-      assert.ok(filteredRules.length >= 1, "expecting at least one rule");
-      assert.ok(filteredRules[0], "expecting valid default rule");
+      assert.isAtLeast(filteredRules.length, 1, "expecting at least one rule");
+      assert.isDefined(filteredRules[0], "expecting valid default rule");
 
       await ruleManager.deleteRule(defaultRuleName);
       const ruleName = "CorrelationRuleWithAction";
@@ -387,7 +387,10 @@ describe("RuleManager tests", () => {
         expectedOrders,
       );
       received.every((m) =>
-        assert.ok(m.applicationProperties, "expecting valid applicationProperties on message"),
+        assert.isDefined(
+          m.applicationProperties,
+          "expecting valid applicationProperties on message",
+        ),
       );
       received.every((m) => assert.equal(m.applicationProperties!["priority"], "high"));
     });
@@ -397,8 +400,8 @@ describe("RuleManager tests", () => {
 
       const rules = await getRules(ruleManager);
       const filteredRules = rules.filter((r) => r.name === defaultRuleName);
-      assert.ok(filteredRules.length >= 1, "expecting at least one rule");
-      assert.ok(filteredRules[0], "expecting valid default rule");
+      assert.isAtLeast(filteredRules.length, 1, "expecting at least one rule");
+      assert.isDefined(filteredRules[0], "expecting valid default rule");
 
       await ruleManager.deleteRule(defaultRuleName);
       const ruleName = "SqlMsgPropertyRule";
@@ -414,8 +417,8 @@ describe("RuleManager tests", () => {
 
       const rules = await getRules(ruleManager);
       const filteredRules = rules.filter((r) => r.name === defaultRuleName);
-      assert.ok(filteredRules.length >= 1, "expecting at least one rule");
-      assert.ok(filteredRules[0], "expecting valid default rule");
+      assert.isAtLeast(filteredRules.length, 1, "expecting at least one rule");
+      assert.isDefined(filteredRules[0], "expecting valid default rule");
 
       await ruleManager.deleteRule(defaultRuleName);
       const ruleName = "SqlUserPropertyRule";
@@ -431,8 +434,8 @@ describe("RuleManager tests", () => {
 
       const rules = await getRules(ruleManager);
       const filteredRules = rules.filter((r) => r.name === defaultRuleName);
-      assert.ok(filteredRules.length >= 1, "expecting at least one rule");
-      assert.ok(filteredRules[0], "expecting valid default rule");
+      assert.isAtLeast(filteredRules.length, 1, "expecting at least one rule");
+      assert.isDefined(filteredRules[0], "expecting valid default rule");
 
       await ruleManager.deleteRule(defaultRuleName);
       const ruleName = "SqlRuleWithAction";
@@ -451,7 +454,10 @@ describe("RuleManager tests", () => {
         expectedOrders,
       );
       received.every((m) =>
-        assert.ok(m.applicationProperties, "expecting valid applicationProperties on message"),
+        assert.isDefined(
+          m.applicationProperties,
+          "expecting valid applicationProperties on message",
+        ),
       );
       received.every((m) => assert.equal(m.applicationProperties!["priority"], "high"));
     });
@@ -461,8 +467,8 @@ describe("RuleManager tests", () => {
 
       const rules = await getRules(ruleManager);
       const filteredRules = rules.filter((r) => r.name === defaultRuleName);
-      assert.ok(filteredRules.length >= 1, "expecting at least one rule");
-      assert.ok(filteredRules[0], "expecting valid default rule");
+      assert.isAtLeast(filteredRules.length, 1, "expecting at least one rule");
+      assert.isDefined(filteredRules[0], "expecting valid default rule");
 
       await ruleManager.deleteRule(defaultRuleName);
       const ruleName = "SqlRuleWithAction";
@@ -481,7 +487,10 @@ describe("RuleManager tests", () => {
         expectedOrders,
       );
       received.every((m) =>
-        assert.ok(m.applicationProperties, "expecting valid applicationProperties on message"),
+        assert.isDefined(
+          m.applicationProperties,
+          "expecting valid applicationProperties on message",
+        ),
       );
     });
   });
