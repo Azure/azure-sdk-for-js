@@ -63,7 +63,8 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     this.currentPartitionIndex = 0;
     this.fetchFunctions = Array.isArray(fetchFunctions) ? fetchFunctions : [fetchFunctions];
     this.options = options || {};
-    this.continuationToken = this.options.continuationToken || this.options.continuation || undefined;
+    this.continuationToken =
+      this.options.continuationToken || this.options.continuation || undefined;
     this.state = DefaultQueryExecutionContext.STATES.start;
     this.correlatedActivityId = correlatedActivityId;
   }
@@ -178,13 +179,13 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
             const fetchFunction = this.fetchFunctions[this.currentPartitionIndex];
             this.nextFetchFunction = fetchFunction
               ? fetchFunction(
-                childDiagnosticNode,
-                {
-                  ...this.options,
-                  continuationToken: this.continuationToken,
-                },
-                this.correlatedActivityId,
-              )
+                  childDiagnosticNode,
+                  {
+                    ...this.options,
+                    continuationToken: this.continuationToken,
+                  },
+                  this.correlatedActivityId,
+                )
               : undefined;
           }
         } catch (err: any) {

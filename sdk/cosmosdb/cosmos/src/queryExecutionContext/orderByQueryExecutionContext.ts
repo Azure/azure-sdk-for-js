@@ -16,7 +16,8 @@ import { OrderByQueryProcessingStrategy } from "./queryProcessingStrategy/OrderB
 /** @hidden */
 export class OrderByQueryExecutionContext
   extends ParallelQueryExecutionContextBase
-  implements ExecutionContext {
+  implements ExecutionContext
+{
   /**
    * Provides the OrderByQueryExecutionContext.
    * This class is capable of handling orderby queries and dervives from ParallelQueryExecutionContextBase.

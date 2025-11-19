@@ -20,7 +20,8 @@ import { ParallelQueryProcessingStrategy } from "./queryProcessingStrategy/Paral
  */
 export class ParallelQueryExecutionContext
   extends ParallelQueryExecutionContextBase
-  implements ExecutionContext {
+  implements ExecutionContext
+{
   constructor(
     clientContext: ClientContext,
     collectionLink: string,

@@ -35,7 +35,7 @@ const TYPEORDCOMPARATOR: {
 
 /** @hidden */
 export class OrderByDocumentProducerComparator {
-  constructor(public sortOrder: string[]) { } // TODO: This should be an enum
+  constructor(public sortOrder: string[]) {} // TODO: This should be an enum
 
   /**
    * Compares document producers based on their partition key range minInclusive values.
@@ -56,9 +56,7 @@ export class OrderByDocumentProducerComparator {
     // Tie-breaker: use minEPK when minInclusive values are equal
     const epkA = docProd1.startEpk;
     const epkB = docProd2.startEpk;
-    return epkA !== undefined && epkB !== undefined
-      ? (epkA < epkB ? -1 : epkA > epkB ? 1 : 0)
-      : 0;
+    return epkA !== undefined && epkB !== undefined ? (epkA < epkB ? -1 : epkA > epkB ? 1 : 0) : 0;
   }
 
   public compare(docProd1: DocumentProducer, docProd2: DocumentProducer): number {
@@ -128,10 +126,10 @@ export class OrderByDocumentProducerComparator {
 
   private compareOrderByItem(orderByItem1: any, orderByItem2: any): number {
     return this.compareValue(
-      orderByItem1["item"], 
-      this.getType(orderByItem1), 
-      orderByItem2["item"], 
-      this.getType(orderByItem2)
+      orderByItem1["item"],
+      this.getType(orderByItem1),
+      orderByItem2["item"],
+      this.getType(orderByItem2),
     );
   }
 
