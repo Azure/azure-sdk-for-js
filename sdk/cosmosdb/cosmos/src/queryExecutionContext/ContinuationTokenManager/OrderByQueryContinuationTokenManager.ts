@@ -18,12 +18,13 @@ import { convertRangeMappingToQueryRange } from "../../documents/ContinuationTok
  */
 export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenManager {
   private continuationToken: OrderByQueryContinuationToken | undefined;
-  private orderByItemsArray: OrderByItemWithRid[] = [];
-  private collectionLink: string;
+  private readonly orderByItemsArray: OrderByItemWithRid[];
+  private readonly collectionLink: string;
 
   constructor(collectionLink: string, initialContinuationToken?: string) {
     super();
     this.collectionLink = collectionLink;
+    this.orderByItemsArray = [];
     if (initialContinuationToken) {
       this.continuationToken = parseOrderByQueryContinuationToken(initialContinuationToken);
       this.rangeList = this.continuationToken?.rangeMappings || [];
@@ -31,7 +32,11 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   }
 
   protected processQuerySpecificResponse(responseResult: ParallelQueryResult): void {
-    this.orderByItemsArray = responseResult.orderByItems || [];
+    // Clear existing items and add new ones without reassigning the array reference
+    this.orderByItemsArray.length = 0;
+    if (responseResult.orderByItems) {
+      this.orderByItemsArray.push(...responseResult.orderByItems);
+    }
   }
 
   protected performQuerySpecificDataTrim(_processedRanges: string[], endIndex: number): void {
@@ -40,9 +45,11 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
 
   private sliceOrderByItemsArray(endIndex: number): void {
     if (endIndex === 0 || endIndex >= this.orderByItemsArray.length) {
-      this.orderByItemsArray = [];
+      // Clear the array without reassigning
+      this.orderByItemsArray.length = 0;
     } else {
-      this.orderByItemsArray = this.orderByItemsArray.slice(endIndex);
+      // Remove items from 0 to endIndex-1, keeping items from endIndex onwards
+      this.orderByItemsArray.splice(0, endIndex);
     }
   }
 
