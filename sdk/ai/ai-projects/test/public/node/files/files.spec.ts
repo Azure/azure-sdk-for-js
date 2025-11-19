@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AIProjectClient } from "../../../../src/index.js";
 import type { OpenAI } from "openai/client";
 
-const testMode = (process.env.TEST_MODE ?? "playback").toLowerCase();
-const isLive = testMode === "live";
+const isLive = isLiveMode();
 
 describe("files - basic", () => {
   let recorder: Recorder;

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get all Tap configurations in a network interface.
  *
  * @summary Get all Tap configurations in a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkInterfaceTapConfigurationList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkInterfaceTapConfigurationList.json
  */
 async function listVirtualNetworkTapConfigurations(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

@@ -10,7 +10,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates an private endpoint in the specified resource group.
  *
  * @summary Creates or updates an private endpoint in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PrivateEndpointCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PrivateEndpointCreate.json
  */
 async function createPrivateEndpoint(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -53,7 +53,7 @@ async function createPrivateEndpoint(): Promise<void> {
  * This sample demonstrates how to Creates or updates an private endpoint in the specified resource group.
  *
  * @summary Creates or updates an private endpoint in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PrivateEndpointCreateWithASG.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PrivateEndpointCreateWithASG.json
  */
 async function createPrivateEndpointWithApplicationSecurityGroups(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -92,7 +92,7 @@ async function createPrivateEndpointWithApplicationSecurityGroups(): Promise<voi
  * This sample demonstrates how to Creates or updates an private endpoint in the specified resource group.
  *
  * @summary Creates or updates an private endpoint in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PrivateEndpointCreateForManualApproval.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PrivateEndpointCreateForManualApproval.json
  */
 async function createPrivateEndpointWithManualApprovalConnection(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";

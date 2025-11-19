@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Returns all the projects in a Cognitive Services account.
  *
  * @summary Returns all the projects in a Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListProjects.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListProjects.json
  */
 async function listProject() {
   const subscriptionId =

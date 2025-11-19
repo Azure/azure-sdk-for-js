@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes an agent pool in the specified managed cluster.
  *
  * @summary Deletes an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/AgentPoolsDelete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsDelete.json
  */
 async function deleteAgentPool(): Promise<void> {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function deleteAgentPool(): Promise<void> {
  * This sample demonstrates how to Deletes an agent pool in the specified managed cluster.
  *
  * @summary Deletes an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/AgentPoolsDelete_IgnorePodDisruptionBudget.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/AgentPoolsDelete_IgnorePodDisruptionBudget.json
  */
 async function deleteAgentPoolByIgnoringPodDisruptionBudget(): Promise<void> {
   const subscriptionId =

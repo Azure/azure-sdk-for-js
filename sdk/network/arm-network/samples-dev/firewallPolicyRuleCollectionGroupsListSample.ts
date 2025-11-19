@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
  *
  * @summary Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesList.json
  */
 async function listAllFirewallPolicyRuleCollectionGroupWithWebCategories(): Promise<void> {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function listAllFirewallPolicyRuleCollectionGroupWithWebCategories(): Prom
  * This sample demonstrates how to Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
  *
  * @summary Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/FirewallPolicyRuleCollectionGroupList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/FirewallPolicyRuleCollectionGroupList.json
  */
 async function listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -55,7 +55,7 @@ async function listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy(
  * This sample demonstrates how to Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
  *
  * @summary Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsList.json
  */
 async function listAllFirewallPolicyRuleCollectionGroupsWithIPGroupsForAGivenFirewallPolicy(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

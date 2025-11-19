@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets all the Security Partner Providers in a subscription.
  *
  * @summary Gets all the Security Partner Providers in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/SecurityPartnerProviderListBySubscription.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/SecurityPartnerProviderListBySubscription.json
  */
 async function listAllSecurityPartnerProvidersForAGivenSubscription(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

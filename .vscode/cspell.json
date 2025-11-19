@@ -194,6 +194,15 @@
       ]
     },
     {
+      "filename": "sdk/ai/ai-voicelive/**/*.md",
+      "words": [
+        "Viseme",
+        "logprobs",
+        "Alaw",
+        "Ulaw"
+      ]
+    },
+    {
       "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/**/*.md",
       "words": [
         "APIM",
@@ -474,6 +483,7 @@
         "Sorani",
         "Vectorizable",
         "adlsgen",
+        "agentic",
         "bangla",
         "beider",
         "haase",
@@ -502,6 +512,7 @@
         "Sorani",
         "Vectorizable",
         "adlsgen",
+        "agentic",
         "bangla",
         "beider",
         "haase",

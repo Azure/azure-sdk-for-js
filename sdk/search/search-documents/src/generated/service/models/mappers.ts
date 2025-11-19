@@ -8,29 +8,16 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const KnowledgeAgent: coreClient.CompositeMapper = {
+export const KnowledgeBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "KnowledgeAgent",
+    className: "KnowledgeBase",
     modelProperties: {
       name: {
         serializedName: "name",
         required: true,
         type: {
           name: "String",
-        },
-      },
-      models: {
-        serializedName: "models",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "KnowledgeAgentModel",
-            },
-          },
         },
       },
       knowledgeSources: {
@@ -46,22 +33,27 @@ export const KnowledgeAgent: coreClient.CompositeMapper = {
           },
         },
       },
-      outputConfiguration: {
-        serializedName: "outputConfiguration",
+      models: {
+        serializedName: "models",
         type: {
-          name: "Composite",
-          className: "KnowledgeAgentOutputConfiguration",
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "KnowledgeBaseModel",
+            },
+          },
         },
       },
-      requestLimits: {
-        serializedName: "requestLimits",
+      retrievalReasoningEffort: {
+        serializedName: "retrievalReasoningEffort",
         type: {
           name: "Composite",
-          className: "KnowledgeAgentRequestLimits",
+          className: "KnowledgeRetrievalReasoningEffort",
         },
       },
-      retrievalInstructions: {
-        serializedName: "retrievalInstructions",
+      outputMode: {
+        serializedName: "outputMode",
         type: {
           name: "String",
         },
@@ -85,23 +77,14 @@ export const KnowledgeAgent: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-    },
-  },
-};
-
-export const KnowledgeAgentModel: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KnowledgeAgentModel",
-    uberParent: "KnowledgeAgentModel",
-    polymorphicDiscriminator: {
-      serializedName: "kind",
-      clientName: "kind",
-    },
-    modelProperties: {
-      kind: {
-        serializedName: "kind",
-        required: true,
+      retrievalInstructions: {
+        serializedName: "retrievalInstructions",
+        type: {
+          name: "String",
+        },
+      },
+      answerInstructions: {
+        serializedName: "answerInstructions",
         type: {
           name: "String",
         },
@@ -122,88 +105,46 @@ export const KnowledgeSourceReference: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      includeReferences: {
-        serializedName: "includeReferences",
+    },
+  },
+};
+
+export const KnowledgeBaseModel: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KnowledgeBaseModel",
+    uberParent: "KnowledgeBaseModel",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind",
+    },
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        required: true,
         type: {
-          name: "Boolean",
-        },
-      },
-      includeReferenceSourceData: {
-        serializedName: "includeReferenceSourceData",
-        type: {
-          name: "Boolean",
-        },
-      },
-      alwaysQuerySource: {
-        serializedName: "alwaysQuerySource",
-        type: {
-          name: "Boolean",
-        },
-      },
-      maxSubQueries: {
-        serializedName: "maxSubQueries",
-        type: {
-          name: "Number",
-        },
-      },
-      rerankerThreshold: {
-        serializedName: "rerankerThreshold",
-        type: {
-          name: "Number",
+          name: "String",
         },
       },
     },
   },
 };
 
-export const KnowledgeAgentOutputConfiguration: coreClient.CompositeMapper = {
+export const KnowledgeRetrievalReasoningEffort: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "KnowledgeAgentOutputConfiguration",
-    modelProperties: {
-      modality: {
-        serializedName: "modality",
-        type: {
-          name: "String",
-        },
-      },
-      answerInstructions: {
-        serializedName: "answerInstructions",
-        type: {
-          name: "String",
-        },
-      },
-      attemptFastPath: {
-        serializedName: "attemptFastPath",
-        type: {
-          name: "Boolean",
-        },
-      },
-      includeActivity: {
-        serializedName: "includeActivity",
-        type: {
-          name: "Boolean",
-        },
-      },
+    className: "KnowledgeRetrievalReasoningEffort",
+    uberParent: "KnowledgeRetrievalReasoningEffort",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind",
     },
-  },
-};
-
-export const KnowledgeAgentRequestLimits: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KnowledgeAgentRequestLimits",
     modelProperties: {
-      maxRuntimeInSeconds: {
-        serializedName: "maxRuntimeInSeconds",
+      kind: {
+        serializedName: "kind",
+        required: true,
         type: {
-          name: "Number",
-        },
-      },
-      maxOutputSize: {
-        serializedName: "maxOutputSize",
-        type: {
-          name: "Number",
+          name: "String",
         },
       },
     },
@@ -393,12 +334,12 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   },
 };
 
-export const ListKnowledgeAgentsResult: coreClient.CompositeMapper = {
+export const ListKnowledgeBasesResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ListKnowledgeAgentsResult",
+    className: "ListKnowledgeBasesResult",
     modelProperties: {
-      knowledgeAgents: {
+      knowledgeBases: {
         serializedName: "value",
         required: true,
         type: {
@@ -406,7 +347,7 @@ export const ListKnowledgeAgentsResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "KnowledgeAgent",
+              className: "KnowledgeBase",
             },
           },
         },
@@ -478,6 +419,161 @@ export const ListKnowledgeSourcesResult: coreClient.CompositeMapper = {
               className: "KnowledgeSource",
             },
           },
+        },
+      },
+    },
+  },
+};
+
+export const KnowledgeSourceStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KnowledgeSourceStatus",
+    modelProperties: {
+      synchronizationStatus: {
+        serializedName: "synchronizationStatus",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      synchronizationInterval: {
+        serializedName: "synchronizationInterval",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+      currentSynchronizationState: {
+        serializedName: "currentSynchronizationState",
+        type: {
+          name: "Composite",
+          className: "SynchronizationState",
+        },
+      },
+      lastSynchronizationState: {
+        serializedName: "lastSynchronizationState",
+        type: {
+          name: "Composite",
+          className: "CompletedSynchronizationState",
+        },
+      },
+      statistics: {
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "KnowledgeSourceStatistics",
+        },
+      },
+    },
+  },
+};
+
+export const SynchronizationState: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SynchronizationState",
+    modelProperties: {
+      startTime: {
+        serializedName: "startTime",
+        required: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      itemsUpdatesProcessed: {
+        serializedName: "itemsUpdatesProcessed",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      itemsUpdatesFailed: {
+        serializedName: "itemsUpdatesFailed",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      itemsSkipped: {
+        serializedName: "itemsSkipped",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const CompletedSynchronizationState: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CompletedSynchronizationState",
+    modelProperties: {
+      startTime: {
+        serializedName: "startTime",
+        required: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      endTime: {
+        serializedName: "endTime",
+        required: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      itemsUpdatesProcessed: {
+        serializedName: "itemsUpdatesProcessed",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      itemsUpdatesFailed: {
+        serializedName: "itemsUpdatesFailed",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      itemsSkipped: {
+        serializedName: "itemsSkipped",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const KnowledgeSourceStatistics: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KnowledgeSourceStatistics",
+    modelProperties: {
+      totalSynchronization: {
+        serializedName: "totalSynchronization",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      averageSynchronizationDuration: {
+        serializedName: "averageSynchronizationDuration",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      averageItemsProcessedPerSynchronization: {
+        serializedName: "averageItemsProcessedPerSynchronization",
+        required: true,
+        type: {
+          name: "Number",
         },
       },
     },
@@ -1171,6 +1267,13 @@ export const SearchIndexerStatus: coreClient.CompositeMapper = {
           allowedValues: ["unknown", "error", "running"],
         },
       },
+      runtime: {
+        serializedName: "runtime",
+        type: {
+          name: "Composite",
+          className: "IndexerRuntime",
+        },
+      },
       lastResult: {
         serializedName: "lastResult",
         type: {
@@ -1204,6 +1307,43 @@ export const SearchIndexerStatus: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "IndexerState",
+        },
+      },
+    },
+  },
+};
+
+export const IndexerRuntime: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IndexerRuntime",
+    modelProperties: {
+      usedSeconds: {
+        serializedName: "usedSeconds",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      remainingSeconds: {
+        serializedName: "remainingSeconds",
+        nullable: true,
+        type: {
+          name: "Number",
+        },
+      },
+      beginningTime: {
+        serializedName: "beginningTime",
+        required: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      endingTime: {
+        serializedName: "endingTime",
+        required: true,
+        type: {
+          name: "DateTime",
         },
       },
     },
@@ -2272,6 +2412,13 @@ export const SearchIndex: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      purviewEnabled: {
+        serializedName: "purviewEnabled",
+        nullable: true,
+        type: {
+          name: "Boolean",
+        },
+      },
       etag: {
         serializedName: "@odata\\.etag",
         type: {
@@ -2348,6 +2495,13 @@ export const SearchField: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "String",
+        },
+      },
+      sensitivityLabel: {
+        serializedName: "sensitivityLabel",
+        nullable: true,
+        type: {
+          name: "Boolean",
         },
       },
       analyzer: {
@@ -2471,6 +2625,7 @@ export const ScoringProfile: coreClient.CompositeMapper = {
             "minimum",
             "maximum",
             "firstMatching",
+            "product",
           ],
         },
       },
@@ -3054,20 +3209,6 @@ export const VectorSearchCompression: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      rerankWithOriginalVectors: {
-        serializedName: "rerankWithOriginalVectors",
-        nullable: true,
-        type: {
-          name: "Boolean",
-        },
-      },
-      defaultOversampling: {
-        serializedName: "defaultOversampling",
-        nullable: true,
-        type: {
-          name: "Number",
-        },
-      },
       rescoringOptions: {
         serializedName: "rescoringOptions",
         type: {
@@ -3361,6 +3502,13 @@ export const ServiceStatistics: coreClient.CompositeMapper = {
           className: "ServiceCounters",
         },
       },
+      indexersRuntime: {
+        serializedName: "indexersRuntime",
+        type: {
+          name: "Composite",
+          className: "ServiceIndexersRuntime",
+        },
+      },
       limits: {
         serializedName: "limits",
         type: {
@@ -3467,6 +3615,43 @@ export const ResourceCounter: coreClient.CompositeMapper = {
   },
 };
 
+export const ServiceIndexersRuntime: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServiceIndexersRuntime",
+    modelProperties: {
+      usedSeconds: {
+        serializedName: "usedSeconds",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      remainingSeconds: {
+        serializedName: "remainingSeconds",
+        nullable: true,
+        type: {
+          name: "Number",
+        },
+      },
+      beginningTime: {
+        serializedName: "beginningTime",
+        required: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      endingTime: {
+        serializedName: "endingTime",
+        required: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
 export const ServiceLimits: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3502,6 +3687,13 @@ export const ServiceLimits: coreClient.CompositeMapper = {
       },
       maxStoragePerIndexInBytes: {
         serializedName: "maxStoragePerIndex",
+        nullable: true,
+        type: {
+          name: "Number",
+        },
+      },
+      maxCumulativeIndexerRuntimeSeconds: {
+        serializedName: "maxCumulativeIndexerRuntimeSeconds",
         nullable: true,
         type: {
           name: "Number",
@@ -3627,8 +3819,32 @@ export const SearchIndexKnowledgeSourceParameters: coreClient.CompositeMapper =
             name: "String",
           },
         },
-        sourceDataSelect: {
-          serializedName: "sourceDataSelect",
+        sourceDataFields: {
+          serializedName: "sourceDataFields",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "SearchIndexFieldReference",
+              },
+            },
+          },
+        },
+        searchFields: {
+          serializedName: "searchFields",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "SearchIndexFieldReference",
+              },
+            },
+          },
+        },
+        semanticConfigurationName: {
+          serializedName: "semanticConfigurationName",
           type: {
             name: "String",
           },
@@ -3637,18 +3853,27 @@ export const SearchIndexKnowledgeSourceParameters: coreClient.CompositeMapper =
     },
   };
 
+export const SearchIndexFieldReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SearchIndexFieldReference",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const AzureBlobKnowledgeSourceParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AzureBlobKnowledgeSourceParameters",
     modelProperties: {
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "SearchIndexerDataIdentity",
-        },
-      },
       connectionString: {
         serializedName: "connectionString",
         required: true,
@@ -3665,29 +3890,23 @@ export const AzureBlobKnowledgeSourceParameters: coreClient.CompositeMapper = {
       },
       folderPath: {
         serializedName: "folderPath",
+        nullable: true,
         type: {
           name: "String",
         },
       },
-      embeddingModel: {
-        serializedName: "embeddingModel",
+      isAdlsGen2: {
+        defaultValue: false,
+        serializedName: "isADLSGen2",
         type: {
-          name: "Composite",
-          className: "VectorSearchVectorizer",
+          name: "Boolean",
         },
       },
-      chatCompletionModel: {
-        serializedName: "chatCompletionModel",
+      ingestionParameters: {
+        serializedName: "ingestionParameters",
         type: {
           name: "Composite",
-          className: "KnowledgeAgentModel",
-        },
-      },
-      ingestionSchedule: {
-        serializedName: "ingestionSchedule",
-        type: {
-          name: "Composite",
-          className: "IndexingSchedule",
+          className: "KnowledgeSourceIngestionParameters",
         },
       },
       createdResources: {
@@ -3698,8 +3917,279 @@ export const AzureBlobKnowledgeSourceParameters: coreClient.CompositeMapper = {
           value: { type: { name: "String" } },
         },
       },
+    },
+  },
+};
+
+export const KnowledgeSourceIngestionParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KnowledgeSourceIngestionParameters",
+    modelProperties: {
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "SearchIndexerDataIdentity",
+        },
+      },
+      embeddingModel: {
+        serializedName: "embeddingModel",
+        type: {
+          name: "Composite",
+          className: "KnowledgeSourceVectorizer",
+        },
+      },
+      chatCompletionModel: {
+        serializedName: "chatCompletionModel",
+        type: {
+          name: "Composite",
+          className: "KnowledgeBaseModel",
+        },
+      },
       disableImageVerbalization: {
+        defaultValue: false,
         serializedName: "disableImageVerbalization",
+        type: {
+          name: "Boolean",
+        },
+      },
+      ingestionSchedule: {
+        serializedName: "ingestionSchedule",
+        type: {
+          name: "Composite",
+          className: "IndexingSchedule",
+        },
+      },
+      ingestionPermissionOptions: {
+        serializedName: "ingestionPermissionOptions",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      contentExtractionMode: {
+        defaultValue: "minimal",
+        serializedName: "contentExtractionMode",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+      aiServices: {
+        serializedName: "aiServices",
+        type: {
+          name: "Composite",
+          className: "AIServices",
+        },
+      },
+    },
+  },
+};
+
+export const KnowledgeSourceVectorizer: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KnowledgeSourceVectorizer",
+    uberParent: "KnowledgeSourceVectorizer",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind",
+    },
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AIServices: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AIServices",
+    modelProperties: {
+      uri: {
+        serializedName: "uri",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      apiKey: {
+        serializedName: "apiKey",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const IndexedSharePointKnowledgeSourceParameters: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "IndexedSharePointKnowledgeSourceParameters",
+      modelProperties: {
+        connectionString: {
+          serializedName: "connectionString",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        containerName: {
+          serializedName: "containerName",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        query: {
+          serializedName: "query",
+          nullable: true,
+          type: {
+            name: "String",
+          },
+        },
+        ingestionParameters: {
+          serializedName: "ingestionParameters",
+          type: {
+            name: "Composite",
+            className: "KnowledgeSourceIngestionParameters",
+          },
+        },
+        createdResources: {
+          serializedName: "createdResources",
+          readOnly: true,
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+      },
+    },
+  };
+
+export const IndexedOneLakeKnowledgeSourceParameters: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "IndexedOneLakeKnowledgeSourceParameters",
+      modelProperties: {
+        fabricWorkspaceId: {
+          serializedName: "fabricWorkspaceId",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        lakehouseId: {
+          serializedName: "lakehouseId",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetPath: {
+          serializedName: "targetPath",
+          nullable: true,
+          type: {
+            name: "String",
+          },
+        },
+        ingestionParameters: {
+          serializedName: "ingestionParameters",
+          type: {
+            name: "Composite",
+            className: "KnowledgeSourceIngestionParameters",
+          },
+        },
+        createdResources: {
+          serializedName: "createdResources",
+          readOnly: true,
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+      },
+    },
+  };
+
+export const WebKnowledgeSourceParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebKnowledgeSourceParameters",
+    modelProperties: {
+      domains: {
+        serializedName: "domains",
+        type: {
+          name: "Composite",
+          className: "WebKnowledgeSourceDomains",
+        },
+      },
+    },
+  },
+};
+
+export const WebKnowledgeSourceDomains: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebKnowledgeSourceDomains",
+    modelProperties: {
+      allowedDomains: {
+        serializedName: "allowedDomains",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WebKnowledgeSourceDomain",
+            },
+          },
+        },
+      },
+      blockedDomains: {
+        serializedName: "blockedDomains",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WebKnowledgeSourceDomain",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const WebKnowledgeSourceDomain: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebKnowledgeSourceDomain",
+    modelProperties: {
+      address: {
+        serializedName: "address",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      includeSubpages: {
+        serializedName: "includeSubpages",
         type: {
           name: "Boolean",
         },
@@ -3707,6 +4197,39 @@ export const AzureBlobKnowledgeSourceParameters: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const RemoteSharePointKnowledgeSourceParameters: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "RemoteSharePointKnowledgeSourceParameters",
+      modelProperties: {
+        filterExpression: {
+          serializedName: "filterExpression",
+          type: {
+            name: "String",
+          },
+        },
+        resourceMetadata: {
+          serializedName: "resourceMetadata",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        containerTypeId: {
+          serializedName: "containerTypeId",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const HnswParameters: coreClient.CompositeMapper = {
   type: {
@@ -4374,15 +4897,47 @@ export const ChatCompletionSchema: coreClient.CompositeMapper = {
   },
 };
 
-export const KnowledgeAgentAzureOpenAIModel: coreClient.CompositeMapper = {
+export const ContentUnderstandingSkillChunkingProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ContentUnderstandingSkillChunkingProperties",
+      modelProperties: {
+        unit: {
+          defaultValue: "characters",
+          serializedName: "unit",
+          nullable: true,
+          type: {
+            name: "String",
+          },
+        },
+        maximumLength: {
+          serializedName: "maximumLength",
+          nullable: true,
+          type: {
+            name: "Number",
+          },
+        },
+        overlapLength: {
+          serializedName: "overlapLength",
+          nullable: true,
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
+
+export const KnowledgeBaseAzureOpenAIModel: coreClient.CompositeMapper = {
   serializedName: "azureOpenAI",
   type: {
     name: "Composite",
-    className: "KnowledgeAgentAzureOpenAIModel",
-    uberParent: "KnowledgeAgentModel",
-    polymorphicDiscriminator: KnowledgeAgentModel.type.polymorphicDiscriminator,
+    className: "KnowledgeBaseAzureOpenAIModel",
+    uberParent: "KnowledgeBaseModel",
+    polymorphicDiscriminator: KnowledgeBaseModel.type.polymorphicDiscriminator,
     modelProperties: {
-      ...KnowledgeAgentModel.type.modelProperties,
+      ...KnowledgeBaseModel.type.modelProperties,
       azureOpenAIParameters: {
         serializedName: "azureOpenAIParameters",
         type: {
@@ -4393,6 +4948,51 @@ export const KnowledgeAgentAzureOpenAIModel: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const KnowledgeRetrievalMinimalReasoningEffort: coreClient.CompositeMapper =
+  {
+    serializedName: "minimal",
+    type: {
+      name: "Composite",
+      className: "KnowledgeRetrievalMinimalReasoningEffort",
+      uberParent: "KnowledgeRetrievalReasoningEffort",
+      polymorphicDiscriminator:
+        KnowledgeRetrievalReasoningEffort.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...KnowledgeRetrievalReasoningEffort.type.modelProperties,
+      },
+    },
+  };
+
+export const KnowledgeRetrievalLowReasoningEffort: coreClient.CompositeMapper =
+  {
+    serializedName: "low",
+    type: {
+      name: "Composite",
+      className: "KnowledgeRetrievalLowReasoningEffort",
+      uberParent: "KnowledgeRetrievalReasoningEffort",
+      polymorphicDiscriminator:
+        KnowledgeRetrievalReasoningEffort.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...KnowledgeRetrievalReasoningEffort.type.modelProperties,
+      },
+    },
+  };
+
+export const KnowledgeRetrievalMediumReasoningEffort: coreClient.CompositeMapper =
+  {
+    serializedName: "medium",
+    type: {
+      name: "Composite",
+      className: "KnowledgeRetrievalMediumReasoningEffort",
+      uberParent: "KnowledgeRetrievalReasoningEffort",
+      polymorphicDiscriminator:
+        KnowledgeRetrievalReasoningEffort.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...KnowledgeRetrievalReasoningEffort.type.modelProperties,
+      },
+    },
+  };
 
 export const SearchIndexerDataNoneIdentity: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.DataNoneIdentity",
@@ -4464,6 +5064,86 @@ export const AzureBlobKnowledgeSource: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AzureBlobKnowledgeSourceParameters",
+        },
+      },
+    },
+  },
+};
+
+export const IndexedSharePointKnowledgeSource: coreClient.CompositeMapper = {
+  serializedName: "indexedSharePoint",
+  type: {
+    name: "Composite",
+    className: "IndexedSharePointKnowledgeSource",
+    uberParent: "KnowledgeSource",
+    polymorphicDiscriminator: KnowledgeSource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...KnowledgeSource.type.modelProperties,
+      indexedSharePointParameters: {
+        serializedName: "indexedSharePointParameters",
+        type: {
+          name: "Composite",
+          className: "IndexedSharePointKnowledgeSourceParameters",
+        },
+      },
+    },
+  },
+};
+
+export const IndexedOneLakeKnowledgeSource: coreClient.CompositeMapper = {
+  serializedName: "indexedOneLake",
+  type: {
+    name: "Composite",
+    className: "IndexedOneLakeKnowledgeSource",
+    uberParent: "KnowledgeSource",
+    polymorphicDiscriminator: KnowledgeSource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...KnowledgeSource.type.modelProperties,
+      indexedOneLakeParameters: {
+        serializedName: "indexedOneLakeParameters",
+        type: {
+          name: "Composite",
+          className: "IndexedOneLakeKnowledgeSourceParameters",
+        },
+      },
+    },
+  },
+};
+
+export const WebKnowledgeSource: coreClient.CompositeMapper = {
+  serializedName: "web",
+  type: {
+    name: "Composite",
+    className: "WebKnowledgeSource",
+    uberParent: "KnowledgeSource",
+    polymorphicDiscriminator: KnowledgeSource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...KnowledgeSource.type.modelProperties,
+      webParameters: {
+        serializedName: "webParameters",
+        type: {
+          name: "Composite",
+          className: "WebKnowledgeSourceParameters",
+        },
+      },
+    },
+  },
+};
+
+export const RemoteSharePointKnowledgeSource: coreClient.CompositeMapper = {
+  serializedName: "remoteSharePoint",
+  type: {
+    name: "Composite",
+    className: "RemoteSharePointKnowledgeSource",
+    uberParent: "KnowledgeSource",
+    polymorphicDiscriminator: KnowledgeSource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...KnowledgeSource.type.modelProperties,
+      remoteSharePointParameters: {
+        serializedName: "remoteSharePointParameters",
+        type: {
+          name: "Composite",
+          className: "RemoteSharePointKnowledgeSourceParameters",
         },
       },
     },
@@ -5300,6 +5980,38 @@ export const WebApiSkill: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SearchIndexerDataIdentity",
+        },
+      },
+    },
+  },
+};
+
+export const ContentUnderstandingSkill: coreClient.CompositeMapper = {
+  serializedName: "#Microsoft.Skills.Util.ContentUnderstandingSkill",
+  type: {
+    name: "Composite",
+    className: "ContentUnderstandingSkill",
+    uberParent: "SearchIndexerSkill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SearchIndexerSkill.type.modelProperties,
+      extractionOptions: {
+        serializedName: "extractionOptions",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      chunkingProperties: {
+        serializedName: "chunkingProperties",
+        type: {
+          name: "Composite",
+          className: "ContentUnderstandingSkillChunkingProperties",
         },
       },
     },
@@ -7508,6 +8220,28 @@ export const BinaryQuantizationCompression: coreClient.CompositeMapper = {
   },
 };
 
+export const KnowledgeSourceAzureOpenAIVectorizer: coreClient.CompositeMapper =
+  {
+    serializedName: "azureOpenAI",
+    type: {
+      name: "Composite",
+      className: "KnowledgeSourceAzureOpenAIVectorizer",
+      uberParent: "KnowledgeSourceVectorizer",
+      polymorphicDiscriminator:
+        KnowledgeSourceVectorizer.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...KnowledgeSourceVectorizer.type.modelProperties,
+        azureOpenAIParameters: {
+          serializedName: "azureOpenAIParameters",
+          type: {
+            name: "Composite",
+            className: "AzureOpenAIParameters",
+          },
+        },
+      },
+    },
+  };
+
 export const ChatCompletionSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Custom.ChatCompletionSkill",
   type: {
@@ -7581,7 +8315,8 @@ export const SearchIndexerKnowledgeStoreFileProjectionSelector: coreClient.Compo
   };
 
 export let discriminators = {
-  KnowledgeAgentModel: KnowledgeAgentModel,
+  KnowledgeBaseModel: KnowledgeBaseModel,
+  KnowledgeRetrievalReasoningEffort: KnowledgeRetrievalReasoningEffort,
   SearchIndexerDataIdentity: SearchIndexerDataIdentity,
   KnowledgeSource: KnowledgeSource,
   DataChangeDetectionPolicy: DataChangeDetectionPolicy,
@@ -7598,13 +8333,23 @@ export let discriminators = {
   VectorSearchAlgorithmConfiguration: VectorSearchAlgorithmConfiguration,
   VectorSearchVectorizer: VectorSearchVectorizer,
   VectorSearchCompression: VectorSearchCompression,
-  "KnowledgeAgentModel.azureOpenAI": KnowledgeAgentAzureOpenAIModel,
+  KnowledgeSourceVectorizer: KnowledgeSourceVectorizer,
+  "KnowledgeBaseModel.azureOpenAI": KnowledgeBaseAzureOpenAIModel,
+  "KnowledgeRetrievalReasoningEffort.minimal":
+    KnowledgeRetrievalMinimalReasoningEffort,
+  "KnowledgeRetrievalReasoningEffort.low": KnowledgeRetrievalLowReasoningEffort,
+  "KnowledgeRetrievalReasoningEffort.medium":
+    KnowledgeRetrievalMediumReasoningEffort,
   "SearchIndexerDataIdentity.#Microsoft.Azure.Search.DataNoneIdentity":
     SearchIndexerDataNoneIdentity,
   "SearchIndexerDataIdentity.#Microsoft.Azure.Search.DataUserAssignedIdentity":
     SearchIndexerDataUserAssignedIdentity,
   "KnowledgeSource.searchIndex": SearchIndexKnowledgeSource,
   "KnowledgeSource.azureBlob": AzureBlobKnowledgeSource,
+  "KnowledgeSource.indexedSharePoint": IndexedSharePointKnowledgeSource,
+  "KnowledgeSource.indexedOneLake": IndexedOneLakeKnowledgeSource,
+  "KnowledgeSource.web": WebKnowledgeSource,
+  "KnowledgeSource.remoteSharePoint": RemoteSharePointKnowledgeSource,
   "DataChangeDetectionPolicy.#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy":
     HighWaterMarkChangeDetectionPolicy,
   "DataChangeDetectionPolicy.#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy":
@@ -7645,6 +8390,8 @@ export let discriminators = {
   "SearchIndexerSkill.#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill":
     DocumentIntelligenceLayoutSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Custom.WebApiSkill": WebApiSkill,
+  "SearchIndexerSkill.#Microsoft.Skills.Util.ContentUnderstandingSkill":
+    ContentUnderstandingSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Custom.AmlSkill":
     AzureMachineLearningSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill":
@@ -7744,6 +8491,7 @@ export let discriminators = {
   "VectorSearchVectorizer.aml": AMLVectorizer,
   "VectorSearchCompression.scalarQuantization": ScalarQuantizationCompression,
   "VectorSearchCompression.binaryQuantization": BinaryQuantizationCompression,
+  "KnowledgeSourceVectorizer.azureOpenAI": KnowledgeSourceAzureOpenAIVectorizer,
   "WebApiSkill.#Microsoft.Skills.Custom.ChatCompletionSkill":
     ChatCompletionSkill,
 };

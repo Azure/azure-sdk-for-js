@@ -7,8 +7,6 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { AIProjectClient, AIProjectClientOptionalParams } from "../../../src/index.js";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import OpenAI from "openai";
-import { getBearerTokenProvider } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
   GENERIC_STRING: "Sanitized",
@@ -113,21 +111,6 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
     ["record", "playback"],
   );
   return recorder;
-}
-
-export async function createOpenAI(): Promise<OpenAI> {
-  const credential = createTestCredential();
-  const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "";
-
-  const scope = "https://ai.azure.com/.default";
-  const azureADTokenProvider = await getBearerTokenProvider(credential, scope);
-
-  return new OpenAI({
-    apiKey: azureADTokenProvider,
-    baseURL: projectEndpoint,
-    defaultQuery: { "api-version": "2025-11-15-preview" },
-    dangerouslyAllowBrowser: true,
-  });
 }
 
 export function createProjectsClient(

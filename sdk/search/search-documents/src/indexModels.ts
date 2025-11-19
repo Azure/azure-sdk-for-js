@@ -108,6 +108,9 @@ export interface GetDocumentOptions<
    * Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents.
    */
   xMsQuerySourceAuthorization?: string;
+
+  /** A value that enables elevated read that bypass document level permission checks for the query operation. */
+  xMsEnableElevatedRead?: boolean;
 }
 
 /**
@@ -227,13 +230,6 @@ export interface BaseVectorQuery<TModel extends object> {
    * truth values.
    */
   exhaustive?: boolean;
-  /**
-   * Oversampling factor. Minimum value is 1. It overrides the 'defaultOversampling' parameter
-   * configured in the index definition. It can be set only when 'rerankWithOriginalVectors' is
-   * true. This parameter is only permitted when a compression method is used on the underlying
-   * vector field.
-   */
-  oversampling?: number;
   /**
    * Relative weight of the vector query when compared to other vector query and/or the text query within the same search request. This value is used when combining the results of multiple ranking lists produced by the different vector queries and/or the results retrieved through the text query. The higher the weight, the higher the documents that matched that query will be in the final ranking. Default is 1.0 and the value needs to be a positive number larger than zero.
    */
@@ -447,6 +443,9 @@ export interface BaseSearchRequestOptions<
    * Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents.
    */
   xMsQuerySourceAuthorization?: string;
+
+  /** A value that enables elevated read that bypass document level permission checks for the query operation. */
+  xMsEnableElevatedRead?: boolean;
 }
 
 /**
