@@ -7,7 +7,7 @@
  * OpenAPI specification from local assets and can invoke the API through the
  * configured project connection.
  *
- * @summary Create an OpenAPI-enabled agent that uses a project connection for
+ * @summary Demonstrates how to create an OpenAPI-enabled agent that uses a project connection for
  * authentication and stream responses that include tool invocation details.
  */
 
