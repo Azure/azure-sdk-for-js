@@ -40,6 +40,14 @@ class TestContinuationTokenManager extends BaseContinuationTokenManager {
     // No query-specific cleanup needed for these tests
   }
 
+  protected getCurrentContinuationToken(): any {
+    return undefined; // No token for test implementation
+  }
+
+  protected getSerializationFunction(): (token: any) => string {
+    return (token: any) => JSON.stringify(token); // Simple serialization for tests
+  }
+
   // Expose methods needed for testing partition range management
   public getRanges(): QueryRangeWithContinuationToken[] {
     return this.rangeList;

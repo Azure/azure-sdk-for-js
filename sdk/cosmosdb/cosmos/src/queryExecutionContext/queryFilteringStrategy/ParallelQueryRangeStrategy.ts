@@ -114,11 +114,11 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
   /**
    * Checks if a partition is exhausted based on its continuation token
    */
-  private isPartitionExhausted(continuationToken: string | null): boolean {
+  private isPartitionExhausted(continuationToken: string | undefined): boolean {
     return (
       !continuationToken ||
       continuationToken === "" ||
-      continuationToken === null ||
+      continuationToken === "null" ||
       continuationToken.toLowerCase() === "null"
     );
   }

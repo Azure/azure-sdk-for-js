@@ -85,12 +85,36 @@ export abstract class BaseContinuationTokenManager {
     processedRanges: string[];
   };
 
-  protected abstract generateContinuationTokenString(): string | undefined;
   protected abstract processQuerySpecificResponse(responseResult: ParallelQueryResult): void;
   protected abstract performQuerySpecificDataTrim(
     processedRanges: string[],
     endIndex: number,
   ): void;
+
+  /**
+   * Gets the current continuation token for serialization.
+   * Returns undefined if no token exists or query is exhausted.
+   */
+  protected abstract getCurrentContinuationToken(): any;
+
+  /**
+   * Gets the serialization function for the specific continuation token type.
+   */
+  protected abstract getSerializationFunction(): (token: any) => string;
+
+  /**
+   * Generates continuation token string using the appropriate serialization function.
+   * This provides a common implementation that delegates to query-specific logic.
+   */
+  protected generateContinuationTokenString(): string | undefined {
+    const token = this.getCurrentContinuationToken();
+    if (!token) {
+      return undefined;
+    }
+
+    const serializeFunction = this.getSerializationFunction();
+    return serializeFunction(token);
+  }
 
   /**
    * Cleans up processed data after a page has been returned.
@@ -127,7 +151,7 @@ export abstract class BaseContinuationTokenManager {
     this.processQuerySpecificResponse(responseResult);
   }
 
-  private isPartitionExhausted(continuationToken: string | null): boolean {
+  private isPartitionExhausted(continuationToken: string | undefined): boolean {
     return (
       !continuationToken ||
       continuationToken === "" ||

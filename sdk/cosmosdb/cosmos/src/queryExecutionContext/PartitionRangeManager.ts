@@ -30,7 +30,7 @@ export class PartitionRangeManager {
    * @param continuationToken - The continuation token to check
    * @returns true if the partition is exhausted (null, empty, or "null" string)
    */
-  private isPartitionExhausted(continuationToken: string | null): boolean {
+  private isPartitionExhausted(continuationToken: string | undefined): boolean {
     return (
       !continuationToken ||
       continuationToken === "" ||

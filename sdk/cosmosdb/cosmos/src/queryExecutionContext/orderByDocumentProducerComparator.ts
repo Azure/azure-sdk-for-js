@@ -35,7 +35,7 @@ const TYPEORDCOMPARATOR: {
 
 /** @hidden */
 export class OrderByDocumentProducerComparator {
-  constructor(public sortOrder: string[]) {} // TODO: This should be an enum
+  constructor(public sortOrder: string[]) { } // TODO: This should be an enum
 
   /**
    * Compares document producers based on their partition key range minInclusive values.
@@ -45,26 +45,20 @@ export class OrderByDocumentProducerComparator {
     docProd1: DocumentProducer,
     docProd2: DocumentProducer,
   ): 0 | 1 | -1 {
-    const range1 = docProd1.getTargetPartitionKeyRange();
-    const range2 = docProd2.getTargetPartitionKeyRange();
-
-    const a = range1.minInclusive;
-    const b = range2.minInclusive;
+    const a = docProd1.getTargetPartitionKeyRange().minInclusive;
+    const b = docProd2.getTargetPartitionKeyRange().minInclusive;
 
     // Primary comparison using minInclusive (ascending lexicographic order)
-    // This handles: "" < "AA" < "BB" < "CC", etc.
     if (a !== b) {
       return a < b ? -1 : 1;
     }
 
-    // Tie-breaker: comparing using minEPK when minInclusive values are equal
+    // Tie-breaker: use minEPK when minInclusive values are equal
     const epkA = docProd1.startEpk;
     const epkB = docProd2.startEpk;
-
-    if (epkA !== undefined && epkB !== undefined) {
-      return epkA < epkB ? -1 : epkA > epkB ? 1 : 0;
-    }
-    return 0;
+    return epkA !== undefined && epkB !== undefined
+      ? (epkA < epkB ? -1 : epkA > epkB ? 1 : 0)
+      : 0;
   }
 
   public compare(docProd1: DocumentProducer, docProd2: DocumentProducer): number {
@@ -133,9 +127,12 @@ export class OrderByDocumentProducerComparator {
   }
 
   private compareOrderByItem(orderByItem1: any, orderByItem2: any): number {
-    const type1 = this.getType(orderByItem1);
-    const type2 = this.getType(orderByItem2);
-    return this.compareValue(orderByItem1["item"], type1, orderByItem2["item"], type2);
+    return this.compareValue(
+      orderByItem1["item"], 
+      this.getType(orderByItem1), 
+      orderByItem2["item"], 
+      this.getType(orderByItem2)
+    );
   }
 
   private validateOrderByItems(res1: string[], res2: string[]): void {

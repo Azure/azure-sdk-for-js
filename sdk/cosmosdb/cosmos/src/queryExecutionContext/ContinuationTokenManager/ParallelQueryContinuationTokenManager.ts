@@ -62,8 +62,12 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
     return { endIndex: result.endIndex, processedRanges: result.processedRanges };
   }
 
-  protected generateContinuationTokenString(): string | undefined {
-    return this.continuationToken ? serializeCompositeToken(this.continuationToken) : undefined;
+  protected getCurrentContinuationToken(): CompositeQueryContinuationToken | undefined {
+    return this.continuationToken;
+  }
+
+  protected getSerializationFunction(): (token: CompositeQueryContinuationToken) => string {
+    return serializeCompositeToken;
   }
 
   protected processQuerySpecificResponse(_responseResult: ParallelQueryResult): void {

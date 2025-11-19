@@ -16,9 +16,7 @@ import { OrderByQueryProcessingStrategy } from "./queryProcessingStrategy/OrderB
 /** @hidden */
 export class OrderByQueryExecutionContext
   extends ParallelQueryExecutionContextBase
-  implements ExecutionContext
-{
-  private readonly orderByComparator: any;
+  implements ExecutionContext {
   /**
    * Provides the OrderByQueryExecutionContext.
    * This class is capable of handling orderby queries and dervives from ParallelQueryExecutionContextBase.
@@ -71,9 +69,6 @@ export class OrderByQueryExecutionContext
       processingStrategy,
       comparator,
     );
-
-    // Set the instance property after super call
-    this.orderByComparator = orderByComparator;
   }
 
   /**

@@ -149,9 +149,11 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     };
   }
 
-  protected generateContinuationTokenString(): string | undefined {
-    return this.continuationToken
-      ? serializeOrderByQueryContinuationToken(this.continuationToken)
-      : undefined;
+  protected getCurrentContinuationToken(): OrderByQueryContinuationToken | undefined {
+    return this.continuationToken;
+  }
+
+  protected getSerializationFunction(): (token: OrderByQueryContinuationToken) => string {
+    return serializeOrderByQueryContinuationToken;
   }
 }

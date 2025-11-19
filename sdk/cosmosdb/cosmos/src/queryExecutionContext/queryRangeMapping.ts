@@ -17,12 +17,12 @@ export interface QueryRangeMapping {
   /**
    * Continuation token for this partition key range
    */
-  continuationToken: string | null;
+  continuationToken: string | undefined;
 
   /**
    * The partition key range this mapping belongs to
    */
-  partitionKeyRange?: PartitionKeyRange;
+  partitionKeyRange: PartitionKeyRange;
 
   /**
    * Hash of the last document result for this partition key range (for distinct queries)
