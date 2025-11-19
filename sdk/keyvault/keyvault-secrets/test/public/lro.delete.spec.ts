@@ -4,7 +4,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { PollerStoppedError } from "@azure/core-lro";
 
-import { afterEach, assert, beforeEach, describe, it } from "vitest";
+import { afterEach, assert, beforeEach, describe, it, expect } from "vitest";
 import type { DeletedSecret, SecretClient } from "../../src/index.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
@@ -35,14 +35,14 @@ describe("Secrets client - Long Running Operations - delete", () => {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     await client.setSecret(secretName, "value");
     const poller = await client.beginDeleteSecret(secretName, testPollerProperties);
-    assert.ok(poller.getOperationState().isStarted);
+    assert.isTrue(poller.getOperationState().isStarted);
 
     // The pending deleted secret can be obtained this way:
     assert.equal(poller.getOperationState().result!.name, secretName);
 
     const deletedSecret: DeletedSecret = await poller.pollUntilDone();
     assert.equal(deletedSecret.name, secretName);
-    assert.ok(poller.getOperationState().isCompleted);
+    assert.isTrue(poller.getOperationState().isCompleted);
 
     // The final secret can also be obtained this way:
     assert.equal(poller.getOperationState().result!.name, secretName);
@@ -52,17 +52,17 @@ describe("Secrets client - Long Running Operations - delete", () => {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     await client.setSecret(secretName, "value");
     const poller = await client.beginDeleteSecret(secretName, testPollerProperties);
-    assert.ok(poller.getOperationState().isStarted);
+    assert.isTrue(poller.getOperationState().isStarted);
 
     poller.pollUntilDone().catch((e) => {
-      assert.ok(e instanceof PollerStoppedError);
+      assert.instanceOf(e, PollerStoppedError);
       assert.equal(e.name, "PollerStoppedError");
       assert.equal(e.message, "This poller is already stopped");
     });
 
     poller.stopPolling();
-    assert.ok(poller.isStopped());
-    assert.ok(!poller.getOperationState().isCompleted);
+    assert.isTrue(poller.isStopped());
+    expect(poller.getOperationState().isCompleted).toBeFalsy();
 
     const serialized = poller.toString();
 
@@ -71,9 +71,9 @@ describe("Secrets client - Long Running Operations - delete", () => {
       ...testPollerProperties,
     });
 
-    assert.ok(resumePoller.getOperationState().isStarted);
+    assert.isTrue(resumePoller.getOperationState().isStarted);
     const deletedSecret: DeletedSecret = await resumePoller.pollUntilDone();
     assert.equal(deletedSecret.name, secretName);
-    assert.ok(resumePoller.getOperationState().isCompleted);
+    assert.isTrue(resumePoller.getOperationState().isCompleted);
   });
 });
