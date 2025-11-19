@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { DiskSnapshotList} from "@azure/arm-elasticsan";
+import { ElasticSanManagement } from "@azure/arm-elasticsan";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Validate whether a list of backed up disk snapshots can be restored into ElasticSan volumes.
  *
  * @summary Validate whether a list of backed up disk snapshots can be restored into ElasticSan volumes.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Volumes_PreRestore_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/ElasticSan/stable/2025-09-01/examples/Volumes_PreRestore_MaximumSet_Gen.json
  */
-
-import { DiskSnapshotList, ElasticSanManagement } from "@azure/arm-elasticsan";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function volumeGroupsPreRestoreMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";

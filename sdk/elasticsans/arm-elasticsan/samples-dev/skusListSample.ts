@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List all the available Skus in the region and information related to them
- *
- * @summary List all the available Skus in the region and information related to them
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Skus_List_MaximumSet_Gen.json
- */
-
+import type {
+  SkusListOptionalParams} from "@azure/arm-elasticsan";
 import {
-  SkusListOptionalParams,
   ElasticSanManagement,
 } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to List all the available Skus in the region and information related to them
+ *
+ * @summary List all the available Skus in the region and information related to them
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/ElasticSan/stable/2025-09-01/examples/Skus_List_MaximumSet_Gen.json
+ */
 async function skusListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -33,7 +33,7 @@ async function skusListMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to List all the available Skus in the region and information related to them
  *
  * @summary List all the available Skus in the region and information related to them
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Skus_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/ElasticSan/stable/2025-09-01/examples/Skus_List_MinimumSet_Gen.json
  */
 async function skusListMinimumSetGen(): Promise<void> {
   const subscriptionId =

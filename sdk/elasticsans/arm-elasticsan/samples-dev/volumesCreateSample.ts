@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { Volume} from "@azure/arm-elasticsan";
+import { ElasticSanManagement } from "@azure/arm-elasticsan";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Create a Volume.
  *
  * @summary Create a Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Volumes_Create_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/ElasticSan/stable/2025-09-01/examples/Volumes_Create_MaximumSet_Gen.json
  */
-
-import { Volume, ElasticSanManagement } from "@azure/arm-elasticsan";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function volumesCreateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -43,7 +43,7 @@ async function volumesCreateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Create a Volume.
  *
  * @summary Create a Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Volumes_Create_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/ElasticSan/stable/2025-09-01/examples/Volumes_Create_MinimumSet_Gen.json
  */
 async function volumesCreateMinimumSetGen(): Promise<void> {
   const subscriptionId =

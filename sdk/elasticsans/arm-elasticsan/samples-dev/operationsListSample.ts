@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a list of ElasticSan operations.
- *
- * @summary Gets a list of ElasticSan operations.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Operations_List_MaximumSet_Gen.json
- */
-
 import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to List the operations for the provider
+ *
+ * @summary List the operations for the provider
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/ElasticSan/stable/2025-09-01/examples/Operations_List_MaximumSet_Gen.json
+ */
 async function operationsListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] ||
@@ -26,10 +25,10 @@ async function operationsListMaximumSetGen(): Promise<void> {
 }
 
 /**
- * This sample demonstrates how to Gets a list of ElasticSan operations.
+ * This sample demonstrates how to List the operations for the provider
  *
- * @summary Gets a list of ElasticSan operations.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Operations_List_MinimumSet_Gen.json
+ * @summary List the operations for the provider
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/ElasticSan/stable/2025-09-01/examples/Operations_List_MinimumSet_Gen.json
  */
 async function operationsListMinimumSetGen(): Promise<void> {
   const subscriptionId =

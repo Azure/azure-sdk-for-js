@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { Snapshot} from "@azure/arm-elasticsan";
+import { ElasticSanManagement } from "@azure/arm-elasticsan";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Create a Volume Snapshot.
  *
  * @summary Create a Volume Snapshot.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeSnapshots_Create_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/ElasticSan/stable/2025-09-01/examples/VolumeSnapshots_Create_MaximumSet_Gen.json
  */
-
-import { Snapshot, ElasticSanManagement } from "@azure/arm-elasticsan";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function volumeSnapshotsCreateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -44,7 +44,7 @@ async function volumeSnapshotsCreateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Create a Volume Snapshot.
  *
  * @summary Create a Volume Snapshot.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeSnapshots_Create_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/ElasticSan/stable/2025-09-01/examples/VolumeSnapshots_Create_MinimumSet_Gen.json
  */
 async function volumeSnapshotsCreateMinimumSetGen(): Promise<void> {
   const subscriptionId =

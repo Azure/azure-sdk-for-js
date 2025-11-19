@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { ElasticSanUpdate} from "@azure/arm-elasticsan";
+import { ElasticSanManagement } from "@azure/arm-elasticsan";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Update a Elastic San.
  *
  * @summary Update a Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/ElasticSan/stable/2025-09-01/examples/ElasticSans_Update_MaximumSet_Gen.json
  */
-
-import { ElasticSanUpdate, ElasticSanManagement } from "@azure/arm-elasticsan";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function elasticSansUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -48,7 +48,7 @@ async function elasticSansUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Update a Elastic San.
  *
  * @summary Update a Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/ElasticSan/stable/2025-09-01/examples/ElasticSans_Update_MinimumSet_Gen.json
  */
 async function elasticSansUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =

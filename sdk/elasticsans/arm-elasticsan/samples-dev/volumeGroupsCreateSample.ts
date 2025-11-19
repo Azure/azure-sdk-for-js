@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { VolumeGroup} from "@azure/arm-elasticsan";
+import { ElasticSanManagement } from "@azure/arm-elasticsan";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Create a Volume Group.
  *
  * @summary Create a Volume Group.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_Create_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/ElasticSan/stable/2025-09-01/examples/VolumeGroups_Create_MaximumSet_Gen.json
  */
-
-import { VolumeGroup, ElasticSanManagement } from "@azure/arm-elasticsan";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function volumeGroupsCreateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -22,10 +22,6 @@ async function volumeGroupsCreateMaximumSetGen(): Promise<void> {
   const parameters: VolumeGroup = {
     identity: { type: "None", userAssignedIdentities: { key2350: {} } },
     properties: {
-      deleteRetentionPolicy: {
-        policyState: "Enabled",
-        retentionPeriodDays: 14,
-      },
       encryption: "EncryptionAtRestWithPlatformKey",
       encryptionProperties: {
         encryptionIdentity: { encryptionUserAssignedIdentity: "vgbeephfgecgg" },
@@ -59,7 +55,7 @@ async function volumeGroupsCreateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Create a Volume Group.
  *
  * @summary Create a Volume Group.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_Create_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/ElasticSan/stable/2025-09-01/examples/VolumeGroups_Create_MinimumSet_Gen.json
  */
 async function volumeGroupsCreateMinimumSetGen(): Promise<void> {
   const subscriptionId =

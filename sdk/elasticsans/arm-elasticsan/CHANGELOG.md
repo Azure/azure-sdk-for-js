@@ -1,4 +1,46 @@
 # Release History
+
+## 1.2.0 (2025-11-19)
+
+### Features Added
+  - Added operation Volumes.beginPreBackup
+  - Added operation Volumes.beginPreBackupAndWait
+  - Added operation Volumes.beginPreRestore
+  - Added operation Volumes.beginPreRestoreAndWait
+  - Added Interface AutoScaleProperties
+  - Added Interface DiskSnapshotList
+  - Added Interface ElasticSansCreateHeaders
+  - Added Interface PreValidationResponse
+  - Added Interface PrivateEndpointConnectionsCreateHeaders
+  - Added Interface ScaleUpProperties
+  - Added Interface VolumeGroupsCreateHeaders
+  - Added Interface VolumeNameList
+  - Added Interface VolumesCreateHeaders
+  - Added Interface VolumeSnapshotsCreateHeaders
+  - Added Interface VolumesPreBackupHeaders
+  - Added Interface VolumesPreBackupOptionalParams
+  - Added Interface VolumesPreRestoreHeaders
+  - Added Interface VolumesPreRestoreOptionalParams
+  - Interface ElasticSanProperties has a new optional parameter autoScaleProperties
+  - Interface ElasticSansDeleteHeaders has a new optional parameter retryAfter
+  - Interface ElasticSansUpdateHeaders has a new optional parameter retryAfter
+  - Interface ElasticSanUpdateProperties has a new optional parameter autoScaleProperties
+  - Interface PrivateEndpointConnectionsDeleteHeaders has a new optional parameter retryAfter
+  - Interface VolumeGroupsDeleteHeaders has a new optional parameter retryAfter
+  - Interface VolumeGroupsUpdateHeaders has a new optional parameter retryAfter
+  - Interface VolumesDeleteHeaders has a new optional parameter retryAfter
+  - Interface VolumeSnapshotsDeleteHeaders has a new optional parameter retryAfter
+  - Interface VolumesUpdateHeaders has a new optional parameter retryAfter
+  - Added Type Alias AutoScalePolicyEnforcement
+  - Added Type Alias OperationsListNextResponse
+  - Added Type Alias PrivateEndpointConnectionsListNextResponse
+  - Added Type Alias SkusListNextResponse
+  - Added Type Alias VolumesPreBackupResponse
+  - Added Type Alias VolumesPreRestoreResponse
+  - Added Enum KnownAutoScalePolicyEnforcement
+  - Enum KnownProvisioningStates has a new value Deleted
+  - Enum KnownProvisioningStates has a new value Restoring
+
     
 ## 1.2.0-beta.2 (2025-04-18)
 Compared with version 1.1.0
