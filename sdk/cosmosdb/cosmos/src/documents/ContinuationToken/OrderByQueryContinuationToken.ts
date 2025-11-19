@@ -5,7 +5,7 @@ import type { QueryRangeWithContinuationToken } from "./CompositeQueryContinuati
 
 /**
  * Continuation token for order by queries.
- * @internal
+ * @hidden
  */
 export interface OrderByQueryContinuationToken {
   /**
@@ -52,7 +52,7 @@ export interface OrderByQueryContinuationToken {
 
 /**
  * Creates an OrderByQueryContinuationToken
- * @internal
+ * @hidden
  */
 export function createOrderByQueryContinuationToken(
   rangeMappings: QueryRangeWithContinuationToken[],
@@ -86,7 +86,7 @@ export function createOrderByQueryContinuationToken(
 
 /**
  * Serializes an OrderByQueryContinuationToken to a JSON string
- * @internal
+ * @hidden
  */
 export function serializeOrderByQueryContinuationToken(
   token: OrderByQueryContinuationToken,
@@ -96,7 +96,7 @@ export function serializeOrderByQueryContinuationToken(
 
 /**
  * Deserializes a JSON string to an OrderByQueryContinuationToken
- * @internal
+ * @hidden
  */
 export function parseOrderByQueryContinuationToken(
   tokenString: string,
