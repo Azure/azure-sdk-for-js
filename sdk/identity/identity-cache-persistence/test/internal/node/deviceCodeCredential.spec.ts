@@ -40,7 +40,6 @@ describe("DeviceCodeCredential (internal)", () => {
   it.skipIf(process.platform === "darwin" || isLiveMode())(
     "Accepts tokenCachePersistenceOptions",
     async (ctx) => {
-
       const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
         enabled: true,
         name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
