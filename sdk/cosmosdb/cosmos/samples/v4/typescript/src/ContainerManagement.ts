@@ -237,9 +237,7 @@ async function run(): Promise<void> {
 
   // Query to verify items after deletion
   const queryToVerify = "SELECT c.id, c.name, c.state FROM c WHERE c.state = 'WA'";
-  const { resources: waItems } = await containerForDeletion.items
-    .query(queryToVerify)
-    .fetchAll();
+  const { resources: waItems } = await containerForDeletion.items.query(queryToVerify).fetchAll();
   console.log(`Items in WA after deletion: ${waItems.length}`);
 
   // Clean up the container
