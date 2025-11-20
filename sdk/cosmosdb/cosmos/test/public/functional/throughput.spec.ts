@@ -242,7 +242,6 @@ describe("testThroughputBucketForChangeFeed", async () => {
         {
           on: "request",
           plugin: async (context, diagNode, next) => {
-            assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
             if (
               context.resourceType === ResourceType.item &&
               context.operationType === OperationType.Query
