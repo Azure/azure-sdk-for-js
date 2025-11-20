@@ -8,18 +8,11 @@
  *
  * @summary Create an agent with Memory Search, capture memories from a conversation,
  * and retrieve them in a new conversation.
- *
- * @azsdk-weight 100
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import {
-  AIProjectClient,
-  MemoryStoreDefaultDefinition,
-  MemoryStoreDefaultOptions,
-  MemorySearchTool,
-} from "@azure/ai-projects";
-import "dotenv/config";
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AIProjectClient } = require("@azure/ai-projects");
+require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const agentModelDeployment =
@@ -33,29 +26,24 @@ const embeddingModelDeployment =
 const memoryStoreName = "my_memory_store_123";
 const scope = "user_123";
 
-function delay(ms: number): Promise<void> {
+function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export async function main(): Promise<void> {
+async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = await project.getOpenAIClient();
 
-  let conversationId: string | undefined;
-  let followUpConversationId: string | undefined;
-  let agentVersion:
-    | {
-        name: string;
-        version: string;
-      }
-    | undefined;
+  let conversationId;
+  let followUpConversationId;
+  let agentVersion;
 
   try {
     // Clean up an existing memory store if it already exists
     try {
       await project.memoryStores.delete(memoryStoreName);
       console.log(`Memory store '${memoryStoreName}' deleted`);
-    } catch (error: any) {
+    } catch (error) {
       if (error?.statusCode !== 404) {
         throw error;
       }
@@ -71,8 +59,8 @@ export async function main(): Promise<void> {
         options: {
           user_profile_enabled: true,
           chat_summary_enabled: true,
-        } satisfies MemoryStoreDefaultOptions,
-      } satisfies MemoryStoreDefaultDefinition,
+        },
+      },
       {
         description: "Memory store for agent conversations",
       },
@@ -86,7 +74,7 @@ export async function main(): Promise<void> {
     );
 
     // Configure Memory Search tool to attach to the agent
-    const memorySearchTool: MemorySearchTool = {
+    const memorySearchTool = {
       type: "memory_search",
       memory_store_name: memoryStore.name,
       scope,
@@ -159,7 +147,7 @@ export async function main(): Promise<void> {
     try {
       await project.memoryStores.delete(memoryStoreName);
       console.log("Memory store deleted");
-    } catch (error: any) {
+    } catch (error) {
       if (error?.statusCode !== 404) {
         throw error;
       }
@@ -172,3 +160,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

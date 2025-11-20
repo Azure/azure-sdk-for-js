@@ -8,8 +8,6 @@
  *
  * @summary Create an agent with Memory Search, capture memories from a conversation,
  * and retrieve them in a new conversation.
- *
- * @azsdk-weight 100
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
