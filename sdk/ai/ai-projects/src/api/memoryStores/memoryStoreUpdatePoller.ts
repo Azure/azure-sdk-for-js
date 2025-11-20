@@ -120,8 +120,7 @@ function applyUpdateState(
 
   if (terminalUpdateStatuses.includes(parsed.status)) {
     state.status = "succeeded";
-    state.result =
-      parsed.result ??
+    state.result = parsed.result ??
       state.result ?? {
         memory_operations: [],
         usage: createDefaultUsage(),
