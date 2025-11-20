@@ -311,6 +311,23 @@ export const AAD_AUTH_PREFIX = "type=aad&ver=1.0&sig=";
 export const AAD_RESOURCE_NOT_FOUND_ERROR = "AADSTS500011";
 
 /**
+ * @internal
+ * Internal query execution constants - not part of public API
+ */
+const QueryExecution = {
+  /** Default page size for query execution when maxItemCount is not specified */
+  DEFAULT_PAGE_SIZE: 10,
+  /** Default maximum buffer size for vector search queries */
+  DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE: 50000,
+} as const;
+
+/**
+ * @internal
+ * Export for internal SDK use only
+ */
+export { QueryExecution };
+
+/**
  * @hidden
  */
 export enum ResourceType {
