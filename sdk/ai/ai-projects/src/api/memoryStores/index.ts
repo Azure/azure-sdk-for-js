@@ -23,3 +23,7 @@ export {
   MemoryStoresUpdateMemoryStoreOptionalParams,
   MemoryStoresCreateMemoryStoreOptionalParams,
 } from "./options.js";
+export {
+  MemoryStoreUpdatePoller,
+  MemoryStoreUpdateOperationState,
+} from "./memoryStoreUpdatePoller.js";
