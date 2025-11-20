@@ -115,6 +115,12 @@ function applyUpdateState(
         ? new Error(parsed.error.message ?? "Memory update failed")
         : new Error("Memory update failed");
     }
+    // Initialize result with default value for consistency, even on failure
+    state.result = parsed.result ??
+      state.result ?? {
+        memory_operations: [],
+        usage: createDefaultUsage(),
+      };
     return;
   }
 
