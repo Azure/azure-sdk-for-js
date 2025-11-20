@@ -16,7 +16,6 @@ export function getHeaderName(): string {
 export async function setPlatformSpecificData(map: Map<string, string>): Promise<void> {
   if (Platform.constants?.reactNativeVersion) {
     const { major, minor, patch } = Platform.constants.reactNativeVersion;
-    map.set("react-native", `${major}.${minor}.${patch}`);
+    map.set("react-native", `${major}.${minor}.${patch} (${Platform.OS} ${Platform.Version})`);
   }
-  map.set("OS", `${Platform.OS}-${Platform.Version}`);
 }

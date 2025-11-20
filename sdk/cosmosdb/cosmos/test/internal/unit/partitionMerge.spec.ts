@@ -20,7 +20,7 @@ import {
   GlobalEndpointManager,
   StatusCodes,
 } from "../../../src/index.js";
-import { TestParallelQueryExecutionContext } from "./common/TestParallelQueryExecutionContext.js";
+import { TestParallelQueryExecutionContext } from "./common/testParallelQueryExecutionContext.js";
 import { SubStatusCodes } from "../../../src/common/index.js";
 import { describe, it, assert, expect, vi } from "vitest";
 
@@ -200,7 +200,6 @@ describe("Partition-Merge", function () {
     partitionedQueryExecutionInfo,
     correlatedActivityId,
   );
-  context["options"] = options;
 
   it("there should be 2 document producers in the unfilledDocumentProducersQueue as there are two partition key ranges", async function () {
     // Assert that the priority queue has 2 document producers

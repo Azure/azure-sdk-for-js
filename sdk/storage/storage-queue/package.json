@@ -98,7 +98,7 @@
     "@azure/core-util": "^1.11.0",
     "@azure/core-xml": "^1.4.3",
     "@azure/logger": "^1.1.4",
-    "@azure/storage-common": "^12.1.0",
+    "@azure/storage-common": "^12.1.1",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -109,7 +109,7 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",

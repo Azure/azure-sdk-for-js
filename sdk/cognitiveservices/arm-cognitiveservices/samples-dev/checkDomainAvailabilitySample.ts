@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  CheckDomainAvailabilityOptionalParams} from "@azure/arm-cognitiveservices";
 import {
-  CheckDomainAvailabilityOptionalParams,
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -12,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Check whether a domain is available.
  *
  * @summary Check whether a domain is available.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/CheckDomainAvailability.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/CheckDomainAvailability.json
  */
 async function checkSkuAvailability(): Promise<void> {
   const subscriptionId =

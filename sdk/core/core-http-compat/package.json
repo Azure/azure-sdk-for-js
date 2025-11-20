@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-http-compat",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "Core HTTP Compatibility Library to bridge the gap between Core V1 & V2 packages.",
   "sdk-type": "client",
   "type": "module",
@@ -76,7 +76,7 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "eslint": "catalog:",

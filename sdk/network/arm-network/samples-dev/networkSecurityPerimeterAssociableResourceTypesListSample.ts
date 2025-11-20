@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the list of resources that are onboarded with NSP. These resources can be associated with a network security perimeter
- *
- * @summary Gets the list of resources that are onboarded with NSP. These resources can be associated with a network security perimeter
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/PerimeterAssociableResourcesList.json
- */
-
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Gets the list of resources that are onboarded with NSP. These resources can be associated with a network security perimeter
+ *
+ * @summary Gets the list of resources that are onboarded with NSP. These resources can be associated with a network security perimeter
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PerimeterAssociableResourcesList.json
+ */
 async function networkSecurityPerimeterAssociableResourceTypes(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
   const location = "westus";

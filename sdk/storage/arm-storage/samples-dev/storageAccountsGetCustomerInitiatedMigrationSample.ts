@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the status of the ongoing migration for the specified storage account.
  *
  * @summary Gets the status of the ongoing migration for the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountGetMigrationFailed.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountGetMigrationFailed.json
  */
 async function storageAccountGetMigrationFailed(): Promise<void> {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function storageAccountGetMigrationFailed(): Promise<void> {
  * This sample demonstrates how to Gets the status of the ongoing migration for the specified storage account.
  *
  * @summary Gets the status of the ongoing migration for the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountGetMigrationInProgress.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountGetMigrationInProgress.json
  */
 async function storageAccountGetMigrationInProgress(): Promise<void> {
   const subscriptionId =

@@ -14,7 +14,7 @@ import {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import {
-  KnowledgeAgentsImpl,
+  KnowledgeBasesImpl,
   KnowledgeSourcesImpl,
   DataSourcesImpl,
   IndexersImpl,
@@ -24,7 +24,7 @@ import {
   AliasesImpl,
 } from "./operations/index.js";
 import {
-  KnowledgeAgents,
+  KnowledgeBases,
   KnowledgeSources,
   DataSources,
   Indexers,
@@ -36,7 +36,7 @@ import {
 import * as Parameters from "./models/parameters.js";
 import * as Mappers from "./models/mappers.js";
 import {
-  ApiVersion20250801Preview,
+  ApiVersion20251101Preview,
   SearchServiceClientOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetServiceStatisticsResponse,
@@ -47,7 +47,7 @@ import {
 /** @internal */
 export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
-  apiVersion: ApiVersion20250801Preview;
+  apiVersion: ApiVersion20251101Preview;
 
   /**
    * Initializes a new instance of the SearchServiceClient class.
@@ -57,7 +57,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20250801Preview,
+    apiVersion: ApiVersion20251101Preview,
     options?: SearchServiceClientOptionalParams,
   ) {
     if (endpoint === undefined) {
@@ -75,7 +75,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-search-documents/12.2.0-beta.3`;
+    const packageDetails = `azsdk-js-search-documents/12.3.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -93,7 +93,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
     // Parameter assignments
     this.endpoint = endpoint;
     this.apiVersion = apiVersion;
-    this.knowledgeAgents = new KnowledgeAgentsImpl(this);
+    this.knowledgeBases = new KnowledgeBasesImpl(this);
     this.knowledgeSources = new KnowledgeSourcesImpl(this);
     this.dataSources = new DataSourcesImpl(this);
     this.indexers = new IndexersImpl(this);
@@ -158,7 +158,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
     );
   }
 
-  knowledgeAgents: KnowledgeAgents;
+  knowledgeBases: KnowledgeBases;
   knowledgeSources: KnowledgeSources;
   dataSources: DataSources;
   indexers: Indexers;

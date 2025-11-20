@@ -1,23 +1,62 @@
 {
   "name": "@azure/template",
   "version": "1.0.13-beta.2",
-  "description": "Example project for learning how to build a client library",
+  "description": "A generated SDK for WidgetAnalyticsClient.",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "sideEffects": false,
+  "autoPublish": false,
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts",
+      "./api": "./src/api/index.ts",
+      "./api/widgets": "./src/api/widgets/index.ts",
+      "./models": "./src/models/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false,
+    "project": "../../../tsconfig.src.build.json"
+  },
+  "type": "module",
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
   "sdk-type": "client",
-  "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedClientContext.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "src/constants.ts",
-        "prefix": "SDK_VERSION"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
+        "path": "src/api/widgetAnalyticsContext.ts",
+        "prefix": "userAgentInfo"
       }
     ],
     "sampleConfiguration": {
@@ -26,70 +65,28 @@
       "productName": "Azure Template",
       "productSlugs": [],
       "apiRefLink": "https://learn.microsoft.com/javascript/api/",
-      "requiredResources": {
-        "Azure App Configuration": "https://learn.microsoft.com/azure/azure-app-configuration/"
-      }
-    },
-    "migrationDate": "2023-03-08T18:36:03.000Z"
+      "requiredResources": {}
+    }
   },
-  "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
-    "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "dev-tool run build-package && dev-tool run extract-api",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript ./swagger/README.md",
-    "lint": "eslint package.json src test",
-    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
-    "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets"
-  },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE"
-  ],
-  "repository": "github:Azure/azure-sdk-for-js",
-  "engines": {
-    "node": ">=20.0.0"
-  },
-  "keywords": [
-    "azure",
-    "cloud",
-    "typescript"
-  ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/README.md",
-  "sideEffects": false,
-  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.2",
-    "@azure/core-lro": "^2.7.0",
-    "@azure/core-rest-pipeline": "^1.19.0",
-    "@azure/core-tracing": "^1.2.0",
-    "@azure/logger": "^1.1.4",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-util": "^1.12.0",
+    "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",
@@ -101,21 +98,23 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
+  "scripts": {
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "build:samples": "echo skipped",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "execute:samples": "echo skipped",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"generated/**/*.{ts,cts,mts}\" \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "generate:client": "tsp-client update && npm run format && dev-tool customization apply-v2",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
+    "pack": "pnpm pack 2>&1",
+    "test": "npm run test:node && npm run test:browser",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+    "update-snippets": "dev-tool run update-snippets"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -136,10 +135,63 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/widgets": {
+      "browser": {
+        "types": "./dist/browser/api/widgets/index.d.ts",
+        "default": "./dist/browser/api/widgets/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/widgets/index.d.ts",
+        "default": "./dist/react-native/api/widgets/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/widgets/index.d.ts",
+        "default": "./dist/esm/api/widgets/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/widgets/index.d.ts",
+        "default": "./dist/commonjs/api/widgets/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
     }
   },
-  "type": "module",
-  "module": "./dist/esm/index.js",
-  "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js"
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
 }

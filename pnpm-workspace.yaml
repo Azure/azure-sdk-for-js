@@ -18,13 +18,13 @@ packages:
   - '!sdk/eventhub/event-hubs/test/stress/**'
 
 catalog:
-  '@types/node': ^20.19.0
+  '@types/node': ^20.19.25
   autorest: latest
   cross-env: ^7.0.3
-  eslint: ^9.33.0
+  eslint: ^9.39.1
   prettier: ^3.6.2
-  rimraf: ^6.0.1
-  tshy: ^3.0.0
+  rimraf: ^6.1.0
+  tshy: ^3.0.3
   tslib: ^2.8.1
   tsx: ^4.20.4
   typescript: ~5.9.3
@@ -35,22 +35,29 @@ catalogs:
     '@azure/arm-storage': 18.5.0
     '@azure/arm-webpubsub': 1.2.0
   internal:
-    '@azure/identity': 4.11.1
+    '@azure/identity': 4.13.0
   testing:
     '@rollup/plugin-inject': ^5.0.5
     '@types/chai': ^5.2.1
     '@types/chai-as-promised': ^8.0.2
-    '@vitest/browser': ^3.2.3
-    '@vitest/coverage-istanbul': ^3.2.3
-    '@vitest/expect': ^3.2.3
+    '@vitest/browser-playwright': ^4.0.8
+    '@vitest/coverage-istanbul': ^4.0.8
+    '@vitest/expect': ^4.0.6
     chai: ^6.2.0
     chai-as-promised: ^8.0.1
     chai-exclude: ^3.0.0
-    dotenv: ^16.0.0
-    nock: ^13.5.4
-    playwright: ^1.50.1
-    vitest: ^3.2.3
+    dotenv: ^16.6.1
+    nock: ^13.5.6
+    playwright: ^1.56.1
+    vitest: ^4.0.8
 
 linkWorkspacePackages: true
 
 minimumReleaseAge: 1440
+
+minimumReleaseAgeExclude:
+  - '@azure/*'
+  - '@azure-rest/*'
+  - '@microsoft/*'
+  - '@azure-tools/*'
+  - '@typespec/*'

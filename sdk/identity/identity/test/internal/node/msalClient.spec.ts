@@ -36,11 +36,8 @@ describe("MsalClient", function () {
       ({ cleanup, recorder } = await msalNodeTestSetup(ctx));
     });
 
-    it("supports getTokenByClientSecret", async function (ctx) {
-      if (isLiveMode()) {
-        // https://github.com/Azure/azure-sdk-for-js/issues/29929
-        ctx.skip();
-      }
+    it.skipIf(isLiveMode())("supports getTokenByClientSecret", async function () {
+      // https://github.com/Azure/azure-sdk-for-js/issues/29929
       const scopes = ["https://vault.azure.net/.default"];
       const clientSecret = env.IDENTITY_SP_CLIENT_SECRET || env.AZURE_CLIENT_SECRET!;
       const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
@@ -56,11 +53,8 @@ describe("MsalClient", function () {
       assert.isNotNaN(accessToken.expiresOnTimestamp);
     });
 
-    it("supports getTokenByDeviceCode", async function (ctx) {
-      if (isLiveMode()) {
-        // Skip in CI live tests since this credential requires user interaction.
-        ctx.skip();
-      }
+    it.skipIf(isLiveMode())("supports getTokenByDeviceCode", async function () {
+      // Skip in CI live tests since this credential requires user interaction.
       const scopes = ["https://vault.azure.net/.default"];
       const clientId = DeveloperSignOnClientId;
       const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;

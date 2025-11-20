@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Starts packet capture on Vpn connection in the specified resource group.
- *
- * @summary Starts packet capture on Vpn connection in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VpnConnectionStartPacketCaptureFilterData.json
- */
-
 import type {
   VpnConnectionPacketCaptureStartParameters,
   VpnConnectionsStartPacketCaptureOptionalParams} from "@azure/arm-network";
@@ -17,6 +10,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Starts packet capture on Vpn connection in the specified resource group.
+ *
+ * @summary Starts packet capture on Vpn connection in the specified resource group.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VpnConnectionStartPacketCaptureFilterData.json
+ */
 async function startPacketCaptureOnVpnConnectionWithFilter(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
@@ -45,7 +44,7 @@ async function startPacketCaptureOnVpnConnectionWithFilter(): Promise<void> {
  * This sample demonstrates how to Starts packet capture on Vpn connection in the specified resource group.
  *
  * @summary Starts packet capture on Vpn connection in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VpnConnectionStartPacketCapture.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VpnConnectionStartPacketCapture.json
  */
 async function startPacketCaptureOnVpnConnectionWithoutFilter(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
