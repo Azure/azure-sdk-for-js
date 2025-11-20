@@ -579,7 +579,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         validateTokenStructure(
           parsedToken,
           testCase.expectedTokenStructure,
-          testCase.expectedTokenValues
+          testCase.expectedTokenValues,
         );
 
         await testTokenReusability(
@@ -610,7 +610,10 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       items.push(...result.resources);
       if (result.continuationToken) {
         tokens.push(result.continuationToken);
-        queryIterator = container.items.query(query, { ...queryOptions, continuationToken: result.continuationToken });
+        queryIterator = container.items.query(query, {
+          ...queryOptions,
+          continuationToken: result.continuationToken,
+        });
       }
     }
     return { items, tokens };
@@ -668,7 +671,12 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         expect(Array.isArray(parsed.orderByItems)).toBe(true);
       }
 
-      await testMultipleTokenReuse(singlePartitionContainer, query, collectedTokens, queryOptions.maxItemCount);
+      await testMultipleTokenReuse(
+        singlePartitionContainer,
+        query,
+        collectedTokens,
+        queryOptions.maxItemCount,
+      );
     });
 
     it("should handle complex WHERE clauses with ORDER BY", async () => {
@@ -993,7 +1001,12 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       const query = "SELECT * FROM c ORDER BY c.amount ASC";
       const queryOptions = { maxItemCount: 10, enableQueryControl: true };
 
-      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions, true);
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+        true,
+      );
 
       validateNumericOrdering(allResults, "amount", true);
       expect(allResults.length).toBeGreaterThan(10);
@@ -1003,7 +1016,11 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       const query = "SELECT * FROM c";
       const queryOptions = { maxItemCount: 15, enableQueryControl: true };
 
-      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions);
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+      );
 
       const categoriesEncountered = new Set<string>();
       allResults.forEach((item) => categoriesEncountered.add(item.category));
@@ -1023,7 +1040,12 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       const query = "SELECT DISTINCT c.category FROM c ORDER BY c.category ASC";
       const queryOptions = { maxItemCount: 3, enableQueryControl: true };
 
-      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions, true);
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+        true,
+      );
       const categories = allResults.map((r) => r.category);
       const uniqueCategories = [...new Set(categories)];
 
@@ -1034,7 +1056,12 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     it("should handle OFFSET LIMIT queries with continuation", async () => {
       const query = "SELECT * FROM c ORDER BY c.amount ASC OFFSET 10 LIMIT 20";
       const queryOptions = { maxItemCount: 8, enableQueryControl: true };
-      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions, true);
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+        true,
+      );
       expect(allResults.length).toBeLessThanOrEqual(20);
     });
 
@@ -1042,7 +1069,12 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       // Test scenario where offset (25) is greater than maxItemCount (5)
       const query = "SELECT * FROM c ORDER BY c.amount ASC OFFSET 25 LIMIT 10";
       const queryOptions = { maxItemCount: 5, enableQueryControl: true };
-      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions, true);
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+        true,
+      );
 
       expect(allResults.length).equal(10);
       validateNumericOrdering(allResults, "amount", true);
@@ -1051,14 +1083,22 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     it("should handle TOP queries with continuation", async () => {
       const query = "SELECT TOP 15 * FROM c ORDER BY c.amount DESC";
       const queryOptions = { maxItemCount: 5, enableQueryControl: true };
-      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions);
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+      );
       expect(allResults.length).toBeLessThanOrEqual(15);
       validateNumericOrdering(allResults, "amount", false);
     });
     it("should handle parallel queries (no ORDER BY) with continuation", async () => {
       const query = "SELECT * FROM c WHERE c.amount > 50";
       const queryOptions = { maxItemCount: 6, enableQueryControl: true };
-      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions);
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+      );
       const partitionsEncountered = new Set<string>();
       allResults.forEach((item) => {
         partitionsEncountered.add(item.category);
@@ -1069,7 +1109,11 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     it("should handle complex ORDER BY with multiple fields and continuation", async () => {
       const query = "SELECT * FROM c ORDER BY c.category ASC, c.amount DESC, c.name ASC";
       const queryOptions = { maxItemCount: 4, enableQueryControl: true };
-      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions);
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+      );
 
       // Validate complex ordering (category ASC, amount DESC, name ASC)
       for (let i = 1; i < allResults.length; i++) {
@@ -1090,7 +1134,11 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       const query =
         "SELECT c.id, c.name, c.category, t.tag as tagValue FROM c JOIN t IN c.tags ORDER BY c.id";
       const queryOptions = { maxItemCount: 20, enableQueryControl: true };
-      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions);
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+      );
 
       expect(allResults.length).toBeGreaterThan(0);
       allResults.forEach((item) => expect(item.id).toBeDefined());
@@ -1247,10 +1295,12 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         }
 
         if (missingIds.length > 0) {
-          expect.fail(`Missing IDs (${missingIds.length}): ${missingIds.slice(0, 10).join(', ')}`);
+          expect.fail(`Missing IDs (${missingIds.length}): ${missingIds.slice(0, 10).join(", ")}`);
         }
         if (unexpectedIds.length > 0) {
-          expect.fail(`Unexpected IDs (${unexpectedIds.length}): ${unexpectedIds.slice(0, 10).join(', ')}`);
+          expect.fail(
+            `Unexpected IDs (${unexpectedIds.length}): ${unexpectedIds.slice(0, 10).join(", ")}`,
+          );
         }
 
         expect(missingIds.length).toBe(0);
@@ -1417,10 +1467,10 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         const { missingIds, unexpectedIds } = validateCollectedIds(allCollectedIds);
 
         if (missingIds.length > 0) {
-          expect.fail(`First 10 missing IDs: ${missingIds.slice(0, 10).join(', ')}`);
+          expect.fail(`First 10 missing IDs: ${missingIds.slice(0, 10).join(", ")}`);
         }
         if (unexpectedIds.length > 0) {
-          expect.fail(`First 10 unexpected IDs: ${unexpectedIds.slice(0, 10).join(', ')}`);
+          expect.fail(`First 10 unexpected IDs: ${unexpectedIds.slice(0, 10).join(", ")}`);
         }
 
         expect(missingIds.length).toBe(0);
@@ -1556,13 +1606,14 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         }
 
         // 4. Verify all expected IDs are present
-        const { missingIds: orderByMissingIds, unexpectedIds: orderByUnexpectedIds } = validateCollectedIds(allCollectedIds);
+        const { missingIds: orderByMissingIds, unexpectedIds: orderByUnexpectedIds } =
+          validateCollectedIds(allCollectedIds);
 
         if (orderByMissingIds.length > 0) {
-          expect.fail(`First 10 missing IDs: ${orderByMissingIds.slice(0, 10).join(', ')}`);
+          expect.fail(`First 10 missing IDs: ${orderByMissingIds.slice(0, 10).join(", ")}`);
         }
         if (orderByUnexpectedIds.length > 0) {
-          expect.fail(`First 10 unexpected IDs: ${orderByUnexpectedIds.slice(0, 10).join(', ')}`);
+          expect.fail(`First 10 unexpected IDs: ${orderByUnexpectedIds.slice(0, 10).join(", ")}`);
         }
 
         expect(orderByMissingIds.length).toBe(0);
@@ -1592,7 +1643,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
   function validateTokenStructure(
     parsedToken: any,
     expectedStructure: any,
-    expectedValues?: any
+    expectedValues?: any,
   ): void {
     // Validate structure properties
     if (expectedStructure.hasRangeMappings) {
@@ -1653,7 +1704,9 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         expect(parsedToken.skipCount).toBe(expectedValues.skipCountInitial);
       }
       if (expectedValues.skipCountGreaterThanOrEqual !== undefined) {
-        expect(parsedToken.skipCount).toBeGreaterThanOrEqual(expectedValues.skipCountGreaterThanOrEqual);
+        expect(parsedToken.skipCount).toBeGreaterThanOrEqual(
+          expectedValues.skipCountGreaterThanOrEqual,
+        );
       }
       if (expectedValues.offsetValue !== undefined) {
         expect(parsedToken.offset).toBe(expectedValues.offsetValue);
@@ -1753,8 +1806,20 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
   /**
    * Populate multi-partition container with test data (supports both small and large datasets)
    */
-  async function populateMultiPartitionData(container: Container, itemCount: number = 80): Promise<void> {
-    const categories = ["electronics", "books", "clothing", "toys", "home", "sports", "food", "auto"];
+  async function populateMultiPartitionData(
+    container: Container,
+    itemCount: number = 80,
+  ): Promise<void> {
+    const categories = [
+      "electronics",
+      "books",
+      "clothing",
+      "toys",
+      "home",
+      "sports",
+      "food",
+      "auto",
+    ];
     const items = [];
 
     for (let i = 0; i < itemCount; i++) {
@@ -1774,7 +1839,10 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         details: {
           manufacturer: `mfg-${i % 6}`,
           model: `model-${i % 8}`,
-          specs: { weight: Math.random() * 10, dimensions: `${Math.floor(Math.random() * 20)}x${Math.floor(Math.random() * 20)}` },
+          specs: {
+            weight: Math.random() * 10,
+            dimensions: `${Math.floor(Math.random() * 20)}x${Math.floor(Math.random() * 20)}`,
+          },
         },
       });
     }
