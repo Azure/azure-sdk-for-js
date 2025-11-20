@@ -1,27 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { QueryRangeWithContinuationToken } from "./CompositeQueryContinuationToken.js";
+import type {
+  QueryRangeWithContinuationToken,
+  BaseContinuationToken,
+} from "./CompositeQueryContinuationToken.js";
 
 /**
  * Continuation token for order by queries.
  * @hidden
  */
-export interface OrderByQueryContinuationToken {
-  /**
-   * List of query ranges with their continuation tokens
-   */
-  rangeMappings: QueryRangeWithContinuationToken[];
-
+export interface OrderByQueryContinuationToken extends BaseContinuationToken {
   /**
    * Order by items for the query
    */
   orderByItems: any[];
-
-  /**
-   * Resource ID of the container for which the continuation token is issued
-   */
-  rid: string;
 
   /**
    * Number of items to skip in the query
@@ -32,16 +25,6 @@ export interface OrderByQueryContinuationToken {
    * Document ID of the last document result
    */
   documentRid: string;
-
-  /**
-   * Current offset value for OFFSET/LIMIT queries
-   */
-  offset?: number;
-
-  /**
-   * Current limit value for OFFSET/LIMIT queries
-   */
-  limit?: number;
 
   /**
    * Hash of the last document result for distinct order queries

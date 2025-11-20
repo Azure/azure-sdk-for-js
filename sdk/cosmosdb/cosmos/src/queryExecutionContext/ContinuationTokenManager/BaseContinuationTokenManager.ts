@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 import type { QueryRangeMapping } from "../queryRangeMapping.js";
-import type {
-  QueryRangeWithContinuationToken,
-  RangeBoundary,
+import {
+  parseBaseContinuationToken,
+  type QueryRangeWithContinuationToken,
+  type RangeBoundary,
 } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import type {
   PartitionRangeUpdate,
@@ -22,6 +23,15 @@ export abstract class BaseContinuationTokenManager {
   private ranges: QueryRangeWithContinuationToken[] = [];
   private readonly partitionRangeManager: PartitionRangeManager = new PartitionRangeManager();
 
+  constructor(initialContinuationToken?: string) {
+    if (initialContinuationToken) {
+      const token = parseBaseContinuationToken(initialContinuationToken);
+      if (token?.rangeMappings) {
+        this.ranges = token.rangeMappings;
+      }
+    }
+  }
+
   /**
    * Provides controlled access to partition range manager for subclasses.
    * This is the only protected access point needed.
@@ -38,9 +48,11 @@ export abstract class BaseContinuationTokenManager {
     return this.ranges;
   }
 
-  protected set rangeList(ranges: QueryRangeWithContinuationToken[]) {
-    this.ranges = ranges;
-  }
+  /**
+   * Gets the current continuation token for serialization.
+   * Returns undefined if no token exists or query is exhausted.
+   */
+  protected abstract getCurrentContinuationToken(): any;
 
   /**
    * Processes query results and generates continuation tokens for pagination.
@@ -92,12 +104,6 @@ export abstract class BaseContinuationTokenManager {
   ): void;
 
   /**
-   * Gets the current continuation token for serialization.
-   * Returns undefined if no token exists or query is exhausted.
-   */
-  protected abstract getCurrentContinuationToken(): any;
-
-  /**
    * Gets the serialization function for the specific continuation token type.
    */
   protected abstract getSerializationFunction(): (token: any) => string;
@@ -106,7 +112,7 @@ export abstract class BaseContinuationTokenManager {
    * Generates continuation token string using the appropriate serialization function.
    * This provides a common implementation that delegates to query-specific logic.
    */
-  protected generateContinuationTokenString(): string | undefined {
+  private generateContinuationTokenString(): string | undefined {
     const token = this.getCurrentContinuationToken();
     if (!token) {
       return undefined;

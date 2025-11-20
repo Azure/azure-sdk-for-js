@@ -22,12 +22,11 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   private readonly collectionLink: string;
 
   constructor(collectionLink: string, initialContinuationToken?: string) {
-    super();
+    super(initialContinuationToken);
     this.collectionLink = collectionLink;
     this.orderByItemsArray = [];
     if (initialContinuationToken) {
       this.continuationToken = parseOrderByQueryContinuationToken(initialContinuationToken);
-      this.rangeList = this.continuationToken?.rangeMappings || [];
     }
   }
 

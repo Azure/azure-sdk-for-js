@@ -13,11 +13,8 @@ import { QueryRange } from "../../../../../src/routing/QueryRange.js";
  * This implementation focuses on testing the partition range split/merge functionality.
  */
 class TestContinuationTokenManager extends BaseContinuationTokenManager {
-  constructor(_collectionLink: string, initialRanges?: QueryRangeWithContinuationToken[]) {
-    super();
-    if (initialRanges) {
-      this.rangeList = [...initialRanges];
-    }
+  constructor(_collectionLink: string, initialToken?: string) {
+    super(initialToken);
   }
 
   // Implement required abstract methods for testing
@@ -26,10 +23,6 @@ class TestContinuationTokenManager extends BaseContinuationTokenManager {
     _isResponseEmpty: boolean,
   ): { endIndex: number; processedRanges: string[] } {
     return { endIndex: 0, processedRanges: [] };
-  }
-
-  protected generateContinuationTokenString(): string | undefined {
-    return undefined;
   }
 
   protected processQuerySpecificResponse(_responseResult: ParallelQueryResult): void {
@@ -48,13 +41,17 @@ class TestContinuationTokenManager extends BaseContinuationTokenManager {
     return (token: any) => JSON.stringify(token); // Simple serialization for tests
   }
 
-  // Expose methods needed for testing partition range management
+  // Expose rangeList for testing via getter
   public getRanges(): QueryRangeWithContinuationToken[] {
     return this.rangeList;
   }
 
-  public setRanges(ranges: QueryRangeWithContinuationToken[]): void {
-    this.rangeList = ranges;
+  /**
+   * Test helper to initialize ranges directly for partition range update testing.
+   */
+  public initializeTestRanges(ranges: QueryRangeWithContinuationToken[]): void {
+    // Clear existing ranges and add new ones
+    this.rangeList.splice(0, this.rangeList.length, ...ranges);
   }
 
   /**
@@ -84,7 +81,7 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
   describe("Initial Setup with 5 Ranges", () => {
     it("should initialize with 5 partition ranges", () => {
       const initialRanges = createFivePartitionRanges();
-      tokenManager.setRanges(initialRanges);
+      tokenManager.initializeTestRanges(initialRanges);
 
       const ranges = tokenManager.getRanges();
       expect(ranges).toHaveLength(5);
@@ -98,7 +95,7 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
   describe("Partition Range Splits", () => {
     beforeEach(() => {
       const initialRanges = createFivePartitionRanges();
-      tokenManager.setRanges(initialRanges);
+      tokenManager.initializeTestRanges(initialRanges);
     });
 
     const splitTestCases = [
@@ -214,7 +211,7 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
   describe("Partition Range Merges", () => {
     beforeEach(() => {
       const initialRanges = createFivePartitionRanges();
-      tokenManager.setRanges(initialRanges);
+      tokenManager.initializeTestRanges(initialRanges);
     });
 
     const mergeTestCases = [
@@ -291,7 +288,7 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
   describe("Mixed Split and Merge Operations", () => {
     beforeEach(() => {
       const initialRanges = createFivePartitionRanges();
-      tokenManager.setRanges(initialRanges);
+      tokenManager.initializeTestRanges(initialRanges);
     });
 
     it("should handle simultaneous splits and merges", () => {
@@ -351,7 +348,7 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
   describe("Edge Cases and Error Scenarios", () => {
     beforeEach(() => {
       const initialRanges = createFivePartitionRanges();
-      tokenManager.setRanges(initialRanges);
+      tokenManager.initializeTestRanges(initialRanges);
     });
 
     interface EdgeCaseTestCase {
@@ -484,7 +481,7 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
   describe("Continuation Token Validation", () => {
     beforeEach(() => {
       const initialRanges = createFivePartitionRanges();
-      tokenManager.setRanges(initialRanges);
+      tokenManager.initializeTestRanges(initialRanges);
     });
 
     const tokenTestCases = [

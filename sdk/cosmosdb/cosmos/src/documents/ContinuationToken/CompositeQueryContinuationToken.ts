@@ -20,9 +20,9 @@ export interface RangeBoundary {
 
 /**
  * @hidden
- * Composite continuation token for parallel query execution across multiple partition ranges
+ * Base interface for all continuation tokens containing common fields
  */
-export interface CompositeQueryContinuationToken {
+export interface BaseContinuationToken {
   /**
    * Resource ID of the container for which the continuation token is issued
    */
@@ -43,6 +43,12 @@ export interface CompositeQueryContinuationToken {
    */
   limit?: number;
 }
+
+/**
+ * @hidden
+ * Composite continuation token for parallel query execution across multiple partition ranges
+ */
+export interface CompositeQueryContinuationToken extends BaseContinuationToken {}
 
 /**
  * Creates a new CompositeQueryContinuationToken
@@ -85,6 +91,14 @@ export function serializeCompositeToken(token: CompositeQueryContinuationToken):
 export function parseCompositeQueryContinuationToken(
   tokenString: string,
 ): CompositeQueryContinuationToken {
+  return JSON.parse(tokenString);
+}
+
+/**
+ * Deserializes a JSON string to a CompositeQueryContinuationToken
+ * @hidden
+ */
+export function parseBaseContinuationToken(tokenString: string): BaseContinuationToken {
   return JSON.parse(tokenString);
 }
 

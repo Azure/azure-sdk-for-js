@@ -26,9 +26,8 @@ import type { QueryRangeMapping } from "./queryRangeMapping.js";
 import type {
   QueryRangeWithContinuationToken,
   RangeBoundary,
-  CompositeQueryContinuationToken,
+  BaseContinuationToken,
 } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
-import type { OrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import { createParallelQueryResult } from "./parallelQueryResult.js";
 import type {
   PartitionRangeUpdate,
@@ -446,7 +445,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @returns Array of processed ranges with EPK info
    */
   private async _handlePartitionRangeChanges(
-    parsed: OrderByQueryContinuationToken | CompositeQueryContinuationToken,
+    parsed: BaseContinuationToken,
   ): Promise<{ range: any; continuationToken?: string; epkMin?: string; epkMax?: string }[]> {
     const processedRanges: {
       range: any;
@@ -527,9 +526,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @returns Parsed continuation token object (ORDER BY or Parallel query token)
    * @throws ErrorResponse when continuation token is malformed or cannot be parsed
    */
-  private _parseContinuationToken(
-    continuationToken: string,
-  ): OrderByQueryContinuationToken | CompositeQueryContinuationToken {
+  private _parseContinuationToken(continuationToken: string): BaseContinuationToken {
     try {
       return this.queryProcessingStrategy.parseContinuationToken(continuationToken);
     } catch (e) {
