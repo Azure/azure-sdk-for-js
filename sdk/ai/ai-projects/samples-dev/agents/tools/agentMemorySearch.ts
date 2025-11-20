@@ -77,8 +77,12 @@ export async function main(): Promise<void> {
         description: "Memory store for agent conversations",
       },
     );
+    const chatModelUsed =
+      "chat_model" in memoryStore.definition
+        ? memoryStore.definition.chat_model
+        : chatModelDeployment;
     console.log(
-      `Created memory store: ${memoryStore.name} (${memoryStore.id}) using chat model '${memoryStore.definition.kind === "default" ? memoryStore.definition.chat_model : chatModelDeployment}'`,
+      `Created memory store: ${memoryStore.name} (${memoryStore.id}) using chat model '${chatModelUsed}'`,
     );
 
     // Configure Memory Search tool to attach to the agent
