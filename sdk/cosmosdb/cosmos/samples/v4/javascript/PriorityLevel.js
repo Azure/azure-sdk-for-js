@@ -4,7 +4,6 @@
 /**
  * @summary Demonstrates using Priority Level support with various Cosmos DB operations
  * Shows how Low/High priority levels affect request throttling behavior
- * and includes Change Feed Priority Level support
  */
 
 require("dotenv/config");
@@ -33,7 +32,7 @@ async function run() {
     id: containerId,
     partitionKey: {
       paths: ["/category"],
-      version: PartitionKeyDefinitionVersion.V1,
+      version: PartitionKeyDefinitionVersion.v2,
     },
     throughput: 11000,
   };
@@ -42,16 +41,17 @@ async function run() {
     const { container } = await database.containers.createIfNotExists(containerDef);
     console.log(`Created container with id: ${containerId}`);
 
-    // ========== CRUD Operations with Priority Level ==========
     console.log("\n========== CRUD Operations with Priority Level ==========\n");
 
     await demonstrateCreateWithPriority(container);
     await demonstrateReadWithPriority(container);
-    await demonstrateQueryWithPriority(container);
     await demonstrateUpdateWithPriority(container);
     await demonstrateDeleteWithPriority(container);
 
-    // ========== Change Feed with Priority Level ==========
+    console.log("\n========== Query with Priority Level ==========\n");
+
+    await demonstrateQueryWithPriority(container);
+
     console.log("\n========== Change Feed with Priority Level ==========\n");
 
     await demonstrateChangeFeedWithPriority(container);
@@ -67,7 +67,6 @@ async function run() {
 async function demonstrateCreateWithPriority(container) {
   logStep("Creating items with different priority levels");
 
-  // Create item with High Priority (default behavior, useful for critical operations)
   console.log("Creating item with High Priority...");
   const { resource: highPriorityItem } = await container.items.create(
     {
@@ -79,7 +78,6 @@ async function demonstrateCreateWithPriority(container) {
   );
   console.log(`✓ Created item: ${highPriorityItem?.id} with High Priority`);
 
-  // Create item with Low Priority (useful for background operations)
   console.log("Creating item with Low Priority...");
   const { resource: lowPriorityItem } = await container.items.create(
     {
@@ -91,7 +89,6 @@ async function demonstrateCreateWithPriority(container) {
   );
   console.log(`✓ Created item: ${lowPriorityItem?.id} with Low Priority`);
 
-  // Create multiple items with different priorities
   console.log("Creating multiple items with mixed priorities...");
   for (let i = 1; i <= 3; i++) {
     const priority = i % 2 === 0 ? PriorityLevel.Low : PriorityLevel.High;
@@ -111,21 +108,18 @@ async function demonstrateCreateWithPriority(container) {
 async function demonstrateReadWithPriority(container) {
   logStep("Reading items with different priority levels");
 
-  // Read single item with High Priority
   console.log("Reading item with High Priority...");
-  const { resource: item, statusCode } = await container
+  const { statusCode } = await container
     .item("high-priority-item", "important")
     .read({ priorityLevel: PriorityLevel.High });
   console.log(`✓ Read item with status code ${statusCode} using High Priority`);
 
-  // Read single item with Low Priority
   console.log("Reading item with Low Priority...");
   await container
     .item("low-priority-item", "background")
     .read({ priorityLevel: PriorityLevel.Low });
   console.log("✓ Read item using Low Priority");
 
-  // Read all items with Low Priority (background operation)
   console.log("Reading all items with Low Priority...");
   const { resources: allItems } = await container.items
     .readAll({ priorityLevel: PriorityLevel.Low })
@@ -136,23 +130,27 @@ async function demonstrateReadWithPriority(container) {
 async function demonstrateQueryWithPriority(container) {
   logStep("Querying items with different priority levels");
 
-  // Query with High Priority (critical queries)
   console.log("Querying items with High Priority...");
   const { resources: highPriorityResults } = await container.items
-    .query("SELECT * FROM c WHERE c.category = @category", {
-      parameters: [{ name: "@category", value: "important" }],
-    })
-    .setParameters({ priorityLevel: PriorityLevel.High })
+    .query(
+      {
+        query: "SELECT * FROM c WHERE c.category = @category",
+        parameters: [{ name: "@category", value: "important" }],
+      },
+      { priorityLevel: PriorityLevel.High },
+    )
     .fetchAll();
   console.log(`✓ Found ${highPriorityResults.length} items using High Priority query`);
 
-  // Query with Low Priority (background queries)
   console.log("Querying items with Low Priority...");
   const { resources: lowPriorityResults } = await container.items
-    .query("SELECT * FROM c WHERE c.category != @category", {
-      parameters: [{ name: "@category", value: "system" }],
-    })
-    .setParameters({ priorityLevel: PriorityLevel.Low })
+    .query(
+      {
+        query: "SELECT * FROM c WHERE c.category != @category",
+        parameters: [{ name: "@category", value: "system" }],
+      },
+      { priorityLevel: PriorityLevel.Low },
+    )
     .fetchAll();
   console.log(`✓ Found ${lowPriorityResults.length} items using Low Priority query`);
 }
@@ -222,7 +220,6 @@ async function demonstrateChangeFeedWithPriority(container) {
   await ingestData(container, 3, 4);
   await iterateChangeFeedFromContinuationToken(container, continuationToken, PriorityLevel.Low);
 
-  // ========== Change Feed with High Priority for partition key ==========
   logStep("Change Feed with High Priority for partition key");
 
   options = {
@@ -235,7 +232,6 @@ async function demonstrateChangeFeedWithPriority(container) {
   await ingestData(container, 5, 6);
   await iterateChangeFeedFromContinuationToken(container, continuationToken, PriorityLevel.High);
 
-  // ========== Change Feed with Low Priority for EPK Range ==========
   logStep("Change Feed with Low Priority for an EPK range");
 
   const epkRanges = await container.getFeedRanges();
@@ -249,7 +245,6 @@ async function demonstrateChangeFeedWithPriority(container) {
   await ingestData(container, 7, 8);
   await iterateChangeFeedFromContinuationToken(container, continuationToken, PriorityLevel.Low);
 
-  // ========== Change Feed with High Priority starting from now ==========
   logStep("Change Feed with High Priority starting from now");
 
   options = {
@@ -268,7 +263,6 @@ async function demonstrateChangeFeedWithPriority(container) {
     }
   }
 
-  // Ingest more data after establishing the "now" point
   await ingestData(container, 9, 10);
   await iterateChangeFeedFromContinuationToken(container, nowContinuationToken, PriorityLevel.High);
 }
