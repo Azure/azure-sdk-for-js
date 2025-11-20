@@ -8,6 +8,7 @@ import {
   ChangeFeedPolicy,
   ChangeFeedMode,
   PriorityLevel,
+  CosmosClient,
 } from "../../../src/index.js";
 import type { Container, ContainerDefinition } from "../../../src/index.js";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
@@ -22,8 +23,12 @@ import {
 import { FeedRangeInternal } from "../../../src/client/ChangeFeed/FeedRange.js";
 import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import { StatusCodes } from "../../../src/common/statusCodes.js";
+import { Constants } from "../../../src/common/constants.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
 import { skipTestForSignOff } from "../common/_testConfig.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import { addEntropy } from "../common/TestHelpers.js";
 
 describe("Change Feed Iterator", { timeout: 20000 }, () => {
   // delete all databases and create sample database
@@ -1315,21 +1320,39 @@ describe.skipIf(skipTestForSignOff)(
 
 describe("Change Feed with Priority Level", { timeout: 20000 }, () => {
   let container: Container;
+  let priorityLevelHeaderCaptured: string | undefined;
 
   beforeAll(async () => {
-    const containerDef: ContainerDefinition = {
+    const dbId = addEntropy("changefeedPriority");
+    const containerId = addEntropy("containerPriority");
+
+    const client = new CosmosClient({
+      endpoint,
+      key: masterKey,
+      plugins: [
+        {
+          on: "request",
+          plugin: async (context: any, diagNode: any, next: any) => {
+            // Capture the x-ms-cosmos-priority-level header from the request
+            if (context.headers && context.headers["x-ms-cosmos-priority-level"]) {
+              priorityLevelHeaderCaptured = context.headers["x-ms-cosmos-priority-level"];
+            }
+            const response = await next(context);
+            return response;
+          },
+        },
+      ],
+    });
+
+    const { database } = await client.databases.createIfNotExists({ id: dbId });
+    const { container: createdContainer } = await database.containers.createIfNotExists({
+      id: containerId,
       partitionKey: {
         paths: ["/name"],
         version: PartitionKeyDefinitionVersion.V1,
       },
-    };
-    const throughput: RequestOptions = { offerThroughput: 21000 };
-    container = await getTestContainer(
-      "changefeed Priority Level",
-      undefined,
-      containerDef,
-      throughput,
-    );
+    });
+    container = createdContainer;
 
     // Create initial items for testing
     for (let i = 1; i < 11; i++) {
@@ -1339,6 +1362,7 @@ describe("Change Feed with Priority Level", { timeout: 20000 }, () => {
   });
 
   it("should use PriorityLevel.Low for ChangeFeed operations", async () => {
+    priorityLevelHeaderCaptured = undefined;
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       maxItemCount: 5,
       changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
@@ -1360,9 +1384,15 @@ describe("Change Feed with Priority Level", { timeout: 20000 }, () => {
     }
 
     assert(processedItems >= 10, "Should have processed at least 10 items with Low priority");
+    assert.isDefined(
+      priorityLevelHeaderCaptured,
+      "Priority level header should be captured in request",
+    );
+    assert.equal(priorityLevelHeaderCaptured, "Low", "Priority level header should be 'Low'");
   });
 
   it("should use PriorityLevel.High for ChangeFeed operations", async () => {
+    priorityLevelHeaderCaptured = undefined;
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       maxItemCount: 5,
       changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
@@ -1384,6 +1414,11 @@ describe("Change Feed with Priority Level", { timeout: 20000 }, () => {
     }
 
     assert(processedItems >= 10, "Should have processed at least 10 items with High priority");
+    assert.isDefined(
+      priorityLevelHeaderCaptured,
+      "Priority level header should be captured in request",
+    );
+    assert.equal(priorityLevelHeaderCaptured, "High", "Priority level header should be 'High'");
   });
 
   it("should use PriorityLevel with ChangeFeedStartFrom.Now()", async () => {

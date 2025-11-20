@@ -275,11 +275,7 @@ async function demonstrateChangeFeedWithPriority(container: Container): Promise<
 
   // Ingest more data after establishing the "now" point
   await ingestData(container, 9, 10);
-  await iterateChangeFeedFromContinuationToken(
-    container,
-    nowContinuationToken,
-    PriorityLevel.High,
-  );
+  await iterateChangeFeedFromContinuationToken(container, nowContinuationToken, PriorityLevel.High);
 }
 
 // ========== Helper Functions ==========
@@ -313,7 +309,9 @@ async function iterateChangeFeedFromContinuationToken(
   };
   const iterator = container.items.getChangeFeedIterator(options);
   const levelStr = priorityLevel === PriorityLevel.Low ? "Low" : "High";
-  console.log(`✓ Resuming Change Feed iteration with continuation token using ${levelStr} priority`);
+  console.log(
+    `✓ Resuming Change Feed iteration with continuation token using ${levelStr} priority`,
+  );
   await iterateChangeFeed(iterator);
 }
 
