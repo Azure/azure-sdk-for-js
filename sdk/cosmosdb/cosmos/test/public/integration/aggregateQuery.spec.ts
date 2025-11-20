@@ -409,10 +409,10 @@ describe("Aggregate Query", { timeout: 20000 }, () => {
     // Regression test: MIN aggregate was incorrectly overwritten to undefined
     // when processing empty partitions (count:0) due to missing guard clause
     const multiPartitionContainer = await getTestContainer(
-      "MIN/MAX aggregate with empty partitions",
+      "MIN MAX aggregate with empty partitions",
       undefined,
       {
-        id: "multiPartitionMinMax",
+        id: "minmaxemptypartitions",
         partitionKey: { paths: ["/pk"] },
       },
       { offerThroughput: 12000 }, // Force multiple physical partitions
