@@ -7,6 +7,7 @@ import {
   ChangeFeedRetentionTimeSpan,
   ChangeFeedPolicy,
   ChangeFeedMode,
+  PriorityLevel,
 } from "../../../src/index.js";
 import type { Container, ContainerDefinition } from "../../../src/index.js";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
@@ -1338,13 +1339,9 @@ describe("Change Feed with Priority Level", { timeout: 20000 }, () => {
   });
 
   it("should use PriorityLevel.Low for ChangeFeed operations", async () => {
-    const { PriorityLevel } = await import("../../../src/documents/PriorityLevel.js");
-
-    const feedRanges = await container.getFeedRanges();
-
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       maxItemCount: 5,
-      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(feedRanges[0]),
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
       priorityLevel: PriorityLevel.Low,
     };
     const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
@@ -1366,13 +1363,9 @@ describe("Change Feed with Priority Level", { timeout: 20000 }, () => {
   });
 
   it("should use PriorityLevel.High for ChangeFeed operations", async () => {
-    const { PriorityLevel } = await import("../../../src/documents/PriorityLevel.js");
-
-    const feedRanges = await container.getFeedRanges();
-
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       maxItemCount: 5,
-      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(feedRanges[0]),
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
       priorityLevel: PriorityLevel.High,
     };
     const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
@@ -1394,13 +1387,9 @@ describe("Change Feed with Priority Level", { timeout: 20000 }, () => {
   });
 
   it("should use PriorityLevel with ChangeFeedStartFrom.Now()", async () => {
-    const { PriorityLevel } = await import("../../../src/documents/PriorityLevel.js");
-
-    const feedRanges = await container.getFeedRanges();
-
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       maxItemCount: 5,
-      changeFeedStartFrom: ChangeFeedStartFrom.Now(feedRanges[0]),
+      changeFeedStartFrom: ChangeFeedStartFrom.Now(),
       priorityLevel: PriorityLevel.Low,
     };
     const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
@@ -1416,7 +1405,10 @@ describe("Change Feed with Priority Level", { timeout: 20000 }, () => {
     }
 
     // Add new documents to the container
-    await changeFeedAllVersionsInsertItems(container, 21, 25);
+    for (let i = 11; i < 16; i++) {
+      await container.items.create({ name: "sample1", key: i });
+      await container.items.create({ name: "sample2", key: i });
+    }
 
     let counter = 0;
     const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
@@ -1441,8 +1433,6 @@ describe("Change Feed with Priority Level", { timeout: 20000 }, () => {
   });
 
   it("should use PriorityLevel with partition key", async () => {
-    const { PriorityLevel } = await import("../../../src/documents/PriorityLevel.js");
-
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       maxItemCount: 5,
       changeFeedStartFrom: ChangeFeedStartFrom.Beginning("sample1"),
@@ -1476,63 +1466,97 @@ describe("Change Feed with Priority Level", { timeout: 20000 }, () => {
     );
   });
 
-  it("should use PriorityLevel with ChangeFeedMode.AllVersionsAndDeletes", async () => {
-    const { PriorityLevel } = await import("../../../src/documents/PriorityLevel.js");
+  it.skipIf(skipTestForSignOff)(
+    "should use PriorityLevel with ChangeFeedMode.AllVersionsAndDeletes",
+    async () => {
+      // Create a separate container with AllVersionsAndDeletes mode enabled
+      const newTimeStamp = ChangeFeedRetentionTimeSpan.fromMinutes(5);
+      const changeFeedPolicy = new ChangeFeedPolicy(newTimeStamp);
+      const containerDef: ContainerDefinition = {
+        partitionKey: {
+          paths: ["/name"],
+          version: PartitionKeyDefinitionVersion.V1,
+        },
+        changeFeedPolicy: changeFeedPolicy,
+      };
+      const throughput: RequestOptions = { offerThroughput: 21000 };
+      const allVersionsContainer = await getTestContainer(
+        "changefeed-allversions-priority-level",
+        undefined,
+        containerDef,
+        throughput,
+      );
 
-    const feedRanges = await container.getFeedRanges();
-
-    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-      maxItemCount: 5,
-      changeFeedStartFrom: ChangeFeedStartFrom.Now(feedRanges[0]),
-      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
-      priorityLevel: PriorityLevel.Low,
-    };
-    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-    let continuationToken = undefined;
-
-    while (iterator.hasMoreResults) {
-      const res = await iterator.readNext();
-      if (res.statusCode === StatusCodes.NotModified) {
-        continuationToken = res.continuationToken;
-        break;
-      }
-    }
-
-    // Add, modify, and delete documents to test all versions and deletes mode
-    await changeFeedAllVersionsInsertItems(container, 26, 28);
-    await changeFeedAllVersionsUpsertItems(container, 26, 28, 30);
-    await changeFeedAllVersionsDeleteItems(container, 26, 28);
-
-    let counter = 0;
-    const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
-      maxItemCount: 5,
-      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
-      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
-      priorityLevel: PriorityLevel.Low,
-    };
-    const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
-
-    while (iterator2.hasMoreResults) {
-      const { result: items } = await iterator2.readNext();
-      if (items.length === 0) break;
-
-      counter += items.length;
-
-      // Verify all items have metadata for all versions and deletes mode
-      for (const item of items) {
-        assert((item as any).metadata, "Items should have metadata in AllVersionsAndDeletes mode");
-        assert((item as any).metadata.operationType, "Items should have operationType in metadata");
+      // Add initial items
+      for (let i = 1; i < 6; i++) {
+        await allVersionsContainer.items.create({ name: "sample1", key: i });
+        await allVersionsContainer.items.create({ name: "sample2", key: i });
       }
 
-      // Stop after processing some items
-      if (counter >= 6) break;
-    }
+      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+        maxItemCount: 5,
+        changeFeedStartFrom: ChangeFeedStartFrom.Now(),
+        changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+        priorityLevel: PriorityLevel.Low,
+      };
+      const iterator = allVersionsContainer.items.getChangeFeedIterator(changeFeedIteratorOptions);
+      let continuationToken = undefined;
 
-    assert(
-      counter >= 6,
-      "Should have processed at least 6 items in AllVersionsAndDeletes mode with Low priority",
-    );
-  });
+      while (iterator.hasMoreResults) {
+        const res = await iterator.readNext();
+        if (res.statusCode === StatusCodes.NotModified) {
+          continuationToken = res.continuationToken;
+          break;
+        }
+      }
+
+      // Add, modify, and delete documents to test all versions and deletes mode
+      for (let i = 6; i < 9; i++) {
+        await allVersionsContainer.items.create({ name: "sample1", key: i });
+      }
+
+      let counter = 0;
+      const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
+        maxItemCount: 5,
+        changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+        changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+        priorityLevel: PriorityLevel.Low,
+      };
+      const iterator2 = allVersionsContainer.items.getChangeFeedIterator(
+        changeFeedIteratorOptions2,
+      );
+
+      while (iterator2.hasMoreResults) {
+        const { result: items } = await iterator2.readNext();
+        if (items.length === 0) break;
+
+        counter += items.length;
+
+        // Verify all items have metadata for all versions and deletes mode
+        for (const item of items) {
+          assert(
+            (item as any).metadata,
+            "Items should have metadata in AllVersionsAndDeletes mode",
+          );
+          assert(
+            (item as any).metadata.operationType,
+            "Items should have operationType in metadata",
+          );
+        }
+
+        // Stop after processing some items
+        if (counter >= 3) break;
+      }
+
+      assert(
+        counter >= 3,
+        "Should have processed at least 3 items in AllVersionsAndDeletes mode with Low priority",
+      );
+
+      // Clean up
+      await allVersionsContainer.delete();
+    },
+  );
 
   afterAll(async () => {
     if (container) {

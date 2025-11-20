@@ -248,8 +248,8 @@ export function buildFeedOptions(
     feedOptions.throughputBucket = changeFeedOptions.throughputBucket;
   }
 
-  if (this.changeFeedOptions.priorityLevel) {
-    feedOptions.priorityLevel = this.changeFeedOptions.priorityLevel;
+  if (changeFeedOptions.priorityLevel) {
+    feedOptions.priorityLevel = changeFeedOptions.priorityLevel;
   }
 
   return feedOptions;
