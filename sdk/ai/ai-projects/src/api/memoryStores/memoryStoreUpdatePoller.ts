@@ -147,7 +147,7 @@ function buildRunningOperation(
       return toOperationResponse(initialResponse, expectedStatuses);
     },
     sendPollRequest: async (path: string, pollOptions?: { abortSignal?: AbortSignalLike }) => {
-      // The poll request would both listen to the user provided abort signal and the poller's own abort signal
+      // The poll request will both listen to the user provided abort signal and the poller's own abort signal
       function abortListener(): void {
         pollAbortController.abort();
       }
