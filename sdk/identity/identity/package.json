@@ -84,7 +84,7 @@
     "@azure/logger": "^1.0.0",
     "@azure/msal-browser": "^4.2.0",
     "@azure/msal-node": "^3.5.0",
-    "open": "^10.1.0",
+    "open": "^11.0.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
