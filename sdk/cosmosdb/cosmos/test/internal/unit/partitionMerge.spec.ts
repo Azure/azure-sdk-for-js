@@ -20,7 +20,7 @@ import {
   GlobalEndpointManager,
   StatusCodes,
 } from "../../../src/index.js";
-import { TestParallelQueryExecutionContext } from "./common/testParallelQueryExecutionContext.js";
+import { TestParallelQueryExecutionContext } from "./common/TestParallelQueryExecutionContext.js";
 import { SubStatusCodes } from "../../../src/common/index.js";
 import { describe, it, assert, expect, vi } from "vitest";
 
