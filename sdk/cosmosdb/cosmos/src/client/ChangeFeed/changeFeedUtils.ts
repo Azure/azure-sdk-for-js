@@ -17,6 +17,7 @@ import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal
 import { EncryptionProcessor } from "../../encryption/index.js";
 import { ChangeFeedMode } from "./ChangeFeedMode.js";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
+import type { FeedOptions } from "../../request/FeedOptions.js";
 
 /**
  * @hidden
@@ -112,6 +113,7 @@ export function buildInternalChangeFeedOptions(
   internalCfOptions.changeFeedMode = options?.changeFeedMode;
   internalCfOptions.excludedLocations = options?.excludedLocations;
   internalCfOptions.priorityLevel = options?.priorityLevel;
+  internalCfOptions.throughputBucket = options?.throughputBucket;
   // Default option of changefeed is to start from now.
   if (startFromNow) {
     internalCfOptions.startFromNow = true;
@@ -190,4 +192,65 @@ export async function decryptChangeFeedResponse(
     }
   }
   diagnosticNode.endEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation, count);
+}
+
+/**
+ * @hidden
+ *  Logic for building FeedOptions from change feed iterator options
+ */
+export function buildFeedOptions(
+  changeFeedOptions: InternalChangeFeedIteratorOptions,
+  continuationToken?: string,
+  startFromNow?: boolean,
+  startTime?: string,
+): FeedOptions {
+  const feedOptions: FeedOptions = {
+    initialHeaders: {},
+    useLatestVersionFeed: true,
+    useAllVersionsAndDeletesFeed: false,
+  };
+
+  if (typeof changeFeedOptions.maxItemCount === "number") {
+    feedOptions.maxItemCount = changeFeedOptions.maxItemCount;
+  }
+
+  if (changeFeedOptions.sessionToken) {
+    feedOptions.sessionToken = changeFeedOptions.sessionToken;
+  }
+
+  if (changeFeedOptions.excludedLocations) {
+    feedOptions.excludedLocations = changeFeedOptions.excludedLocations;
+  }
+
+  if (continuationToken) {
+    feedOptions.accessCondition = {
+      type: Constants.HttpHeaders.IfNoneMatch,
+      condition: continuationToken,
+    };
+  } else if (startFromNow) {
+    feedOptions.initialHeaders[Constants.HttpHeaders.IfNoneMatch] =
+      Constants.ChangeFeedIfNoneMatchStartFromNowHeader;
+  }
+
+  if (startTime) {
+    feedOptions.initialHeaders[Constants.HttpHeaders.IfModifiedSince] = startTime;
+  }
+
+  if (
+    changeFeedOptions.changeFeedMode &&
+    changeFeedOptions.changeFeedMode === ChangeFeedMode.AllVersionsAndDeletes
+  ) {
+    feedOptions.useAllVersionsAndDeletesFeed = true;
+    feedOptions.useLatestVersionFeed = false;
+  }
+
+  if (changeFeedOptions.throughputBucket) {
+    feedOptions.throughputBucket = changeFeedOptions.throughputBucket;
+  }
+
+  if (this.changeFeedOptions.priorityLevel) {
+    feedOptions.priorityLevel = this.changeFeedOptions.priorityLevel;
+  }
+
+  return feedOptions;
 }

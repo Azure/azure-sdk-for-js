@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to List Commitment Tiers.
  *
  * @summary List Commitment Tiers.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListCommitmentTiers.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListCommitmentTiers.json
  */
 async function listCommitmentTiers(): Promise<void> {
   const subscriptionId =

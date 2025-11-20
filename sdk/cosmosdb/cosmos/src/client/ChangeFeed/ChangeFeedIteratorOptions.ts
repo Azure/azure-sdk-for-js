@@ -40,4 +40,11 @@ export interface ChangeFeedIteratorOptions {
    * <p>Default value is null. By default all requests are of High priority</p>
    */
   priorityLevel?: PriorityLevel;
+  /**
+   * Throughput Bucket for a request.
+   *
+   * <p>Default value is null. In this case, the request can use 100% of the partition throughput. </p>
+   * For more information, visit [Cosmos DB throughput Bucketing](https://aka.ms/cosmsodb-bucketing).
+   */
+  throughputBucket?: number;
 }

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets list of Verifier Workspaces.
  *
  * @summary Gets list of Verifier Workspaces.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VerifierWorkspaceList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VerifierWorkspaceList.json
  */
 async function verifierWorkspaceList(): Promise<void> {
   const subscriptionId =

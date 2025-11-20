@@ -1,5 +1,26 @@
 # Release History
 
+## 34.2.0 (2025-11-12)
+
+### Features Added
+  - Added Interface CertificateAuthentication
+  - Interface ApplicationGatewayBackendSettings has a new optional parameter enableL4ClientIpPreservation
+  - Interface ApplicationGatewayOnDemandProbe has a new optional parameter enableProbeProxyProtocolHeader
+  - Interface ApplicationGatewayProbe has a new optional parameter enableProbeProxyProtocolHeader
+  - Interface LoadBalancer has a new optional parameter scope
+  - Interface NetworkManagerRoutingConfiguration has a new optional parameter routeTableUsageMode
+  - Interface PrivateLinkService has a new optional parameter accessMode
+  - Interface VirtualNetworkGatewayConnection has a new optional parameter authenticationType
+  - Interface VirtualNetworkGatewayConnection has a new optional parameter certificateAuthentication
+  - Added Type Alias AccessMode
+  - Added Type Alias ConnectionAuthenticationType
+  - Added Type Alias LoadBalancerScope
+  - Added Type Alias RouteTableUsageMode
+  - Added Enum KnownAccessMode
+  - Added Enum KnownConnectionAuthenticationType
+  - Added Enum KnownLoadBalancerScope
+  - Added Enum KnownRouteTableUsageMode
+
 ## 34.1.0 (2025-10-16)
 
 ### Features Added

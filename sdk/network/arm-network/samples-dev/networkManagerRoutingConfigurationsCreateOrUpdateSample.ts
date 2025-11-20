@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates a network manager routing configuration.
  *
  * @summary Creates or updates a network manager routing configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerRoutingConfigurationPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerRoutingConfigurationPut.json
  */
 async function createNetworkManagerRoutingConfiguration(): Promise<void> {
   const subscriptionId =
@@ -24,6 +24,7 @@ async function createNetworkManagerRoutingConfiguration(): Promise<void> {
   const configurationName = "myTestRoutingConfig";
   const routingConfiguration: NetworkManagerRoutingConfiguration = {
     description: "A sample policy",
+    routeTableUsageMode: "ManagedOnly",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);

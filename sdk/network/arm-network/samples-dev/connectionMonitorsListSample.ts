@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all connection monitors for the specified Network Watcher.
  *
  * @summary Lists all connection monitors for the specified Network Watcher.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkWatcherConnectionMonitorList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkWatcherConnectionMonitorList.json
  */
 async function listConnectionMonitors(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

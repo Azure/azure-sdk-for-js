@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists the specified static member.
  *
  * @summary Lists the specified static member.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerStaticMemberList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerStaticMemberList.json
  */
 async function staticMembersList(): Promise<void> {
   const subscriptionId =

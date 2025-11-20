@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets all network interfaces in a subscription.
  *
  * @summary Gets all network interfaces in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkInterfaceListAll.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkInterfaceListAll.json
  */
 async function listAllNetworkInterfaces(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

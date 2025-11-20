@@ -12,11 +12,14 @@ import type { Response, FeedOptions } from "../../request/index.js";
 import { ErrorResponse } from "../../request/index.js";
 import { CompositeContinuationToken } from "./CompositeContinuationToken.js";
 import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator.js";
-import { decryptChangeFeedResponse, extractOverlappingRanges } from "./changeFeedUtils.js";
+import {
+  buildFeedOptions,
+  decryptChangeFeedResponse,
+  extractOverlappingRanges,
+} from "./changeFeedUtils.js";
 import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions.js";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
-import { ChangeFeedMode } from "./ChangeFeedMode.js";
 /**
  * @hidden
  * Provides iterator for change feed for entire container or an epk range.
@@ -405,50 +408,12 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     feedRange: ChangeFeedRange,
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
-    const feedOptions: FeedOptions = {
-      initialHeaders: {},
-      useLatestVersionFeed: true,
-      useAllVersionsAndDeletesFeed: false,
-    };
-
-    if (typeof this.changeFeedOptions.maxItemCount === "number") {
-      feedOptions.maxItemCount = this.changeFeedOptions.maxItemCount;
-    }
-
-    if (this.changeFeedOptions.sessionToken) {
-      feedOptions.sessionToken = this.changeFeedOptions.sessionToken;
-    }
-
-    if (this.changeFeedOptions.excludedLocations) {
-      feedOptions.excludedLocations = this.changeFeedOptions.excludedLocations;
-    }
-
-    if (this.changeFeedOptions.priorityLevel) {
-      feedOptions.priorityLevel = this.changeFeedOptions.priorityLevel;
-    }
-
-    if (feedRange.continuationToken) {
-      feedOptions.accessCondition = {
-        type: Constants.HttpHeaders.IfNoneMatch,
-        condition: feedRange.continuationToken,
-      };
-    } else if (this.startFromNow) {
-      feedOptions.initialHeaders[Constants.HttpHeaders.IfNoneMatch] =
-        Constants.ChangeFeedIfNoneMatchStartFromNowHeader;
-    }
-
-    if (this.startTime) {
-      feedOptions.initialHeaders[Constants.HttpHeaders.IfModifiedSince] = this.startTime;
-    }
-
-    if (
-      this.changeFeedOptions.changeFeedMode &&
-      this.changeFeedOptions.changeFeedMode === ChangeFeedMode.AllVersionsAndDeletes
-    ) {
-      feedOptions.useAllVersionsAndDeletesFeed = true;
-      feedOptions.useLatestVersionFeed = false;
-    }
-
+    const feedOptions: FeedOptions = buildFeedOptions(
+      this.changeFeedOptions,
+      feedRange.continuationToken,
+      this.startFromNow,
+      this.startTime,
+    );
     const rangeId = await this.getPartitionRangeId(feedRange, diagnosticNode);
     if (this.clientContext.enableEncryption) {
       await this.container.checkAndInitializeEncryption();

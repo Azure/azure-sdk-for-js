@@ -24,4 +24,5 @@ export interface InternalChangeFeedIteratorOptions {
   excludedLocations?: string[];
 
   priorityLevel?: PriorityLevel;
+  throughputBucket?: number;
 }

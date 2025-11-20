@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to List Location Based ModelCapacities.
  *
  * @summary List Location Based ModelCapacities.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListLocationBasedModelCapacities.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListLocationBasedModelCapacities.json
  */
 async function listLocationBasedModelCapacities() {
   const subscriptionId =

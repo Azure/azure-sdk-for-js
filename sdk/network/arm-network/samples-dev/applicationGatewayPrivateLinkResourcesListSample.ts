@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all private link resources on an application gateway.
  *
  * @summary Lists all private link resources on an application gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/ApplicationGatewayPrivateLinkResourceList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/ApplicationGatewayPrivateLinkResourceList.json
  */
 async function listsAllPrivateLinkResourcesOnApplicationGateway(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

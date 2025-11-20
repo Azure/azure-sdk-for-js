@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates Verifier Workspace.
  *
  * @summary Updates Verifier Workspace.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VerifierWorkspacePatch.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VerifierWorkspacePatch.json
  */
 async function verifierWorkspacePatch(): Promise<void> {
   const subscriptionId =

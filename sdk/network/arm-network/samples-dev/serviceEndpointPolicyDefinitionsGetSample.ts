@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get the specified service endpoint policy definitions from service endpoint policy.
  *
  * @summary Get the specified service endpoint policy definitions from service endpoint policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/ServiceEndpointPolicyDefinitionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/ServiceEndpointPolicyDefinitionGet.json
  */
 async function getServiceEndpointDefinitionInServiceEndpointPolicy(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
