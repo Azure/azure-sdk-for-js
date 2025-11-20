@@ -16,6 +16,46 @@ export interface AdministratorMicrosoftEntraAdd {
   tenantId?: string;
 }
 
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponse {
   /** The error object. */
@@ -63,46 +103,6 @@ export interface ErrorAdditionalInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly info?: Record<string, unknown>;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 /** List of server administrators associated to Microsoft Entra principals. */
@@ -3342,8 +3342,7 @@ export interface AdministratorsMicrosoftEntraCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type AdministratorsMicrosoftEntraCreateOrUpdateResponse =
-  AdministratorsMicrosoftEntraCreateOrUpdateHeaders;
+export type AdministratorsMicrosoftEntraCreateOrUpdateResponse = AdministratorMicrosoftEntra;
 
 /** Optional parameters. */
 export interface AdministratorsMicrosoftEntraDeleteOptionalParams
@@ -3412,7 +3411,7 @@ export interface ServerThreatProtectionSettingsCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type ServerThreatProtectionSettingsCreateOrUpdateResponse =
-  ServerThreatProtectionSettingsCreateOrUpdateHeaders;
+  AdvancedThreatProtectionSettingsModel;
 
 /** Optional parameters. */
 export interface BackupsAutomaticAndOnDemandCreateOptionalParams
@@ -3424,7 +3423,7 @@ export interface BackupsAutomaticAndOnDemandCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type BackupsAutomaticAndOnDemandCreateResponse = BackupsAutomaticAndOnDemandCreateHeaders;
+export type BackupsAutomaticAndOnDemandCreateResponse = BackupAutomaticAndOnDemand;
 
 /** Optional parameters. */
 export interface BackupsAutomaticAndOnDemandDeleteOptionalParams
@@ -3515,7 +3514,7 @@ export interface ConfigurationsUpdateOptionalParams extends coreClient.Operation
 }
 
 /** Contains response data for the update operation. */
-export type ConfigurationsUpdateResponse = ConfigurationsUpdateHeaders;
+export type ConfigurationsUpdateResponse = Configuration;
 
 /** Optional parameters. */
 export interface ConfigurationsPutOptionalParams extends coreClient.OperationOptions {
@@ -3526,7 +3525,7 @@ export interface ConfigurationsPutOptionalParams extends coreClient.OperationOpt
 }
 
 /** Contains response data for the put operation. */
-export type ConfigurationsPutResponse = ConfigurationsPutHeaders;
+export type ConfigurationsPutResponse = Configuration;
 
 /** Optional parameters. */
 export interface ConfigurationsListByServerNextOptionalParams extends coreClient.OperationOptions {}
@@ -3543,7 +3542,7 @@ export interface DatabasesCreateOptionalParams extends coreClient.OperationOptio
 }
 
 /** Contains response data for the create operation. */
-export type DatabasesCreateResponse = DatabasesCreateHeaders;
+export type DatabasesCreateResponse = Database;
 
 /** Optional parameters. */
 export interface DatabasesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -3583,7 +3582,7 @@ export interface FirewallRulesCreateOrUpdateOptionalParams extends coreClient.Op
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type FirewallRulesCreateOrUpdateResponse = FirewallRulesCreateOrUpdateHeaders;
+export type FirewallRulesCreateOrUpdateResponse = FirewallRule;
 
 /** Optional parameters. */
 export interface FirewallRulesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -3751,7 +3750,7 @@ export interface PrivateEndpointConnectionsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnectionsUpdateHeaders;
+export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -3826,7 +3825,7 @@ export interface ServersCreateOrUpdateOptionalParams extends coreClient.Operatio
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ServersCreateOrUpdateResponse = ServersCreateOrUpdateHeaders;
+export type ServersCreateOrUpdateResponse = Server;
 
 /** Optional parameters. */
 export interface ServersUpdateOptionalParams extends coreClient.OperationOptions {
@@ -3837,7 +3836,7 @@ export interface ServersUpdateOptionalParams extends coreClient.OperationOptions
 }
 
 /** Contains response data for the update operation. */
-export type ServersUpdateResponse = ServersUpdateHeaders;
+export type ServersUpdateResponse = Server;
 
 /** Optional parameters. */
 export interface ServersDeleteOptionalParams extends coreClient.OperationOptions {
@@ -3959,7 +3958,7 @@ export interface VirtualEndpointsCreateOptionalParams extends coreClient.Operati
 }
 
 /** Contains response data for the create operation. */
-export type VirtualEndpointsCreateResponse = VirtualEndpointsCreateHeaders;
+export type VirtualEndpointsCreateResponse = VirtualEndpoint;
 
 /** Optional parameters. */
 export interface VirtualEndpointsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -3970,7 +3969,7 @@ export interface VirtualEndpointsUpdateOptionalParams extends coreClient.Operati
 }
 
 /** Contains response data for the update operation. */
-export type VirtualEndpointsUpdateResponse = VirtualEndpointsUpdateHeaders;
+export type VirtualEndpointsUpdateResponse = VirtualEndpoint;
 
 /** Optional parameters. */
 export interface VirtualEndpointsDeleteOptionalParams extends coreClient.OperationOptions {

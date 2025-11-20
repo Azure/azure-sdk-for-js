@@ -427,16 +427,16 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      headersMapper: Mappers.ConfigurationsUpdateHeaders,
+      bodyMapper: Mappers.Configuration,
     },
     201: {
-      headersMapper: Mappers.ConfigurationsUpdateHeaders,
+      bodyMapper: Mappers.Configuration,
     },
     202: {
-      headersMapper: Mappers.ConfigurationsUpdateHeaders,
+      bodyMapper: Mappers.Configuration,
     },
     204: {
-      headersMapper: Mappers.ConfigurationsUpdateHeaders,
+      bodyMapper: Mappers.Configuration,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -460,16 +460,16 @@ const putOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.ConfigurationsPutHeaders,
+      bodyMapper: Mappers.Configuration,
     },
     201: {
-      headersMapper: Mappers.ConfigurationsPutHeaders,
+      bodyMapper: Mappers.Configuration,
     },
     202: {
-      headersMapper: Mappers.ConfigurationsPutHeaders,
+      bodyMapper: Mappers.Configuration,
     },
     204: {
-      headersMapper: Mappers.ConfigurationsPutHeaders,
+      bodyMapper: Mappers.Configuration,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

@@ -362,16 +362,16 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.AdministratorsMicrosoftEntraCreateOrUpdateHeaders,
+      bodyMapper: Mappers.AdministratorMicrosoftEntra,
     },
     201: {
-      headersMapper: Mappers.AdministratorsMicrosoftEntraCreateOrUpdateHeaders,
+      bodyMapper: Mappers.AdministratorMicrosoftEntra,
     },
     202: {
-      headersMapper: Mappers.AdministratorsMicrosoftEntraCreateOrUpdateHeaders,
+      bodyMapper: Mappers.AdministratorMicrosoftEntra,
     },
     204: {
-      headersMapper: Mappers.AdministratorsMicrosoftEntraCreateOrUpdateHeaders,
+      bodyMapper: Mappers.AdministratorMicrosoftEntra,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

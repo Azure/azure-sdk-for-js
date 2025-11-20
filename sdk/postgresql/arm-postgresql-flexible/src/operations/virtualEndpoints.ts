@@ -469,16 +469,16 @@ const createOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.VirtualEndpointsCreateHeaders,
+      bodyMapper: Mappers.VirtualEndpoint,
     },
     201: {
-      headersMapper: Mappers.VirtualEndpointsCreateHeaders,
+      bodyMapper: Mappers.VirtualEndpoint,
     },
     202: {
-      headersMapper: Mappers.VirtualEndpointsCreateHeaders,
+      bodyMapper: Mappers.VirtualEndpoint,
     },
     204: {
-      headersMapper: Mappers.VirtualEndpointsCreateHeaders,
+      bodyMapper: Mappers.VirtualEndpoint,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -502,16 +502,16 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      headersMapper: Mappers.VirtualEndpointsUpdateHeaders,
+      bodyMapper: Mappers.VirtualEndpoint,
     },
     201: {
-      headersMapper: Mappers.VirtualEndpointsUpdateHeaders,
+      bodyMapper: Mappers.VirtualEndpoint,
     },
     202: {
-      headersMapper: Mappers.VirtualEndpointsUpdateHeaders,
+      bodyMapper: Mappers.VirtualEndpoint,
     },
     204: {
-      headersMapper: Mappers.VirtualEndpointsUpdateHeaders,
+      bodyMapper: Mappers.VirtualEndpoint,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

@@ -68,7 +68,7 @@ export interface AdministratorsMicrosoftEntraCreateOrUpdateOptionalParams extend
 }
 
 // @public
-export type AdministratorsMicrosoftEntraCreateOrUpdateResponse = AdministratorsMicrosoftEntraCreateOrUpdateHeaders;
+export type AdministratorsMicrosoftEntraCreateOrUpdateResponse = AdministratorMicrosoftEntra;
 
 // @public
 export interface AdministratorsMicrosoftEntraDeleteHeaders {
@@ -221,7 +221,7 @@ export interface BackupsAutomaticAndOnDemandCreateOptionalParams extends coreCli
 }
 
 // @public
-export type BackupsAutomaticAndOnDemandCreateResponse = BackupsAutomaticAndOnDemandCreateHeaders;
+export type BackupsAutomaticAndOnDemandCreateResponse = BackupAutomaticAndOnDemand;
 
 // @public
 export interface BackupsAutomaticAndOnDemandDeleteHeaders {
@@ -588,7 +588,7 @@ export interface ConfigurationsPutOptionalParams extends coreClient.OperationOpt
 }
 
 // @public
-export type ConfigurationsPutResponse = ConfigurationsPutHeaders;
+export type ConfigurationsPutResponse = Configuration;
 
 // @public
 export interface ConfigurationsUpdateHeaders {
@@ -605,7 +605,7 @@ export interface ConfigurationsUpdateOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type ConfigurationsUpdateResponse = ConfigurationsUpdateHeaders;
+export type ConfigurationsUpdateResponse = Configuration;
 
 // @public
 export type CreatedByType = string;
@@ -673,7 +673,7 @@ export interface DatabasesCreateOptionalParams extends coreClient.OperationOptio
 }
 
 // @public
-export type DatabasesCreateResponse = DatabasesCreateHeaders;
+export type DatabasesCreateResponse = Database;
 
 // @public
 export interface DatabasesDeleteHeaders {
@@ -830,7 +830,7 @@ export interface FirewallRulesCreateOrUpdateOptionalParams extends coreClient.Op
 }
 
 // @public
-export type FirewallRulesCreateOrUpdateResponse = FirewallRulesCreateOrUpdateHeaders;
+export type FirewallRulesCreateOrUpdateResponse = FirewallRule;
 
 // @public
 export interface FirewallRulesDeleteHeaders {
@@ -1919,7 +1919,7 @@ export interface PrivateEndpointConnectionsUpdateOptionalParams extends coreClie
 }
 
 // @public
-export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnectionsUpdateHeaders;
+export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection;
 
 // @public
 export type PrivateEndpointServiceConnectionStatus = string;
@@ -2165,7 +2165,7 @@ export interface ServersCreateOrUpdateOptionalParams extends coreClient.Operatio
 }
 
 // @public
-export type ServersCreateOrUpdateResponse = ServersCreateOrUpdateHeaders;
+export type ServersCreateOrUpdateResponse = Server;
 
 // @public
 export interface ServersDeleteHeaders {
@@ -2307,7 +2307,7 @@ export interface ServersUpdateOptionalParams extends coreClient.OperationOptions
 }
 
 // @public
-export type ServersUpdateResponse = ServersUpdateHeaders;
+export type ServersUpdateResponse = Server;
 
 // @public
 export interface ServerThreatProtectionSettings {
@@ -2330,7 +2330,7 @@ export interface ServerThreatProtectionSettingsCreateOrUpdateOptionalParams exte
 }
 
 // @public
-export type ServerThreatProtectionSettingsCreateOrUpdateResponse = ServerThreatProtectionSettingsCreateOrUpdateHeaders;
+export type ServerThreatProtectionSettingsCreateOrUpdateResponse = AdvancedThreatProtectionSettingsModel;
 
 // @public
 export interface ServerVersionCapability extends CapabilityBase {
@@ -2575,7 +2575,7 @@ export interface VirtualEndpointsCreateOptionalParams extends coreClient.Operati
 }
 
 // @public
-export type VirtualEndpointsCreateResponse = VirtualEndpointsCreateHeaders;
+export type VirtualEndpointsCreateResponse = VirtualEndpoint;
 
 // @public
 export interface VirtualEndpointsDeleteHeaders {
@@ -2636,7 +2636,7 @@ export interface VirtualEndpointsUpdateOptionalParams extends coreClient.Operati
 }
 
 // @public
-export type VirtualEndpointsUpdateResponse = VirtualEndpointsUpdateHeaders;
+export type VirtualEndpointsUpdateResponse = VirtualEndpoint;
 
 // @public
 export type VirtualEndpointType = string;

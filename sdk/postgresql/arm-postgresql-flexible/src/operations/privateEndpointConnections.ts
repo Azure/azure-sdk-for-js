@@ -201,6 +201,7 @@ export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnection
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -302,7 +303,7 @@ export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnection
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -396,16 +397,16 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.PrivateEndpointConnectionsUpdateHeaders,
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     201: {
-      headersMapper: Mappers.PrivateEndpointConnectionsUpdateHeaders,
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     202: {
-      headersMapper: Mappers.PrivateEndpointConnectionsUpdateHeaders,
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     204: {
-      headersMapper: Mappers.PrivateEndpointConnectionsUpdateHeaders,
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

@@ -362,16 +362,16 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.FirewallRulesCreateOrUpdateHeaders,
+      bodyMapper: Mappers.FirewallRule,
     },
     201: {
-      headersMapper: Mappers.FirewallRulesCreateOrUpdateHeaders,
+      bodyMapper: Mappers.FirewallRule,
     },
     202: {
-      headersMapper: Mappers.FirewallRulesCreateOrUpdateHeaders,
+      bodyMapper: Mappers.FirewallRule,
     },
     204: {
-      headersMapper: Mappers.FirewallRulesCreateOrUpdateHeaders,
+      bodyMapper: Mappers.FirewallRule,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

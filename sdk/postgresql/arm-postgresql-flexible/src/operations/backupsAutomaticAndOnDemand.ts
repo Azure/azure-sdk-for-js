@@ -349,16 +349,16 @@ const createOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.BackupsAutomaticAndOnDemandCreateHeaders,
+      bodyMapper: Mappers.BackupAutomaticAndOnDemand,
     },
     201: {
-      headersMapper: Mappers.BackupsAutomaticAndOnDemandCreateHeaders,
+      bodyMapper: Mappers.BackupAutomaticAndOnDemand,
     },
     202: {
-      headersMapper: Mappers.BackupsAutomaticAndOnDemandCreateHeaders,
+      bodyMapper: Mappers.BackupAutomaticAndOnDemand,
     },
     204: {
-      headersMapper: Mappers.BackupsAutomaticAndOnDemandCreateHeaders,
+      bodyMapper: Mappers.BackupAutomaticAndOnDemand,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

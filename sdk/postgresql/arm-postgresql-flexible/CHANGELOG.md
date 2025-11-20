@@ -1,6 +1,6 @@
 # Release History
 
-## 9.0.0 (2025-11-12)
+## 9.0.0 (2025-11-20)
 
 ### Features Added
   - Added operation group AdministratorsMicrosoftEntra
@@ -288,11 +288,7 @@
   - Removed operation ServerThreatProtectionSettings.get
   - Removed operation ServerThreatProtectionSettings.listByServer
   - Removed operation VirtualNetworkSubnetUsage.execute
-  - Operation Configurations.beginPutAndWait has a new signature
-  - Operation Configurations.beginUpdateAndWait has a new signature
-  - Operation Databases.beginCreateAndWait has a new signature
   - Operation Databases.beginDeleteAndWait has a new signature
-  - Operation FirewallRules.beginCreateOrUpdateAndWait has a new signature
   - Operation FirewallRules.beginDeleteAndWait has a new signature
   - Operation Migrations.create has a new signature
   - Operation Migrations.get has a new signature
@@ -304,9 +300,6 @@
   - Operation Servers.beginStopAndWait has a new signature
   - Operation Servers.beginUpdate has a new signature
   - Operation Servers.beginUpdateAndWait has a new signature
-  - Operation ServerThreatProtectionSettings.beginCreateOrUpdateAndWait has a new signature
-  - Operation VirtualEndpoints.beginCreateAndWait has a new signature
-  - Operation VirtualEndpoints.beginUpdateAndWait has a new signature
   - Class PostgreSQLManagementFlexibleServerClient has a new signature
   - Class PostgreSQLManagementFlexibleServerClient no longer has parameter administrators
   - Class PostgreSQLManagementFlexibleServerClient no longer has parameter backups
@@ -391,14 +384,6 @@
   - Removed Type Alias TriggerCutoverEnum
   - Removed Type Alias ZoneRedundantHaAndGeoBackupSupportedEnum
   - Removed Type Alias ZoneRedundantHaSupportedEnum
-  - Type alias "ConfigurationsPutResponse" has been changed
-  - Type alias "ConfigurationsUpdateResponse" has been changed
-  - Type alias "DatabasesCreateResponse" has been changed
-  - Type alias "FirewallRulesCreateOrUpdateResponse" has been changed
-  - Type alias "ServersUpdateResponse" has been changed
-  - Type alias "ServerThreatProtectionSettingsCreateOrUpdateResponse" has been changed
-  - Type alias "VirtualEndpointsCreateResponse" has been changed
-  - Type alias "VirtualEndpointsUpdateResponse" has been changed
   - Removed Enum KnownActiveDirectoryAuthEnum
   - Removed Enum KnownArmServerKeyType
   - Removed Enum KnownAzureManagedDiskPerformanceTiers

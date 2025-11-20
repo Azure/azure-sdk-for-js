@@ -144,16 +144,16 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.ServerThreatProtectionSettingsCreateOrUpdateHeaders,
+      bodyMapper: Mappers.AdvancedThreatProtectionSettingsModel,
     },
     201: {
-      headersMapper: Mappers.ServerThreatProtectionSettingsCreateOrUpdateHeaders,
+      bodyMapper: Mappers.AdvancedThreatProtectionSettingsModel,
     },
     202: {
-      headersMapper: Mappers.ServerThreatProtectionSettingsCreateOrUpdateHeaders,
+      bodyMapper: Mappers.AdvancedThreatProtectionSettingsModel,
     },
     204: {
-      headersMapper: Mappers.ServerThreatProtectionSettingsCreateOrUpdateHeaders,
+      bodyMapper: Mappers.AdvancedThreatProtectionSettingsModel,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
