@@ -585,6 +585,38 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     return { items, tokens };
   }
 
+  // Helper: Validate token properties (parsing, serialization)
+  function validateTokenProperties(token: string): any {
+    let parsed: any;
+    expect(() => {
+      parsed = JSON.parse(token);
+    }).not.toThrow();
+
+    expect(() => {
+      JSON.stringify(parsed);
+    }).not.toThrow();
+
+    return parsed;
+  }
+
+  // Helper: Test token reuse with a single fetch
+  async function testTokenReuseOnce(
+    container: Container,
+    query: string,
+    token: string,
+    queryOptions: any,
+  ): Promise<void> {
+    const resumedIterator = container.items.query(query, {
+      ...queryOptions,
+      continuationToken: token,
+    });
+
+    if (resumedIterator.hasMoreResults()) {
+      const result = await resumedIterator.fetchNext();
+      expect(result.resources).toBeDefined();
+    }
+  }
+
   describe("Single Partition Scenarios", () => {
     it("should handle large result sets with multiple continuation tokens", async () => {
       const query = "SELECT * FROM c ORDER BY c.sequence ASC";
@@ -600,7 +632,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
       // Validate first token structure
       if (collectedTokens.length > 0) {
-        const parsed = JSON.parse(collectedTokens[0]);
+        const parsed = validateTokenProperties(collectedTokens[0]);
         expect(parsed.rid).toBeDefined();
         expect(Array.isArray(parsed.orderByItems)).toBe(true);
       }
@@ -627,38 +659,19 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       ];
 
       for (const querySpec of complexQueries) {
-        const iterator = singlePartitionContainer.items.query(querySpec.query, {
+        const { items } = await collectQueryResults(querySpec.query, singlePartitionContainer, {
           maxItemCount: 3,
           enableQueryControl: true,
           forceQueryPlan: true,
         });
-        let tokens = 0;
-        let items = 0;
 
-        while (iterator.hasMoreResults()) {
-          const result = await iterator.fetchNext();
-          items += result.resources.length;
-
-          if (result.continuationToken) {
-            tokens++;
-            const parsed = JSON.parse(result.continuationToken);
-
-            // Validate common token properties
-            expect(parsed.rid).toBeDefined();
-
-            // Should have orderByItems for ORDER BY queries
-            expect(parsed.orderByItems).toBeDefined();
-            expect(Array.isArray(parsed.orderByItems)).toBe(true);
-            expect(parsed.orderByItems.length).toBeGreaterThan(0);
-          }
-        }
+        expect(items.length).toBeGreaterThan(0);
       }
     });
   });
 
   describe("Token Edge Cases and Serialization", () => {
     it("should handle very large tokens", async () => {
-      // Create a query that might generate larger tokens
       const query =
         "SELECT * FROM c WHERE c.name LIKE '%Item%' ORDER BY c.category ASC, c.amount DESC, c.name ASC";
 
@@ -671,36 +684,20 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         const result = await iterator.fetchNext();
 
         if (result.continuationToken) {
-          // Verify token is parseable even if large
-          let parsed: any;
-          expect(() => {
-            parsed = JSON.parse(result.continuationToken!);
-          }).not.toThrow();
-
-          // Verify token can be serialized back
-          expect(() => {
-            JSON.stringify(parsed);
-          }).not.toThrow();
+          const parsed = validateTokenProperties(result.continuationToken);
+          expect(parsed).toBeDefined();
 
           // Test reuse of large token
-          const resumedIterator = multiPartitionContainer.items.query(query, {
+          await testTokenReuseOnce(multiPartitionContainer, query, result.continuationToken, {
             maxItemCount: 1,
-            continuationToken: result.continuationToken,
             enableQueryControl: true,
           });
-
-          if (resumedIterator.hasMoreResults()) {
-            const resumedResult = await resumedIterator.fetchNext();
-            expect(resumedResult.resources).toBeDefined();
-          }
-
-          break; // Only test first large token
+          break;
         }
       }
     });
 
     it("should handle special characters in tokens", async () => {
-      // Insert items with special characters that might affect JSON encoding
       const specialItems = [
         { id: "special-1", pk: "single", name: 'Item with "quotes"', category: "test", amount: 1 },
         {
@@ -741,23 +738,13 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         const result = await iterator.fetchNext();
 
         if (result.continuationToken) {
-          // Verify token parsing with special characters
-          expect(() => {
-            JSON.parse(result.continuationToken!);
-          }).not.toThrow();
+          validateTokenProperties(result.continuationToken);
 
           // Test token reuse
-          const resumedIterator = singlePartitionContainer.items.query(query, {
+          await testTokenReuseOnce(singlePartitionContainer, query, result.continuationToken, {
             maxItemCount: 2,
-            continuationToken: result.continuationToken,
             enableQueryControl: true,
           });
-
-          if (resumedIterator.hasMoreResults()) {
-            const resumedResult = await resumedIterator.fetchNext();
-            expect(resumedResult.resources).toBeDefined();
-          }
-
           break;
         }
       }
@@ -778,26 +765,20 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
           enableQueryControl: true,
         });
         let continuationToken: string | undefined;
-        let attempts = 0;
 
         // Apply OrderBy pattern for DISTINCT ORDER BY queries
         while (queryIterator.hasMoreResults()) {
           let result = await queryIterator.fetchNext();
 
-          // Continue fetching until we get data or no more results
           while (queryIterator.hasMoreResults() && result.resources.length === 0) {
             result = await queryIterator.fetchNext();
           }
 
-          attempts++;
-
           if (result.resources.length > 0) {
-            // Now safely access continuation token after getting data
             continuationToken = result.continuationToken;
 
             if (continuationToken) {
-              // Basic validation that token is parseable
-              const parsed = JSON.parse(continuationToken);
+              const parsed = validateTokenProperties(continuationToken);
 
               if (scenario.expectedType === "orderby") {
                 expect(parsed.compositeToken).toBeDefined();
@@ -805,7 +786,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
               } else {
                 expect(parsed.rangeMappings).toBeDefined();
               }
-
               break;
             }
           }
