@@ -35,11 +35,8 @@ describe("UsernamePasswordCredential (internal)", () => {
 
   const scope = "https://graph.microsoft.com/.default";
 
-  it("Accepts tokenCachePersistenceOptions", async (ctx) => {
+  it.skipIf(process.platform === "darwin")("Accepts tokenCachePersistenceOptions", async (ctx) => {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
-    if (process.platform === "darwin") {
-      ctx.skip();
-    }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
@@ -65,41 +62,41 @@ describe("UsernamePasswordCredential (internal)", () => {
     assert.isDefined(parsedResult.AccessToken);
   });
 
-  it("Authenticates silently with tokenCachePersistenceOptions", async (ctx) => {
-    // OSX asks for passwords on CI, so we need to skip these tests from our automation
-    if (process.platform === "darwin") {
-      ctx.skip();
-    }
+  it.skipIf(process.platform === "darwin")(
+    "Authenticates silently with tokenCachePersistenceOptions",
+    async (ctx) => {
+      // OSX asks for passwords on CI, so we need to skip these tests from our automation
 
-    const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
-      enabled: true,
-      name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
-      unsafeAllowUnencryptedStorage: true,
-    };
+      const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
+        enabled: true,
+        name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
+        unsafeAllowUnencryptedStorage: true,
+      };
 
-    // Emptying the token cache before we start.
-    const persistence = await createPersistence(tokenCachePersistenceOptions);
-    persistence?.save("{}");
+      // Emptying the token cache before we start.
+      const persistence = await createPersistence(tokenCachePersistenceOptions);
+      persistence?.save("{}");
 
-    const credential = new UsernamePasswordCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      env.AZURE_USERNAME!,
-      env.AZURE_PASSWORD!,
-      recorder.configureClientOptions({ tokenCachePersistenceOptions }),
-    );
+      const credential = new UsernamePasswordCredential(
+        env.AZURE_TENANT_ID!,
+        env.AZURE_CLIENT_ID!,
+        env.AZURE_USERNAME!,
+        env.AZURE_PASSWORD!,
+        recorder.configureClientOptions({ tokenCachePersistenceOptions }),
+      );
 
-    await credential.getToken(scope);
-    expect(getTokenSilentSpy).toHaveBeenCalledTimes(1);
-    expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
+      await credential.getToken(scope);
+      expect(getTokenSilentSpy).toHaveBeenCalledTimes(1);
+      expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
 
-    // The cache should have a token a this point
-    const result = await persistence?.load();
-    const parsedResult = JSON.parse(result!);
-    assert.isDefined(parsedResult.AccessToken);
+      // The cache should have a token a this point
+      const result = await persistence?.load();
+      const parsedResult = JSON.parse(result!);
+      assert.isDefined(parsedResult.AccessToken);
 
-    await credential.getToken(scope);
-    expect(getTokenSilentSpy).toHaveBeenCalledTimes(2);
-    expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
-  });
+      await credential.getToken(scope);
+      expect(getTokenSilentSpy).toHaveBeenCalledTimes(2);
+      expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
+    },
+  );
 });
