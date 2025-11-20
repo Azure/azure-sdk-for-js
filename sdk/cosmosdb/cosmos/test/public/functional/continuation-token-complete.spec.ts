@@ -814,6 +814,48 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     });
   });
 
+  // Helper: Execute query with continuation token support and collect results
+  async function executeQueryWithContinuation(
+    query: string,
+    container: Container,
+    queryOptions: any,
+    isOrderByQuery: boolean = false,
+  ) {
+    let queryIterator = container.items.query(query, queryOptions);
+    const allResults: any[] = [];
+
+    while (queryIterator.hasMoreResults()) {
+      let result = await queryIterator.fetchNext();
+      if (isOrderByQuery) {
+        while (queryIterator.hasMoreResults() && result.resources.length === 0) {
+          result = await queryIterator.fetchNext();
+        }
+        if (result.resources.length === 0) break;
+      }
+      allResults.push(...result.resources);
+      if (result.continuationToken && queryIterator.hasMoreResults()) {
+        queryIterator = container.items.query(query, {
+          ...queryOptions,
+          continuationToken: result.continuationToken,
+        });
+      }
+    }
+    return allResults;
+  }
+
+  // Helper: Validate ordering of numeric field
+  function validateNumericOrdering(items: any[], fieldName: string, ascending: boolean = true) {
+    for (let i = 1; i < items.length; i++) {
+      const curr = items[i][fieldName];
+      const prev = items[i - 1][fieldName];
+      if (ascending) {
+        expect(curr).toBeGreaterThanOrEqual(prev);
+      } else {
+        expect(curr).toBeLessThanOrEqual(prev);
+      }
+    }
+  }
+
   describe("Multi-Partition Scenarios", () => {
     it("should handle cross-partition queries with composite tokens", async () => {
       const query = "SELECT * FROM c WHERE c.amount > 30";
@@ -935,36 +977,14 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       expect(categoryGroups.size).toBeGreaterThan(1);
       expect(groups).toBeGreaterThan(0);
     });
-  
+
     it("should handle continuation token across multiple iterations", async () => {
       const query = "SELECT * FROM c ORDER BY c.amount ASC";
       const queryOptions = { maxItemCount: 10, enableQueryControl: true };
 
-      let queryIterator = multiPartitionContainer.items.query(query, queryOptions);
-      const allResults: any[] = [];
-      let iterationCount = 0;
+      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions, true);
 
-      while (queryIterator.hasMoreResults()) {
-        const result = await queryIterator.fetchNext();
-        allResults.push(...result.resources);
-        iterationCount++;
-
-        if (result.continuationToken && queryIterator.hasMoreResults()) {
-          // Create new iterator with continuation token
-          queryIterator = multiPartitionContainer.items.query(query, {
-            ...queryOptions,
-            continuationToken: result.continuationToken,
-          });
-        }
-      }
-
-      // Debug: Show what we collected
-
-      // Validate ordering is maintained across continuation boundaries
-      for (let i = 1; i < allResults.length; i++) {
-        expect(allResults[i].amount).toBeGreaterThanOrEqual(allResults[i - 1].amount);
-      }
-
+      validateNumericOrdering(allResults, "amount", true);
       expect(allResults.length).toBeGreaterThan(10);
     });
 
@@ -972,44 +992,14 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       const query = "SELECT * FROM c";
       const queryOptions = { maxItemCount: 15, enableQueryControl: true };
 
-      let queryIterator = multiPartitionContainer.items.query(query, queryOptions);
-      const allResults: any[] = [];
-      let iterationCount = 0;
+      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions);
+
       const categoriesEncountered = new Set<string>();
+      allResults.forEach((item) => categoriesEncountered.add(item.category));
 
-      while (queryIterator.hasMoreResults()) {
-        const result = await queryIterator.fetchNext();
-        allResults.push(...result.resources);
-        iterationCount++;
-
-        // Track categories (partitions) encountered
-        result.resources.forEach((item) => {
-          categoriesEncountered.add(item.category);
-        });
-
-        if (result.continuationToken && queryIterator.hasMoreResults()) {
-          // Create new iterator with continuation token
-          queryIterator = multiPartitionContainer.items.query(query, {
-            ...queryOptions,
-            continuationToken: result.continuationToken,
-          });
-        }
-      }
-
-      // Group items by category to analyze distribution
-      const categoryDistribution = new Map<string, number>();
-      allResults.forEach((item) => {
-        const count = categoryDistribution.get(item.category) || 0;
-        categoryDistribution.set(item.category, count + 1);
-      });
-
-      // Validate we got data from multiple partitions
       expect(categoriesEncountered.size).toBeGreaterThan(1);
-
-      // Validate we got a reasonable amount of data
       expect(allResults.length).equal(80);
 
-      // Validate each item has expected properties
       allResults.forEach((item) => {
         expect(item.id).toBeDefined();
         expect(item.category).toBeDefined();
@@ -1022,40 +1012,10 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       const query = "SELECT DISTINCT c.category FROM c ORDER BY c.category ASC";
       const queryOptions = { maxItemCount: 3, enableQueryControl: true };
 
-      let queryIterator = multiPartitionContainer.items.query(query, queryOptions);
-      const allResults: any[] = [];
-      let iterationCount = 0;
-
-      // Apply OrderBy pattern for DISTINCT ORDER BY queries
-      while (queryIterator.hasMoreResults()) {
-        let result = await queryIterator.fetchNext();
-
-        // Continue fetching until we get data or no more results
-        while (queryIterator.hasMoreResults() && result.resources.length === 0) {
-          result = await queryIterator.fetchNext();
-        }
-
-        if (result.resources.length === 0) {
-          break;
-        }
-
-        allResults.push(...result.resources);
-        iterationCount++;
-
-        // Now safely access continuation token after getting data
-        const continuationToken = result.continuationToken;
-        if (!continuationToken) {
-          break;
-        }
-        queryIterator = multiPartitionContainer.items.query(query, {
-          ...queryOptions,
-          continuationToken: continuationToken,
-        });
-      }
-
-      // Validate distinctness and ordering
+      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions, true);
       const categories = allResults.map((r) => r.category);
       const uniqueCategories = [...new Set(categories)];
+
       expect(categories).toEqual(uniqueCategories); // No duplicates
       expect(categories).toEqual([...categories].sort()); // Ordered
     });
@@ -1063,123 +1023,43 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     it("should handle OFFSET LIMIT queries with continuation", async () => {
       const query = "SELECT * FROM c ORDER BY c.amount ASC OFFSET 10 LIMIT 20";
       const queryOptions = { maxItemCount: 8, enableQueryControl: true };
-      let queryIterator = multiPartitionContainer.items.query(query, queryOptions);
-      const allResults: any[] = [];
-      let iterationCount = 0;
-      while (queryIterator.hasMoreResults()) {
-        const result = await queryIterator.fetchNext();
-        allResults.push(...result.resources);
-        iterationCount++;
-        if (result.continuationToken && queryIterator.hasMoreResults()) {
-          queryIterator = multiPartitionContainer.items.query(query, {
-            ...queryOptions,
-            continuationToken: result.continuationToken,
-          });
-        }
-      }
-      // Validate LIMIT constraint
+      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions, true);
       expect(allResults.length).toBeLessThanOrEqual(20);
     });
 
     it("should handle OFFSET LIMIT queries where offset > maxItemCount with continuation", async () => {
       // Test scenario where offset (25) is greater than maxItemCount (5)
-      // This tests the continuation token logic when we need to skip more items than we fetch per page
       const query = "SELECT * FROM c ORDER BY c.amount ASC OFFSET 25 LIMIT 10";
       const queryOptions = { maxItemCount: 5, enableQueryControl: true };
+      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions, true);
 
-      let queryIterator = multiPartitionContainer.items.query(query, queryOptions);
-      const allResults: any[] = [];
-      let iterationCount = 0;
-      let totalItemsProcessed = 0;
-
-      while (queryIterator.hasMoreResults()) {
-        const result = await queryIterator.fetchNext();
-        const itemsInThisPage = result.resources.length;
-        allResults.push(...result.resources);
-        totalItemsProcessed += itemsInThisPage;
-        iterationCount++;
-
-        if (result.continuationToken && queryIterator.hasMoreResults()) {
-          queryIterator = multiPartitionContainer.items.query(query, {
-            ...queryOptions,
-            continuationToken: result.continuationToken,
-          });
-        }
-      }
-
-      // Validate results
-      expect(allResults.length).equal(10); // Should not exceed LIMIT
-      // expect(allResults.length).toBeGreaterThan(0); // Should have some results after skipping 25
-
-      // Validate ordering (ASC by amount)
-      for (let i = 1; i < allResults.length; i++) {
-        expect(allResults[i].amount).toBeGreaterThanOrEqual(allResults[i - 1].amount);
-      }
+      expect(allResults.length).equal(10);
+      validateNumericOrdering(allResults, "amount", true);
     });
 
     it("should handle TOP queries with continuation", async () => {
       const query = "SELECT TOP 15 * FROM c ORDER BY c.amount DESC";
       const queryOptions = { maxItemCount: 5, enableQueryControl: true };
-      let queryIterator = multiPartitionContainer.items.query(query, queryOptions);
-      const allResults: any[] = [];
-      let iterationCount = 0;
-      while (queryIterator.hasMoreResults()) {
-        const result = await queryIterator.fetchNext();
-        allResults.push(...result.resources);
-        iterationCount++;
-        if (result.continuationToken && queryIterator.hasMoreResults()) {
-          queryIterator = multiPartitionContainer.items.query(query, {
-            ...queryOptions,
-            continuationToken: result.continuationToken,
-          });
-        }
-      }
-      // Validate TOP constraint and DESC ordering
+      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions);
       expect(allResults.length).toBeLessThanOrEqual(15);
-      for (let i = 1; i < allResults.length; i++) {
-        expect(allResults[i].amount).toBeLessThanOrEqual(allResults[i - 1].amount);
-      }
+      validateNumericOrdering(allResults, "amount", false);
     });
     it("should handle parallel queries (no ORDER BY) with continuation", async () => {
       const query = "SELECT * FROM c WHERE c.amount > 50";
       const queryOptions = { maxItemCount: 6, enableQueryControl: true };
-      let queryIterator = multiPartitionContainer.items.query(query, queryOptions);
-      const allResults: any[] = [];
-      let iterationCount = 0;
+      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions);
       const partitionsEncountered = new Set<string>();
-      while (queryIterator.hasMoreResults()) {
-        const result = await queryIterator.fetchNext();
-        allResults.push(...result.resources);
-        iterationCount++;
-        result.resources.forEach((item) => partitionsEncountered.add(item.category));
-        if (result.continuationToken && queryIterator.hasMoreResults()) {
-          queryIterator = multiPartitionContainer.items.query(query, {
-            ...queryOptions,
-            continuationToken: result.continuationToken,
-          });
-        }
-      }
-      // Validate parallel execution across partitions
+      allResults.forEach((item) => {
+        partitionsEncountered.add(item.category);
+        expect(item.amount).toBeGreaterThan(50);
+      });
       expect(partitionsEncountered.size).toBeGreaterThan(1);
-      allResults.forEach((item) => expect(item.amount).toBeGreaterThan(50));
     });
     it("should handle complex ORDER BY with multiple fields and continuation", async () => {
       const query = "SELECT * FROM c ORDER BY c.category ASC, c.amount DESC, c.name ASC";
       const queryOptions = { maxItemCount: 4, enableQueryControl: true };
-      let queryIterator = multiPartitionContainer.items.query(query, queryOptions);
-      const allResults: any[] = [];
-      let iterationCount = 0;
-      while (queryIterator.hasMoreResults()) {
-        const result = await queryIterator.fetchNext();
-        allResults.push(...result.resources);
-        iterationCount++;
-        if (result.continuationToken && queryIterator.hasMoreResults()) {
-          queryIterator = multiPartitionContainer.items.query(query, {
-            ...queryOptions,
-            continuationToken: result.continuationToken,
-          });
-        }
-      }
+      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions);
+
       // Validate complex ordering (category ASC, amount DESC, name ASC)
       for (let i = 1; i < allResults.length; i++) {
         const curr = allResults[i];
@@ -1199,90 +1079,25 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       const query =
         "SELECT c.id, c.name, c.category, t.tag as tagValue FROM c JOIN t IN c.tags ORDER BY c.id";
       const queryOptions = { maxItemCount: 20, enableQueryControl: true };
-      let queryIterator = multiPartitionContainer.items.query(query, queryOptions);
-      const allResults: any[] = [];
-      let iterationCount = 0;
-      let totalTokens = 0;
-      const seenCombinations = new Set<string>();
-      while (queryIterator.hasMoreResults()) {
-        const result = await queryIterator.fetchNext();
-        allResults.push(...result.resources);
-        iterationCount++;
-        if (result.resources.length > 0) {
-          result.resources.forEach((item) => {
-            const combo = `${item.id}-${item.tagValue}`;
-            seenCombinations.add(combo);
-          });
-          // Verify ORDER BY correctness for JOIN results
-          for (let i = 1; i < result.resources.length; i++) {
-            const current = result.resources[i];
-            const previous = result.resources[i - 1];
-            // Skip validation if either item doesn't have an id
-            if (!current.id || !previous.id) {
-              continue;
-            }
-            // Check ordering: first by c.id, then by t.tag
-            const idComparison = current.id.localeCompare(previous.id);
-            if (idComparison < 0) {
-              throw new Error(
-                `JOIN ORDER BY violation: ${current.id} should come after ${previous.id}`,
-              );
-            }
-          }
-        }
-        if (result.continuationToken) {
-          totalTokens++;
-          // Parse and validate the continuation token structure
-          try {
-            const parsedToken = JSON.parse(result.continuationToken);
-            // Validate expected structure for JOIN ORDER BY
-            expect(parsedToken.rangeMappings).toBeDefined();
-            expect(Array.isArray(parsedToken.rangeMappings)).toBe(true);
-            expect(parsedToken.orderByItems).toBeDefined();
-            expect(Array.isArray(parsedToken.orderByItems)).toBe(true);
-            expect(typeof parsedToken.skipCount).toBe("number");
-            expect(parsedToken.rid).toBeDefined();
-            // Test token reusability
-            await testTokenReusability(
-              multiPartitionContainer,
-              query,
-              result.continuationToken,
-              queryOptions,
-            );
-          } catch (parseError) {
-            console.error(`  ❌ Token parsing failed:`, parseError);
-            throw parseError;
-          }
-          // Create new iterator with the continuation token
-          queryIterator = multiPartitionContainer.items.query(query, {
-            ...queryOptions,
-            continuationToken: result.continuationToken,
-          });
-        }
-      }
-      // Validate that we got JOIN results (should be more than single container items)
+      const allResults = await executeQueryWithContinuation(query, multiPartitionContainer, queryOptions);
+
       expect(allResults.length).toBeGreaterThan(0);
-      // Validate that each result has the expected JOIN structure
-      allResults.forEach((item) => {
-        expect(item.id).toBeDefined();
-      });
-      // Validate final ordering across all results
+      allResults.forEach((item) => expect(item.id).toBeDefined());
+
+      // Validate ordering by id
       for (let i = 1; i < allResults.length; i++) {
         const current = allResults[i];
         const previous = allResults[i - 1];
-        // Skip validation if either item doesn't have an id
-        if (!current.id || !previous.id) {
-          continue;
-        }
+        if (!current.id || !previous.id) continue;
         const idComparison = current.id.localeCompare(previous.id);
         if (idComparison < 0) {
           throw new Error(
-            `Final ORDER BY violation at index ${i}: ${current.id} should come after ${previous.id}`,
+            `ORDER BY violation at index ${i}: ${current.id} should come after ${previous.id}`,
           );
         }
       }
     });
-  
+
     it("should handle continuation token across multiple iterations using proper OrderBy pattern", async () => {
       const query = "SELECT * FROM c ORDER BY c.amount ASC";
       const queryOptions = { maxItemCount: 30, enableQueryControl: true };
