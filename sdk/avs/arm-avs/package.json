@@ -107,7 +107,6 @@
     "eslint": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "@vitest/browser": "catalog:testing",
     "dotenv": "catalog:testing",
     "playwright": "catalog:testing",
     "typescript": "catalog:",
