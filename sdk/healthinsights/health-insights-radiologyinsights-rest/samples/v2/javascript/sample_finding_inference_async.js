@@ -238,7 +238,7 @@ async function main() {
     throw RadiologyInsightsResult;
   }
   const resultBody = RadiologyInsightsResult.body;
-  await printResults(resultBody);
+  printResults(resultBody);
 }
 
 main().catch((err) => {

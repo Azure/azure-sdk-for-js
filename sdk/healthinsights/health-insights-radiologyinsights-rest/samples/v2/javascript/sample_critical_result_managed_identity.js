@@ -208,7 +208,7 @@ async function main() {
     clientID ? { managedIdentityClientId: clientID } : undefined,
   );
   const tokenResponse = await credential.getToken("https://cognitiveservices.azure.com/.default");
-  await logger.info(null, `Got token for Cognitive Services ${tokenResponse?.token}`);
+  logger.info(null, `Got token for Cognitive Services ${tokenResponse?.token}`);
 
   const client = AzureHealthInsightsClient(endpoint, credential);
   // Create request body
@@ -230,7 +230,7 @@ async function main() {
     throw RadiologyInsightsResult;
   }
   const resultBody = RadiologyInsightsResult.body;
-  await printResults(resultBody);
+  printResults(resultBody);
 }
 
 main().catch((err) => {

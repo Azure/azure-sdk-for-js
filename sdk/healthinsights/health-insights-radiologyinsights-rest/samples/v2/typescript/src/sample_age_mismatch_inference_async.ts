@@ -237,7 +237,7 @@ export async function main(): Promise<void> {
   const content =
     radiologyInsightsParameter?.body?.jobData?.patients?.[0]?.patientDocuments?.[0]?.content
       ?.value ?? "";
-  await printResults(resultBody, content);
+  printResults(resultBody, content);
 }
 
 main().catch((err) => {
