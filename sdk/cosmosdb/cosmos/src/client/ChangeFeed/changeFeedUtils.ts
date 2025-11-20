@@ -89,9 +89,9 @@ export function isEpkRange(obj: unknown): boolean {
     typeof obj.minInclusive === "string" &&
     typeof obj.maxExclusive === "string" &&
     obj.minInclusive >=
-    Constants.EffectivePartitionKeyConstants.MinimumInclusiveEffectivePartitionKey &&
+      Constants.EffectivePartitionKeyConstants.MinimumInclusiveEffectivePartitionKey &&
     obj.maxExclusive <=
-    Constants.EffectivePartitionKeyConstants.MaximumExclusiveEffectivePartitionKey &&
+      Constants.EffectivePartitionKeyConstants.MaximumExclusiveEffectivePartitionKey &&
     obj.maxExclusive > obj.minInclusive
   );
 }

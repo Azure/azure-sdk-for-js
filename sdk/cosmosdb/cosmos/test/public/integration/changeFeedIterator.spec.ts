@@ -1323,7 +1323,12 @@ describe("Change Feed with Priority Level", { timeout: 20000 }, () => {
       },
     };
     const throughput: RequestOptions = { offerThroughput: 21000 };
-    container = await getTestContainer("changefeed Priority Level", undefined, containerDef, throughput);
+    container = await getTestContainer(
+      "changefeed Priority Level",
+      undefined,
+      containerDef,
+      throughput,
+    );
 
     // Create initial items for testing
     for (let i = 1; i < 11; i++) {
@@ -1454,14 +1459,21 @@ describe("Change Feed with Priority Level", { timeout: 20000 }, () => {
 
       // Verify all items have the correct partition key
       for (const item of items) {
-        assert.strictEqual((item as any).name, "sample1", "All items should have partition key 'sample1'");
+        assert.strictEqual(
+          (item as any).name,
+          "sample1",
+          "All items should have partition key 'sample1'",
+        );
       }
 
       // Stop after processing some items
       if (processedItems >= 5) break;
     }
 
-    assert(processedItems >= 5, "Should have processed at least 5 items for partition key with Low priority");
+    assert(
+      processedItems >= 5,
+      "Should have processed at least 5 items for partition key with Low priority",
+    );
   });
 
   it("should use PriorityLevel with ChangeFeedMode.AllVersionsAndDeletes", async () => {
@@ -1516,7 +1528,10 @@ describe("Change Feed with Priority Level", { timeout: 20000 }, () => {
       if (counter >= 6) break;
     }
 
-    assert(counter >= 6, "Should have processed at least 6 items in AllVersionsAndDeletes mode with Low priority");
+    assert(
+      counter >= 6,
+      "Should have processed at least 6 items in AllVersionsAndDeletes mode with Low priority",
+    );
   });
 
   afterAll(async () => {

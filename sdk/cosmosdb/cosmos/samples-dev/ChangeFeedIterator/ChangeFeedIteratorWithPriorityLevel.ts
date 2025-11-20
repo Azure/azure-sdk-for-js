@@ -119,9 +119,7 @@ async function ingestData(container: Container, initialize: number, end: number)
     await container.items.create({ id: `item${i}`, name: `sample3`, key: i });
     await container.items.create({ id: `item${i}`, name: `sample4`, key: i });
   }
-  console.log(
-    `ingested items with id - item${initialize} to item${end}`,
-  );
+  console.log(`ingested items with id - item${initialize} to item${end}`);
 }
 
 async function iterateChangeFeedFromBeginning(
