@@ -118,7 +118,7 @@ async function demonstrateReadWithPriority(container: Container): Promise<void> 
 
   // Read single item with High Priority
   console.log("Reading item with High Priority...");
-  const { resource: item, statusCode } = await container
+  const { statusCode } = await container
     .item("high-priority-item", "important")
     .read({ priorityLevel: PriorityLevel.High });
   console.log(`✓ Read item with status code ${statusCode} using High Priority`);
@@ -144,20 +144,20 @@ async function demonstrateQueryWithPriority(container: Container): Promise<void>
   // Query with High Priority (critical queries)
   console.log("Querying items with High Priority...");
   const { resources: highPriorityResults } = await container.items
-    .query("SELECT * FROM c WHERE c.category = @category", {
-      parameters: [{ name: "@category", value: "important" }],
-    })
-    .setParameters({ priorityLevel: PriorityLevel.High })
+    .query(
+      { query: "SELECT * FROM c WHERE c.category = @category", parameters: [{ name: "@category", value: "important" }] },
+      { priorityLevel: PriorityLevel.High },
+    )
     .fetchAll();
   console.log(`✓ Found ${highPriorityResults.length} items using High Priority query`);
 
   // Query with Low Priority (background queries)
   console.log("Querying items with Low Priority...");
   const { resources: lowPriorityResults } = await container.items
-    .query("SELECT * FROM c WHERE c.category != @category", {
-      parameters: [{ name: "@category", value: "system" }],
-    })
-    .setParameters({ priorityLevel: PriorityLevel.Low })
+    .query(
+      { query: "SELECT * FROM c WHERE c.category != @category", parameters: [{ name: "@category", value: "system" }] },
+      { priorityLevel: PriorityLevel.Low },
+    )
     .fetchAll();
   console.log(`✓ Found ${lowPriorityResults.length} items using Low Priority query`);
 }
