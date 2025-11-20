@@ -363,6 +363,40 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
   let multiPartitionContainer3: Container;
   let largeContainers: Container[] = [];
 
+  // Helper: Configuration for multi-partition containers
+  const getMultiPartitionContainerConfig = () => ({
+    partitionKey: { paths: ["/category"] },
+    indexingPolicy: {
+      indexingMode: "consistent" as const,
+      automatic: true,
+      includedPaths: [{ path: "/*" }],
+      excludedPaths: [{ path: '/"_etag"/?' }],
+      compositeIndexes: [
+        [
+          { path: "/category", order: "ascending" as const },
+          { path: "/amount", order: "descending" as const },
+        ],
+        [
+          { path: "/amount", order: "ascending" as const },
+          { path: "/name", order: "descending" as const },
+        ],
+        [
+          { path: "/category", order: "ascending" as const },
+          { path: "/amount", order: "descending" as const },
+          { path: "/name", order: "ascending" as const },
+        ],
+        [
+          { path: "/id", order: "ascending" as const },
+          { path: "/amount", order: "ascending" as const },
+        ],
+        [
+          { path: "/name", order: "ascending" as const },
+          { path: "/category", order: "ascending" as const },
+        ],
+      ],
+    },
+  });
+
   beforeAll(async () => {
     await removeAllDatabases(client);
 
@@ -379,7 +413,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
           includedPaths: [{ path: "/*" }],
           excludedPaths: [{ path: '/"_etag"/?' }],
           compositeIndexes: [
-            // Multi-field combinations for ORDER BY queries (minimum 2 paths required)
             [
               { path: "/category", order: "ascending" },
               { path: "/amount", order: "descending" },
@@ -402,123 +435,25 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       {},
     );
 
-    // Create multi-partition container with essential composite indexes
+    // Create multi-partition containers using helper config
     multiPartitionContainer = await getTestContainer(
       "multi-partition-test",
       client,
-      {
-        partitionKey: { paths: ["/category"] },
-        throughput: 15000,
-        indexingPolicy: {
-          indexingMode: "consistent",
-          automatic: true,
-          includedPaths: [{ path: "/*" }],
-          excludedPaths: [{ path: '/"_etag"/?' }],
-          compositeIndexes: [
-            // Multi-field combinations for ORDER BY queries (minimum 2 paths required)
-            [
-              { path: "/category", order: "ascending" },
-              { path: "/amount", order: "descending" },
-            ],
-            [
-              { path: "/amount", order: "ascending" },
-              { path: "/name", order: "descending" },
-            ],
-            [
-              { path: "/category", order: "ascending" },
-              { path: "/amount", order: "descending" },
-              { path: "/name", order: "ascending" },
-            ],
-            [
-              { path: "/id", order: "ascending" },
-              { path: "/amount", order: "ascending" },
-            ],
-            [
-              { path: "/name", order: "ascending" },
-              { path: "/category", order: "ascending" },
-            ],
-          ],
-        },
-      },
+      { ...getMultiPartitionContainerConfig(), throughput: 15000 },
       {},
     );
+
     multiPartitionContainer2 = await getTestContainer(
       "multi-partition-test-2",
       client,
-      {
-        partitionKey: { paths: ["/category"] },
-        throughput: 15000,
-        indexingPolicy: {
-          indexingMode: "consistent",
-          automatic: true,
-          includedPaths: [{ path: "/*" }],
-          excludedPaths: [{ path: '/"_etag"/?' }],
-          compositeIndexes: [
-            // Multi-field combinations for ORDER BY queries (minimum 2 paths required)
-            [
-              { path: "/category", order: "ascending" },
-              { path: "/amount", order: "descending" },
-            ],
-            [
-              { path: "/amount", order: "ascending" },
-              { path: "/name", order: "descending" },
-            ],
-            [
-              { path: "/category", order: "ascending" },
-              { path: "/amount", order: "descending" },
-              { path: "/name", order: "ascending" },
-            ],
-            [
-              { path: "/id", order: "ascending" },
-              { path: "/amount", order: "ascending" },
-            ],
-            [
-              { path: "/name", order: "ascending" },
-              { path: "/category", order: "ascending" },
-            ],
-          ],
-        },
-      },
+      { ...getMultiPartitionContainerConfig(), throughput: 15000 },
       {},
     );
 
     multiPartitionContainer3 = await getTestContainer(
       "multi-partition-test-3",
       client,
-      {
-        partitionKey: { paths: ["/category"] },
-        throughput: 40000,
-        indexingPolicy: {
-          indexingMode: "consistent",
-          automatic: true,
-          includedPaths: [{ path: "/*" }],
-          excludedPaths: [{ path: '/"_etag"/?' }],
-          compositeIndexes: [
-            // Multi-field combinations for ORDER BY queries (minimum 2 paths required)
-            [
-              { path: "/category", order: "ascending" },
-              { path: "/amount", order: "descending" },
-            ],
-            [
-              { path: "/amount", order: "ascending" },
-              { path: "/name", order: "descending" },
-            ],
-            [
-              { path: "/category", order: "ascending" },
-              { path: "/amount", order: "descending" },
-              { path: "/name", order: "ascending" },
-            ],
-            [
-              { path: "/id", order: "ascending" },
-              { path: "/amount", order: "ascending" },
-            ],
-            [
-              { path: "/name", order: "ascending" },
-              { path: "/category", order: "ascending" },
-            ],
-          ],
-        },
-      },
+      { ...getMultiPartitionContainerConfig(), throughput: 40000 },
       {},
     );
 
@@ -535,6 +470,56 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
   afterAll(async () => {
     await removeAllDatabases(client);
   });
+
+  // Helper: Validate ID collection (used by fuzzy tests)
+  function validateCollectedIds(
+    collectedIds: Set<string>,
+    expectedCount: number = 25000,
+  ): { missingIds: string[]; unexpectedIds: string[] } {
+    const missingIds: string[] = [];
+    const unexpectedIds: string[] = [];
+
+    // Check for missing IDs
+    for (let i = 0; i < expectedCount; i++) {
+      const expectedId = `mp-item-${i.toString().padStart(3, "0")}`;
+      if (!collectedIds.has(expectedId)) {
+        missingIds.push(expectedId);
+      }
+    }
+
+    // Check for unexpected IDs
+    for (const collectedId of collectedIds) {
+      const idPattern = /^mp-item-(\d+)$/;
+      const match = collectedId.match(idPattern);
+      if (!match) {
+        unexpectedIds.push(collectedId);
+        continue;
+      }
+
+      const itemNumber = parseInt(match[1], 10);
+      if (itemNumber < 0 || itemNumber >= expectedCount) {
+        unexpectedIds.push(collectedId);
+      }
+    }
+
+    return { missingIds, unexpectedIds };
+  }
+
+  // Helper: Validate category distribution
+  function validateCategoryDistribution(items: any[]): void {
+    const categoryDistribution = new Map<string, number>();
+    for (const item of items) {
+      const count = categoryDistribution.get(item.category) || 0;
+      categoryDistribution.set(item.category, count + 1);
+    }
+
+    expect(categoryDistribution.size).toBe(8);
+    const expectedPerCategory = items.length / 8;
+    for (const [_category, count] of categoryDistribution) {
+      expect(count).toBeGreaterThan(expectedPerCategory * 0.8);
+      expect(count).toBeLessThan(expectedPerCategory * 1.2);
+    }
+  }
 
   // Helper: Execute query until we get continuation token or results
   async function executeQueryUntilToken(query: string, container: Container, queryOptions: any) {
@@ -1429,29 +1414,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         expect(allCollectedIds.size).toBe(25000);
 
         // 3. Verify all expected IDs are present
-        const missingIds: string[] = [];
-        const unexpectedIds: string[] = [];
-
-        for (let i = 0; i < 25000; i++) {
-          const expectedId = `mp-item-${i.toString().padStart(3, "0")}`;
-          if (!allCollectedIds.has(expectedId)) {
-            missingIds.push(expectedId);
-          }
-        }
-
-        for (const collectedId of allCollectedIds) {
-          const idPattern = /^mp-item-(\d+)$/;
-          const match = collectedId.match(idPattern);
-          if (!match) {
-            unexpectedIds.push(collectedId);
-            continue;
-          }
-
-          const itemNumber = parseInt(match[1], 10);
-          if (itemNumber < 0 || itemNumber >= 25000) {
-            unexpectedIds.push(collectedId);
-          }
-        }
+        const { missingIds, unexpectedIds } = validateCollectedIds(allCollectedIds);
 
         if (missingIds.length > 0) {
           expect.fail(`First 10 missing IDs: ${missingIds.slice(0, 10).join(', ')}`);
@@ -1464,19 +1427,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         expect(unexpectedIds.length).toBe(0);
 
         // 4. Verify category distribution
-        const categoryDistribution = new Map<string, number>();
-        for (const item of allCollectedItems) {
-          const count = categoryDistribution.get(item.category) || 0;
-          categoryDistribution.set(item.category, count + 1);
-        }
-
-        // Should have 8 categories with roughly equal distribution
-        expect(categoryDistribution.size).toBe(8);
-        const expectedPerCategory = 25000 / 8; // ~3125
-        for (const [_category, count] of categoryDistribution) {
-          expect(count).toBeGreaterThan(expectedPerCategory * 0.8); // Allow 20% variance
-          expect(count).toBeLessThan(expectedPerCategory * 1.2);
-        }
+        validateCategoryDistribution(allCollectedItems);
       }
     });
 
@@ -1605,54 +1556,20 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         }
 
         // 4. Verify all expected IDs are present
-        const missingIds: string[] = [];
-        const unexpectedIds: string[] = [];
+        const { missingIds: orderByMissingIds, unexpectedIds: orderByUnexpectedIds } = validateCollectedIds(allCollectedIds);
 
-        for (let i = 0; i < 25000; i++) {
-          const expectedId = `mp-item-${i.toString().padStart(3, "0")}`;
-          if (!allCollectedIds.has(expectedId)) {
-            missingIds.push(expectedId);
-          }
+        if (orderByMissingIds.length > 0) {
+          expect.fail(`First 10 missing IDs: ${orderByMissingIds.slice(0, 10).join(', ')}`);
+        }
+        if (orderByUnexpectedIds.length > 0) {
+          expect.fail(`First 10 unexpected IDs: ${orderByUnexpectedIds.slice(0, 10).join(', ')}`);
         }
 
-        for (const collectedId of allCollectedIds) {
-          const idPattern = /^mp-item-(\d+)$/;
-          const match = collectedId.match(idPattern);
-          if (!match) {
-            unexpectedIds.push(collectedId);
-            continue;
-          }
-
-          const itemNumber = parseInt(match[1], 10);
-          if (itemNumber < 0 || itemNumber >= 25000) {
-            unexpectedIds.push(collectedId);
-          }
-        }
-
-        if (missingIds.length > 0) {
-          expect.fail(`First 10 missing IDs: ${missingIds.slice(0, 10).join(', ')}`);
-        }
-        if (unexpectedIds.length > 0) {
-          expect.fail(`First 10 unexpected IDs: ${unexpectedIds.slice(0, 10).join(', ')}`);
-        }
-
-        expect(missingIds.length).toBe(0);
-        expect(unexpectedIds.length).toBe(0);
+        expect(orderByMissingIds.length).toBe(0);
+        expect(orderByUnexpectedIds.length).toBe(0);
 
         // 5. Verify category distribution
-        const categoryDistribution = new Map<string, number>();
-        for (const item of allCollectedItems) {
-          const count = categoryDistribution.get(item.category) || 0;
-          categoryDistribution.set(item.category, count + 1);
-        }
-
-        // Should have 8 categories with roughly equal distribution
-        expect(categoryDistribution.size).toBe(8);
-        const expectedPerCategory = 25000 / 8; // ~3125
-        for (const [_category, count] of categoryDistribution) {
-          expect(count).toBeGreaterThan(expectedPerCategory * 0.8); // Allow 20% variance
-          expect(count).toBeLessThan(expectedPerCategory * 1.2);
-        }
+        validateCategoryDistribution(allCollectedItems);
 
         // 6. Validate amount distribution makes sense
         const amountStats = {
