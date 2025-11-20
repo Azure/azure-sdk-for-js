@@ -14,7 +14,7 @@ export interface PartitionRangeUpdate {
   /** The new partition key ranges after the split/merge operation */
   newRanges: QueryRange[];
   /** The continuation token associated with this range update */
-  continuationToken: string;
+  continuationToken: string | undefined;
 }
 
 /**
