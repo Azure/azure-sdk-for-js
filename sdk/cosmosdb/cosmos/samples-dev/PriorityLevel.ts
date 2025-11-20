@@ -37,7 +37,7 @@ async function run(): Promise<void> {
     id: containerId,
     partitionKey: {
       paths: ["/category"],
-      version: PartitionKeyDefinitionVersion.v2,
+      version: PartitionKeyDefinitionVersion.V2,
     },
     throughput: 11000,
   };
