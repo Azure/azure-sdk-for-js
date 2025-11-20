@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-avs",
-  "version": "7.1.0",
+  "version": "8.0.0",
   "description": "A generated SDK for AzureVMwareSolutionAPI.",
   "engines": {
     "node": ">=20.0.0"

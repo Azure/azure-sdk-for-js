@@ -1,6 +1,6 @@
 # Release History
 
-## 7.1.0 (2025-12-10)
+## 8.0.0 (2025-12-10)
 
 ### Features Added
   - Added operation group LicensesOperations
