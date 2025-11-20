@@ -482,13 +482,34 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
     // Populate containers with test data
     await populateSinglePartitionData(singlePartitionContainer);
-    await populateMultiPartitionData(multiPartitionContainer);
-    await populateMultiPartitionData2(multiPartitionContainer2);
+    await populateMultiPartitionData(multiPartitionContainer, 80);
+    await populateMultiPartitionData(multiPartitionContainer2, 25000);
   });
 
   afterAll(async () => {
     await removeAllDatabases(client);
   });
+
+  // Helper: Execute query until we get continuation token or results
+  async function executeQueryUntilToken(query: string, container: Container, queryOptions: any) {
+    const queryIterator = container.items.query(query, queryOptions);
+    const isOrderByQuery = query.toUpperCase().includes("ORDER BY");
+    let continuationToken: string | undefined;
+    let totalResults = 0;
+
+    while (queryIterator.hasMoreResults()) {
+      let result = await queryIterator.fetchNext();
+      if (isOrderByQuery) {
+        while (queryIterator.hasMoreResults() && result.resources.length === 0) {
+          result = await queryIterator.fetchNext();
+        }
+        if (result.resources.length === 0) break;
+      }
+      totalResults += result.resources.length;
+      if ((continuationToken = result.continuationToken)) break;
+    }
+    return { continuationToken, totalResults };
+  }
 
   describe("Token Structure Validation", () => {
     CONTINUATION_TOKEN_TEST_CASES.forEach((testCase) => {
@@ -497,52 +518,26 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
           ? multiPartitionContainer
           : singlePartitionContainer;
 
-        const queryIterator = container.items.query(testCase.query, testCase.queryOptions);
+        const { continuationToken, totalResults } = await executeQueryUntilToken(
+          testCase.query,
+          container,
+          testCase.queryOptions,
+        );
 
-        let continuationToken: string | undefined;
-        let totalResults = 0;
-        let attempts = 0;
-
-        // Execute until we get a continuation token
-        // Apply OrderBy pattern for ORDER BY queries (including DISTINCT ORDER BY)
-        const isOrderByQuery = testCase.query.toUpperCase().includes("ORDER BY");
-
-        while (queryIterator.hasMoreResults()) {
-          let result = await queryIterator.fetchNext();
-
-          // For OrderBy queries, apply the pattern: keep fetching until getting non-empty results
-          if (isOrderByQuery) {
-            while (queryIterator.hasMoreResults() && result.resources.length === 0) {
-              result = await queryIterator.fetchNext();
-            }
-            if (result.resources.length === 0) {
-              break;
-            }
-          }
-          totalResults += result.resources.length;
-          continuationToken = result.continuationToken;
-          attempts++;
-          if (continuationToken) {
-            break;
-          }
-        }
         if (!continuationToken) {
-          // Check if this is expected behavior for queries that don't support continuation
           if (testCase.expectedTokenStructure.expectNoContinuationToken) {
             expect(totalResults).toBeGreaterThan(0);
             return;
-          } else {
-            // fail test
-            expect(continuationToken).toBeDefined();
           }
+          expect(continuationToken).toBeDefined();
         }
+
         if (testCase.expectedTokenStructure.expectNoContinuationToken) {
           throw new Error(
             `Unexpected continuation token received for ${testCase.name} - this query should not produce continuation tokens`,
           );
         }
 
-        // Parse and validate token structure using declarative properties
         let parsedToken: any;
         try {
           parsedToken = JSON.parse(continuationToken);
@@ -550,14 +545,12 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
           throw new Error(`Failed to parse continuation token: ${error.message}`);
         }
 
-        // Validate using declarative properties
         validateTokenStructure(
           parsedToken,
           testCase.expectedTokenStructure,
           testCase.expectedTokenValues
         );
 
-        // Test token reusability
         await testTokenReusability(
           container,
           testCase.query,
@@ -568,49 +561,51 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     });
   });
 
+  // Helper: Collect all tokens and items from a query
+  async function collectQueryResults(query: string, container: Container, queryOptions: any) {
+    let queryIterator = container.items.query(query, queryOptions);
+    const items: any[] = [];
+    const tokens: string[] = [];
+    const isOrderByQuery = query.toUpperCase().includes("ORDER BY");
+
+    while (queryIterator.hasMoreResults()) {
+      let result = await queryIterator.fetchNext();
+      if (isOrderByQuery) {
+        while (queryIterator.hasMoreResults() && result.resources.length === 0) {
+          result = await queryIterator.fetchNext();
+        }
+        if (result.resources.length === 0) break;
+      }
+      items.push(...result.resources);
+      if (result.continuationToken) {
+        tokens.push(result.continuationToken);
+        queryIterator = container.items.query(query, { ...queryOptions, continuationToken: result.continuationToken });
+      }
+    }
+    return { items, tokens };
+  }
+
   describe("Single Partition Scenarios", () => {
     it("should handle large result sets with multiple continuation tokens", async () => {
       const query = "SELECT * FROM c ORDER BY c.sequence ASC";
-      const maxItemCount = 5;
+      const queryOptions = { maxItemCount: 5, enableQueryControl: true, forceQueryPlan: true };
+      const { items: totalItems, tokens: collectedTokens } = await collectQueryResults(
+        query,
+        singlePartitionContainer,
+        queryOptions,
+      );
 
-      let totalItems = 0;
-      let tokenCount = 0;
-      let currentToken: string | undefined;
-      const collectedTokens: string[] = [];
+      expect(totalItems.length).toBe(100);
+      expect(collectedTokens.length).toBeGreaterThan(0);
 
-      const queryIterator = singlePartitionContainer.items.query(query, {
-        maxItemCount,
-        continuationToken: currentToken,
-        enableQueryControl: true,
-        forceQueryPlan: true,
-      });
-
-      while (queryIterator.hasMoreResults()) {
-        const result = await queryIterator.fetchNext();
-        totalItems += result.resources.length;
-
-        if (result.continuationToken) {
-          tokenCount++;
-          collectedTokens.push(result.continuationToken);
-          currentToken = result.continuationToken;
-
-          // Validate token structure for single partition
-          const parsed = JSON.parse(result.continuationToken);
-          expect(parsed.rid).toBeDefined();
-          expect(typeof parsed.rid).toBe("string");
-
-          // For ORDER BY queries, should have order by items
-          if (query.includes("ORDER BY")) {
-            expect(parsed.orderByItems).toBeDefined();
-            expect(Array.isArray(parsed.orderByItems)).toBe(true);
-          }
-        }
+      // Validate first token structure
+      if (collectedTokens.length > 0) {
+        const parsed = JSON.parse(collectedTokens[0]);
+        expect(parsed.rid).toBeDefined();
+        expect(Array.isArray(parsed.orderByItems)).toBe(true);
       }
-      expect(totalItems).toBe(100); // We inserted 100 items
-      expect(tokenCount).toBeGreaterThan(0);
 
-      // Test token reuse
-      await testMultipleTokenReuse(singlePartitionContainer, query, collectedTokens, maxItemCount);
+      await testMultipleTokenReuse(singlePartitionContainer, query, collectedTokens, queryOptions.maxItemCount);
     });
 
     it("should handle complex WHERE clauses with ORDER BY", async () => {
@@ -658,130 +653,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
           }
         }
       }
-    });
-  });
-
-  describe("Multi-Partition Scenarios", () => {
-    it("should handle cross-partition queries with composite tokens", async () => {
-      const query = "SELECT * FROM c WHERE c.amount > 30";
-
-      const iterator = multiPartitionContainer.items.query(query, {
-        maxItemCount: 4,
-        enableQueryControl: true,
-        forceQueryPlan: true,
-      });
-      let tokens = 0;
-      let items = 0;
-      const partitionsEncountered = new Set<string>();
-
-      while (iterator.hasMoreResults()) {
-        const result = await iterator.fetchNext();
-        items += result.resources.length;
-
-        // Track partitions we've seen
-        result.resources.forEach((item) => partitionsEncountered.add(item.category));
-
-        if (result.continuationToken) {
-          tokens++;
-          const parsed = JSON.parse(result.continuationToken);
-
-          // For cross-partition queries, should have rangeMappings
-          expect(parsed.rangeMappings).toBeDefined();
-          expect(Array.isArray(parsed.rangeMappings)).toBe(true);
-          expect(parsed.rangeMappings.length).toBeGreaterThan(0);
-        }
-      }
-      expect(partitionsEncountered.size).toBeGreaterThan(1); // Should span multiple partitions
-    });
-
-    it("should handle ORDER BY queries across partitions with ordering validation", async () => {
-      const query = "SELECT * FROM c ORDER BY c.amount ASC, c.name DESC";
-
-      const iterator = multiPartitionContainer.items.query(query, {
-        maxItemCount: 3,
-        enableQueryControl: true,
-      });
-      let tokens = 0;
-      let items = 0;
-      const previousValues: number[] = [];
-
-      // Apply OrderBy pattern
-      while (iterator.hasMoreResults()) {
-        let result = await iterator.fetchNext();
-
-        // Continue fetching until we get data or no more results
-        while (iterator.hasMoreResults() && result.resources.length === 0) {
-          result = await iterator.fetchNext();
-        }
-
-        if (result.resources.length === 0) {
-          break;
-        }
-
-        items += result.resources.length;
-
-        // Verify ORDER BY correctness
-        const currentValues = result.resources.map((r) => r.amount);
-        previousValues.push(...currentValues);
-
-        // Now safely access continuation token after getting data
-        const continuationToken = result.continuationToken;
-        if (continuationToken) {
-          tokens++;
-          const parsed = JSON.parse(continuationToken);
-
-          // ORDER BY across partitions should have range mappings
-          expect(parsed.rangeMappings).toBeDefined();
-          expect(Array.isArray(parsed.rangeMappings)).toBe(true);
-
-          // Should have order by items
-          expect(parsed.orderByItems).toBeDefined();
-          expect(Array.isArray(parsed.orderByItems)).toBe(true);
-          expect(parsed.orderByItems.length).toBe(2); // Two ORDER BY fields
-
-          // Should have skip count
-          expect(parsed.skipCount).toBeDefined();
-          expect(typeof parsed.skipCount).toBe("number");
-          expect(parsed.skipCount).toBeGreaterThanOrEqual(0);
-        }
-      }
-
-      // Verify ordering was maintained
-      for (let i = 1; i < previousValues.length; i++) {
-        expect(previousValues[i]).toBeGreaterThanOrEqual(previousValues[i - 1]);
-      }
-    });
-
-    it("should handle GROUP BY queries with proper aggregation (No Continuation Support)", async () => {
-      const query =
-        "SELECT c.category, COUNT(1) as count, AVG(c.amount) as avgValue FROM c GROUP BY c.category";
-
-      const iterator = multiPartitionContainer.items.query(query, {
-        maxItemCount: 2,
-        enableQueryControl: true,
-      });
-      let groups = 0;
-      const categoryGroups = new Map<string, { count: number; avgValue: number }>();
-
-      while (iterator.hasMoreResults()) {
-        const result = await iterator.fetchNext();
-        groups += result.resources.length;
-
-        result.resources.forEach((group) => {
-          categoryGroups.set(group.category, {
-            count: group.count,
-            avgValue: group.avgValue,
-          });
-        });
-
-        // GROUP BY queries should NOT produce continuation tokens
-        expect(result.continuationToken).toBeUndefined();
-        result.resources.forEach((group) => { });
-      }
-
-      // Verify we got multiple categories and all results at once
-      expect(categoryGroups.size).toBeGreaterThan(1);
-      expect(groups).toBeGreaterThan(0);
     });
   });
 
@@ -943,7 +814,128 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     });
   });
 
-  describe("Integration Tests", () => {
+  describe("Multi-Partition Scenarios", () => {
+    it("should handle cross-partition queries with composite tokens", async () => {
+      const query = "SELECT * FROM c WHERE c.amount > 30";
+
+      const iterator = multiPartitionContainer.items.query(query, {
+        maxItemCount: 4,
+        enableQueryControl: true,
+        forceQueryPlan: true,
+      });
+      let tokens = 0;
+      let items = 0;
+      const partitionsEncountered = new Set<string>();
+
+      while (iterator.hasMoreResults()) {
+        const result = await iterator.fetchNext();
+        items += result.resources.length;
+
+        // Track partitions we've seen
+        result.resources.forEach((item) => partitionsEncountered.add(item.category));
+
+        if (result.continuationToken) {
+          tokens++;
+          const parsed = JSON.parse(result.continuationToken);
+
+          // For cross-partition queries, should have rangeMappings
+          expect(parsed.rangeMappings).toBeDefined();
+          expect(Array.isArray(parsed.rangeMappings)).toBe(true);
+          expect(parsed.rangeMappings.length).toBeGreaterThan(0);
+        }
+      }
+      expect(partitionsEncountered.size).toBeGreaterThan(1); // Should span multiple partitions
+    });
+
+    it("should handle ORDER BY queries across partitions with ordering validation", async () => {
+      const query = "SELECT * FROM c ORDER BY c.amount ASC, c.name DESC";
+
+      const iterator = multiPartitionContainer.items.query(query, {
+        maxItemCount: 3,
+        enableQueryControl: true,
+      });
+      let tokens = 0;
+      let items = 0;
+      const previousValues: number[] = [];
+
+      // Apply OrderBy pattern
+      while (iterator.hasMoreResults()) {
+        let result = await iterator.fetchNext();
+
+        // Continue fetching until we get data or no more results
+        while (iterator.hasMoreResults() && result.resources.length === 0) {
+          result = await iterator.fetchNext();
+        }
+
+        if (result.resources.length === 0) {
+          break;
+        }
+
+        items += result.resources.length;
+
+        // Verify ORDER BY correctness
+        const currentValues = result.resources.map((r) => r.amount);
+        previousValues.push(...currentValues);
+
+        // Now safely access continuation token after getting data
+        const continuationToken = result.continuationToken;
+        if (continuationToken) {
+          tokens++;
+          const parsed = JSON.parse(continuationToken);
+
+          // ORDER BY across partitions should have range mappings
+          expect(parsed.rangeMappings).toBeDefined();
+          expect(Array.isArray(parsed.rangeMappings)).toBe(true);
+
+          // Should have order by items
+          expect(parsed.orderByItems).toBeDefined();
+          expect(Array.isArray(parsed.orderByItems)).toBe(true);
+          expect(parsed.orderByItems.length).toBe(2); // Two ORDER BY fields
+
+          // Should have skip count
+          expect(parsed.skipCount).toBeDefined();
+          expect(typeof parsed.skipCount).toBe("number");
+          expect(parsed.skipCount).toBeGreaterThanOrEqual(0);
+        }
+      }
+
+      // Verify ordering was maintained
+      for (let i = 1; i < previousValues.length; i++) {
+        expect(previousValues[i]).toBeGreaterThanOrEqual(previousValues[i - 1]);
+      }
+    });
+
+    it("should handle GROUP BY queries with proper aggregation (No Continuation Support)", async () => {
+      const query =
+        "SELECT c.category, COUNT(1) as count, AVG(c.amount) as avgValue FROM c GROUP BY c.category";
+
+      const iterator = multiPartitionContainer.items.query(query, {
+        maxItemCount: 2,
+        enableQueryControl: true,
+      });
+      let groups = 0;
+      const categoryGroups = new Map<string, { count: number; avgValue: number }>();
+
+      while (iterator.hasMoreResults()) {
+        const result = await iterator.fetchNext();
+        groups += result.resources.length;
+
+        result.resources.forEach((group) => {
+          categoryGroups.set(group.category, {
+            count: group.count,
+            avgValue: group.avgValue,
+          });
+        });
+
+        // GROUP BY queries should NOT produce continuation tokens
+        expect(result.continuationToken).toBeUndefined();
+      }
+
+      // Verify we got multiple categories and all results at once
+      expect(categoryGroups.size).toBeGreaterThan(1);
+      expect(groups).toBeGreaterThan(0);
+    });
+  
     it("should handle continuation token across multiple iterations", async () => {
       const query = "SELECT * FROM c ORDER BY c.amount ASC";
       const queryOptions = { maxItemCount: 10, enableQueryControl: true };
@@ -1290,9 +1282,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         }
       }
     });
-  });
-
-  describe("Final Integration Tests", () => {
+  
     it("should handle continuation token across multiple iterations using proper OrderBy pattern", async () => {
       const query = "SELECT * FROM c ORDER BY c.amount ASC";
       const queryOptions = { maxItemCount: 30, enableQueryControl: true };
@@ -1433,7 +1423,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
       // Validate each category has the expected count (25000 / 8 categories = ~3125 each)
       const expectedCategoryCounts = 25000 / 8; // 8 categories total
-      for (const [category, count] of categoryCounts) {
+      for (const [_, count] of categoryCounts) {
         expect(count).toBeCloseTo(expectedCategoryCounts, -2); // Within 100 items tolerance
       }
     });
@@ -1922,7 +1912,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       });
 
       if (resumedIterator.hasMoreResults()) {
-        const result = await resumedIterator.fetchNext();
+        await resumedIterator.fetchNext();
       }
     } catch (error) {
       throw new Error(`Token reusability test failed: ${error.message}`);
@@ -1982,27 +1972,17 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
   }
 
   /**
-   * Populate multi-partition container with comprehensive test data
+   * Populate multi-partition container with test data (supports both small and large datasets)
    */
-  async function populateMultiPartitionData(container: Container): Promise<void> {
-    const categories = [
-      "electronics",
-      "books",
-      "clothing",
-      "toys",
-      "home",
-      "sports",
-      "food",
-      "auto",
-    ];
+  async function populateMultiPartitionData(container: Container, itemCount: number = 80): Promise<void> {
+    const categories = ["electronics", "books", "clothing", "toys", "home", "sports", "food", "auto"];
     const items = [];
 
-    // Create enough data to ensure continuation tokens across multiple scenarios
-    for (let i = 0; i < 80; i++) {
+    for (let i = 0; i < itemCount; i++) {
       const category = categories[i % categories.length];
       items.push({
         id: `mp-item-${i.toString().padStart(3, "0")}`,
-        category: category, // Partition key - distributes across partitions
+        category,
         name: `${category} Item ${i}`,
         amount: Math.floor(Math.random() * 100) + 1,
         price: Math.round((Math.random() * 200 + 10) * 100) / 100,
@@ -2011,81 +1991,30 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         stock: Math.floor(Math.random() * 50),
         createdDate: new Date(2024, 0, (i % 31) + 1).toISOString(),
         tags: [`tag-${i % 5}`, `tag-${(i + 1) % 5}`, `tag-${(i + 2) % 5}`],
-        metadata: {
-          source: `source-${i % 4}`,
-          region: `region-${i % 3}`,
-          priority: i % 10,
-        },
-        // Add some nested structures for complex scenarios
+        metadata: { source: `source-${i % 4}`, region: `region-${i % 3}`, priority: i % 10 },
         details: {
           manufacturer: `mfg-${i % 6}`,
           model: `model-${i % 8}`,
-          specs: {
-            weight: Math.random() * 10,
-            dimensions: `${Math.floor(Math.random() * 20)}x${Math.floor(Math.random() * 20)}`,
-          },
+          specs: { weight: Math.random() * 10, dimensions: `${Math.floor(Math.random() * 20)}x${Math.floor(Math.random() * 20)}` },
         },
       });
     }
 
-    // Insert items in batches to avoid overwhelming the emulator
-    const batchSize = 10;
-    for (let i = 0; i < items.length; i += batchSize) {
-      const batch = items.slice(i, i + batchSize);
-      await Promise.all(batch.map((item) => container.items.create(item)));
+    if (itemCount > 1000) {
+      // Use bulk operations for large datasets
+      const operations = items.map((item) => ({
+        operationType: BulkOperationType.Create,
+        partitionKey: item.category,
+        resourceBody: item,
+      }));
+      await container.items.executeBulkOperations(operations);
+    } else {
+      // Use batch inserts for small datasets
+      const batchSize = 10;
+      for (let i = 0; i < items.length; i += batchSize) {
+        const batch = items.slice(i, i + batchSize);
+        await Promise.all(batch.map((item) => container.items.create(item)));
+      }
     }
-  }
-
-  async function populateMultiPartitionData2(container: Container): Promise<void> {
-    const categories = [
-      "electronics",
-      "books",
-      "clothing",
-      "toys",
-      "home",
-      "sports",
-      "food",
-      "auto",
-    ];
-    const items = [];
-
-    // Create enough data to ensure continuation tokens across multiple scenarios
-    for (let i = 0; i < 25000; i++) {
-      const category = categories[i % categories.length];
-      items.push({
-        id: `mp-item-${i.toString().padStart(3, "0")}`,
-        category: category, // Partition key - distributes across partitions
-        name: `${category} Item ${i}`,
-        amount: Math.floor(Math.random() * 100) + 1,
-        price: Math.round((Math.random() * 200 + 10) * 100) / 100,
-        rating: Math.floor(Math.random() * 5) + 1,
-        isActive: i % 4 !== 0,
-        stock: Math.floor(Math.random() * 50),
-        createdDate: new Date(2024, 0, (i % 31) + 1).toISOString(),
-        tags: [`tag-${i % 5}`, `tag-${(i + 1) % 5}`, `tag-${(i + 2) % 5}`],
-        metadata: {
-          source: `source-${i % 4}`,
-          region: `region-${i % 3}`,
-          priority: i % 10,
-        },
-        // Add some nested structures for complex scenarios
-        details: {
-          manufacturer: `mfg-${i % 6}`,
-          model: `model-${i % 8}`,
-          specs: {
-            weight: Math.random() * 10,
-            dimensions: `${Math.floor(Math.random() * 20)}x${Math.floor(Math.random() * 20)}`,
-          },
-        },
-      });
-    }
-
-    const operations = items.map((item) => ({
-      operationType: BulkOperationType.Create,
-      partitionKey: item.category,
-      resourceBody: item,
-    }));
-    const bulkResponse = await container.items.executeBulkOperations(operations);
-    const successCount = bulkResponse.filter((result) => result.response).length;
   }
 });
