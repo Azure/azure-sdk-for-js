@@ -18,7 +18,7 @@
     
     Updates the CHANGELOG.md for the arm-storage package.
 .NOTES
-    - Requires js-sdk-release-tools to be installed in eng/common/js-sdk-release-tools.
+    - Requires js-sdk-release-tools to be installed in eng/tools/js-sdk-release-tools.
     - The tool will analyze git history and package changes to update the changelog.
 #>
 [CmdletBinding()]
@@ -44,7 +44,7 @@ try {
   Push-Location $SdkRepoPath
   
   # Install js-sdk-release-tools if needed
-  $releaseToolsPath = "eng\common\js-sdk-release-tools"
+  $releaseToolsPath = "eng\tools\js-sdk-release-tools"
   if (-not (Test-Path $releaseToolsPath)) {
     throw "Release tools path does not exist: $releaseToolsPath"
   }
