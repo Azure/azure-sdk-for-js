@@ -10,24 +10,27 @@
 
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 import { OpenAIRealtimeWS } from "openai/beta/realtime/ws";
-import { AzureOpenAI } from "openai";
-
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
-// Load the .env file if it exists
+import { OpenAI } from "openai";
 import "dotenv/config";
 
+const endpoint = process.env["AZURE_OPENAI_ENDPOINT"];
+
 async function main(): Promise<void> {
+  console.log("== Realtime WebSocket Sample ==");
+
+  if (!endpoint) {
+    throw new Error("Please set the AZURE_OPENAI_ENDPOINT environment variable.");
+  }
+
   const cred = new DefaultAzureCredential();
   const scope = "https://cognitiveservices.azure.com/.default";
-  const deploymentName = "gpt-4o-realtime-preview-1001";
+  const deploymentName = "gpt-4o-mini-realtime-preview-1217";
   const azureADTokenProvider = getBearerTokenProvider(cred, scope);
-  const client = new AzureOpenAI({
-    azureADTokenProvider,
-    apiVersion: "2024-10-01-preview",
-    deployment: deploymentName,
+  const client = new OpenAI({
+    baseURL: endpoint + "/openai/v1",
+    apiKey: azureADTokenProvider,
   });
-  const rt = await OpenAIRealtimeWS.azure(client);
+  const rt = await OpenAIRealtimeWS.create(client, { model: deploymentName });
 
   // access the underlying `ws.WebSocket` instance
   rt.socket.on("open", () => {
@@ -36,7 +39,7 @@ async function main(): Promise<void> {
       type: "session.update",
       session: {
         modalities: ["text"],
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-4o-mini-realtime-preview-2024-12-17",
       },
     });
 
@@ -54,7 +57,7 @@ async function main(): Promise<void> {
 
   rt.on("error", (err) => {
     // in a real world scenario this should be logged somewhere as you
-    // likely want to continue procesing events regardless of any errors
+    // likely want to continue processing events regardless of any errors
     throw err;
   });
 
