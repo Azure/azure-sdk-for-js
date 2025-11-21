@@ -134,7 +134,6 @@ function applyUpdateState(
 function buildRunningOperation(
   client: Client,
   expectedStatuses: string[],
-  options: CreateMemoryStoreUpdatePollerOptions,
   getInitialResponse?: () => PromiseLike<PathUncheckedResponse>,
   options?: CreateMemoryStoreUpdatePollerOptions,
 ): RunningOperation<PathUncheckedResponse> {
@@ -153,12 +152,12 @@ function buildRunningOperation(
         pollAbortController.abort();
       }
       const abortSignal = pollAbortController.signal;
-      if (options.abortSignal?.aborted) {
+      if (options?.abortSignal?.aborted) {
         pollAbortController.abort();
       } else if (pollOptions?.abortSignal?.aborted) {
         pollAbortController.abort();
       } else if (!abortSignal.aborted) {
-        options.abortSignal?.addEventListener("abort", abortListener, {
+        options?.abortSignal?.addEventListener("abort", abortListener, {
           once: true,
         });
         pollOptions?.abortSignal?.addEventListener("abort", abortListener, {
@@ -170,7 +169,7 @@ function buildRunningOperation(
       try {
         response = (await client.pathUnchecked(path).get({ abortSignal })) as PathUncheckedResponse;
       } finally {
-        options.abortSignal?.removeEventListener("abort", abortListener);
+        options?.abortSignal?.removeEventListener("abort", abortListener);
         pollOptions?.abortSignal?.removeEventListener("abort", abortListener);
       }
 
@@ -194,7 +193,6 @@ export function createMemoryStoreUpdatePoller(
     buildRunningOperation(
       client,
       expectedStatuses,
-      options,
       getInitialResponse
         ? async () => {
             initialResponse = await getInitialResponse();
