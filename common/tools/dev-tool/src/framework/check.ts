@@ -233,7 +233,7 @@ export function packageJsonCheck(options: PackageJsonCheckOptions): Check {
           }
         }
       } else {
-        options.check({ verbose, packageJson: project.packageJson, project, fix: false });
+        await options.check({ verbose, packageJson: project.packageJson, project, fix: false });
       }
     },
   };
