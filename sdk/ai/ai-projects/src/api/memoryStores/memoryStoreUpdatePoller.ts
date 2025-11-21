@@ -40,7 +40,7 @@ export interface CreateMemoryStoreUpdatePollerOptions {
   restoreFrom?: string;
 }
 
-const terminalUpdateStatuses: MemoryStoreUpdateStatus[] = ["completed", "superseded", "failed"];
+const terminalUpdateStatuses: MemoryStoreUpdateStatus[] = ["completed", "superseded"];
 
 function createDefaultUsage(): MemoryStoreOperationUsage {
   return {
@@ -136,6 +136,7 @@ function buildRunningOperation(
   expectedStatuses: string[],
   options: CreateMemoryStoreUpdatePollerOptions,
   getInitialResponse?: () => PromiseLike<PathUncheckedResponse>,
+  options?: CreateMemoryStoreUpdatePollerOptions,
 ): RunningOperation<PathUncheckedResponse> {
   const pollAbortController = new AbortController();
   return {
@@ -147,6 +148,7 @@ function buildRunningOperation(
       return toOperationResponse(initialResponse, expectedStatuses);
     },
     sendPollRequest: async (path: string, pollOptions?: { abortSignal?: AbortSignalLike }) => {
+      // The poll request will both listen to the user provided abort signal and the poller's own abort signal
       function abortListener(): void {
         pollAbortController.abort();
       }
@@ -199,6 +201,7 @@ export function createMemoryStoreUpdatePoller(
             return initialResponse;
           }
         : undefined,
+      options,
     ),
     {
       intervalInMs: options?.updateIntervalInMs,
