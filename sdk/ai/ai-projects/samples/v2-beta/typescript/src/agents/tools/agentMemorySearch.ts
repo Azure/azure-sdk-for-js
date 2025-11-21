@@ -88,7 +88,7 @@ export async function main(): Promise<void> {
       type: "memory_search",
       memory_store_name: memoryStore.name,
       scope,
-      update_delay: 5, // wait briefly after conversation inactivity before updating memories
+      update_delay: 1, // wait briefly after conversation inactivity before updating memories
     };
 
     // Create an agent that will use the Memory Search tool
@@ -123,7 +123,7 @@ export async function main(): Promise<void> {
 
     // Allow time for the memory store to update from this conversation
     console.log("Waiting for the memory store to capture the new memory...");
-    await delay(10000);
+    await delay(60000);
 
     // Create a follow-up conversation and ask the agent to recall the stored memory
     const followUpConversation = await openAIClient.conversations.create();
