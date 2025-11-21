@@ -62,4 +62,9 @@ describe("policyinsights test", () => {
     }
     assert.equal(resArray.length, 0);
   });
+
+  it("policyStates list test", async () => {
+    const res = await client.policyStates.listQueryResultsForSubscription("default",subscriptionId)
+    assert.ok(res);
+  });
 });

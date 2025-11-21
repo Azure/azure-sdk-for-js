@@ -16,7 +16,8 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "cloud"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -27,6 +28,9 @@
   "dependencies": {
     "@azure/arm-policyinsights": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.2.1"
+    "@azure/identity": "^4.13.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }

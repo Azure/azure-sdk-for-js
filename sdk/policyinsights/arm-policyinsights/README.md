@@ -6,7 +6,7 @@ Query component policy states at varying resource scopes for Resource Provider m
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/policyinsights/arm-policyinsights) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-policyinsights) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-policyinsights?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-policyinsights) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -105,7 +105,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
-
 
 
 [azure_cli]: https://learn.microsoft.com/cli/azure

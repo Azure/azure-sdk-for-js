@@ -1,32 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+import type {
+  PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams} from "@azure/arm-policyinsights";
+import {
+  PolicyInsightsClient,
+} from "@azure/arm-policyinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Queries policy states for the subscription level policy definition.
  *
  * @summary Queries policy states for the subscription level policy definition.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QuerySubscriptionLevelPolicyDefinitionScope.json
  */
-
-import type { PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams } from "@azure/arm-policyinsights";
-import { PolicyInsightsClient } from "@azure/arm-policyinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function queryLatestAtSubscriptionLevelPolicyDefinitionScope(): Promise<void> {
   const policyStatesResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policyDefinitionName = "24813039-7534-408a-9842-eb99f45721b1";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyStates.listQueryResultsForPolicyDefinition(
+  const result = await client.policyStates.listQueryResultsForPolicyDefinition(
     policyStatesResource,
     subscriptionId,
     policyDefinitionName,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -40,21 +40,17 @@ async function queryLatestAtSubscriptionLevelPolicyDefinitionScopeWithNextLink()
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policyDefinitionName = "24813039-7534-408a-9842-eb99f45721b1";
   const skipToken = "WpmWfBSvPhkAK6QD";
-  const options: PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams = {
-    queryOptions: { skipToken },
-  };
+  const options: PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams =
+    { skipToken };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyStates.listQueryResultsForPolicyDefinition(
+  const result = await client.policyStates.listQueryResultsForPolicyDefinition(
     policyStatesResource,
     subscriptionId,
     policyDefinitionName,
     options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 async function main(): Promise<void> {

@@ -1,21 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  CheckRestrictionsRequest} from "@azure/arm-policyinsights";
+import {
+  PolicyInsightsClient,
+} from "@azure/arm-policyinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Checks what restrictions Azure Policy will place on a resource within a subscription.
  *
  * @summary Checks what restrictions Azure Policy will place on a resource within a subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyRestrictions_CheckAtSubscriptionScope.json
  */
-
-import type { CheckRestrictionsRequest } from "@azure/arm-policyinsights";
-import { PolicyInsightsClient } from "@azure/arm-policyinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function checkPolicyRestrictionsAtSubscriptionScope(): Promise<void> {
   const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
   const parameters: CheckRestrictionsRequest = {
     pendingFields: [
       { field: "name", values: ["myVMName"] },
@@ -35,7 +38,8 @@ async function checkPolicyRestrictionsAtSubscriptionScope(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
-  const result = await client.policyRestrictions.checkAtSubscriptionScope(parameters);
+  const result =
+    await client.policyRestrictions.checkAtSubscriptionScope(parameters);
   console.log(result);
 }
 
@@ -47,7 +51,8 @@ async function checkPolicyRestrictionsAtSubscriptionScope(): Promise<void> {
  */
 async function checkPolicyRestrictionsAtSubscriptionScopeIncludingAuditEffect(): Promise<void> {
   const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
   const parameters: CheckRestrictionsRequest = {
     includeAuditEffect: true,
     pendingFields: [
@@ -68,7 +73,8 @@ async function checkPolicyRestrictionsAtSubscriptionScopeIncludingAuditEffect():
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
-  const result = await client.policyRestrictions.checkAtSubscriptionScope(parameters);
+  const result =
+    await client.policyRestrictions.checkAtSubscriptionScope(parameters);
   console.log(result);
 }
 

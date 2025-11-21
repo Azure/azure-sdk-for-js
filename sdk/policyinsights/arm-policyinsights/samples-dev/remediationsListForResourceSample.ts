@@ -1,17 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+import type {
+  RemediationsListForResourceOptionalParams} from "@azure/arm-policyinsights";
+import {
+  PolicyInsightsClient,
+} from "@azure/arm-policyinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Gets all remediations for a resource.
  *
  * @summary Gets all remediations for a resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_ListResourceScope.json
  */
-
-import type { RemediationsListForResourceOptionalParams } from "@azure/arm-policyinsights";
-import { PolicyInsightsClient } from "@azure/arm-policyinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function listRemediationsAtIndividualResourceScope(): Promise<void> {
   const resourceId =
     "subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/myResourceGroup/providers/microsoft.storage/storageaccounts/storAc1";
@@ -36,16 +39,14 @@ async function listRemediationsAtIndividualResourceScopeWithQueryParameters(): P
   const top = 1;
   const filter =
     "PolicyAssignmentId eq '/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/providers/microsoft.authorization/policyassignments/b101830944f246d8a14088c5'";
-  const options: RemediationsListForResourceOptionalParams = {
-    queryOptions: {
-      top,
-      filter,
-    },
-  };
+  const options: RemediationsListForResourceOptionalParams = { top, filter };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (const item of client.remediations.listForResource(resourceId, options)) {
+  for await (const item of client.remediations.listForResource(
+    resourceId,
+    options,
+  )) {
     resArray.push(item);
   }
   console.log(resArray);
