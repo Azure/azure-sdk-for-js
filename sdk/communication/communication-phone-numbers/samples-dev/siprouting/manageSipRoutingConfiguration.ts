@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates how to manage SIP routing configuration including trunks and routes.
+ * @azsdk-weight 40
+ */
+
 import { SipRoutingClient } from "@azure/communication-phone-numbers";
 import { randomUUID } from "@azure/core-util";
 import "dotenv/config";

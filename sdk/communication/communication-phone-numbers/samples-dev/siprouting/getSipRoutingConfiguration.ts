@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates how to get the SIP routing configuration for an Azure Communication Service resource.
+ * @azsdk-weight 40
+ */
+
 import { SipRoutingClient } from "@azure/communication-phone-numbers";
 
 import "dotenv/config";
