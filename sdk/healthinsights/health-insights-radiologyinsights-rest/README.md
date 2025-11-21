@@ -986,7 +986,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 [Package (NPM)]: https://www.npmjs.com/package/@azure-rest/health-insights-radiologyinsights
 [API reference documentation]: https://learn.microsoft.com/rest/api/healthinsights/radiology-insights
 [Product Information]: https://learn.microsoft.com/azure/azure-health-insights/radiology-insights/overview
-[Samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1
+[Samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v2
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
 [identity]: https://www.npmjs.com/package/@azure/identity
 [token_credential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token
