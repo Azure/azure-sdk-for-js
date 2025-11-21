@@ -20,10 +20,12 @@ async function summarizeAtPolicySetDefinitionScope() {
   const to = new Date("2019-10-06T18:00:00Z");
   const filter = "PolicyDefinitionAction eq 'deny'";
   const options = {
-    top,
-    fromParam,
-    to,
-    filter,
+    queryOptions: {
+      top,
+      from: fromParam,
+      to,
+      filter,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);

@@ -29,7 +29,7 @@ async function getCollectionOfPolicyMetadataResources() {
  */
 async function getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter() {
   const top = 1;
-  const options = { top };
+  const options = { queryOptions: { top } };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();

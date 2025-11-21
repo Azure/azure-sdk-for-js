@@ -22,9 +22,11 @@ async function filterAndAggregateOnly(): Promise<void> {
   const filter = "PolicyDefinitionAction eq 'deny'";
   const apply = "aggregate($count as NumDenyEvents)";
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    fromParam,
-    filter,
-    apply,
+    queryOptions: {
+      from: fromParam,
+      filter,
+      apply,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
@@ -55,10 +57,12 @@ async function filterAndGroupWithAggregate(): Promise<void> {
   const apply =
     "groupby((PolicyAssignmentId, PolicyDefinitionId, PolicyDefinitionAction, ResourceId), aggregate($count as NumEvents))";
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    top,
-    fromParam,
-    filter,
-    apply,
+    queryOptions: {
+      top,
+      from: fromParam,
+      filter,
+      apply,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
@@ -89,10 +93,12 @@ async function filterAndGroupWithoutAggregate(): Promise<void> {
   const apply =
     "groupby((PolicyAssignmentId, PolicyDefinitionId, PolicyDefinitionAction, ResourceId))";
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    top,
-    fromParam,
-    filter,
-    apply,
+    queryOptions: {
+      top,
+      from: fromParam,
+      filter,
+      apply,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
@@ -123,11 +129,13 @@ async function filterAndMultipleGroups(): Promise<void> {
   const apply =
     "groupby((PolicyAssignmentId, PolicyDefinitionId, ResourceId))/groupby((PolicyAssignmentId, PolicyDefinitionId), aggregate($count as NumDeniedResources))";
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    top,
-    orderBy,
-    fromParam,
-    filter,
-    apply,
+    queryOptions: {
+      top,
+      orderBy,
+      from: fromParam,
+      filter,
+      apply,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
@@ -174,7 +182,7 @@ async function queryAtSubscriptionScopeWithNextLink(): Promise<void> {
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    skipToken,
+    queryOptions: { skipToken },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
@@ -206,11 +214,13 @@ async function timeRangeSortSelectAndLimit(): Promise<void> {
   const fromParam = new Date("2018-02-05T18:00:00Z");
   const to = new Date("2018-02-06T18:00:00Z");
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    top,
-    orderBy,
-    select,
-    fromParam,
-    to,
+    queryOptions: {
+      top,
+      orderBy,
+      select,
+      from: fromParam,
+      to,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);

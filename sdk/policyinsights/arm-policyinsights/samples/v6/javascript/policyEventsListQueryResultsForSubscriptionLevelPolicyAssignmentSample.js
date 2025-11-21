@@ -39,7 +39,7 @@ async function queryAtSubscriptionLevelPolicyAssignmentScopeWithNextLink() {
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policyAssignmentName = "ec8f9645-8ecb-4abb-9c0b-5292f19d4003";
   const skipToken = "WpmWfBSvPhkAK6QD";
-  const options = { skipToken };
+  const options = { queryOptions: { skipToken } };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();

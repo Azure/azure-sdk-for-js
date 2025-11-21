@@ -19,10 +19,12 @@ async function summarizeAtManagementGroupScope() {
   const to = new Date("2019-10-06T18:00:00Z");
   const filter = "PolicyDefinitionAction eq 'deny' or PolicyDefinitionAction eq 'audit'";
   const options = {
-    top,
-    fromParam,
-    to,
-    filter,
+    queryOptions: {
+      top,
+      from: fromParam,
+      to,
+      filter,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);

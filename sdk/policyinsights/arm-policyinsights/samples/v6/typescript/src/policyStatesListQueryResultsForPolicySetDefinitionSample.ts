@@ -42,7 +42,7 @@ async function queryLatestAtSubscriptionLevelPolicySetDefinitionScopeWithNextLin
   const policySetDefinitionName = "3e3807c1-65c9-49e0-a406-82d8ae3e338c";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams =
-    { skipToken };
+    { queryOptions: { skipToken } };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const result =

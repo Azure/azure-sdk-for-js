@@ -34,8 +34,7 @@ async function listRemediationsAtManagementGroupScopeWithQueryParameters() {
   const filter =
     "PolicyAssignmentId eq '/providers/microsoft.management/managementGroups/financeMg/providers/microsoft.authorization/policyassignments/b101830944f246d8a14088c5'";
   const options = {
-    top,
-    filter,
+    queryOptions: { top, filter },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);

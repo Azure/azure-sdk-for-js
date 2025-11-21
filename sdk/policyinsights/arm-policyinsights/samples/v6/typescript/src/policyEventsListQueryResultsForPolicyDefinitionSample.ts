@@ -44,7 +44,7 @@ async function queryAtSubscriptionLevelPolicyDefinitionScopeWithNextLink(): Prom
   const policyDefinitionName = "24813039-7534-408a-9842-eb99f45721b1";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams =
-    { skipToken };
+    { queryOptions: { skipToken } };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();

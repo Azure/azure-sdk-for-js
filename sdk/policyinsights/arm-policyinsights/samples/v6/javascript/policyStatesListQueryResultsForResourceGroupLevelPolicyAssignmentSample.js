@@ -39,7 +39,7 @@ async function queryLatestAtResourceGroupLevelPolicyAssignmentScopeWithNextLink(
   const resourceGroupName = process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const policyAssignmentName = "myPolicyAssignment";
   const skipToken = "WpmWfBSvPhkAK6QD";
-  const options = { skipToken };
+  const options = { queryOptions: { skipToken } };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const result = await client.policyStates.listQueryResultsForResourceGroupLevelPolicyAssignment(
