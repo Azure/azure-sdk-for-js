@@ -71,20 +71,6 @@ function toOperationResponse(
   };
 }
 
-function extractUpdateIdFromResponse(
-  response: Pick<PathUncheckedResponse, "headers">,
-): string | undefined {
-  const operationLocation =
-    response.headers?.["operation-location"] ??
-    response.headers?.["Operation-Location"] ??
-    response.headers?.operationLocation;
-  if (!operationLocation) {
-    return undefined;
-  }
-  const match = /\/updates\/([^/?]+)/i.exec(operationLocation);
-  return match?.[1];
-}
-
 function deserializeUpdateResponse(
   response: PathUncheckedResponse,
 ): MemoryStoreUpdateResponse | undefined {
@@ -100,8 +86,8 @@ function applyUpdateState(
   response: PathUncheckedResponse,
 ): void {
   const parsed = deserializeUpdateResponse(response);
-  state.updateId ??= parsed?.update_id ?? extractUpdateIdFromResponse(response);
-  state.updateStatus = parsed?.status ?? state.updateStatus;
+  state.updateId ??= parsed?.update_id;
+  state.updateStatus = parsed?.status;
   state.supersededBy = parsed?.superseded_by;
 
   if (!parsed) {
@@ -211,18 +197,7 @@ export function createMemoryStoreUpdateMemoriesPoller(
       processResult: async (operationResponse, state) => {
         applyUpdateState(state, operationResponse as PathUncheckedResponse);
         return state.result as MemoryStoreUpdateResult;
-      },
-      withOperationLocation: (operationLocation) => {
-        const updateId =
-          operationLocation && !initialResponse
-            ? extractUpdateIdFromResponse({
-                headers: { "operation-location": operationLocation },
-              })
-            : undefined;
-        if (updateId && poller.operationState) {
-          poller.operationState.updateId ??= updateId;
-        }
-      },
+      }
     },
   ) as MemoryStoreUpdateMemoriesPoller;
 
