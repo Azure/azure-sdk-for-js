@@ -8,12 +8,9 @@
  */
 
 const { AzureKeyCredential } = require("@azure/core-auth");
-
-const dotenv = require("dotenv");
-const ClinicalMatchingRestClient = require("../src").default,
-  { getLongRunningPoller, isUnexpected } = require("../src");
-
-dotenv.config();
+const ClinicalMatchingRestClient = require("@azure-rest/health-insights-clinicalmatching").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/health-insights-clinicalmatching");
+require("dotenv/config");
 
 // You will need to set this environment variables or edit the following values
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
@@ -23,7 +20,7 @@ const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 function printResults(trialMatcherResult) {
   if (trialMatcherResult.status === "succeeded") {
     const results = trialMatcherResult.results;
-    if (results != undefined) {
+    if (results) {
       const patients = results.patients;
       for (const patientResult of patients) {
         console.log(`Inferences of Patient ${patientResult.id}`);
@@ -112,7 +109,7 @@ function createRequestBody() {
 
   const patientInfo = {
     sex: "MALE",
-    birthDate: new Date("1965-11-26T00:00:00.000Z"),
+    birthDate: new Date("1965-11-26T00:00:00.000Z"), // Note: Months are zero-based (11 represents December)
     clinicalInfo: clinicalInfoList,
   };
 

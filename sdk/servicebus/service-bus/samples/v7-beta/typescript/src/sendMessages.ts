@@ -13,14 +13,14 @@
  * @summary Demonstrates how to send messages to Service Bus Queue/Topic
  */
 
-import { ServiceBusClient, ServiceBusMessage, ServiceBusMessageBatch } from "@azure/service-bus";
+import type { ServiceBusMessage, ServiceBusMessageBatch } from "@azure/service-bus";
+import { ServiceBusClient } from "@azure/service-bus";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const firstSetOfMessages: ServiceBusMessage[] = [
@@ -39,8 +39,9 @@ const secondSetOfMessages: ServiceBusMessage[] = [
   { body: "Nikolaus Kopernikus" },
 ];
 
-export async function main() {
-  const sbClient = new ServiceBusClient(connectionString);
+export async function main(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const sbClient = new ServiceBusClient(fqdn, credential);
 
   // createSender() can also be used to create a sender for a topic.
   const sender = sbClient.createSender(queueName);
@@ -68,6 +69,16 @@ export async function main() {
     // Send the batch
     console.log(`Sending the last 5 scientists (as a ServiceBusMessageBatch)`);
     await sender.sendMessages(batch);
+
+    // Send a single message
+    console.log(`Sending one scientists`);
+    const message: ServiceBusMessage = {
+      contentType: "application/json",
+      subject: "Scientist",
+      body: { firstName: "Albert", lastName: "Einstein" },
+      timeToLive: 2 * 60 * 1000, // message expires in 2 minutes
+    };
+    await sender.sendMessages(message);
 
     // Close the sender
     console.log(`Done sending, closing...`);

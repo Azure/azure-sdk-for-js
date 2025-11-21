@@ -10,8 +10,9 @@
 import DeviceUpdate, { getLongRunningPoller, isUnexpected } from "@azure-rest/iot-device-update";
 
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 import { randomUUID } from "@azure/core-util";
+import "dotenv/config";
+
 const endpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";
 

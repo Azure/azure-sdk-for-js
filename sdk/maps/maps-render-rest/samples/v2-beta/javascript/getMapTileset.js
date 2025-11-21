@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary How to get the metadata of a certain tileset.
+ */
+
 const { DefaultAzureCredential } = require("@azure/identity");
 const MapsRender = require("@azure-rest/maps-render").default,
   { isUnexpected } = require("@azure-rest/maps-render");
 
-/**
- * @summary How to get the metadata of a certain tileset.
- */
 async function main() {
   /**
    * Azure Maps supports two ways to authenticate requests:

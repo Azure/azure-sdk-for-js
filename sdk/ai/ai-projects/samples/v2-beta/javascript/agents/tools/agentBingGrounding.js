@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to create an AI agent with Bing grounding capabilities
- * using the `bing_grounding` tool type and synchronous Azure AI Projects client. The agent can search
+ * using the "bing_grounding" tool type and synchronous Azure AI Projects client. The agent can search
  * the web for current information and provide grounded responses with URL citations.
  *
  * @summary This sample demonstrates how to create an agent with Bing grounding tool capabilities,

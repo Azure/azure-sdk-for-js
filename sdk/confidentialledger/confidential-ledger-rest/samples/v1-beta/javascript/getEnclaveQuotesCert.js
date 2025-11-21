@@ -6,13 +6,13 @@
  *
  * @summary gets a list of all enclave quotes using Client Certificate Authentication
  */
+
+require("dotenv/config");
+
 const ConfidentialLedger = require("@azure-rest/confidential-ledger").default,
-  { getLedgerIdentity } = require("@azure-rest/confidential-ledger");
-
-require("dotenv").config();
-
+  { getLedgerIdentity, isUnexpected } = require("@azure-rest/confidential-ledger");
 const cert = process.env["USER_CERT"] || "";
-const certKey = process.env["USER_CERT_KEY"] || "";
+const key = process.env["USER_CERT_KEY"] || "";
 const endpoint = process.env["ENDPOINT"] || "";
 const ledgerId = process.env["LEDGER_ID"] || "";
 
@@ -23,20 +23,26 @@ async function main() {
   const ledgerIdentity = await getLedgerIdentity(ledgerId);
 
   // Create the Confidential Ledger Client
-  const confidentialLedger = ConfidentialLedger(endpoint, ledgerIdentity.ledgerIdentityCertificate, {
-    cert,
-    certKey,
-  });
+  const confidentialLedger = ConfidentialLedger(
+    endpoint,
+    ledgerIdentity.ledgerIdentityCertificate,
+    {
+      tlsOptions: {
+        cert,
+        key,
+      },
+    },
+  );
 
   // Get enclave quotes
   const enclaveQuotes = await confidentialLedger.path("/app/enclaveQuotes").get();
 
-  if (enclaveQuotes.status !== "200") {
+  if (isUnexpected(enclaveQuotes)) {
     throw enclaveQuotes.body.error;
   }
 
-  Object.keys(enclaveQuotes.body.enclaveQuotes).forEach((key) => {
-    console.log(enclaveQuotes.body.enclaveQuotes[key].nodeId);
+  Object.keys(enclaveQuotes.body.enclaveQuotes).forEach((property) => {
+    console.log(enclaveQuotes.body.enclaveQuotes[property].nodeId);
   });
 }
 

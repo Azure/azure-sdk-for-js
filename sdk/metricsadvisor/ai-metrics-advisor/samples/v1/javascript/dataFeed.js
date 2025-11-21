@@ -6,12 +6,10 @@
  */
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
-
+require("dotenv/config");
 const {
   MetricsAdvisorKeyCredential,
-  MetricsAdvisorAdministrationClient
+  MetricsAdvisorAdministrationClient,
 } = require("@azure/ai-metrics-advisor");
 
 async function main() {
@@ -35,8 +33,8 @@ async function listDataFeeds(client) {
   console.log("  using while loop");
   const iter = client.listDataFeeds({
     filter: {
-      dataFeedName: "js-blob-datafeed"
-    }
+      dataFeedName: "js-blob-datafeed",
+    },
   });
   let result = await iter.next();
   while (!result.done) {
@@ -79,47 +77,47 @@ async function createDataFeed(client) {
       container: process.env.METRICS_ADVISOR_AZURE_BLOB_CONTAINER || "<Azure Blob container name>",
       blobTemplate:
         process.env.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE || "<Azure Blob data file name template>",
-      authenticationType: "Basic"
+      authenticationType: "Basic",
     },
     granularity: {
-      granularityType: "Daily"
+      granularityType: "Daily",
     },
     schema: {
       metrics: [
         {
           name: "Metric1",
           displayName: "Metric1 display",
-          description: ""
+          description: "",
         },
         {
           name: "Metric2",
           displayName: "Metric2 display",
-          description: ""
-        }
+          description: "",
+        },
       ],
       dimensions: [
         { name: "Dim1", displayName: "Dim1 display" },
-        { name: "Dim2", displayName: "Dim2 display" }
+        { name: "Dim2", displayName: "Dim2 display" },
       ],
-      timestampColumn: undefined
+      timestampColumn: undefined,
     },
     ingestionSettings: {
       ingestionStartTime: new Date(Date.UTC(2020, 8, 21)),
       ingestionStartOffsetInSeconds: 0,
       dataSourceRequestConcurrency: -1,
       ingestionRetryDelayInSeconds: -1,
-      stopRetryAfterInSeconds: -1
+      stopRetryAfterInSeconds: -1,
     },
     rollupSettings: {
       rollupType: "AutoRollup",
       rollupMethod: "Sum",
-      rollupIdentificationValue: "__CUSTOM_SUM__"
+      rollupIdentificationValue: "__CUSTOM_SUM__",
     },
     missingDataPointFillSettings: {
       fillType: "CustomValue",
-      customFillValue: 567
+      customFillValue: 567,
     },
-    accessMode: "Private"
+    accessMode: "Private",
   };
   const result = await client.createDataFeed(feed);
 
@@ -140,20 +138,20 @@ async function updateDataFeed(client, dataFeedId) {
   const patch = {
     source: {
       dataSourceType: "AzureBlob",
-      authenticationType: "ManagedIdentity"
+      authenticationType: "ManagedIdentity",
     },
     name: "new name test-datafeed " + new Date().getTime().toString(),
     ingestionSettings: {
       ingestionStartTime: new Date(Date.UTC(2020, 8, 15)),
       ingestionRetryDelayInSeconds: 3000,
       stopRetryAfterInSeconds: 667777,
-      ingestionStartOffsetInSeconds: 4444
+      ingestionStartOffsetInSeconds: 4444,
     },
     description: "New datafeed description",
     missingDataPointFillSettings: {
-      fillType: "SmartFilling"
+      fillType: "SmartFilling",
     },
-    status: "Paused"
+    status: "Paused",
   };
 
   try {
@@ -171,11 +169,9 @@ async function deleteDataFeed(client, dataFeedId) {
   await client.deleteDataFeed(dataFeedId);
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});
+
+module.exports = { main };

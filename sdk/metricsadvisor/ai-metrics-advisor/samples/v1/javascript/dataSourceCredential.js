@@ -6,12 +6,10 @@
  */
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
-
+require("dotenv/config");
 const {
   MetricsAdvisorKeyCredential,
-  MetricsAdvisorAdministrationClient
+  MetricsAdvisorAdministrationClient,
 } = require("@azure/ai-metrics-advisor");
 
 async function main() {
@@ -47,7 +45,7 @@ async function listDataSourceCredentials(client) {
   const iterator = client.listDataSourceCredential();
   for await (const datasourceCredential of iterator) {
     console.log(
-      `id :${datasourceCredential.id}, name: ${datasourceCredential.name}, type: ${datasourceCredential.type}`
+      `id :${datasourceCredential.id}, name: ${datasourceCredential.name}, type: ${datasourceCredential.type}`,
     );
   }
 
@@ -73,7 +71,7 @@ async function createDataSourceCredential(client) {
     name: "Sql-server-cred",
     description: "an example sql server credential",
     type: "AzureSQLConnectionString",
-    connectionString: "connection-string"
+    connectionString: "connection-string",
   };
   const result = await client.createDataSourceCredential(datasourceCredential);
   console.dir(result);
@@ -94,7 +92,7 @@ async function updateDataSourceCredential(client, credentialId) {
     name: "update-credential-name",
     description: "updated-description",
     type: "AzureSQLConnectionString",
-    connectionString: "connection-string"
+    connectionString: "connection-string",
   };
 
   try {
@@ -112,11 +110,9 @@ async function deleteDataSourceCredential(client, credentialId) {
   await client.deleteDataSourceCredential(credentialId);
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});
+
+module.exports = { main };

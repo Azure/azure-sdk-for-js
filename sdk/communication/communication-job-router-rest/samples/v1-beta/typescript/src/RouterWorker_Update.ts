@@ -1,21 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * @summary router worker crud
  */
-import JobRouter, {
-  AzureCommunicationRoutingServiceClient
-} from "@azure-rest/communication-job-router";
-import * as dotenv from "dotenv";
-dotenv.config();
+import type { AzureCommunicationRoutingServiceClient } from "@azure-rest/communication-job-router";
+import JobRouter from "@azure-rest/communication-job-router";
+import "dotenv/config";
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 // Update a router worker
 async function updateRouterWorker(): Promise<void> {
   // Create the Router Client
-  const routerClient: AzureCommunicationRoutingServiceClient =
-    JobRouter(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient = JobRouter(connectionString);
 
   const id = "router-worker-123";
 
@@ -23,20 +21,20 @@ async function updateRouterWorker(): Promise<void> {
     contentType: "application/merge-patch+json",
     body: {
       capacity: 100,
-      queues: [
-        "MainQueue",
-        "SecondaryQueue"
-      ],
+      queues: ["MainQueue", "SecondaryQueue"],
       labels: {},
-      channels: [{
-        channelId: "CustomChatChannel",
-        capacityCostPerJob: 10
-      }, {
-        channelId: "CustomVoiceChannel",
-        capacityCostPerJob: 100
-      }],
-    }
-  })
+      channels: [
+        {
+          channelId: "CustomChatChannel",
+          capacityCostPerJob: 10,
+        },
+        {
+          channelId: "CustomVoiceChannel",
+          capacityCostPerJob: 100,
+        },
+      ],
+    },
+  });
   console.log("router worker: " + result);
 }
 

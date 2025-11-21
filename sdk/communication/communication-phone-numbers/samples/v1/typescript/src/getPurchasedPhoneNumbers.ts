@@ -8,10 +8,9 @@
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("\n== Get Purchased Phone Numbers Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
@@ -22,7 +21,7 @@ export async function main() {
   // create new client
   const client = new PhoneNumbersClient(connectionString);
 
-  const phoneNumbers = await client.listPurchasedPhoneNumbers();
+  const phoneNumbers = client.listPurchasedPhoneNumbers();
 
   for await (const phoneNumber of phoneNumbers) {
     console.log(`The phone number id is: ${phoneNumber.id}`);

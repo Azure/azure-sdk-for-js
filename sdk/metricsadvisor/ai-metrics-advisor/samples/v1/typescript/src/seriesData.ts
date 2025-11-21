@@ -5,6 +5,7 @@
  *  @summary This sample demonstrates how to retrieve time series data.
  */
 
+// Load the .env file if it exists
 import "dotenv/config";
 import { MetricsAdvisorKeyCredential, MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
 
@@ -80,11 +81,12 @@ async function getMetricSeriesData(client: MetricsAdvisorClient, metricId: strin
 
     for (const series of result) {
       console.log(series.definition);
-      if (series.timestamps && series.timestamps.length)
+      if (series.timestamps && series.timestamps.length) {
         for (let i = 0; i < series.timestamps!.length; i++) {
           console.log(`  ${series.timestamps![i]}`);
           console.log(`  ${series.values![i]}`);
         }
+      }
     }
   } catch (err: any) {
     console.log("!!!!!  error in listing metric series data");
@@ -92,11 +94,7 @@ async function getMetricSeriesData(client: MetricsAdvisorClient, metricId: strin
   }
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});

@@ -69,7 +69,7 @@ export async function main(): Promise<void> {
   });
   console.log(`Run finished with status: ${run.status}`);
 
-  const messages = await client.messages.list(thread.id);
+  const messages = client.messages.list(thread.id);
   for await (const threadMessage of messages) {
     console.log(
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,

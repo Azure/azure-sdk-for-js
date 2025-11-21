@@ -6,22 +6,16 @@
  */
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
-
+require("dotenv/config");
 const {
   MetricsAdvisorKeyCredential,
-  MetricsAdvisorAdministrationClient
+  MetricsAdvisorAdministrationClient,
 } = require("@azure/ai-metrics-advisor");
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});
 
 async function main() {
   // You will need to set these environment variables or edit the following values
@@ -63,21 +57,21 @@ async function createDetectionConfig(adminClient, metricId) {
       anomalyDetectorDirection: "Both",
       suppressCondition: {
         minNumber: 5,
-        minRatio: 50
-      }
+        minRatio: 50,
+      },
     },
     changeThresholdCondition: {
       anomalyDetectorDirection: "Both",
       shiftPoint: 1,
       changePercentage: 33,
       withinRange: true,
-      suppressCondition: { minNumber: 2, minRatio: 2 }
+      suppressCondition: { minNumber: 2, minRatio: 2 },
     },
     hardThresholdCondition: {
       anomalyDetectorDirection: "Up",
       upperBound: 400,
-      suppressCondition: { minNumber: 2, minRatio: 2 }
-    }
+      suppressCondition: { minNumber: 2, minRatio: 2 },
+    },
   };
   const seriesGroupDetectionConditions = [
     {
@@ -88,9 +82,9 @@ async function createDetectionConfig(adminClient, metricId) {
         shiftPoint: 1,
         changePercentage: 33,
         withinRange: true,
-        suppressCondition: { minNumber: 2, minRatio: 2 }
-      }
-    }
+        suppressCondition: { minNumber: 2, minRatio: 2 },
+      },
+    },
   ];
   const seriesDetectionConditions = [
     {
@@ -99,9 +93,9 @@ async function createDetectionConfig(adminClient, metricId) {
       hardThresholdCondition: {
         anomalyDetectorDirection: "Up",
         upperBound: 400,
-        suppressCondition: { minNumber: 2, minRatio: 2 }
-      }
-    }
+        suppressCondition: { minNumber: 2, minRatio: 2 },
+      },
+    },
   ];
 
   const config = {
@@ -110,10 +104,10 @@ async function createDetectionConfig(adminClient, metricId) {
     metricId,
     wholeSeriesDetectionCondition,
     seriesGroupDetectionConditions,
-    seriesDetectionConditions
+    seriesDetectionConditions,
   };
   console.log("Creating a new anomaly detection configuration...");
-  return await adminClient.createDetectionConfig(config);
+  return adminClient.createDetectionConfig(config);
 }
 
 // updating an detection configuration
@@ -128,13 +122,13 @@ async function updateDetectionConfig(adminClient, configId) {
         shiftPoint: 2,
         withinRange: true,
         changePercentage: 44,
-        suppressCondition: { minNumber: 4, minRatio: 4 }
+        suppressCondition: { minNumber: 4, minRatio: 4 },
       },
       hardThresholdCondition: {
         anomalyDetectorDirection: "Up",
         upperBound: 500,
-        suppressCondition: { minNumber: 5, minRatio: 5 }
-      }
+        suppressCondition: { minNumber: 5, minRatio: 5 },
+      },
     },
     seriesGroupDetectionConditions: [
       {
@@ -143,9 +137,9 @@ async function updateDetectionConfig(adminClient, configId) {
         hardThresholdCondition: {
           anomalyDetectorDirection: "Up",
           upperBound: 400,
-          suppressCondition: { minNumber: 2, minRatio: 2 }
-        }
-      }
+          suppressCondition: { minNumber: 2, minRatio: 2 },
+        },
+      },
     ],
     seriesDetectionConditions: [
       {
@@ -156,10 +150,10 @@ async function updateDetectionConfig(adminClient, configId) {
           shiftPoint: 1,
           changePercentage: 33,
           withinRange: true,
-          suppressCondition: { minNumber: 2, minRatio: 2 }
-        }
-      }
-    ]
+          suppressCondition: { minNumber: 2, minRatio: 2 },
+        },
+      },
+    ],
   };
   console.log(`Updating existing detection configuration '${configId}'`);
   const result = await adminClient.updateDetectionConfig(configId, patch);
@@ -181,3 +175,5 @@ async function listDetectionConfig(adminClient, metricId) {
     console.log(config);
   }
 }
+
+module.exports = { main };

@@ -21,7 +21,7 @@ export async function main(): Promise<void> {
   console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
   // List vector stores
-  const vectorStores = await client.vectorStores.list();
+  const vectorStores = client.vectorStores.list();
   console.log("List of vector stores:");
   for await (const store of vectorStores) {
     console.log(`Vector Store ID: ${store.id}, Name: ${store.name}`);

@@ -10,7 +10,7 @@ const {
 } = require("@azure-tools/communication-recipient-verification");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   console.log("\n== Get All Verifications Sample ==\n");
@@ -24,7 +24,7 @@ async function main() {
   const client = new RecipientVerificationClient(connectionString);
 
   // get all verifications for a resource
-  var verifications = await client.getVerifications();
+  const verifications = client.getVerifications();
 
   // print all verifications
   for await (const verification of verifications) {

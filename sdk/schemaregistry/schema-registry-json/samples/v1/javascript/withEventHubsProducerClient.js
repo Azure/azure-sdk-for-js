@@ -9,9 +9,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
 const { JsonSchemaSerializer } = require("@azure/schema-registry-json");
 const { EventHubProducerClient, createEventDataAdapter } = require("@azure/event-hubs");
-
-// Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 // The fully qualified namespace for schema registry
 const schemaRegistryFullyQualifiedNamespace =

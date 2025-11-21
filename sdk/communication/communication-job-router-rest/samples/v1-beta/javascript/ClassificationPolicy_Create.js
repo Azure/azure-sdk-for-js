@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const dotenv = require("dotenv");
 /**
  * @summary Classification policy crud
  */
-const JobRouter = require("@azure-rest/communication-job-router").default;
 
-dotenv.config();
+require("dotenv/config");
+
+const JobRouter = require("@azure-rest/communication-job-router").default;
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
@@ -24,7 +24,7 @@ async function createClassificationPolicy() {
       body: {
         name: "distribution-policy-123",
         mode: {
-          kind: "longest-idle",
+          kind: "longestIdle",
           minConcurrentOffers: 1,
           maxConcurrentOffers: 5,
           bypassSelectors: false,
@@ -35,7 +35,7 @@ async function createClassificationPolicy() {
 
   // define exception trigger for queue over flow
   const queueLengthExceptionTrigger = {
-    kind: "queue-length",
+    kind: "queueLength",
     threshold: 100,
   };
 
@@ -86,7 +86,7 @@ async function createClassificationPolicy() {
           },
         ],
         prioritizationRule: {
-          kind: "expression-rule",
+          kind: "expression",
           language: "powerFx",
           expression: 'If(job.department = "xbox", 2, 1)',
         },
@@ -127,7 +127,7 @@ async function createClassificationPolicy() {
           },
         ],
         prioritizationRule: {
-          kind: "static-rule",
+          kind: "static",
           value: { default: 2 },
         },
       },
@@ -136,4 +136,4 @@ async function createClassificationPolicy() {
   console.log("classification policy: " + result);
 }
 
-void createClassificationPolicy();
+createClassificationPolicy().catch(console.error);

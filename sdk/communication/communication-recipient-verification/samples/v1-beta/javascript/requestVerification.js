@@ -10,7 +10,7 @@ const {
 } = require("@azure-tools/communication-recipient-verification");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   console.log("\n== Request Verification Sample ==\n");
@@ -25,12 +25,12 @@ async function main() {
 
   // body of the request
   const verificationRequest = {
-    identity: "+1123456789",
+    identity: "+11234567890",
     channel: "sms",
   };
 
   // get the verification status
-  var status = await client.requestVerification(verificationRequest);
+  const status = await client.requestVerification(verificationRequest);
 
   // print the status of the phone number
   console.log(status);

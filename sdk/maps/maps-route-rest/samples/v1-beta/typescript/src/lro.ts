@@ -6,10 +6,10 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
+import type { RouteGetRouteDirectionsBatch200Response } from "@azure-rest/maps-route";
 import MapsRoute, {
   createRouteDirectionsBatchRequest,
   getLongRunningPoller,
-  RouteGetRouteDirectionsBatch200Response,
   toColonDelimitedLatLonString,
 } from "@azure-rest/maps-route";
 import "dotenv/config";
@@ -68,7 +68,7 @@ async function main(): Promise<void> {
   const poller = await getLongRunningPoller(client, response);
   /** Wait until the total request is done */
   const finalResult = await poller.pollUntilDone();
-  logBatchResponse(finalResult as RouteGetRouteDirectionsBatch200Response);
+  await logBatchResponse(finalResult as RouteGetRouteDirectionsBatch200Response);
 }
 
 function logBatchResponse(result: RouteGetRouteDirectionsBatch200Response): void {

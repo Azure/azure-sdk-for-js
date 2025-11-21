@@ -66,7 +66,7 @@ export async function main(): Promise<void> {
   console.log(`Run finished with status: ${run.status}`);
 
   // Fetch run steps to get the details of agent run
-  const runSteps = await client.runSteps.list(thread.id, run.id);
+  const runSteps = client.runSteps.list(thread.id, run.id);
 
   for await (const step of runSteps) {
     console.log(`Step ID: ${step.id}, Status: ${step.status}`);

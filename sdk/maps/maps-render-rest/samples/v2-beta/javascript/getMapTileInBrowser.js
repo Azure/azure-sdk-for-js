@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary How to get the map tile and render on the **browser**.
+ */
+
 const { DefaultAzureCredential } = require("@azure/identity");
 const MapsRender = require("@azure-rest/maps-render").default,
   { positionToTileXY } = require("@azure-rest/maps-render");
 
-/**
- * @summary How to get the map tile and render on the **browser**.
- */
 async function main() {
   /**
    * Azure Maps supports two ways to authenticate requests:

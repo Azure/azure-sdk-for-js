@@ -6,16 +6,14 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import {
-  SchemaRegistryClient,
-  SchemaDescription,
-  KnownSchemaFormats,
-} from "@azure/schema-registry";
-import { DeserializeOptions, JsonSchemaSerializer } from "@azure/schema-registry-json";
-
-import Ajv, { ValidateFunction } from "ajv";
-// Load the .env file if it exists
+import type { SchemaDescription } from "@azure/schema-registry";
+import { SchemaRegistryClient, KnownSchemaFormats } from "@azure/schema-registry";
+import type { DeserializeOptions } from "@azure/schema-registry-json";
+import { JsonSchemaSerializer } from "@azure/schema-registry-json";
+import type { ValidateFunction } from "ajv";
+import Ajv from "ajv";
 import "dotenv/config";
+
 // The fully qualified namespace for schema registry
 const schemaRegistryFullyQualifiedNamespace =
   process.env["SCHEMAREGISTRY_JSON_FULLY_QUALIFIED_NAMESPACE"] || "<namespace>";
@@ -76,17 +74,17 @@ export async function main(): Promise<void> {
   console.log(JSON.stringify(message));
 
   // Validation using a third party library
-  const ajv = new Ajv();
+  const ajv = new Ajv.default();
   const validator = ajv.compile(JSON.parse(schema));
   const validators = new Map<string, ValidateFunction>();
-  validators.set(schema, validator);
+  await validators.set(schema, validator);
   const validateOptions: DeserializeOptions = {
-    validateCallback(value, schema) {
-      const validator = validators.get(schema);
-      if (validator) {
-        const valid = validator(value);
+    validateCallback(callBackValue, callbackSchema) {
+      const callbackValidator = validators.get(callbackSchema);
+      if (callbackValidator) {
+        const valid = callbackValidator(callBackValue);
         if (!valid) {
-          throw new Error(JSON.stringify(validator.errors));
+          throw new Error(JSON.stringify(callbackValidator.errors));
         }
       } else {
         throw new Error("Unable to find validator");

@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * @summary job queue crud
  */
 const JobRouter = require("@azure-rest/communication-job-router").default;
-require("dotenv").config();
+require("dotenv/config");
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
@@ -19,9 +20,9 @@ async function updateJobQueue() {
     .patch({
       contentType: "application/merge-patch+json",
       body: {
-        name: "distribution-policy-123",
+        name: "distribution policy 123",
         mode: {
-          kind: "longest-idle",
+          kind: "longestIdle",
           minConcurrentOffers: 1,
           maxConcurrentOffers: 5,
           bypassSelectors: false,

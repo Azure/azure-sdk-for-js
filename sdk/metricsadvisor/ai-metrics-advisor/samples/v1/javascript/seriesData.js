@@ -6,9 +6,7 @@
  */
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
-
+require("dotenv/config");
 const { MetricsAdvisorKeyCredential, MetricsAdvisorClient } = require("@azure/ai-metrics-advisor");
 
 async function main() {
@@ -37,10 +35,10 @@ async function getEnrichedSeriesData(client, detectionConfigId) {
       detectionConfigId,
       [
         { city: "Manila", category: "Handmade" },
-        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" }
+        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" },
       ],
       new Date("09/01/2020"),
-      new Date("09/12/2020")
+      new Date("09/12/2020"),
     );
 
     for (const enriched of result) {
@@ -72,19 +70,20 @@ async function getMetricSeriesData(client, metricId) {
       metricId,
       [
         { city: "Manila", category: "Handmade" },
-        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" }
+        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" },
       ],
       new Date("09/01/2020"),
-      new Date("09/12/2020")
+      new Date("09/12/2020"),
     );
 
     for (const series of result) {
       console.log(series.definition);
-      if (series.timestamps && series.timestamps.length)
+      if (series.timestamps && series.timestamps.length) {
         for (let i = 0; i < series.timestamps.length; i++) {
           console.log(`  ${series.timestamps[i]}`);
           console.log(`  ${series.values[i]}`);
         }
+      }
     }
   } catch (err) {
     console.log("!!!!!  error in listing metric series data");
@@ -92,11 +91,9 @@ async function getMetricSeriesData(client, metricId) {
   }
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});
+
+module.exports = { main };

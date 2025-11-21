@@ -6,14 +6,12 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
+import type { RouteRequestRouteDirectionsBatchSync200Response } from "@azure-rest/maps-route";
 import MapsRoute, {
   createRouteDirectionsBatchRequest,
   isUnexpected,
   toColonDelimitedLatLonString,
-  RouteRequestRouteDirectionsBatchSync200Response,
 } from "@azure-rest/maps-route";
-
-// Load the .env file if it exists
 import "dotenv/config";
 
 async function main(): Promise<void> {
@@ -27,7 +25,7 @@ async function main(): Promise<void> {
    *
    * More info is available at https://learn.microsoft.com/azure/azure-maps/azure-maps-authentication.
    */
-  
+
   /** Microsoft Entra ID authentication */
   const credential = new DefaultAzureCredential();
   const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";

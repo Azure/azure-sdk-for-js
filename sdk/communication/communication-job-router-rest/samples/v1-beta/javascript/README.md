@@ -117,6 +117,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [routerworker_get]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-job-router-rest/samples/v1-beta/javascript/RouterWorker_Get.js
 [routerworker_list]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-job-router-rest/samples/v1-beta/javascript/RouterWorker_List.js
 [routerworker_update]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-job-router-rest/samples/v1-beta/javascript/RouterWorker_Update.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/communication-job-router
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/communication-job-router?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-job-router-rest/README.md

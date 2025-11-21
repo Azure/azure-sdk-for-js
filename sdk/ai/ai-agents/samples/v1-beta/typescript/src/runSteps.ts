@@ -51,7 +51,7 @@ async function main(): Promise<void> {
   console.log(`Run finished with status: ${run.status}`);
 
   // List run steps
-  const runSteps = await client.runSteps.list(thread.id, run.id);
+  const runSteps = client.runSteps.list(thread.id, run.id);
   console.log(`Listed run steps, run ID: ${run.id}`);
 
   // Get the first run step

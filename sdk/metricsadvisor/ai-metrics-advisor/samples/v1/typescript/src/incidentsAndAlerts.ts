@@ -3,9 +3,9 @@
 
 /**
  * @summary This sample demonstrates how to query incidents and alerts.
- * @azsdk-weight 70
  */
 
+// Load the .env file if it exists
 import "dotenv/config";
 import { MetricsAdvisorKeyCredential, MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
 
@@ -41,7 +41,7 @@ async function listAnomalyDimensionValues(
   console.log(
     `Listing anomaly dimension values for detection config ${detectionConfigId} and dimension ${dimensionName}`,
   );
-  const listIterator = await client.listAnomalyDimensionValues(
+  const listIterator = client.listAnomalyDimensionValues(
     detectionConfigId,
     new Date("10/22/2020"),
     new Date("10/24/2020"),
@@ -63,7 +63,7 @@ async function listAnomalyDimensionValues(
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page --");
-    for await (const dimensionValue of result.value) {
+    for (const dimensionValue of result.value) {
       console.log(dimensionValue);
     }
     result = await iterator.next();
@@ -299,11 +299,7 @@ async function listAnomaliesForAlert(
   }
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});

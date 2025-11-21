@@ -5,15 +5,16 @@
  *  @summary This sample demonstrates how to provide feedback for a metric.
  */
 
+// Load the .env file if it exists
 import "dotenv/config";
-import {
-  MetricsAdvisorKeyCredential,
-  MetricsAdvisorClient,
+import type {
   MetricAnomalyFeedback,
   MetricChangePointFeedback,
   MetricCommentFeedback,
+  MetricFeedbackUnion,
   MetricPeriodFeedback,
 } from "@azure/ai-metrics-advisor";
+import { MetricsAdvisorKeyCredential, MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
 
 export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
@@ -37,7 +38,7 @@ export async function main(): Promise<void> {
 async function provideAnomalyFeedback(
   client: MetricsAdvisorClient,
   metricId: string,
-): Promise<void> {
+): Promise<MetricFeedbackUnion> {
   console.log("Creating an anomaly feedback...");
   const anomalyFeedback: MetricAnomalyFeedback = {
     metricId,
@@ -47,13 +48,13 @@ async function provideAnomalyFeedback(
     value: "NotAnomaly",
     dimensionKey: { city: "Manila", category: "Handmade" },
   };
-  return await client.addFeedback(anomalyFeedback);
+  return client.addFeedback(anomalyFeedback);
 }
 
 async function providePeriodFeedback(
   client: MetricsAdvisorClient,
   metricId: string,
-): Promise<void> {
+): Promise<MetricFeedbackUnion> {
   console.log("Creating a period feedback...");
   const periodFeedback: MetricPeriodFeedback = {
     metricId,
@@ -62,13 +63,13 @@ async function providePeriodFeedback(
     periodValue: 4,
     dimensionKey: { city: "Manila", category: "Handmade" },
   };
-  return await client.addFeedback(periodFeedback);
+  return client.addFeedback(periodFeedback);
 }
 
 async function provideChangePointFeedback(
   client: MetricsAdvisorClient,
   metricId: string,
-): Promise<void> {
+): Promise<MetricFeedbackUnion> {
   console.log("Creating a change point feedback...");
   const changePointFeedback: MetricChangePointFeedback = {
     metricId,
@@ -77,13 +78,13 @@ async function provideChangePointFeedback(
     value: "ChangePoint",
     dimensionKey: { city: "Manila", category: "Handmade" },
   };
-  return await client.addFeedback(changePointFeedback);
+  return client.addFeedback(changePointFeedback);
 }
 
 async function provideCommentFeedback(
   client: MetricsAdvisorClient,
   metricId: string,
-): Promise<void> {
+): Promise<MetricFeedbackUnion> {
   console.log("Creating a comment feedback...");
   const commendFeedback: MetricCommentFeedback = {
     metricId,
@@ -91,7 +92,7 @@ async function provideCommentFeedback(
     dimensionKey: { city: "Manila", category: "Handmade" },
     comment: "This is a comment",
   };
-  return await client.addFeedback(commendFeedback);
+  return client.addFeedback(commendFeedback);
 }
 
 async function getFeedback(client: MetricsAdvisorClient, feedbackId: string): Promise<void> {
@@ -185,11 +186,7 @@ async function listFeedback(client: MetricsAdvisorClient, metricId: string): Pro
   }
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});

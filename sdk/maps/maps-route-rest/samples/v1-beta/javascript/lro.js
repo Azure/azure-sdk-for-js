@@ -12,7 +12,7 @@ const MapsRoute = require("@azure-rest/maps-route").default,
     getLongRunningPoller,
     toColonDelimitedLatLonString,
   } = require("@azure-rest/maps-route");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * We use "/route/directions/batch/" in this example.
@@ -65,10 +65,10 @@ async function main() {
     body: request,
   });
 
-  const poller = getLongRunningPoller(client, response);
+  const poller = await getLongRunningPoller(client, response);
   /** Wait until the total request is done */
   const finalResult = await poller.pollUntilDone();
-  logBatchResponse(finalResult);
+  await logBatchResponse(finalResult);
 }
 
 function logBatchResponse(result) {

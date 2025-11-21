@@ -5,13 +5,17 @@
  * @summary This sample demonstrates Metrics Advisor Hooks CRUD operations.
  */
 
+// Load the .env file if it exists
 import "dotenv/config";
-import {
-  MetricsAdvisorKeyCredential,
-  MetricsAdvisorAdministrationClient,
+import type {
   EmailNotificationHook,
   WebNotificationHook,
   EmailNotificationHookPatch,
+  NotificationHookUnion,
+} from "@azure/ai-metrics-advisor";
+import {
+  MetricsAdvisorKeyCredential,
+  MetricsAdvisorAdministrationClient,
 } from "@azure/ai-metrics-advisor";
 
 export async function main(): Promise<void> {
@@ -37,7 +41,9 @@ export async function main(): Promise<void> {
   await deleteHook(adminClient, createdWebHook.id!);
 }
 
-async function createWebHook(client: MetricsAdvisorAdministrationClient): Promise<void> {
+async function createWebHook(
+  client: MetricsAdvisorAdministrationClient,
+): Promise<NotificationHookUnion> {
   console.log("Creating a new web hook...");
   const hook: WebNotificationHook = {
     hookType: "Webhook",
@@ -60,7 +66,9 @@ async function createWebHook(client: MetricsAdvisorAdministrationClient): Promis
   return created;
 }
 
-async function createEmailHook(client: MetricsAdvisorAdministrationClient): Promise<void> {
+async function createEmailHook(
+  client: MetricsAdvisorAdministrationClient,
+): Promise<NotificationHookUnion> {
   console.log("Creating a new email hook...");
   const hook: EmailNotificationHook = {
     hookType: "Email",
@@ -84,7 +92,7 @@ async function getHook(client: MetricsAdvisorAdministrationClient, hookId: strin
 async function updateEmailHook(
   client: MetricsAdvisorAdministrationClient,
   hookId: string,
-): Promise<void> {
+): Promise<NotificationHookUnion> {
   console.log(`Updating hook ${hookId}`);
   const emailPatch: EmailNotificationHookPatch = {
     hookType: "Email",
@@ -170,11 +178,7 @@ async function deleteHook(
   await client.deleteHook(hookId);
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});

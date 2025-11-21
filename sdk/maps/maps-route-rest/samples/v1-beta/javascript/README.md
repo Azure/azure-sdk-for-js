@@ -55,7 +55,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [matrix]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/javascript/matrix.js
 [range]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/javascript/range.js
 [resumelro]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/javascript/resumeLro.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/maps-route
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/maps-route?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremapsresource]: https://learn.microsoft.com/azure/azure-maps/how-to-create-template
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/README.md

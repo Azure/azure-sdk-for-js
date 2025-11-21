@@ -30,6 +30,9 @@
     "dotenv": "latest",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-util": "^1.11.0",
-    "@azure/identity": "^4.5.0"
+    "@azure/identity": "^4.13.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }

@@ -6,12 +6,10 @@
  */
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
-
+require("dotenv/config");
 const {
   MetricsAdvisorKeyCredential,
-  MetricsAdvisorAdministrationClient
+  MetricsAdvisorAdministrationClient,
 } = require("@azure/ai-metrics-advisor");
 
 async function main() {
@@ -49,11 +47,11 @@ async function createWebHook(client) {
       password: "pass",
       headers: {
         name1: "value1",
-        name2: "value2"
-      }
+        name2: "value2",
+      },
       // certificateKey: "k",
       // certificatePassword: "kp"
-    }
+    },
   };
   const created = await client.createHook(hook);
   console.log(` hook created: ${created.id}`);
@@ -66,7 +64,7 @@ async function createEmailHook(client) {
     hookType: "Email",
     name: "js email hook example" + new Date().getTime().toString(),
     description: "description",
-    hookParameter: { toList: ["test@example.com"] }
+    hookParameter: { toList: ["test@example.com"] },
   };
   const created = await client.createHook(hook);
   console.log(` hook created: ${created.id}`);
@@ -86,8 +84,8 @@ async function updateEmailHook(client, hookId) {
   const emailPatch = {
     hookType: "Email",
     hookParameter: {
-      toList: ["test2@example.com", "test3@example.com"]
-    }
+      toList: ["test2@example.com", "test3@example.com"],
+    },
   };
   const response = await client.updateHook(hookId, emailPatch);
   console.log(response);
@@ -99,7 +97,7 @@ async function listHooks(client) {
   console.log("  using for-await-of syntax");
   let i = 1;
   const iterator = client.listHooks({
-    hookName: "js "
+    hookName: "js ",
   });
   for await (const hook of iterator) {
     console.log(`hook ${i++} - type ${hook.hookType}`);
@@ -164,11 +162,9 @@ async function deleteHook(client, hookId) {
   await client.deleteHook(hookId);
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});
+
+module.exports = { main };

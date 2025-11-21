@@ -19,6 +19,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [receiveMessagesLoop.ts][receivemessagesloop]                                             | Demonstrates how to receive Service Bus messages in a loop                                                                                                     |
 | [receiveMessagesStreaming.ts][receivemessagesstreaming]                                   | Demonstrates how to receive Service Bus messages in a stream                                                                                                   |
 | [browseMessages.ts][browsemessages]                                                       | Demonstrates how to browse a Service Bus message                                                                                                               |
+| [deleteMessages.ts][deletemessages]                                                       | Demonstrates deleting messages from a queue.                                                                                                                   |
 | [session.ts][session]                                                                     | Demonstrates how to send/receive messages to/from session enabled queues/subscriptions in Service Bus                                                          |
 | [scheduledMessages.ts][scheduledmessages]                                                 | Demonstrates how to schedule messages to appear on a Service Bus Queue/Subscription at a later time                                                            |
 | [useProxy.ts][useproxy]                                                                   | This sample demonstrates how to create a ServiceBusClient meant to be used in an environment where outgoing network requests have to go through a proxy server |
@@ -77,7 +78,7 @@ node dist/sendMessages.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env SERVICEBUS_CONNECTION_STRING="<servicebus connection string>" QUEUE_NAME="<queue name>" node dist/sendMessages.js
+cross-env SERVICEBUS_FQDN="<servicebus fqdn>" QUEUE_NAME="<queue name>" node dist/sendMessages.js
 ```
 
 ## Next Steps
@@ -89,6 +90,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [receivemessagesloop]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/receiveMessagesLoop.ts
 [receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/receiveMessagesStreaming.ts
 [browsemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/browseMessages.ts
+[deletemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/deleteMessages.ts
 [session]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/session.ts
 [scheduledmessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/scheduledMessages.ts
 [useproxy]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/useProxy.ts
@@ -101,7 +103,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [advanced_movingmessagestodlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/advanced/movingMessagesToDLQ.ts
 [advanced_processmessagefromdlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/advanced/processMessageFromDLQ.ts
 [exceedmaxdeliverycount]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/typescript/src/exceedMaxDeliveryCount.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/service-bus
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/service-bus?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureservicebus]: https://learn.microsoft.com/azure/service-bus-messaging
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/README.md
