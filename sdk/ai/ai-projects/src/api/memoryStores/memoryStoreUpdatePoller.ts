@@ -40,7 +40,7 @@ export interface CreateMemoryStoreUpdatePollerOptions {
   restoreFrom?: string;
 }
 
-const terminalUpdateStatuses: MemoryStoreUpdateStatus[] = ["completed", "superseded", "failed"];
+const terminalUpdateStatuses: MemoryStoreUpdateStatus[] = ["completed", "superseded"];
 
 function createDefaultUsage(): MemoryStoreOperationUsage {
   return {
