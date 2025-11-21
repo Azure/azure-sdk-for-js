@@ -1,22 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  CheckRestrictionsRequest} from "@azure/arm-policyinsights";
+import {
+  PolicyInsightsClient,
+} from "@azure/arm-policyinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Checks what restrictions Azure Policy will place on a resource within a resource group. Use this when the resource group the resource will be created in is already known.
  *
  * @summary Checks what restrictions Azure Policy will place on a resource within a resource group. Use this when the resource group the resource will be created in is already known.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyRestrictions_CheckAtResourceGroupScope.json
  */
-
-import type { CheckRestrictionsRequest } from "@azure/arm-policyinsights";
-import { PolicyInsightsClient } from "@azure/arm-policyinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function checkPolicyRestrictionsAtResourceGroupScope(): Promise<void> {
   const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
-  const resourceGroupName = process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "vmRg";
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const resourceGroupName =
+    process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "vmRg";
   const parameters: CheckRestrictionsRequest = {
     pendingFields: [
       { field: "name", values: ["myVMName"] },
@@ -51,8 +55,10 @@ async function checkPolicyRestrictionsAtResourceGroupScope(): Promise<void> {
  */
 async function checkPolicyRestrictionsAtResourceGroupScopeIncludingAuditEffect(): Promise<void> {
   const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
-  const resourceGroupName = process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "vmRg";
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const resourceGroupName =
+    process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "vmRg";
   const parameters: CheckRestrictionsRequest = {
     includeAuditEffect: true,
     pendingFields: [

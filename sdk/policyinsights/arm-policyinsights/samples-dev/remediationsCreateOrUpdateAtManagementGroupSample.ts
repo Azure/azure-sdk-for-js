@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { Remediation} from "@azure/arm-policyinsights";
+import { PolicyInsightsClient } from "@azure/arm-policyinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Creates or updates a remediation at management group scope.
  *
  * @summary Creates or updates a remediation at management group scope.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_CreateManagementGroupScope.json
  */
-
-import type { Remediation } from "@azure/arm-policyinsights";
-import { PolicyInsightsClient } from "@azure/arm-policyinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function createRemediationAtManagementGroupScope(): Promise<void> {
   const managementGroupId = "financeMg";
   const remediationName = "storageRemediation";

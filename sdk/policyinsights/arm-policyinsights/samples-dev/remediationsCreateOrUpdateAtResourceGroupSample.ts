@@ -1,22 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { Remediation} from "@azure/arm-policyinsights";
+import { PolicyInsightsClient } from "@azure/arm-policyinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Creates or updates a remediation at resource group scope.
  *
  * @summary Creates or updates a remediation at resource group scope.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_CreateResourceGroupScope.json
  */
-
-import type { Remediation } from "@azure/arm-policyinsights";
-import { PolicyInsightsClient } from "@azure/arm-policyinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function createRemediationAtResourceGroupScope(): Promise<void> {
   const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
-  const resourceGroupName = process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const resourceGroupName =
+    process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const remediationName = "storageRemediation";
   const parameters: Remediation = {
     policyAssignmentId:

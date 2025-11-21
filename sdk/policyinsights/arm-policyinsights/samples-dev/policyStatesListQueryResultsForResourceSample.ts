@@ -1,31 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+import type {
+  PolicyStatesListQueryResultsForResourceOptionalParams} from "@azure/arm-policyinsights";
+import {
+  PolicyInsightsClient,
+} from "@azure/arm-policyinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Queries policy states for the resource.
  *
  * @summary Queries policy states for the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QueryNestedResourceScope.json
  */
-
-import type { PolicyStatesListQueryResultsForResourceOptionalParams } from "@azure/arm-policyinsights";
-import { PolicyInsightsClient } from "@azure/arm-policyinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function queryAllPolicyStatesAtNestedResourceScope(): Promise<void> {
   const policyStatesResource = "default";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApplication";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyStates.listQueryResultsForResource(
+  const result = await client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -40,14 +40,11 @@ async function queryAllPolicyStatesAtResourceScope(): Promise<void> {
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyStates.listQueryResultsForResource(
+  const result = await client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -66,15 +63,12 @@ async function queryAllPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetai
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyStates.listQueryResultsForResource(
+  const result = await client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
     options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -89,21 +83,16 @@ async function queryAllPolicyStatesAtResourceScopeWithNextLink(): Promise<void> 
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyStatesListQueryResultsForResourceOptionalParams = {
-    queryOptions: {
-      skipToken,
-    },
+    queryOptions: { skipToken },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyStates.listQueryResultsForResource(
+  const result = await client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
     options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -118,14 +107,11 @@ async function queryAllPolicyStatesAtSubscriptionLevelNestedResourceScope(): Pro
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResource/someNestedResourceType/someNestedResource";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyStates.listQueryResultsForResource(
+  const result = await client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -140,14 +126,11 @@ async function queryAllPolicyStatesAtSubscriptionLevelResourceScope(): Promise<v
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResourceName";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyStates.listQueryResultsForResource(
+  const result = await client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -172,15 +155,12 @@ async function queryComponentPolicyComplianceStateAtResourceScopeFilteredByGiven
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyStates.listQueryResultsForResource(
+  const result = await client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
     options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -205,15 +185,12 @@ async function queryComponentPolicyComplianceStateCountGroupedByStateTypeAtResou
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyStates.listQueryResultsForResource(
+  const result = await client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
     options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 async function main(): Promise<void> {

@@ -1,41 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+import type {
+  PolicyStatesListQueryResultsForSubscriptionOptionalParams} from "@azure/arm-policyinsights";
+import {
+  PolicyInsightsClient,
+} from "@azure/arm-policyinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Queries policy states for the resources under the subscription.
  *
  * @summary Queries policy states for the resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_FilterAndAggregateOnly.json
  */
-
-import type { PolicyStatesListQueryResultsForSubscriptionOptionalParams } from "@azure/arm-policyinsights";
-import { PolicyInsightsClient } from "@azure/arm-policyinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function filterAndAggregateOnly(): Promise<void> {
   const policyStatesResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
-  const from = new Date("2019-10-05T18:00:00Z");
+  const fromParam = new Date("2019-10-05T18:00:00Z");
   const filter = "PolicyDefinitionAction eq 'deny'";
   const apply = "aggregate($count as NumDenyStates)";
   const options: PolicyStatesListQueryResultsForSubscriptionOptionalParams = {
     queryOptions: {
-      from,
+      from: fromParam,
       filter,
       apply,
     },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyStates.listQueryResultsForSubscription(
+  const result = await client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
     subscriptionId,
     options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -49,7 +49,7 @@ async function filterAndGroupWithAggregate(): Promise<void> {
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const orderBy = "NumAuditDenyNonComplianceRecords desc";
-  const from = new Date("2019-10-05T18:00:00Z");
+  const fromParam = new Date("2019-10-05T18:00:00Z");
   const filter =
     "IsCompliant eq false and (PolicyDefinitionAction eq 'audit' or PolicyDefinitionAction eq 'deny')";
   const apply =
@@ -58,22 +58,19 @@ async function filterAndGroupWithAggregate(): Promise<void> {
     queryOptions: {
       top,
       orderBy,
-      from,
+      from: fromParam,
       filter,
       apply,
     },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyStates.listQueryResultsForSubscription(
+  const result = await client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
     subscriptionId,
     options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -86,7 +83,7 @@ async function filterAndGroupWithoutAggregate(): Promise<void> {
   const policyStatesResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
-  const from = new Date("2019-10-05T18:00:00Z");
+  const fromParam = new Date("2019-10-05T18:00:00Z");
   const filter =
     "IsCompliant eq false and (PolicyDefinitionAction ne 'audit' and PolicyDefinitionAction ne 'append')";
   const apply =
@@ -94,22 +91,19 @@ async function filterAndGroupWithoutAggregate(): Promise<void> {
   const options: PolicyStatesListQueryResultsForSubscriptionOptionalParams = {
     queryOptions: {
       top,
-      from,
+      from: fromParam,
       filter,
       apply,
     },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyStates.listQueryResultsForSubscription(
+  const result = await client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
     subscriptionId,
     options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -136,15 +130,12 @@ async function filterAndMultipleGroups(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyStates.listQueryResultsForSubscription(
+  const result = await client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
     subscriptionId,
     options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -158,14 +149,11 @@ async function queryLatestAtSubscriptionScope(): Promise<void> {
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyStates.listQueryResultsForSubscription(
+  const result = await client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
     subscriptionId,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -179,21 +167,16 @@ async function queryLatestAtSubscriptionScopeWithNextLink(): Promise<void> {
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyStatesListQueryResultsForSubscriptionOptionalParams = {
-    queryOptions: {
-      skipToken,
-    },
+    queryOptions: { skipToken },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyStates.listQueryResultsForSubscription(
+  const result = await client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
     subscriptionId,
     options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -210,28 +193,25 @@ async function timeRangeSortSelectAndLimit(): Promise<void> {
     "Timestamp desc, PolicyAssignmentId asc, SubscriptionId asc, ResourceGroup asc, ResourceId";
   const select =
     "Timestamp, PolicyAssignmentId, PolicyDefinitionId, SubscriptionId, ResourceGroup, ResourceId, policyDefinitionGroupNames";
-  const from = new Date("2019-10-05T18:00:00Z");
+  const fromParam = new Date("2019-10-05T18:00:00Z");
   const to = new Date("2019-10-06T18:00:00Z");
   const options: PolicyStatesListQueryResultsForSubscriptionOptionalParams = {
     queryOptions: {
       top,
       orderBy,
       select,
-      from,
+      from: fromParam,
       to,
     },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyStates.listQueryResultsForSubscription(
+  const result = await client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
     subscriptionId,
     options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 async function main(): Promise<void> {
