@@ -27,9 +27,9 @@ import {
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
-  createMemoryStoreUpdatePoller,
-  MemoryStoreUpdatePoller,
-} from "./memoryStoreUpdatePoller.js";
+  createMemoryStoreUpdateMemoriesPoller,
+  MemoryStoreUpdateMemoriesPoller,
+} from "./memoryStoreUpdateMemoriesPoller.js";
 import {
   MemoryStoresDeleteScopeOptionalParams,
   MemoryStoresGetUpdateResultOptionalParams,
@@ -188,8 +188,8 @@ export function updateMemories(
   name: string,
   scope: string,
   options: MemoryStoresUpdateMemoriesOptionalParams = { requestOptions: {} },
-): MemoryStoreUpdatePoller {
-  return createMemoryStoreUpdatePoller(
+): MemoryStoreUpdateMemoriesPoller {
+  return createMemoryStoreUpdateMemoriesPoller(
     context,
     ["202", "200"],
     () => _updateMemoriesSend(context, name, scope, options),

@@ -25,7 +25,7 @@ export type MemoryStoreUpdateOperationState = OperationState<MemoryStoreUpdateRe
   supersededBy?: string;
 };
 
-export type MemoryStoreUpdatePoller = PollerLike<
+export type MemoryStoreUpdateMemoriesPoller = PollerLike<
   MemoryStoreUpdateOperationState,
   MemoryStoreUpdateResult
 > & {
@@ -34,7 +34,7 @@ export type MemoryStoreUpdatePoller = PollerLike<
   readonly supersededBy?: string;
 };
 
-export interface CreateMemoryStoreUpdatePollerOptions {
+export interface CreateMemoryStoreUpdateMemoriesPollerOptions {
   updateIntervalInMs?: number;
   abortSignal?: AbortSignalLike;
   restoreFrom?: string;
@@ -135,7 +135,7 @@ function buildRunningOperation(
   client: Client,
   expectedStatuses: string[],
   getInitialResponse?: () => PromiseLike<PathUncheckedResponse>,
-  options?: CreateMemoryStoreUpdatePollerOptions,
+  options?: CreateMemoryStoreUpdateMemoriesPollerOptions,
 ): RunningOperation<PathUncheckedResponse> {
   const pollAbortController = new AbortController();
   return {
@@ -178,12 +178,12 @@ function buildRunningOperation(
   };
 }
 
-export function createMemoryStoreUpdatePoller(
+export function createMemoryStoreUpdateMemoriesPoller(
   client: Client,
   expectedStatuses: string[],
   getInitialResponse?: () => PromiseLike<PathUncheckedResponse>,
-  options: CreateMemoryStoreUpdatePollerOptions = {},
-): MemoryStoreUpdatePoller {
+  options: CreateMemoryStoreUpdateMemoriesPollerOptions = {},
+): MemoryStoreUpdateMemoriesPoller {
   if (!getInitialResponse && !options?.restoreFrom) {
     throw new Error("getInitialResponse is required when starting a new poller");
   }
@@ -224,7 +224,7 @@ export function createMemoryStoreUpdatePoller(
         }
       },
     },
-  ) as MemoryStoreUpdatePoller;
+  ) as MemoryStoreUpdateMemoriesPoller;
 
   if (initialResponse && poller.operationState) {
     applyUpdateState(poller.operationState, initialResponse);

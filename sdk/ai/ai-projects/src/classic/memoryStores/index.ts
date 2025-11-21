@@ -32,7 +32,7 @@ import {
   MemoryStoreUpdateResponse,
   MemoryStoreDeleteScopeResponse,
 } from "../../models/models.js";
-import { MemoryStoreUpdatePoller } from "../../api/memoryStores/memoryStoreUpdatePoller.js";
+import { MemoryStoreUpdateMemoriesPoller } from "../../api/memoryStores/memoryStoreUpdateMemoriesPoller.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a MemoryStores operations. */
@@ -54,7 +54,7 @@ export interface MemoryStoresOperations {
     name: string,
     scope: string,
     options?: MemoryStoresUpdateMemoriesOptionalParams,
-  ) => MemoryStoreUpdatePoller;
+  ) => MemoryStoreUpdateMemoriesPoller;
   /** Search for relevant memories from a memory store based on conversation context. */
   searchMemories: (
     name: string,

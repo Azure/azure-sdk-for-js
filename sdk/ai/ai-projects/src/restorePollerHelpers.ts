@@ -3,9 +3,9 @@
 
 import { AIProjectClient } from "./aiProjectClient.js";
 import {
-  createMemoryStoreUpdatePoller,
-  MemoryStoreUpdatePoller,
-} from "./api/memoryStores/memoryStoreUpdatePoller.js";
+  createMemoryStoreUpdateMemoriesPoller,
+  MemoryStoreUpdateMemoriesPoller,
+} from "./api/memoryStores/memoryStoreUpdateMemoriesPoller.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -56,7 +56,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     | undefined;
   const helper = getDeserializationHelper(initialRequestUrl, requestMethod);
   if (helper?.kind === "memoryUpdate") {
-    return createMemoryStoreUpdatePoller(
+    return createMemoryStoreUpdateMemoriesPoller(
       (client as any)["_client"] ?? client,
       helper.expectedStatuses ?? ["202", "200"],
       undefined,
@@ -65,7 +65,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
         abortSignal: options?.abortSignal,
         restoreFrom: serializedState,
       },
-    ) as MemoryStoreUpdatePoller as PollerLike<OperationState<TResult>, TResult>;
+    ) as MemoryStoreUpdateMemoriesPoller as PollerLike<OperationState<TResult>, TResult>;
   }
   const deserializeHelper = options?.processResponseBody ?? helper?.deserializer;
   const expectedStatuses = helper?.expectedStatuses ?? [];

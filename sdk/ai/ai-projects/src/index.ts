@@ -405,9 +405,9 @@ export {
   MemoryStoresCreateMemoryStoreOptionalParams,
 } from "./api/memoryStores/index.js";
 export {
-  MemoryStoreUpdatePoller,
+  MemoryStoreUpdateMemoriesPoller,
   MemoryStoreUpdateOperationState,
-} from "./api/memoryStores/memoryStoreUpdatePoller.js";
+} from "./api/memoryStores/memoryStoreUpdateMemoriesPoller.js";
 export {
   RedTeamsCreateOptionalParams,
   RedTeamsListOptionalParams,

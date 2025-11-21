@@ -24,6 +24,6 @@ export {
   MemoryStoresCreateMemoryStoreOptionalParams,
 } from "./options.js";
 export {
-  MemoryStoreUpdatePoller,
+  MemoryStoreUpdateMemoriesPoller,
   MemoryStoreUpdateOperationState,
-} from "./memoryStoreUpdatePoller.js";
+} from "./memoryStoreUpdateMemoriesPoller.js";
