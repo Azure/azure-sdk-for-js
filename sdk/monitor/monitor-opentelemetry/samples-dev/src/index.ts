@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /**
  * Azure Monitor OpenTelemetry Samples
  *
@@ -45,7 +48,7 @@ dotenv.config();
 // EXAMPLE RUNNER - Uncomment the corresponding run() call below
 // ============================================================================
 
-const runExample = async (): Promise<void> => {
+const runExample = (): void => {
   console.log("Azure Monitor OpenTelemetry Samples\n");
 
   // Uncomment one of the following examples to run:

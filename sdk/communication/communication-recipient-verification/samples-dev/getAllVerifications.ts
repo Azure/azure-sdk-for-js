@@ -22,7 +22,7 @@ export async function main(): Promise<void> {
   const client = new RecipientVerificationClient(connectionString);
 
   // get all verifications for a resource
-  var verifications = await client.getVerifications();
+  const verifications = client.getVerifications();
 
   // print all verifications
   for await (const verification of verifications) {
