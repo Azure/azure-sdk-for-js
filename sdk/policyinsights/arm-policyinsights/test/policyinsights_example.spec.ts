@@ -64,7 +64,10 @@ describe("policyinsights test", () => {
   });
 
   it("policyStates list test", async () => {
-    const res = await client.policyStates.listQueryResultsForSubscription("default",subscriptionId)
+    const res = await client.policyStates.listQueryResultsForSubscription(
+      "default",
+      subscriptionId,
+    );
     assert.ok(res);
   });
 });
