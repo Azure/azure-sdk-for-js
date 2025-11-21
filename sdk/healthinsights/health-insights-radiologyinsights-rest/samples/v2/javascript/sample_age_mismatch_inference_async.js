@@ -2,88 +2,74 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Displays the quality measure the Radiology Insights request.
+ * @summary Displays the age mismatch of the Radiology Insights request.
  */
-import { DefaultAzureCredential } from "@azure/identity";
+const { DefaultAzureCredential } = require("@azure/identity");
 
-import "dotenv/config";
-import {
-  CreateJobParameters,
-  RadiologyInsightsJobOutput,
-} from "@azure-rest/health-insights-radiologyinsights";
-import AzureHealthInsightsClient, {
-  getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/health-insights-radiologyinsights";
+require("dotenv/config");
+const AzureHealthInsightsClient = require("@azure-rest/health-insights-radiologyinsights").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/health-insights-radiologyinsights");
 
 // You will need to set this environment variables or edit the following values
 
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
- * Print the quality measure inference
+ * Print the age mismatch inference
  */
 
-function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
+function printResults(radiologyInsightsResult, content) {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
-      results.patientResults.forEach((patientResult: any) => {
-        patientResult.inferences.forEach(
-          (inference: {
-            kind: string;
-            category: string;
-            categoryDescription: string;
-            singleValue?: string[];
-            rangeValue?: any;
-          }) => {
-            if (inference.kind === "scoringAndAssessment") {
-              console.log("Scoring and Assessment Inference found:");
-
-              if ("category" in inference) {
-                console.log("   Category: ", inference.category);
-              }
-
-              if ("categoryDescription" in inference) {
-                console.log("   Category Description: ", inference.categoryDescription);
-              }
-
-              if ("singleValue" in inference) {
-                console.log("   Single Value: ", inference.singleValue);
-              }
-
-              if ("rangeValue" in inference) {
-                console.log("   Range Value: ");
-                displayValueRange(inference.rangeValue);
-              }
-
+      results.patientResults.forEach((patientResult) => {
+        if (patientResult.inferences) {
+          patientResult.inferences.forEach((inference) => {
+            if (inference.kind === "ageMismatch") {
+              console.log("Age Mismatch Inference found: ");
+              const evidence = findAgeEvidence(inference.extension, content);
+              console.log("   Evidence: " + evidence);
             }
-          })
+          });
+        }
       });
-    } else {
-      const error = radiologyInsightsResult.error;
-      if (error) {
-        console.log(error.code, ":", error.message);
-      }
+    }
+  } else {
+    const error = radiologyInsightsResult.error;
+    if (error) {
+      console.log(error.code, ":", error.message);
     }
   }
-}
 
-function displayValueRange(range: any): void {
-  if ("minimum" in range) {
-    console.log("     Min: ", range.minimum);
-  }
-  if ("maximum" in range) {
-    console.log("     Max: ", range.maximum);
+  function findAgeEvidence(extensions, innerContent) {
+    let offset = -1;
+    let length = -1;
+    let piece = "";
+    let evidence = "";
+    // for loop needed for traversing from top to bottom of the array
+    for (const first of extensions) {
+      for (const ext of first.extension) {
+        if (ext.url === "offset") {
+          offset = ext.valueInteger;
+        } else if (ext.url === "length") {
+          length = ext.valueInteger;
+        }
+        if (offset > 0 && length > 0) {
+          piece = innerContent.substring(offset, offset + length);
+        }
+      }
+      evidence += `${piece} `;
+    }
+    return evidence;
   }
 }
 
 // Create request body for radiology insights
-function createRequestBody(): CreateJobParameters {
+function createRequestBody() {
   const codingData = {
     system: "http://www.ama-assn.org/go/cpt",
-    code: "USTHY",
-    display: "US THYROID",
+    code: "76856",
+    display: "US PELVIS COMPLETE",
   };
 
   const code = {
@@ -111,7 +97,7 @@ function createRequestBody(): CreateJobParameters {
 
   const orderedProceduresData = {
     code: code,
-    description: "CT CHEST WO CONTRAST",
+    description: "US PELVIS COMPLETE",
   };
 
   const administrativeMetadata = {
@@ -121,26 +107,47 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: `Exam: US THYROID
-    
-    Clinical History: Thyroid nodules. 76 year old patient.
-    
-    Comparison: none.
-    
-    Findings:
-      Right lobe: 4.8 x 1.6 x 1.4 cm
-      Left Lobe: 4.1 x 1.3 x 1.3 cm
-      
-    Isthmus: 4 mm
-    
-    There are multiple cystic and partly cystic sub-5 mm nodules noted within the right lobe (TIRADS 2).
-    
-    In the lower pole of the left lobe there is a 9 x 8 x 6 mm predominantly solid isoechoic nodule (TIRADS 3).
-    
-    Impression:
-      Multiple bilateral small cystic benign thyroid nodules. 
-      A low suspicion 9 mm left lobe thyroid nodule (TI-RAD 3) which, given its small size, does not warrant follow-up. 
-      CADRADS 3/4.`,
+    value: `CLINICAL HISTORY:
+    20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy.
+
+
+
+
+    COMPARISON:
+    Right upper quadrant sonographic performed 1 day prior.
+
+
+
+
+    TECHNIQUE:
+    Transabdominal grayscale pelvic sonography with duplex color Doppler
+    and spectral waveform analysis of the ovaries.
+
+
+
+
+    FINDINGS:
+    The uterus is unremarkable given the transabdominal technique with
+    endometrial echo complex within physiologic normal limits. The
+    ovaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the
+    left measuring 2.8 x 1.5 x 1.9 cm.
+
+
+
+
+    On duplex imaging, Doppler signal is symmetric.
+
+
+
+
+    IMPRESSION:
+    1. Normal pelvic sonography. Findings of testicular torsion.
+    A new US pelvis within the next 6 months is recommended.
+
+
+
+
+    These results have been discussed with Dr. Jones at 3 PM on November 5 2020.`,
   };
 
   const patientDocumentData = {
@@ -153,7 +160,7 @@ function createRequestBody(): CreateJobParameters {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdAt: "2021-05-31T16:00:00.000Z",
-    orderedProceduresAsCsv: "CT CHEST WO CONTRAST",
+    orderedProceduresAsCsv: "US PELVIS COMPLETE",
   };
 
   const patientData = {
@@ -217,7 +224,7 @@ function createRequestBody(): CreateJobParameters {
   };
 }
 
-export async function main(): Promise<void> {
+async function main() {
   const credential = new DefaultAzureCredential();
   const client = AzureHealthInsightsClient(endpoint, credential);
 
@@ -239,9 +246,14 @@ export async function main(): Promise<void> {
     throw RadiologyInsightsResult;
   }
   const resultBody = RadiologyInsightsResult.body;
-  printResults(resultBody);
+  const content =
+    radiologyInsightsParameter?.body?.jobData?.patients?.[0]?.patientDocuments?.[0]?.content
+      ?.value ?? "";
+  printResults(resultBody, content);
 }
 
 main().catch((err) => {
-  console.error("The quality measure encountered an error:", err);
+  console.error("The age mismatch encountered an error:", err);
 });
+
+module.exports = { main };

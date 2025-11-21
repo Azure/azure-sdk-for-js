@@ -4,17 +4,11 @@
 /**
  * @summary Displays the clinical guidance of the Radiology Insights request.
  */
-import { DefaultAzureCredential } from "@azure/identity";
+const { DefaultAzureCredential } = require("@azure/identity");
 
-import "dotenv/config";
-import {
-  CreateJobParameters,
-  RadiologyInsightsJobOutput,
-} from "@azure-rest/health-insights-radiologyinsights";
-import AzureHealthInsightsClient, {
-  getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/health-insights-radiologyinsights";
+require("dotenv/config");
+const AzureHealthInsightsClient = require("@azure-rest/health-insights-radiologyinsights").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/health-insights-radiologyinsights");
 
 // You will need to set this environment variables or edit the following values
 
@@ -24,67 +18,57 @@ const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
  * Print the clinical guidance inference
  */
 
-function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
+function printResults(radiologyInsightsResult) {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
-      results.patientResults.forEach((patientResult: any) => {
-        patientResult.inferences.forEach(
-          (inference: {
-            kind: string;
-            finding?: any;
-            identifier?: any;
-            presentGuidanceInformation?: any[];
-            ranking?: any;
-            recommendationProposals?: any;
-            missingGuidanceInformation?: string[];
-          }) => {
-            if (inference.kind === "guidance") {
-              console.log("Guidance Inference found:");
-              if ("finding" in inference) {
-                const find = inference.finding;
-                if ("code" in find) {
-                  const fcode = find.code;
-                  console.log("   Finding Code: ");
-                  displayCodes(fcode);
-                }
+      results.patientResults.forEach((patientResult) => {
+        patientResult.inferences.forEach((inference) => {
+          if (inference.kind === "guidance") {
+            console.log("Guidance Inference found:");
+            if ("finding" in inference) {
+              const find = inference.finding;
+              if ("code" in find) {
+                const fcode = find.code;
+                console.log("   Finding Code: ");
+                displayCodes(fcode);
               }
-
-              if ("identifier" in inference) {
-                console.log("   Identifier: ", inference.identifier);
-                if ("code" in inference.identifier) {
-                  displayCodes(inference.identifier.code);
-                }
-              }
-
-              inference.presentGuidanceInformation?.forEach((presentInfo: any) => {
-                console.log("   Present Guidance Information: ");
-                displayPresentGuidanceInformation(presentInfo);
-              })
-
-              if ("ranking" in inference) {
-                console.log("   Ranking: ", inference.ranking);
-              }
-
-              if ("recommendationProposals" in inference) {
-                inference.recommendationProposals.forEach((proposal: any) => {
-                  console.log("   Recommendation Proposal: ", proposal.kind);
-                  console.log("      Recommendation Procedure: ", proposal.recommendedProcedure.kind);
-                  if ("imagingProcedures" in proposal.recommendedProcedure) {
-                    proposal.recommendedProcedure.imagingProcedures?.forEach((imagingProcedure: any) => {
-                      console.log("      Recommended Imaging Procedure Codes: ");
-                      displayImaging(imagingProcedure);
-                    });
-                  }
-                });
-              }
-
-              inference.missingGuidanceInformation?.forEach((missingInfo: any) => {
-                console.log("   Missing Guidance Information: ", missingInfo);
-              })
-
             }
-          })
+
+            if ("identifier" in inference) {
+              console.log("   Identifier: ", inference.identifier);
+              if ("code" in inference.identifier) {
+                displayCodes(inference.identifier.code);
+              }
+            }
+
+            inference.presentGuidanceInformation?.forEach((presentInfo) => {
+              console.log("   Present Guidance Information: ");
+              displayPresentGuidanceInformation(presentInfo);
+            });
+
+            if ("ranking" in inference) {
+              console.log("   Ranking: ", inference.ranking);
+            }
+
+            if ("recommendationProposals" in inference) {
+              inference.recommendationProposals.forEach((proposal) => {
+                console.log("   Recommendation Proposal: ", proposal.kind);
+                console.log("      Recommendation Procedure: ", proposal.recommendedProcedure.kind);
+                if ("imagingProcedures" in proposal.recommendedProcedure) {
+                  proposal.recommendedProcedure.imagingProcedures?.forEach((imagingProcedure) => {
+                    console.log("      Recommended Imaging Procedure Codes: ");
+                    displayImaging(imagingProcedure);
+                  });
+                }
+              });
+            }
+
+            inference.missingGuidanceInformation?.forEach((missingInfo) => {
+              console.log("   Missing Guidance Information: ", missingInfo);
+            });
+          }
+        });
       });
     } else {
       const error = radiologyInsightsResult.error;
@@ -93,8 +77,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
       }
     }
 
-    function displayCodes(codeableConcept: any): void {
-      codeableConcept.coding?.forEach((coding: any) => {
+    function displayCodes(codeableConcept) {
+      codeableConcept.coding?.forEach((coding) => {
         if ("code" in coding) {
           if ("display" in coding && "system" in coding && "code" in coding) {
             console.log(
@@ -105,14 +89,14 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
       });
     }
 
-    function displayPresentGuidanceInformation(guidanceinfo: any): void {
+    function displayPresentGuidanceInformation(guidanceinfo) {
       console.log("     Present Guidance Information Item: ", guidanceinfo.presentGuidanceItem);
 
-      guidanceinfo.presentGuidanceValues?.forEach((sizes: any) => {
+      guidanceinfo.presentGuidanceValues?.forEach((sizes) => {
         console.log("     Present Guidance Value: ", sizes);
-      })
+      });
 
-      guidanceinfo.sizes?.forEach((sizes: any) => {
+      guidanceinfo.sizes?.forEach((sizes) => {
         if ("valueQuantity" in sizes) {
           console.log("     Size valueQuantity: ");
           displayQuantityOutput(guidanceinfo.sizes.valueQuantity);
@@ -125,7 +109,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
             console.log("     Size ValueRange: max", sizes.valueRange.high);
           }
         }
-      })
+      });
 
       if ("maximumDiameterAsInText" in guidanceinfo) {
         console.log("     Maximum Diameter As In Text: ");
@@ -138,7 +122,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
       }
     }
 
-    function displayQuantityOutput(quantity: any): void {
+    function displayQuantityOutput(quantity) {
       if ("value" in quantity) {
         console.log("     Value: ", quantity.value);
       }
@@ -147,11 +131,11 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
       }
     }
 
-    function displaySectionInfo(inference: { extension: any[] }): void {
-      inference.extension?.forEach((ext: any) => {
+    function displaySectionInfo(inference) {
+      inference.extension?.forEach((ext) => {
         if ("url" in ext && ext.url === "section") {
           console.log("   Section:");
-          ext.extension?.forEach((subextension: { url: string; valueString: string }) => {
+          ext.extension?.forEach((subextension) => {
             if ("url" in subextension && "valueString" in subextension) {
               console.log("      " + subextension.url + ": " + subextension.valueString);
             }
@@ -160,13 +144,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
       });
     }
 
-    function displayImaging(images: {
-      modality: { coding: any[] };
-      anatomy: { coding: any[] };
-      laterality: { coding: any[] };
-      contrast: { code: { coding: any[] } };
-      view: { code: { coding: any[] } };
-    }): void {
+    function displayImaging(images) {
       console.log("     Modality Codes: ");
       displayCodes(images.modality);
       console.log("     Anatomy Codes: ");
@@ -184,12 +162,10 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
         displayCodes(images.view.code);
       }
     }
-
   }
-
 }
 // Create request body for radiology insights
-function createRequestBody(): CreateJobParameters {
+function createRequestBody() {
   const codingData = {
     system: "http://www.ama-assn.org/go/cpt",
     code: "71250",
@@ -311,7 +287,7 @@ function createRequestBody(): CreateJobParameters {
   };
 }
 
-export async function main(): Promise<void> {
+async function main() {
   const credential = new DefaultAzureCredential();
   const client = AzureHealthInsightsClient(endpoint, credential);
 
@@ -339,3 +315,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The clinical guidance encountered an error:", err);
 });
+
+module.exports = { main };

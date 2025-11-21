@@ -4,61 +4,42 @@
 /**
  * @summary Displays the quality measure the Radiology Insights request.
  */
-import { DefaultAzureCredential } from "@azure/identity";
+const { DefaultAzureCredential } = require("@azure/identity");
 
-import "dotenv/config";
-import {
-  CreateJobParameters,
-  RadiologyInsightsJobOutput,
-} from "@azure-rest/health-insights-radiologyinsights";
-import AzureHealthInsightsClient, {
-  getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/health-insights-radiologyinsights";
+require("dotenv/config");
+const AzureHealthInsightsClient = require("@azure-rest/health-insights-radiologyinsights").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/health-insights-radiologyinsights");
 
 // You will need to set this environment variables or edit the following values
 
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
- * Print the quality measure inference
+ * Print the clinical guidance inference
  */
 
-function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
+function printResults(radiologyInsightsResult) {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
-      results.patientResults.forEach((patientResult: any) => {
-        patientResult.inferences.forEach(
-          (inference: {
-            kind: string;
-            category: string;
-            categoryDescription: string;
-            singleValue?: string[];
-            rangeValue?: any;
-          }) => {
-            if (inference.kind === "scoringAndAssessment") {
-              console.log("Scoring and Assessment Inference found:");
+      results.patientResults.forEach((patientResult) => {
+        patientResult.inferences.forEach((inference) => {
+          if (inference.kind === "qualityMeasure") {
+            console.log("Quality Measure Inference found:");
 
-              if ("category" in inference) {
-                console.log("   Category: ", inference.category);
-              }
-
-              if ("categoryDescription" in inference) {
-                console.log("   Category Description: ", inference.categoryDescription);
-              }
-
-              if ("singleValue" in inference) {
-                console.log("   Single Value: ", inference.singleValue);
-              }
-
-              if ("rangeValue" in inference) {
-                console.log("   Range Value: ");
-                displayValueRange(inference.rangeValue);
-              }
-
+            if ("qualityMeasureDenominator" in inference) {
+              console.log("   Quality Measure Denominator: ", inference.qualityMeasureDenominator);
             }
-          })
+
+            if ("complianceType" in inference) {
+              console.log("   Compliance Type: ", inference.complianceType);
+            }
+
+            inference.qualityCriteria?.forEach((criteria) => {
+              console.log("   Quality Criterium: ", criteria);
+            });
+          }
+        });
       });
     } else {
       const error = radiologyInsightsResult.error;
@@ -68,22 +49,12 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     }
   }
 }
-
-function displayValueRange(range: any): void {
-  if ("minimum" in range) {
-    console.log("     Min: ", range.minimum);
-  }
-  if ("maximum" in range) {
-    console.log("     Max: ", range.maximum);
-  }
-}
-
 // Create request body for radiology insights
-function createRequestBody(): CreateJobParameters {
+function createRequestBody() {
   const codingData = {
     system: "http://www.ama-assn.org/go/cpt",
-    code: "USTHY",
-    display: "US THYROID",
+    code: "CTCHWO",
+    display: "CT CHEST WO CONTRAST",
   };
 
   const code = {
@@ -121,26 +92,46 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: `Exam: US THYROID
-    
-    Clinical History: Thyroid nodules. 76 year old patient.
-    
-    Comparison: none.
-    
-    Findings:
-      Right lobe: 4.8 x 1.6 x 1.4 cm
-      Left Lobe: 4.1 x 1.3 x 1.3 cm
-      
-    Isthmus: 4 mm
-    
-    There are multiple cystic and partly cystic sub-5 mm nodules noted within the right lobe (TIRADS 2).
-    
-    In the lower pole of the left lobe there is a 9 x 8 x 6 mm predominantly solid isoechoic nodule (TIRADS 3).
-    
-    Impression:
-      Multiple bilateral small cystic benign thyroid nodules. 
-      A low suspicion 9 mm left lobe thyroid nodule (TI-RAD 3) which, given its small size, does not warrant follow-up. 
-      CADRADS 3/4.`,
+    value: `EXAM: CT CHEST WO CONTRAST
+
+
+
+
+INDICATION: abnormal lung findings. History of emphysema.
+
+
+
+
+TECHNIQUE: Helical CT images through the chest, without contrast. This exam was performed using one or more of the following dose reduction techniques: Automated exposure control, adjustment of the mA and/or kV according to patient size, and/or use of iterative reconstruction technique.
+
+
+
+COMPARISON: Chest CT dated 6/21/2022.
+Number of previous CT examinations or cardiac nuclear medicine (myocardial perfusion) examinations performed in the preceding 12-months: 2
+
+
+
+
+FINDINGS:
+Heart size is normal. No pericardial effusion. Thoracic aorta as well as pulmonary arteries are normal in caliber. There are dense coronary artery calcifications. No enlarged axillary, mediastinal, or hilar lymph nodes by CT size criteria. Central airways are widely patent. No bronchial wall thickening. No pneumothorax, pleural effusion or pulmonary edema. The previously identified posterior right upper lobe nodules are no longer seen. However, there are multiple new small pulmonary nodules. An 8 mm nodule in the right upper lobe, image #15 series 4. New posterior right upper lobe nodule measuring 6 mm, image #28 series 4. New 1.2 cm pulmonary nodule, right upper lobe, image #33 series 4. New 4 mm pulmonary nodule left upper lobe, image #22 series 4. New 8 mm pulmonary nodule in the left upper lobe adjacent to the fissure, image #42 series 4. A few new tiny 2 to 3 mm pulmonary nodules are also noted in the left lower lobe. As before there is a background of severe emphysema. No evidence of pneumonia.
+Limited evaluation of the upper abdomen shows no concerning abnormality.
+Review of bone windows shows no aggressive appearing osseous lesions.
+
+
+
+
+IMPRESSION:
+
+
+
+
+1. Previously identified small pulmonary nodules in the right upper lobe have resolved, but there are multiple new small nodules scattered throughout both lungs. Recommend short-term follow-up with noncontrast chest CT in 3 months as per current  Current guidelines (2017 Fleischner Society).
+2. Severe emphysema.
+
+
+
+
+Findings communicated to Dr. Jane Smith.`,
   };
 
   const patientDocumentData = {
@@ -190,9 +181,19 @@ function createRequestBody(): CreateJobParameters {
     provideFocusedSentenceEvidence: true,
   };
 
+  const qualityMeasureOptions = {
+    measureTypes: ["mips364", "mips360", "mips436"],
+  };
+
+  const guidanceOptions = {
+    showGuidanceInHistory: true,
+  };
+
   const inferenceOptions = {
     followupRecommendationOptions: followupRecommendationOptions,
     findingOptions: findingOptions,
+    GuidanceOptions: guidanceOptions,
+    QualityMeasureOptions: qualityMeasureOptions,
   };
 
   // Create RI Configuration
@@ -217,7 +218,7 @@ function createRequestBody(): CreateJobParameters {
   };
 }
 
-export async function main(): Promise<void> {
+async function main() {
   const credential = new DefaultAzureCredential();
   const client = AzureHealthInsightsClient(endpoint, credential);
 
@@ -245,3 +246,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The quality measure encountered an error:", err);
 });
+
+module.exports = { main };

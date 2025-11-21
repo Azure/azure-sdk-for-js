@@ -2,40 +2,57 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Displays the laterality discrepancy of the Radiology Insights request.
+ * @summary Displays the follow up recommendation of the Radiology Insights request.
  */
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-import type {
-  CreateJobParameters,
-  RadiologyInsightsJobOutput,
-} from "@azure-rest/health-insights-radiologyinsights";
-import AzureHealthInsightsClient, {
-  getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/health-insights-radiologyinsights";
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
+const AzureHealthInsightsClient = require("@azure-rest/health-insights-radiologyinsights").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/health-insights-radiologyinsights");
 
 // You will need to set this environment variables or edit the following values
 
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
- * Print the laterality discrepancy recommendation inference
+ * Print the follow up recommendation inference
  */
 
-function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
+function printResults(radiologyInsightsResult) {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
-      results.patientResults.forEach((patientResult: any) => {
-        patientResult.inferences.forEach(
-          (inference: { kind: string; lateralityIndication: any }) => {
-            if (inference.kind === "lateralityDiscrepancy") {
-              console.log("Laterality Discrepancy Inference found: ");
-              displayCodes(inference.lateralityIndication);
+      results.patientResults.forEach((patientResult) => {
+        patientResult.inferences.forEach((inference) => {
+          if (inference.kind === "followupRecommendation") {
+            console.log("Follow Up Recommendation Inference found");
+            console.log("   Is conditional: ", inference.isConditional);
+            console.log("   Is guidline: ", inference.isGuideline);
+            console.log("   Is hedging: ", inference.isHedging);
+            console.log("   Is option: ", inference.isOption);
+
+            const procedure = inference.recommendedProcedure;
+            if ("kind" in procedure && procedure.kind === "genericProcedureRecommendation") {
+              if ("code" in procedure) {
+                console.log("   Recommended Generic Procedure: ", procedure.code);
+              }
+              if ("description" in procedure) {
+                console.log("   Description: ", procedure.description);
+              }
+            } else if ("kind" in procedure && procedure.kind === "imagingProcedureRecommendation") {
+              procedure.procedureCodes?.forEach((procedureCode) => {
+                console.log("   Recommended Procedure Codes: ");
+                displayCodes(procedureCode);
+              });
+
+              if ("imagingProcedures" in procedure) {
+                procedure.imagingProcedures?.forEach((imagingProcedure) => {
+                  console.log("   Recommended Imaging Procedure Codes: ");
+                  displayImaging(imagingProcedure);
+                });
+              }
             }
-          },
-        );
+          }
+        });
       });
     }
   } else {
@@ -45,8 +62,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     }
   }
 
-  function displayCodes(codeableConcept: any): void {
-    codeableConcept.coding?.forEach((coding: any) => {
+  function displayCodes(codeableConcept) {
+    codeableConcept.coding?.forEach((coding) => {
       if ("code" in coding) {
         if ("display" in coding && "system" in coding && "code" in coding) {
           console.log(
@@ -56,14 +73,33 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
       }
     });
   }
+
+  function displayImaging(images) {
+    console.log("     Modality Codes: ");
+    displayCodes(images.modality);
+    console.log("     Anatomy Codes: ");
+    displayCodes(images.anatomy);
+    if ("laterality" in images) {
+      console.log("     Laterality Codes: ");
+      displayCodes(images.laterality);
+    }
+    if ("contrast" in images) {
+      console.log("     Contrast Codes: ");
+      displayCodes(images.contrast.code);
+    }
+    if ("view" in images) {
+      console.log("     View Codes: ");
+      displayCodes(images.view.code);
+    }
+  }
 }
 
 // Create request body for radiology insights
-function createRequestBody(): CreateJobParameters {
+function createRequestBody() {
   const codingData = {
     system: "http://www.ama-assn.org/go/cpt",
-    code: "76642",
-    display: "US BREAST - LEFT LIMITED",
+    code: "76856",
+    display: "US PELVIS COMPLETE",
   };
 
   const code = {
@@ -91,7 +127,7 @@ function createRequestBody(): CreateJobParameters {
 
   const orderedProceduresData = {
     code: code,
-    description: "US BREAST - LEFT LIMITED",
+    description: "US PELVIS COMPLETE",
   };
 
   const administrativeMetadata = {
@@ -101,13 +137,43 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: `Exam:   US LT BREAST TARGETED
-    Technique:  Targeted imaging of the  right breast  is performed.
-    
-    Findings:
-    Targeted imaging of the left breast is performed from the 6:00 to the 9:00 position.
-    At the 6:00 position, 5 cm from the nipple, there is a 3 x 2 x 4 mm minimally hypoechoic mass with a peripheral calcification.
-    This may correspond to the mammographic finding. No other cystic or solid masses visualized.`,
+    value: `CLINICAL HISTORY:
+    20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy.
+
+
+
+
+    COMPARISON:
+    Right upper quadrant sonographic performed 1 day prior.
+
+
+
+
+    TECHNIQUE:
+    Transabdominal grayscale pelvic sonography with duplex color Doppler
+    and spectral waveform analysis of the ovaries.
+
+
+
+
+    FINDINGS:
+    The uterus is unremarkable given the transabdominal technique with
+    endometrial echo complex within physiologic normal limits. The
+    ovaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the
+    left measuring 2.8 x 1.5 x 1.9 cm.
+    On duplex imaging, Doppler signal is symmetric.
+
+
+
+
+    IMPRESSION:
+    1. Normal pelvic sonography. Findings of testicular torsion.
+    A new US pelvis within the next 6 months is recommended.
+
+
+
+
+    These results have been discussed with Dr. Jones at 3 PM on November 5 2020.`,
   };
 
   const patientDocumentData = {
@@ -120,7 +186,7 @@ function createRequestBody(): CreateJobParameters {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdAt: "2021-05-31T16:00:00.000Z",
-    orderedProceduresAsCsv: "US BREAST - LEFT LIMITED",
+    orderedProceduresAsCsv: "US PELVIS COMPLETE",
   };
 
   const patientData = {
@@ -184,7 +250,7 @@ function createRequestBody(): CreateJobParameters {
   };
 }
 
-export async function main(): Promise<void> {
+async function main() {
   const credential = new DefaultAzureCredential();
   const client = AzureHealthInsightsClient(endpoint, credential);
 
@@ -210,5 +276,7 @@ export async function main(): Promise<void> {
 }
 
 main().catch((err) => {
-  console.error("The laterality discrepancy encountered an error:", err);
+  console.error("The follow up recommendation encountered an error:", err);
 });
+
+module.exports = { main };

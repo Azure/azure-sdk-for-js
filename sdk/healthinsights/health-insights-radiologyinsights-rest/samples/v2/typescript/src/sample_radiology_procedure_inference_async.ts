@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Displays the quality measure the Radiology Insights request.
+ * @summary Displays the radiology procedure of the Radiology Insights request.
  */
 import { DefaultAzureCredential } from "@azure/identity";
-
 import "dotenv/config";
-import {
+import type {
   CreateJobParameters,
   RadiologyInsightsJobOutput,
 } from "@azure-rest/health-insights-radiologyinsights";
@@ -21,60 +20,81 @@ import AzureHealthInsightsClient, {
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
- * Print the quality measure inference
+ * Print the radiology procedure inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
-      results.patientResults.forEach((patientResult: any) => {
-        patientResult.inferences.forEach(
-          (inference: {
-            kind: string;
-            category: string;
-            categoryDescription: string;
-            singleValue?: string[];
-            rangeValue?: any;
-          }) => {
-            if (inference.kind === "scoringAndAssessment") {
-              console.log("Scoring and Assessment Inference found:");
+      results.patientResults.forEach((patientResult: { inferences: any[] }) => {
+        if (patientResult.inferences) {
+          patientResult.inferences.forEach((inference) => {
+            if (inference.kind === "radiologyProcedure") {
+              console.log("Radiology Procedure Inference found");
+              inference.procedureCodes?.forEach((procedureCode: any) => {
+                console.log("   Procedure Codes: ");
+                displayCodes(procedureCode);
+              });
 
-              if ("category" in inference) {
-                console.log("   Category: ", inference.category);
+              if ("imagingProcedures" in inference) {
+                inference.imagingProcedures?.forEach((imagingProcedure: any) => {
+                  console.log("   Imaging Procedure Codes: ");
+                  displayImaging(imagingProcedure);
+                });
               }
 
-              if ("categoryDescription" in inference) {
-                console.log("   Category Description: ", inference.categoryDescription);
+              if ("orderedProcedure" in inference) {
+                console.log("   Ordered procedures: ");
+                if ("code" in inference.orderedProcedure) {
+                  displayCodes(inference.orderedProcedure.code);
+                }
               }
 
-              if ("singleValue" in inference) {
-                console.log("   Single Value: ", inference.singleValue);
+              if ("description" in inference.orderedProcedure) {
+                console.log("   Description: " + inference.orderedProcedure.description);
               }
-
-              if ("rangeValue" in inference) {
-                console.log("   Range Value: ");
-                displayValueRange(inference.rangeValue);
-              }
-
             }
-          })
+          });
+        }
       });
-    } else {
-      const error = radiologyInsightsResult.error;
-      if (error) {
-        console.log(error.code, ":", error.message);
-      }
+    }
+  } else {
+    const error = radiologyInsightsResult.error;
+    if (error) {
+      console.log(error.code, ":", error.message);
     }
   }
-}
 
-function displayValueRange(range: any): void {
-  if ("minimum" in range) {
-    console.log("     Min: ", range.minimum);
+  function displayCodes(codeableConcept: any): void {
+    codeableConcept.coding?.forEach((coding: any) => {
+      if ("code" in coding) {
+        if ("display" in coding && "system" in coding && "code" in coding) {
+          console.log(
+            "         Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+          );
+        }
+      }
+    });
   }
-  if ("maximum" in range) {
-    console.log("     Max: ", range.maximum);
+
+  function displayImaging(images: any): void {
+    console.log("     Modality Codes: ");
+    displayCodes(images.modality);
+    console.log("     Anatomy Codes: ");
+    displayCodes(images.anatomy);
+    if ("laterality" in images) {
+      console.log("     Laterality Codes: ");
+      displayCodes(images.laterality);
+    }
+    if ("contrast" in images) {
+      console.log("     Contrast Codes: ");
+      displayCodes(images.contrast.code);
+    }
+    if ("view" in images) {
+      console.log("     View Codes: ");
+      displayCodes(images.view.code);
+    }
   }
 }
 
@@ -82,8 +102,8 @@ function displayValueRange(range: any): void {
 function createRequestBody(): CreateJobParameters {
   const codingData = {
     system: "http://www.ama-assn.org/go/cpt",
-    code: "USTHY",
-    display: "US THYROID",
+    code: "70460",
+    display: "CT HEAD W CONTRAST IV",
   };
 
   const code = {
@@ -111,7 +131,7 @@ function createRequestBody(): CreateJobParameters {
 
   const orderedProceduresData = {
     code: code,
-    description: "CT CHEST WO CONTRAST",
+    description: "CT HEAD W CONTRAST IV",
   };
 
   const administrativeMetadata = {
@@ -121,26 +141,16 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: `Exam: US THYROID
+    value: ` Exam:  Head CT with Contrast
     
-    Clinical History: Thyroid nodules. 76 year old patient.
+    History:  Headaches for 2 months
+    Technique: Axial, sagittal, and coronal images were reconstructed from helical CT through the head without IV contrast.
+    IV contrast:  100 mL IV Omnipaque 300.
     
-    Comparison: none.
-    
-    Findings:
-      Right lobe: 4.8 x 1.6 x 1.4 cm
-      Left Lobe: 4.1 x 1.3 x 1.3 cm
-      
-    Isthmus: 4 mm
-    
-    There are multiple cystic and partly cystic sub-5 mm nodules noted within the right lobe (TIRADS 2).
-    
-    In the lower pole of the left lobe there is a 9 x 8 x 6 mm predominantly solid isoechoic nodule (TIRADS 3).
-    
-    Impression:
-      Multiple bilateral small cystic benign thyroid nodules. 
-      A low suspicion 9 mm left lobe thyroid nodule (TI-RAD 3) which, given its small size, does not warrant follow-up. 
-      CADRADS 3/4.`,
+    Findings: There is no mass effect. There is no abnormal enhancement of the brain or within injuries with IV contrast.
+    However, there is no evidence of enhancing lesion in either internal auditory canal.
+    Impression: Negative CT of the brain without IV contrast.
+    I recommend a new brain CT within nine months.`,
   };
 
   const patientDocumentData = {
@@ -153,7 +163,7 @@ function createRequestBody(): CreateJobParameters {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdAt: "2021-05-31T16:00:00.000Z",
-    orderedProceduresAsCsv: "CT CHEST WO CONTRAST",
+    orderedProceduresAsCsv: "CT HEAD W CONTRAST IV",
   };
 
   const patientData = {
@@ -243,5 +253,5 @@ export async function main(): Promise<void> {
 }
 
 main().catch((err) => {
-  console.error("The quality measure encountered an error:", err);
+  console.error("The radiology procedure encountered an error:", err);
 });

@@ -2,88 +2,99 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Displays the quality measure the Radiology Insights request.
+ * @summary Displays the finding of the Radiology Insights request.
  */
-import { DefaultAzureCredential } from "@azure/identity";
-
-import "dotenv/config";
-import {
-  CreateJobParameters,
-  RadiologyInsightsJobOutput,
-} from "@azure-rest/health-insights-radiologyinsights";
-import AzureHealthInsightsClient, {
-  getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/health-insights-radiologyinsights";
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
+const AzureHealthInsightsClient = require("@azure-rest/health-insights-radiologyinsights").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/health-insights-radiologyinsights");
 
 // You will need to set this environment variables or edit the following values
 
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
- * Print the quality measure inference
+ * Print the finding inference
  */
 
-function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
+function printResults(radiologyInsightsResult) {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
-      results.patientResults.forEach((patientResult: any) => {
-        patientResult.inferences.forEach(
-          (inference: {
-            kind: string;
-            category: string;
-            categoryDescription: string;
-            singleValue?: string[];
-            rangeValue?: any;
-          }) => {
-            if (inference.kind === "scoringAndAssessment") {
-              console.log("Scoring and Assessment Inference found:");
+      results.patientResults.forEach((patientResult) => {
+        if (patientResult.inferences) {
+          patientResult.inferences.forEach((inference) => {
+            if (inference.kind === "finding") {
+              console.log("Finding Inference found: ");
 
-              if ("category" in inference) {
-                console.log("   Category: ", inference.category);
+              const find = inference.finding;
+              if ("code" in find) {
+                const fcode = find.code;
+                console.log("   Code: ");
+                displayCodes(fcode);
               }
 
-              if ("categoryDescription" in inference) {
-                console.log("   Category Description: ", inference.categoryDescription);
-              }
+              find.interpretation?.forEach((inter) => {
+                console.log("   Interpretation: ");
+                displayCodes(inter);
+              });
 
-              if ("singleValue" in inference) {
-                console.log("   Single Value: ", inference.singleValue);
-              }
+              inference.finding.component?.forEach((comp) => {
+                console.log("   Component code: ");
+                displayCodes(comp.code);
+                if ("valueCodeableConcept" in comp) {
+                  console.log("     Value component codeable concept: ");
+                  displayCodes(comp.valueCodeableConcept);
+                }
+              });
 
-              if ("rangeValue" in inference) {
-                console.log("   Range Value: ");
-                displayValueRange(inference.rangeValue);
+              if ("extension" in inference) {
+                displaySectionInfo(inference);
               }
-
             }
-          })
+          });
+        }
       });
-    } else {
-      const error = radiologyInsightsResult.error;
-      if (error) {
-        console.log(error.code, ":", error.message);
-      }
+    }
+  } else {
+    const error = radiologyInsightsResult.error;
+    if (error) {
+      console.log(error.code, ":", error.message);
     }
   }
-}
 
-function displayValueRange(range: any): void {
-  if ("minimum" in range) {
-    console.log("     Min: ", range.minimum);
+  function displayCodes(codeableConcept) {
+    codeableConcept.coding?.forEach((coding) => {
+      if ("code" in coding) {
+        if ("display" in coding && "system" in coding && "code" in coding) {
+          console.log(
+            "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+          );
+        }
+      }
+    });
   }
-  if ("maximum" in range) {
-    console.log("     Max: ", range.maximum);
+
+  function displaySectionInfo(inference) {
+    inference.extension?.forEach((ext) => {
+      if ("url" in ext && ext.url === "section") {
+        console.log("   Section:");
+        ext.extension?.forEach((subextension) => {
+          if ("url" in subextension && "valueString" in subextension) {
+            console.log("      " + subextension.url + ": " + subextension.valueString);
+          }
+        });
+      }
+    });
   }
 }
 
 // Create request body for radiology insights
-function createRequestBody(): CreateJobParameters {
+function createRequestBody() {
   const codingData = {
     system: "http://www.ama-assn.org/go/cpt",
-    code: "USTHY",
-    display: "US THYROID",
+    code: "37191",
+    display: "XA VENACAVA FILTER INSERTION",
   };
 
   const code = {
@@ -91,8 +102,8 @@ function createRequestBody(): CreateJobParameters {
   };
 
   const patientInfo = {
-    sex: "female",
-    birthDate: "1959-11-11T19:00:00+00:00",
+    sex: "male",
+    birthDate: "1980-04-22T02:00:00+00:00",
   };
 
   const encounterData = {
@@ -111,7 +122,7 @@ function createRequestBody(): CreateJobParameters {
 
   const orderedProceduresData = {
     code: code,
-    description: "CT CHEST WO CONTRAST",
+    description: "XA VENACAVA FILTER INSERTION",
   };
 
   const administrativeMetadata = {
@@ -121,28 +132,16 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: `Exam: US THYROID
-    
-    Clinical History: Thyroid nodules. 76 year old patient.
-    
-    Comparison: none.
-    
-    Findings:
-      Right lobe: 4.8 x 1.6 x 1.4 cm
-      Left Lobe: 4.1 x 1.3 x 1.3 cm
-      
-    Isthmus: 4 mm
-    
-    There are multiple cystic and partly cystic sub-5 mm nodules noted within the right lobe (TIRADS 2).
-    
-    In the lower pole of the left lobe there is a 9 x 8 x 6 mm predominantly solid isoechoic nodule (TIRADS 3).
-    
-    Impression:
-      Multiple bilateral small cystic benign thyroid nodules. 
-      A low suspicion 9 mm left lobe thyroid nodule (TI-RAD 3) which, given its small size, does not warrant follow-up. 
-      CADRADS 3/4.`,
-  };
+    value: `FINDINGS:
+    1. Inferior vena cavagram using CO2 contrast shows the IVC is normal
+    in course and caliber without filling defects to indicate clot. It
+    measures 19.8 mm. in diameter infrarenally.
 
+
+
+
+    2. Successful placement of IVC filter in infrarenal location.`,
+  };
   const patientDocumentData = {
     type: "note",
     clinicalType: "radiologyReport",
@@ -153,11 +152,11 @@ function createRequestBody(): CreateJobParameters {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdAt: "2021-05-31T16:00:00.000Z",
-    orderedProceduresAsCsv: "CT CHEST WO CONTRAST",
+    orderedProceduresAsCsv: "XA VENACAVA FILTER INSERTION",
   };
 
   const patientData = {
-    id: "Samantha Jones",
+    id: "Roberto Lewis",
     details: patientInfo,
     encounters: [encounterData],
     patientDocuments: [patientDocumentData],
@@ -217,7 +216,7 @@ function createRequestBody(): CreateJobParameters {
   };
 }
 
-export async function main(): Promise<void> {
+async function main() {
   const credential = new DefaultAzureCredential();
   const client = AzureHealthInsightsClient(endpoint, credential);
 
@@ -243,5 +242,7 @@ export async function main(): Promise<void> {
 }
 
 main().catch((err) => {
-  console.error("The quality measure encountered an error:", err);
+  console.error("The finding encountered an error:", err);
 });
+
+module.exports = { main };

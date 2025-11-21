@@ -4,16 +4,10 @@
 /**
  * @summary Displays the limited order discrepancy of the Radiology Insights request.
  */
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-import type {
-  CreateJobParameters,
-  RadiologyInsightsJobOutput,
-} from "@azure-rest/health-insights-radiologyinsights";
-import AzureHealthInsightsClient, {
-  getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/health-insights-radiologyinsights";
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
+const AzureHealthInsightsClient = require("@azure-rest/health-insights-radiologyinsights").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/health-insights-radiologyinsights");
 
 // You will need to set this environment variables or edit the following values
 
@@ -23,11 +17,11 @@ const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
  * Print the limited order discrepancy inference
  */
 
-function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
+function printResults(radiologyInsightsResult) {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
-      results.patientResults.forEach((patientResult: { inferences: any[] }) => {
+      results.patientResults.forEach((patientResult) => {
         if (patientResult.inferences) {
           patientResult.inferences.forEach((inference) => {
             if (inference.kind === "limitedOrderDiscrepancy") {
@@ -37,12 +31,12 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
                 displayCodes(inference.orderType);
               }
 
-              inference.presentBodyParts?.forEach((bodyparts: any) => {
+              inference.presentBodyParts?.forEach((bodyparts) => {
                 console.log("   Present Body Parts: ");
                 displayCodes(bodyparts);
               });
 
-              inference.presentBodyPartMeasurements?.forEach((bodymeasure: any) => {
+              inference.presentBodyPartMeasurements?.forEach((bodymeasure) => {
                 console.log("   Present Body Part Measurements: ");
                 displayCodes(bodymeasure);
               });
@@ -58,8 +52,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     }
   }
 
-  function displayCodes(codeableConcept: any): void {
-    codeableConcept.coding?.forEach((coding: any) => {
+  function displayCodes(codeableConcept) {
+    codeableConcept.coding?.forEach((coding) => {
       if ("code" in coding) {
         if ("display" in coding && "system" in coding && "code" in coding) {
           console.log(
@@ -72,7 +66,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 }
 
 // Create request body for radiology insights
-function createRequestBody(): CreateJobParameters {
+function createRequestBody() {
   const codingData = {
     system: "http://www.ama-assn.org/go/cpt",
     code: "76705",
@@ -117,10 +111,16 @@ function createRequestBody(): CreateJobParameters {
     value: `HISTORY: 
     49-year-old male with a history of tuberous sclerosis presenting with epigastric pain and diffuse tenderness."
     The patient was found to have pericholecystic haziness on CT; evaluation for acute cholecystitis."
-    
+
+
+
+
     TECHNIQUE: Ultrasound evaluation of the abdomen was performed. 
     Comparison is made to the prior abdominal ultrasound (2004) and to the enhanced CT of the abdomen and pelvis (2014)."
-    
+
+
+
+
     FINDINGS:"
     The liver is elongated, measuring 19.3 cm craniocaudally, and is homogeneous in echotexture without evidence of focal mass lesion. 
     The liver contour is smooth on high resolution images."
@@ -138,7 +138,10 @@ function createRequestBody(): CreateJobParameters {
     Additional indeterminate renal lesions are present bilaterally and are better characterized on CT."
     There is no hydronephrosis.\\n\\nNo ascites is identified within the upper abdomen."
     The visualized portions of the upper abdominal aorta and IVC are normal in caliber."
-    
+
+
+
+
     IMPRESSION: "
     1. Numerous gallstones associated with gallbladder wall thickening and probable gallbladder mural edema, highly suspicious for acute cholecystitis in this patient presenting with epigastric pain and pericholecystic hazy density identified on CT."
     Although no sonographic Murphy sign was elicited, evaluation is limited secondary to reported prior administration of pain medication."
@@ -221,7 +224,7 @@ function createRequestBody(): CreateJobParameters {
   };
 }
 
-export async function main(): Promise<void> {
+async function main() {
   const credential = new DefaultAzureCredential();
   const client = AzureHealthInsightsClient(endpoint, credential);
 
@@ -249,3 +252,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The limited order encountered an error:", err);
 });
+
+module.exports = { main };

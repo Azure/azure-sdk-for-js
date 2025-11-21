@@ -4,17 +4,11 @@
 /**
  * @summary Displays the quality measure the Radiology Insights request.
  */
-import { DefaultAzureCredential } from "@azure/identity";
+const { DefaultAzureCredential } = require("@azure/identity");
 
-import "dotenv/config";
-import {
-  CreateJobParameters,
-  RadiologyInsightsJobOutput,
-} from "@azure-rest/health-insights-radiologyinsights";
-import AzureHealthInsightsClient, {
-  getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/health-insights-radiologyinsights";
+require("dotenv/config");
+const AzureHealthInsightsClient = require("@azure-rest/health-insights-radiologyinsights").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/health-insights-radiologyinsights");
 
 // You will need to set this environment variables or edit the following values
 
@@ -24,41 +18,33 @@ const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
  * Print the quality measure inference
  */
 
-function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
+function printResults(radiologyInsightsResult) {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
-      results.patientResults.forEach((patientResult: any) => {
-        patientResult.inferences.forEach(
-          (inference: {
-            kind: string;
-            category: string;
-            categoryDescription: string;
-            singleValue?: string[];
-            rangeValue?: any;
-          }) => {
-            if (inference.kind === "scoringAndAssessment") {
-              console.log("Scoring and Assessment Inference found:");
+      results.patientResults.forEach((patientResult) => {
+        patientResult.inferences.forEach((inference) => {
+          if (inference.kind === "scoringAndAssessment") {
+            console.log("Scoring and Assessment Inference found:");
 
-              if ("category" in inference) {
-                console.log("   Category: ", inference.category);
-              }
-
-              if ("categoryDescription" in inference) {
-                console.log("   Category Description: ", inference.categoryDescription);
-              }
-
-              if ("singleValue" in inference) {
-                console.log("   Single Value: ", inference.singleValue);
-              }
-
-              if ("rangeValue" in inference) {
-                console.log("   Range Value: ");
-                displayValueRange(inference.rangeValue);
-              }
-
+            if ("category" in inference) {
+              console.log("   Category: ", inference.category);
             }
-          })
+
+            if ("categoryDescription" in inference) {
+              console.log("   Category Description: ", inference.categoryDescription);
+            }
+
+            if ("singleValue" in inference) {
+              console.log("   Single Value: ", inference.singleValue);
+            }
+
+            if ("rangeValue" in inference) {
+              console.log("   Range Value: ");
+              displayValueRange(inference.rangeValue);
+            }
+          }
+        });
       });
     } else {
       const error = radiologyInsightsResult.error;
@@ -69,7 +55,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
   }
 }
 
-function displayValueRange(range: any): void {
+function displayValueRange(range) {
   if ("minimum" in range) {
     console.log("     Min: ", range.minimum);
   }
@@ -79,7 +65,7 @@ function displayValueRange(range: any): void {
 }
 
 // Create request body for radiology insights
-function createRequestBody(): CreateJobParameters {
+function createRequestBody() {
   const codingData = {
     system: "http://www.ama-assn.org/go/cpt",
     code: "USTHY",
@@ -122,21 +108,42 @@ function createRequestBody(): CreateJobParameters {
   const content = {
     sourceType: "inline",
     value: `Exam: US THYROID
-    
+
+
+
+
     Clinical History: Thyroid nodules. 76 year old patient.
-    
+
+
+
+
     Comparison: none.
-    
+
+
+
+
     Findings:
       Right lobe: 4.8 x 1.6 x 1.4 cm
       Left Lobe: 4.1 x 1.3 x 1.3 cm
-      
+
+
+
+
     Isthmus: 4 mm
-    
+
+
+
+
     There are multiple cystic and partly cystic sub-5 mm nodules noted within the right lobe (TIRADS 2).
-    
+
+
+
+
     In the lower pole of the left lobe there is a 9 x 8 x 6 mm predominantly solid isoechoic nodule (TIRADS 3).
-    
+
+
+
+
     Impression:
       Multiple bilateral small cystic benign thyroid nodules. 
       A low suspicion 9 mm left lobe thyroid nodule (TI-RAD 3) which, given its small size, does not warrant follow-up. 
@@ -217,7 +224,7 @@ function createRequestBody(): CreateJobParameters {
   };
 }
 
-export async function main(): Promise<void> {
+async function main() {
   const credential = new DefaultAzureCredential();
   const client = AzureHealthInsightsClient(endpoint, credential);
 
@@ -245,3 +252,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The quality measure encountered an error:", err);
 });
+
+module.exports = { main };
