@@ -36,13 +36,7 @@ You can reference these two config files to configure the Modular or RLC package
 - [Modular tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.Management/tspconfig.yaml)
 - [RLC tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.WidgetManager/tspconfig.yaml)
 
-Please make sure `service-dir`, `emitter-output-dir`, `package-details`, `flavor`(for typespec-ts) is correctly configured. `experimental-extensible-enums` is the optional config.
-For control-plane SDKs, the `is-modular-library` option is true by default, while for data-plane SDKs it is false. To generate Modular libraries for data-plane SDKs, you must add
-```
-is-modular-library:true
-```
-in your tspconfig.yaml. `is-modular-library` should be set to true unless you have been explicitly instructed by the Azure SDK Architecture Board to proceed with RLC code generation.
-
+Please make sure `service-dir`, `emitter-output-dir`, `package-details`, `flavor`(for typespec-ts) is correctly configured. `experimental-extensible-enums` is the optional config.The `is-modular-library` option is true by default, if you want to generate RLC libraries for data-plane SDKs, you must add `is-modular-library: false` in your tspconfig.yaml.
 
 - "parameters.service-dir.default" would be `sdk/<service>`
 - "options.@azure-tools/typespec-ts.emitter-output-dir" would be `{output-dir}/{service-dir}/<module>`
