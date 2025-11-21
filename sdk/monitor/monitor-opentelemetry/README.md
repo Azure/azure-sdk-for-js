@@ -81,6 +81,7 @@ const options: AzureMonitorOpenTelemetryOptions = {
   resource: resource,
   logRecordProcessors: [],
   spanProcessors: [],
+  views: [],
 };
 useAzureMonitor(options);
 ```
@@ -157,6 +158,11 @@ useAzureMonitor(options);
   <tr>
     <td><code>spanProcessors</code></td>
     <td>Array of span processors to register to the global tracer provider. </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><code>views</code></td>
+    <td>Array of metric views to register to the global meter provider.</td>
     <td></td>
   </tr>
   <tr>
