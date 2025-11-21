@@ -197,7 +197,7 @@ export function createMemoryStoreUpdateMemoriesPoller(
       processResult: async (operationResponse, state) => {
         applyUpdateState(state, operationResponse as PathUncheckedResponse);
         return state.result as MemoryStoreUpdateResult;
-      }
+      },
     },
   ) as MemoryStoreUpdateMemoriesPoller;
 
