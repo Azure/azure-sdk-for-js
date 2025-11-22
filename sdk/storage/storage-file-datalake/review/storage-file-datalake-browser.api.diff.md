@@ -7,7 +7,18 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -52,10 +52,9 @@
+@@ -29,9 +29,9 @@
+ import { LeaseAccessConditions } from '@azure/storage-blob';
+ import { LeaseOperationOptions } from '@azure/storage-blob';
+ import { LeaseOperationResponse } from '@azure/storage-blob';
+ import type { ModifiedAccessConditions as ModifiedAccessConditions_3 } from '@azure/storage-blob';
+-import { NodeJSReadableStream } from '@azure/storage-blob';
++import type { NodeJSReadableStream } from '@azure/storage-blob';
+ import type { OperationTracingOptions } from '@azure/core-tracing';
+ import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+ import { Pipeline } from '@azure/storage-blob';
+ import { PipelineLike } from '@azure/storage-blob';
+@@ -53,10 +53,9 @@
  import { StorageRetryOptions } from '@azure/storage-blob';
  import { StorageRetryPolicy } from '@azure/storage-blob';
  import { StorageRetryPolicyFactory } from '@azure/storage-blob';
@@ -19,7 +30,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
  import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
  import { UserDelegationKeyModel } from '@azure/storage-blob';
-@@ -96,54 +95,8 @@
+@@ -97,54 +96,8 @@
      // (undocumented)
      startsOn?: Date;
  }
@@ -74,7 +85,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { AnonymousCredentialPolicy }
  
-@@ -249,9 +202,11 @@
+@@ -250,9 +203,11 @@
      contentType?: string;
      encryptionScope?: string;
      expiresOn?: Date;
@@ -86,7 +97,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      startsOn?: Date;
      version?: string;
  }
-@@ -298,8 +253,9 @@
+@@ -299,8 +254,9 @@
  }
  
  // @public
@@ -96,7 +107,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(url: string, pipeline: Pipeline);
      append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
      create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
-@@ -400,52 +356,13 @@
+@@ -401,52 +357,13 @@
  export interface DataLakeRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {
  }
  
@@ -150,7 +161,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<DataLakeServiceGetPropertiesResponse>;
-@@ -497,28 +414,13 @@
+@@ -498,28 +415,13 @@
  }
  
  // @public
@@ -180,7 +191,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public (undocumented)
  export interface FileAppendOptions extends CommonOptions {
-@@ -582,8 +484,9 @@
+@@ -583,8 +485,9 @@
  export type FileFlushResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
  // @public
@@ -190,7 +201,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -847,8 +750,9 @@
+@@ -848,8 +751,9 @@
  }
  
  // @public
@@ -200,7 +211,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public (undocumented)
-@@ -995,24 +899,8 @@
+@@ -996,24 +900,8 @@
  
  // @public
  export type FileSystemRenameResponse = ContainerRenameResponse;
@@ -225,7 +236,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface FileSystemSetAccessPolicyHeaders {
      // (undocumented)
      clientRequestId?: string;
-@@ -1083,17 +971,8 @@
+@@ -1084,17 +972,8 @@
  // @public (undocumented)
  export type FileUploadResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
@@ -243,7 +254,18 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { HttpHeaders }
  
-@@ -1858,72 +1737,8 @@
+@@ -1202,10 +1081,8 @@
+ 
+ // @public
+ export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+ 
+-export { NodeJSReadableStream }
+-
+ // @public (undocumented)
+ export interface Path {
+     // (undocumented)
+     contentLength?: number;
+@@ -1861,72 +1738,8 @@
      // (undocumented)
      write: boolean;
  }
@@ -316,7 +338,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface ServiceGenerateAccountSasUrlOptions {
-@@ -2028,12 +1843,8 @@
+@@ -2031,12 +1844,8 @@
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }

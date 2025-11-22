@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { NodeJSReadableStream } from "@azure/storage-common";
 import type {
   BlobDownloadResponseModel,
   BlobType,
@@ -389,7 +390,7 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    *
    * @readonly
    */
-  public get readableStreamBody(): NodeJS.ReadableStream | undefined {
+  public get readableStreamBody(): NodeJSReadableStream | undefined {
     return undefined;
   }
 

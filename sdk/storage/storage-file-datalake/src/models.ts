@@ -12,6 +12,7 @@ import type {
   ContainerRenameResponse,
   ContainerUndeleteResponse,
   WithResponse,
+  NodeJSReadableStream,
 } from "@azure/storage-blob";
 import type { DataLakePathClient } from "./clients.js";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
@@ -1217,7 +1218,7 @@ export interface FileReadHeaders {
 export type FileReadResponse = WithResponse<
   FileReadHeaders & {
     contentAsBlob?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeJSReadableStream;
   },
   FileReadHeaders
 >;

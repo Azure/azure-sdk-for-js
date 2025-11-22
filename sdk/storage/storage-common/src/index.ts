@@ -3,6 +3,7 @@
 
 export * from "./BufferScheduler.js";
 export { getCachedDefaultHttpClient } from "./cache.js";
+export * from "./interfaces.js";
 
 export * from "./StorageBrowserPolicyFactory.js";
 export * from "./credentials/AnonymousCredential.js";
