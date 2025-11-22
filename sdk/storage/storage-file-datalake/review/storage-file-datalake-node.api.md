@@ -424,6 +424,7 @@ export interface DataLakeSASSignatureValues {
     contentLanguage?: string;
     contentType?: string;
     correlationId?: string;
+    delegatedUserObjectId?: string;
     directoryDepth?: number;
     encryptionScope?: string;
     expiresOn?: Date;
@@ -1177,6 +1178,7 @@ export interface ListPathsOptions extends CommonOptions {
     path?: string;
     // (undocumented)
     recursive?: boolean;
+    startFrom?: string;
     // (undocumented)
     userPrincipalName?: boolean;
 }
@@ -1537,10 +1539,16 @@ export interface PathGetPropertiesHeadersModel {
     contentMD5?: string;
     contentRange?: string;
     contentType?: string;
+    creationTime?: Date;
     date?: Date;
+    encryptionContext?: string;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
     errorCode?: string;
     etag?: string;
+    expiresOn?: Date;
     group?: string;
+    isServerEncrypted?: boolean;
     lastModified?: Date;
     leaseDuration?: string;
     leaseState?: string;
@@ -1873,7 +1881,7 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string, encryptionScope?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string);
     constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly agentObjectId?: string;
     readonly cacheControl?: string;
@@ -1882,6 +1890,7 @@ export class SASQueryParameters {
     readonly contentLanguage?: string;
     readonly contentType?: string;
     readonly correlationId?: string;
+    readonly delegatedUserObjectId?: string;
     readonly directoryDepth?: number;
     readonly encryptionScope?: string;
     readonly expiresOn?: Date;
@@ -1908,6 +1917,7 @@ export interface SASQueryParametersOptions {
     contentLanguage?: string;
     contentType?: string;
     correlationId?: string;
+    delegatedUserObjectId?: string;
     directoryDepth?: number;
     encryptionScope?: string;
     expiresOn?: Date;

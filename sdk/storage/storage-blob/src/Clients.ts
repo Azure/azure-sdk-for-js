@@ -116,6 +116,7 @@ import type {
   BlobSetLegalHoldResponse,
   BlobSetMetadataResponse,
   FileShareTokenIntent,
+  BlobModifiedAccessConditions,
 } from "./generatedModels.js";
 import type {
   AppendBlobRequestConditions,
@@ -423,7 +424,7 @@ export interface BlobSetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    */
-  conditions?: TagConditions & LeaseAccessConditions;
+  conditions?: TagConditions & LeaseAccessConditions & BlobModifiedAccessConditions;
 }
 
 /**
@@ -438,7 +439,7 @@ export interface BlobGetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    */
-  conditions?: TagConditions & LeaseAccessConditions;
+  conditions?: TagConditions & LeaseAccessConditions & BlobModifiedAccessConditions;
 }
 
 /**
@@ -822,6 +823,13 @@ export interface CommonGenerateSasUrlOptions {
    * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
+
+  /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */
+  delegatedUserObjectId?: string;
 
   /**
    * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
@@ -1589,6 +1597,7 @@ export class BlobClient extends StorageClient {
             ...options.conditions,
             ifTags: options.conditions?.tagConditions,
           },
+          blobModifiedAccessConditions: options.conditions,
           tracingOptions: updatedOptions.tracingOptions,
           tags: toBlobTags(tags),
         }),
@@ -1611,6 +1620,7 @@ export class BlobClient extends StorageClient {
             ...options.conditions,
             ifTags: options.conditions?.tagConditions,
           },
+          blobModifiedAccessConditions: options.conditions,
           tracingOptions: updatedOptions.tracingOptions,
         }),
       );
