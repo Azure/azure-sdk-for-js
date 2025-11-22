@@ -5,6 +5,7 @@
  * @summary This sample demonstrates operations related to ingestion status.
  */
 
+// Load the .env file if it exists
 import "dotenv/config";
 import {
   MetricsAdvisorKeyCredential,
@@ -89,11 +90,7 @@ async function refreshIngestion(
   await adminClient.refreshDataFeedIngestion(dataFeedId, startTime, endTime);
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});

@@ -25,5 +25,8 @@
   "dependencies": {
     "@azure-tools/communication-recipient-verification": "next",
     "dotenv": "latest"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }

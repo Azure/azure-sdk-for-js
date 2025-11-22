@@ -13,9 +13,7 @@ const {
   earliestEventPosition,
   createEventDataAdapter,
 } = require("@azure/event-hubs");
-
-// Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 // The fully qualified namespace for schema registry
 const schemaRegistryFullyQualifiedNamespace =

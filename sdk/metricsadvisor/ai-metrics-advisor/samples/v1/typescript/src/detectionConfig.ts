@@ -5,24 +5,23 @@
  * @summary This sample demonstrates Detection Configuration CRUD operations.
  */
 
+// Load the .env file if it exists
 import "dotenv/config";
-import {
-  MetricsAdvisorKeyCredential,
-  MetricsAdvisorAdministrationClient,
+import type {
   AnomalyDetectionConfiguration,
   MetricDetectionCondition,
   MetricSeriesGroupDetectionCondition,
   MetricSingleSeriesDetectionCondition,
 } from "@azure/ai-metrics-advisor";
+import {
+  MetricsAdvisorKeyCredential,
+  MetricsAdvisorAdministrationClient,
+} from "@azure/ai-metrics-advisor";
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});
 
 export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
@@ -51,7 +50,7 @@ export async function main(): Promise<void> {
 async function getDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   detectionConfigId: string,
-): Promise<void> {
+): Promise<AnomalyDetectionConfiguration> {
   console.log("Retrieving an existing detection configuration...");
   const result = await adminClient.getDetectionConfig(detectionConfigId);
   console.log(result);
@@ -62,7 +61,7 @@ async function getDetectionConfig(
 async function createDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   metricId: string,
-): Promise<void> {
+): Promise<AnomalyDetectionConfiguration> {
   const wholeSeriesDetectionCondition: MetricDetectionCondition = {
     conditionOperator: "AND",
     smartDetectionCondition: {
@@ -120,14 +119,14 @@ async function createDetectionConfig(
     seriesDetectionConditions,
   };
   console.log("Creating a new anomaly detection configuration...");
-  return await adminClient.createDetectionConfig(config);
+  return adminClient.createDetectionConfig(config);
 }
 
 // updating an detection configuration
 async function updateDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   configId: string,
-): Promise<void> {
+): Promise<AnomalyDetectionConfiguration> {
   const patch: Omit<AnomalyDetectionConfiguration, "id" | "metricId"> = {
     name: "new Name",
     description: "new description",

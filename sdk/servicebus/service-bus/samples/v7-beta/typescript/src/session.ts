@@ -14,15 +14,15 @@
  * in Service Bus
  */
 
-import { delay, ProcessErrorArgs, ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+import type { ProcessErrorArgs, ServiceBusMessage } from "@azure/service-bus";
+import { delay, ServiceBusClient } from "@azure/service-bus";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 
 const listOfScientists = [
@@ -38,8 +38,9 @@ const listOfScientists = [
   { lastName: "Kopernikus", firstName: "Nikolaus" },
 ];
 
-export async function main() {
-  const sbClient = new ServiceBusClient(connectionString);
+export async function main(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const sbClient = new ServiceBusClient(fqdn, credential);
 
   try {
     console.log(`Sending 5 messages to 'session-1'`);
@@ -63,7 +64,11 @@ export async function main() {
   }
 }
 
-async function sendMessage(sbClient: ServiceBusClient, scientist: any, sessionId: string) {
+async function sendMessage(
+  sbClient: ServiceBusClient,
+  scientist: any,
+  sessionId: string,
+): Promise<void> {
   // createSender() also works with topics
   const sender = sbClient.createSender(queueName);
 
@@ -79,7 +84,7 @@ async function sendMessage(sbClient: ServiceBusClient, scientist: any, sessionId
   await sender.close();
 }
 
-async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
+async function receiveMessages(sbClient: ServiceBusClient, sessionId: string): Promise<void> {
   // If receiving from a subscription you can use the acceptSession(topic, subscription, sessionId) overload
   let endDate: number | undefined;
 
@@ -87,11 +92,11 @@ async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
     console.log(`Creating session receiver for session '${sessionId}'`);
     const receiver = await sbClient.acceptSession(queueName, sessionId);
 
-    const subscribePromise = new Promise((_, reject) => {
-      const processMessage = async (message: ServiceBusMessage) => {
+    const subscribePromise = new Promise((_resolve, reject) => {
+      const processMessage = async (message: ServiceBusMessage): Promise<void> => {
         console.log(`Received: ${message.sessionId} - ${message.body} `);
       };
-      const processError = async (args: ProcessErrorArgs) => {
+      const processError = async (args: ProcessErrorArgs): Promise<void> => {
         console.log(`>>>>> Error from error source ${args.errorSource} occurred: `, args.error);
         reject(args.error);
       };
@@ -108,7 +113,7 @@ async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
       endDate = now + 20000;
     }
 
-    let remainingTime: number = endDate - now;
+    const remainingTime: number = endDate - now;
 
     console.log(`Waiting for ${remainingTime} milliseconds for messages to arrive.`);
 

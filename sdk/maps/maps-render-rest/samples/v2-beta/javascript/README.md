@@ -63,7 +63,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [getmaptileinbrowser]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v2-beta/javascript/getMapTileInBrowser.js
 [getmaptileinnode]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v2-beta/javascript/getMapTileInNode.js
 [getmaptileset]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v2-beta/javascript/getMapTileset.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/maps-render
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/maps-render?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremapsresource]: https://learn.microsoft.com/azure/azure-maps/how-to-create-template
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render-rest/README.md

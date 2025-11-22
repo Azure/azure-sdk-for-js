@@ -6,10 +6,10 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
+import type { RouteGetRouteDirectionsBatch200Response } from "@azure-rest/maps-route";
 import MapsRoute, {
   createRouteDirectionsBatchRequest,
   getLongRunningPoller,
-  RouteGetRouteDirectionsBatch200Response,
   toColonDelimitedLatLonString,
 } from "@azure-rest/maps-route";
 import "dotenv/config";
@@ -27,7 +27,7 @@ async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
   const client = MapsRoute(credential, mapsClientId);
-  
+
   /** Use subscription key authentication */
   // const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
   // const credential = new AzureKeyCredential(subscriptionKey);
@@ -70,7 +70,6 @@ async function main(): Promise<void> {
 
   const initialPoller = await getLongRunningPoller(client, initialResponse);
   /* We can get a partial of the results first */
-  await initialPoller.poll();
   /** Serialized the current operation for future poller */
   const serializedState = await initialPoller.serialize();
   /** Use the `resumeFrom` option to rehydrate the previous operation */

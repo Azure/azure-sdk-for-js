@@ -28,7 +28,7 @@
   "dependencies": {
     "@azure/data-tables": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.11.1",
+    "@azure/identity": "^4.13.0",
     "@azure/core-util": "^1.11.0",
     "@azure/core-auth": "^1.9.0"
   },

@@ -6,7 +6,8 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
+import type { SchemaDescription } from "@azure/schema-registry";
+import { SchemaRegistryClient } from "@azure/schema-registry";
 import { AvroSerializer } from "@azure/schema-registry-avro";
 
 // Load the .env file if it exists
@@ -15,7 +16,7 @@ import "dotenv/config";
 const schemaRegistryFullyQualifiedNamespace =
   process.env["SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE"] || "<endpoint>";
 
-// The schema group to use for schema registeration or lookup
+// The schema group to use for schema registration or lookup
 const groupName = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 
 // Sample Avro Schema for user with first and last names

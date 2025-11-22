@@ -26,8 +26,8 @@ export async function main(): Promise<void> {
   // Create and upload first file
   const file1Content = "Hello, Vector Store!";
   const readable1 = new Readable();
-  await readable1.push(file1Content);
-  await readable1.push(null); // end the stream
+  readable1.push(file1Content);
+  readable1.push(null); // end the stream
   const file1 = await client.files.upload(readable1, "assistants", {
     fileName: "vectorFile1.txt",
   });
@@ -36,8 +36,8 @@ export async function main(): Promise<void> {
   // Create and upload second file
   const file2Content = "This is another file for the Vector Store!";
   const readable2 = new Readable();
-  await readable2.push(file2Content);
-  await readable2.push(null); // end the stream
+  readable2.push(file2Content);
+  readable2.push(null); // end the stream
   const file2 = await client.files.upload(readable2, "assistants", {
     fileName: "vectorFile2.txt",
   });

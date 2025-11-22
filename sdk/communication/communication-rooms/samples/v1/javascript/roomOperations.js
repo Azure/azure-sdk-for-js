@@ -49,14 +49,14 @@ async function main() {
   const createRoom = await roomsClient.createRoom(createRoomOptions);
   const roomId = createRoom.id;
   console.log("Successfully created room with following properties:");
-  await printRoom(createRoom);
+  printRoom(createRoom);
 
   console.log(`Fetching room with id: ${roomId}...`);
 
   // retrieves the room with corresponding ID
   const getRoom = await roomsClient.getRoom(roomId);
   console.log(`Successfully fetched room with id: ${roomId}. Room details:`);
-  await printRoom(getRoom);
+  printRoom(getRoom);
 
   console.log(`Updating room with id: ${roomId}...`);
 
@@ -70,13 +70,13 @@ async function main() {
   // updates the specified room with the request payload
   const updateRoom = await roomsClient.updateRoom(roomId, updateRoomOptions);
   console.log(`Successfully updated room with id: ${roomId}. Room details:`);
-  await printRoom(updateRoom);
+  printRoom(updateRoom);
 
   console.log(`Deleting room with id: ${roomId}...`);
 
   // list available rooms
   console.log("List all active rooms");
-  const listRooms = await roomsClient.listRooms();
+  const listRooms = roomsClient.listRooms();
   for await (const roomModel of listRooms) {
     printRoom(roomModel);
   }

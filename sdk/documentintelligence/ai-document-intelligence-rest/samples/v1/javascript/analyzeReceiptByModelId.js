@@ -40,7 +40,7 @@ async function main() {
   }
   const poller = getLongRunningPoller(client, initialResponse);
 
-  await poller.onProgress((state) => console.log("Operation:", state.result, state.status));
+  poller.onProgress((state) => console.log("Operation:", state.result, state.status));
   const analyzeResult = (await poller.pollUntilDone()).body.analyzeResult;
 
   const documents = analyzeResult?.documents;

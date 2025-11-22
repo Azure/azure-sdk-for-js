@@ -144,10 +144,15 @@ export async function main(): Promise<void> {
   );
   console.log(`Created message, message ID ${message.id}`);
 
-  async function onResponse(response: { parsedBody?: ThreadRun }): Promise<void> {
-    if (!response || !response.parsedBody) return;
+  async function onResponse(response: any): Promise<void> {
+    const parsedBody =
+      typeof response.parsedBody === "object" && response.parsedBody !== null
+        ? response.parsedBody
+        : null;
 
-    const run = response.parsedBody;
+    if (!parsedBody || !("status" in parsedBody)) return;
+
+    const run = parsedBody as ThreadRun;
     console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
 
     // Ensure we have a run with requires_action status and requiredAction object

@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates how to manage SIP routing configuration including trunks and routes.
+ * @azsdk-weight 40
+ */
+
 import { SipRoutingClient } from "@azure/communication-phone-numbers";
 import { randomUUID } from "@azure/core-util";
 import "dotenv/config";
@@ -61,13 +66,13 @@ export async function main(): Promise<void> {
   });
 
   // Get trunks
-  const trunks = await client.listTrunks();
+  const trunks = client.listTrunks();
   for await (const trunk of trunks) {
     console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}`);
   }
 
   // Get routes
-  const routes = await client.listRoutes();
+  const routes = client.listRoutes();
   for await (const route of routes) {
     console.log(`Route ${route.name} with pattern ${route.numberPattern}`);
     console.log(`Route's trunks: ${route.trunks?.join()}`);

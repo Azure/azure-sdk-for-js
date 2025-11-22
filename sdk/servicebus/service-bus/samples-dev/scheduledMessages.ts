@@ -103,7 +103,7 @@ async function receiveMessages(sbClient: ServiceBusClient): Promise<void> {
 
   queueReceiver = sbClient.createReceiver(queueName);
 
-  await queueReceiver.subscribe({
+  queueReceiver.subscribe({
     processMessage,
     processError,
   });

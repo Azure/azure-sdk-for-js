@@ -1,6 +1,6 @@
-# HealthInsightsCancerprifiling client library samples for TypeScript (Beta)
+# HealthInsightsCancerprofiling client library samples for TypeScript (Beta)
 
-These sample programs show how to use the TypeScript client libraries for HealthInsightsCancerprifiling in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for HealthInsightsCancerprofiling in some common scenarios.
 
 | **File Name**                                                     | **Description**        |
 | ----------------------------------------------------------------- | ---------------------- |

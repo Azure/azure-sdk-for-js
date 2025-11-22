@@ -34,11 +34,12 @@
     "dotenv": "latest",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-util": "^1.11.0",
-    "@azure/identity": "^4.5.0"
+    "@azure/identity": "^4.13.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "typescript": "~5.8.2",
-    "rimraf": "latest"
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~5.9.3"
   }
 }

@@ -76,7 +76,7 @@ async function main(): Promise<void> {
     throw new Error(discovery_groups.body?.error.message);
   }
 
-  await discovery_groups.body.value?.forEach(async (discovery_group) => {
+  discovery_groups.body.value?.forEach(async (discovery_group) => {
     console.log(discovery_group.name);
     const disco_runs = await client
       .path("/discoGroups/{groupName}/runs", discovery_group.name!)

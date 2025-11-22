@@ -10,13 +10,12 @@ const { SchemaRegistryClient } = require("@azure/schema-registry");
 const { AvroSerializer } = require("@azure/schema-registry-avro");
 
 // Load the .env file if it exists
-require("dotenv").config();
-
+require("dotenv/config");
 // The fully qualified namespace for schema registry
 const schemaRegistryFullyQualifiedNamespace =
   process.env["SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE"] || "<endpoint>";
 
-// The schema group to use for schema registeration or lookup
+// The schema group to use for schema registration or lookup
 const groupName = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 
 // Sample Avro Schema for user with first and last names

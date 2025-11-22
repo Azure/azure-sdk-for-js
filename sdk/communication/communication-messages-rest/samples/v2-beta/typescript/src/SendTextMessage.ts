@@ -5,7 +5,6 @@
  * @summary Send a text message
  */
 
-
 import NotificationClient, { isUnexpected } from "@azure-rest/communication-messages";
 
 // Load the .env file if it exists
@@ -31,9 +30,9 @@ async function main(): Promise<void> {
     throw new Error("Failed to send message");
   }
 
-  await result.body.receipts.forEach((receipt) => {
-        console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
-      });
+  result.body.receipts.forEach((receipt) => {
+    console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
+  });
 }
 
 main().catch((error) => {

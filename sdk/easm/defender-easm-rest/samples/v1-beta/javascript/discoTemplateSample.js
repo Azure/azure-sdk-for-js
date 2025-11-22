@@ -17,8 +17,7 @@
 const EasmDefender = require("@azure-rest/defender-easm").default,
   { isUnexpected } = require("@azure-rest/defender-easm");
 const { DefaultAzureCredential } = require("@azure/identity");
-// Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // To create an EasmClient, you need your subscription ID, region, and some sort of credential.
@@ -34,12 +33,12 @@ async function main() {
 
   const client = EasmDefender(
     endpoint +
-    "/subscriptions/" +
-    subscription_id +
-    "/resourceGroups/" +
-    resource_group +
-    "/workspaces/" +
-    workspace_name,
+      "/subscriptions/" +
+      subscription_id +
+      "/resourceGroups/" +
+      resource_group +
+      "/workspaces/" +
+      workspace_name,
     credential,
     {},
   );
@@ -63,7 +62,7 @@ async function main() {
   // To get more detail about a disco template, we can call the /discoTemplates path with the GET verb.
   // From here, we can see the names and seeds which would be used in a discovery run.
   // Choose a template from one of the ids printed above
-  let template_id = "43488";
+  const template_id = "43488";
 
   const disco_template_response = await client
     .path("/discoTemplates/{templateId}", template_id)
@@ -97,7 +96,7 @@ async function main() {
     throw new Error(disco_group_response.body?.error.message);
   }
 
-  await client.path("/discoGroups/{groupName}:run", group_name);
+  client.path("/discoGroups/{groupName}:run", group_name);
 }
 
 main().catch((err) => {

@@ -6,9 +6,7 @@
  */
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
-
+require("dotenv/config");
 const { MetricsAdvisorKeyCredential, MetricsAdvisorClient } = require("@azure/ai-metrics-advisor");
 
 async function main() {
@@ -60,7 +58,7 @@ async function listEnrichmentStatus(client, metricId) {
   const listIterator = client.listMetricEnrichmentStatus(
     metricId,
     new Date("10/22/2020"),
-    new Date("10/24/2020")
+    new Date("10/24/2020"),
   );
   for await (const status of listIterator) {
     console.log("  Enrichment status");
@@ -78,11 +76,9 @@ async function listMetricDimensionValues(client, metricId) {
   }
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});
+
+module.exports = { main };

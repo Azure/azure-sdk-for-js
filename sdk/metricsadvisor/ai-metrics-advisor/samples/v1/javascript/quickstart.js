@@ -7,13 +7,11 @@
  */
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
-
+require("dotenv/config");
 const {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-  MetricsAdvisorClient
+  MetricsAdvisorClient,
 } = require("@azure/ai-metrics-advisor");
 
 async function main() {
@@ -45,7 +43,7 @@ async function main() {
       adminClient,
       created.id,
       new Date(Date.UTC(2020, 8, 1)),
-      new Date(Date.UTC(2020, 8, 12))
+      new Date(Date.UTC(2020, 8, 12)),
     );
 
     const metricId = created.schema.metrics[0].id;
@@ -56,7 +54,7 @@ async function main() {
     console.log(`Webhook hook created: ${hook.id}`);
 
     const alertConfig = await configureAlertConfiguration(adminClient, detectionConfig.id, [
-      hook.id
+      hook.id,
     ]);
     console.log(`Alert configuration created: ${alertConfig.id}`);
 
@@ -65,7 +63,7 @@ async function main() {
       client,
       alertConfig.id,
       new Date(Date.UTC(2020, 8, 1)),
-      new Date(Date.UTC(2020, 8, 12))
+      new Date(Date.UTC(2020, 8, 12)),
     );
 
     if (alerts.length > 1) {
@@ -88,47 +86,47 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
       dataSourceType: "SqlServer",
       connectionString: sqlServerConnectionString,
       query: sqlServerQuery,
-      authenticationType: "Basic"
+      authenticationType: "Basic",
     },
     granularity: {
-      granularityType: "Daily"
+      granularityType: "Daily",
     },
     schema: {
       metrics: [
         {
           name: "revenue",
           displayName: "revenue",
-          description: "Metric1 description"
+          description: "Metric1 description",
         },
         {
           name: "cost",
           displayName: "cost",
-          description: "Metric2 description"
-        }
+          description: "Metric2 description",
+        },
       ],
       dimensions: [
         { name: "city", displayName: "city display" },
-        { name: "category", displayName: "category display" }
+        { name: "category", displayName: "category display" },
       ],
-      timestampColumn: undefined
+      timestampColumn: undefined,
     },
     ingestionSettings: {
       ingestionStartTime: new Date(Date.UTC(2020, 5, 1)),
       ingestionStartOffsetInSeconds: 0,
       dataSourceRequestConcurrency: -1,
       ingestionRetryDelayInSeconds: -1,
-      stopRetryAfterInSeconds: -1
+      stopRetryAfterInSeconds: -1,
     },
     rollupSettings: {
       rollupType: "AutoRollup",
       rollupMethod: "Sum",
-      rollupIdentificationValue: "__SUM__"
+      rollupIdentificationValue: "__SUM__",
     },
     missingDataPointFillSettings: {
-      fillType: "SmartFilling"
+      fillType: "SmartFilling",
     },
     accessMode: "Private",
-    admins: ["xyz@microsoft.com"]
+    admins: ["xyz@microsoft.com"],
   };
   const result = await adminClient.createDataFeed(dataFeed);
 
@@ -155,13 +153,13 @@ async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
         anomalyDetectorDirection: "Both",
         suppressCondition: {
           minNumber: 1,
-          minRatio: 1
-        }
-      }
+          minRatio: 1,
+        },
+      },
     },
-    description: "Detection configuration description"
+    description: "Detection configuration description",
   };
-  return await adminClient.createDetectionConfig(anomalyConfig);
+  return adminClient.createDetectionConfig(anomalyConfig);
 }
 
 async function createWebhookHook(adminClient) {
@@ -173,13 +171,13 @@ async function createWebhookHook(adminClient) {
     hookParameter: {
       endpoint: "https://httpbin.org/post",
       username: "user",
-      password: "pass"
+      password: "pass",
       // certificateKey: "k",
       // certificatePassword: "kp"
-    }
+    },
   };
 
-  return await adminClient.createHook(hook);
+  return adminClient.createHook(hook);
 }
 
 async function configureAlertConfiguration(adminClient, detectionConfigId, hookIds) {
@@ -191,32 +189,32 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hookI
       {
         detectionConfigurationId: detectionConfigId,
         alertScope: {
-          scopeType: "All"
+          scopeType: "All",
         },
         alertConditions: {
           severityCondition: {
             minAlertSeverity: "Medium",
-            maxAlertSeverity: "High"
-          }
+            maxAlertSeverity: "High",
+          },
         },
         snoozeCondition: {
           autoSnooze: 0,
           snoozeScope: "Metric",
-          onlyForSuccessive: true
-        }
-      }
+          onlyForSuccessive: true,
+        },
+      },
     ],
     hookIds,
-    description: "Alerting config description"
+    description: "Alerting config description",
   };
-  return await adminClient.createAlertConfig(anomalyAlert);
+  return adminClient.createAlertConfig(anomalyAlert);
 }
 
 async function queryAlerts(client, alertConfigId, startTime, endTime) {
   console.log(`Listing alerts for alert configuration '${alertConfigId}'`);
   // This shows how to use `for-await-of` syntax to list alerts
   console.log("  using for-await-of syntax");
-  let alerts = [];
+  const alerts = [];
   const listIterator = client.listAlerts(alertConfigId, startTime, endTime, "AnomalyTime");
   for await (const alert of listIterator) {
     alerts.push(alert);
@@ -247,12 +245,12 @@ async function queryAlerts(client, alertConfigId, startTime, endTime) {
 
 async function queryAnomaliesByAlert(client, alert) {
   console.log(
-    `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`
+    `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`,
   );
   const listIterator = client.listAnomaliesForAlert(alert);
   for await (const anomaly of listIterator) {
     console.log(
-      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`
+      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`,
     );
   }
 }
@@ -261,11 +259,9 @@ async function delay(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});
+
+module.exports = { main };

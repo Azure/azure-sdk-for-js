@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DefaultAzureCredential } from "@azure/identity";
-import MapsRender, { positionToTileXY } from "@azure-rest/maps-render";
-
 /**
  * @summary How to get the map tile and render on the **browser**.
  */
-async function main(): Promise<void>  {
+
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsRender, { positionToTileXY } from "@azure-rest/maps-render";
+
+async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:
    * - Shared Key authentication (subscription-key)

@@ -6,9 +6,7 @@
  */
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
-
+require("dotenv/config");
 const { MetricsAdvisorKeyCredential, MetricsAdvisorClient } = require("@azure/ai-metrics-advisor");
 
 async function main() {
@@ -38,13 +36,13 @@ async function main() {
 async function listAnomalyDimensionValues(client, detectionConfigId) {
   const dimensionName = "city";
   console.log(
-    `Listing anomaly dimension values for detection config ${detectionConfigId} and dimension ${dimensionName}`
+    `Listing anomaly dimension values for detection config ${detectionConfigId} and dimension ${dimensionName}`,
   );
-  const listIterator = await client.listAnomalyDimensionValues(
+  const listIterator = client.listAnomalyDimensionValues(
     detectionConfigId,
     new Date("10/22/2020"),
     new Date("10/24/2020"),
-    dimensionName
+    dimensionName,
   );
   for await (const dimensionValue of listIterator) {
     console.log(dimensionValue);
@@ -56,13 +54,13 @@ async function listAnomalyDimensionValues(client, detectionConfigId) {
       detectionConfigId,
       new Date("10/22/2020"),
       new Date("10/24/2020"),
-      dimensionName
+      dimensionName,
     )
     .byPage({ maxPageSize: 20 });
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page --");
-    for await (const dimensionValue of result.value) {
+    for (const dimensionValue of result.value) {
       console.log(dimensionValue);
     }
     result = await iterator.next();
@@ -77,8 +75,8 @@ async function listIncidentsForDetectionConfig(client, detectionConfigId) {
     new Date("10/22/2020"),
     new Date("10/24/2020"),
     {
-      seriesGroupKeys: [{ city: "Manila", category: "Shoes Handbags & Sunglasses" }]
-    }
+      seriesGroupKeys: [{ city: "Manila", category: "Shoes Handbags & Sunglasses" }],
+    },
   );
   for await (const incident of listIterator) {
     console.log("    Incident");
@@ -96,7 +94,7 @@ async function listIncidentsForDetectionConfig(client, detectionConfigId) {
     .listIncidentsForDetectionConfiguration(
       detectionConfigId,
       new Date("10/22/2020"),
-      new Date("10/24/2020")
+      new Date("10/24/2020"),
     )
     .byPage({ maxPageSize: 20 });
   let result = await iterator.next();
@@ -123,8 +121,8 @@ async function listAnomaliesForDetectionConfig(client, detectionConfigId) {
     new Date("10/22/2020"),
     new Date("10/24/2020"),
     {
-      severityFilter: { min: "Medium", max: "High" }
-    }
+      severityFilter: { min: "Medium", max: "High" },
+    },
   );
   console.log("  using for-await-of syntax");
   for await (const anomaly of listIterator) {
@@ -145,8 +143,8 @@ async function listAnomaliesForDetectionConfig(client, detectionConfigId) {
       new Date("10/22/2020"),
       new Date("10/24/2020"),
       {
-        severityFilter: { min: "Medium", max: "High" }
-      }
+        severityFilter: { min: "Medium", max: "High" },
+      },
     )
     .byPage({ maxPageSize: 20 });
   let result = await iterator.next();
@@ -186,7 +184,7 @@ async function listAlerts(client, alertConfigId) {
     alertConfigId,
     new Date("11/01/2020"),
     new Date("11/05/2020"),
-    "AnomalyTime"
+    "AnomalyTime",
   );
   for await (const alert of listIterator) {
     console.log("    Alert");
@@ -214,7 +212,7 @@ async function listAlerts(client, alertConfigId) {
 
 async function listIncidentsForAlert(client, alertConfigId, alertId) {
   console.log(
-    `Listing incidents for alert configuration '${alertConfigId}' and alert '${alertId}'`
+    `Listing incidents for alert configuration '${alertConfigId}' and alert '${alertId}'`,
   );
   console.log("  using for-await-of syntax");
   const listIterator = client.listIncidentsForAlert({ alertConfigId, id: alertId });
@@ -252,7 +250,7 @@ async function listIncidentsForAlert(client, alertConfigId, alertId) {
 
 async function listAnomaliesForAlert(client, alertConfigId, alertId) {
   console.log(
-    `Listing anomalies for alert configuration '${alertConfigId}' and alert '${alertId}'`
+    `Listing anomalies for alert configuration '${alertConfigId}' and alert '${alertId}'`,
   );
   console.log("  using for-await-of syntax");
   const listIterator = client.listAnomaliesForAlert({ alertConfigId, id: alertId });
@@ -280,11 +278,9 @@ async function listAnomaliesForAlert(client, alertConfigId, alertId) {
   }
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});
+
+module.exports = { main };

@@ -3,16 +3,18 @@
 
 /**
  * @summary This sample demonstrates data source credential operations
- * @azsdk-weight 80
  */
 
+// Load the .env file if it exists
 import "dotenv/config";
-import {
-  MetricsAdvisorKeyCredential,
-  MetricsAdvisorAdministrationClient,
+import type {
   DataSourceCredentialEntityUnion,
   DataSourceCredentialPatch,
   DataSourceSqlConnectionString,
+} from "@azure/ai-metrics-advisor";
+import {
+  MetricsAdvisorKeyCredential,
+  MetricsAdvisorAdministrationClient,
 } from "@azure/ai-metrics-advisor";
 
 export async function main(): Promise<void> {
@@ -126,11 +128,7 @@ async function deleteDataSourceCredential(
   await client.deleteDataSourceCredential(credentialId);
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});

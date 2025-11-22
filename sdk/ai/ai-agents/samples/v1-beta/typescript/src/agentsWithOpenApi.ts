@@ -7,7 +7,11 @@
  * @summary demonstrates how to use agent operations with an OpenApi tool.
  */
 
-import type { MessageTextContent, RunStepToolCallDetails, RunStepFunctionToolCall } from "@azure/ai-agents";
+import type {
+  MessageTextContent,
+  RunStepToolCallDetails,
+  RunStepFunctionToolCall,
+} from "@azure/ai-agents";
 import { AgentsClient, isOutputOfType, OpenApiTool } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
@@ -58,7 +62,11 @@ export async function main(): Promise<void> {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create a message
-  const message = await client.messages.create(thread.id, "user", "What's the weather in Seattle and What is the name and population of the country that uses currency with abbreviation THB?");
+  const message = await client.messages.create(
+    thread.id,
+    "user",
+    "What's the weather in Seattle and What is the name and population of the country that uses currency with abbreviation THB?",
+  );
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and poll a run

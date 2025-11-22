@@ -42,7 +42,7 @@ async function listAnomalyDimensionValues(
   console.log(
     `Listing anomaly dimension values for detection config ${detectionConfigId} and dimension ${dimensionName}`,
   );
-  const listIterator = await client.listAnomalyDimensionValues(
+  const listIterator = client.listAnomalyDimensionValues(
     detectionConfigId,
     new Date("10/22/2020"),
     new Date("10/24/2020"),
@@ -64,7 +64,7 @@ async function listAnomalyDimensionValues(
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page --");
-    for await (const dimensionValue of result.value) {
+    for (const dimensionValue of result.value) {
       console.log(dimensionValue);
     }
     result = await iterator.next();

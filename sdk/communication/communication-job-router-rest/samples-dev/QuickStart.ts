@@ -100,7 +100,7 @@ async function quickStart(): Promise<void> {
   }
   const workerResult = workerResponse.body as RouterWorkerOutput;
 
-  for await (const offer of workerResult.offers!) {
+  for (const offer of workerResult.offers!) {
     console.log(`Worker ${workerId} has an active offer for job ${offer.jobId}`);
   }
 
@@ -171,7 +171,7 @@ async function quickStart(): Promise<void> {
 
   // Optionally, a job can also be set up to be marked as closed in the future.
   const afterTwoSeconds = new Date();
-  await afterTwoSeconds.setSeconds(afterTwoSeconds.getSeconds() + 2);
+  afterTwoSeconds.setSeconds(afterTwoSeconds.getSeconds() + 2);
   const closeJobInFuture = await routerClient
     .path(
       "/routing/jobs/{jobId}/assignments/{assignmentId}:close",

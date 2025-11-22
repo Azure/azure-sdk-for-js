@@ -8,10 +8,9 @@
 import { RecipientVerificationClient } from "@azure-tools/communication-recipient-verification";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("\n== Request Verification Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
@@ -29,7 +28,7 @@ export async function main() {
   };
 
   // get the verification status
-  var status = await client.requestVerification(verificationRequest);
+  const status = await client.requestVerification(verificationRequest);
 
   // print the status of the phone number
   console.log(status);

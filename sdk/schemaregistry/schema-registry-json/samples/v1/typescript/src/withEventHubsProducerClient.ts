@@ -6,12 +6,12 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
+import type { SchemaDescription } from "@azure/schema-registry";
+import { SchemaRegistryClient } from "@azure/schema-registry";
 import { JsonSchemaSerializer } from "@azure/schema-registry-json";
 import { EventHubProducerClient, createEventDataAdapter } from "@azure/event-hubs";
-
-// Load the .env file if it exists
 import "dotenv/config";
+
 // The fully qualified namespace for schema registry
 const schemaRegistryFullyQualifiedNamespace =
   process.env["SCHEMAREGISTRY_JSON_FULLY_QUALIFIED_NAMESPACE"] || "<namespace>";

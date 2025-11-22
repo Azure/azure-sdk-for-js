@@ -10,7 +10,7 @@
 const DeviceUpdate = require("@azure-rest/iot-device-update").default,
   { isUnexpected, paginate } = require("@azure-rest/iot-device-update");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 const endpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";
@@ -36,8 +36,8 @@ async function main() {
   }
 
   const providers = paginate(client, providersResult);
-  for await (const provider of providers) {
-    console.log(provider);
+  for await (const pagedProvider of providers) {
+    console.log(pagedProvider);
   }
 
   console.log("\nNames in provider '" + provider + "':");
@@ -50,8 +50,8 @@ async function main() {
   }
 
   const names = paginate(client, namesResult);
-  for await (const name of names) {
-    console.log(name);
+  for await (const pagedName of names) {
+    console.log(pagedName);
   }
 
   console.log("\nVersions in provider '" + provider + "' and name '" + name + "':");

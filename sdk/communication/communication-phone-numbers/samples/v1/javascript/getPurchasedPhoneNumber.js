@@ -8,8 +8,7 @@
 const { PhoneNumbersClient } = require("@azure/communication-phone-numbers");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv/config");
 
 async function main() {
   console.log("\n== Get a Purchased Phone Number Sample ==\n");
@@ -37,3 +36,5 @@ main().catch((error) => {
   console.log("The sample encountered an error:", error);
   process.exit(1);
 });
+
+module.exports = { main };

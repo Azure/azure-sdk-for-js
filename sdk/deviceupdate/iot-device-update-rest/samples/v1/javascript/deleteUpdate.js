@@ -11,7 +11,7 @@ const DeviceUpdate = require("@azure-rest/iot-device-update").default,
   { getLongRunningPoller, isUnexpected } = require("@azure-rest/iot-device-update");
 
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 const endpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";

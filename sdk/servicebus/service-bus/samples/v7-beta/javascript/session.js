@@ -15,13 +15,13 @@
  */
 
 const { delay, ServiceBusClient } = require("@azure/service-bus");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
-
+require("dotenv/config");
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 
 const listOfScientists = [
@@ -38,7 +38,8 @@ const listOfScientists = [
 ];
 
 async function main() {
-  const sbClient = new ServiceBusClient(connectionString);
+  const credential = new DefaultAzureCredential();
+  const sbClient = new ServiceBusClient(fqdn, credential);
 
   try {
     console.log(`Sending 5 messages to 'session-1'`);
@@ -86,7 +87,7 @@ async function receiveMessages(sbClient, sessionId) {
     console.log(`Creating session receiver for session '${sessionId}'`);
     const receiver = await sbClient.acceptSession(queueName, sessionId);
 
-    const subscribePromise = new Promise((_, reject) => {
+    const subscribePromise = new Promise((_resolve, reject) => {
       const processMessage = async (message) => {
         console.log(`Received: ${message.sessionId} - ${message.body} `);
       };
@@ -107,7 +108,7 @@ async function receiveMessages(sbClient, sessionId) {
       endDate = now + 20000;
     }
 
-    let remainingTime = endDate - now;
+    const remainingTime = endDate - now;
 
     console.log(`Waiting for ${remainingTime} milliseconds for messages to arrive.`);
 
