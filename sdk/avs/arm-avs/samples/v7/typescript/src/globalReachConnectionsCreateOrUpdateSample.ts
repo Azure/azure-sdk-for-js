@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a GlobalReachConnection
  *
  * @summary create a GlobalReachConnection
- * x-ms-original-file: 2024-09-01/GlobalReachConnections_CreateOrUpdate.json
+ * x-ms-original-file: 2025-09-01/GlobalReachConnections_CreateOrUpdate.json
  */
 async function globalReachConnectionsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

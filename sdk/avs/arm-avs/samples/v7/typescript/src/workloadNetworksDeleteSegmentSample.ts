@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a WorkloadNetworkSegment
  *
  * @summary delete a WorkloadNetworkSegment
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_DeleteSegment.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_DeleteSegment.json
  */
 async function workloadNetworksDeleteSegment(): Promise<void> {
   const credential = new DefaultAzureCredential();

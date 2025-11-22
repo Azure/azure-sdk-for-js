@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a WorkloadNetworkPublicIP
  *
  * @summary delete a WorkloadNetworkPublicIP
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_DeletePublicIP.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_DeletePublicIP.json
  */
 async function workloadNetworksDeletePublicIP(): Promise<void> {
   const credential = new DefaultAzureCredential();
