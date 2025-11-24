@@ -292,9 +292,34 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(statsbeat["resourceIdentifier"], "undefined/undefined");
       });
 
-      it("should determine if the rp is AKS", async () => {
+      it("should determine if the rp is AKS with AKS_ARM_NAMESPACE_ID", async () => {
         const newEnv = <{ [id: string]: string }>{};
         newEnv["AKS_ARM_NAMESPACE_ID"] = "testaks";
+        const originalEnv = process.env;
+        process.env = newEnv;
+
+        await statsbeat["getResourceProvider"]();
+        process.env = originalEnv;
+        assert.strictEqual(statsbeat["resourceProvider"], "aks");
+        assert.strictEqual(statsbeat["resourceIdentifier"], "testaks");
+      });
+
+      it("should determine if the rp is AKS with KUBERNETES_SERVICE_HOST", async () => {
+        const newEnv = <{ [id: string]: string }>{};
+        newEnv["KUBERNETES_SERVICE_HOST"] = "10.0.0.1";
+        const originalEnv = process.env;
+        process.env = newEnv;
+
+        await statsbeat["getResourceProvider"]();
+        process.env = originalEnv;
+        assert.strictEqual(statsbeat["resourceProvider"], "aks");
+        assert.strictEqual(statsbeat["resourceIdentifier"], "10.0.0.1");
+      });
+
+      it("should prioritize AKS_ARM_NAMESPACE_ID over KUBERNETES_SERVICE_HOST when both are present", async () => {
+        const newEnv = <{ [id: string]: string }>{};
+        newEnv["AKS_ARM_NAMESPACE_ID"] = "testaks";
+        newEnv["KUBERNETES_SERVICE_HOST"] = "10.0.0.1";
         const originalEnv = process.env;
         process.env = newEnv;
 
@@ -459,7 +484,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       describe("Priority and edge cases", () => {
-        it("should prioritize AKS detection over App Service", async () => {
+        it("should prioritize AKS detection with AKS_ARM_NAMESPACE_ID over App Service", async () => {
           const newEnv = <{ [id: string]: string }>{};
           newEnv["AKS_ARM_NAMESPACE_ID"] =
             "/subscriptions/test/resourceGroups/test/providers/Microsoft.ContainerService/managedClusters/test-aks";
@@ -475,6 +500,36 @@ describe("#AzureMonitorStatsbeatExporter", () => {
             statsbeat["resourceIdentifier"],
             "/subscriptions/test/resourceGroups/test/providers/Microsoft.ContainerService/managedClusters/test-aks",
           );
+        });
+
+        it("should prioritize AKS detection with KUBERNETES_SERVICE_HOST over App Service", async () => {
+          const newEnv = <{ [id: string]: string }>{};
+          newEnv["KUBERNETES_SERVICE_HOST"] = "10.0.0.1";
+          newEnv["WEBSITE_SITE_NAME"] = "my-webapp";
+          const originalEnv = process.env;
+          process.env = newEnv;
+
+          await statsbeat["getResourceProvider"]();
+
+          process.env = originalEnv;
+          assert.strictEqual(statsbeat["resourceProvider"], "aks");
+          assert.strictEqual(statsbeat["resourceIdentifier"], "10.0.0.1");
+        });
+
+        it("should prioritize AKS detection with KUBERNETES_SERVICE_HOST over Functions", async () => {
+          const newEnv = <{ [id: string]: string }>{};
+          newEnv["KUBERNETES_SERVICE_HOST"] = "10.0.0.1";
+          newEnv["WEBSITE_SITE_NAME"] = "my-function-app";
+          newEnv["FUNCTIONS_WORKER_RUNTIME"] = "node";
+          newEnv["WEBSITE_HOSTNAME"] = "my-function-app.azurewebsites.net";
+          const originalEnv = process.env;
+          process.env = newEnv;
+
+          await statsbeat["getResourceProvider"]();
+
+          process.env = originalEnv;
+          assert.strictEqual(statsbeat["resourceProvider"], "aks");
+          assert.strictEqual(statsbeat["resourceIdentifier"], "10.0.0.1");
         });
 
         it("should prioritize Functions detection over App Service when both conditions are met", async () => {

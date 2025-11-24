@@ -57,7 +57,7 @@ matrix([[true, false]] as const, async (useAad) => {
           },
         };
         const created = await client.createHook(hook);
-        assert.ok(created.id, "Expecting valid created.id");
+        assert.isDefined(created.id, "Expecting valid created.id");
         createdEmailHookId = created.id!;
       });
 
@@ -73,7 +73,7 @@ matrix([[true, false]] as const, async (useAad) => {
           },
         };
         const created = await client.createHook(hook);
-        assert.ok(created.id, "Expecting valid created.id");
+        assert.isDefined(created.id, "Expecting valid created.id");
         createdWebHookId = created.id!;
       });
 
@@ -115,9 +115,9 @@ matrix([[true, false]] as const, async (useAad) => {
           hookName: "js-test",
         });
         let result = getYieldedValue(await iterator.next());
-        assert.ok(result.name, "Expecting first definition");
+        assert.isDefined(result.name, "Expecting first definition");
         result = getYieldedValue(await iterator.next());
-        assert.ok(result.name, "Expecting second definition");
+        assert.isDefined(result.name, "Expecting second definition");
       });
 
       it("lists hooks by page", async () => {

@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
+import type { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
 import {
-  assetEndpointProfilesListBySubscription,
-  assetEndpointProfilesListByResourceGroup,
-  assetEndpointProfilesDelete,
-  assetEndpointProfilesUpdate,
-  assetEndpointProfilesCreateOrReplace,
-  assetEndpointProfilesGet,
-} from "../../api/assetEndpointProfiles/index.js";
-import { AssetEndpointProfile, AssetEndpointProfileUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
-import {
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrReplace,
+  get,
+} from "../../api/assetEndpointProfiles/operations.js";
+import type {
   AssetEndpointProfilesListBySubscriptionOptionalParams,
   AssetEndpointProfilesListByResourceGroupOptionalParams,
   AssetEndpointProfilesDeleteOptionalParams,
   AssetEndpointProfilesUpdateOptionalParams,
   AssetEndpointProfilesCreateOrReplaceOptionalParams,
   AssetEndpointProfilesGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/assetEndpointProfiles/options.js";
+import type { AssetEndpointProfile, AssetEndpointProfileUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AssetEndpointProfiles operations. */
 export interface AssetEndpointProfilesOperations {
@@ -34,6 +34,11 @@ export interface AssetEndpointProfilesOperations {
     options?: AssetEndpointProfilesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<AssetEndpointProfile>;
   /** Delete a AssetEndpointProfile */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     resourceGroupName: string,
     assetEndpointProfileName: string,
@@ -64,47 +69,33 @@ export interface AssetEndpointProfilesOperations {
 function _getAssetEndpointProfiles(context: DeviceRegistryManagementContext) {
   return {
     listBySubscription: (options?: AssetEndpointProfilesListBySubscriptionOptionalParams) =>
-      assetEndpointProfilesListBySubscription(context, options),
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: AssetEndpointProfilesListByResourceGroupOptionalParams,
-    ) => assetEndpointProfilesListByResourceGroup(context, resourceGroupName, options),
+    ) => listByResourceGroup(context, resourceGroupName, options),
     delete: (
       resourceGroupName: string,
       assetEndpointProfileName: string,
       options?: AssetEndpointProfilesDeleteOptionalParams,
-    ) => assetEndpointProfilesDelete(context, resourceGroupName, assetEndpointProfileName, options),
+    ) => $delete(context, resourceGroupName, assetEndpointProfileName, options),
     update: (
       resourceGroupName: string,
       assetEndpointProfileName: string,
       properties: AssetEndpointProfileUpdate,
       options?: AssetEndpointProfilesUpdateOptionalParams,
-    ) =>
-      assetEndpointProfilesUpdate(
-        context,
-        resourceGroupName,
-        assetEndpointProfileName,
-        properties,
-        options,
-      ),
+    ) => update(context, resourceGroupName, assetEndpointProfileName, properties, options),
     createOrReplace: (
       resourceGroupName: string,
       assetEndpointProfileName: string,
       resource: AssetEndpointProfile,
       options?: AssetEndpointProfilesCreateOrReplaceOptionalParams,
-    ) =>
-      assetEndpointProfilesCreateOrReplace(
-        context,
-        resourceGroupName,
-        assetEndpointProfileName,
-        resource,
-        options,
-      ),
+    ) => createOrReplace(context, resourceGroupName, assetEndpointProfileName, resource, options),
     get: (
       resourceGroupName: string,
       assetEndpointProfileName: string,
       options?: AssetEndpointProfilesGetOptionalParams,
-    ) => assetEndpointProfilesGet(context, resourceGroupName, assetEndpointProfileName, options),
+    ) => get(context, resourceGroupName, assetEndpointProfileName, options),
   };
 }
 

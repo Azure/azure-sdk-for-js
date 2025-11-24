@@ -75,8 +75,8 @@ describe("WorkloadIdentityCredential", function () {
     vi.stubEnv("AZURE_TENANT_ID", tenantId);
     const credential = new ManagedIdentityCredential("dummy-clientId");
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("authenticates with DefaultAzureCredential", async function () {
@@ -218,9 +218,8 @@ function validateWorkloadIdentityCredential(
 
   assert.equal(actualFederatedTokenFilePath, expectedFederatedTokenFilePath);
   assert.equal(actualTenantId, expectedTenantId);
-  assert.ok(token?.token);
-  assert.ok(token?.expiresOnTimestamp! > Date.now());
-
+  assert.isDefined(token?.token);
+  assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   const clientOptions = (clientAssertionCredential as any).options;
   const hasCustomHttpClient = clientOptions && clientOptions.httpClient !== undefined;
 

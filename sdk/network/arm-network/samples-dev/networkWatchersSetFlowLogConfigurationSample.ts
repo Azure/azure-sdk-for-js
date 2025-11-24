@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Configures flow log and traffic analytics (optional) on a specified resource.
  *
  * @summary Configures flow log and traffic analytics (optional) on a specified resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkWatcherFlowLogConfigure.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkWatcherFlowLogConfigure.json
  */
 async function configureFlowLog(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

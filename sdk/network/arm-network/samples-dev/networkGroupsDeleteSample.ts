@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes a network group.
  *
  * @summary Deletes a network group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerGroupDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerGroupDelete.json
  */
 async function networkGroupsDelete(): Promise<void> {
   const subscriptionId =

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists NetworkVirtualApplianceConnections under the NVA.
  *
  * @summary Lists NetworkVirtualApplianceConnections under the NVA.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkVirtualApplianceConnectionList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkVirtualApplianceConnectionList.json
  */
 async function networkVirtualApplianceConnectionList(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

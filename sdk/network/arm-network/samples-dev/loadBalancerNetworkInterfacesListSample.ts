@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets associated load balancer network interfaces.
  *
  * @summary Gets associated load balancer network interfaces.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/LoadBalancerNetworkInterfaceListSimple.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/LoadBalancerNetworkInterfaceListSimple.json
  */
 async function loadBalancerNetworkInterfaceListSimple(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function loadBalancerNetworkInterfaceListSimple(): Promise<void> {
  * This sample demonstrates how to Gets associated load balancer network interfaces.
  *
  * @summary Gets associated load balancer network interfaces.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/LoadBalancerNetworkInterfaceListVmss.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/LoadBalancerNetworkInterfaceListVmss.json
  */
 async function loadBalancerNetworkInterfaceListVmss(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

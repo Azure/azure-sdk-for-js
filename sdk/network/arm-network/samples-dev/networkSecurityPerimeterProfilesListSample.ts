@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists the NSP profiles in the specified network security perimeter.
  *
  * @summary Lists the NSP profiles in the specified network security perimeter.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NspProfileList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NspProfileList.json
  */
 async function nspProfilesList(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";

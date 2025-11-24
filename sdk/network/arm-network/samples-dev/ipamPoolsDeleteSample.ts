@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete the Pool resource.
  *
  * @summary Delete the Pool resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/IpamPools_Delete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/IpamPools_Delete.json
  */
 async function ipamPoolsDelete(): Promise<void> {
   const subscriptionId =

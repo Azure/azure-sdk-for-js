@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete a trusted access role binding.
  *
  * @summary Delete a trusted access role binding.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/TrustedAccessRoleBindings_Delete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/TrustedAccessRoleBindings_Delete.json
  */
 async function deleteATrustedAccessRoleBinding(): Promise<void> {
   const subscriptionId =
