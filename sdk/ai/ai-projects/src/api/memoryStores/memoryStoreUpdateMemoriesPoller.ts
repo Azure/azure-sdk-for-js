@@ -19,21 +19,30 @@ import {
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PathUncheckedResponse, createRestError } from "@azure-rest/core-client";
 
+/** State of the Memory Store update operation. */
 export type MemoryStoreUpdateOperationState = OperationState<MemoryStoreUpdateResult> & {
+  /** The ID of the memory store update operation. */
   updateId?: string;
+  /** The status of the memory store update operation. */
   updateStatus?: MemoryStoreUpdateStatus;
+  /** The ID of the memory store update operation that superseded this one, if any. */
   supersededBy?: string;
 };
 
+/** Custom LROPoller for Memory Store update operations. */
 export type MemoryStoreUpdateMemoriesPoller = PollerLike<
   MemoryStoreUpdateOperationState,
   MemoryStoreUpdateResult
 > & {
+  /** The ID of the memory store update operation. */
   readonly updateId?: string;
+  /** The status of the memory store update operation. */
   readonly updateStatus?: MemoryStoreUpdateStatus;
+  /** The ID of the memory store update operation that superseded this one, if any. */
   readonly supersededBy?: string;
 };
 
+/** Options for creating a MemoryStoreUpdateMemoriesPoller. */
 export interface CreateMemoryStoreUpdateMemoriesPollerOptions {
   updateIntervalInMs?: number;
   abortSignal?: AbortSignalLike;
@@ -166,6 +175,15 @@ function buildRunningOperation(
   };
 }
 
+/**
+ * Creates a poller to track the progress of updating memories in a memory store.
+ * 
+ * @param client - The AIProjectClient instance.
+ * @param expectedStatuses - The expected HTTP statuses for the polling operation.
+ * @param getInitialResponse - A function that returns a promise of the initial response to start the polling operation.
+ * @param options - Optional parameters for creating the poller.
+ * @returns A MemoryStoreUpdateMemoriesPoller instance.
+ */
 export function createMemoryStoreUpdateMemoriesPoller(
   client: Client,
   expectedStatuses: string[],

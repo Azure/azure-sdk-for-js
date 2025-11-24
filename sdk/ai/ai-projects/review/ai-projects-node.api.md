@@ -1867,14 +1867,14 @@ export interface MemoryStoresUpdateMemoryStoreOptionalParams extends OperationOp
     metadata?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export type MemoryStoreUpdateMemoriesPoller = PollerLike<MemoryStoreUpdateOperationState, MemoryStoreUpdateResult> & {
     readonly updateId?: string;
     readonly updateStatus?: MemoryStoreUpdateStatus;
     readonly supersededBy?: string;
 };
 
-// @public (undocumented)
+// @public
 export type MemoryStoreUpdateOperationState = OperationState_2<MemoryStoreUpdateResult> & {
     updateId?: string;
     updateStatus?: MemoryStoreUpdateStatus;
