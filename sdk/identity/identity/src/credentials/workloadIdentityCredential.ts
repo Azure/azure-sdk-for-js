@@ -177,8 +177,8 @@ export class WorkloadIdentityCredential implements TokenCredential {
       );
     }
 
-    // Use identity binding mode only when enableAzureKubernetesTokenProxy is set
-    if (workloadIdentityCredentialOptions.enableAzureKubernetesTokenProxy) {
+    // Use identity binding mode only when enableAzureProxy is set
+    if (workloadIdentityCredentialOptions.enableAzureProxy) {
       const kubernetesTokenProxy = process.env.AZURE_KUBERNETES_TOKEN_PROXY;
       const kubernetesSNIName = process.env.AZURE_KUBERNETES_SNI_NAME;
       const kubernetesCAFile = process.env.AZURE_KUBERNETES_CA_FILE;
@@ -193,7 +193,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
           );
         }
         logger.info(
-          `enableAzureKubernetesTokenProxy is true but AZURE_KUBERNETES_TOKEN_PROXY is not set, using normal authentication flow`,
+          `enableAzureProxy is true but AZURE_KUBERNETES_TOKEN_PROXY is not set, using normal authentication flow`,
         );
       } else {
         const tokenProxy = parseAndValidateCustomTokenProxy(kubernetesTokenProxy);

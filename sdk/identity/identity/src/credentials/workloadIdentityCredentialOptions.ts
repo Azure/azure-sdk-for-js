@@ -25,5 +25,5 @@ export interface WorkloadIdentityCredentialOptions
   /**
    * Enables the identity binding feature.
    */
-  enableAzureKubernetesTokenProxy?: boolean;
+  enableAzureProxy?: boolean;
 }
