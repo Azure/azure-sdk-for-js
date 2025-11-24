@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  VirtualMachineScaleSetVMInstanceRequiredIDs} from "@azure/arm-compute";
 import {
-  VirtualMachineScaleSetVMInstanceRequiredIDs,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";

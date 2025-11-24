@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets properties of a specified share.
  *
  * @summary Gets properties of a specified share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileSharesGet_PaidBursting.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesGet_PaidBursting.json
  */
 async function getSharePaidBursting() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -26,7 +26,7 @@ async function getSharePaidBursting() {
  * This sample demonstrates how to Gets properties of a specified share.
  *
  * @summary Gets properties of a specified share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileSharesGet_ProvisionedV2.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesGet_ProvisionedV2.json
  */
 async function getShareProvisionedV2() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -43,7 +43,7 @@ async function getShareProvisionedV2() {
  * This sample demonstrates how to Gets properties of a specified share.
  *
  * @summary Gets properties of a specified share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileSharesGet_Stats.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesGet_Stats.json
  */
 async function getShareStats() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -62,7 +62,7 @@ async function getShareStats() {
  * This sample demonstrates how to Gets properties of a specified share.
  *
  * @summary Gets properties of a specified share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileSharesGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesGet.json
  */
 async function getShares() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

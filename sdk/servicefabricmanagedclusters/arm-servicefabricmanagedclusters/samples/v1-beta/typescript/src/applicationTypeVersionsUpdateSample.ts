@@ -8,15 +8,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the tags of an application type version resource of a given managed cluster.
  *
  * @summary updates the tags of an application type version resource of a given managed cluster.
- * x-ms-original-file: 2025-03-01-preview/ApplicationTypeVersionPatchOperation_example.json
+ * x-ms-original-file: 2025-06-01-preview/ApplicationTypeVersionPatchOperation_example.json
  */
 async function patchAnApplicationTypeVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ServiceFabricManagedClustersManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
   const result = await client.applicationTypeVersions.update(
     "resRg",
     "myCluster",

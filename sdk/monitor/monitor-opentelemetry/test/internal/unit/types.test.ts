@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it } from "vitest";
-import { strict as assert } from "assert";
+import { assert, describe, it } from "vitest";
 import { APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW } from "../../../src/types.js";
 
 describe("Types Constants", () => {
@@ -48,7 +47,7 @@ describe("Types Constants", () => {
     it("should be importable and accessible at runtime", () => {
       // Verify the constant can be accessed dynamically
       const constantValue = APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW;
-      assert.ok(constantValue);
+      assert.isDefined(constantValue);
       assert.strictEqual(constantValue.length > 0, true);
 
       // Verify it can be used in object property access

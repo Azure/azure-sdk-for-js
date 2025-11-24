@@ -41,7 +41,7 @@ describe("formDataPolicy", function () {
       });
 
       const parts = (result.request.multipartBody as MultipartRequestBody).parts;
-      assert.ok(parts.length === 1, "expected 1 part");
+      assert.equal(parts.length, 1, "expected 1 part");
       assert.deepEqual(
         parts[0].headers,
         createHttpHeaders({

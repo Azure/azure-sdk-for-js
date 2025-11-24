@@ -1,89 +1,65 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createOracleDatabaseManagement,
+import type {
   OracleDatabaseManagementContext,
   OracleDatabaseManagementClientOptionalParams,
 } from "./api/index.js";
-import {
-  ExascaleDbStorageVaultsOperations,
-  _getExascaleDbStorageVaultsOperations,
-} from "./classic/exascaleDbStorageVaults/index.js";
-import {
-  ExascaleDbNodesOperations,
-  _getExascaleDbNodesOperations,
-} from "./classic/exascaleDbNodes/index.js";
-import {
-  ExadbVmClustersOperations,
-  _getExadbVmClustersOperations,
-} from "./classic/exadbVmClusters/index.js";
-import {
-  AutonomousDatabaseVersionsOperations,
-  _getAutonomousDatabaseVersionsOperations,
-} from "./classic/autonomousDatabaseVersions/index.js";
-import {
-  AutonomousDatabaseNationalCharacterSetsOperations,
-  _getAutonomousDatabaseNationalCharacterSetsOperations,
-} from "./classic/autonomousDatabaseNationalCharacterSets/index.js";
-import {
-  AutonomousDatabaseCharacterSetsOperations,
-  _getAutonomousDatabaseCharacterSetsOperations,
-} from "./classic/autonomousDatabaseCharacterSets/index.js";
-import {
-  AutonomousDatabaseBackupsOperations,
-  _getAutonomousDatabaseBackupsOperations,
-} from "./classic/autonomousDatabaseBackups/index.js";
-import {
-  AutonomousDatabasesOperations,
-  _getAutonomousDatabasesOperations,
-} from "./classic/autonomousDatabases/index.js";
-import {
-  FlexComponentsOperations,
-  _getFlexComponentsOperations,
-} from "./classic/flexComponents/index.js";
-import {
-  DnsPrivateZonesOperations,
-  _getDnsPrivateZonesOperations,
-} from "./classic/dnsPrivateZones/index.js";
-import {
-  DnsPrivateViewsOperations,
-  _getDnsPrivateViewsOperations,
-} from "./classic/dnsPrivateViews/index.js";
-import {
-  DbSystemShapesOperations,
-  _getDbSystemShapesOperations,
-} from "./classic/dbSystemShapes/index.js";
-import {
-  GiMinorVersionsOperations,
-  _getGiMinorVersionsOperations,
-} from "./classic/giMinorVersions/index.js";
-import { GiVersionsOperations, _getGiVersionsOperations } from "./classic/giVersions/index.js";
-import { DbNodesOperations, _getDbNodesOperations } from "./classic/dbNodes/index.js";
-import {
-  OracleSubscriptionsOperations,
-  _getOracleSubscriptionsOperations,
-} from "./classic/oracleSubscriptions/index.js";
-import {
-  SystemVersionsOperations,
-  _getSystemVersionsOperations,
-} from "./classic/systemVersions/index.js";
-import {
-  VirtualNetworkAddressesOperations,
-  _getVirtualNetworkAddressesOperations,
-} from "./classic/virtualNetworkAddresses/index.js";
-import {
-  CloudVmClustersOperations,
-  _getCloudVmClustersOperations,
-} from "./classic/cloudVmClusters/index.js";
-import { DbServersOperations, _getDbServersOperations } from "./classic/dbServers/index.js";
-import {
-  CloudExadataInfrastructuresOperations,
-  _getCloudExadataInfrastructuresOperations,
-} from "./classic/cloudExadataInfrastructures/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import { createOracleDatabaseManagement } from "./api/index.js";
+import type { AutonomousDatabaseBackupsOperations } from "./classic/autonomousDatabaseBackups/index.js";
+import { _getAutonomousDatabaseBackupsOperations } from "./classic/autonomousDatabaseBackups/index.js";
+import type { AutonomousDatabaseCharacterSetsOperations } from "./classic/autonomousDatabaseCharacterSets/index.js";
+import { _getAutonomousDatabaseCharacterSetsOperations } from "./classic/autonomousDatabaseCharacterSets/index.js";
+import type { AutonomousDatabaseNationalCharacterSetsOperations } from "./classic/autonomousDatabaseNationalCharacterSets/index.js";
+import { _getAutonomousDatabaseNationalCharacterSetsOperations } from "./classic/autonomousDatabaseNationalCharacterSets/index.js";
+import type { AutonomousDatabaseVersionsOperations } from "./classic/autonomousDatabaseVersions/index.js";
+import { _getAutonomousDatabaseVersionsOperations } from "./classic/autonomousDatabaseVersions/index.js";
+import type { AutonomousDatabasesOperations } from "./classic/autonomousDatabases/index.js";
+import { _getAutonomousDatabasesOperations } from "./classic/autonomousDatabases/index.js";
+import type { CloudExadataInfrastructuresOperations } from "./classic/cloudExadataInfrastructures/index.js";
+import { _getCloudExadataInfrastructuresOperations } from "./classic/cloudExadataInfrastructures/index.js";
+import type { CloudVmClustersOperations } from "./classic/cloudVmClusters/index.js";
+import { _getCloudVmClustersOperations } from "./classic/cloudVmClusters/index.js";
+import type { DbNodesOperations } from "./classic/dbNodes/index.js";
+import { _getDbNodesOperations } from "./classic/dbNodes/index.js";
+import type { DbServersOperations } from "./classic/dbServers/index.js";
+import { _getDbServersOperations } from "./classic/dbServers/index.js";
+import type { DbSystemShapesOperations } from "./classic/dbSystemShapes/index.js";
+import { _getDbSystemShapesOperations } from "./classic/dbSystemShapes/index.js";
+import type { DbSystemsOperations } from "./classic/dbSystems/index.js";
+import { _getDbSystemsOperations } from "./classic/dbSystems/index.js";
+import type { DbVersionsOperations } from "./classic/dbVersions/index.js";
+import { _getDbVersionsOperations } from "./classic/dbVersions/index.js";
+import type { DnsPrivateViewsOperations } from "./classic/dnsPrivateViews/index.js";
+import { _getDnsPrivateViewsOperations } from "./classic/dnsPrivateViews/index.js";
+import type { DnsPrivateZonesOperations } from "./classic/dnsPrivateZones/index.js";
+import { _getDnsPrivateZonesOperations } from "./classic/dnsPrivateZones/index.js";
+import type { ExadbVmClustersOperations } from "./classic/exadbVmClusters/index.js";
+import { _getExadbVmClustersOperations } from "./classic/exadbVmClusters/index.js";
+import type { ExascaleDbNodesOperations } from "./classic/exascaleDbNodes/index.js";
+import { _getExascaleDbNodesOperations } from "./classic/exascaleDbNodes/index.js";
+import type { ExascaleDbStorageVaultsOperations } from "./classic/exascaleDbStorageVaults/index.js";
+import { _getExascaleDbStorageVaultsOperations } from "./classic/exascaleDbStorageVaults/index.js";
+import type { FlexComponentsOperations } from "./classic/flexComponents/index.js";
+import { _getFlexComponentsOperations } from "./classic/flexComponents/index.js";
+import type { GiMinorVersionsOperations } from "./classic/giMinorVersions/index.js";
+import { _getGiMinorVersionsOperations } from "./classic/giMinorVersions/index.js";
+import type { GiVersionsOperations } from "./classic/giVersions/index.js";
+import { _getGiVersionsOperations } from "./classic/giVersions/index.js";
+import type { NetworkAnchorsOperations } from "./classic/networkAnchors/index.js";
+import { _getNetworkAnchorsOperations } from "./classic/networkAnchors/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { OracleSubscriptionsOperations } from "./classic/oracleSubscriptions/index.js";
+import { _getOracleSubscriptionsOperations } from "./classic/oracleSubscriptions/index.js";
+import type { ResourceAnchorsOperations } from "./classic/resourceAnchors/index.js";
+import { _getResourceAnchorsOperations } from "./classic/resourceAnchors/index.js";
+import type { SystemVersionsOperations } from "./classic/systemVersions/index.js";
+import { _getSystemVersionsOperations } from "./classic/systemVersions/index.js";
+import type { VirtualNetworkAddressesOperations } from "./classic/virtualNetworkAddresses/index.js";
+import { _getVirtualNetworkAddressesOperations } from "./classic/virtualNetworkAddresses/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { OracleDatabaseManagementClientOptionalParams } from "./api/oracleDatabaseManagementContext.js";
 
@@ -106,6 +82,10 @@ export class OracleDatabaseManagementClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+    this.dbVersions = _getDbVersionsOperations(this._client);
+    this.dbSystems = _getDbSystemsOperations(this._client);
+    this.resourceAnchors = _getResourceAnchorsOperations(this._client);
+    this.networkAnchors = _getNetworkAnchorsOperations(this._client);
     this.exascaleDbStorageVaults = _getExascaleDbStorageVaultsOperations(this._client);
     this.exascaleDbNodes = _getExascaleDbNodesOperations(this._client);
     this.exadbVmClusters = _getExadbVmClustersOperations(this._client);
@@ -133,6 +113,14 @@ export class OracleDatabaseManagementClient {
     this.operations = _getOperationsOperations(this._client);
   }
 
+  /** The operation groups for dbVersions */
+  public readonly dbVersions: DbVersionsOperations;
+  /** The operation groups for dbSystems */
+  public readonly dbSystems: DbSystemsOperations;
+  /** The operation groups for resourceAnchors */
+  public readonly resourceAnchors: ResourceAnchorsOperations;
+  /** The operation groups for networkAnchors */
+  public readonly networkAnchors: NetworkAnchorsOperations;
   /** The operation groups for exascaleDbStorageVaults */
   public readonly exascaleDbStorageVaults: ExascaleDbStorageVaultsOperations;
   /** The operation groups for exascaleDbNodes */

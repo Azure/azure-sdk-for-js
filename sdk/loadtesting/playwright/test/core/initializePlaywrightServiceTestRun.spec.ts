@@ -16,9 +16,9 @@ const mockState = {
 
 // Mock modules using only inline function definitions
 vi.mock("../../src/utils/playwrightServiceApicall.js", () => ({
-  PlaywrightServiceApiCall: vi.fn().mockImplementation(() => ({
-    patchTestRunAPI: (...args: any[]) => mockState.patchTestRunAPI(...args),
-  })),
+  PlaywrightServiceApiCall: vi.fn().mockImplementation(function (this: any) {
+    this.patchTestRunAPI = (...args: any[]) => mockState.patchTestRunAPI(...args);
+  }),
 }));
 
 vi.mock("../../src/common/playwrightServiceConfig.js", () => ({

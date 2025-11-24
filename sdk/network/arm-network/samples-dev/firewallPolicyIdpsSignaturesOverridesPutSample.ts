@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Will override/create a new signature overrides for the policy's IDPS
- *
- * @summary Will override/create a new signature overrides for the policy's IDPS
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/FirewallPolicySignatureOverridesPut.json
- */
-
 import type {
   SignaturesOverrides} from "@azure/arm-network";
 import {
@@ -16,6 +9,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Will override/create a new signature overrides for the policy's IDPS
+ *
+ * @summary Will override/create a new signature overrides for the policy's IDPS
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/FirewallPolicySignatureOverridesPut.json
+ */
 async function putSignatureOverrides(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||

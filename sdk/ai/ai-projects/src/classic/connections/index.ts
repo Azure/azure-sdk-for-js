@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
-import { Connection, ConnectionType } from "../../models/models.js";
+import { list, getWithCredentials, get, getDefault } from "../../api/connections/operations.js";
 import {
   ConnectionsListOptionalParams,
   ConnectionsGetWithCredentialsOptionalParams,
   ConnectionsGetOptionalParams,
 } from "../../api/connections/options.js";
-import { list, getWithCredentials, get, getDefault } from "../../api/connections/operations.js";
+import { Connection, ConnectionType } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Connections operations. */

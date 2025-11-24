@@ -63,7 +63,7 @@ node dist/deleteParty.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env FARMBEATS_ENDPOINT="<farmbeats endpoint>" node dist/deleteParty.js
+cross-env FARMBEATS_ENDPOINT="<farmbeats endpoint>" node dist/deleteParty.js
 ```
 
 ## Next Steps

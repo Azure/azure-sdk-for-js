@@ -85,6 +85,7 @@ describe("createAzurePlaywrightConfig", () => {
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       ServiceErrorMessageConstants.NO_SERVICE_URL_ERROR.message,
     );
+    vi.mocked(process.exit).mockReset();
   });
 
   it("should return service config with service connect options and global setup and teardown as list when playwright version is 1.49.0", async () => {

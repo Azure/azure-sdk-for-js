@@ -1,5 +1,21 @@
 # Release History
 
+## 4.14.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.14.0-beta.1 (2025-11-06)
+
+### Features Added
+
+- Added Kubernetes token proxy support (identity binding mode) to `WorkloadIdentityCredential`. When enabled via the `enableAzureKubernetesTokenProxy ` option, the credential redirects token requests to an AKS-provided proxy to work around Entra ID's limit on federated identity credentials per managed identity. This feature is opt-in and only available when using `WorkloadIdentityCredential` directly (not supported by `DefaultAzureCredential` or `ManagedIdentityCredential`). [#36218](https://github.com/Azure/azure-sdk-for-js/pull/36218)
+
 ## 4.13.0 (2025-10-07)
 
 ### Features Added

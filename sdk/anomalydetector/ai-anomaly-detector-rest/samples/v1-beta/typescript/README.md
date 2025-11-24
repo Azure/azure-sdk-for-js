@@ -52,7 +52,7 @@ node dist/sample_detect_change_point.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env ANOMALY_DETECTOR_API_KEY="<anomaly detector api key>" ANOMALY_DETECTOR_ENDPOINT="<anomaly detector endpoint>" node dist/sample_detect_change_point.js
+cross-env ANOMALY_DETECTOR_API_KEY="<anomaly detector api key>" ANOMALY_DETECTOR_ENDPOINT="<anomaly detector endpoint>" node dist/sample_detect_change_point.js
 ```
 
 ## Next Steps

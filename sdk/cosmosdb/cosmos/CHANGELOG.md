@@ -1,4 +1,27 @@
 # Release History
+## 4.8.0 (2025-11-20)
+
+### Features Added
+
+- [#36701](https://github.com/Azure/azure-sdk-for-js/issues/36701) Added support for `float16` data type in vector embedding.
+- [#36700](https://github.com/Azure/azure-sdk-for-js/issues/36700) Added support for Priority level in Change feed.
+- [#36699](https://github.com/Azure/azure-sdk-for-js/issues/36699) Add support for throughput buckets in Change Feed.
+
+### Bugs Fixed
+
+- Fixed MIN/MAX aggregate queries randomly returning incorrect results in multi-partition collections. Empty partitions (count:0) were incorrectly overwriting valid aggregate values with undefined, causing MIN or MAX values to be missing from query results.
+
+### Other Changes
+
+- Added samples demonstrating Throughput bucketing feature.
+- Added samples showcasing the use of Priority-Level support.
+- Added samples for the `deleteAllItemsForPartitionKey` feature.
+
+## 4.7.0 (2025-10-23)
+
+### Features Added
+
+Dynamic Enablement for PPAF(Per Partition Automatic Failover): Added support to dynamically enable or disable PPAF based on the `enablePartitionLevelFailover` flag retrieved from the database account properties removing the need of SDK restart. 
 
 ## 4.6.0 (2025-10-08)
 

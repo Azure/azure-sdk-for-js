@@ -64,7 +64,7 @@ node dist/accountsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env MAPS_SUBSCRIPTION_ID="<maps subscription id>" MAPS_RESOURCE_GROUP="<maps resource group>" node dist/accountsCreateOrUpdateSample.js
+cross-env MAPS_SUBSCRIPTION_ID="<maps subscription id>" MAPS_RESOURCE_GROUP="<maps resource group>" node dist/accountsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

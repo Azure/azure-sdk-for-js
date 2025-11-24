@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  ProjectCapabilityHost} from "@azure/arm-cognitiveservices";
 import {
-  CapabilityHost,
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -12,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create or update project capabilityHost.
  *
  * @summary Create or update project capabilityHost.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ProjectCapabilityHost/createOrUpdate.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ProjectCapabilityHost/createOrUpdate.json
  */
 async function createOrUpdateProjectCapabilityHost(): Promise<void> {
   const subscriptionId =
@@ -23,10 +24,12 @@ async function createOrUpdateProjectCapabilityHost(): Promise<void> {
   const accountName = "account-1";
   const projectName = "project-1";
   const capabilityHostName = "capabilityHostName";
-  const capabilityHost: CapabilityHost = {
+  const capabilityHost: ProjectCapabilityHost = {
     properties: {
-      customerSubnet:
-        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroups/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+      aiServicesConnections: ["aoai_connection"],
+      storageConnections: ["blob_connection"],
+      threadStorageConnections: ["aca_connection"],
+      vectorStoreConnections: ["acs_connection"],
     },
   };
   const credential = new DefaultAzureCredential();
