@@ -33,7 +33,7 @@ async function main(): Promise<void> {
   }
 
   const response: Send202Response = result as Send202Response;
-  await response.body.receipts.forEach((receipt) => {
+  response.body.receipts.forEach((receipt) => {
     console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
   });
 }

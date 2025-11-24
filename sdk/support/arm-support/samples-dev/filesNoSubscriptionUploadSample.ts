@@ -16,14 +16,14 @@ import "dotenv/config";
 async function uploadFile(): Promise<void> {
   const fileWorkspaceName = "testworkspaceName";
   const fileName = "test.txt";
-  const uploadFile: UploadFile = {
+  const uploadFileContent: UploadFile = {
     chunkIndex: 0,
     content:
       "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABd",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
-  const result = await client.filesNoSubscription.upload(fileWorkspaceName, fileName, uploadFile);
+  const result = await client.filesNoSubscription.upload(fileWorkspaceName, fileName, uploadFileContent);
   console.log(result);
 }
 
