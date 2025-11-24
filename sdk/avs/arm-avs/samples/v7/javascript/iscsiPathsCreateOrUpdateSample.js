@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a IscsiPath
  *
  * @summary create a IscsiPath
- * x-ms-original-file: 2024-09-01/IscsiPaths_CreateOrUpdate.json
+ * x-ms-original-file: 2025-09-01/IscsiPaths_CreateOrUpdate.json
  */
 async function iscsiPathsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

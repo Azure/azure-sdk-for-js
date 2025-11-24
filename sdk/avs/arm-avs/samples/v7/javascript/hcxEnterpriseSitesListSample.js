@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list HcxEnterpriseSite resources by PrivateCloud
  *
  * @summary list HcxEnterpriseSite resources by PrivateCloud
- * x-ms-original-file: 2024-09-01/HcxEnterpriseSites_List.json
+ * x-ms-original-file: 2025-09-01/HcxEnterpriseSites_List.json
  */
 async function hcxEnterpriseSitesList() {
   const credential = new DefaultAzureCredential();
