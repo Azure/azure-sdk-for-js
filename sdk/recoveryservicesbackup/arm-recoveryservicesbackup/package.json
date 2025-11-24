@@ -33,6 +33,7 @@
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/arm-recoveryservices": "^5.2.0",
     "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@azure/logger": "^1.1.4",
     "@types/node": "catalog:",

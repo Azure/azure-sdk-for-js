@@ -37,6 +37,7 @@
     "@azure/arm-operationalinsights": "^9.0.0",
     "@azure/arm-storage": "catalog:arm",
     "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@azure/logger": "^1.1.4",
     "@types/node": "catalog:",
