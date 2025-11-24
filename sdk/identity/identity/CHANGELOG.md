@@ -6,7 +6,7 @@
 
 ### Breaking Changes
 
-- Renamed `WorkloadIdentityCredentialOptions.enableAzureKubernetesTokenProxy` to `WorkloadIdentityCredentialOptions.enableAzureProxy` to align with other Azure SDKs. The new name better reflects that this is a proxy for apps running on Azure, without redundantly mentioning "Kubernetes" or "Token" in the name.
+- Renamed `enableAzureKubernetesTokenProxy` in `WorkloadIdentityCredentialOptions` to `enableAzureProxy`. [#36728](https://github.com/Azure/azure-sdk-for-js/pull/36728)
 
 ### Bugs Fixed
 
@@ -16,7 +16,7 @@
 
 ### Features Added
 
-- Added Kubernetes token proxy support (identity binding mode) to `WorkloadIdentityCredential`. When enabled via the `enableAzureProxy` option, the credential redirects token requests to an AKS-provided proxy to work around Entra ID's limit on federated identity credentials per managed identity. This feature is opt-in and only available when using `WorkloadIdentityCredential` directly (not supported by `DefaultAzureCredential` or `ManagedIdentityCredential`). [#36218](https://github.com/Azure/azure-sdk-for-js/pull/36218)
+- Added Kubernetes token proxy support (identity binding mode) to `WorkloadIdentityCredential`. When enabled via the `enableAzureKubernetesTokenProxy ` option, the credential redirects token requests to an AKS-provided proxy to work around Entra ID's limit on federated identity credentials per managed identity. This feature is opt-in and only available when using `WorkloadIdentityCredential` directly (not supported by `DefaultAzureCredential` or `ManagedIdentityCredential`). [#36218](https://github.com/Azure/azure-sdk-for-js/pull/36218)
 
 ## 4.13.0 (2025-10-07)
 
