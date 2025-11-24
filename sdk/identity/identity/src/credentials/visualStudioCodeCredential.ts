@@ -99,7 +99,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
     const authenticationRecord = await this.loadAuthRecord(vsCodeAuthRecordPath, scopes);
 
     this.msalClient = createMsalClient(VSCodeClientId, tenantId, {
-      tokenCredentialOptions: this.options,
+      ...this.options,
       isVSCodeCredential: true,
       brokerOptions: {
         enabled: true,

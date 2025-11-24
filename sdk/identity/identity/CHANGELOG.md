@@ -10,6 +10,7 @@
 
 ### Other Changes
 
+- Refactored `MsalClientOptions` to avoid nested properties duplication. [#36731](https://github.com/Azure/azure-sdk-for-js/pull/36731)
 ## 4.14.0-beta.1 (2025-11-06)
 
 ### Features Added

@@ -67,8 +67,8 @@ export class ClientAssertionCredential implements TokenCredential {
     this.options = options;
     this.getAssertion = getAssertion;
     this.msalClient = createMsalClient(clientId, tenantId, {
+      ...this.options,
       logger,
-      tokenCredentialOptions: this.options,
     });
   }
 

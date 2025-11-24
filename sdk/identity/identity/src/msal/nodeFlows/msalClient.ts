@@ -30,7 +30,8 @@ import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOption
 import { calculateRegionalAuthority } from "../../regionalAuthority.js";
 import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../../util/tenantIdUtils.js";
-import { TokenCredentialOptions } from "../../tokenCredentialOptions.js";
+import { CommonClientOptions } from "@azure/core-client";
+import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 
 /**
  * The default logger used if no logger was passed in by the credential.
@@ -216,7 +217,7 @@ export interface MsalClient {
 /**
  * Represents the options for configuring the MsalClient.
  */
-export interface MsalClientOptions {
+export interface MsalClientOptions extends CommonClientOptions {
   /**
    * Parameters that enable WAM broker authentication in the InteractiveBrowserCredential.
    */
@@ -233,9 +234,23 @@ export interface MsalClientOptions {
   isVSCodeCredential?: boolean;
 
   /**
-   * The token credential options for the MsalClient.
+   * A custom authority host.
    */
-  tokenCredentialOptions?: TokenCredentialOptions;
+  authorityHost?: string;
+
+  /**
+   * Allows users to configure settings for logging policy options, allow logging account information and personally identifiable information for customer support.
+   */
+  loggingOptions?: LogPolicyOptions & {
+    /**
+     * Allows logging account information once the authentication flow succeeds.
+     */
+    allowLoggingAccountIdentifiers?: boolean;
+    /**
+     * Allows logging personally identifiable information for customer support.
+     */
+    enableUnsafeSupportLogging?: boolean;
+  };
 
   /**
    * Determines whether instance discovery is disabled.
@@ -271,14 +286,14 @@ export function generateMsalConfiguration(
     tenantId,
     clientId,
   );
-  const loggingOptions = msalClientOptions.tokenCredentialOptions?.loggingOptions;
+
   // TODO: move and reuse getIdentityClientAuthorityHost
-  const authority = getAuthority(resolvedTenant, getAuthorityHost(msalClientOptions.tokenCredentialOptions));
+  const authority = getAuthority(resolvedTenant, getAuthorityHost(msalClientOptions));
 
   const httpClient = new IdentityClient({
-    ...msalClientOptions.tokenCredentialOptions,
+    ...msalClientOptions,
     authorityHost: authority,
-    loggingOptions
+    loggingOptions: msalClientOptions.loggingOptions,
   });
 
   const msalConfig: msal.Configuration = {
@@ -296,7 +311,7 @@ export function generateMsalConfiguration(
       loggerOptions: {
         loggerCallback: defaultLoggerCallback(msalClientOptions.logger ?? msalLogger),
         logLevel: getMSALLogLevel(getLogLevel()),
-        piiLoggingEnabled: loggingOptions?.enableUnsafeSupportLogging,
+        piiLoggingEnabled: msalClientOptions.loggingOptions?.enableUnsafeSupportLogging,
       },
     },
   };
@@ -468,7 +483,7 @@ export function createMsalClient(
    */
   function calculateRequestAuthority(options?: GetTokenOptions): string | undefined {
     if (options?.tenantId) {
-      return getAuthority(options.tenantId, getAuthorityHost(createMsalClientOptions.tokenCredentialOptions));
+      return getAuthority(options.tenantId, getAuthorityHost(createMsalClientOptions));
     }
     return state.msalConfig.auth.authority;
   }

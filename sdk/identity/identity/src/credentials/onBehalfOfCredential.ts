@@ -179,8 +179,8 @@ export class OnBehalfOfCredential implements TokenCredential {
     );
 
     this.msalClient = createMsalClient(clientId, this.tenantId, {
+      ...options,
       logger,
-      tokenCredentialOptions: options,
     });
   }
 
