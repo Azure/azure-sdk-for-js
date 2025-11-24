@@ -48,7 +48,7 @@ dotenv.config();
 // EXAMPLE RUNNER - Uncomment the corresponding run() call below
 // ============================================================================
 
-const runExample = (): void => {
+const runExample = async (): Promise<void> => {
   console.log("Azure Monitor OpenTelemetry Samples\n");
 
   // Uncomment one of the following examples to run:
