@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets list of Static CIDR resources at Network Manager level.
  *
  * @summary Gets list of Static CIDR resources at Network Manager level.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/StaticCidrs_List.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/StaticCidrs_List.json
  */
 async function staticCidrsList(): Promise<void> {
   const subscriptionId =

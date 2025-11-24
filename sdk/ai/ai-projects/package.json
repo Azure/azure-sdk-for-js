@@ -147,9 +147,13 @@
       "azure"
     ],
     "extraFiles": {
-      "./data": [
-        "javascript/data",
-        "typescript/data"
+      "./samples-dev/files/data": [
+        "javascript/files/data",
+        "typescript/files/data"
+      ],
+      "./samples-dev/agents/assets": [
+        "javascript/agents/assets",
+        "typescript/agents/assets"
       ]
     },
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/ai-projects"

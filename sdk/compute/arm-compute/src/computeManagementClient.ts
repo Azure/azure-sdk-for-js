@@ -6,7 +6,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
+import type * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   AvailabilitySetsImpl,
@@ -61,7 +61,7 @@ import {
   CloudServicesUpdateDomainImpl,
   CloudServiceOperatingSystemsImpl,
 } from "./operations/index.js";
-import {
+import type {
   Operations,
   AvailabilitySets,
   CapacityReservationGroups,
@@ -115,7 +115,7 @@ import {
   CloudServicesUpdateDomain,
   CloudServiceOperatingSystems,
 } from "./operationsInterfaces/index.js";
-import { ComputeManagementClientOptionalParams } from "./models/index.js";
+import type { ComputeManagementClientOptionalParams } from "./models/index.js";
 
 export class ComputeManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -148,7 +148,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-compute/23.1.0`;
+    const packageDetails = `azsdk-js-arm-compute/23.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates an private link service in the specified resource group.
  *
  * @summary Creates or updates an private link service in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PrivateLinkServiceCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PrivateLinkServiceCreate.json
  */
 async function createPrivateLinkService(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";

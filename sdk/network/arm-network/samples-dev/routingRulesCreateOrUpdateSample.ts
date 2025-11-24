@@ -10,7 +10,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates an routing rule.
  *
  * @summary Creates or updates an routing rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerRoutingRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerRoutingRulePut.json
  */
 async function createADefaultRoutingRule(): Promise<void> {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function createADefaultRoutingRule(): Promise<void> {
  * This sample demonstrates how to Creates or updates an routing rule.
  *
  * @summary Creates or updates an routing rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerRoutingRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerRoutingRulePut.json
  */
 async function createAnRoutingRule(): Promise<void> {
   const subscriptionId =

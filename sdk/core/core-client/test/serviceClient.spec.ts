@@ -1264,7 +1264,7 @@ describe("ServiceClient", function () {
       },
     });
     const response = await client.sendOperationRequest<{ body: Date }>({}, operationSpec);
-    assert.ok(response.body);
+    assert.isDefined(response.body);
   });
 
   it("should catch the mandatory parameter missing error", async function () {

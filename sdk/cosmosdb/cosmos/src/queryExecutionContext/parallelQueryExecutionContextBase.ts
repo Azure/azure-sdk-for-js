@@ -2,26 +2,37 @@
 // Licensed under the MIT License.
 import PriorityQueue from "priorityqueuejs";
 import semaphore from "semaphore";
-import type { ClientContext } from "../ClientContext.js";
-import type { AzureLogger } from "@azure/logger";
-import { createClientLogger } from "@azure/logger";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes.js";
 import type { FeedOptions, Response } from "../request/index.js";
 import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse.js";
+import { ErrorResponse } from "../request/ErrorResponse.js";
 import { QueryRange } from "../routing/QueryRange.js";
 import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider.js";
-import type { CosmosHeaders } from "./CosmosHeaders.js";
-import { DocumentProducer } from "./documentProducer.js";
+import type { CosmosHeaders, PartitionKeyRange } from "../index.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
-import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
+import { DocumentProducer } from "./documentProducer.js";
+import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
+import type { FilterContext, FilterStrategy } from "./queryFilteringStrategy/FilterStrategy.js";
+import { RidSkipCountFilter } from "./queryFilteringStrategy/RidSkipCountFilter.js";
+import { TargetPartitionRangeManager } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
+import type { QueryProcessingStrategy } from "./queryProcessingStrategy/QueryProcessingStrategy.js";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
 } from "../diagnostics/DiagnosticNodeInternal.js";
-
-/** @hidden */
-const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
+import type { ClientContext } from "../ClientContext.js";
+import type { QueryRangeMapping } from "./queryRangeMapping.js";
+import type {
+  QueryRangeWithContinuationToken,
+  RangeBoundary,
+  BaseContinuationToken,
+} from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
+import { createParallelQueryResult } from "./parallelQueryResult.js";
+import type {
+  PartitionRangeUpdate,
+  PartitionRangeUpdates,
+} from "../documents/ContinuationToken/PartitionRangeUpdate.js";
 
 /** @hidden */
 export enum ParallelQueryExecutionContextBaseStates {
@@ -34,17 +45,19 @@ export enum ParallelQueryExecutionContextBaseStates {
 export abstract class ParallelQueryExecutionContextBase implements ExecutionContext {
   private err: any;
   private state: any;
-  private static STATES = ParallelQueryExecutionContextBaseStates;
+  private static readonly STATES = ParallelQueryExecutionContextBaseStates;
   private routingProvider: SmartRoutingMapProvider;
-  protected sortOrders: any;
-  private requestContinuation: any;
+  private readonly requestContinuation: any;
   private respHeaders: CosmosHeaders;
-  private unfilledDocumentProducersQueue: PriorityQueue<DocumentProducer>;
-  private bufferedDocumentProducersQueue: PriorityQueue<DocumentProducer>;
+  private readonly unfilledDocumentProducersQueue: PriorityQueue<DocumentProducer>;
+  private readonly bufferedDocumentProducersQueue: PriorityQueue<DocumentProducer>;
   // TODO: update type of buffer from any --> generic can be used here
   private buffer: any[];
-  private sem: any;
-  private diagnosticNodeWrapper: {
+  private partitionDataPatchMap: Map<string, QueryRangeMapping> = new Map();
+  private patchCounter: number = 0;
+  private readonly updatedContinuationRanges: Map<string, PartitionRangeUpdate> = new Map();
+  private readonly sem: any;
+  private readonly diagnosticNodeWrapper: {
     consumed: boolean;
     diagnosticNode: DiagnosticNodeInternal;
   };
@@ -62,12 +75,18 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @hidden
    */
   constructor(
-    private clientContext: ClientContext,
-    private collectionLink: string,
-    private query: string | SqlQuerySpec,
-    private options: FeedOptions,
-    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
-    private correlatedActivityId: string,
+    private readonly clientContext: ClientContext,
+    private readonly collectionLink: string,
+    private readonly query: string | SqlQuerySpec,
+    private readonly options: FeedOptions,
+    private readonly partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
+    private readonly correlatedActivityId: string,
+    private readonly rangeManager: TargetPartitionRangeManager,
+    private readonly queryProcessingStrategy: QueryProcessingStrategy,
+    private readonly documentProducerComparator: (
+      dp1: DocumentProducer,
+      dp2: DocumentProducer,
+    ) => number,
   ) {
     this.clientContext = clientContext;
     this.collectionLink = collectionLink;
@@ -87,83 +106,492 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.err = undefined;
     this.state = ParallelQueryExecutionContextBase.STATES.started;
     this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
-    this.sortOrders = this.partitionedQueryExecutionInfo.queryInfo.orderBy;
     this.buffer = [];
+    this.requestContinuation = options
+      ? options.continuationToken || options.continuation
+      : undefined;
 
-    this.requestContinuation = options ? options.continuationToken || options.continuation : null;
+    // Validate continuation token usage immediately
+    if (this.requestContinuation && !this.options.enableQueryControl) {
+      throw new Error(
+        "Continuation tokens are supported when enableQueryControl is set true in FeedOptions",
+      );
+    }
+
     // response headers of undergoing operation
     this.respHeaders = getInitialHeader();
     // Make priority queue for documentProducers
     this.unfilledDocumentProducersQueue = new PriorityQueue<DocumentProducer>(
-      (a: DocumentProducer, b: DocumentProducer) => a.generation - b.generation,
+      (a: DocumentProducer, b: DocumentProducer) => this.compareDocumentProducersByRange(a, b),
     );
-    // The comparator is supplied by the derived class
     this.bufferedDocumentProducersQueue = new PriorityQueue<DocumentProducer>(
       (a: DocumentProducer, b: DocumentProducer) => this.documentProducerComparator(b, a),
     );
     // Creating the documentProducers
     this.sem = semaphore(1);
-    const createDocumentProducersAndFillUpPriorityQueueFunc = async (): Promise<void> => {
-      // ensure the lock is released after finishing up
-      try {
-        const targetPartitionRanges = await this._onTargetPartitionRanges();
-
-        const maxDegreeOfParallelism =
-          options.maxDegreeOfParallelism === undefined || options.maxDegreeOfParallelism < 1
-            ? targetPartitionRanges.length
-            : Math.min(options.maxDegreeOfParallelism, targetPartitionRanges.length);
-
-        logger.info(
-          "Query starting against " +
-            targetPartitionRanges.length +
-            " ranges with parallelism of " +
-            maxDegreeOfParallelism,
-        );
-
-        let filteredPartitionKeyRanges = [];
-        // The document producers generated from filteredPartitionKeyRanges
-        const targetPartitionQueryExecutionContextList: DocumentProducer[] = [];
-
-        if (this.requestContinuation) {
-          throw new Error("Continuation tokens are not yet supported for cross partition queries");
-        } else {
-          filteredPartitionKeyRanges = targetPartitionRanges;
-        }
-        // Create one documentProducer for each partitionTargetRange
-        filteredPartitionKeyRanges.forEach((partitionTargetRange: any) => {
-          // TODO: any partitionTargetRange
-          // no async callback
-          targetPartitionQueryExecutionContextList.push(
-            this._createTargetPartitionQueryExecutionContext(partitionTargetRange, undefined),
-          );
-        });
-
-        // Fill up our priority queue with documentProducers
-        targetPartitionQueryExecutionContextList.forEach((documentProducer): void => {
-          // has async callback
-          try {
-            this.unfilledDocumentProducersQueue.enq(documentProducer);
-          } catch (e: any) {
-            this.err = e;
-          }
-        });
-
-        this.sem.leave();
-      } catch (err: any) {
-        this.err = err;
-        // release the lock
-        this.sem.leave();
-        return;
-      }
-    };
-    this.sem.take(createDocumentProducersAndFillUpPriorityQueueFunc);
+    this.sem.take(() => this._initializeDocumentProducers());
   }
 
-  protected abstract documentProducerComparator(
-    dp1: DocumentProducer,
-    dp2: DocumentProducer,
-  ): number;
+  /**
+   * Determine if there are still remaining resources to processs based on the value of the continuation
+   * token or the elements remaining on the current batch in the QueryIterator.
+   * @returns true if there is other elements to process in the ParallelQueryExecutionContextBase.
+   */
+  public hasMoreResults(): boolean {
+    return (
+      !this.err &&
+      (this.buffer.length > 0 || this.state !== ParallelQueryExecutionContextBase.STATES.ended)
+    );
+  }
 
+  /**
+   * Fetches more results from the query execution context.
+   * @param diagnosticNode - Optional diagnostic node for tracing.
+   * @returns A promise that resolves to the fetched results.
+   * @hidden
+   */
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
+    await this.bufferDocumentProducers(diagnosticNode);
+    await this.fillBufferFromBufferQueue();
+    return this.drainBufferedItems();
+  }
+
+  /**
+   * Processes buffered document producers
+   * @returns A promise that resolves when processing is complete.
+   */
+  private async processBufferedDocumentProducers(): Promise<void> {
+    while (
+      this.hasBufferedProducers() &&
+      this.shouldProcessBufferedProducers(this.isUnfilledQueueEmpty())
+    ) {
+      const producer = this.getNextBufferedProducer();
+      if (!producer) break;
+
+      await this.processDocumentProducer(producer);
+    }
+  }
+
+  /**
+   * Processes a single document producer using template method pattern.
+   * Common structure with query-specific processing delegated to subclasses.
+   */
+  private async processDocumentProducer(producer: DocumentProducer): Promise<void> {
+    const response = await this.fetchFromProducer(producer);
+    this._mergeWithActiveResponseHeaders(response.headers);
+
+    if (response.result) {
+      this.addToBuffer(response.result);
+      this.handlePartitionMapping(producer, response.result);
+    }
+
+    // Handle producer lifecycle
+    if (producer.peakNextItem() !== undefined) {
+      this.requeueProducer(producer);
+    } else if (producer.hasMoreResults()) {
+      this.moveToUnfilledQueue(producer);
+    }
+  }
+
+  /**
+   * Fetches data from a document producer - implemented by subclasses.
+   */
+  protected abstract fetchFromProducer(producer: DocumentProducer): Promise<Response<any>>;
+
+  /**
+   * Handles partition mapping updates - implemented in base class using template method pattern.
+   * Child classes provide query-specific parameters through abstract methods.
+   */
+  private handlePartitionMapping(producer: DocumentProducer, result: any): void {
+    const itemCount = result?.length || 0;
+    const continuationToken = this.getContinuationToken(producer);
+    const mapping = {
+      itemCount,
+      partitionKeyRange: producer.targetPartitionKeyRange,
+      continuationToken,
+    };
+
+    this.updatePartitionMapping(mapping);
+  }
+
+  /**
+   * Gets the continuation token to use - implemented by subclasses.
+   */
+  private getContinuationToken(producer: DocumentProducer): string {
+    const hasMoreBufferedItems = producer.peakNextItem() !== undefined;
+    return hasMoreBufferedItems ? producer.previousContinuationToken : producer.continuationToken;
+  }
+  /**
+   * Determines if buffered producers should continue to be processed based on query-specific rules.
+   * @param isUnfilledQueueEmpty - Whether the unfilled queue is empty
+   */
+  protected abstract shouldProcessBufferedProducers(isUnfilledQueueEmpty: boolean): boolean;
+
+  /**
+   * Updates partition mapping - creates new entry or merges with existing for ORDER BY queries.
+   */
+  private updatePartitionMapping(mapping: QueryRangeMapping): void {
+    const currentPatch = this.partitionDataPatchMap.get(this.patchCounter.toString());
+    const isSamePartition = currentPatch?.partitionKeyRange?.id === mapping.partitionKeyRange.id;
+
+    if (isSamePartition && currentPatch) {
+      currentPatch.itemCount += mapping.itemCount;
+      currentPatch.continuationToken = mapping.continuationToken;
+      return;
+    }
+    // Create new partition mapping entry
+    this.partitionDataPatchMap.set((++this.patchCounter).toString(), mapping);
+  }
+
+  /**
+   * Checks if the unfilled queue is empty (used by ORDER BY for processing control).
+   */
+  protected isUnfilledQueueEmpty(): boolean {
+    return this.unfilledDocumentProducersQueue.size() === 0;
+  }
+
+  /**
+   * Initializes document producers and fills the priority queue.
+   * Handles both continuation token and fresh query scenarios.
+   */
+  private async _initializeDocumentProducers(): Promise<void> {
+    try {
+      const targetPartitionRanges = await this._onTargetPartitionRanges();
+      const documentProducers = this.requestContinuation
+        ? await this._createDocumentProducersFromContinuation(targetPartitionRanges)
+        : this._createDocumentProducersFromFresh(targetPartitionRanges);
+
+      // Fill up our priority queue with documentProducers
+      this._enqueueDocumentProducers(documentProducers);
+      this.sem.leave();
+    } catch (err: any) {
+      this.err = err;
+      this.sem.leave();
+    }
+  }
+
+  /**
+   * Creates document producers from continuation token scenario.
+   */
+  private async _createDocumentProducersFromContinuation(
+    targetPartitionRanges: any[],
+  ): Promise<DocumentProducer[]> {
+    // Parse continuation token to get range mappings and check for split/merge scenarios
+    const parsedToken = this._parseContinuationToken(this.requestContinuation);
+    const continuationRanges = await this._handlePartitionRangeChanges(parsedToken);
+
+    // Use strategy to create additional query info from parsed token
+    const additionalQueryInfo = this.queryProcessingStrategy.createAdditionalQueryInfo(parsedToken);
+
+    const filterResult = this.rangeManager.filterPartitionRanges(
+      targetPartitionRanges,
+      continuationRanges,
+      additionalQueryInfo,
+    );
+
+    // Extract ranges and tokens from the combined result
+    const rangeTokenPairs = filterResult.rangeTokenPairs;
+
+    // Use strategy to create filter context for continuation token processing
+    const filterContext = this.queryProcessingStrategy.createFilterContext(parsedToken);
+
+    return rangeTokenPairs.map((rangeTokenPair) =>
+      this._createDocumentProducerFromRangeTokenPair(
+        rangeTokenPair,
+        continuationRanges,
+        filterContext,
+      ),
+    );
+  }
+
+  /**
+   * Creates document producers from fresh query scenario (no continuation token).
+   */
+  private _createDocumentProducersFromFresh(targetPartitionRanges: any[]): DocumentProducer[] {
+    return targetPartitionRanges.map((partitionTargetRange: any) =>
+      this._createTargetPartitionQueryExecutionContext(partitionTargetRange, undefined),
+    );
+  }
+
+  /**
+   * Creates a document producer from a range token pair (continuation token scenario).
+   */
+  private _createDocumentProducerFromRangeTokenPair(
+    rangeTokenPair: any,
+    continuationRanges: any[],
+    filterContext: any,
+  ): DocumentProducer {
+    const partitionTargetRange = rangeTokenPair.range;
+    const continuationToken = rangeTokenPair.continuationToken;
+    const filterCondition = rangeTokenPair.filteringCondition || undefined;
+
+    // Find EPK ranges for this partition range from processed continuation response
+    const matchingContinuationRange = continuationRanges.find(
+      (cr) => cr.range.id === partitionTargetRange.id,
+    );
+    const startEpk = matchingContinuationRange?.epkMin;
+    const endEpk = matchingContinuationRange?.epkMax;
+
+    // Use strategy to determine partition-specific filter context
+    const targetPartitionId =
+      continuationRanges.length > 0 && continuationRanges[continuationRanges.length - 1].range
+        ? continuationRanges[continuationRanges.length - 1].range.id
+        : undefined;
+    const partitionFilterContext = this.queryProcessingStrategy.getPartitionFilterContext(
+      filterContext,
+      targetPartitionId,
+      partitionTargetRange.id,
+    );
+
+    return this._createTargetPartitionQueryExecutionContext(
+      partitionTargetRange,
+      continuationToken,
+      startEpk,
+      endEpk,
+      !!(startEpk && endEpk), // populateEpkRangeHeaders - true if both EPK values are present
+      filterCondition,
+      partitionFilterContext,
+    );
+  }
+
+  /**
+   * Enqueues document producers into the unfilled queue.
+   */
+  private _enqueueDocumentProducers(documentProducers: DocumentProducer[]): void {
+    documentProducers.forEach((documentProducer) => {
+      try {
+        this.unfilledDocumentProducersQueue.enq(documentProducer);
+      } catch (e: any) {
+        this.err = e;
+      }
+    });
+  }
+
+  /**
+   * Checks if there are buffered document producers ready for processing.
+   * Encapsulates queue size checking.
+   */
+  private hasBufferedProducers(): boolean {
+    return this.bufferedDocumentProducersQueue.size() > 0;
+  }
+
+  /**
+   * Gets the next buffered document producer for processing.
+   * Encapsulates queue dequeuing logic.
+   */
+  private getNextBufferedProducer(): DocumentProducer | undefined {
+    if (this.bufferedDocumentProducersQueue.size() > 0) {
+      return this.bufferedDocumentProducersQueue.deq();
+    }
+    return undefined;
+  }
+
+  /**
+   * Adds items to the result buffer. Handles both single items and arrays.
+   */
+  private addToBuffer(items: any[] | any): void {
+    if (Array.isArray(items)) {
+      if (items.length > 0) {
+        this.buffer.push(...items);
+      }
+    } else if (items) {
+      this.buffer.push(items);
+    }
+  }
+
+  /**
+   * Moves a producer to the unfilled queue for later processing.
+   */
+  private moveToUnfilledQueue(producer: DocumentProducer): void {
+    this.unfilledDocumentProducersQueue.enq(producer);
+  }
+
+  /**
+   * Re-queues a producer to the buffered queue for further processing.
+   */
+  private requeueProducer(producer: DocumentProducer): void {
+    this.bufferedDocumentProducersQueue.enq(producer);
+  }
+
+  /**
+   * Compares two document producers based on their partition key ranges and EPK values.
+   * Primary comparison: minInclusive values for left-to-right range traversal
+   * Secondary comparison: EPK ranges when minInclusive values are identical
+   * @param a - First document producer
+   * @param b - Second document producer
+   * @returns Comparison result for priority queue ordering
+   * @hidden
+   */
+  private compareDocumentProducersByRange(a: DocumentProducer, b: DocumentProducer): number {
+    const aMinInclusive = a.targetPartitionKeyRange.minInclusive;
+    const bMinInclusive = b.targetPartitionKeyRange.minInclusive;
+    const minInclusiveComparison = bMinInclusive.localeCompare(aMinInclusive);
+
+    // If minInclusive values are the same, check minEPK ranges if they exist
+    if (minInclusiveComparison === 0) {
+      const aMinEpk = a.startEpk;
+      const bMinEpk = b.startEpk;
+      if (aMinEpk && bMinEpk) {
+        return bMinEpk.localeCompare(aMinEpk);
+      }
+    }
+
+    return minInclusiveComparison;
+  }
+
+  /**
+   * Detects partition splits/merges by analyzing parsed continuation token ranges and comparing with current topology
+   * @param parsed - The continuation token containing range mappings to analyze
+   * @returns Array of processed ranges with EPK info
+   */
+  private async _handlePartitionRangeChanges(
+    parsed: BaseContinuationToken,
+  ): Promise<{ range: any; continuationToken?: string; epkMin?: string; epkMax?: string }[]> {
+    const processedRanges: {
+      range: any;
+      continuationToken?: string;
+      epkMin?: string;
+      epkMax?: string;
+    }[] = [];
+
+    // Extract range mappings from the already parsed token
+    const rangeMappings = parsed.rangeMappings;
+
+    if (!rangeMappings || rangeMappings.length === 0) {
+      return [];
+    }
+
+    // Check each range mapping for potential splits/merges
+    for (const rangeWithToken of rangeMappings) {
+      // Create a new QueryRange instance from the simplified range data
+      const range = rangeWithToken.queryRange;
+      const queryRange: QueryRange = new QueryRange(
+        range.min,
+        range.max,
+        true, // isMinInclusive - assumption: always true
+        false, // isMaxInclusive - assumption: always false (max is exclusive)
+      );
+
+      const rangeMin = queryRange.min;
+      const rangeMax = queryRange.max;
+
+      // Get current overlapping ranges for this continuation token range
+      const overlappingRanges = await this.routingProvider.getOverlappingRanges(
+        this.collectionLink,
+        [queryRange],
+        this.getDiagnosticNode(),
+      );
+
+      // Detect split/merge scenario based on the number of overlapping ranges
+      if (overlappingRanges.length === 0) {
+        continue;
+      } else if (overlappingRanges.length === 1) {
+        // Check if it's the same range (no change) or a merge scenario
+        const currentRange = overlappingRanges[0];
+        if (currentRange.minInclusive !== rangeMin || currentRange.maxExclusive !== rangeMax) {
+          // Merge scenario - include EPK ranges from original continuation token range
+          await this._handleContinuationTokenMerge(rangeWithToken, currentRange);
+          processedRanges.push({
+            range: currentRange,
+            continuationToken: rangeWithToken.continuationToken,
+            epkMin: rangeMin, // Original range min becomes EPK min
+            epkMax: rangeMax, // Original range max becomes EPK max
+          });
+        } else {
+          // Same range - no merge, no EPK ranges needed
+          processedRanges.push({
+            range: currentRange,
+            continuationToken: rangeWithToken.continuationToken,
+          });
+        }
+      } else {
+        // Split scenario - one range from continuation token now maps to multiple ranges
+        await this._handleContinuationTokenSplit(rangeWithToken, overlappingRanges);
+        // Add all overlapping ranges with the same continuation token to processed ranges
+        overlappingRanges.forEach((rangeValue) => {
+          processedRanges.push({
+            range: rangeValue,
+            continuationToken: rangeWithToken.continuationToken,
+          });
+        });
+      }
+    }
+
+    return processedRanges;
+  }
+
+  /**
+   * Parses the continuation token based on query type
+   * @param continuationToken - The continuation token string to parse
+   * @returns Parsed continuation token object (ORDER BY or Parallel query token)
+   * @throws ErrorResponse when continuation token is malformed or cannot be parsed
+   */
+  private _parseContinuationToken(continuationToken: string): BaseContinuationToken {
+    try {
+      return this.queryProcessingStrategy.parseContinuationToken(continuationToken);
+    } catch (e) {
+      throw new ErrorResponse(
+        `Invalid continuation token format. Expected token with rangeMappings property. ` +
+          `Ensure the continuation token was generated by a compatible query and has not been modified.`,
+      );
+    }
+  }
+
+  /**
+   * Handles partition merge scenario for continuation token ranges
+   */
+  private async _handleContinuationTokenMerge(
+    rangeWithToken: QueryRangeWithContinuationToken,
+    _newMergedRange: PartitionKeyRange,
+  ): Promise<void> {
+    const rangeKey = `${rangeWithToken.queryRange.min}-${rangeWithToken.queryRange.max}`;
+    this.updatedContinuationRanges.set(rangeKey, {
+      oldRange: {
+        min: rangeWithToken.queryRange.min,
+        max: rangeWithToken.queryRange.max,
+        isMinInclusive: true, // Assumption: min is always inclusive
+        isMaxInclusive: false, // Assumption: max is always exclusive
+      },
+      newRanges: [
+        {
+          min: rangeWithToken.queryRange.min,
+          max: rangeWithToken.queryRange.max,
+          isMinInclusive: true, // Assumption: min is always inclusive
+          isMaxInclusive: false, // Assumption: max is always exclusive
+        },
+      ],
+      continuationToken: rangeWithToken.continuationToken,
+    });
+  }
+
+  /**
+   * Handles partition split scenario for continuation token ranges
+   */
+  private async _handleContinuationTokenSplit(
+    rangeWithToken: QueryRangeWithContinuationToken,
+    overlappingRanges: any[],
+  ): Promise<void> {
+    const rangeKey = `${rangeWithToken.queryRange.min}-${rangeWithToken.queryRange.max}`;
+    this.updatedContinuationRanges.set(rangeKey, {
+      oldRange: {
+        min: rangeWithToken.queryRange.min,
+        max: rangeWithToken.queryRange.max,
+        isMinInclusive: true, // Assumption: min is always inclusive
+        isMaxInclusive: false, // Assumption: max is always exclusive
+      },
+      newRanges: overlappingRanges.map((range) => ({
+        min: range.minInclusive,
+        max: range.maxExclusive,
+        isMinInclusive: true,
+        isMaxInclusive: false,
+      })),
+      continuationToken: rangeWithToken.continuationToken,
+    });
+  }
+
+  /**
+   * Handles partition merge scenario for continuation token ranges
+   */
   private _mergeWithActiveResponseHeaders(headers: CosmosHeaders): void {
     mergeHeaders(this.respHeaders, headers);
   }
@@ -221,7 +649,17 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
     if (replacementPartitionKeyRanges.length === 0) {
       throw error;
-    } else if (replacementPartitionKeyRanges.length === 1) {
+    }
+
+    if (this.requestContinuation) {
+      // Update composite continuation token to handle partition split
+      this._updateContinuationTokenOnPartitionChange(
+        documentProducer,
+        replacementPartitionKeyRanges,
+      );
+    }
+
+    if (replacementPartitionKeyRanges.length === 1) {
       // Partition is gone due to Merge
       // Create the replacement documentProducer with populateEpkRangeHeaders Flag set to true to set startEpk and endEpk headers
       const replacementDocumentProducer = this._createTargetPartitionQueryExecutionContext(
@@ -258,24 +696,47 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     }
   }
 
+  private _updateContinuationTokenOnPartitionChange(
+    originalDocumentProducer: DocumentProducer,
+    replacementPartitionKeyRanges: any[],
+  ): void {
+    const rangeWithToken = this._createQueryRangeWithContinuationToken(originalDocumentProducer);
+    if (replacementPartitionKeyRanges.length === 1) {
+      this._handleContinuationTokenMerge(rangeWithToken, replacementPartitionKeyRanges[0]);
+    } else {
+      this._handleContinuationTokenSplit(rangeWithToken, replacementPartitionKeyRanges);
+    }
+  }
+
+  /**
+   * Creates a QueryRangeWithContinuationToken object from a DocumentProducer.
+   * Uses the DocumentProducer's target partition key range and continuation token.
+   * @param documentProducer - The DocumentProducer to convert
+   * @returns QueryRangeWithContinuationToken object for token operations
+   */
+  private _createQueryRangeWithContinuationToken(
+    documentProducer: DocumentProducer,
+  ): QueryRangeWithContinuationToken {
+    const partitionRange = documentProducer.targetPartitionKeyRange;
+
+    // Create a simplified QueryRange using the partition key range boundaries
+    const simplifiedQueryRange: RangeBoundary = {
+      min: documentProducer.startEpk || partitionRange.minInclusive,
+      max: documentProducer.endEpk || partitionRange.maxExclusive,
+    };
+
+    return {
+      queryRange: simplifiedQueryRange,
+      continuationToken: documentProducer.continuationToken,
+    };
+  }
+
   private static _needPartitionKeyRangeCacheRefresh(error: any): boolean {
     // TODO: any error
     return (
       error.code === StatusCodes.Gone &&
       "substatus" in error &&
       error["substatus"] === SubStatusCodes.PartitionKeyRangeGone
-    );
-  }
-
-  /**
-   * Determine if there are still remaining resources to processs based on the value of the continuation
-   * token or the elements remaining on the current batch in the QueryIterator.
-   * @returns true if there is other elements to process in the ParallelQueryExecutionContextBase.
-   */
-  public hasMoreResults(): boolean {
-    return (
-      !this.err &&
-      (this.buffer.length > 0 || this.state !== ParallelQueryExecutionContextBase.STATES.ended)
     );
   }
 
@@ -288,8 +749,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     startEpk?: string,
     endEpk?: string,
     populateEpkRangeHeaders?: boolean,
+    filterCondition?: string,
+    filterContext?: FilterContext,
   ): DocumentProducer {
-    let rewrittenQuery = this.partitionedQueryExecutionInfo.queryInfo.rewrittenQuery;
+    let rewrittenQuery = this.partitionedQueryExecutionInfo.queryInfo?.rewrittenQuery;
     let sqlQuerySpec: SqlQuerySpec;
     const query = this.query;
     if (typeof query === "string") {
@@ -301,13 +764,19 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     const formatPlaceHolder = "{documentdb-formattableorderbyquery-filter}";
     if (rewrittenQuery) {
       sqlQuerySpec = JSON.parse(JSON.stringify(sqlQuerySpec));
-      // We hardcode the formattable filter to true for now
-      rewrittenQuery = rewrittenQuery.replace(formatPlaceHolder, "true");
+      rewrittenQuery = filterCondition
+        ? rewrittenQuery.replace(formatPlaceHolder, filterCondition)
+        : rewrittenQuery.replace(formatPlaceHolder, "true");
       sqlQuerySpec["query"] = rewrittenQuery;
     }
 
     const options = { ...this.options };
     options.continuationToken = continuationToken;
+
+    let filter: FilterStrategy | undefined;
+    if (filterContext) {
+      filter = new RidSkipCountFilter(filterContext);
+    }
 
     return new DocumentProducer(
       this.clientContext,
@@ -319,9 +788,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       startEpk,
       endEpk,
       populateEpkRangeHeaders,
+      filter,
     );
   }
-  protected async drainBufferedItems(): Promise<Response<any>> {
+  private async drainBufferedItems(): Promise<Response<any>> {
     return new Promise<Response<any>>((resolve, reject) => {
       this.sem.take(() => {
         if (this.err) {
@@ -335,20 +805,53 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         // return undefined if there is no more results
         if (this.buffer.length === 0) {
           this.sem.leave();
+          const partitionDataPatchMap = this.partitionDataPatchMap;
+          this.partitionDataPatchMap = new Map<string, QueryRangeMapping>();
+          this.patchCounter = 0;
+          // Get and reset updated continuation ranges
+          const updatedContinuationRanges: PartitionRangeUpdates = Object.fromEntries(
+            this.updatedContinuationRanges,
+          );
+          this.updatedContinuationRanges.clear();
+          const result = createParallelQueryResult(
+            [],
+            partitionDataPatchMap,
+            updatedContinuationRanges,
+            undefined,
+          );
+
           return resolve({
-            result: this.state === ParallelQueryExecutionContextBase.STATES.ended ? undefined : [],
+            result:
+              this.state === ParallelQueryExecutionContextBase.STATES.ended ? undefined : result,
             headers: this._getAndResetActiveResponseHeaders(),
           });
         }
         // draing the entire buffer object and return that in result of return object
         const bufferedResults = this.buffer;
         this.buffer = [];
+        // reset the patchToRangeMapping
+        const partitionDataPatchMap = this.partitionDataPatchMap;
+        this.partitionDataPatchMap = new Map<string, QueryRangeMapping>();
+        this.patchCounter = 0;
+
+        // Get and reset updated continuation ranges
+        const updatedContinuationRanges: PartitionRangeUpdates = Object.fromEntries(
+          this.updatedContinuationRanges,
+        );
+        this.updatedContinuationRanges.clear();
 
         // release the lock before returning
         this.sem.leave();
-        // invoke the callback on the item
+
+        const result = createParallelQueryResult(
+          bufferedResults,
+          partitionDataPatchMap,
+          updatedContinuationRanges,
+          undefined,
+        );
+
         return resolve({
-          result: bufferedResults,
+          result,
           headers: this._getAndResetActiveResponseHeaders(),
         });
       });
@@ -361,7 +864,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @param diagnosticNode - The diagnostic node for logging and tracing.
    * @returns A promise that resolves when buffering is complete.
    */
-  protected async bufferDocumentProducers(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
+  private async bufferDocumentProducers(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.sem.take(async () => {
         if (this.err) {
@@ -387,7 +890,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           const maxDegreeOfParallelism =
             this.options.maxDegreeOfParallelism === undefined ||
             this.options.maxDegreeOfParallelism < 1
-              ? this.unfilledDocumentProducersQueue.size()
+              ? this.unfilledDocumentProducersQueue.size() // number of partitions
               : Math.min(
                   this.options.maxDegreeOfParallelism,
                   this.unfilledDocumentProducersQueue.size(),
@@ -416,12 +919,32 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             try {
               const headers = await documentProducer.bufferMore(diagnosticNode);
               this._mergeWithActiveResponseHeaders(headers);
-              // if buffer of document producer is filled, add it to the buffered document producers queue
+
+              // Always track this document producer in patchToRangeMapping, even if it has no results
+              // This ensures we maintain a record of all partition ranges that were scanned
               const nextItem = documentProducer.peakNextItem();
               if (nextItem !== undefined) {
                 this.bufferedDocumentProducersQueue.enq(documentProducer);
-              } else if (documentProducer.hasMoreResults()) {
-                this.unfilledDocumentProducersQueue.enq(documentProducer);
+              } else {
+                // Track document producer with no results in patchToRangeMapping
+                // This represents a scanned partition that yielded no results
+                // IMPORTANT: Only include if continuation token is NOT null/exhausted
+                // Document producers with no data in buffer and no continuation token are exhausted and should not be added to partitionDataPatchMap to prevent infinite loops in order by queries
+                if (
+                  documentProducer.continuationToken &&
+                  documentProducer.continuationToken !== "" &&
+                  documentProducer.continuationToken.toLowerCase() !== "null"
+                ) {
+                  const patchKey = `empty-${documentProducer.targetPartitionKeyRange.id}-${documentProducer.targetPartitionKeyRange.minInclusive}`;
+                  this.partitionDataPatchMap.set(patchKey, {
+                    itemCount: 0, // 0 items for empty result set
+                    partitionKeyRange: documentProducer.targetPartitionKeyRange,
+                    continuationToken: documentProducer.continuationToken,
+                  });
+                }
+                if (documentProducer.hasMoreResults()) {
+                  this.unfilledDocumentProducersQueue.enq(documentProducer);
+                }
               }
             } catch (err) {
               if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
@@ -465,10 +988,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   }
   /**
    * Drains the buffer of filled document producers and appends their items to the main buffer.
-   * @param isOrderBy - Indicates if the query is an order by query.
+   * Uses template method pattern - delegates actual processing to subclasses.
    * @returns A promise that resolves when the buffer is filled.
    */
-  protected async fillBufferFromBufferQueue(isOrderBy: boolean = false): Promise<void> {
+  private async fillBufferFromBufferQueue(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.sem.take(async () => {
         if (this.err) {
@@ -489,38 +1012,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         }
 
         try {
-          if (isOrderBy) {
-            while (
-              this.unfilledDocumentProducersQueue.isEmpty() &&
-              this.bufferedDocumentProducersQueue.size() > 0
-            ) {
-              const documentProducer = this.bufferedDocumentProducersQueue.deq();
-              const { result, headers } = await documentProducer.fetchNextItem();
-              this._mergeWithActiveResponseHeaders(headers);
-              if (result) {
-                this.buffer.push(result);
-              }
-              if (documentProducer.peakNextItem() !== undefined) {
-                this.bufferedDocumentProducersQueue.enq(documentProducer);
-              } else if (documentProducer.hasMoreResults()) {
-                this.unfilledDocumentProducersQueue.enq(documentProducer);
-              } else {
-                // no more results in document producer
-              }
-            }
-          } else {
-            while (this.bufferedDocumentProducersQueue.size() > 0) {
-              const documentProducer = this.bufferedDocumentProducersQueue.deq();
-              const { result, headers } = await documentProducer.fetchBufferedItems();
-              this._mergeWithActiveResponseHeaders(headers);
-              if (result) {
-                this.buffer.push(...result);
-              }
-              if (documentProducer.hasMoreResults()) {
-                this.unfilledDocumentProducersQueue.enq(documentProducer);
-              }
-            }
-          }
+          await this.processBufferedDocumentProducers();
           this.updateStates(this.err);
         } catch (err) {
           this.err = err;

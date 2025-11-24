@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Check whether a domain is available.
  *
  * @summary Check whether a domain is available.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/CheckDomainAvailability.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/CheckDomainAvailability.json
  */
 async function checkSkuAvailability() {
   const subscriptionId =

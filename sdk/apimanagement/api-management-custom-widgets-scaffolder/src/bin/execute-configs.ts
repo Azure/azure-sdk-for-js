@@ -116,7 +116,7 @@ export const promptWidgetConfig = async (partial: Partial<WidgetConfig>): Promis
       },
       {
         name: "technology",
-        type: "list",
+        type: "select",
         message: fieldIdToName.technology,
         choices: [
           { name: "React", value: "react" },

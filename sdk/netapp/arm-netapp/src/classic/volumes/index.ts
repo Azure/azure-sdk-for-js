@@ -3,7 +3,6 @@
 
 import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
-  listQuotaReport,
   revertRelocation,
   finalizeRelocation,
   relocate,
@@ -33,7 +32,6 @@ import {
   get,
 } from "../../api/volumes/operations.js";
 import type {
-  VolumesListQuotaReportOptionalParams,
   VolumesRevertRelocationOptionalParams,
   VolumesFinalizeRelocationOptionalParams,
   VolumesRelocateOptionalParams,
@@ -76,21 +74,12 @@ import type {
   ClusterPeerCommandResponse,
   SvmPeerCommandResponse,
   PoolChangeRequest,
-  ListQuotaReportResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Volumes operations. */
 export interface VolumesOperations {
-  /** A long-running resource action. */
-  listQuotaReport: (
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: VolumesListQuotaReportOptionalParams,
-  ) => PollerLike<OperationState<ListQuotaReportResponse>, ListQuotaReportResponse>;
   /** Reverts the volume relocation process, cleans up the new volume and starts using the former-existing volume. */
   revertRelocation: (
     resourceGroupName: string,
@@ -326,13 +315,6 @@ export interface VolumesOperations {
 
 function _getVolumes(context: NetAppManagementContext) {
   return {
-    listQuotaReport: (
-      resourceGroupName: string,
-      accountName: string,
-      poolName: string,
-      volumeName: string,
-      options?: VolumesListQuotaReportOptionalParams,
-    ) => listQuotaReport(context, resourceGroupName, accountName, poolName, volumeName, options),
     revertRelocation: (
       resourceGroupName: string,
       accountName: string,

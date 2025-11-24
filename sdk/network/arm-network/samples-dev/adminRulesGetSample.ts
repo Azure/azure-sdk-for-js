@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a network manager security configuration admin rule.
  *
  * @summary Gets a network manager security configuration admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerAdminRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerAdminRuleGet.json
  */
 async function getsSecurityAdminRule(): Promise<void> {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function getsSecurityAdminRule(): Promise<void> {
  * This sample demonstrates how to Gets a network manager security configuration admin rule.
  *
  * @summary Gets a network manager security configuration admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerDefaultAdminRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerDefaultAdminRuleGet.json
  */
 async function getsSecurityDefaultAdminRule(): Promise<void> {
   const subscriptionId =
