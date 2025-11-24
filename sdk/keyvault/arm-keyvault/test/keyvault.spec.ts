@@ -64,7 +64,7 @@ describe("Keyvault test", () => {
     for await (const item of client.operations.list()) {
       resArray.push(item);
     }
-    assert.ok(resArray.length);
+    assert.isAbove(resArray.length, 0);
   });
 
   // skip other cases as create operation needs TenantId.

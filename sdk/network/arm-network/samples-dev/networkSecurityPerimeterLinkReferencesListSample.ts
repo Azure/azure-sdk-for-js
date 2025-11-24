@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists the NSP LinkReference resources in the specified network security perimeter.
  *
  * @summary Lists the NSP LinkReference resources in the specified network security perimeter.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NspLinkReferenceList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NspLinkReferenceList.json
  */
 async function nspLinkReferenceList(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";

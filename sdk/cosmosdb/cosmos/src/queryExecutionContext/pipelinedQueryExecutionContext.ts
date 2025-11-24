@@ -4,14 +4,12 @@ import type { ClientContext } from "../ClientContext.js";
 import type { Response, FeedOptions } from "../request/index.js";
 import type { PartitionedQueryExecutionInfo, QueryInfo } from "../request/ErrorResponse.js";
 import { ErrorResponse } from "../request/ErrorResponse.js";
-import type { CosmosHeaders } from "./CosmosHeaders.js";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent.js";
 import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointComponent.js";
 import { OrderedDistinctEndpointComponent } from "./EndpointComponent/OrderedDistinctEndpointComponent.js";
 import { UnorderedDistinctEndpointComponent } from "./EndpointComponent/UnorderedDistinctEndpointComponent.js";
 import { GroupByEndpointComponent } from "./EndpointComponent/GroupByEndpointComponent.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
-import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
 import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext.js";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.js";
 import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent.js";
@@ -19,17 +17,20 @@ import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import { NonStreamingOrderByDistinctEndpointComponent } from "./EndpointComponent/NonStreamingOrderByDistinctEndpointComponent.js";
 import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStreamingOrderByEndpointComponent.js";
+import {
+  rejectContinuationTokenForUnsupportedQueries,
+  QueryTypes,
+} from "./QueryValidationHelper.js";
+import { parseContinuationTokenFields } from "./ContinuationTokenParser.js";
+import { LegacyFetchImplementation } from "./LegacyFetchImplementation.js";
+import { QueryControlFetchImplementation } from "./QueryControlFetchImplementation.js";
+import { QueryExecution } from "../common/constants.js";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
   private fetchBuffer: any[];
-  private fetchMoreRespHeaders: CosmosHeaders;
   private endpoint: ExecutionContext;
-  private pageSize: number;
-  private vectorSearchBufferSize: number = 0;
-  private static DEFAULT_PAGE_SIZE = 10;
-  private static DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE = 50000;
-  private nonStreamingOrderBy = false;
+  private readonly fetchImplementation: LegacyFetchImplementation | QueryControlFetchImplementation;
 
   constructor(
     private clientContext: ClientContext,
@@ -40,130 +41,74 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     correlatedActivityId: string,
     private emitRawOrderByPayload: boolean = false,
   ) {
-    this.endpoint = null;
-    this.pageSize = options["maxItemCount"];
-    if (this.pageSize === undefined) {
-      this.pageSize = PipelinedQueryExecutionContext.DEFAULT_PAGE_SIZE;
+    // Validate that queryInfo is present in partitioned query execution info
+    if (!partitionedQueryExecutionInfo.queryInfo) {
+      throw new ErrorResponse(
+        "Query execution requires valid query plan information. " +
+          "The partitioned query execution info is missing queryInfo. " +
+          "This may indicate an invalid query or a problem with query planning.",
+      );
     }
-    // Pick between Nonstreaming and streaming endpoints
-    this.nonStreamingOrderBy = partitionedQueryExecutionInfo.queryInfo.hasNonStreamingOrderBy;
 
-    // Pick between parallel vs order by execution context
-    const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
-    // TODO: Currently we don't get any field from backend to determine streaming queries
-    if (this.nonStreamingOrderBy) {
-      if (!options.allowUnboundedNonStreamingQueries) {
-        this.checkQueryConstraints(partitionedQueryExecutionInfo.queryInfo);
-      }
+    if (!this.options.maxItemCount) {
+      this.options.maxItemCount = QueryExecution.DEFAULT_PAGE_SIZE;
+    }
+    const pageSize = this.options.maxItemCount;
 
-      this.vectorSearchBufferSize = this.calculateVectorSearchBufferSize(
-        partitionedQueryExecutionInfo.queryInfo,
-        options,
-      );
-      const maxBufferSize = options["vectorSearchBufferSize"]
-        ? options["vectorSearchBufferSize"]
-        : PipelinedQueryExecutionContext.DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE;
+    // Extract query information and characteristics
+    const analyzedQueryInfo = this.analyzeQueryInfo(partitionedQueryExecutionInfo.queryInfo);
+    const {
+      sortOrders,
+      nonStreamingOrderBy,
+      isOrderByQuery,
+      isGroupByQuery,
+      isUnorderedDistinctQuery,
+      querySupportsTokens,
+    } = analyzedQueryInfo;
 
-      if (this.vectorSearchBufferSize > maxBufferSize) {
-        throw new ErrorResponse(
-          `Executing a vector search query with TOP or OFFSET + LIMIT value ${this.vectorSearchBufferSize} larger than the vectorSearchBufferSize ${maxBufferSize} ` +
-            `is not allowed`,
-        );
-      }
+    // Reject continuation token usage for unsupported query types
+    if (!querySupportsTokens) {
+      rejectContinuationTokenForUnsupportedQueries(this.options.continuationToken, [
+        QueryTypes.nonStreamingOrderBy(nonStreamingOrderBy),
+        QueryTypes.groupBy(isGroupByQuery),
+        QueryTypes.unorderedDistinct(isUnorderedDistinctQuery),
+      ]);
+    }
 
-      const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
-      const context: ExecutionContext = new ParallelQueryExecutionContext(
-        this.clientContext,
-        this.collectionLink,
-        this.query,
-        this.options,
-        this.partitionedQueryExecutionInfo,
-        correlatedActivityId,
-      );
+    // Parse continuation token fields once for reuse in pipeline construction
+    const queryContinuationFields = this.options.continuationToken
+      ? parseContinuationTokenFields(this.options.continuationToken)
+      : undefined;
 
-      if (distinctType === "None") {
-        this.endpoint = new NonStreamingOrderByEndpointComponent(
-          context,
+    // Pick between non-streaming vs streaming execution context
+    this.endpoint = nonStreamingOrderBy
+      ? this.createNonStreamingEndpoint(
+          partitionedQueryExecutionInfo,
           sortOrders,
-          this.vectorSearchBufferSize,
-          partitionedQueryExecutionInfo.queryInfo.offset,
-          this.emitRawOrderByPayload,
-        );
-      } else {
-        this.endpoint = new NonStreamingOrderByDistinctEndpointComponent(
-          context,
-          partitionedQueryExecutionInfo.queryInfo,
-          this.vectorSearchBufferSize,
-          this.emitRawOrderByPayload,
-        );
-      }
-    } else {
-      if (Array.isArray(sortOrders) && sortOrders.length > 0) {
-        // Need to wrap orderby execution context in endpoint component, since the data is nested as a \
-        //      "payload" property.
-        this.endpoint = new OrderByEndpointComponent(
-          new OrderByQueryExecutionContext(
-            this.clientContext,
-            this.collectionLink,
-            this.query,
-            this.options,
-            this.partitionedQueryExecutionInfo,
-            correlatedActivityId,
-          ),
-          this.emitRawOrderByPayload,
-        );
-      } else {
-        this.endpoint = new ParallelQueryExecutionContext(
-          this.clientContext,
-          this.collectionLink,
-          this.query,
-          this.options,
-          this.partitionedQueryExecutionInfo,
           correlatedActivityId,
+          options,
+        )
+      : this.createStreamingEndpoint(
+          partitionedQueryExecutionInfo,
+          sortOrders,
+          correlatedActivityId,
+          isGroupByQuery,
+          queryContinuationFields,
         );
-      }
-      if (
-        Object.keys(partitionedQueryExecutionInfo.queryInfo.groupByAliasToAggregateType).length >
-          0 ||
-        partitionedQueryExecutionInfo.queryInfo.aggregates.length > 0 ||
-        partitionedQueryExecutionInfo.queryInfo.groupByExpressions.length > 0
-      ) {
-        if (partitionedQueryExecutionInfo.queryInfo.hasSelectValue) {
-          this.endpoint = new GroupByValueEndpointComponent(
-            this.endpoint,
-            partitionedQueryExecutionInfo.queryInfo,
-          );
-        } else {
-          this.endpoint = new GroupByEndpointComponent(
-            this.endpoint,
-            partitionedQueryExecutionInfo.queryInfo,
-          );
-        }
-      }
-
-      // If distinct then add that to the pipeline
-      const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
-      if (distinctType === "Ordered") {
-        this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint);
-      }
-      if (distinctType === "Unordered") {
-        this.endpoint = new UnorderedDistinctEndpointComponent(this.endpoint);
-      }
-
-      // If top then add that to the pipeline. TOP N is effectively OFFSET 0 LIMIT N
-      const top = partitionedQueryExecutionInfo.queryInfo.top;
-      if (typeof top === "number") {
-        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, 0, top);
-      }
-
-      // If offset+limit then add that to the pipeline
-      const limit = partitionedQueryExecutionInfo.queryInfo.limit;
-      const offset = partitionedQueryExecutionInfo.queryInfo.offset;
-      if (typeof limit === "number" && typeof offset === "number") {
-        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, offset, limit);
-      }
-    }
     this.fetchBuffer = [];
+    // Initialize the appropriate fetch implementation based on enableQueryControl
+    if (this.options.enableQueryControl) {
+      this.fetchImplementation = new QueryControlFetchImplementation(
+        this.endpoint,
+        pageSize,
+        this.collectionLink,
+        this.options.continuationToken,
+        isOrderByQuery,
+        querySupportsTokens,
+      );
+    } else {
+      this.fetchImplementation = new LegacyFetchImplementation(this.endpoint, pageSize);
+    }
   }
 
   public hasMoreResults(): boolean {
@@ -171,53 +116,227 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    this.fetchMoreRespHeaders = getInitialHeader();
-    return this._fetchMoreImplementation(diagnosticNode);
+    return this.fetchImplementation.fetchMore(diagnosticNode, this.fetchBuffer);
   }
 
-  private async _fetchMoreImplementation(
-    diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<Response<any>> {
-    try {
-      if (this.fetchBuffer.length >= this.pageSize) {
-        const temp = this.fetchBuffer.slice(0, this.pageSize);
-        this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
-        return { result: temp, headers: this.fetchMoreRespHeaders };
-      } else {
-        const response = await this.endpoint.fetchMore(diagnosticNode);
-        mergeHeaders(this.fetchMoreRespHeaders, response.headers);
-        if (response === undefined || response.result === undefined) {
-          if (this.fetchBuffer.length > 0) {
-            const temp = this.fetchBuffer;
-            this.fetchBuffer = [];
-            return { result: temp, headers: this.fetchMoreRespHeaders };
-          } else {
-            return { result: undefined, headers: this.fetchMoreRespHeaders };
-          }
-        }
-        this.fetchBuffer.push(...response.result);
+  /**
+   * Creates a non-streaming endpoint for vector search and similar queries that require buffering
+   */
+  private createNonStreamingEndpoint(
+    partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
+    sortOrders: any[],
+    correlatedActivityId: string,
+    options: FeedOptions,
+  ): ExecutionContext {
+    const queryInfo = partitionedQueryExecutionInfo.queryInfo!; // Safe to use ! after validation in constructor
 
-        if (this.options.enableQueryControl) {
-          if (this.fetchBuffer.length >= this.pageSize) {
-            const temp = this.fetchBuffer.slice(0, this.pageSize);
-            this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
-            return { result: temp, headers: this.fetchMoreRespHeaders };
-          } else {
-            const temp = this.fetchBuffer;
-            this.fetchBuffer = [];
-            return { result: temp, headers: this.fetchMoreRespHeaders };
-          }
-        }
-        // Recursively fetch more results to ensure the pageSize number of results are returned
-        // to maintain compatibility with the previous implementation
-        return this._fetchMoreImplementation(diagnosticNode);
+    if (!options.allowUnboundedNonStreamingQueries) {
+      this.checkQueryConstraints(queryInfo);
+    }
+
+    const vectorSearchBufferSize = this.calculateVectorSearchBufferSize(queryInfo, options);
+
+    this.validateVectorSearchBufferSize(vectorSearchBufferSize, options);
+
+    const baseContext = new ParallelQueryExecutionContext(
+      this.clientContext,
+      this.collectionLink,
+      this.query,
+      this.options,
+      this.partitionedQueryExecutionInfo,
+      correlatedActivityId,
+    );
+
+    return this.wrapWithNonStreamingComponent(
+      baseContext,
+      queryInfo,
+      sortOrders,
+      vectorSearchBufferSize,
+    );
+  }
+
+  /**
+   * Creates a streaming endpoint with proper pipeline components
+   */
+  private createStreamingEndpoint(
+    partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
+    sortOrders: any[],
+    correlatedActivityId: string,
+    isGroupByQuery: boolean,
+    queryContinuationFields: any,
+  ): ExecutionContext {
+    const queryInfo = partitionedQueryExecutionInfo.queryInfo!; // Safe to use ! after validation in constructor
+
+    // Create base execution context
+    let endpoint = this.createBaseExecutionContext(
+      partitionedQueryExecutionInfo,
+      sortOrders,
+      correlatedActivityId,
+    );
+
+    // Apply pipeline transformations
+    endpoint = this.applyGroupByComponents(endpoint, queryInfo, isGroupByQuery);
+    endpoint = this.applyDistinctComponents(endpoint, queryInfo, queryContinuationFields);
+    endpoint = this.applyLimitComponents(endpoint, queryInfo, queryContinuationFields);
+
+    return endpoint;
+  }
+
+  /**
+   * Creates the base execution context (OrderBy or Parallel)
+   */
+  private createBaseExecutionContext(
+    partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
+    sortOrders: any[],
+    correlatedActivityId: string,
+  ): ExecutionContext {
+    if (Array.isArray(sortOrders) && sortOrders.length > 0) {
+      // OrderBy queries need special wrapping for payload structure
+      return new OrderByEndpointComponent(
+        new OrderByQueryExecutionContext(
+          this.clientContext,
+          this.collectionLink,
+          this.query,
+          this.options,
+          partitionedQueryExecutionInfo,
+          correlatedActivityId,
+        ),
+        this.emitRawOrderByPayload,
+      );
+    }
+
+    // Parallel queries
+    return new ParallelQueryExecutionContext(
+      this.clientContext,
+      this.collectionLink,
+      this.query,
+      this.options,
+      partitionedQueryExecutionInfo,
+      correlatedActivityId,
+    );
+  }
+
+  /**
+   * Wraps base context with appropriate non-streaming component
+   */
+  private wrapWithNonStreamingComponent(
+    baseContext: ExecutionContext,
+    queryInfo: QueryInfo,
+    sortOrders: any[],
+    vectorSearchBufferSize: number,
+  ): ExecutionContext {
+    const distinctType = queryInfo.distinctType;
+
+    if (distinctType === "None") {
+      return new NonStreamingOrderByEndpointComponent(
+        baseContext,
+        sortOrders,
+        vectorSearchBufferSize,
+        queryInfo.offset,
+        this.emitRawOrderByPayload,
+      );
+    }
+
+    return new NonStreamingOrderByDistinctEndpointComponent(
+      baseContext,
+      queryInfo,
+      vectorSearchBufferSize,
+      this.emitRawOrderByPayload,
+    );
+  }
+
+  /**
+   * Applies GROUP BY components to the pipeline if needed
+   */
+  private applyGroupByComponents(
+    endpoint: ExecutionContext,
+    queryInfo: QueryInfo,
+    isGroupByQuery: boolean,
+  ): ExecutionContext {
+    if (!isGroupByQuery) {
+      return endpoint;
+    }
+
+    return queryInfo.hasSelectValue
+      ? new GroupByValueEndpointComponent(endpoint, queryInfo)
+      : new GroupByEndpointComponent(endpoint, queryInfo);
+  }
+
+  /**
+   * Applies DISTINCT components to the pipeline if needed
+   */
+  private applyDistinctComponents(
+    endpoint: ExecutionContext,
+    queryInfo: QueryInfo,
+    queryContinuationFields: any,
+  ): ExecutionContext {
+    const distinctType = queryInfo.distinctType;
+
+    if (distinctType === "Ordered") {
+      const lastHash = queryContinuationFields?.hashedLastResult;
+      return new OrderedDistinctEndpointComponent(endpoint, lastHash);
+    }
+
+    if (distinctType === "Unordered") {
+      return new UnorderedDistinctEndpointComponent(endpoint);
+    }
+
+    return endpoint;
+  }
+
+  /**
+   * Applies TOP and OFFSET+LIMIT components to the pipeline if needed
+   */
+  private applyLimitComponents(
+    endpoint: ExecutionContext,
+    queryInfo: QueryInfo,
+    queryContinuationFields: any,
+  ): ExecutionContext {
+    // Apply TOP component (TOP N is effectively OFFSET 0 LIMIT N)
+    let top = queryInfo.top;
+    if (typeof top === "number") {
+      if (queryContinuationFields?.limit !== undefined) {
+        top = queryContinuationFields.limit;
       }
-    } catch (err: any) {
-      mergeHeaders(this.fetchMoreRespHeaders, err.headers);
-      err.headers = this.fetchMoreRespHeaders;
-      if (err) {
-        throw err;
+      endpoint = new OffsetLimitEndpointComponent(endpoint, 0, top);
+    }
+
+    // Apply OFFSET+LIMIT component
+    let limit = queryInfo.limit;
+    let offset = queryInfo.offset;
+
+    if (queryContinuationFields) {
+      if (queryContinuationFields.limit !== undefined) {
+        limit = queryContinuationFields.limit;
       }
+      if (queryContinuationFields.offset !== undefined) {
+        offset = queryContinuationFields.offset;
+      }
+    }
+
+    if (typeof limit === "number" && typeof offset === "number") {
+      endpoint = new OffsetLimitEndpointComponent(endpoint, offset, limit);
+    }
+
+    return endpoint;
+  }
+
+  /**
+   * Validates vector search buffer size constraints
+   */
+  private validateVectorSearchBufferSize(
+    vectorSearchBufferSize: number,
+    options: FeedOptions,
+  ): void {
+    const maxBufferSize = options["vectorSearchBufferSize"]
+      ? options["vectorSearchBufferSize"]
+      : QueryExecution.DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE;
+
+    if (vectorSearchBufferSize > maxBufferSize) {
+      throw new ErrorResponse(
+        `Executing a vector search query with TOP or OFFSET + LIMIT value ${vectorSearchBufferSize} larger than the vectorSearchBufferSize ${maxBufferSize} ` +
+          `is not allowed`,
+      );
     }
   }
 
@@ -229,7 +348,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         ? queryInfo.offset + queryInfo.limit
         : options["vectorSearchBufferSize"] && options["vectorSearchBufferSize"] > 0
           ? options["vectorSearchBufferSize"]
-          : PipelinedQueryExecutionContext.DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE;
+          : QueryExecution.DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE;
   }
 
   private checkQueryConstraints(queryInfo: QueryInfo): void {
@@ -243,5 +362,36 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       );
     }
     return;
+  }
+
+  /**
+   * Analyzes query information and extracts key characteristics for query execution planning
+   */
+  private analyzeQueryInfo(queryInfo: QueryInfo) {
+    const sortOrders = queryInfo.orderBy;
+    const nonStreamingOrderBy = queryInfo.hasNonStreamingOrderBy;
+    const isOrderByQuery = Array.isArray(sortOrders) && sortOrders.length > 0;
+
+    // Check if this is a GROUP BY query
+    const isGroupByQuery =
+      Object.keys(queryInfo.groupByAliasToAggregateType || {}).length > 0 ||
+      (queryInfo.aggregates?.length || 0) > 0 ||
+      (queryInfo.groupByExpressions?.length || 0) > 0;
+
+    // Check if this is an unordered DISTINCT query
+    const isUnorderedDistinctQuery = queryInfo.distinctType === "Unordered";
+
+    // Determine if this query type supports continuation tokens
+    const querySupportsTokens =
+      !isUnorderedDistinctQuery && !isGroupByQuery && !nonStreamingOrderBy;
+
+    return {
+      sortOrders,
+      nonStreamingOrderBy,
+      isOrderByQuery,
+      isGroupByQuery,
+      isUnorderedDistinctQuery,
+      querySupportsTokens,
+    };
   }
 }

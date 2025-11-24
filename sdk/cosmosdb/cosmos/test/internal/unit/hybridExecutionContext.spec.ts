@@ -89,12 +89,14 @@ describe("hybridQueryExecutionContext", () => {
         .mockReturnValueOnce(false); // Second call returns false
 
       vi.spyOn(context["globalStatisticsExecutionContext"], "fetchMore").mockResolvedValue({
-        result: [
-          {
-            documentCount: 2,
-            fullTextStatistics: [{ totalWordCount: 100, hitCounts: [1, 2, 3] }],
-          },
-        ],
+        result: {
+          buffer: [
+            {
+              documentCount: 2,
+              fullTextStatistics: [{ totalWordCount: 100, hitCounts: [1, 2, 3] }],
+            },
+          ],
+        },
         headers: {},
         code: 200,
         substatus: 0,

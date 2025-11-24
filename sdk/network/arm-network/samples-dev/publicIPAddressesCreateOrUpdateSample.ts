@@ -10,7 +10,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates a static or dynamic public IP address.
  *
  * @summary Creates or updates a static or dynamic public IP address.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PublicIpAddressCreateDns.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PublicIpAddressCreateDns.json
  */
 async function createPublicIPAddressDns(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function createPublicIPAddressDns(): Promise<void> {
  * This sample demonstrates how to Creates or updates a static or dynamic public IP address.
  *
  * @summary Creates or updates a static or dynamic public IP address.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PublicIpAddressCreateDnsWithDomainNameLabelScope.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PublicIpAddressCreateDnsWithDomainNameLabelScope.json
  */
 async function createPublicIPAddressDnsWithDomainNameLabelScope(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -61,7 +61,7 @@ async function createPublicIPAddressDnsWithDomainNameLabelScope(): Promise<void>
  * This sample demonstrates how to Creates or updates a static or dynamic public IP address.
  *
  * @summary Creates or updates a static or dynamic public IP address.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PublicIpAddressCreateCustomizedValues.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PublicIpAddressCreateCustomizedValues.json
  */
 async function createPublicIPAddressAllocationMethod(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -88,7 +88,7 @@ async function createPublicIPAddressAllocationMethod(): Promise<void> {
  * This sample demonstrates how to Creates or updates a static or dynamic public IP address.
  *
  * @summary Creates or updates a static or dynamic public IP address.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PublicIpAddressCreateDefaults.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PublicIpAddressCreateDefaults.json
  */
 async function createPublicIPAddressDefaults(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -109,7 +109,7 @@ async function createPublicIPAddressDefaults(): Promise<void> {
  * This sample demonstrates how to Creates or updates a static or dynamic public IP address.
  *
  * @summary Creates or updates a static or dynamic public IP address.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PublicIpAddressCreateDefaultsStandardV2Sku.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/PublicIpAddressCreateDefaultsStandardV2Sku.json
  */
 async function createPublicIPAddressDefaultsWithStandardV2Sku(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

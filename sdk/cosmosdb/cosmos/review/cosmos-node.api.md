@@ -84,7 +84,9 @@ export interface ChangeFeedIteratorOptions {
     changeFeedStartFrom?: ChangeFeedStartFrom;
     excludedLocations?: string[];
     maxItemCount?: number;
+    priorityLevel?: PriorityLevel;
     sessionToken?: string;
+    throughputBucket?: number;
 }
 
 // @public
@@ -2775,6 +2777,7 @@ export interface VectorEmbedding {
 
 // @public
 export enum VectorEmbeddingDataType {
+    Float16 = "float16",
     Float32 = "float32",
     Int8 = "int8",
     UInt8 = "uint8"

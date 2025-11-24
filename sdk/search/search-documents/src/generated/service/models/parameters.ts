@@ -12,7 +12,7 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  KnowledgeAgent as KnowledgeAgentMapper,
+  KnowledgeBase as KnowledgeBaseMapper,
   KnowledgeSource as KnowledgeSourceMapper,
   SearchIndexerDataSource as SearchIndexerDataSourceMapper,
   DocumentKeysOrIds as DocumentKeysOrIdsMapper,
@@ -38,9 +38,9 @@ export const contentType: OperationParameter = {
   },
 };
 
-export const knowledgeAgent: OperationParameter = {
-  parameterPath: "knowledgeAgent",
-  mapper: KnowledgeAgentMapper,
+export const knowledgeBase: OperationParameter = {
+  parameterPath: "knowledgeBase",
+  mapper: KnowledgeBaseMapper,
 };
 
 export const accept: OperationParameter = {
@@ -67,10 +67,10 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const agentName: OperationURLParameter = {
-  parameterPath: "agentName",
+export const knowledgeBaseName: OperationURLParameter = {
+  parameterPath: "knowledgeBaseName",
   mapper: {
-    serializedName: "agentName",
+    serializedName: "knowledgeBaseName",
     required: true,
     type: {
       name: "String",

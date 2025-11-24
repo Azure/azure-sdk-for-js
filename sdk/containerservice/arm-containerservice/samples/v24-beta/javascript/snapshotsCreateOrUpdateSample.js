@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Creates or updates a snapshot.
  *
  * @summary Creates or updates a snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/SnapshotsCreate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/SnapshotsCreate.json
  */
 async function createOrUpdateSnapshot() {
   const subscriptionId =

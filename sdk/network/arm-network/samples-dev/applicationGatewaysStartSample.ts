@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Starts the specified application gateway.
  *
  * @summary Starts the specified application gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/ApplicationGatewayStart.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/ApplicationGatewayStart.json
  */
 async function startApplicationGateway(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
