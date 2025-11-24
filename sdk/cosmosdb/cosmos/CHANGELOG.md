@@ -1,4 +1,10 @@
 # Release History
+## 4.9.0 (2025-11-24)
+
+### Features Added
+
+- Added support for continuation tokens in queries. This capability is available when using the `enableQueryControl` feature in `FeedOptions`.
+
 ## 4.8.0 (2025-11-20)
 
 ### Features Added
