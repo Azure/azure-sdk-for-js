@@ -180,7 +180,7 @@ function buildRunningOperation(
 
 /**
  * Creates a poller to track the progress of updating memories in a memory store.
- * 
+ *
  * @param client - The AIProjectClient instance.
  * @param expectedStatuses - The expected HTTP statuses for the polling operation.
  * @param getInitialResponse - A function that returns a promise of the initial response to start the polling operation.
