@@ -88,7 +88,6 @@ function applyUpdateState(
   const parsed = deserializeUpdateResponse(response);
   state.updateId ??= parsed?.update_id;
   state.updateStatus = parsed?.status;
-  state.supersededBy = parsed?.superseded_by;
 
   if (!parsed) {
     return;
@@ -107,7 +106,6 @@ function applyUpdateState(
   if (terminalUpdateStatuses.includes(parsed.status)) {
     if (parsed.status === "superseded" && !state.error) {
       state.supersededBy = parsed.superseded_by;
-      state.updateStatus = "superseded";
     }
     state.status = "succeeded";
     state.result = parsed.result ??
