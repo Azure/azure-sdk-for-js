@@ -31,9 +31,13 @@ export function resolveTenantId(
     checkTenantId(logger, tenantId);
     return tenantId;
   }
-  return (clientId ?? DeveloperSignOnClientId) !== DeveloperSignOnClientId
-    ? "common"
-    : "organizations";
+  if (!clientId) {
+    clientId = DeveloperSignOnClientId;
+  }
+  if (clientId !== DeveloperSignOnClientId) {
+    return "common";
+  }
+  return "organizations";
 }
 
 /**

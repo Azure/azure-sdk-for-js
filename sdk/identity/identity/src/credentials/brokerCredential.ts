@@ -45,7 +45,7 @@ export class BrokerCredential implements TokenCredential {
       options?.additionallyAllowedTenants,
     );
     const msalClientOptions: MsalClientOptions = {
-      ...options,
+      tokenCredentialOptions: options,
       logger,
       brokerOptions: {
         enabled: true,

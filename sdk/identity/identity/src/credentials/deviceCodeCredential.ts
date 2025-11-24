@@ -72,8 +72,8 @@ export class DeviceCodeCredential implements TokenCredential {
     const tenantId = resolveTenantId(logger, options?.tenantId, clientId);
     this.userPromptCallback = options?.userPromptCallback ?? defaultDeviceCodePromptCallback;
     this.msalClient = createMsalClient(clientId, tenantId, {
-      ...options,
       logger,
+      tokenCredentialOptions: options || {},
     });
     this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }

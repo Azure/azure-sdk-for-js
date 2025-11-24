@@ -55,7 +55,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
     );
 
     const msalClientOptions: MsalClientOptions = {
-      ...options,
+      tokenCredentialOptions: options,
       logger,
     };
     const ibcNodeOptions = options as InteractiveBrowserCredentialNodeOptions;
