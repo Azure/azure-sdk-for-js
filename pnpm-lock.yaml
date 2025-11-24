@@ -283,8 +283,8 @@ importers:
         specifier: ^0.4.0
         version: 0.4.0
       glob:
-        specifier: ^11.0.3
-        version: 11.1.0
+        specifier: ^13.0.0
+        version: 13.0.0
       tslib:
         specifier: ^2.6.2
         version: 2.8.1
@@ -1368,8 +1368,8 @@ importers:
         specifier: ^4.1.2
         version: 4.1.2
       glob:
-        specifier: ^11.0.3
-        version: 11.1.0
+        specifier: ^13.0.0
+        version: 13.0.0
       inquirer:
         specifier: ^13.0.1
         version: 13.0.1(@types/node@20.19.25)
