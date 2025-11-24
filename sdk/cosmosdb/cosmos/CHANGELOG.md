@@ -3,24 +3,7 @@
 
 ### Features Added
 
-- Added support for continuation tokens in queries.
-Note: For ORDER BY queries, the initial page may return an undefined or placeholder continuation token. Use the standard iterator loop and take the continuation token only from pages that return actual results.
-
-```ts
-const iterator = container.items.query(query);
-
-let continuationToken;
-
-while (iterator.hasMoreResults()) {
-  const { resources, continuationToken: ct } = await iterator.fetchNext();
-
-  if (resources && resources.length > 0) {
-    // process results...
-    continuationToken = ct;         // use token only when results exist intially for ORDER BY query
-  }
-}
-
-```
+- Added support for continuation tokens in queries. This capability is available when using the `enableQueryControl` feature in `FeedOptions`.
 
 ## 4.8.0 (2025-11-20)
 
