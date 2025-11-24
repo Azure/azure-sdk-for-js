@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Get the status of a specific operation in the specified agent pool.
  *
  * @summary Get the status of a specific operation in the specified agent pool.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/OperationStatusResultGetByAgentPool.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/OperationStatusResultGetByAgentPool.json
  */
 async function getOperationStatusResult() {
   const subscriptionId =

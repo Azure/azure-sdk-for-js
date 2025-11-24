@@ -1,12 +1,26 @@
 # Release History
 
-## 1.0.0-beta.36 ()
+### 1.0.0-beta.37 ()
+
+### Features Added
+
+### Bugs Fixed
+
+### Breaking Changes
+
+### Other Changes
+
+- Detect AKS when the `KUBERNETES_SERVICE_HOST` environment variable is defined.
+
+## 1.0.0-beta.36 (2025-11-10)
 
 ### Bugs Fixed
 
 - Fixed dynamic import of the exporter package.
 
 - Add support for multiuser permissions in unix.
+
+- Add support for log message serialization for complex objects.
 
 ## 1.0.0-beta.35 (2025-09-16)
 

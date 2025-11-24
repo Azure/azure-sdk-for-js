@@ -1,6 +1,6 @@
 # Release History
 
-## 1.10.0 (Unreleased)
+## 1.10.0 (2025-11-13)
 
 ### Features Added
 
@@ -10,10 +10,6 @@
   - Helper method `isSnapshotReference` checks the contentType and return boolean values.
 
 - Support `requirement_type` for feature flag. [#36104](https://github.com/Azure/azure-sdk-for-js/pull/36104)
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.9.2 (2025-11-05)
 

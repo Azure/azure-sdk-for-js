@@ -4,15 +4,10 @@
 import type {
   BreakFileLocksRequest,
   BreakReplicationRequest,
+  ListReplicationsRequest,
   RelocateVolumeRequest,
 } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
-
-/** Optional parameters. */
-export interface VolumesListQuotaReportOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
 
 /** Optional parameters. */
 export interface VolumesRevertRelocationOptionalParams extends OperationOptions {
@@ -89,7 +84,10 @@ export interface VolumesResyncReplicationOptionalParams extends OperationOptions
 }
 
 /** Optional parameters. */
-export interface VolumesListReplicationsOptionalParams extends OperationOptions {}
+export interface VolumesListReplicationsOptionalParams extends OperationOptions {
+  /** The content of the action request */
+  body?: ListReplicationsRequest;
+}
 
 /** Optional parameters. */
 export interface VolumesReplicationStatusOptionalParams extends OperationOptions {}

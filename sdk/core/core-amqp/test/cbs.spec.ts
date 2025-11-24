@@ -23,7 +23,7 @@ describe("CbsClient", function () {
         await cbsClient.init({ abortSignal: signal });
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        assert.ok(isError(err));
+        assert.isTrue(isError(err));
         assert.equal((err as Error).name, "AbortError");
       }
     });
@@ -55,7 +55,7 @@ describe("CbsClient", function () {
         await cbsClient.init({ abortSignal: signal });
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        assert.ok(isError(err));
+        assert.isTrue(isError(err));
         assert.equal((err as Error).name, "AbortError");
       }
     });
@@ -76,7 +76,7 @@ describe("CbsClient", function () {
         await cbsClient.init({ abortSignal: signal });
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        assert.ok(isError(err));
+        assert.isTrue(isError(err));
         assert.equal((err as Error).name, "AbortError");
       }
     });
@@ -91,7 +91,7 @@ describe("CbsClient", function () {
         await cbsClient.negotiateClaim("audience", "token", TokenType.CbsTokenTypeSas);
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        assert.ok(isError(err));
+        assert.isTrue(isError(err));
         assert.equal(
           (err as Error).message,
           "Attempted to negotiate a claim but the CBS link does not exist.",
@@ -116,7 +116,7 @@ describe("CbsClient", function () {
           });
           throw new Error(TEST_FAILURE);
         } catch (err) {
-          assert.ok(isError(err));
+          assert.isTrue(isError(err));
           assert.equal((err as Error).name, "AbortError");
         }
       });
@@ -139,7 +139,7 @@ describe("CbsClient", function () {
           });
           throw new Error(TEST_FAILURE);
         } catch (err) {
-          assert.ok(isError(err));
+          assert.isTrue(isError(err));
           assert.equal((err as Error).name, "AbortError");
         }
       });

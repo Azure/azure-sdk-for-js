@@ -57,7 +57,7 @@ describe("NewRelicObservability test", () => {
       recorder.configureClientOptions({}),
     );
     location = "centraluseuap";
-    resourceGroup = "myjstest";
+    resourceGroup = "SSS3PT_myjstest";
     resourcename = "resourcetest1";
   });
 
@@ -65,7 +65,7 @@ describe("NewRelicObservability test", () => {
     await recorder.stop();
   });
 
-  it("operations list test", async function () {
+  it.only("operations list test", async function () {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
       resArray.push(item);

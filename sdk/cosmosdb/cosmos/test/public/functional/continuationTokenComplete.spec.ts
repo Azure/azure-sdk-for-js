@@ -1,0 +1,1867 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { BulkOperationType, CosmosClient } from "../../../src/index.js";
+import type { Container } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
+import { describe, it, beforeAll, afterAll, expect } from "vitest";
+
+const client = new CosmosClient({
+  endpoint,
+  key: masterKey,
+});
+
+/**
+ * Test cases for continuation token structure validation
+ */
+interface ContinuationTokenTestCase {
+  name: string;
+  query: string;
+  queryOptions: any;
+  expectedTokenStructure: {
+    hasCompositeToken?: boolean;
+    hasOrderByItems?: boolean;
+    hasRangeMappings?: boolean;
+    hasOffset?: boolean;
+    hasLimit?: boolean;
+    hasSkipCount?: boolean;
+    hasRid?: boolean;
+    hasHashedLastResult?: boolean;
+    expectNoContinuationToken?: boolean; // For queries that don't support continuation
+    shouldNotHaveCompositeToken?: boolean;
+    shouldNotHaveOrderByItems?: boolean;
+  };
+  expectedTokenValues?: {
+    orderByItemsCount?: number;
+    skipCountInitial?: number;
+    offsetValue?: number;
+    limitValue?: number;
+    ridType?: "string";
+    compositeTokenType?: "string";
+    rangeMappingsMinCount?: number;
+    groupByValuesType?: "array" | "object";
+    expectUndefined?: boolean; // For cases where no token is expected
+    ridMinLength?: number;
+    limitGreaterThan?: number;
+    offsetGreaterThanOrEqual?: number;
+    skipCountGreaterThanOrEqual?: number;
+  };
+  requiresMultiPartition?: boolean;
+  description: string;
+}
+
+/**
+ * Comprehensive test matrix for different query types and their continuation token behavior
+ */
+const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
+  // ============= BASIC QUERIES =============
+  {
+    name: "Simple Parallel Query",
+    query: "SELECT * FROM c WHERE c.amount > 10",
+    queryOptions: { maxItemCount: 3, forceQueryPlan: true, enableQueryControl: true },
+    expectedTokenStructure: {
+      hasRangeMappings: true,
+      hasRid: true,
+      shouldNotHaveCompositeToken: true,
+      shouldNotHaveOrderByItems: true,
+    },
+    expectedTokenValues: {
+      ridType: "string",
+      rangeMappingsMinCount: 1,
+      ridMinLength: 1,
+    },
+    requiresMultiPartition: false,
+    description:
+      "Basic parallel query should produce CompositeQueryContinuationToken with rangeMappings",
+  },
+
+  {
+    name: "SELECT with Projection",
+    query: "SELECT c.id, c.name, c.amount FROM c",
+    queryOptions: { maxItemCount: 4, forceQueryPlan: true, enableQueryControl: true },
+    expectedTokenStructure: {
+      hasRangeMappings: true,
+      hasRid: true,
+    },
+    expectedTokenValues: {
+      ridType: "string",
+      rangeMappingsMinCount: 1,
+      ridMinLength: 1,
+    },
+    requiresMultiPartition: false,
+    description: "Projection queries should use parallel execution with composite tokens",
+  },
+
+  // ============= ORDER BY QUERIES =============
+  {
+    name: "ORDER BY Single Field ASC",
+    query: "SELECT * FROM c ORDER BY c.amount ASC",
+    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    expectedTokenStructure: {
+      hasCompositeToken: true,
+      hasOrderByItems: true,
+      hasSkipCount: true,
+      hasRid: true,
+      hasRangeMappings: true,
+    },
+    expectedTokenValues: {
+      orderByItemsCount: 1,
+      skipCountInitial: 1,
+      ridType: "string",
+      compositeTokenType: "string",
+      skipCountGreaterThanOrEqual: 0,
+    },
+    requiresMultiPartition: true,
+    description: "ORDER BY queries should produce OrderByQueryContinuationToken with orderByItems",
+  },
+
+  {
+    name: "ORDER BY Single Field DESC",
+    query: "SELECT * FROM c ORDER BY c.amount DESC",
+    queryOptions: { maxItemCount: 3, enableQueryControl: true },
+    expectedTokenStructure: {
+      hasCompositeToken: true,
+      hasOrderByItems: true,
+      hasSkipCount: true,
+      hasRid: true,
+      hasRangeMappings: true,
+    },
+    expectedTokenValues: {
+      orderByItemsCount: 1,
+      skipCountInitial: 1,
+      ridType: "string",
+      compositeTokenType: "string",
+      skipCountGreaterThanOrEqual: 0,
+    },
+    requiresMultiPartition: true,
+    description: "ORDER BY DESC should maintain proper ordering with continuation tokens",
+  },
+
+  {
+    name: "ORDER BY Multiple Fields",
+    query: "SELECT * FROM c ORDER BY c.category ASC, c.amount DESC",
+    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    expectedTokenStructure: {
+      hasCompositeToken: true,
+      hasOrderByItems: true,
+      hasSkipCount: true,
+      hasRid: true,
+      hasRangeMappings: true,
+    },
+    expectedTokenValues: {
+      orderByItemsCount: 2,
+      skipCountInitial: 1,
+      ridType: "string",
+      compositeTokenType: "string",
+    },
+    requiresMultiPartition: true,
+    description: "Multi-field ORDER BY should handle complex ordering scenarios",
+  },
+
+  // ============= TOP/OFFSET/LIMIT QUERIES =============
+  {
+    name: "TOP Query",
+    query: "SELECT TOP 10 * FROM c",
+    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    expectedTokenStructure: {
+      hasRangeMappings: true,
+      hasLimit: true,
+      hasRid: true,
+    },
+    expectedTokenValues: {
+      limitValue: 8,
+      ridType: "string",
+      rangeMappingsMinCount: 1,
+      limitGreaterThan: 0,
+    },
+    requiresMultiPartition: false,
+    description: "TOP queries should track remaining limit in continuation token",
+  },
+
+  {
+    name: "OFFSET LIMIT Combined",
+    query: "SELECT * FROM c OFFSET 3 LIMIT 8",
+    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    expectedTokenStructure: {
+      hasRangeMappings: true,
+      hasOffset: true,
+      hasLimit: true,
+      hasRid: true,
+    },
+    expectedTokenValues: {
+      ridType: "string",
+      rangeMappingsMinCount: 1,
+      offsetGreaterThanOrEqual: 0,
+    },
+    requiresMultiPartition: false,
+    description: "OFFSET LIMIT combination should maintain both offset and limit state",
+  },
+
+  // ============= DISTINCT QUERIES =============
+  {
+    name: "DISTINCT Query (Unordered - No Continuation Support)",
+    query: "SELECT DISTINCT c.category FROM c",
+    queryOptions: { maxItemCount: 3, enableQueryControl: true },
+    expectedTokenStructure: {
+      expectNoContinuationToken: true,
+    },
+    expectedTokenValues: {
+      expectUndefined: true,
+    },
+    requiresMultiPartition: true,
+    description:
+      "Unordered DISTINCT queries should return undefined continuation tokens as they don't support continuation",
+  },
+
+  {
+    name: "DISTINCT with ORDER BY (Ordered - Supports Continuation)",
+    query: "SELECT DISTINCT VALUE c.category FROM c ORDER BY c.category ASC",
+    queryOptions: { maxItemCount: 3, enableQueryControl: true },
+    expectedTokenStructure: {
+      hasCompositeToken: true,
+      hasOrderByItems: true,
+      hasSkipCount: true,
+      hasRid: true,
+      hasRangeMappings: true,
+      hasHashedLastResult: true,
+    },
+    expectedTokenValues: {
+      ridType: "string",
+      orderByItemsCount: 1,
+      skipCountInitial: 1,
+      compositeTokenType: "string",
+      skipCountGreaterThanOrEqual: 0,
+    },
+    requiresMultiPartition: true,
+    description: "DISTINCT with ORDER BY should support continuation tokens",
+  },
+
+  // ============= AGGREGATE QUERIES =============
+  {
+    name: "COUNT Aggregate (No Continuation Support)",
+    query: "SELECT COUNT(1) as count FROM c",
+    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    expectedTokenStructure: {
+      expectNoContinuationToken: true,
+    },
+    expectedTokenValues: {
+      expectUndefined: true,
+    },
+    requiresMultiPartition: true,
+    description:
+      "COUNT aggregates don't support continuation tokens as they require full aggregation",
+  },
+
+  {
+    name: "SUM Aggregate (No Continuation Support)",
+    query: "SELECT SUM(c.amount) as total FROM c",
+    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    expectedTokenStructure: {
+      expectNoContinuationToken: true,
+    },
+    expectedTokenValues: {
+      expectUndefined: true,
+    },
+    requiresMultiPartition: true,
+    description:
+      "SUM aggregates don't support continuation tokens as they require full aggregation",
+  },
+
+  {
+    name: "AVG Aggregate (No Continuation Support)",
+    query: "SELECT AVG(c.amount) as average FROM c",
+    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    expectedTokenStructure: {
+      expectNoContinuationToken: true,
+    },
+    expectedTokenValues: {
+      expectUndefined: true,
+    },
+    requiresMultiPartition: true,
+    description:
+      "AVG aggregates don't support continuation tokens as they require full aggregation",
+  },
+
+  {
+    name: "MIN MAX Aggregate (No Continuation Support)",
+    query: "SELECT MIN(c.amount) as minimum, MAX(c.amount) as maximum FROM c",
+    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    expectedTokenStructure: {
+      expectNoContinuationToken: true,
+    },
+    expectedTokenValues: {
+      expectUndefined: true,
+    },
+    requiresMultiPartition: true,
+    description:
+      "MIN/MAX aggregates don't support continuation tokens as they require full aggregation",
+  },
+
+  // ============= GROUP BY QUERIES =============
+  {
+    name: "GROUP BY Query (No Continuation Support)",
+    query: "SELECT c.category, COUNT(1) as count FROM c GROUP BY c.category",
+    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    expectedTokenStructure: {
+      expectNoContinuationToken: true,
+    },
+    expectedTokenValues: {
+      expectUndefined: true,
+    },
+    requiresMultiPartition: true,
+    description:
+      "GROUP BY queries don't support continuation tokens as they require full aggregation",
+  },
+
+  // ============= COMPLEX QUERIES =============
+  {
+    name: "JOIN with ORDER BY",
+    query: "SELECT c.id, c.name, t FROM c JOIN t IN c.tags ORDER BY c.id",
+    queryOptions: { maxItemCount: 2, enableQueryControl: true },
+    expectedTokenStructure: {
+      hasCompositeToken: true,
+      hasOrderByItems: true,
+      hasSkipCount: true,
+      hasRid: true,
+      hasRangeMappings: true,
+    },
+    expectedTokenValues: {
+      ridType: "string",
+      orderByItemsCount: 1,
+      skipCountInitial: 2,
+    },
+    requiresMultiPartition: true,
+    description: "JOIN with ORDER BY should produce OrderBy continuation tokens",
+  },
+
+  {
+    name: "WHERE with ORDER BY",
+    query: "SELECT * FROM c WHERE c.amount > 20 ORDER BY c.amount ASC",
+    queryOptions: { maxItemCount: 3, enableQueryControl: true },
+    expectedTokenStructure: {
+      hasRangeMappings: true,
+      hasOrderByItems: true,
+      hasSkipCount: true,
+      hasRid: true,
+    },
+    expectedTokenValues: {
+      ridType: "string",
+      orderByItemsCount: 1,
+      skipCountInitial: 1,
+      skipCountGreaterThanOrEqual: 0,
+    },
+    requiresMultiPartition: true,
+    description: "Filtered ORDER BY queries should maintain ordering with predicates",
+  },
+];
+describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
+  let singlePartitionContainer: Container;
+  let multiPartitionContainer: Container;
+  let multiPartitionContainer2: Container;
+  let multiPartitionContainer3: Container;
+  let largeContainers: Container[] = [];
+
+  // Helper: Configuration for multi-partition containers
+  const getMultiPartitionContainerConfig = () => ({
+    partitionKey: { paths: ["/category"] },
+    indexingPolicy: {
+      indexingMode: "consistent" as const,
+      automatic: true,
+      includedPaths: [{ path: "/*" }],
+      excludedPaths: [{ path: '/"_etag"/?' }],
+      compositeIndexes: [
+        [
+          { path: "/category", order: "ascending" as const },
+          { path: "/amount", order: "descending" as const },
+        ],
+        [
+          { path: "/amount", order: "ascending" as const },
+          { path: "/name", order: "descending" as const },
+        ],
+        [
+          { path: "/category", order: "ascending" as const },
+          { path: "/amount", order: "descending" as const },
+          { path: "/name", order: "ascending" as const },
+        ],
+        [
+          { path: "/id", order: "ascending" as const },
+          { path: "/amount", order: "ascending" as const },
+        ],
+        [
+          { path: "/name", order: "ascending" as const },
+          { path: "/category", order: "ascending" as const },
+        ],
+      ],
+    },
+  });
+
+  beforeAll(async () => {
+    await removeAllDatabases(client);
+
+    // Create single partition container with essential composite indexes
+    singlePartitionContainer = await getTestContainer(
+      "single-partition-test",
+      client,
+      {
+        partitionKey: { paths: ["/pk"] },
+        throughput: 1000,
+        indexingPolicy: {
+          indexingMode: "consistent",
+          automatic: true,
+          includedPaths: [{ path: "/*" }],
+          excludedPaths: [{ path: '/"_etag"/?' }],
+          compositeIndexes: [
+            [
+              { path: "/category", order: "ascending" },
+              { path: "/amount", order: "descending" },
+            ],
+            [
+              { path: "/amount", order: "ascending" },
+              { path: "/name", order: "descending" },
+            ],
+            [
+              { path: "/sequence", order: "ascending" },
+              { path: "/amount", order: "descending" },
+            ],
+            [
+              { path: "/name", order: "ascending" },
+              { path: "/amount", order: "ascending" },
+            ],
+          ],
+        },
+      },
+      {},
+    );
+
+    // Create multi-partition containers using helper config
+    multiPartitionContainer = await getTestContainer(
+      "multi-partition-test",
+      client,
+      { ...getMultiPartitionContainerConfig(), throughput: 15000 },
+      {},
+    );
+
+    multiPartitionContainer2 = await getTestContainer(
+      "multi-partition-test-2",
+      client,
+      { ...getMultiPartitionContainerConfig(), throughput: 15000 },
+      {},
+    );
+
+    multiPartitionContainer3 = await getTestContainer(
+      "multi-partition-test-3",
+      client,
+      { ...getMultiPartitionContainerConfig(), throughput: 40000 },
+      {},
+    );
+
+    // Populate containers with test data
+    await populateSinglePartitionData(singlePartitionContainer);
+    await populateMultiPartitionData(multiPartitionContainer, 80);
+    await populateMultiPartitionData(multiPartitionContainer2, 25000);
+    await populateMultiPartitionData(multiPartitionContainer3, 25000);
+
+    // Populate largeContainers array for batch testing
+    largeContainers = [multiPartitionContainer2, multiPartitionContainer3];
+  });
+
+  afterAll(async () => {
+    await removeAllDatabases(client);
+  });
+
+  // Helper: Validate ID collection (used by fuzzy tests)
+  function validateCollectedIds(
+    collectedIds: Set<string>,
+    expectedCount: number = 25000,
+  ): { missingIds: string[]; unexpectedIds: string[] } {
+    const missingIds: string[] = [];
+    const unexpectedIds: string[] = [];
+
+    // Check for missing IDs
+    for (let i = 0; i < expectedCount; i++) {
+      const expectedId = `mp-item-${i.toString().padStart(3, "0")}`;
+      if (!collectedIds.has(expectedId)) {
+        missingIds.push(expectedId);
+      }
+    }
+
+    // Check for unexpected IDs
+    for (const collectedId of collectedIds) {
+      const idPattern = /^mp-item-(\d+)$/;
+      const match = collectedId.match(idPattern);
+      if (!match) {
+        unexpectedIds.push(collectedId);
+        continue;
+      }
+
+      const itemNumber = parseInt(match[1], 10);
+      if (itemNumber < 0 || itemNumber >= expectedCount) {
+        unexpectedIds.push(collectedId);
+      }
+    }
+
+    return { missingIds, unexpectedIds };
+  }
+
+  // Helper: Validate category distribution
+  function validateCategoryDistribution(items: any[]): void {
+    const categoryDistribution = new Map<string, number>();
+    for (const item of items) {
+      const count = categoryDistribution.get(item.category) || 0;
+      categoryDistribution.set(item.category, count + 1);
+    }
+
+    expect(categoryDistribution.size).toBe(8);
+    const expectedPerCategory = items.length / 8;
+    for (const [_category, count] of categoryDistribution) {
+      expect(count).toBeGreaterThan(expectedPerCategory * 0.8);
+      expect(count).toBeLessThan(expectedPerCategory * 1.2);
+    }
+  }
+
+  // Helper: Execute query until we get continuation token or results
+  async function executeQueryUntilToken(query: string, container: Container, queryOptions: any) {
+    const queryIterator = container.items.query(query, queryOptions);
+    const isOrderByQuery = query.toUpperCase().includes("ORDER BY");
+    let continuationToken: string | undefined;
+    let totalResults = 0;
+
+    while (queryIterator.hasMoreResults()) {
+      let result = await queryIterator.fetchNext();
+      if (isOrderByQuery) {
+        while (queryIterator.hasMoreResults() && result.resources.length === 0) {
+          result = await queryIterator.fetchNext();
+        }
+        if (result.resources.length === 0) break;
+      }
+      totalResults += result.resources.length;
+      if ((continuationToken = result.continuationToken)) break;
+    }
+    return { continuationToken, totalResults };
+  }
+
+  describe("Token Structure Validation", () => {
+    CONTINUATION_TOKEN_TEST_CASES.forEach((testCase) => {
+      it(`should validate ${testCase.name}: ${testCase.description}`, async () => {
+        const container = testCase.requiresMultiPartition
+          ? multiPartitionContainer
+          : singlePartitionContainer;
+
+        const { continuationToken, totalResults } = await executeQueryUntilToken(
+          testCase.query,
+          container,
+          testCase.queryOptions,
+        );
+
+        if (!continuationToken) {
+          if (testCase.expectedTokenStructure.expectNoContinuationToken) {
+            expect(totalResults).toBeGreaterThan(0);
+            return;
+          }
+          expect(continuationToken).toBeDefined();
+        }
+
+        if (testCase.expectedTokenStructure.expectNoContinuationToken) {
+          throw new Error(
+            `Unexpected continuation token received for ${testCase.name} - this query should not produce continuation tokens`,
+          );
+        }
+
+        let parsedToken: any;
+        try {
+          parsedToken = JSON.parse(continuationToken);
+        } catch (error) {
+          throw new Error(`Failed to parse continuation token: ${error.message}`);
+        }
+
+        validateTokenStructure(
+          parsedToken,
+          testCase.expectedTokenStructure,
+          testCase.expectedTokenValues,
+        );
+
+        await testTokenReusability(
+          container,
+          testCase.query,
+          continuationToken,
+          testCase.queryOptions,
+        );
+      });
+    });
+  });
+
+  // Helper: Collect all tokens and items from a query
+  async function collectQueryResults(query: string, container: Container, queryOptions: any) {
+    let queryIterator = container.items.query(query, queryOptions);
+    const items: any[] = [];
+    const tokens: string[] = [];
+    const isOrderByQuery = query.toUpperCase().includes("ORDER BY");
+
+    while (queryIterator.hasMoreResults()) {
+      let result = await queryIterator.fetchNext();
+      if (isOrderByQuery) {
+        while (queryIterator.hasMoreResults() && result.resources.length === 0) {
+          result = await queryIterator.fetchNext();
+        }
+        if (result.resources.length === 0) break;
+      }
+      items.push(...result.resources);
+      if (result.continuationToken) {
+        tokens.push(result.continuationToken);
+        queryIterator = container.items.query(query, {
+          ...queryOptions,
+          continuationToken: result.continuationToken,
+        });
+      }
+    }
+    return { items, tokens };
+  }
+
+  // Helper: Validate token properties (parsing, serialization)
+  function validateTokenProperties(token: string): any {
+    let parsed: any;
+    expect(() => {
+      parsed = JSON.parse(token);
+    }).not.toThrow();
+
+    expect(() => {
+      JSON.stringify(parsed);
+    }).not.toThrow();
+
+    return parsed;
+  }
+
+  // Helper: Test token reuse with a single fetch
+  async function testTokenReuseOnce(
+    container: Container,
+    query: string,
+    token: string,
+    queryOptions: any,
+  ): Promise<void> {
+    const resumedIterator = container.items.query(query, {
+      ...queryOptions,
+      continuationToken: token,
+    });
+
+    if (resumedIterator.hasMoreResults()) {
+      const result = await resumedIterator.fetchNext();
+      expect(result.resources).toBeDefined();
+    }
+  }
+
+  describe("Single Partition Scenarios", () => {
+    it("should handle large result sets with multiple continuation tokens", async () => {
+      const query = "SELECT * FROM c ORDER BY c.sequence ASC";
+      const queryOptions = { maxItemCount: 5, enableQueryControl: true, forceQueryPlan: true };
+      const { items: totalItems, tokens: collectedTokens } = await collectQueryResults(
+        query,
+        singlePartitionContainer,
+        queryOptions,
+      );
+
+      expect(totalItems.length).toBe(100);
+      expect(collectedTokens.length).toBeGreaterThan(0);
+
+      // Validate first token structure
+      if (collectedTokens.length > 0) {
+        const parsed = validateTokenProperties(collectedTokens[0]);
+        expect(parsed.rid).toBeDefined();
+        expect(Array.isArray(parsed.orderByItems)).toBe(true);
+      }
+
+      await testMultipleTokenReuse(
+        singlePartitionContainer,
+        query,
+        collectedTokens,
+        queryOptions.maxItemCount,
+      );
+    });
+
+    it("should handle complex WHERE clauses with ORDER BY", async () => {
+      const complexQueries = [
+        {
+          name: "Range query with ORDER BY",
+          query:
+            "SELECT * FROM c WHERE c.sequence >= 20 AND c.sequence <= 80 ORDER BY c.amount DESC",
+        },
+        {
+          name: "Multi-field filter with ORDER BY",
+          query:
+            "SELECT * FROM c WHERE c.category = 'even' AND c.amount > 50 ORDER BY c.sequence ASC",
+        },
+        {
+          name: "String operations with ORDER BY",
+          query: "SELECT * FROM c WHERE STARTSWITH(c.name, 'Item') ORDER BY c.name ASC",
+        },
+      ];
+
+      for (const querySpec of complexQueries) {
+        const { items } = await collectQueryResults(querySpec.query, singlePartitionContainer, {
+          maxItemCount: 3,
+          enableQueryControl: true,
+          forceQueryPlan: true,
+        });
+
+        expect(items.length).toBeGreaterThan(0);
+      }
+    });
+  });
+
+  describe("Token Edge Cases and Serialization", () => {
+    it("should handle very large tokens", async () => {
+      const query =
+        "SELECT * FROM c WHERE c.name LIKE '%Item%' ORDER BY c.category ASC, c.amount DESC, c.name ASC";
+
+      const iterator = multiPartitionContainer.items.query(query, {
+        maxItemCount: 1,
+        enableQueryControl: true,
+      });
+
+      while (iterator.hasMoreResults()) {
+        const result = await iterator.fetchNext();
+
+        if (result.continuationToken) {
+          const parsed = validateTokenProperties(result.continuationToken);
+          expect(parsed).toBeDefined();
+
+          // Test reuse of large token
+          await testTokenReuseOnce(multiPartitionContainer, query, result.continuationToken, {
+            maxItemCount: 1,
+            enableQueryControl: true,
+          });
+          break;
+        }
+      }
+    });
+
+    it("should handle special characters in tokens", async () => {
+      const specialItems = [
+        { id: "special-1", pk: "single", name: 'Item with "quotes"', category: "test", amount: 1 },
+        {
+          id: "special-2",
+          pk: "single",
+          name: "Item with \\backslashes\\",
+          category: "test",
+          amount: 2,
+        },
+        {
+          id: "special-3",
+          pk: "single",
+          name: "Item with \nnewlines\n",
+          category: "test",
+          amount: 3,
+        },
+        {
+          id: "special-4",
+          pk: "single",
+          name: "Item with unicode 🚀",
+          category: "test",
+          amount: 4,
+        },
+      ];
+
+      for (const item of specialItems) {
+        await singlePartitionContainer.items.create(item);
+      }
+
+      const query = "SELECT * FROM c WHERE c.category = 'test' ORDER BY c.amount ASC";
+
+      const iterator = singlePartitionContainer.items.query(query, {
+        maxItemCount: 2,
+        enableQueryControl: true,
+      });
+
+      while (iterator.hasMoreResults()) {
+        const result = await iterator.fetchNext();
+
+        if (result.continuationToken) {
+          validateTokenProperties(result.continuationToken);
+
+          // Test token reuse
+          await testTokenReuseOnce(singlePartitionContainer, query, result.continuationToken, {
+            maxItemCount: 2,
+            enableQueryControl: true,
+          });
+          break;
+        }
+      }
+    });
+
+    it("should handle mixed complex query scenarios", async () => {
+      const scenarios = [
+        {
+          name: "DISTINCT with ORDER BY",
+          query: "SELECT DISTINCT c.category FROM c ORDER BY c.category",
+          expectedType: "orderby",
+        },
+      ];
+
+      for (const scenario of scenarios) {
+        const queryIterator = multiPartitionContainer.items.query(scenario.query, {
+          maxItemCount: 2,
+          enableQueryControl: true,
+        });
+        let continuationToken: string | undefined;
+
+        // Apply OrderBy pattern for DISTINCT ORDER BY queries
+        while (queryIterator.hasMoreResults()) {
+          let result = await queryIterator.fetchNext();
+
+          while (queryIterator.hasMoreResults() && result.resources.length === 0) {
+            result = await queryIterator.fetchNext();
+          }
+
+          if (result.resources.length > 0) {
+            continuationToken = result.continuationToken;
+
+            if (continuationToken) {
+              const parsed = validateTokenProperties(continuationToken);
+
+              if (scenario.expectedType === "orderby") {
+                expect(parsed.compositeToken).toBeDefined();
+                expect(parsed.orderByItems).toBeDefined();
+              } else {
+                expect(parsed.rangeMappings).toBeDefined();
+              }
+              break;
+            }
+          }
+        }
+      }
+    });
+  });
+
+  // Helper: Execute query with continuation token support and collect results
+  async function executeQueryWithContinuation(
+    query: string,
+    container: Container,
+    queryOptions: any,
+    isOrderByQuery: boolean = false,
+  ) {
+    let queryIterator = container.items.query(query, queryOptions);
+    const allResults: any[] = [];
+
+    while (queryIterator.hasMoreResults()) {
+      let result = await queryIterator.fetchNext();
+      if (isOrderByQuery) {
+        while (queryIterator.hasMoreResults() && result.resources.length === 0) {
+          result = await queryIterator.fetchNext();
+        }
+        if (result.resources.length === 0) break;
+      }
+      allResults.push(...result.resources);
+      if (result.continuationToken && queryIterator.hasMoreResults()) {
+        queryIterator = container.items.query(query, {
+          ...queryOptions,
+          continuationToken: result.continuationToken,
+        });
+      }
+    }
+    return allResults;
+  }
+
+  // Helper: Validate ordering of numeric field
+  function validateNumericOrdering(items: any[], fieldName: string, ascending: boolean = true) {
+    for (let i = 1; i < items.length; i++) {
+      const curr = items[i][fieldName];
+      const prev = items[i - 1][fieldName];
+      if (ascending) {
+        expect(curr).toBeGreaterThanOrEqual(prev);
+      } else {
+        expect(curr).toBeLessThanOrEqual(prev);
+      }
+    }
+  }
+
+  describe("Multi-Partition Scenarios", () => {
+    it("should handle cross-partition queries with composite tokens", async () => {
+      const query = "SELECT * FROM c WHERE c.amount > 30";
+
+      const iterator = multiPartitionContainer.items.query(query, {
+        maxItemCount: 4,
+        enableQueryControl: true,
+        forceQueryPlan: true,
+      });
+      let tokens = 0;
+      let items = 0;
+      const partitionsEncountered = new Set<string>();
+
+      while (iterator.hasMoreResults()) {
+        const result = await iterator.fetchNext();
+        items += result.resources.length;
+
+        // Track partitions we've seen
+        result.resources.forEach((item) => partitionsEncountered.add(item.category));
+
+        if (result.continuationToken) {
+          tokens++;
+          const parsed = JSON.parse(result.continuationToken);
+
+          // For cross-partition queries, should have rangeMappings
+          expect(parsed.rangeMappings).toBeDefined();
+          expect(Array.isArray(parsed.rangeMappings)).toBe(true);
+          expect(parsed.rangeMappings.length).toBeGreaterThan(0);
+        }
+      }
+      expect(partitionsEncountered.size).toBeGreaterThan(1); // Should span multiple partitions
+    });
+
+    it("should handle ORDER BY queries across partitions with ordering validation", async () => {
+      const query = "SELECT * FROM c ORDER BY c.amount ASC, c.name DESC";
+
+      const iterator = multiPartitionContainer.items.query(query, {
+        maxItemCount: 3,
+        enableQueryControl: true,
+      });
+      let tokens = 0;
+      let items = 0;
+      const previousValues: number[] = [];
+
+      // Apply OrderBy pattern
+      while (iterator.hasMoreResults()) {
+        let result = await iterator.fetchNext();
+
+        // Continue fetching until we get data or no more results
+        while (iterator.hasMoreResults() && result.resources.length === 0) {
+          result = await iterator.fetchNext();
+        }
+
+        if (result.resources.length === 0) {
+          break;
+        }
+
+        items += result.resources.length;
+
+        // Verify ORDER BY correctness
+        const currentValues = result.resources.map((r) => r.amount);
+        previousValues.push(...currentValues);
+
+        // Now safely access continuation token after getting data
+        const continuationToken = result.continuationToken;
+        if (continuationToken) {
+          tokens++;
+          const parsed = JSON.parse(continuationToken);
+
+          // ORDER BY across partitions should have range mappings
+          expect(parsed.rangeMappings).toBeDefined();
+          expect(Array.isArray(parsed.rangeMappings)).toBe(true);
+
+          // Should have order by items
+          expect(parsed.orderByItems).toBeDefined();
+          expect(Array.isArray(parsed.orderByItems)).toBe(true);
+          expect(parsed.orderByItems.length).toBe(2); // Two ORDER BY fields
+
+          // Should have skip count
+          expect(parsed.skipCount).toBeDefined();
+          expect(typeof parsed.skipCount).toBe("number");
+          expect(parsed.skipCount).toBeGreaterThanOrEqual(0);
+        }
+      }
+
+      // Verify ordering was maintained
+      for (let i = 1; i < previousValues.length; i++) {
+        expect(previousValues[i]).toBeGreaterThanOrEqual(previousValues[i - 1]);
+      }
+    });
+
+    it("should handle GROUP BY queries with proper aggregation (No Continuation Support)", async () => {
+      const query =
+        "SELECT c.category, COUNT(1) as count, AVG(c.amount) as avgValue FROM c GROUP BY c.category";
+
+      const iterator = multiPartitionContainer.items.query(query, {
+        maxItemCount: 2,
+        enableQueryControl: true,
+      });
+      let groups = 0;
+      const categoryGroups = new Map<string, { count: number; avgValue: number }>();
+
+      while (iterator.hasMoreResults()) {
+        const result = await iterator.fetchNext();
+        groups += result.resources.length;
+
+        result.resources.forEach((group) => {
+          categoryGroups.set(group.category, {
+            count: group.count,
+            avgValue: group.avgValue,
+          });
+        });
+
+        // GROUP BY queries should NOT produce continuation tokens
+        expect(result.continuationToken).toBeUndefined();
+      }
+
+      // Verify we got multiple categories and all results at once
+      expect(categoryGroups.size).toBeGreaterThan(1);
+      expect(groups).toBeGreaterThan(0);
+    });
+
+    it("should handle continuation token across multiple iterations", async () => {
+      const query = "SELECT * FROM c ORDER BY c.amount ASC";
+      const queryOptions = { maxItemCount: 10, enableQueryControl: true };
+
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+        true,
+      );
+
+      validateNumericOrdering(allResults, "amount", true);
+      expect(allResults.length).toBeGreaterThan(10);
+    });
+
+    it("should handle streaming continuation tokens for SELECT * query", async () => {
+      const query = "SELECT * FROM c";
+      const queryOptions = { maxItemCount: 15, enableQueryControl: true };
+
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+      );
+
+      const categoriesEncountered = new Set<string>();
+      allResults.forEach((item) => categoriesEncountered.add(item.category));
+
+      expect(categoriesEncountered.size).toBeGreaterThan(1);
+      expect(allResults.length).equal(80);
+
+      allResults.forEach((item) => {
+        expect(item.id).toBeDefined();
+        expect(item.category).toBeDefined();
+        expect(item.amount).toBeDefined();
+        expect(typeof item.amount).toBe("number");
+      });
+    });
+
+    it("should handle DISTINCT ORDER BY queries with continuation", async () => {
+      const query = "SELECT DISTINCT c.category FROM c ORDER BY c.category ASC";
+      const queryOptions = { maxItemCount: 3, enableQueryControl: true };
+
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+        true,
+      );
+      const categories = allResults.map((r) => r.category);
+      const uniqueCategories = [...new Set(categories)];
+
+      expect(categories).toEqual(uniqueCategories); // No duplicates
+      expect(categories).toEqual([...categories].sort()); // Ordered
+    });
+
+    it("should handle OFFSET LIMIT queries with continuation", async () => {
+      const query = "SELECT * FROM c ORDER BY c.amount ASC OFFSET 10 LIMIT 20";
+      const queryOptions = { maxItemCount: 8, enableQueryControl: true };
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+        true,
+      );
+      expect(allResults.length).toBeLessThanOrEqual(20);
+    });
+
+    it("should handle OFFSET LIMIT queries where offset > maxItemCount with continuation", async () => {
+      // Test scenario where offset (25) is greater than maxItemCount (5)
+      const query = "SELECT * FROM c ORDER BY c.amount ASC OFFSET 25 LIMIT 10";
+      const queryOptions = { maxItemCount: 5, enableQueryControl: true };
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+        true,
+      );
+
+      expect(allResults.length).equal(10);
+      validateNumericOrdering(allResults, "amount", true);
+    });
+
+    it("should handle TOP queries with continuation", async () => {
+      const query = "SELECT TOP 15 * FROM c ORDER BY c.amount DESC";
+      const queryOptions = { maxItemCount: 5, enableQueryControl: true };
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+      );
+      expect(allResults.length).toBeLessThanOrEqual(15);
+      validateNumericOrdering(allResults, "amount", false);
+    });
+    it("should handle parallel queries (no ORDER BY) with continuation", async () => {
+      const query = "SELECT * FROM c WHERE c.amount > 50";
+      const queryOptions = { maxItemCount: 6, enableQueryControl: true };
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+      );
+      const partitionsEncountered = new Set<string>();
+      allResults.forEach((item) => {
+        partitionsEncountered.add(item.category);
+        expect(item.amount).toBeGreaterThan(50);
+      });
+      expect(partitionsEncountered.size).toBeGreaterThan(1);
+    });
+    it("should handle complex ORDER BY with multiple fields and continuation", async () => {
+      const query = "SELECT * FROM c ORDER BY c.category ASC, c.amount DESC, c.name ASC";
+      const queryOptions = { maxItemCount: 4, enableQueryControl: true };
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+      );
+
+      // Validate complex ordering (category ASC, amount DESC, name ASC)
+      for (let i = 1; i < allResults.length; i++) {
+        const curr = allResults[i];
+        const prev = allResults[i - 1];
+        if (curr.category === prev.category) {
+          if (curr.amount === prev.amount) {
+            expect(curr.name >= prev.name).toBe(true); // name ASC
+          } else {
+            expect(curr.amount <= prev.amount).toBe(true); // amount DESC
+          }
+        } else {
+          expect(curr.category >= prev.category).toBe(true); // category ASC
+        }
+      }
+    });
+    it("should handle JOIN with ORDER BY queries and maintain proper continuation", async () => {
+      const query =
+        "SELECT c.id, c.name, c.category, t.tag as tagValue FROM c JOIN t IN c.tags ORDER BY c.id";
+      const queryOptions = { maxItemCount: 20, enableQueryControl: true };
+      const allResults = await executeQueryWithContinuation(
+        query,
+        multiPartitionContainer,
+        queryOptions,
+      );
+
+      expect(allResults.length).toBeGreaterThan(0);
+      allResults.forEach((item) => expect(item.id).toBeDefined());
+
+      // Validate ordering by id
+      for (let i = 1; i < allResults.length; i++) {
+        const current = allResults[i];
+        const previous = allResults[i - 1];
+        if (!current.id || !previous.id) continue;
+        const idComparison = current.id.localeCompare(previous.id);
+        if (idComparison < 0) {
+          throw new Error(
+            `ORDER BY violation at index ${i}: ${current.id} should come after ${previous.id}`,
+          );
+        }
+      }
+    });
+
+    it("should handle continuation token across multiple iterations using proper OrderBy pattern", async () => {
+      const query = "SELECT * FROM c ORDER BY c.amount ASC";
+      const queryOptions = { maxItemCount: 30, enableQueryControl: true };
+
+      // Test both large containers (15k and 40k throughput)
+      for (let containerIndex = 0; containerIndex < largeContainers.length; containerIndex++) {
+        const container = largeContainers[containerIndex];
+
+        let queryIterator = container.items.query(query, queryOptions);
+        const allResults: any[] = [];
+        let iterationCount = 0;
+
+        // OrderBy Pattern: Keep calling hasMoreResults() and fetchNext() until getting non-empty results
+        while (queryIterator.hasMoreResults()) {
+          let response = await queryIterator.fetchNext();
+
+          // Continue fetching until we get data or no more results
+          while (queryIterator.hasMoreResults() && response.resources.length === 0) {
+            response = await queryIterator.fetchNext();
+          }
+
+          if (response.resources.length === 0) {
+            break;
+          }
+
+          allResults.push(...response.resources);
+          iterationCount++;
+
+          // Now safely access continuation token after getting data
+          const continuationToken = response.continuationToken;
+          if (!continuationToken) {
+            break;
+          }
+
+          // Create new iterator with continuation token
+          queryIterator = container.items.query(query, {
+            ...queryOptions,
+            continuationToken: continuationToken,
+          });
+        }
+
+        // Validate results: Check duplicates
+        const seenIds = new Set<string>();
+        const duplicateCount = allResults.filter((item) => {
+          if (seenIds.has(item.id)) return true;
+          seenIds.add(item.id);
+          return false;
+        }).length;
+        expect(duplicateCount).toBe(0); // No duplicates allowed
+
+        // Validate ordering across continuation boundaries
+        for (let i = 1; i < allResults.length; i++) {
+          expect(allResults[i].amount).toBeGreaterThanOrEqual(allResults[i - 1].amount);
+        }
+
+        expect(allResults.length).toBe(25000);
+      }
+    });
+
+    it("should handle SELECT * FROM c query with comprehensive ID validation", async () => {
+      const query = "SELECT * FROM c";
+      const queryOptions = {
+        maxItemCount: 100,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 2,
+      };
+
+      // Test both large containers (15k and 40k throughput)
+      for (let containerIndex = 0; containerIndex < largeContainers.length; containerIndex++) {
+        const container = largeContainers[containerIndex];
+
+        let queryIterator = container.items.query(query, queryOptions);
+        const allResults: any[] = [];
+        const seenIds = new Set<string>();
+        const categoryCounts = new Map<string, number>();
+        let iterationCount = 0;
+        let duplicateCount = 0;
+
+        // Collect all results using continuation tokens
+        while (queryIterator.hasMoreResults()) {
+          const response = await queryIterator.fetchNext();
+          iterationCount++;
+
+          // Process each item in this batch
+          for (const item of response.resources) {
+            // Check for duplicates
+            if (seenIds.has(item.id)) {
+              duplicateCount++;
+              expect.fail(`DUPLICATE FOUND: ${item.id} (duplicate #${duplicateCount})`);
+            } else {
+              seenIds.add(item.id);
+            }
+
+            // Track category distribution
+            const count = categoryCounts.get(item.category) || 0;
+            categoryCounts.set(item.category, count + 1);
+
+            allResults.push(item);
+          }
+
+          // Continue with next batch if we have a continuation token
+          if (response.continuationToken && queryIterator.hasMoreResults()) {
+            queryIterator = container.items.query(query, {
+              ...queryOptions,
+              continuationToken: response.continuationToken,
+            });
+          }
+        }
+
+        // Comprehensive validations
+        expect(duplicateCount).toBe(0);
+        expect(allResults.length).toBe(25000);
+        expect(seenIds.size).toBe(25000);
+
+        // Validate we got all expected IDs (mp-item-000 to mp-item-24999)
+        const expectedIds = new Set<string>();
+        for (let i = 0; i < 25000; i++) {
+          expectedIds.add(`mp-item-${i.toString().padStart(3, "0")}`);
+        }
+
+        const missingIds: string[] = [];
+        const unexpectedIds: string[] = [];
+
+        // Check for missing IDs
+        for (const expectedId of expectedIds) {
+          if (!seenIds.has(expectedId)) {
+            missingIds.push(expectedId);
+          }
+        }
+
+        // Check for unexpected IDs
+        for (const seenId of seenIds) {
+          if (!expectedIds.has(seenId)) {
+            unexpectedIds.push(seenId);
+          }
+        }
+
+        if (missingIds.length > 0) {
+          expect.fail(`Missing IDs (${missingIds.length}): ${missingIds.slice(0, 10).join(", ")}`);
+        }
+        if (unexpectedIds.length > 0) {
+          expect.fail(
+            `Unexpected IDs (${unexpectedIds.length}): ${unexpectedIds.slice(0, 10).join(", ")}`,
+          );
+        }
+
+        expect(missingIds.length).toBe(0);
+        expect(unexpectedIds.length).toBe(0);
+
+        // Validate each category has the expected count (25000 / 8 categories = ~3125 each)
+        const expectedCategoryCounts = 25000 / 8; // 8 categories total
+        for (const [_, count] of categoryCounts) {
+          expect(count).toBeCloseTo(expectedCategoryCounts, -2); // Within 100 items tolerance
+        }
+      }
+    });
+
+    it("should handle SELECT * with low maxDegreeOfParallelism multiple times", async () => {
+      const query = "SELECT * FROM c";
+
+      // Test both large containers (15k and 40k throughput)
+      for (let containerIndex = 0; containerIndex < largeContainers.length; containerIndex++) {
+        const container = largeContainers[containerIndex];
+
+        const queryOptions = {
+          maxDegreeOfParallelism: 5,
+          enableQueryControl: true,
+        };
+
+        let queryIterator = container.items.query(query, queryOptions);
+        const collectedIds = new Set<string>();
+        const rangeMappingsSizes: number[] = [];
+        let iterationCount = 0;
+        let totalContinuationTokens = 0;
+
+        while (queryIterator.hasMoreResults()) {
+          const response = await queryIterator.fetchNext();
+          iterationCount++;
+
+          // Collect IDs from this batch
+          for (const item of response.resources) {
+            if (collectedIds.has(item.id)) {
+              throw new Error(`Duplicate ID found: ${item.id}`);
+            }
+            collectedIds.add(item.id);
+          }
+
+          if (response.continuationToken) {
+            totalContinuationTokens++;
+
+            // Parse continuation token to analyze rangeMappings
+            try {
+              const parsedToken = JSON.parse(response.continuationToken);
+              if (parsedToken.rangeMappings && Array.isArray(parsedToken.rangeMappings)) {
+                rangeMappingsSizes.push(parsedToken.rangeMappings.length);
+              }
+            } catch (parseError) {
+              expect.fail(`Failed to parse continuation token: ${parseError}`);
+            }
+
+            // Create new iterator with continuation token
+            queryOptions.maxDegreeOfParallelism = 2;
+            if (queryIterator.hasMoreResults() && response.continuationToken) {
+              queryIterator = container.items.query(query, {
+                ...queryOptions,
+                continuationToken: response.continuationToken,
+              });
+            }
+          }
+        }
+
+        // Validate this test run
+        expect(collectedIds.size).toBe(25000);
+        expect(totalContinuationTokens).toBeGreaterThan(0);
+        expect(iterationCount).toBeGreaterThan(1);
+      }
+    });
+
+    it("should handle fuzzy SELECT * query with random continuation token usage patterns", async () => {
+      const query = "SELECT * FROM c";
+
+      // Test both large containers (15k and 40k throughput)
+      for (let containerIndex = 0; containerIndex < largeContainers.length; containerIndex++) {
+        const container = largeContainers[containerIndex];
+
+        const queryOptions = {
+          maxItemCount: 150,
+          enableQueryControl: true,
+          maxDegreeOfParallelism: 3,
+        };
+
+        let currentQueryIterator = container.items.query(query, queryOptions);
+        const allCollectedIds = new Set<string>();
+        const allCollectedItems: any[] = [];
+        const tokenHistory: { token: string; position: number }[] = [];
+        let totalIterations = 0;
+        let totalTokens = 0;
+        let sessionCount = 0;
+
+        while (currentQueryIterator.hasMoreResults()) {
+          sessionCount++;
+
+          // Random number of fetchNext calls (2-4 times)
+          const fetchCount = Math.floor(Math.random() * 3) + 2; // 2-4 fetches
+
+          let sessionItems = 0;
+          let sessionToken: string | undefined;
+
+          for (
+            let fetchIndex = 0;
+            fetchIndex < fetchCount && currentQueryIterator.hasMoreResults();
+            fetchIndex++
+          ) {
+            totalIterations++;
+            const response = await currentQueryIterator.fetchNext();
+
+            // Collect items and check for duplicates
+            for (const item of response.resources) {
+              if (allCollectedIds.has(item.id)) {
+                throw new Error(
+                  `DUPLICATE ID DETECTED: ${item.id} in session ${sessionCount}, fetch ${fetchIndex + 1}`,
+                );
+              }
+              allCollectedIds.add(item.id);
+              allCollectedItems.push(item);
+              sessionItems++;
+            }
+
+            // Store the latest continuation token
+            if (response.continuationToken) {
+              sessionToken = response.continuationToken;
+            }
+          }
+
+          // If we have a continuation token, create a new iterator
+          if (sessionToken && currentQueryIterator.hasMoreResults()) {
+            totalTokens++;
+
+            // Store token history for debugging
+            tokenHistory.push({
+              token: sessionToken.substring(0, 50),
+              position: allCollectedIds.size,
+            });
+
+            // Vary query options slightly for fuzzing
+            const fuzzedOptions = {
+              ...queryOptions,
+              maxItemCount: Math.floor(Math.random() * 100) + 50, // 50-149
+              continuationToken: sessionToken,
+            };
+
+            currentQueryIterator = container.items.query(query, fuzzedOptions);
+          } else {
+            break;
+          }
+        }
+
+        // Comprehensive validation
+
+        // 1. Check for duplicates in the collected items array
+        const duplicatesInArray = allCollectedItems.length - allCollectedIds.size;
+        expect(duplicatesInArray).toBe(0);
+
+        // 2. Verify we got all 25000 items
+        expect(allCollectedIds.size).toBe(25000);
+
+        // 3. Verify all expected IDs are present
+        const { missingIds, unexpectedIds } = validateCollectedIds(allCollectedIds);
+
+        if (missingIds.length > 0) {
+          expect.fail(`First 10 missing IDs: ${missingIds.slice(0, 10).join(", ")}`);
+        }
+        if (unexpectedIds.length > 0) {
+          expect.fail(`First 10 unexpected IDs: ${unexpectedIds.slice(0, 10).join(", ")}`);
+        }
+
+        expect(missingIds.length).toBe(0);
+        expect(unexpectedIds.length).toBe(0);
+
+        // 4. Verify category distribution
+        validateCategoryDistribution(allCollectedItems);
+      }
+    });
+
+    it("should handle fuzzy ORDER BY query with random continuation token usage patterns", async () => {
+      const query = "SELECT * FROM c ORDER BY c.amount ASC";
+
+      // Test both large containers (15k and 40k throughput)
+      for (let containerIndex = 0; containerIndex < largeContainers.length; containerIndex++) {
+        const container = largeContainers[containerIndex];
+
+        const queryOptions = {
+          maxItemCount: 100,
+          enableQueryControl: true,
+          maxDegreeOfParallelism: 3,
+        };
+
+        let currentQueryIterator = container.items.query(query, queryOptions);
+        const allCollectedIds = new Set<string>();
+        const allCollectedItems: any[] = [];
+        const tokenHistory: { token: string; position: number; lastAmount?: number }[] = [];
+        let totalIterations = 0;
+        let totalTokens = 0;
+        let sessionCount = 0;
+
+        while (currentQueryIterator.hasMoreResults()) {
+          sessionCount++;
+
+          // Random number of fetchNext calls (2-5 times)
+          const fetchCount = Math.floor(Math.random() * 4) + 2; // 2-5 fetches
+
+          let sessionItems = 0;
+          let sessionToken: string | undefined;
+          let lastAmountInSession: number | undefined;
+
+          for (
+            let fetchIndex = 0;
+            fetchIndex < fetchCount && currentQueryIterator.hasMoreResults();
+            fetchIndex++
+          ) {
+            totalIterations++;
+
+            // Apply ORDER BY pattern: keep fetching until getting non-empty results
+            let response = await currentQueryIterator.fetchNext();
+            while (currentQueryIterator.hasMoreResults() && response.resources.length === 0) {
+              response = await currentQueryIterator.fetchNext();
+            }
+
+            if (response.resources.length === 0) {
+              break;
+            }
+
+            // Collect items and check for duplicates and ordering
+            for (const item of response.resources) {
+              if (allCollectedIds.has(item.id)) {
+                throw new Error(
+                  `DUPLICATE ID DETECTED: ${item.id} in session ${sessionCount}, fetch ${fetchIndex + 1}`,
+                );
+              }
+
+              // Validate ORDER BY correctness across all items
+              if (allCollectedItems.length > 0) {
+                const previousItem = allCollectedItems[allCollectedItems.length - 1];
+                if (item.amount < previousItem.amount) {
+                  throw new Error(
+                    `ORDER BY VIOLATION: amount ${item.amount} < ${previousItem.amount} at position ${allCollectedItems.length + 1}`,
+                  );
+                }
+              }
+
+              allCollectedIds.add(item.id);
+              allCollectedItems.push(item);
+              sessionItems++;
+              lastAmountInSession = item.amount;
+            }
+
+            // Store the latest continuation token
+            if (response.continuationToken) {
+              sessionToken = response.continuationToken;
+            }
+          }
+
+          // If we have a continuation token, create a new iterator
+          if (sessionToken && currentQueryIterator.hasMoreResults()) {
+            totalTokens++;
+
+            // Store token history for debugging
+            tokenHistory.push({
+              token: sessionToken.substring(0, 50),
+              position: allCollectedIds.size,
+              lastAmount: lastAmountInSession,
+            });
+
+            // Vary query options slightly for fuzzing
+            const fuzzedOptions = {
+              ...queryOptions,
+              maxItemCount: Math.floor(Math.random() * 80) + 30, // 30-109
+              continuationToken: sessionToken,
+            };
+
+            currentQueryIterator = container.items.query(query, fuzzedOptions);
+          } else {
+            break;
+          }
+        }
+
+        // Comprehensive validation
+
+        // 1. Check for duplicates in the collected items array
+        const duplicatesInArray = allCollectedItems.length - allCollectedIds.size;
+        expect(duplicatesInArray).toBe(0);
+
+        // 2. Verify we got all 25000 items
+        expect(allCollectedIds.size).toBe(25000);
+
+        // 3. Verify complete ORDER BY correctness across all items
+        for (let i = 1; i < allCollectedItems.length; i++) {
+          const current = allCollectedItems[i];
+          const previous = allCollectedItems[i - 1];
+
+          // Primary ordering: amount ASC
+          if (current.amount < previous.amount) {
+            throw new Error(
+              `ORDER BY VIOLATION at index ${i}: amount ${current.amount} < ${previous.amount}`,
+            );
+          }
+        }
+
+        // 4. Verify all expected IDs are present
+        const { missingIds: orderByMissingIds, unexpectedIds: orderByUnexpectedIds } =
+          validateCollectedIds(allCollectedIds);
+
+        if (orderByMissingIds.length > 0) {
+          expect.fail(`First 10 missing IDs: ${orderByMissingIds.slice(0, 10).join(", ")}`);
+        }
+        if (orderByUnexpectedIds.length > 0) {
+          expect.fail(`First 10 unexpected IDs: ${orderByUnexpectedIds.slice(0, 10).join(", ")}`);
+        }
+
+        expect(orderByMissingIds.length).toBe(0);
+        expect(orderByUnexpectedIds.length).toBe(0);
+
+        // 5. Verify category distribution
+        validateCategoryDistribution(allCollectedItems);
+
+        // 6. Validate amount distribution makes sense
+        const amountStats = {
+          min: Math.min(...allCollectedItems.map((item) => item.amount)),
+          max: Math.max(...allCollectedItems.map((item) => item.amount)),
+          first10: allCollectedItems
+            .slice(0, 10)
+            .map((item) => ({ id: item.id, amount: item.amount, category: item.category })),
+          last10: allCollectedItems
+            .slice(-10)
+            .map((item) => ({ id: item.id, amount: item.amount, category: item.category })),
+        };
+        expect(amountStats.min).toBeGreaterThanOrEqual(1);
+        expect(amountStats.max).toBeLessThanOrEqual(100);
+      }
+    });
+  });
+
+  // Helper function to validate token structure using declarative properties
+  function validateTokenStructure(
+    parsedToken: any,
+    expectedStructure: any,
+    expectedValues?: any,
+  ): void {
+    // Validate structure properties
+    if (expectedStructure.hasRangeMappings) {
+      expect(parsedToken.rangeMappings).toBeDefined();
+      expect(Array.isArray(parsedToken.rangeMappings)).toBe(true);
+    }
+    if (expectedStructure.hasOrderByItems) {
+      expect(parsedToken.orderByItems).toBeDefined();
+      expect(Array.isArray(parsedToken.orderByItems)).toBe(true);
+    }
+    if (expectedStructure.hasOffset) {
+      expect(parsedToken.offset).toBeDefined();
+      expect(typeof parsedToken.offset).toBe("number");
+      expect(parsedToken.offset).toBeGreaterThanOrEqual(0);
+    }
+    if (expectedStructure.hasLimit) {
+      expect(parsedToken.limit).toBeDefined();
+      expect(typeof parsedToken.limit).toBe("number");
+      expect(parsedToken.limit).toBeGreaterThan(0);
+    }
+    if (expectedStructure.hasSkipCount) {
+      expect(parsedToken.skipCount).toBeDefined();
+      expect(typeof parsedToken.skipCount).toBe("number");
+      expect(parsedToken.skipCount).toBeGreaterThanOrEqual(0);
+    }
+    if (expectedStructure.hasRid) {
+      expect(parsedToken.rid).toBeDefined();
+      expect(typeof parsedToken.rid).toBe("string");
+      expect(parsedToken.rid.length).toBeGreaterThan(0);
+    }
+    if (expectedStructure.hasHashedLastResult) {
+      expect(parsedToken.hashedLastResult).toBeDefined();
+    }
+    if (expectedStructure.shouldNotHaveCompositeToken) {
+      expect(parsedToken.compositeToken).toBeUndefined();
+    }
+    if (expectedStructure.shouldNotHaveOrderByItems) {
+      expect(parsedToken.orderByItems).toBeUndefined();
+    }
+
+    // Validate expected values
+    if (expectedValues) {
+      if (expectedValues.ridType) {
+        expect(typeof parsedToken.rid).toBe(expectedValues.ridType);
+      }
+      if (expectedValues.ridMinLength !== undefined) {
+        expect(parsedToken.rid?.length).toBeGreaterThanOrEqual(expectedValues.ridMinLength);
+      }
+      if (expectedValues.rangeMappingsMinCount !== undefined) {
+        expect(parsedToken.rangeMappings?.length).toBeGreaterThanOrEqual(
+          expectedValues.rangeMappingsMinCount,
+        );
+      }
+      if (expectedValues.orderByItemsCount !== undefined) {
+        expect(parsedToken.orderByItems?.length).toBe(expectedValues.orderByItemsCount);
+      }
+      if (expectedValues.skipCountInitial !== undefined) {
+        expect(parsedToken.skipCount).toBe(expectedValues.skipCountInitial);
+      }
+      if (expectedValues.skipCountGreaterThanOrEqual !== undefined) {
+        expect(parsedToken.skipCount).toBeGreaterThanOrEqual(
+          expectedValues.skipCountGreaterThanOrEqual,
+        );
+      }
+      if (expectedValues.offsetValue !== undefined) {
+        expect(parsedToken.offset).toBe(expectedValues.offsetValue);
+      }
+      if (expectedValues.offsetGreaterThanOrEqual !== undefined) {
+        expect(parsedToken.offset).toBeGreaterThanOrEqual(expectedValues.offsetGreaterThanOrEqual);
+      }
+      if (expectedValues.limitValue !== undefined) {
+        expect(parsedToken.limit).toBe(expectedValues.limitValue);
+      }
+      if (expectedValues.limitGreaterThan !== undefined) {
+        expect(parsedToken.limit).toBeGreaterThan(expectedValues.limitGreaterThan);
+      }
+      if (expectedValues.groupByValuesType) {
+        expect(Array.isArray(parsedToken.groupByValues)).toBe(
+          expectedValues.groupByValuesType === "array",
+        );
+      }
+    }
+  }
+
+  /**
+   * Test that continuation token can be reused successfully
+   */
+  async function testTokenReusability(
+    container: Container,
+    query: string,
+    continuationToken: string,
+    queryOptions: any,
+  ): Promise<void> {
+    try {
+      const resumedIterator = container.items.query(query, {
+        ...queryOptions,
+        continuationToken: continuationToken,
+      });
+
+      if (resumedIterator.hasMoreResults()) {
+        await resumedIterator.fetchNext();
+      }
+    } catch (error) {
+      throw new Error(`Token reusability test failed: ${error.message}`);
+    }
+  }
+
+  /**
+   * Test reusing multiple tokens in sequence
+   */
+  async function testMultipleTokenReuse(
+    container: Container,
+    query: string,
+    tokens: string[],
+    maxItemCount: number,
+  ): Promise<void> {
+    for (let i = 0; i < Math.min(tokens.length, 3); i++) {
+      const token = tokens[i];
+
+      const iterator = container.items.query(query, {
+        maxItemCount,
+        continuationToken: token,
+        enableQueryControl: true,
+      });
+
+      if (iterator.hasMoreResults()) {
+        const result = await iterator.fetchNext();
+        expect(result.resources).toBeDefined();
+      }
+    }
+  }
+
+  /**
+   * Populate single partition container with comprehensive test data
+   */
+  async function populateSinglePartitionData(container: Container): Promise<void> {
+    const items = [];
+
+    for (let i = 0; i < 100; i++) {
+      items.push({
+        id: `sp-item-${i.toString().padStart(3, "0")}`,
+        pk: "single", // All items in same partition
+        sequence: i,
+        name: `Item ${i.toString().padStart(3, "0")}`,
+        category: i % 2 === 0 ? "even" : "odd",
+        amount: Math.floor(Math.random() * 100) + 1,
+        createdAt: new Date(2024, 0, 1, 0, 0, i).toISOString(),
+        tags: [`tag-${i % 3}`, `tag-${(i + 1) % 3}`],
+      });
+    }
+
+    // Batch insert
+    const batchSize = 10;
+    for (let i = 0; i < items.length; i += batchSize) {
+      const batch = items.slice(i, i + batchSize);
+      await Promise.all(batch.map((item) => container.items.create(item)));
+    }
+  }
+
+  /**
+   * Populate multi-partition container with test data (supports both small and large datasets)
+   */
+  async function populateMultiPartitionData(
+    container: Container,
+    itemCount: number = 80,
+  ): Promise<void> {
+    const categories = [
+      "electronics",
+      "books",
+      "clothing",
+      "toys",
+      "home",
+      "sports",
+      "food",
+      "auto",
+    ];
+    const items = [];
+
+    for (let i = 0; i < itemCount; i++) {
+      const category = categories[i % categories.length];
+      items.push({
+        id: `mp-item-${i.toString().padStart(3, "0")}`,
+        category,
+        name: `${category} Item ${i}`,
+        amount: Math.floor(Math.random() * 100) + 1,
+        price: Math.round((Math.random() * 200 + 10) * 100) / 100,
+        rating: Math.floor(Math.random() * 5) + 1,
+        isActive: i % 4 !== 0,
+        stock: Math.floor(Math.random() * 50),
+        createdDate: new Date(2024, 0, (i % 31) + 1).toISOString(),
+        tags: [`tag-${i % 5}`, `tag-${(i + 1) % 5}`, `tag-${(i + 2) % 5}`],
+        metadata: { source: `source-${i % 4}`, region: `region-${i % 3}`, priority: i % 10 },
+        details: {
+          manufacturer: `mfg-${i % 6}`,
+          model: `model-${i % 8}`,
+          specs: {
+            weight: Math.random() * 10,
+            dimensions: `${Math.floor(Math.random() * 20)}x${Math.floor(Math.random() * 20)}`,
+          },
+        },
+      });
+    }
+
+    if (itemCount > 1000) {
+      // Use bulk operations for large datasets
+      const operations = items.map((item) => ({
+        operationType: BulkOperationType.Create,
+        partitionKey: item.category,
+        resourceBody: item,
+      }));
+      await container.items.executeBulkOperations(operations);
+    } else {
+      // Use batch inserts for small datasets
+      const batchSize = 10;
+      for (let i = 0; i < items.length; i += batchSize) {
+        const batch = items.slice(i, i + batchSize);
+        await Promise.all(batch.map((item) => container.items.create(item)));
+      }
+    }
+  }
+});

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Trigger commit migration for the virtual network gateway.
  *
  * @summary Trigger commit migration for the virtual network gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkGatewayCommitMigration.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkGatewayCommitMigration.json
  */
 async function virtualNetworkGatewayCommitMigration(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

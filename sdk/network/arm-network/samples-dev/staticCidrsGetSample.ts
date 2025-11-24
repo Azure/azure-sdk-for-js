@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specific Static CIDR resource.
  *
  * @summary Gets the specific Static CIDR resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/StaticCidrs_Get.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/StaticCidrs_Get.json
  */
 async function staticCidrsGet(): Promise<void> {
   const subscriptionId =

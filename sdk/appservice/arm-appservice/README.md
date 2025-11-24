@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure WebSiteManagement client.
 
-WebSite Management Client
+AppService Management Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appservice/arm-appservice) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-appservice) |

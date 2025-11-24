@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Lists all the available Cognitive Services account operations.
  *
  * @summary Lists all the available Cognitive Services account operations.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/GetOperations.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/GetOperations.json
  */
 async function getOperations() {
   const subscriptionId =

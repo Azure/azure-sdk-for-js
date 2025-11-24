@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Will update the status of policy's signature overrides for IDPS
  *
  * @summary Will update the status of policy's signature overrides for IDPS
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/FirewallPolicySignatureOverridesPatch.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/FirewallPolicySignatureOverridesPatch.json
  */
 async function patchSignatureOverrides(): Promise<void> {
   const subscriptionId =

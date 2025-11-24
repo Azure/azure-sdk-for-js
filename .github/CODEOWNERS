@@ -280,6 +280,12 @@
 # ServiceLabel: %AI Agents
 # ServiceOwners: @ganeshyb @glharper @dargilco @ZachhK @bobogogo1990
 
+# PRLabel: %Voice Live
+/sdk/ai/ai-voicelive @rhurey @xitzhang
+
+# ServiceLabel: %Voice Live
+# ServiceOwners: @rhurey @xitzhang
+
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
 /sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco
@@ -474,6 +480,12 @@
 /sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/domainregistration/arm-domainregistration/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/certificateregistration/arm-certificateregistration/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/customer-insights/arm-customerinsights/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -598,9 +610,6 @@
 
 # PRLabel: %Mgmt
 /sdk/hdinsight/arm-hdinsight/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/hdinsight/arm-hdinsightcontainers/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/healthbot/arm-healthbot/ @qiaozha @MaryGao
@@ -778,6 +787,9 @@
 
 # PRLabel: %Mgmt
 /sdk/mysql/arm-mysql/      @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/mysql/arm-mysql-flexible/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/netapp/arm-netapp/ @qiaozha @MaryGao
@@ -1632,6 +1644,9 @@ sdk/workloadorchestration/arm-workloadorchestration/ @qiaozha @MaryGao
 # PRLabel: %Mgmt
 sdk/compute/arm-computerecommender/ @qiaozha @MaryGao
 
+# PRLabel: %Mgmt
+sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao
+
 ###########
 # Config
 ###########
@@ -1656,7 +1671,7 @@ sdk/compute/arm-computerecommender/ @qiaozha @MaryGao
 /common/tools/eslint-plugin-azure-sdk*/ @deyaaeldeen @jeremymeng
 
 /tsconfig*.json @mikeharder @Azure/azure-sdk-for-js-core
-/**/tsconfig.json @Azure/azure-sdk-for-js-core
+/sdk/*/*/tsconfig*.json @Azure/azure-sdk-for-js-core
 
 # Managment tsconfig.json
 /sdk/**/arm-*/**/tsconfig.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
