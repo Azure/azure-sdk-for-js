@@ -33,9 +33,9 @@ async function main(): Promise<void> {
   }
 
   const response: Send202Response = result as Send202Response;
-  response.body.receipts.forEach((receipt) => {
-    console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
-  });
+  await response.body.receipts.forEach((receipt) => {
+        console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
+      });
 }
 
 main().catch((error) => {

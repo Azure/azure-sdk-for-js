@@ -9,9 +9,10 @@
 
 import { ContainerRegistryClient } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main(): Promise<void> {
+async function main() {
   // Get the service endpoint from the environment
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   // Create a new ContainerRegistryClient

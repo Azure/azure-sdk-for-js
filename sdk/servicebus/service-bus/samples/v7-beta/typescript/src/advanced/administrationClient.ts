@@ -10,19 +10,19 @@
  */
 
 import { ServiceBusAdministrationClient } from "@azure/service-bus";
-import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import "dotenv/config";
+import * as dotenv from "dotenv";
+dotenv.config();
+
 // Define connection string and related Service Bus entity names here
-const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
+const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-export async function main(): Promise<void> {
+export async function main() {
   // You can also use AAD credentials from `@azure/identity` along with the host url
   // instead of the connection string for authentication.
-  const credential = new DefaultAzureCredential();
-  const serviceBusAdministrationClient = new ServiceBusAdministrationClient(fqdn, credential);
+  const serviceBusAdministrationClient = new ServiceBusAdministrationClient(connectionString);
 
   // Similarly, you can create topics and subscriptions as well.
   const createQueueResponse = await serviceBusAdministrationClient.createQueue(queueName);
@@ -44,7 +44,7 @@ export async function main(): Promise<void> {
 
   await serviceBusAdministrationClient.deleteQueue(queueName);
   const queueExists = await serviceBusAdministrationClient.queueExists(queueName);
-  if (queueExists === true) {
+  if (queueExists == true) {
     console.log("Something went wrong, queue should have been deleted");
     return;
   }

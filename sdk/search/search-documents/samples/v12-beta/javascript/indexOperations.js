@@ -111,7 +111,7 @@ async function getServiceStatistics(client) {
 
 async function listIndexes(client) {
   console.log(`List Indexes Operation`);
-  const result = client.listIndexes();
+  const result = await client.listIndexes();
   let listOfIndexes = await result.next();
 
   console.log(`List of Indexes`);

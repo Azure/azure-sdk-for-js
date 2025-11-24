@@ -6,8 +6,9 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import type { RouteGetRouteMatrix200Response } from "@azure-rest/maps-route";
-import MapsRoute, { isUnexpected } from "@azure-rest/maps-route";
+import MapsRoute, { RouteGetRouteMatrix200Response, isUnexpected } from "@azure-rest/maps-route";
+
+// Load the .env file if it exists
 import "dotenv/config";
 
 async function main(): Promise<void> {

@@ -24,8 +24,5 @@
   "dependencies": {
     "@azure/core-rest-pipeline": "latest",
     "dotenv": "latest"
-  },
-  "devDependencies": {
-    "cross-env": "latest"
   }
 }

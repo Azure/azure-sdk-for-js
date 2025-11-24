@@ -13,9 +13,9 @@
     4) REGION - the azure region your resource is in
  */
 
-import type { SavedFilterOutput } from "@azure-rest/defender-easm";
-import EasmDefender, { isUnexpected } from "@azure-rest/defender-easm";
+import EasmDefender, { SavedFilterOutput, isUnexpected } from "@azure-rest/defender-easm";
 import { DefaultAzureCredential } from "@azure/identity";
+// Load the .env file if it exists
 import "dotenv/config";
 
 async function main(): Promise<void> {
@@ -30,15 +30,9 @@ async function main(): Promise<void> {
   const saved_filter_name = "Sample saved filter";
 
   const client = EasmDefender(
-    endpoint +
-      "/subscriptions/" +
-      subscription_id +
-      "/resourceGroups/" +
-      resource_group +
-      "/workspaces/" +
-      workspace_name,
+    endpoint + "/subscriptions/" + subscription_id + "/resourceGroups/" + resource_group + "/workspaces/" + workspace_name,
     credential,
-    {},
+    {}
   );
 
   // To create a Saved Filter, we need to send a filter, name, and description to the /savedFilters/{filterName} endpoint
@@ -53,7 +47,7 @@ async function main(): Promise<void> {
   // First, retrieve the saved filter by name, then use it in an asset list or update call
 
   // A sample asset list call that could be used to monitor the assets:
-  const monitor = (saved_filter: SavedFilterOutput): void => {
+  const monitor = (saved_filter: SavedFilterOutput) => {
     // your monitor logic here
     console.log(saved_filter.name);
   };

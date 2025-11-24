@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
 /**
  * @summary Distribution policy crud
  */
 
-const JobRouter = require("@azure-rest/communication-job-router").default,
-  { isUnexpected, paginate } = require("@azure-rest/communication-job-router");
-require("dotenv/config");
+const { paginate } = require("@azure-rest/communication-job-router");
+const JobRouter = require("@azure-rest/communication-job-router").default;
+require("dotenv").config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
@@ -22,7 +21,7 @@ async function listDistributionPolicies() {
     .path("/routing/distributionPolicies")
     .get({ queryParameters: { maxpagesize: maxPageSize } });
 
-  if (!isUnexpected(initialResponse)) {
+  if (initialResponse.status == "200") {
     // The paginate helper creates a paged async iterator using metadata from the first page.
     const items = paginate(routerClient, initialResponse);
 

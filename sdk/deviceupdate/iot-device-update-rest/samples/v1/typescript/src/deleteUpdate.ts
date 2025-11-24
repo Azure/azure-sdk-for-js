@@ -11,7 +11,6 @@ import DeviceUpdate, { getLongRunningPoller, isUnexpected } from "@azure-rest/io
 
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
-
 const endpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";
 

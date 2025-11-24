@@ -5,18 +5,21 @@
  * @summary This sample demonstrates Alerting Configuration CRUD operations.
  */
 
-// Load the .env file if it exists
 import "dotenv/config";
-import type { AnomalyAlertConfiguration } from "@azure/ai-metrics-advisor";
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
+  AnomalyAlertConfiguration,
 } from "@azure/ai-metrics-advisor";
 
-main().catch((err) => {
-  console.log("Error occurred:");
-  console.log(err);
-});
+main()
+  .then((_) => {
+    console.log("Succeeded");
+  })
+  .catch((err) => {
+    console.log("Error occurred:");
+    console.log(err);
+  });
 
 export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
@@ -43,7 +46,7 @@ export async function main(): Promise<void> {
 async function createAlertConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   detectionConfigId: string,
-): Promise<AnomalyAlertConfiguration> {
+): Promise<void> {
   console.log("Creating a new alerting configuration...");
   const alertConfig: Omit<AnomalyAlertConfiguration, "id"> = {
     name: "js alerting config name " + new Date().getTime().toString(),
@@ -77,10 +80,10 @@ async function updateAlertConfig(
   alertConfigId: string,
   detectionConfigId: string,
   hookIds: string[],
-): Promise<AnomalyAlertConfiguration> {
+): Promise<void> {
   const patch: Omit<AnomalyAlertConfiguration, "id"> = {
     name: "new Name",
-    // description: "new description",
+    //description: "new description",
     hookIds,
     crossMetricsOperator: "OR",
     metricAlertConfigurations: [

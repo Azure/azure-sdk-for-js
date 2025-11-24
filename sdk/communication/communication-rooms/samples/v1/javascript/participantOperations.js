@@ -63,7 +63,7 @@ async function main() {
   console.log(`Successfully added participant to room with id: ${roomId}.`);
   console.log("Printing participants in room...");
 
-  let participantsInRoom = roomsClient.listParticipants(roomId);
+  let participantsInRoom = await roomsClient.listParticipants(roomId);
   await printParticipants(participantsInRoom);
 
   await pause(500);
@@ -83,7 +83,7 @@ async function main() {
   console.log(`Successfully updated participant in room with id: ${roomId}.`);
   console.log("Printing updated participants in room...");
 
-  participantsInRoom = roomsClient.listParticipants(roomId);
+  participantsInRoom = await roomsClient.listParticipants(roomId);
   await printParticipants(participantsInRoom);
 
   await pause(500);
@@ -98,7 +98,7 @@ async function main() {
   await roomsClient.removeParticipants(roomId, removeParticipantsList);
   console.log(`Successfully removed participant from room with id: ${roomId}.`);
 
-  participantsInRoom = roomsClient.listParticipants(roomId);
+  participantsInRoom = await roomsClient.listParticipants(roomId);
   await printParticipants(participantsInRoom);
 
   await pause(500);

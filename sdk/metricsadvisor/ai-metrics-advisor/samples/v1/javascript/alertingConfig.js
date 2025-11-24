@@ -6,16 +6,22 @@
  */
 
 // Load the .env file if it exists
-require("dotenv/config");
+const dotenv = require("dotenv");
+dotenv.config();
+
 const {
   MetricsAdvisorKeyCredential,
-  MetricsAdvisorAdministrationClient,
+  MetricsAdvisorAdministrationClient
 } = require("@azure/ai-metrics-advisor");
 
-main().catch((err) => {
-  console.log("Error occurred:");
-  console.log(err);
-});
+main()
+  .then((_) => {
+    console.log("Succeeded");
+  })
+  .catch((err) => {
+    console.log("Error occurred:");
+    console.log(err);
+  });
 
 async function main() {
   // You will need to set these environment variables or edit the following values
@@ -48,19 +54,19 @@ async function createAlertConfig(adminClient, detectionConfigId) {
       {
         detectionConfigurationId: detectionConfigId,
         alertScope: {
-          scopeType: "All",
-        },
+          scopeType: "All"
+        }
       },
       {
         detectionConfigurationId: detectionConfigId,
         alertScope: {
           scopeType: "Dimension",
-          seriesGroupInScope: { city: "Manila", category: "Handmade" },
-        },
-      },
+          seriesGroupInScope: { city: "Manila", category: "Handmade" }
+        }
+      }
     ],
     hookIds: [],
-    description: "alerting config description",
+    description: "alerting config description"
   };
   const result = await adminClient.createAlertConfig(alertConfig);
   console.log(result);
@@ -71,15 +77,15 @@ async function createAlertConfig(adminClient, detectionConfigId) {
 async function updateAlertConfig(adminClient, alertConfigId, detectionConfigId, hookIds) {
   const patch = {
     name: "new Name",
-    // description: "new description",
+    //description: "new description",
     hookIds,
     crossMetricsOperator: "OR",
     metricAlertConfigurations: [
       {
         detectionConfigurationId: detectionConfigId,
         alertScope: {
-          scopeType: "All",
-        },
+          scopeType: "All"
+        }
       },
       {
         detectionConfigurationId: detectionConfigId,
@@ -87,11 +93,11 @@ async function updateAlertConfig(adminClient, alertConfigId, detectionConfigId, 
           scopeType: "Dimension",
           seriesGroupInScope: {
             city: "Kolkata",
-            category: "Shoes Handbags & Sunglasses",
-          },
-        },
-      },
-    ],
+            category: "Shoes Handbags & Sunglasses"
+          }
+        }
+      }
+    ]
   };
   console.log(`Updating alerting configuration ${detectionConfigId}`);
   const updated = await adminClient.updateAlertConfig(alertConfigId, patch);
@@ -112,5 +118,3 @@ async function listAlertConfig(adminClient, detectdionConfigId) {
     console.log(config);
   }
 }
-
-module.exports = { main };

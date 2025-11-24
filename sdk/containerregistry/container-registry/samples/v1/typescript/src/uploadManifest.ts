@@ -5,12 +5,12 @@
  * @summary Uploads a manifest to a repository.
  */
 
-import type { OciImageManifest } from "@azure/container-registry";
-import { ContainerRegistryContentClient } from "@azure/container-registry";
+import { ContainerRegistryContentClient, OciImageManifest } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main(): Promise<void> {
+async function main() {
   // endpoint should be in the form of "https://myregistryname.azurecr.io"
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";

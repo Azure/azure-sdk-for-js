@@ -13,29 +13,30 @@
  * @summary Demonstrates how to defer a message for later processing.
  */
 
-import type {
+import {
+  ServiceBusClient,
+  delay,
   ProcessErrorArgs,
   ServiceBusReceivedMessage,
   ServiceBusMessage,
 } from "@azure/service-bus";
-import { ServiceBusClient, delay } from "@azure/service-bus";
-import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import "dotenv/config";
-// Define connection string and related Service Bus entity names here
-const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
-const queueName = process.env.QUEUE_NAME || "<queue name>";
-const credential = new DefaultAzureCredential();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-export async function main(): Promise<void> {
+// Define connection string and related Service Bus entity names here
+const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const queueName = process.env.QUEUE_NAME || "<queue name>";
+
+export async function main() {
   await sendMessages();
   await receiveMessage();
 }
 
 // Shuffle and send messages
-async function sendMessages(): Promise<void> {
-  const sbClient = new ServiceBusClient(fqdn, credential);
+async function sendMessages() {
+  const sbClient = new ServiceBusClient(connectionString);
   // createSender() can also be used to create a sender for a topic.
   const sender = sbClient.createSender(queueName);
 
@@ -71,8 +72,8 @@ async function sendMessages(): Promise<void> {
   await sbClient.close();
 }
 
-async function receiveMessage(): Promise<void> {
-  const sbClient = new ServiceBusClient(fqdn, credential);
+async function receiveMessage() {
+  const sbClient = new ServiceBusClient(connectionString);
 
   // If receiving from a subscription, you can use the createReceiver(topicName, subscriptionName) overload
   let receiver = sbClient.createReceiver(queueName);

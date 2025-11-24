@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary How to get the map tile and store it as a file in **Node.js**.
- */
-
 const { DefaultAzureCredential } = require("@azure/identity");
-const { createWriteStream } = require("node:fs");
+const { createWriteStream } = require("fs");
 const MapsRender = require("@azure-rest/maps-render").default,
   { positionToTileXY } = require("@azure-rest/maps-render");
 
+/**
+ * @summary How to get the map tile and store it as a file in **Node.js**.
+ */
 async function main() {
   /**
    * Azure Maps supports two ways to authenticate requests:
@@ -52,7 +51,7 @@ async function main() {
   if (!response.body) {
     throw Error("No response body");
   }
-  await response.body.pipe(createWriteStream("tile.png"));
+  response.body.pipe(createWriteStream("tile.png"));
 }
 
 main().catch((err) => {

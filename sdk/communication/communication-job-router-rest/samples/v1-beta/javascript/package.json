@@ -28,8 +28,5 @@
   "dependencies": {
     "@azure-rest/communication-job-router": "next",
     "dotenv": "latest"
-  },
-  "devDependencies": {
-    "cross-env": "latest"
   }
 }

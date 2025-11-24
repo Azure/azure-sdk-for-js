@@ -5,24 +5,29 @@
  * This sample demonstrates how the receive() function can be used to receive Service Bus messages
  * in a stream.
  *
- * Setup: Please run "sendMessages" sample before running this to populate the queue/topic
+ * Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
  *
  * @summary Demonstrates how to receive Service Bus messages in a stream
  */
 
-import type { ProcessErrorArgs, ServiceBusReceivedMessage } from "@azure/service-bus";
-import { delay, isServiceBusError, ServiceBusClient } from "@azure/service-bus";
-import { DefaultAzureCredential } from "@azure/identity";
+import {
+  delay,
+  isServiceBusError,
+  ProcessErrorArgs,
+  ServiceBusClient,
+  ServiceBusReceivedMessage,
+} from "@azure/service-bus";
 
 // Load the .env file if it exists
-import "dotenv/config";
+import * as dotenv from "dotenv";
+dotenv.config();
+
 // Define connection string and related Service Bus entity names here
-const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
+const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-export async function main(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const sbClient = new ServiceBusClient(fqdn, credential);
+export async function main() {
+  const sbClient = new ServiceBusClient(connectionString);
 
   // - If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
   // instead.

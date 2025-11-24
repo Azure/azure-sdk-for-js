@@ -6,8 +6,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import type { SchemaDescription } from "@azure/schema-registry";
-import { SchemaRegistryClient } from "@azure/schema-registry";
+import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
 import { AvroSerializer } from "@azure/schema-registry-avro";
 import { EventHubProducerClient, createEventDataAdapter } from "@azure/event-hubs";
 

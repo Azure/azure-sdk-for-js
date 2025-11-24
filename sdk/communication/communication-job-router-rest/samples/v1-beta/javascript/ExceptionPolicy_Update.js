@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
 /**
  * @summary Exception policy crud
  */
 
 const JobRouter = require("@azure-rest/communication-job-router").default;
-require("dotenv/config");
-
+require("dotenv").config();
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 // Update a exception policy
@@ -17,7 +15,7 @@ async function updateExceptionPolicy() {
 
   // define exception trigger for queue over flow
   const queueLengthExceptionTrigger = {
-    kind: "queueLength",
+    kind: "queue-length",
     threshold: 10,
   };
 

@@ -67,7 +67,7 @@ export async function main(): Promise<void> {
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // List messages
-  const messages = client.messages.list(thread.id, {
+  const messages = await client.messages.list(thread.id, {
     order: "asc",
   });
 

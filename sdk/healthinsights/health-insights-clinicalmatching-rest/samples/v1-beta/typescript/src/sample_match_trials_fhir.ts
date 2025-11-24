@@ -7,50 +7,49 @@
  * @summary detects change points.
  */
 
-import { AzureKeyCredential } from "@azure/core-auth";
-import { readFileSync } from "node:fs";
-import type {
-  CreateJobParameters,
-  TrialMatcherResultOutput,
-} from "@azure-rest/health-insights-clinicalmatching";
+import {AzureKeyCredential} from "@azure/core-auth";
+
+import "dotenv/config";
+import * as fs from 'node:fs';
 import ClinicalMatchingRestClient, {
+  CreateJobParameters,
   getLongRunningPoller,
   isUnexpected,
-} from "@azure-rest/health-insights-clinicalmatching";
-import "dotenv/config";
-
+  TrialMatcherResultOutput
+} from "../src/index.js";
 // You will need to set this environment variables or edit the following values
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 // Get patient data in fhir format
 function getPatientDocContent(): string {
-  const content = readFileSync("./example-data/match_trial_fhir_data.txt").toString();
+  const content = fs.readFileSync("./example-data/match_trial_fhir_data.txt").toString();
   return content;
 }
 
 // Print the inference results for a patient's cancer attributes
 function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
-  if (trialMatcherResult.status === "succeeded") {
-    const results = trialMatcherResult.results;
-    if (results) {
-      const patients = results.patients;
-      for (const patientResult of patients) {
-        console.log(`Inferences of Patient ${patientResult.id}`);
-        for (const tmInferences of patientResult.inferences) {
-          console.log(`Trial Id ${tmInferences.id}`);
-          console.log(`Type: ${String(tmInferences.type)}  Value: ${tmInferences.value}`);
-          console.log(`Description ${tmInferences.description}`);
+    if (trialMatcherResult.status === "succeeded") {
+      const results = trialMatcherResult.results;
+      if (results != undefined) {
+        const patients = results.patients;
+        for (const patientResult of patients) {
+          console.log(`Inferences of Patient ${patientResult.id}`);
+          for (const tmInferences of patientResult.inferences) {
+            console.log(`Trial Id ${tmInferences.id}`);
+            console.log(`Type: ${String(tmInferences.type)}  Value: ${tmInferences.value}`);
+            console.log(`Description ${tmInferences.description}`);
+          }
         }
       }
     }
-  } else {
-    const errors = trialMatcherResult.errors;
-    if (errors) {
-      for (const error of errors) {
-        console.log(error.code, ":", error.message);
+    else {
+      const errors = trialMatcherResult.errors;
+      if (errors) {
+          for (const error of errors) {
+              console.log(error.code, ":", error.message);
+          }
       }
-    }
   }
 }
 
@@ -87,7 +86,7 @@ function createRequestBody(): CreateJobParameters {
       code: "C1300072",
       name: "Tumor stage",
       value: "2",
-    },
+    }
   ];
 
   const patientInfo = {
@@ -96,36 +95,32 @@ function createRequestBody(): CreateJobParameters {
     clinicalInfo: clinicalInfoList,
   };
 
-  const docContent = { sourceType: "INLINE", value: getPatientDocContent() };
+  const docContent = {sourceType: "INLINE", value: getPatientDocContent()};
   const patientDataList = {
-    type: "fhirBundle",
-    id: "Consultation-14-Demo",
-    content: docContent,
-    clinicalType: "CONSULTATION",
+      type: "fhirBundle",
+      id: "Consultation-14-Demo",
+      content: docContent,
+      clinicalType: "CONSULTATION"
   };
 
   const patient1 = {
     id: "patient_id",
     info: patientInfo,
-    data: [patientDataList],
+    data: [patientDataList]
   };
 
-  const geographicLocation = {
-    countryOrRegion: "United States",
-    city: "Gilbert",
-    state: "Arizona",
-  };
+  const geographicLocation = { countryOrRegion: "United States", city: "Gilbert", state: "Arizona" };
   const registryFilters = {
     conditions: ["Non-small cell lung cancer"],
     phases: ["PHASE1"],
     sources: ["CLINICALTRIALS_GOV"],
-    facilityLocations: [geographicLocation],
-    studyTypes: ["INTERVENTIONAL"],
+    facilityLocations: [ geographicLocation ],
+    studyTypes: ["INTERVENTIONAL"]
   };
 
-  const clinicalTrials = {
-    registryFilters: [registryFilters],
-  };
+  const clinicalTrials = ({
+    registryFilters: [registryFilters]
+  });
 
   const configuration = {
     clinicalTrials: clinicalTrials,
@@ -137,7 +132,7 @@ function createRequestBody(): CreateJobParameters {
   };
 
   return {
-    body: trialMatcherData,
+    body: trialMatcherData
   };
 }
 
@@ -146,7 +141,7 @@ export async function main(): Promise<void> {
   const client = ClinicalMatchingRestClient(endpoint, credential);
 
   // Create request body for clinical matching
-  const trialMatcherParameter = createRequestBody();
+  const trialMatcherParameter = createRequestBody()
   // Initiate clinical matching job and retrieve results
   const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
   if (isUnexpected(initialResponse)) {

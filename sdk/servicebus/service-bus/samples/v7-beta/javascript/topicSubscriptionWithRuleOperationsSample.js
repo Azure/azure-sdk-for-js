@@ -10,12 +10,12 @@
  */
 
 const { ServiceBusClient, ServiceBusAdministrationClient } = require("@azure/service-bus");
-const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv/config");
+require("dotenv").config();
+
 // Define connection string and related Service Bus entity names here
-const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
+const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const topicName = "TopicSubscriptionWithRuleOperationsSample" + new Date().getTime();
 
 // Default rule name
@@ -41,9 +41,8 @@ const SqlFilterWithActionSubscriptionName = "BlueSqlFilterWithActionSubscription
 const CorrelationFilterSubscriptionName = "ImportantCorrelationFilterSubscription";
 
 async function main() {
-  const credential = new DefaultAzureCredential();
-  const sbClient = new ServiceBusClient(fqdn, credential);
-  const sbAdminClient = new ServiceBusAdministrationClient(fqdn, credential);
+  const sbClient = new ServiceBusClient(connectionString);
+  const sbAdminClient = new ServiceBusAdministrationClient(connectionString);
 
   // Create the topic
   await sbAdminClient.createTopic(topicName);

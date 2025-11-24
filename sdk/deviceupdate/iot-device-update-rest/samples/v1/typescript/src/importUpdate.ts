@@ -9,11 +9,11 @@
 
 import DeviceUpdate, { getLongRunningPoller, isUnexpected } from "@azure-rest/iot-device-update";
 import { readFileSync, statSync } from "node:fs";
+
 import { DefaultAzureCredential } from "@azure/identity";
 import { computeSha256Hash } from "@azure/core-util";
-import { parse } from "node:path";
 import "dotenv/config";
-
+import { parse } from "node:path";
 const endpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";
 
@@ -64,17 +64,17 @@ async function main(): Promise<void> {
   console.log(`Import succeeded!`);
 }
 
-function getFileSize(filePath: string): number {
+function getFileSize(filePath: string) {
   const stats = statSync(filePath);
   return stats.size;
 }
 
-function getFileName(filePath: string): string {
+function getFileName(filePath: string) {
   const fileName = parse(filePath).base;
   return fileName;
 }
 
-function getFileHash(filePath: string): Promise<string> {
+function getFileHash(filePath: string) {
   const fileContent = readFileSync(filePath, { encoding: "utf8" });
   return computeSha256Hash(fileContent, "base64");
 }

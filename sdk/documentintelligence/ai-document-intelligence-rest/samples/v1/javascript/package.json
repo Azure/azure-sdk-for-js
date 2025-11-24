@@ -26,9 +26,6 @@
   "dependencies": {
     "@azure-rest/ai-document-intelligence": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.13.0"
-  },
-  "devDependencies": {
-    "cross-env": "latest"
+    "@azure/identity": "^4.6.0"
   }
 }

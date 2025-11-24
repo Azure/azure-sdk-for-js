@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary How to get the copyright attribution of a certain tileset.
- */
-
 import { DefaultAzureCredential } from "@azure/identity";
 import MapsRender, { isUnexpected } from "@azure-rest/maps-render";
 
+/**
+ * @summary How to get the copyright attribution of a certain tileset.
+ */
 async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:
@@ -28,6 +27,7 @@ async function main(): Promise<void> {
   // const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
   // const credential = new AzureKeyCredential(subscriptionKey);
   // const client = MapsRender(credential);
+
 
   const baseResponse = await client.path("/map/attribution").get({
     queryParameters: {

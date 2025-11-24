@@ -8,7 +8,9 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const MapsRoute = require("@azure-rest/maps-route").default,
   { isUnexpected } = require("@azure-rest/maps-route");
-require("dotenv/config");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 async function main() {
   /**

@@ -9,11 +9,14 @@
 
 const DeviceUpdate = require("@azure-rest/iot-device-update").default,
   { getLongRunningPoller, isUnexpected } = require("@azure-rest/iot-device-update");
-const { readFileSync, statSync } = require("node:fs");
+const { readFileSync, statSync } = require("fs");
+
 const { DefaultAzureCredential } = require("@azure/identity");
 const { computeSha256Hash } = require("@azure/core-util");
-const { parse } = require("node:path");
-require("dotenv/config");
+const dotenv = require("dotenv");
+const { parse } = require("path");
+
+dotenv.config();
 
 const endpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";

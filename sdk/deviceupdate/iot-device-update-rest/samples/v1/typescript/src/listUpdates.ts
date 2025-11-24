@@ -10,7 +10,6 @@
 import DeviceUpdate, { isUnexpected, paginate } from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
-
 const endpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";
 
@@ -35,8 +34,8 @@ async function main(): Promise<void> {
   }
 
   const providers = paginate(client, providersResult);
-  for await (const pagedProvider of providers) {
-    console.log(pagedProvider);
+  for await (const provider of providers) {
+    console.log(provider);
   }
 
   console.log("\nNames in provider '" + provider + "':");
@@ -49,8 +48,8 @@ async function main(): Promise<void> {
   }
 
   const names = paginate(client, namesResult);
-  for await (const pagedName of names) {
-    console.log(pagedName);
+  for await (const name of names) {
+    console.log(name);
   }
 
   console.log("\nVersions in provider '" + provider + "' and name '" + name + "':");

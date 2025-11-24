@@ -1,28 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
 /**
  * @summary Distribution policy crud
  */
 
-import type { AzureCommunicationRoutingServiceClient } from "@azure-rest/communication-job-router";
-import JobRouter, { isUnexpected, paginate } from "@azure-rest/communication-job-router";
-import "dotenv/config";
+
+import JobRouter, {
+  AzureCommunicationRoutingServiceClient,
+  paginate
+} from "@azure-rest/communication-job-router";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 // List distribution policies
 async function listDistributionPolicies(): Promise<void> {
   // Create the Router Client
-  const routerClient: AzureCommunicationRoutingServiceClient = JobRouter(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient =
+    JobRouter(connectionString);
 
   const maxPageSize = 3;
   // Get the first page which also contains information on how to get the next page.
-  const initialResponse = await routerClient
-    .path("/routing/distributionPolicies")
-    .get({ queryParameters: { maxpagesize: maxPageSize } });
+  const initialResponse = await routerClient.path("/routing/distributionPolicies").get({ queryParameters: { maxpagesize: maxPageSize } })
 
-  if (!isUnexpected(initialResponse)) {
+  if (initialResponse.status == "200") {
     // The paginate helper creates a paged async iterator using metadata from the first page.
     const items = paginate(routerClient, initialResponse);
 

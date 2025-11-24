@@ -3,18 +3,16 @@
 
 /**
  * @summary This sample demonstrates data feed management operations.
+ * @azsdk-weight 80
  */
 
-// Load the .env file if it exists
 import "dotenv/config";
-import type {
-  MetricsAdvisorDataFeed,
-  DataFeedPatch,
-  DataFeedDescriptor,
-} from "@azure/ai-metrics-advisor";
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
+  MetricsAdvisorDataFeed,
+  DataFeedPatch,
+  DataFeedDescriptor,
 } from "@azure/ai-metrics-advisor";
 
 export async function main(): Promise<void> {
@@ -185,7 +183,11 @@ async function deleteDataFeed(
   await client.deleteDataFeed(dataFeedId);
 }
 
-main().catch((err) => {
-  console.log("Error occurred:");
-  console.log(err);
-});
+main()
+  .then((_) => {
+    console.log("Succeeded");
+  })
+  .catch((err) => {
+    console.log("Error occurred:");
+    console.log(err);
+  });

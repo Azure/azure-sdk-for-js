@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary How to get the copyright of tiles in a given bounding box.
- */
-
 const { DefaultAzureCredential } = require("@azure/identity");
 const MapsRender = require("@azure-rest/maps-render").default,
   { isUnexpected } = require("@azure-rest/maps-render");
 
+/**
+ * @summary How to get the copyright of tiles in a given bounding box.
+ */
 async function main() {
   /**
    * Azure Maps supports two ways to authenticate requests:

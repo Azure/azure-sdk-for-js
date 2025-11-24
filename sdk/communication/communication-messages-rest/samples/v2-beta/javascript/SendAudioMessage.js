@@ -33,7 +33,7 @@ async function main() {
   }
 
   const response = result;
-  response.body.receipts.forEach((receipt) => {
+  await response.body.receipts.forEach((receipt) => {
     console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
   });
 }

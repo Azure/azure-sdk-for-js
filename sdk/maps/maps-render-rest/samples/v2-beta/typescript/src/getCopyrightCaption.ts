@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary How to get the copyright caption.
- */
-
 import { DefaultAzureCredential } from "@azure/identity";
 import MapsRender, { isUnexpected } from "@azure-rest/maps-render";
 
+/**
+ * @summary How to get the copyright caption.
+ */
 async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:

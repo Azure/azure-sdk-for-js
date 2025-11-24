@@ -17,6 +17,7 @@ const {
   beginSubmitNotificationHubJob,
   createClientContext,
 } = require("@azure/notification-hubs/api");
+
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";

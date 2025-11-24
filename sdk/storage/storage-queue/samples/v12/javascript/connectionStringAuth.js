@@ -8,7 +8,7 @@
 const { QueueServiceClient } = require("@azure/storage-queue");
 
 // Load the .env file if it exists
-require("dotenv/config");
+require("dotenv").config();
 
 async function main() {
   // Create Queue Service Client from Account connection string or SAS connection string

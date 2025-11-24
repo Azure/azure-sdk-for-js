@@ -9,14 +9,18 @@
  * @summary Demonstrates how to filter messages in Service Bus
  */
 
-import type { ServiceBusMessage } from "@azure/service-bus";
-import { ServiceBusClient, ServiceBusAdministrationClient } from "@azure/service-bus";
-import { DefaultAzureCredential } from "@azure/identity";
+import {
+  ServiceBusClient,
+  ServiceBusAdministrationClient,
+  ServiceBusMessage,
+} from "@azure/service-bus";
 
 // Load the .env file if it exists
-import "dotenv/config";
+import * as dotenv from "dotenv";
+dotenv.config();
+
 // Define connection string and related Service Bus entity names here
-const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
+const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const topicName = "TopicSubscriptionWithRuleOperationsSample" + new Date().getTime();
 
 // Default rule name
@@ -41,10 +45,9 @@ const SqlFilterOnlySubscriptionName = "RedSqlFilterSubscription";
 const SqlFilterWithActionSubscriptionName = "BlueSqlFilterWithActionSubscription";
 const CorrelationFilterSubscriptionName = "ImportantCorrelationFilterSubscription";
 
-export async function main(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const sbClient = new ServiceBusClient(fqdn, credential);
-  const sbAdminClient = new ServiceBusAdministrationClient(fqdn, credential);
+export async function main() {
+  const sbClient = new ServiceBusClient(connectionString);
+  const sbAdminClient = new ServiceBusAdministrationClient(connectionString);
 
   // Create the topic
   await sbAdminClient.createTopic(topicName);

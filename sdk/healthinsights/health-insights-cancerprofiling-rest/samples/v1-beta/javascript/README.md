@@ -1,6 +1,6 @@
-# HealthInsightsCancerprofiling client library samples for JavaScript (Beta)
+# HealthInsightsCancerprifiling client library samples for JavaScript (Beta)
 
-These sample programs show how to use the JavaScript client libraries for HealthInsightsCancerprofiling in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for HealthInsightsCancerprifiling in some common scenarios.
 
 | **File Name**                                                     | **Description**        |
 | ----------------------------------------------------------------- | ---------------------- |

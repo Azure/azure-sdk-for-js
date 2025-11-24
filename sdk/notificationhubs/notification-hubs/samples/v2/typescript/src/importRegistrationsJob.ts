@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
 /**
  * This sample demonstrates how the createNotificationJob() method can be used to import registrations
  * descriptions from an existing set of exports.

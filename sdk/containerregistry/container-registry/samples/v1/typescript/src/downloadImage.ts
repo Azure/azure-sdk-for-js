@@ -5,18 +5,22 @@
  * @summary Downloads an image from the repository.
  */
 
-import type { OciImageManifest } from "@azure/container-registry";
-import { ContainerRegistryContentClient, KnownManifestMediaType } from "@azure/container-registry";
+import {
+  ContainerRegistryContentClient,
+  KnownManifestMediaType,
+  OciImageManifest,
+} from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-import fs from "node:fs";
+import * as dotenv from "dotenv";
+import fs from "fs";
+dotenv.config();
 
-function trimSha(digest: string): string {
+function trimSha(digest: string) {
   const index = digest.indexOf(":");
   return index === -1 ? digest : digest.substring(index);
 }
 
-async function main(): Promise<void> {
+async function main() {
   // endpoint should be in the form of "https://myregistryname.azurecr.io"
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";

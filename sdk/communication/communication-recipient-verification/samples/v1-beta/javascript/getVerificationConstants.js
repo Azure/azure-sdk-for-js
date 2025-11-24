@@ -10,7 +10,7 @@ const {
 } = require("@azure-tools/communication-recipient-verification");
 
 // Load the .env file if it exists
-require("dotenv/config");
+require("dotenv").config();
 
 async function main() {
   console.log("\n== Get Verification Constants Sample ==\n");
@@ -24,7 +24,7 @@ async function main() {
   const client = new RecipientVerificationClient(connectionString);
 
   // get constants for the resource
-  const constants = await client.getVerificationConstants();
+  var constants = await client.getVerificationConstants();
 
   // print constant values
   console.log(constants);

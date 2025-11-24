@@ -4,7 +4,7 @@
 /**
  * This sample demonstrates how to use agent operations with multiple Model Context Protocol (MCP) servers from the Azure Agents service using a synchronous client.
  * To learn more about Model Context Protocol, visit https://modelcontextprotocol.io/
- *
+ * 
  * @summary demonstrates how to use agent operations with multiple MCP servers.
  */
 
@@ -29,7 +29,8 @@ const mcpServerUrl1 =
   process.env["MCP_SERVER_URL"] || "https://gitmcp.io/Azure/azure-rest-api-specs";
 const mcpServerLabel1 = process.env["MCP_SERVER_LABEL"] || "github";
 
-const mcpServerUrl2 = process.env["MCP_SERVER_URL_2"] || "https://learn.microsoft.com/api/mcp";
+const mcpServerUrl2 =
+  process.env["MCP_SERVER_URL_2"] || "https://learn.microsoft.com/api/mcp";
 const mcpServerLabel2 = process.env["MCP_SERVER_LABEL_2"] || "microsoft_learn";
 
 async function sleep(ms: number): Promise<void> {
@@ -110,7 +111,7 @@ export async function main(): Promise<void> {
             toolCallId: toolCall.id,
             approve: true,
             headers: {
-              SuperSecret: "123456",
+              "SuperSecret": "123456"
             },
           });
         }

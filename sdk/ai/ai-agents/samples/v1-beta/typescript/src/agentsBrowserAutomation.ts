@@ -21,8 +21,7 @@ import "dotenv/config";
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
-const azurePlaywrightConnectionId =
-  process.env["AZURE_PLAYWRIGHT_CONNECTION_ID"] || "<connection id>";
+const azurePlaywrightConnectionId = process.env["AZURE_PLAYWRIGHT_CONNECTION_ID"] || "<connection id>";
 
 export async function main(): Promise<void> {
   const connectionId = azurePlaywrightConnectionId;
@@ -129,7 +128,7 @@ export async function main(): Promise<void> {
 
   // Find the last assistant message
   const responseMessage = messages.find(
-    (msg) => msg.role === "assistant" && msg.content.length > 0,
+    (msg) => msg.role === "assistant" && msg.content.length > 0
   );
 
   if (responseMessage) {

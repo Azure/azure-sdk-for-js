@@ -5,13 +5,16 @@
  * @summary Update the capabilities of a purchased phone number.
  */
 
-import type { PhoneNumberCapabilitiesRequest } from "@azure/communication-phone-numbers";
-import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+import {
+  PhoneNumbersClient,
+  PhoneNumberCapabilitiesRequest
+} from "@azure/communication-phone-numbers";
 
 // Load the .env file if it exists
-import "dotenv/config";
+import * as dotenv from "dotenv";
+dotenv.config();
 
-export async function main(): Promise<void> {
+export async function main() {
   console.log("\n== Update Phone Number Capabilities Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
@@ -31,12 +34,12 @@ export async function main(): Promise<void> {
   // This will update the phone number to send and receive sms, but only send calls.
   const updateRequest: PhoneNumberCapabilitiesRequest = {
     sms: "inbound+outbound",
-    calling: "outbound",
+    calling: "outbound"
   };
 
   const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
     phoneNumberToUpdate,
-    updateRequest,
+    updateRequest
   );
 
   // Update is underway.

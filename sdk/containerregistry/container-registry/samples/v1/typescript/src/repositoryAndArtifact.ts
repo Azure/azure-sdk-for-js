@@ -5,16 +5,17 @@
  * @summary Uses ContainerRepository and RegistryArtifact to work with manifests, tags, and artifacts.
  */
 
-import type {
+import {
   ContainerRepository,
   ArtifactManifestProperties,
+  ContainerRegistryClient,
   RegistryArtifact,
 } from "@azure/container-registry";
-import { ContainerRegistryClient } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main(): Promise<void> {
+async function main() {
   // endpoint should be in the form of "https://myregistryname.azurecr.io"
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
@@ -73,10 +74,7 @@ async function listTagProperties(artifact: RegistryArtifact): Promise<string[]> 
   return tags;
 }
 
-async function listTagPropertiesByPages(
-  artifact: RegistryArtifact,
-  pagesSize: number,
-): Promise<void> {
+async function listTagPropertiesByPages(artifact: RegistryArtifact, pagesSize: number) {
   const pages = artifact.listTagProperties().byPage({ maxPageSize: pagesSize });
   let result = await pages.next();
   while (!result.done) {
@@ -109,10 +107,7 @@ async function listManifestProperties(
   return artifacts;
 }
 
-async function listManifestPropertiesByPages(
-  repository: ContainerRepository,
-  pageSize: number,
-): Promise<void> {
+async function listManifestPropertiesByPages(repository: ContainerRepository, pageSize: number) {
   console.log("Listing manifest by pages");
   const pages = repository.listManifestProperties().byPage({ maxPageSize: pageSize });
   let result = await pages.next();
@@ -128,7 +123,7 @@ async function listManifestPropertiesByPages(
   }
 }
 
-async function getProperties(repository: ContainerRepository): Promise<void> {
+async function getProperties(repository: ContainerRepository) {
   console.log("Retrieving repository properties...");
   const properties = await repository.getProperties();
   console.log(`  registry login server: ${properties.registryLoginServer}`);
@@ -147,7 +142,7 @@ async function getProperties(repository: ContainerRepository): Promise<void> {
   console.log("  }");
 }
 
-async function getArtifactProperties(artifact: RegistryArtifact): Promise<void> {
+async function getArtifactProperties(artifact: RegistryArtifact) {
   const properties = await artifact.getManifestProperties();
   console.log(`  registry login server: ${properties.registryLoginServer}`);
   console.log(`  created on: ${properties.createdOn}`);

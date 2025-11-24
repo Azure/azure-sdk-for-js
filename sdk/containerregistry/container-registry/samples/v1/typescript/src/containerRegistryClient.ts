@@ -7,9 +7,10 @@
 
 import { ContainerRegistryClient } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main(): Promise<void> {
+async function main() {
   // endpoint should be in the form of "https://myregistryname.azurecr.io"
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
@@ -24,7 +25,7 @@ async function main(): Promise<void> {
   await deleteRepository(client, repositoryName);
 }
 
-async function listRepositoryNames(client: ContainerRegistryClient): Promise<void> {
+async function listRepositoryNames(client: ContainerRegistryClient) {
   console.log("Listing repositories");
   const iterator = client.listRepositoryNames();
   for await (const repository of iterator) {
@@ -32,10 +33,7 @@ async function listRepositoryNames(client: ContainerRegistryClient): Promise<voi
   }
 }
 
-async function listRepositoryNamesByPages(
-  client: ContainerRegistryClient,
-  pageSize: number,
-): Promise<void> {
+async function listRepositoryNamesByPages(client: ContainerRegistryClient, pageSize: number) {
   console.log("Listing repositories by pages");
   const pages = client.listRepositoryNames().byPage({ maxPageSize: pageSize });
   let result = await pages.next();
@@ -48,10 +46,7 @@ async function listRepositoryNamesByPages(
   }
 }
 
-async function deleteRepository(
-  client: ContainerRegistryClient,
-  repositoryName: string,
-): Promise<void> {
+async function deleteRepository(client: ContainerRegistryClient, repositoryName: string) {
   console.log("Deleting a repository");
   await client.deleteRepository(repositoryName);
 }

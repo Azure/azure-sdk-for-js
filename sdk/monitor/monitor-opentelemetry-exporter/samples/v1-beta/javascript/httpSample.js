@@ -18,14 +18,12 @@
  *
  * @summary demonstrates OpenTelemetry http Instrumentation. It is about how OpenTelemetry will instrument the Node.js native http module.
  */
-const { trace, context, SpanKind } = require("@opentelemetry/api");
+const api = require("@opentelemetry/api").default;
 const { registerInstrumentations } = require("@opentelemetry/instrumentation");
 const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
 const { SimpleSpanProcessor } = require("@opentelemetry/sdk-trace-base");
 const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
 const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
-const { resourceFromAttributes } = require("@opentelemetry/resources");
-const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
 // Load the .env file if it exists
 require("dotenv/config");
 
@@ -51,13 +49,13 @@ function startServer(port) {
 
 /** A function which handles requests and send response. */
 function handleRequest(request, response) {
-  const currentSpan = trace.getSpan(context.active());
+  const currentSpan = api.trace.getSpan(api.context.active());
   if (currentSpan) {
     // display traceId in the terminal
     console.log(`traceId: ${currentSpan.spanContext().traceId}`);
   }
   const span = serverTracer.startSpan("handleRequest", {
-    kind: SpanKind.SERVER,
+    kind: 1, // server
     attributes: { key: "value" },
   });
   // Annotate our span to capture metadata about the operation
@@ -87,7 +85,7 @@ function makeRequest() {
   // the span, which is created to track work that happens outside of the
   // request lifecycle entirely.
   const span = clientTracer.startSpan("makeRequest");
-  context.with(trace.setSpan(context.active(), span), () => {
+  api.context.with(api.trace.setSpan(api.context.active(), span), () => {
     http.get(
       {
         host: "localhost",
@@ -115,14 +113,11 @@ function setupOpenTelemetry() {
   });
 
   const provider = new NodeTracerProvider({
-    resource: resourceFromAttributes({
-      [SemanticResourceAttributes.SERVICE_NAME]: "http-server",
-    }),
     spanProcessors: [new SimpleSpanProcessor(exporter)],
   });
 
   // Initialize the OpenTelemetry APIs to use the NodeTracerProvider bindings
-  trace.setGlobalTracerProvider(provider);
+  provider.register();
 
   registerInstrumentations({
     instrumentations: [new HttpInstrumentation()],

@@ -16,6 +16,7 @@
 
 import EasmDefender, { isUnexpected } from "@azure-rest/defender-easm";
 import { DefaultAzureCredential } from "@azure/identity";
+// Load the .env file if it exists
 import "dotenv/config";
 
 async function main(): Promise<void> {
@@ -31,15 +32,9 @@ async function main(): Promise<void> {
   console.log(`Partial name is ${partial_name}`);
 
   const client = EasmDefender(
-    endpoint +
-      "/subscriptions/" +
-      subscription_id +
-      "/resourceGroups/" +
-      resource_group +
-      "/workspaces/" +
-      workspace_name,
+    endpoint + "/subscriptions/" + subscription_id + "/resourceGroups/" + resource_group + "/workspaces/" + workspace_name,
     credential,
-    {},
+    {}
   );
 
   // The /discoTemplates path can be called to find a discovery template using a filter.
@@ -54,14 +49,14 @@ async function main(): Promise<void> {
     throw new Error(disco_templates.body?.error.message);
   }
 
-  disco_templates.body.value?.forEach((disco_template) => {
+  disco_templates.body.value?.forEach((disco_template: { id: any; displayName: any; }) => {
     console.log(`${disco_template.id}: ${disco_template.displayName}`);
   });
 
   // To get more detail about a disco template, we can call the /discoTemplates path with the GET verb.
   // From here, we can see the names and seeds which would be used in a discovery run.
   // Choose a template from one of the ids printed above
-  const template_id: string = "43488";
+  let template_id: string = "43488";
 
   const disco_template_response = await client
     .path("/discoTemplates/{templateId}", template_id)
@@ -95,7 +90,7 @@ async function main(): Promise<void> {
     throw new Error(disco_group_response.body?.error.message);
   }
 
-  client.path("/discoGroups/{groupName}:run", group_name);
+  await client.path("/discoGroups/{groupName}:run", group_name);
 }
 
 main().catch((err) => {

@@ -9,17 +9,19 @@
  * @summary Demonstrates how to manage subscription-level rules using RuleManager.
  */
 
-import type { CorrelationRuleFilter, SqlRuleFilter } from "@azure/service-bus";
-import { ServiceBusAdministrationClient, ServiceBusClient } from "@azure/service-bus";
-import { DefaultAzureCredential } from "@azure/identity";
+import {
+  CorrelationRuleFilter,
+  ServiceBusAdministrationClient,
+  ServiceBusClient,
+  SqlRuleFilter,
+} from "@azure/service-bus";
+import * as dotenv from "dotenv";
+dotenv.config();
 
-import "dotenv/config";
-
-async function main(): Promise<void> {
+async function main() {
   // Define connection string and related Service Bus entity names here
-  const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
-  const credential = new DefaultAzureCredential();
-  const serviceBusAdminClient = new ServiceBusAdministrationClient(fqdn, credential);
+  const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+  const serviceBusAdminClient = new ServiceBusAdministrationClient(connectionString);
   const topicName = "topic-rulemanager-sample" + new Date().getTime();
   const subscriptionName = "subscription-rule-manager";
   console.log("Creating topic and subscription...");
@@ -29,7 +31,7 @@ async function main(): Promise<void> {
   // for simplicity of this sample, we are using the same connection string for the ServiceBusclient instance.
   // However, the connection string could be a different one, e.g., a SAS connection string with only
   // Listen claim for a specific topic.
-  const client = new ServiceBusClient(fqdn, credential);
+  const client = new ServiceBusClient(connectionString);
   const ruleManager = client.createRuleManager(topicName, subscriptionName);
 
   console.log("Listing all rules...");
@@ -90,7 +92,7 @@ async function main(): Promise<void> {
 
   console.log("Deleting topic...");
   await serviceBusAdminClient.deleteTopic(topicName);
-  await client.close();
+  client.close();
 }
 
 main().catch((err) => {

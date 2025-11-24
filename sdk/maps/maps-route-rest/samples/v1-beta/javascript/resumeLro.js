@@ -12,7 +12,7 @@ const MapsRoute = require("@azure-rest/maps-route").default,
     getLongRunningPoller,
     toColonDelimitedLatLonString,
   } = require("@azure-rest/maps-route");
-require("dotenv/config");
+require("dotenv").config();
 
 /**
  * With the help from the long running operation poller, we can resume a long running request.
@@ -68,13 +68,14 @@ async function main() {
     body: request,
   });
 
-  const initialPoller = await getLongRunningPoller(client, initialResponse);
+  const initialPoller = getLongRunningPoller(client, initialResponse);
   /* We can get a partial of the results first */
+  await initialPoller.poll();
   /** Serialized the current operation for future poller */
-  const serializedState = await initialPoller.serialize();
+  const serializedState = initialPoller.toString();
   /** Use the `resumeFrom` option to rehydrate the previous operation */
-  const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
-    restoreFrom: serializedState,
+  const rehydratedPoller = getLongRunningPoller(client, initialResponse, {
+    resumeFrom: serializedState,
   });
   const {
     body: { summary, batchItems },

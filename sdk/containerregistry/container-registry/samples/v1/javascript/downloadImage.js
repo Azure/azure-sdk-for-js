@@ -10,8 +10,9 @@ const {
   KnownManifestMediaType,
 } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
-const fs = require("node:fs");
+const dotenv = require("dotenv");
+const fs = require("fs");
+dotenv.config();
 
 function trimSha(digest) {
   const index = digest.indexOf(":");

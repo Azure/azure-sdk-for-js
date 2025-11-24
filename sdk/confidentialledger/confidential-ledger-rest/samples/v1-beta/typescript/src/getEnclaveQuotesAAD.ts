@@ -6,15 +6,10 @@
  *
  * @summary gets a list of all enclave quotes using AAD Authentication
  */
+import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
+import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
-
-import ConfidentialLedger, {
-  getLedgerIdentity,
-  isUnexpected,
-} from "@azure-rest/confidential-ledger";
-
-import { DefaultAzureCredential } from "@azure/identity";
 const endpoint = process.env["ENDPOINT"] || "";
 const ledgerId = process.env["LEDGER_ID"] || "";
 
@@ -28,18 +23,18 @@ export async function main(): Promise<void> {
   const confidentialLedger = ConfidentialLedger(
     endpoint,
     ledgerIdentity.ledgerIdentityCertificate,
-    new DefaultAzureCredential(),
+    new DefaultAzureCredential()
   );
 
   // Get enclave quotes
   const enclaveQuotes = await confidentialLedger.path("/app/enclaveQuotes").get();
 
-  if (isUnexpected(enclaveQuotes)) {
+  if (enclaveQuotes.status !== "200") {
     throw enclaveQuotes.body.error;
   }
 
-  Object.keys(enclaveQuotes.body.enclaveQuotes).forEach((property) => {
-    console.log(enclaveQuotes.body.enclaveQuotes[property].nodeId);
+  Object.keys(enclaveQuotes.body.enclaveQuotes).forEach((key) => {
+    console.log(enclaveQuotes.body.enclaveQuotes[key].nodeId);
   });
 }
 

@@ -8,7 +8,8 @@
 const { PhoneNumbersClient } = require("@azure/communication-phone-numbers");
 
 // Load the .env file if it exists
-require("dotenv/config");
+const dotenv = require("dotenv");
+dotenv.config();
 
 async function main() {
   console.log("\n== Get Purchased Phone Numbers Sample ==\n");
@@ -21,7 +22,7 @@ async function main() {
   // create new client
   const client = new PhoneNumbersClient(connectionString);
 
-  const phoneNumbers = client.listPurchasedPhoneNumbers();
+  const phoneNumbers = await client.listPurchasedPhoneNumbers();
 
   for await (const phoneNumber of phoneNumbers) {
     console.log(`The phone number id is: ${phoneNumber.id}`);
@@ -33,5 +34,3 @@ main().catch((error) => {
   console.log("The sample encountered an error:", error);
   process.exit(1);
 });
-
-module.exports = { main };

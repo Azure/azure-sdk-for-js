@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary How to get the copyright of a certain tile.
- */
-
 import { positionToTileXY } from "@azure-rest/maps-render";
 import { DefaultAzureCredential } from "@azure/identity";
 import MapsRender, { isUnexpected } from "@azure-rest/maps-render";
 
+/**
+ * @summary How to get the copyright of a certain tile.
+ */
 async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:

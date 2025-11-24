@@ -1,20 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ES2023",
+    "target": "ES2018",
     "module": "commonjs",
-    "lib": [],
-    "importHelpers": true,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node10",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
-    "outDir": "./dist",
-    "resolveJsonModule": true
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "alwaysStrict": true,
+    "outDir": "dist",
+    "rootDir": "src"
   },
-  "include": [
-    "./src"
-  ]
+  "include": ["src/**/*.ts"]
 }

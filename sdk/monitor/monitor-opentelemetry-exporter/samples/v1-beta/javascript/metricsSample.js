@@ -3,15 +3,15 @@
 
 /**
  * This example shows how to use
- * [@opentelemetry/sdk-metrics](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/sdk-metrics)
+ * [@opentelemetry/sdk-metrics](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-sdk-metrics-base)
  * to generate Metrics in a simple Node.js application and export them to Azure Monitor.
  *
  * @summary Basic use of Metrics in Node.js application.
  */
 
-const { PeriodicExportingMetricReader, MeterProvider } = require("@opentelemetry/sdk-metrics");
-const { resourceFromAttributes } = require("@opentelemetry/resources");
-const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
+const { MeterProvider, PeriodicExportingMetricReader } = require("@opentelemetry/sdk-metrics");
+const { Resource } = require("@opentelemetry/resources");
+const { ATTR_SERVICE_NAME } = require("@opentelemetry/semantic-conventions");
 const { AzureMonitorMetricExporter } = require("@azure/monitor-opentelemetry-exporter");
 
 // Load the .env file if it exists
@@ -24,15 +24,14 @@ async function main() {
       process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] ||
       "InstrumentationKey=00000000-0000-0000-0000-000000000000;",
   });
-
-  const metricReader = new PeriodicExportingMetricReader({
+  const metricReaderOptions = {
     exporter: exporter,
-    exportIntervalMillis: 1000,
-  });
+  };
+  const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
 
   const provider = new MeterProvider({
-    resource: resourceFromAttributes({
-      [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+    resource: new Resource({
+      [ATTR_SERVICE_NAME]: "basic-service",
     }),
     readers: [metricReader],
   });
@@ -41,12 +40,6 @@ async function main() {
   // Create Counter instrument with the meter
   const counter = meter.createCounter("counter");
   counter.add(1);
-
-  // Allow time for metrics to be exported
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-
-  // Shutdown the provider
-  await provider.shutdown();
 }
 
 main().catch((error) => {

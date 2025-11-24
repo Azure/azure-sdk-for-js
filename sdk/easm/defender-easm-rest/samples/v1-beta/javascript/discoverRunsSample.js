@@ -18,7 +18,8 @@
 const EasmDefender = require("@azure-rest/defender-easm").default,
   { isUnexpected } = require("@azure-rest/defender-easm");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
+// Load the .env file if it exists
+require("dotenv").config();
 
 async function main() {
   // To create an EasmClient, you need your subscription ID, region, and some sort of credential.
@@ -34,12 +35,12 @@ async function main() {
 
   const client = EasmDefender(
     endpoint +
-      "/subscriptions/" +
-      subscription_id +
-      "/resourceGroups/" +
-      resource_group +
-      "/workspaces/" +
-      workspace_name,
+    "/subscriptions/" +
+    subscription_id +
+    "/resourceGroups/" +
+    resource_group +
+    "/workspaces/" +
+    workspace_name,
     credential,
     {},
   );

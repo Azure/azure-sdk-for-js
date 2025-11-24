@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
 /**
  * @summary Quick start workflow for creating queue, job and worker, routing/matching job with worker
  */
-const JobRouter = require("@azure-rest/communication-job-router").default,
-  { isUnexpected } = require("@azure-rest/communication-job-router");
-require("dotenv/config");
+const JobRouter = require("@azure-rest/communication-job-router").default;
+require("dotenv").config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
@@ -21,9 +19,9 @@ async function quickStart() {
     .patch({
       contentType: "application/merge-patch+json",
       body: {
-        name: "distribution policy 123",
+        name: "distribution-policy-123",
         mode: {
-          kind: "longestIdle",
+          kind: "longest-idle",
           minConcurrentOffers: 1,
           maxConcurrentOffers: 5,
           bypassSelectors: false,
@@ -90,12 +88,12 @@ async function quickStart() {
   // However, we could also wait a few seconds and then query the worker directly against the Job Router API to see if
   // an offer was issued to it.
   const workerResponse = await routerClient.path("/routing/workers/{workerId}", workerId).get();
-  if (isUnexpected(workerResponse)) {
-    throw workerResponse;
+  if (workerResponse.status !== "200") {
+    throw new Error("get works fails");
   }
   const workerResult = workerResponse.body;
 
-  for (const offer of workerResult.offers) {
+  for await (let offer of workerResult.offers) {
     console.log(`Worker ${workerId} has an active offer for job ${offer.jobId}`);
   }
 
@@ -110,8 +108,8 @@ async function quickStart() {
   const acceptJobOfferResponse = await routerClient
     .path("/routing/workers/{workerId}/offers/{offerId}:accept", workerId, offerId)
     .post();
-  if (isUnexpected(acceptJobOfferResponse)) {
-    throw acceptJobOfferResponse;
+  if (acceptJobOfferResponse.status !== "200") {
+    throw new Error("accept job offer fails");
   }
   const acceptJobOfferResult = acceptJobOfferResponse.body;
 
@@ -122,15 +120,15 @@ async function quickStart() {
 
   // verify job assignment is populated when querying job
   let updatedJobResponse = await routerClient.path("/routing/jobs/{jobId}", jobId).get();
-  if (isUnexpected(updatedJobResponse)) {
-    throw updatedJobResponse;
+  if (updatedJobResponse.status !== "200") {
+    throw new Error("get job fails");
   }
   let updatedJob = updatedJobResponse.body;
 
   console.log(`Job assignment has been successful: 
   ${
-    updatedJob.status === "assigned" &&
-    Object.prototype.hasOwnProperty.call(updatedJob.assignments, acceptJobOfferResult.assignmentId)
+    updatedJob.status == "assigned" &&
+    updatedJob.assignments.hasOwnProperty(acceptJobOfferResult.assignmentId)
   }`);
 
   // Completing a job
@@ -185,12 +183,12 @@ async function quickStart() {
   await delay(2000);
 
   updatedJobResponse = await routerClient.path("/routing/jobs/{jobId}", jobId).get();
-  if (isUnexpected(updatedJobResponse)) {
-    throw updatedJobResponse;
+  if (updatedJobResponse.status !== "200") {
+    throw new Error("get job fails");
   }
   updatedJob = updatedJobResponse.body;
 
-  console.log(`Updated job status: ${updatedJob.status === "closed"}`);
+  console.log(`Updated job status: ${updatedJob.status == "closed"}`);
 }
 
 function delay(ms) {

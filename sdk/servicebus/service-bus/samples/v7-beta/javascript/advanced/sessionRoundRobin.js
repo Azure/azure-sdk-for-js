@@ -11,10 +11,13 @@
  */
 
 const { ServiceBusClient, delay, isServiceBusError } = require("@azure/service-bus");
-const { DefaultAzureCredential } = require("@azure/identity");
+const dotenv = require("dotenv");
+const { AbortController } = require("@azure/abort-controller");
 
-require("dotenv/config");
-const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
+dotenv.config();
+
+const serviceBusConnectionString =
+  process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 
 // NOTE: this sample uses a session enabled queue but would also work a session enabled subscription.
 const queueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
@@ -26,8 +29,6 @@ const delayOnErrorMs = 5 * 1000;
 // This can be used control when the round-robin processing will terminate
 // by calling abortController.abort().
 const abortController = new AbortController();
-
-const credential = new DefaultAzureCredential();
 
 // Called just before we start processing the first message of a session.
 // NOTE: This function is used only in the sample and is not part of the Service Bus library.
@@ -129,7 +130,7 @@ async function receiveFromNextSession(serviceBusClient) {
 }
 
 async function roundRobinThroughAvailableSessions() {
-  const serviceBusClient = new ServiceBusClient(fqdn, credential);
+  const serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
 
   const receiverPromises = [];
 

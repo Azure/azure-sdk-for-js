@@ -28,8 +28,5 @@
   "dependencies": {
     "@azure/ai-metrics-advisor": "latest",
     "dotenv": "latest"
-  },
-  "devDependencies": {
-    "cross-env": "latest"
   }
 }

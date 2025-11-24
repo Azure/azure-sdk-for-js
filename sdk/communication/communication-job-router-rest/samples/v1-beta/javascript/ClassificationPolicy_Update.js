@@ -5,7 +5,7 @@
  * @summary Classification policy crud
  */
 const JobRouter = require("@azure-rest/communication-job-router").default;
-require("dotenv/config");
+require("dotenv").config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
@@ -36,7 +36,7 @@ async function updateClassificationPolicy() {
           },
         ],
         prioritizationRule: {
-          kind: "expression",
+          kind: "expression-rule",
           language: "powerFx",
           expression: 'If(job.department = "xbox", 2, 1)',
         },
@@ -46,4 +46,4 @@ async function updateClassificationPolicy() {
   console.log("classification policy: " + result);
 }
 
-updateClassificationPolicy().catch(console.error);
+void updateClassificationPolicy();

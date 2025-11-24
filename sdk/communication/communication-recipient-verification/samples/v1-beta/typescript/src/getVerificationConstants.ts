@@ -8,9 +8,10 @@
 import { RecipientVerificationClient } from "@azure-tools/communication-recipient-verification";
 
 // Load the .env file if it exists
-import "dotenv/config";
+import * as dotenv from "dotenv";
+dotenv.config();
 
-export async function main(): Promise<void> {
+export async function main() {
   console.log("\n== Get Verification Constants Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
@@ -22,7 +23,7 @@ export async function main(): Promise<void> {
   const client = new RecipientVerificationClient(connectionString);
 
   // get constants for the resource
-  const constants = await client.getVerificationConstants();
+  var constants = await client.getVerificationConstants();
 
   // print constant values
   console.log(constants);

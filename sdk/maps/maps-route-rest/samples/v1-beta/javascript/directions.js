@@ -12,7 +12,9 @@ const MapsRoute = require("@azure-rest/maps-route").default,
     isUnexpected,
     toColonDelimitedLatLonString,
   } = require("@azure-rest/maps-route");
-require("dotenv/config");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 async function main() {
   /**

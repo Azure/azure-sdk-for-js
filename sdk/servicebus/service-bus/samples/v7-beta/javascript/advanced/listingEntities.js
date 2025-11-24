@@ -9,16 +9,15 @@
  * @summary Demonstrates how the ServiceBusAdministrationClient can be used to list the entities of a service bus namespace
  */
 const { ServiceBusAdministrationClient } = require("@azure/service-bus");
-const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv/config");
+require("dotenv").config();
+
 // Define connection string and related Service Bus entity names here
-const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
+const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 
 async function main() {
-  const credential = new DefaultAzureCredential();
-  const serviceBusAdministrationClient = new ServiceBusAdministrationClient(fqdn, credential);
+  const serviceBusAdministrationClient = new ServiceBusAdministrationClient(connectionString);
   const baseQueueName = "random-queue";
   const numberOfQueues = 7;
 
@@ -123,8 +122,8 @@ async function main() {
   }
 
   // Delete all the newly created queues
-  for (let index = 0; index < numberOfQueues; index++) {
-    await serviceBusAdministrationClient.deleteQueue(baseQueueName + "_" + index);
+  for (let i = 0; i < numberOfQueues; i++) {
+    await serviceBusAdministrationClient.deleteQueue(baseQueueName + "_" + i);
   }
 }
 

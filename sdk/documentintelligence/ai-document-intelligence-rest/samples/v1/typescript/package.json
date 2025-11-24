@@ -30,12 +30,11 @@
   "dependencies": {
     "@azure-rest/ai-document-intelligence": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.13.0"
+    "@azure/identity": "^4.6.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "cross-env": "latest",
-    "rimraf": "latest",
-    "typescript": "~5.9.3"
+    "typescript": "~5.8.2",
+    "rimraf": "latest"
   }
 }

@@ -10,9 +10,10 @@
 // the registry anonymously. Anonymous access allows a user to list all the collections there, but
 // they wouldn't have permissions to modify or delete any of the images in the registry.
 import { ContainerRegistryClient } from "@azure/container-registry";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main(): Promise<void> {
+async function main() {
   // Get the service endpoint from the environment
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
 

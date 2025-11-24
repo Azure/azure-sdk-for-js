@@ -1,21 +1,21 @@
-# Azure Maps Time Zone client library samples for TypeScript (Beta)
+# Azure Maps Timezone client library samples for TypeScript (Beta)
 
-These sample programs show how to use the TypeScript client libraries for Azure Maps Time Zone in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Azure Maps Timezone in some common scenarios.
 
 | **File Name**                                           | **Description**                                            |
 | ------------------------------------------------------- | ---------------------------------------------------------- |
-| [convertWindowsToIana.ts][convertwindowstoiana]         | How to convert a Windows Timezone ID to IANA Timezone IDs. |
-| [getIanaTimezoneIds.ts][getianatimezoneids]             | How to get the list of IANA Timezone IDs.                  |
-| [getIanaVersion.ts][getianaversion]                     | How to get the IANA version number.                        |
-| [getTimezoneByCoordinates.ts][gettimezonebycoordinates] | How to get the timezone by coordinates.                    |
-| [getTimezoneById.ts][gettimezonebyid]                   | How to get the timezone by IANA ID.                        |
+| [getTimezoneById.ts][gettimezonebyid]                   | How to get timezone information by IANA ID.                |
+| [getTimezoneByCoordinates.ts][gettimezonebycoordinates] | How to get timezone information by coordinates.            |
 | [getWindowsTimezoneIds.ts][getwindowstimezoneids]       | How to get the list of Windows Timezone IDs.               |
+| [getIanaTimezoneIds.ts][getianatimezoneids]             | How to get the list of IANA Timezone IDs.                  |
+| [getIanaVersion.ts][getianaversion]                     | How to get the current IANA version number.                |
+| [convertWindowsToIana.ts][convertwindowstoiana]         | How to convert a Windows Timezone ID to IANA Timezone IDs. |
 
 ## Prerequisites
 
 The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
-Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:
+Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. Install the TypeScript compiler using:
 
 ```bash
 npm install -g typescript
@@ -50,27 +50,21 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/convertWindowsToIana.js
+node dist/getIanaVersion.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env MAPS_RESOURCE_CLIENT_ID="<maps resource client id>" node dist/convertWindowsToIana.js
+cross-env MAPS_RESOURCE_CLIENT_ID="<maps resource client id>" node dist/getIanaVersion.js
 ```
 
-## Next Steps
-
-Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
-
-[convertwindowstoiana]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/src/convertWindowsToIana.ts
-[getianatimezoneids]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/src/getIanaTimezoneIds.ts
-[getianaversion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/src/getIanaVersion.ts
-[gettimezonebycoordinates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/src/getTimezoneByCoordinates.ts
-[gettimezonebyid]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/src/getTimezoneById.ts
-[getwindowstimezoneids]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/src/getWindowsTimezoneIds.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/maps-timezone?view=azure-node-preview
+[getTimezoneById]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/src/getTimezoneById.ts
+[getTimezoneByCoordinates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/src/getTimezoneByCoordinates.ts
+[getWindowsTimezoneIds]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/src/getWindowsTimezoneIds.ts
+[getIanaTimezoneIds]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/src/getIanaTimezoneIds.ts
+[getIanaVersion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/src/getIanaVersion.ts
+[convertWindowsToIana]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/src/convertWindowsToIana.ts
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremapsresource]: https://learn.microsoft.com/azure/azure-maps/how-to-create-template
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-timezone-rest/README.md
-[typescript]: https://www.typescriptlang.org/docs/home.html

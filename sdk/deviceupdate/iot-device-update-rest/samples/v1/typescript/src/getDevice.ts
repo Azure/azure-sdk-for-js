@@ -10,7 +10,6 @@
 import DeviceUpdate, { isUnexpected, paginate } from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
-
 const endpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";
 

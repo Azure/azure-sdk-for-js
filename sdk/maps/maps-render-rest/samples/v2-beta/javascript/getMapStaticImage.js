@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+const { DefaultAzureCredential } = require("@azure/identity");
+const { createWriteStream } = require("fs");
+const MapsRender = require("@azure-rest/maps-render").default,
+  { createPathQuery, createPinsQuery } = require("@azure-rest/maps-render");
+
 /**
  * @summary How to get the map static image with pins and paths specified.
  */
-
-const { DefaultAzureCredential } = require("@azure/identity");
-const { createWriteStream } = require("node:fs");
-const MapsRender = require("@azure-rest/maps-render").default,
-  { createPathQuery, createPinsQuery } = require("@azure-rest/maps-render");
 async function main() {
   /**
    * Azure Maps supports two ways to authenticate requests:
@@ -45,7 +45,7 @@ async function main() {
   if (!res1.body) {
     throw Error("No response body");
   }
-  await res1.body.pipe(createWriteStream("image1.png"));
+  res1.body.pipe(createWriteStream("image1.png"));
 
   /** The other way is to assign center with image width and height to the queryParameters */
   const res2 = await client
@@ -62,7 +62,7 @@ async function main() {
   if (!res2.body) {
     throw Error("No response body");
   }
-  await res2.body.pipe(createWriteStream("image2.png"));
+  res2.body.pipe(createWriteStream("image2.png"));
 
   /** In a more complex scenario, we can also add pins and paths on the map to make it more vivid */
   // Prepare pins sets
@@ -121,7 +121,7 @@ async function main() {
   if (!res3.body) {
     throw Error("No response body");
   }
-  await res3.body.pipe(createWriteStream("image3.png"));
+  res3.body.pipe(createWriteStream("image3.png"));
 }
 
 main().catch((err) => {

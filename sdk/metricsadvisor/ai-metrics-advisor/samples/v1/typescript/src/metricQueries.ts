@@ -5,7 +5,6 @@
  *  @summary This sample demonstrates querying methods related to metric.
  */
 
-// Load the .env file if it exists
 import "dotenv/config";
 import { MetricsAdvisorKeyCredential, MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
 
@@ -82,7 +81,11 @@ async function listMetricDimensionValues(
   }
 }
 
-main().catch((err) => {
-  console.log("Error occurred:");
-  console.log(err);
-});
+main()
+  .then((_) => {
+    console.log("Succeeded");
+  })
+  .catch((err) => {
+    console.log("Error occurred:");
+    console.log(err);
+  });

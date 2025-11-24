@@ -8,10 +8,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const { fileURLToPath } = require("url");
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 /**
  * Enum for tracking the state of the simulated web search workflow.
  */

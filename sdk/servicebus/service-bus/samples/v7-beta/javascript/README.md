@@ -19,7 +19,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [receiveMessagesLoop.js][receivemessagesloop]                                             | Demonstrates how to receive Service Bus messages in a loop                                                                                                     |
 | [receiveMessagesStreaming.js][receivemessagesstreaming]                                   | Demonstrates how to receive Service Bus messages in a stream                                                                                                   |
 | [browseMessages.js][browsemessages]                                                       | Demonstrates how to browse a Service Bus message                                                                                                               |
-| [deleteMessages.js][deletemessages]                                                       | Demonstrates deleting messages from a queue.                                                                                                                   |
 | [session.js][session]                                                                     | Demonstrates how to send/receive messages to/from session enabled queues/subscriptions in Service Bus                                                          |
 | [scheduledMessages.js][scheduledmessages]                                                 | Demonstrates how to schedule messages to appear on a Service Bus Queue/Subscription at a later time                                                            |
 | [useProxy.js][useproxy]                                                                   | This sample demonstrates how to create a ServiceBusClient meant to be used in an environment where outgoing network requests have to go through a proxy server |
@@ -66,7 +65,7 @@ node sendMessages.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env SERVICEBUS_FQDN="<servicebus fqdn>" QUEUE_NAME="<queue name>" node sendMessages.js
+cross-env SERVICEBUS_CONNECTION_STRING="<servicebus connection string>" QUEUE_NAME="<queue name>" node sendMessages.js
 ```
 
 ## Next Steps
@@ -78,7 +77,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [receivemessagesloop]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/receiveMessagesLoop.js
 [receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/receiveMessagesStreaming.js
 [browsemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/browseMessages.js
-[deletemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/deleteMessages.js
 [session]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/session.js
 [scheduledmessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/scheduledMessages.js
 [useproxy]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/useProxy.js
@@ -91,7 +89,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [advanced_movingmessagestodlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/advanced/movingMessagesToDLQ.js
 [advanced_processmessagefromdlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/advanced/processMessageFromDLQ.js
 [exceedmaxdeliverycount]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/exceedMaxDeliveryCount.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/service-bus?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/service-bus
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureservicebus]: https://learn.microsoft.com/azure/service-bus-messaging
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/README.md

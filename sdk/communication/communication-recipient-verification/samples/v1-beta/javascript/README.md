@@ -53,12 +53,12 @@ node deleteVerification.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" node deleteVerification.js
+cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" VERIFICATION_ID="<verification id>" node deleteVerification.js
 ```
 
 ## Next Steps
 
-Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+Here are some [samples] <!--TODO: Enable link after release (https://github.com/azure-sdk-for-python/blob/main/samples.json)--> to look at.
 
 [deleteverification]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-recipient-verification/samples/v1-beta/javascript/deleteVerification.js
 [getallverifications]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-recipient-verification/samples/v1-beta/javascript/getAllVerifications.js

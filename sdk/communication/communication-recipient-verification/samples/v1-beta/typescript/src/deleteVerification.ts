@@ -8,9 +8,10 @@
 import { RecipientVerificationClient } from "@azure-tools/communication-recipient-verification";
 
 // Load the .env file if it exists
-import "dotenv/config";
+import * as dotenv from "dotenv";
+dotenv.config();
 
-export async function main(): Promise<void> {
+export async function main() {
   console.log("\n== Delete Verification Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
@@ -22,7 +23,7 @@ export async function main(): Promise<void> {
   const client = new RecipientVerificationClient(connectionString);
 
   // id that is used to reference users phone number
-  const verificationId = "4d313ff0-3aeb-477e-8c15-7c9a893e8999";
+  const verificationId = process.env.VERIFICATION_ID;
 
   // delete verification for a resource
   await client.deleteVerification(verificationId);

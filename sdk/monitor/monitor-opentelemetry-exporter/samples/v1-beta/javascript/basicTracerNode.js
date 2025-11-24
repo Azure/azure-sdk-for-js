@@ -3,15 +3,15 @@
 
 /**
  * This example shows how to use
- * [@opentelemetry/sdk-trace-base](https://github.com/open-telemetry/opentelemetry-js/tree/master/packages/opentelemetry-sdk-trace-base)
+ * [@opentelemetry/sdk-trace-base](https://github.com/open-telemetry/opentelemetry-js/tree/master/packages/opentelemetry-tracing)
  * to instrument a simple Node.js application - e.g. a batch job.
  *
  * @summary use opentelemetry tracing to instrument a Node.js application. Basic use of Tracing in Node.js application.
  */
 
 const opentelemetry = require("@opentelemetry/api");
-const { resourceFromAttributes } = require("@opentelemetry/resources");
-const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
+const { Resource } = require("@opentelemetry/resources");
+const { ATTR_SERVICE_NAME } = require("@opentelemetry/semantic-conventions");
 const { BasicTracerProvider, SimpleSpanProcessor } = require("@opentelemetry/sdk-trace-base");
 const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
 
@@ -25,9 +25,10 @@ const exporter = new AzureMonitorTraceExporter({
     process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] ||
     "InstrumentationKey=00000000-0000-0000-0000-000000000000;",
 });
+
 const provider = new BasicTracerProvider({
-  resource: resourceFromAttributes({
-    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+  resource: new Resource({
+    [ATTR_SERVICE_NAME]: "basic-service",
   }),
   spanProcessors: [new SimpleSpanProcessor(exporter)],
 });
@@ -41,8 +42,7 @@ const provider = new BasicTracerProvider({
  * do not register a global tracer provider, instrumentation which calls these
  * methods will receive no-op implementations.
  */
-// Register the tracer provider with the OpenTelemetry API
-opentelemetry.trace.setGlobalTracerProvider(provider);
+provider.register();
 const tracer = opentelemetry.trace.getTracer("example-basic-tracer-node");
 
 async function main() {
@@ -55,7 +55,7 @@ async function main() {
   parentSpan.end();
 
   // flush and close the connection.
-  await provider.shutdown();
+  await exporter.shutdown();
 }
 
 function doWork(parent) {

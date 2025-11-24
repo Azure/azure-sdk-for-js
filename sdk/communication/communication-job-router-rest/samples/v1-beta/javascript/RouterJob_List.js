@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
 /**
  * @summary router job crud
  */
 const JobRouter = require("@azure-rest/communication-job-router").default,
-  { isUnexpected, paginate } = require("@azure-rest/communication-job-router");
-require("dotenv/config");
+  { paginate } = require("@azure-rest/communication-job-router");
+require("dotenv").config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
@@ -21,7 +20,7 @@ async function listRouterJobs() {
     .path("/routing/jobs")
     .get({ queryParameters: { maxpagesize: maxPageSize } });
 
-  if (!isUnexpected(initialResponse)) {
+  if (initialResponse.status == "200") {
     // The paginate helper creates a paged async iterator using metadata from the first page.
     const items = paginate(routerClient, initialResponse);
 

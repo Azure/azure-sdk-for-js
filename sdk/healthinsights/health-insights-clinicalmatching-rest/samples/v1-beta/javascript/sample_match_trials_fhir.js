@@ -8,10 +8,13 @@
  */
 
 const { AzureKeyCredential } = require("@azure/core-auth");
-const { readFileSync } = require("node:fs");
-const ClinicalMatchingRestClient = require("@azure-rest/health-insights-clinicalmatching").default,
-  { getLongRunningPoller, isUnexpected } = require("@azure-rest/health-insights-clinicalmatching");
-require("dotenv/config");
+
+const dotenv = require("dotenv");
+const fs = require("fs");
+const ClinicalMatchingRestClient = require("../src").default,
+  { getLongRunningPoller, isUnexpected } = require("../src");
+
+dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
@@ -19,7 +22,7 @@ const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 // Get patient data in fhir format
 function getPatientDocContent() {
-  const content = readFileSync("./example-data/match_trial_fhir_data.txt").toString();
+  const content = fs.readFileSync("./example-data/match_trial_fhir_data.txt").toString();
   return content;
 }
 
@@ -27,7 +30,7 @@ function getPatientDocContent() {
 function printResults(trialMatcherResult) {
   if (trialMatcherResult.status === "succeeded") {
     const results = trialMatcherResult.results;
-    if (results) {
+    if (results != undefined) {
       const patients = results.patients;
       for (const patientResult of patients) {
         console.log(`Inferences of Patient ${patientResult.id}`);
@@ -86,7 +89,7 @@ function createRequestBody() {
 
   const patientInfo = {
     sex: "MALE",
-    birthDate: new Date("1965-11-26T00:00:00.000Z"), // Note: Months are zero-based (11 represents December)
+    birthDate: new Date("1965-11-26T00:00:00.000Z"),
     clinicalInfo: clinicalInfoList,
   };
 

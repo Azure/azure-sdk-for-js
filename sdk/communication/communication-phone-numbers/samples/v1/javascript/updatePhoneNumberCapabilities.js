@@ -8,7 +8,8 @@
 const { PhoneNumbersClient } = require("@azure/communication-phone-numbers");
 
 // Load the .env file if it exists
-require("dotenv/config");
+const dotenv = require("dotenv");
+dotenv.config();
 
 async function main() {
   console.log("\n== Update Phone Number Capabilities Sample ==\n");
@@ -30,12 +31,12 @@ async function main() {
   // This will update the phone number to send and receive sms, but only send calls.
   const updateRequest = {
     sms: "inbound+outbound",
-    calling: "outbound",
+    calling: "outbound"
   };
 
   const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
     phoneNumberToUpdate,
-    updateRequest,
+    updateRequest
   );
 
   // Update is underway.
@@ -47,5 +48,3 @@ main().catch((error) => {
   console.log("The sample encountered an error:", error);
   process.exit(1);
 });
-
-module.exports = { main };

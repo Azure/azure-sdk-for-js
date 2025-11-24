@@ -30,8 +30,8 @@
 
 import EasmDefender, { isUnexpected } from "@azure-rest/defender-easm";
 import { DefaultAzureCredential } from "@azure/identity";
+// Load the .env file if it exists
 import "dotenv/config";
-
 type MappingType = {
   name: string;
   kind: string;
@@ -52,15 +52,9 @@ async function main(): Promise<void> {
   const external_id_mapping: MappingType[] = JSON.parse(process.env.MAPPING!);
 
   const client = EasmDefender(
-    endpoint +
-      "/subscriptions/" +
-      subscription_id +
-      "/resourceGroups/" +
-      resource_group +
-      "/workspaces/" +
-      workspace_name,
+    endpoint + "/subscriptions/" + subscription_id + "/resourceGroups/" + resource_group + "/workspaces/" + workspace_name,
     credential,
-    {},
+    {}
   );
 
   // Using the client, we can update each asset and append the tracking id of the update to our update ID list,

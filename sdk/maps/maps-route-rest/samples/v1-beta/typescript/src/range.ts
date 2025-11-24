@@ -7,6 +7,8 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import MapsRoute, { isUnexpected } from "@azure-rest/maps-route";
+
+// Load the .env file if it exists
 import "dotenv/config";
 
 async function main(): Promise<void> {
@@ -42,7 +44,7 @@ async function main(): Promise<void> {
     reachableRange: { center, boundary },
   } = routeRangeResult.body;
   console.log(`For the center (${center.latitude}, ${center.longitude}), the reachable range is:`);
-  await console.table(boundary);
+  console.table(boundary);
 }
 
 main().catch((err) => {
