@@ -105,6 +105,10 @@ function applyUpdateState(
   }
 
   if (terminalUpdateStatuses.includes(parsed.status)) {
+    if (parsed.status === "superseded" && !state.error) {
+      state.supersededBy = parsed.superseded_by;
+      state.updateStatus = "superseded";
+    }
     state.status = "succeeded";
     state.result = parsed.result ??
       state.result ?? {
