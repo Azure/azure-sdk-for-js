@@ -13,7 +13,6 @@ import {
   defaultLoggerCallback,
   ensureValidMsalToken,
   getAuthority,
-  getAuthorityHost,
   getKnownAuthorities,
   getMSALLogLevel,
   handleMsalError,
@@ -32,6 +31,7 @@ import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../../util/tenantIdUtils.js";
 import { CommonClientOptions } from "@azure/core-client";
 import { LogPolicyOptions } from "@azure/core-rest-pipeline";
+import { getAuthorityHost } from "../../util/authorityHost.js";
 
 /**
  * The default logger used if no logger was passed in by the credential.
@@ -287,7 +287,6 @@ export function generateMsalConfiguration(
     clientId,
   );
 
-  // TODO: move and reuse getIdentityClientAuthorityHost
   const authority = getAuthority(resolvedTenant, getAuthorityHost(msalClientOptions));
 
   const httpClient = new IdentityClient({

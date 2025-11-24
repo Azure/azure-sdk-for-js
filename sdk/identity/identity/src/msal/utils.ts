@@ -6,7 +6,7 @@ import { AuthenticationRequiredError, CredentialUnavailableError } from "../erro
 import type { CredentialLogger } from "../util/logging.js";
 import { credentialLogger, formatError } from "../util/logging.js";
 import { DefaultAuthority, DefaultAuthorityHost, DefaultTenantId } from "../constants.js";
-import { randomUUID as coreRandomUUID, isNode, isNodeLike } from "@azure/core-util";
+import { randomUUID as coreRandomUUID, isNodeLike } from "@azure/core-util";
 
 import { AbortError } from "@azure/abort-controller";
 import type { AzureLogLevel } from "@azure/logger";
@@ -50,22 +50,6 @@ export function ensureValidMsalToken(
   if (!msalToken.accessToken) {
     throw error(`Response had no "accessToken" property.`);
   }
-}
-
-/**
- * Returns the authority host from either the options bag or the AZURE_AUTHORITY_HOST environment variable.
- *
- * Defaults to {@link DefaultAuthorityHost}.
- * @internal
- */
-export function getAuthorityHost(options?: { authorityHost?: string }): string {
-  let authorityHost = options?.authorityHost;
-
-  if (!authorityHost && isNodeLike) {
-    authorityHost = process.env.AZURE_AUTHORITY_HOST;
-  }
-
-  return authorityHost ?? DefaultAuthorityHost;
 }
 
 /**
@@ -113,7 +97,7 @@ export const defaultLoggerCallback: (
   logger: CredentialLogger,
   platform?: "Node" | "Browser",
 ) => ILoggerCallback =
-  (credLogger: CredentialLogger, platform: "Node" | "Browser" = isNode ? "Node" : "Browser") =>
+  (credLogger: CredentialLogger, platform: "Node" | "Browser" = isNodeLike ? "Node" : "Browser") =>
   (level, message, containsPii): void => {
     if (containsPii) {
       return;
