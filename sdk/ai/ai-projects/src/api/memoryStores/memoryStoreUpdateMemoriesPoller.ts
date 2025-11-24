@@ -44,8 +44,11 @@ export type MemoryStoreUpdateMemoriesPoller = PollerLike<
 
 /** Options for creating a MemoryStoreUpdateMemoriesPoller. */
 export interface CreateMemoryStoreUpdateMemoriesPollerOptions {
+  /** Interval in milliseconds between update polls */
   updateIntervalInMs?: number;
+  /** An abort signal to cancel the poller */
   abortSignal?: AbortSignalLike;
+  /** Used to restore poller from a serialized state */
   restoreFrom?: string;
 }
 
