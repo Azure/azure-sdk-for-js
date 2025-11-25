@@ -44,19 +44,26 @@ export async function listJobs(openAIClient: OpenAI): Promise<void> {
 export async function waitForEvent(
   client: OpenAI,
   jobId: string,
-  expectedEvents: string[],
-  pollIntervalMs = 60000,
+  expectedMessages: string[],
+  pollIntervalMs = 600_000,
 ): Promise<void> {
-  console.log(`Waiting for job ${jobId} to emit event: ${expectedEvents.join(", ")}`);
+  console.log(`Waiting for job ${jobId} to emit message: ${expectedMessages.join(", ")}`);
 
   while (true) {
     const events = await client.fineTuning.jobs.listEvents(jobId);
-    console.log(`Polled following events for job ${jobId}:`, JSON.stringify(events.data));
+    const logs =
+      events.data?.map((e) => ({
+        id: e.id,
+        created_at: e.created_at,
+        level: e.level,
+        message: e.message,
+      })) ?? [];
+
+    console.log(`Polled following events for job ${jobId}:`, JSON.stringify(logs));
 
     for (const event of events.data ?? []) {
-      const eventType = event.type;
-      if (eventType && expectedEvents.includes(eventType)) {
-        console.log(`Event detected: ${eventType}`);
+      if (event.message && expectedMessages.includes(event.message)) {
+        console.log(`Matching message detected: "${event.message}"`);
         return;
       }
     }
@@ -123,8 +130,7 @@ export async function main(): Promise<void> {
   await listJobs(openAIClient);
 
   // Uncomment any of the following methods to test specific functionalities:
-
-  await waitForEvent(openAIClient, fineTuningJob.id, ["training_started"]);
+  await waitForEvent(openAIClient, fineTuningJob.id, ["Training started"]);
 
   await pauseJob(openAIClient, fineTuningJob.id);
 
