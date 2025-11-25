@@ -5,7 +5,6 @@
  * @summary Quick start workflow for creating queue, job and worker, routing/matching job with worker
  */
 import type {
-  RouterWorkerOutput,
   AzureCommunicationRoutingServiceClient,
   AcceptJobOfferResultOutput,
   RouterJobOutput,
@@ -98,16 +97,20 @@ async function quickStart(): Promise<void> {
   if (isUnexpected(workerResponse)) {
     throw workerResponse;
   }
-  const workerResult = workerResponse.body as RouterWorkerOutput;
 
-  for (const offer of workerResult.offers!) {
+  const offers = workerResponse.body.offers;
+  if (!offers || offers.length === 0) {
+    throw new Error(`No offers found for worker ${workerId}`);
+  }
+
+  for (const offer of offers) {
     console.log(`Worker ${workerId} has an active offer for job ${offer.jobId}`);
   }
 
   // Accepting an offer
   // Once a worker receives an offer, it can take two possible actions: accept or decline. We are going to accept the offer.
   // fetching the offer id
-  const jobOffer = workerResult.offers![0];
+  const jobOffer = offers[0];
 
   const offerId = jobOffer.offerId; // `OfferId` can be retrieved directly from consuming event from Event grid
 
@@ -130,12 +133,11 @@ async function quickStart(): Promise<void> {
   if (isUnexpected(updatedJobResponse)) {
     throw updatedJobResponse;
   }
-  let updatedJob = updatedJobResponse.body as RouterJobOutput;
 
-  console.log(`Job assignment has been successful: 
-  ${updatedJob.status === "assigned" &&
-    Object.prototype.hasOwnProperty.call(updatedJob.assignments!, acceptJobOfferResult.assignmentId)
-    }`);
+  let updatedJob = updatedJobResponse.body;
+  const jobResult = updatedJob.status === "assigned" && updatedJob.assignments &&
+    acceptJobOfferResult.assignmentId in updatedJob.assignments;
+  console.log(`Job assignment has been successful: ${jobResult}`);
 
   // Completing a job
   // Once the worker is done with the job, the worker has to mark the job as `completed`.
