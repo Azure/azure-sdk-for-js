@@ -28,18 +28,53 @@ const resource_group = process.env["AZURE_AI_PROJECTS_AZURE_RESOURCE_GROUP"];
 const account_name = process.env["AZURE_AI_PROJECTS_AZURE_AOAI_ACCOUNT"];
 
 export async function retrieveJob(openAIClient: OpenAI, jobId: string): Promise<void> {
-  console.log(`Retrieving fine-tuning job: ${jobId}`);
-  const job = await openAIClient.fineTuning.jobs.retrieve(jobId);
-  console.log(job);
+  console.log(`\nGetting fine-tuning job with ID: ${jobId}`);
+  const retrievedJob = await openAIClient.fineTuning.jobs.retrieve(jobId);
+  console.log("Retrieved job:\n", JSON.stringify(retrievedJob));
 }
 
 export async function listJobs(openAIClient: OpenAI): Promise<void> {
-  console.log("Listing fine-tuning jobs:");
-  const jobs = await openAIClient.fineTuning.jobs.list();
-
-  for (const job of jobs.data ?? []) {
-    console.log(job);
+  console.log("\nListing all fine-tuning jobs:");
+  const jobsPage = await openAIClient.fineTuning.jobs.list();
+  for (const job of jobsPage.data) {
+    console.log(JSON.stringify(job));
   }
+}
+
+export async function waitForEvent(
+  client: OpenAI,
+  jobId: string,
+  expectedEvents: string[],
+  pollIntervalMs = 60000,
+): Promise<void> {
+  console.log(`Waiting for job ${jobId} to emit event: ${expectedEvents.join(", ")}`);
+
+  while (true) {
+    const events = await client.fineTuning.jobs.listEvents(jobId);
+    console.log(`Polled following events for job ${jobId}:`, JSON.stringify(events.data));
+
+    for (const event of events.data ?? []) {
+      const eventType = event.type;
+      if (eventType && expectedEvents.includes(eventType)) {
+        console.log(`Event detected: ${eventType}`);
+        return;
+      }
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, pollIntervalMs));
+  }
+}
+
+export async function pauseJob(openAIClient: OpenAI, jobId: string): Promise<void> {
+  console.log(`Pausing fine-tuning job with ID: ${jobId}`);
+  const pausedJob = await openAIClient.fineTuning.jobs.pause(jobId);
+  console.log(pausedJob);
+}
+
+export async function resumeJob(openAIClient: OpenAI, jobId: string): Promise<void> {
+  console.log(`Resuming fine-tuning job with ID: ${jobId}`);
+  const resumedJob = await openAIClient.fineTuning.jobs.resume(jobId);
+  console.log(resumedJob);
 }
 
 export async function main(): Promise<void> {
@@ -83,15 +118,17 @@ export async function main(): Promise<void> {
   });
   console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
 
+  await retrieveJob(openAIClient, fineTuningJob.id);
+
+  await listJobs(openAIClient);
+
   // Uncomment any of the following methods to test specific functionalities:
 
-  retrieveJob(openAIClient, fineTuningJob.id);
+  await waitForEvent(openAIClient, fineTuningJob.id, ["training_started"]);
 
-  listJobs(openAIClient);
+  await pauseJob(openAIClient, fineTuningJob.id);
 
-  // # pause_job(openai_client, fine_tuning_job.id)
-
-  // # resume_job(openai_client, fine_tuning_job.id)
+  await resumeJob(openAIClient, fineTuningJob.id);
 
   // # list_events(openai_client, fine_tuning_job.id)
 
