@@ -29,11 +29,11 @@ Each package folder contains a subfolder called `samples` with additional code s
 
 ### Authoring Package Samples
 
-For majority of our packages we use the following workflow to develop samples:
+For the majority of our packages we use the following workflow to develop samples:
 
 1. Create samples in TypeScript under the package's `samples-dev/` directory
 2. Add a `sample.env` listing all the environment variables that are needed by the samples of this package. Customers can adopt it into their `.env` file when running samples.
-3. After testing is done on your samples, run `npx dev-tool samples publish`.  This command generates both TypeScript and JavaScript versions of the samples under `samples/` folder.
+3. After testing is done on your samples, run `npx dev-tool samples publish` **from the package directory (where the package.json is located), not from the repository root**. This command generates both TypeScript and JavaScript versions of the samples under the `samples/` folder.
 
 ### Sample Configuration in package.json
 
@@ -57,7 +57,7 @@ The `//sampleConfiguration` section in the `package.json` holds the package-leve
 
 Files under `samples-dev` can also be configured individually with the following tags.
 
-The dev-tool samples publishing extracts descriptions marked with `@summary` and use the summary in the generated sample index in the sample README.md.
+The `@summary` tag in JSDoc comments is used to provide a description of the sample, which will be extracted and included in the generated sample index in the sample README.md.
 
 The following tags can be used in the first doc comment after the license header to customize the publication of samples
 
@@ -67,7 +67,7 @@ The following tags can be used in the first doc comment after the license header
 
 - `@azsdk-util`: this causes the file to be omitted from the generated sample index in the sample README.md.
 
-- `@azsdk-skip-javascript`: this causes the file to skip JavaScript output. Useful when sample code do have supported syntax in the CommonJS version.
+- `@azsdk-skip-javascript`: this causes the file to skip JavaScript output. Useful when sample code doesn't have supported syntax in the CommonJS version.
 
 ## Global Samples
 
