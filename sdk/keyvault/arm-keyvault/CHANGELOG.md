@@ -29,8 +29,9 @@
   - Operation ManagedHsms.checkMhsmNameAvailability has a new signature
   - Operation Vaults.checkNameAvailability has a new signature
   - Type alias "Reason" has been changed
-  
+
 ### Breaking Changes
+
   - Removed Interface ProxyResourceWithoutSystemData
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter tags

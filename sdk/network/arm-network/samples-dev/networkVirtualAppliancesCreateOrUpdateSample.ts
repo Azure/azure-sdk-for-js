@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
  *
  * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkVirtualApplianceVnetBasicPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkVirtualApplianceVnetBasicPut.json
  */
 async function createNvaInVNetWithPrivateNicPublicNic(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -73,7 +73,7 @@ async function createNvaInVNetWithPrivateNicPublicNic(): Promise<void> {
  * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
  *
  * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkVirtualApplianceVnetIngressPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkVirtualApplianceVnetIngressPut.json
  */
 async function createNvaInVNetWithPrivateNicPublicNicIncludingInternetIngress(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -138,7 +138,7 @@ async function createNvaInVNetWithPrivateNicPublicNicIncludingInternetIngress():
  * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
  *
  * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkVirtualApplianceVnetNetworkProfilePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkVirtualApplianceVnetNetworkProfilePut.json
  */
 async function createNvaInVNetWithPrivateNicPublicNicIncludingNetworkProfile(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -232,7 +232,7 @@ async function createNvaInVNetWithPrivateNicPublicNicIncludingNetworkProfile(): 
  * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
  *
  * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkVirtualApplianceVnetAdditionalPrivatePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkVirtualApplianceVnetAdditionalPrivatePut.json
  */
 async function createNvaInVNetWithPrivateNicPublicNicAdditionalPrivateNic(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -299,7 +299,7 @@ async function createNvaInVNetWithPrivateNicPublicNicAdditionalPrivateNic(): Pro
  * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
  *
  * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkVirtualApplianceVnetAdditionalPublicPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkVirtualApplianceVnetAdditionalPublicPut.json
  */
 async function createNvaInVNetWithPrivateNicPublicNicAdditionalPublicNic(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -366,7 +366,7 @@ async function createNvaInVNetWithPrivateNicPublicNicAdditionalPublicNic(): Prom
  * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
  *
  * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkVirtualAppliancePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkVirtualAppliancePut.json
  */
 async function createNetworkVirtualAppliance(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -441,7 +441,7 @@ async function createNetworkVirtualAppliance(): Promise<void> {
  * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
  *
  * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkVirtualApplianceSaaSPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkVirtualApplianceSaaSPut.json
  */
 async function createSaaSNetworkVirtualAppliance(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

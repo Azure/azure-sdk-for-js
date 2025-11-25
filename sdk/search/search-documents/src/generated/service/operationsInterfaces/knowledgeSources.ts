@@ -17,6 +17,8 @@ import {
   KnowledgeSourcesListResponse,
   KnowledgeSourcesCreateOptionalParams,
   KnowledgeSourcesCreateResponse,
+  KnowledgeSourcesGetStatusOptionalParams,
+  KnowledgeSourcesGetStatusResponse,
 } from "../models/index.js";
 
 /** Interface representing a KnowledgeSources. */
@@ -66,4 +68,13 @@ export interface KnowledgeSources {
     knowledgeSource: KnowledgeSourceUnion,
     options?: KnowledgeSourcesCreateOptionalParams,
   ): Promise<KnowledgeSourcesCreateResponse>;
+  /**
+   * Returns the current status and synchronization history of a knowledge source.
+   * @param sourceName The name of the knowledge source for which to retrieve status.
+   * @param options The options parameters.
+   */
+  getStatus(
+    sourceName: string,
+    options?: KnowledgeSourcesGetStatusOptionalParams,
+  ): Promise<KnowledgeSourcesGetStatusResponse>;
 }

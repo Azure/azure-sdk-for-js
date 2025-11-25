@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a security user rule.
  *
  * @summary Gets a security user rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerSecurityUserRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerSecurityUserRuleGet.json
  */
 async function getsASecurityUserRule(): Promise<void> {
   const subscriptionId =

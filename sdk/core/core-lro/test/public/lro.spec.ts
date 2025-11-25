@@ -2546,7 +2546,7 @@ matrix(
                 (state as any).x = 1;
                 setState = true;
               } else {
-                assert.ok((state as any).x);
+                assert.isDefined((state as any).x);
                 check = true;
               }
             },
@@ -2591,7 +2591,7 @@ matrix(
                 (state as any).x = 1;
                 setState = true;
               } else {
-                assert.ok((state as any).x);
+                assert.isDefined((state as any).x);
                 check = true;
               }
             },

@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ConnectionUpdateContent,
-  ProjectConnectionsUpdateOptionalParams,
+  ProjectConnectionsUpdateOptionalParams} from "@azure/arm-cognitiveservices";
+import {
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -13,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update Cognitive Services project connection under the specified project.
  *
  * @summary Update Cognitive Services project connection under the specified project.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ProjectConnection/update.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ProjectConnection/update.json
  */
 async function updateProjectConnection(): Promise<void> {
   const subscriptionId =

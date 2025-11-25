@@ -32,7 +32,7 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { getEndpoint, getSelectionMarkStorageContainerSasUrl } from "../../utils/injectables.js";
 
 function assertDefined(value: unknown, message?: string): asserts value {
-  return assert.ok(value, message);
+  return assert.isDefined(value, message);
 }
 
 describe.each(authMethods)(`[%s] analysis (Node)`, (authMethod) => {
@@ -67,12 +67,11 @@ describe.each(authMethods)(`[%s] analysis (Node)`, (authMethod) => {
       );
       const { pages, tables } = await poller.pollUntilDone();
 
-      assert.ok(pages && pages.length > 0, `Expected non-empty pages but got ${pages}`);
       assert.isNotEmpty(pages);
       assert.isNotEmpty(tables);
 
       const [table] = tables!;
-      assert.ok(table.boundingRegions?.[0]);
+      assert.isDefined(table.boundingRegions?.[0]);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -87,12 +86,9 @@ describe.each(authMethods)(`[%s] analysis (Node)`, (authMethod) => {
       );
       const { pages, paragraphs } = await poller.pollUntilDone();
 
-      assert.ok(
-        paragraphs && paragraphs.length > 0,
-        `Expected non-empty paragraphs but got ${paragraphs}.`,
-      );
+      assert.isNotEmpty(paragraphs);
 
-      assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
+      assert.isNotEmpty(pages);
     });
 
     it("jpeg file stream", async () => {
@@ -110,7 +106,7 @@ describe.each(authMethods)(`[%s] analysis (Node)`, (authMethod) => {
 
       assert.isNotEmpty(tables);
       const [table] = tables as DocumentTable[];
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -129,7 +125,7 @@ describe.each(authMethods)(`[%s] analysis (Node)`, (authMethod) => {
 
       assert.isNotEmpty(tables);
       const [table] = tables as DocumentTable[];
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -148,7 +144,7 @@ describe.each(authMethods)(`[%s] analysis (Node)`, (authMethod) => {
 
       assert.isNotEmpty(tables);
       const [table] = tables as DocumentTable[];
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -166,7 +162,7 @@ describe.each(authMethods)(`[%s] analysis (Node)`, (authMethod) => {
 
       assert.isNotEmpty(tables);
       const [table] = tables as DocumentTable[];
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -187,7 +183,7 @@ describe.each(authMethods)(`[%s] analysis (Node)`, (authMethod) => {
       /* There should be a table on the page, but the layout engine does not recognize it, maybe because it is too small and sparse.
       assert.isNotEmpty(tables);
       const [table] = tables;
-      assert.ok(table.boundingRegions?.[0].boundingBox);
+      assert.isDefined(table.boundingRegions?.[0].boundingBox);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);*/
 
       assert.equal(pages?.[0].pageNumber, 1);
@@ -370,7 +366,7 @@ describe.each(authMethods)(`[%s] analysis (Node)`, (authMethod) => {
         );
         _model = await poller.pollUntilDone();
 
-        assert.ok(_model.modelId);
+        assert.isDefined(_model.modelId);
       }
 
       return _model;
@@ -386,19 +382,19 @@ describe.each(authMethods)(`[%s] analysis (Node)`, (authMethod) => {
       const poller = await client.beginAnalyzeDocument(modelId, stream, testPollingOptions);
       const { pages, documents } = await poller.pollUntilDone();
 
-      assert.ok(documents);
+      assert.isDefined(documents);
       assert.equal(documents?.[0].docType, `${modelName}:${modelName}`);
 
       const amexMark = documents?.[0].fields["AMEX_SELECTION_MARK"] as DocumentSelectionMarkField;
       assert.equal(amexMark.kind, "selectionMark");
       assert.equal(amexMark.value, "selected");
 
-      assert.ok(pages?.[0]);
+      assert.isDefined(pages?.[0]);
 
       /* There should be a table in the response, but it isn't recognized (maybe because it's too small or sparse)
       assert.isNotEmpty(tables);
       const [table] = tables!;
-      assert.ok(table.boundingRegions?.[0].boundingBox);
+      assert.isDefined(table.boundingRegions?.[0].boundingBox);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);*/
 
       assert.equal(pages?.[0].pageNumber, 1);
@@ -833,7 +829,7 @@ describe.each(authMethods)(`[%s] analysis (Node)`, (authMethod) => {
       assert.isNotEmpty(pages);
       assert.isNotEmpty(tables);
       const [table] = tables!;
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
 
       validator(invoice as AnalyzedDocument);
@@ -854,7 +850,7 @@ describe.each(authMethods)(`[%s] analysis (Node)`, (authMethod) => {
       assert.isNotEmpty(pages);
       assert.isNotEmpty(tables);
       const [table] = tables!;
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
 
       validator(invoice as AnalyzedDocument);

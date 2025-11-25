@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates the specific Pool resource.
  *
  * @summary Updates the specific Pool resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/IpamPools_Update.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/IpamPools_Update.json
  */
 async function ipamPoolsUpdate(): Promise<void> {
   const subscriptionId =

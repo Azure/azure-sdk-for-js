@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Stops a specified packet capture session.
  *
  * @summary Stops a specified packet capture session.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkWatcherPacketCaptureStop.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkWatcherPacketCaptureStop.json
  */
 async function stopPacketCapture(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

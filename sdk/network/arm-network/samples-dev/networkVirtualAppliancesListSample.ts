@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets all Network Virtual Appliances in a subscription.
  *
  * @summary Gets all Network Virtual Appliances in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkVirtualApplianceListBySubscription.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkVirtualApplianceListBySubscription.json
  */
 async function listAllNetworkVirtualAppliancesForAGivenSubscription(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

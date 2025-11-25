@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes the specified peering from a Virtual Router.
  *
  * @summary Deletes the specified peering from a Virtual Router.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualRouterPeeringDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualRouterPeeringDelete.json
  */
 async function deleteVirtualRouterPeering(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
