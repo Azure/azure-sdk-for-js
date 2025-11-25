@@ -1,6 +1,6 @@
 # Release History
 
-## 9.0.0 (2025-11-20)
+## 9.0.0 (2025-11-25)
 
 ### Features Added
   - Added operation group AdministratorsMicrosoftEntra
