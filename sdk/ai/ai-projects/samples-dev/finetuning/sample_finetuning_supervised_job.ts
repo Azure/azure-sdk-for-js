@@ -45,7 +45,7 @@ export async function waitForEvent(
   client: OpenAI,
   jobId: string,
   expectedMessages: string[],
-  pollIntervalMs = 600_000,
+  pollIntervalMs = 60_000,
 ): Promise<void> {
   console.log(`Waiting for job ${jobId} to emit message: ${expectedMessages.join(", ")}`);
 
@@ -62,7 +62,7 @@ export async function waitForEvent(
     console.log(`Polled following events for job ${jobId}:`, JSON.stringify(logs));
 
     for (const event of events.data ?? []) {
-      if (event.message && expectedMessages.includes(event.message)) {
+      if (event.message && expectedMessages.some((msg) => event.message.includes(msg))) {
         console.log(`Matching message detected: "${event.message}"`);
         return;
       }
