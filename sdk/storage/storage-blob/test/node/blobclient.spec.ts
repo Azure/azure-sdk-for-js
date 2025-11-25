@@ -347,47 +347,47 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("syncCopyFromURL - source delegation sas with bearer token and destination account key", async (ctx) => {
-      if (!isLiveMode()) {
-        // The token is sanitized in recording, we cannot get the object id from it.
-        ctx.skip();
-      }
-  
-      let blobServiceClientWithToken: BlobServiceClient;
-      try {
-        blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
-      } catch {
-        // Requires bearer token for this case which cannot be generated in the runtime
-        // Make sure this case passed in sanity test
-        ctx.skip();
-      }
-  
-      const credential = createTestCredential();
-      const token = (await credential.getToken("https://storage.azure.com/.default"))?.token;
-      const jwtObj = parseJwt(token!);
-  
-      const now = new Date(recorder.variable("now", new Date().toISOString()));
-      now.setHours(now.getHours() - 1);
-      const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
-      tmr.setDate(tmr.getDate() + 1);
-      const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
+    if (!isLiveMode()) {
+      // The token is sanitized in recording, we cannot get the object id from it.
+      ctx.skip();
+    }
+
+    let blobServiceClientWithToken: BlobServiceClient;
+    try {
+      blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
+      ctx.skip();
+    }
+
+    const credential = createTestCredential();
+    const token = (await credential.getToken("https://storage.azure.com/.default"))?.token;
+    const jwtObj = parseJwt(token!);
+
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
     const sharedKeyCredential = containerClient.credential as StorageSharedKeyCredential;
 
     const accountName = sharedKeyCredential.accountName;
-    
+
     const delegationSAS = generateBlobSASQueryParameters(
-        {
-          containerName: containerClient.containerName,
-          blobName: blobClient.name,
-          expiresOn: tmr,
-          permissions: BlobSASPermissions.parse("racwd"),
-          protocol: SASProtocol.HttpsAndHttp,
-          startsOn: now,
-          version: SERVICE_VERSION,
-          delegatedUserObjectId: jwtObj.oid,
-        },
-        userDelegationKey,
-        accountName,
-      );
+      {
+        containerName: containerClient.containerName,
+        blobName: blobClient.name,
+        expiresOn: tmr,
+        permissions: BlobSASPermissions.parse("racwd"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        version: SERVICE_VERSION,
+        delegatedUserObjectId: jwtObj.oid,
+      },
+      userDelegationKey,
+      accountName,
+    );
 
     const newBlobName = recorder.variable("copiedblob", getUniqueName("copiedblob"));
     const newBlobClient = containerClient.getBlobClient(newBlobName);

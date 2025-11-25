@@ -47,7 +47,7 @@ export function getFileGenericCredential(): FileStorageSharedKeyCredential {
   return new FileStorageSharedKeyCredential(accountName, accountKey);
 }
 
-export function parseJwt(token: string) {
+export function parseJwt(token: string): string {
   return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
 }
 
