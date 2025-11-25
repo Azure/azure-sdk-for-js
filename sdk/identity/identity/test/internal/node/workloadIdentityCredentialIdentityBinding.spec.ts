@@ -100,8 +100,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
 
       // Should be a new object reference since cache was invalidated
       assert.equal(tlsSettings3.ca, getTestCertificateContent());
-      await fs.unlink(tempCaFile);
-      await fs.rmdir(tempDir);
+      await fs.rm(tempDir, { recursive: true, force: true });
     });
 
     it("should handle empty CA file during rotation", async function () {
@@ -144,8 +143,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         });
       }, /CA certificate file is empty/);
 
-      await fs.unlink(tempCaFile);
-      await fs.rmdir(tempDir);
+      await fs.rm(tempDir, { recursive: true, force: true });
     });
   });
 
