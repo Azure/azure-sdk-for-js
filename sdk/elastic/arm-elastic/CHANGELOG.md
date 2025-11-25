@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0 (2025-11-11)
+## 2.0.0 (2025-11-25)
 
 ### Features Added
   - Added operation group MonitoredSubscriptions
