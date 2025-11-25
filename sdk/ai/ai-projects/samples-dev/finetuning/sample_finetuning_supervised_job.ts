@@ -108,21 +108,41 @@ export async function main(): Promise<void> {
   console.log("Files processed.");
 
   // 3) Create a supervised fine-tuning job
-  const fineTuningJob = await openAIClient.fineTuning.jobs.create({
-    training_file: trainingFile.id,
-    validation_file: validationFile.id,
-    model: modelName,
-    method: {
-      type: "supervised",
-      supervised: {
-        hyperparameters: {
-          n_epochs: 3,
-          batch_size: 1,
-          learning_rate_multiplier: 1.0,
+  const fineTuningJob = await openAIClient.fineTuning.jobs.create(
+    {
+      training_file: trainingFile.id,
+      validation_file: validationFile.id,
+      model: modelName,
+      method: {
+        type: "supervised",
+        supervised: {
+          hyperparameters: {
+            n_epochs: 3,
+            batch_size: 1,
+            learning_rate_multiplier: 1.0,
+          },
         },
       },
     },
-  });
+    {
+      body: {
+        trainingType: "Standard",
+        training_file: trainingFile.id,
+        validation_file: validationFile.id,
+        model: modelName,
+        method: {
+          type: "supervised",
+          supervised: {
+            hyperparameters: {
+              n_epochs: 3,
+              batch_size: 1,
+              learning_rate_multiplier: 1.0,
+            },
+          },
+        },
+      },
+    },
+  );
   console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
 
   await retrieveJob(openAIClient, fineTuningJob.id);
