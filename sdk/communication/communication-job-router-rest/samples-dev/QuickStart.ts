@@ -98,11 +98,10 @@ async function quickStart(): Promise<void> {
     throw workerResponse;
   }
 
-  if (!workerResponse.body.offers || workerResponse.body.offers.length === 0) {
+  const offers = workerResponse.body.offers;
+  if (!offers || offers.length === 0) {
     throw new Error(`No offers found for worker ${workerId}`);
   }
-
-  const offers = workerResponse.body.offers;
 
   for (const offer of offers) {
     console.log(`Worker ${workerId} has an active offer for job ${offer.jobId}`);
@@ -134,10 +133,10 @@ async function quickStart(): Promise<void> {
   if (isUnexpected(updatedJobResponse)) {
     throw updatedJobResponse;
   }
-  let updatedJob = updatedJobResponse.body;
 
-  const jobResult = updatedJob.status === "assigned" &&
-    updatedJob.assignments && updatedJob.assignments.hasOwnProperty(acceptJobOfferResult.assignmentId)
+  let updatedJob = updatedJobResponse.body;
+  const jobResult = updatedJob.status === "assigned" && updatedJob.assignments &&
+    acceptJobOfferResult.assignmentId in updatedJob.assignments;
   console.log(`Job assignment has been successful: ${jobResult}`);
 
   // Completing a job
