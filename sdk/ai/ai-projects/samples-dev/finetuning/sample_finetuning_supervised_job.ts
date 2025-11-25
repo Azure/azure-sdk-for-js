@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to obtain an OpenAI client and perform file operations.
+ * This sample demonstrates how to obtain an OpenAI client and perform sft operations.
  *
- * @summary Using an OpenAI client, this sample demonstrates how to perform files operations:
- * create, retrieve, content, list, and delete.
+ * @summary Using an OpenAI client, this sample demonstrates how to perform sft operations:
+ * create, retrieve, list, pause, resume, list events, list checkpoints, deploy, infer, and cancel.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
