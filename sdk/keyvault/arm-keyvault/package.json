@@ -38,6 +38,7 @@
     "eslint": "catalog:",
     "prettier": "catalog:",
     "tshy": "catalog:",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@azure/logger": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
