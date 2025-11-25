@@ -30,6 +30,9 @@ param (
   [string]$PackagePath
 )
 
+# Import common helpers
+. (Join-Path $PSScriptRoot ".." "common" "scripts" "Helpers" "CommandInvocation-Helpers.ps1")
+
 # Main execution
 try {
   # Validate SDK repository path
@@ -50,27 +53,15 @@ try {
   }
   
   Write-Host "Installing js-sdk-release-tools dependencies..." -ForegroundColor Cyan
-  & npm --prefix $releaseToolsPath ci
-  
-  if ($LASTEXITCODE -ne 0) {
-    throw "npm ci failed with exit code $LASTEXITCODE"
-  }
-  Write-Host "Dependencies installed successfully." -ForegroundColor Green
+  Invoke-LoggedCommand "npm --prefix $releaseToolsPath ci"
   Write-Host ""
   
  
   # Run the update-changelog command using npm exec
-  Write-Host "Updating CHANGELOG.md..." -ForegroundColor Green
-  
-  # Execute the command from SDK repository root
-  $command = "npm --prefix $releaseToolsPath exec --no -- update-changelog -- --sdkRepoPath `"$SdkRepoPath`" --packagePath `"$PackagePath`""
-  Write-Host "Running: $command" -ForegroundColor Gray
+  Write-Host "Updating CHANGELOG.md..." -ForegroundColor Cyan
   Write-Host ""
-  Invoke-Expression $command
-  
-  if ($LASTEXITCODE -ne 0) {
-    throw "update-changelog command failed with exit code $LASTEXITCODE"
-  }
+  $command = "npm --prefix $releaseToolsPath exec --no -- update-changelog -- --sdkRepoPath `"$SdkRepoPath`" --packagePath `"$PackagePath`""
+  Invoke-LoggedCommand $command
   
   Write-Host ""
   Write-Host "CHANGELOG.md update completed successfully!" -ForegroundColor Green

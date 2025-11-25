@@ -49,6 +49,9 @@ param (
   [string]$ReleaseDate
 )
 
+# Import common helpers
+. (Join-Path $PSScriptRoot ".." "common" "scripts" "Helpers" "CommandInvocation-Helpers.ps1")
+
 # Validate that at least one of ReleaseType or Version is provided
 if (-not $ReleaseType -and -not $Version) {
   Write-Host "Error: Either -ReleaseType or -Version must be provided" -ForegroundColor Red
@@ -75,12 +78,7 @@ try {
   }
   
   Write-Host "Installing js-sdk-release-tools dependencies..." -ForegroundColor Cyan
-  & npm --prefix $releaseToolsPath ci
-  
-  if ($LASTEXITCODE -ne 0) {
-    throw "npm ci failed with exit code $LASTEXITCODE"
-  }
-  Write-Host "Dependencies installed successfully." -ForegroundColor Green
+  Invoke-LoggedCommand "npm --prefix $releaseToolsPath ci"
   Write-Host ""
   
   # Build the command arguments string
@@ -99,17 +97,10 @@ try {
   }
   
   # Run the update-version command using npm exec
-  Write-Host "Updating package version..." -ForegroundColor Green
-  
-  # Execute the command from SDK repository root
-  $command = "npm --prefix $releaseToolsPath exec --no -- update-version -- $cmdArgs"
-  Write-Host "Running: $command" -ForegroundColor Gray
+  Write-Host "Updating package version..." -ForegroundColor Cyan
   Write-Host ""
-  Invoke-Expression $command
-  
-  if ($LASTEXITCODE -ne 0) {
-    throw "update-version command failed with exit code $LASTEXITCODE"
-  }
+  $command = "npm --prefix $releaseToolsPath exec --no -- update-version -- $cmdArgs"
+  Invoke-LoggedCommand $command
   
   Write-Host ""
   Write-Host "Package version update completed successfully!" -ForegroundColor Green
