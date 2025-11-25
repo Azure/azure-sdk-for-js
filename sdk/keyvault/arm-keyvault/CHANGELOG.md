@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0 (2025-11-12)
+## 4.0.0 (2025-11-25)
 
 ### Features Added
   - Added Interface MhsmServiceTagRule
@@ -26,15 +26,15 @@
   - Added Type Alias CreatedByType
   - Added Enum KnownCreatedByType
   - Added Enum KnownReason
-
-### Breaking Changes
   - Operation ManagedHsms.checkMhsmNameAvailability has a new signature
   - Operation Vaults.checkNameAvailability has a new signature
+  - Type alias "Reason" has been changed
+  
+### Breaking Changes
   - Removed Interface ProxyResourceWithoutSystemData
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter tags
   - Removed Type Alias IdentityType
-  - Type alias "Reason" has been changed
   - Removed Enum KnownIdentityType
 
     
