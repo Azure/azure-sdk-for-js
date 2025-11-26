@@ -84,6 +84,12 @@ export async function resumeJob(openAIClient: OpenAI, jobId: string): Promise<vo
   console.log(resumedJob);
 }
 
+export async function listEvents(openAIClient: OpenAI, jobId: string): Promise<void> {
+  console.log(`\nListing limi events for fine-tuning job: ${jobId}`);
+  const events = await openAIClient.fineTuning.jobs.listEvents(jobId, { limit: 10 });
+  console.log(JSON.stringify(events, null, 2));
+}
+
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
@@ -108,8 +114,9 @@ export async function main(): Promise<void> {
   console.log("Files processed.");
 
   // 3) Create a supervised fine-tuning job
-  const fineTuningJob = await openAIClient.fineTuning.jobs.create(
-    {
+  const fineTuningJob = await openAIClient.fineTuning.jobs.create(null as any, {
+    body: {
+      trainingType: "Standard",
       training_file: trainingFile.id,
       validation_file: validationFile.id,
       model: modelName,
@@ -124,25 +131,7 @@ export async function main(): Promise<void> {
         },
       },
     },
-    {
-      body: {
-        trainingType: "Standard",
-        training_file: trainingFile.id,
-        validation_file: validationFile.id,
-        model: modelName,
-        method: {
-          type: "supervised",
-          supervised: {
-            hyperparameters: {
-              n_epochs: 3,
-              batch_size: 1,
-              learning_rate_multiplier: 1.0,
-            },
-          },
-        },
-      },
-    },
-  );
+  });
   console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
 
   await retrieveJob(openAIClient, fineTuningJob.id);
@@ -150,13 +139,13 @@ export async function main(): Promise<void> {
   await listJobs(openAIClient);
 
   // Uncomment any of the following methods to test specific functionalities:
-  await waitForEvent(openAIClient, fineTuningJob.id, ["Training started"]);
+  // await waitForEvent(openAIClient, fineTuningJob.id, ["Training started"]);
+  // await pauseJob(openAIClient, fineTuningJob.id);
+  // await waitForEvent(openAIClient, fineTuningJob.id, ["Training paused"]);
+  // await resumeJob(openAIClient, fineTuningJob.id);
+  // await waitForEvent(openAIClient, fineTuningJob.id, ["Training resumed"]);
 
-  await pauseJob(openAIClient, fineTuningJob.id);
-
-  await resumeJob(openAIClient, fineTuningJob.id);
-
-  // # list_events(openai_client, fine_tuning_job.id)
+  await listEvents(openAIClient, fineTuningJob.id);
 
   // # list_checkpoints(openai_client, fine_tuning_job.id)
 
