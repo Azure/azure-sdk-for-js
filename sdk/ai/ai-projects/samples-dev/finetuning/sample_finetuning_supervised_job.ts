@@ -90,6 +90,14 @@ export async function listEvents(openAIClient: OpenAI, jobId: string): Promise<v
   console.log(JSON.stringify(events, null, 2));
 }
 
+export async function listCheckpoints(openAIClient: OpenAI, jobId: string): Promise<void> {
+  console.log(`\nListing checkpoints with limit: 10 for fine-tuning job: ${jobId}`);
+  const checkpoints = await openAIClient.fineTuning.jobs.checkpoints.list(jobId, {
+    limit: 10,
+  });
+  console.log(JSON.stringify(checkpoints, null, 2));
+}
+
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
@@ -134,33 +142,42 @@ export async function main(): Promise<void> {
   });
   console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
 
+  // 4) Retrieve a supervised fine-tuning job
   await retrieveJob(openAIClient, fineTuningJob.id);
 
+  // 5) List all fine-tuning jobs
   await listJobs(openAIClient);
 
-  // Uncomment any of the following methods to test specific functionalities:
+  // Uncomment any of the commented methods to test specific functionalities.
+
   // await waitForEvent(openAIClient, fineTuningJob.id, ["Training started"]);
+  // 6) Pause the fine-tuning job
   // await pauseJob(openAIClient, fineTuningJob.id);
   // await waitForEvent(openAIClient, fineTuningJob.id, ["Training paused"]);
+  // 7) Resume the fine-tuning job
   // await resumeJob(openAIClient, fineTuningJob.id);
   // await waitForEvent(openAIClient, fineTuningJob.id, ["Training resumed"]);
 
+  // 8) List events for the fine-tuning job
   await listEvents(openAIClient, fineTuningJob.id);
 
-  // # list_checkpoints(openai_client, fine_tuning_job.id)
-
+  // 9) Deploy the model
   // # deployment_name = deploy_model(openai_client, credential, fine_tuning_job.id)
 
+  // 10) Infer using the deployed model
   // # infer(openai_client, deployment_name)
 
-  // 4) Cancel the fine-tuning job
+  // 11) Cancel the fine-tuning job
   console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
   const cancelledJob = await openAIClient.fineTuning.jobs.cancel(fineTuningJob.id);
   console.log(
     `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
   );
 
-  // 5) Delete the file
+  // 12) List checkpoints for the fine-tuning job
+  await listCheckpoints(openAIClient, fineTuningJob.id);
+
+  // 13) Delete the training and validation files
   console.log(`Deleting file with ID: ${trainingFile.id}`);
   const deletedTrainingFile = await openAIClient.files.delete(trainingFile.id);
   console.log(
