@@ -1,17 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+import type {
+  PolicyEventsListQueryResultsForResourceOptionalParams} from "@azure/arm-policyinsights";
+import {
+  PolicyInsightsClient,
+} from "@azure/arm-policyinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Queries policy events for the resource.
  *
  * @summary Queries policy events for the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QueryNestedResourceScope.json
  */
-
-import type { PolicyEventsListQueryResultsForResourceOptionalParams } from "@azure/arm-policyinsights";
-import { PolicyInsightsClient } from "@azure/arm-policyinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function queryAtNestedResourceScope(): Promise<void> {
   const policyEventsResource = "default";
   const resourceId =
@@ -136,7 +139,10 @@ async function queryComponentsPolicyEventsCountGroupedByUserAndActionTypeForReso
   const expand =
     "components($apply=groupby((tenantId, principalOid, policyDefinitionAction), aggregate($count as totalActions)))";
   const options: PolicyEventsListQueryResultsForResourceOptionalParams = {
-    queryOptions: { filter, expand },
+    queryOptions: {
+      filter,
+      expand,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);

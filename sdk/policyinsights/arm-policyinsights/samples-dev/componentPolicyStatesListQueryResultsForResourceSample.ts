@@ -1,24 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  ComponentPolicyStatesListQueryResultsForResourceOptionalParams} from "@azure/arm-policyinsights";
+import {
+  PolicyInsightsClient,
+} from "@azure/arm-policyinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Queries component policy states for the resource.
  *
  * @summary Queries component policy states for the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/ComponentPolicyStates_QueryResourceScopeFilterByComponentId.json
  */
-
-import type { ComponentPolicyStatesListQueryResultsForResourceOptionalParams } from "@azure/arm-policyinsights";
-import { PolicyInsightsClient } from "@azure/arm-policyinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function queryLatestComponentPolicyComplianceStateAtResourceScopeFilteredByGivenComponentId(): Promise<void> {
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/Vaults/myKVName";
   const componentPolicyStatesResource = "latest";
   const filter = "componentId eq cert-RSA-cert-3";
-  const options: ComponentPolicyStatesListQueryResultsForResourceOptionalParams = { filter };
+  const options: ComponentPolicyStatesListQueryResultsForResourceOptionalParams =
+    { filter };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const result = await client.componentPolicyStates.listQueryResultsForResource(
@@ -41,8 +44,10 @@ async function queryLatestComponentPolicyComplianceStateCountGroupedByComponentT
   const componentPolicyStatesResource = "latest";
   const filter =
     "policyAssignmentId eq '/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/providers/microsoft.authorization/policyassignments/560050f83dbb4a24974323f8'";
-  const apply = "groupby((componentType,complianceState),aggregate($count as count))";
-  const options: ComponentPolicyStatesListQueryResultsForResourceOptionalParams = { filter, apply };
+  const apply =
+    "groupby((componentType,complianceState),aggregate($count as count))";
+  const options: ComponentPolicyStatesListQueryResultsForResourceOptionalParams =
+    { filter, apply };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const result = await client.componentPolicyStates.listQueryResultsForResource(
@@ -104,10 +109,8 @@ async function queryLatestComponentPolicyStatesAtResourceScopeAndExpandPolicyEva
   const filter =
     "componentType eq 'pod' AND componentId eq 'default/test-pod' AND componentName eq 'test-pod'";
   const expand = "PolicyEvaluationDetails";
-  const options: ComponentPolicyStatesListQueryResultsForResourceOptionalParams = {
-    filter,
-    expand,
-  };
+  const options: ComponentPolicyStatesListQueryResultsForResourceOptionalParams =
+    { filter, expand };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const result = await client.componentPolicyStates.listQueryResultsForResource(
