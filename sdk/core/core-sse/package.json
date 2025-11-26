@@ -75,7 +75,7 @@
   "devDependencies": {
     "@azure-rest/core-client": "^2.2.0",
     "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
+    "@azure-tools/vite-plugin-browser-test-map": "workspace:^",
     "@azure/core-rest-pipeline": "workspace:^",
     "@azure/core-util": "workspace:^",
     "@azure/dev-tool": "workspace:^",

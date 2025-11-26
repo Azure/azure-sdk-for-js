@@ -34,6 +34,7 @@ catalogs:
     '@azure/arm-cognitiveservices': 7.6.0
     '@azure/arm-storage': 18.5.0
     '@azure/arm-webpubsub': 1.2.0
+    '@azure/arm-resources': ^5.0.0
   internal:
     '@azure/identity': 4.13.0
   testing:
