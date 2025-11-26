@@ -37,6 +37,7 @@ import type {
   SendEventMessage,
   AckMessage,
   SequenceAckMessage,
+  PingMessage,
 } from "./models/messages.js";
 import type { WebPubSubClientProtocol } from "./protocols/index.js";
 import { WebPubSubJsonReliableProtocol } from "./protocols/index.js";
@@ -74,7 +75,10 @@ export class WebPubSubClient {
   private readonly _messageRetryPolicy: RetryPolicy;
   private readonly _reconnectRetryPolicy: RetryPolicy;
   private readonly _quickSequenceAckDiff = 300;
-  private readonly _activeTimeoutInMs = 20000;
+  // The timeout for keep alive
+  private readonly _keepAliveTimeoutInMs: number;
+  // The interval at which to send ping messages to the runtime
+  private readonly _pingIntervalInMs: number;
 
   private readonly _emitter: EventEmitter = new EventEmitter();
   private _state: WebPubSubClientState;
@@ -90,6 +94,8 @@ export class WebPubSubClient {
   private _reconnectionToken?: string;
   private _isInitialConnected = false;
   private _sequenceAckTask?: AbortableTask;
+
+  private _lastMessageReceived: number = Date.now();
 
   /**
    * Create an instance of WebPubSubClient
@@ -123,6 +129,9 @@ export class WebPubSubClient {
     this._groupMap = new Map<string, WebPubSubGroup>();
     this._ackManager = new AckManager();
     this._sequenceId = new SequenceId();
+
+    this._keepAliveTimeoutInMs = this._options.keepAliveTimeoutInMs ?? 120000;
+    this._pingIntervalInMs = this._options.pingIntervalInMs ?? 20000;
 
     this._state = WebPubSubClientState.Stopped;
   }
@@ -700,6 +709,8 @@ export class WebPubSubClient {
           this._safeEmitServerMessage(message);
         };
 
+        this._lastMessageReceived = Date.now();
+
         let messages: WebPubSubMessage[] | WebPubSubMessage | null;
         try {
           let convertedData: Buffer | ArrayBuffer | string;
@@ -726,6 +737,10 @@ export class WebPubSubClient {
         messages.forEach((message) => {
           try {
             switch (message.kind) {
+              case "pong": {
+                // handled in _lastMessageReceived
+                break;
+              }
               case "ack": {
                 handleAckMessage(message as AckMessage);
                 break;
@@ -809,10 +824,34 @@ export class WebPubSubClient {
     this._safeEmitStopped();
   }
 
+  private async _trySendPing(): Promise<void> {
+    // skip during reconnection
+    if (this._state !== WebPubSubClientState.Connected || !this._wsClient?.isOpen()) {
+      return;
+    }
+
+    const now = Date.now();
+    // Check if we haven't received a pong for too long
+    if (now - this._lastMessageReceived > this._keepAliveTimeoutInMs) {
+      logger.warning(`No pong message received for a long time. The connection is closed.`);
+      this._wsClient?.close();
+      return;
+    }
+
+    const message: PingMessage = {
+      kind: "ping",
+    };
+    try {
+      await this._sendMessage(message);
+    } catch {
+      logger.warning("Failed to send ping message to the runtime");
+    }
+  }
+
   private _getActiveKeepaliveTask(): AbortableTask {
     return new AbortableTask(async () => {
-      this._sequenceId.tryUpdate(0); // force update
-    }, this._activeTimeoutInMs);
+      await this._trySendPing();
+    }, this._pingIntervalInMs);
   }
 
   private async _sendMessage(
@@ -960,6 +999,14 @@ export class WebPubSubClient {
 
     if (clientOptions.protocol == null) {
       clientOptions.protocol = WebPubSubJsonReliableProtocol();
+    }
+
+    if (clientOptions.keepAliveTimeoutInMs == null) {
+      clientOptions.keepAliveTimeoutInMs = 120000; // 120 seconds
+    }
+
+    if (clientOptions.pingIntervalInMs == null) {
+      clientOptions.pingIntervalInMs = 20000; // 20 seconds
     }
 
     this._buildMessageRetryOptions(clientOptions);

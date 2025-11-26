@@ -29,6 +29,14 @@ export interface WebPubSubClientOptions {
    * The retry options for reconnection. Only available when autoReconnect is true.
    */
   reconnectRetryOptions?: WebPubSubRetryOptions;
+  /**
+   * The timeout in milliseconds for keep alive. Default is 120000ms (120 seconds).
+   */
+  keepAliveTimeoutInMs?: number;
+  /**
+   * The interval in milliseconds at which to send ping messages to the runtime. Default is 20000ms (20 seconds).
+   */
+  pingIntervalInMs?: number;
 }
 
 /**
