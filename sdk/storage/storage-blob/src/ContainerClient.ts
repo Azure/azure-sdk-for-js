@@ -7,7 +7,11 @@ import { isNodeLike } from "@azure/core-util";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { AnonymousCredential, StorageSharedKeyCredential, UserDelegationKey } from "@azure/storage-common";
+import {
+  AnonymousCredential,
+  StorageSharedKeyCredential,
+  UserDelegationKey,
+} from "@azure/storage-common";
 import type { Container } from "./generated/src/operationsInterfaces/index.js";
 import type {
   BlobDeleteResponse,

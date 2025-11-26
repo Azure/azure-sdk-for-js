@@ -671,16 +671,5 @@ For the complete API surface, see the corresponding -node.api.md file.
  export type SyncCopyStatusType = "success";
  
  // @public
-@@ -3210,10 +2901,8 @@
- 
- // @public
- export type Tags = Record<string, string>;
- 
--export { UserDelegationKey }
--
- // @public
- export interface UserDelegationKeyModel {
-     signedExpiresOn: string;
-     signedObjectId: string;
 
 ```

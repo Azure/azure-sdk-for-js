@@ -319,7 +319,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface ServiceGenerateAccountSasUrlOptions {
-@@ -2039,20 +1851,14 @@
+@@ -2039,12 +1851,8 @@
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }
@@ -332,13 +332,5 @@ For the complete API surface, see the corresponding -node.api.md file.
  export const ToBlobEndpointHostMappings: string[][];
  
  // @public (undocumented)
- export const ToDfsEndpointHostMappings: string[][];
- 
--export { UserDelegationKey }
--
- export { UserDelegationKeyModel }
- 
- export { WebResource }
- 
 
 ```
