@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates a task run for a container registry with the specified parameters.
  *
  * @summary Creates a task run for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/TaskRunsCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/TaskRunsCreate.json
  */
 async function taskRunsCreate(): Promise<void> {
   const subscriptionId =

@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Cancel an existing run.
  *
  * @summary Cancel an existing run.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/RunsCancel.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/RunsCancel.json
  */
 async function runsCancel() {
   const subscriptionId =

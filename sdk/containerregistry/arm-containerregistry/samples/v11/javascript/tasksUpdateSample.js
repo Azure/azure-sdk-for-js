@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Updates a task with the specified parameters.
  *
  * @summary Updates a task with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/TasksUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/TasksUpdate.json
  */
 async function tasksUpdate() {
   const subscriptionId =
@@ -66,7 +66,7 @@ async function tasksUpdate() {
  * This sample demonstrates how to Updates a task with the specified parameters.
  *
  * @summary Updates a task with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/TasksUpdate_QuickTask.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/TasksUpdate_QuickTask.json
  */
 async function tasksUpdateQuickTask() {
   const subscriptionId =
@@ -94,7 +94,7 @@ async function tasksUpdateQuickTask() {
  * This sample demonstrates how to Updates a task with the specified parameters.
  *
  * @summary Updates a task with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/ManagedIdentity/TasksUpdate_WithKeyVaultCustomCredentials.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/ManagedIdentity/TasksUpdate_WithKeyVaultCustomCredentials.json
  */
 async function tasksUpdateWithKeyVaultCustomCredentials() {
   const subscriptionId =
@@ -154,7 +154,7 @@ async function tasksUpdateWithKeyVaultCustomCredentials() {
  * This sample demonstrates how to Updates a task with the specified parameters.
  *
  * @summary Updates a task with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/ManagedIdentity/TasksUpdate_WithMSICustomCredentials.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/ManagedIdentity/TasksUpdate_WithMSICustomCredentials.json
  */
 async function tasksUpdateWithMsiCustomCredentials() {
   const subscriptionId =
@@ -202,7 +202,7 @@ async function tasksUpdateWithMsiCustomCredentials() {
  * This sample demonstrates how to Updates a task with the specified parameters.
  *
  * @summary Updates a task with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/TasksUpdate_WithOpaqueCustomCredentials.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/TasksUpdate_WithOpaqueCustomCredentials.json
  */
 async function tasksUpdateWithOpaqueCustomCredentials() {
   const subscriptionId =
