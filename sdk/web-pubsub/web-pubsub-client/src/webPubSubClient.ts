@@ -585,6 +585,7 @@ export class WebPubSubClient {
           reject(new Error(`The client is stopped`));
         }
         logger.verbose("WebSocket connection has opened");
+        this._lastMessageReceived = Date.now(); // reset last message received time to avoid immediate keepalive timeout after a longer reconnection
         this._changeState(WebPubSubClientState.Connected);
         if (this._protocol.isReliableSubProtocol) {
           if (this._sequenceAckTask != null) {
