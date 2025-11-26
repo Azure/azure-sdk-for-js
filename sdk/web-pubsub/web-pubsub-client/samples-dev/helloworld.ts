@@ -18,7 +18,7 @@ import "dotenv/config";
 async function main(): Promise<void> {
   const hubName = "sample_chat";
   const groupName = "testGroup";
-  const options : WebPubSubClientOptions = {
+  const options: WebPubSubClientOptions = {
     keepAliveTimeoutInMs: 500,
     pingIntervalInMs: 100,
   };
@@ -35,9 +35,12 @@ async function main(): Promise<void> {
       })
     ).url;
   };
-  const client = new WebPubSubClient({
-    getClientAccessUrl: fetchClientAccessUrl,
-  } as WebPubSubClientCredential, options);
+  const client = new WebPubSubClient(
+    {
+      getClientAccessUrl: fetchClientAccessUrl,
+    } as WebPubSubClientCredential,
+    options,
+  );
 
   client.on("connected", (e) => {
     console.log(`Connection ${e.connectionId} is connected.`);
