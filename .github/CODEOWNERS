@@ -480,6 +480,12 @@
 /sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/domainregistration/arm-domainregistration/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/certificateregistration/arm-certificateregistration/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/customer-insights/arm-customerinsights/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -1638,6 +1644,9 @@ sdk/workloadorchestration/arm-workloadorchestration/ @qiaozha @MaryGao
 # PRLabel: %Mgmt
 sdk/compute/arm-computerecommender/ @qiaozha @MaryGao
 
+# PRLabel: %Mgmt
+sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao
+
 ###########
 # Config
 ###########
@@ -1665,7 +1674,7 @@ sdk/compute/arm-computerecommender/ @qiaozha @MaryGao
 /sdk/*/*/tsconfig*.json @Azure/azure-sdk-for-js-core
 
 # Managment tsconfig.json
-/sdk/**/arm-*/**/tsconfig.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
+/sdk/*/arm-*/tsconfig*.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
 
 /.scripts/ @mikeharder
 /.scripts/automation_generate.sh @MaryGao @lirenhe

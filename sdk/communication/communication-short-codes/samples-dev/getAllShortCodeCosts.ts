@@ -22,7 +22,7 @@ export async function main(): Promise<void> {
   const client = new ShortCodesClient(connectionString);
 
   // get all short code costs for a resource
-  const shortCodeCosts = await client.listShortCodeCosts({
+  const shortCodeCosts = client.listShortCodeCosts({
     onResponse:
       (response) =>
       (res = response) => {

@@ -496,7 +496,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       error = e;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
     assert.equal(error?.message, "Failed sendRequest error");
   });
 });

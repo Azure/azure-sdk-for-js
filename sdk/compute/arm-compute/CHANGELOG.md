@@ -1,5 +1,14 @@
 # Release History
 
+## 23.2.0 (2025-11-13)
+
+### Features Added
+  - Interface AdditionalCapabilities has a new optional parameter enableFips1403Encryption
+  - Interface DiskRestorePointInstanceView has a new optional parameter snapshotAccessState
+  - Interface RestorePoint has a new optional parameter instantAccessDurationMinutes
+  - Interface RestorePointCollection has a new optional parameter instantAccess
+  - Interface RestorePointCollectionUpdate has a new optional parameter instantAccess
+
 ## 23.1.0 (2025-09-16)
 
 ### Features Added

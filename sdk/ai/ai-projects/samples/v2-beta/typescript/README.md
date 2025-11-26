@@ -43,7 +43,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [files/filesBasic.ts][files_filesbasic]                                       | Using an OpenAI client, this sample demonstrates how to perform files operations: create, retrieve, content, list, and delete.                                                                                                                                                                   |
 | [indexes/indexesBasics.ts][indexes_indexesbasics]                             | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all indexes, get the properties of an index by its name, and delete an index.                                                                                                                              |
 | [redTeam/redTeamBasic.ts][redteam_redteambasic]                               | Given an AIProjectClient, this sample demonstrates how to create, get, and list Red Team scans.                                                                                                                                                                                                  |
-| [telemetry/telemetryBasics.ts][telemetry_telemetrybasics]                     | Given the AIProjectClient, this sample shows how to get the connection string for telemetry.                                                                                                                                                                                                     |
 
 ## Prerequisites
 
@@ -109,6 +108,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agents_tools_agentimagegeneration]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentImageGeneration.ts
 [agents_tools_agentmcp]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentMcp.ts
 [agents_tools_agentmcpconnectionauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentMcpConnectionAuth.ts
+[agents_tools_agentopenapi]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentOpenApi.ts
+[agents_tools_agentopenapiconnectionauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentOpenApiConnectionAuth.ts
 [agents_tools_agentsharepoint]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentSharepoint.ts
 [agents_tools_agentwebsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentWebSearch.ts
 [responses_responsebasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/responses/responseBasic.ts

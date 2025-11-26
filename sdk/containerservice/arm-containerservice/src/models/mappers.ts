@@ -3658,6 +3658,13 @@ export const ManagedClusterIngressProfile: coreClient.CompositeMapper = {
           className: "ManagedClusterIngressProfileWebAppRouting",
         },
       },
+      applicationLoadBalancer: {
+        serializedName: "applicationLoadBalancer",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterIngressProfileApplicationLoadBalancer",
+        },
+      },
     },
   },
 };
@@ -3709,6 +3716,13 @@ export const ManagedClusterIngressProfileWebAppRouting: coreClient.CompositeMapp
           className: "ManagedClusterIngressProfileNginx",
         },
       },
+      defaultDomain: {
+        serializedName: "defaultDomain",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterIngressDefaultDomainProfile",
+        },
+      },
       identity: {
         serializedName: "identity",
         type: {
@@ -3729,6 +3743,50 @@ export const ManagedClusterIngressProfileNginx: coreClient.CompositeMapper = {
         serializedName: "defaultIngressControllerType",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedClusterIngressDefaultDomainProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterIngressDefaultDomainProfile",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      domainName: {
+        serializedName: "domainName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedClusterIngressProfileApplicationLoadBalancer: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterIngressProfileApplicationLoadBalancer",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "UserAssignedIdentity",
         },
       },
     },

@@ -35,7 +35,7 @@ catalogs:
     '@azure/arm-storage': 18.5.0
     '@azure/arm-webpubsub': 1.2.0
   internal:
-    '@azure/identity': 4.11.1
+    '@azure/identity': 4.13.0
   testing:
     '@rollup/plugin-inject': ^5.0.5
     '@types/chai': ^5.2.1

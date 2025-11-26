@@ -12,7 +12,7 @@ describe("XML serializer", function () {
         await parseXML(undefined);
         assert.fail("Expected error");
       } catch (err) {
-        assert.ok(err instanceof Error);
+        assert.instanceOf(err, Error);
         const error = err as Error;
         assert.ok(
           error.message.indexOf("Start tag expected, '&lt;' not found") !== -1 || // Chrome
@@ -30,7 +30,7 @@ describe("XML serializer", function () {
         await parseXML(null);
         assert.fail("Expected error");
       } catch (err) {
-        assert.ok(err instanceof Error);
+        assert.instanceOf(err, Error);
         const error = err as Error;
         assert.ok(
           error.message.indexOf("Start tag expected, '&lt;' not found") !== -1 || // Chrome
