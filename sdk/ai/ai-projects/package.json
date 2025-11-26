@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-projects",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "description": "Azure AI Projects client library.",
   "engines": {
     "node": ">=20.0.0"

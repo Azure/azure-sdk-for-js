@@ -68,14 +68,13 @@ npm install @azure/ai-projects @azure/identity
 
 ### Create and authenticate the client
 
-To construct an `AIProjectsClient`, the `projectEndpoint` can be fetched from [projectEndpoint][ai_project_client_endpoint]. Below we will assume the environment variable `AZURE_AI_PROJECT_ENDPOINT_STRING` was defined to hold this value:
+To construct an `AIProjectsClient`, the `projectEndpoint` can be fetched from [projectEndpoint][ai_project_client_endpoint]. Below we will assume the environment variable `AZURE_AI_PROJECT_ENDPOINT` was defined to hold this value:
 
 ```ts snippet:setup
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const projectEndpoint =
-  process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
 const client = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 ```
 
@@ -91,7 +90,7 @@ Run the code below. Here we assume `deploymentName` (str) is defined. It's the d
 
 Update the `api_version` value with one found in the "Data plane - inference" row [in this table](https://learn.microsoft.com/azure/ai-foundry/openai/reference#api-specs)..
 
-For openai logging, please refer [OpenAI Logging]( https://github.com/openai/openai-node/tree/master?tab=readme-ov-file#logging).
+For openai logging, please refer [OpenAI Logging](https://github.com/openai/openai-node/tree/master?tab=readme-ov-file#logging).
 
 ```ts snippet:openAI
 const openAIClient = await project.getOpenAIClient();
@@ -158,6 +157,7 @@ console.log("Conversation deleted");
 await project.agents.deleteVersion(agent.name, agent.version);
 console.log("Agent deleted");
 ```
+
 ### Deployments operations
 
 The code below shows some Deployments operations, which allow you to enumerate the AI models deployed to your Microsoft Foundry Projects. These models can be seen in the "Models + endpoints" tab in your Microsoft Foundry Project. Full samples can be found under the "deployment" folder in the [package samples][samples].
@@ -402,6 +402,7 @@ for await (const i of allIndexes) {
 console.log("Delete the Index versions created above:");
 await project.indexes.delete(indexName, version);
 ```
+
 ## Tracing
 
 **Note:** Tracing functionality is in preliminary preview and is subject to change. Spans, attributes, and events may be modified in future versions.
