@@ -3,9 +3,11 @@
 
 import type {
   AckMessage,
+  CancelInvocationMessage,
   ConnectedMessage,
   DisconnectedMessage,
   GroupDataMessage,
+  InvokeResponseMessage,
   ServerDataMessage,
   WebPubSubDataType,
   WebPubSubMessage,
@@ -59,6 +61,30 @@ export function parseMessages(input: string): WebPubSubMessage | null {
     }
   } else if (typedMessage.type === "ack") {
     returnMessage = { ...parsedMessage, kind: "ack" } as AckMessage;
+  } else if (typedMessage.type === "invokeResponse") {
+    let data: JSONTypes | ArrayBuffer | undefined;
+    if (parsedMessage.dataType != null) {
+      const parsedData = parsePayload(parsedMessage.data, parsedMessage.dataType);
+      if (parsedData === null) {
+        return null;
+      }
+      data = parsedData;
+    }
+
+    returnMessage = {
+      kind: "invokeResponse",
+      invocationId: parsedMessage.invocationId,
+      success: parsedMessage.success,
+      dataType: parsedMessage.dataType,
+      data,
+      error: parsedMessage.error,
+      fanout: parsedMessage.fanout,
+    } as InvokeResponseMessage;
+  } else if (typedMessage.type === "cancelInvocation") {
+    returnMessage = {
+      ...parsedMessage,
+      kind: "cancelInvocation",
+    } as CancelInvocationMessage;
   } else {
     // Forward compatible
     return null;
@@ -102,6 +128,45 @@ export function writeMessage(message: WebPubSubMessage): string {
       data = { type: "sequenceAck", sequenceId: message.sequenceId } as SequenceAckData;
       break;
     }
+    case "invoke": {
+      const invokePayload: InvokeData = {
+        type: "invoke",
+        invocationId: message.invocationId,
+        target: message.target,
+        event: message.event,
+      };
+
+      if (message.dataType != null && message.data != null) {
+        invokePayload.dataType = message.dataType;
+        invokePayload.data = getPayload(message.data, message.dataType);
+      }
+
+      data = invokePayload;
+      break;
+    }
+    case "invokeResponse": {
+      const invokeResponse: InvokeResponseData = {
+        type: "invokeResponse",
+        invocationId: message.invocationId,
+        success: message.success,
+        error: message.error,
+      };
+
+      if (message.dataType != null && message.data != null) {
+        invokeResponse.dataType = message.dataType;
+        invokeResponse.data = getPayload(message.data, message.dataType);
+      }
+
+      data = invokeResponse;
+      break;
+    }
+    case "cancelInvocation": {
+      data = {
+        type: "cancelInvocation",
+        invocationId: message.invocationId,
+      } as CancelInvocationData;
+      break;
+    }
     default: {
       throw new Error(`Unsupported type: ${message.kind}`);
     }
@@ -142,6 +207,29 @@ interface SendEventData {
 interface SequenceAckData {
   readonly type: "sequenceAck";
   sequenceId: number;
+}
+
+interface InvokeData {
+  readonly type: "invoke";
+  invocationId: string;
+  target?: "event" | "group";
+  event?: string;
+  dataType?: WebPubSubDataType;
+  data?: any;
+}
+
+interface InvokeResponseData {
+  readonly type: "invokeResponse";
+  invocationId: string;
+  success?: boolean;
+  error?: { name: string; message: string };
+  dataType?: WebPubSubDataType;
+  data?: any;
+}
+
+interface CancelInvocationData {
+  readonly type: "cancelInvocation";
+  invocationId: string;
 }
 
 function getPayload(data: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType): any {

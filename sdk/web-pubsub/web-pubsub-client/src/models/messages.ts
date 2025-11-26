@@ -16,7 +16,10 @@ export type WebPubSubMessage =
   | SendToGroupMessage
   | SendEventMessage
   | SequenceAckMessage
-  | AckMessage;
+  | AckMessage
+  | InvokeMessage
+  | InvokeResponseMessage
+  | CancelInvocationMessage;
 
 /**
  * The common of web pubsub message
@@ -48,7 +51,11 @@ export type DownstreamMessageType =
   /**
    * Type for ServerDataMessage
    */
-  | "serverData";
+  | "serverData"
+  /**
+   * Type for InvokeResponseMessage
+   */
+  | "invokeResponse";
 
 /**
  * Types for upstream messages
@@ -73,7 +80,15 @@ export type UpstreamMessageType =
   /**
    * Type for SequenceAckMessage
    */
-  | "sequenceAck";
+  | "sequenceAck"
+  /**
+   * Type for InvokeMessage
+   */
+  | "invoke"
+  /**
+   * Type for CancelInvocationMessage
+   */
+  | "cancelInvocation";
 
 /**
  * The ack message
@@ -303,6 +318,55 @@ export interface SequenceAckMessage extends WebPubSubMessageBase {
    * The sequence id
    */
   sequenceId: number;
+}
+
+/**
+ * Invoke message
+ */
+export interface InvokeMessage extends WebPubSubMessageBase {
+  readonly kind: "invoke";
+  invocationId: string;
+  target?: "event";
+  /**
+   * The event name when targeting upstream events.
+   */
+  event?: string;
+  /**
+   * Data type of the payload.
+   */
+  dataType?: WebPubSubDataType;
+  /**
+   * Payload data.
+   */
+  data?: JSONTypes | ArrayBuffer;
+}
+
+/**
+ * Invoke response message
+ */
+export interface InvokeResponseMessage extends WebPubSubMessageBase {
+  readonly kind: "invokeResponse";
+  invocationId: string;
+  success?: boolean;
+  dataType?: WebPubSubDataType;
+  data?: JSONTypes | ArrayBuffer;
+  error?: InvokeResponseError;
+}
+
+/**
+ * Invoke response error details
+ */
+export interface InvokeResponseError {
+  name: string;
+  message: string;
+}
+
+/**
+ * Cancel invocation message
+ */
+export interface CancelInvocationMessage extends WebPubSubMessageBase {
+  readonly kind: "cancelInvocation";
+  invocationId: string;
 }
 
 /**
