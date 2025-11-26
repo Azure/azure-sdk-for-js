@@ -41,7 +41,6 @@ The `//sampleConfiguration` section in the `package.json` holds the package-leve
 
 ```json
   "//sampleConfiguration": {
-    "disableDocsMs": true,
     "productName": "Azure Schema Registry",
     "productSlugs": [
       "azure",
@@ -52,6 +51,8 @@ The `//sampleConfiguration` section in the `package.json` holds the package-leve
     }
   },
 ```
+
+If you do not want to publish samples to learn.microsoft.com, add `"disableDocsMs": true` in the sample configuration.
 
 ### Azure SDK Metadata Tags for Samples
 
