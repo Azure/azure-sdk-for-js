@@ -4,24 +4,22 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AccessProfileType = string;
 
 // @public
 export interface Appliance extends TrackedResource {
-    distro?: Distro;
     identity?: Identity;
-    infrastructureConfig?: AppliancePropertiesInfrastructureConfig;
-    readonly provisioningState?: string;
-    publicKey?: string;
-    readonly status?: Status;
-    version?: string;
+    properties?: ApplianceProperties;
 }
 
 // @public
@@ -43,36 +41,37 @@ export interface ApplianceListCredentialResults {
 
 // @public
 export interface ApplianceListKeysResults {
-    readonly artifactProfiles?: {
-        [propertyName: string]: ArtifactProfile;
-    };
+    readonly artifactProfiles?: Record<string, ArtifactProfile>;
     readonly kubeconfigs?: ApplianceCredentialKubeconfig[];
-    readonly sshKeys?: {
-        [propertyName: string]: SSHKey;
-    };
-}
-
-// @public
-export interface ApplianceListResult {
-    readonly nextLink?: string;
-    readonly value?: Appliance[];
+    readonly sshKeys?: Record<string, SSHKey>;
 }
 
 // @public
 export interface ApplianceOperation {
-    readonly description?: string;
+    display?: ApplianceOperationValueDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
-    readonly operation?: string;
     readonly origin?: string;
+}
+
+// @public
+export interface ApplianceOperationValueDisplay {
+    readonly description?: string;
+    readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
 }
 
 // @public
-export interface ApplianceOperationsList {
-    nextLink?: string;
-    value: ApplianceOperation[];
+export interface ApplianceProperties {
+    distro?: Distro;
+    readonly events?: Event_2[];
+    infrastructureConfig?: AppliancePropertiesInfrastructureConfig;
+    networkProfile?: NetworkProfile;
+    readonly provisioningState?: string;
+    publicKey?: string;
+    readonly status?: Status;
+    version?: string;
 }
 
 // @public
@@ -81,123 +80,66 @@ export interface AppliancePropertiesInfrastructureConfig {
 }
 
 // @public
-export interface Appliances {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: Appliance, options?: AppliancesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AppliancesCreateOrUpdateResponse>, AppliancesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: Appliance, options?: AppliancesCreateOrUpdateOptionalParams): Promise<AppliancesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, options?: AppliancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: AppliancesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, options?: AppliancesGetOptionalParams): Promise<AppliancesGetResponse>;
-    getTelemetryConfig(options?: AppliancesGetTelemetryConfigOptionalParams): Promise<AppliancesGetTelemetryConfigResponse>;
-    getUpgradeGraph(resourceGroupName: string, resourceName: string, upgradeGraph: string, options?: AppliancesGetUpgradeGraphOptionalParams): Promise<AppliancesGetUpgradeGraphResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: AppliancesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Appliance>;
-    listBySubscription(options?: AppliancesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Appliance>;
-    listClusterUserCredential(resourceGroupName: string, resourceName: string, options?: AppliancesListClusterUserCredentialOptionalParams): Promise<AppliancesListClusterUserCredentialResponse>;
-    listKeys(resourceGroupName: string, resourceName: string, options?: AppliancesListKeysOptionalParams): Promise<AppliancesListKeysResponse>;
-    listOperations(options?: AppliancesListOperationsOptionalParams): PagedAsyncIterableIterator<ApplianceOperation>;
-    update(resourceGroupName: string, resourceName: string, options?: AppliancesUpdateOptionalParams): Promise<AppliancesUpdateResponse>;
-}
-
-// @public
-export interface AppliancesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AppliancesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AppliancesCreateOrUpdateResponse = Appliance;
-
-// @public
-export interface AppliancesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AppliancesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AppliancesGetOptionalParams extends coreClient.OperationOptions {
+export interface AppliancesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppliancesGetResponse = Appliance;
-
-// @public
-export interface AppliancesGetTelemetryConfigOptionalParams extends coreClient.OperationOptions {
+export interface AppliancesGetTelemetryConfigOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppliancesGetTelemetryConfigResponse = ApplianceGetTelemetryConfigResult;
-
-// @public
-export interface AppliancesGetUpgradeGraphOptionalParams extends coreClient.OperationOptions {
+export interface AppliancesGetUpgradeGraphOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppliancesGetUpgradeGraphResponse = UpgradeGraph;
-
-// @public
-export interface AppliancesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface AppliancesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppliancesListByResourceGroupNextResponse = ApplianceListResult;
-
-// @public
-export interface AppliancesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface AppliancesListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppliancesListByResourceGroupResponse = ApplianceListResult;
-
-// @public
-export interface AppliancesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface AppliancesListClusterUserCredentialOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppliancesListBySubscriptionNextResponse = ApplianceListResult;
-
-// @public
-export interface AppliancesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface AppliancesListKeysOptionalParams extends OperationOptions {
+    artifactType?: string;
 }
 
 // @public
-export type AppliancesListBySubscriptionResponse = ApplianceListResult;
-
-// @public
-export interface AppliancesListClusterUserCredentialOptionalParams extends coreClient.OperationOptions {
+export interface AppliancesListOperationsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppliancesListClusterUserCredentialResponse = ApplianceListCredentialResults;
-
-// @public
-export interface AppliancesListKeysOptionalParams extends coreClient.OperationOptions {
+export interface AppliancesOperations {
+    createOrUpdate: (resourceGroupName: string, resourceName: string, parameters: Appliance, options?: AppliancesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Appliance>, Appliance>;
+    delete: (resourceGroupName: string, resourceName: string, options?: AppliancesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, resourceName: string, options?: AppliancesGetOptionalParams) => Promise<Appliance>;
+    getTelemetryConfig: (options?: AppliancesGetTelemetryConfigOptionalParams) => Promise<ApplianceGetTelemetryConfigResult>;
+    getUpgradeGraph: (resourceGroupName: string, resourceName: string, upgradeGraph: string, options?: AppliancesGetUpgradeGraphOptionalParams) => Promise<UpgradeGraph>;
+    listByResourceGroup: (resourceGroupName: string, options?: AppliancesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Appliance>;
+    listBySubscription: (options?: AppliancesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Appliance>;
+    listClusterUserCredential: (resourceGroupName: string, resourceName: string, options?: AppliancesListClusterUserCredentialOptionalParams) => Promise<ApplianceListCredentialResults>;
+    listKeys: (resourceGroupName: string, resourceName: string, options?: AppliancesListKeysOptionalParams) => Promise<ApplianceListKeysResults>;
+    listOperations: (options?: AppliancesListOperationsOptionalParams) => PagedAsyncIterableIterator<ApplianceOperation>;
+    update: (resourceGroupName: string, resourceName: string, parameters: PatchableAppliance, options?: AppliancesUpdateOptionalParams) => Promise<Appliance>;
 }
 
 // @public
-export type AppliancesListKeysResponse = ApplianceListKeysResults;
-
-// @public
-export interface AppliancesListOperationsNextOptionalParams extends coreClient.OperationOptions {
+export interface AppliancesUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type AppliancesListOperationsNextResponse = ApplianceOperationsList;
-
-// @public
-export interface AppliancesListOperationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppliancesListOperationsResponse = ApplianceOperationsList;
-
-// @public
-export interface AppliancesUpdateOptionalParams extends coreClient.OperationOptions {
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export type AppliancesUpdateResponse = Appliance;
 
 // @public
 export interface ArtifactProfile {
@@ -205,7 +147,19 @@ export interface ArtifactProfile {
 }
 
 // @public
-export type ArtifactType = string;
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
@@ -214,8 +168,13 @@ export type CreatedByType = string;
 export type Distro = string;
 
 // @public
+export interface DnsConfiguration {
+    version?: string;
+}
+
+// @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -234,7 +193,20 @@ export interface ErrorResponse {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+interface Event_2 {
+    code?: string;
+    message?: string;
+    severity?: string;
+    status?: string;
+    timestamp?: Date;
+    type?: string;
+}
+export { Event_2 as Event }
+
+// @public
+export interface GatewayConfiguration {
+    version?: string;
+}
 
 // @public
 export interface HybridConnectionConfig {
@@ -258,11 +230,6 @@ export enum KnownAccessProfileType {
 }
 
 // @public
-export enum KnownArtifactType {
-    LogsArtifactType = "LogsArtifactType"
-}
-
-// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -278,8 +245,6 @@ export enum KnownDistro {
 // @public
 export enum KnownProvider {
     HCI = "HCI",
-    KubeVirt = "KubeVirt",
-    OpenStack = "OpenStack",
     Scvmm = "SCVMM",
     VMWare = "VMWare"
 }
@@ -291,17 +256,14 @@ export enum KnownResourceIdentityType {
 }
 
 // @public
-export enum KnownSSHKeyType {
-    LogsKey = "LogsKey",
-    ManagementCAKey = "ManagementCAKey",
-    ScopedAccessKey = "ScopedAccessKey",
-    SSHCustomerUser = "SSHCustomerUser"
-}
-
-// @public
 export enum KnownStatus {
+    ArcGatewayUpdateComplete = "ArcGatewayUpdateComplete",
+    ArcGatewayUpdateFailed = "ArcGatewayUpdateFailed",
+    ArcGatewayUpdatePreparing = "ArcGatewayUpdatePreparing",
+    ArcGatewayUpdating = "ArcGatewayUpdating",
     Connected = "Connected",
     Connecting = "Connecting",
+    EtcdSnapshotFailed = "ETCDSnapshotFailed",
     ImageDeprovisioning = "ImageDeprovisioning",
     ImageDownloaded = "ImageDownloaded",
     ImageDownloading = "ImageDownloading",
@@ -309,6 +271,14 @@ export enum KnownStatus {
     ImageProvisioned = "ImageProvisioned",
     ImageProvisioning = "ImageProvisioning",
     ImageUnknown = "ImageUnknown",
+    NetworkDNSUpdateComplete = "NetworkDNSUpdateComplete",
+    NetworkDNSUpdateFailed = "NetworkDNSUpdateFailed",
+    NetworkDNSUpdatePreparing = "NetworkDNSUpdatePreparing",
+    NetworkDNSUpdating = "NetworkDNSUpdating",
+    NetworkProxyUpdateComplete = "NetworkProxyUpdateComplete",
+    NetworkProxyUpdateFailed = "NetworkProxyUpdateFailed",
+    NetworkProxyUpdatePreparing = "NetworkProxyUpdatePreparing",
+    NetworkProxyUpdating = "NetworkProxyUpdating",
     None = "None",
     Offline = "Offline",
     PostUpgrade = "PostUpgrade",
@@ -324,20 +294,52 @@ export enum KnownStatus {
     UpgradePrerequisitesCompleted = "UpgradePrerequisitesCompleted",
     UpgradingKvaio = "UpgradingKVAIO",
     Validating = "Validating",
+    ValidatingEtcdHealth = "ValidatingETCDHealth",
+    ValidatingImageDownload = "ValidatingImageDownload",
+    ValidatingImageUpload = "ValidatingImageUpload",
+    ValidatingSFSConnectivity = "ValidatingSFSConnectivity",
     WaitingForCloudOperator = "WaitingForCloudOperator",
     WaitingForHeartbeat = "WaitingForHeartbeat",
     WaitingForKvaio = "WaitingForKVAIO"
 }
 
 // @public
+export enum KnownVersions {
+    V20221027 = "2022-10-27",
+    V20250301Preview = "2025-03-01-preview"
+}
+
+// @public
+export interface NetworkProfile {
+    dnsConfiguration?: DnsConfiguration;
+    gatewayConfiguration?: GatewayConfiguration;
+    proxyConfiguration?: ProxyConfiguration;
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export interface PatchableAppliance {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export type Provider = string;
+
+// @public
+export interface ProxyConfiguration {
+    version?: string;
+}
 
 // @public
 export interface Resource {
@@ -348,28 +350,30 @@ export interface Resource {
 }
 
 // @public (undocumented)
-export class ResourceConnectorManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ResourceConnectorManagementClientOptionalParams);
-    constructor(credentials: coreAuth.TokenCredential, options?: ResourceConnectorManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    appliances: Appliances;
-    // (undocumented)
-    subscriptionId?: string;
+export class ResourceConnectorManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ResourceConnectorManagementClientOptionalParams);
+    readonly appliances: AppliancesOperations;
+    readonly pipeline: Pipeline;
 }
 
 // @public
-export interface ResourceConnectorManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface ResourceConnectorManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
 export type ResourceIdentityType = string;
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ResourceConnectorManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface SSHKey {
@@ -379,9 +383,6 @@ export interface SSHKey {
     readonly privateKey?: string;
     readonly publicKey?: string;
 }
-
-// @public
-export type SSHKeyType = string;
 
 // @public
 export type Status = string;
@@ -425,9 +426,7 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
