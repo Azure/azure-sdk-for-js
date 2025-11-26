@@ -10,7 +10,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
-import { CognitiveServicesManagementClient, Operation } from "@azure/arm-cognitiveservices";
+import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import type OpenAI from "openai";
 import { fileURLToPath } from "url";
 import * as fs from "fs";
@@ -24,9 +24,9 @@ const trainingFilePath = path.join(__dirname, "data", "sft_training_set.jsonl");
 const validationFilePath = path.join(__dirname, "data", "sft_validation_set.jsonl");
 
 // For Deployment and inferencing on model
-const subscription_id: string = process.env["AZURE_AI_PROJECTS_AZURE_SUBSCRIPTION_ID"] as string;
-const resource_group: string = process.env["AZURE_AI_PROJECTS_AZURE_RESOURCE_GROUP"] as string;
-const account_name: string = process.env["AZURE_AI_PROJECTS_AZURE_AOAI_ACCOUNT"] as string;
+const subscription_id = process.env["AZURE_AI_PROJECTS_AZURE_SUBSCRIPTION_ID"];
+const resource_group = process.env["AZURE_AI_PROJECTS_AZURE_RESOURCE_GROUP"];
+const account_name = process.env["AZURE_AI_PROJECTS_AZURE_AOAI_ACCOUNT"];
 
 export async function retrieveJob(openAIClient: OpenAI, jobId: string): Promise<void> {
   console.log(`\nGetting fine-tuning job with ID: ${jobId}`);
@@ -120,11 +120,11 @@ export async function deployModel(openAIClient: OpenAI, jobId: string): Promise<
   );
   const cognitiveClient = new CognitiveServicesManagementClient(
     new DefaultAzureCredential(),
-    subscription_id,
+    subscription_id as string,
   );
   const deployment = await cognitiveClient.deployments.beginCreateOrUpdate(
-    resource_group,
-    account_name,
+    resource_group as string,
+    account_name as string,
     deploymentName,
     deploymentConfig as any,
   );
