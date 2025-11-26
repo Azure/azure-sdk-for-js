@@ -29,7 +29,6 @@ import type {
   MessagesClearHeaders,
   MessageIdDeleteHeaders,
   MessageIdUpdateHeaders,
-  UserDelegationKey,
 } from "./generatedModels.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { Messages, MessageId, Queue } from "./generated/src/operationsInterfaces/index.js";
@@ -46,7 +45,7 @@ import {
   appendToURLQuery,
   assertResponse,
 } from "./utils/utils.common.js";
-import { StorageSharedKeyCredential } from "@azure/storage-common";
+import { StorageSharedKeyCredential, UserDelegationKey } from "@azure/storage-common";
 import { AnonymousCredential } from "@azure/storage-common";
 import { tracingClient } from "./utils/tracing.js";
 import type { Metadata } from "./models.js";

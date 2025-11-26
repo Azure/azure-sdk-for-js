@@ -2,14 +2,13 @@
 // Licensed under the MIT License.
 
 import { QueueSASPermissions } from "./QueueSASPermissions.js";
-import { StorageSharedKeyCredential, UserDelegationKeyCredential } from "@azure/storage-common";
+import { StorageSharedKeyCredential, UserDelegationKey, UserDelegationKeyCredential } from "@azure/storage-common";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
 import type { SASProtocol } from "./SASQueryParameters.js";
 import { SASQueryParameters } from "./SASQueryParameters.js";
 import { SERVICE_VERSION } from "./utils/constants.js";
 import { truncatedISO8061Date } from "./utils/utils.common.js";
-import { UserDelegationKey } from "./generatedModels.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

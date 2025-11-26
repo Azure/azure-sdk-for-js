@@ -33,7 +33,7 @@ import { StorageSharedKeyCredential } from '@azure/storage-common';
 import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
 import type { TokenCredential } from '@azure/core-auth';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
-import { UserDelegationKey as UserDelegationKey_2 } from '@azure/storage-common';
+import { UserDelegationKey } from '@azure/storage-common';
 import { WebResourceLike as WebResource } from '@azure/core-http-compat';
 
 // @public
@@ -670,7 +670,7 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, userDelegationKey?: UserDelegationKey_2, delegatedUserObjectId?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, userDelegationKey?: UserDelegationKey, delegatedUserObjectId?: string);
     readonly delegatedUserObjectId?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
@@ -835,16 +835,7 @@ export { StorageSharedKeyCredential }
 
 export { StorageSharedKeyCredentialPolicy }
 
-// @public
-export interface UserDelegationKey {
-    signedExpiresOn: Date;
-    signedObjectId: string;
-    signedService: string;
-    signedStartsOn: Date;
-    signedTenantId: string;
-    signedVersion: string;
-    value: string;
-}
+export { UserDelegationKey }
 
 // @public
 export interface UserDelegationKeyModel {

@@ -3088,11 +3088,6 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
-
-  /**
-   * Progress updating event handler.
-   */
-  onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
@@ -4106,9 +4101,6 @@ export class ShareFileClient extends StorageClient {
         group: updatedOptions.posixProperties?.group,
         fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
         nfsFileType: updatedOptions.posixProperties?.fileType,
-        requestOptions: {
-          onUploadProgress: updatedOptions.onProgress,
-        },
         ...this.shareClientConfig,
       });
 

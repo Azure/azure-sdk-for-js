@@ -158,7 +158,6 @@ export interface SharePropertiesInternal {
   maxBurstCreditsForIops?: number;
   nextAllowedProvisionedIopsDowngradeTime?: Date;
   nextAllowedProvisionedBandwidthDowngradeTime?: Date;
-  enableSmbDirectoryLease?: boolean;
 }
 
 /** Key information */
@@ -475,8 +474,6 @@ export interface ShareGetPropertiesHeaders {
   nextAllowedProvisionedIopsDowngradeTime?: Date;
   /** Returns the current share next allowed provisioned bandwidth downgrade time. */
   nextAllowedProvisionedBandwidthDowngradeTime?: Date;
-  /** Specifies whether granting of new directory leases for directories present in a share is enabled(allowed) or disabled(blocked).  Header is only returned for a SMB Share. */
-  enableSmbDirectoryLease?: boolean;
   /** Error Code */
   errorCode?: string;
 }
@@ -2264,8 +2261,6 @@ export interface ShareCreateOptionalParams extends coreClient.OperationOptions {
   shareProvisionedIops?: number;
   /** Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares. Specifies the provisioned bandwidth of the share, in mebibytes per second (MiBps). If this is not specified, the provisioned bandwidth is set to value calculated based on recommendation formula. */
   shareProvisionedBandwidthMibps?: number;
-  /** SMB only, default is true.  Specifies whether granting of new directory leases for directories present in a share are to be enabled or disabled. An input of true specifies that granting of new directory leases is to be allowed. An input of false specifies that granting of new directory leases is to be blocked. */
-  enableSmbDirectoryLease?: boolean;
 }
 
 /** Contains response data for the create operation. */
@@ -2461,8 +2456,6 @@ export interface ShareSetPropertiesOptionalParams
   shareProvisionedIops?: number;
   /** Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares. Specifies the provisioned bandwidth of the share, in mebibytes per second (MiBps). If this is not specified, the provisioned bandwidth is set to value calculated based on recommendation formula. */
   shareProvisionedBandwidthMibps?: number;
-  /** SMB only, default is true.  Specifies whether granting of new directory leases for directories present in a share are to be enabled or disabled. An input of true specifies that granting of new directory leases is to be allowed. An input of false specifies that granting of new directory leases is to be blocked. */
-  enableSmbDirectoryLease?: boolean;
 }
 
 /** Contains response data for the setProperties operation. */

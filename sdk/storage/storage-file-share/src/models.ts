@@ -6,7 +6,6 @@ import { truncatedISO8061Date } from "./utils/utils.common.js";
 import { logger } from "./log.js";
 import type {
   FilePermissionFormat,
-  FilePropertySemantics,
   NfsFileType,
   ShareTokenIntent,
 } from "./generatedModels.js";
@@ -262,11 +261,6 @@ export interface FileAndDirectoryCreateCommonOptions {
      Note that this property is only applicable to files created in NFS shares.
    */
   posixProperties?: FilePosixProperties;
-
-  /** SMB only, default value is New.  New will forcefully add the ARCHIVE attribute flag and alter the permissions specified in x-ms-file-permission to inherit missing permissions from the parent.
-   * Restore will apply changes without further modification.
-   */
-  filePropertySemantics?: FilePropertySemantics;
 }
 
 export interface FileAndDirectorySetPropertiesCommonOptions {

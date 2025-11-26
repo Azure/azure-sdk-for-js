@@ -455,7 +455,6 @@ export interface FileAndDirectoryCreateCommonOptions {
     filePermission?: string | FilePermissionInheritType;
     filePermissionFormat?: FilePermissionFormat;
     filePermissionKey?: string;
-    filePropertySemantics?: FilePropertySemantics;
     lastWriteTime?: Date | TimeNowType;
     posixProperties?: FilePosixProperties;
 }
@@ -540,7 +539,6 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
     fileHttpHeaders?: FileHttpHeaders;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
-    onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 // @public
@@ -896,9 +894,6 @@ export interface FileProperty {
     // (undocumented)
     lastWriteTime?: Date;
 }
-
-// @public
-export type FilePropertySemantics = string;
 
 // @public
 export interface FileRenameHeaders {
@@ -1887,7 +1882,6 @@ export interface ShareGetPropertiesHeaders {
     accessTierTransitionState?: string;
     date?: Date;
     enabledProtocols?: string;
-    enableSmbDirectoryLease?: boolean;
     enableSnapshotVirtualDirectoryAccess?: boolean;
     errorCode?: string;
     etag?: string;
@@ -2030,8 +2024,6 @@ export interface SharePropertiesInternal {
     deletedTime?: Date;
     // (undocumented)
     enabledProtocols?: string;
-    // (undocumented)
-    enableSmbDirectoryLease?: boolean;
     // (undocumented)
     enableSnapshotVirtualDirectoryAccess?: boolean;
     // (undocumented)
@@ -2294,6 +2286,8 @@ export function toOctalFileMode(input?: NfsFileMode): string | undefined;
 
 // @public
 export function toSymbolicFileMode(input?: NfsFileMode): string | undefined;
+
+export { UserDelegationKey }
 
 // @public
 export interface UserDelegationKeyModel {

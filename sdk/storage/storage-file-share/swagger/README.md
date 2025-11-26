@@ -909,3 +909,25 @@ directive:
     transform: >
       delete $["x-ms-structured-body"];
 ```
+
+### Remove EnableSmbDirectoryLease
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}?restype=share"]["put"]
+    transform: >
+      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/EnableSmbDirectoryLease"))});
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}?restype=share"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      delete $["x-ms-enable-smb-directory-lease"];
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}?restype=share&comp=properties"]["put"]
+    transform: >
+      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/EnableSmbDirectoryLease"))});
+  - from: swagger-document
+    where: $["definitions"]["SharePropertiesInternal"]["properties"]
+    transform: >
+      delete $["EnableSmbDirectoryLease"]
+```
