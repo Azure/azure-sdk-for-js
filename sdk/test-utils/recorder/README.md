@@ -253,7 +253,7 @@ To record your tests,
 
 In the following example, we'll use the recorder with the client from `@azure/data-tables`:
 
-_[Example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/test/public/configurationClient.spec.ts) from the template project if you want to check out._
+_[Example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/test/public/sampleTest.spec.ts) from the template project if you want to check out._
 
 ```typescript
 import { RecorderStartOptions, Recorder, env } from "@azure-tools/test-recorder";
