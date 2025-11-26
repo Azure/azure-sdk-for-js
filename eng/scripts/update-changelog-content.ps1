@@ -31,7 +31,7 @@ param (
 )
 
 # Import common helpers
-. (Join-Path $PSScriptRoot ".." "common" "scripts" "Helpers" "CommandInvocation-Helpers.ps1")
+. (Join-Path (Join-Path (Join-Path (Join-Path (Join-Path $PSScriptRoot "..") "common") "scripts") "Helpers") "CommandInvocation-Helpers.ps1")
 
 # Main execution
 try {
