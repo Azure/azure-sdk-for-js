@@ -85,7 +85,7 @@ export async function resumeJob(openAIClient: OpenAI, jobId: string): Promise<vo
 }
 
 export async function listEvents(openAIClient: OpenAI, jobId: string): Promise<void> {
-  console.log(`\nListing limi events for fine-tuning job: ${jobId}`);
+  console.log(`\nListing events with limit: 10 for fine-tuning job: ${jobId}`);
   const events = await openAIClient.fineTuning.jobs.listEvents(jobId, { limit: 10 });
   console.log(JSON.stringify(events, null, 2));
 }
