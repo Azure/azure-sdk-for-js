@@ -10,6 +10,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
+import { CognitiveServicesManagementClient, Operation } from "@azure/arm-cognitiveservices";
 import type OpenAI from "openai";
 import { fileURLToPath } from "url";
 import * as fs from "fs";
@@ -23,9 +24,9 @@ const trainingFilePath = path.join(__dirname, "data", "sft_training_set.jsonl");
 const validationFilePath = path.join(__dirname, "data", "sft_validation_set.jsonl");
 
 // For Deployment and inferencing on model
-const subscription_id = process.env["AZURE_AI_PROJECTS_AZURE_SUBSCRIPTION_ID"];
-const resource_group = process.env["AZURE_AI_PROJECTS_AZURE_RESOURCE_GROUP"];
-const account_name = process.env["AZURE_AI_PROJECTS_AZURE_AOAI_ACCOUNT"];
+const subscription_id: string = process.env["AZURE_AI_PROJECTS_AZURE_SUBSCRIPTION_ID"] as string;
+const resource_group: string = process.env["AZURE_AI_PROJECTS_AZURE_RESOURCE_GROUP"] as string;
+const account_name: string = process.env["AZURE_AI_PROJECTS_AZURE_AOAI_ACCOUNT"] as string;
 
 export async function retrieveJob(openAIClient: OpenAI, jobId: string): Promise<void> {
   console.log(`\nGetting fine-tuning job with ID: ${jobId}`);
@@ -98,6 +99,59 @@ export async function listCheckpoints(openAIClient: OpenAI, jobId: string): Prom
   console.log(JSON.stringify(checkpoints, null, 2));
 }
 
+export async function deployModel(openAIClient: OpenAI, jobId: string): Promise<string> {
+  console.log(`Retrieving fine-tuning job with ID: ${jobId}`);
+  const fineTunedModelName = (await openAIClient.fineTuning.jobs.retrieve(jobId)).fine_tuned_model;
+  const deploymentName = "gpt-4-1-fine-tuned";
+
+  const deploymentConfig = {
+    sku: { name: "GlobalStandard", capacity: 100 },
+    properties: {
+      model: {
+        format: "OpenAI",
+        name: fineTunedModelName,
+        version: "1",
+      },
+    },
+  };
+
+  console.log(
+    `Deploying fine-tuned model: ${fineTunedModelName} with deployment name: ${deploymentName}`,
+  );
+  const cognitiveClient = new CognitiveServicesManagementClient(
+    new DefaultAzureCredential(),
+    subscription_id,
+  );
+  const deployment = await cognitiveClient.deployments.beginCreateOrUpdate(
+    resource_group,
+    account_name,
+    deploymentName,
+    deploymentConfig as any,
+  );
+
+  while (
+    deployment.getOperationState().status !== "succeeded" &&
+    deployment.getOperationState().status !== "failed"
+  ) {
+    console.log(`Deployment status: ${deployment.getOperationState().status}`);
+    await new Promise((resolve) => setTimeout(resolve, 60_000));
+  }
+
+  console.log(`Model deployment completed: ${deploymentName}`);
+  return deploymentName;
+}
+
+export async function infer(openAIClient: OpenAI, deploymentName: string): Promise<void> {
+  console.log(`Testing fine-tuned model via deployment: ${deploymentName}`);
+
+  const response = await openAIClient.responses.create({
+    model: deploymentName,
+    input: [{ role: "user", content: "Who invented the telephone?" }],
+  });
+
+  console.log(`Model response: ${response.output_text}`);
+}
+
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
@@ -161,11 +215,12 @@ export async function main(): Promise<void> {
   // 8) List events for the fine-tuning job
   await listEvents(openAIClient, fineTuningJob.id);
 
+  await waitForEvent(openAIClient, fineTuningJob.id, ["Training completed"]);
   // 9) Deploy the model
-  // # deployment_name = deploy_model(openai_client, credential, fine_tuning_job.id)
+  const deploymentName = await deployModel(openAIClient, fineTuningJob.id);
 
   // 10) Infer using the deployed model
-  // # infer(openai_client, deployment_name)
+  await infer(openAIClient, deploymentName);
 
   // 11) Cancel the fine-tuning job
   console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
