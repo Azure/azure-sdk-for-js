@@ -58,6 +58,7 @@ import type { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions.js
 import type { SasIPRange } from "./sas/SasIPRange.js";
 import type { SASProtocol } from "./sas/SASQueryParameters.js";
 import type { CommonOptions } from "./StorageClient.js";
+import { UserDelegationKey } from "@azure/storage-common";
 
 export {
   LeaseAccessConditions,
@@ -193,16 +194,6 @@ export interface ServiceGetUserDelegationKeyHeaders {
   requestId?: string;
   version?: string;
   date?: Date;
-}
-
-export interface UserDelegationKey {
-  signedObjectId: string;
-  signedTenantId: string;
-  signedStartsOn: Date;
-  signedExpiresOn: Date;
-  signedService: string;
-  signedVersion: string;
-  value: string;
 }
 
 export type ServiceGetUserDelegationKeyResponse = WithResponse<

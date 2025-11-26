@@ -36,9 +36,9 @@ import {
   uriSanitizers,
   getSignatureFromSasUrl,
 } from "../utils/index.js";
-import { UserDelegationKeyCredential } from "../../src/credentials/UserDelegationKeyCredential.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { UserDelegationKeyCredential } from "@azure/storage-common";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageSharedKeyCredential } from "@azure/storage-common";
+import { StorageSharedKeyCredential, UserDelegationKey } from "@azure/storage-common";
 import { FileSASPermissions } from "./FileSASPermissions.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
@@ -10,7 +10,6 @@ import { SASQueryParameters } from "./SASQueryParameters.js";
 import { ShareSASPermissions } from "./ShareSASPermissions.js";
 import { SERVICE_VERSION } from "./utils/constants.js";
 import { truncatedISO8061Date } from "./utils/utils.common.js";
-import { UserDelegationKey } from "./generatedModels.js";
 import { UserDelegationKeyCredential } from "@azure/storage-common";
 
 /**
@@ -71,7 +70,7 @@ export interface FileSASSignatureValues {
   identifier?: string;
 
   /**
-   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user who is authorized to
    * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
    * issued to the user specified in this value.
    */
@@ -269,7 +268,7 @@ export function generateFileSASQueryParametersUDK20250705(
 ): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
   if (!(fileSASSignatureValues.permissions && fileSASSignatureValues.expiresOn)) {
     throw new RangeError(
-      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when generating user delegation SAS.",
+      "Must provide 'permissions' and 'expiresOn' for File SAS generation when generating user delegation SAS.",
     );
   }
 

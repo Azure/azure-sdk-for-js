@@ -36,7 +36,7 @@ import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
 import type { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
-import { UserDelegationKey as UserDelegationKey_2 } from '@azure/storage-common';
+import { UserDelegationKey } from '@azure/storage-common';
 import { WebResourceLike as WebResource } from '@azure/core-http-compat';
 
 // @public
@@ -1455,7 +1455,7 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey_2, delegatedUserObjectId?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, delegatedUserObjectId?: string);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
     readonly contentEncoding?: string;
@@ -2001,6 +2001,12 @@ export class ShareLeaseClient {
 }
 
 // @public
+export interface ShareNfsSettings {
+    // Warning: (ae-forgotten-export) The symbol "ShareNfsSettingsEncryptionInTransit" needs to be exported by the entry point index.d.ts
+    encryptionInTransit?: ShareNfsSettingsEncryptionInTransit;
+}
+
+// @public
 export interface SharePermission {
     // (undocumented)
     format?: FilePermissionFormat;
@@ -2075,7 +2081,6 @@ export interface ShareProtocols {
 
 // @public
 export interface ShareProtocolSettings {
-    // Warning: (ae-forgotten-export) The symbol "ShareNfsSettings" needs to be exported by the entry point index.d.ts
     nfs?: ShareNfsSettings;
     smb?: ShareSmbSettings;
 }
@@ -2174,7 +2179,6 @@ export interface ShareSetPropertiesHeaders {
 export interface ShareSetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     accessTier?: ShareAccessTier;
-    enableSmbDirectoryLease?: boolean;
     enableSnapshotVirtualDirectoryAccess?: boolean;
     leaseAccessConditions?: LeaseAccessConditions;
     paidBurstingEnabled?: boolean;
@@ -2203,9 +2207,13 @@ export type ShareSetQuotaResponse = WithResponse<ShareSetQuotaHeaders, ShareSetQ
 
 // @public
 export interface ShareSmbSettings {
-    // Warning: (ae-forgotten-export) The symbol "ShareSmbSettingsEncryptionInTransit" needs to be exported by the entry point index.d.ts
     encryptionInTransit?: ShareSmbSettingsEncryptionInTransit;
     multichannel?: SmbMultichannel;
+}
+
+// @public
+export interface ShareSmbSettingsEncryptionInTransit {
+    required?: boolean;
 }
 
 // @public
@@ -2286,17 +2294,6 @@ export function toOctalFileMode(input?: NfsFileMode): string | undefined;
 
 // @public
 export function toSymbolicFileMode(input?: NfsFileMode): string | undefined;
-
-// @public
-export interface UserDelegationKey {
-    signedExpiresOn: Date;
-    signedObjectId: string;
-    signedService: string;
-    signedStartsOn: Date;
-    signedTenantId: string;
-    signedVersion: string;
-    value: string;
-}
 
 // @public
 export interface UserDelegationKeyModel {

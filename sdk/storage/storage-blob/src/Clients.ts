@@ -15,7 +15,7 @@ import { randomUUID } from "@azure/core-util";
 import type { Readable } from "node:stream";
 import { BlobDownloadResponse } from "./BlobDownloadResponse.js";
 import { BlobQueryResponse } from "./BlobQueryResponse.js";
-import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
+import { AnonymousCredential, StorageSharedKeyCredential, UserDelegationKey } from "@azure/storage-common";
 import type {
   AppendBlob,
   Blob as StorageBlob,
@@ -202,8 +202,6 @@ import {
 import type { BlobSASPermissions } from "./sas/BlobSASPermissions.js";
 import { BlobLeaseClient } from "./BlobLeaseClient.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import type { UserDelegationKey } from "./BlobServiceClient.js";
-
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
  */

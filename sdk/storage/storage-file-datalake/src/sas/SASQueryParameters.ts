@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { UserDelegationKey } from "../models.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
 import { truncatedISO8061Date } from "../utils/utils.common.js";
+import { UserDelegationKey } from "@azure/storage-common";
 
 /**
  * Protocols for generated SAS.

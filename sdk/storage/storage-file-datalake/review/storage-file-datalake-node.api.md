@@ -58,6 +58,7 @@ import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
 import type { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
+import { UserDelegationKey } from '@azure/storage-common';
 import { UserDelegationKeyModel } from '@azure/storage-blob';
 import { WebResourceLike as WebResource } from '@azure/core-http-compat';
 import type { WithResponse } from '@azure/storage-blob';
@@ -2049,23 +2050,7 @@ export const ToBlobEndpointHostMappings: string[][];
 // @public (undocumented)
 export const ToDfsEndpointHostMappings: string[][];
 
-// @public (undocumented)
-export interface UserDelegationKey {
-    // (undocumented)
-    signedExpiresOn: Date;
-    // (undocumented)
-    signedObjectId: string;
-    // (undocumented)
-    signedService: string;
-    // (undocumented)
-    signedStartsOn: Date;
-    // (undocumented)
-    signedTenantId: string;
-    // (undocumented)
-    signedVersion: string;
-    // (undocumented)
-    value: string;
-}
+export { UserDelegationKey }
 
 export { UserDelegationKeyModel }
 

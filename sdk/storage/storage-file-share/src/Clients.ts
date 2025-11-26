@@ -101,7 +101,6 @@ import type {
   FileCreateSymbolicLinkResponse,
   FileGetSymbolicLinkResponse,
   FileGetSymbolicLinkHeaders,
-  UserDelegationKey,
 } from "./generatedModels.js";
 import type {
   FileRenameHeaders,
@@ -138,7 +137,7 @@ import {
   parseOctalFileMode,
   toOctalFileMode,
 } from "./utils/utils.common.js";
-import { Credential } from "@azure/storage-common";
+import { Credential, UserDelegationKey } from "@azure/storage-common";
 import { StorageSharedKeyCredential } from "@azure/storage-common";
 import { AnonymousCredential } from "@azure/storage-common";
 import { tracingClient } from "./utils/tracing.js";

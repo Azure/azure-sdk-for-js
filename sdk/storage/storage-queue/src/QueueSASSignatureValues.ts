@@ -63,7 +63,7 @@ export interface QueueSASSignatureValues {
   identifier?: string;
 
   /**
-   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user who is authorized to
    * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
    * issued to the user specified in this value.
    */
@@ -214,7 +214,7 @@ function generateQueueSASQueryParametersUDK20250705(
 ): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
   if (!(queueSASSignatureValues.permissions && queueSASSignatureValues.expiresOn)) {
     throw new RangeError(
-      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when generating user delegation SAS.",
+      "Must provide 'permissions' and 'expiresOn' for Queue SAS generation when generating user delegation SAS.",
     );
   }
 

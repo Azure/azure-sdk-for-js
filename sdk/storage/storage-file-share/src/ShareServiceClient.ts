@@ -859,7 +859,7 @@ export class ShareServiceClient extends StorageClient {
   /**
    * ONLY AVAILABLE WHEN USING BEARER TOKEN AUTHENTICATION (TokenCredential).
    *
-   * Retrieves a user delegation key for the Blob service. This is only a valid operation when using
+   * Retrieves a user delegation key for the File service. This is only a valid operation when using
    * bearer token authentication.
    *
    * @see https://learn.microsoft.com/rest/api/storageservices/get-user-delegation-key

@@ -18,8 +18,8 @@ For the complete API surface, see the corresponding -node.api.md file.
  import type { TokenCredential } from '@azure/core-auth';
  import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
  import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
- import { UserDelegationKeyModel } from '@azure/storage-blob';
-@@ -96,54 +95,8 @@
+ import { UserDelegationKey } from '@azure/storage-common';
+@@ -97,54 +96,8 @@
      // (undocumented)
      startsOn?: Date;
  }
@@ -74,7 +74,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { AnonymousCredentialPolicy }
  
-@@ -249,9 +202,11 @@
+@@ -250,9 +203,11 @@
      contentType?: string;
      encryptionScope?: string;
      expiresOn?: Date;
@@ -86,7 +86,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      startsOn?: Date;
      version?: string;
  }
-@@ -298,8 +253,9 @@
+@@ -299,8 +254,9 @@
  }
  
  // @public
@@ -96,7 +96,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(url: string, pipeline: Pipeline);
      append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
      create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
-@@ -400,53 +356,13 @@
+@@ -401,53 +357,13 @@
  export interface DataLakeRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {
  }
  
@@ -151,7 +151,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<DataLakeServiceGetPropertiesResponse>;
-@@ -498,28 +414,13 @@
+@@ -499,28 +415,13 @@
  }
  
  // @public
@@ -181,7 +181,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public (undocumented)
  export interface FileAppendOptions extends CommonOptions {
-@@ -583,8 +484,9 @@
+@@ -584,8 +485,9 @@
  export type FileFlushResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
  // @public
@@ -191,7 +191,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -848,8 +750,9 @@
+@@ -849,8 +751,9 @@
  }
  
  // @public
@@ -201,7 +201,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public (undocumented)
-@@ -996,24 +899,8 @@
+@@ -997,24 +900,8 @@
  
  // @public
  export type FileSystemRenameResponse = ContainerRenameResponse;
@@ -226,7 +226,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface FileSystemSetAccessPolicyHeaders {
      // (undocumented)
      clientRequestId?: string;
-@@ -1084,17 +971,8 @@
+@@ -1085,17 +972,8 @@
  // @public (undocumented)
  export type FileUploadResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
@@ -244,7 +244,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { HttpHeaders }
  
-@@ -1866,74 +1744,8 @@
+@@ -1867,74 +1745,8 @@
      // (undocumented)
      write: boolean;
  }
@@ -319,7 +319,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface ServiceGenerateAccountSasUrlOptions {
-@@ -2038,12 +1850,8 @@
+@@ -2039,20 +1851,14 @@
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }
@@ -332,5 +332,13 @@ For the complete API surface, see the corresponding -node.api.md file.
  export const ToBlobEndpointHostMappings: string[][];
  
  // @public (undocumented)
+ export const ToDfsEndpointHostMappings: string[][];
+ 
+-export { UserDelegationKey }
+-
+ export { UserDelegationKeyModel }
+ 
+ export { WebResource }
+ 
 
 ```
