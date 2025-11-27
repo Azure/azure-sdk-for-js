@@ -10,6 +10,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
+import type { JobCreateParams } from "openai/resources/fine-tuning/jobs";
 import { fileURLToPath } from "url";
 import * as fs from "fs";
 import * as path from "path";
@@ -46,7 +47,7 @@ export async function main(): Promise<void> {
 
   // 3) Create a supervised fine-tuning job
   // Recommended approach to set trainingType. Omitting this field may lead to unsupported behavior.
-  const fineTuningJob = await openAIClient.fineTuning.jobs.create(null as any, {
+  const fineTuningJob = await openAIClient.fineTuning.jobs.create({} as JobCreateParams, {
     body: {
       trainingType: "GlobalStandard",
       training_file: trainingFile.id,

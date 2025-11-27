@@ -10,6 +10,8 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
+import type { JobCreateParams } from "openai/resources/fine-tuning/jobs";
+import type { ScoreModelGrader } from "openai/resources/graders/grader-models";
 import { fileURLToPath } from "url";
 import * as fs from "fs";
 import * as path from "path";
@@ -44,8 +46,7 @@ export async function main(): Promise<void> {
   await openAIClient.files.waitForProcessing(validationFile.id);
   console.log("Files processed.");
 
-  // 3) Create a reinforcement fine-tuning job
-  const grader: any = {
+  const grader: ScoreModelGrader = {
     name: "Response Quality Grader",
     type: "score_model",
     model: "o3-mini",
@@ -59,7 +60,9 @@ export async function main(): Promise<void> {
     range: [0.0, 10.0],
   };
 
-  const fineTuningJob = await openAIClient.fineTuning.jobs.create(null as any, {
+  // 3) Create a reinforcement fine-tuning job
+  // Recommended approach to set trainingType. Omitting this field may lead to unsupported behavior.
+  const fineTuningJob = await openAIClient.fineTuning.jobs.create({} as JobCreateParams, {
     body: {
       trainingType: "Standard",
       training_file: trainingFile.id,
