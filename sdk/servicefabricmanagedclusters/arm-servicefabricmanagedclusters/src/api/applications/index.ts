@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 export {
+  restartDeployedCodePackage,
+  fetchHealth,
   updateUpgrade,
   startRollback,
   resumeUpgrade,
@@ -13,6 +15,8 @@ export {
   get,
 } from "./operations.js";
 export {
+  ApplicationsRestartDeployedCodePackageOptionalParams,
+  ApplicationsFetchHealthOptionalParams,
   ApplicationsUpdateUpgradeOptionalParams,
   ApplicationsStartRollbackOptionalParams,
   ApplicationsResumeUpgradeOptionalParams,

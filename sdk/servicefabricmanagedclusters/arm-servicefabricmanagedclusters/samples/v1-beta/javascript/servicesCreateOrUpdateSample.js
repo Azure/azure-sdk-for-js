@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a Service Fabric managed service resource with the specified name.
  *
  * @summary create or update a Service Fabric managed service resource with the specified name.
- * x-ms-original-file: 2025-06-01-preview/ServicePutOperation_example_max.json
+ * x-ms-original-file: 2025-10-01-preview/ServicePutOperation_example_max.json
  */
 async function putAServiceWithMaximumParameters() {
   const credential = new DefaultAzureCredential();
@@ -65,7 +65,7 @@ async function putAServiceWithMaximumParameters() {
  * This sample demonstrates how to create or update a Service Fabric managed service resource with the specified name.
  *
  * @summary create or update a Service Fabric managed service resource with the specified name.
- * x-ms-original-file: 2025-06-01-preview/ServicePutOperation_example_min.json
+ * x-ms-original-file: 2025-10-01-preview/ServicePutOperation_example_min.json
  */
 async function putAServiceWithMinimumParameters() {
   const credential = new DefaultAzureCredential();

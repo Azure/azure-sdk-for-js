@@ -6,6 +6,7 @@ import type {
   ServiceResource,
   ServiceUpdateParameters,
   _ServiceResourceList,
+  RestartReplicaRequest,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -13,12 +14,14 @@ import {
   serviceResourceDeserializer,
   serviceUpdateParametersSerializer,
   _serviceResourceListDeserializer,
+  restartReplicaRequestSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  ServicesRestartReplicaOptionalParams,
   ServicesListByApplicationsOptionalParams,
   ServicesDeleteOptionalParams,
   ServicesUpdateOptionalParams,
@@ -28,6 +31,74 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _restartReplicaSend(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  applicationName: string,
+  serviceName: string,
+  parameters: RestartReplicaRequest,
+  options: ServicesRestartReplicaOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/services/{serviceName}/restartReplica{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      clusterName: clusterName,
+      applicationName: applicationName,
+      serviceName: serviceName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: restartReplicaRequestSerializer(parameters),
+  });
+}
+
+export async function _restartReplicaDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return;
+}
+
+/** A long-running resource action. */
+export function restartReplica(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  applicationName: string,
+  serviceName: string,
+  parameters: RestartReplicaRequest,
+  options: ServicesRestartReplicaOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _restartReplicaDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _restartReplicaSend(
+        context,
+        resourceGroupName,
+        clusterName,
+        applicationName,
+        serviceName,
+        parameters,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
+}
 
 export function _listByApplicationsSend(
   context: Client,
@@ -115,7 +186,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
+  const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -139,7 +210,7 @@ export function $delete(
   serviceName: string,
   options: ServicesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -252,7 +323,7 @@ export function _createOrUpdateSend(
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ServiceResource> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -272,7 +343,7 @@ export function createOrUpdate(
   parameters: ServiceResource,
   options: ServicesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ServiceResource>, ServiceResource> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

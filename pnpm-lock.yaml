@@ -28112,7 +28112,7 @@ importers:
   sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.1.0
+        specifier: ^2.3.1
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -28121,16 +28121,16 @@ importers:
         specifier: ^1.9.0
         version: link:../../core/core-auth
       '@azure/core-lro':
-        specifier: ^3.0.0
+        specifier: ^3.1.0
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
-        specifier: ^1.18.2
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
       '@azure/core-util':
-        specifier: ^1.11.0
+        specifier: ^1.12.0
         version: link:../../core/core-util
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
