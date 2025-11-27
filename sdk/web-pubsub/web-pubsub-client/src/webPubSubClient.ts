@@ -847,7 +847,7 @@ export class WebPubSubClient {
     try {
       await this._sendMessage(message);
     } catch {
-      logger.warning("Failed to send ping message to the runtime");
+      logger.warning("Failed to send keepalive message to the service");
     }
   }
 
