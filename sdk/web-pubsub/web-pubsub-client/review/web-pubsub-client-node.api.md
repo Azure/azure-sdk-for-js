@@ -277,9 +277,9 @@ export interface WebPubSubClientCredential {
 export interface WebPubSubClientOptions {
     autoReconnect?: boolean;
     autoRejoinGroups?: boolean;
+    keepAliveIntervalInMs?: number;
     keepAliveTimeoutInMs?: number;
     messageRetryOptions?: WebPubSubRetryOptions;
-    pingIntervalInMs?: number;
     protocol?: WebPubSubClientProtocol;
     reconnectRetryOptions?: WebPubSubRetryOptions;
 }

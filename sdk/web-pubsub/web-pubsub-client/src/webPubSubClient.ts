@@ -77,13 +77,14 @@ export class WebPubSubClient {
   private readonly _quickSequenceAckDiff = 300;
   // The timeout for keep alive
   private readonly _keepAliveTimeoutInMs: number;
-  // The interval at which to send ping messages to the runtime
-  private readonly _pingIntervalInMs: number;
+  // The interval at which to send keep-alive ping messages to the runtime
+  private readonly _keepAliveIntervalInMs: number;
 
   private readonly _emitter: EventEmitter = new EventEmitter();
   private _state: WebPubSubClientState;
   private _isStopping: boolean = false;
-  private _activeKeepaliveTask: AbortableTask | undefined;
+  private _pingKeepaliveTask: AbortableTask | undefined;
+  private _timeoutMonitorTask: AbortableTask | undefined;
 
   // connection lifetime
   private _wsClient?: WebSocketClientLike;
@@ -131,7 +132,7 @@ export class WebPubSubClient {
     this._sequenceId = new SequenceId();
 
     this._keepAliveTimeoutInMs = this._options.keepAliveTimeoutInMs ?? 120000;
-    this._pingIntervalInMs = this._options.pingIntervalInMs ?? 20000;
+    this._keepAliveIntervalInMs = this._options.keepAliveIntervalInMs ?? 20000;
 
     this._state = WebPubSubClientState.Stopped;
   }
@@ -154,8 +155,11 @@ export class WebPubSubClient {
       abortSignal = options.abortSignal;
     }
 
-    if (!this._activeKeepaliveTask) {
-      this._activeKeepaliveTask = this._getActiveKeepaliveTask();
+    if (!this._pingKeepaliveTask && this._keepAliveIntervalInMs > 0) {
+      this._pingKeepaliveTask = this._getPingKeepaliveTask();
+    }
+    if (!this._timeoutMonitorTask && this._keepAliveTimeoutInMs > 0) {
+      this._timeoutMonitorTask = this._getTimeoutMonitorTask();
     }
 
     try {
@@ -163,10 +167,7 @@ export class WebPubSubClient {
     } catch (err) {
       // this two sentense should be set together. Consider client.stop() is called during _startCore()
       this._changeState(WebPubSubClientState.Stopped);
-      if (this._activeKeepaliveTask) {
-        this._activeKeepaliveTask.abort();
-        this._activeKeepaliveTask = undefined;
-      }
+      this._disposeKeepaliveTasks();
       this._isStopping = false;
       throw err;
     }
@@ -230,9 +231,17 @@ export class WebPubSubClient {
     } else {
       this._isStopping = false;
     }
-    if (this._activeKeepaliveTask) {
-      this._activeKeepaliveTask.abort();
-      this._activeKeepaliveTask = undefined;
+    this._disposeKeepaliveTasks();
+  }
+
+  private _disposeKeepaliveTasks(): void {
+    if (this._pingKeepaliveTask) {
+      this._pingKeepaliveTask.abort();
+      this._pingKeepaliveTask = undefined;
+    }
+    if (this._timeoutMonitorTask) {
+      this._timeoutMonitorTask.abort();
+      this._timeoutMonitorTask = undefined;
     }
   }
 
@@ -822,20 +831,13 @@ export class WebPubSubClient {
   private _handleConnectionStopped(): void {
     this._isStopping = false;
     this._state = WebPubSubClientState.Stopped;
+    this._disposeKeepaliveTasks();
     this._safeEmitStopped();
   }
 
   private async _trySendPing(): Promise<void> {
     // skip during reconnection
     if (this._state !== WebPubSubClientState.Connected || !this._wsClient?.isOpen()) {
-      return;
-    }
-
-    const now = Date.now();
-    // Check if we haven't received a pong for too long
-    if (now - this._lastMessageReceived > this._keepAliveTimeoutInMs) {
-      logger.warning(`No pong message received for a long time. The connection is closed.`);
-      this._wsClient?.close();
       return;
     }
 
@@ -849,10 +851,32 @@ export class WebPubSubClient {
     }
   }
 
-  private _getActiveKeepaliveTask(): AbortableTask {
+  private async _checkKeepAliveTimeout(): Promise<void> {
+    if (this._state !== WebPubSubClientState.Connected || !this._wsClient?.isOpen()) {
+      return;
+    }
+
+    const now = Date.now();
+    if (now - this._lastMessageReceived > this._keepAliveTimeoutInMs) {
+      logger.warning(
+        `No messages received for ${now - this._lastMessageReceived} ms. Closing. The keep alive timeout is set to ${this._keepAliveTimeoutInMs} ms.`,
+      );
+      this._wsClient?.close();
+    }
+  }
+
+  private _getPingKeepaliveTask(): AbortableTask {
     return new AbortableTask(async () => {
       await this._trySendPing();
-    }, this._pingIntervalInMs);
+    }, this._keepAliveIntervalInMs);
+  }
+
+  private _getTimeoutMonitorTask(): AbortableTask {
+    const timeout = this._keepAliveTimeoutInMs;
+    const checkInterval = Math.floor(timeout / 3);
+    return new AbortableTask(async () => {
+      await this._checkKeepAliveTimeout();
+    }, checkInterval);
   }
 
   private async _sendMessage(
@@ -1006,8 +1030,16 @@ export class WebPubSubClient {
       clientOptions.keepAliveTimeoutInMs = 120000; // 120 seconds
     }
 
-    if (clientOptions.pingIntervalInMs == null) {
-      clientOptions.pingIntervalInMs = 20000; // 20 seconds
+    if (clientOptions.keepAliveTimeoutInMs < 0) {
+      throw new RangeError("keepAliveTimeoutInMs must be greater than or equal to 0.");
+    }
+
+    if (clientOptions.keepAliveIntervalInMs == null) {
+      clientOptions.keepAliveIntervalInMs = 20000; // 20 seconds
+    }
+
+    if (clientOptions.keepAliveIntervalInMs < 0) {
+      throw new RangeError("keepAliveIntervalInMs must be greater than or equal to 0.");
     }
 
     this._buildMessageRetryOptions(clientOptions);

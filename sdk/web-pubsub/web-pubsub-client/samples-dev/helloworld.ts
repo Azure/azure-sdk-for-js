@@ -20,7 +20,7 @@ async function main(): Promise<void> {
   const groupName = "testGroup";
   const options: WebPubSubClientOptions = {
     keepAliveTimeoutInMs: 500,
-    pingIntervalInMs: 100,
+    keepAliveIntervalInMs: 100,
   };
   const serviceClient = new WebPubSubServiceClient(
     process.env.WPS_ENDPOINT!,
@@ -90,6 +90,7 @@ async function main(): Promise<void> {
   });
   await delay(200);
   client.stop();
+  console.log("Client stopped");
 }
 
 main().catch((e) => {
