@@ -45,44 +45,15 @@ export async function listJobs(openAIClient: OpenAI): Promise<void> {
   }
 }
 
-export async function waitForEvent(
-  client: OpenAI,
-  jobId: string,
-  expectedMessages: string[],
-  pollIntervalMs = 60_000,
-): Promise<void> {
-  console.log(`Waiting for job ${jobId} to emit message: ${expectedMessages.join(", ")}`);
-
-  while (true) {
-    const events = await client.fineTuning.jobs.listEvents(jobId);
-    const logs =
-      events.data?.map((e) => ({
-        id: e.id,
-        created_at: e.created_at,
-        level: e.level,
-        message: e.message,
-      })) ?? [];
-
-    console.log(`Polled following events for job ${jobId}:`, JSON.stringify(logs));
-
-    for (const event of events.data ?? []) {
-      if (event.message && expectedMessages.some((msg) => event.message.includes(msg))) {
-        console.log(`Matching message detected: "${event.message}"`);
-        return;
-      }
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, pollIntervalMs));
-  }
-}
-
 export async function pauseJob(openAIClient: OpenAI, jobId: string): Promise<void> {
+  // Note: Job needs to be in running state in order to pause.
   console.log(`Pausing fine-tuning job with ID: ${jobId}`);
   const pausedJob = await openAIClient.fineTuning.jobs.pause(jobId);
   console.log(pausedJob);
 }
 
 export async function resumeJob(openAIClient: OpenAI, jobId: string): Promise<void> {
+  // Note: Job needs to be in paused state in order to resume.
   console.log(`Resuming fine-tuning job with ID: ${jobId}`);
   const resumedJob = await openAIClient.fineTuning.jobs.resume(jobId);
   console.log(resumedJob);
@@ -95,6 +66,7 @@ export async function listEvents(openAIClient: OpenAI, jobId: string): Promise<v
 }
 
 export async function listCheckpoints(openAIClient: OpenAI, jobId: string): Promise<void> {
+  //  Note: To retrieve the checkpoints, job needs to be in terminal state.
   console.log(`\nListing checkpoints with limit: 10 for fine-tuning job: ${jobId}`);
   const checkpoints = await openAIClient.fineTuning.jobs.checkpoints.list(jobId, {
     limit: 10,
@@ -103,6 +75,8 @@ export async function listCheckpoints(openAIClient: OpenAI, jobId: string): Prom
 }
 
 export async function deployModel(openAIClient: OpenAI, jobId: string): Promise<string> {
+  // Deploy model using Azure Management SDK (azure-mgmt-cognitiveservices).
+  // Note: Deployment can only be started after the fine-tuning job completes successfully.
   console.log(`Retrieving fine-tuning job with ID: ${jobId}`);
   const fineTunedModelName = (await openAIClient.fineTuning.jobs.retrieve(jobId)).fine_tuned_model;
   const deploymentName = "gpt-4-1-fine-tuned";
@@ -208,22 +182,18 @@ export async function main(): Promise<void> {
   await listJobs(openAIClient);
 
   // Uncomment the commented methods to test specific functionalities.
-  // await waitForEvent(openAIClient, fineTuningJob.id, ["Training started"]);
   // 6) Pause the fine-tuning job
   // console.log(`\nPausing fine-tuning job with ID: ${fineTuningJob.id}`);
   // await pauseJob(openAIClient, fineTuningJob.id);
-  // await waitForEvent(openAIClient, fineTuningJob.id, ["Training paused"]);
   // 7) Resume the fine-tuning job
   // console.log(`\nResuming fine-tuning job with ID: ${fineTuningJob.id}`);
   // await resumeJob(openAIClient, fineTuningJob.id);
-  // await waitForEvent(openAIClient, fineTuningJob.id, ["Training resumed"]);
 
   // 8) List events for the fine-tuning job
   // console.log(`\nListing events for fine-tuning job with ID: ${fineTuningJob.id}`);
   await listEvents(openAIClient, fineTuningJob.id);
 
   // Uncomment the commented methods to test specific functionalities.
-  // await waitForEvent(openAIClient, fineTuningJob.id, ["Training completed"]);
   // 9) Deploy the model
   // console.log(`\nDeploying fine-tuned model for job ID: ${fineTuningJob.id}`);
   // const deploymentName = await deployModel(openAIClient, fineTuningJob.id);
