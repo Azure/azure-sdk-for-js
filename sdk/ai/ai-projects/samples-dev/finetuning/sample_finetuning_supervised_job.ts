@@ -14,6 +14,7 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import { CognitiveServicesManagementClient, type Deployment } from "@azure/arm-cognitiveservices";
+import type { JobCreateParams } from "openai/resources/fine-tuning/jobs";
 import type OpenAI from "openai";
 import { fileURLToPath } from "url";
 import * as fs from "fs";
@@ -153,7 +154,7 @@ export async function main(): Promise<void> {
   console.log("Files processed.");
 
   // 3) Create a supervised fine-tuning job
-  const fineTuningJob = await openAIClient.fineTuning.jobs.create(null as any, {
+  const fineTuningJob = await openAIClient.fineTuning.jobs.create({} as JobCreateParams, {
     body: {
       trainingType: "Standard",
       training_file: trainingFile.id,
