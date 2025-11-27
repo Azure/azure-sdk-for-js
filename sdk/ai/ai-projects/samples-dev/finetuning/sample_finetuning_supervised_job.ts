@@ -13,7 +13,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
-import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
+import { CognitiveServicesManagementClient, type Deployment } from "@azure/arm-cognitiveservices";
 import type OpenAI from "openai";
 import { fileURLToPath } from "url";
 import * as fs from "fs";
@@ -81,12 +81,12 @@ export async function deployModel(openAIClient: OpenAI, jobId: string): Promise<
   const fineTunedModelName = (await openAIClient.fineTuning.jobs.retrieve(jobId)).fine_tuned_model;
   const deploymentName = "gpt-4-1-fine-tuned";
 
-  const deploymentConfig = {
+  const deploymentConfig: Deployment = {
     sku: { name: "GlobalStandard", capacity: 100 },
     properties: {
       model: {
         format: "OpenAI",
-        name: fineTunedModelName,
+        name: fineTunedModelName as string,
         version: "1",
       },
     },
@@ -103,7 +103,7 @@ export async function deployModel(openAIClient: OpenAI, jobId: string): Promise<
     resource_group as string,
     account_name as string,
     deploymentName,
-    deploymentConfig as any,
+    deploymentConfig,
   );
 
   while (
