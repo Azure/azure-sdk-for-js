@@ -5,7 +5,7 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
 import EventEmitter from "events";
 import type { SendMessageErrorOptions } from "./errors/index.js";
-import { SendMessageError } from "./errors/index.js";
+import { InvocationError, SendMessageError } from "./errors/index.js";
 import { logger } from "./logger.js";
 import type {
   WebPubSubResult,
@@ -23,11 +23,16 @@ import type {
   OnRejoinGroupFailedArgs,
   StartOptions,
   GetClientAccessUrlOptions,
+  InvokeEventOptions,
+  InvokeEventResult,
 } from "./models/index.js";
 import type {
   ConnectedMessage,
+  CancelInvocationMessage,
   DisconnectedMessage,
   GroupDataMessage,
+  InvokeMessage,
+  InvokeResponseMessage,
   ServerDataMessage,
   WebPubSubDataType,
   WebPubSubMessage,
@@ -47,6 +52,7 @@ import type {
   WebSocketClientLike,
 } from "./websocket/websocketClientLike.js";
 import { AckManager } from "./ackManager.js";
+import { InvocationManager } from "./invocationManager.js";
 
 enum WebPubSubClientState {
   Stopped = "Stopped",
@@ -70,6 +76,7 @@ export class WebPubSubClient {
   private readonly _options: WebPubSubClientOptions;
   private readonly _groupMap: Map<string, WebPubSubGroup>;
   private readonly _ackManager: AckManager;
+  private readonly _invocationManager: InvocationManager;
   private readonly _sequenceId: SequenceId;
   private readonly _messageRetryPolicy: RetryPolicy;
   private readonly _reconnectRetryPolicy: RetryPolicy;
@@ -122,6 +129,7 @@ export class WebPubSubClient {
     this._protocol = this._options.protocol!;
     this._groupMap = new Map<string, WebPubSubGroup>();
     this._ackManager = new AckManager();
+    this._invocationManager = new InvocationManager();
     this._sequenceId = new SequenceId();
 
     this._state = WebPubSubClientState.Stopped;
@@ -396,6 +404,69 @@ export class WebPubSubClient {
 
     await this._sendMessage(message, options?.abortSignal);
     return { isDuplicated: false };
+  }
+
+  private async _invokeEventAttempt(
+    eventName: string,
+    content: JSONTypes | ArrayBuffer,
+    dataType: WebPubSubDataType,
+    options?: InvokeEventOptions,
+  ): Promise<InvokeEventResult> {
+    const invokeOptions = options ?? {};
+
+    const { invocationId, wait } = this._invocationManager.registerInvocation(
+      invokeOptions.invocationId,
+    );
+
+    const invokeMessage: InvokeMessage = {
+      kind: "invoke",
+      invocationId,
+      target: "event",
+      event: eventName,
+      dataType,
+      data: content,
+    };
+
+    const responsePromise = wait({
+      abortSignal: invokeOptions.abortSignal,
+    });
+
+    try {
+      await this._sendMessage(invokeMessage, invokeOptions.abortSignal);
+      const response = await responsePromise;
+      return this._mapInvokeResponse(response);
+    } catch (err) {
+      const shouldCancel =
+        (err instanceof InvocationError && err.errorDetail == null) ||
+        invokeOptions.abortSignal?.aborted === true;
+      if (shouldCancel) {
+        await this._sendCancelInvocation(invocationId).catch(() => {
+          /** empty */
+        });
+      }
+      throw err;
+    } finally {
+      this._invocationManager.discard(invocationId);
+    }
+  }
+
+  /**
+   * Invoke an upstream event and wait for the correlated response.
+   * @param eventName - The event name
+   * @param content - The payload
+   * @param dataType - The payload type
+   * @param options - Invoke options
+   */
+  public async invokeEvent(
+    eventName: string,
+    content: JSONTypes | ArrayBuffer,
+    dataType: WebPubSubDataType,
+    options?: InvokeEventOptions,
+  ): Promise<InvokeEventResult> {
+    return this._operationExecuteWithRetry(
+      () => this._invokeEventAttempt(eventName, content, dataType, options),
+      options?.abortSignal,
+    );
   }
 
   /**
@@ -700,6 +771,15 @@ export class WebPubSubClient {
           this._safeEmitServerMessage(message);
         };
 
+        const handleInvokeResponseMessage = (message: InvokeResponseMessage): void => {
+          const resolved = this._invocationManager.resolveInvocation(message);
+          if (!resolved) {
+            logger.verbose(
+              `Received invokeResponse for unknown invocationId: ${message.invocationId}`,
+            );
+          }
+        };
+
         let messages: WebPubSubMessage[] | WebPubSubMessage | null;
         try {
           let convertedData: Buffer | ArrayBuffer | string;
@@ -744,6 +824,10 @@ export class WebPubSubClient {
               }
               case "serverData": {
                 handleServerDataMessage(message as ServerDataMessage);
+                break;
+              }
+              case "invokeResponse": {
+                handleInvokeResponseMessage(message as InvokeResponseMessage);
                 break;
               }
             }
@@ -861,6 +945,15 @@ export class WebPubSubClient {
       );
     });
 
+    this._invocationManager.rejectAll((invocationId) => {
+      return new InvocationError(
+        "Connection is disconnected before receiving invoke response from the service",
+        {
+          invocationId,
+        },
+      );
+    });
+
     if (this._isStopping) {
       logger.warning("The client is stopping state. Stop recovery.");
       this._handleConnectionCloseAndNoRecovery();
@@ -948,6 +1041,43 @@ export class WebPubSubClient {
       error: err,
     } as OnRejoinGroupFailedArgs);
   }
+
+  private _mapInvokeResponse(
+    message: InvokeResponseMessage,
+  ): InvokeEventResult {
+    if (message.success !== true) {
+      if (message.success === false) {
+        throw new InvocationError(message.error?.message ?? "Invocation failed.", {
+          invocationId: message.invocationId,
+          errorDetail: message.error,
+        });
+      }
+
+      throw new InvocationError("Unsupported invoke response frame.", {
+        invocationId: message.invocationId,
+      });
+    }
+
+    return {
+      invocationId: message.invocationId,
+      dataType: message.dataType,
+      data: message.data,
+    };
+  }
+
+  private async _sendCancelInvocation(invocationId: string): Promise<void> {
+    const message: CancelInvocationMessage = {
+      kind: "cancelInvocation",
+      invocationId,
+    };
+
+    try {
+      await this._sendMessage(message);
+    } catch (err) {
+      logger.verbose(`Failed to send cancelInvocation for ${invocationId}`, err);
+    }
+  }
+
 
   private _buildDefaultOptions(clientOptions: WebPubSubClientOptions): WebPubSubClientOptions {
     if (clientOptions.autoReconnect == null) {
@@ -1064,6 +1194,9 @@ export class WebPubSubClient {
       try {
         return await inner.call(this);
       } catch (err) {
+        if (err instanceof InvocationError) {
+          throw err;
+        }
         retryAttempt++;
         const delayInMs = this._messageRetryPolicy.nextRetryDelayInMs(retryAttempt);
         if (delayInMs == null) {
@@ -1088,8 +1221,8 @@ class RetryPolicy {
     this._retryOptions = retryOptions;
     this._maxRetriesToGetMaxDelay = Math.ceil(
       Math.log2(this._retryOptions.maxRetryDelayInMs!) -
-        Math.log2(this._retryOptions.retryDelayInMs!) +
-        1,
+      Math.log2(this._retryOptions.retryDelayInMs!) +
+      1,
     );
   }
 
