@@ -10,13 +10,11 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
-const { fileURLToPath } = require("url");
 const fs = require("fs");
 const path = require("path");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const modelName = process.env["MODEL_NAME"] || "gpt-4o";
 const trainingFilePath = path.join(__dirname, "data", "dpo_training_set.jsonl");
 const validationFilePath = path.join(__dirname, "data", "dpo_validation_set.jsonl");
