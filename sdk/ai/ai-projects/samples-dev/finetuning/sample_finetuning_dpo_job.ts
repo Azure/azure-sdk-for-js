@@ -3,6 +3,7 @@
 
 /**
  * This sample demonstrates how to obtain an OpenAI client and perform dpo fine-tuning operations.
+ * Supported OpenAI models: GPT-4o, GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, and GPT-4o-mini.
  *
  * @summary Using an OpenAI client, this sample demonstrates how to create and cancel dpo fine-tuning jobs.
  */
@@ -44,17 +45,21 @@ export async function main(): Promise<void> {
   console.log("Files processed.");
 
   // 3) Create a DPO fine-tuning job
-  const fineTuningJob = await openAIClient.fineTuning.jobs.create({
-    training_file: trainingFile.id,
-    validation_file: validationFile.id,
-    model: modelName,
-    method: {
-      type: "dpo",
-      dpo: {
-        hyperparameters: {
-          n_epochs: 3,
-          batch_size: 1,
-          learning_rate_multiplier: 1.0,
+  // Recommended approach to set trainingType. Omitting this field may lead to unsupported behavior.
+  const fineTuningJob = await openAIClient.fineTuning.jobs.create(null as any, {
+    body: {
+      trainingType: "Standard",
+      training_file: trainingFile.id,
+      validation_file: validationFile.id,
+      model: modelName,
+      method: {
+        type: "dpo",
+        dpo: {
+          hyperparameters: {
+            n_epochs: 3,
+            batch_size: 1,
+            learning_rate_multiplier: 1.0,
+          },
         },
       },
     },

@@ -3,6 +3,9 @@
 
 /**
  * This sample demonstrates how to obtain an OpenAI client and perform sft operations.
+ * It also shows how to deploy the fine-tuned model using Azure Cognitive Services Management Client
+ * and perform inference on the deployed model.
+ * Supported OpenAI models: GPT 4o, 4o-mini, 4.1, 4.1-mini
  *
  * @summary Using an OpenAI client, this sample demonstrates how to perform sft operations:
  * create, retrieve, list, pause, resume, list events, list checkpoints, deploy, infer, and cancel.
@@ -197,30 +200,36 @@ export async function main(): Promise<void> {
   console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
 
   // 4) Retrieve a supervised fine-tuning job
+  console.log(`Retrieving fine-tuning job with ID: ${fineTuningJob.id}`);
   await retrieveJob(openAIClient, fineTuningJob.id);
 
   // 5) List all fine-tuning jobs
+  console.log("\nListing all fine-tuning jobs:");
   await listJobs(openAIClient);
 
-  // Uncomment any of the commented methods to test specific functionalities.
-
+  // Uncomment the commented methods to test specific functionalities.
   // await waitForEvent(openAIClient, fineTuningJob.id, ["Training started"]);
   // 6) Pause the fine-tuning job
+  // console.log(`\nPausing fine-tuning job with ID: ${fineTuningJob.id}`);
   // await pauseJob(openAIClient, fineTuningJob.id);
   // await waitForEvent(openAIClient, fineTuningJob.id, ["Training paused"]);
   // 7) Resume the fine-tuning job
+  // console.log(`\nResuming fine-tuning job with ID: ${fineTuningJob.id}`);
   // await resumeJob(openAIClient, fineTuningJob.id);
   // await waitForEvent(openAIClient, fineTuningJob.id, ["Training resumed"]);
 
   // 8) List events for the fine-tuning job
+  // console.log(`\nListing events for fine-tuning job with ID: ${fineTuningJob.id}`);
   await listEvents(openAIClient, fineTuningJob.id);
 
-  await waitForEvent(openAIClient, fineTuningJob.id, ["Training completed"]);
+  // Uncomment the commented methods to test specific functionalities.
+  // await waitForEvent(openAIClient, fineTuningJob.id, ["Training completed"]);
   // 9) Deploy the model
-  const deploymentName = await deployModel(openAIClient, fineTuningJob.id);
-
+  // console.log(`\nDeploying fine-tuned model for job ID: ${fineTuningJob.id}`);
+  // const deploymentName = await deployModel(openAIClient, fineTuningJob.id);
   // 10) Infer using the deployed model
-  await infer(openAIClient, deploymentName);
+  // console.log(`\nInferring using deployed model for job ID: ${fineTuningJob.id}`);
+  // await infer(openAIClient, deploymentName);
 
   // 11) Cancel the fine-tuning job
   console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
@@ -230,6 +239,7 @@ export async function main(): Promise<void> {
   );
 
   // 12) List checkpoints for the fine-tuning job
+  console.log(`Listing checkpoints for fine-tuning job with ID: ${fineTuningJob.id}`);
   await listCheckpoints(openAIClient, fineTuningJob.id);
 
   // 13) Delete the training and validation files
