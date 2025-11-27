@@ -1247,7 +1247,7 @@ export class BlobClient extends StorageClient {
 
     return tracingClient.withSpan("BlobClient-download", options, async (updatedOptions) => {
       const res = assertResponse<BlobDownloadResponseInternal, BlobDownloadHeaders>(
-        await this.blobContext.download({
+        (await this.blobContext.download({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: {
@@ -1263,7 +1263,7 @@ export class BlobClient extends StorageClient {
           snapshot: options.snapshot,
           cpkInfo: options.customerProvidedKey,
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as BlobDownloadResponseInternal,
       );
 
       const wrappedRes: BlobDownloadResponseParsed = {
@@ -3872,7 +3872,7 @@ export class BlockBlobClient extends BlobClient {
 
     return tracingClient.withSpan("BlockBlobClient-query", options, async (updatedOptions) => {
       const response = assertResponse<BlobQueryResponseInternal, BlobQueryHeaders>(
-        await this._blobContext.query({
+        (await this._blobContext.query({
           abortSignal: options.abortSignal,
           queryRequest: {
             queryType: "SQL",
@@ -3887,7 +3887,7 @@ export class BlockBlobClient extends BlobClient {
           },
           cpkInfo: options.customerProvidedKey,
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as BlobQueryResponseInternal,
       );
       return new BlobQueryResponse(response, {
         abortSignal: options.abortSignal,

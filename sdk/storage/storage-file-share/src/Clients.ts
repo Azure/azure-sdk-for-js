@@ -9,6 +9,7 @@ import type {
 } from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
 import type { AbortSignalLike } from "@azure/abort-controller";
+import type { NodeJSReadableStream } from "@azure/storage-common";
 import type {
   CopyFileSmbInfo,
   DeleteSnapshotsOptionType,
@@ -4194,7 +4195,7 @@ export class ShareFileClient extends StorageClient {
 
       return new FileDownloadResponse(
         res,
-        async (start: number): Promise<NodeJS.ReadableStream> => {
+        async (start: number): Promise<NodeJSReadableStream> => {
           const updatedDownloadOptions: FileDownloadOptionalParams = {
             range: rangeToString({
               count: offset + res.contentLength! - start,
@@ -4218,7 +4219,7 @@ export class ShareFileClient extends StorageClient {
           if (!(downloadRes.etag === res.etag)) {
             throw new Error("File has been modified concurrently");
           }
-          return downloadRes.readableStreamBody!;
+          return downloadRes.readableStreamBody! as NodeJSReadableStream;
         },
         offset,
         res.contentLength!,
