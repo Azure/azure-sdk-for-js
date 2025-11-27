@@ -640,6 +640,7 @@ export {
   LeaseStatusType,
   CopyFileSmbInfo,
   ShareNfsSettings,
+  ShareNfsSettingsEncryptionInTransit,
   ShareProtocolSettings,
   ShareSmbSettings,
   ShareSmbSettingsEncryptionInTransit,

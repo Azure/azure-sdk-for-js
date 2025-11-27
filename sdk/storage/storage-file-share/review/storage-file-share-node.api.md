@@ -1996,8 +1996,12 @@ export class ShareLeaseClient {
 
 // @public
 export interface ShareNfsSettings {
-    // Warning: (ae-forgotten-export) The symbol "ShareNfsSettingsEncryptionInTransit" needs to be exported by the entry point index.d.ts
     encryptionInTransit?: ShareNfsSettingsEncryptionInTransit;
+}
+
+// @public
+export interface ShareNfsSettingsEncryptionInTransit {
+    required?: boolean;
 }
 
 // @public
