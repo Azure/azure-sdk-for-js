@@ -1,3 +1,4 @@
+#Requires -Version 7.0
 <#
 .SYNOPSIS
     Updates the CHANGELOG.md for a specific Azure SDK package.
@@ -31,8 +32,7 @@ param (
 )
 
 # Import common helpers
-. (Join-Path (Join-Path (Join-Path (Join-Path (Join-Path $PSScriptRoot "..") "common") "scripts") "Helpers") "CommandInvocation-Helpers.ps1")
-
+. (Join-Path $PSScriptRoot ".." "common" "scripts" "Helpers" "CommandInvocation-Helpers.ps1")
 # Main execution
 try {
   # Validate SDK repository path

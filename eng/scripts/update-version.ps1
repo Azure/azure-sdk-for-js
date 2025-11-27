@@ -1,3 +1,4 @@
+#Requires -Version 7.0
 <#
 .SYNOPSIS
     Updates the version for a specific Azure SDK package.
@@ -50,7 +51,7 @@ param (
 )
 
 # Import common helpers
-. (Join-Path (Join-Path (Join-Path (Join-Path (Join-Path $PSScriptRoot "..") "common") "scripts") "Helpers") "CommandInvocation-Helpers.ps1")
+. (Join-Path $PSScriptRoot ".." "common" "scripts" "Helpers" "CommandInvocation-Helpers.ps1")
 
 # Validate that at least one of ReleaseType or Version is provided
 if (-not $ReleaseType -and -not $Version) {
