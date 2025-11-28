@@ -5,12 +5,12 @@
  * @internal
  */
 export type JsonFeatureFlagValue = {
-  conditions: {
+  conditions?: {
     client_filters: { name: string; parameters?: Record<string, unknown> }[];
     requirement_type?: "All" | "Any";
   };
   description?: string;
-  enabled: boolean;
+  enabled?: boolean;
   id?: string;
   display_name?: string;
 };
