@@ -16,16 +16,16 @@ pnpm build --filter=<your-package-name>...
 
 Install `js-sdk-release-tools`
 ```
-npm install -g @azure-tools/js-sdk-release-tools
+npm --prefix eng/tools/js-sdk-release-tools ci
 ```
 
 After you build your package, run
 ```
-changelog-tool <your-package-path>
+npm --prefix eng/tools/js-sdk-release-tools exec --no -- changelog-tool <your-package-path>
 ```
 Here is the example
 ```
-changelog-tool sdk/advisor/arm-advisor
+npm --prefix eng/tools/js-sdk-release-tools exec --no -- changelog-tool sdk/advisor/arm-advisor
 ```
 
 # Improve README.md document
