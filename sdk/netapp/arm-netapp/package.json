@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-netapp",
-  "version": "22.0.0",
+  "version": "22.1.0-beta.1",
   "description": "A generated SDK for NetAppManagementClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -22,7 +22,19 @@
       "./api/accounts": "./src/api/accounts/index.ts",
       "./api/netAppResourceRegionInfos": "./src/api/netAppResourceRegionInfos/index.ts",
       "./api/netAppResourceQuotaLimits": "./src/api/netAppResourceQuotaLimits/index.ts",
+      "./api/activeDirectoryConfigs": "./src/api/activeDirectoryConfigs/index.ts",
+      "./api/elasticBackups": "./src/api/elasticBackups/index.ts",
+      "./api/elasticBackupPolicies": "./src/api/elasticBackupPolicies/index.ts",
+      "./api/elasticBackupVaults": "./src/api/elasticBackupVaults/index.ts",
+      "./api/elasticSnapshotPolicies": "./src/api/elasticSnapshotPolicies/index.ts",
+      "./api/elasticSnapshots": "./src/api/elasticSnapshots/index.ts",
+      "./api/elasticVolumes": "./src/api/elasticVolumes/index.ts",
+      "./api/elasticCapacityPools": "./src/api/elasticCapacityPools/index.ts",
+      "./api/elasticAccounts": "./src/api/elasticAccounts/index.ts",
+      "./api/caches": "./src/api/caches/index.ts",
+      "./api/buckets": "./src/api/buckets/index.ts",
       "./api/backupVaults": "./src/api/backupVaults/index.ts",
+      "./api/ransomwareReports": "./src/api/ransomwareReports/index.ts",
       "./api/volumeQuotaRules": "./src/api/volumeQuotaRules/index.ts",
       "./api/backupPolicies": "./src/api/backupPolicies/index.ts",
       "./api/snapshotPolicies": "./src/api/snapshotPolicies/index.ts",
@@ -353,6 +365,204 @@
         "default": "./dist/commonjs/api/netAppResourceQuotaLimits/index.js"
       }
     },
+    "./api/activeDirectoryConfigs": {
+      "browser": {
+        "types": "./dist/browser/api/activeDirectoryConfigs/index.d.ts",
+        "default": "./dist/browser/api/activeDirectoryConfigs/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/activeDirectoryConfigs/index.d.ts",
+        "default": "./dist/react-native/api/activeDirectoryConfigs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/activeDirectoryConfigs/index.d.ts",
+        "default": "./dist/esm/api/activeDirectoryConfigs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/activeDirectoryConfigs/index.d.ts",
+        "default": "./dist/commonjs/api/activeDirectoryConfigs/index.js"
+      }
+    },
+    "./api/elasticBackups": {
+      "browser": {
+        "types": "./dist/browser/api/elasticBackups/index.d.ts",
+        "default": "./dist/browser/api/elasticBackups/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/elasticBackups/index.d.ts",
+        "default": "./dist/react-native/api/elasticBackups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticBackups/index.d.ts",
+        "default": "./dist/esm/api/elasticBackups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticBackups/index.d.ts",
+        "default": "./dist/commonjs/api/elasticBackups/index.js"
+      }
+    },
+    "./api/elasticBackupPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/elasticBackupPolicies/index.d.ts",
+        "default": "./dist/browser/api/elasticBackupPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/elasticBackupPolicies/index.d.ts",
+        "default": "./dist/react-native/api/elasticBackupPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticBackupPolicies/index.d.ts",
+        "default": "./dist/esm/api/elasticBackupPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticBackupPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/elasticBackupPolicies/index.js"
+      }
+    },
+    "./api/elasticBackupVaults": {
+      "browser": {
+        "types": "./dist/browser/api/elasticBackupVaults/index.d.ts",
+        "default": "./dist/browser/api/elasticBackupVaults/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/elasticBackupVaults/index.d.ts",
+        "default": "./dist/react-native/api/elasticBackupVaults/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticBackupVaults/index.d.ts",
+        "default": "./dist/esm/api/elasticBackupVaults/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticBackupVaults/index.d.ts",
+        "default": "./dist/commonjs/api/elasticBackupVaults/index.js"
+      }
+    },
+    "./api/elasticSnapshotPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/elasticSnapshotPolicies/index.d.ts",
+        "default": "./dist/browser/api/elasticSnapshotPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/elasticSnapshotPolicies/index.d.ts",
+        "default": "./dist/react-native/api/elasticSnapshotPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticSnapshotPolicies/index.d.ts",
+        "default": "./dist/esm/api/elasticSnapshotPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticSnapshotPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/elasticSnapshotPolicies/index.js"
+      }
+    },
+    "./api/elasticSnapshots": {
+      "browser": {
+        "types": "./dist/browser/api/elasticSnapshots/index.d.ts",
+        "default": "./dist/browser/api/elasticSnapshots/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/elasticSnapshots/index.d.ts",
+        "default": "./dist/react-native/api/elasticSnapshots/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticSnapshots/index.d.ts",
+        "default": "./dist/esm/api/elasticSnapshots/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticSnapshots/index.d.ts",
+        "default": "./dist/commonjs/api/elasticSnapshots/index.js"
+      }
+    },
+    "./api/elasticVolumes": {
+      "browser": {
+        "types": "./dist/browser/api/elasticVolumes/index.d.ts",
+        "default": "./dist/browser/api/elasticVolumes/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/elasticVolumes/index.d.ts",
+        "default": "./dist/react-native/api/elasticVolumes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticVolumes/index.d.ts",
+        "default": "./dist/esm/api/elasticVolumes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticVolumes/index.d.ts",
+        "default": "./dist/commonjs/api/elasticVolumes/index.js"
+      }
+    },
+    "./api/elasticCapacityPools": {
+      "browser": {
+        "types": "./dist/browser/api/elasticCapacityPools/index.d.ts",
+        "default": "./dist/browser/api/elasticCapacityPools/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/elasticCapacityPools/index.d.ts",
+        "default": "./dist/react-native/api/elasticCapacityPools/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticCapacityPools/index.d.ts",
+        "default": "./dist/esm/api/elasticCapacityPools/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticCapacityPools/index.d.ts",
+        "default": "./dist/commonjs/api/elasticCapacityPools/index.js"
+      }
+    },
+    "./api/elasticAccounts": {
+      "browser": {
+        "types": "./dist/browser/api/elasticAccounts/index.d.ts",
+        "default": "./dist/browser/api/elasticAccounts/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/elasticAccounts/index.d.ts",
+        "default": "./dist/react-native/api/elasticAccounts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticAccounts/index.d.ts",
+        "default": "./dist/esm/api/elasticAccounts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticAccounts/index.d.ts",
+        "default": "./dist/commonjs/api/elasticAccounts/index.js"
+      }
+    },
+    "./api/caches": {
+      "browser": {
+        "types": "./dist/browser/api/caches/index.d.ts",
+        "default": "./dist/browser/api/caches/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/caches/index.d.ts",
+        "default": "./dist/react-native/api/caches/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/caches/index.d.ts",
+        "default": "./dist/esm/api/caches/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/caches/index.d.ts",
+        "default": "./dist/commonjs/api/caches/index.js"
+      }
+    },
+    "./api/buckets": {
+      "browser": {
+        "types": "./dist/browser/api/buckets/index.d.ts",
+        "default": "./dist/browser/api/buckets/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/buckets/index.d.ts",
+        "default": "./dist/react-native/api/buckets/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/buckets/index.d.ts",
+        "default": "./dist/esm/api/buckets/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/buckets/index.d.ts",
+        "default": "./dist/commonjs/api/buckets/index.js"
+      }
+    },
     "./api/backupVaults": {
       "browser": {
         "types": "./dist/browser/api/backupVaults/index.d.ts",
@@ -369,6 +579,24 @@
       "require": {
         "types": "./dist/commonjs/api/backupVaults/index.d.ts",
         "default": "./dist/commonjs/api/backupVaults/index.js"
+      }
+    },
+    "./api/ransomwareReports": {
+      "browser": {
+        "types": "./dist/browser/api/ransomwareReports/index.d.ts",
+        "default": "./dist/browser/api/ransomwareReports/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/ransomwareReports/index.d.ts",
+        "default": "./dist/react-native/api/ransomwareReports/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/ransomwareReports/index.d.ts",
+        "default": "./dist/esm/api/ransomwareReports/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/ransomwareReports/index.d.ts",
+        "default": "./dist/commonjs/api/ransomwareReports/index.js"
       }
     },
     "./api/volumeQuotaRules": {

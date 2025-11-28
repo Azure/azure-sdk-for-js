@@ -80,6 +80,7 @@ export interface PagedResult<
 export interface BuildPagedAsyncIteratorOptions {
   itemName?: string;
   nextLinkName?: string;
+  nextLinkMethod?: "GET" | "POST";
 }
 
 /**
@@ -99,12 +100,15 @@ export function buildPagedAsyncIterator<
 ): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
   const itemName = options.itemName ?? "value";
   const nextLinkName = options.nextLinkName ?? "nextLink";
+  const nextLinkMethod = options.nextLinkMethod ?? "GET";
   const pagedResult: PagedResult<TElement, TPage, TPageSettings> = {
     getPage: async (pageLink?: string) => {
       const result =
         pageLink === undefined
           ? await getInitialResponse()
-          : await client.pathUnchecked(pageLink).get();
+          : nextLinkMethod === "POST"
+            ? await client.pathUnchecked(pageLink).post()
+            : await client.pathUnchecked(pageLink).get();
       checkPagingRequest(result, expectedStatuses);
       const results = await processResponseBody(result as TResponse);
       const nextLink = getNextLink(results, nextLinkName);

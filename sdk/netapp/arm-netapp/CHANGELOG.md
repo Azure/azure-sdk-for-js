@@ -1,5 +1,276 @@
 # Release History
 
+## 22.1.0-beta.1 (2025-11-27)
+Compared with version 22.0.0
+
+### Features Added
+  - Added operation group ActiveDirectoryConfigsOperations
+  - Added operation group BucketsOperations
+  - Added operation group CachesOperations
+  - Added operation group ElasticAccountsOperations
+  - Added operation group ElasticBackupPoliciesOperations
+  - Added operation group ElasticBackupsOperations
+  - Added operation group ElasticBackupVaultsOperations
+  - Added operation group ElasticCapacityPoolsOperations
+  - Added operation group ElasticSnapshotPoliciesOperations
+  - Added operation group ElasticSnapshotsOperations
+  - Added operation group ElasticVolumesOperations
+  - Added operation group RansomwareReportsOperations
+  - Added operation VolumesOperations.listQuotaReport
+  - Added Interface ActiveDirectoryConfig
+  - Added Interface ActiveDirectoryConfigProperties
+  - Added Interface ActiveDirectoryConfigsCreateOrUpdateOptionalParams
+  - Added Interface ActiveDirectoryConfigsDeleteOptionalParams
+  - Added Interface ActiveDirectoryConfigsGetOptionalParams
+  - Added Interface ActiveDirectoryConfigsListByResourceGroupOptionalParams
+  - Added Interface ActiveDirectoryConfigsListBySubscriptionOptionalParams
+  - Added Interface ActiveDirectoryConfigsUpdateOptionalParams
+  - Added Interface ActiveDirectoryConfigUpdate
+  - Added Interface ActiveDirectoryConfigUpdateProperties
+  - Added Interface Bucket
+  - Added Interface BucketCredentialsExpiry
+  - Added Interface BucketGenerateCredentials
+  - Added Interface BucketPatch
+  - Added Interface BucketPatchProperties
+  - Added Interface BucketProperties
+  - Added Interface BucketsCreateOrUpdateOptionalParams
+  - Added Interface BucketsDeleteOptionalParams
+  - Added Interface BucketServerPatchProperties
+  - Added Interface BucketServerProperties
+  - Added Interface BucketsGenerateCredentialsOptionalParams
+  - Added Interface BucketsGetOptionalParams
+  - Added Interface BucketsListOptionalParams
+  - Added Interface BucketsUpdateOptionalParams
+  - Added Interface Cache
+  - Added Interface CacheMountTargetProperties
+  - Added Interface CacheProperties
+  - Added Interface CachesCreateOrUpdateOptionalParams
+  - Added Interface CachesDeleteOptionalParams
+  - Added Interface CachesGetOptionalParams
+  - Added Interface CachesListByCapacityPoolsOptionalParams
+  - Added Interface CachesListPeeringPassphrasesOptionalParams
+  - Added Interface CachesPoolChangeOptionalParams
+  - Added Interface CachesUpdateOptionalParams
+  - Added Interface CacheUpdate
+  - Added Interface CacheUpdateProperties
+  - Added Interface ChangeZoneRequest
+  - Added Interface CheckElasticResourceAvailabilityResponse
+  - Added Interface CheckElasticVolumeFilePathAvailabilityRequest
+  - Added Interface CifsUser
+  - Added Interface ElasticAccount
+  - Added Interface ElasticAccountProperties
+  - Added Interface ElasticAccountsCreateOrUpdateOptionalParams
+  - Added Interface ElasticAccountsDeleteOptionalParams
+  - Added Interface ElasticAccountsGetOptionalParams
+  - Added Interface ElasticAccountsListByResourceGroupOptionalParams
+  - Added Interface ElasticAccountsListBySubscriptionOptionalParams
+  - Added Interface ElasticAccountsUpdateOptionalParams
+  - Added Interface ElasticAccountUpdate
+  - Added Interface ElasticAccountUpdateProperties
+  - Added Interface ElasticBackup
+  - Added Interface ElasticBackupPoliciesCreateOrUpdateOptionalParams
+  - Added Interface ElasticBackupPoliciesDeleteOptionalParams
+  - Added Interface ElasticBackupPoliciesGetOptionalParams
+  - Added Interface ElasticBackupPoliciesListByElasticAccountOptionalParams
+  - Added Interface ElasticBackupPoliciesUpdateOptionalParams
+  - Added Interface ElasticBackupPolicy
+  - Added Interface ElasticBackupPolicyProperties
+  - Added Interface ElasticBackupPolicyUpdate
+  - Added Interface ElasticBackupPolicyUpdateProperties
+  - Added Interface ElasticBackupProperties
+  - Added Interface ElasticBackupsCreateOrUpdateOptionalParams
+  - Added Interface ElasticBackupsDeleteOptionalParams
+  - Added Interface ElasticBackupsGetOptionalParams
+  - Added Interface ElasticBackupsListByVaultOptionalParams
+  - Added Interface ElasticBackupsUpdateOptionalParams
+  - Added Interface ElasticBackupVault
+  - Added Interface ElasticBackupVaultProperties
+  - Added Interface ElasticBackupVaultsCreateOrUpdateOptionalParams
+  - Added Interface ElasticBackupVaultsDeleteOptionalParams
+  - Added Interface ElasticBackupVaultsGetOptionalParams
+  - Added Interface ElasticBackupVaultsListByElasticAccountOptionalParams
+  - Added Interface ElasticBackupVaultsUpdateOptionalParams
+  - Added Interface ElasticBackupVaultUpdate
+  - Added Interface ElasticCapacityPool
+  - Added Interface ElasticCapacityPoolProperties
+  - Added Interface ElasticCapacityPoolsChangeZoneOptionalParams
+  - Added Interface ElasticCapacityPoolsCheckVolumeFilePathAvailabilityOptionalParams
+  - Added Interface ElasticCapacityPoolsCreateOrUpdateOptionalParams
+  - Added Interface ElasticCapacityPoolsDeleteOptionalParams
+  - Added Interface ElasticCapacityPoolsGetOptionalParams
+  - Added Interface ElasticCapacityPoolsListByElasticAccountOptionalParams
+  - Added Interface ElasticCapacityPoolsUpdateOptionalParams
+  - Added Interface ElasticCapacityPoolUpdate
+  - Added Interface ElasticCapacityPoolUpdateProperties
+  - Added Interface ElasticEncryption
+  - Added Interface ElasticEncryptionConfiguration
+  - Added Interface ElasticEncryptionIdentity
+  - Added Interface ElasticExportPolicy
+  - Added Interface ElasticExportPolicyRule
+  - Added Interface ElasticKeyVaultProperties
+  - Added Interface ElasticMountTargetProperties
+  - Added Interface ElasticSmbPatchProperties
+  - Added Interface ElasticSmbProperties
+  - Added Interface ElasticSnapshot
+  - Added Interface ElasticSnapshotPoliciesCreateOrUpdateOptionalParams
+  - Added Interface ElasticSnapshotPoliciesDeleteOptionalParams
+  - Added Interface ElasticSnapshotPoliciesGetOptionalParams
+  - Added Interface ElasticSnapshotPoliciesListByElasticAccountOptionalParams
+  - Added Interface ElasticSnapshotPoliciesListElasticVolumesOptionalParams
+  - Added Interface ElasticSnapshotPoliciesUpdateOptionalParams
+  - Added Interface ElasticSnapshotPolicy
+  - Added Interface ElasticSnapshotPolicyDailySchedule
+  - Added Interface ElasticSnapshotPolicyHourlySchedule
+  - Added Interface ElasticSnapshotPolicyMonthlySchedule
+  - Added Interface ElasticSnapshotPolicyProperties
+  - Added Interface ElasticSnapshotPolicyUpdate
+  - Added Interface ElasticSnapshotPolicyUpdateProperties
+  - Added Interface ElasticSnapshotPolicyWeeklySchedule
+  - Added Interface ElasticSnapshotProperties
+  - Added Interface ElasticSnapshotsCreateOrUpdateOptionalParams
+  - Added Interface ElasticSnapshotsDeleteOptionalParams
+  - Added Interface ElasticSnapshotsGetOptionalParams
+  - Added Interface ElasticSnapshotsListByElasticVolumeOptionalParams
+  - Added Interface ElasticVolume
+  - Added Interface ElasticVolumeBackupProperties
+  - Added Interface ElasticVolumeDataProtectionPatchProperties
+  - Added Interface ElasticVolumeDataProtectionProperties
+  - Added Interface ElasticVolumeProperties
+  - Added Interface ElasticVolumeRevert
+  - Added Interface ElasticVolumesCreateOrUpdateOptionalParams
+  - Added Interface ElasticVolumesDeleteOptionalParams
+  - Added Interface ElasticVolumesGetOptionalParams
+  - Added Interface ElasticVolumesListByElasticPoolOptionalParams
+  - Added Interface ElasticVolumeSnapshotProperties
+  - Added Interface ElasticVolumesRevertOptionalParams
+  - Added Interface ElasticVolumesUpdateOptionalParams
+  - Added Interface ElasticVolumeUpdate
+  - Added Interface ElasticVolumeUpdateProperties
+  - Added Interface FileSystemUser
+  - Added Interface LdapConfiguration
+  - Added Interface ListQuotaReportResponse
+  - Added Interface NfsUser
+  - Added Interface OriginClusterInformation
+  - Added Interface PeeringPassphrases
+  - Added Interface QuotaReport
+  - Added Interface RansomwareProtectionPatchSettings
+  - Added Interface RansomwareProtectionSettings
+  - Added Interface RansomwareReport
+  - Added Interface RansomwareReportProperties
+  - Added Interface RansomwareReportsClearSuspectsOptionalParams
+  - Added Interface RansomwareReportsGetOptionalParams
+  - Added Interface RansomwareReportsListOptionalParams
+  - Added Interface RansomwareSuspects
+  - Added Interface RansomwareSuspectsClearRequest
+  - Added Interface SecretPassword
+  - Added Interface SecretPasswordIdentity
+  - Added Interface SecretPasswordKeyVaultProperties
+  - Added Interface SmbSettings
+  - Added Interface SuspectFile
+  - Added Interface VolumesListQuotaReportOptionalParams
+  - Interface AccountProperties has a new optional parameter ldapConfiguration
+  - Interface ReplicationObject has a new optional parameter externalReplicationSetupInfo
+  - Interface ReplicationObject has a new optional parameter externalReplicationSetupStatus
+  - Interface ReplicationObject has a new optional parameter mirrorState
+  - Interface ReplicationObject has a new optional parameter relationshipStatus
+  - Interface VolumePatchPropertiesDataProtection has a new optional parameter ransomwareProtection
+  - Interface VolumeProperties has a new optional parameter breakthroughMode
+  - Interface VolumeProperties has a new optional parameter language
+  - Interface VolumeProperties has a new optional parameter largeVolumeType
+  - Interface VolumeProperties has a new optional parameter ldapServerType
+  - Interface VolumePropertiesDataProtection has a new optional parameter ransomwareProtection
+  - Added Type Alias ActualRansomwareProtectionState
+  - Added Type Alias BreakthroughMode
+  - Added Type Alias BucketPatchPermissions
+  - Added Type Alias BucketPermissions
+  - Added Type Alias CacheLifeCycleState
+  - Added Type Alias CacheProvisioningState
+  - Added Type Alias CheckElasticResourceAvailabilityReason
+  - Added Type Alias CheckElasticResourceAvailabilityStatus
+  - Added Type Alias CifsChangeNotifyState
+  - Added Type Alias CredentialsStatus
+  - Added Type Alias DayOfWeek
+  - Added Type Alias DesiredRansomwareProtectionState
+  - Added Type Alias ElasticBackupPolicyState
+  - Added Type Alias ElasticBackupType
+  - Added Type Alias ElasticKeyVaultStatus
+  - Added Type Alias ElasticNfsv3Access
+  - Added Type Alias ElasticNfsv4Access
+  - Added Type Alias ElasticPoolEncryptionKeySource
+  - Added Type Alias ElasticProtocolType
+  - Added Type Alias ElasticResourceAvailabilityStatus
+  - Added Type Alias ElasticRootAccess
+  - Added Type Alias ElasticServiceLevel
+  - Added Type Alias ElasticSmbEncryption
+  - Added Type Alias ElasticUnixAccessRule
+  - Added Type Alias ElasticVolumePolicyEnforcement
+  - Added Type Alias ElasticVolumeRestorationState
+  - Added Type Alias EnableWriteBackState
+  - Added Type Alias EncryptionState
+  - Added Type Alias ExternalReplicationSetupStatus
+  - Added Type Alias GlobalFileLockingState
+  - Added Type Alias KerberosState
+  - Added Type Alias LargeVolumeType
+  - Added Type Alias LdapServerType
+  - Added Type Alias LdapState
+  - Added Type Alias PolicyStatus
+  - Added Type Alias ProtocolTypes
+  - Added Type Alias RansomwareReportSeverity
+  - Added Type Alias RansomwareReportState
+  - Added Type Alias RansomwareSuspectResolution
+  - Added Type Alias SmbEncryptionState
+  - Added Type Alias SnapshotDirectoryVisibility
+  - Added Type Alias SnapshotUsage
+  - Added Type Alias VolumeLanguage
+  - Added Type Alias VolumeSize
+  - Added Enum KnownActualRansomwareProtectionState
+  - Added Enum KnownBreakthroughMode
+  - Added Enum KnownBucketPatchPermissions
+  - Added Enum KnownBucketPermissions
+  - Added Enum KnownCacheLifeCycleState
+  - Added Enum KnownCacheProvisioningState
+  - Added Enum KnownCheckElasticResourceAvailabilityReason
+  - Added Enum KnownCheckElasticResourceAvailabilityStatus
+  - Added Enum KnownCifsChangeNotifyState
+  - Added Enum KnownCredentialsStatus
+  - Added Enum KnownDayOfWeek
+  - Added Enum KnownDesiredRansomwareProtectionState
+  - Added Enum KnownElasticBackupPolicyState
+  - Added Enum KnownElasticBackupType
+  - Added Enum KnownElasticKeyVaultStatus
+  - Added Enum KnownElasticNfsv3Access
+  - Added Enum KnownElasticNfsv4Access
+  - Added Enum KnownElasticPoolEncryptionKeySource
+  - Added Enum KnownElasticProtocolType
+  - Added Enum KnownElasticResourceAvailabilityStatus
+  - Added Enum KnownElasticRootAccess
+  - Added Enum KnownElasticServiceLevel
+  - Added Enum KnownElasticSmbEncryption
+  - Added Enum KnownElasticUnixAccessRule
+  - Added Enum KnownElasticVolumePolicyEnforcement
+  - Added Enum KnownElasticVolumeRestorationState
+  - Added Enum KnownEnableWriteBackState
+  - Added Enum KnownEncryptionState
+  - Added Enum KnownExternalReplicationSetupStatus
+  - Added Enum KnownGlobalFileLockingState
+  - Added Enum KnownKerberosState
+  - Added Enum KnownLargeVolumeType
+  - Added Enum KnownLdapServerType
+  - Added Enum KnownLdapState
+  - Added Enum KnownPolicyStatus
+  - Added Enum KnownProtocolTypes
+  - Added Enum KnownRansomwareReportSeverity
+  - Added Enum KnownRansomwareReportState
+  - Added Enum KnownRansomwareSuspectResolution
+  - Added Enum KnownSmbEncryptionState
+  - Added Enum KnownSnapshotDirectoryVisibility
+  - Added Enum KnownSnapshotUsage
+  - Added Enum KnownVolumeLanguage
+  - Added Enum KnownVolumeSize
+  - Enum KnownVersions has a new value V20250701Preview
+  - Enum KnownVersions has a new value V20250801Preview
+  - Enum KnownVersions has a new value V20250901Preview
+
 ## 22.0.0 (2025-11-14)
 
 ### Features Added
