@@ -6,6 +6,8 @@
 
 ### Breaking Changes
 
+- Renamed `enableAzureKubernetesTokenProxy` in `WorkloadIdentityCredentialOptions` to `enableAzureProxy`. [#36728](https://github.com/Azure/azure-sdk-for-js/pull/36728)
+
 ### Bugs Fixed
 
 ### Other Changes
