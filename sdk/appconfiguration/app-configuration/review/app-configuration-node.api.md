@@ -145,7 +145,7 @@ export interface FeatureFlagValue {
     };
     description?: string;
     displayName?: string;
-    enabled: boolean;
+    enabled?: boolean;
     id?: string;
 }
 
