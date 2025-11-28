@@ -14,8 +14,11 @@ import {
   ServiceGetPropertiesResponse,
   ServiceGetStatisticsOptionalParams,
   ServiceGetStatisticsResponse,
+  KeyInfo,
+  ServiceGetUserDelegationKeyOptionalParams,
+  ServiceGetUserDelegationKeyResponse,
   ServiceListQueuesSegmentOptionalParams,
-  ServiceListQueuesSegmentResponse
+  ServiceListQueuesSegmentResponse,
 } from "../models/index.js";
 
 /** Interface representing a Service. */
@@ -28,7 +31,7 @@ export interface Service {
    */
   setProperties(
     properties: QueueServiceProperties,
-    options?: ServiceSetPropertiesOptionalParams
+    options?: ServiceSetPropertiesOptionalParams,
   ): Promise<ServiceSetPropertiesResponse>;
   /**
    * gets the properties of a storage account's Queue service, including properties for Storage Analytics
@@ -36,7 +39,7 @@ export interface Service {
    * @param options The options parameters.
    */
   getProperties(
-    options?: ServiceGetPropertiesOptionalParams
+    options?: ServiceGetPropertiesOptionalParams,
   ): Promise<ServiceGetPropertiesResponse>;
   /**
    * Retrieves statistics related to replication for the Queue service. It is only available on the
@@ -45,13 +48,23 @@ export interface Service {
    * @param options The options parameters.
    */
   getStatistics(
-    options?: ServiceGetStatisticsOptionalParams
+    options?: ServiceGetStatisticsOptionalParams,
   ): Promise<ServiceGetStatisticsResponse>;
+  /**
+   * Retrieves a user delegation key for the Queue service. This is only a valid operation when using
+   * bearer token authentication.
+   * @param keyInfo Key information
+   * @param options The options parameters.
+   */
+  getUserDelegationKey(
+    keyInfo: KeyInfo,
+    options?: ServiceGetUserDelegationKeyOptionalParams,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
   /**
    * The List Queues Segment operation returns a list of the queues under the specified account
    * @param options The options parameters.
    */
   listQueuesSegment(
-    options?: ServiceListQueuesSegmentOptionalParams
+    options?: ServiceListQueuesSegmentOptionalParams,
   ): Promise<ServiceListQueuesSegmentResponse>;
 }

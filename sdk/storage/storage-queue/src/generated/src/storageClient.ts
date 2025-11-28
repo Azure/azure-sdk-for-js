@@ -11,9 +11,14 @@ import {
   ServiceImpl,
   QueueImpl,
   MessagesImpl,
-  MessageIdImpl
+  MessageIdImpl,
 } from "./operations/index.js";
-import { Service, Queue, Messages, MessageId } from "./operationsInterfaces/index.js";
+import {
+  Service,
+  Queue,
+  Messages,
+  MessageId,
+} from "./operationsInterfaces/index.js";
 import { StorageClientOptionalParams } from "./models/index.js";
 
 export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
@@ -36,10 +41,10 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
       options = {};
     }
     const defaults: StorageClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-azure-storage-queue/12.28.1`;
+    const packageDetails = `azsdk-js-azure-storage-queue/12.29.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -49,16 +54,16 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "{url}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{url}",
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.url = url;
 
     // Assigning values to Constant parameters
-    this.version = options.version || "2025-11-05";
+    this.version = options.version || "2026-02-06";
     this.service = new ServiceImpl(this);
     this.queue = new QueueImpl(this);
     this.messages = new MessagesImpl(this);
