@@ -22,15 +22,12 @@ async function queryAtResourceGroupScope(): Promise<void> {
     process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyEvents.listQueryResultsForResourceGroup(
+  const result = await client.policyEvents.listQueryResultsForResourceGroup(
     policyEventsResource,
     subscriptionId,
     resourceGroupName,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -46,20 +43,17 @@ async function queryAtResourceGroupScopeWithNextLink(): Promise<void> {
     process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyEventsListQueryResultsForResourceGroupOptionalParams = {
-    queryOptions: { skipToken },
+    skipToken,
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyEvents.listQueryResultsForResourceGroup(
+  const result = await client.policyEvents.listQueryResultsForResourceGroup(
     policyEventsResource,
     subscriptionId,
     resourceGroupName,
     options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 async function main(): Promise<void> {

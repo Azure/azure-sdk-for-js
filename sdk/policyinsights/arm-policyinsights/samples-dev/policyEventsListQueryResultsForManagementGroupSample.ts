@@ -20,14 +20,11 @@ async function queryAtManagementGroupScope(): Promise<void> {
   const managementGroupName = "myManagementGroup";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyEvents.listQueryResultsForManagementGroup(
+  const result = await client.policyEvents.listQueryResultsForManagementGroup(
     policyEventsResource,
     managementGroupName,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -41,18 +38,15 @@ async function queryAtManagementGroupScopeWithNextLink(): Promise<void> {
   const managementGroupName = "myManagementGroup";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyEventsListQueryResultsForManagementGroupOptionalParams =
-    { queryOptions: { skipToken } };
+    { skipToken };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyEvents.listQueryResultsForManagementGroup(
+  const result = await client.policyEvents.listQueryResultsForManagementGroup(
     policyEventsResource,
     managementGroupName,
     options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 async function main(): Promise<void> {

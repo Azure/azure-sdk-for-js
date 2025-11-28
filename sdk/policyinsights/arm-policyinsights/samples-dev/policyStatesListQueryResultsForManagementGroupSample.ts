@@ -38,7 +38,7 @@ async function queryLatestAtManagementGroupScopeWithNextLink(): Promise<void> {
   const managementGroupName = "myManagementGroup";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyStatesListQueryResultsForManagementGroupOptionalParams =
-    { queryOptions: { skipToken } };
+    { skipToken };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const result = await client.policyStates.listQueryResultsForManagementGroup(

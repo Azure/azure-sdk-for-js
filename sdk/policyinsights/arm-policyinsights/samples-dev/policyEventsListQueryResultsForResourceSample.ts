@@ -21,14 +21,11 @@ async function queryAtNestedResourceScope(): Promise<void> {
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApplication";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyEvents.listQueryResultsForResource(
+  const result = await client.policyEvents.listQueryResultsForResource(
     policyEventsResource,
     resourceId,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -43,14 +40,11 @@ async function queryAtResourceScope(): Promise<void> {
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyEvents.listQueryResultsForResource(
+  const result = await client.policyEvents.listQueryResultsForResource(
     policyEventsResource,
     resourceId,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -65,19 +59,16 @@ async function queryAtResourceScopeWithNextLink(): Promise<void> {
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyEventsListQueryResultsForResourceOptionalParams = {
-    queryOptions: { skipToken },
+    skipToken,
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyEvents.listQueryResultsForResource(
+  const result = await client.policyEvents.listQueryResultsForResource(
     policyEventsResource,
     resourceId,
     options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -92,14 +83,11 @@ async function queryAtSubscriptionLevelNestedResourceScope(): Promise<void> {
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResource/someNestedResourceType/someNestedResource";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyEvents.listQueryResultsForResource(
+  const result = await client.policyEvents.listQueryResultsForResource(
     policyEventsResource,
     resourceId,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -114,14 +102,11 @@ async function queryAtSubscriptionLevelResourceScope(): Promise<void> {
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResourceName";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyEvents.listQueryResultsForResource(
+  const result = await client.policyEvents.listQueryResultsForResource(
     policyEventsResource,
     resourceId,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -139,22 +124,17 @@ async function queryComponentsPolicyEventsCountGroupedByUserAndActionTypeForReso
   const expand =
     "components($apply=groupby((tenantId, principalOid, policyDefinitionAction), aggregate($count as totalActions)))";
   const options: PolicyEventsListQueryResultsForResourceOptionalParams = {
-    queryOptions: {
-      filter,
-      expand,
-    },
+    filter,
+    expand,
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyEvents.listQueryResultsForResource(
+  const result = await client.policyEvents.listQueryResultsForResource(
     policyEventsResource,
     resourceId,
     options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -171,22 +151,17 @@ async function queryComponentsPolicyEventsForResourceScopeFilteredByGivenAssignm
     "policyAssignmentId eq '/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/providers/microsoft.authorization/policyassignments/560050f83dbb4a24974323f8'";
   const expand = "components";
   const options: PolicyEventsListQueryResultsForResourceOptionalParams = {
-    queryOptions: {
-      filter,
-      expand,
-    },
+    filter,
+    expand,
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyEvents.listQueryResultsForResource(
+  const result = await client.policyEvents.listQueryResultsForResource(
     policyEventsResource,
     resourceId,
     options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 async function main(): Promise<void> {

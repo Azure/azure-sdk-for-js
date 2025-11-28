@@ -653,22 +653,15 @@ export interface PolicyEvent {
 
 // @public
 export interface PolicyEvents {
-    listQueryResultsForManagementGroup(policyEventsResource: PolicyEventsResourceType, managementGroupName: string, options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForPolicyDefinition(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, policyDefinitionName: string, options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForPolicySetDefinition(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, policySetDefinitionName: string, options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForResource(policyEventsResource: PolicyEventsResourceType, resourceId: string, options?: PolicyEventsListQueryResultsForResourceOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForResourceGroup(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, resourceGroupName: string, options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForResourceGroupLevelPolicyAssignment(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForSubscription(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForSubscriptionLevelPolicyAssignment(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, policyAssignmentName: string, options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
+    listQueryResultsForManagementGroup(policyEventsResource: PolicyEventsResourceType, managementGroupName: string, options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams): Promise<PolicyEventsListQueryResultsForManagementGroupResponse>;
+    listQueryResultsForPolicyDefinition(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, policyDefinitionName: string, options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams): Promise<PolicyEventsListQueryResultsForPolicyDefinitionResponse>;
+    listQueryResultsForPolicySetDefinition(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, policySetDefinitionName: string, options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams): Promise<PolicyEventsListQueryResultsForPolicySetDefinitionResponse>;
+    listQueryResultsForResource(policyEventsResource: PolicyEventsResourceType, resourceId: string, options?: PolicyEventsListQueryResultsForResourceOptionalParams): Promise<PolicyEventsListQueryResultsForResourceResponse>;
+    listQueryResultsForResourceGroup(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, resourceGroupName: string, options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams): Promise<PolicyEventsListQueryResultsForResourceGroupResponse>;
+    listQueryResultsForResourceGroupLevelPolicyAssignment(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams): Promise<PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse>;
+    listQueryResultsForSubscription(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams): Promise<PolicyEventsListQueryResultsForSubscriptionResponse>;
+    listQueryResultsForSubscriptionLevelPolicyAssignment(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, policyAssignmentName: string, options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams): Promise<PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse>;
 }
-
-// @public
-export interface PolicyEventsListQueryResultsForManagementGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PolicyEventsListQueryResultsForManagementGroupNextResponse = PolicyEventsQueryResults;
 
 // @public
 export interface PolicyEventsListQueryResultsForManagementGroupOptionalParams extends coreClient.OperationOptions {
@@ -679,26 +672,12 @@ export interface PolicyEventsListQueryResultsForManagementGroupOptionalParams ex
 export type PolicyEventsListQueryResultsForManagementGroupResponse = PolicyEventsQueryResults;
 
 // @public
-export interface PolicyEventsListQueryResultsForPolicyDefinitionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PolicyEventsListQueryResultsForPolicyDefinitionNextResponse = PolicyEventsQueryResults;
-
-// @public
 export interface PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams extends coreClient.OperationOptions {
     queryOptions?: QueryOptions;
 }
 
 // @public
 export type PolicyEventsListQueryResultsForPolicyDefinitionResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForPolicySetDefinitionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PolicyEventsListQueryResultsForPolicySetDefinitionNextResponse = PolicyEventsQueryResults;
 
 // @public
 export interface PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams extends coreClient.OperationOptions {
@@ -709,26 +688,12 @@ export interface PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParam
 export type PolicyEventsListQueryResultsForPolicySetDefinitionResponse = PolicyEventsQueryResults;
 
 // @public
-export interface PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse = PolicyEventsQueryResults;
-
-// @public
 export interface PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams extends coreClient.OperationOptions {
     queryOptions?: QueryOptions;
 }
 
 // @public
 export type PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PolicyEventsListQueryResultsForResourceGroupNextResponse = PolicyEventsQueryResults;
 
 // @public
 export interface PolicyEventsListQueryResultsForResourceGroupOptionalParams extends coreClient.OperationOptions {
@@ -739,13 +704,6 @@ export interface PolicyEventsListQueryResultsForResourceGroupOptionalParams exte
 export type PolicyEventsListQueryResultsForResourceGroupResponse = PolicyEventsQueryResults;
 
 // @public
-export interface PolicyEventsListQueryResultsForResourceNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PolicyEventsListQueryResultsForResourceNextResponse = PolicyEventsQueryResults;
-
-// @public
 export interface PolicyEventsListQueryResultsForResourceOptionalParams extends coreClient.OperationOptions {
     queryOptions?: QueryOptions;
 }
@@ -754,26 +712,12 @@ export interface PolicyEventsListQueryResultsForResourceOptionalParams extends c
 export type PolicyEventsListQueryResultsForResourceResponse = PolicyEventsQueryResults;
 
 // @public
-export interface PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse = PolicyEventsQueryResults;
-
-// @public
 export interface PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams extends coreClient.OperationOptions {
     queryOptions?: QueryOptions;
 }
 
 // @public
 export type PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse = PolicyEventsQueryResults;
-
-// @public
-export interface PolicyEventsListQueryResultsForSubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PolicyEventsListQueryResultsForSubscriptionNextResponse = PolicyEventsQueryResults;
 
 // @public
 export interface PolicyEventsListQueryResultsForSubscriptionOptionalParams extends coreClient.OperationOptions {

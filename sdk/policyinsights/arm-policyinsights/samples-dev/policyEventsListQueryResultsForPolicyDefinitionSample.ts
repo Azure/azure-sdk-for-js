@@ -21,15 +21,12 @@ async function queryAtSubscriptionLevelPolicyDefinitionScope(): Promise<void> {
   const policyDefinitionName = "24813039-7534-408a-9842-eb99f45721b1";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyEvents.listQueryResultsForPolicyDefinition(
+  const result = await client.policyEvents.listQueryResultsForPolicyDefinition(
     policyEventsResource,
     subscriptionId,
     policyDefinitionName,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -44,19 +41,16 @@ async function queryAtSubscriptionLevelPolicyDefinitionScopeWithNextLink(): Prom
   const policyDefinitionName = "24813039-7534-408a-9842-eb99f45721b1";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams =
-    { queryOptions: { skipToken } };
+    { skipToken };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyEvents.listQueryResultsForPolicyDefinition(
+  const result = await client.policyEvents.listQueryResultsForPolicyDefinition(
     policyEventsResource,
     subscriptionId,
     policyDefinitionName,
     options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 async function main(): Promise<void> {

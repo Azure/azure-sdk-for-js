@@ -2014,65 +2014,6 @@ export type PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentRes
   PolicyEventsQueryResults;
 
 /** Optional parameters. */
-export interface PolicyEventsListQueryResultsForManagementGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listQueryResultsForManagementGroupNext operation. */
-export type PolicyEventsListQueryResultsForManagementGroupNextResponse = PolicyEventsQueryResults;
-
-/** Optional parameters. */
-export interface PolicyEventsListQueryResultsForSubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listQueryResultsForSubscriptionNext operation. */
-export type PolicyEventsListQueryResultsForSubscriptionNextResponse = PolicyEventsQueryResults;
-
-/** Optional parameters. */
-export interface PolicyEventsListQueryResultsForResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listQueryResultsForResourceGroupNext operation. */
-export type PolicyEventsListQueryResultsForResourceGroupNextResponse = PolicyEventsQueryResults;
-
-/** Optional parameters. */
-export interface PolicyEventsListQueryResultsForResourceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listQueryResultsForResourceNext operation. */
-export type PolicyEventsListQueryResultsForResourceNextResponse = PolicyEventsQueryResults;
-
-/** Optional parameters. */
-export interface PolicyEventsListQueryResultsForPolicySetDefinitionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listQueryResultsForPolicySetDefinitionNext operation. */
-export type PolicyEventsListQueryResultsForPolicySetDefinitionNextResponse =
-  PolicyEventsQueryResults;
-
-/** Optional parameters. */
-export interface PolicyEventsListQueryResultsForPolicyDefinitionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listQueryResultsForPolicyDefinitionNext operation. */
-export type PolicyEventsListQueryResultsForPolicyDefinitionNextResponse = PolicyEventsQueryResults;
-
-/** Optional parameters. */
-export interface PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listQueryResultsForSubscriptionLevelPolicyAssignmentNext operation. */
-export type PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse =
-  PolicyEventsQueryResults;
-
-/** Optional parameters. */
-export interface PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listQueryResultsForResourceGroupLevelPolicyAssignmentNext operation. */
-export type PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse =
-  PolicyEventsQueryResults;
-
-/** Optional parameters. */
 export interface PolicyStatesListQueryResultsForManagementGroupOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */

@@ -23,16 +23,14 @@ async function queryAtResourceGroupLevelPolicyAssignmentScope(): Promise<void> {
   const policyAssignmentName = "myPolicyAssignment";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyEvents.listQueryResultsForResourceGroupLevelPolicyAssignment(
-    policyEventsResource,
-    subscriptionId,
-    resourceGroupName,
-    policyAssignmentName,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result =
+    await client.policyEvents.listQueryResultsForResourceGroupLevelPolicyAssignment(
+      policyEventsResource,
+      subscriptionId,
+      resourceGroupName,
+      policyAssignmentName,
+    );
+  console.log(result);
 }
 
 /**
@@ -49,20 +47,18 @@ async function queryAtResourceGroupLevelPolicyAssignmentScopeWithNextLink(): Pro
   const policyAssignmentName = "myPolicyAssignment";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams =
-    { queryOptions: { skipToken } };
+    { skipToken };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
-  const resArray = new Array();
-  for await (const item of client.policyEvents.listQueryResultsForResourceGroupLevelPolicyAssignment(
-    policyEventsResource,
-    subscriptionId,
-    resourceGroupName,
-    policyAssignmentName,
-    options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result =
+    await client.policyEvents.listQueryResultsForResourceGroupLevelPolicyAssignment(
+      policyEventsResource,
+      subscriptionId,
+      resourceGroupName,
+      policyAssignmentName,
+      options,
+    );
+  console.log(result);
 }
 
 async function main(): Promise<void> {

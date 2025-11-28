@@ -1,10 +1,8 @@
 # Release History
 
-## 6.1.0 (2025-11-21)
+## 6.1.0 (2025-11-27)
 
 ### Features Added
-
-  - Remove paging for post operations
 
     
 ## 6.0.0 (2025-01-09)
