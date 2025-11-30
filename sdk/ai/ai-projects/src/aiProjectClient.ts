@@ -74,7 +74,7 @@ export class AIProjectClient {
       userAgentOptions: { userAgentPrefix },
       credentials: {
         ...options.credentials,
-        scopes: ["https://cognitiveservices.azure.com/.default"],
+        scopes: ["https://ai.azure.com/.default"],
       },
     });
     this._azureScopeClient = createAIProject(endpoint, credential, {

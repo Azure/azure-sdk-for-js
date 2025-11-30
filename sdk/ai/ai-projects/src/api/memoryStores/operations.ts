@@ -18,8 +18,6 @@ import {
   memoryStoreSearchResponseDeserializer,
   MemoryStoreUpdateResponse,
   memoryStoreUpdateResponseDeserializer,
-  MemoryStoreUpdateResult,
-  MemoryStoreUpdateResultDeserializer,
   MemoryStoreDeleteScopeResponse,
   memoryStoreDeleteScopeResponseDeserializer,
 } from "../../models/models.js";
@@ -27,8 +25,11 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
+  createMemoryStoreUpdateMemoriesPoller,
+  MemoryStoreUpdateMemoriesPoller,
+} from "./memoryStoreUpdateMemoriesPoller.js";
 import {
   MemoryStoresDeleteScopeOptionalParams,
   MemoryStoresGetUpdateResultOptionalParams,
@@ -46,7 +47,6 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _deleteScopeSend(
   context: Client,
@@ -182,38 +182,22 @@ export function _updateMemoriesSend(
   });
 }
 
-export async function _updateMemoriesDeserialize(
-  result: PathUncheckedResponse,
-): Promise<MemoryStoreUpdateResult> {
-  const expectedStatuses = ["202", "200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
-
-  if (result?.body?.result === undefined) {
-    throw createRestError(
-      `Expected a result in the response at position "result.body.result"`,
-      result,
-    );
-  }
-
-  return MemoryStoreUpdateResultDeserializer(result.body.result);
-}
-
 /** Update memory store with conversation memories. */
 export function updateMemories(
   context: Client,
   name: string,
   scope: string,
   options: MemoryStoresUpdateMemoriesOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<MemoryStoreUpdateResult>, MemoryStoreUpdateResult> {
-  return getLongRunningPoller(context, _updateMemoriesDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
-  }) as PollerLike<OperationState<MemoryStoreUpdateResult>, MemoryStoreUpdateResult>;
+): MemoryStoreUpdateMemoriesPoller {
+  return createMemoryStoreUpdateMemoriesPoller(
+    context,
+    ["202", "200"],
+    () => _updateMemoriesSend(context, name, scope, options),
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+    },
+  );
 }
 
 export function _searchMemoriesSend(
