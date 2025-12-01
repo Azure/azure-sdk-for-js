@@ -17,6 +17,7 @@ import { expect, afterEach, assert, beforeAll, describe, it, afterAll, vi } from
 import type Http from "node:http";
 import { ExportResultCode } from "@opentelemetry/core";
 import type { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
+import type { Instrumentation } from "@opentelemetry/instrumentation";
 
 describe("Library/TraceHandler", () => {
   let http: typeof Http | null = null;
@@ -28,6 +29,7 @@ describe("Library/TraceHandler", () => {
   const mockHttpServerPort = 8085;
   let tracerProvider: NodeTracerProvider;
   let exportSpy: MockInstance<AzureMonitorTraceExporter["export"]>;
+  let activeInstrumentations: Instrumentation[] = [];
 
   beforeAll(async () => {
     _config = new InternalConfig();
@@ -71,6 +73,8 @@ describe("Library/TraceHandler", () => {
   });
 
   afterEach(async () => {
+    activeInstrumentations.forEach((instrumentation) => instrumentation.disable());
+    activeInstrumentations = [];
     await metricHandler.shutdown();
     await handler.shutdown();
     metrics.disable();
@@ -82,6 +86,10 @@ describe("Library/TraceHandler", () => {
     _config.instrumentationOptions.http = httpConfig;
     metricHandler = new MetricHandler(_config);
     handler = new TraceHandler(_config, metricHandler);
+    handler.getInstrumentations().forEach((instrumentation) => {
+      instrumentation.enable();
+      activeInstrumentations.push(instrumentation);
+    });
 
     // Because the instrumentation is registered globally, its config is not updated
     // when the handler is created. We need to mock the getConfig method to return
@@ -158,6 +166,9 @@ describe("Library/TraceHandler", () => {
         ],
       });
       trace.setGlobalTracerProvider(tracerProvider);
+      activeInstrumentations.forEach((instrumentation) => {
+        instrumentation.setTracerProvider(tracerProvider);
+      });
       await makeHttpRequest();
       await tracerProvider.forceFlush();
       expect(exportSpy).toHaveBeenCalledOnce();

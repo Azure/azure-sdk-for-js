@@ -26,6 +26,12 @@ import type {
   PublicIPAddressesUpdateTagsResponse,
   PublicIPAddressesDdosProtectionStatusOptionalParams,
   PublicIPAddressesDdosProtectionStatusResponse,
+  ReserveCloudServicePublicIpAddressRequest,
+  PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams,
+  PublicIPAddressesReserveCloudServicePublicIpAddressResponse,
+  DisassociateCloudServicePublicIpRequest,
+  PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams,
+  PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse,
   PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
   PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse,
 } from "../models/index.js";
@@ -230,6 +236,76 @@ export interface PublicIPAddresses {
     publicIpAddressName: string,
     options?: PublicIPAddressesDdosProtectionStatusOptionalParams,
   ): Promise<PublicIPAddressesDdosProtectionStatusResponse>;
+  /**
+   * Reserves the specified Cloud Service Public IP by switching its allocation method to Static. If
+   * rollback is requested, reverts the allocation method to Dynamic.
+   * @param resourceGroupName The name of the resource group.
+   * @param publicIpAddressName The name of the public IP address.
+   * @param parameters Parameter that define which Public IP Address should be associated in place of
+   *                   given Public IP Address.
+   * @param options The options parameters.
+   */
+  beginReserveCloudServicePublicIpAddress(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    parameters: ReserveCloudServicePublicIpAddressRequest,
+    options?: PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PublicIPAddressesReserveCloudServicePublicIpAddressResponse>,
+      PublicIPAddressesReserveCloudServicePublicIpAddressResponse
+    >
+  >;
+  /**
+   * Reserves the specified Cloud Service Public IP by switching its allocation method to Static. If
+   * rollback is requested, reverts the allocation method to Dynamic.
+   * @param resourceGroupName The name of the resource group.
+   * @param publicIpAddressName The name of the public IP address.
+   * @param parameters Parameter that define which Public IP Address should be associated in place of
+   *                   given Public IP Address.
+   * @param options The options parameters.
+   */
+  beginReserveCloudServicePublicIpAddressAndWait(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    parameters: ReserveCloudServicePublicIpAddressRequest,
+    options?: PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams,
+  ): Promise<PublicIPAddressesReserveCloudServicePublicIpAddressResponse>;
+  /**
+   * Disassociates the Cloud Service reserved Public IP and associates the specified Standalone Public IP
+   * to the same Cloud Service frontend.
+   * @param resourceGroupName The name of the resource group.
+   * @param publicIpAddressName The name of the public IP address.
+   * @param parameters Parameter that define which Public IP Address should be associated in place of
+   *                   given Public IP Address.
+   * @param options The options parameters.
+   */
+  beginDisassociateCloudServiceReservedPublicIp(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    parameters: DisassociateCloudServicePublicIpRequest,
+    options?: PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse>,
+      PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse
+    >
+  >;
+  /**
+   * Disassociates the Cloud Service reserved Public IP and associates the specified Standalone Public IP
+   * to the same Cloud Service frontend.
+   * @param resourceGroupName The name of the resource group.
+   * @param publicIpAddressName The name of the public IP address.
+   * @param parameters Parameter that define which Public IP Address should be associated in place of
+   *                   given Public IP Address.
+   * @param options The options parameters.
+   */
+  beginDisassociateCloudServiceReservedPublicIpAndWait(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    parameters: DisassociateCloudServicePublicIpRequest,
+    options?: PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams,
+  ): Promise<PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse>;
   /**
    * Get the specified public IP address in a virtual machine scale set.
    * @param resourceGroupName The name of the resource group.
