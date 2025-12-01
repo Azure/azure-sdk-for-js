@@ -72,6 +72,7 @@ export interface ManagedClustersStopFaultSimulationOptionalParams extends Operat
 
 // @public
 export interface ManagedClustersUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -81,7 +82,7 @@ export function startFaultSimulation(context: ServiceFabricManagedClustersManage
 export function stopFaultSimulation(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, parameters: FaultSimulationIdContent, options?: ManagedClustersStopFaultSimulationOptionalParams): PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
 
 // @public
-export function update(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, parameters: ManagedClusterUpdateParameters, options?: ManagedClustersUpdateOptionalParams): Promise<ManagedCluster>;
+export function update(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, parameters: ManagedClusterUpdateParameters, options?: ManagedClustersUpdateOptionalParams): PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
 
 // (No @packageDocumentation comment for this package)
 

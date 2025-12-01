@@ -204,7 +204,7 @@ export function _stopFaultSimulationSend(
 export async function _stopFaultSimulationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<FaultSimulation> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -223,7 +223,7 @@ export function stopFaultSimulation(
   parameters: FaultSimulationIdContent,
   options: NodeTypesStopFaultSimulationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<FaultSimulation>, FaultSimulation> {
-  return getLongRunningPoller(context, _stopFaultSimulationDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _stopFaultSimulationDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -270,7 +270,7 @@ export function _startFaultSimulationSend(
 export async function _startFaultSimulationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<FaultSimulation> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -289,7 +289,7 @@ export function startFaultSimulation(
   parameters: FaultSimulationContentWrapper,
   options: NodeTypesStartFaultSimulationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<FaultSimulation>, FaultSimulation> {
-  return getLongRunningPoller(context, _startFaultSimulationDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _startFaultSimulationDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -334,7 +334,7 @@ export function _startSend(
 }
 
 export async function _startDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -353,7 +353,7 @@ export function start(
   parameters: NodeTypeActionParameters,
   options: NodeTypesStartOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _startDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _startDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -391,7 +391,7 @@ export function _restartSend(
 }
 
 export async function _restartDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -410,7 +410,7 @@ export function restart(
   parameters: NodeTypeActionParameters,
   options: NodeTypesRestartOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _restartDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _restartDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -448,7 +448,7 @@ export function _reimageSend(
 }
 
 export async function _reimageDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -467,7 +467,7 @@ export function reimage(
   parameters: NodeTypeActionParameters,
   options: NodeTypesReimageOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _reimageDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _reimageDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -505,7 +505,7 @@ export function _redeploySend(
 }
 
 export async function _redeployDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -524,7 +524,7 @@ export function redeploy(
   parameters: NodeTypeActionParameters,
   options: NodeTypesRedeployOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _redeployDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _redeployDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -562,7 +562,7 @@ export function _deleteNodeSend(
 }
 
 export async function _deleteNodeDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -581,7 +581,7 @@ export function deleteNode(
   parameters: NodeTypeActionParameters,
   options: NodeTypesDeleteNodeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _deleteNodeDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _deleteNodeDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -619,7 +619,7 @@ export function _deallocateSend(
 }
 
 export async function _deallocateDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -638,7 +638,7 @@ export function deallocate(
   parameters: NodeTypeActionParameters,
   options: NodeTypesDeallocateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _deallocateDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _deallocateDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -731,7 +731,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
+  const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -754,7 +754,7 @@ export function $delete(
   nodeTypeName: string,
   options: NodeTypesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -796,7 +796,7 @@ export function _updateSend(
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<NodeType> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -806,7 +806,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   return nodeTypeDeserializer(result.body);
 }
 
-/** Update the configuration of a node type of a given managed cluster, only updating tags. */
+/** Update the configuration of a node type of a given managed cluster, only updating tags or capacity. */
 export function update(
   context: Client,
   resourceGroupName: string,
@@ -815,7 +815,7 @@ export function update(
   parameters: NodeTypeUpdateParameters,
   options: NodeTypesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<NodeType>, NodeType> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -857,7 +857,7 @@ export function _createOrUpdateSend(
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<NodeType> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -876,7 +876,7 @@ export function createOrUpdate(
   parameters: NodeType,
   options: NodeTypesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<NodeType>, NodeType> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

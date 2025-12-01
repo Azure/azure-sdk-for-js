@@ -2,12 +2,23 @@
 // Licensed under the MIT License.
 
 export { AccountsOperations } from "./accounts/index.js";
+export { ActiveDirectoryConfigsOperations } from "./activeDirectoryConfigs/index.js";
 export { BackupPoliciesOperations } from "./backupPolicies/index.js";
 export { BackupsOperations } from "./backups/index.js";
 export { BackupsUnderAccountOperations } from "./backupsUnderAccount/index.js";
 export { BackupsUnderBackupVaultOperations } from "./backupsUnderBackupVault/index.js";
 export { BackupsUnderVolumeOperations } from "./backupsUnderVolume/index.js";
 export { BackupVaultsOperations } from "./backupVaults/index.js";
+export { BucketsOperations } from "./buckets/index.js";
+export { CachesOperations } from "./caches/index.js";
+export { ElasticAccountsOperations } from "./elasticAccounts/index.js";
+export { ElasticBackupPoliciesOperations } from "./elasticBackupPolicies/index.js";
+export { ElasticBackupsOperations } from "./elasticBackups/index.js";
+export { ElasticBackupVaultsOperations } from "./elasticBackupVaults/index.js";
+export { ElasticCapacityPoolsOperations } from "./elasticCapacityPools/index.js";
+export { ElasticSnapshotPoliciesOperations } from "./elasticSnapshotPolicies/index.js";
+export { ElasticSnapshotsOperations } from "./elasticSnapshots/index.js";
+export { ElasticVolumesOperations } from "./elasticVolumes/index.js";
 export { NetAppResourceOperations } from "./netAppResource/index.js";
 export { NetAppResourceQuotaLimitsOperations } from "./netAppResourceQuotaLimits/index.js";
 export { NetAppResourceQuotaLimitsAccountOperations } from "./netAppResourceQuotaLimitsAccount/index.js";
@@ -15,6 +26,7 @@ export { NetAppResourceRegionInfosOperations } from "./netAppResourceRegionInfos
 export { NetAppResourceUsagesOperations } from "./netAppResourceUsages/index.js";
 export { OperationsOperations } from "./operations/index.js";
 export { PoolsOperations } from "./pools/index.js";
+export { RansomwareReportsOperations } from "./ransomwareReports/index.js";
 export { SnapshotPoliciesOperations } from "./snapshotPolicies/index.js";
 export { SnapshotsOperations } from "./snapshots/index.js";
 export { SubvolumesOperations } from "./subvolumes/index.js";

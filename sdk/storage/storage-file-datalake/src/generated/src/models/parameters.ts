@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 
 export const accept: OperationParameter = {
@@ -19,9 +19,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const url: OperationURLParameter = {
@@ -31,10 +31,10 @@ export const url: OperationURLParameter = {
     required: true,
     xmlName: "url",
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const resource: OperationQueryParameter = {
@@ -44,9 +44,9 @@ export const resource: OperationQueryParameter = {
     isConstant: true,
     serializedName: "resource",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const prefix: OperationQueryParameter = {
@@ -55,9 +55,9 @@ export const prefix: OperationQueryParameter = {
     serializedName: "prefix",
     xmlName: "prefix",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const continuation: OperationQueryParameter = {
@@ -66,23 +66,23 @@ export const continuation: OperationQueryParameter = {
     serializedName: "continuation",
     xmlName: "continuation",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const maxResults: OperationQueryParameter = {
   parameterPath: ["options", "maxResults"],
   mapper: {
     constraints: {
-      InclusiveMinimum: 1
+      InclusiveMinimum: 1,
     },
     serializedName: "maxResults",
     xmlName: "maxResults",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const requestId: OperationParameter = {
@@ -91,35 +91,35 @@ export const requestId: OperationParameter = {
     serializedName: "x-ms-client-request-id",
     xmlName: "x-ms-client-request-id",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const timeout: OperationQueryParameter = {
   parameterPath: ["options", "timeout"],
   mapper: {
     constraints: {
-      InclusiveMinimum: 0
+      InclusiveMinimum: 0,
     },
     serializedName: "timeout",
     xmlName: "timeout",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2025-11-05",
+    defaultValue: "2026-02-06",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource1: OperationQueryParameter = {
@@ -129,9 +129,9 @@ export const resource1: OperationQueryParameter = {
     isConstant: true,
     serializedName: "resource",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const properties: OperationParameter = {
@@ -140,9 +140,9 @@ export const properties: OperationParameter = {
     serializedName: "x-ms-properties",
     xmlName: "x-ms-properties",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const ifModifiedSince: OperationParameter = {
@@ -151,9 +151,9 @@ export const ifModifiedSince: OperationParameter = {
     serializedName: "If-Modified-Since",
     xmlName: "If-Modified-Since",
     type: {
-      name: "DateTimeRfc1123"
-    }
-  }
+      name: "DateTimeRfc1123",
+    },
+  },
 };
 
 export const ifUnmodifiedSince: OperationParameter = {
@@ -162,9 +162,9 @@ export const ifUnmodifiedSince: OperationParameter = {
     serializedName: "If-Unmodified-Since",
     xmlName: "If-Unmodified-Since",
     type: {
-      name: "DateTimeRfc1123"
-    }
-  }
+      name: "DateTimeRfc1123",
+    },
+  },
 };
 
 export const path: OperationQueryParameter = {
@@ -173,9 +173,9 @@ export const path: OperationQueryParameter = {
     serializedName: "directory",
     xmlName: "directory",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const recursive: OperationQueryParameter = {
@@ -185,9 +185,9 @@ export const recursive: OperationQueryParameter = {
     required: true,
     xmlName: "recursive",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const upn: OperationQueryParameter = {
@@ -196,9 +196,20 @@ export const upn: OperationQueryParameter = {
     serializedName: "upn",
     xmlName: "upn",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
+};
+
+export const beginFrom: OperationQueryParameter = {
+  parameterPath: ["options", "beginFrom"],
+  mapper: {
+    serializedName: "beginFrom",
+    xmlName: "beginFrom",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const accept1: OperationParameter = {
@@ -208,9 +219,9 @@ export const accept1: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const restype: OperationQueryParameter = {
@@ -220,9 +231,9 @@ export const restype: OperationQueryParameter = {
     isConstant: true,
     serializedName: "restype",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const comp: OperationQueryParameter = {
@@ -232,9 +243,9 @@ export const comp: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const delimiter: OperationQueryParameter = {
@@ -243,9 +254,9 @@ export const delimiter: OperationQueryParameter = {
     serializedName: "delimiter",
     xmlName: "delimiter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const marker: OperationQueryParameter = {
@@ -254,9 +265,9 @@ export const marker: OperationQueryParameter = {
     serializedName: "marker",
     xmlName: "marker",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const include: OperationQueryParameter = {
@@ -277,13 +288,13 @@ export const include: OperationQueryParameter = {
             "snapshots",
             "uncommittedblobs",
             "versions",
-            "tags"
-          ]
-        }
-      }
-    }
+            "tags",
+          ],
+        },
+      },
+    },
   },
-  collectionFormat: "CSV"
+  collectionFormat: "CSV",
 };
 
 export const showonly: OperationQueryParameter = {
@@ -293,9 +304,9 @@ export const showonly: OperationQueryParameter = {
     isConstant: true,
     serializedName: "showonly",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource2: OperationQueryParameter = {
@@ -305,9 +316,9 @@ export const resource2: OperationQueryParameter = {
     xmlName: "resource",
     type: {
       name: "Enum",
-      allowedValues: ["directory", "file"]
-    }
-  }
+      allowedValues: ["directory", "file"],
+    },
+  },
 };
 
 export const mode: OperationQueryParameter = {
@@ -317,9 +328,9 @@ export const mode: OperationQueryParameter = {
     xmlName: "mode",
     type: {
       name: "Enum",
-      allowedValues: ["legacy", "posix"]
-    }
-  }
+      allowedValues: ["legacy", "posix"],
+    },
+  },
 };
 
 export const cacheControl: OperationParameter = {
@@ -328,9 +339,9 @@ export const cacheControl: OperationParameter = {
     serializedName: "x-ms-cache-control",
     xmlName: "x-ms-cache-control",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentEncoding: OperationParameter = {
@@ -339,9 +350,9 @@ export const contentEncoding: OperationParameter = {
     serializedName: "x-ms-content-encoding",
     xmlName: "x-ms-content-encoding",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentLanguage: OperationParameter = {
@@ -350,9 +361,9 @@ export const contentLanguage: OperationParameter = {
     serializedName: "x-ms-content-language",
     xmlName: "x-ms-content-language",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentDisposition: OperationParameter = {
@@ -361,9 +372,9 @@ export const contentDisposition: OperationParameter = {
     serializedName: "x-ms-content-disposition",
     xmlName: "x-ms-content-disposition",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -372,9 +383,9 @@ export const contentType: OperationParameter = {
     serializedName: "x-ms-content-type",
     xmlName: "x-ms-content-type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const renameSource: OperationParameter = {
@@ -383,9 +394,9 @@ export const renameSource: OperationParameter = {
     serializedName: "x-ms-rename-source",
     xmlName: "x-ms-rename-source",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const leaseId: OperationParameter = {
@@ -394,9 +405,9 @@ export const leaseId: OperationParameter = {
     serializedName: "x-ms-lease-id",
     xmlName: "x-ms-lease-id",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sourceLeaseId: OperationParameter = {
@@ -405,9 +416,9 @@ export const sourceLeaseId: OperationParameter = {
     serializedName: "x-ms-source-lease-id",
     xmlName: "x-ms-source-lease-id",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const permissions: OperationParameter = {
@@ -416,9 +427,9 @@ export const permissions: OperationParameter = {
     serializedName: "x-ms-permissions",
     xmlName: "x-ms-permissions",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const umask: OperationParameter = {
@@ -427,9 +438,9 @@ export const umask: OperationParameter = {
     serializedName: "x-ms-umask",
     xmlName: "x-ms-umask",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const ifMatch: OperationParameter = {
@@ -438,9 +449,9 @@ export const ifMatch: OperationParameter = {
     serializedName: "If-Match",
     xmlName: "If-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const ifNoneMatch: OperationParameter = {
@@ -449,9 +460,9 @@ export const ifNoneMatch: OperationParameter = {
     serializedName: "If-None-Match",
     xmlName: "If-None-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sourceIfMatch: OperationParameter = {
@@ -460,54 +471,54 @@ export const sourceIfMatch: OperationParameter = {
     serializedName: "x-ms-source-if-match",
     xmlName: "x-ms-source-if-match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sourceIfNoneMatch: OperationParameter = {
   parameterPath: [
     "options",
     "sourceModifiedAccessConditions",
-    "sourceIfNoneMatch"
+    "sourceIfNoneMatch",
   ],
   mapper: {
     serializedName: "x-ms-source-if-none-match",
     xmlName: "x-ms-source-if-none-match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sourceIfModifiedSince: OperationParameter = {
   parameterPath: [
     "options",
     "sourceModifiedAccessConditions",
-    "sourceIfModifiedSince"
+    "sourceIfModifiedSince",
   ],
   mapper: {
     serializedName: "x-ms-source-if-modified-since",
     xmlName: "x-ms-source-if-modified-since",
     type: {
-      name: "DateTimeRfc1123"
-    }
-  }
+      name: "DateTimeRfc1123",
+    },
+  },
 };
 
 export const sourceIfUnmodifiedSince: OperationParameter = {
   parameterPath: [
     "options",
     "sourceModifiedAccessConditions",
-    "sourceIfUnmodifiedSince"
+    "sourceIfUnmodifiedSince",
   ],
   mapper: {
     serializedName: "x-ms-source-if-unmodified-since",
     xmlName: "x-ms-source-if-unmodified-since",
     type: {
-      name: "DateTimeRfc1123"
-    }
-  }
+      name: "DateTimeRfc1123",
+    },
+  },
 };
 
 export const encryptionKey: OperationParameter = {
@@ -516,9 +527,9 @@ export const encryptionKey: OperationParameter = {
     serializedName: "x-ms-encryption-key",
     xmlName: "x-ms-encryption-key",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const encryptionKeySha256: OperationParameter = {
@@ -527,9 +538,9 @@ export const encryptionKeySha256: OperationParameter = {
     serializedName: "x-ms-encryption-key-sha256",
     xmlName: "x-ms-encryption-key-sha256",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const encryptionAlgorithm: OperationParameter = {
@@ -538,9 +549,9 @@ export const encryptionAlgorithm: OperationParameter = {
     serializedName: "x-ms-encryption-algorithm",
     xmlName: "x-ms-encryption-algorithm",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const owner: OperationParameter = {
@@ -549,9 +560,9 @@ export const owner: OperationParameter = {
     serializedName: "x-ms-owner",
     xmlName: "x-ms-owner",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const group: OperationParameter = {
@@ -560,9 +571,9 @@ export const group: OperationParameter = {
     serializedName: "x-ms-group",
     xmlName: "x-ms-group",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const acl: OperationParameter = {
@@ -571,9 +582,9 @@ export const acl: OperationParameter = {
     serializedName: "x-ms-acl",
     xmlName: "x-ms-acl",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const proposedLeaseId: OperationParameter = {
@@ -582,9 +593,9 @@ export const proposedLeaseId: OperationParameter = {
     serializedName: "x-ms-proposed-lease-id",
     xmlName: "x-ms-proposed-lease-id",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const leaseDuration: OperationParameter = {
@@ -593,9 +604,9 @@ export const leaseDuration: OperationParameter = {
     serializedName: "x-ms-lease-duration",
     xmlName: "x-ms-lease-duration",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const expiryOptions: OperationParameter = {
@@ -609,10 +620,10 @@ export const expiryOptions: OperationParameter = {
         "NeverExpire",
         "RelativeToCreation",
         "RelativeToNow",
-        "Absolute"
-      ]
-    }
-  }
+        "Absolute",
+      ],
+    },
+  },
 };
 
 export const expiresOn: OperationParameter = {
@@ -621,9 +632,9 @@ export const expiresOn: OperationParameter = {
     serializedName: "x-ms-expiry-time",
     xmlName: "x-ms-expiry-time",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const encryptionContext: OperationParameter = {
@@ -632,9 +643,9 @@ export const encryptionContext: OperationParameter = {
     serializedName: "x-ms-encryption-context",
     xmlName: "x-ms-encryption-context",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType1: OperationParameter = {
@@ -644,9 +655,9 @@ export const contentType1: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body: OperationParameter = {
@@ -656,9 +667,9 @@ export const body: OperationParameter = {
     required: true,
     xmlName: "body",
     type: {
-      name: "Stream"
-    }
-  }
+      name: "Stream",
+    },
+  },
 };
 
 export const accept2: OperationParameter = {
@@ -668,9 +679,9 @@ export const accept2: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const action: OperationQueryParameter = {
@@ -686,24 +697,24 @@ export const action: OperationQueryParameter = {
         "flush",
         "setProperties",
         "setAccessControl",
-        "setAccessControlRecursive"
-      ]
-    }
-  }
+        "setAccessControlRecursive",
+      ],
+    },
+  },
 };
 
 export const maxRecords: OperationQueryParameter = {
   parameterPath: ["options", "maxRecords"],
   mapper: {
     constraints: {
-      InclusiveMinimum: 1
+      InclusiveMinimum: 1,
     },
     serializedName: "maxRecords",
     xmlName: "maxRecords",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const mode1: OperationQueryParameter = {
@@ -714,9 +725,9 @@ export const mode1: OperationQueryParameter = {
     xmlName: "mode",
     type: {
       name: "Enum",
-      allowedValues: ["set", "modify", "remove"]
-    }
-  }
+      allowedValues: ["set", "modify", "remove"],
+    },
+  },
 };
 
 export const forceFlag: OperationQueryParameter = {
@@ -725,9 +736,9 @@ export const forceFlag: OperationQueryParameter = {
     serializedName: "forceFlag",
     xmlName: "forceFlag",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const position: OperationQueryParameter = {
@@ -736,9 +747,9 @@ export const position: OperationQueryParameter = {
     serializedName: "position",
     xmlName: "position",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const retainUncommittedData: OperationQueryParameter = {
@@ -747,9 +758,9 @@ export const retainUncommittedData: OperationQueryParameter = {
     serializedName: "retainUncommittedData",
     xmlName: "retainUncommittedData",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const close: OperationQueryParameter = {
@@ -758,23 +769,23 @@ export const close: OperationQueryParameter = {
     serializedName: "close",
     xmlName: "close",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const contentLength: OperationParameter = {
   parameterPath: ["options", "contentLength"],
   mapper: {
     constraints: {
-      InclusiveMinimum: 0
+      InclusiveMinimum: 0,
     },
     serializedName: "Content-Length",
     xmlName: "Content-Length",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const contentMD5: OperationParameter = {
@@ -783,9 +794,31 @@ export const contentMD5: OperationParameter = {
     serializedName: "x-ms-content-md5",
     xmlName: "x-ms-content-md5",
     type: {
-      name: "ByteArray"
-    }
-  }
+      name: "ByteArray",
+    },
+  },
+};
+
+export const structuredBodyType: OperationParameter = {
+  parameterPath: ["options", "structuredBodyType"],
+  mapper: {
+    serializedName: "x-ms-structured-body",
+    xmlName: "x-ms-structured-body",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const structuredContentLength: OperationParameter = {
+  parameterPath: ["options", "structuredContentLength"],
+  mapper: {
+    serializedName: "x-ms-structured-content-length",
+    xmlName: "x-ms-structured-content-length",
+    type: {
+      name: "Number",
+    },
+  },
 };
 
 export const xMsLeaseAction: OperationParameter = {
@@ -796,9 +829,9 @@ export const xMsLeaseAction: OperationParameter = {
     xmlName: "x-ms-lease-action",
     type: {
       name: "Enum",
-      allowedValues: ["acquire", "break", "change", "renew", "release"]
-    }
-  }
+      allowedValues: ["acquire", "break", "change", "renew", "release"],
+    },
+  },
 };
 
 export const xMsLeaseDuration: OperationParameter = {
@@ -807,9 +840,9 @@ export const xMsLeaseDuration: OperationParameter = {
     serializedName: "x-ms-lease-duration",
     xmlName: "x-ms-lease-duration",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const xMsLeaseBreakPeriod: OperationParameter = {
@@ -818,9 +851,9 @@ export const xMsLeaseBreakPeriod: OperationParameter = {
     serializedName: "x-ms-lease-break-period",
     xmlName: "x-ms-lease-break-period",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const range: OperationParameter = {
@@ -829,9 +862,9 @@ export const range: OperationParameter = {
     serializedName: "Range",
     xmlName: "Range",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const xMsRangeGetContentMd5: OperationParameter = {
@@ -840,9 +873,9 @@ export const xMsRangeGetContentMd5: OperationParameter = {
     serializedName: "x-ms-range-get-content-md5",
     xmlName: "x-ms-range-get-content-md5",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const action1: OperationQueryParameter = {
@@ -852,9 +885,9 @@ export const action1: OperationQueryParameter = {
     xmlName: "action",
     type: {
       name: "Enum",
-      allowedValues: ["getAccessControl", "getStatus"]
-    }
-  }
+      allowedValues: ["getAccessControl", "getStatus"],
+    },
+  },
 };
 
 export const recursive1: OperationQueryParameter = {
@@ -863,9 +896,9 @@ export const recursive1: OperationQueryParameter = {
     serializedName: "recursive",
     xmlName: "recursive",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const paginated: OperationQueryParameter = {
@@ -874,9 +907,9 @@ export const paginated: OperationQueryParameter = {
     serializedName: "paginated",
     xmlName: "paginated",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const action2: OperationQueryParameter = {
@@ -886,9 +919,9 @@ export const action2: OperationQueryParameter = {
     isConstant: true,
     serializedName: "action",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const action3: OperationQueryParameter = {
@@ -898,9 +931,9 @@ export const action3: OperationQueryParameter = {
     isConstant: true,
     serializedName: "action",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const action4: OperationQueryParameter = {
@@ -910,9 +943,9 @@ export const action4: OperationQueryParameter = {
     isConstant: true,
     serializedName: "action",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const leaseAction: OperationParameter = {
@@ -922,9 +955,9 @@ export const leaseAction: OperationParameter = {
     xmlName: "x-ms-lease-action",
     type: {
       name: "Enum",
-      allowedValues: ["acquire", "auto-renew", "release", "acquire-release"]
-    }
-  }
+      allowedValues: ["acquire", "auto-renew", "release", "acquire-release"],
+    },
+  },
 };
 
 export const contentType2: OperationParameter = {
@@ -934,9 +967,9 @@ export const contentType2: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const action5: OperationQueryParameter = {
@@ -946,9 +979,9 @@ export const action5: OperationQueryParameter = {
     isConstant: true,
     serializedName: "action",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const transactionalContentHash: OperationParameter = {
@@ -957,9 +990,9 @@ export const transactionalContentHash: OperationParameter = {
     serializedName: "Content-MD5",
     xmlName: "Content-MD5",
     type: {
-      name: "ByteArray"
-    }
-  }
+      name: "ByteArray",
+    },
+  },
 };
 
 export const transactionalContentCrc64: OperationParameter = {
@@ -968,9 +1001,9 @@ export const transactionalContentCrc64: OperationParameter = {
     serializedName: "x-ms-content-crc64",
     xmlName: "x-ms-content-crc64",
     type: {
-      name: "ByteArray"
-    }
-  }
+      name: "ByteArray",
+    },
+  },
 };
 
 export const flush: OperationQueryParameter = {
@@ -979,9 +1012,9 @@ export const flush: OperationQueryParameter = {
     serializedName: "flush",
     xmlName: "flush",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const comp1: OperationQueryParameter = {
@@ -991,9 +1024,9 @@ export const comp1: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const expiryOptions1: OperationParameter = {
@@ -1008,10 +1041,10 @@ export const expiryOptions1: OperationParameter = {
         "NeverExpire",
         "RelativeToCreation",
         "RelativeToNow",
-        "Absolute"
-      ]
-    }
-  }
+        "Absolute",
+      ],
+    },
+  },
 };
 
 export const comp2: OperationQueryParameter = {
@@ -1021,9 +1054,9 @@ export const comp2: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const undeleteSource: OperationParameter = {
@@ -1032,7 +1065,7 @@ export const undeleteSource: OperationParameter = {
     serializedName: "x-ms-undelete-source",
     xmlName: "x-ms-undelete-source",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

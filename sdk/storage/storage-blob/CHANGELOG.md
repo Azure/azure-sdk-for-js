@@ -1,12 +1,13 @@
 # Release History
 
-## 12.30.0 (Unreleased)
+## 12.30.0-beta.1 (2025-11-24)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- Added support for service version 2026-02-06.
+- Added support for the StartFrom parameter on BlobContainerClient.listBlobs() and .listBlobsByHierarchy().
+- Added support for Principal-Bound Identity User Delegation SAS
+- Added support for conditional headers on BlobBaseClient.getTags(), and .getTags().
 
 ### Other Changes
 
