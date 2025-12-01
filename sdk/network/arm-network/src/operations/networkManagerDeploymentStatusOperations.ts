@@ -16,9 +16,7 @@ import type {
 } from "../models/index.js";
 
 /** Class containing NetworkManagerDeploymentStatusOperations operations. */
-export class NetworkManagerDeploymentStatusOperationsImpl
-  implements NetworkManagerDeploymentStatusOperations
-{
+export class NetworkManagerDeploymentStatusOperationsImpl implements NetworkManagerDeploymentStatusOperations {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -62,7 +60,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters37,
+  requestBody: Parameters.parameters39,
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,

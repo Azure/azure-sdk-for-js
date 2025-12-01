@@ -13,3 +13,4 @@ export { InsightsOperations } from "./insights/index.js";
 export { MemoryStoresOperations } from "./memoryStores/index.js";
 export { RedTeamsOperations } from "./redTeams/index.js";
 export { SchedulesOperations } from "./schedules/index.js";
+export { TelemetryOperations } from "./telemetry/index.js";

@@ -325,8 +325,9 @@ export function* fastGetChildren<Spanned extends { span: DocumentSpan }>(
 /**
  * The state of an analysis operation, which will eventually produce the result type that corresponds to the model.
  */
-export interface DocumentAnalysisPollOperationState<Result = AnalyzeResult<AnalyzedDocument>>
-  extends PollOperationState<Result> {
+export interface DocumentAnalysisPollOperationState<
+  Result = AnalyzeResult<AnalyzedDocument>,
+> extends PollOperationState<Result> {
   /**
    * The status of the operation. One of:
    *

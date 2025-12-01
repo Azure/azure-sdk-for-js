@@ -832,8 +832,7 @@ export interface SelfHostedIntegrationRuntimeStatusPropertiesOutput {
 }
 
 /** Self-hosted integration runtime status. */
-export interface SelfHostedIntegrationRuntimeStatusOutput
-  extends IntegrationRuntimeStatusOutputParent {
+export interface SelfHostedIntegrationRuntimeStatusOutput extends IntegrationRuntimeStatusOutputParent {
   /** Self-hosted integration runtime status properties. */
   properties?: SelfHostedIntegrationRuntimeStatusPropertiesOutput;
   kind: "SelfHosted";
@@ -864,8 +863,7 @@ export interface ManagedIntegrationRuntimeStatusPropertiesOutput {
 }
 
 /** Managed integration runtime status. */
-export interface ManagedIntegrationRuntimeStatusOutput
-  extends IntegrationRuntimeStatusOutputParent {
+export interface ManagedIntegrationRuntimeStatusOutput extends IntegrationRuntimeStatusOutputParent {
   /** Managed integration runtime status properties. */
   properties?: ManagedIntegrationRuntimeStatusPropertiesOutput;
   kind: "Managed";
@@ -939,8 +937,7 @@ export interface CustomClassificationRuleOutput extends ClassificationRuleOutput
 }
 
 /** Pattern of regex classification rule. */
-export interface RegexClassificationRulePatternOutput
-  extends ClassificationRulePatternOutputParent {
+export interface RegexClassificationRulePatternOutput extends ClassificationRulePatternOutputParent {
   /** The pattern of regex classification rule pattern. */
   pattern?: string;
   kind: "Regex";
@@ -1409,8 +1406,7 @@ export interface SqlServerDatabaseDataSourceOutput extends DataSourceOutputParen
 }
 
 /** The properties of Azure SQL database managed instance. */
-export interface AzureSqlDatabaseManagedInstancePropertiesOutput
-  extends AzureDataSourcePropertiesOutput {
+export interface AzureSqlDatabaseManagedInstancePropertiesOutput extends AzureDataSourcePropertiesOutput {
   serverEndpoint?: string;
 }
 
@@ -1558,8 +1554,7 @@ export interface AzureSubscriptionScanRulesetOutput extends ScanRulesetOutputPar
 }
 
 /** Azure resource group scan ruleset properties. */
-export interface AzureResourceGroupScanRulesetPropertiesOutput
-  extends ScanRulesetPropertiesOutput {}
+export interface AzureResourceGroupScanRulesetPropertiesOutput extends ScanRulesetPropertiesOutput {}
 
 /** Azure resource group scan ruleset. */
 export interface AzureResourceGroupScanRulesetOutput extends ScanRulesetOutputParent {
@@ -1569,8 +1564,7 @@ export interface AzureResourceGroupScanRulesetOutput extends ScanRulesetOutputPa
 }
 
 /** Azure synapse workspace scan ruleset properties. */
-export interface AzureSynapseWorkspaceScanRulesetPropertiesOutput
-  extends ScanRulesetPropertiesOutput {}
+export interface AzureSynapseWorkspaceScanRulesetPropertiesOutput extends ScanRulesetPropertiesOutput {}
 
 /** Azure synapse workspace scan ruleset. */
 export interface AzureSynapseWorkspaceScanRulesetOutput extends ScanRulesetOutputParent {
@@ -1688,8 +1682,7 @@ export interface ScanningRuleScanRulesetPropertiesOutput extends ScanRulesetProp
 }
 
 /** ADLS Gen1 scan ruleset properties. */
-export interface AdlsGen1ScanRulesetPropertiesOutput
-  extends ScanningRuleScanRulesetPropertiesOutput {}
+export interface AdlsGen1ScanRulesetPropertiesOutput extends ScanningRuleScanRulesetPropertiesOutput {}
 
 /** ADLS Gen1 scan ruleset. */
 export interface AdlsGen1ScanRulesetOutput extends ScanRulesetOutputParent {
@@ -1699,8 +1692,7 @@ export interface AdlsGen1ScanRulesetOutput extends ScanRulesetOutputParent {
 }
 
 /** Adls gen 2 scan ruleset properties. */
-export interface AdlsGen2ScanRulesetPropertiesOutput
-  extends ScanningRuleScanRulesetPropertiesOutput {}
+export interface AdlsGen2ScanRulesetPropertiesOutput extends ScanningRuleScanRulesetPropertiesOutput {}
 
 /** Adls gen 2 scan ruleset. */
 export interface AdlsGen2ScanRulesetOutput extends ScanRulesetOutputParent {
@@ -1720,8 +1712,7 @@ export interface AmazonAccountScanRulesetOutput extends ScanRulesetOutputParent 
 }
 
 /** Amazon S3 scan ruleset properties. */
-export interface AmazonS3ScanRulesetPropertiesOutput
-  extends ScanningRuleScanRulesetPropertiesOutput {}
+export interface AmazonS3ScanRulesetPropertiesOutput extends ScanningRuleScanRulesetPropertiesOutput {}
 
 /** Amazon S3 scan ruleset. */
 export interface AmazonS3ScanRulesetOutput extends ScanRulesetOutputParent {
@@ -1761,8 +1752,7 @@ export interface AzureDataExplorerScanRulesetOutput extends ScanRulesetOutputPar
 }
 
 /** Azure file service scan ruleset properties. */
-export interface AzureFileServiceScanRulesetPropertiesOutput
-  extends ScanningRuleScanRulesetPropertiesOutput {}
+export interface AzureFileServiceScanRulesetPropertiesOutput extends ScanningRuleScanRulesetPropertiesOutput {}
 
 /** Azure file service scan ruleset. */
 export interface AzureFileServiceScanRulesetOutput extends ScanRulesetOutputParent {
@@ -1812,8 +1802,7 @@ export interface SqlServerDatabaseScanRulesetOutput extends ScanRulesetOutputPar
 }
 
 /** Azure SQL db managed instance scan ruleset properties. */
-export interface AzureSqlDatabaseManagedInstanceScanRulesetPropertiesOutput
-  extends ScanRulesetPropertiesOutput {}
+export interface AzureSqlDatabaseManagedInstanceScanRulesetPropertiesOutput extends ScanRulesetPropertiesOutput {}
 
 /** Azure SQL db managed instance scan ruleset. */
 export interface AzureSqlDatabaseManagedInstanceScanRulesetOutput extends ScanRulesetOutputParent {
@@ -1823,8 +1812,7 @@ export interface AzureSqlDatabaseManagedInstanceScanRulesetOutput extends ScanRu
 }
 
 /** Azure SQL data warehouse scan ruleset properties. */
-export interface AzureSqlDataWarehouseScanRulesetPropertiesOutput
-  extends ScanRulesetPropertiesOutput {}
+export interface AzureSqlDataWarehouseScanRulesetPropertiesOutput extends ScanRulesetPropertiesOutput {}
 
 /** Azure SQL data warehouse scan ruleset. */
 export interface AzureSqlDataWarehouseScanRulesetOutput extends ScanRulesetOutputParent {
@@ -1844,8 +1832,7 @@ export interface AzureMySqlScanRulesetOutput extends ScanRulesetOutputParent {
 }
 
 /** Azure Storage scan ruleset properties. */
-export interface AzureStorageScanRulesetPropertiesOutput
-  extends ScanningRuleScanRulesetPropertiesOutput {}
+export interface AzureStorageScanRulesetPropertiesOutput extends ScanningRuleScanRulesetPropertiesOutput {}
 
 /** Azure Storage scan ruleset. */
 export interface AzureStorageScanRulesetOutput extends ScanRulesetOutputParent {
@@ -1855,8 +1842,7 @@ export interface AzureStorageScanRulesetOutput extends ScanRulesetOutputParent {
 }
 
 /** Teradata scan ruleset properties. */
-export interface TeradataScanRulesetPropertiesOutput
-  extends ScanningRuleScanRulesetPropertiesOutput {}
+export interface TeradataScanRulesetPropertiesOutput extends ScanningRuleScanRulesetPropertiesOutput {}
 
 /** Teradata scan ruleset. */
 export interface TeradataScanRulesetOutput extends ScanRulesetOutputParent {
@@ -1866,8 +1852,7 @@ export interface TeradataScanRulesetOutput extends ScanRulesetOutputParent {
 }
 
 /** Oracle scan rule set properties. */
-export interface OracleScanRulesetPropertiesOutput
-  extends ScanningRuleScanRulesetPropertiesOutput {}
+export interface OracleScanRulesetPropertiesOutput extends ScanningRuleScanRulesetPropertiesOutput {}
 
 /** Oracle scan ruleset. */
 export interface OracleScanRulesetOutput extends ScanRulesetOutputParent {
@@ -2044,8 +2029,7 @@ export interface ExpandingResourceScanPropertiesResourceTypesOutput {
 }
 
 /** Azure subscription credential scan properties. */
-export interface AzureSubscriptionCredentialScanPropertiesOutput
-  extends ExpandingResourceScanPropertiesOutput {}
+export interface AzureSubscriptionCredentialScanPropertiesOutput extends ExpandingResourceScanPropertiesOutput {}
 
 /** Azure subscription credential scan. */
 export interface AzureSubscriptionCredentialScanOutput extends ScanOutputParent {
@@ -2055,8 +2039,7 @@ export interface AzureSubscriptionCredentialScanOutput extends ScanOutputParent 
 }
 
 /** Azure subscription MSI scan properties. */
-export interface AzureSubscriptionMsiScanPropertiesOutput
-  extends ExpandingResourceScanPropertiesOutput {}
+export interface AzureSubscriptionMsiScanPropertiesOutput extends ExpandingResourceScanPropertiesOutput {}
 
 /** Azure subscription MSI scan. */
 export interface AzureSubscriptionMsiScanOutput extends ScanOutputParent {
@@ -2066,8 +2049,7 @@ export interface AzureSubscriptionMsiScanOutput extends ScanOutputParent {
 }
 
 /** Azure resource group credential scan properties. */
-export interface AzureResourceGroupCredentialScanPropertiesOutput
-  extends ExpandingResourceScanPropertiesOutput {}
+export interface AzureResourceGroupCredentialScanPropertiesOutput extends ExpandingResourceScanPropertiesOutput {}
 
 /** Azure resource group credential scan. */
 export interface AzureResourceGroupCredentialScanOutput extends ScanOutputParent {
@@ -2077,8 +2059,7 @@ export interface AzureResourceGroupCredentialScanOutput extends ScanOutputParent
 }
 
 /** Azure resource group MSI scan properties. */
-export interface AzureResourceGroupMsiScanPropertiesOutput
-  extends ExpandingResourceScanPropertiesOutput {}
+export interface AzureResourceGroupMsiScanPropertiesOutput extends ExpandingResourceScanPropertiesOutput {}
 
 /** Azure resource group MSI scan. */
 export interface AzureResourceGroupMsiScanOutput extends ScanOutputParent {
@@ -2088,8 +2069,7 @@ export interface AzureResourceGroupMsiScanOutput extends ScanOutputParent {
 }
 
 /** Azure synapse workspace credential scan properties. */
-export interface AzureSynapseWorkspaceCredentialScanPropertiesOutput
-  extends ExpandingResourceScanPropertiesOutput {}
+export interface AzureSynapseWorkspaceCredentialScanPropertiesOutput extends ExpandingResourceScanPropertiesOutput {}
 
 /** Azure synapse workspace credential scan. */
 export interface AzureSynapseWorkspaceCredentialScanOutput extends ScanOutputParent {
@@ -2099,8 +2079,7 @@ export interface AzureSynapseWorkspaceCredentialScanOutput extends ScanOutputPar
 }
 
 /** Azure synapse workspace MSI scan properties. */
-export interface AzureSynapseWorkspaceMsiScanPropertiesOutput
-  extends ExpandingResourceScanPropertiesOutput {}
+export interface AzureSynapseWorkspaceMsiScanPropertiesOutput extends ExpandingResourceScanPropertiesOutput {}
 
 /** Azure synapse workspace MSI scan. */
 export interface AzureSynapseWorkspaceMsiScanOutput extends ScanOutputParent {
@@ -2110,8 +2089,7 @@ export interface AzureSynapseWorkspaceMsiScanOutput extends ScanOutputParent {
 }
 
 /** Azure synapse credential scan properties. */
-export interface AzureSynapseCredentialScanPropertiesOutput
-  extends ExpandingResourceScanPropertiesOutput {}
+export interface AzureSynapseCredentialScanPropertiesOutput extends ExpandingResourceScanPropertiesOutput {}
 
 /** Azure synapse credential scan. */
 export interface AzureSynapseCredentialScanOutput extends ScanOutputParent {
@@ -2121,8 +2099,7 @@ export interface AzureSynapseCredentialScanOutput extends ScanOutputParent {
 }
 
 /** Azure synapse MSI scan properties. */
-export interface AzureSynapseMsiScanPropertiesOutput
-  extends ExpandingResourceScanPropertiesOutput {}
+export interface AzureSynapseMsiScanPropertiesOutput extends ExpandingResourceScanPropertiesOutput {}
 
 /** Azure synapse MSI scan. */
 export interface AzureSynapseMsiScanOutput extends ScanOutputParent {
@@ -2178,8 +2155,7 @@ export interface AdlsGen2MsiScanOutput extends ScanOutputParent {
 }
 
 /** Amazon account credential scan properties. */
-export interface AmazonAccountCredentialScanPropertiesOutput
-  extends ExpandingResourceScanPropertiesOutput {}
+export interface AmazonAccountCredentialScanPropertiesOutput extends ExpandingResourceScanPropertiesOutput {}
 
 /** Amazon account credential scan. */
 export interface AmazonAccountCredentialScanOutput extends ScanOutputParent {
@@ -2310,8 +2286,7 @@ export interface AzureSqlCredentialScanPropertiesOutput extends AzureSqlScanProp
 }
 
 /** Azure SQL database credential scan properties. */
-export interface AzureSqlDatabaseCredentialScanPropertiesOutput
-  extends AzureSqlCredentialScanPropertiesOutput {}
+export interface AzureSqlDatabaseCredentialScanPropertiesOutput extends AzureSqlCredentialScanPropertiesOutput {}
 
 /** Azure SQL database credential scan. */
 export interface AzureSqlDatabaseCredentialScanOutput extends ScanOutputParent {
@@ -2373,8 +2348,7 @@ export interface AzurePostgreSqlCredentialScanOutput extends ScanOutputParent {
 }
 
 /** SQL server database credential scan properties. */
-export interface SqlServerDatabaseCredentialScanPropertiesOutput
-  extends AzureSqlCredentialScanPropertiesOutput {}
+export interface SqlServerDatabaseCredentialScanPropertiesOutput extends AzureSqlCredentialScanPropertiesOutput {}
 
 /** SQL server database credential scan. */
 export interface SqlServerDatabaseCredentialScanOutput extends ScanOutputParent {
@@ -2384,8 +2358,7 @@ export interface SqlServerDatabaseCredentialScanOutput extends ScanOutputParent 
 }
 
 /** Azure SQL database managed instance credential scan properties. */
-export interface AzureSqlDatabaseManagedInstanceCredentialScanPropertiesOutput
-  extends AzureSqlCredentialScanPropertiesOutput {}
+export interface AzureSqlDatabaseManagedInstanceCredentialScanPropertiesOutput extends AzureSqlCredentialScanPropertiesOutput {}
 
 /** Azure SQL database managed instance credential scan. */
 export interface AzureSqlDatabaseManagedInstanceCredentialScanOutput extends ScanOutputParent {
@@ -2395,8 +2368,7 @@ export interface AzureSqlDatabaseManagedInstanceCredentialScanOutput extends Sca
 }
 
 /** Azure SQL database managed instance MSI scan properties. */
-export interface AzureSqlDatabaseManagedInstanceMsiScanPropertiesOutput
-  extends AzureSqlScanPropertiesOutput {}
+export interface AzureSqlDatabaseManagedInstanceMsiScanPropertiesOutput extends AzureSqlScanPropertiesOutput {}
 
 /** Azure SQL database managed instance MSI scan. */
 export interface AzureSqlDatabaseManagedInstanceMsiScanOutput extends ScanOutputParent {
@@ -2406,8 +2378,7 @@ export interface AzureSqlDatabaseManagedInstanceMsiScanOutput extends ScanOutput
 }
 
 /** Azure SQL data warehouse credential scan properties. */
-export interface AzureSqlDataWarehouseCredentialScanPropertiesOutput
-  extends AzureSqlCredentialScanPropertiesOutput {}
+export interface AzureSqlDataWarehouseCredentialScanPropertiesOutput extends AzureSqlCredentialScanPropertiesOutput {}
 
 /** Azure SQL data warehouse credential scan. */
 export interface AzureSqlDataWarehouseCredentialScanOutput extends ScanOutputParent {
@@ -2417,8 +2388,7 @@ export interface AzureSqlDataWarehouseCredentialScanOutput extends ScanOutputPar
 }
 
 /** Azure SQL data warehouse MSI scan properties. */
-export interface AzureSqlDataWarehouseMsiScanPropertiesOutput
-  extends AzureSqlScanPropertiesOutput {}
+export interface AzureSqlDataWarehouseMsiScanPropertiesOutput extends AzureSqlScanPropertiesOutput {}
 
 /** Azure SQL data warehouse MSI scan. */
 export interface AzureSqlDataWarehouseMsiScanOutput extends ScanOutputParent {
@@ -2674,8 +2644,7 @@ export interface AzureResourceGroupSystemScanRulesetOutput extends SystemScanRul
 }
 
 /** Azure synapse workspace system scan ruleset. */
-export interface AzureSynapseWorkspaceSystemScanRulesetOutput
-  extends SystemScanRulesetOutputParent {
+export interface AzureSynapseWorkspaceSystemScanRulesetOutput extends SystemScanRulesetOutputParent {
   /** Azure synapse workspace scan ruleset properties. */
   properties?: AzureSynapseWorkspaceScanRulesetPropertiesOutput;
   kind: "AzureSynapseWorkspace";
@@ -2773,16 +2742,14 @@ export interface SqlServerDatabaseSystemScanRulesetOutput extends SystemScanRule
 }
 
 /** Azure SQL database managed instance system scan rule set. */
-export interface AzureSqlDatabaseManagedInstanceSystemScanRulesetOutput
-  extends SystemScanRulesetOutputParent {
+export interface AzureSqlDatabaseManagedInstanceSystemScanRulesetOutput extends SystemScanRulesetOutputParent {
   /** Azure SQL db managed instance scan ruleset properties. */
   properties?: AzureSqlDatabaseManagedInstanceScanRulesetPropertiesOutput;
   kind: "AzureSqlDatabaseManagedInstance";
 }
 
 /** Azure SQL data warehouse system scan ruleset. */
-export interface AzureSqlDataWarehouseSystemScanRulesetOutput
-  extends SystemScanRulesetOutputParent {
+export interface AzureSqlDataWarehouseSystemScanRulesetOutput extends SystemScanRulesetOutputParent {
   /** Azure SQL data warehouse scan ruleset properties. */
   properties?: AzureSqlDataWarehouseScanRulesetPropertiesOutput;
   kind: "AzureSqlDataWarehouse";

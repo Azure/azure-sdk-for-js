@@ -110,5 +110,4 @@ export interface BackupInstancesValidateForBackupOptionalParams extends Operatio
 export interface BackupInstancesListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BackupInstancesGetBackupInstanceOperationResultOptionalParams
-  extends OperationOptions {}
+export interface BackupInstancesGetBackupInstanceOperationResultOptionalParams extends OperationOptions {}

@@ -22,7 +22,7 @@ export async function main(): Promise<void> {
   const client = new RecipientVerificationClient(connectionString);
 
   // get constants for the resource
-  var constants = await client.getVerificationConstants();
+  const constants = await client.getVerificationConstants();
 
   // print constant values
   console.log(constants);

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageSharedKeyCredential } from "@azure/storage-common";
+import { StorageSharedKeyCredential, UserDelegationKey } from "@azure/storage-common";
 import { FileSASPermissions } from "./FileSASPermissions.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
@@ -10,6 +10,7 @@ import { SASQueryParameters } from "./SASQueryParameters.js";
 import { ShareSASPermissions } from "./ShareSASPermissions.js";
 import { SERVICE_VERSION } from "./utils/constants.js";
 import { truncatedISO8061Date } from "./utils/utils.common.js";
+import { UserDelegationKeyCredential } from "@azure/storage-common";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -69,6 +70,13 @@ export interface FileSASSignatureValues {
   identifier?: string;
 
   /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user who is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */
+  delegatedUserObjectId?: string;
+
+  /**
    * Optional. The cache-control header for the SAS.
    */
   cacheControl?: string;
@@ -94,6 +102,17 @@ export interface FileSASSignatureValues {
   contentType?: string;
 }
 
+export function generateFileSASQueryParameters(
+  fileSASSignatureValues: FileSASSignatureValues,
+  userDelegationKey: UserDelegationKey,
+  accountName: string,
+): SASQueryParameters;
+
+export function generateFileSASQueryParameters(
+  fileSASSignatureValues: FileSASSignatureValues,
+  sharedKeyCredential: StorageSharedKeyCredential,
+): SASQueryParameters;
+
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -109,15 +128,57 @@ export interface FileSASSignatureValues {
  * @param fileSASSignatureValues -
  * @param sharedKeyCredential -
  */
+
 export function generateFileSASQueryParameters(
   fileSASSignatureValues: FileSASSignatureValues,
-  sharedKeyCredential: StorageSharedKeyCredential,
+  sharedKeyCredentialOrUserDelegationKey: StorageSharedKeyCredential | UserDelegationKey,
+  accountName?: string,
 ): SASQueryParameters {
-  return generateFileSASQueryParametersInternal(fileSASSignatureValues, sharedKeyCredential)
-    .sasQueryParameters;
+  return generateFileSASQueryParametersInternal(
+    fileSASSignatureValues,
+    sharedKeyCredentialOrUserDelegationKey,
+    accountName,
+  ).sasQueryParameters;
 }
 
 export function generateFileSASQueryParametersInternal(
+  fileSASSignatureValues: FileSASSignatureValues,
+  sharedKeyCredentialOrUserDelegationKey: StorageSharedKeyCredential | UserDelegationKey,
+  accountName?: string,
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
+  const version = fileSASSignatureValues.version ? fileSASSignatureValues.version : SERVICE_VERSION;
+
+  const sharedKeyCredential =
+    sharedKeyCredentialOrUserDelegationKey instanceof StorageSharedKeyCredential
+      ? sharedKeyCredentialOrUserDelegationKey
+      : undefined;
+  let userDelegationKeyCredential: UserDelegationKeyCredential | undefined;
+
+  if (sharedKeyCredential === undefined && accountName !== undefined) {
+    userDelegationKeyCredential = new UserDelegationKeyCredential(
+      accountName,
+      sharedKeyCredentialOrUserDelegationKey as UserDelegationKey,
+    );
+  }
+
+  if (sharedKeyCredential !== undefined) {
+    return generateFileSASQueryParametersDefault(fileSASSignatureValues, sharedKeyCredential!);
+  } else {
+    if (version >= "2025-07-05") {
+      return generateFileSASQueryParametersUDK20250705(
+        fileSASSignatureValues,
+        userDelegationKeyCredential!,
+        accountName!,
+      );
+    } else {
+      throw new RangeError(
+        "'version' must be >= '2025-07-05' when generating user delegation SAS using user delegation key.",
+      );
+    }
+  }
+}
+
+export function generateFileSASQueryParametersDefault(
   fileSASSignatureValues: FileSASSignatureValues,
   sharedKeyCredential: StorageSharedKeyCredential,
 ): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
@@ -195,6 +256,100 @@ export function generateFileSASQueryParametersInternal(
       fileSASSignatureValues.contentEncoding,
       fileSASSignatureValues.contentLanguage,
       fileSASSignatureValues.contentType,
+    ),
+    stringToSign: stringToSign,
+  };
+}
+
+export function generateFileSASQueryParametersUDK20250705(
+  fileSASSignatureValues: FileSASSignatureValues,
+  userDelegationKeyCredential: UserDelegationKeyCredential,
+  accountName: string,
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
+  if (!(fileSASSignatureValues.permissions && fileSASSignatureValues.expiresOn)) {
+    throw new RangeError(
+      "Must provide 'permissions' and 'expiresOn' for File SAS generation when generating user delegation SAS.",
+    );
+  }
+
+  const version = fileSASSignatureValues.version ? fileSASSignatureValues.version : SERVICE_VERSION;
+  let resource: string = "s";
+  if (fileSASSignatureValues.filePath) {
+    resource = "f";
+  }
+
+  let verifiedPermissions: string | undefined;
+  // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  if (fileSASSignatureValues.permissions) {
+    if (fileSASSignatureValues.filePath) {
+      verifiedPermissions = FileSASPermissions.parse(
+        fileSASSignatureValues.permissions.toString(),
+      ).toString();
+    } else {
+      verifiedPermissions = ShareSASPermissions.parse(
+        fileSASSignatureValues.permissions.toString(),
+      ).toString();
+    }
+  }
+
+  // Signature is generated on the un-url-encoded values.
+  const stringToSign = [
+    verifiedPermissions,
+    fileSASSignatureValues.startsOn
+      ? truncatedISO8061Date(fileSASSignatureValues.startsOn, false)
+      : "",
+    fileSASSignatureValues.expiresOn
+      ? truncatedISO8061Date(fileSASSignatureValues.expiresOn, false)
+      : "",
+    getCanonicalName(
+      accountName,
+      fileSASSignatureValues.shareName,
+      fileSASSignatureValues.filePath,
+    ),
+    userDelegationKeyCredential.userDelegationKey.signedObjectId,
+    userDelegationKeyCredential.userDelegationKey.signedTenantId,
+    userDelegationKeyCredential.userDelegationKey.signedStartsOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
+      : "",
+    userDelegationKeyCredential.userDelegationKey.signedExpiresOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
+      : "",
+    userDelegationKeyCredential.userDelegationKey.signedService,
+    userDelegationKeyCredential.userDelegationKey.signedVersion,
+    undefined, // shared key delegation signed tenant id.
+    fileSASSignatureValues.delegatedUserObjectId,
+    fileSASSignatureValues.ipRange ? ipRangeToString(fileSASSignatureValues.ipRange) : "",
+    fileSASSignatureValues.protocol,
+    version,
+    fileSASSignatureValues.cacheControl,
+    fileSASSignatureValues.contentDisposition,
+    fileSASSignatureValues.contentEncoding,
+    fileSASSignatureValues.contentLanguage,
+    fileSASSignatureValues.contentType,
+  ].join("\n");
+
+  const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+
+  return {
+    sasQueryParameters: new SASQueryParameters(
+      version,
+      signature,
+      verifiedPermissions,
+      undefined,
+      undefined,
+      fileSASSignatureValues.protocol,
+      fileSASSignatureValues.startsOn,
+      fileSASSignatureValues.expiresOn,
+      fileSASSignatureValues.ipRange,
+      fileSASSignatureValues.identifier,
+      resource,
+      fileSASSignatureValues.cacheControl,
+      fileSASSignatureValues.contentDisposition,
+      fileSASSignatureValues.contentEncoding,
+      fileSASSignatureValues.contentLanguage,
+      fileSASSignatureValues.contentType,
+      userDelegationKeyCredential.userDelegationKey,
+      fileSASSignatureValues.delegatedUserObjectId,
     ),
     stringToSign: stringToSign,
   };

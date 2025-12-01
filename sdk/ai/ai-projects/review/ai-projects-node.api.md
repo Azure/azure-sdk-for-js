@@ -203,6 +203,7 @@ export class AIProjectClient {
     readonly memoryStores: MemoryStoresOperations;
     readonly redTeams: RedTeamsOperations;
     readonly schedules: SchedulesOperations;
+    readonly telemetry: TelemetryOperations;
 }
 
 // @public
@@ -2418,6 +2419,11 @@ export interface TaxonomySubCategory {
     id: string;
     name: string;
     properties?: Record<string, string>;
+}
+
+// @public
+export interface TelemetryOperations {
+    getApplicationInsightsConnectionString: () => Promise<string>;
 }
 
 // @public

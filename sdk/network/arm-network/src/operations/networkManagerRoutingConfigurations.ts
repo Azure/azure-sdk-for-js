@@ -29,9 +29,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkManagerRoutingConfigurations operations. */
-export class NetworkManagerRoutingConfigurationsImpl
-  implements NetworkManagerRoutingConfigurations
-{
+export class NetworkManagerRoutingConfigurationsImpl implements NetworkManagerRoutingConfigurations {
   private readonly client: NetworkManagementClient;
 
   /**

@@ -405,8 +405,7 @@ export interface TargetResourceConfigurationsOutputParent {
 }
 
 /** Configurations for a Function App using Flex Consumption Plan. */
-export interface FunctionFlexConsumptionTargetResourceConfigurationsOutput
-  extends TargetResourceConfigurationsOutputParent {
+export interface FunctionFlexConsumptionTargetResourceConfigurationsOutput extends TargetResourceConfigurationsOutputParent {
   /**
    * The kind value to use when providing configuration.
    * This should typically be not changed from its value.
@@ -1064,8 +1063,7 @@ export interface TestsNotificationEventFilterOutputParent {
 }
 
 /** The notification event filter when the event type is TestRunEnded and scope is Tests. */
-export interface TestRunEndedNotificationEventFilterOutput
-  extends TestsNotificationEventFilterOutputParent {
+export interface TestRunEndedNotificationEventFilterOutput extends TestsNotificationEventFilterOutputParent {
   /** Event type for test run ended event. */
   kind: "TestRunEnded";
   /** Event filtering condition. */
@@ -1081,22 +1079,19 @@ export interface TestRunEndedEventConditionOutput {
 }
 
 /** The notification event filter when the event type is TestRunStarted and scope is Tests. */
-export interface TestRunStartedNotificationEventFilterOutput
-  extends TestsNotificationEventFilterOutputParent {
+export interface TestRunStartedNotificationEventFilterOutput extends TestsNotificationEventFilterOutputParent {
   /** Event type for test run started event. */
   kind: "TestRunStarted";
 }
 
 /** The notification event filter when the event type is TriggerCompleted. */
-export interface TriggerCompletedNotificationEventFilterOutput
-  extends TestsNotificationEventFilterOutputParent {
+export interface TriggerCompletedNotificationEventFilterOutput extends TestsNotificationEventFilterOutputParent {
   /** Event type for trigger ended event. */
   kind: "TriggerCompleted";
 }
 
 /** The notification event filter when the event type is TriggerDisabled. */
-export interface TriggerDisabledNotificationEventFilterOutput
-  extends TestsNotificationEventFilterOutputParent {
+export interface TriggerDisabledNotificationEventFilterOutput extends TestsNotificationEventFilterOutputParent {
   /** Event type for trigger disabled event. */
   kind: "TriggerDisabled";
 }

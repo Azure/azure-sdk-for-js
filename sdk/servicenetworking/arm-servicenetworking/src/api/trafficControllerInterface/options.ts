@@ -4,12 +4,10 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface TrafficControllerInterfaceListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface TrafficControllerInterfaceListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface TrafficControllerInterfaceListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface TrafficControllerInterfaceListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface TrafficControllerInterfaceDeleteOptionalParams extends OperationOptions {

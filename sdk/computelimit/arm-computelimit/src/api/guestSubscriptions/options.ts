@@ -4,8 +4,7 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface GuestSubscriptionsListBySubscriptionLocationResourceOptionalParams
-  extends OperationOptions {}
+export interface GuestSubscriptionsListBySubscriptionLocationResourceOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GuestSubscriptionsDeleteOptionalParams extends OperationOptions {}

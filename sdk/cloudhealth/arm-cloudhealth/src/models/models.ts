@@ -1195,8 +1195,7 @@ export enum KnownAuthenticationKind {
 export type AuthenticationKind = string;
 
 /** Authentication setting properties for Azure Managed Identity */
-export interface ManagedIdentityAuthenticationSettingProperties
-  extends AuthenticationSettingProperties {
+export interface ManagedIdentityAuthenticationSettingProperties extends AuthenticationSettingProperties {
   /** Kind of the authentication setting */
   authenticationKind: "ManagedIdentity";
   /** Name of the managed identity to use. Either 'SystemAssigned' or the resourceId of a user-assigned identity. */

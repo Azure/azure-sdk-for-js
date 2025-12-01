@@ -8,8 +8,6 @@
  *
  * @summary This sample demonstrates how to create an agent with Bing grounding tool capabilities,
  * search the web for current information, and process streaming responses with source citations.
- *
- * @azsdk-weight 100
  */
 
 import { DefaultAzureCredential } from "@azure/identity";

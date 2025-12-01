@@ -364,6 +364,118 @@ describe("ContainerClient", () => {
     assert.notStrictEqual(blobURLs[0].url.indexOf(result.segment.blobItems![0].name), -1);
   });
 
+  it("listBlobsFlat with startFrom", async () => {
+    const blobClients = [];
+    let startFrom = "";
+    for (let i = 0; i < 3; i++) {
+      const blobName = getRecorderUniqueVariable(recorder, `blockblob/${i}`);
+      if (i === 1) {
+        startFrom = blobName;
+      }
+      const blobClient = containerClient.getBlobClient(blobName);
+
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.upload("", 0);
+      blobClients.push(blobClient);
+    }
+
+    const result = (
+      await containerClient
+        .listBlobsFlat({
+          startFrom: startFrom,
+        })
+        .byPage()
+        .next()
+    ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length - 1);
+    assert.ok(blobClients[1].url.indexOf(result.segment.blobItems![0].name));
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listBlobsFlat with startFrom", async () => {
+    const blobClients = [];
+    const prefix = "blockblob";
+    let startFrom = "";
+    for (let i = 0; i < 5; i++) {
+      const blobName = getRecorderUniqueVariable(recorder, `${prefix}/${i}`);
+      if (i === 1) {
+        startFrom = blobName;
+      }
+      const blobClient = containerClient.getBlobClient(blobName);
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.upload("", 0);
+      blobClients.push(blobClient);
+    }
+
+    let i = 1;
+    let iter = containerClient
+      .listBlobsFlat({
+        startFrom: startFrom,
+      })
+      .byPage({ maxPageSize: 2 });
+    let response = (await iter.next()).value;
+    for (const blob of response.segment.blobItems) {
+      assert.ok(blobClients[i].url.indexOf(blob.name));
+      i++;
+    }
+    // Gets next marker
+    const marker = response.continuationToken;
+    // Passing next marker as continuationToken
+    iter = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 2 });
+    response = (await iter.next()).value;
+    // Gets 2 blobs
+    for (const blob of response.segment.blobItems) {
+      assert.ok(blobClients[i].url.indexOf(blob.name));
+      i++;
+    }
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("listBlobsFlat with startFrom with special char", async () => {
+    const blobClients = [];
+
+    const dirName = "first_dir\uFFFF/";
+    let startFrom = "";
+    for (let i = 0; i < 3; i++) {
+      const blobName = getRecorderUniqueVariable(recorder, `${dirName}/${i}`);
+      if (i === 1) {
+        startFrom = blobName;
+      }
+      const blobClient = containerClient.getBlobClient(blobName);
+
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.upload("", 0);
+      blobClients.push(blobClient);
+    }
+
+    const result = (
+      await containerClient
+        .listBlobsFlat({
+          startFrom: startFrom,
+        })
+        .byPage()
+        .next()
+    ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length - 1);
+    assert.ok(blobClients[1].url.indexOf(result.segment.blobItems![0].name));
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
   it("Verify PagedAsyncIterableIterator for listBlobsFlat", async () => {
     const blobClients = [];
     const prefix = "blockblob";
@@ -756,6 +868,126 @@ describe("ContainerClient", () => {
     assert.isTrue(isSuperSet(result3.segment.blobItems![0].metadata, metadata));
     assert.isDefined(result3.segment.blobItems![0].versionId);
     assert.notStrictEqual(blobClients[0].url.indexOf(result3.segment.blobItems![0].name), -1);
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("listBlobsByHierarchy with startFrom", async () => {
+    const blobClients = [];
+    let startFrom = "";
+    for (let i = 0; i < 3; i++) {
+      const blobName = getRecorderUniqueVariable(recorder, `blockblob${i}/${i}`);
+      if (i === 1) {
+        startFrom = blobName;
+      }
+      const blobClient = containerClient.getBlobClient(blobName);
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.upload("", 0);
+      blobClients.push(blobClient);
+    }
+
+    const delimiter = "/";
+    const result = (
+      await containerClient
+        .listBlobsByHierarchy(delimiter, {
+          startFrom: startFrom,
+        })
+        .byPage()
+        .next()
+    ).value;
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.delimiter, delimiter);
+    assert.deepStrictEqual(result.segment.blobPrefixes!.length, blobClients.length - 1);
+
+    for (const blob of blobClients) {
+      let i = 0;
+      assert.ok(blob.url.indexOf(result.segment.blobPrefixes![i++].name));
+    }
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("listBlobsByHierarchy with startFrom with special char", async () => {
+    const blobClients = [];
+
+    const dirName = "first_dir\uFFFF";
+    let startFrom = "";
+    for (let i = 0; i < 3; i++) {
+      const blobName = getRecorderUniqueVariable(recorder, `${dirName}${i}/${i}`);
+      if (i === 1) {
+        startFrom = blobName;
+      }
+      const blobClient = containerClient.getBlobClient(blobName);
+
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.upload("", 0);
+      blobClients.push(blobClient);
+    }
+
+    const result = (
+      await containerClient
+        .listBlobsByHierarchy("/", {
+          startFrom: startFrom,
+        })
+        .byPage()
+        .next()
+    ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.blobPrefixes!.length, blobClients.length - 1);
+    assert.ok(blobClients[1].url.indexOf(result.segment.blobPrefixes![0].name));
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listBlobsByHierarchy with startFrom", async () => {
+    const blobClients = [];
+    const prefix = "blockblob";
+    let startFrom = "";
+    for (let i = 0; i < 5; i++) {
+      const blobName = getRecorderUniqueVariable(recorder, `${prefix}${i}/${i}`);
+      if (i === 1) {
+        startFrom = blobName;
+      }
+      const blobClient = containerClient.getBlobClient(blobName);
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.upload("", 0);
+      blobClients.push(blobClient);
+    }
+
+    let i = 1;
+    let iter = containerClient
+      .listBlobsByHierarchy("/", {
+        startFrom: startFrom,
+      })
+      .byPage({ maxPageSize: 2 });
+    let response = (await iter.next()).value;
+    for (const blob of response.segment.blobPrefixes) {
+      assert.ok(blobClients[i].url.indexOf(blob.name));
+      i++;
+    }
+    // Gets next marker
+    const marker = response.continuationToken;
+    // Passing next marker as continuationToken
+    iter = containerClient
+      .listBlobsByHierarchy("/")
+      .byPage({ continuationToken: marker, maxPageSize: 2 });
+    response = (await iter.next()).value;
+    // Gets 2 blobs
+    for (const blob of response.segment.blobPrefixes) {
+      assert.ok(blobClients[i].url.indexOf(blob.name));
+      i++;
+    }
 
     for (const blob of blobClients) {
       await blob.delete();

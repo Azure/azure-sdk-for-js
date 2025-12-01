@@ -434,5 +434,6 @@ export {
   MemoryStoresOperations,
   RedTeamsOperations,
   SchedulesOperations,
+  TelemetryOperations,
 } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
