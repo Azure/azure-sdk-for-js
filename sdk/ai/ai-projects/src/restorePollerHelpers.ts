@@ -2,9 +2,7 @@
 // Licensed under the MIT License.
 
 import { AIProjectClient } from "./aiProjectClient.js";
-import {
-  createMemoryStoreUpdateMemoriesPoller,
-} from "./api/memoryStores/memoryStoreUpdateMemoriesPoller.js";
+import { createMemoryStoreUpdateMemoriesPoller } from "./api/memoryStores/memoryStoreUpdateMemoriesPoller.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
