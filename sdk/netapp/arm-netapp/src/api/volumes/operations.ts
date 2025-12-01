@@ -18,6 +18,7 @@ import type {
   ClusterPeerCommandResponse,
   SvmPeerCommandResponse,
   PoolChangeRequest,
+  ListQuotaReportResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -40,12 +41,14 @@ import {
   svmPeerCommandResponseDeserializer,
   poolChangeRequestSerializer,
   relocateVolumeRequestSerializer,
+  listQuotaReportResponseDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  VolumesListQuotaReportOptionalParams,
   VolumesRevertRelocationOptionalParams,
   VolumesFinalizeRelocationOptionalParams,
   VolumesRelocateOptionalParams,
@@ -77,6 +80,68 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _listQuotaReportSend(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  poolName: string,
+  volumeName: string,
+  options: VolumesListQuotaReportOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/listQuotaReport{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      accountName: accountName,
+      poolName: poolName,
+      volumeName: volumeName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listQuotaReportDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ListQuotaReportResponse> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return listQuotaReportResponseDeserializer(result.body);
+}
+
+/** A long-running resource action. */
+export function listQuotaReport(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  poolName: string,
+  volumeName: string,
+  options: VolumesListQuotaReportOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<ListQuotaReportResponse>, ListQuotaReportResponse> {
+  return getLongRunningPoller(context, _listQuotaReportDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _listQuotaReportSend(context, resourceGroupName, accountName, poolName, volumeName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<ListQuotaReportResponse>, ListQuotaReportResponse>;
+}
 
 export function _revertRelocationSend(
   context: Client,
