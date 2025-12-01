@@ -4325,8 +4325,7 @@ export function computerToolCallOutputItemOutputUnionSerializer(
 export type ComputerToolCallOutputItemOutputType = "computer_screenshot";
 
 /** model interface ComputerToolCallOutputItemOutputComputerScreenshot */
-export interface ComputerToolCallOutputItemOutputComputerScreenshot
-  extends ComputerToolCallOutputItemOutput {
+export interface ComputerToolCallOutputItemOutputComputerScreenshot extends ComputerToolCallOutputItemOutput {
   type: "computer_screenshot";
   /** The URL of the screenshot image. */
   image_url?: string;

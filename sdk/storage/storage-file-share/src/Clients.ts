@@ -1504,8 +1504,7 @@ export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOpti
 }
 
 export interface DirectoryProperties
-  extends FileAndDirectorySetPropertiesCommonOptions,
-    CommonOptions {
+  extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -3412,8 +3411,7 @@ export interface FileSetMetadataOptions extends CommonOptions {
  * Options to configure the {@link ShareFileClient.setHttpHeaders} operation.
  */
 export interface FileSetHttpHeadersOptions
-  extends FileAndDirectorySetPropertiesCommonOptions,
-    CommonOptions {
+  extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -3444,8 +3442,7 @@ export interface FileAbortCopyFromURLOptions extends CommonOptions {
  * Options to configure the {@link ShareFileClient.resize} operation.
  */
 export interface FileResizeOptions
-  extends FileAndDirectorySetPropertiesCommonOptions,
-    CommonOptions {
+  extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.

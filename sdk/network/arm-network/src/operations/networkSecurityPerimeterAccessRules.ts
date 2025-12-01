@@ -28,9 +28,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkSecurityPerimeterAccessRules operations. */
-export class NetworkSecurityPerimeterAccessRulesImpl
-  implements NetworkSecurityPerimeterAccessRules
-{
+export class NetworkSecurityPerimeterAccessRulesImpl implements NetworkSecurityPerimeterAccessRules {
   private readonly client: NetworkManagementClient;
 
   /**

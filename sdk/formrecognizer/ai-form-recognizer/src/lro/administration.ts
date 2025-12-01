@@ -74,8 +74,7 @@ export interface ModelAdministrationOperationStateCommon {
  * The state of a model creation operation.
  */
 export interface DocumentModelOperationState
-  extends PollOperationState<DocumentModelDetails>,
-    ModelAdministrationOperationStateCommon {}
+  extends PollOperationState<DocumentModelDetails>, ModelAdministrationOperationStateCommon {}
 
 /**
  * The respones of a model creation operation.
@@ -156,5 +155,4 @@ export type DocumentClassifierPoller = PollerLike<
  * The state of a model creation operation.
  */
 export interface DocumentClassifierOperationState
-  extends PollOperationState<DocumentClassifierDetails>,
-    ModelAdministrationOperationStateCommon {}
+  extends PollOperationState<DocumentClassifierDetails>, ModelAdministrationOperationStateCommon {}

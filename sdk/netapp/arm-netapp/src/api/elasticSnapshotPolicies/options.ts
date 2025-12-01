@@ -7,8 +7,7 @@ import type { OperationOptions } from "@azure-rest/core-client";
 export interface ElasticSnapshotPoliciesListElasticVolumesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ElasticSnapshotPoliciesListByElasticAccountOptionalParams
-  extends OperationOptions {}
+export interface ElasticSnapshotPoliciesListByElasticAccountOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface ElasticSnapshotPoliciesDeleteOptionalParams extends OperationOptions {

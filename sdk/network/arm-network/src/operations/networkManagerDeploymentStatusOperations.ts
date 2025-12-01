@@ -16,9 +16,7 @@ import type {
 } from "../models/index.js";
 
 /** Class containing NetworkManagerDeploymentStatusOperations operations. */
-export class NetworkManagerDeploymentStatusOperationsImpl
-  implements NetworkManagerDeploymentStatusOperations
-{
+export class NetworkManagerDeploymentStatusOperationsImpl implements NetworkManagerDeploymentStatusOperations {
   private readonly client: NetworkManagementClient;
 
   /**

@@ -4,16 +4,13 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface GroupQuotaSubscriptionAllocationRequestListOptionalParams
-  extends OperationOptions {}
+export interface GroupQuotaSubscriptionAllocationRequestListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface GroupQuotaSubscriptionAllocationRequestGetOptionalParams
-  extends OperationOptions {}
+export interface GroupQuotaSubscriptionAllocationRequestGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams
-  extends OperationOptions {
+export interface GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
