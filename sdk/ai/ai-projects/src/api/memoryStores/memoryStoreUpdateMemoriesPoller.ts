@@ -22,9 +22,9 @@ import { PathUncheckedResponse, createRestError } from "@azure-rest/core-client"
 /** State of the Memory Store update operation. */
 export type MemoryStoreUpdateOperationState = OperationState<MemoryStoreUpdateResult> & {
   /** The ID of the memory store update operation. */
-  updateId?: string;
+  updateId: string;
   /** The status of the memory store update operation. */
-  updateStatus?: MemoryStoreUpdateStatus;
+  updateStatus: MemoryStoreUpdateStatus;
   /** The ID of the memory store update operation that superseded this one, if any. */
   supersededBy?: string;
 };
@@ -35,9 +35,9 @@ export type MemoryStoreUpdateMemoriesPoller = PollerLike<
   MemoryStoreUpdateResult
 > & {
   /** The ID of the memory store update operation. */
-  readonly updateId?: string;
+  readonly updateId: string;
   /** The status of the memory store update operation. */
-  readonly updateStatus?: MemoryStoreUpdateStatus;
+  readonly updateStatus: MemoryStoreUpdateStatus;
   /** The ID of the memory store update operation that superseded this one, if any. */
   readonly supersededBy?: string;
 };
@@ -52,7 +52,7 @@ export interface CreateMemoryStoreUpdateMemoriesPollerOptions {
   restoreFrom?: string;
 }
 
-const terminalUpdateStatuses: MemoryStoreUpdateStatus[] = ["completed", "superseded"];
+const nonFailureTerminalUpdateStatuses: MemoryStoreUpdateStatus[] = ["completed", "superseded"];
 
 function createDefaultUsage(): MemoryStoreOperationUsage {
   return {
@@ -98,8 +98,8 @@ function applyUpdateState(
   response: PathUncheckedResponse,
 ): void {
   const parsed = deserializeUpdateResponse(response);
-  state.updateId ??= parsed?.update_id;
-  state.updateStatus = parsed?.status;
+  state.updateId = parsed?.update_id ?? "";
+  state.updateStatus = parsed?.status ?? "queued";
 
   if (!parsed) {
     return;
@@ -115,7 +115,7 @@ function applyUpdateState(
     return;
   }
 
-  if (terminalUpdateStatuses.includes(parsed.status)) {
+  if (nonFailureTerminalUpdateStatuses.includes(parsed.status)) {
     if (parsed.status === "superseded" && !state.error) {
       state.supersededBy = parsed.superseded_by;
     }
