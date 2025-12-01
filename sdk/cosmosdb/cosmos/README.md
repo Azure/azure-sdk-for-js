@@ -399,6 +399,60 @@ const { resources } = await container.items
   .fetchAll();
 ```
 
+**Note:** To use continuation tokens with queries, ensure that `enableQueryControl` is set to `true` in the query options. This enables support for retrieving query continuation tokens for paginating through large result sets.
+
+Here's an example of using continuation tokens with `enableQueryControl`:
+
+```ts snippet:ReadmeSampleQueryWithContinuationToken
+import { CosmosClient } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
+const queryIterator = container.items.query(
+  "SELECT * from c",
+  { maxItemCount: 10, enableQueryControl: true }
+);
+
+let pageCount = 0;
+while (queryIterator.hasMoreResults()) {
+  pageCount++;
+  const { resources, continuationToken } = await queryIterator.fetchNext();
+  console.log(`Page ${pageCount} has ${resources.length} items`);
+  // continuationToken can be saved and used later to resume from where you left off
+}
+```
+
+**Important Note on Continuation Tokens with ORDER BY Queries:**
+
+When using `enableQueryControl` with ORDER BY queries, be aware that the continuation token may be `undefined` in the initial `fetchNext()` call if no data is returned yet. This is expected behavior:
+
+- The first `fetchNext()` call may return an empty `resources` array with `continuationToken` as `undefined`
+- This occurs because ORDER BY queries require sorting across partitions before returning results
+- Subsequent calls will return data and valid continuation tokens
+- **Recommendation:** Check if `resources` array has data before relying on the continuation token for ORDER BY queries. Store the continuation token only after you've received actual results from the SDK.
+
+Example:
+```typescript
+while (queryIterator.hasMoreResults()) {
+  const { resources, continuationToken } = await queryIterator.fetchNext();
+  
+  if (resources.length > 0) {
+    // Process results
+    console.log(`Received ${resources.length} items`);
+    // Now continuationToken is guaranteed to be valid for ORDER BY queries
+    if (continuationToken) {
+      // Safe to save for resuming later
+    }
+  }
+}
+```
+
 For more information on querying Cosmos DB databases using the SQL API, see [Query Azure Cosmos DB data with SQL queries][cosmos_sql_queries].
 
 ### Change Feed Pull Model
@@ -741,6 +795,7 @@ Currently the features below are **not supported**. For alternatives options, ch
 - Change Feed: Processor
 - Change Feed: Read multiple partitions key values
 - Cross-partition ORDER BY for mixed types
+- When using continuation tokens with `enableQueryControl` on streaming queries (SELECT \* FROM c type queries), `maxDegreeOfParallelism` behavior can vary. To ensure consistent behavior and avoid issues, use the `forceQueryPlan` option in your query to enforce a deterministic execution plan.
 
 ### Control Plane Limitations:
 
