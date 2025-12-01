@@ -128,7 +128,8 @@ export function parseFeatureFlag(
       clientFilters: jsonFeatureFlagValue.conditions.client_filters,
     };
     if (jsonFeatureFlagValue.conditions.requirement_type) {
-      featureflag.value.conditions.requirementType = jsonFeatureFlagValue.conditions.requirement_type;
+      featureflag.value.conditions.requirementType =
+        jsonFeatureFlagValue.conditions.requirement_type;
     }
   }
   return featureflag;
