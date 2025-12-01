@@ -58,7 +58,7 @@ export async function getRushJson(): Promise<any> {
   _workspaceRoot = await resolveRoot();
 
   const listPackagesCommand = await run(
-    ["pnpm", "list", "--recursive", "--json", "--depth=1", "--only-projects"],
+    ["pnpm", "list", "--recursive", "--json", "--depth=-1"],
     {
       captureOutput: true,
       cwd: _workspaceRoot,
