@@ -522,8 +522,7 @@ export interface CertificatePollerOptions extends coreClient.OperationOptions {
  * passed to {@link beginCreateCertificate}
  */
 export interface BeginCreateCertificateOptions
-  extends CreateCertificateOptions,
-    CertificatePollerOptions {}
+  extends CreateCertificateOptions, CertificatePollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
@@ -546,8 +545,7 @@ export type GetCertificateOperationOptions = CertificatePollerOptions;
  * Options for {@link createCertificate}.
  */
 export interface CreateCertificateOptions
-  extends CertificateProperties,
-    coreClient.OperationOptions {}
+  extends CertificateProperties, coreClient.OperationOptions {}
 
 /**
  * Options for {@link cancelCertificateOperation}.
@@ -697,8 +695,7 @@ export type CertificateTags = { [propertyName: string]: string };
  * Options for {@link updateCertificate}.
  */
 export interface UpdateCertificatePropertiesOptions
-  extends CertificateProperties,
-    coreClient.OperationOptions {}
+  extends CertificateProperties, coreClient.OperationOptions {}
 
 /**
  * Options for {@link updateCertificatePolicy}.

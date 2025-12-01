@@ -19,9 +19,7 @@ import type {
 } from "../models/index.js";
 
 /** Class containing FirewallPolicyRuleCollectionGroupDrafts operations. */
-export class FirewallPolicyRuleCollectionGroupDraftsImpl
-  implements FirewallPolicyRuleCollectionGroupDrafts
-{
+export class FirewallPolicyRuleCollectionGroupDraftsImpl implements FirewallPolicyRuleCollectionGroupDrafts {
   private readonly client: NetworkManagementClient;
 
   /**

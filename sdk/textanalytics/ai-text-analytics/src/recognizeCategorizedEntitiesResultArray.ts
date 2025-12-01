@@ -17,8 +17,7 @@ import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } f
  * Array of `RecognizeCategorizedEntitiesResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface RecognizeCategorizedEntitiesResultArray
-  extends Array<RecognizeCategorizedEntitiesResult> {
+export interface RecognizeCategorizedEntitiesResultArray extends Array<RecognizeCategorizedEntitiesResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true

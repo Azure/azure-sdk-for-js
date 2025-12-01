@@ -2621,8 +2621,7 @@ export interface BaseAzureMachineLearningVectorizerParameters {
 /**
  * Specifies the properties for connecting to an AML vectorizer with no authentication.
  */
-export interface NoAuthAzureMachineLearningVectorizerParameters
-  extends BaseAzureMachineLearningVectorizerParameters {
+export interface NoAuthAzureMachineLearningVectorizerParameters extends BaseAzureMachineLearningVectorizerParameters {
   /**
    * Indicates how the service should attempt to identify itself to the AML instance
    */
@@ -2637,8 +2636,7 @@ export interface NoAuthAzureMachineLearningVectorizerParameters
 /**
  * Specifies the properties for connecting to an AML vectorizer with an authentication key.
  */
-export interface KeyAuthAzureMachineLearningVectorizerParameters
-  extends BaseAzureMachineLearningVectorizerParameters {
+export interface KeyAuthAzureMachineLearningVectorizerParameters extends BaseAzureMachineLearningVectorizerParameters {
   /**
    * Indicates how the service should attempt to identify itself to the AML instance
    */
@@ -2657,8 +2655,7 @@ export interface KeyAuthAzureMachineLearningVectorizerParameters
 /**
  * Specifies the properties for connecting to an AML vectorizer with a managed identity.
  */
-export interface TokenAuthAzureMachineLearningVectorizerParameters
-  extends BaseAzureMachineLearningVectorizerParameters {
+export interface TokenAuthAzureMachineLearningVectorizerParameters extends BaseAzureMachineLearningVectorizerParameters {
   /**
    * Indicates how the service should attempt to identify itself to the AML instance
    */

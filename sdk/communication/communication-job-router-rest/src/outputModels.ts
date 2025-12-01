@@ -25,8 +25,7 @@ export interface QueueSelectorAttachmentOutputParent {
 }
 
 /** Describes a set of queue selectors that will be attached if the given condition resolves to true. */
-export interface ConditionalQueueSelectorAttachmentOutput
-  extends QueueSelectorAttachmentOutputParent {
+export interface ConditionalQueueSelectorAttachmentOutput extends QueueSelectorAttachmentOutputParent {
   /** The condition that must be true for the queue selectors to be attached. */
   condition: RouterRuleOutput;
   /** The queue selectors to attach. */
@@ -130,8 +129,7 @@ export interface RouterQueueSelectorOutput {
 }
 
 /** Attaches a queue selector where the value is passed through from a job's label with the same key. */
-export interface PassThroughQueueSelectorAttachmentOutput
-  extends QueueSelectorAttachmentOutputParent {
+export interface PassThroughQueueSelectorAttachmentOutput extends QueueSelectorAttachmentOutputParent {
   /** The label key to query against. */
   key: string;
   /**
@@ -145,8 +143,7 @@ export interface PassThroughQueueSelectorAttachmentOutput
 }
 
 /** Attaches queue selectors to a job when the RouterRule is resolved. */
-export interface RuleEngineQueueSelectorAttachmentOutput
-  extends QueueSelectorAttachmentOutputParent {
+export interface RuleEngineQueueSelectorAttachmentOutput extends QueueSelectorAttachmentOutputParent {
   /** A RouterRule that resolves a collection of queue selectors to attach. */
   rule: RouterRuleOutput;
   /** The type discriminator describing the type of queue selector attachment. */
@@ -162,8 +159,7 @@ export interface StaticQueueSelectorAttachmentOutput extends QueueSelectorAttach
 }
 
 /** Describes multiple sets of queue selectors, of which one will be selected and attached according to a weighting. */
-export interface WeightedAllocationQueueSelectorAttachmentOutput
-  extends QueueSelectorAttachmentOutputParent {
+export interface WeightedAllocationQueueSelectorAttachmentOutput extends QueueSelectorAttachmentOutputParent {
   /** A collection of percentage based weighted allocations. */
   allocations: Array<QueueWeightedAllocationOutput>;
   /** The type discriminator describing the type of queue selector attachment. */
@@ -184,8 +180,7 @@ export interface WorkerSelectorAttachmentOutputParent {
 }
 
 /** Describes a set of worker selectors that will be attached if the given condition resolves to true. */
-export interface ConditionalWorkerSelectorAttachmentOutput
-  extends WorkerSelectorAttachmentOutputParent {
+export interface ConditionalWorkerSelectorAttachmentOutput extends WorkerSelectorAttachmentOutputParent {
   /** The condition that must be true for the worker selectors to be attached. */
   condition: RouterRuleOutput;
   /** The worker selectors to attach. */
@@ -221,8 +216,7 @@ export interface RouterWorkerSelectorOutput {
 }
 
 /** Attaches a worker selector where the value is passed through from a job's label with the same key. */
-export interface PassThroughWorkerSelectorAttachmentOutput
-  extends WorkerSelectorAttachmentOutputParent {
+export interface PassThroughWorkerSelectorAttachmentOutput extends WorkerSelectorAttachmentOutputParent {
   /** The label key to query against. */
   key: string;
   /**
@@ -238,8 +232,7 @@ export interface PassThroughWorkerSelectorAttachmentOutput
 }
 
 /** Attaches worker selectors to a job when a RouterRule is resolved. */
-export interface RuleEngineWorkerSelectorAttachmentOutput
-  extends WorkerSelectorAttachmentOutputParent {
+export interface RuleEngineWorkerSelectorAttachmentOutput extends WorkerSelectorAttachmentOutputParent {
   /** A RouterRule that resolves a collection of worker selectors to attach. */
   rule: RouterRuleOutput;
   /** The type discriminator describing the type of worker selector attachment. */
@@ -255,8 +248,7 @@ export interface StaticWorkerSelectorAttachmentOutput extends WorkerSelectorAtta
 }
 
 /** Describes multiple sets of worker selectors, of which one will be selected and attached according to a weighting. */
-export interface WeightedAllocationWorkerSelectorAttachmentOutput
-  extends WorkerSelectorAttachmentOutputParent {
+export interface WeightedAllocationWorkerSelectorAttachmentOutput extends WorkerSelectorAttachmentOutputParent {
   /** A collection of percentage based weighted allocations. */
   allocations: Array<WorkerWeightedAllocationOutput>;
   /** The type discriminator describing the type of worker selector attachment. */

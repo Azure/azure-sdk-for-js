@@ -130,15 +130,13 @@ export interface ManagedClustersListClusterUserCredentialsDefaultResponse extend
 }
 
 /** Lists the cluster monitoring user credentials of a managed cluster. */
-export interface ManagedClustersListClusterMonitoringUserCredentials200Response
-  extends HttpResponse {
+export interface ManagedClustersListClusterMonitoringUserCredentials200Response extends HttpResponse {
   status: "200";
   body: CredentialResultsOutput;
 }
 
 /** Lists the cluster monitoring user credentials of a managed cluster. */
-export interface ManagedClustersListClusterMonitoringUserCredentialsDefaultResponse
-  extends HttpResponse {
+export interface ManagedClustersListClusterMonitoringUserCredentialsDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -260,8 +258,7 @@ export interface ManagedClustersRotateServiceAccountSigningKeys204Response exten
 }
 
 /** Rotates the service account signing keys of a managed cluster. */
-export interface ManagedClustersRotateServiceAccountSigningKeysDefaultResponse
-  extends HttpResponse {
+export interface ManagedClustersRotateServiceAccountSigningKeysDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -333,15 +330,13 @@ export interface ManagedClustersGetCommandResultDefaultResponse extends HttpResp
 }
 
 /** Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified managed cluster. The operation returns properties of each egress endpoint. */
-export interface ManagedClustersListOutboundNetworkDependenciesEndpoints200Response
-  extends HttpResponse {
+export interface ManagedClustersListOutboundNetworkDependenciesEndpoints200Response extends HttpResponse {
   status: "200";
   body: OutboundEnvironmentEndpointCollectionOutput;
 }
 
 /** Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified managed cluster. The operation returns properties of each egress endpoint. */
-export interface ManagedClustersListOutboundNetworkDependenciesEndpointsDefaultResponse
-  extends HttpResponse {
+export interface ManagedClustersListOutboundNetworkDependenciesEndpointsDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }

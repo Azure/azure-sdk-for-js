@@ -10,8 +10,7 @@ export interface AutonomousDatabasesActionOptionalParams extends OperationOption
 }
 
 /** Optional parameters. */
-export interface AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams
-  extends OperationOptions {
+export interface AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

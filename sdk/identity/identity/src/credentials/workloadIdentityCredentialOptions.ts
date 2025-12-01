@@ -8,8 +8,7 @@ import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCreden
  * Options for the {@link WorkloadIdentityCredential}
  */
 export interface WorkloadIdentityCredentialOptions
-  extends MultiTenantTokenCredentialOptions,
-    AuthorityValidationOptions {
+  extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
   /**
    * ID of the application's Microsoft Entra tenant. Also called its directory ID.
    */

@@ -26,9 +26,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagementGroupNetworkManagerConnections operations. */
-export class ManagementGroupNetworkManagerConnectionsImpl
-  implements ManagementGroupNetworkManagerConnections
-{
+export class ManagementGroupNetworkManagerConnectionsImpl implements ManagementGroupNetworkManagerConnections {
   private readonly client: NetworkManagementClient;
 
   /**

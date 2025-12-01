@@ -81,8 +81,7 @@ export type RecognizeCategorizedEntitiesActionErrorResult = TextAnalyticsActionE
 /**
  * The results of a succeeded recognize categorized entities action.
  */
-export interface RecognizeCategorizedEntitiesActionSuccessResult
-  extends TextAnalyticsActionSuccessState {
+export interface RecognizeCategorizedEntitiesActionSuccessResult extends TextAnalyticsActionSuccessState {
   /**
    * Array of the results for each categorized entities recognition action.
    */
@@ -148,8 +147,7 @@ export type RecognizeLinkedEntitiesActionErrorResult = TextAnalyticsActionErrorR
 /**
  * The results of a succeeded recognize linked entities action.
  */
-export interface RecognizeLinkedEntitiesActionSuccessResult
-  extends TextAnalyticsActionSuccessState {
+export interface RecognizeLinkedEntitiesActionSuccessResult extends TextAnalyticsActionSuccessState {
   /**
    * Array of the results for each linked entities recognition action.
    */

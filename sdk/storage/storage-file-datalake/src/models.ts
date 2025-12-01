@@ -606,8 +606,7 @@ export interface Metadata {
 }
 
 export interface DataLakeRequestConditions
-  extends ModifiedAccessConditions,
-    LeaseAccessConditions {}
+  extends ModifiedAccessConditions, LeaseAccessConditions {}
 
 export interface RolePermissions {
   read: boolean;

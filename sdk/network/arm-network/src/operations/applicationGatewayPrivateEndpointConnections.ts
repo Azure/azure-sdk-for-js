@@ -29,9 +29,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApplicationGatewayPrivateEndpointConnections operations. */
-export class ApplicationGatewayPrivateEndpointConnectionsImpl
-  implements ApplicationGatewayPrivateEndpointConnections
-{
+export class ApplicationGatewayPrivateEndpointConnectionsImpl implements ApplicationGatewayPrivateEndpointConnections {
   private readonly client: NetworkManagementClient;
 
   /**
