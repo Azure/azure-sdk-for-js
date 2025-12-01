@@ -82,7 +82,7 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
   ): void {
     for (const newRange of rangeMappings) {
       // Check if this range already exists in the token
-      const existingRangeIndex = this.continuationToken!.rangeMappings.findIndex(
+      const existingRangeIndex = this.rangeList.findIndex(
         (existingRange) =>
           existingRange.queryRange.min === newRange.queryRange.min &&
           existingRange.queryRange.max === newRange.queryRange.max,
@@ -90,11 +90,12 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
 
       if (existingRangeIndex >= 0) {
         // Range exists - update the continuation token
-        this.continuationToken!.rangeMappings[existingRangeIndex] = newRange;
+        this.rangeList[existingRangeIndex] = newRange;
       } else {
         // New range - add to the rangeMappings array
-        this.continuationToken!.rangeMappings.push(newRange);
+        this.rangeList.push(newRange);
       }
     }
+    this.continuationToken!.rangeMappings = this.rangeList;
   }
 }
