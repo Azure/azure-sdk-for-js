@@ -72,10 +72,7 @@ describe("FeatureFlag - Optional Fields", () => {
         description: "Full feature flag",
         display_name: "Full Flag",
         conditions: {
-          client_filters: [
-            { name: "Filter1", parameters: { key: "value" } },
-            { name: "Filter2" },
-          ],
+          client_filters: [{ name: "Filter1", parameters: { key: "value" } }, { name: "Filter2" }],
           requirement_type: "All",
         },
       }),
