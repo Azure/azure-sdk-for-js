@@ -1,5 +1,15 @@
 # Release History
 
+## 17.0.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 17.0.0-beta.2 (2025-11-18)
 Compared with version 16.4.0
 
