@@ -612,7 +612,7 @@ export interface CacheProperties {
     cifsChangeNotifications?: CifsChangeNotifyState;
     readonly encryption?: EncryptionState;
     encryptionKeySource: EncryptionKeySource;
-    exportPolicy?: ExportPolicyRule[];
+    exportPolicy?: CachePropertiesExportPolicy;
     filepath: string;
     globalFileLocking?: GlobalFileLockingState;
     kerberos?: KerberosState;
@@ -630,6 +630,11 @@ export interface CacheProperties {
     smbSettings?: SmbSettings;
     throughputMibps?: number;
     writeBack?: EnableWriteBackState;
+}
+
+// @public
+export interface CachePropertiesExportPolicy {
+    rules?: ExportPolicyRule[];
 }
 
 // @public
@@ -665,7 +670,7 @@ export interface CachesOperations {
     listByCapacityPools: (resourceGroupName: string, accountName: string, poolName: string, options?: CachesListByCapacityPoolsOptionalParams) => PagedAsyncIterableIterator<Cache>;
     listPeeringPassphrases: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesListPeeringPassphrasesOptionalParams) => Promise<PeeringPassphrases>;
     poolChange: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: PoolChangeRequest, options?: CachesPoolChangeOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: CacheUpdate, options?: CachesUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: CacheUpdate, options?: CachesUpdateOptionalParams) => PollerLike<OperationState<Cache>, Cache>;
 }
 
 // @public
@@ -687,7 +692,7 @@ export interface CacheUpdate {
 // @public
 export interface CacheUpdateProperties {
     cifsChangeNotifications?: CifsChangeNotifyState;
-    exportPolicy?: ExportPolicyRule[];
+    exportPolicy?: CachePropertiesExportPolicy;
     keyVaultPrivateEndpointResourceId?: string;
     protocolTypes?: ProtocolTypes[];
     size?: number;
