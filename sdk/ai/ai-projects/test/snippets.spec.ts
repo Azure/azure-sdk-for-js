@@ -108,7 +108,14 @@ describe("snippets", function () {
 
   it("agent-file-search", async function () {
     const openAIClient = await project.getOpenAIClient();
-    const assetFilePath = path.join(__dirname, "..", "samples-dev", "agents", "assets", "product_info.txt");
+    const assetFilePath = path.join(
+      __dirname,
+      "..",
+      "samples-dev",
+      "agents",
+      "assets",
+      "product_info.txt",
+    );
     const vectorStore = await openAIClient.vectorStores.create({
       name: "ProductInfoStreamStore",
     });
