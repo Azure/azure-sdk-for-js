@@ -1842,7 +1842,7 @@ export interface MemoryStoresOperations {
     list: (options?: MemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
     searchMemories: (name: string, scope: string, options?: MemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
     update: (name: string, options?: MemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStore>;
-    updateMemories: (name: string, scope: string, options?: MemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateResult>, MemoryStoreUpdateResult>;
+    updateMemories: (name: string, scope: string, options?: MemoryStoresUpdateMemoriesOptionalParams) => MemoryStoreUpdateMemoriesPoller;
 }
 
 // @public
@@ -1867,6 +1867,20 @@ export interface MemoryStoresUpdateMemoryStoreOptionalParams extends OperationOp
     description?: string;
     metadata?: Record<string, string>;
 }
+
+// @public
+export type MemoryStoreUpdateMemoriesPoller = PollerLike<MemoryStoreUpdateOperationState, MemoryStoreUpdateResult> & {
+    readonly updateId: string;
+    readonly updateStatus: MemoryStoreUpdateStatus;
+    readonly supersededBy?: string;
+};
+
+// @public
+export type MemoryStoreUpdateOperationState = OperationState_2<MemoryStoreUpdateResult> & {
+    updateId: string;
+    updateStatus: MemoryStoreUpdateStatus;
+    supersededBy?: string;
+};
 
 // @public
 export interface MemoryStoreUpdateResponse {
