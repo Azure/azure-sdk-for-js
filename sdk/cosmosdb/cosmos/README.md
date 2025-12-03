@@ -403,7 +403,7 @@ const { resources } = await container.items
 
 Here's an example of using continuation tokens with `enableQueryControl`:
 
-```ts snippet:ReadmeSampleQueryWithContinuationToken
+```ts snippet:QueryWithContinuationToken
 import { CosmosClient } from "@azure/cosmos";
 
 const endpoint = "https://your-account.documents.azure.com";
@@ -414,10 +414,11 @@ const { database } = await client.databases.createIfNotExists({ id: "Test Databa
 
 const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
 
-const queryIterator = container.items.query(
-  "SELECT * from c",
-  { maxItemCount: 10, enableQueryControl: true }
-);
+const queryIterator = container.items.query("SELECT * from c", {
+  maxItemCount: 10,
+  enableQueryControl: true,
+  forceQueryPlan: true,
+});
 
 let pageCount = 0;
 while (queryIterator.hasMoreResults()) {
@@ -428,30 +429,46 @@ while (queryIterator.hasMoreResults()) {
 }
 ```
 
-**Important Note on Continuation Tokens with ORDER BY Queries:**
+**Special case: ORDER BY queries**
 
-When using `enableQueryControl` with ORDER BY queries, be aware that the continuation token may be `undefined` in the initial `fetchNext()` call if no data is returned yet. This is expected behavior:
+When using `enableQueryControl` with ORDER BY queries, be aware that the continuation token behavior requires special handling:
 
-- The first `fetchNext()` call may return an empty `resources` array with `continuationToken` as `undefined`
-- This occurs because ORDER BY queries require sorting across partitions before returning results
-- Subsequent calls will return data and valid continuation tokens
-- **Recommendation:** Check if `resources` array has data before relying on the continuation token for ORDER BY queries. Store the continuation token only after you've received actual results from the SDK.
+```ts snippet:QueryWithContinuationTokenOrderBy
+import { CosmosClient } from "@azure/cosmos";
 
-Example:
-```typescript
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
+const queryIterator = container.items.query("SELECT * from c ORDER BY c.id", {
+  maxItemCount: 10,
+  enableQueryControl: true,
+  forceQueryPlan: true,
+});
+
+let pageCount = 0;
 while (queryIterator.hasMoreResults()) {
+  pageCount++;
   const { resources, continuationToken } = await queryIterator.fetchNext();
-  
   if (resources.length > 0) {
     // Process results
-    console.log(`Received ${resources.length} items`);
-    // Now continuationToken is guaranteed to be valid for ORDER BY queries
+    // Safe to use continuationToken after receiving data
     if (continuationToken) {
-      // Safe to save for resuming later
+      // Can persist token for resuming later
     }
   }
 }
 ```
+
+**Important:** When using `enableQueryControl` with ORDER BY queries:
+- The `resources` array and `continuationToken` may be empty and `undefined` repectively during the initial calls
+- This occurs because the query needs to consolidate results across partitions before returning
+- Always verify `resources.length > 0` before relying on the continuation token
+- Use `forceQueryPlan: true` in your query options to ensure consistent query execution behavior across partitions, which helps with continuation token stability
 
 For more information on querying Cosmos DB databases using the SQL API, see [Query Azure Cosmos DB data with SQL queries][cosmos_sql_queries].
 
@@ -795,7 +812,7 @@ Currently the features below are **not supported**. For alternatives options, ch
 - Change Feed: Processor
 - Change Feed: Read multiple partitions key values
 - Cross-partition ORDER BY for mixed types
-- When using continuation tokens with `enableQueryControl` on streaming queries (SELECT \* FROM c type queries), `maxDegreeOfParallelism` behavior can vary. To ensure consistent behavior and avoid issues, use the `forceQueryPlan` option in your query to enforce a deterministic execution plan.
+- When using continuation tokens with `enableQueryControl` on cross-partition queries (queries that scan multiple partitions), ensure you set `forceQueryPlan: true` in query options to enforce a deterministic execution plan. Without it, query execution behavior may vary across partitions, affecting continuation token consistency.
 
 ### Control Plane Limitations:
 
