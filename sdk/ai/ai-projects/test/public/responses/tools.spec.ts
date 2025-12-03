@@ -220,4 +220,87 @@ describe.skipIf(!isLiveOrRecord)("My test", () => {
       `Web search response, response ID: ${response.id}, output text: ${response.output_text}`,
     );
   });
+
+  it("should create responses with OpenAPI tool", async function () {
+    // Inline OpenAPI spec for weather API (wttr.in)
+    const weatherOpenApiSpec = {
+      openapi: "3.1.0",
+      info: {
+        title: "get weather data",
+        description: "Retrieves current weather data for a location based on wttr.in.",
+        version: "v1.0.0",
+      },
+      servers: [{ url: "https://wttr.in" }],
+      auth: [],
+      paths: {
+        "/{location}": {
+          get: {
+            description: "Get weather information for a specific location",
+            operationId: "GetCurrentWeather",
+            parameters: [
+              {
+                name: "location",
+                in: "path",
+                description: "City or location to retrieve the weather for",
+                required: true,
+                schema: { type: "string" },
+              },
+              {
+                name: "format",
+                in: "query",
+                description: "Always use j1 value for this parameter",
+                required: true,
+                schema: { type: "string", default: "j1" },
+              },
+            ],
+            responses: {
+              "200": {
+                description: "Successful response",
+                content: { "text/plain": { schema: { type: "string" } } },
+              },
+              "404": { description: "Location not found" },
+            },
+            deprecated: false,
+          },
+        },
+      },
+      components: { schemes: {} },
+    };
+
+    const openApiTool: any = {
+      type: "openapi",
+      openapi: {
+        name: "get_weather",
+        description: "Retrieve weather information for a location",
+        spec: weatherOpenApiSpec,
+        auth: { type: "anonymous" },
+      },
+    };
+
+    const instructions =
+      "You are a helpful weather assistant. Use the get_weather tool to retrieve current weather information.";
+
+    // Create a conversation for the agent interaction
+    const conversation = await openAIClient.conversations.create();
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Send a query to get weather information
+    const response = await openAIClient.responses.create({
+      model: "gpt-5-mini",
+      tools: [openApiTool],
+      instructions,
+      conversation: conversation.id,
+      input: "What is the weather in Seattle?",
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.id);
+    console.log(
+      `OpenAPI tool response, response ID: ${response.id}, output text: ${response.output_text}`,
+    );
+
+    // The response should contain weather information or indicate tool usage
+    assert.isNotNull(response.output);
+    console.log(`Response output items: ${response.output.length}`);
+  }, 60000);
 });
