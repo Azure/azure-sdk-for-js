@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { ContainerServiceFleetContext as Client } from "../index.js";
+import type {
   Fleet,
-  fleetSerializer,
-  fleetDeserializer,
   FleetPatch,
-  fleetPatchSerializer,
   _FleetListResult,
-  _fleetListResultDeserializer,
   FleetCredentialResults,
-  fleetCredentialResultsDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  fleetSerializer,
+  fleetDeserializer,
+  fleetPatchSerializer,
+  _fleetListResultDeserializer,
+  fleetCredentialResultsDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   FleetsListCredentialsOptionalParams,
   FleetsListBySubscriptionOptionalParams,
   FleetsListByResourceGroupOptionalParams,
@@ -29,13 +29,9 @@ import {
   FleetsCreateOptionalParams,
   FleetsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listCredentialsSend(
   context: Client,
@@ -213,14 +209,13 @@ export function _$deleteSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      accept: "application/json",
       ...options.requestOptions?.headers,
     },
   });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "202", "204"];
+  const expectedStatuses = ["200", "202", "204", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -242,7 +237,7 @@ export function $delete(
   fleetName: string,
   options: FleetsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, fleetName, options),
@@ -282,7 +277,7 @@ export function _updateAsyncSend(
 }
 
 export async function _updateAsyncDeserialize(result: PathUncheckedResponse): Promise<Fleet> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -300,7 +295,7 @@ export function updateAsync(
   properties: FleetPatch,
   options: FleetsUpdateAsyncOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Fleet>, Fleet> {
-  return getLongRunningPoller(context, _updateAsyncDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateAsyncDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

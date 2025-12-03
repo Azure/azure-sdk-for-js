@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
+const { DefaultAzureCredential } = require("@azure/identity");
+
 /**
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2025-04-01-preview/Operations_List.json
+ * x-ms-original-file: 2025-08-01-preview/Operations_List.json
  */
-
-const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
-const { DefaultAzureCredential } = require("@azure/identity");
-
 async function listTheOperationsForTheProvider() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
@@ -27,7 +26,7 @@ async function listTheOperationsForTheProvider() {
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2025-04-01-preview/Operations_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-08-01-preview/Operations_List_MaximumSet_Gen.json
  */
 async function listTheOperationsForTheProviderGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -45,7 +44,7 @@ async function listTheOperationsForTheProviderGeneratedByMaximumSetRule() {
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2025-04-01-preview/Operations_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-08-01-preview/Operations_List_MinimumSet_Gen.json
  */
 async function listTheOperationsForTheProviderGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();
