@@ -182,20 +182,19 @@ export function expandUrlTemplate(
       return encodeReservedComponent(text);
     }
     let op;
-    let expression = expr;
-    if (["+", "#", ".", "/", ";", "?", "&"].includes(expression[0])) {
-      op = expression[0];
-      expression = expression.slice(1);
+    if (["+", "#", ".", "/", ";", "?", "&"].includes(expr[0])) {
+      op = expr[0];
+      expr = expr.slice(1);
     }
-    const varList = expression.split(/,/g);
-    const parts = [];
+    const varList = expr.split(/,/g);
+    const result = [];
     for (const varSpec of varList) {
       const varMatch = /([^:*]*)(?::(\d+)|(\*))?/.exec(varSpec);
       if (!varMatch || !varMatch[1]) {
         continue;
       }
       const varValue = getVarValue({
-        isFirst: parts.length === 0,
+        isFirst: result.length === 0,
         op,
         varValue: context[varMatch[1]],
         varName: varMatch[1],
@@ -203,10 +202,10 @@ export function expandUrlTemplate(
         reserved: option?.allowReserved,
       });
       if (varValue) {
-        parts.push(varValue);
+        result.push(varValue);
       }
     }
-    return parts.join("");
+    return result.join("");
   });
 
   return normalizeUnreserved(result);
@@ -220,7 +219,7 @@ function normalizeUnreserved(uri: string): string {
   return uri.replace(/%([0-9A-Fa-f]{2})/g, (match, hex) => {
     const char = String.fromCharCode(parseInt(hex, 16));
     // Decode only if it's unreserved
-    if (/[.~-]/.test(char)) {
+    if (/[\-.~]/.test(char)) {
       return char;
     }
     return match; // leave other encodings intact

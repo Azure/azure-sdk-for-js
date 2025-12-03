@@ -81,9 +81,9 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     deserializer: _createAnalyzerDeserialize,
     expectedStatuses: ["201", "200", "202"],
   },
-  "POST /analyzers/{analyzerId}:copy": {
+  "POST /analyzers/{analyzerId}:copyAnalyzer": {
     deserializer: _copyAnalyzerDeserialize,
-    expectedStatuses: ["201", "200", "202"],
+    expectedStatuses: ["202", "200", "201"],
   },
   "POST /analyzers/{analyzerId}:analyzeBinary": {
     deserializer: _analyzeBinaryDeserialize,
