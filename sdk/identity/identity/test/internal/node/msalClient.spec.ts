@@ -45,7 +45,7 @@ describe("MsalClient", function () {
 
       const clientOptions = recorder.configureClientOptions({});
       const client = msalClient.createMsalClient(clientId, tenantId, {
-        tokenCredentialOptions: { additionalPolicies: clientOptions.additionalPolicies },
+        additionalPolicies: clientOptions.additionalPolicies,
       });
 
       const accessToken = await client.getTokenByClientSecret(scopes, clientSecret);
@@ -61,7 +61,7 @@ describe("MsalClient", function () {
 
       const clientOptions = recorder.configureClientOptions({});
       const client = msalClient.createMsalClient(clientId, tenantId, {
-        tokenCredentialOptions: { additionalPolicies: clientOptions.additionalPolicies },
+        additionalPolicies: clientOptions.additionalPolicies,
       });
 
       const accessToken = await client.getTokenByDeviceCode(scopes, (info) => {
@@ -79,7 +79,7 @@ describe("MsalClient", function () {
 
       const clientOptions = recorder.configureClientOptions({});
       const client = msalClient.createMsalClient(clientId, tenantId, {
-        tokenCredentialOptions: { additionalPolicies: clientOptions.additionalPolicies },
+        additionalPolicies: clientOptions.additionalPolicies,
       });
 
       const accessToken = await client.getTokenByUsernamePassword(scopes, username, password);
