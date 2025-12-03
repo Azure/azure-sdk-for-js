@@ -1647,6 +1647,9 @@ sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt
 sdk/contentunderstanding/ai-content-understanding-rest/ @qiaozha @MaryGao
 
+# PRLabel: %Mgmt
+sdk/contentunderstanding/ai-content-understanding-rest/ @qiaozha @MaryGao
+
 ###########
 # Config
 ###########
