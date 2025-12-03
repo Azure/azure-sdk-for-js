@@ -54,8 +54,8 @@ catalogs:
       specifier: 4.13.0
       version: 4.13.0
     express:
-      specifier: ^5.2.0
-      version: 5.2.0
+      specifier: ^5.2.1
+      version: 5.2.1
   testing:
     '@rollup/plugin-inject':
       specifier: ^5.0.5
@@ -157,7 +157,7 @@ importers:
         version: 16.6.1
       express:
         specifier: catalog:internal
-        version: 5.2.0
+        version: 5.2.1
       fs-extra:
         specifier: ^11.2.0
         version: 11.3.2
@@ -8246,7 +8246,7 @@ importers:
         version: 9.39.1
       express:
         specifier: catalog:internal
-        version: 5.2.0
+        version: 5.2.1
       prettier:
         specifier: 'catalog:'
         version: 3.7.3
@@ -8313,7 +8313,7 @@ importers:
         version: 9.39.1
       express:
         specifier: catalog:internal
-        version: 5.2.0
+        version: 5.2.1
       playwright:
         specifier: catalog:testing
         version: 1.57.0
@@ -31881,7 +31881,7 @@ importers:
         version: 9.39.1
       express:
         specifier: catalog:internal
-        version: 5.2.0
+        version: 5.2.1
       playwright:
         specifier: catalog:testing
         version: 1.57.0
@@ -33207,7 +33207,7 @@ importers:
         version: 9.39.1
       express:
         specifier: catalog:internal
-        version: 5.2.0
+        version: 5.2.1
       playwright:
         specifier: catalog:testing
         version: 1.57.0
@@ -36339,8 +36339,8 @@ packages:
     resolution: {integrity: sha512-JhFGDVJ7tmDJItKhYgJCGLOWjuK9vPxiXoUFLwLDc99NlmklilbiQJwoctZtt13+xMw91MCk/REan6MWHqDjyA==}
     engines: {node: '>=12.0.0'}
 
-  express@5.2.0:
-    resolution: {integrity: sha512-XdpJDLxfztVY59X0zPI6sibRiGcxhTPXRD3IhJmjKf2jwMvkRGV1j7loB8U+heeamoU3XvihAaGRTR4aXXUN3A==}
+  express@5.2.1:
+    resolution: {integrity: sha512-hIS4idWWai69NezIdRt2xFVofaF4j+6INOpJlVOLDO8zXGpUVEVzIYk12UUi2JzjEzWL3IOAxcTubgz9Po0yXw==}
     engines: {node: '>= 18'}
 
   fast-copy@3.0.2:
@@ -42203,7 +42203,7 @@ snapshots:
 
   expect-type@1.2.2: {}
 
-  express@5.2.0:
+  express@5.2.1:
     dependencies:
       accepts: 2.0.0
       body-parser: 2.2.1
