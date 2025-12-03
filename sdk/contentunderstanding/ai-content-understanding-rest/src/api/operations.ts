@@ -260,7 +260,7 @@ export function _getResultFileSend(
   path: string,
   options: GetResultFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const urlPath = expandUrlTemplate(
+  const path = expandUrlTemplate(
     "/analyzerResults/{operationId}/files/{+path}{?api%2Dversion}",
     {
       operationId: operationId,
@@ -271,7 +271,7 @@ export function _getResultFileSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(urlPath).get({
+  return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: { accept: "*/*", ...options.requestOptions?.headers },
   });
@@ -604,7 +604,14 @@ export async function _createAnalyzerDeserialize(
     throw createRestError(result);
   }
 
-  return contentAnalyzerDeserializer(result.body);
+  if (result?.body?.result === undefined) {
+    throw createRestError(
+      `Expected a result in the response at position "result.body.result"`,
+      result,
+    );
+  }
+
+  return contentAnalyzerDeserializer(result.body.result);
 }
 
 /** Create a new analyzer asynchronously. */
@@ -629,7 +636,7 @@ export function _copyAnalyzerSend(
   options: CopyAnalyzerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/analyzers/{analyzerId}:copy{?api%2Dversion,allowReplace}",
+    "/analyzers/{analyzerId}:copyAnalyzer{?api%2Dversion,allowReplace}",
     {
       analyzerId: analyzerId,
       "api%2Dversion": context.apiVersion,
@@ -660,7 +667,7 @@ export function _copyAnalyzerSend(
 export async function _copyAnalyzerDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ContentAnalyzer> {
-  const expectedStatuses = ["201", "200", "202"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -682,7 +689,7 @@ export function copyAnalyzer(
   sourceAnalyzerId: string,
   options: CopyAnalyzerOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer> {
-  return getLongRunningPoller(context, _copyAnalyzerDeserialize, ["201", "200", "202"], {
+  return getLongRunningPoller(context, _copyAnalyzerDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _copyAnalyzerSend(context, analyzerId, sourceAnalyzerId, options),
