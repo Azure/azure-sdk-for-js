@@ -39,6 +39,13 @@ describe("snippets", function () {
       input: "What is the size of France in square miles?",
     });
     console.log("response = ", JSON.stringify(response, null, 2));
+
+    const detailResponse = await openAIClient.responses.create({
+      model: deploymentName,
+      input: "And what is the capital city?",
+      previous_response_id: response.id,
+    });
+    console.log("detailed response = ", JSON.stringify(detailResponse, null, 2));
   });
 
   it("agents", async function () {
@@ -282,17 +289,31 @@ describe("snippets", function () {
   });
 
   it("agent-openapi", async function () {
+    const weatherSpecPath = path.resolve(__dirname, "../assets", "weather_openapi.json");
     const agent = await project.agents.createVersion("MyOpenApiAgent", {
       kind: "prompt",
       model: deploymentName,
       instructions:
         "You are a helpful assistant that can call external APIs defined by OpenAPI specs to answer user questions.",
-      tools: [],
+      tools: [
+        {
+          type: "openapi",
+          openapi: {
+            name: "get_weather",
+            description: "Retrieve weather information for a location using wttr.in",
+            spec: weatherSpecPath,
+            auth: { type: "anonymous" },
+          },
+        },
+      ],
     });
     console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
   });
 
   it("agent-function-tool", async function () {
+    /**
+     * Define a function tool for the model to use
+     */
     const funcTool = {
       type: "function" as const,
       function: {
@@ -323,8 +344,8 @@ describe("snippets", function () {
   });
 
   it("agent-azure-ai-search", async function () {
-    const aiSearchConnectionId = "";
-    const aiSearchIndexName = "";
+    const aiSearchConnectionId = process.env["AI_SEARCH_CONNECTION_ID"] || "";
+    const aiSearchIndexName = process.env["AI_SEARCH_INDEX_NAME"] || "";
     const agent = await project.agents.createVersion("MyAISearchAgent", {
       kind: "prompt",
       model: deploymentName,
@@ -349,7 +370,7 @@ describe("snippets", function () {
   });
 
   it("agent-bing-grounding", async function () {
-    const bingProjectConnectionId = "";
+    const bingProjectConnectionId = process.env["BING_GROUNDING_CONNECTION_ID"] || "";
     const agent = await project.agents.createVersion("MyBingGroundingAgent", {
       kind: "prompt",
       model: deploymentName,
@@ -371,8 +392,9 @@ describe("snippets", function () {
   });
 
   it("agent-bing-custom-search", async function () {
-    const bingCustomSearchProjectConnectionId = "";
-    const bingCustomSearchInstanceName = "";
+    const bingCustomSearchProjectConnectionId =
+      process.env["BING_CUSTOM_SEARCH_CONNECTION_ID"] || "";
+    const bingCustomSearchInstanceName = process.env["BING_CUSTOM_SEARCH_INSTANCE_NAME"] || "";
     const agent = await project.agents.createVersion("MyAgent", {
       kind: "prompt",
       model: deploymentName,
@@ -396,7 +418,7 @@ describe("snippets", function () {
   });
 
   it("agent-microsoft-fabric", async function () {
-    const fabricProjectConnectionId = "";
+    const fabricProjectConnectionId = process.env["FABRIC_PROJECT_CONNECTION_ID"] || "";
     const agent = await project.agents.createVersion("MyFabricAgent", {
       kind: "prompt",
       model: deploymentName,
@@ -418,7 +440,7 @@ describe("snippets", function () {
   });
 
   it("agent-sharepoint", async function () {
-    const sharepointProjectConnectionId = "";
+    const sharepointProjectConnectionId = process.env["SHAREPOINT_PROJECT_CONNECTION_ID"] || "";
     const agent = await project.agents.createVersion("MyAgent", {
       kind: "prompt",
       model: deploymentName,
@@ -442,7 +464,8 @@ describe("snippets", function () {
   });
 
   it("agent-browser-automation", async function () {
-    const browserAutomationProjectConnectionId = "";
+    const browserAutomationProjectConnectionId =
+      process.env["BROWSER_AUTOMATION_CONNECTION_ID"] || "";
     const agent = await project.agents.createVersion("MyAgent", {
       kind: "prompt",
       model: deploymentName,
@@ -465,7 +488,7 @@ describe("snippets", function () {
   });
 
   it("agent-mcp-connection", async function () {
-    const mcpProjectConnectionId = "";
+    const mcpProjectConnectionId = process.env["MCP_PROJECT_CONNECTION_ID"] || "";
     const agent = await project.agents.createVersion("agent-mcp-connection-auth", {
       kind: "prompt",
       model: deploymentName,
@@ -484,7 +507,7 @@ describe("snippets", function () {
   });
 
   it("agent-a2a", async function () {
-    const a2aProjectConnectionId = "";
+    const a2aProjectConnectionId = process.env["A2A_PROJECT_CONNECTION_ID"] || "";
     const agent = await project.agents.createVersion("MyA2AAgent", {
       kind: "prompt",
       model: deploymentName,
@@ -501,12 +524,43 @@ describe("snippets", function () {
   });
 
   it("agent-openapi-connection", async function () {
+    const tripAdvisorProjectConnectionId = process.env["TRIPADVISOR_PROJECT_CONNECTION_ID"] || "";
+    function loadOpenApiSpec(specPath: string): unknown {
+      if (!fs.existsSync(specPath)) {
+        throw new Error(`OpenAPI specification not found at: ${specPath}`);
+      }
+
+      try {
+        const data = fs.readFileSync(specPath, "utf-8");
+        return JSON.parse(data);
+      } catch (error) {
+        throw new Error(`Failed to read or parse OpenAPI specification at ${specPath}: ${error}`);
+      }
+    }
+    const tripAdvisorSpecPath = path.resolve(__dirname, "../assets", "tripadvisor_openapi.json");
+    const tripAdvisorSpec = loadOpenApiSpec(tripAdvisorSpecPath);
     const agent = await project.agents.createVersion("MyOpenApiConnectionAgent", {
       kind: "prompt",
       model: deploymentName,
       instructions:
         "You are a travel assistant that consults the TripAdvisor Content API via project connection to answer user questions about locations.",
-      tools: [],
+      tools: [
+        {
+          type: "openapi",
+          openapi: {
+            name: "get_tripadvisor_location_details",
+            description:
+              "Fetch TripAdvisor location details, reviews, or photos using the Content API via project connection auth.",
+            spec: tripAdvisorSpec,
+            auth: {
+              type: "project_connection",
+              security_scheme: {
+                project_connection_id: tripAdvisorProjectConnectionId,
+              },
+            },
+          },
+        },
+      ],
     });
     console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
   });
