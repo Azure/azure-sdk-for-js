@@ -42,10 +42,13 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "tsc -p tsconfig.samples.json",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check:ci": "dev-tool check --tag ci",
+    "check:release": "dev-tool check --tag release",
     "clean": "rimraf --glob dist dist-esm temp types *.tgz *.html *.log *.tsbuildinfo test/**/*.{js,js.map,d.ts}",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "npm run build && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "generate-samples": "npm run build && npx dev-tool samples publish",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
@@ -54,8 +57,7 @@
     "test:node": "npm run test:node:unit",
     "test:node:integration": "cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.int.config.ts",
     "test:node:unit": "cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.unit.config.ts",
-    "update-snippets": "dev-tool run update-snippets",
-    "generate-samples": "npm run build && npx dev-tool samples publish"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "license": "MIT",

@@ -59,6 +59,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Skipped.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check:ci": "dev-tool check --tag ci",
+    "check:release": "dev-tool check --tag release",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "extract-api": "dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore  \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",

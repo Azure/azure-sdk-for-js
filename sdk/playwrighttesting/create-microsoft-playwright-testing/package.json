@@ -38,6 +38,8 @@
     "build": "npm run clean && dev-tool run build-package",
     "build:samples": "echo Skipped.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check:ci": "dev-tool check --tag ci",
+    "check:release": "dev-tool check --tag release",
     "clean": "rimraf --glob dist *.log dist-test temp types *.tgz *.xml samples/**/test-results/",
     "execute:samples": "echo skipped",
     "extract-api": "echo skipped",
