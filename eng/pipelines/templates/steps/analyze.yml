@@ -77,12 +77,8 @@ steps:
   - pwsh: |
       pnpm build --filter @azure/eslint-plugin-azure-sdk...
       $env:FORCE_COLOR = "1"
-      node eng/tools/ci-runner/index.js lint "$(ChangedServices)"
-    displayName: "Build ESLint Plugin and Lint Libraries"
-
-  - pwsh: |
-      node eng/tools/ci-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)"
-    displayName: "Check Format in Libraries"
+      node eng/tools/ci-runner/index.js check:ci $(ChangedServices) -packages "$(ArtifactPackageNames)"
+    displayName: "Check Libraries"
 
   - pwsh: |
       node eng/tools/ci-runner/index.js update-snippets $(ChangedServices) -packages "$(ArtifactPackageNames)"
