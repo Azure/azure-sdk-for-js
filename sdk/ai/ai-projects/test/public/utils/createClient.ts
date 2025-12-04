@@ -117,7 +117,7 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
 }
 
 export function getToolConnectionId(toolType: string): string {
-  switch (toolType.toLocaleLowerCase()) {
+  switch (toolType.toLowerCase()) {
     case "sharepoint":
       return (
         process.env["SHAREPOINT_PROJECT_CONNECTION_ID"] ||
