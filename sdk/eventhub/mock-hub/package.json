@@ -41,8 +41,8 @@
   },
   "files": [
     "dist/",
-    "README.md",
-    "License"
+    "LICENSE",
+    "README.md"
   ],
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/mock-hub/README.md",
   "tshy": {

@@ -93,7 +93,7 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/README.md",
   "//metadata": {
     "constantPaths": [
       {

@@ -48,7 +48,7 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-compat/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-http-compat/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "scripts": {

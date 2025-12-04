@@ -27,8 +27,8 @@
   },
   "files": [
     "dist/",
-    "README.md",
-    "LICENSE"
+    "LICENSE",
+    "README.md"
   ],
   "browser": "./dist/browser/index.js",
   "scripts": {

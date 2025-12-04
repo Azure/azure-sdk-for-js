@@ -25,8 +25,8 @@
   "sideEffects": false,
   "files": [
     "dist/",
-    "bin/",
-    "LICENSE"
+    "LICENSE",
+    "README.md"
   ],
   "type": "module",
   "scripts": {

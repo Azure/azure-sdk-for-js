@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { UserDelegationKey } from "@azure/storage-common";
+import type { UserDelegationKey } from "@azure/storage-common";
 import type {
   CopyStatusType,
   DirectoryDeleteHeaders,

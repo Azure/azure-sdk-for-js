@@ -1,27 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../index.js";
-import {
+import type { AIProjectContext as Client } from "../index.js";
+import type {
   Insight,
+  _PagedInsight} from "../../models/models.js";
+import {
   insightSerializer,
   insightDeserializer,
-  _PagedInsight,
   _pagedInsightDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   InsightsListOptionalParams,
   InsightsGetOptionalParams,
   InsightsGenerateOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

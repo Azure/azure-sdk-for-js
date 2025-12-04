@@ -38,8 +38,8 @@
     "azure",
     "cloud",
     "entra-id",
-    "WAM",
-    "MSA support"
+    "wam",
+    "msa support"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",

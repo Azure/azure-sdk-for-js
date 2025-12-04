@@ -104,7 +104,7 @@
     ],
     "selfLink": false
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/certificateregistration/arm-certificateregistration",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/certificateregistration/arm-certificateregistration/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

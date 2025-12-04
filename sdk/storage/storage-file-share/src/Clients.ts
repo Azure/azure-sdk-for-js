@@ -137,7 +137,8 @@ import {
   parseOctalFileMode,
   toOctalFileMode,
 } from "./utils/utils.common.js";
-import { Credential, UserDelegationKey } from "@azure/storage-common";
+import type { UserDelegationKey } from "@azure/storage-common";
+import { Credential } from "@azure/storage-common";
 import { StorageSharedKeyCredential } from "@azure/storage-common";
 import { AnonymousCredential } from "@azure/storage-common";
 import { tracingClient } from "./utils/tracing.js";
@@ -189,7 +190,7 @@ import type { SASProtocol } from "./SASQueryParameters.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import type { FileSASPermissions } from "./FileSASPermissions.js";
 import type { ListFilesIncludeType } from "./generated/src/index.js";
-import { Readable } from "node:stream";
+import type { Readable } from "node:stream";
 
 export { ShareClientOptions, ShareClientConfig } from "./models.js";
 

@@ -103,7 +103,7 @@
     ],
     "selfLink": false
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/datamigration/arm-datamigration",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/datamigration/arm-datamigration/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

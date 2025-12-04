@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EncryptionType, EncryptionAlgorithm } from "./enums/index.js";
+import type { EncryptionType, EncryptionAlgorithm } from "./enums/index.js";
 
 /**
  * Represents a path for encryption and its associated settings.

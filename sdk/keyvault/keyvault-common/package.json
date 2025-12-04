@@ -29,8 +29,8 @@
   },
   "files": [
     "dist/",
-    "README.md",
-    "LICENSE"
+    "LICENSE",
+    "README.md"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ToolDefinitionUnion,
   ToolResources,
   AgentsResponseFormatOption,
@@ -10,7 +10,7 @@ import {
   AgentsToolChoiceOption,
   ListSortOrder,
 } from "../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface CreateThreadAndRunOptionalParams extends OperationOptions {

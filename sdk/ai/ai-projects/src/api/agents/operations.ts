@@ -1,30 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../index.js";
-import {
+import type { AIProjectContext as Client } from "../index.js";
+import type {
   Agent,
-  agentObjectDeserializer,
   AgentVersion,
+  AgentDefinitionUnion,
+  DeleteAgentResponse,
+  _AgentsPagedResultAgentObject,
+  DeleteAgentVersionResponse,
+  _AgentsPagedResultAgentVersionObject} from "../../models/models.js";
+import {
+  agentObjectDeserializer,
   agentVersionObjectDeserializer,
   agentDefinitionUnionSerializer,
-  AgentDefinitionUnion,
   apiErrorResponseDeserializer,
-  DeleteAgentResponse,
   deleteAgentResponseDeserializer,
-  _AgentsPagedResultAgentObject,
   _agentsPagedResultAgentObjectDeserializer,
-  DeleteAgentVersionResponse,
   deleteAgentVersionResponseDeserializer,
-  _AgentsPagedResultAgentVersionObject,
   _agentsPagedResultAgentVersionObjectDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   AgentsListAgentVersionsOptionalParams,
   AgentsDeleteAgentVersionOptionalParams,
   AgentsGetAgentVersionOptionalParams,
@@ -38,9 +40,10 @@ import {
   AgentsCreateAgentOptionalParams,
   AgentsGetAgentOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

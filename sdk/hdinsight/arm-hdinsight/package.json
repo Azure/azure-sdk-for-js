@@ -107,7 +107,7 @@
     ],
     "selfLink": false
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hdinsight/arm-hdinsight",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hdinsight/arm-hdinsight/README.md",
   "exports": {
     "./package.json": "./package.json",
     ".": {

@@ -50,7 +50,7 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-client/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub-client-protobuf/README.md",
   "sideEffects": false,
   "dependencies": {
     "@azure/logger": "^1.1.4",

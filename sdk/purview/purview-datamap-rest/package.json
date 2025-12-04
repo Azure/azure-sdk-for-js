@@ -79,7 +79,7 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-datamap-rest/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-datamap-rest/README.md",
   "//metadata": {
     "constantPaths": [
       {

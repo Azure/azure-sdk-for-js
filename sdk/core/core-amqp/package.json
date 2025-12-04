@@ -38,9 +38,8 @@
   ],
   "files": [
     "dist/",
-    "!dist/**/*.d.*ts.map",
-    "README.md",
-    "LICENSE"
+    "LICENSE",
+    "README.md"
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",

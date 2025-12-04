@@ -44,8 +44,8 @@
   "types": "./dist/commonjs/index.d.ts",
   "files": [
     "dist/",
-    "README.md",
-    "LICENSE"
+    "LICENSE",
+    "README.md"
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",

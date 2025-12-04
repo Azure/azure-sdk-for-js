@@ -56,7 +56,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/chaos/arm-chaos/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
     "constantPaths": [

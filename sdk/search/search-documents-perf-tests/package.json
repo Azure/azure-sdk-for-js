@@ -37,8 +37,8 @@
   ],
   "files": [
     "dist/",
-    "README.md",
-    "LICENSE"
+    "LICENSE",
+    "README.md"
   ],
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "private": true,

@@ -162,5 +162,6 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/README.md"
 }

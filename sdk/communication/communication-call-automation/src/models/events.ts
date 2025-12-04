@@ -3,6 +3,8 @@
 
 import type { CommunicationIdentifier } from "@azure/communication-common";
 
+import type {
+  Tone} from "../generated/src/models/index.js";
 import {
   AddParticipantSucceeded as RestAddParticipantSucceeded,
   AddParticipantFailed as RestAddParticipantFailed,
@@ -27,7 +29,6 @@ import {
   ContinuousDtmfRecognitionStopped as RestContinuousDtmfRecognitionStopped,
   SendDtmfTonesCompleted as RestSendDtmfTonesCompleted,
   SendDtmfTonesFailed as RestSendDtmfTonesFailed,
-  Tone,
   CancelAddParticipantSucceeded as RestCancelAddParticipantSucceeded,
   CancelAddParticipantFailed as RestCancelAddParticipantFailed,
   ConnectFailed as RestConnectFailed,

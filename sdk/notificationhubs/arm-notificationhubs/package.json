@@ -88,7 +88,7 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/arm-notificationhubs",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/arm-notificationhubs/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

@@ -21,7 +21,7 @@ import type {
   ServiceSetPropertiesHeaders,
   UserDelegationKey as UserDelegationKeyModel,
 } from "./generated/src/index.js";
-import { UserDelegationKey } from "@azure/storage-common";
+import type { UserDelegationKey } from "@azure/storage-common";
 
 export {
   AccessPolicy,

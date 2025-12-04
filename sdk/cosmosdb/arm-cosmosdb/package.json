@@ -104,7 +104,7 @@
     ],
     "selfLink": false
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/arm-cosmosdb",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/arm-cosmosdb/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

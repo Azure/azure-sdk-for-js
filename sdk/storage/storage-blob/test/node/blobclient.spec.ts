@@ -44,7 +44,7 @@ import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
 import { streamToBuffer3 } from "../../src/utils/utils.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
-import { ShareClient, ShareServiceClient } from "@azure/storage-file-share";
+import type { ShareClient, ShareServiceClient } from "@azure/storage-file-share";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("BlobClient Node.js only", () => {

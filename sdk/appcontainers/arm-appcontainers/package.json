@@ -104,7 +104,7 @@
     ],
     "selfLink": false
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appcontainers/arm-appcontainers",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appcontainers/arm-appcontainers/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

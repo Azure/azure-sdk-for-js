@@ -44,7 +44,7 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {

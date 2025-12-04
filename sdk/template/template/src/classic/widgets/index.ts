@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WidgetAnalyticsContext } from "../../api/widgetAnalyticsContext.js";
+import type { WidgetAnalyticsContext } from "../../api/widgetAnalyticsContext.js";
 import {
   listWidgets,
   deleteWidget,
@@ -9,19 +9,19 @@ import {
   getWidgetOperationStatus,
   getWidget,
 } from "../../api/widgets/operations.js";
-import {
+import type {
   WidgetsListWidgetsOptionalParams,
   WidgetsDeleteWidgetOptionalParams,
   WidgetsCreateOrUpdateWidgetOptionalParams,
   WidgetsGetWidgetOperationStatusOptionalParams,
   WidgetsGetWidgetOptionalParams,
 } from "../../api/widgets/options.js";
-import {
+import type {
   WidgetSuite,
   ResourceOperationStatusWidgetSuiteWidgetSuiteError,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Widgets operations. */
 export interface WidgetsOperations {

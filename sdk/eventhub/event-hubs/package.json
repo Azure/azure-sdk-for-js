@@ -13,7 +13,7 @@
     "cloud",
     "event hubs",
     "events",
-    "Azure"
+    "azure"
   ],
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"

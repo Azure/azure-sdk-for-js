@@ -104,7 +104,7 @@
     ],
     "selfLink": false
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dnsresolver/arm-dnsresolver",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dnsresolver/arm-dnsresolver/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

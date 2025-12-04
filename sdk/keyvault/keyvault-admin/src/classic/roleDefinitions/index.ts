@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultContext } from "../../api/keyVaultContext.js";
-import { RoleDefinition, RoleDefinitionCreateParameters } from "../../models/models.js";
-import {
+import type { KeyVaultContext } from "../../api/keyVaultContext.js";
+import type { RoleDefinition, RoleDefinitionCreateParameters } from "../../models/models.js";
+import type {
   RoleDefinitionsListOptionalParams,
   RoleDefinitionsGetOptionalParams,
   RoleDefinitionsCreateOrUpdateOptionalParams,
   RoleDefinitionsDeleteOptionalParams,
 } from "../../api/roleDefinitions/options.js";
 import { list, get, createOrUpdate, $delete } from "../../api/roleDefinitions/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RoleDefinitions operations. */
 export interface RoleDefinitionsOperations {

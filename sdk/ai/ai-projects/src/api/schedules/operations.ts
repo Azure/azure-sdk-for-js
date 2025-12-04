@@ -1,24 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../index.js";
-import {
+import type { AIProjectContext as Client } from "../index.js";
+import type {
   Schedule,
+  _PagedSchedule,
+  ScheduleRun,
+  PagedScheduleRun} from "../../models/models.js";
+import {
   scheduleSerializer,
   scheduleDeserializer,
-  _PagedSchedule,
   _pagedScheduleDeserializer,
-  ScheduleRun,
   scheduleRunDeserializer,
-  PagedScheduleRun,
   pagedScheduleRunDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   SchedulesListRunsOptionalParams,
   SchedulesGetRunOptionalParams,
   SchedulesCreateOrUpdateOptionalParams,
@@ -26,9 +28,10 @@ import {
   SchedulesGetOptionalParams,
   SchedulesDeleteOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

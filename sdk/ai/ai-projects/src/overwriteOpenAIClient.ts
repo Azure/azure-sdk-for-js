@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import OpenAI from "openai";
+import type OpenAI from "openai";
 
 export function overwriteOpenAIClient(openaiClient: OpenAI): OpenAI {
   const responsesCreate = openaiClient.responses.create.bind(openaiClient.responses);

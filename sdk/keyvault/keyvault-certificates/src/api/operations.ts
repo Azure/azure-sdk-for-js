@@ -1,52 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultContext as Client } from "./index.js";
-import {
+import type { KeyVaultContext as Client } from "./index.js";
+import type {
   _CertificateListResult,
-  _certificateListResultDeserializer,
   CertificateItem,
-  keyVaultErrorDeserializer,
   DeletedCertificateBundle,
-  deletedCertificateBundleDeserializer,
   CertificatePolicy,
-  certificatePolicySerializer,
-  certificatePolicyDeserializer,
   Contacts,
-  contactsSerializer,
-  contactsDeserializer,
   _CertificateIssuerListResult,
-  _certificateIssuerListResultDeserializer,
   CertificateIssuerItem,
   CertificateIssuerSetParameters,
-  certificateIssuerSetParametersSerializer,
   IssuerBundle,
-  issuerBundleDeserializer,
   CertificateIssuerUpdateParameters,
-  certificateIssuerUpdateParametersSerializer,
   CertificateCreateParameters,
-  certificateCreateParametersSerializer,
   CertificateOperation,
-  certificateOperationDeserializer,
   CertificateImportParameters,
-  certificateImportParametersSerializer,
   CertificateBundle,
-  certificateBundleDeserializer,
   CertificateUpdateParameters,
-  certificateUpdateParametersSerializer,
   CertificateOperationUpdateParameter,
-  certificateOperationUpdateParameterSerializer,
   CertificateMergeParameters,
-  certificateMergeParametersSerializer,
   BackupCertificateResult,
-  backupCertificateResultDeserializer,
   CertificateRestoreParameters,
-  certificateRestoreParametersSerializer,
   _DeletedCertificateListResult,
-  _deletedCertificateListResultDeserializer,
-  DeletedCertificateItem,
-} from "../models/models.js";
+  DeletedCertificateItem} from "../models/models.js";
 import {
+  _certificateListResultDeserializer,
+  keyVaultErrorDeserializer,
+  deletedCertificateBundleDeserializer,
+  certificatePolicySerializer,
+  certificatePolicyDeserializer,
+  contactsSerializer,
+  contactsDeserializer,
+  _certificateIssuerListResultDeserializer,
+  certificateIssuerSetParametersSerializer,
+  issuerBundleDeserializer,
+  certificateIssuerUpdateParametersSerializer,
+  certificateCreateParametersSerializer,
+  certificateOperationDeserializer,
+  certificateImportParametersSerializer,
+  certificateBundleDeserializer,
+  certificateUpdateParametersSerializer,
+  certificateOperationUpdateParameterSerializer,
+  certificateMergeParametersSerializer,
+  backupCertificateResultDeserializer,
+  certificateRestoreParametersSerializer,
+  _deletedCertificateListResultDeserializer
+} from "../models/models.js";
+import type {
   RecoverDeletedCertificateOptionalParams,
   PurgeDeletedCertificateOptionalParams,
   GetDeletedCertificateOptionalParams,
@@ -75,14 +76,16 @@ import {
   DeleteCertificateOptionalParams,
   GetCertificatesOptionalParams,
 } from "./options.js";
+import type {
+  PagedAsyncIterableIterator} from "../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

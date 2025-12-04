@@ -47,7 +47,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iotoperations/arm-iotoperations/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iotoperations/arm-iotoperations/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
     "constantPaths": [

@@ -41,8 +41,8 @@
   "keywords": [
     "azure",
     "storage",
-    "ADLS",
-    "DFS",
+    "adls",
+    "dfs",
     "cloud",
     "datalake",
     "node.js",

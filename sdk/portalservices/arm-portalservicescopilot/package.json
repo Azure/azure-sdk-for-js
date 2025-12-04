@@ -50,7 +50,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/portalservices/arm-portalservicescopilot/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/portalservices/arm-portalservicescopilot/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
     "constantPaths": [

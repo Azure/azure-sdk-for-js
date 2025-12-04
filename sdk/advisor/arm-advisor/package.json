@@ -50,10 +50,8 @@
   },
   "files": [
     "dist/",
-    "README.md",
     "LICENSE",
-    "review/",
-    "CHANGELOG.md"
+    "README.md"
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
@@ -82,7 +80,7 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/advisor/arm-advisor",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/advisor/arm-advisor/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

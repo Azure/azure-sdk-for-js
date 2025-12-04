@@ -53,7 +53,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/README.md",
   "sideEffects": false,
   "//metadata": {
     "constantPaths": [

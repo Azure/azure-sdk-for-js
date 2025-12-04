@@ -4,30 +4,44 @@
 
 import OpenAI from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
-import { createAIProject, AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
-import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
-import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
-import { DatasetsOperations, _getDatasetsOperations } from "./classic/datasets/index.js";
-import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/deployments/index.js";
+import type { AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
+import { createAIProject } from "./api/index.js";
+import type { AgentsOperations} from "./classic/agents/index.js";
+import { _getAgentsOperations } from "./classic/agents/index.js";
+import type { ConnectionsOperations} from "./classic/connections/index.js";
+import { _getConnectionsOperations } from "./classic/connections/index.js";
+import type { DatasetsOperations} from "./classic/datasets/index.js";
+import { _getDatasetsOperations } from "./classic/datasets/index.js";
+import type { DeploymentsOperations} from "./classic/deployments/index.js";
+import { _getDeploymentsOperations } from "./classic/deployments/index.js";
+import type {
+  EvaluationRulesOperations} from "./classic/evaluationRules/index.js";
 import {
-  EvaluationRulesOperations,
   _getEvaluationRulesOperations,
 } from "./classic/evaluationRules/index.js";
+import type {
+  EvaluationTaxonomiesOperations} from "./classic/evaluationTaxonomies/index.js";
 import {
-  EvaluationTaxonomiesOperations,
   _getEvaluationTaxonomiesOperations,
 } from "./classic/evaluationTaxonomies/index.js";
-import { EvaluatorsOperations, _getEvaluatorsOperations } from "./classic/evaluators/index.js";
-import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
-import { InsightsOperations, _getInsightsOperations } from "./classic/insights/index.js";
+import type { EvaluatorsOperations} from "./classic/evaluators/index.js";
+import { _getEvaluatorsOperations } from "./classic/evaluators/index.js";
+import type { IndexesOperations} from "./classic/indexes/index.js";
+import { _getIndexesOperations } from "./classic/indexes/index.js";
+import type { InsightsOperations} from "./classic/insights/index.js";
+import { _getInsightsOperations } from "./classic/insights/index.js";
+import type {
+  MemoryStoresOperations} from "./classic/memoryStores/index.js";
 import {
-  MemoryStoresOperations,
   _getMemoryStoresOperations,
 } from "./classic/memoryStores/index.js";
-import { TelemetryOperations, _getTelemetryOperations } from "./classic/telemetry/index.js";
-import { RedTeamsOperations, _getRedTeamsOperations } from "./classic/redTeams/index.js";
-import { SchedulesOperations, _getSchedulesOperations } from "./classic/schedules/index.js";
-import { TokenCredential } from "@azure/core-auth";
+import type { TelemetryOperations} from "./classic/telemetry/index.js";
+import { _getTelemetryOperations } from "./classic/telemetry/index.js";
+import type { RedTeamsOperations} from "./classic/redTeams/index.js";
+import { _getRedTeamsOperations } from "./classic/redTeams/index.js";
+import type { SchedulesOperations} from "./classic/schedules/index.js";
+import { _getSchedulesOperations } from "./classic/schedules/index.js";
+import type { TokenCredential } from "@azure/core-auth";
 import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
 
 export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";

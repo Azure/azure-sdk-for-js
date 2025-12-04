@@ -103,7 +103,7 @@
     ],
     "selfLink": false
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/arm-storage",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/arm-storage/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

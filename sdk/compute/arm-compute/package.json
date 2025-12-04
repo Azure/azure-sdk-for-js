@@ -105,7 +105,7 @@
     ],
     "selfLink": false
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-compute",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/compute/arm-compute/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

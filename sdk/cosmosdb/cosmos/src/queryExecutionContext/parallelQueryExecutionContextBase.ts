@@ -15,7 +15,7 @@ import { DocumentProducer } from "./documentProducer.js";
 import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
 import type { FilterContext, FilterStrategy } from "./queryFilteringStrategy/FilterStrategy.js";
 import { RidSkipCountFilter } from "./queryFilteringStrategy/RidSkipCountFilter.js";
-import { TargetPartitionRangeManager } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
+import type { TargetPartitionRangeManager } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
 import type { QueryProcessingStrategy } from "./queryProcessingStrategy/QueryProcessingStrategy.js";
 import {
   DiagnosticNodeInternal,

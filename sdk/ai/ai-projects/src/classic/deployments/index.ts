@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../api/aiProjectContext.js";
 import { list, get } from "../../api/deployments/operations.js";
-import {
+import type {
   DeploymentsListOptionalParams,
   DeploymentsGetOptionalParams,
 } from "../../api/deployments/options.js";
-import { DeploymentUnion } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DeploymentUnion } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Deployments operations. */
 export interface DeploymentsOperations {

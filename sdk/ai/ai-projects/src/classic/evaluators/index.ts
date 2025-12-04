@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
   updateVersion,
   createVersion,
@@ -10,7 +10,7 @@ import {
   listLatestVersions,
   listVersions,
 } from "../../api/evaluators/operations.js";
-import {
+import type {
   EvaluatorsUpdateVersionOptionalParams,
   EvaluatorsCreateVersionOptionalParams,
   EvaluatorsDeleteVersionOptionalParams,
@@ -18,8 +18,8 @@ import {
   EvaluatorsListLatestVersionsOptionalParams,
   EvaluatorsListVersionsOptionalParams,
 } from "../../api/evaluators/options.js";
-import { EvaluatorVersion } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { EvaluatorVersion } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Evaluators operations. */
 export interface EvaluatorsOperations {
