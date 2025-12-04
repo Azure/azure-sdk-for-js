@@ -812,7 +812,7 @@ Currently the features below are **not supported**. For alternatives options, ch
 - Change Feed: Processor
 - Change Feed: Read multiple partitions key values
 - Cross-partition ORDER BY for mixed types
-- When using continuation tokens with `enableQueryControl` on cross-partition queries (queries that scan multiple partitions), ensure you set `forceQueryPlan: true` in query options to enforce a deterministic execution plan. Without it, query execution behavior may vary across partitions, affecting continuation token consistency.
+- We recommend upgrading to the latest SDK to use continuation tokens for pagination. When using continuation tokens with `enableQueryControl` on cross-partition queries (queries that scan multiple partitions), ensure you set `forceQueryPlan: true` in query options to enforce a deterministic execution plan. Without it, query execution behavior may vary across partitions, affecting continuation token consistency.
 
 ### Control Plane Limitations:
 
