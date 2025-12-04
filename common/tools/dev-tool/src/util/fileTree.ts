@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation
 // Licensed under the MIT License.
 
-import fs from "fs-extra";
+import { cp, mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { createPrinter } from "./printer";
@@ -41,7 +42,7 @@ export function safeClean(
   const { actionIfDirty } = options ?? {};
   return async (basePath) => {
     // If the path exists, then we will check it for a git diff before deleting it.
-    if (await fs.pathExists(basePath)) {
+    if (existsSync(basePath)) {
       debug(basePath, "exists, checking it for safety.");
 
       const hasDiff = await git.hasDiff(basePath);
@@ -59,7 +60,7 @@ export function safeClean(
 
       debug(basePath, `is ${hasDiff ? "dirty" : "clean"}, removing it`);
 
-      await fs.remove(basePath);
+      await rm(basePath, { recursive: true, force: true });
     }
 
     return worker(basePath);
@@ -74,11 +75,11 @@ export function safeClean(
  */
 export function temp(worker: FileTreeFactory): FileTreeFactory {
   return async (basePath) => {
-    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "devtool"));
+    const tmp = await mkdtemp(path.join(os.tmpdir(), "devtool"));
     await worker(tmp);
     // Now copy and remove the temp
-    await fs.copy(tmp, basePath);
-    await fs.remove(tmp);
+    await cp(tmp, basePath, { recursive: true });
+    await rm(tmp, { recursive: true, force: true });
   };
 }
 
@@ -98,7 +99,7 @@ export function dir(
   return async (basePath) => {
     // Create the directory for this model
     const selfPath = path.join(basePath, name);
-    await fs.ensureDir(selfPath);
+    await mkdir(selfPath, { recursive: true });
 
     if (typeof contents === "function") {
       await contents(selfPath);
@@ -133,7 +134,7 @@ export function lazy(thunk: (name: string) => FileTreeFactory): FileTreeFactory 
  * copy
  */
 export function copy(name: string, source: string): FileTreeFactory {
-  return (basePath) => fs.copy(source, path.join(basePath, name));
+  return (basePath) => cp(source, path.join(basePath, name), { recursive: true });
 }
 
 /**
@@ -165,7 +166,7 @@ export function file(name: string, contents: FileContents): FileTreeFactory {
 
   return async (basePath) => {
     const dirName = path.resolve(basePath, path.dirname(name));
-    await fs.ensureDir(dirName);
-    return fs.writeFile(path.join(basePath, name), await getContentsAsBuffer());
+    await mkdir(dirName, { recursive: true });
+    return writeFile(path.join(basePath, name), await getContentsAsBuffer());
   };
 }

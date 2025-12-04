@@ -21,6 +21,9 @@ const replaceableVariables: Record<string, string> = {
   IMAGE_EMBEDDING_DEPLOYMENT_NAME: "Cohere-embed-v3-english",
   EVALUATION_DEPLOYMENT_NAME: "gpt-4o-mini",
   SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000",
+  SHAREPOINT_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
+  FABRIC_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
+  A2A_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
   RESOURCE_GROUP_NAME: "00000",
   WORKSPACE_NAME: "00000",
   DATASET_NAME: "00000",
@@ -111,6 +114,27 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
     ["record", "playback"],
   );
   return recorder;
+}
+
+export function getToolConnectionId(toolType: string): string {
+  switch (toolType.toLowerCase()) {
+    case "sharepoint":
+      return (
+        process.env["SHAREPOINT_PROJECT_CONNECTION_ID"] ||
+        replaceableVariables.SHAREPOINT_PROJECT_CONNECTION_ID
+      );
+    case "fabric":
+      return (
+        process.env["FABRIC_PROJECT_CONNECTION_ID"] ||
+        replaceableVariables.FABRIC_PROJECT_CONNECTION_ID
+      );
+    case "a2a":
+      return (
+        process.env["A2A_PROJECT_CONNECTION_ID"] || replaceableVariables.A2A_PROJECT_CONNECTION_ID
+      );
+    default:
+      throw new Error(`Unsupported tool type: ${toolType}`);
+  }
 }
 
 export function createProjectsClient(

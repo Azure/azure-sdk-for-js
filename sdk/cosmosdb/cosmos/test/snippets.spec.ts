@@ -1786,4 +1786,59 @@ describe("snippets", () => {
     }
     queryIterator.reset();
   });
+
+  it("QueryWithContinuationToken", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const queryIterator = container.items.query("SELECT * from c", {
+      maxItemCount: 10,
+      enableQueryControl: true,
+      forceQueryPlan: true,
+    });
+    // @ts-preserve-whitespace
+    let pageCount = 0;
+    while (queryIterator.hasMoreResults()) {
+      pageCount++;
+      // @ts-ignore
+      const { resources, continuationToken } = await queryIterator.fetchNext();
+      console.log(`Page ${pageCount} has ${resources.length} items`);
+      // continuationToken can be saved and used later to resume from where you left off
+    }
+  });
+
+  it("QueryWithContinuationTokenOrderBy", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const queryIterator = container.items.query("SELECT * from c ORDER BY c.id", {
+      maxItemCount: 10,
+      enableQueryControl: true,
+      forceQueryPlan: true,
+    });
+    // @ts-preserve-whitespace
+    let pageCount = 0;
+    while (queryIterator.hasMoreResults()) {
+      pageCount++;
+      // @ts-ignore
+      const { resources, continuationToken } = await queryIterator.fetchNext();
+      if (resources.length > 0) {
+        // Process results
+        // Safe to use continuationToken after receiving data
+        if (continuationToken) {
+          // Can persist token for resuming later
+        }
+      }
+    }
+  });
 });

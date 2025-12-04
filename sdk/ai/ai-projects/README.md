@@ -1,19 +1,23 @@
 # Azure AI Projects client library for JavaScript
 
-The AI Projects client library provides easy access to resources in your Microsoft Foundry project.
-Use it to:
+The AI Projects client library (in preview) is part of the Microsoft Foundry SDK, and provides easy access to
+resources in your Microsoft Foundry Project. Use it to:
 
 - **Create and run Agents** using the `.agents` property on the client.
-- **Get an OpenAI client** using the `.getOpenAIClient.` method.
+- **Get an OpenAI client** using the `.getOpenAIClient.` method to run Responses, Conversations, Evals and FineTuning operations with your Agent.
+* **Manage memory stores** for Agent conversations, using the `.memoryStores` operations.
+* **Explore additional evaluation tools** to assess the performance of your generative AI application, using the `.evaluationRules`,
+`.evaluationTaxonomies`, `.evaluators`, `.insights`, and `.schedules` operations.
+* **Run Red Team scans** to identify risks associated with your generative AI application, using the ".redTeams" operations.
+* **Fine tune** AI Models on your data.
 - **Enumerate AI Models** deployed to your Foundry Project using the `.deployments` operations.
 - **Enumerate connected Azure resources** in your Foundry project using the `.connections` operations.
 - **Upload documents and create Datasets** to reference them using the `.datasets` operations.
-- **Upload, retrieve, list, and delete files** using the OpenAI client obtained from `.getOpenAIClient()`. upload files to be used for fine-tuning and other AI model operations.
 - **Create and enumerate Search Indexes** using the `.indexes` operations.
 
-The client library uses version `2025-11-15-preview` of the Microsoft Foundry [data plane REST APIs](https://aka.ms/azsdk/azure-ai-projects/rest-api-reference).
+The client library uses version `2025-11-15-preview` of the Microsoft Foundry [data plane REST APIs](https://aka.ms/azsdk/azure-ai-projects-v2/api-reference-2025-11-15-preview).
 
-[Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
+[Product documentation](https://aka.ms/azsdk/azure-ai-projects-v2/product-doc)
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples)
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
 | [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-v1)
@@ -30,6 +34,9 @@ The client library uses version `2025-11-15-preview` of the Microsoft Foundry [d
 - [Examples](#examples)
   - [Performing Responses operations using OpenAI client](#performing-responses-operations-using-openai-client)
   - [Performing Agent operations](#performing-agent-operations)
+  - [Using Agent tools](#using-agent-tools)
+    - [Built-in Tools](#built-in-tools)
+    - [Connection-Based Tools](#connection-based-tools)
   - [Deployments operations](#deployments-operations)
   - [Connections operations](#connections-operations)
   - [Dataset operations](#dataset-operations)
@@ -84,13 +91,12 @@ The client uses API version `2025-11-15-preview`, refer to the [API documentatio
 
 ### Performing Responses operations using OpenAI client
 
-Your Microsoft Foundry project may have one or more OpenAI models deployed that support chat completions. Use the code below to get an authenticated [OpenAI](https://github.com/openai/openai-python?tab=readme-ov-file#microsoft-azure-openai) from the [openai](https://pypi.org/project/openai/) package, and execute a chat completions call.
+Your Microsoft Foundry project may have one or more OpenAI models deployed that support chat completions. Use the code below to get an authenticated [OpenAI](https://github.com/openai/openai-node?tab=readme-ov-file#microsoft-azure-openai) from the [openai](https://www.npmjs.com/package/openai) package, and execute a chat completions call.
 
 Run the code below. Here we assume `deploymentName` (str) is defined. It's the deployment name of an AI model in your Foundry Project. As shown in the "Models + endpoints" tab, under the "Name" column.
 
-Update the `api_version` value with one found in the "Data plane - inference" row [in this table](https://learn.microsoft.com/azure/ai-foundry/openai/reference#api-specs)..
-
 For openai logging, please refer [OpenAI Logging](https://github.com/openai/openai-node/tree/master?tab=readme-ov-file#logging).
+
 
 ```ts snippet:openAI
 const openAIClient = await project.getOpenAIClient();
@@ -99,9 +105,13 @@ const response = await openAIClient.responses.create({
   input: "What is the size of France in square miles?",
 });
 console.log("response = ", JSON.stringify(response, null, 2));
+const detailResponse = await openAIClient.responses.create({
+  model: deploymentName,
+  input: "And what is the capital city?",
+  previous_response_id: response.id,
+});
+console.log("detailed response = ", JSON.stringify(detailResponse, null, 2));
 ```
-
-See the "responses" folder in the [package samples][samples] for additional samples, including streaming responses.
 
 ### Performing Agent operations
 
@@ -157,6 +167,570 @@ console.log("Conversation deleted");
 await project.agents.deleteVersion(agent.name, agent.version);
 console.log("Agent deleted");
 ```
+
+### Using Agent tools
+
+Agents can be enhanced with specialized tools for various capabilities. Tools are organized by their connection requirements:
+
+#### Built-in Tools
+
+These tools work immediately without requiring external connections.
+
+**Code Interpreter**
+
+Write and run Javascript code in a sandboxed environment, process files and work with diverse data formats. [OpenAI Documentation](https://platform.openai.com/docs/guides/tools-code-interpreter)
+
+```ts snippet:agent-code-interpreter
+const openAIClient = await project.getOpenAIClient();
+const response = await openAIClient.responses.create({
+  model: deploymentName,
+  input: "I need to solve the equation 3x + 11 = 14. Can you help me?",
+  tools: [{ type: "code_interpreter", container: { type: "auto" } }],
+});
+console.log(`Response output: ${response.output_text}`);
+```
+
+See the full sample code in [agentCodeInterpreter.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentCodeInterpreter.ts).
+
+**File Search**
+
+Built-in RAG (Retrieval-Augmented Generation) tool to process and search through documents using vector stores for knowledge retrieval. [OpenAI Documentation](https://platform.openai.com/docs/assistants/tools/file-search)
+
+```ts snippet:agent-file-search
+const openAIClient = await project.getOpenAIClient();
+const assetFilePath = path.join(
+  __dirname,
+  "..",
+  "samples-dev",
+  "agents",
+  "assets",
+  "product_info.txt",
+);
+const vectorStore = await openAIClient.vectorStores.create({
+  name: "ProductInfoStreamStore",
+});
+console.log(`Vector store created (id: ${vectorStore.id})`);
+// Upload file to vector store
+const fileStream = fs.createReadStream(assetFilePath);
+const uploadedFile = await openAIClient.vectorStores.files.uploadAndPoll(
+  vectorStore.id,
+  fileStream,
+);
+console.log(`File uploaded to vector store (id: ${uploadedFile.id})`);
+// Create agent with file search tool
+const agent = await project.agents.createVersion("StreamingFileSearchAgent", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions:
+    "You are a helpful assistant that can search through product information and provide detailed responses. Use the file search tool to find relevant information before answering.",
+  tools: [
+    {
+      type: "file_search",
+      vector_store_ids: [vectorStore.id],
+    },
+  ],
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+```
+
+See the full sample code in [agentFileSearch.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentFileSearch.ts).
+
+**Image Generation**
+
+Generate images based on text prompts with customizable resolution, quality, and style settings:
+
+```ts snippet:agent-image-generation
+const agent = await project.agents.createVersion("agent-image-generation", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions: "Generate images based on user prompts",
+  tools: [
+    {
+      type: "image_generation",
+      quality: "low",
+      size: "1024x1024",
+    },
+  ],
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+```
+
+After calling `responses.create()`, you can download file using the returned response:
+
+```ts snippet:agent-image-generation-download
+import { fileURLToPath } from "url";
+
+const openAIClient = await project.getOpenAIClient();
+const agent = await project.agents.createVersion("agent-image-generation", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions: "Generate images based on user prompts",
+  tools: [
+    {
+      type: "image_generation",
+      quality: "low",
+      size: "1024x1024",
+    },
+  ],
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+const response = await openAIClient.responses.create(
+  {
+    input: "Generate an image of Microsoft logo.",
+  },
+  {
+    body: { agent: { name: agent.name, type: "agent_reference" } },
+  },
+);
+console.log(`Response created: ${response.id}`);
+const imageData = response.output?.filter((output) => output.type === "image_generation_call");
+if (imageData && imageData.length > 0 && imageData[0].result) {
+  console.log("Downloading generated image...");
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const filename = "microsoft.png";
+  const filePath = path.join(__dirname, filename);
+  // Decode base64 and save to file
+  const imageBuffer = Buffer.from(imageData[0].result, "base64");
+  fs.writeFileSync(filePath, imageBuffer);
+  console.log(`Image downloaded and saved to: ${path.resolve(filePath)}`);
+} else {
+  console.log("No image data found in the response.");
+}
+```
+
+**Web Search**
+
+Perform general web searches to retrieve current information from the internet. [OpenAI Documentation](https://platform.openai.com/docs/guides/tools-web-search)
+
+```ts snippet:agent-web-search
+const openAIClient = await project.getOpenAIClient();
+// Create Agent with web search tool
+const agent = await project.agents.createVersion("agent-web-search", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions: "You are a helpful assistant that can search the web",
+  tools: [
+    {
+      type: "web_search_preview",
+      user_location: {
+        type: "approximate",
+        country: "GB",
+        city: "London",
+        region: "London",
+      },
+    },
+  ],
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+// Create a conversation for the agent interaction
+const conversation = await openAIClient.conversations.create();
+console.log(`Created conversation (id: ${conversation.id})`);
+// Send a query to search the web
+console.log("\nSending web search query...");
+const response = await openAIClient.responses.create(
+  {
+    conversation: conversation.id,
+    input: "Show me the latest London Underground service updates",
+  },
+  {
+    body: { agent: { name: agent.name, type: "agent_reference" } },
+  },
+);
+console.log(`Response: ${response.output_text}`);
+```
+
+See the full sample code in [agentWebSearch.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentWebSearch.ts).
+
+
+**Model Context Protocol (MCP)**
+
+Integrate MCP servers to extend agent capabilities with standardized tools and resources. [OpenAI Documentation](https://platform.openai.com/docs/guides/tools-connectors-mcp)
+
+```ts snippet:agent-mcp
+const openAIClient = await project.getOpenAIClient();
+const agent = await project.agents.createVersion("agent-mcp", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions:
+    "You are a helpful agent that can use MCP tools to assist users. Use the available MCP tools to answer questions and perform tasks.",
+  tools: [
+    {
+      type: "mcp",
+      server_label: "api-specs",
+      server_url: "https://gitmcp.io/Azure/azure-rest-api-specs",
+      require_approval: "always",
+    },
+  ],
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+// Create a conversation thread to maintain context across multiple interactions
+console.log("\nCreating conversation...");
+const conversation = await openAIClient.conversations.create();
+console.log(`Created conversation (id: ${conversation.id})`);
+// Send initial request that will trigger the MCP tool to access Azure REST API specs
+// This will generate an approval request since requireApproval="always"
+console.log("\nSending request that will trigger MCP approval...");
+const response = await openAIClient.responses.create(
+  {
+    conversation: conversation.id,
+    input: "Please summarize the Azure REST API specifications Readme",
+  },
+  {
+    body: { agent: { name: agent.name, type: "agent_reference" } },
+  },
+);
+```
+
+*After calling `responses.create()`, check for `mcp_approval_request` items in the response output. Send back `McpApprovalResponse` with your approval decision to allow the agent to continue its work.*
+
+See the full sample code in [agentMcp.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentMcp.ts).
+
+**OpenAPI**
+
+Call external APIs defined by OpenAPI specifications without additional client-side code. [OpenAI Documentation](https://platform.openai.com/docs/guides/tools-openapi)
+
+```ts snippet:agent-openapi
+const weatherSpecPath = path.resolve(__dirname, "../assets", "weather_openapi.json");
+const agent = await project.agents.createVersion("MyOpenApiAgent", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions:
+    "You are a helpful assistant that can call external APIs defined by OpenAPI specs to answer user questions.",
+  tools: [
+    {
+      type: "openapi",
+      openapi: {
+        name: "get_weather",
+        description: "Retrieve weather information for a location using wttr.in",
+        spec: weatherSpecPath,
+        auth: { type: "anonymous" },
+      },
+    },
+  ],
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+```
+
+See the full sample code in [agentOpenApi.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentOpenApi.ts).
+
+**Function Tool**
+
+Define custom functions that allow agents to interact with external APIs, databases, or application logic. [OpenAI Documentation](https://platform.openai.com/docs/guides/function-calling)
+
+```ts snippet:agent-function-tool
+/**
+ * Define a function tool for the model to use
+ */
+const funcTool = {
+  type: "function" as const,
+  function: {
+    name: "get_horoscope",
+    description: "Get today's horoscope for an astrological sign.",
+    strict: true,
+    parameters: {
+      type: "object",
+      properties: {
+        sign: {
+          type: "string",
+          description: "An astrological sign like Taurus or Aquarius",
+        },
+      },
+      required: ["sign"],
+      additional_properties: false,
+    },
+  },
+};
+const agent = await project.agents.createVersion("function-tool-agent", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions: "You are a helpful assistant that can use function tools.",
+  tools: [funcTool],
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+```
+
+*After calling `responses.create()`, process `function_call` items from response output, execute your function logic with the provided arguments, and send back `FunctionCallOutput` with the results.*
+
+See the full sample code in [agentFunctionTool.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentFunctionTool.ts).
+
+#### Connection-Based Tools
+
+These tools require configuring connections in your AI Foundry project and use `projectConnectionId`.
+
+**Azure AI Search**
+
+Integrate with Azure AI Search indexes for powerful knowledge retrieval and semantic search capabilities:
+
+```ts snippet:agent-azure-ai-search
+const aiSearchConnectionId = process.env["AI_SEARCH_CONNECTION_ID"] || "";
+const aiSearchIndexName = process.env["AI_SEARCH_INDEX_NAME"] || "";
+const agent = await project.agents.createVersion("MyAISearchAgent", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions:
+    "You are a helpful assistant. You must always provide citations for answers using the tool and render them as: `[message_idx:search_idx†source]`.",
+  tools: [
+    {
+      type: "azure_ai_search",
+      azure_ai_search: {
+        indexes: [
+          {
+            project_connection_id: aiSearchConnectionId,
+            index_name: aiSearchIndexName,
+            query_type: "simple",
+          },
+        ],
+      },
+    },
+  ],
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+```
+
+See the full sample code in [agentAiSearch.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentAiSearch.ts).
+
+**Bing Grounding**
+
+Ground agent responses with real-time web search results from Bing to provide up-to-date information:
+
+```ts snippet:agent-bing-grounding
+const bingProjectConnectionId = process.env["BING_GROUNDING_CONNECTION_ID"] || "";
+const agent = await project.agents.createVersion("MyBingGroundingAgent", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions: "You are a helpful assistant.",
+  tools: [
+    {
+      type: "bing_grounding",
+      bing_grounding: {
+        search_configurations: [
+          {
+            project_connection_id: bingProjectConnectionId,
+          },
+        ],
+      },
+    },
+  ],
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+```
+
+See the full sample code in [agentBingGrounding.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentBingGrounding.ts).
+
+**Bing Custom Search**
+
+Use custom-configured Bing search instances for domain-specific or filtered web search results:
+```ts snippet:agent-bing-custom-search
+const bingCustomSearchProjectConnectionId = process.env["BING_CUSTOM_SEARCH_CONNECTION_ID"] || "";
+const bingCustomSearchInstanceName = process.env["BING_CUSTOM_SEARCH_INSTANCE_NAME"] || "";
+const agent = await project.agents.createVersion("MyAgent", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions:
+    "You are a helpful agent that can use Bing Custom Search tools to assist users. Use the available Bing Custom Search tools to answer questions and perform tasks.",
+  tools: [
+    {
+      type: "bing_custom_search_preview",
+      bing_custom_search_preview: {
+        search_configurations: [
+          {
+            project_connection_id: bingCustomSearchProjectConnectionId,
+            instance_name: bingCustomSearchInstanceName,
+          },
+        ],
+      },
+    },
+  ],
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+```
+
+See the full sample code in [agentBingCustomSearch.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentBingCustomSearch.ts).
+
+**Microsoft Fabric**
+
+Connect to and query Microsoft Fabric:
+
+```ts snippet:agent-microsoft-fabric
+const fabricProjectConnectionId = process.env["FABRIC_PROJECT_CONNECTION_ID"] || "";
+const agent = await project.agents.createVersion("MyFabricAgent", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions: "You are a helpful assistant.",
+  tools: [
+    {
+      type: "fabric_dataagent_preview",
+      fabric_dataagent_preview: {
+        project_connections: [
+          {
+            project_connection_id: fabricProjectConnectionId,
+          },
+        ],
+      },
+    },
+  ],
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+```
+
+See the full sample code in [agentFabric.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentFabric.ts).
+
+**SharePoint**
+
+Access and search SharePoint documents, lists, and sites for enterprise knowledge integration:
+
+```ts snippet:agent-sharepoint
+const sharepointProjectConnectionId = process.env["SHAREPOINT_PROJECT_CONNECTION_ID"] || "";
+const agent = await project.agents.createVersion("MyAgent", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions:
+    "You are a helpful agent that can use SharePoint tools to assist users. Use the available SharePoint tools to answer questions and perform tasks.",
+  // Define SharePoint tool that searches SharePoint content
+  tools: [
+    {
+      type: "sharepoint_grounding_preview",
+      sharepoint_grounding_preview: {
+        project_connections: [
+          {
+            project_connection_id: sharepointProjectConnectionId,
+          },
+        ],
+      },
+    },
+  ],
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+```
+
+See the full sample code in [agentSharepoint.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentSharepoint.ts).
+
+**Browser Automation**
+
+Automate browser interactions for web scraping, testing, and interaction with web applications:
+
+```ts snippet:agent-browser-automation
+const browserAutomationProjectConnectionId = process.env["BROWSER_AUTOMATION_CONNECTION_ID"] || "";
+const agent = await project.agents.createVersion("MyAgent", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions: `You are an Agent helping with browser automation tasks.
+              You can answer questions, provide information, and assist with various tasks
+              related to web browsing using the Browser Automation tool available to you.`,
+  // Define Browser Automation tool
+  tools: [
+    {
+      type: "browser_automation_preview",
+      browser_automation_preview: {
+        connection: {
+          project_connection_id: browserAutomationProjectConnectionId,
+        },
+      },
+    },
+  ],
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+```
+
+See the full sample code in [agentBrowserAutomation.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentBrowserAutomation.ts).
+
+**MCP with Project Connection**
+
+MCP integration using project-specific connections for accessing connected MCP servers:
+
+```ts snippet:agent-mcp-connection
+const mcpProjectConnectionId = process.env["MCP_PROJECT_CONNECTION_ID"] || "";
+const agent = await project.agents.createVersion("agent-mcp-connection-auth", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions: "Use MCP tools as needed",
+  tools: [
+    {
+      type: "mcp",
+      server_label: "api-specs",
+      server_url: "https://api.githubcopilot.com/mcp",
+      require_approval: "always",
+      project_connection_id: mcpProjectConnectionId,
+    },
+  ],
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+```
+
+See the full sample code in [agentMcpConnectionAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentMcpConnectionAuth.ts).
+
+**Agent-to-Agent (A2A)**
+
+Enable multi-agent collaboration where agents can communicate and delegate tasks to other specialized agents:
+
+```ts snippet:agent-a2a
+const a2aProjectConnectionId = process.env["A2A_PROJECT_CONNECTION_ID"] || "";
+const agent = await project.agents.createVersion("MyA2AAgent", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions: "You are a helpful assistant.",
+  // Define A2A tool for agent-to-agent communication
+  tools: [
+    {
+      type: "a2a_preview",
+      project_connection_id: a2aProjectConnectionId,
+    },
+  ],
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+```
+
+See the full sample code in [agentAgentToAgent.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentAgentToAgent.ts).
+
+**OpenAPI with Project Connection**
+
+Call external APIs defined by OpenAPI specifications using project connection authentication:
+
+```ts snippet:agent-openapi-connection
+const tripAdvisorProjectConnectionId = process.env["TRIPADVISOR_PROJECT_CONNECTION_ID"] || "";
+function loadOpenApiSpec(specPath: string): unknown {
+  if (!fs.existsSync(specPath)) {
+    throw new Error(`OpenAPI specification not found at: ${specPath}`);
+  }
+  try {
+    const data = fs.readFileSync(specPath, "utf-8");
+    return JSON.parse(data);
+  } catch (error) {
+    throw new Error(`Failed to read or parse OpenAPI specification at ${specPath}: ${error}`);
+  }
+}
+const tripAdvisorSpecPath = path.resolve(__dirname, "../assets", "tripadvisor_openapi.json");
+const tripAdvisorSpec = loadOpenApiSpec(tripAdvisorSpecPath);
+const agent = await project.agents.createVersion("MyOpenApiConnectionAgent", {
+  kind: "prompt",
+  model: deploymentName,
+  instructions:
+    "You are a travel assistant that consults the TripAdvisor Content API via project connection to answer user questions about locations.",
+  tools: [
+    {
+      type: "openapi",
+      openapi: {
+        name: "get_tripadvisor_location_details",
+        description:
+          "Fetch TripAdvisor location details, reviews, or photos using the Content API via project connection auth.",
+        spec: tripAdvisorSpec,
+        auth: {
+          type: "project_connection",
+          security_scheme: {
+            project_connection_id: tripAdvisorProjectConnectionId,
+          },
+        },
+      },
+    },
+  ],
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+```
+
+See the full sample code in [agentOpenApiConnectionAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentOpenApiConnectionAuth.ts).
+
+For complete working examples of all tools, see the [samples-dev directory](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples-dev).
 
 ### Deployments operations
 
