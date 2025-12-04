@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
+  createContentUnderstanding,
   ContentUnderstandingContext,
   ContentUnderstandingClientOptionalParams,
 } from "./api/index.js";
-import { createContentUnderstanding } from "./api/index.js";
 import {
   updateDefaults,
   updateAnalyzer,
@@ -23,7 +23,7 @@ import {
   analyzeBinary,
   analyze,
 } from "./api/operations.js";
-import type {
+import {
   UpdateDefaultsOptionalParams,
   UpdateAnalyzerOptionalParams,
   ListAnalyzersOptionalParams,
@@ -40,7 +40,7 @@ import type {
   AnalyzeBinaryOptionalParams,
   AnalyzeOptionalParams,
 } from "./api/options.js";
-import type {
+import {
   AnalyzeResult,
   ContentAnalyzerAnalyzeOperationStatus,
   ContentAnalyzer,
@@ -48,10 +48,10 @@ import type {
   ContentUnderstandingDefaults,
   CopyAuthorization,
 } from "./models/models.js";
-import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import type { KeyCredential, TokenCredential } from "@azure/core-auth";
-import type { PollerLike, OperationState } from "@azure/core-lro";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { PollerLike, OperationState } from "@azure/core-lro";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
 
@@ -105,7 +105,12 @@ export class ContentUnderstandingClient {
     targetAzureResourceId: string,
     options: GrantCopyAuthorizationOptionalParams = { requestOptions: {} },
   ): Promise<CopyAuthorization> {
-    return grantCopyAuthorization(this._client, analyzerId, targetAzureResourceId, options);
+    return grantCopyAuthorization(
+      this._client,
+      analyzerId,
+      targetAzureResourceId,
+      options,
+    );
   }
 
   /** Get a file associated with the result of an analysis operation. */
@@ -190,7 +195,13 @@ export class ContentUnderstandingClient {
     binaryInput: Uint8Array,
     options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
   ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
-    return analyzeBinary(this._client, analyzerId, contentType, binaryInput, options);
+    return analyzeBinary(
+      this._client,
+      analyzerId,
+      contentType,
+      binaryInput,
+      options,
+    );
   }
 
   /** Extract content and fields from input. */

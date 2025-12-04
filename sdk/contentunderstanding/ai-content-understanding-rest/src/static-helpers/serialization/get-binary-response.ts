@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HttpResponse, StreamableMethod } from "@azure-rest/core-client";
+import { HttpResponse, StreamableMethod } from "@azure-rest/core-client";
 import { Buffer } from "node:buffer";
 
 /**
