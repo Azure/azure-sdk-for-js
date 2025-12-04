@@ -73,14 +73,7 @@ const client = new HealthDataAIServicesClient(credential, subscriptionId);
 
 For sovereign clouds, you can select the correct Azure Resource Manager endpoint by setting the `cloudSetting` option instead of specifying a custom `endpoint`.
 
-```ts
-import { AzureClouds, HealthDataAIServicesClient } from "@azure/arm-healthdataaiservices";
-import { DefaultAzureCredential } from "@azure/identity";
-
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new HealthDataAIServicesClient(new DefaultAzureCredential(), subscriptionId, {
-  cloudSetting: AzureClouds.AZURE_US_GOVERNMENT,
-});
+```ts snippet:ReadmeSampleConfigureCloudSetting
 ```
 
 ### JavaScript Bundle
