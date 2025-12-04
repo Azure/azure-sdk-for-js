@@ -177,7 +177,7 @@ export interface DiskProperties {
   /** List of supported capabilities for the image from which the OS disk was created. */
   supportedCapabilities?: SupportedCapabilities;
   /** Disk source information. CreationData information cannot be changed after the disk has been created. */
-  creationData?: CreationData;
+  creationData: CreationData;
   /** If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size. */
   diskSizeGB?: number;
   /** The size of the disk in bytes. This field is read only. */
@@ -244,9 +244,7 @@ export function diskPropertiesSerializer(item: DiskProperties): any {
     supportedCapabilities: !item["supportedCapabilities"]
       ? item["supportedCapabilities"]
       : supportedCapabilitiesSerializer(item["supportedCapabilities"]),
-    creationData: !item["creationData"]
-      ? item["creationData"]
-      : creationDataSerializer(item["creationData"]),
+    creationData: creationDataSerializer(item["creationData"]),
     diskSizeGB: item["diskSizeGB"],
     encryptionSettingsCollection: !item["encryptionSettingsCollection"]
       ? item["encryptionSettingsCollection"]
@@ -2418,7 +2416,7 @@ export interface SnapshotProperties {
   /** List of supported capabilities for the image from which the source disk from the snapshot was originally created. */
   supportedCapabilities?: SupportedCapabilities;
   /** Disk source information. CreationData information cannot be changed after the disk has been created. */
-  creationData?: CreationData;
+  creationData: CreationData;
   /** If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size. */
   diskSizeGB?: number;
   /** The size of the disk in bytes. This field is read only. */
@@ -2467,9 +2465,7 @@ export function snapshotPropertiesSerializer(item: SnapshotProperties): any {
     supportedCapabilities: !item["supportedCapabilities"]
       ? item["supportedCapabilities"]
       : supportedCapabilitiesSerializer(item["supportedCapabilities"]),
-    creationData: !item["creationData"]
-      ? item["creationData"]
-      : creationDataSerializer(item["creationData"]),
+    creationData: creationDataSerializer(item["creationData"]),
     diskSizeGB: item["diskSizeGB"],
     encryptionSettingsCollection: !item["encryptionSettingsCollection"]
       ? item["encryptionSettingsCollection"]
