@@ -822,9 +822,9 @@ Currently the features below are **not supported**. For alternatives options, ch
 
 ## Workarounds
 
-### Continuation token for cross partitions queries
+### Continuation token for cross partitions queries for older versions(< 4.9.0)
 
-You can achieve cross partition queries with continuation token support by using
+You can achieve cross partition queries with continuation token support for older versions before 4.9.0 by using
 [Side car pattern](https://github.com/Azure-Samples/Cosmosdb-query-sidecar).
 This pattern can also enable applications to be composed of heterogeneous components and technologies.
 
