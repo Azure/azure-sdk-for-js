@@ -50,6 +50,8 @@
     "build:samples": "tsc -p tsconfig.samples.json",
     "bundle:bin": "rollup -c rollup.config.bin.mjs 2>&1",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check:ci": "dev-tool check --tag ci",
+    "check:release": "dev-tool check --tag release",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log test-results.*xml",
     "execute:samples": "dev-tool samples run samples-dev/",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",

@@ -14,6 +14,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "tsc -p tsconfig.samples.json",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check:ci": "dev-tool check --tag ci",
+    "check:release": "dev-tool check --tag release",
     "clean": "rimraf --glob dist dist-* types temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "clean:samples": "rimraf samples/v12-beta/javascript/node_modules samples/v12-beta/typescript/node_modules samples/v12-beta/typescript/dist samples/v12-beta/typescript/package-lock.json samples/v12-beta/javascript/package-lock.json",
     "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node",
