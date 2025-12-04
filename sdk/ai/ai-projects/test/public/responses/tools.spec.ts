@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createProjectsClient } from "../utils/createClient.js";
+import { createProjectsClient, getToolConnectionId } from "../utils/createClient.js";
 import { assert, beforeEach, it, describe } from "vitest";
 import { isLiveMode, isRecordMode } from "@azure-tools/test-recorder";
 import type OpenAI from "openai";
@@ -300,6 +300,121 @@ describe.skipIf(!isLiveOrRecord)("My test", () => {
     );
 
     // The response should contain weather information or indicate tool usage
+    assert.isNotNull(response.output);
+    console.log(`Response output items: ${response.output.length}`);
+  }, 60000);
+
+  it("should create responses with SharePoint tool", async function () {
+    const sharepointConnectionId = getToolConnectionId("sharepoint");
+
+    const sharepointTool: any = {
+      type: "sharepoint_grounding_preview",
+      sharepoint_grounding_preview: {
+        project_connections: [
+          {
+            project_connection_id: sharepointConnectionId,
+          },
+        ],
+      },
+    };
+
+    const instructions =
+      "You are a helpful agent that can use SharePoint tools to assist users. Use the available SharePoint tools to answer questions and perform tasks.";
+
+    // Create a conversation for the agent interaction
+    const conversation = await openAIClient.conversations.create();
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Send a query to search SharePoint content
+    const response = await openAIClient.responses.create({
+      model: "gpt-5-mini",
+      tools: [sharepointTool],
+      instructions,
+      conversation: conversation.id,
+      input: "Please summarize the last meeting notes stored in SharePoint.",
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.id);
+    console.log(
+      `SharePoint tool response, response ID: ${response.id}, output text: ${response.output_text}`,
+    );
+
+    // The response should contain SharePoint content or indicate tool usage
+    assert.isNotNull(response.output);
+    console.log(`Response output items: ${response.output.length}`);
+  }, 60000);
+
+  it("should create responses with Microsoft Fabric tool", async function () {
+    const fabricConnectionId = getToolConnectionId("fabric");
+
+    const fabricTool: any = {
+      type: "fabric_dataagent_preview",
+      fabric_dataagent_preview: {
+        project_connections: [
+          {
+            project_connection_id: fabricConnectionId,
+          },
+        ],
+      },
+    };
+
+    const instructions = "You are a helpful assistant that can query Microsoft Fabric data sources.";
+
+    // Create a conversation for the agent interaction
+    const conversation = await openAIClient.conversations.create();
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Send a query to Fabric data sources
+    const response = await openAIClient.responses.create({
+      model: "gpt-5-mini",
+      tools: [fabricTool],
+      instructions,
+      conversation: conversation.id,
+      input: "Tell me about sales records.",
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.id);
+    console.log(
+      `Fabric tool response, response ID: ${response.id}, output text: ${response.output_text}`,
+    );
+
+    // The response should contain Fabric data or indicate tool usage
+    assert.isNotNull(response.output);
+    console.log(`Response output items: ${response.output.length}`);
+  }, 60000);
+
+  it("should create responses with A2A (Agent-to-Agent) tool", async function () {
+    const a2aConnectionId = getToolConnectionId("a2a");
+
+    const a2aTool: any = {
+      type: "a2a_preview",
+      project_connection_id: a2aConnectionId,
+    };
+
+    const instructions = "You are a helpful assistant that can communicate with other agents.";
+
+    // Create a conversation for the agent interaction
+    const conversation = await openAIClient.conversations.create();
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Send a query to trigger A2A communication
+    const response = await openAIClient.responses.create({
+      model: "gpt-5-mini",
+      tools: [a2aTool],
+      instructions,
+      conversation: conversation.id,
+      input: "What can the secondary agent do?",
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.id);
+    console.log(
+      `A2A tool response, response ID: ${response.id}, output text: ${response.output_text}`,
+    );
+
+    // The response should contain A2A communication result or indicate tool usage
     assert.isNotNull(response.output);
     console.log(`Response output items: ${response.output.length}`);
   }, 60000);
