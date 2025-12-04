@@ -155,9 +155,6 @@ importers:
       express:
         specifier: ^5.1.0
         version: 5.1.0
-      fs-extra:
-        specifier: ^11.2.0
-        version: 11.3.2
       memfs:
         specifier: ^4.14.1
         version: 4.51.0
@@ -207,9 +204,6 @@ importers:
       '@types/express-serve-static-core':
         specifier: ^5.0.6
         version: 5.1.0
-      '@types/fs-extra':
-        specifier: ^11.0.4
-        version: 11.0.4
       '@types/minimist':
         specifier: ^1.2.5
         version: 1.2.5
@@ -31787,9 +31781,6 @@ importers:
       '@types/minimist':
         specifier: ^1.2.2
         version: 1.2.5
-      fs-extra:
-        specifier: ^11.2.0
-        version: 11.3.2
       minimist:
         specifier: ^1.2.8
         version: 1.2.8
@@ -31803,9 +31794,6 @@ importers:
       '@azure/eslint-plugin-azure-sdk':
         specifier: workspace:^
         version: link:../../../common/tools/eslint-plugin-azure-sdk
-      '@types/fs-extra':
-        specifier: ^11.0.0
-        version: 11.0.4
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.25
@@ -35318,9 +35306,6 @@ packages:
   '@types/express@5.0.5':
     resolution: {integrity: sha512-LuIQOcb6UmnF7C1PCFmEU1u2hmiHL43fgFQX67sN3H4Z+0Yk0Neo++mFsBjhOAuLzvlQeqAAkeDOZrJs9rzumQ==}
 
-  '@types/fs-extra@11.0.4':
-    resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
-
   '@types/fs-extra@8.1.5':
     resolution: {integrity: sha512-0dzKcwO+S8s2kuF5Z9oUWatQJj5Uq/iqphEtE3GQJVRRYm/tD1LglU2UnXi2A8jLq5umkGouOXOR9y0n613ZwQ==}
 
@@ -35335,9 +35320,6 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
-
-  '@types/jsonfile@6.1.4':
-    resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
 
   '@types/jsonwebtoken@9.0.10':
     resolution: {integrity: sha512-asx5hIG9Qmf/1oStypjanR7iKTv0gXQ1Ov/jfrX6kS/EO0OFni8orbmGCn0672NHR3kXHwpAwR+B368ZGN/2rA==}
@@ -40908,11 +40890,6 @@ snapshots:
       '@types/express-serve-static-core': 5.1.0
       '@types/serve-static': 1.15.10
 
-  '@types/fs-extra@11.0.4':
-    dependencies:
-      '@types/jsonfile': 6.1.4
-      '@types/node': 20.19.25
-
   '@types/fs-extra@8.1.5':
     dependencies:
       '@types/node': 20.19.25
@@ -40929,10 +40906,6 @@ snapshots:
       '@types/node': 20.19.25
 
   '@types/json-schema@7.0.15': {}
-
-  '@types/jsonfile@6.1.4':
-    dependencies:
-      '@types/node': 20.19.25
 
   '@types/jsonwebtoken@9.0.10':
     dependencies:
@@ -41313,7 +41286,7 @@ snapshots:
       magicast: 0.5.1
       obug: 2.1.1
       tinyrainbow: 3.0.3
-      vitest: 4.0.14(@opentelemetry/api@1.9.0)(@types/node@20.19.25)(@vitest/browser-playwright@4.0.14)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.25)(typescript@5.9.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.2)
+      vitest: 4.0.14(@opentelemetry/api@1.9.0)(@types/node@20.19.25)(@vitest/browser-playwright@4.0.14)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.25)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.2)
     transitivePeerDependencies:
       - supports-color
 

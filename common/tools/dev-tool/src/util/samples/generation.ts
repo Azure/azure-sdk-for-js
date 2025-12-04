@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import fs from "fs-extra";
-import { stat as statFile } from "fs/promises";
+import { readFileSync } from "node:fs";
+import { stat as statFile } from "node:fs/promises";
 import path from "node:path";
 import semver from "semver";
 import { copy, dir, file, FileTreeFactory, lazy, safeClean, temp } from "../fileTree";
@@ -211,7 +211,7 @@ export async function makeSampleGenerationInfo(
         let contents;
 
         try {
-          contents = fs.readFileSync(path.resolve(projectInfo.path, file));
+          contents = readFileSync(path.resolve(projectInfo.path, file));
         } catch (ex: unknown) {
           fail(`Failed to read custom snippet file '${file}'`, ex);
         }
@@ -457,11 +457,9 @@ export async function makeSamplesFactory(
               // We copy the samples sources in to the `src` folder on the typescript side
               dir("src", [
                 ...info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
-                  file(relativeSourcePath, () => postProcess(fs.readFileSync(filePath))),
+                  file(relativeSourcePath, () => postProcess(readFileSync(filePath))),
                 ),
-                ...dtsFiles.map(([relative, absolute]) =>
-                  file(relative, fs.readFileSync(absolute)),
-                ),
+                ...dtsFiles.map(([relative, absolute]) => file(relative, readFileSync(absolute))),
               ]),
             ]),
             dir("javascript", [
