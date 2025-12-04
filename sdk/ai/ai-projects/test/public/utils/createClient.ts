@@ -130,8 +130,7 @@ export function getToolConnectionId(toolType: string): string {
       );
     case "a2a":
       return (
-        process.env["A2A_PROJECT_CONNECTION_ID"] ||
-        replaceableVariables.A2A_PROJECT_CONNECTION_ID
+        process.env["A2A_PROJECT_CONNECTION_ID"] || replaceableVariables.A2A_PROJECT_CONNECTION_ID
       );
     default:
       throw new Error(`Unsupported tool type: ${toolType}`);
