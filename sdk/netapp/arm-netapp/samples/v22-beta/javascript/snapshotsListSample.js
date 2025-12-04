@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all snapshots associated with the volume
  *
  * @summary list all snapshots associated with the volume
- * x-ms-original-file: 2025-07-01-preview/Snapshots_List.json
+ * x-ms-original-file: 2025-09-01-preview/Snapshots_List.json
  */
 async function snapshotsList() {
   const credential = new DefaultAzureCredential();

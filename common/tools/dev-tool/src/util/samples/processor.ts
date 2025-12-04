@@ -157,6 +157,7 @@ export async function processSources(
       if (
         result.summary === undefined &&
         !importedRelativeModules.has(result.relativeSourcePath.replace(/\.ts$/, "")) &&
+        !importedRelativeModules.has(result.relativeSourcePath.replace(/\.ts$/, ".js")) &&
         !result.azSdkTags.util
       ) {
         fail(

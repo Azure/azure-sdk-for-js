@@ -4,8 +4,7 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ApplicationTypeVersionsListByApplicationTypesOptionalParams
-  extends OperationOptions {}
+export interface ApplicationTypeVersionsListByApplicationTypesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface ApplicationTypeVersionsDeleteOptionalParams extends OperationOptions {

@@ -49,8 +49,7 @@ export type AgentEventStreamData =
 
 /** Represents a stream of agent event message. */
 export interface AgentEventMessageStream
-  extends AsyncDisposable,
-    AsyncIterable<AgentEventMessage> {}
+  extends AsyncDisposable, AsyncIterable<AgentEventMessage> {}
 
 /**
  * Agent run response with support to stream.

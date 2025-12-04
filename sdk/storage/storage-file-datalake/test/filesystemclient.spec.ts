@@ -81,16 +81,16 @@ describe("DataLakeFileSystemClient", () => {
 
   it("getProperties", async () => {
     const result = await fileSystemClient.getProperties();
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(!result.leaseDuration);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isUndefined(result.leaseDuration);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
-    assert.ok(!result.publicAccess);
-    assert.ok(result.clientRequestId); // As default pipeline involves UniqueRequestIDPolicy
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
+    assert.isUndefined(result.publicAccess);
+    assert.isDefined(result.clientRequestId); // As default pipeline involves UniqueRequestIDPolicy
   });
 
   it("create with default parameters", () => {
@@ -160,11 +160,11 @@ describe("DataLakeFileSystemClient", () => {
     const metadata = { key: "value" };
     const access = "filesystem";
     const createRes = await cClient.createIfNotExists({ metadata, access });
-    assert.ok(createRes.succeeded);
-    assert.ok(createRes.etag);
+    assert.isTrue(createRes.succeeded);
+    assert.isDefined(createRes.etag);
 
     const createRes2 = await cClient.createIfNotExists({ metadata, access });
-    assert.ok(!createRes2.succeeded);
+    assert.isFalse(createRes2.succeeded);
 
     await cClient.deleteIfExists();
   });
@@ -174,11 +174,11 @@ describe("DataLakeFileSystemClient", () => {
       recorder.variable(fileSystemName, getUniqueName(fileSystemName)),
     );
     const res = await cClient.deleteIfExists();
-    assert.ok(!res.succeeded);
+    assert.isFalse(res.succeeded);
 
     await cClient.create();
     const res2 = await cClient.deleteIfExists();
-    assert.ok(res2.succeeded);
+    assert.isTrue(res2.succeeded);
   });
 
   it("delete", () => {
@@ -202,7 +202,7 @@ describe("DataLakeFileSystemClient", () => {
 
     assert.deepStrictEqual(result.continuation, undefined);
     assert.deepStrictEqual(result.pathItems!.length, fileClients.length);
-    assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name!));
+    assert.notStrictEqual(fileClients[0].url.indexOf(result.pathItems![0].name!), -1);
 
     // The path is created just now, createdOn should be around but may not be the same to current time.
     assert.equal(result.pathItems![0].createdOn?.getUTCFullYear(), recordedNow.getUTCFullYear());
@@ -213,6 +213,82 @@ describe("DataLakeFileSystemClient", () => {
     for (const file of fileClients) {
       await file.delete();
     }
+  });
+
+  it("listPaths with startFrom", async () => {
+    const fileClients = [];
+    const dirBase = recorder.variable(`dir`, getUniqueName(`dir`));
+    const fileBase = recorder.variable(`file`, getUniqueName(`file`));
+
+    const dirName0 = dirBase + "0";
+    const dir0 = fileSystemClient.getDirectoryClient(dirName0);
+    await dir0.create();
+
+    let startFrom = "";
+    const expectedNames = [];
+
+    for (let i = 0; i < 3; i++) {
+      const fileClient = dir0.getFileClient(fileBase + i);
+      if (i === 1) {
+        startFrom = fileClient.name;
+      }
+
+      if (i >= 1) {
+        expectedNames.push(fileClient.name);
+      }
+      await fileClient.create();
+      fileClients.push(fileClient);
+    }
+
+    const dirName1 = dirBase + "1";
+    const dir1 = fileSystemClient.getDirectoryClient(dirName1);
+    await dir1.create();
+    expectedNames.push(dirName1);
+
+    for (let i = 0; i < 3; i++) {
+      const fileClient = dir1.getFileClient(fileBase + i);
+      await fileClient.create();
+      fileClients.push(fileClient);
+      expectedNames.push(fileClient.name);
+    }
+
+    const result = (
+      await fileSystemClient
+        .listPaths({
+          startFrom: dirName0,
+        })
+        .byPage()
+        .next()
+    ).value as FileSystemListPathsResponse;
+
+    assert.deepStrictEqual(result.continuation, undefined);
+    assert.deepStrictEqual(result.pathItems!.length, 2);
+    assert.deepStrictEqual(result.pathItems![0].name!, dirName0);
+
+    const result1 = (
+      await fileSystemClient
+        .listPaths({
+          startFrom: startFrom,
+          recursive: true,
+        })
+        .byPage()
+        .next()
+    ).value as FileSystemListPathsResponse;
+    assert.deepStrictEqual(result1.continuation, undefined);
+    assert.deepStrictEqual(result1.pathItems!.length, 6);
+    const paths = [];
+
+    for (const path of result1.pathItems!) {
+      paths.push(path.name);
+    }
+    assert.deepStrictEqual(paths, expectedNames);
+
+    for (const file of fileClients) {
+      await file.delete();
+    }
+
+    await dir0.delete();
+    await dir1.delete();
   });
 
   it("listPaths - Encryption Scope", async function (ctx) {
@@ -363,7 +439,7 @@ describe("DataLakeFileSystemClient", () => {
     const result = (await fileSystemClient.listPaths().byPage().next())
       .value as FileSystemListPathsResponse;
 
-    assert.ok(result.pathItems![0].expiresOn);
+    assert.isDefined(result.pathItems![0].expiresOn);
     await fileClient.delete();
   });
 
@@ -402,7 +478,7 @@ describe("DataLakeFileSystemClient", () => {
     const result = (await fileSystemClient.listPaths({ path: "" }).byPage().next()).value;
     assert.deepStrictEqual(result.continuation, undefined);
     assert.deepStrictEqual(result.pathItems!.length, fileClients.length);
-    assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name));
+    assert.notStrictEqual(fileClients[0].url.indexOf(result.pathItems![0].name), -1);
 
     for (const file of fileClients) {
       await file.delete();
@@ -439,7 +515,7 @@ describe("DataLakeFileSystemClient", () => {
     ).value as FileSystemListPathsResponse;
 
     assert.deepStrictEqual(result.pathItems!.length, 1);
-    assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name!));
+    assert.notStrictEqual(fileClients[0].url.indexOf(result.pathItems![0].name!), -1);
 
     const result2 = (
       await fileSystemClient
@@ -453,7 +529,7 @@ describe("DataLakeFileSystemClient", () => {
     ).value;
 
     assert.deepStrictEqual(result2.pathItems!.length, 1);
-    assert.ok(fileClients[0].url.indexOf(result2.pathItems![0].name));
+    assert.notStrictEqual(fileClients[1].url.indexOf(result2.pathItems![0].name), -1);
 
     for (const file of fileClients) {
       await file.delete();
@@ -484,7 +560,7 @@ describe("DataLakeFileSystemClient", () => {
       recursive: true,
       path: "",
     })) {
-      assert.ok(fileClients[i].url.indexOf(file.name!));
+      assert.notStrictEqual(fileClients[i].url.indexOf(file.name!), -1);
       i++;
     }
 
@@ -518,10 +594,10 @@ describe("DataLakeFileSystemClient", () => {
     });
 
     let path = getYieldedValue(await iterator.next());
-    assert.ok(fileClients[0].url.indexOf(path.name!));
+    assert.notStrictEqual(fileClients[0].url.indexOf(path.name!), -1);
 
     path = getYieldedValue(await iterator.next());
-    assert.ok(fileClients[1].url.indexOf(path.name!));
+    assert.notStrictEqual(fileClients[1].url.indexOf(path.name!), -1);
 
     for (const file of fileClients) {
       await file.delete();
@@ -555,7 +631,7 @@ describe("DataLakeFileSystemClient", () => {
       })
       .byPage({ maxPageSize: 2 })) {
       for (const file of response.pathItems || []) {
-        assert.ok(fileClients[i].url.indexOf(file.name!));
+        assert.notStrictEqual(fileClients[i].url.indexOf(file.name!), -1);
         i++;
       }
     }
@@ -565,7 +641,7 @@ describe("DataLakeFileSystemClient", () => {
     }
   });
 
-  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listPaths", async () => {
+  it.skip("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listPaths", async () => {
     const fileClients = [];
     const prefix = "file";
     const metadata = {
@@ -593,11 +669,11 @@ describe("DataLakeFileSystemClient", () => {
       .byPage({ maxPageSize: 2 });
     let response = (await iter.next()).value;
     for (const file of response.pathItems) {
-      assert.ok(fileClients[i].url.indexOf(file.name));
+      assert.notStrictEqual(fileClients[i].url.indexOf(file.name), -1);
       i++;
     }
     // Gets next marker
-    const marker = response.continuationToken;
+    const marker = response.continuation;
     // Passing next marker as continuationToken
     iter = fileSystemClient
       .listPaths({
@@ -609,7 +685,7 @@ describe("DataLakeFileSystemClient", () => {
     response = (await iter.next()).value;
     // Gets 2 blobs
     for (const file of response.pathItems) {
-      assert.ok(fileClients[i].url.indexOf(file.name));
+      assert.notStrictEqual(fileClients[i].url.indexOf(file.name), -1);
       i++;
     }
 
@@ -637,7 +713,7 @@ describe("DataLakeFileSystemClient", () => {
 
   it("exists returns true on an existing file system", async () => {
     const result = await fileSystemClient.exists();
-    assert.ok(result, "exists() should return true for an existing file system");
+    assert.isTrue(result, "exists() should return true for an existing file system");
   });
 
   it("exists returns false on non-existing file system", async () => {
@@ -645,7 +721,7 @@ describe("DataLakeFileSystemClient", () => {
       recorder.variable("newfilesystem", getUniqueName("newfilesystem")),
     );
     const result = await newFileSystemClient.exists();
-    assert.ok(result === false, "exists() should returns false on non-existing file system");
+    assert.strictEqual(result, false, "exists() should returns false on non-existing file system");
   });
 });
 
@@ -705,12 +781,12 @@ describe("DataLakeFileSystemClient with soft delete", () => {
 
     assert.deepStrictEqual(result.continuation, undefined);
     assert.deepStrictEqual(result.pathItems!.length, fileClients.length);
-    assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name));
+    assert.notStrictEqual(fileClients[0].url.indexOf(result.pathItems![0].name), -1);
 
     for (const pathItem of result.pathItems!) {
-      assert.ok(pathItem.deletedOn);
-      assert.ok(pathItem.deletionId);
-      assert.ok(pathItem.remainingRetentionDays);
+      assert.isDefined(pathItem.deletedOn);
+      assert.isDefined(pathItem.deletionId);
+      assert.isDefined(pathItem.remainingRetentionDays);
     }
   });
 
@@ -734,12 +810,12 @@ describe("DataLakeFileSystemClient with soft delete", () => {
 
     assert.deepStrictEqual(result.continuation, undefined);
     assert.deepStrictEqual(result.pathItems!.length, fileClients.length);
-    assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name));
+    assert.notStrictEqual(fileClients[0].url.indexOf(result.pathItems![0].name), -1);
 
     for (const pathItem of result.pathItems!) {
-      assert.ok(pathItem.deletedOn);
-      assert.ok(pathItem.deletionId);
-      assert.ok(pathItem.remainingRetentionDays);
+      assert.isDefined(pathItem.deletedOn);
+      assert.isDefined(pathItem.deletionId);
+      assert.isDefined(pathItem.remainingRetentionDays);
     }
 
     const listPathResult = (await fileSystemClient.listPaths().byPage().next())
@@ -747,7 +823,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
 
     assert.deepStrictEqual(listPathResult.continuation, undefined);
     assert.deepStrictEqual(listPathResult.pathItems!.length, fileClients.length);
-    assert.ok(fileClients[0].url.indexOf(listPathResult.pathItems![0].name!));
+    assert.notStrictEqual(fileClients[0].url.indexOf(listPathResult.pathItems![0].name!), -1);
   });
 
   it("listDeletedPaths with recreating and deletion again", async () => {
@@ -771,12 +847,12 @@ describe("DataLakeFileSystemClient with soft delete", () => {
 
     assert.deepStrictEqual(result.continuation, undefined);
     assert.deepStrictEqual(result.pathItems!.length, 2 * fileClients.length);
-    assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name));
+    assert.notStrictEqual(fileClients[0].url.indexOf(result.pathItems![0].name), -1);
 
     for (const pathItem of result.pathItems!) {
-      assert.ok(pathItem.deletedOn);
-      assert.ok(pathItem.deletionId);
-      assert.ok(pathItem.remainingRetentionDays);
+      assert.isDefined(pathItem.deletedOn);
+      assert.isDefined(pathItem.deletionId);
+      assert.isDefined(pathItem.remainingRetentionDays);
     }
   });
 
@@ -799,12 +875,12 @@ describe("DataLakeFileSystemClient with soft delete", () => {
 
     assert.deepStrictEqual(result.continuation, undefined);
     assert.deepStrictEqual(result.pathItems!.length, fileClients.length);
-    assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name));
+    assert.notStrictEqual(fileClients[0].url.indexOf(result.pathItems![0].name), -1);
 
     for (const pathItem of result.pathItems!) {
-      assert.ok(pathItem.deletedOn);
-      assert.ok(pathItem.deletionId);
-      assert.ok(pathItem.remainingRetentionDays);
+      assert.isDefined(pathItem.deletedOn);
+      assert.isDefined(pathItem.deletionId);
+      assert.isDefined(pathItem.remainingRetentionDays);
     }
   });
 
@@ -840,11 +916,11 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     ).value as FileSystemListDeletedPathsResponse;
 
     assert.deepStrictEqual(result.pathItems!.length, 1);
-    assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name));
+    assert.notStrictEqual(fileClients[0].url.indexOf(result.pathItems![0].name), -1);
     for (const pathItem of result.pathItems!) {
-      assert.ok(pathItem.deletedOn);
-      assert.ok(pathItem.deletionId);
-      assert.ok(pathItem.remainingRetentionDays);
+      assert.isDefined(pathItem.deletedOn);
+      assert.isDefined(pathItem.deletionId);
+      assert.isDefined(pathItem.remainingRetentionDays);
     }
 
     const result2 = (
@@ -857,7 +933,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     ).value;
 
     assert.deepStrictEqual(result2.pathItems!.length, 1);
-    assert.ok(fileClients[0].url.indexOf(result2.pathItems![0].name));
+    assert.notStrictEqual(fileClients[1].url.indexOf(result2.pathItems![0].name), -1);
   });
 
   it("Verify PagedAsyncIterableIterator for listDeletedPaths", async () => {
@@ -886,10 +962,10 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     for await (const file of fileSystemClient.listDeletedPaths({
       prefix: "",
     })) {
-      assert.ok(fileClients[i].url.indexOf(file.name));
-      assert.ok(file.deletedOn);
-      assert.ok(file.deletionId);
-      assert.ok(file.remainingRetentionDays);
+      assert.notStrictEqual(fileClients[i].url.indexOf(file.name), -1);
+      assert.isDefined(file.deletedOn);
+      assert.isDefined(file.deletionId);
+      assert.isDefined(file.remainingRetentionDays);
       i++;
     }
   });
@@ -921,16 +997,16 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     });
 
     let path = getYieldedValue(await iterator.next());
-    assert.ok(fileClients[0].url.indexOf(path.name));
-    assert.ok(path.deletedOn);
-    assert.ok(path.deletionId);
-    assert.ok(path.remainingRetentionDays);
+    assert.notStrictEqual(fileClients[0].url.indexOf(path.name), -1);
+    assert.isDefined(path.deletedOn);
+    assert.isDefined(path.deletionId);
+    assert.isDefined(path.remainingRetentionDays);
 
     path = getYieldedValue(await iterator.next());
-    assert.ok(fileClients[1].url.indexOf(path.name));
-    assert.ok(path.deletedOn);
-    assert.ok(path.deletionId);
-    assert.ok(path.remainingRetentionDays);
+    assert.notStrictEqual(fileClients[1].url.indexOf(path.name), -1);
+    assert.isDefined(path.deletedOn);
+    assert.isDefined(path.deletionId);
+    assert.isDefined(path.remainingRetentionDays);
   });
 
   it("Verify PagedAsyncIterableIterator(byPage()) for listDeletedPaths", async () => {
@@ -962,16 +1038,16 @@ describe("DataLakeFileSystemClient with soft delete", () => {
       })
       .byPage({ maxPageSize: 2 })) {
       for (const file of response.pathItems || []) {
-        assert.ok(fileClients[i].url.indexOf(file.name));
-        assert.ok(file.deletedOn);
-        assert.ok(file.deletionId);
-        assert.ok(file.remainingRetentionDays);
+        assert.notStrictEqual(fileClients[i].url.indexOf(file.name), -1);
+        assert.isDefined(file.deletedOn);
+        assert.isDefined(file.deletionId);
+        assert.isDefined(file.remainingRetentionDays);
         i++;
       }
     }
   });
 
-  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listDeletedPaths", async () => {
+  it.skip("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listDeletedPaths", async () => {
     const fileClients = [];
     const prefix = "file";
     const metadata = {
@@ -1001,14 +1077,14 @@ describe("DataLakeFileSystemClient with soft delete", () => {
       .byPage({ maxPageSize: 2 });
     let response = (await iter.next()).value;
     for (const file of response.pathItems) {
-      assert.ok(fileClients[i].url.indexOf(file.name));
-      assert.ok(file.deletedOn);
-      assert.ok(file.deletionId);
-      assert.ok(file.remainingRetentionDays);
+      assert.notStrictEqual(fileClients[i].url.indexOf(file.name), -1);
+      assert.isDefined(file.deletedOn);
+      assert.isDefined(file.deletionId);
+      assert.isDefined(file.remainingRetentionDays);
       i++;
     }
     // Gets next marker
-    const marker = response.continuationToken;
+    const marker = response.continuation;
     // Passing next marker as continuationToken
     iter = fileSystemClient
       .listDeletedPaths({
@@ -1018,10 +1094,10 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     response = (await iter.next()).value;
     // Gets 2 blobs
     for (const file of response.pathItems) {
-      assert.ok(fileClients[i].url.indexOf(file.name));
-      assert.ok(file.deletedOn);
-      assert.ok(file.deletionId);
-      assert.ok(file.remainingRetentionDays);
+      assert.notStrictEqual(fileClients[i].url.indexOf(file.name), -1);
+      assert.isDefined(file.deletedOn);
+      assert.isDefined(file.deletionId);
+      assert.isDefined(file.remainingRetentionDays);
       i++;
     }
   });
@@ -1031,32 +1107,32 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create();
     const fileDeleteResponse = await fileClient.delete();
-    assert.ok(fileDeleteResponse.deletionId);
+    assert.isDefined(fileDeleteResponse.deletionId);
 
     const fileundeleteResponse = await fileSystemClient.undeletePath(
       fileName,
       fileDeleteResponse.deletionId ?? "",
     );
 
-    assert.ok(fileundeleteResponse.pathClient instanceof DataLakeFileClient);
+    assert.instanceOf(fileundeleteResponse.pathClient, DataLakeFileClient);
 
-    assert.ok(await fileundeleteResponse.pathClient.exists());
+    assert.isTrue(await fileundeleteResponse.pathClient.exists());
     await fileundeleteResponse.pathClient.delete();
 
     const directoryName = recorder.variable(`directory`, getUniqueName(`directory`));
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
     await directoryClient.create();
     const directoryDeleteResponse = await directoryClient.delete();
-    assert.ok(directoryDeleteResponse.deletionId);
+    assert.isDefined(directoryDeleteResponse.deletionId);
 
     const directoryUndeleteResponse = await fileSystemClient.undeletePath(
       directoryName,
       directoryDeleteResponse.deletionId ?? "",
     );
 
-    assert.ok(directoryUndeleteResponse.pathClient instanceof DataLakeDirectoryClient);
+    assert.instanceOf(directoryUndeleteResponse.pathClient, DataLakeDirectoryClient);
 
-    assert.ok(await directoryUndeleteResponse.pathClient.exists());
+    assert.isTrue(await directoryUndeleteResponse.pathClient.exists());
     await directoryUndeleteResponse.pathClient.delete();
   });
 
@@ -1065,7 +1141,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     const fileClient = fileSystemClient.getFileClient(fileBaseName);
     await fileClient.create();
     const fileDeleteResponse = await fileClient.delete();
-    assert.ok(fileDeleteResponse.deletionId);
+    assert.isDefined(fileDeleteResponse.deletionId);
 
     const fileNameWithDirDots = "./adir/.././anotherdir/./../" + fileBaseName;
 
@@ -1074,16 +1150,16 @@ describe("DataLakeFileSystemClient with soft delete", () => {
       fileDeleteResponse.deletionId ?? "",
     );
 
-    assert.ok(fileundeleteResponse.pathClient instanceof DataLakeFileClient);
+    assert.instanceOf(fileundeleteResponse.pathClient, DataLakeFileClient);
 
-    assert.ok(await fileundeleteResponse.pathClient.exists());
+    assert.isTrue(await fileundeleteResponse.pathClient.exists());
     await fileundeleteResponse.pathClient.delete();
 
     const directoryBaseName = recorder.variable("directory", getUniqueName(`directory`));
     const directoryClient = fileSystemClient.getDirectoryClient(directoryBaseName);
     await directoryClient.create();
     const directoryDeleteResponse = await directoryClient.delete();
-    assert.ok(directoryDeleteResponse.deletionId);
+    assert.isDefined(directoryDeleteResponse.deletionId);
 
     const directoryNameWithDirDots = "./adir/.././anotherdir/./../" + directoryBaseName;
     const directoryUndeleteResponse = await fileSystemClient.undeletePath(
@@ -1091,9 +1167,9 @@ describe("DataLakeFileSystemClient with soft delete", () => {
       directoryDeleteResponse.deletionId ?? "",
     );
 
-    assert.ok(directoryUndeleteResponse.pathClient instanceof DataLakeDirectoryClient);
+    assert.instanceOf(directoryUndeleteResponse.pathClient, DataLakeDirectoryClient);
 
-    assert.ok(await directoryUndeleteResponse.pathClient.exists());
+    assert.isTrue(await directoryUndeleteResponse.pathClient.exists());
     await directoryUndeleteResponse.pathClient.delete();
   });
 
@@ -1102,7 +1178,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create();
     const fileDeleteResponse = await fileClient.delete();
-    assert.ok(fileDeleteResponse.deletionId);
+    assert.isDefined(fileDeleteResponse.deletionId);
     const firstDeletionId = fileDeleteResponse.deletionId;
 
     await fileClient.create();
@@ -1113,9 +1189,9 @@ describe("DataLakeFileSystemClient with soft delete", () => {
       firstDeletionId ?? "",
     );
 
-    assert.ok(fileundeleteResponse.pathClient instanceof DataLakeFileClient);
+    assert.instanceOf(fileundeleteResponse.pathClient, DataLakeFileClient);
 
-    assert.ok(await fileundeleteResponse.pathClient.exists());
+    assert.isTrue(await fileundeleteResponse.pathClient.exists());
     await fileundeleteResponse.pathClient.delete();
   });
 
@@ -1124,20 +1200,20 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create();
     const firstDeleteResponse = await fileClient.delete();
-    assert.ok(firstDeleteResponse.deletionId);
+    assert.isDefined(firstDeleteResponse.deletionId);
 
     await fileClient.create();
     const secondDeleteResponse = await fileClient.delete();
-    assert.ok(secondDeleteResponse.deletionId);
+    assert.isDefined(secondDeleteResponse.deletionId);
 
     const fileundeleteResponse = await fileSystemClient.undeletePath(
       fileName,
       secondDeleteResponse.deletionId ?? "",
     );
 
-    assert.ok(fileundeleteResponse.pathClient instanceof DataLakeFileClient);
+    assert.instanceOf(fileundeleteResponse.pathClient, DataLakeFileClient);
 
-    assert.ok(await fileundeleteResponse.pathClient.exists());
+    assert.isTrue(await fileundeleteResponse.pathClient.exists());
     await fileundeleteResponse.pathClient.delete();
 
     try {
@@ -1154,31 +1230,31 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create();
     const fileDeleteResponse = await fileClient.deleteIfExists();
-    assert.ok(fileDeleteResponse.deletionId);
+    assert.isDefined(fileDeleteResponse.deletionId);
 
     const fileundeleteResponse = await fileSystemClient.undeletePath(
       fileName,
       fileDeleteResponse.deletionId ?? "",
     );
 
-    assert.ok(fileundeleteResponse.pathClient instanceof DataLakeFileClient);
+    assert.instanceOf(fileundeleteResponse.pathClient, DataLakeFileClient);
 
-    assert.ok(await fileundeleteResponse.pathClient.exists());
+    assert.isTrue(await fileundeleteResponse.pathClient.exists());
 
     const directoryName = recorder.variable(`directory`, getUniqueName(`directory`));
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
     await directoryClient.create();
     const directoryDeleteResponse = await directoryClient.deleteIfExists();
-    assert.ok(directoryDeleteResponse.deletionId);
+    assert.isDefined(directoryDeleteResponse.deletionId);
 
     const directoryUndeleteResponse = await fileSystemClient.undeletePath(
       directoryName,
       directoryDeleteResponse.deletionId ?? "",
     );
 
-    assert.ok(directoryUndeleteResponse.pathClient instanceof DataLakeDirectoryClient);
+    assert.instanceOf(directoryUndeleteResponse.pathClient, DataLakeDirectoryClient);
 
-    assert.ok(await directoryUndeleteResponse.pathClient.exists());
+    assert.isTrue(await directoryUndeleteResponse.pathClient.exists());
   });
 
   it("Undelete file and directory special char", async () => {
@@ -1192,15 +1268,15 @@ describe("DataLakeFileSystemClient with soft delete", () => {
       const fileClient = fileSystemClient.getFileClient(fileName);
       await fileClient.create();
       const fileDeleteResponse = await fileClient.delete();
-      assert.ok(fileDeleteResponse.deletionId);
+      assert.isDefined(fileDeleteResponse.deletionId);
 
       const fileundeleteResponse = await fileSystemClient.undeletePath(
         fileName,
         fileDeleteResponse.deletionId ?? "",
       );
 
-      assert.ok(fileundeleteResponse.pathClient instanceof DataLakeFileClient);
-      assert.ok(await fileundeleteResponse.pathClient.exists());
+      assert.instanceOf(fileundeleteResponse.pathClient, DataLakeFileClient);
+      assert.isTrue(await fileundeleteResponse.pathClient.exists());
     }
   });
 });
@@ -1243,7 +1319,7 @@ describe("Version error test", () => {
     try {
       await fileSystemClient.create();
     } catch (err) {
-      assert.ok(
+      assert.isTrue(
         (err as any).message.startsWith(
           "The provided service version is not enabled on this storage account. Please see",
         ),

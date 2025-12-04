@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a bucket for a volume. A bucket allows additional services, such as AI services, connect to the volume data contained in those buckets.
  *
  * @summary creates or updates a bucket for a volume. A bucket allows additional services, such as AI services, connect to the volume data contained in those buckets.
- * x-ms-original-file: 2025-07-01-preview/Buckets_CreateOrUpdate.json
+ * x-ms-original-file: 2025-09-01-preview/Buckets_CreateOrUpdate.json
  */
 async function bucketsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

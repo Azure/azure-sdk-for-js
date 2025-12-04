@@ -75,7 +75,7 @@
   "devDependencies": {
     "@azure-rest/core-client": "^2.2.0",
     "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
+    "@azure-tools/vite-plugin-browser-test-map": "workspace:^",
     "@azure/core-rest-pipeline": "workspace:^",
     "@azure/core-util": "workspace:^",
     "@azure/dev-tool": "workspace:^",
@@ -83,7 +83,7 @@
     "@azure/logger": "^1.1.4",
     "@types/express": "^5.0.3",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",

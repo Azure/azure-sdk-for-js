@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a subvolume in the path or clones the subvolume mentioned in the parentPath
  *
  * @summary creates a subvolume in the path or clones the subvolume mentioned in the parentPath
- * x-ms-original-file: 2025-07-01-preview/Subvolumes_Create.json
+ * x-ms-original-file: 2025-09-01-preview/Subvolumes_Create.json
  */
 async function subvolumesCreate() {
   const credential = new DefaultAzureCredential();

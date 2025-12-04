@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation will populate availability zone information for a volume
  *
  * @summary this operation will populate availability zone information for a volume
- * x-ms-original-file: 2025-07-01-preview/Volumes_PopulateAvailabilityZones.json
+ * x-ms-original-file: 2025-09-01-preview/Volumes_PopulateAvailabilityZones.json
  */
 async function volumesPopulateAvailabilityZones(): Promise<void> {
   const credential = new DefaultAzureCredential();

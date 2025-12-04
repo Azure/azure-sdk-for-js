@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update the network features of the specified network sibling set.
  *
  * @summary update the network features of the specified network sibling set.
- * x-ms-original-file: 2025-07-01-preview/NetworkSiblingSet_Update.json
+ * x-ms-original-file: 2025-09-01-preview/NetworkSiblingSet_Update.json
  */
 async function networkFeaturesUpdate() {
   const credential = new DefaultAzureCredential();

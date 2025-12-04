@@ -39,8 +39,11 @@ import {
   extractConnectionStringParts,
   toTags,
 } from "./utils/utils.common.js";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
-import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
+import {
+  StorageSharedKeyCredential,
+  AnonymousCredential,
+  UserDelegationKey,
+} from "@azure/storage-common";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { truncatedISO8061Date, assertResponse } from "./utils/utils.common.js";
 import { tracingClient } from "./utils/tracing.js";
@@ -224,40 +227,6 @@ export type ServiceFindBlobsByTagsSegmentResponse = WithResponse<
   ServiceFilterBlobsHeaders,
   FilterBlobSegmentModel
 >;
-
-/**
- * A user delegation key.
- */
-export interface UserDelegationKey {
-  /**
-   * The Azure Active Directory object ID in GUID format.
-   */
-  signedObjectId: string;
-  /**
-   * The Azure Active Directory tenant ID in GUID format.
-   */
-  signedTenantId: string;
-  /**
-   * The date-time the key is active.
-   */
-  signedStartsOn: Date;
-  /**
-   * The date-time the key expires.
-   */
-  signedExpiresOn: Date;
-  /**
-   * Abbreviation of the Azure Storage service that accepts the key.
-   */
-  signedService: string;
-  /**
-   * The service version that created the key.
-   */
-  signedVersion: string;
-  /**
-   * The key as a base64 string.
-   */
-  value: string;
-}
 
 /**
  * Contains response data for the {@link getUserDelegationKey} operation.

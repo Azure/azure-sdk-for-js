@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns a list of the subvolumes in the volume
  *
  * @summary returns a list of the subvolumes in the volume
- * x-ms-original-file: 2025-07-01-preview/Subvolumes_List.json
+ * x-ms-original-file: 2025-09-01-preview/Subvolumes_List.json
  */
 async function subvolumesList() {
   const credential = new DefaultAzureCredential();

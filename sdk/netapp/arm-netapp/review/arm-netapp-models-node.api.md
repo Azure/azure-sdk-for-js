@@ -53,7 +53,54 @@ export interface ActiveDirectory {
 }
 
 // @public
+export interface ActiveDirectoryConfig extends TrackedResource {
+    readonly etag?: string;
+    identity?: ManagedServiceIdentity;
+    properties?: ActiveDirectoryConfigProperties;
+}
+
+// @public
+export interface ActiveDirectoryConfigProperties {
+    readonly activeDirectoryStatus?: ActiveDirectoryStatus;
+    administrators?: string[];
+    backupOperators?: string[];
+    dns?: string[];
+    domain: string;
+    organizationalUnit?: string;
+    readonly provisioningState?: NetAppProvisioningState;
+    secretPassword: SecretPassword;
+    securityOperators?: string[];
+    site?: string;
+    smbServerName?: string;
+    userName?: string;
+}
+
+// @public
+export interface ActiveDirectoryConfigUpdate {
+    identity?: ManagedServiceIdentity;
+    properties?: ActiveDirectoryConfigUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ActiveDirectoryConfigUpdateProperties {
+    administrators?: string[];
+    backupOperators?: string[];
+    dns?: string[];
+    domain?: string;
+    organizationalUnit?: string;
+    secretPassword?: SecretPassword;
+    securityOperators?: string[];
+    site?: string;
+    smbServerName?: string;
+    userName?: string;
+}
+
+// @public
 export type ActiveDirectoryStatus = string;
+
+// @public
+export type ActualRansomwareProtectionState = string;
 
 // @public
 export type ApplicationType = string;
@@ -182,6 +229,9 @@ export interface BreakReplicationRequest {
 }
 
 // @public
+export type BreakthroughMode = string;
+
+// @public
 export interface Bucket extends ProxyResource {
     properties?: BucketProperties;
 }
@@ -244,6 +294,72 @@ export interface BucketServerProperties {
 }
 
 // @public
+export interface Cache extends TrackedResource {
+    readonly etag?: string;
+    properties: CacheProperties;
+    zones?: string[];
+}
+
+// @public
+export type CacheLifeCycleState = string;
+
+// @public
+export interface CacheMountTargetProperties {
+    readonly ipAddress?: string;
+    readonly mountTargetId?: string;
+    readonly smbServerFqdn?: string;
+}
+
+// @public
+export interface CacheProperties {
+    readonly actualThroughputMibps?: number;
+    readonly cacheState?: CacheLifeCycleState;
+    cacheSubnetResourceId: string;
+    cifsChangeNotifications?: CifsChangeNotifyState;
+    readonly encryption?: EncryptionState;
+    encryptionKeySource: EncryptionKeySource;
+    exportPolicy?: ExportPolicyRule[];
+    filepath: string;
+    globalFileLocking?: GlobalFileLockingState;
+    kerberos?: KerberosState;
+    keyVaultPrivateEndpointResourceId?: string;
+    readonly language?: VolumeLanguage;
+    ldap?: LdapState;
+    ldapServerType?: LdapServerType;
+    readonly maximumNumberOfFiles?: number;
+    readonly mountTargets?: CacheMountTargetProperties[];
+    originClusterInformation: OriginClusterInformation;
+    peeringSubnetResourceId: string;
+    protocolTypes?: ProtocolTypes[];
+    readonly provisioningState?: CacheProvisioningState;
+    size: number;
+    smbSettings?: SmbSettings;
+    throughputMibps?: number;
+    writeBack?: EnableWriteBackState;
+}
+
+// @public
+export type CacheProvisioningState = string;
+
+// @public
+export interface CacheUpdate {
+    properties?: CacheUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface CacheUpdateProperties {
+    cifsChangeNotifications?: CifsChangeNotifyState;
+    exportPolicy?: ExportPolicyRule[];
+    keyVaultPrivateEndpointResourceId?: string;
+    protocolTypes?: ProtocolTypes[];
+    size?: number;
+    smbSettings?: SmbSettings;
+    throughputMibps?: number;
+    writeBack?: EnableWriteBackState;
+}
+
+// @public
 export interface CapacityPool extends TrackedResource {
     readonly etag?: string;
     properties: PoolProperties;
@@ -268,10 +384,33 @@ export interface ChangeKeyVault {
 }
 
 // @public
+export interface ChangeZoneRequest {
+    newZone: string;
+}
+
+// @public
 export interface CheckAvailabilityResponse {
     isAvailable?: boolean;
     message?: string;
     reason?: InAvailabilityReasonType;
+}
+
+// @public
+export type CheckElasticResourceAvailabilityReason = string;
+
+// @public
+export interface CheckElasticResourceAvailabilityResponse {
+    isAvailable?: CheckElasticResourceAvailabilityStatus;
+    message?: string;
+    reason?: CheckElasticResourceAvailabilityReason;
+}
+
+// @public
+export type CheckElasticResourceAvailabilityStatus = string;
+
+// @public
+export interface CheckElasticVolumeFilePathAvailabilityRequest {
+    filePath: string;
 }
 
 // @public
@@ -282,6 +421,9 @@ export type CheckQuotaNameResourceTypes = string;
 
 // @public
 export type ChownMode = string;
+
+// @public
+export type CifsChangeNotifyState = string;
 
 // @public
 export interface CifsUser {
@@ -314,6 +456,12 @@ export interface DailySchedule {
 }
 
 // @public
+export type DayOfWeek = string;
+
+// @public
+export type DesiredRansomwareProtectionState = string;
+
+// @public
 export interface DestinationReplication {
     region?: string;
     replicationType?: ReplicationType;
@@ -328,7 +476,374 @@ export interface Dimension {
 }
 
 // @public
+export interface ElasticAccount extends TrackedResource {
+    readonly eTag?: string;
+    identity?: ManagedServiceIdentity;
+    properties?: ElasticAccountProperties;
+}
+
+// @public
+export interface ElasticAccountProperties {
+    encryption?: ElasticEncryption;
+    readonly provisioningState?: NetAppProvisioningState;
+}
+
+// @public
+export interface ElasticAccountUpdate {
+    identity?: ManagedServiceIdentity;
+    properties?: ElasticAccountUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ElasticAccountUpdateProperties {
+    encryption?: ElasticEncryption;
+}
+
+// @public
+export interface ElasticBackup extends ProxyResource {
+    properties?: ElasticBackupProperties;
+}
+
+// @public
+export interface ElasticBackupPolicy extends TrackedResource {
+    readonly eTag?: string;
+    properties?: ElasticBackupPolicyProperties;
+}
+
+// @public
+export interface ElasticBackupPolicyProperties {
+    readonly assignedVolumesCount?: number;
+    dailyBackupsToKeep?: number;
+    monthlyBackupsToKeep?: number;
+    policyState?: ElasticBackupPolicyState;
+    readonly provisioningState?: NetAppProvisioningState;
+    weeklyBackupsToKeep?: number;
+}
+
+// @public
+export type ElasticBackupPolicyState = string;
+
+// @public
+export interface ElasticBackupPolicyUpdate {
+    properties?: ElasticBackupPolicyUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ElasticBackupPolicyUpdateProperties {
+    dailyBackupsToKeep?: number;
+    monthlyBackupsToKeep?: number;
+    policyState?: ElasticBackupPolicyState;
+    weeklyBackupsToKeep?: number;
+}
+
+// @public
+export interface ElasticBackupProperties {
+    readonly backupType?: ElasticBackupType;
+    readonly completionDate?: Date;
+    readonly creationDate?: Date;
+    readonly elasticBackupPolicyResourceId?: string;
+    elasticSnapshotResourceId?: string;
+    elasticVolumeResourceId: string;
+    readonly failureReason?: string;
+    label?: string;
+    readonly provisioningState?: NetAppProvisioningState;
+    readonly size?: number;
+    readonly snapshotCreationDate?: Date;
+    snapshotUsage?: SnapshotUsage;
+    readonly volumeSize?: VolumeSize;
+}
+
+// @public
+export type ElasticBackupType = string;
+
+// @public
+export interface ElasticBackupVault extends TrackedResource {
+    readonly eTag?: string;
+    properties?: ElasticBackupVaultProperties;
+}
+
+// @public
+export interface ElasticBackupVaultProperties {
+    readonly provisioningState?: NetAppProvisioningState;
+}
+
+// @public
+export interface ElasticBackupVaultUpdate {
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ElasticCapacityPool extends TrackedResource {
+    readonly eTag?: string;
+    properties?: ElasticCapacityPoolProperties;
+    zones?: string[];
+}
+
+// @public
+export interface ElasticCapacityPoolProperties {
+    activeDirectoryConfigResourceId?: string;
+    readonly availabilityStatus?: ElasticResourceAvailabilityStatus;
+    readonly currentZone?: string;
+    encryption?: ElasticEncryptionConfiguration;
+    readonly provisioningState?: NetAppProvisioningState;
+    serviceLevel: ElasticServiceLevel;
+    size: number;
+    subnetResourceId: string;
+    readonly totalThroughputMibps?: number;
+}
+
+// @public
+export interface ElasticCapacityPoolUpdate {
+    properties?: ElasticCapacityPoolUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ElasticCapacityPoolUpdateProperties {
+    activeDirectoryConfigResourceId?: string;
+    encryption?: ElasticEncryptionConfiguration;
+    size?: number;
+}
+
+// @public
+export interface ElasticEncryption {
+    identity?: ElasticEncryptionIdentity;
+    keySource?: KeySource;
+    keyVaultProperties?: ElasticKeyVaultProperties;
+}
+
+// @public
+export interface ElasticEncryptionConfiguration {
+    elasticPoolEncryptionKeySource: ElasticPoolEncryptionKeySource;
+    keyVaultPrivateEndpointResourceId: string;
+}
+
+// @public
+export interface ElasticEncryptionIdentity {
+    readonly principalId?: string;
+    userAssignedIdentity?: string;
+}
+
+// @public
+export interface ElasticExportPolicy {
+    rules?: ElasticExportPolicyRule[];
+}
+
+// @public
+export interface ElasticExportPolicyRule {
+    allowedClients?: string[];
+    nfsv3?: ElasticNfsv3Access;
+    nfsv4?: ElasticNfsv4Access;
+    rootAccess?: ElasticRootAccess;
+    ruleIndex?: number;
+    unixAccessRule?: ElasticUnixAccessRule;
+}
+
+// @public
+export interface ElasticKeyVaultProperties {
+    keyName?: string;
+    keyVaultResourceId?: string;
+    keyVaultUri?: string;
+    readonly status?: ElasticKeyVaultStatus;
+}
+
+// @public
+export type ElasticKeyVaultStatus = string;
+
+// @public
+export interface ElasticMountTargetProperties {
+    readonly ipAddress?: string;
+    readonly smbServerFqdn?: string;
+}
+
+// @public
+export type ElasticNfsv3Access = string;
+
+// @public
+export type ElasticNfsv4Access = string;
+
+// @public
+export type ElasticPoolEncryptionKeySource = string;
+
+// @public
+export type ElasticProtocolType = string;
+
+// @public
+export type ElasticResourceAvailabilityStatus = string;
+
+// @public
+export type ElasticRootAccess = string;
+
+// @public
+export type ElasticServiceLevel = string;
+
+// @public
+export type ElasticSmbEncryption = string;
+
+// @public
+export interface ElasticSmbPatchProperties {
+    smbEncryption?: ElasticSmbEncryption;
+}
+
+// @public
+export interface ElasticSmbProperties {
+    smbEncryption?: ElasticSmbEncryption;
+}
+
+// @public
+export interface ElasticSnapshot extends ProxyResource {
+    properties?: ElasticSnapshotProperties;
+}
+
+// @public
+export interface ElasticSnapshotPolicy extends TrackedResource {
+    readonly eTag?: string;
+    properties?: ElasticSnapshotPolicyProperties;
+}
+
+// @public
+export interface ElasticSnapshotPolicyDailySchedule {
+    hour?: number;
+    minute?: number;
+    snapshotsToKeep?: number;
+}
+
+// @public
+export interface ElasticSnapshotPolicyHourlySchedule {
+    minute?: number;
+    snapshotsToKeep?: number;
+}
+
+// @public
+export interface ElasticSnapshotPolicyMonthlySchedule {
+    daysOfMonth?: number[];
+    hour?: number;
+    minute?: number;
+    snapshotsToKeep?: number;
+}
+
+// @public
+export interface ElasticSnapshotPolicyProperties {
+    dailySchedule?: ElasticSnapshotPolicyDailySchedule;
+    hourlySchedule?: ElasticSnapshotPolicyHourlySchedule;
+    monthlySchedule?: ElasticSnapshotPolicyMonthlySchedule;
+    policyStatus?: PolicyStatus;
+    readonly provisioningState?: NetAppProvisioningState;
+    weeklySchedule?: ElasticSnapshotPolicyWeeklySchedule;
+}
+
+// @public
+export interface ElasticSnapshotPolicyUpdate {
+    properties?: ElasticSnapshotPolicyUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ElasticSnapshotPolicyUpdateProperties {
+    dailySchedule?: ElasticSnapshotPolicyDailySchedule;
+    hourlySchedule?: ElasticSnapshotPolicyHourlySchedule;
+    monthlySchedule?: ElasticSnapshotPolicyMonthlySchedule;
+    policyStatus?: PolicyStatus;
+    weeklySchedule?: ElasticSnapshotPolicyWeeklySchedule;
+}
+
+// @public
+export interface ElasticSnapshotPolicyWeeklySchedule {
+    days?: DayOfWeek[];
+    hour?: number;
+    minute?: number;
+    snapshotsToKeep?: number;
+}
+
+// @public
+export interface ElasticSnapshotProperties {
+    readonly provisioningState?: NetAppProvisioningState;
+}
+
+// @public
+export type ElasticUnixAccessRule = string;
+
+// @public
+export interface ElasticVolume extends TrackedResource {
+    readonly eTag?: string;
+    properties?: ElasticVolumeProperties;
+    zones?: string[];
+}
+
+// @public
+export interface ElasticVolumeBackupProperties {
+    elasticBackupPolicyResourceId?: string;
+    elasticBackupVaultResourceId?: string;
+    policyEnforcement?: ElasticVolumePolicyEnforcement;
+}
+
+// @public
+export interface ElasticVolumeDataProtectionPatchProperties {
+    backup?: ElasticVolumeBackupProperties;
+    snapshot?: ElasticVolumeSnapshotProperties;
+}
+
+// @public
+export interface ElasticVolumeDataProtectionProperties {
+    backup?: ElasticVolumeBackupProperties;
+    snapshot?: ElasticVolumeSnapshotProperties;
+}
+
+// @public
+export type ElasticVolumePolicyEnforcement = string;
+
+// @public
+export interface ElasticVolumeProperties {
+    readonly availabilityStatus?: ElasticResourceAvailabilityStatus;
+    backupResourceId?: string;
+    dataProtection?: ElasticVolumeDataProtectionProperties;
+    exportPolicy?: ElasticExportPolicy;
+    filePath: string;
+    readonly mountTargets?: ElasticMountTargetProperties[];
+    protocolTypes: ElasticProtocolType[];
+    readonly provisioningState?: NetAppProvisioningState;
+    readonly restorationState?: ElasticVolumeRestorationState;
+    size: number;
+    smbProperties?: ElasticSmbProperties;
+    snapshotDirectoryVisibility?: SnapshotDirectoryVisibility;
+    snapshotResourceId?: string;
+}
+
+// @public
+export type ElasticVolumeRestorationState = string;
+
+// @public
+export interface ElasticVolumeRevert {
+    snapshotResourceId?: string;
+}
+
+// @public
+export interface ElasticVolumeSnapshotProperties {
+    snapshotPolicyResourceId?: string;
+}
+
+// @public
+export interface ElasticVolumeUpdate {
+    properties?: ElasticVolumeUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ElasticVolumeUpdateProperties {
+    dataProtection?: ElasticVolumeDataProtectionPatchProperties;
+    exportPolicy?: ElasticExportPolicy;
+    size?: number;
+    smbProperties?: ElasticSmbPatchProperties;
+    snapshotDirectoryVisibility?: SnapshotDirectoryVisibility;
+}
+
+// @public
 export type EnableSubvolumes = string;
+
+// @public
+export type EnableWriteBackState = string;
 
 // @public
 export interface EncryptionIdentity {
@@ -339,6 +854,9 @@ export interface EncryptionIdentity {
 
 // @public
 export type EncryptionKeySource = string;
+
+// @public
+export type EncryptionState = string;
 
 // @public
 export interface EncryptionTransitionRequest {
@@ -371,6 +889,10 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
+
+// @public
+type Exclude_2 = string;
+export { Exclude_2 as Exclude }
 
 // @public
 export interface ExportPolicyRule {
@@ -434,6 +956,9 @@ export interface GetKeyVaultStatusResponseProperties {
 }
 
 // @public
+export type GlobalFileLockingState = string;
+
+// @public
 export interface HourlySchedule {
     minute?: number;
     snapshotsToKeep?: number;
@@ -442,6 +967,9 @@ export interface HourlySchedule {
 
 // @public
 export type InAvailabilityReasonType = string;
+
+// @public
+export type KerberosState = string;
 
 // @public
 export type KeySource = string;
@@ -480,6 +1008,14 @@ export enum KnownActiveDirectoryStatus {
 }
 
 // @public
+export enum KnownActualRansomwareProtectionState {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Learning = "Learning",
+    Paused = "Paused"
+}
+
+// @public
 export enum KnownApplicationType {
     Oracle = "ORACLE",
     SAPHana = "SAP-HANA"
@@ -498,6 +1034,12 @@ export enum KnownBackupType {
 }
 
 // @public
+export enum KnownBreakthroughMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownBucketPatchPermissions {
     ReadOnly = "ReadOnly",
     ReadWrite = "ReadWrite"
@@ -510,18 +1052,53 @@ export enum KnownBucketPermissions {
 }
 
 // @public
+export enum KnownCacheLifeCycleState {
+    ClusterPeeringOfferSent = "ClusterPeeringOfferSent",
+    Creating = "Creating",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    VserverPeeringOfferSent = "VserverPeeringOfferSent"
+}
+
+// @public
+export enum KnownCacheProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownCheckElasticResourceAvailabilityReason {
+    AlreadyExists = "AlreadyExists",
+    Invalid = "Invalid"
+}
+
+// @public
+export enum KnownCheckElasticResourceAvailabilityStatus {
+    False = "False",
+    True = "True"
+}
+
+// @public
 export enum KnownCheckNameResourceTypes {
     MicrosoftNetAppNetAppAccounts = "Microsoft.NetApp/netAppAccounts",
+    MicrosoftNetAppNetAppAccountsBackupVaultsBackups = "Microsoft.NetApp/netAppAccounts/backupVaults/backups",
     MicrosoftNetAppNetAppAccountsCapacityPools = "Microsoft.NetApp/netAppAccounts/capacityPools",
     MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
+    MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesBackups = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/backups",
     MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots"
 }
 
 // @public
 export enum KnownCheckQuotaNameResourceTypes {
     MicrosoftNetAppNetAppAccounts = "Microsoft.NetApp/netAppAccounts",
+    MicrosoftNetAppNetAppAccountsBackupVaultsBackups = "Microsoft.NetApp/netAppAccounts/backupVaults/backups",
     MicrosoftNetAppNetAppAccountsCapacityPools = "Microsoft.NetApp/netAppAccounts/capacityPools",
     MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
+    MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesBackups = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/backups",
     MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots"
 }
 
@@ -529,6 +1106,12 @@ export enum KnownCheckQuotaNameResourceTypes {
 export enum KnownChownMode {
     Restricted = "Restricted",
     Unrestricted = "Unrestricted"
+}
+
+// @public
+export enum KnownCifsChangeNotifyState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -560,7 +1143,119 @@ export enum KnownCredentialsStatus {
 }
 
 // @public
+export enum KnownDayOfWeek {
+    Friday = "Friday",
+    Monday = "Monday",
+    Saturday = "Saturday",
+    Sunday = "Sunday",
+    Thursday = "Thursday",
+    Tuesday = "Tuesday",
+    Wednesday = "Wednesday"
+}
+
+// @public
+export enum KnownDesiredRansomwareProtectionState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownElasticBackupPolicyState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownElasticBackupType {
+    Manual = "Manual",
+    Scheduled = "Scheduled"
+}
+
+// @public
+export enum KnownElasticKeyVaultStatus {
+    Created = "Created",
+    Deleted = "Deleted",
+    Error = "Error",
+    InUse = "InUse",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownElasticNfsv3Access {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownElasticNfsv4Access {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownElasticPoolEncryptionKeySource {
+    KeyVault = "KeyVault",
+    NetApp = "NetApp"
+}
+
+// @public
+export enum KnownElasticProtocolType {
+    NFSv3 = "NFSv3",
+    NFSv4 = "NFSv4",
+    SMB = "SMB"
+}
+
+// @public
+export enum KnownElasticResourceAvailabilityStatus {
+    Offline = "Offline",
+    Online = "Online"
+}
+
+// @public
+export enum KnownElasticRootAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownElasticServiceLevel {
+    ZoneRedundant = "ZoneRedundant"
+}
+
+// @public
+export enum KnownElasticSmbEncryption {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownElasticUnixAccessRule {
+    NoAccess = "NoAccess",
+    ReadOnly = "ReadOnly",
+    ReadWrite = "ReadWrite"
+}
+
+// @public
+export enum KnownElasticVolumePolicyEnforcement {
+    Enforced = "Enforced",
+    NotEnforced = "NotEnforced"
+}
+
+// @public
+export enum KnownElasticVolumeRestorationState {
+    Failed = "Failed",
+    Restored = "Restored",
+    Restoring = "Restoring"
+}
+
+// @public
 export enum KnownEnableSubvolumes {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownEnableWriteBackState {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
@@ -569,6 +1264,12 @@ export enum KnownEnableSubvolumes {
 export enum KnownEncryptionKeySource {
     MicrosoftKeyVault = "Microsoft.KeyVault",
     MicrosoftNetApp = "Microsoft.NetApp"
+}
+
+// @public
+export enum KnownEncryptionState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -581,6 +1282,12 @@ export enum KnownEncryptionType {
 export enum KnownEndpointType {
     Dst = "dst",
     Src = "src"
+}
+
+// @public
+export enum KnownExclude {
+    Deleted = "Deleted",
+    None = "None"
 }
 
 // @public
@@ -599,9 +1306,21 @@ export enum KnownFileAccessLogs {
 }
 
 // @public
+export enum KnownGlobalFileLockingState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownInAvailabilityReasonType {
     AlreadyExists = "AlreadyExists",
     Invalid = "Invalid"
+}
+
+// @public
+export enum KnownKerberosState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -620,9 +1339,21 @@ export enum KnownKeyVaultStatus {
 }
 
 // @public
+export enum KnownLargeVolumeType {
+    ExtraLargeVolume7Dot2PiB = "PremExtraLargeVolume7Dot2PiB",
+    LargeVolume = "LargeVolume"
+}
+
+// @public
 export enum KnownLdapServerType {
     ActiveDirectory = "ActiveDirectory",
     OpenLdap = "OpenLDAP"
+}
+
+// @public
+export enum KnownLdapState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -659,7 +1390,8 @@ export enum KnownNetAppProvisioningState {
     Failed = "Failed",
     Moving = "Moving",
     Patching = "Patching",
-    Succeeded = "Succeeded"
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -679,9 +1411,42 @@ export enum KnownNetworkSiblingSetProvisioningState {
 }
 
 // @public
+export enum KnownPolicyStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownProtocolTypes {
+    NFSv3 = "NFSv3",
+    NFSv4 = "NFSv4",
+    SMB = "SMB"
+}
+
+// @public
 export enum KnownQosType {
     Auto = "Auto",
     Manual = "Manual"
+}
+
+// @public
+export enum KnownRansomwareReportSeverity {
+    High = "High",
+    Low = "Low",
+    Moderate = "Moderate",
+    None = "None"
+}
+
+// @public
+export enum KnownRansomwareReportState {
+    Active = "Active",
+    Resolved = "Resolved"
+}
+
+// @public
+export enum KnownRansomwareSuspectResolution {
+    FalsePositive = "FalsePositive",
+    PotentialThreat = "PotentialThreat"
 }
 
 // @public
@@ -694,6 +1459,13 @@ export enum KnownRegionStorageToNetworkProximity {
     T1AndT2AndAcrossT2 = "T1AndT2AndAcrossT2",
     T2 = "T2",
     T2AndAcrossT2 = "T2AndAcrossT2"
+}
+
+// @public
+export enum KnownReplicationMirrorState {
+    Broken = "Broken",
+    Mirrored = "Mirrored",
+    Uninitialized = "Uninitialized"
 }
 
 // @public
@@ -731,9 +1503,27 @@ export enum KnownSmbAccessBasedEnumeration {
 }
 
 // @public
+export enum KnownSmbEncryptionState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownSmbNonBrowsable {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownSnapshotDirectoryVisibility {
+    Hidden = "Hidden",
+    Visible = "Visible"
+}
+
+// @public
+export enum KnownSnapshotUsage {
+    CreateNewSnapshot = "CreateNewSnapshot",
+    UseExistingSnapshot = "UseExistingSnapshot"
 }
 
 // @public
@@ -747,7 +1537,11 @@ export enum KnownType {
 // @public
 export enum KnownVersions {
     V20250601 = "2025-06-01",
-    V20250701Preview = "2025-07-01-preview"
+    V20250701Preview = "2025-07-01-preview",
+    V20250801 = "2025-08-01",
+    V20250801Preview = "2025-08-01-preview",
+    V20250901 = "2025-09-01",
+    V20250901Preview = "2025-09-01-preview"
 }
 
 // @public
@@ -846,12 +1640,21 @@ export enum KnownVolumeRestoreRelationshipStatus {
 }
 
 // @public
+export enum KnownVolumeSize {
+    Large = "Large",
+    Regular = "Regular"
+}
+
+// @public
 export enum KnownVolumeStorageToNetworkProximity {
     AcrossT2 = "AcrossT2",
     Default = "Default",
     T1 = "T1",
     T2 = "T2"
 }
+
+// @public
+export type LargeVolumeType = string;
 
 // @public
 export interface LdapConfiguration {
@@ -873,8 +1676,16 @@ export interface LdapSearchScopeOpt {
 export type LdapServerType = string;
 
 // @public
+export type LdapState = string;
+
+// @public
 export interface ListQuotaReportResponse {
     value?: QuotaReport[];
+}
+
+// @public
+export interface ListReplicationsRequest {
+    exclude?: Exclude_2;
 }
 
 // @public
@@ -1011,8 +1822,23 @@ export interface OperationProperties {
 }
 
 // @public
+export interface OriginClusterInformation {
+    peerAddresses: string[];
+    peerClusterName: string;
+    peerVolumeName: string;
+    peerVserverName: string;
+}
+
+// @public
 export interface PeerClusterForVolumeMigrationRequest {
     peerIpAddresses: string[];
+}
+
+// @public
+export interface PeeringPassphrases {
+    clusterPeeringCommand: string;
+    clusterPeeringPassphrase: string;
+    vserverPeeringCommand: string;
 }
 
 // @public
@@ -1020,6 +1846,9 @@ export interface PlacementKeyValuePairs {
     key: string;
     value: string;
 }
+
+// @public
+export type PolicyStatus = string;
 
 // @public
 export interface PoolChangeRequest {
@@ -1047,6 +1876,9 @@ export interface PoolProperties {
     readonly totalThroughputMibps?: number;
     readonly utilizedThroughputMibps?: number;
 }
+
+// @public
+export type ProtocolTypes = string;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -1091,6 +1923,56 @@ export interface QuotaReport {
 }
 
 // @public
+export interface RansomwareProtectionPatchSettings {
+    desiredRansomwareProtectionState?: DesiredRansomwareProtectionState;
+}
+
+// @public
+export interface RansomwareProtectionSettings {
+    readonly actualRansomwareProtectionState?: ActualRansomwareProtectionState;
+    desiredRansomwareProtectionState?: DesiredRansomwareProtectionState;
+}
+
+// @public
+export interface RansomwareReport extends ProxyResource {
+    properties?: RansomwareReportProperties;
+}
+
+// @public
+export interface RansomwareReportProperties {
+    readonly clearedCount?: number;
+    readonly eventTime?: Date;
+    readonly provisioningState?: string;
+    readonly reportedCount?: number;
+    readonly severity?: RansomwareReportSeverity;
+    readonly state?: RansomwareReportState;
+    readonly suspects?: RansomwareSuspects[];
+}
+
+// @public
+export type RansomwareReportSeverity = string;
+
+// @public
+export type RansomwareReportState = string;
+
+// @public
+export type RansomwareSuspectResolution = string;
+
+// @public
+export interface RansomwareSuspects {
+    readonly extension?: string;
+    readonly fileCount?: number;
+    readonly resolution?: RansomwareSuspectResolution;
+    readonly suspectFiles?: SuspectFile[];
+}
+
+// @public
+export interface RansomwareSuspectsClearRequest {
+    extensions: string[];
+    resolution: RansomwareSuspectResolution;
+}
+
+// @public
 export interface ReestablishReplicationRequest {
     sourceVolumeId?: string;
 }
@@ -1130,11 +2012,17 @@ export interface RemotePath {
 // @public
 export interface Replication {
     endpointType?: EndpointType;
+    readonly mirrorState?: ReplicationMirrorState;
     remoteVolumeRegion?: string;
     remoteVolumeResourceId: string;
+    readonly replicationCreationTime?: Date;
+    readonly replicationDeletionTime?: Date;
     readonly replicationId?: string;
     replicationSchedule?: ReplicationSchedule;
 }
+
+// @public
+export type ReplicationMirrorState = string;
 
 // @public
 export interface ReplicationObject {
@@ -1192,6 +2080,24 @@ export interface RestoreStatus {
 }
 
 // @public
+export interface SecretPassword {
+    identity?: SecretPasswordIdentity;
+    keyVaultProperties?: SecretPasswordKeyVaultProperties;
+}
+
+// @public
+export interface SecretPasswordIdentity {
+    readonly principalId?: string;
+    userAssignedIdentity?: string;
+}
+
+// @public
+export interface SecretPasswordKeyVaultProperties {
+    keyVaultUri: string;
+    secretName: string;
+}
+
+// @public
 export type SecurityStyle = string;
 
 // @public
@@ -1207,13 +2113,26 @@ export interface ServiceSpecification {
 export type SmbAccessBasedEnumeration = string;
 
 // @public
+export type SmbEncryptionState = string;
+
+// @public
 export type SmbNonBrowsable = string;
+
+// @public
+export interface SmbSettings {
+    smbAccessBasedEnumerations?: SmbAccessBasedEnumeration;
+    smbEncryption?: SmbEncryptionState;
+    smbNonBrowsable?: SmbNonBrowsable;
+}
 
 // @public
 export interface Snapshot extends ProxyResource {
     location: string;
     properties?: SnapshotProperties;
 }
+
+// @public
+export type SnapshotDirectoryVisibility = string;
 
 // @public
 export interface SnapshotPatch {
@@ -1265,6 +2184,9 @@ export interface SnapshotRestoreFiles {
 }
 
 // @public
+export type SnapshotUsage = string;
+
+// @public
 export interface SubvolumeInfo extends ProxyResource {
     properties?: SubvolumeProperties;
 }
@@ -1308,6 +2230,12 @@ export interface SubvolumeProperties {
     path?: string;
     readonly provisioningState?: string;
     size?: number | null;
+}
+
+// @public
+export interface SuspectFile {
+    readonly fileTimestamp?: Date;
+    readonly suspectFileName?: string;
 }
 
 // @public
@@ -1477,6 +2405,7 @@ export interface VolumePatchProperties {
 // @public
 export interface VolumePatchPropertiesDataProtection {
     backup?: VolumeBackupProperties;
+    ransomwareProtection?: RansomwareProtectionPatchSettings;
     snapshot?: VolumeSnapshotProperties;
 }
 
@@ -1492,6 +2421,7 @@ export interface VolumeProperties {
     avsDataStore?: AvsDataStore;
     backupId?: string | null;
     readonly baremetalTenantId?: string;
+    breakthroughMode?: BreakthroughMode;
     capacityPoolResourceId?: string;
     readonly cloneProgress?: number | null;
     coolAccess?: boolean;
@@ -1518,6 +2448,7 @@ export interface VolumeProperties {
     kerberosEnabled?: boolean;
     keyVaultPrivateEndpointResourceId?: string;
     language?: VolumeLanguage;
+    largeVolumeType?: LargeVolumeType;
     ldapEnabled?: boolean;
     ldapServerType?: LdapServerType;
     readonly maximumNumberOfFiles?: number;
@@ -1552,6 +2483,7 @@ export interface VolumeProperties {
 // @public
 export interface VolumePropertiesDataProtection {
     backup?: VolumeBackupProperties;
+    ransomwareProtection?: RansomwareProtectionSettings;
     replication?: ReplicationObject;
     snapshot?: VolumeSnapshotProperties;
     volumeRelocation?: VolumeRelocationProperties;
@@ -1597,6 +2529,9 @@ export type VolumeRestoreRelationshipStatus = string;
 export interface VolumeRevert {
     snapshotId?: string;
 }
+
+// @public
+export type VolumeSize = string;
 
 // @public
 export interface VolumeSnapshotProperties {

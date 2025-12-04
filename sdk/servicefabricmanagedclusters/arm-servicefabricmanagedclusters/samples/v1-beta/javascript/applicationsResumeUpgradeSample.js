@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to send a request to resume the current application upgrade. This will resume the application upgrade from where it was paused.
  *
  * @summary send a request to resume the current application upgrade. This will resume the application upgrade from where it was paused.
- * x-ms-original-file: 2025-06-01-preview/ApplicationActionResumeUpgrade_example.json
+ * x-ms-original-file: 2025-10-01-preview/ApplicationActionResumeUpgrade_example.json
  */
 async function resumeUpgrade() {
   const credential = new DefaultAzureCredential();

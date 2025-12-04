@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to send a request to update the current application upgrade.
  *
  * @summary send a request to update the current application upgrade.
- * x-ms-original-file: 2025-06-01-preview/ApplicationActionUpdateUpgrade_example.json
+ * x-ms-original-file: 2025-10-01-preview/ApplicationActionUpdateUpgrade_example.json
  */
 async function updateAnApplicationUpgrade(): Promise<void> {
   const credential = new DefaultAzureCredential();

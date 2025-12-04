@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the latest status of the backup for a volume
  *
  * @summary get the latest status of the backup for a volume
- * x-ms-original-file: 2025-07-01-preview/Volumes_LatestBackupStatus.json
+ * x-ms-original-file: 2025-09-01-preview/Volumes_LatestBackupStatus.json
  */
 async function volumesBackupStatus() {
   const credential = new DefaultAzureCredential();

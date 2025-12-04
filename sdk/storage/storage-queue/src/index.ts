@@ -25,6 +25,7 @@ export {
   StorageRetryPolicyFactory,
   StorageSharedKeyCredentialPolicy,
   StorageBrowserPolicyFactory,
+  UserDelegationKey,
 } from "@azure/storage-common";
 
 export {

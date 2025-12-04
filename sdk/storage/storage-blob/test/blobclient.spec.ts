@@ -84,7 +84,7 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
 
     const properties = await newBlobClient.getProperties();
-    assert.ok(properties.accessTier);
+    assert.isDefined(properties.accessTier);
     assert.equal(properties.accessTier!, "Cold");
   });
 
@@ -126,6 +126,111 @@ describe("BlobClient", () => {
     }
 
     await leaseClient.releaseLease();
+  });
+
+  it("Set and get blob tags should work with modifed condition", async () => {
+    const tags = {
+      tag1: "val1",
+      tag2: "val2",
+    };
+    const properties = await blockBlobClient.getProperties();
+    try {
+      await blockBlobClient.setTags(tags, {
+        conditions: {
+          ifNoneMatch: properties.etag,
+        },
+      });
+    } catch (ex: any) {
+      assert.deepStrictEqual(ex.code, "ConditionNotMet", ex.msg);
+    }
+
+    const modifiedTime = properties.lastModified;
+    modifiedTime?.setMinutes(modifiedTime.getMinutes() + 2);
+    try {
+      await blockBlobClient.setTags(tags, {
+        conditions: {
+          ifModifiedSince: modifiedTime,
+        },
+      });
+    } catch (ex: any) {
+      assert.deepStrictEqual(ex.code, "ConditionNotMet", ex.msg);
+    }
+
+    try {
+      modifiedTime?.setMinutes(modifiedTime.getMinutes() - 5);
+      await blockBlobClient.setTags(tags, {
+        conditions: {
+          ifUnmodifiedSince: modifiedTime,
+        },
+      });
+    } catch (ex: any) {
+      assert.deepStrictEqual(ex.code, "ConditionNotMet", ex.msg);
+    }
+
+    try {
+      await blockBlobClient.setTags(tags, {
+        conditions: {
+          ifMatch: "Invalid etag",
+        },
+      });
+    } catch (ex: any) {
+      assert.deepStrictEqual(ex.code, "ConditionNotMet", ex.msg);
+    }
+    await blockBlobClient.setTags(tags, {
+      conditions: {
+        ifMatch: properties.etag,
+      },
+    });
+
+    const properties2 = await blockBlobClient.getProperties();
+    try {
+      await blockBlobClient.getTags({
+        conditions: {
+          ifNoneMatch: properties2.etag,
+        },
+      });
+    } catch (ex: any) {
+      assert.deepStrictEqual(ex.details.errorCode, "ConditionNotMet", ex.msg);
+    }
+
+    const modifiedTime2 = properties.lastModified;
+    modifiedTime2?.setMinutes(modifiedTime2.getMinutes() + 2);
+    try {
+      await blockBlobClient.getTags({
+        conditions: {
+          ifModifiedSince: modifiedTime2,
+        },
+      });
+    } catch (ex: any) {
+      assert.deepStrictEqual(ex.details.errorCode, "ConditionNotMet", ex.msg);
+    }
+
+    modifiedTime2?.setMinutes(modifiedTime2.getMinutes() - 5);
+    try {
+      await blockBlobClient.getTags({
+        conditions: {
+          ifUnmodifiedSince: modifiedTime2,
+        },
+      });
+    } catch (ex: any) {
+      assert.deepStrictEqual(ex.details.errorCode, "ConditionNotMet", ex.msg);
+    }
+
+    try {
+      await blockBlobClient.getTags({
+        conditions: {
+          ifMatch: "Invalid etag",
+        },
+      });
+    } catch (ex: any) {
+      assert.deepStrictEqual(ex.details.errorCode, "ConditionNotMet", ex.msg);
+    }
+    const response = await blockBlobClient.getTags({
+      conditions: {
+        ifMatch: properties.etag,
+      },
+    });
+    assert.deepStrictEqual(response.tags, tags);
   });
 
   it("Set blob tags should work", async () => {
@@ -242,16 +347,16 @@ describe("BlobClient", () => {
     const result1 = await blobClient.download(0, 1, {
       rangeGetContentCrc64: true,
     });
-    assert.ok(result1.clientRequestId);
-    // assert.ok(result1.contentCrc64!);
+    assert.isDefined(result1.clientRequestId);
+    // assert.isDefined(result1.contentCrc64!);
     assert.deepStrictEqual(await bodyToString(result1, 1), content[0]);
-    assert.ok(result1.clientRequestId);
+    assert.isDefined(result1.clientRequestId);
 
     const result2 = await blobClient.download(1, 1, {
       rangeGetContentMD5: true,
     });
-    assert.ok(result2.clientRequestId);
-    // assert.ok(result2.contentMD5!);
+    assert.isDefined(result2.clientRequestId);
+    // assert.isDefined(result2.contentMD5!);
 
     let exceptionCaught = false;
     try {
@@ -262,7 +367,7 @@ describe("BlobClient", () => {
     } catch (err: any) {
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("setMetadata with new metadata set", async () => {
@@ -294,14 +399,14 @@ describe("BlobClient", () => {
     const result = await blobClient.getProperties();
 
     assert.deepStrictEqual(result.blobType, "BlockBlob");
-    assert.ok(result.lastModified);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.ok(!result.cacheControl);
-    assert.ok(!result.contentType);
-    assert.ok(!result.contentMD5);
-    assert.ok(!result.contentEncoding);
-    assert.ok(!result.contentLanguage);
-    assert.ok(!result.contentDisposition);
+    assert.isUndefined(result.cacheControl);
+    assert.isUndefined(result.contentType);
+    assert.isUndefined(result.contentMD5);
+    assert.isUndefined(result.contentEncoding);
+    assert.isUndefined(result.contentLanguage);
+    assert.isUndefined(result.contentDisposition);
   });
 
   it("setHTTPHeaders with all parameters set", async () => {
@@ -315,9 +420,9 @@ describe("BlobClient", () => {
     };
     await blobClient.setHTTPHeaders(headers);
     const result = await blobClient.getProperties();
-    assert.ok(result.date);
+    assert.isDefined(result.date);
     assert.deepStrictEqual(result.blobType, "BlockBlob");
-    assert.ok(result.lastModified);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
     assert.deepStrictEqual(result.cacheControl, headers.blobCacheControl);
     assert.deepStrictEqual(result.contentType, headers.blobContentType);
@@ -333,27 +438,27 @@ describe("BlobClient", () => {
 
   it("deleteIfExists", async () => {
     const res = await blobClient.deleteIfExists();
-    assert.ok(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const blobName2 = recorder.variable("blob2", getUniqueName("blob2"));
     const blobClient2 = containerClient.getBlobClient(blobName2);
     // delete a non-existent blob
     const res2 = await blobClient2.deleteIfExists();
-    assert.ok(!res2.succeeded);
+    assert.isFalse(res2.succeeded);
     assert.equal(res2.errorCode, "BlobNotFound");
   });
 
   // The following code illustrates deleting a snapshot after creating one
   it("delete snapshot", async () => {
     const result = await blobClient.createSnapshot();
-    assert.ok(result.snapshot);
+    assert.isDefined(result.snapshot);
 
     const blobSnapshotClient = blobClient.withSnapshot(result.snapshot!);
     await blobSnapshotClient.getProperties();
 
     await blobSnapshotClient.delete();
     const res = await blobSnapshotClient.deleteIfExists();
-    assert.ok(!res.succeeded);
+    assert.isFalse(res.succeeded);
     assert.equal(res.errorCode, "BlobNotFound");
 
     await blobClient.delete();
@@ -373,7 +478,7 @@ describe("BlobClient", () => {
 
   it("createSnapshot", async () => {
     const result = await blobClient.createSnapshot();
-    assert.ok(result.snapshot);
+    assert.isDefined(result.snapshot);
 
     const blobSnapshotClient = blobClient.withSnapshot(result.snapshot!);
     await blobSnapshotClient.getProperties();
@@ -409,7 +514,7 @@ describe("BlobClient", () => {
       result3.segment.blobItems![0].properties,
       result3.segment.blobItems![1].properties,
     );
-    assert.ok(result3.segment.blobItems![0].snapshot || result3.segment.blobItems![1].snapshot);
+    assert.isOk(result3.segment.blobItems![0].snapshot || result3.segment.blobItems![1].snapshot);
   });
 
   it("undelete", async () => {
@@ -423,7 +528,7 @@ describe("BlobClient", () => {
       });
       // await delay(15 * 1000);
       properties = await blobServiceClient.getProperties();
-      assert.ok(
+      assert.isTrue(
         properties.deleteRetentionPolicy!.enabled,
         "deleteRetentionPolicy should be enabled.",
       );
@@ -453,10 +558,10 @@ describe("BlobClient", () => {
       result = res.value;
     }
 
-    assert.ok(result, "Expect valid iterator value");
-    assert.ok(result.segment, "Expect valid segment response");
+    assert.isDefined(result, "Expect valid iterator value");
+    assert.isDefined(result.segment, "Expect valid segment response");
 
-    assert.ok(
+    assert.isNotEmpty(
       result.segment.blobItems,
       "Expect non empty result from list blobs({ includeDeleted: true, includeVersions: true }) with page size of 1.",
     );
@@ -467,7 +572,7 @@ describe("BlobClient", () => {
       `Expect result.segment.blobItems.length === 1 but got ${result.segment.blobItems.length}.`,
     );
 
-    assert.ok(
+    assert.isDefined(
       result.segment.blobItems![0],
       "Expect a valid element in result array from list blobs({ includeDeleted: true }) with page size of 1.",
     );
@@ -496,12 +601,12 @@ describe("BlobClient", () => {
       result = res.value;
     }
 
-    assert.ok(result, "Expect valid iterator value");
-    assert.ok(result.segment, "Expect valid segment response");
+    assert.isDefined(result, "Expect valid iterator value");
+    assert.isDefined(result.segment, "Expect valid segment response");
 
-    assert.ok(result.segment.blobItems, "Expect non empty result from list blobs().");
-    assert.ok(
-      !result.segment.blobItems![0].deleted,
+    assert.isNotEmpty(result.segment.blobItems, "Expect non empty result from list blobs().");
+    assert.isUndefined(
+      result.segment.blobItems![0].deleted,
       "Expect that the blob is NOT marked for deletion",
     );
   });
@@ -511,7 +616,7 @@ describe("BlobClient", () => {
       recorder.variable("copiedblob", getUniqueName("copiedblob")),
     );
     const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
     await delay(1 * 1000);
 
     try {
@@ -520,7 +625,7 @@ describe("BlobClient", () => {
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation.",
       );
     } catch (err: any) {
-      assert.ok((err.details.errorCode = "NoPendingCopyOperation"));
+      assert.strictEqual(err.details.errorCode, "NoPendingCopyOperation");
     }
   });
 
@@ -534,21 +639,21 @@ describe("BlobClient", () => {
     });
 
     const properties = await newBlobClient.getProperties();
-    assert.ok(properties.accessTier);
+    assert.isDefined(properties.accessTier);
     assert.equal(properties.accessTier!, "Cold");
   });
 
   it("setAccessTier set default to cool", async () => {
     await blockBlobClient.setAccessTier("Cool");
     const properties = await blockBlobClient.getProperties();
-    assert.ok(properties.accessTier);
+    assert.isDefined(properties.accessTier);
     assert.equal(properties.accessTier!, "Cool");
   });
 
   it("setAccessTier set archive to hot", async () => {
     await blockBlobClient.setAccessTier("Archive");
     let properties = await blockBlobClient.getProperties();
-    assert.ok(properties.accessTier);
+    assert.isDefined(properties.accessTier);
     assert.equal(properties.accessTier!, "Archive");
 
     await blockBlobClient.setAccessTier("Hot");
@@ -579,22 +684,22 @@ describe("BlobClient", () => {
   it("setAccessTier set to/from cold", async () => {
     await blockBlobClient.setAccessTier("Cold");
     const properties = await blockBlobClient.getProperties();
-    assert.ok(properties.accessTier);
+    assert.isDefined(properties.accessTier);
     assert.equal(properties.accessTier!, "Cold");
 
     await blockBlobClient.setAccessTier("Hot");
     const properties1 = await blockBlobClient.getProperties();
-    assert.ok(properties1.accessTier);
+    assert.isDefined(properties1.accessTier);
     assert.equal(properties1.accessTier!, "Hot");
 
     await blockBlobClient.setAccessTier("Cold");
     const properties2 = await blockBlobClient.getProperties();
-    assert.ok(properties2.accessTier);
+    assert.isDefined(properties2.accessTier);
     assert.equal(properties2.accessTier!, "Cold");
 
     await blockBlobClient.setAccessTier("Cool");
     const properties3 = await blockBlobClient.getProperties();
-    assert.ok(properties3.accessTier);
+    assert.isDefined(properties3.accessTier);
     assert.equal(properties3.accessTier!, "Cool");
   });
 
@@ -605,7 +710,7 @@ describe("BlobClient", () => {
     await blockBlobClientWithSnapshot.setAccessTier("Cool");
 
     const properties = await blockBlobClientWithSnapshot.getProperties();
-    assert.ok(properties.accessTier);
+    assert.isDefined(properties.accessTier);
     assert.equal(properties.accessTier!, "Cool");
   });
 
@@ -616,7 +721,7 @@ describe("BlobClient", () => {
     await blockBlobClientWithVersion.setAccessTier("Cool");
 
     const properties = await blockBlobClientWithVersion.getProperties();
-    assert.ok(properties.accessTier);
+    assert.isDefined(properties.accessTier);
     assert.equal(properties.accessTier!, "Cool");
   });
 
@@ -671,7 +776,7 @@ describe("BlobClient", () => {
     } catch (err: any) {
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("setMetadata, setHTTPHeaders, getProperties and createSnapshot with CPK", async () => {
@@ -698,7 +803,7 @@ describe("BlobClient", () => {
     } catch (err: any) {
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
 
     const headers = {
       blobCacheControl: "blobCacheControl",
@@ -712,9 +817,9 @@ describe("BlobClient", () => {
 
     const gResp = await blobClient.getProperties({ customerProvidedKey: Test_CPK_INFO });
     assert.equal(gResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
-    assert.ok(gResp.date);
+    assert.isDefined(gResp.date);
     assert.deepStrictEqual(gResp.blobType, "BlockBlob");
-    assert.ok(gResp.lastModified);
+    assert.isDefined(gResp.lastModified);
     assert.deepStrictEqual(gResp.metadata, metadata);
     assert.deepStrictEqual(gResp.cacheControl, headers.blobCacheControl);
     assert.deepStrictEqual(gResp.contentType, headers.blobContentType);
@@ -727,7 +832,7 @@ describe("BlobClient", () => {
       customerProvidedKey: Test_CPK_INFO,
     });
     // assert.equal(csResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256); service side issue?
-    assert.ok(csResp.snapshot);
+    assert.isDefined(csResp.snapshot);
 
     const blobSnapshotURL = blobClient.withSnapshot(csResp.snapshot!);
     await blobSnapshotURL.getProperties({ customerProvidedKey: Test_CPK_INFO });
@@ -739,7 +844,7 @@ describe("BlobClient", () => {
     } catch (err: any) {
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("beginCopyFromURL with rehydrate priority", async (ctx) => {
@@ -756,7 +861,7 @@ describe("BlobClient", () => {
         rehydratePriority: "Standard",
       })
     ).pollUntilDone();
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
     delay(1 * 1000);
 
     const properties1 = await blobClient.getProperties();
@@ -769,7 +874,7 @@ describe("BlobClient", () => {
     if (isLiveMode()) {
       // A service feature is being rolling out which will sanitize the sig field
       // so we remove it before comparing urls.
-      assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+      assert.isDefined(properties2.copySource, "Expecting valid 'properties2.copySource");
 
       const sanitizedActualUrl = new URL(properties2.copySource!);
       sanitizedActualUrl.searchParams.delete("sig");
@@ -799,7 +904,7 @@ describe("BlobClient", () => {
         tier: newTier,
       })
     ).pollUntilDone();
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
     delay(1 * 1000);
 
     const properties1 = await blobClient.getProperties();
@@ -826,7 +931,7 @@ describe("BlobClient", () => {
 
   it("exists returns true on an existing blob", async () => {
     const result = await blobClient.exists();
-    assert.ok(result, "exists() should return true for an existing blob");
+    assert.isTrue(result, "exists() should return true for an existing blob");
   });
 
   it("exists returns false on non-existing blob", async () => {
@@ -834,7 +939,7 @@ describe("BlobClient", () => {
       recorder.variable("newblob", getUniqueName("newblob")),
     );
     const result = await newBlobClient.exists();
-    assert.ok(result === false, "exists() should return true for an existing blob");
+    assert.strictEqual(result, false, "exists() should return true for an existing blob");
   });
 
   it("exists works with customer provided key", async () => {
@@ -854,7 +959,7 @@ describe("BlobClient", () => {
     const result = await blobClient.exists({
       customerProvidedKey: Test_CPK_INFO,
     });
-    assert.ok(result, "exists() should return true");
+    assert.isTrue(result, "exists() should return true");
   });
 
   it("exists works without customer provided key on a blob with CPK", async () => {
@@ -866,7 +971,7 @@ describe("BlobClient", () => {
     });
 
     const result = await blobClient.exists();
-    assert.ok(result, "exists() should return true");
+    assert.isTrue(result, "exists() should return true");
   });
 
   it("exists works against blob uploaded with customer provided key", async () => {
@@ -884,7 +989,7 @@ describe("BlobClient", () => {
     assert.equal(smResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
     const result = await blobClient.exists();
-    assert.ok(result, "exists() should return true");
+    assert.isTrue(result, "exists() should return true");
   });
 
   it("exists re-throws error from getProperties", async () => {
@@ -921,15 +1026,15 @@ describe("BlobClient", () => {
     } catch (err: any) {
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("exists with condition", async () => {
     const proposedLeaseId = recorder.variable("proposedLeaseId", randomUUID());
     const leaseResp = await blobClient.getBlobLeaseClient(proposedLeaseId).acquireLease(30);
-    assert.ok(leaseResp.leaseId);
+    assert.isDefined(leaseResp.leaseId);
 
-    assert.ok(await blobClient.exists({ conditions: { leaseId: leaseResp.leaseId! } }));
+    assert.isTrue(await blobClient.exists({ conditions: { leaseId: leaseResp.leaseId! } }));
 
     let exceptionCaught = false;
     try {
@@ -943,7 +1048,7 @@ describe("BlobClient", () => {
       assert.equal(err.details.errorCode, "LeaseIdMismatchWithBlobOperation");
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   async function checkRehydratePriority(rehydratePriority: RehydratePriority): Promise<void> {
@@ -976,22 +1081,22 @@ describe("BlobClient", () => {
 
   it("getAccountInfo", async () => {
     const accountInfo = await blobClient.getAccountInfo();
-    assert.ok(accountInfo.accountKind);
-    assert.ok(accountInfo.skuName);
+    assert.isDefined(accountInfo.accountKind);
+    assert.isDefined(accountInfo.skuName);
     assert.deepStrictEqual(accountInfo.isHierarchicalNamespaceEnabled, false);
   });
 
   // Skipped for now as it's not working in live tests pipeline.
   it.skip("lastAccessed returned", async function () {
     const downloadRes = await blockBlobClient.download();
-    assert.ok(downloadRes.lastAccessed);
+    assert.isDefined(downloadRes.lastAccessed);
 
     const getPropertiesRes = await blockBlobClient.getProperties();
-    assert.ok(getPropertiesRes.lastAccessed);
+    assert.isDefined(getPropertiesRes.lastAccessed);
 
     for await (const blobItem of containerClient.listBlobsFlat({ prefix: blobName })) {
       if (blobItem.name === blobName) {
-        assert.ok(blobItem.properties.lastAccessedOn);
+        assert.isDefined(blobItem.properties.lastAccessedOn);
         break;
       }
     }
@@ -1316,7 +1421,7 @@ describe("BlobClient", () => {
       );
       await newBlobClient.create(512, { tags });
       const snapshotResult = await newBlobClient.createSnapshot();
-      assert.ok(snapshotResult.snapshot);
+      assert.isDefined(snapshotResult.snapshot);
       await newBlobClient.uploadPages("a".repeat(512), 0, 512);
 
       await throwExpectedError(
@@ -1354,7 +1459,7 @@ describe("BlobClient", () => {
       );
       await newBlobClient.create(512, { tags });
       const snapshotResult = await newBlobClient.createSnapshot();
-      assert.ok(snapshotResult.snapshot);
+      assert.isDefined(snapshotResult.snapshot);
       await newBlobClient.uploadPages("a".repeat(512), 0, 512);
 
       await throwExpectedError(
@@ -1644,7 +1749,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
       policyMode: "Unlocked",
     });
 
-    assert.ok(result.immutabilityPolicyExpiry);
+    assert.isDefined(result.immutabilityPolicyExpiry);
     assert.equal(
       result.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
@@ -1652,7 +1757,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
 
     const propertiesResult = await blobClient.getProperties();
 
-    assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
+    assert.isDefined(propertiesResult.immutabilityPolicyExpiresOn);
     assert.equal(
       propertiesResult.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
@@ -1667,11 +1772,11 @@ describe("BlobClient - ImmutabilityPolicy", () => {
         .next()
     ).value;
     assert.deepStrictEqual(listResult.segment.blobItems!.length, 1);
-    assert.ok(listResult.segment.blobItems[0].properties.immutabilityPolicyExpiresOn);
+    assert.isDefined(listResult.segment.blobItems[0].properties.immutabilityPolicyExpiresOn);
     assert.equal(listResult.segment.blobItems[0].properties.immutabilityPolicyMode, "unlocked");
 
     const downloadResult = await blobClient.download();
-    assert.ok(downloadResult.immutabilityPolicyExpiresOn);
+    assert.isDefined(downloadResult.immutabilityPolicyExpiresOn);
     assert.equal(
       downloadResult.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
@@ -1699,7 +1804,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
       },
     );
 
-    assert.ok(result.immutabilityPolicyExpiry);
+    assert.isDefined(result.immutabilityPolicyExpiry);
     assert.equal(
       result.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
@@ -1707,7 +1812,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
 
     const propertiesResult = await blobClient.getProperties();
 
-    assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
+    assert.isDefined(propertiesResult.immutabilityPolicyExpiresOn);
     assert.equal(
       propertiesResult.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
@@ -1722,12 +1827,12 @@ describe("BlobClient - ImmutabilityPolicy", () => {
         .next()
     ).value;
     assert.deepStrictEqual(listResult.segment.blobItems!.length, 1);
-    assert.ok(listResult.segment.blobItems[0].properties.immutabilityPolicyExpiresOn);
+    assert.isDefined(listResult.segment.blobItems[0].properties.immutabilityPolicyExpiresOn);
     assert.equal(listResult.segment.blobItems[0].properties.immutabilityPolicyMode, "unlocked");
 
     const downloadResult = await blobClient.download();
-    assert.ok(downloadResult.immutabilityPolicyExpiresOn);
-    assert.ok(downloadResult.immutabilityPolicyMode);
+    assert.isDefined(downloadResult.immutabilityPolicyExpiresOn);
+    assert.isDefined(downloadResult.immutabilityPolicyMode);
   });
 
   it("Set immutability policy and set legalhold and delete immutability policy", async () => {
@@ -1742,7 +1847,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
       policyMode: "Unlocked",
     });
 
-    assert.ok(result.immutabilityPolicyExpiry);
+    assert.isDefined(result.immutabilityPolicyExpiry);
     assert.equal(
       result.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
@@ -1762,12 +1867,12 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     ).value;
 
     assert.deepStrictEqual(listResult.segment.blobItems!.length, 1);
-    assert.ok(listResult.segment.blobItems[0].properties.immutabilityPolicyExpiresOn);
+    assert.isDefined(listResult.segment.blobItems[0].properties.immutabilityPolicyExpiresOn);
     assert.equal(listResult.segment.blobItems[0].properties.immutabilityPolicyMode, "unlocked");
     assert.equal(listResult.segment.blobItems[0].properties.legalHold, true);
 
     const downloadResult = await blobClient.download();
-    assert.ok(downloadResult.immutabilityPolicyExpiresOn);
+    assert.isDefined(downloadResult.immutabilityPolicyExpiresOn);
     assert.equal(
       downloadResult.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
@@ -1796,7 +1901,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
       policyMode: "Unlocked",
     });
 
-    assert.ok(result.immutabilityPolicyExpiry);
+    assert.isDefined(result.immutabilityPolicyExpiry);
     assert.equal(
       result.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
@@ -1829,7 +1934,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
       policyMode: "Unlocked",
     });
 
-    assert.ok(result.immutabilityPolicyExpiry);
+    assert.isDefined(result.immutabilityPolicyExpiry);
     assert.equal(
       result.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
@@ -1858,7 +1963,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     } catch (error: any) {
       caughtException = true;
     }
-    assert.ok(
+    assert.isTrue(
       caughtException,
       "Should catch exception when setImmutabilityPolicy against a non-exist blob",
     );
@@ -1881,7 +1986,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     } catch (error: any) {
       caughtException = true;
     }
-    assert.ok(
+    assert.isTrue(
       caughtException,
       "Should catch exception when setting ImmutabilityPolicy mode to Mutable",
     );
@@ -1895,7 +2000,10 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     } catch (error: any) {
       caughtException = true;
     }
-    assert.ok(caughtException, "Should catch exception when setLegalHold against a non-exist blob");
+    assert.isTrue(
+      caughtException,
+      "Should catch exception when setLegalHold against a non-exist blob",
+    );
   });
 
   it("Delete immutability policy - blob does not exist", async () => {
@@ -1907,7 +2015,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     } catch (error: any) {
       caughtException = true;
     }
-    assert.ok(
+    assert.isTrue(
       caughtException,
       "Should catch exception when deleting immutability policy against a non-exist blob",
     );
@@ -1927,7 +2035,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     });
 
     const properties = await blobClient.getProperties();
-    assert.ok(properties.immutabilityPolicyExpiresOn);
+    assert.isDefined(properties.immutabilityPolicyExpiresOn);
     assert.equal(
       properties.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
@@ -1942,7 +2050,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     });
 
     const properties = await blobClient.getProperties();
-    assert.ok(properties.legalHold);
+    assert.isDefined(properties.legalHold);
   });
 
   it("Create page blob with immutability policy", async () => {
@@ -1959,7 +2067,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     });
 
     const properties = await blobClient.getProperties();
-    assert.ok(properties.immutabilityPolicyExpiresOn);
+    assert.isDefined(properties.immutabilityPolicyExpiresOn);
     assert.equal(
       properties.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
@@ -1974,7 +2082,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     });
 
     const properties = await blobClient.getProperties();
-    assert.ok(properties.legalHold);
+    assert.isDefined(properties.legalHold);
   });
 
   it("Commit block list with immutability policy", async () => {
@@ -1993,7 +2101,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     });
 
     const properties = await blobClient.getProperties();
-    assert.ok(properties.immutabilityPolicyExpiresOn);
+    assert.isDefined(properties.immutabilityPolicyExpiresOn);
     assert.equal(
       properties.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
@@ -2013,7 +2121,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     });
 
     const properties = await blobClient.getProperties();
-    assert.ok(properties.legalHold);
+    assert.isDefined(properties.legalHold);
   });
 
   it("Blockblob upload with immutability policy", async () => {
@@ -2029,7 +2137,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     });
 
     const properties = await blobClient.getProperties();
-    assert.ok(properties.immutabilityPolicyExpiresOn);
+    assert.isDefined(properties.immutabilityPolicyExpiresOn);
     assert.equal(
       properties.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
@@ -2044,6 +2152,6 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     });
 
     const properties = await blobClient.getProperties();
-    assert.ok(properties.legalHold);
+    assert.isDefined(properties.legalHold);
   });
 });

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to restore the specified files from the specified snapshot to the active filesystem
  *
  * @summary restore the specified files from the specified snapshot to the active filesystem
- * x-ms-original-file: 2025-07-01-preview/Snapshots_SingleFileRestore.json
+ * x-ms-original-file: 2025-09-01-preview/Snapshots_SingleFileRestore.json
  */
 async function snapshotsSingleFileRestore(): Promise<void> {
   const credential = new DefaultAzureCredential();

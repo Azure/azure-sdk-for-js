@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get details of the specified quota rule
  *
  * @summary get details of the specified quota rule
- * x-ms-original-file: 2025-07-01-preview/VolumeQuotaRules_Get.json
+ * x-ms-original-file: 2025-09-01-preview/VolumeQuotaRules_Get.json
  */
 async function volumeQuotaRulesGet() {
   const credential = new DefaultAzureCredential();

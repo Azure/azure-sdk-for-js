@@ -54,11 +54,11 @@
     "@azure/logger": "^1.0.0"
   },
   "devDependencies": {
-    "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
+    "@azure-tools/vite-plugin-browser-test-map": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "concurrently": "^9.2.1",
     "cross-env": "catalog:",

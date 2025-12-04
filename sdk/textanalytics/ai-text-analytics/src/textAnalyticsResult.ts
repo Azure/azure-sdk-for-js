@@ -89,8 +89,9 @@ export interface TextAnalyticsErrorResult {
 /**
  * @internal
  */
-interface TextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult>
-  extends Array<T1 | TextAnalyticsErrorResult> {
+interface TextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult> extends Array<
+  T1 | TextAnalyticsErrorResult
+> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true

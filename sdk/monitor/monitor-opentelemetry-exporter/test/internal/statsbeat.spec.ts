@@ -79,8 +79,8 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     describe("Initialization, shutdown, and connection string functions", () => {
       it("should pass the options to the exporter and create an HTTP sender", () => {
         const exporter = new AzureMonitorTraceExporter(exportOptions);
-        assert.ok(exporter["sender"]);
-        assert.ok(exporter["options"]);
+        assert.isDefined(exporter["sender"]);
+        assert.isDefined(exporter["options"]);
       });
       it("should initialize statsbeat by default", async () => {
         const exporter = new AzureMonitorTraceExporter(exportOptions);
@@ -89,7 +89,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         const result = await exporter["sender"]["exportEnvelopes"]([envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.ok(exporter["sender"]["networkStatsbeatMetrics"]);
+        assert.isDefined(exporter["sender"]["networkStatsbeatMetrics"]);
         assert.strictEqual(
           exporter?.["sender"]?.["networkStatsbeatMetrics"]?.["isInitialized"],
           true,
@@ -147,9 +147,9 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           statsbeat["endpointUrl"],
           "https://westeurope-5.in.applicationinsights.azure.com",
         );
-        assert.ok(statsbeat["os"]);
-        assert.ok(statsbeat["runtimeVersion"]);
-        assert.ok(statsbeat["version"]);
+        assert.isDefined(statsbeat["os"]);
+        assert.isDefined(statsbeat["runtimeVersion"]);
+        assert.isDefined(statsbeat["version"]);
       });
 
       it("should add correct attach value to the attach metric", async () => {
@@ -172,7 +172,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
           // Ensure network statsbeat attributes are populated
           assert.strictEqual(statsbeat["attach"], "IntegratedAuto");
-          assert.ok(getContext().tags["ai.internal.sdkVersion"]);
+          assert.isDefined(getContext().tags["ai.internal.sdkVersion"]);
         } finally {
           process.env = originalEnv;
           await statsbeat.shutdown();
@@ -199,7 +199,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
       it("should add correct long interval properties to the custom metric", () => {
         const longIntervalStatsbeatMetrics = LongIntervalStatsbeatMetrics.getInstance(options);
-        assert.ok(longIntervalStatsbeatMetrics);
+        assert.isDefined(longIntervalStatsbeatMetrics);
         // Represents the bitwise OR of NONE and AADHANDLING features
         assert.strictEqual(longIntervalStatsbeatMetrics["feature"], 3);
         // Represents the bitwise OR of MONGODB and REDIS instrumentations
@@ -292,9 +292,34 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(statsbeat["resourceIdentifier"], "undefined/undefined");
       });
 
-      it("should determine if the rp is AKS", async () => {
+      it("should determine if the rp is AKS with AKS_ARM_NAMESPACE_ID", async () => {
         const newEnv = <{ [id: string]: string }>{};
         newEnv["AKS_ARM_NAMESPACE_ID"] = "testaks";
+        const originalEnv = process.env;
+        process.env = newEnv;
+
+        await statsbeat["getResourceProvider"]();
+        process.env = originalEnv;
+        assert.strictEqual(statsbeat["resourceProvider"], "aks");
+        assert.strictEqual(statsbeat["resourceIdentifier"], "testaks");
+      });
+
+      it("should determine if the rp is AKS with KUBERNETES_SERVICE_HOST", async () => {
+        const newEnv = <{ [id: string]: string }>{};
+        newEnv["KUBERNETES_SERVICE_HOST"] = "10.0.0.1";
+        const originalEnv = process.env;
+        process.env = newEnv;
+
+        await statsbeat["getResourceProvider"]();
+        process.env = originalEnv;
+        assert.strictEqual(statsbeat["resourceProvider"], "aks");
+        assert.strictEqual(statsbeat["resourceIdentifier"], "10.0.0.1");
+      });
+
+      it("should prioritize AKS_ARM_NAMESPACE_ID over KUBERNETES_SERVICE_HOST when both are present", async () => {
+        const newEnv = <{ [id: string]: string }>{};
+        newEnv["AKS_ARM_NAMESPACE_ID"] = "testaks";
+        newEnv["KUBERNETES_SERVICE_HOST"] = "10.0.0.1";
         const originalEnv = process.env;
         process.env = newEnv;
 
@@ -459,7 +484,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       describe("Priority and edge cases", () => {
-        it("should prioritize AKS detection over App Service", async () => {
+        it("should prioritize AKS detection with AKS_ARM_NAMESPACE_ID over App Service", async () => {
           const newEnv = <{ [id: string]: string }>{};
           newEnv["AKS_ARM_NAMESPACE_ID"] =
             "/subscriptions/test/resourceGroups/test/providers/Microsoft.ContainerService/managedClusters/test-aks";
@@ -475,6 +500,36 @@ describe("#AzureMonitorStatsbeatExporter", () => {
             statsbeat["resourceIdentifier"],
             "/subscriptions/test/resourceGroups/test/providers/Microsoft.ContainerService/managedClusters/test-aks",
           );
+        });
+
+        it("should prioritize AKS detection with KUBERNETES_SERVICE_HOST over App Service", async () => {
+          const newEnv = <{ [id: string]: string }>{};
+          newEnv["KUBERNETES_SERVICE_HOST"] = "10.0.0.1";
+          newEnv["WEBSITE_SITE_NAME"] = "my-webapp";
+          const originalEnv = process.env;
+          process.env = newEnv;
+
+          await statsbeat["getResourceProvider"]();
+
+          process.env = originalEnv;
+          assert.strictEqual(statsbeat["resourceProvider"], "aks");
+          assert.strictEqual(statsbeat["resourceIdentifier"], "10.0.0.1");
+        });
+
+        it("should prioritize AKS detection with KUBERNETES_SERVICE_HOST over Functions", async () => {
+          const newEnv = <{ [id: string]: string }>{};
+          newEnv["KUBERNETES_SERVICE_HOST"] = "10.0.0.1";
+          newEnv["WEBSITE_SITE_NAME"] = "my-function-app";
+          newEnv["FUNCTIONS_WORKER_RUNTIME"] = "node";
+          newEnv["WEBSITE_HOSTNAME"] = "my-function-app.azurewebsites.net";
+          const originalEnv = process.env;
+          process.env = newEnv;
+
+          await statsbeat["getResourceProvider"]();
+
+          process.env = originalEnv;
+          assert.strictEqual(statsbeat["resourceProvider"], "aks");
+          assert.strictEqual(statsbeat["resourceIdentifier"], "10.0.0.1");
         });
 
         it("should prioritize Functions detection over App Service when both conditions are met", async () => {
@@ -581,7 +636,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const scopeMetrics = resourceMetrics.scopeMetrics;
         const metrics = scopeMetrics[0].metrics;
 
-        assert.ok(metrics, "Statsbeat metrics not properly initialized");
+        assert.isDefined(metrics, "Statsbeat metrics not properly initialized");
         assert.strictEqual(metrics.length, 8);
         // Represents the last observation called for each callback
         // Successful
@@ -704,9 +759,9 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         (NetworkStatsbeatMetrics as any).instance = null;
         (LongIntervalStatsbeatMetrics as any).instance = null;
         const exporter = new AzureMonitorTraceExporter(exportOptions);
-        assert.ok(exporter["sender"]["networkStatsbeatMetrics"]);
-        assert.ok(!exporter["sender"]["networkStatsbeatMetrics"]?.["readFailureGauge"]);
-        assert.ok(!exporter["sender"]["networkStatsbeatMetrics"]?.["writeFailureGauge"]);
+        assert.isDefined(exporter["sender"]["networkStatsbeatMetrics"]);
+        assert.isUndefined(exporter["sender"]["networkStatsbeatMetrics"]?.["readFailureGauge"]);
+        assert.isUndefined(exporter["sender"]["networkStatsbeatMetrics"]?.["writeFailureGauge"]);
         delete process.env[ENV_DISABLE_STATSBEAT];
         // Reset singletons again for clean state
         (NetworkStatsbeatMetrics as any).instance = null;
@@ -716,8 +771,8 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       it("should disable all statsbeat when the legacy environment variable is set", () => {
         process.env[LEGACY_ENV_DISABLE_STATSBEAT] = "true";
         const exporter = new AzureMonitorTraceExporter(exportOptions);
-        assert.ok(!exporter["sender"]["networkStatsbeatMetrics"]);
-        assert.ok(!exporter["sender"]["longIntervalStatsbeatMetrics"]);
+        assert.isUndefined(exporter["sender"]["networkStatsbeatMetrics"]);
+        assert.isUndefined(exporter["sender"]["longIntervalStatsbeatMetrics"]);
         delete process.env[LEGACY_ENV_DISABLE_STATSBEAT];
       });
     });
@@ -735,7 +790,6 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         try {
           await longIntervalStatsbeat["longIntervalMetricReader"].collect();
           // If we get here without an error, the test passes
-          assert.ok(true, "Metric reader collect method executed without errors");
         } catch (error) {
           // If an error occurs, the test should fail
           assert.fail(

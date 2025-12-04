@@ -9,5 +9,4 @@ import type { PollerOptions } from "./PollerOptions.js";
  * Options for the document classification operation.
  */
 export interface ClassifyDocumentOptions
-  extends OperationOptions,
-    PollerOptions<DocumentAnalysisPollOperationState> {}
+  extends OperationOptions, PollerOptions<DocumentAnalysisPollOperationState> {}

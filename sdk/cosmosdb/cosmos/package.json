@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "4.7.0",
+  "version": "4.9.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for NOSQL API",
   "sdk-type": "client",
   "keywords": [
@@ -54,7 +54,8 @@
     "test:node": "npm run test:node:unit",
     "test:node:integration": "cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.int.config.ts",
     "test:node:unit": "cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.unit.config.ts",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "generate-samples": "npm run build && npx dev-tool samples publish"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "license": "MIT",
@@ -86,7 +87,7 @@
     "@types/node": "catalog:",
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "assertion-error": "^2.0.1",
     "cross-env": "catalog:",

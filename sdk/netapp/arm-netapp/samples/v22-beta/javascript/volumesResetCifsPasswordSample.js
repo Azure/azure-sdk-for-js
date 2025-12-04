@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to reset cifs password from volume
  *
  * @summary reset cifs password from volume
- * x-ms-original-file: 2025-07-01-preview/Volumes_ResetCifsPassword.json
+ * x-ms-original-file: 2025-09-01-preview/Volumes_ResetCifsPassword.json
  */
 async function volumesResetCifsPassword() {
   const credential = new DefaultAzureCredential();

@@ -1,5 +1,820 @@
 # Release History
 
+## 22.1.0-beta.1 (2025-11-27)
+Compared with version 22.0.0
+
+### Features Added
+  - Added operation group ActiveDirectoryConfigsOperations
+  - Added operation group BucketsOperations
+  - Added operation group CachesOperations
+  - Added operation group ElasticAccountsOperations
+  - Added operation group ElasticBackupPoliciesOperations
+  - Added operation group ElasticBackupsOperations
+  - Added operation group ElasticBackupVaultsOperations
+  - Added operation group ElasticCapacityPoolsOperations
+  - Added operation group ElasticSnapshotPoliciesOperations
+  - Added operation group ElasticSnapshotsOperations
+  - Added operation group ElasticVolumesOperations
+  - Added operation group RansomwareReportsOperations
+  - Added operation VolumesOperations.listQuotaReport
+  - Added Interface ActiveDirectoryConfig
+  - Added Interface ActiveDirectoryConfigProperties
+  - Added Interface ActiveDirectoryConfigsCreateOrUpdateOptionalParams
+  - Added Interface ActiveDirectoryConfigsDeleteOptionalParams
+  - Added Interface ActiveDirectoryConfigsGetOptionalParams
+  - Added Interface ActiveDirectoryConfigsListByResourceGroupOptionalParams
+  - Added Interface ActiveDirectoryConfigsListBySubscriptionOptionalParams
+  - Added Interface ActiveDirectoryConfigsUpdateOptionalParams
+  - Added Interface ActiveDirectoryConfigUpdate
+  - Added Interface ActiveDirectoryConfigUpdateProperties
+  - Added Interface Bucket
+  - Added Interface BucketCredentialsExpiry
+  - Added Interface BucketGenerateCredentials
+  - Added Interface BucketPatch
+  - Added Interface BucketPatchProperties
+  - Added Interface BucketProperties
+  - Added Interface BucketsCreateOrUpdateOptionalParams
+  - Added Interface BucketsDeleteOptionalParams
+  - Added Interface BucketServerPatchProperties
+  - Added Interface BucketServerProperties
+  - Added Interface BucketsGenerateCredentialsOptionalParams
+  - Added Interface BucketsGetOptionalParams
+  - Added Interface BucketsListOptionalParams
+  - Added Interface BucketsUpdateOptionalParams
+  - Added Interface Cache
+  - Added Interface CacheMountTargetProperties
+  - Added Interface CacheProperties
+  - Added Interface CachesCreateOrUpdateOptionalParams
+  - Added Interface CachesDeleteOptionalParams
+  - Added Interface CachesGetOptionalParams
+  - Added Interface CachesListByCapacityPoolsOptionalParams
+  - Added Interface CachesListPeeringPassphrasesOptionalParams
+  - Added Interface CachesPoolChangeOptionalParams
+  - Added Interface CachesUpdateOptionalParams
+  - Added Interface CacheUpdate
+  - Added Interface CacheUpdateProperties
+  - Added Interface ChangeZoneRequest
+  - Added Interface CheckElasticResourceAvailabilityResponse
+  - Added Interface CheckElasticVolumeFilePathAvailabilityRequest
+  - Added Interface CifsUser
+  - Added Interface ElasticAccount
+  - Added Interface ElasticAccountProperties
+  - Added Interface ElasticAccountsCreateOrUpdateOptionalParams
+  - Added Interface ElasticAccountsDeleteOptionalParams
+  - Added Interface ElasticAccountsGetOptionalParams
+  - Added Interface ElasticAccountsListByResourceGroupOptionalParams
+  - Added Interface ElasticAccountsListBySubscriptionOptionalParams
+  - Added Interface ElasticAccountsUpdateOptionalParams
+  - Added Interface ElasticAccountUpdate
+  - Added Interface ElasticAccountUpdateProperties
+  - Added Interface ElasticBackup
+  - Added Interface ElasticBackupPoliciesCreateOrUpdateOptionalParams
+  - Added Interface ElasticBackupPoliciesDeleteOptionalParams
+  - Added Interface ElasticBackupPoliciesGetOptionalParams
+  - Added Interface ElasticBackupPoliciesListByElasticAccountOptionalParams
+  - Added Interface ElasticBackupPoliciesUpdateOptionalParams
+  - Added Interface ElasticBackupPolicy
+  - Added Interface ElasticBackupPolicyProperties
+  - Added Interface ElasticBackupPolicyUpdate
+  - Added Interface ElasticBackupPolicyUpdateProperties
+  - Added Interface ElasticBackupProperties
+  - Added Interface ElasticBackupsCreateOrUpdateOptionalParams
+  - Added Interface ElasticBackupsDeleteOptionalParams
+  - Added Interface ElasticBackupsGetOptionalParams
+  - Added Interface ElasticBackupsListByVaultOptionalParams
+  - Added Interface ElasticBackupsUpdateOptionalParams
+  - Added Interface ElasticBackupVault
+  - Added Interface ElasticBackupVaultProperties
+  - Added Interface ElasticBackupVaultsCreateOrUpdateOptionalParams
+  - Added Interface ElasticBackupVaultsDeleteOptionalParams
+  - Added Interface ElasticBackupVaultsGetOptionalParams
+  - Added Interface ElasticBackupVaultsListByElasticAccountOptionalParams
+  - Added Interface ElasticBackupVaultsUpdateOptionalParams
+  - Added Interface ElasticBackupVaultUpdate
+  - Added Interface ElasticCapacityPool
+  - Added Interface ElasticCapacityPoolProperties
+  - Added Interface ElasticCapacityPoolsChangeZoneOptionalParams
+  - Added Interface ElasticCapacityPoolsCheckVolumeFilePathAvailabilityOptionalParams
+  - Added Interface ElasticCapacityPoolsCreateOrUpdateOptionalParams
+  - Added Interface ElasticCapacityPoolsDeleteOptionalParams
+  - Added Interface ElasticCapacityPoolsGetOptionalParams
+  - Added Interface ElasticCapacityPoolsListByElasticAccountOptionalParams
+  - Added Interface ElasticCapacityPoolsUpdateOptionalParams
+  - Added Interface ElasticCapacityPoolUpdate
+  - Added Interface ElasticCapacityPoolUpdateProperties
+  - Added Interface ElasticEncryption
+  - Added Interface ElasticEncryptionConfiguration
+  - Added Interface ElasticEncryptionIdentity
+  - Added Interface ElasticExportPolicy
+  - Added Interface ElasticExportPolicyRule
+  - Added Interface ElasticKeyVaultProperties
+  - Added Interface ElasticMountTargetProperties
+  - Added Interface ElasticSmbPatchProperties
+  - Added Interface ElasticSmbProperties
+  - Added Interface ElasticSnapshot
+  - Added Interface ElasticSnapshotPoliciesCreateOrUpdateOptionalParams
+  - Added Interface ElasticSnapshotPoliciesDeleteOptionalParams
+  - Added Interface ElasticSnapshotPoliciesGetOptionalParams
+  - Added Interface ElasticSnapshotPoliciesListByElasticAccountOptionalParams
+  - Added Interface ElasticSnapshotPoliciesListElasticVolumesOptionalParams
+  - Added Interface ElasticSnapshotPoliciesUpdateOptionalParams
+  - Added Interface ElasticSnapshotPolicy
+  - Added Interface ElasticSnapshotPolicyDailySchedule
+  - Added Interface ElasticSnapshotPolicyHourlySchedule
+  - Added Interface ElasticSnapshotPolicyMonthlySchedule
+  - Added Interface ElasticSnapshotPolicyProperties
+  - Added Interface ElasticSnapshotPolicyUpdate
+  - Added Interface ElasticSnapshotPolicyUpdateProperties
+  - Added Interface ElasticSnapshotPolicyWeeklySchedule
+  - Added Interface ElasticSnapshotProperties
+  - Added Interface ElasticSnapshotsCreateOrUpdateOptionalParams
+  - Added Interface ElasticSnapshotsDeleteOptionalParams
+  - Added Interface ElasticSnapshotsGetOptionalParams
+  - Added Interface ElasticSnapshotsListByElasticVolumeOptionalParams
+  - Added Interface ElasticVolume
+  - Added Interface ElasticVolumeBackupProperties
+  - Added Interface ElasticVolumeDataProtectionPatchProperties
+  - Added Interface ElasticVolumeDataProtectionProperties
+  - Added Interface ElasticVolumeProperties
+  - Added Interface ElasticVolumeRevert
+  - Added Interface ElasticVolumesCreateOrUpdateOptionalParams
+  - Added Interface ElasticVolumesDeleteOptionalParams
+  - Added Interface ElasticVolumesGetOptionalParams
+  - Added Interface ElasticVolumesListByElasticPoolOptionalParams
+  - Added Interface ElasticVolumeSnapshotProperties
+  - Added Interface ElasticVolumesRevertOptionalParams
+  - Added Interface ElasticVolumesUpdateOptionalParams
+  - Added Interface ElasticVolumeUpdate
+  - Added Interface ElasticVolumeUpdateProperties
+  - Added Interface FileSystemUser
+  - Added Interface LdapConfiguration
+  - Added Interface ListQuotaReportResponse
+  - Added Interface NfsUser
+  - Added Interface OriginClusterInformation
+  - Added Interface PeeringPassphrases
+  - Added Interface QuotaReport
+  - Added Interface RansomwareProtectionPatchSettings
+  - Added Interface RansomwareProtectionSettings
+  - Added Interface RansomwareReport
+  - Added Interface RansomwareReportProperties
+  - Added Interface RansomwareReportsClearSuspectsOptionalParams
+  - Added Interface RansomwareReportsGetOptionalParams
+  - Added Interface RansomwareReportsListOptionalParams
+  - Added Interface RansomwareSuspects
+  - Added Interface RansomwareSuspectsClearRequest
+  - Added Interface SecretPassword
+  - Added Interface SecretPasswordIdentity
+  - Added Interface SecretPasswordKeyVaultProperties
+  - Added Interface SmbSettings
+  - Added Interface SuspectFile
+  - Added Interface VolumesListQuotaReportOptionalParams
+  - Interface AccountProperties has a new optional parameter ldapConfiguration
+  - Interface ReplicationObject has a new optional parameter externalReplicationSetupInfo
+  - Interface ReplicationObject has a new optional parameter externalReplicationSetupStatus
+  - Interface ReplicationObject has a new optional parameter mirrorState
+  - Interface ReplicationObject has a new optional parameter relationshipStatus
+  - Interface VolumePatchPropertiesDataProtection has a new optional parameter ransomwareProtection
+  - Interface VolumeProperties has a new optional parameter breakthroughMode
+  - Interface VolumeProperties has a new optional parameter language
+  - Interface VolumeProperties has a new optional parameter largeVolumeType
+  - Interface VolumeProperties has a new optional parameter ldapServerType
+  - Interface VolumePropertiesDataProtection has a new optional parameter ransomwareProtection
+  - Added Type Alias ActualRansomwareProtectionState
+  - Added Type Alias BreakthroughMode
+  - Added Type Alias BucketPatchPermissions
+  - Added Type Alias BucketPermissions
+  - Added Type Alias CacheLifeCycleState
+  - Added Type Alias CacheProvisioningState
+  - Added Type Alias CheckElasticResourceAvailabilityReason
+  - Added Type Alias CheckElasticResourceAvailabilityStatus
+  - Added Type Alias CifsChangeNotifyState
+  - Added Type Alias CredentialsStatus
+  - Added Type Alias DayOfWeek
+  - Added Type Alias DesiredRansomwareProtectionState
+  - Added Type Alias ElasticBackupPolicyState
+  - Added Type Alias ElasticBackupType
+  - Added Type Alias ElasticKeyVaultStatus
+  - Added Type Alias ElasticNfsv3Access
+  - Added Type Alias ElasticNfsv4Access
+  - Added Type Alias ElasticPoolEncryptionKeySource
+  - Added Type Alias ElasticProtocolType
+  - Added Type Alias ElasticResourceAvailabilityStatus
+  - Added Type Alias ElasticRootAccess
+  - Added Type Alias ElasticServiceLevel
+  - Added Type Alias ElasticSmbEncryption
+  - Added Type Alias ElasticUnixAccessRule
+  - Added Type Alias ElasticVolumePolicyEnforcement
+  - Added Type Alias ElasticVolumeRestorationState
+  - Added Type Alias EnableWriteBackState
+  - Added Type Alias EncryptionState
+  - Added Type Alias ExternalReplicationSetupStatus
+  - Added Type Alias GlobalFileLockingState
+  - Added Type Alias KerberosState
+  - Added Type Alias LargeVolumeType
+  - Added Type Alias LdapServerType
+  - Added Type Alias LdapState
+  - Added Type Alias PolicyStatus
+  - Added Type Alias ProtocolTypes
+  - Added Type Alias RansomwareReportSeverity
+  - Added Type Alias RansomwareReportState
+  - Added Type Alias RansomwareSuspectResolution
+  - Added Type Alias SmbEncryptionState
+  - Added Type Alias SnapshotDirectoryVisibility
+  - Added Type Alias SnapshotUsage
+  - Added Type Alias VolumeLanguage
+  - Added Type Alias VolumeSize
+  - Added Enum KnownActualRansomwareProtectionState
+  - Added Enum KnownBreakthroughMode
+  - Added Enum KnownBucketPatchPermissions
+  - Added Enum KnownBucketPermissions
+  - Added Enum KnownCacheLifeCycleState
+  - Added Enum KnownCacheProvisioningState
+  - Added Enum KnownCheckElasticResourceAvailabilityReason
+  - Added Enum KnownCheckElasticResourceAvailabilityStatus
+  - Added Enum KnownCifsChangeNotifyState
+  - Added Enum KnownCredentialsStatus
+  - Added Enum KnownDayOfWeek
+  - Added Enum KnownDesiredRansomwareProtectionState
+  - Added Enum KnownElasticBackupPolicyState
+  - Added Enum KnownElasticBackupType
+  - Added Enum KnownElasticKeyVaultStatus
+  - Added Enum KnownElasticNfsv3Access
+  - Added Enum KnownElasticNfsv4Access
+  - Added Enum KnownElasticPoolEncryptionKeySource
+  - Added Enum KnownElasticProtocolType
+  - Added Enum KnownElasticResourceAvailabilityStatus
+  - Added Enum KnownElasticRootAccess
+  - Added Enum KnownElasticServiceLevel
+  - Added Enum KnownElasticSmbEncryption
+  - Added Enum KnownElasticUnixAccessRule
+  - Added Enum KnownElasticVolumePolicyEnforcement
+  - Added Enum KnownElasticVolumeRestorationState
+  - Added Enum KnownEnableWriteBackState
+  - Added Enum KnownEncryptionState
+  - Added Enum KnownExternalReplicationSetupStatus
+  - Added Enum KnownGlobalFileLockingState
+  - Added Enum KnownKerberosState
+  - Added Enum KnownLargeVolumeType
+  - Added Enum KnownLdapServerType
+  - Added Enum KnownLdapState
+  - Added Enum KnownPolicyStatus
+  - Added Enum KnownProtocolTypes
+  - Added Enum KnownRansomwareReportSeverity
+  - Added Enum KnownRansomwareReportState
+  - Added Enum KnownRansomwareSuspectResolution
+  - Added Enum KnownSmbEncryptionState
+  - Added Enum KnownSnapshotDirectoryVisibility
+  - Added Enum KnownSnapshotUsage
+  - Added Enum KnownVolumeLanguage
+  - Added Enum KnownVolumeSize
+  - Enum KnownVersions has a new value V20250701Preview
+  - Enum KnownVersions has a new value V20250801Preview
+  - Enum KnownVersions has a new value V20250901Preview
+
+## 22.0.0 (2025-11-14)
+
+### Features Added
+  - Added operation group NetAppResourceQuotaLimitsAccountOperations
+  - Added operation AccountsOperations.changeKeyVault
+  - Added operation AccountsOperations.createOrUpdate
+  - Added operation AccountsOperations.delete
+  - Added operation AccountsOperations.getChangeKeyVaultInformation
+  - Added operation AccountsOperations.renewCredentials
+  - Added operation AccountsOperations.transitionToCmk
+  - Added operation AccountsOperations.update
+  - Added operation BackupPoliciesOperations.create
+  - Added operation BackupPoliciesOperations.delete
+  - Added operation BackupPoliciesOperations.update
+  - Added operation BackupsOperations.create
+  - Added operation BackupsOperations.delete
+  - Added operation BackupsOperations.update
+  - Added operation BackupsUnderAccountOperations.migrateBackups
+  - Added operation BackupsUnderBackupVaultOperations.restoreFiles
+  - Added operation BackupsUnderVolumeOperations.migrateBackups
+  - Added operation BackupVaultsOperations.createOrUpdate
+  - Added operation BackupVaultsOperations.delete
+  - Added operation BackupVaultsOperations.update
+  - Added operation NetAppResourceOperations.updateNetworkSiblingSet
+  - Added operation PoolsOperations.createOrUpdate
+  - Added operation PoolsOperations.delete
+  - Added operation PoolsOperations.update
+  - Added operation SnapshotPoliciesOperations.delete
+  - Added operation SnapshotPoliciesOperations.update
+  - Added operation SnapshotsOperations.create
+  - Added operation SnapshotsOperations.delete
+  - Added operation SnapshotsOperations.restoreFiles
+  - Added operation SnapshotsOperations.update
+  - Added operation SubvolumesOperations.create
+  - Added operation SubvolumesOperations.delete
+  - Added operation SubvolumesOperations.getMetadata
+  - Added operation SubvolumesOperations.update
+  - Added operation VolumeGroupsOperations.create
+  - Added operation VolumeGroupsOperations.delete
+  - Added operation VolumeQuotaRulesOperations.create
+  - Added operation VolumeQuotaRulesOperations.delete
+  - Added operation VolumeQuotaRulesOperations.update
+  - Added operation VolumesOperations.authorizeExternalReplication
+  - Added operation VolumesOperations.authorizeReplication
+  - Added operation VolumesOperations.breakFileLocks
+  - Added operation VolumesOperations.breakReplication
+  - Added operation VolumesOperations.createOrUpdate
+  - Added operation VolumesOperations.delete
+  - Added operation VolumesOperations.deleteReplication
+  - Added operation VolumesOperations.finalizeExternalReplication
+  - Added operation VolumesOperations.finalizeRelocation
+  - Added operation VolumesOperations.listGetGroupIdListForLdapUser
+  - Added operation VolumesOperations.peerExternalCluster
+  - Added operation VolumesOperations.performReplicationTransfer
+  - Added operation VolumesOperations.poolChange
+  - Added operation VolumesOperations.populateAvailabilityZone
+  - Added operation VolumesOperations.reestablishReplication
+  - Added operation VolumesOperations.reInitializeReplication
+  - Added operation VolumesOperations.relocate
+  - Added operation VolumesOperations.resetCifsPassword
+  - Added operation VolumesOperations.resyncReplication
+  - Added operation VolumesOperations.revert
+  - Added operation VolumesOperations.revertRelocation
+  - Added operation VolumesOperations.splitCloneFromParent
+  - Added operation VolumesOperations.update
+  - Added Interface AccountProperties
+  - Added Interface BackupPatchProperties
+  - Added Interface BackupPolicyProperties
+  - Added Interface BackupProperties
+  - Added Interface BackupVaultProperties
+  - Added Interface GetKeyVaultStatusResponseProperties
+  - Added Interface ListReplicationsRequest
+  - Added Interface NetAppResourceQuotaLimitsAccountGetOptionalParams
+  - Added Interface NetAppResourceQuotaLimitsAccountListOptionalParams
+  - Added Interface OperationProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PoolPatchProperties
+  - Added Interface PoolProperties
+  - Added Interface QuotaItem
+  - Added Interface QuotaItemProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SnapshotPatch
+  - Added Interface SnapshotPolicyProperties
+  - Added Interface SnapshotProperties
+  - Added Interface SubvolumeModelProperties
+  - Added Interface SubvolumePatchParams
+  - Added Interface SubvolumeProperties
+  - Added Interface UsageProperties
+  - Added Interface VolumeGroupListProperties
+  - Added Interface VolumeGroupProperties
+  - Added Interface VolumePatchProperties
+  - Added Interface VolumeProperties
+  - Added Interface VolumeQuotaRulesProperties
+  - Interface BackupPatch has a new optional parameter properties
+  - Interface BackupPolicyPatch has a new optional parameter properties
+  - Interface BackupVault has a new optional parameter properties
+  - Interface CapacityPoolPatch has a new optional parameter properties
+  - Interface GetKeyVaultStatusResponse has a new optional parameter properties
+  - Interface NetAppAccount has a new optional parameter properties
+  - Interface NetAppAccountPatch has a new optional parameter properties
+  - Interface Operation has a new optional parameter properties
+  - Interface RegionInfoResource has a new optional parameter properties
+  - Interface Replication has a new optional parameter mirrorState
+  - Interface Replication has a new optional parameter replicationCreationTime
+  - Interface Replication has a new optional parameter replicationDeletionTime
+  - Interface Snapshot has a new optional parameter properties
+  - Interface SnapshotPolicyPatch has a new optional parameter properties
+  - Interface SnapshotPolicyVolumeList has a new optional parameter nextLink
+  - Interface SubvolumeInfo has a new optional parameter properties
+  - Interface SubvolumeModel has a new optional parameter properties
+  - Interface SubvolumePatchRequest has a new optional parameter properties
+  - Interface VolumeGroup has a new optional parameter properties
+  - Interface VolumeGroupDetails has a new optional parameter properties
+  - Interface VolumeGroupDetails has a new optional parameter systemData
+  - Interface VolumePatch has a new optional parameter properties
+  - Interface VolumeQuotaRule has a new optional parameter properties
+  - Interface VolumeQuotaRulePatch has a new optional parameter properties
+  - Interface VolumesListReplicationsOptionalParams has a new optional parameter body
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias Exclude_2
+  - Added Type Alias NetAppProvisioningState
+  - Added Type Alias ReplicationMirrorState
+  - Added Type Alias VolumeBackupRelationshipStatus
+  - Added Type Alias VolumeReplicationRelationshipStatus
+  - Added Type Alias VolumeRestoreRelationshipStatus
+  - Added Enum AzureClouds
+  - Added Enum KnownExclude
+  - Added Enum KnownNetAppProvisioningState
+  - Added Enum KnownReplicationMirrorState
+  - Added Enum KnownVersions
+  - Added Enum KnownVolumeBackupRelationshipStatus
+  - Added Enum KnownVolumeReplicationRelationshipStatus
+  - Added Enum KnownVolumeRestoreRelationshipStatus
+  - Enum KnownCheckNameResourceTypes has a new value MicrosoftNetAppNetAppAccountsBackupVaultsBackups
+  - Enum KnownCheckNameResourceTypes has a new value MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesBackups
+  - Enum KnownCheckQuotaNameResourceTypes has a new value MicrosoftNetAppNetAppAccountsBackupVaultsBackups
+  - Enum KnownCheckQuotaNameResourceTypes has a new value MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesBackups
+
+### Breaking Changes
+  - Removed operation Accounts.beginChangeKeyVault
+  - Removed operation Accounts.beginChangeKeyVaultAndWait
+  - Removed operation Accounts.beginCreateOrUpdate
+  - Removed operation Accounts.beginCreateOrUpdateAndWait
+  - Removed operation Accounts.beginDelete
+  - Removed operation Accounts.beginDeleteAndWait
+  - Removed operation Accounts.beginGetChangeKeyVaultInformation
+  - Removed operation Accounts.beginGetChangeKeyVaultInformationAndWait
+  - Removed operation Accounts.beginRenewCredentials
+  - Removed operation Accounts.beginRenewCredentialsAndWait
+  - Removed operation Accounts.beginTransitionToCmk
+  - Removed operation Accounts.beginTransitionToCmkAndWait
+  - Removed operation Accounts.beginUpdate
+  - Removed operation Accounts.beginUpdateAndWait
+  - Removed operation BackupPolicies.beginCreate
+  - Removed operation BackupPolicies.beginCreateAndWait
+  - Removed operation BackupPolicies.beginDelete
+  - Removed operation BackupPolicies.beginDeleteAndWait
+  - Removed operation BackupPolicies.beginUpdate
+  - Removed operation BackupPolicies.beginUpdateAndWait
+  - Removed operation Backups.beginCreate
+  - Removed operation Backups.beginCreateAndWait
+  - Removed operation Backups.beginDelete
+  - Removed operation Backups.beginDeleteAndWait
+  - Removed operation Backups.beginUpdate
+  - Removed operation Backups.beginUpdateAndWait
+  - Removed operation BackupsUnderAccount.beginMigrateBackups
+  - Removed operation BackupsUnderAccount.beginMigrateBackupsAndWait
+  - Removed operation BackupsUnderBackupVault.beginRestoreFiles
+  - Removed operation BackupsUnderBackupVault.beginRestoreFilesAndWait
+  - Removed operation BackupsUnderVolume.beginMigrateBackups
+  - Removed operation BackupsUnderVolume.beginMigrateBackupsAndWait
+  - Removed operation BackupVaults.beginCreateOrUpdate
+  - Removed operation BackupVaults.beginCreateOrUpdateAndWait
+  - Removed operation BackupVaults.beginDelete
+  - Removed operation BackupVaults.beginDeleteAndWait
+  - Removed operation BackupVaults.beginUpdate
+  - Removed operation BackupVaults.beginUpdateAndWait
+  - Removed operation NetAppResource.beginUpdateNetworkSiblingSet
+  - Removed operation NetAppResource.beginUpdateNetworkSiblingSetAndWait
+  - Removed operation Pools.beginCreateOrUpdate
+  - Removed operation Pools.beginCreateOrUpdateAndWait
+  - Removed operation Pools.beginDelete
+  - Removed operation Pools.beginDeleteAndWait
+  - Removed operation Pools.beginUpdate
+  - Removed operation Pools.beginUpdateAndWait
+  - Removed operation SnapshotPolicies.beginDelete
+  - Removed operation SnapshotPolicies.beginDeleteAndWait
+  - Removed operation SnapshotPolicies.beginUpdate
+  - Removed operation SnapshotPolicies.beginUpdateAndWait
+  - Removed operation Snapshots.beginCreate
+  - Removed operation Snapshots.beginCreateAndWait
+  - Removed operation Snapshots.beginDelete
+  - Removed operation Snapshots.beginDeleteAndWait
+  - Removed operation Snapshots.beginRestoreFiles
+  - Removed operation Snapshots.beginRestoreFilesAndWait
+  - Removed operation Snapshots.beginUpdate
+  - Removed operation Snapshots.beginUpdateAndWait
+  - Removed operation Subvolumes.beginCreate
+  - Removed operation Subvolumes.beginCreateAndWait
+  - Removed operation Subvolumes.beginDelete
+  - Removed operation Subvolumes.beginDeleteAndWait
+  - Removed operation Subvolumes.beginGetMetadata
+  - Removed operation Subvolumes.beginGetMetadataAndWait
+  - Removed operation Subvolumes.beginUpdate
+  - Removed operation Subvolumes.beginUpdateAndWait
+  - Removed operation VolumeGroups.beginCreate
+  - Removed operation VolumeGroups.beginCreateAndWait
+  - Removed operation VolumeGroups.beginDelete
+  - Removed operation VolumeGroups.beginDeleteAndWait
+  - Removed operation VolumeQuotaRules.beginCreate
+  - Removed operation VolumeQuotaRules.beginCreateAndWait
+  - Removed operation VolumeQuotaRules.beginDelete
+  - Removed operation VolumeQuotaRules.beginDeleteAndWait
+  - Removed operation VolumeQuotaRules.beginUpdate
+  - Removed operation VolumeQuotaRules.beginUpdateAndWait
+  - Removed operation Volumes.beginAuthorizeExternalReplication
+  - Removed operation Volumes.beginAuthorizeExternalReplicationAndWait
+  - Removed operation Volumes.beginAuthorizeReplication
+  - Removed operation Volumes.beginAuthorizeReplicationAndWait
+  - Removed operation Volumes.beginBreakFileLocks
+  - Removed operation Volumes.beginBreakFileLocksAndWait
+  - Removed operation Volumes.beginBreakReplication
+  - Removed operation Volumes.beginBreakReplicationAndWait
+  - Removed operation Volumes.beginCreateOrUpdate
+  - Removed operation Volumes.beginCreateOrUpdateAndWait
+  - Removed operation Volumes.beginDelete
+  - Removed operation Volumes.beginDeleteAndWait
+  - Removed operation Volumes.beginDeleteReplication
+  - Removed operation Volumes.beginDeleteReplicationAndWait
+  - Removed operation Volumes.beginFinalizeExternalReplication
+  - Removed operation Volumes.beginFinalizeExternalReplicationAndWait
+  - Removed operation Volumes.beginFinalizeRelocation
+  - Removed operation Volumes.beginFinalizeRelocationAndWait
+  - Removed operation Volumes.beginListGetGroupIdListForLdapUser
+  - Removed operation Volumes.beginListGetGroupIdListForLdapUserAndWait
+  - Removed operation Volumes.beginPeerExternalCluster
+  - Removed operation Volumes.beginPeerExternalClusterAndWait
+  - Removed operation Volumes.beginPerformReplicationTransfer
+  - Removed operation Volumes.beginPerformReplicationTransferAndWait
+  - Removed operation Volumes.beginPoolChange
+  - Removed operation Volumes.beginPoolChangeAndWait
+  - Removed operation Volumes.beginPopulateAvailabilityZone
+  - Removed operation Volumes.beginPopulateAvailabilityZoneAndWait
+  - Removed operation Volumes.beginReestablishReplication
+  - Removed operation Volumes.beginReestablishReplicationAndWait
+  - Removed operation Volumes.beginReInitializeReplication
+  - Removed operation Volumes.beginReInitializeReplicationAndWait
+  - Removed operation Volumes.beginRelocate
+  - Removed operation Volumes.beginRelocateAndWait
+  - Removed operation Volumes.beginResetCifsPassword
+  - Removed operation Volumes.beginResetCifsPasswordAndWait
+  - Removed operation Volumes.beginResyncReplication
+  - Removed operation Volumes.beginResyncReplicationAndWait
+  - Removed operation Volumes.beginRevert
+  - Removed operation Volumes.beginRevertAndWait
+  - Removed operation Volumes.beginRevertRelocation
+  - Removed operation Volumes.beginRevertRelocationAndWait
+  - Removed operation Volumes.beginSplitCloneFromParent
+  - Removed operation Volumes.beginSplitCloneFromParentAndWait
+  - Removed operation Volumes.beginUpdate
+  - Removed operation Volumes.beginUpdateAndWait
+  - Operation Backups.get has a new signature
+  - Operation NetAppResource.checkFilePathAvailability has a new signature
+  - Operation NetAppResource.checkNameAvailability has a new signature
+  - Operation NetAppResource.checkQuotaAvailability has a new signature
+  - Operation NetAppResource.queryNetworkSiblingSet has a new signature
+  - Operation Pools.get has a new signature
+  - Operation SnapshotPolicies.listVolumes has a new signature
+  - Operation Volumes.get has a new signature
+  - Removed Interface BackupPoliciesList
+  - Removed Interface BackupsList
+  - Removed Interface BackupVaultsList
+  - Removed Interface CapacityPoolList
+  - Removed Interface CloudError
+  - Removed Interface CloudErrorBody
+  - Removed Interface ListReplications
+  - Removed Interface MountTarget
+  - Removed Interface NetAppAccountList
+  - Removed Interface RegionInfosList
+  - Removed Interface ResourceIdentity
+  - Removed Interface SnapshotPoliciesList
+  - Removed Interface SnapshotPolicyDetails
+  - Removed Interface SnapshotsList
+  - Removed Interface SubscriptionQuotaItem
+  - Removed Interface SubscriptionQuotaItemList
+  - Removed Interface SubvolumesList
+  - Removed Interface VolumeGroupList
+  - Removed Interface VolumeList
+  - Removed Interface VolumeQuotaRulesList
+  - Interface Backup has a new required parameter properties
+  - Interface BackupPolicy has a new required parameter properties
+  - Interface CapacityPool has a new required parameter properties
+  - Interface SnapshotPolicy has a new required parameter properties
+  - Interface Volume has a new required parameter properties
+  - Interface VolumeGroupVolumeProperties has a new required parameter properties
+  - Interface Backup no longer has parameter backupId
+  - Interface Backup no longer has parameter backupPolicyResourceId
+  - Interface Backup no longer has parameter backupType
+  - Interface Backup no longer has parameter completionDate
+  - Interface Backup no longer has parameter creationDate
+  - Interface Backup no longer has parameter failureReason
+  - Interface Backup no longer has parameter isLargeVolume
+  - Interface Backup no longer has parameter label
+  - Interface Backup no longer has parameter provisioningState
+  - Interface Backup no longer has parameter size
+  - Interface Backup no longer has parameter snapshotCreationDate
+  - Interface Backup no longer has parameter snapshotName
+  - Interface Backup no longer has parameter useExistingSnapshot
+  - Interface Backup no longer has parameter volumeResourceId
+  - Interface BackupPatch no longer has parameter label
+  - Interface BackupPolicy no longer has parameter backupPolicyId
+  - Interface BackupPolicy no longer has parameter dailyBackupsToKeep
+  - Interface BackupPolicy no longer has parameter enabled
+  - Interface BackupPolicy no longer has parameter monthlyBackupsToKeep
+  - Interface BackupPolicy no longer has parameter provisioningState
+  - Interface BackupPolicy no longer has parameter volumeBackups
+  - Interface BackupPolicy no longer has parameter volumesAssigned
+  - Interface BackupPolicy no longer has parameter weeklyBackupsToKeep
+  - Interface BackupPolicyPatch no longer has parameter backupPolicyId
+  - Interface BackupPolicyPatch no longer has parameter dailyBackupsToKeep
+  - Interface BackupPolicyPatch no longer has parameter enabled
+  - Interface BackupPolicyPatch no longer has parameter monthlyBackupsToKeep
+  - Interface BackupPolicyPatch no longer has parameter provisioningState
+  - Interface BackupPolicyPatch no longer has parameter volumeBackups
+  - Interface BackupPolicyPatch no longer has parameter volumesAssigned
+  - Interface BackupPolicyPatch no longer has parameter weeklyBackupsToKeep
+  - Interface BackupVault no longer has parameter provisioningState
+  - Interface CapacityPool no longer has parameter coolAccess
+  - Interface CapacityPool no longer has parameter customThroughputMibps
+  - Interface CapacityPool no longer has parameter encryptionType
+  - Interface CapacityPool no longer has parameter poolId
+  - Interface CapacityPool no longer has parameter provisioningState
+  - Interface CapacityPool no longer has parameter qosType
+  - Interface CapacityPool no longer has parameter serviceLevel
+  - Interface CapacityPool no longer has parameter size
+  - Interface CapacityPool no longer has parameter totalThroughputMibps
+  - Interface CapacityPool no longer has parameter utilizedThroughputMibps
+  - Interface CapacityPoolPatch no longer has parameter coolAccess
+  - Interface CapacityPoolPatch no longer has parameter customThroughputMibps
+  - Interface CapacityPoolPatch no longer has parameter qosType
+  - Interface CapacityPoolPatch no longer has parameter size
+  - Interface GetKeyVaultStatusResponse no longer has parameter keyName
+  - Interface GetKeyVaultStatusResponse no longer has parameter keyVaultPrivateEndpoints
+  - Interface GetKeyVaultStatusResponse no longer has parameter keyVaultResourceId
+  - Interface GetKeyVaultStatusResponse no longer has parameter keyVaultUri
+  - Interface NetAppAccount no longer has parameter activeDirectories
+  - Interface NetAppAccount no longer has parameter disableShowmount
+  - Interface NetAppAccount no longer has parameter encryption
+  - Interface NetAppAccount no longer has parameter multiAdStatus
+  - Interface NetAppAccount no longer has parameter nfsV4IDDomain
+  - Interface NetAppAccount no longer has parameter provisioningState
+  - Interface NetAppAccountPatch no longer has parameter activeDirectories
+  - Interface NetAppAccountPatch no longer has parameter disableShowmount
+  - Interface NetAppAccountPatch no longer has parameter encryption
+  - Interface NetAppAccountPatch no longer has parameter multiAdStatus
+  - Interface NetAppAccountPatch no longer has parameter nfsV4IDDomain
+  - Interface NetAppAccountPatch no longer has parameter provisioningState
+  - Interface NetAppResourceCheckFilePathAvailabilityOptionalParams no longer has parameter availabilityZone
+  - Interface Operation no longer has parameter serviceSpecification
+  - Interface RegionInfoResource no longer has parameter availabilityZoneMappings
+  - Interface RegionInfoResource no longer has parameter storageToNetworkProximity
+  - Interface Snapshot no longer has parameter created
+  - Interface Snapshot no longer has parameter provisioningState
+  - Interface Snapshot no longer has parameter snapshotId
+  - Interface SnapshotPolicy no longer has parameter dailySchedule
+  - Interface SnapshotPolicy no longer has parameter enabled
+  - Interface SnapshotPolicy no longer has parameter hourlySchedule
+  - Interface SnapshotPolicy no longer has parameter monthlySchedule
+  - Interface SnapshotPolicy no longer has parameter provisioningState
+  - Interface SnapshotPolicy no longer has parameter weeklySchedule
+  - Interface SnapshotPolicyPatch no longer has parameter dailySchedule
+  - Interface SnapshotPolicyPatch no longer has parameter enabled
+  - Interface SnapshotPolicyPatch no longer has parameter hourlySchedule
+  - Interface SnapshotPolicyPatch no longer has parameter monthlySchedule
+  - Interface SnapshotPolicyPatch no longer has parameter provisioningState
+  - Interface SnapshotPolicyPatch no longer has parameter weeklySchedule
+  - Interface SubvolumeInfo no longer has parameter parentPath
+  - Interface SubvolumeInfo no longer has parameter path
+  - Interface SubvolumeInfo no longer has parameter provisioningState
+  - Interface SubvolumeInfo no longer has parameter size
+  - Interface SubvolumeModel no longer has parameter accessedTimeStamp
+  - Interface SubvolumeModel no longer has parameter bytesUsed
+  - Interface SubvolumeModel no longer has parameter changedTimeStamp
+  - Interface SubvolumeModel no longer has parameter creationTimeStamp
+  - Interface SubvolumeModel no longer has parameter modifiedTimeStamp
+  - Interface SubvolumeModel no longer has parameter parentPath
+  - Interface SubvolumeModel no longer has parameter path
+  - Interface SubvolumeModel no longer has parameter permissions
+  - Interface SubvolumeModel no longer has parameter provisioningState
+  - Interface SubvolumeModel no longer has parameter size
+  - Interface SubvolumePatchRequest no longer has parameter path
+  - Interface SubvolumePatchRequest no longer has parameter size
+  - Interface Volume no longer has parameter acceptGrowCapacityPoolForShortTermCloneSplit
+  - Interface Volume no longer has parameter actualThroughputMibps
+  - Interface Volume no longer has parameter avsDataStore
+  - Interface Volume no longer has parameter backupId
+  - Interface Volume no longer has parameter baremetalTenantId
+  - Interface Volume no longer has parameter capacityPoolResourceId
+  - Interface Volume no longer has parameter cloneProgress
+  - Interface Volume no longer has parameter coolAccess
+  - Interface Volume no longer has parameter coolAccessRetrievalPolicy
+  - Interface Volume no longer has parameter coolAccessTieringPolicy
+  - Interface Volume no longer has parameter coolnessPeriod
+  - Interface Volume no longer has parameter creationToken
+  - Interface Volume no longer has parameter dataProtection
+  - Interface Volume no longer has parameter dataStoreResourceId
+  - Interface Volume no longer has parameter defaultGroupQuotaInKiBs
+  - Interface Volume no longer has parameter defaultUserQuotaInKiBs
+  - Interface Volume no longer has parameter deleteBaseSnapshot
+  - Interface Volume no longer has parameter effectiveNetworkFeatures
+  - Interface Volume no longer has parameter enableSubvolumes
+  - Interface Volume no longer has parameter encrypted
+  - Interface Volume no longer has parameter encryptionKeySource
+  - Interface Volume no longer has parameter exportPolicy
+  - Interface Volume no longer has parameter fileAccessLogs
+  - Interface Volume no longer has parameter fileSystemId
+  - Interface Volume no longer has parameter inheritedSizeInBytes
+  - Interface Volume no longer has parameter isDefaultQuotaEnabled
+  - Interface Volume no longer has parameter isLargeVolume
+  - Interface Volume no longer has parameter isRestoring
+  - Interface Volume no longer has parameter kerberosEnabled
+  - Interface Volume no longer has parameter keyVaultPrivateEndpointResourceId
+  - Interface Volume no longer has parameter ldapEnabled
+  - Interface Volume no longer has parameter maximumNumberOfFiles
+  - Interface Volume no longer has parameter mountTargets
+  - Interface Volume no longer has parameter networkFeatures
+  - Interface Volume no longer has parameter networkSiblingSetId
+  - Interface Volume no longer has parameter originatingResourceId
+  - Interface Volume no longer has parameter placementRules
+  - Interface Volume no longer has parameter protocolTypes
+  - Interface Volume no longer has parameter provisionedAvailabilityZone
+  - Interface Volume no longer has parameter provisioningState
+  - Interface Volume no longer has parameter proximityPlacementGroup
+  - Interface Volume no longer has parameter securityStyle
+  - Interface Volume no longer has parameter serviceLevel
+  - Interface Volume no longer has parameter smbAccessBasedEnumeration
+  - Interface Volume no longer has parameter smbContinuouslyAvailable
+  - Interface Volume no longer has parameter smbEncryption
+  - Interface Volume no longer has parameter smbNonBrowsable
+  - Interface Volume no longer has parameter snapshotDirectoryVisible
+  - Interface Volume no longer has parameter snapshotId
+  - Interface Volume no longer has parameter storageToNetworkProximity
+  - Interface Volume no longer has parameter subnetId
+  - Interface Volume no longer has parameter t2Network
+  - Interface Volume no longer has parameter throughputMibps
+  - Interface Volume no longer has parameter unixPermissions
+  - Interface Volume no longer has parameter usageThreshold
+  - Interface Volume no longer has parameter volumeGroupName
+  - Interface Volume no longer has parameter volumeSpecName
+  - Interface Volume no longer has parameter volumeType
+  - Interface VolumeGroup no longer has parameter groupMetaData
+  - Interface VolumeGroup no longer has parameter provisioningState
+  - Interface VolumeGroupDetails no longer has parameter groupMetaData
+  - Interface VolumeGroupDetails no longer has parameter provisioningState
+  - Interface VolumeGroupDetails no longer has parameter volumes
+  - Interface VolumeGroupVolumeProperties no longer has parameter acceptGrowCapacityPoolForShortTermCloneSplit
+  - Interface VolumeGroupVolumeProperties no longer has parameter actualThroughputMibps
+  - Interface VolumeGroupVolumeProperties no longer has parameter avsDataStore
+  - Interface VolumeGroupVolumeProperties no longer has parameter backupId
+  - Interface VolumeGroupVolumeProperties no longer has parameter baremetalTenantId
+  - Interface VolumeGroupVolumeProperties no longer has parameter capacityPoolResourceId
+  - Interface VolumeGroupVolumeProperties no longer has parameter cloneProgress
+  - Interface VolumeGroupVolumeProperties no longer has parameter coolAccess
+  - Interface VolumeGroupVolumeProperties no longer has parameter coolAccessRetrievalPolicy
+  - Interface VolumeGroupVolumeProperties no longer has parameter coolAccessTieringPolicy
+  - Interface VolumeGroupVolumeProperties no longer has parameter coolnessPeriod
+  - Interface VolumeGroupVolumeProperties no longer has parameter creationToken
+  - Interface VolumeGroupVolumeProperties no longer has parameter dataProtection
+  - Interface VolumeGroupVolumeProperties no longer has parameter dataStoreResourceId
+  - Interface VolumeGroupVolumeProperties no longer has parameter defaultGroupQuotaInKiBs
+  - Interface VolumeGroupVolumeProperties no longer has parameter defaultUserQuotaInKiBs
+  - Interface VolumeGroupVolumeProperties no longer has parameter deleteBaseSnapshot
+  - Interface VolumeGroupVolumeProperties no longer has parameter effectiveNetworkFeatures
+  - Interface VolumeGroupVolumeProperties no longer has parameter enableSubvolumes
+  - Interface VolumeGroupVolumeProperties no longer has parameter encrypted
+  - Interface VolumeGroupVolumeProperties no longer has parameter encryptionKeySource
+  - Interface VolumeGroupVolumeProperties no longer has parameter exportPolicy
+  - Interface VolumeGroupVolumeProperties no longer has parameter fileAccessLogs
+  - Interface VolumeGroupVolumeProperties no longer has parameter fileSystemId
+  - Interface VolumeGroupVolumeProperties no longer has parameter inheritedSizeInBytes
+  - Interface VolumeGroupVolumeProperties no longer has parameter isDefaultQuotaEnabled
+  - Interface VolumeGroupVolumeProperties no longer has parameter isLargeVolume
+  - Interface VolumeGroupVolumeProperties no longer has parameter isRestoring
+  - Interface VolumeGroupVolumeProperties no longer has parameter kerberosEnabled
+  - Interface VolumeGroupVolumeProperties no longer has parameter keyVaultPrivateEndpointResourceId
+  - Interface VolumeGroupVolumeProperties no longer has parameter ldapEnabled
+  - Interface VolumeGroupVolumeProperties no longer has parameter maximumNumberOfFiles
+  - Interface VolumeGroupVolumeProperties no longer has parameter mountTargets
+  - Interface VolumeGroupVolumeProperties no longer has parameter networkFeatures
+  - Interface VolumeGroupVolumeProperties no longer has parameter networkSiblingSetId
+  - Interface VolumeGroupVolumeProperties no longer has parameter originatingResourceId
+  - Interface VolumeGroupVolumeProperties no longer has parameter placementRules
+  - Interface VolumeGroupVolumeProperties no longer has parameter protocolTypes
+  - Interface VolumeGroupVolumeProperties no longer has parameter provisionedAvailabilityZone
+  - Interface VolumeGroupVolumeProperties no longer has parameter provisioningState
+  - Interface VolumeGroupVolumeProperties no longer has parameter proximityPlacementGroup
+  - Interface VolumeGroupVolumeProperties no longer has parameter securityStyle
+  - Interface VolumeGroupVolumeProperties no longer has parameter serviceLevel
+  - Interface VolumeGroupVolumeProperties no longer has parameter smbAccessBasedEnumeration
+  - Interface VolumeGroupVolumeProperties no longer has parameter smbContinuouslyAvailable
+  - Interface VolumeGroupVolumeProperties no longer has parameter smbEncryption
+  - Interface VolumeGroupVolumeProperties no longer has parameter smbNonBrowsable
+  - Interface VolumeGroupVolumeProperties no longer has parameter snapshotDirectoryVisible
+  - Interface VolumeGroupVolumeProperties no longer has parameter snapshotId
+  - Interface VolumeGroupVolumeProperties no longer has parameter storageToNetworkProximity
+  - Interface VolumeGroupVolumeProperties no longer has parameter subnetId
+  - Interface VolumeGroupVolumeProperties no longer has parameter t2Network
+  - Interface VolumeGroupVolumeProperties no longer has parameter throughputMibps
+  - Interface VolumeGroupVolumeProperties no longer has parameter unixPermissions
+  - Interface VolumeGroupVolumeProperties no longer has parameter usageThreshold
+  - Interface VolumeGroupVolumeProperties no longer has parameter volumeGroupName
+  - Interface VolumeGroupVolumeProperties no longer has parameter volumeSpecName
+  - Interface VolumeGroupVolumeProperties no longer has parameter volumeType
+  - Interface VolumePatch no longer has parameter coolAccess
+  - Interface VolumePatch no longer has parameter coolAccessRetrievalPolicy
+  - Interface VolumePatch no longer has parameter coolAccessTieringPolicy
+  - Interface VolumePatch no longer has parameter coolnessPeriod
+  - Interface VolumePatch no longer has parameter dataProtection
+  - Interface VolumePatch no longer has parameter defaultGroupQuotaInKiBs
+  - Interface VolumePatch no longer has parameter defaultUserQuotaInKiBs
+  - Interface VolumePatch no longer has parameter exportPolicy
+  - Interface VolumePatch no longer has parameter isDefaultQuotaEnabled
+  - Interface VolumePatch no longer has parameter protocolTypes
+  - Interface VolumePatch no longer has parameter serviceLevel
+  - Interface VolumePatch no longer has parameter smbAccessBasedEnumeration
+  - Interface VolumePatch no longer has parameter smbNonBrowsable
+  - Interface VolumePatch no longer has parameter snapshotDirectoryVisible
+  - Interface VolumePatch no longer has parameter throughputMibps
+  - Interface VolumePatch no longer has parameter unixPermissions
+  - Interface VolumePatch no longer has parameter usageThreshold
+  - Interface VolumeQuotaRule no longer has parameter provisioningState
+  - Interface VolumeQuotaRule no longer has parameter quotaSizeInKiBs
+  - Interface VolumeQuotaRule no longer has parameter quotaTarget
+  - Interface VolumeQuotaRule no longer has parameter quotaType
+  - Interface VolumeQuotaRulePatch no longer has parameter provisioningState
+  - Interface VolumeQuotaRulePatch no longer has parameter quotaSizeInKiBs
+  - Interface VolumeQuotaRulePatch no longer has parameter quotaTarget
+  - Interface VolumeQuotaRulePatch no longer has parameter quotaType
+  - Parameter value of interface SnapshotPolicyVolumeList is now required
+  - Removed Type Alias ProvisioningState
+  - Removed Type Alias RelationshipStatus
+  - Removed Enum KnownRelationshipStatus
+
 ## 22.0.0-beta.1 (2025-10-16)
 Compared with version 21.7.0
 

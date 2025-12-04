@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Creates or updates the mesh membership of a managed cluster.
  *
  * @summary Creates or updates the mesh membership of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/MeshMemberships_CreateOrUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/MeshMemberships_CreateOrUpdate.json
  */
 async function createOrUpdateMeshMembership() {
   const subscriptionId =

@@ -16,16 +16,16 @@ pnpm build --filter=<your-package-name>...
 
 Install `js-sdk-release-tools`
 ```
-npm install -g @azure-tools/js-sdk-release-tools
+npm --prefix eng/tools/js-sdk-release-tools ci
 ```
 
 After you build your package, run
 ```
-changelog-tool <your-package-path>
+npm --prefix eng/tools/js-sdk-release-tools exec --no -- changelog-tool <your-package-path>
 ```
 Here is the example
 ```
-changelog-tool sdk/advisor/arm-advisor
+npm --prefix eng/tools/js-sdk-release-tools exec --no -- changelog-tool sdk/advisor/arm-advisor
 ```
 
 # Improve README.md document
@@ -224,6 +224,19 @@ After [writing and running test cases](#how-to-write-test-for-dpgrlc), you need 
 ## Fix CI for PR
 
 You may meet the CI failures after submitting the PR, so please refer to [Troubleshoot CI Failure](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Troubleshoot-ci-failure.md) to fix it.
+
+## Resolve conflicts for PR
+
+Latest changes to the main branch may introduce merge conflicts of `pnpm-lock.yaml` file to the PR, so please try to follow these steps to resolve conflicts:
+
+1. checkout to main branch and pull the latest code
+2. checkout the PR's branch
+3. run `git merge main` 
+4. run `git checkout origin/main pnpm-lock.yaml` 
+5. run `pnpm install`
+6. push your changes into your PR
+
+If you meet other files' conflicts, you need to resolve them case by case.
 
 ## CC dpg-devs for review
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to check if a quota is available.
  *
  * @summary check if a quota is available.
- * x-ms-original-file: 2025-07-01-preview/CheckQuotaAvailability.json
+ * x-ms-original-file: 2025-09-01-preview/CheckQuotaAvailability.json
  */
 async function checkQuotaAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -67,8 +67,8 @@ From this point forward, we'll assume that you're developing (perhaps contributi
   // ... your package.json properties
   "devDependencies": {
     // ... your devDependencies
-    "@azure-tools/test-credential": "^1.0.0", // If you are using `@azure/identity` in your tests
-    "@azure-tools/test-recorder": "^4.1.0"
+    "@azure-tools/test-credential": "workspace:^", // If you are using `@azure/identity` in your tests
+    "@azure-tools/test-recorder": "workspace:^"
     // ... more of your devDependencies
   }
   // ... more of your package.json properties
@@ -253,7 +253,7 @@ To record your tests,
 
 In the following example, we'll use the recorder with the client from `@azure/data-tables`:
 
-_[Example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/test/public/configurationClient.spec.ts) from the template project if you want to check out._
+_[Example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/test/public/sampleTest.spec.ts) from the template project if you want to check out._
 
 ```typescript
 import { RecorderStartOptions, Recorder, env } from "@azure-tools/test-recorder";

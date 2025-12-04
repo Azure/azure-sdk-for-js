@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   IotHubDescription,
   IotHubResourceListBySubscriptionOptionalParams,
   IotHubResourceListByResourceGroupOptionalParams,
@@ -59,7 +59,7 @@ import {
   IotHubResourceExportDevicesResponse,
   ImportDevicesRequest,
   IotHubResourceImportDevicesOptionalParams,
-  IotHubResourceImportDevicesResponse
+  IotHubResourceImportDevicesResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -70,7 +70,7 @@ export interface IotHubResource {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: IotHubResourceListBySubscriptionOptionalParams
+    options?: IotHubResourceListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<IotHubDescription>;
   /**
    * Get all the IoT hubs in a resource group.
@@ -79,7 +79,7 @@ export interface IotHubResource {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: IotHubResourceListByResourceGroupOptionalParams
+    options?: IotHubResourceListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<IotHubDescription>;
   /**
    * Get the list of valid SKUs for an IoT hub.
@@ -90,7 +90,7 @@ export interface IotHubResource {
   listValidSkus(
     resourceGroupName: string,
     resourceName: string,
-    options?: IotHubResourceGetValidSkusOptionalParams
+    options?: IotHubResourceGetValidSkusOptionalParams,
   ): PagedAsyncIterableIterator<IotHubSkuDescription>;
   /**
    * Get a list of the consumer groups in the Event Hub-compatible device-to-cloud endpoint in an IoT
@@ -104,7 +104,7 @@ export interface IotHubResource {
     resourceGroupName: string,
     resourceName: string,
     eventHubEndpointName: string,
-    options?: IotHubResourceListEventHubConsumerGroupsOptionalParams
+    options?: IotHubResourceListEventHubConsumerGroupsOptionalParams,
   ): PagedAsyncIterableIterator<EventHubConsumerGroupInfo>;
   /**
    * Get a list of all the jobs in an IoT hub. For more information, see:
@@ -116,7 +116,7 @@ export interface IotHubResource {
   listJobs(
     resourceGroupName: string,
     resourceName: string,
-    options?: IotHubResourceListJobsOptionalParams
+    options?: IotHubResourceListJobsOptionalParams,
   ): PagedAsyncIterableIterator<JobResponse>;
   /**
    * Get the quota metrics for an IoT hub.
@@ -127,7 +127,7 @@ export interface IotHubResource {
   listQuotaMetrics(
     resourceGroupName: string,
     resourceName: string,
-    options?: IotHubResourceGetQuotaMetricsOptionalParams
+    options?: IotHubResourceGetQuotaMetricsOptionalParams,
   ): PagedAsyncIterableIterator<IotHubQuotaMetricInfo>;
   /**
    * Get the health for routing endpoints.
@@ -138,7 +138,7 @@ export interface IotHubResource {
   listEndpointHealth(
     resourceGroupName: string,
     iotHubName: string,
-    options?: IotHubResourceGetEndpointHealthOptionalParams
+    options?: IotHubResourceGetEndpointHealthOptionalParams,
   ): PagedAsyncIterableIterator<EndpointHealthData>;
   /**
    * Get the security metadata for an IoT hub. For more information, see:
@@ -150,7 +150,7 @@ export interface IotHubResource {
   listKeys(
     resourceGroupName: string,
     resourceName: string,
-    options?: IotHubResourceListKeysOptionalParams
+    options?: IotHubResourceListKeysOptionalParams,
   ): PagedAsyncIterableIterator<SharedAccessSignatureAuthorizationRule>;
   /**
    * Get the non-security related metadata of an IoT hub.
@@ -161,13 +161,12 @@ export interface IotHubResource {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: IotHubResourceGetOptionalParams
+    options?: IotHubResourceGetOptionalParams,
   ): Promise<IotHubResourceGetResponse>;
   /**
    * Create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve
    * the IoT hub metadata and security metadata, and then combine them with the modified values in a new
-   * body to update the IoT hub. If certain properties are missing in the JSON, updating IoT Hub may
-   * cause these values to fallback to default, which may lead to unexpected behavior.
+   * body to update the IoT hub.
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
    * @param iotHubDescription The IoT hub metadata and security metadata.
@@ -177,7 +176,7 @@ export interface IotHubResource {
     resourceGroupName: string,
     resourceName: string,
     iotHubDescription: IotHubDescription,
-    options?: IotHubResourceCreateOrUpdateOptionalParams
+    options?: IotHubResourceCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IotHubResourceCreateOrUpdateResponse>,
@@ -187,8 +186,7 @@ export interface IotHubResource {
   /**
    * Create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve
    * the IoT hub metadata and security metadata, and then combine them with the modified values in a new
-   * body to update the IoT hub. If certain properties are missing in the JSON, updating IoT Hub may
-   * cause these values to fallback to default, which may lead to unexpected behavior.
+   * body to update the IoT hub.
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
    * @param iotHubDescription The IoT hub metadata and security metadata.
@@ -198,7 +196,7 @@ export interface IotHubResource {
     resourceGroupName: string,
     resourceName: string,
     iotHubDescription: IotHubDescription,
-    options?: IotHubResourceCreateOrUpdateOptionalParams
+    options?: IotHubResourceCreateOrUpdateOptionalParams,
   ): Promise<IotHubResourceCreateOrUpdateResponse>;
   /**
    * Update an existing IoT Hub tags. to update other fields use the CreateOrUpdate method
@@ -211,12 +209,9 @@ export interface IotHubResource {
     resourceGroupName: string,
     resourceName: string,
     iotHubTags: TagsResource,
-    options?: IotHubResourceUpdateOptionalParams
+    options?: IotHubResourceUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<IotHubResourceUpdateResponse>,
-      IotHubResourceUpdateResponse
-    >
+    SimplePollerLike<OperationState<IotHubResourceUpdateResponse>, IotHubResourceUpdateResponse>
   >;
   /**
    * Update an existing IoT Hub tags. to update other fields use the CreateOrUpdate method
@@ -229,7 +224,7 @@ export interface IotHubResource {
     resourceGroupName: string,
     resourceName: string,
     iotHubTags: TagsResource,
-    options?: IotHubResourceUpdateOptionalParams
+    options?: IotHubResourceUpdateOptionalParams,
   ): Promise<IotHubResourceUpdateResponse>;
   /**
    * Delete an IoT hub.
@@ -240,12 +235,9 @@ export interface IotHubResource {
   beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    options?: IotHubResourceDeleteOptionalParams
+    options?: IotHubResourceDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<IotHubResourceDeleteResponse>,
-      IotHubResourceDeleteResponse
-    >
+    SimplePollerLike<OperationState<IotHubResourceDeleteResponse>, IotHubResourceDeleteResponse>
   >;
   /**
    * Delete an IoT hub.
@@ -256,7 +248,7 @@ export interface IotHubResource {
   beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: IotHubResourceDeleteOptionalParams
+    options?: IotHubResourceDeleteOptionalParams,
   ): Promise<IotHubResourceDeleteResponse>;
   /**
    * Get the statistics from an IoT hub.
@@ -267,7 +259,7 @@ export interface IotHubResource {
   getStats(
     resourceGroupName: string,
     resourceName: string,
-    options?: IotHubResourceGetStatsOptionalParams
+    options?: IotHubResourceGetStatsOptionalParams,
   ): Promise<IotHubResourceGetStatsResponse>;
   /**
    * Get a consumer group from the Event Hub-compatible device-to-cloud endpoint for an IoT hub.
@@ -282,7 +274,7 @@ export interface IotHubResource {
     resourceName: string,
     eventHubEndpointName: string,
     name: string,
-    options?: IotHubResourceGetEventHubConsumerGroupOptionalParams
+    options?: IotHubResourceGetEventHubConsumerGroupOptionalParams,
   ): Promise<IotHubResourceGetEventHubConsumerGroupResponse>;
   /**
    * Add a consumer group to an Event Hub-compatible endpoint in an IoT hub.
@@ -299,7 +291,7 @@ export interface IotHubResource {
     eventHubEndpointName: string,
     name: string,
     consumerGroupBody: EventHubConsumerGroupBodyDescription,
-    options?: IotHubResourceCreateEventHubConsumerGroupOptionalParams
+    options?: IotHubResourceCreateEventHubConsumerGroupOptionalParams,
   ): Promise<IotHubResourceCreateEventHubConsumerGroupResponse>;
   /**
    * Delete a consumer group from an Event Hub-compatible endpoint in an IoT hub.
@@ -314,7 +306,7 @@ export interface IotHubResource {
     resourceName: string,
     eventHubEndpointName: string,
     name: string,
-    options?: IotHubResourceDeleteEventHubConsumerGroupOptionalParams
+    options?: IotHubResourceDeleteEventHubConsumerGroupOptionalParams,
   ): Promise<void>;
   /**
    * Get the details of a job from an IoT hub. For more information, see:
@@ -328,7 +320,7 @@ export interface IotHubResource {
     resourceGroupName: string,
     resourceName: string,
     jobId: string,
-    options?: IotHubResourceGetJobOptionalParams
+    options?: IotHubResourceGetJobOptionalParams,
   ): Promise<IotHubResourceGetJobResponse>;
   /**
    * Check if an IoT hub name is available.
@@ -338,7 +330,7 @@ export interface IotHubResource {
    */
   checkNameAvailability(
     operationInputs: OperationInputs,
-    options?: IotHubResourceCheckNameAvailabilityOptionalParams
+    options?: IotHubResourceCheckNameAvailabilityOptionalParams,
   ): Promise<IotHubResourceCheckNameAvailabilityResponse>;
   /**
    * Test all routes configured in this Iot Hub
@@ -351,7 +343,7 @@ export interface IotHubResource {
     iotHubName: string,
     resourceGroupName: string,
     input: TestAllRoutesInput,
-    options?: IotHubResourceTestAllRoutesOptionalParams
+    options?: IotHubResourceTestAllRoutesOptionalParams,
   ): Promise<IotHubResourceTestAllRoutesResponse>;
   /**
    * Test the new route for this Iot Hub
@@ -364,7 +356,7 @@ export interface IotHubResource {
     iotHubName: string,
     resourceGroupName: string,
     input: TestRouteInput,
-    options?: IotHubResourceTestRouteOptionalParams
+    options?: IotHubResourceTestRouteOptionalParams,
   ): Promise<IotHubResourceTestRouteResponse>;
   /**
    * Get a shared access policy by name from an IoT hub. For more information, see:
@@ -378,7 +370,7 @@ export interface IotHubResource {
     resourceGroupName: string,
     resourceName: string,
     keyName: string,
-    options?: IotHubResourceGetKeysForKeyNameOptionalParams
+    options?: IotHubResourceGetKeysForKeyNameOptionalParams,
   ): Promise<IotHubResourceGetKeysForKeyNameResponse>;
   /**
    * Exports all the device identities in the IoT hub identity registry to an Azure Storage blob
@@ -393,7 +385,7 @@ export interface IotHubResource {
     resourceGroupName: string,
     resourceName: string,
     exportDevicesParameters: ExportDevicesRequest,
-    options?: IotHubResourceExportDevicesOptionalParams
+    options?: IotHubResourceExportDevicesOptionalParams,
   ): Promise<IotHubResourceExportDevicesResponse>;
   /**
    * Import, update, or delete device identities in the IoT hub identity registry from a blob. For more
@@ -408,6 +400,6 @@ export interface IotHubResource {
     resourceGroupName: string,
     resourceName: string,
     importDevicesParameters: ImportDevicesRequest,
-    options?: IotHubResourceImportDevicesOptionalParams
+    options?: IotHubResourceImportDevicesOptionalParams,
   ): Promise<IotHubResourceImportDevicesResponse>;
 }

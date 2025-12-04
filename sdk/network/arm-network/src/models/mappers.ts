@@ -1023,6 +1023,12 @@ export const ApplicationGatewayClientAuthConfiguration: coreClient.CompositeMapp
           name: "String",
         },
       },
+      verifyClientAuthMode: {
+        serializedName: "verifyClientAuthMode",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -1609,6 +1615,12 @@ export const ApplicationGatewayOnDemandProbe: coreClient.CompositeMapper = {
       },
       pickHostNameFromBackendHttpSettings: {
         serializedName: "pickHostNameFromBackendHttpSettings",
+        type: {
+          name: "Boolean",
+        },
+      },
+      enableProbeProxyProtocolHeader: {
+        serializedName: "enableProbeProxyProtocolHeader",
         type: {
           name: "Boolean",
         },
@@ -3513,6 +3525,27 @@ export const CustomIpPrefixListResult: coreClient.CompositeMapper = {
         serializedName: "nextLink",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TrafficDetectionRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrafficDetectionRule",
+    modelProperties: {
+      trafficType: {
+        serializedName: "trafficType",
+        type: {
+          name: "String",
+        },
+      },
+      packetsPerSecond: {
+        serializedName: "packetsPerSecond",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -11425,6 +11458,12 @@ export const FlowLogInformation: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      recordTypes: {
+        serializedName: "properties.recordTypes",
+        type: {
+          name: "String",
+        },
+      },
       enabled: {
         serializedName: "properties.enabled",
         required: true,
@@ -14146,6 +14185,38 @@ export const PublicIpDdosProtectionStatusResult: coreClient.CompositeMapper = {
   },
 };
 
+export const ReserveCloudServicePublicIpAddressRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReserveCloudServicePublicIpAddressRequest",
+    modelProperties: {
+      isRollback: {
+        serializedName: "isRollback",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DisassociateCloudServicePublicIpRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DisassociateCloudServicePublicIpRequest",
+    modelProperties: {
+      publicIpArmId: {
+        serializedName: "publicIpArmId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const PublicIPPrefixSku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -16804,6 +16875,38 @@ export const VirtualNetworkGatewayConnectionTunnelProperties: coreClient.Composi
         serializedName: "bgpPeeringAddress",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CertificateAuthentication: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CertificateAuthentication",
+    modelProperties: {
+      outboundAuthCertificate: {
+        serializedName: "outboundAuthCertificate",
+        type: {
+          name: "String",
+        },
+      },
+      inboundAuthCertificateSubjectName: {
+        serializedName: "inboundAuthCertificateSubjectName",
+        type: {
+          name: "String",
+        },
+      },
+      inboundAuthCertificateChain: {
+        serializedName: "inboundAuthCertificateChain",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
         },
       },
     },
@@ -20724,6 +20827,12 @@ export const ApplicationGatewayProbe: coreClient.CompositeMapper = {
           className: "ApplicationGatewayProbeHealthResponseMatch",
         },
       },
+      enableProbeProxyProtocolHeader: {
+        serializedName: "properties.enableProbeProxyProtocolHeader",
+        type: {
+          name: "Boolean",
+        },
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -22628,6 +22737,12 @@ export const ApplicationGatewayBackendSettings: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      enableL4ClientIpPreservation: {
+        serializedName: "properties.enableL4ClientIpPreservation",
+        type: {
+          name: "Boolean",
+        },
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -23162,6 +23277,13 @@ export const ApplicationGatewayRequestRoutingRule: coreClient.CompositeMapper = 
           className: "SubResource",
         },
       },
+      entraJWTValidationConfig: {
+        serializedName: "properties.entraJWTValidationConfig",
+        type: {
+          name: "Composite",
+          className: "SubResource",
+        },
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -23657,6 +23779,65 @@ export const ApplicationGatewayLoadDistributionPolicy: coreClient.CompositeMappe
   },
 };
 
+export const ApplicationGatewayEntraJWTValidationConfig: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApplicationGatewayEntraJWTValidationConfig",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      unAuthorizedRequestAction: {
+        serializedName: "properties.unAuthorizedRequestAction",
+        type: {
+          name: "String",
+        },
+      },
+      tenantId: {
+        serializedName: "properties.tenantId",
+        type: {
+          name: "String",
+        },
+      },
+      clientId: {
+        serializedName: "properties.clientId",
+        type: {
+          name: "String",
+        },
+      },
+      audiences: {
+        serializedName: "properties.audiences",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const ApplicationGatewayPrivateLinkResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -24036,6 +24217,56 @@ export const BastionHostIPConfiguration: coreClient.CompositeMapper = {
         serializedName: "properties.privateIPAllocationMethod",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DdosDetectionRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DdosDetectionRule",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      detectionMode: {
+        serializedName: "properties.detectionMode",
+        type: {
+          name: "String",
+        },
+      },
+      trafficDetectionRule: {
+        serializedName: "properties.trafficDetectionRule",
+        type: {
+          name: "Composite",
+          className: "TrafficDetectionRule",
         },
       },
     },
@@ -27607,6 +27838,13 @@ export const PrivateEndpoint: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      ipVersionType: {
+        defaultValue: "IPv4",
+        serializedName: "properties.ipVersionType",
+        type: {
+          name: "String",
+        },
+      },
       privateLinkServiceConnections: {
         serializedName: "properties.privateLinkServiceConnections",
         type: {
@@ -27723,6 +27961,12 @@ export const PrivateLinkService: coreClient.CompositeMapper = {
       },
       destinationIPAddress: {
         serializedName: "properties.destinationIPAddress",
+        type: {
+          name: "String",
+        },
+      },
+      accessMode: {
+        serializedName: "properties.accessMode",
         type: {
           name: "String",
         },
@@ -28036,6 +28280,12 @@ export const FlowLog: coreClient.CompositeMapper = {
       },
       enabledFilteringCriteria: {
         serializedName: "properties.enabledFilteringCriteria",
+        type: {
+          name: "String",
+        },
+      },
+      recordTypes: {
+        serializedName: "properties.recordTypes",
         type: {
           name: "String",
         },
@@ -29043,6 +29293,18 @@ export const ApplicationGateway: coreClient.CompositeMapper = {
           },
         },
       },
+      entraJWTValidationConfigs: {
+        serializedName: "properties.entraJWTValidationConfigs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApplicationGatewayEntraJWTValidationConfig",
+            },
+          },
+        },
+      },
       globalConfiguration: {
         serializedName: "properties.globalConfiguration",
         type: {
@@ -29670,6 +29932,30 @@ export const DdosCustomPolicy: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String",
+        },
+      },
+      detectionRules: {
+        serializedName: "properties.detectionRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DdosDetectionRule",
+            },
+          },
+        },
+      },
+      frontEndIpConfiguration: {
+        serializedName: "properties.frontEndIpConfiguration",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource",
+            },
+          },
         },
       },
     },
@@ -30780,6 +31066,12 @@ export const LoadBalancer: coreClient.CompositeMapper = {
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      scope: {
+        serializedName: "properties.scope",
         type: {
           name: "String",
         },
@@ -32333,6 +32625,19 @@ export const VirtualNetworkGatewayConnection: coreClient.CompositeMapper = {
         serializedName: "properties.enablePrivateLinkFastPath",
         type: {
           name: "Boolean",
+        },
+      },
+      authenticationType: {
+        serializedName: "properties.authenticationType",
+        type: {
+          name: "String",
+        },
+      },
+      certificateAuthentication: {
+        serializedName: "properties.certificateAuthentication",
+        type: {
+          name: "Composite",
+          className: "CertificateAuthentication",
         },
       },
     },
@@ -33892,6 +34197,13 @@ export const NetworkManagerRoutingConfiguration: coreClient.CompositeMapper = {
       resourceGuid: {
         serializedName: "properties.resourceGuid",
         readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      routeTableUsageMode: {
+        defaultValue: "ManagedOnly",
+        serializedName: "properties.routeTableUsageMode",
         type: {
           name: "String",
         },
@@ -35805,6 +36117,50 @@ export const PublicIPAddressesDdosProtectionStatusHeaders: coreClient.CompositeM
     },
   },
 };
+
+export const PublicIPAddressesReserveCloudServicePublicIpAddressHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "PublicIPAddressesReserveCloudServicePublicIpAddressHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const PublicIPAddressesDisassociateCloudServiceReservedPublicIpHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "PublicIPAddressesDisassociateCloudServiceReservedPublicIpHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const DdosCustomPoliciesDeleteHeaders: coreClient.CompositeMapper = {
   type: {

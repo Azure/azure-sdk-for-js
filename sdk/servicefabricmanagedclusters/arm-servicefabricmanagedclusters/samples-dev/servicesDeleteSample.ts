@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a Service Fabric managed service resource with the specified name.
  *
  * @summary delete a Service Fabric managed service resource with the specified name.
- * x-ms-original-file: 2025-06-01-preview/ServiceDeleteOperation_example.json
+ * x-ms-original-file: 2025-10-01-preview/ServiceDeleteOperation_example.json
  */
 async function deleteAService(): Promise<void> {
   const credential = new DefaultAzureCredential();

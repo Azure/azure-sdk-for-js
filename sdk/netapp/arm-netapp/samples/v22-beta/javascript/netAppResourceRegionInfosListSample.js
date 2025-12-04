@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to provides region specific information.
  *
  * @summary provides region specific information.
- * x-ms-original-file: 2025-07-01-preview/RegionInfos_List.json
+ * x-ms-original-file: 2025-09-01-preview/RegionInfos_List.json
  */
 async function regionInfosList() {
   const credential = new DefaultAzureCredential();

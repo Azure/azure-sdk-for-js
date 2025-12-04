@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to relocates volume to a new stamp
  *
  * @summary relocates volume to a new stamp
- * x-ms-original-file: 2025-07-01-preview/Volumes_Relocate.json
+ * x-ms-original-file: 2025-09-01-preview/Volumes_Relocate.json
  */
 async function volumesRelocate() {
   const credential = new DefaultAzureCredential();

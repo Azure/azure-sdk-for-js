@@ -40,7 +40,7 @@
     "@_ts/max": "npm:typescript@latest",
     "@_ts/min": "npm:typescript@~4.2.4",
     "@arethetypeswrong/cli": "^0.17.4",
-    "@azure/identity": "4.12.0",
+    "@azure/identity": "catalog:internal",
     "@microsoft/api-extractor": "^7.52.4",
     "@microsoft/api-extractor-model": "^7.30.5",
     "@pnpm/catalogs.config": "^1000.0.2",
@@ -81,7 +81,7 @@
     "eslint": "catalog:",
     "mkdirp": "^3.0.1",
     "rimraf": "catalog:",
-    "typescript-eslint": "~8.43.0",
+    "typescript-eslint": "~8.46.4",
     "vitest": "catalog:testing"
   }
 }

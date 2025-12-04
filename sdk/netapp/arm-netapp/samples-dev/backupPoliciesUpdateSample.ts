@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch a backup policy for Netapp Account
  *
  * @summary patch a backup policy for Netapp Account
- * x-ms-original-file: 2025-07-01-preview/BackupPolicies_Update.json
+ * x-ms-original-file: 2025-09-01-preview/BackupPolicies_Update.json
  */
 async function backupPoliciesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
