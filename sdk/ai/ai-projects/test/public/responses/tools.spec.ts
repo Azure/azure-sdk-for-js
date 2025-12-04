@@ -359,7 +359,8 @@ describe.skipIf(!isLiveOrRecord)("My test", () => {
       },
     };
 
-    const instructions = "You are a helpful assistant that can query Microsoft Fabric data sources.";
+    const instructions =
+      "You are a helpful assistant that can query Microsoft Fabric data sources.";
 
     // Create a conversation for the agent interaction
     const conversation = await openAIClient.conversations.create();
