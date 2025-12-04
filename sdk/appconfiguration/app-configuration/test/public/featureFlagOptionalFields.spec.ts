@@ -16,8 +16,9 @@ describe("FeatureFlag - Optional Fields", () => {
 
     const parsed = parseFeatureFlag(minimalFeatureFlag);
     assert.equal(parsed.value.id, "minimal-flag");
-    assert.isUndefined(parsed.value.enabled);
-    assert.isUndefined(parsed.value.conditions);
+    assert.equal(parsed.value.enabled, false); // defaults to false when not provided
+    assert.isDefined(parsed.value.conditions);
+    assert.deepEqual(parsed.value.conditions.clientFilters, []); // defaults to empty array
     assert.isUndefined(parsed.value.description);
     assert.isUndefined(parsed.value.displayName);
   });
@@ -39,7 +40,8 @@ describe("FeatureFlag - Optional Fields", () => {
     assert.equal(parsed.value.enabled, true);
     assert.equal(parsed.value.description, "A feature flag without conditions");
     assert.equal(parsed.value.displayName, "No Conditions Flag");
-    assert.isUndefined(parsed.value.conditions);
+    assert.isDefined(parsed.value.conditions);
+    assert.deepEqual(parsed.value.conditions.clientFilters, []); // defaults to empty array
   });
 
   it("should parse feature flag with empty conditions", () => {

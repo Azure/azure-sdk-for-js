@@ -136,7 +136,7 @@ export const featureFlagPrefix = ".appconfig.featureflag/";
 
 // @public
 export interface FeatureFlagValue {
-    conditions?: {
+    conditions: {
         clientFilters: {
             name: string;
             parameters?: Record<string, unknown>;
@@ -145,7 +145,7 @@ export interface FeatureFlagValue {
     };
     description?: string;
     displayName?: string;
-    enabled?: boolean;
+    enabled: boolean;
     id?: string;
 }
 

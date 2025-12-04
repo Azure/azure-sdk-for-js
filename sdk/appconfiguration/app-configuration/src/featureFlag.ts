@@ -30,7 +30,7 @@ export interface FeatureFlagValue {
    *
    * [More Info](https://learn.microsoft.com/azure/azure-app-configuration/howto-feature-filters-aspnet-core)
    */
-  conditions?: {
+  conditions: {
     clientFilters: { name: string; parameters?: Record<string, unknown> }[];
     requirementType?: "All" | "Any";
   };
@@ -41,7 +41,7 @@ export interface FeatureFlagValue {
   /**
    * Boolean flag to say if the feature flag is enabled.
    */
-  enabled?: boolean;
+  enabled: boolean;
   /**
    * Display name for the feature to use for display rather than the ID.
    */
@@ -69,18 +69,14 @@ export const FeatureFlagHelper = {
     }
     const jsonFeatureFlagValue: JsonFeatureFlagValue = {
       id: featureFlag.value.id ?? key.replace(featureFlagPrefix, ""),
-      enabled: featureFlag.value.enabled ?? false,
+      enabled: featureFlag.value.enabled,
       description: featureFlag.value.description,
-    };
-
-    if (featureFlag.value.conditions) {
-      jsonFeatureFlagValue.conditions = {
+      conditions: {
         client_filters: featureFlag.value.conditions.clientFilters,
         requirement_type: featureFlag.value.conditions.requirementType ?? "Any",
-      };
-    }
-
-    jsonFeatureFlagValue.display_name = featureFlag.value.displayName;
+      },
+      display_name: featureFlag.value.displayName,
+    };
 
     const configSetting = {
       ...featureFlag,
@@ -115,23 +111,20 @@ export function parseFeatureFlag(
     ...setting,
     value: {
       id: jsonFeatureFlagValue.id,
-      enabled: jsonFeatureFlagValue.enabled,
+      enabled: jsonFeatureFlagValue.enabled ?? false,
       description: jsonFeatureFlagValue.description,
       displayName: jsonFeatureFlagValue.display_name,
+      conditions: jsonFeatureFlagValue.conditions
+        ? {
+            clientFilters: jsonFeatureFlagValue.conditions.client_filters,
+            requirementType: jsonFeatureFlagValue.conditions.requirement_type,
+          }
+        : { clientFilters: [] },
     },
     key,
     contentType: featureFlagContentType,
   };
 
-  if (jsonFeatureFlagValue.conditions) {
-    featureflag.value.conditions = {
-      clientFilters: jsonFeatureFlagValue.conditions.client_filters,
-    };
-    if (jsonFeatureFlagValue.conditions.requirement_type) {
-      featureflag.value.conditions.requirementType =
-        jsonFeatureFlagValue.conditions.requirement_type;
-    }
-  }
   return featureflag;
 }
 
