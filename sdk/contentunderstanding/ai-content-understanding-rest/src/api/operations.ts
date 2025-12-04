@@ -277,7 +277,7 @@ export function _getResultFileSend(
   path: string,
   options: GetResultFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path = expandUrlTemplate(
+  const urlPath = expandUrlTemplate(
     "/analyzerResults/{operationId}/files/{+path}{?api%2Dversion}",
     {
       operationId: operationId,
@@ -289,7 +289,7 @@ export function _getResultFileSend(
     },
   );
   return context
-    .path(path)
+    .path(urlPath)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: { accept: "*/*", ...options.requestOptions?.headers },
