@@ -26,11 +26,7 @@ async function fleetsUpdate() {
         allocationStrategy: "PriceCapacityOptimized",
         maintain: true,
       },
-      regularPriorityProfile: {
-        capacity: 20,
-        minCapacity: 10,
-        allocationStrategy: "Prioritized",
-      },
+      regularPriorityProfile: { capacity: 20, minCapacity: 10, allocationStrategy: "Prioritized" },
       vmSizesProfile: [
         { name: "Standard_D1_v2", rank: 0 },
         { name: "Standard_D2_v2", rank: 1 },
@@ -75,9 +71,7 @@ async function fleetsUpdate() {
             },
             linuxConfiguration: {
               disablePasswordAuthentication: true,
-              ssh: {
-                publicKeys: [{ path: "kmqz", keyData: "kivgsubusvpprwqaqpjcmhsv" }],
-              },
+              ssh: { publicKeys: [{ path: "kmqz", keyData: "kivgsubusvpprwqaqpjcmhsv" }] },
               provisionVMAgent: true,
               patchSettings: {
                 patchMode: "ImageDefault",
@@ -201,10 +195,7 @@ async function fleetsUpdate() {
                               domainNameLabelScope: "TenantReuse",
                             },
                             ipTags: [
-                              {
-                                ipTagType: "sddgsoemnzgqizale",
-                                tag: "wufmhrjsakbiaetyara",
-                              },
+                              { ipTagType: "sddgsoemnzgqizale", tag: "wufmhrjsakbiaetyara" },
                             ],
                             publicIPPrefix: {
                               id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}",
@@ -255,11 +246,7 @@ async function fleetsUpdate() {
               userAssignedIdentityResourceId:
                 "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{userAssignedIdentityName}",
             },
-            proxyAgentSettings: {
-              enabled: true,
-              mode: "Audit",
-              keyIncarnationId: 20,
-            },
+            proxyAgentSettings: { enabled: true, mode: "Audit", keyIncarnationId: 20 },
           },
           diagnosticsProfile: {
             bootDiagnostics: {
@@ -295,10 +282,7 @@ async function fleetsUpdate() {
           },
           licenseType: "v",
           scheduledEventsProfile: {
-            terminateNotificationProfile: {
-              notBeforeTimeout: "iljppmmw",
-              enable: true,
-            },
+            terminateNotificationProfile: { notBeforeTimeout: "iljppmmw", enable: true },
             osImageNotificationProfile: {
               notBeforeTimeout: "olbpadmevekyczfokodtfprxti",
               enable: true,
@@ -323,9 +307,7 @@ async function fleetsUpdate() {
               },
             ],
           },
-          hardwareProfile: {
-            vmSizeProperties: { vCPUsAvailable: 16, vCPUsPerCore: 23 },
-          },
+          hardwareProfile: { vmSizeProperties: { vCPUsAvailable: 16, vCPUsPerCore: 23 } },
           serviceArtifactReference: {
             id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactsName}/vmArtifactsProfiles/{vmArtifactsProfileName}",
           },
@@ -337,10 +319,7 @@ async function fleetsUpdate() {
         },
         computeApiVersion: "2023-07-01",
         platformFaultDomainCount: 1,
-        additionalVirtualMachineCapabilities: {
-          ultraSSDEnabled: true,
-          hibernationEnabled: true,
-        },
+        additionalVirtualMachineCapabilities: { ultraSSDEnabled: true, hibernationEnabled: true },
       },
       vmAttributes: {
         vCpuCount: { min: 2, max: 4 },
@@ -396,24 +375,14 @@ async function fleetsUpdate() {
                     },
                   },
                   winRM: {
-                    listeners: [
-                      {
-                        protocol: "Http",
-                        certificateUrl: "https://microsoft.com/apzd",
-                      },
-                    ],
+                    listeners: [{ protocol: "Http", certificateUrl: "https://microsoft.com/apzd" }],
                   },
                   enableVMAgentPlatformUpdates: true,
                 },
                 linuxConfiguration: {
                   disablePasswordAuthentication: true,
                   ssh: {
-                    publicKeys: [
-                      {
-                        path: "ebeglujkldnntlpmazrg",
-                        keyData: "vmgnwtwjcodavmu",
-                      },
-                    ],
+                    publicKeys: [{ path: "ebeglujkldnntlpmazrg", keyData: "vmgnwtwjcodavmu" }],
                   },
                   provisionVMAgent: true,
                   patchSettings: {
@@ -536,10 +505,7 @@ async function fleetsUpdate() {
                                   domainNameLabelScope: "TenantReuse",
                                 },
                                 ipTags: [
-                                  {
-                                    ipTagType: "zqpznczmc",
-                                    tag: "ugnfzikniqjisffrbvryavenhmtd",
-                                  },
+                                  { ipTagType: "zqpznczmc", tag: "ugnfzikniqjisffrbvryavenhmtd" },
                                 ],
                                 publicIPPrefix: {
                                   id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}",
@@ -590,17 +556,10 @@ async function fleetsUpdate() {
                   userAssignedIdentityResourceId:
                     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{userAssignedIdentityName}",
                 },
-                proxyAgentSettings: {
-                  enabled: true,
-                  mode: "Audit",
-                  keyIncarnationId: 6,
-                },
+                proxyAgentSettings: { enabled: true, mode: "Audit", keyIncarnationId: 6 },
               },
               diagnosticsProfile: {
-                bootDiagnostics: {
-                  enabled: true,
-                  storageUri: "https://microsoft.com/a",
-                },
+                bootDiagnostics: { enabled: true, storageUri: "https://microsoft.com/a" },
               },
               extensionProfile: {
                 extensions: [
@@ -634,10 +593,7 @@ async function fleetsUpdate() {
                   notBeforeTimeout: "plbazenobaeueixatewbey",
                   enable: true,
                 },
-                osImageNotificationProfile: {
-                  notBeforeTimeout: "ednjvcedpjmczw",
-                  enable: true,
-                },
+                osImageNotificationProfile: { notBeforeTimeout: "ednjvcedpjmczw", enable: true },
               },
               userData: "zekdr",
               capacityReservation: {
@@ -658,9 +614,7 @@ async function fleetsUpdate() {
                   },
                 ],
               },
-              hardwareProfile: {
-                vmSizeProperties: { vCPUsAvailable: 8, vCPUsPerCore: 17 },
-              },
+              hardwareProfile: { vmSizeProperties: { vCPUsAvailable: 8, vCPUsPerCore: 17 } },
               serviceArtifactReference: {
                 id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactsName}/vmArtifactsProfiles/{vmArtifactsProfileName}",
               },

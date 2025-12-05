@@ -4,14 +4,15 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AcceleratorManufacturer = string;
@@ -280,6 +281,22 @@ export interface FleetsListVirtualMachinesOptionalParams extends OperationOption
 
 // @public
 export interface FleetsOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, fleetName: string, options?: FleetsCancelOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, fleetName: string, options?: FleetsCancelOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, fleetName: string, resource: Fleet, options?: FleetsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Fleet>, Fleet>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, fleetName: string, resource: Fleet, options?: FleetsCreateOrUpdateOptionalParams) => Promise<Fleet>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, fleetName: string, properties: FleetUpdate, options?: FleetsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Fleet>, Fleet>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, fleetName: string, properties: FleetUpdate, options?: FleetsUpdateOptionalParams) => Promise<Fleet>;
     cancel: (resourceGroupName: string, fleetName: string, options?: FleetsCancelOptionalParams) => PollerLike<OperationState<void>, void>;
     createOrUpdate: (resourceGroupName: string, fleetName: string, resource: Fleet, options?: FleetsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Fleet>, Fleet>;
     delete: (resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -890,6 +907,28 @@ export interface ServiceArtifactReference {
 
 // @public
 export type SettingNames = string;
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
 
 // @public
 export type SpotAllocationStrategy = string;
