@@ -1333,9 +1333,9 @@ export function audioVisualContentDeserializer(item: any): AudioVisualContent {
       : item["cameraShotTimesMs"].map((p: any) => {
           return p;
         }),
-    keyFrameTimesMs: !item["keyFrameTimesMs"]
-      ? item["keyFrameTimesMs"]
-      : item["keyFrameTimesMs"].map((p: any) => {
+    keyFrameTimesMs: !item["KeyFrameTimesMs"]
+      ? item["KeyFrameTimesMs"]
+      : item["KeyFrameTimesMs"].map((p: any) => {
           return p;
         }),
     transcriptPhrases: !item["transcriptPhrases"]
