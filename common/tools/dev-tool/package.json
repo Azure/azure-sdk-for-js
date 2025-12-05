@@ -51,7 +51,7 @@
     "concurrently": "^9.2.1",
     "diff": "^8.0.2",
     "dotenv": "^16.0.0",
-    "express": "^5.1.0",
+    "express": "catalog:internal",
     "memfs": "^4.14.1",
     "minimist": "^1.2.8",
     "prettier": "catalog:",

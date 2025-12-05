@@ -37,6 +37,7 @@ catalogs:
     '@azure/arm-resources': ^5.0.0
   internal:
     '@azure/identity': 4.13.0
+    express: ^5.2.1
   testing:
     '@rollup/plugin-inject': ^5.0.5
     '@types/chai': ^5.2.1

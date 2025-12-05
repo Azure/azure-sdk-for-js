@@ -58,7 +58,7 @@
     "concurrently": "^9.2.1",
     "cross-env": "catalog:",
     "eslint": "catalog:",
-    "express": "^5.1.0",
+    "express": "catalog:internal",
     "prettier": "catalog:",
     "rimraf": "catalog:",
     "tshy": "catalog:",

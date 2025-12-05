@@ -56,7 +56,7 @@
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
-    "express": "^5.1.0",
+    "express": "catalog:internal",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",

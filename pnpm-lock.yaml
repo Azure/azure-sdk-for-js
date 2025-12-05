@@ -53,6 +53,9 @@ catalogs:
     '@azure/identity':
       specifier: 4.13.0
       version: 4.13.0
+    express:
+      specifier: ^5.2.1
+      version: 5.2.1
   testing:
     '@rollup/plugin-inject':
       specifier: ^5.0.5
@@ -153,7 +156,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       express:
-        specifier: ^5.1.0
+        specifier: catalog:internal
         version: 5.2.1
       memfs:
         specifier: ^4.14.1
@@ -8236,7 +8239,7 @@ importers:
         specifier: 'catalog:'
         version: 9.39.1
       express:
-        specifier: ^5.1.0
+        specifier: catalog:internal
         version: 5.2.1
       prettier:
         specifier: 'catalog:'
@@ -8303,7 +8306,7 @@ importers:
         specifier: 'catalog:'
         version: 9.39.1
       express:
-        specifier: ^5.1.0
+        specifier: catalog:internal
         version: 5.2.1
       playwright:
         specifier: catalog:testing
@@ -31865,7 +31868,7 @@ importers:
         specifier: 'catalog:'
         version: 9.39.1
       express:
-        specifier: ^5.1.0
+        specifier: catalog:internal
         version: 5.2.1
       playwright:
         specifier: catalog:testing
@@ -33191,7 +33194,7 @@ importers:
         specifier: 'catalog:'
         version: 9.39.1
       express:
-        specifier: ^5.1.0
+        specifier: catalog:internal
         version: 5.2.1
       playwright:
         specifier: catalog:testing
