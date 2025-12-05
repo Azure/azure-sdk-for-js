@@ -102,7 +102,7 @@ export async function main(): Promise<void> {
   // Analyze a document with the classifier
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
-  const filePath = path.resolve(__dirname, "./example-data", "sample_invoice.pdf");
+  const filePath = path.resolve(__dirname, "./example-data", "mixed_financial_docs.pdf");
 
   if (!fs.existsSync(filePath)) {
     console.log("\nSkipping document analysis - sample file not found.");
