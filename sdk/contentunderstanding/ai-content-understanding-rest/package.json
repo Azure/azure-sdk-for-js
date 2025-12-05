@@ -57,7 +57,16 @@
         "path": "src/api/contentUnderstandingContext.ts",
         "prefix": "userAgentInfo"
       }
-    ]
+    ],
+    "sampleConfiguration": {
+      "skipFolder": false,
+      "disableDocsMs": true,
+      "productName": "Azure Content Understanding",
+      "productSlugs": [
+        "azure"
+      ],
+      "apiRefLink": "https://learn.microsoft.com/javascript/api/"
+    }
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
