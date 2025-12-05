@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-containerservicefleet",
-  "version": "2.1.0-beta.1",
+  "version": "2.1.0-beta.2",
   "description": "A generated SDK for ContainerServiceFleetClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -17,6 +17,7 @@
       "./api/fleetUpdateStrategies": "./src/api/fleetUpdateStrategies/index.ts",
       "./api/updateRuns": "./src/api/updateRuns/index.ts",
       "./api/gates": "./src/api/gates/index.ts",
+      "./api/fleetManagedNamespaces": "./src/api/fleetManagedNamespaces/index.ts",
       "./api/fleetMembers": "./src/api/fleetMembers/index.ts",
       "./api/fleets": "./src/api/fleets/index.ts",
       "./api/operations": "./src/api/operations/index.ts",
@@ -248,6 +249,24 @@
       "require": {
         "types": "./dist/commonjs/api/gates/index.d.ts",
         "default": "./dist/commonjs/api/gates/index.js"
+      }
+    },
+    "./api/fleetManagedNamespaces": {
+      "browser": {
+        "types": "./dist/browser/api/fleetManagedNamespaces/index.d.ts",
+        "default": "./dist/browser/api/fleetManagedNamespaces/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/fleetManagedNamespaces/index.d.ts",
+        "default": "./dist/react-native/api/fleetManagedNamespaces/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/fleetManagedNamespaces/index.d.ts",
+        "default": "./dist/esm/api/fleetManagedNamespaces/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/fleetManagedNamespaces/index.d.ts",
+        "default": "./dist/commonjs/api/fleetManagedNamespaces/index.js"
       }
     },
     "./api/fleetMembers": {

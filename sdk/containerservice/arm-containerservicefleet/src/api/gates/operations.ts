@@ -1,34 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetContext as Client } from "../index.js";
+import type { ContainerServiceFleetContext as Client } from "../index.js";
+import type { Gate, GatePatch, _GateListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  Gate,
   gateDeserializer,
-  GatePatch,
   gatePatchSerializer,
-  _GateListResult,
   _gateListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   GatesListByFleetOptionalParams,
   GatesUpdateOptionalParams,
   GatesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByFleetSend(
   context: Client,
@@ -121,7 +113,7 @@ export function _updateSend(
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Gate> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -140,7 +132,7 @@ export function update(
   properties: GatePatch,
   options: GatesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Gate>, Gate> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
