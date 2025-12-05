@@ -1,6 +1,8 @@
 # Sample and test output files (any directory starting with these names)
 **/test_output*/
+**/test-output*/
 **/sample_output*/
+**/sample-output*/
 
 # Node / JavaScript
 lib/
