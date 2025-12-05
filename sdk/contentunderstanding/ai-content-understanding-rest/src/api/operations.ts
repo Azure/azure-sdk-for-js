@@ -277,7 +277,7 @@ export function _getResultFileSend(
   path: string,
   options: GetResultFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const urlPath = expandUrlTemplate(
+  const path = expandUrlTemplate(
     "/analyzerResults/{operationId}/files/{+path}{?api%2Dversion}",
     {
       operationId: operationId,
@@ -289,7 +289,7 @@ export function _getResultFileSend(
     },
   );
   return context
-    .path(urlPath)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: { accept: "*/*", ...options.requestOptions?.headers },
@@ -651,14 +651,14 @@ export async function _createAnalyzerDeserialize(
     throw createRestError(result);
   }
 
-  if (result?.body === undefined) {
+  if (result?.body?.result === undefined) {
     throw createRestError(
-      `Expected a result in the response at position "result.body"`,
+      `Expected a result in the response at position "result.body.result"`,
       result,
     );
   }
 
-  return contentAnalyzerDeserializer(result.body);
+  return contentAnalyzerDeserializer(result.body.result);
 }
 
 /** Create a new analyzer asynchronously. */
@@ -727,14 +727,14 @@ export async function _copyAnalyzerDeserialize(
     throw createRestError(result);
   }
 
-  if (result?.body === undefined) {
+  if (result?.body?.result === undefined) {
     throw createRestError(
-      `Expected a result in the response at position "result.body"`,
+      `Expected a result in the response at position "result.body.result"`,
       result,
     );
   }
 
-  return contentAnalyzerDeserializer(result.body);
+  return contentAnalyzerDeserializer(result.body.result);
 }
 
 /** Create a copy of the source analyzer to the current location. */
