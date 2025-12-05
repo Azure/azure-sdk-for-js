@@ -277,7 +277,7 @@ export function _getResultFileSend(
   path: string,
   options: GetResultFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const urlPath = expandUrlTemplate(
+  const path = expandUrlTemplate(
     "/analyzerResults/{operationId}/files/{+path}{?api%2Dversion}",
     {
       operationId: operationId,
@@ -289,7 +289,7 @@ export function _getResultFileSend(
     },
   );
   return context
-    .path(urlPath)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: { accept: "*/*", ...options.requestOptions?.headers },
@@ -689,7 +689,7 @@ export function _copyAnalyzerSend(
   options: CopyAnalyzerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/analyzers/{analyzerId}:copyAnalyzer{?api%2Dversion,allowReplace}",
+    "/analyzers/{analyzerId}:copy{?api%2Dversion,allowReplace}",
     {
       analyzerId: analyzerId,
       "api%2Dversion": context.apiVersion,
