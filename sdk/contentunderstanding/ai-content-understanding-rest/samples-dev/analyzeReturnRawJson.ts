@@ -4,23 +4,14 @@
 /**
  * @summary Access the raw JSON response from analysis operations.
  *
- * This sample demonstrates how to access the raw JSON response from analysis operations.
- * This is useful for advanced scenarios where you need direct access to the JSON structure.
+ * This sample demonstrates how to access the raw JSON response from analysis operations
+ * using the protocol method and onResponse callback to capture the raw response.
  *
- * The Content Understanding SDK provides two approaches for accessing analysis results:
- * 1. Object model approach (recommended): Returns strongly-typed AnalyzeResult objects
- * 2. Serializing to JSON: Convert the result to JSON for custom processing
- *
- * For production use, prefer the object model approach as it provides:
- * - Type safety
- * - IntelliSense support
- * - Easier navigation of results
- * - Better error handling
- *
- * Use raw JSON only when you need:
- * - Custom JSON processing
- * - Direct access to the raw response structure
- * - Integration with custom JSON parsers
+ * IMPORTANT NOTES:
+ * - The SDK returns analysis results with an object model, which is easier to navigate and retrieve
+ *   the desired results compared to parsing raw JSON
+ * - This sample is ONLY for demonstration purposes to show how to access raw JSON responses
+ * - For production use, prefer the object model approach shown in the analyzeBinary sample
  *
  * @azsdk-weight 80
  */
@@ -49,9 +40,17 @@ export async function main(): Promise<void> {
     throw new Error("AZURE_CONTENT_UNDERSTANDING_ENDPOINT is required.");
   }
 
-  const client = new ContentUnderstandingClient(endpoint, getCredential());
+  // Step 1: Create the client
+  console.log("\nStep 1: Creating Content Understanding client...");
+  const credential = getCredential();
+  console.log(
+    `  Authentication: ${credential instanceof DefaultAzureCredential ? "DefaultAzureCredential" : "API Key"}`,
+  );
+  const client = new ContentUnderstandingClient(endpoint, credential);
+  console.log("  Client created successfully");
 
-  // Read PDF bytes from disk
+  // Step 2: Read PDF bytes from disk
+  console.log("\nStep 2: Reading sample file...");
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
   const filePath = path.resolve(__dirname, "./example-data", "sample_invoice.pdf");
@@ -66,14 +65,58 @@ export async function main(): Promise<void> {
   }
 
   const fileBytes = fs.readFileSync(filePath);
-  console.log(`Analyzing ${filePath} with prebuilt-documentSearch...`);
+  console.log(`  File: ${filePath}`);
+  console.log(`  Size: ${fileBytes.length.toLocaleString()} bytes`);
 
-  // Use the standard method which returns an AnalyzeResult
-  const poller = client.analyzeBinary("prebuilt-documentSearch", "application/pdf", fileBytes);
-  const result = await poller.pollUntilDone();
+  // Step 3: Analyze document using the poller
+  console.log("\nStep 3: Analyzing document...");
+  const analyzerId = "prebuilt-documentSearch";
+  console.log(`  Analyzer: ${analyzerId}`);
+  console.log("  Using protocol method to access raw JSON response");
+  console.log("  Analyzing...");
 
-  // Convert to JSON for raw access
-  const prettyJson = JSON.stringify(result, null, 2);
+  const poller = client.analyzeBinary(analyzerId, "application/pdf", fileBytes);
+  await poller.pollUntilDone();
+  console.log("  Analysis completed successfully");
+
+  // Step 4: Extract operation ID and fetch raw JSON using onResponse callback
+  console.log("\nStep 4: Processing raw JSON response...");
+
+  // Get the operation ID from the poller to retrieve the full result
+  // The poller's operationState contains internal configuration we can use
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const operationLocation = (poller as any).operationState?.config?.operationLocation;
+  if (!operationLocation) {
+    throw new Error("Could not retrieve operation location from poller");
+  }
+
+  const operationIdMatch = operationLocation.match(/analyzerResults\/([^?]+)/);
+  if (!operationIdMatch) {
+    throw new Error("Could not extract operation ID from operation location");
+  }
+  const operationId = operationIdMatch[1];
+
+  // Variable to capture raw JSON from onResponse callback
+  let rawJson: string | undefined;
+
+  // Get the full operation status which includes the complete result
+  await client.getResult(operationId, {
+    onResponse: (response) => {
+      rawJson = response.bodyAsText;
+    },
+  });
+
+  // Use the raw JSON captured from onResponse
+  if (!rawJson) {
+    throw new Error("Failed to capture raw JSON from response");
+  }
+
+  // Parse the raw JSON to get the operation status and result
+  const operationStatusParsed = JSON.parse(rawJson);
+  const result = operationStatusParsed.result;
+
+  // Step 5: Save raw JSON to file
+  console.log("\nStep 5: Saving raw JSON to file...");
 
   // Create output directory if it doesn't exist
   const outputDir = path.resolve(__dirname, "./sample-output");
@@ -86,28 +129,35 @@ export async function main(): Promise<void> {
   const outputFilename = `analyze_result_${timestamp}.json`;
   const outputPath = path.join(outputDir, outputFilename);
 
-  fs.writeFileSync(outputPath, prettyJson, "utf-8");
+  fs.writeFileSync(outputPath, rawJson, "utf-8");
 
-  console.log(`\nRaw JSON response saved to: ${outputPath}`);
-  console.log(`File size: ${prettyJson.length.toLocaleString()} characters`);
+  console.log(`  Raw JSON response saved to: ${outputPath}`);
+  console.log(`  File size: ${rawJson.length.toLocaleString()} characters`);
 
-  // Show a preview of the JSON structure
-  console.log("\nJSON structure preview:");
-  console.log("=".repeat(50));
-  const previewLines = prettyJson.split("\n").slice(0, 30);
-  console.log(previewLines.join("\n"));
-  if (prettyJson.split("\n").length > 30) {
-    console.log("... (truncated)");
+  // Step 6: Display key information from the parsed result
+  console.log("\nStep 6: Displaying key information from response...");
+  if (result.analyzerId) {
+    console.log(`  Analyzer ID: ${result.analyzerId}`);
   }
-  console.log("=".repeat(50));
 
-  // Show top-level keys
-  console.log("\nTop-level properties in result:");
-  for (const key of Object.keys(result)) {
-    const value = (result as Record<string, unknown>)[key];
-    const valueType = Array.isArray(value) ? `array[${value.length}]` : typeof value;
-    console.log(`  - ${key}: ${valueType}`);
+  if (result.contents && result.contents.length > 0) {
+    console.log(`  Contents count: ${result.contents.length}`);
+
+    const firstContent = result.contents[0];
+    if (firstContent.kind) {
+      console.log(`  Content kind: ${firstContent.kind}`);
+    }
+    if (firstContent.mimeType) {
+      console.log(`  MIME type: ${firstContent.mimeType}`);
+    }
   }
+
+  console.log("\n" + "=".repeat(50));
+  console.log("✓ Sample completed successfully");
+  console.log("=".repeat(50));
+  console.log("\nNOTE: For easier data access, prefer using the object model");
+  console.log("      approach shown in the analyzeBinary sample instead of");
+  console.log("      parsing raw JSON manually.");
 }
 
 main().catch((err) => {
