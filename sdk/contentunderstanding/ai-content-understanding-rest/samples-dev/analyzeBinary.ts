@@ -20,6 +20,7 @@
 import "dotenv/config";
 import * as fs from "fs";
 import * as path from "path";
+import { fileURLToPath } from "url";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
 import {
@@ -46,15 +47,9 @@ export async function main(): Promise<void> {
   const client = new ContentUnderstandingClient(endpoint, getCredential());
 
   // Read PDF bytes from disk
-  // Helper to get the directory of the current file (works in both ESM and CommonJS)
-  const sampleDir = ((): string => {
-    if (typeof __dirname !== "undefined") return __dirname;
-    if (typeof process !== "undefined" && process.argv && process.argv[1]) {
-      return path.dirname(process.argv[1]);
-    }
-    return path.resolve(process.cwd(), "samples-dev");
-  })();
-  const filePath = path.resolve(sampleDir, "./example-data", "sample_invoice.pdf");
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const filePath = path.resolve(__dirname, "./example-data", "sample_invoice.pdf");
 
   if (!fs.existsSync(filePath)) {
     console.error("Error: Sample file not found. Expected file:");
