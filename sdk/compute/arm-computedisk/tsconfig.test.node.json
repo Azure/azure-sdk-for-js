@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-computedisk": ["./src/index.ts"],
+      "@azure/arm-computedisk/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}
