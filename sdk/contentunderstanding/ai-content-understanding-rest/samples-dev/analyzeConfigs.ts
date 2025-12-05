@@ -51,7 +51,7 @@ export async function main(): Promise<void> {
   // Read PDF bytes from disk
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
-  const filePath = path.resolve(__dirname, "./example-data", "sample_invoice.pdf");
+  const filePath = path.resolve(__dirname, "./example-data", "sample_document_features.pdf");
 
   if (!fs.existsSync(filePath)) {
     console.error("Error: Sample file not found. Expected file:");
