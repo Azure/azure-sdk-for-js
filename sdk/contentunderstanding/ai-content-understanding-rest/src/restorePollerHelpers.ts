@@ -90,7 +90,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     deserializer: _createAnalyzerDeserialize,
     expectedStatuses: ["201", "200", "202"],
   },
-  "POST /analyzers/{analyzerId}:copyAnalyzer": {
+  "POST /analyzers/{analyzerId}:copy": {
     deserializer: _copyAnalyzerDeserialize,
     expectedStatuses: ["202", "200", "201"],
   },

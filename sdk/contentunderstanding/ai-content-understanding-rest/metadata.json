@@ -48,7 +48,7 @@
       "@azure-rest/ai-content-understanding!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
       "@azure-rest/ai-content-understanding!ContentAnalyzerAnalyzeOperationStatus:interface": "ContentUnderstanding.ContentAnalyzerAnalyzeOperationStatus",
       "@azure-rest/ai-content-understanding!UsageDetails:interface": "ContentUnderstanding.UsageDetails",
-      "@azure-rest/ai-content-understanding!CopyAnalyzerRequest:interface": "ClientCustomizations.copyAnalyzer.Request.anonymous",
+      "@azure-rest/ai-content-understanding!CopyRequest1:interface": "ClientCustomizations.copy.Request.anonymous",
       "@azure-rest/ai-content-understanding!ResourceOperationStatusContentAnalyzerContentAnalyzerError:interface": "Azure.Core.ResourceOperationStatus",
       "@azure-rest/ai-content-understanding!ContentAnalyzer:interface": "ContentUnderstanding.ContentAnalyzer",
       "@azure-rest/ai-content-understanding!ContentAnalyzerConfig:interface": "ContentUnderstanding.ContentAnalyzerConfig",
@@ -93,7 +93,7 @@
       "@azure-rest/ai-content-understanding!ContentUnderstandingClient#deleteResult:member(1)": "ClientCustomizations.ContentUnderstandingClient.deleteResult",
       "@azure-rest/ai-content-understanding!ContentUnderstandingClient#deleteAnalyzer:member(1)": "ClientCustomizations.ContentUnderstandingClient.deleteAnalyzer",
       "@azure-rest/ai-content-understanding!ContentUnderstandingClient#createAnalyzer:member(1)": "ClientCustomizations.ContentUnderstandingClient.createAnalyzer",
-      "@azure-rest/ai-content-understanding!ContentUnderstandingClient#copyAnalyzer:member(1)": "ClientCustomizations.ContentUnderstandingClient.copyAnalyzer",
+      "@azure-rest/ai-content-understanding!ContentUnderstandingClient#copyAnalyzer:member(1)": "ClientCustomizations.ContentUnderstandingClient.copy",
       "@azure-rest/ai-content-understanding!ContentUnderstandingClient#analyzeBinary:member(1)": "ClientCustomizations.ContentUnderstandingClient.analyzeBinary",
       "@azure-rest/ai-content-understanding!ContentUnderstandingClient#analyze:member(1)": "ClientCustomizations.ContentUnderstandingClient.analyze"
     }
