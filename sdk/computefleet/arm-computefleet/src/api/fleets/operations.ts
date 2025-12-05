@@ -1,30 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureFleetContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { AzureFleetContext as Client } from "../index.js";
+import type {
   Fleet,
-  fleetSerializer,
-  fleetDeserializer,
   FleetUpdate,
-  fleetUpdateSerializer,
   _FleetListResult,
-  _fleetListResultDeserializer,
   _VirtualMachineScaleSetListResult,
-  _virtualMachineScaleSetListResultDeserializer,
   VirtualMachineScaleSet,
   _VirtualMachineListResult,
-  _virtualMachineListResultDeserializer,
   VirtualMachine,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  fleetSerializer,
+  fleetDeserializer,
+  fleetUpdateSerializer,
+  _fleetListResultDeserializer,
+  _virtualMachineScaleSetListResultDeserializer,
+  _virtualMachineListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   FleetsCancelOptionalParams,
   FleetsListVirtualMachinesOptionalParams,
   FleetsListVirtualMachineScaleSetsOptionalParams,
@@ -35,13 +35,9 @@ import {
   FleetsCreateOrUpdateOptionalParams,
   FleetsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _cancelSend(
   context: Client,
@@ -65,7 +61,7 @@ export function _cancelSend(
 }
 
 export async function _cancelDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -82,7 +78,7 @@ export function cancel(
   fleetName: string,
   options: FleetsCancelOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _cancelDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _cancelDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _cancelSend(context, resourceGroupName, fleetName, options),
@@ -112,10 +108,7 @@ export function _listVirtualMachinesSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -152,9 +145,7 @@ export function _listVirtualMachineScaleSetsSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: FleetsListVirtualMachineScaleSetsOptionalParams = {
-    requestOptions: {},
-  },
+  options: FleetsListVirtualMachineScaleSetsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{name}/virtualMachineScaleSets{?api%2Dversion}",
@@ -170,10 +161,7 @@ export function _listVirtualMachineScaleSetsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -195,9 +183,7 @@ export function listVirtualMachineScaleSets(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: FleetsListVirtualMachineScaleSetsOptionalParams = {
-    requestOptions: {},
-  },
+  options: FleetsListVirtualMachineScaleSetsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<VirtualMachineScaleSet> {
   return buildPagedAsyncIterator(
     context,
@@ -224,10 +210,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -276,10 +259,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -333,7 +313,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
+  const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -355,7 +335,7 @@ export function $delete(
   fleetName: string,
   options: FleetsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, fleetName, options),
@@ -385,16 +365,13 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: fleetUpdateSerializer(properties),
   });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Fleet> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -412,7 +389,7 @@ export function update(
   properties: FleetUpdate,
   options: FleetsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Fleet>, Fleet> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -443,10 +420,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: fleetSerializer(resource),
   });
 }
@@ -499,10 +473,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

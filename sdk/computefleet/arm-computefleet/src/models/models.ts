@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -201,7 +207,9 @@ export function fleetSerializer(item: Fleet): any {
 
 export function fleetDeserializer(item: any): Fleet {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -926,9 +934,7 @@ export interface AdditionalLocationsProfile {
 }
 
 export function additionalLocationsProfileSerializer(item: AdditionalLocationsProfile): any {
-  return {
-    locationProfiles: locationProfileArraySerializer(item["locationProfiles"]),
-  };
+  return { locationProfiles: locationProfileArraySerializer(item["locationProfiles"]) };
 }
 
 export function additionalLocationsProfileDeserializer(item: any): AdditionalLocationsProfile {
@@ -2066,10 +2072,7 @@ export interface VaultCertificate {
 }
 
 export function vaultCertificateSerializer(item: VaultCertificate): any {
-  return {
-    certificateUrl: item["certificateUrl"],
-    certificateStore: item["certificateStore"],
-  };
+  return { certificateUrl: item["certificateUrl"], certificateStore: item["certificateStore"] };
 }
 
 export function vaultCertificateDeserializer(item: any): VaultCertificate {
@@ -3731,10 +3734,7 @@ export interface UefiSettings {
 }
 
 export function uefiSettingsSerializer(item: UefiSettings): any {
-  return {
-    secureBootEnabled: item["secureBootEnabled"],
-    vTpmEnabled: item["vTpmEnabled"],
-  };
+  return { secureBootEnabled: item["secureBootEnabled"], vTpmEnabled: item["vTpmEnabled"] };
 }
 
 export function uefiSettingsDeserializer(item: any): UefiSettings {
@@ -3778,9 +3778,7 @@ export interface EncryptionIdentity {
 }
 
 export function encryptionIdentitySerializer(item: EncryptionIdentity): any {
-  return {
-    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
-  };
+  return { userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"] };
 }
 
 export function encryptionIdentityDeserializer(item: any): EncryptionIdentity {
@@ -4084,8 +4082,14 @@ export function virtualMachineScaleSetExtensionPropertiesDeserializer(
     typeHandlerVersion: item["typeHandlerVersion"],
     autoUpgradeMinorVersion: item["autoUpgradeMinorVersion"],
     enableAutomaticUpgrade: item["enableAutomaticUpgrade"],
-    settings: item["settings"],
-    protectedSettings: item["protectedSettings"],
+    settings: !item["settings"]
+      ? item["settings"]
+      : Object.fromEntries(Object.entries(item["settings"]).map(([k, p]: [string, any]) => [k, p])),
+    protectedSettings: !item["protectedSettings"]
+      ? item["protectedSettings"]
+      : Object.fromEntries(
+          Object.entries(item["protectedSettings"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     provisioningState: item["provisioningState"],
     provisionAfterExtensions: !item["provisionAfterExtensions"]
       ? item["provisionAfterExtensions"]
@@ -4108,10 +4112,7 @@ export interface KeyVaultSecretReference {
 }
 
 export function keyVaultSecretReferenceSerializer(item: KeyVaultSecretReference): any {
-  return {
-    secretUrl: item["secretUrl"],
-    sourceVault: subResourceSerializer(item["sourceVault"]),
-  };
+  return { secretUrl: item["secretUrl"], sourceVault: subResourceSerializer(item["sourceVault"]) };
 }
 
 export function keyVaultSecretReferenceDeserializer(item: any): KeyVaultSecretReference {
@@ -4368,10 +4369,7 @@ export interface VMSizeProperties {
 }
 
 export function vmSizePropertiesSerializer(item: VMSizeProperties): any {
-  return {
-    vCPUsAvailable: item["vCPUsAvailable"],
-    vCPUsPerCore: item["vCPUsPerCore"],
-  };
+  return { vCPUsAvailable: item["vCPUsAvailable"], vCPUsPerCore: item["vCPUsPerCore"] };
 }
 
 export function vmSizePropertiesDeserializer(item: any): VMSizeProperties {
@@ -4664,10 +4662,7 @@ export interface ManagedServiceIdentity {
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
@@ -4675,7 +4670,14 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
@@ -4776,7 +4778,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -4851,7 +4855,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -4895,10 +4899,7 @@ export interface ManagedServiceIdentityUpdate {
 }
 
 export function managedServiceIdentityUpdateSerializer(item: ManagedServiceIdentityUpdate): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 /** The template for adding optional properties. */
