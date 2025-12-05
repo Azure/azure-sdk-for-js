@@ -60,7 +60,7 @@ try {
   # Run the update-changelog command using npm exec
   Write-Host "Updating CHANGELOG.md..." -ForegroundColor Cyan
   Write-Host ""
-  $command = "npm --prefix $releaseToolsPath exec --no -- update-changelog -- --sdkRepoPath `"$SdkRepoPath`" --packagePath `"$PackagePath`""
+  $command = "npm --prefix $releaseToolsPath exec update-changelog -- --sdkRepoPath `"$SdkRepoPath`" --packagePath `"$PackagePath`""
   Invoke-LoggedCommand $command
   
   Write-Host ""

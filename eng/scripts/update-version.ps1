@@ -100,7 +100,7 @@ try {
   # Run the update-version command using npm exec
   Write-Host "Updating package version..." -ForegroundColor Cyan
   Write-Host ""
-  $command = "npm --prefix $releaseToolsPath exec --no -- update-version -- $cmdArgs"
+  $command = "npm --prefix $releaseToolsPath exec update-version -- $cmdArgs"
   Invoke-LoggedCommand $command
   
   Write-Host ""
