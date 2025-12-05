@@ -1,3 +1,12 @@
+parameters:
+  - name: SpecCommitId
+    type: string
+    default: 'ef166dcba5eca12026b6b0cdebec6b866ea7ca92'
+    displayName: 'Spec commit id'
+  - name: TspConfigRelativePath
+    type: string
+    default: 'specification/widget/data-plane/WidgetAnalytics/tspconfig.yaml'
+    displayName: 'Relative path to tspconfig.yaml in spec repo'
 trigger:
   branches:
     include:
@@ -57,3 +66,64 @@ jobs:
       - script: |
           pnpm --filter @azure/dev-tool... test
         displayName: "Run dev-tool unit tests"
+
+  - job: 'SDKAutomation'
+    displayName: 'SDK Automation validation'
+
+    variables:
+      - template: /eng/pipelines/templates/variables/image.yml
+      - name: NodeVersion
+        value: '22.13.x'
+      - name: PythonVersion
+        value: '3.13'
+
+    pool:
+      name: $(LINUXPOOL)
+      demands: ImageOverride -equals $(LINUXVMIMAGE)
+
+    steps:
+      - checkout: none
+
+      - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
+        parameters:
+          Paths:
+            - '/*'
+            - '!sdk/**/test-recordings/*'
+            - '!sdk/**/recordings/*'
+            - '!sdk/**/SessionRecords/*'
+            - '!sdk/**/session-records/*'
+          Repositories:
+            - Name: Azure/azure-rest-api-specs
+              Commitish: main
+              WorkingDirectory: $(System.DefaultWorkingDirectory)/azure-rest-api-specs
+            - Name: Azure/azure-sdk-for-js
+              Commitish: $(Build.SourceVersion)
+              WorkingDirectory: $(System.DefaultWorkingDirectory)/azure-sdk-for-js
+          SkipCheckoutNone: true
+
+      - task: NodeTool@0
+        inputs:
+          versionSpec: $(NodeVersion)
+        displayName: 'Install Node.js'
+
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: $(PythonVersion)
+
+      - script: |
+          cd $(System.DefaultWorkingDirectory)/azure-rest-api-specs
+          echo "##[group]Run npm ci"
+          npm ci
+          echo "##[endgroup]"
+          node $(System.DefaultWorkingDirectory)/azure-rest-api-specs/eng/tools/spec-gen-sdk-runner/cmd/spec-gen-sdk-runner.js \
+            --scp $(System.DefaultWorkingDirectory)/azure-rest-api-specs \
+            --sdp $(System.DefaultWorkingDirectory)/azure-sdk-for-js \
+            --wf $(System.DefaultWorkingDirectory) \
+            --lang azure-sdk-for-js \
+            --commit ${{ parameters.SpecCommitId }} \
+            --spec-repo-url https://github.com/Azure/azure-rest-api-specs \
+            --tsp-config-relative-path ${{ parameters.TspConfigRelativePath  }} \
+            --api-version 2025-03-21-preview \
+            --sdk-release-type beta \
+            --rm local
+        displayName: 'Generate for template/template SDK'
