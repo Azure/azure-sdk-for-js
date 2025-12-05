@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-computedisk";
+import { ComputeDiskClient } from "@azure/arm-computedisk";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getASasOnASnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeDiskClient(credential, subscriptionId);
   const result = await client.snapshots.grantAccess("myResourceGroup", "mySnapshot", {
     access: "Read",
     durationInSeconds: 300,

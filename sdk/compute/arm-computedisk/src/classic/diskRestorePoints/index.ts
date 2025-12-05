@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeDiskContext } from "../../api/computeDiskContext.js";
 import {
   revokeAccess,
   grantAccess,
@@ -95,7 +95,7 @@ export interface DiskRestorePointsOperations {
   ) => Promise<DiskRestorePoint>;
 }
 
-function _getDiskRestorePoints(context: ComputeContext) {
+function _getDiskRestorePoints(context: ComputeDiskContext) {
   return {
     revokeAccess: (
       resourceGroupName: string,
@@ -233,7 +233,7 @@ function _getDiskRestorePoints(context: ComputeContext) {
 }
 
 export function _getDiskRestorePointsOperations(
-  context: ComputeContext,
+  context: ComputeDiskContext,
 ): DiskRestorePointsOperations {
   return {
     ..._getDiskRestorePoints(context),

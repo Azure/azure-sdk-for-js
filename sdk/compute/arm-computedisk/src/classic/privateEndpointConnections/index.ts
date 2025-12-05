@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeDiskContext } from "../../api/computeDiskContext.js";
 import {
   listPrivateEndpointConnections,
   deleteAPrivateEndpointConnection,
@@ -82,7 +82,7 @@ export interface PrivateEndpointConnectionsOperations {
   ) => Promise<PrivateEndpointConnection>;
 }
 
-function _getPrivateEndpointConnections(context: ComputeContext) {
+function _getPrivateEndpointConnections(context: ComputeDiskContext) {
   return {
     listPrivateEndpointConnections: (
       resourceGroupName: string,
@@ -198,7 +198,7 @@ function _getPrivateEndpointConnections(context: ComputeContext) {
 }
 
 export function _getPrivateEndpointConnectionsOperations(
-  context: ComputeContext,
+  context: ComputeDiskContext,
 ): PrivateEndpointConnectionsOperations {
   return {
     ..._getPrivateEndpointConnections(context),

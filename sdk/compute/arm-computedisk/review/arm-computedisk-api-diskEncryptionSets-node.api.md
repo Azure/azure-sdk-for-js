@@ -10,10 +10,10 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ComputeDiskContext, resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: ComputeContext, resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSet, options?: DiskEncryptionSetsCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function createOrUpdate(context: ComputeDiskContext, resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSet, options?: DiskEncryptionSetsCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface DiskEncryptionSetsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -47,19 +47,19 @@ export interface DiskEncryptionSetsUpdateOptionalParams extends OperationOptions
 }
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsGetOptionalParams): Promise<DiskEncryptionSet>;
+export function get(context: ComputeDiskContext, resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsGetOptionalParams): Promise<DiskEncryptionSet>;
 
 // @public
-export function list(context: ComputeContext, options?: DiskEncryptionSetsListOptionalParams): PagedAsyncIterableIterator<DiskEncryptionSet>;
+export function list(context: ComputeDiskContext, options?: DiskEncryptionSetsListOptionalParams): PagedAsyncIterableIterator<DiskEncryptionSet>;
 
 // @public
-export function listAssociatedResources(context: ComputeContext, resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsListAssociatedResourcesOptionalParams): PagedAsyncIterableIterator<string>;
+export function listAssociatedResources(context: ComputeDiskContext, resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsListAssociatedResourcesOptionalParams): PagedAsyncIterableIterator<string>;
 
 // @public
-export function listByResourceGroup(context: ComputeContext, resourceGroupName: string, options?: DiskEncryptionSetsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DiskEncryptionSet>;
+export function listByResourceGroup(context: ComputeDiskContext, resourceGroupName: string, options?: DiskEncryptionSetsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DiskEncryptionSet>;
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSetUpdate, options?: DiskEncryptionSetsUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function update(context: ComputeDiskContext, resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSetUpdate, options?: DiskEncryptionSetsUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // (No @packageDocumentation comment for this package)
 

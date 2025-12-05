@@ -10,10 +10,10 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, diskAccessName: string, options?: DiskAccessesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ComputeDiskContext, resourceGroupName: string, diskAccessName: string, options?: DiskAccessesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: ComputeContext, resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccess, options?: DiskAccessesCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function createOrUpdate(context: ComputeDiskContext, resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccess, options?: DiskAccessesCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface DiskAccessesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -47,19 +47,19 @@ export interface DiskAccessesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, diskAccessName: string, options?: DiskAccessesGetOptionalParams): Promise<DiskAccess>;
+export function get(context: ComputeDiskContext, resourceGroupName: string, diskAccessName: string, options?: DiskAccessesGetOptionalParams): Promise<DiskAccess>;
 
 // @public
-export function getPrivateLinkResources(context: ComputeContext, resourceGroupName: string, diskAccessName: string, options?: DiskAccessesGetPrivateLinkResourcesOptionalParams): Promise<PrivateLinkResourceListResult>;
+export function getPrivateLinkResources(context: ComputeDiskContext, resourceGroupName: string, diskAccessName: string, options?: DiskAccessesGetPrivateLinkResourcesOptionalParams): Promise<PrivateLinkResourceListResult>;
 
 // @public
-export function list(context: ComputeContext, options?: DiskAccessesListOptionalParams): PagedAsyncIterableIterator<DiskAccess>;
+export function list(context: ComputeDiskContext, options?: DiskAccessesListOptionalParams): PagedAsyncIterableIterator<DiskAccess>;
 
 // @public
-export function listByResourceGroup(context: ComputeContext, resourceGroupName: string, options?: DiskAccessesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DiskAccess>;
+export function listByResourceGroup(context: ComputeDiskContext, resourceGroupName: string, options?: DiskAccessesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DiskAccess>;
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccessUpdate, options?: DiskAccessesUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function update(context: ComputeDiskContext, resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccessUpdate, options?: DiskAccessesUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeDiskContext } from "../../api/computeDiskContext.js";
 import {
   getPrivateLinkResources,
   list,
@@ -118,7 +118,7 @@ export interface DiskAccessesOperations {
   ) => Promise<DiskAccess>;
 }
 
-function _getDiskAccesses(context: ComputeContext) {
+function _getDiskAccesses(context: ComputeDiskContext) {
   return {
     getPrivateLinkResources: (
       resourceGroupName: string,
@@ -213,7 +213,7 @@ function _getDiskAccesses(context: ComputeContext) {
   };
 }
 
-export function _getDiskAccessesOperations(context: ComputeContext): DiskAccessesOperations {
+export function _getDiskAccessesOperations(context: ComputeDiskContext): DiskAccessesOperations {
   return {
     ..._getDiskAccesses(context),
   };

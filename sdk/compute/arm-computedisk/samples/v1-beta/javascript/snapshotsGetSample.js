@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ComputeClient } = require("@azure/arm-computedisk");
+const { ComputeDiskClient } = require("@azure/arm-computedisk");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function getInformationAboutASnapshot() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeDiskClient(credential, subscriptionId);
   const result = await client.snapshots.get("myResourceGroup", "mySnapshot");
   console.log(result);
 }
@@ -27,7 +27,7 @@ async function getInformationAboutASnapshot() {
 async function getInformationAboutAnIncrementalSnapshot() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeDiskClient(credential, subscriptionId);
   const result = await client.snapshots.get("myResourceGroup", "myIncrementalSnapshot");
   console.log(result);
 }

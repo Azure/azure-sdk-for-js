@@ -8,7 +8,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { ComputeClient } from "./computeClient.js";
+export { ComputeDiskClient } from "./computeDiskClient.js";
 export { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
@@ -119,7 +119,7 @@ export {
   SnapshotUpdateProperties,
   KnownVersions,
 } from "./models/index.js";
-export { ComputeClientOptionalParams } from "./api/index.js";
+export { ComputeDiskClientOptionalParams } from "./api/index.js";
 export {
   DiskAccessesGetPrivateLinkResourcesOptionalParams,
   DiskAccessesListOptionalParams,

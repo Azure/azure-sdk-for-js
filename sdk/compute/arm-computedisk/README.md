@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-computedisk)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-computedisk)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-computedisk?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-computedisk)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-computedisk/samples)
 
 ## Getting started

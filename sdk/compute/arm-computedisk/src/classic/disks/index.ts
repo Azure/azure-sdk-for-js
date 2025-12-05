@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeDiskContext } from "../../api/computeDiskContext.js";
 import {
   revokeAccess,
   grantAccess,
@@ -155,7 +155,7 @@ export interface DisksOperations {
   ) => Promise<Disk>;
 }
 
-function _getDisks(context: ComputeContext) {
+function _getDisks(context: ComputeDiskContext) {
   return {
     revokeAccess: (
       resourceGroupName: string,
@@ -278,7 +278,7 @@ function _getDisks(context: ComputeContext) {
   };
 }
 
-export function _getDisksOperations(context: ComputeContext): DisksOperations {
+export function _getDisksOperations(context: ComputeDiskContext): DisksOperations {
   return {
     ..._getDisks(context),
   };
