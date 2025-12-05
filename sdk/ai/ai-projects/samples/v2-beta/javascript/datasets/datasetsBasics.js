@@ -11,7 +11,11 @@
 const { AIProjectClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 const path = require("path");
+const { fileURLToPath } = require("url");
 require("dotenv/config");
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
 const containerConnectionName =
@@ -87,7 +91,7 @@ async function main() {
   console.log("Dataset version 1:", JSON.stringify(datasetVersion1, null, 2));
 
   console.log(`Listing all versions of the Dataset named '${datasetName}':`);
-  const datasetVersions = await project.datasets.listVersions(datasetName);
+  const datasetVersions = project.datasets.listVersions(datasetName);
   for await (const version of datasetVersions) {
     console.log("List versions:", version);
   }
