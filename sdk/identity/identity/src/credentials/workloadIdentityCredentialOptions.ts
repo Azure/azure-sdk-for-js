@@ -22,7 +22,7 @@ export interface WorkloadIdentityCredentialOptions
    */
   tokenFilePath?: string;
   /**
-   * Enables the identity binding feature.
+   * Enables the {@link https://learn.microsoft.com/azure/aks/identity-bindings-concepts | identity binding feature}.
    */
-  enableAzureKubernetesTokenProxy?: boolean;
+  enableAzureProxy?: boolean;
 }
