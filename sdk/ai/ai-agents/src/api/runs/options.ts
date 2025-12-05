@@ -8,7 +8,7 @@ import type {
   ThreadMessageOptions,
   TruncationObject,
   AgentsToolChoiceOption,
-  ToolOutput,
+  StructuredToolOutputUnion,
   ToolApproval,
   ListSortOrder,
   RunAdditionalFieldList,
@@ -22,7 +22,7 @@ export interface RunsCancelRunOptionalParams extends OperationOptions {}
 /** Optional parameters. */
 export interface RunsSubmitToolOutputsToRunOptionalParams extends OperationOptions {
   /** A list of tools for which the outputs are being submitted */
-  toolOutputs?: ToolOutput[];
+  toolOutputs?: StructuredToolOutputUnion[];
   /** A list of tool approvals allowing data to be sent to tools. */
   toolApprovals?: ToolApproval[];
   /** If true, returns a stream of events that happen during the Run as SSE, terminating at `[DONE]`. */
