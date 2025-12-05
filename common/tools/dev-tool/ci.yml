@@ -71,6 +71,7 @@ jobs:
     displayName: 'SDK Automation validation'
 
     variables:
+      - template: /eng/pipelines/templates/variables/globals.yml
       - template: /eng/pipelines/templates/variables/image.yml
       - name: NodeVersion
         value: $(NODE_VERSION_LTS_MAINTENANCE)
