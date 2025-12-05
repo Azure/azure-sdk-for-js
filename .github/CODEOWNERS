@@ -1647,6 +1647,9 @@ sdk/compute/arm-computerecommender/ @qiaozha @MaryGao
 # PRLabel: %Mgmt
 sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao
 
+# PRLabel: %Mgmt
+sdk/compute/arm-computedisk/ @qiaozha @MaryGao
+
 ###########
 # Config
 ###########

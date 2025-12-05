@@ -15,6 +15,7 @@ trigger:
       - sdk/compute/arm-compute-profile-2020-09-01-hybrid
       - sdk/compute/arm-compute-rest
       - sdk/compute/arm-computerecommender
+      - sdk/compute/arm-computedisk
 pr:
   branches:
     include:
@@ -31,6 +32,7 @@ pr:
       - sdk/compute/arm-compute-profile-2020-09-01-hybrid
       - sdk/compute/arm-compute-rest
       - sdk/compute/arm-computerecommender
+      - sdk/compute/arm-computedisk
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -44,3 +46,5 @@ extends:
         safeName: azurerestarmcompute
       - name: azure-arm-computerecommender
         safeName: azurearmcomputerecommender
+      - name: azure-arm-computedisk
+        safeName: azurearmcomputedisk

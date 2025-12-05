@@ -53,3 +53,4 @@ https://learn.microsoft.com/javascript/api/@azure/arm-computerecommender?view=az
 https://learn.microsoft.com/javascript/api/@azure/arm-computelimit?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-certificateregistration?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-domainregistration?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/arm-computedisk?view=azure-node-preview
