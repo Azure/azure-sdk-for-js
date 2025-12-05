@@ -14,6 +14,10 @@
 
 ## 1.0.0-beta.36 (2025-11-10)
 
+### Features Added
+
+- Added the initial OneSettings configuration manager.
+- 
 ### Bugs Fixed
 
 - Fixed dynamic import of the exporter package.
