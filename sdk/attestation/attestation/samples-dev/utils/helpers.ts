@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @azsdk-util true
+ */
+
 export function writeBanner(banner: string): void {
   const separator = "*".repeat(80);
 

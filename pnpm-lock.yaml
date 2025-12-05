@@ -91,6 +91,10 @@ catalogs:
 importers:
 
   .:
+    dependencies:
+      '@azure/ai-projects':
+        specifier: link:../../Users/mohlnu/AppData/Local/pnpm/global/5/node_modules/@azure/ai-projects
+        version: link:../../Users/mohlnu/AppData/Local/pnpm/global/5/node_modules/@azure/ai-projects
     devDependencies:
       cspell:
         specifier: ^9.3.1

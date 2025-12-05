@@ -11,7 +11,7 @@ import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { AnonymousCredential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import type { Readable } from "node:stream";
-import { BufferScheduler } from "@azure/storage-common";
+import { BufferScheduler, UserDelegationKey } from "@azure/storage-common";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
 import { PathOperationsImpl as Path } from "./generated/src/operations/index.js";
 import type {
@@ -69,7 +69,6 @@ import type {
   PathSetPermissionsOptions,
   PathSetPermissionsResponse,
   RemovePathAccessControlItem,
-  UserDelegationKey,
 } from "./models.js";
 import type { PathSetAccessControlRecursiveMode } from "./models.internal.js";
 import {

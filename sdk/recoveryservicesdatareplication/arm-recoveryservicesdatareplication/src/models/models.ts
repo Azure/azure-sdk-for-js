@@ -3376,8 +3376,7 @@ export function protectedItemModelCustomPropertiesUnionDeserializer(
 }
 
 /** HyperV to AzStackHCI Protected item model custom properties. */
-export interface HyperVToAzStackHCIProtectedItemModelCustomProperties
-  extends ProtectedItemModelCustomProperties {
+export interface HyperVToAzStackHCIProtectedItemModelCustomProperties extends ProtectedItemModelCustomProperties {
   /** Gets or sets the location of the protected item. */
   readonly activeLocation?: ProtectedItemActiveLocation;
   /** Gets or sets the Target HCI Cluster ARM Id. */
@@ -3878,8 +3877,7 @@ export function hyperVToAzStackHCIProtectedNicPropertiesDeserializer(
 }
 
 /** VMware to AzStackHCI Protected item model custom properties. */
-export interface VMwareToAzStackHCIProtectedItemModelCustomProperties
-  extends ProtectedItemModelCustomProperties {
+export interface VMwareToAzStackHCIProtectedItemModelCustomProperties extends ProtectedItemModelCustomProperties {
   /** Gets or sets the location of the protected item. */
   readonly activeLocation?: ProtectedItemActiveLocation;
   /** Gets or sets the Target HCI Cluster ARM Id. */
@@ -4411,8 +4409,7 @@ export function protectedItemModelCustomPropertiesUpdateUnionSerializer(
 }
 
 /** HyperV to AzStackHCI Protected item model custom properties. */
-export interface HyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdate
-  extends ProtectedItemModelCustomPropertiesUpdate {
+export interface HyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdate extends ProtectedItemModelCustomPropertiesUpdate {
   /** Gets or sets the list of VM NIC to replicate. */
   nicsToInclude?: HyperVToAzStackHCINicInput[];
   /** Gets or sets the target CPU cores. */
@@ -4448,8 +4445,7 @@ export function hyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdateSerial
 }
 
 /** VMware to AzStackHCI Protected item model custom properties. */
-export interface VMwareToAzStackHCIProtectedItemModelCustomPropertiesUpdate
-  extends ProtectedItemModelCustomPropertiesUpdate {
+export interface VMwareToAzStackHCIProtectedItemModelCustomPropertiesUpdate extends ProtectedItemModelCustomPropertiesUpdate {
   /** Gets or sets the list of VM NIC to replicate. */
   nicsToInclude?: VMwareToAzStackHCINicInput[];
   /** Gets or sets the target CPU cores. */
@@ -4621,8 +4617,7 @@ export function plannedFailoverModelCustomPropertiesUnionDeserializer(
 }
 
 /** HyperV to AzStackHCI planned failover model custom properties. */
-export interface HyperVToAzStackHCIPlannedFailoverModelCustomProperties
-  extends PlannedFailoverModelCustomProperties {
+export interface HyperVToAzStackHCIPlannedFailoverModelCustomProperties extends PlannedFailoverModelCustomProperties {
   /** Gets or sets a value indicating whether VM needs to be shut down. */
   shutdownSourceVM: boolean;
   /** Gets or sets the instance type. */
@@ -4648,8 +4643,7 @@ export function hyperVToAzStackHCIPlannedFailoverModelCustomPropertiesDeserializ
 }
 
 /** VMware to AzStackHCI planned failover model custom properties. */
-export interface VMwareToAzStackHCIPlannedFailoverModelCustomProperties
-  extends PlannedFailoverModelCustomProperties {
+export interface VMwareToAzStackHCIPlannedFailoverModelCustomProperties extends PlannedFailoverModelCustomProperties {
   /** Gets or sets a value indicating whether VM needs to be shut down. */
   shutdownSourceVM: boolean;
   /** Gets or sets the instance type. */
@@ -4774,8 +4768,7 @@ export function recoveryPointModelCustomPropertiesUnionDeserializer(
 }
 
 /** HyperV to AzStackHCI recovery point model custom properties. */
-export interface HyperVToAzStackHCIRecoveryPointModelCustomProperties
-  extends RecoveryPointModelCustomProperties {
+export interface HyperVToAzStackHCIRecoveryPointModelCustomProperties extends RecoveryPointModelCustomProperties {
   /** Gets or sets the list of the disk Ids. */
   readonly diskIds?: string[];
   /** Gets or sets the instance type. */
@@ -4796,8 +4789,7 @@ export function hyperVToAzStackHCIRecoveryPointModelCustomPropertiesDeserializer
 }
 
 /** VMware to AzStackHCI recovery point model custom properties. */
-export interface VMwareToAzStackHCIRecoveryPointModelCustomProperties
-  extends RecoveryPointModelCustomProperties {
+export interface VMwareToAzStackHCIRecoveryPointModelCustomProperties extends RecoveryPointModelCustomProperties {
   /** Gets or sets the list of the disk Ids. */
   readonly diskIds?: string[];
   /** Gets or sets the instance type. */
@@ -4963,8 +4955,7 @@ export function replicationExtensionModelCustomPropertiesUnionDeserializer(
 }
 
 /** HyperV to AzStackHCI Replication extension model custom properties. */
-export interface HyperVToAzStackHCIReplicationExtensionModelCustomProperties
-  extends ReplicationExtensionModelCustomProperties {
+export interface HyperVToAzStackHCIReplicationExtensionModelCustomProperties extends ReplicationExtensionModelCustomProperties {
   /** Gets or sets the ARM Id of the source HyperV fabric. */
   hyperVFabricArmId: string;
   /** Gets or sets the ARM Id of the HyperV site. */
@@ -5038,8 +5029,7 @@ export function hyperVToAzStackHCIReplicationExtensionModelCustomPropertiesDeser
 }
 
 /** VMware to AzStackHCI Replication extension model custom properties. */
-export interface VMwareToAzStackHCIReplicationExtensionModelCustomProperties
-  extends ReplicationExtensionModelCustomProperties {
+export interface VMwareToAzStackHCIReplicationExtensionModelCustomProperties extends ReplicationExtensionModelCustomProperties {
   /** Gets or sets the ARM Id of the source VMware fabric. */
   vmwareFabricArmId: string;
   /** Gets or sets the ARM Id of the VMware site. */

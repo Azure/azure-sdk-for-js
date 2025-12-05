@@ -177,7 +177,7 @@ export function expandUrlTemplate(
   context: Record<string, any>,
   option?: UrlTemplateOptions,
 ): string {
-  return template.replace(/\{([^{}]+)\}|([^{}]+)/g, (_, expr, text) => {
+  const result = template.replace(/\{([^{}]+)\}|([^{}]+)/g, (_, expr, text) => {
     if (!expr) {
       return encodeReservedComponent(text);
     }
@@ -206,5 +206,22 @@ export function expandUrlTemplate(
       }
     }
     return result.join("");
+  });
+
+  return normalizeUnreserved(result);
+}
+
+/**
+ * Normalize an expanded URI by decoding percent-encoded unreserved characters.
+ * RFC 3986 unreserved: "-" / "." / "~"
+ */
+function normalizeUnreserved(uri: string): string {
+  return uri.replace(/%([0-9A-Fa-f]{2})/g, (match, hex) => {
+    const char = String.fromCharCode(parseInt(hex, 16));
+    // Decode only if it's unreserved
+    if (/[\-.~]/.test(char)) {
+      return char;
+    }
+    return match; // leave other encodings intact
   });
 }

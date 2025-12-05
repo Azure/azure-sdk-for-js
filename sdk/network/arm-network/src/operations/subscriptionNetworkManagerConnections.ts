@@ -26,9 +26,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SubscriptionNetworkManagerConnections operations. */
-export class SubscriptionNetworkManagerConnectionsImpl
-  implements SubscriptionNetworkManagerConnections
-{
+export class SubscriptionNetworkManagerConnectionsImpl implements SubscriptionNetworkManagerConnections {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -179,7 +177,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters38,
+  requestBody: Parameters.parameters40,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

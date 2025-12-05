@@ -4642,8 +4642,7 @@ export interface GremlinGraphGetPropertiesOptions extends OptionsResource {}
 export interface CassandraViewGetPropertiesOptions extends OptionsResource {}
 
 export interface SqlDatabaseGetPropertiesResource
-  extends SqlDatabaseResource,
-    ExtendedResourceProperties {
+  extends SqlDatabaseResource, ExtendedResourceProperties {
   /** A system generated property that specified the addressable path of the collections resource. */
   colls?: string;
   /** A system generated property that specifies the addressable path of the users resource. */
@@ -4652,8 +4651,7 @@ export interface SqlDatabaseGetPropertiesResource
 
 /** Cosmos DB SQL database resource object */
 export interface RestorableSqlDatabasePropertiesResourceDatabase
-  extends SqlDatabaseResource,
-    ExtendedResourceProperties {
+  extends SqlDatabaseResource, ExtendedResourceProperties {
   /**
    * A system generated property that specified the addressable path of the collections resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4672,63 +4670,49 @@ export interface RestorableSqlDatabasePropertiesResourceDatabase
 }
 
 export interface ThroughputSettingsGetPropertiesResource
-  extends ThroughputSettingsResource,
-    ExtendedResourceProperties {}
+  extends ThroughputSettingsResource, ExtendedResourceProperties {}
 
 export interface ClientEncryptionKeyGetPropertiesResource
-  extends ClientEncryptionKeyResource,
-    ExtendedResourceProperties {}
+  extends ClientEncryptionKeyResource, ExtendedResourceProperties {}
 
 export interface SqlContainerGetPropertiesResource
-  extends SqlContainerResource,
-    ExtendedResourceProperties {}
+  extends SqlContainerResource, ExtendedResourceProperties {}
 
 export interface SqlStoredProcedureGetPropertiesResource
-  extends SqlStoredProcedureResource,
-    ExtendedResourceProperties {}
+  extends SqlStoredProcedureResource, ExtendedResourceProperties {}
 
 export interface SqlUserDefinedFunctionGetPropertiesResource
-  extends SqlUserDefinedFunctionResource,
-    ExtendedResourceProperties {}
+  extends SqlUserDefinedFunctionResource, ExtendedResourceProperties {}
 
 export interface SqlTriggerGetPropertiesResource
-  extends SqlTriggerResource,
-    ExtendedResourceProperties {}
+  extends SqlTriggerResource, ExtendedResourceProperties {}
 
 export interface MongoDBDatabaseGetPropertiesResource
-  extends MongoDBDatabaseResource,
-    ExtendedResourceProperties {}
+  extends MongoDBDatabaseResource, ExtendedResourceProperties {}
 
 export interface MongoDBCollectionGetPropertiesResource
-  extends MongoDBCollectionResource,
-    ExtendedResourceProperties {}
+  extends MongoDBCollectionResource, ExtendedResourceProperties {}
 
 export interface TableGetPropertiesResource extends TableResource, ExtendedResourceProperties {}
 
 export interface CassandraKeyspaceGetPropertiesResource
-  extends CassandraKeyspaceResource,
-    ExtendedResourceProperties {}
+  extends CassandraKeyspaceResource, ExtendedResourceProperties {}
 
 export interface CassandraTableGetPropertiesResource
-  extends CassandraTableResource,
-    ExtendedResourceProperties {}
+  extends CassandraTableResource, ExtendedResourceProperties {}
 
 export interface GremlinDatabaseGetPropertiesResource
-  extends GremlinDatabaseResource,
-    ExtendedResourceProperties {}
+  extends GremlinDatabaseResource, ExtendedResourceProperties {}
 
 export interface GremlinGraphGetPropertiesResource
-  extends GremlinGraphResource,
-    ExtendedResourceProperties {}
+  extends GremlinGraphResource, ExtendedResourceProperties {}
 
 export interface CassandraViewGetPropertiesResource
-  extends CassandraViewResource,
-    ExtendedResourceProperties {}
+  extends CassandraViewResource, ExtendedResourceProperties {}
 
 /** Cosmos DB SQL container resource object */
 export interface RestorableSqlContainerPropertiesResourceContainer
-  extends SqlContainerResource,
-    ExtendedResourceProperties {
+  extends SqlContainerResource, ExtendedResourceProperties {
   /**
    * A system generated property that specifies the addressable path of the container resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4737,8 +4721,7 @@ export interface RestorableSqlContainerPropertiesResourceContainer
 }
 
 /** properties of physical partition throughput info */
-export interface PhysicalPartitionThroughputInfoResultPropertiesResource
-  extends PhysicalPartitionThroughputInfoProperties {}
+export interface PhysicalPartitionThroughputInfoResultPropertiesResource extends PhysicalPartitionThroughputInfoProperties {}
 
 /** A base CosmosDB data source/sink */
 export interface BaseCosmosDataTransferDataSourceSink extends DataTransferDataSourceSink {
@@ -4815,8 +4798,7 @@ export interface GraphAPIComputeServiceResourceProperties extends ServiceResourc
 }
 
 /** Properties for MaterializedViewsBuilderServiceResource. */
-export interface MaterializedViewsBuilderServiceResourceProperties
-  extends ServiceResourceProperties {
+export interface MaterializedViewsBuilderServiceResourceProperties extends ServiceResourceProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   serviceType: "MaterializedViewsBuilder";
   /**
@@ -4827,15 +4809,13 @@ export interface MaterializedViewsBuilderServiceResourceProperties
 }
 
 /** Properties for Create or Update request for DataTransferServiceResource */
-export interface DataTransferServiceResourceCreateUpdateProperties
-  extends ServiceResourceCreateUpdateProperties {
+export interface DataTransferServiceResourceCreateUpdateProperties extends ServiceResourceCreateUpdateProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   serviceType: "DataTransfer";
 }
 
 /** Properties for Create or Update request for SqlDedicatedGatewayServiceResource */
-export interface SqlDedicatedGatewayServiceResourceCreateUpdateProperties
-  extends ServiceResourceCreateUpdateProperties {
+export interface SqlDedicatedGatewayServiceResourceCreateUpdateProperties extends ServiceResourceCreateUpdateProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   serviceType: "SqlDedicatedGateway";
   /** DedicatedGatewayType for the service. */
@@ -4843,15 +4823,13 @@ export interface SqlDedicatedGatewayServiceResourceCreateUpdateProperties
 }
 
 /** Properties for Create or Update request for GraphAPIComputeServiceResource */
-export interface GraphAPIComputeServiceResourceCreateUpdateProperties
-  extends ServiceResourceCreateUpdateProperties {
+export interface GraphAPIComputeServiceResourceCreateUpdateProperties extends ServiceResourceCreateUpdateProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   serviceType: "GraphAPICompute";
 }
 
 /** Properties for Create or Update request for MaterializedViewsBuilderServiceResource */
-export interface MaterializedViewsBuilderServiceResourceCreateUpdateProperties
-  extends ServiceResourceCreateUpdateProperties {
+export interface MaterializedViewsBuilderServiceResourceCreateUpdateProperties extends ServiceResourceCreateUpdateProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   serviceType: "MaterializedViewsBuilder";
 }
@@ -5141,8 +5119,7 @@ export interface PrivateEndpointConnection extends ProxyResourceAutoGenerated {
 }
 
 /** A CosmosDB Cassandra API data source/sink */
-export interface CosmosCassandraDataTransferDataSourceSink
-  extends BaseCosmosDataTransferDataSourceSink {
+export interface CosmosCassandraDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component: "CosmosDBCassandra";
   keyspaceName: string;
@@ -5150,8 +5127,7 @@ export interface CosmosCassandraDataTransferDataSourceSink
 }
 
 /** A CosmosDB Mongo API data source/sink */
-export interface CosmosMongoDataTransferDataSourceSink
-  extends BaseCosmosDataTransferDataSourceSink {
+export interface CosmosMongoDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component: "CosmosDBMongo";
   databaseName: string;

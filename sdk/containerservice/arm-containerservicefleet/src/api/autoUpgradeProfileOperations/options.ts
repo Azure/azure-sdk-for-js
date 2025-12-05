@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams
-  extends OperationOptions {
+export interface AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

@@ -4,8 +4,7 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface AutonomousDatabaseCharacterSetsListByLocationOptionalParams
-  extends OperationOptions {}
+export interface AutonomousDatabaseCharacterSetsListByLocationOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AutonomousDatabaseCharacterSetsGetOptionalParams extends OperationOptions {}

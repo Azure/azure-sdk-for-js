@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams
-  extends OperationOptions {}
+export interface StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface StandbyVirtualMachinesGetOptionalParams extends OperationOptions {}

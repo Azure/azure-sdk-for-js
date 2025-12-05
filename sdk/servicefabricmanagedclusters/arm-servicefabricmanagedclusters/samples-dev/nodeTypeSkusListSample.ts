@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Service Fabric node type supported SKUs.
  *
  * @summary get a Service Fabric node type supported SKUs.
- * x-ms-original-file: 2025-06-01-preview/NodeTypeSkusListOperation_example.json
+ * x-ms-original-file: 2025-10-01-preview/NodeTypeSkusListOperation_example.json
  */
 async function listANodeTypeSKUs(): Promise<void> {
   const credential = new DefaultAzureCredential();

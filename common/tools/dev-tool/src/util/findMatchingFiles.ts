@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import fs from "fs-extra";
+import { readdir, stat } from "node:fs/promises";
+import type { Stats } from "node:fs";
 import path from "node:path";
 import { createPrinter } from "./printer";
 import { shouldSkip } from "./samples/configuration";
@@ -30,7 +31,7 @@ export interface FileInfo {
   /**
    * File stats from the `fs.stat` Node API
    */
-  stat: fs.Stats;
+  stat: Stats;
   /**
    * Depth of this find.
    */
@@ -61,7 +62,7 @@ const defaultFindOptions: FindOptions = {
  */
 export async function* findMatchingFiles(
   dir: string,
-  matches: (name: string, entry: fs.Stats) => boolean,
+  matches: (name: string, entry: Stats) => boolean,
   findOptions?: Partial<FindOptions>,
 ): AsyncGenerator<string> {
   const q: FileInfo[] = [];
@@ -69,14 +70,14 @@ export async function* findMatchingFiles(
   const options: FindOptions = { ...defaultFindOptions, ...findOptions };
 
   async function enqueueAll(dir: string, depth: number) {
-    const files = await fs.readdir(dir);
+    const files = await readdir(dir);
     for (const file of files) {
       const fullPath = path.join(dir, file);
       q.push({
         dir,
         fullPath,
         name: file,
-        stat: await fs.stat(fullPath),
+        stat: await stat(fullPath),
         depth,
       });
     }

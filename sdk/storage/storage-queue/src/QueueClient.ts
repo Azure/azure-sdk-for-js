@@ -45,7 +45,7 @@ import {
   appendToURLQuery,
   assertResponse,
 } from "./utils/utils.common.js";
-import { StorageSharedKeyCredential } from "@azure/storage-common";
+import { StorageSharedKeyCredential, UserDelegationKey } from "@azure/storage-common";
 import { AnonymousCredential } from "@azure/storage-common";
 import { tracingClient } from "./utils/tracing.js";
 import type { Metadata } from "./models.js";
@@ -1260,6 +1260,58 @@ export class QueueClient extends StorageClient {
         ...options,
       },
       this.credential,
+    ).stringToSign;
+  }
+
+  /**
+   *
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the user delegation key credential input.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - user delegation key used to sign the SAS URI
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationSasUrl(
+    options: QueueGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+    const sas = generateQueueSASQueryParameters(
+      {
+        queueName: this.name,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName,
+    ).toString();
+
+    return appendToURLQuery(this.url, sas);
+  }
+
+  /**
+   *
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the user delegation key credential input.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - user delegation key used to sign the SAS URI
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationStringToSign(
+    options: QueueGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+    return generateQueueSASQueryParametersInternal(
+      {
+        queueName: this.name,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName,
     ).stringToSign;
   }
 }

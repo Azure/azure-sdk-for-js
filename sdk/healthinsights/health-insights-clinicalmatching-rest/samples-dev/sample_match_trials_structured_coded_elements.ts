@@ -172,7 +172,7 @@ export async function main(): Promise<void> {
     throw trialMatcherResult;
   }
   const resultBody = trialMatcherResult.body;
-  await printResults(resultBody);
+  printResults(resultBody);
 }
 
 main().catch((err) => {
