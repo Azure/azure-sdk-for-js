@@ -28,7 +28,7 @@ async function main(): Promise<void> {
     new DefaultAzureCredential(),
   );
 
-  const filePath = fs.readFileSync(path.join(".", "assets", "w2", "w2-single.png"));
+  const filePath = path.join(".", "assets", "w2", "w2-single.png");
 
   const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
 
