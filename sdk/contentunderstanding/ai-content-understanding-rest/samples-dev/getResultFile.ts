@@ -21,7 +21,6 @@
 import "dotenv/config";
 import * as fs from "fs";
 import * as path from "path";
-import { fileURLToPath } from "url";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { ContentUnderstandingClient } from "@azure-rest/ai-content-understanding";
@@ -100,9 +99,15 @@ export async function main(): Promise<void> {
         console.log(`Retrieved keyframe image (${imageBytes.length.toLocaleString()} bytes)`);
 
         // Save the keyframe image to sample-output directory
-        const __filename = fileURLToPath(import.meta.url);
-        const __dirname = path.dirname(__filename);
-        const outputDir = path.resolve(__dirname, "./sample-output");
+        // Helper to get the directory of the current file (works in both ESM and CommonJS)
+        const sampleDir = ((): string => {
+          if (typeof __dirname !== "undefined") return __dirname;
+          if (typeof process !== "undefined" && process.argv && process.argv[1]) {
+            return path.dirname(process.argv[1]);
+          }
+          return path.resolve(process.cwd(), "samples-dev");
+        })();
+        const outputDir = path.resolve(sampleDir, "./sample-output");
 
         if (!fs.existsSync(outputDir)) {
           fs.mkdirSync(outputDir, { recursive: true });
