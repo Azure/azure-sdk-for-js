@@ -14,8 +14,6 @@
  * The getResultFile API allows you to retrieve these files using:
  * - Operation ID: Extracted from the analysis operation
  * - File path: The path to the specific result file (e.g., "keyframes/{frameTimeMs}")
- *
- * @azsdk-weight 79
  */
 
 import "dotenv/config";

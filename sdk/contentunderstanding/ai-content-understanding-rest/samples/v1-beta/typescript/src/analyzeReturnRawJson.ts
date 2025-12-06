@@ -12,8 +12,6 @@
  *   the desired results compared to parsing raw JSON
  * - This sample is ONLY for demonstration purposes to show how to access raw JSON responses
  * - For production use, prefer the object model approach shown in the analyzeBinary sample
- *
- * @azsdk-weight 80
  */
 
 import "dotenv/config";
