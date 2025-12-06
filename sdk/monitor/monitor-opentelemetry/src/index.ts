@@ -25,6 +25,7 @@ import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { getInstance } from "./utils/statsbeat.js";
 import { patchOpenTelemetryInstrumentationEnable } from "./utils/opentelemetryInstrumentationPatcher.js";
 import { parseResourceDetectorsFromEnvVar } from "./utils/common.js";
+import { registerInstrumentationLoader } from "./utils/instrumentationLoader.js";
 
 export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
 
@@ -40,6 +41,7 @@ let browserSdkLoader: BrowserSdkLoader | undefined;
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): void {
   const config = new InternalConfig(options);
   patchOpenTelemetryInstrumentationEnable();
+  registerInstrumentationLoader();
   const statsbeatInstrumentations: StatsbeatInstrumentations = {
     // Instrumentations
     azureSdk: config.instrumentationOptions?.azureSdk?.enabled,

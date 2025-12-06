@@ -22,7 +22,8 @@ import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace
 import type { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
 import { getInstance } from "../../../src/utils/statsbeat.js";
 import type { Instrumentation, InstrumentationConfig } from "@opentelemetry/instrumentation";
-import { describe, it, beforeEach, afterEach, expect, assert, vi, afterAll } from "vitest";
+import * as instrumentationLoader from "../../../src/utils/instrumentationLoader.js";
+import { describe, it, beforeEach, afterEach, expect, assert, vi, afterAll, type MockInstance } from "vitest";
 
 const testInstrumentation: Instrumentation = {
   instrumentationName: "@opentelemetry/instrumentation-fs",
@@ -49,9 +50,13 @@ const testInstrumentation: Instrumentation = {
 
 describe("Main functions", () => {
   let originalEnv: NodeJS.ProcessEnv;
+  let registerLoaderSpy: MockInstance;
 
   beforeEach(() => {
     originalEnv = process.env;
+    registerLoaderSpy = vi
+      .spyOn(instrumentationLoader, "registerInstrumentationLoader")
+      .mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -72,6 +77,7 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
+    expect(registerLoaderSpy).toHaveBeenCalledOnce();
     assert.isDefined(metrics.getMeterProvider());
     assert.isDefined(trace.getTracerProvider());
     assert.isDefined(logs.getLoggerProvider());
