@@ -1,0 +1,44 @@
+{
+  "name": "@azure-samples/ai-content-understanding-ts-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Content Understanding client library samples for TypeScript (Beta)",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/contentunderstanding/ai-content-understanding-rest"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding-rest",
+  "dependencies": {
+    "@azure-rest/ai-content-understanding": "workspace:^",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/identity": "^4.13.0",
+    "dotenv": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~5.9.3"
+  }
+}

@@ -13,8 +13,6 @@
  * - Images: Analyze standalone images to generate descriptions and extract visual features
  * - Audio: Transcribe audio content with speaker diarization and timing information
  * - Video: Analyze video content with visual frame extraction and audio transcription
- *
- * @azsdk-weight 90
  */
 
 import "dotenv/config";

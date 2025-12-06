@@ -13,21 +13,16 @@
  * - Images: Analyze standalone images to generate descriptions and extract visual features
  * - Audio: Transcribe audio content with speaker diarization and timing information
  * - Video: Analyze video content with visual frame extraction and audio transcription
- *
- * @azsdk-weight 90
  */
 
-import "dotenv/config";
-import * as fs from "fs";
-import * as path from "path";
-import { DefaultAzureCredential } from "@azure/identity";
-import { AzureKeyCredential } from "@azure/core-auth";
-import {
-  ContentUnderstandingClient,
-  type DocumentContent,
-} from "@azure-rest/ai-content-understanding";
+require("dotenv/config");
+const fs = require("fs");
+const path = require("path");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { ContentUnderstandingClient } = require("@azure-rest/ai-content-understanding");
 
-function getCredential(): DefaultAzureCredential | AzureKeyCredential {
+function getCredential() {
   const key = process.env["AZURE_CONTENT_UNDERSTANDING_KEY"];
   if (key) {
     return new AzureKeyCredential(key);
@@ -35,7 +30,7 @@ function getCredential(): DefaultAzureCredential | AzureKeyCredential {
   return new DefaultAzureCredential();
 }
 
-export async function main(): Promise<void> {
+async function main() {
   console.log("== Analyze Binary Sample ==");
 
   const endpoint = process.env["AZURE_CONTENT_UNDERSTANDING_ENDPOINT"];
@@ -47,7 +42,7 @@ export async function main(): Promise<void> {
 
   // Read PDF bytes from disk
   // Helper to get the directory of the current file (works in both ESM and CommonJS)
-  const sampleDir = ((): string => {
+  const sampleDir = (() => {
     if (typeof __dirname !== "undefined") return __dirname;
     if (typeof process !== "undefined" && process.argv && process.argv[1]) {
       return path.dirname(process.argv[1]);
@@ -96,7 +91,7 @@ export async function main(): Promise<void> {
 
     // Check if this is document content to access document-specific properties
     if (content.kind === "document") {
-      const documentContent = content as DocumentContent;
+      const documentContent = content;
       console.log("\nDocument Information:");
       console.log(`  Start page: ${documentContent.startPageNumber}`);
       console.log(`  End page: ${documentContent.endPageNumber}`);
@@ -109,3 +104,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

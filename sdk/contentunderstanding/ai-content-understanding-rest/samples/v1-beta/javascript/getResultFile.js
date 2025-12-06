@@ -14,19 +14,15 @@
  * The getResultFile API allows you to retrieve these files using:
  * - Operation ID: Extracted from the analysis operation
  * - File path: The path to the specific result file (e.g., "keyframes/{frameTimeMs}")
- *
- * @azsdk-weight 79
  */
 
-import "dotenv/config";
-import * as fs from "fs";
-import * as path from "path";
-import { DefaultAzureCredential } from "@azure/identity";
-import { AzureKeyCredential } from "@azure/core-auth";
-import { ContentUnderstandingClient } from "@azure-rest/ai-content-understanding";
-import type { AudioVisualContent } from "@azure-rest/ai-content-understanding";
-
-function getCredential(): DefaultAzureCredential | AzureKeyCredential {
+require("dotenv/config");
+const fs = require("fs");
+const path = require("path");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { ContentUnderstandingClient } = require("@azure-rest/ai-content-understanding");
+function getCredential() {
   const key = process.env["AZURE_CONTENT_UNDERSTANDING_KEY"];
   if (key) {
     return new AzureKeyCredential(key);
@@ -34,7 +30,7 @@ function getCredential(): DefaultAzureCredential | AzureKeyCredential {
   return new DefaultAzureCredential();
 }
 
-export async function main(): Promise<void> {
+async function main() {
   console.log("== Get Result File Sample ==");
 
   const endpoint = process.env["AZURE_CONTENT_UNDERSTANDING_ENDPOINT"];
@@ -59,8 +55,8 @@ export async function main(): Promise<void> {
   // Get the operation ID from the poller state
   // We need to wait for at least one poll to get the operation location
   const result = await poller.pollUntilDone();
-  const operationLocation = (poller as any).operationState?.config?.operationLocation;
-  let operationId: string | undefined;
+  const operationLocation = poller.operationState?.config?.operationLocation;
+  let operationId;
 
   if (operationLocation) {
     // Extract operation ID from the operation location URL
@@ -80,7 +76,7 @@ export async function main(): Promise<void> {
 
   // For video analysis, keyframes would be found in AudioVisualContent.keyFrameTimesMs
   if (content.kind === "audioVisual") {
-    const videoContent = content as AudioVisualContent;
+    const videoContent = content;
 
     if (videoContent.keyFrameTimesMs && videoContent.keyFrameTimesMs.length > 0) {
       const totalKeyframes = videoContent.keyFrameTimesMs.length;
@@ -100,7 +96,7 @@ export async function main(): Promise<void> {
 
         // Save the keyframe image to sample-output directory
         // Helper to get the directory of the current file (works in both ESM and CommonJS)
-        const sampleDir = ((): string => {
+        const sampleDir = (() => {
           if (typeof __dirname !== "undefined") return __dirname;
           if (typeof process !== "undefined" && process.argv && process.argv[1]) {
             return path.dirname(process.argv[1]);
@@ -136,3 +132,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

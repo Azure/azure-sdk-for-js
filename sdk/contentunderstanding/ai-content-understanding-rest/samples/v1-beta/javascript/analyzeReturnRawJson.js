@@ -12,18 +12,16 @@
  *   the desired results compared to parsing raw JSON
  * - This sample is ONLY for demonstration purposes to show how to access raw JSON responses
  * - For production use, prefer the object model approach shown in the analyzeBinary sample
- *
- * @azsdk-weight 80
  */
 
-import "dotenv/config";
-import * as fs from "fs";
-import * as path from "path";
-import { DefaultAzureCredential } from "@azure/identity";
-import { AzureKeyCredential } from "@azure/core-auth";
-import { ContentUnderstandingClient } from "@azure-rest/ai-content-understanding";
+require("dotenv/config");
+const fs = require("fs");
+const path = require("path");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { ContentUnderstandingClient } = require("@azure-rest/ai-content-understanding");
 
-function getCredential(): DefaultAzureCredential | AzureKeyCredential {
+function getCredential() {
   const key = process.env["AZURE_CONTENT_UNDERSTANDING_KEY"];
   if (key) {
     return new AzureKeyCredential(key);
@@ -31,7 +29,7 @@ function getCredential(): DefaultAzureCredential | AzureKeyCredential {
   return new DefaultAzureCredential();
 }
 
-export async function main(): Promise<void> {
+async function main() {
   console.log("== Analyze Return Raw JSON Sample ==");
 
   const endpoint = process.env["AZURE_CONTENT_UNDERSTANDING_ENDPOINT"];
@@ -51,7 +49,7 @@ export async function main(): Promise<void> {
   // Step 2: Read PDF bytes from disk
   console.log("\nStep 2: Reading sample file...");
   // Helper to get the directory of the current file (works in both ESM and CommonJS)
-  const sampleDir = ((): string => {
+  const sampleDir = (() => {
     if (typeof __dirname !== "undefined") return __dirname;
     if (typeof process !== "undefined" && process.argv && process.argv[1]) {
       return path.dirname(process.argv[1]);
@@ -90,7 +88,7 @@ export async function main(): Promise<void> {
   // Get the operation ID from the poller to retrieve the full result
   // The poller's operationState contains internal configuration we can use
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const operationLocation = (poller as any).operationState?.config?.operationLocation;
+  const operationLocation = poller.operationState?.config?.operationLocation;
   if (!operationLocation) {
     throw new Error("Could not retrieve operation location from poller");
   }
@@ -102,7 +100,7 @@ export async function main(): Promise<void> {
   const operationId = operationIdMatch[1];
 
   // Variable to capture raw JSON from onResponse callback
-  let rawJson: string | undefined;
+  let rawJson;
 
   // Get the full operation status which includes the complete result
   await client.getResult(operationId, {
@@ -168,3 +166,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

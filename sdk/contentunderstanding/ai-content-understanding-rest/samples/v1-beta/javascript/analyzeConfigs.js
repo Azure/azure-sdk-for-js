@@ -17,19 +17,15 @@
  * - Hyperlinks: URLs and links found in the document
  * - Formulas: Mathematical formulas in LaTeX format
  * - Annotations: PDF annotations, comments, and markup
- *
- * @azsdk-weight 81
  */
 
-import "dotenv/config";
-import * as fs from "fs";
-import * as path from "path";
-import { DefaultAzureCredential } from "@azure/identity";
-import { AzureKeyCredential } from "@azure/core-auth";
-import { ContentUnderstandingClient } from "@azure-rest/ai-content-understanding";
-import type { DocumentContent, DocumentChartFigure } from "@azure-rest/ai-content-understanding";
-
-function getCredential(): DefaultAzureCredential | AzureKeyCredential {
+require("dotenv/config");
+const fs = require("fs");
+const path = require("path");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { ContentUnderstandingClient } = require("@azure-rest/ai-content-understanding");
+function getCredential() {
   const key = process.env["AZURE_CONTENT_UNDERSTANDING_KEY"];
   if (key) {
     return new AzureKeyCredential(key);
@@ -37,7 +33,7 @@ function getCredential(): DefaultAzureCredential | AzureKeyCredential {
   return new DefaultAzureCredential();
 }
 
-export async function main(): Promise<void> {
+async function main() {
   console.log("== Analyze Configs Sample ==");
 
   const endpoint = process.env["AZURE_CONTENT_UNDERSTANDING_ENDPOINT"];
@@ -49,7 +45,7 @@ export async function main(): Promise<void> {
 
   // Read PDF bytes from disk
   // Helper to get the directory of the current file (works in both ESM and CommonJS)
-  const sampleDir = ((): string => {
+  const sampleDir = (() => {
     if (typeof __dirname !== "undefined") return __dirname;
     if (typeof process !== "undefined" && process.argv && process.argv[1]) {
       return path.dirname(process.argv[1]);
@@ -87,7 +83,7 @@ export async function main(): Promise<void> {
     return;
   }
 
-  const documentContent = content as DocumentContent;
+  const documentContent = content;
 
   // Extract charts
   if (documentContent.figures && documentContent.figures.length > 0) {
@@ -102,7 +98,7 @@ export async function main(): Promise<void> {
         console.log(`    Caption: ${chart.caption.content}`);
       }
       // Display chart content for chart figures
-      const chartFigure = chart as DocumentChartFigure;
+      const chartFigure = chart;
       if (chartFigure.content) {
         console.log(`    Content: ${JSON.stringify(chartFigure.content)}`);
       }
@@ -123,7 +119,7 @@ export async function main(): Promise<void> {
   }
 
   // Extract formulas
-  const allFormulas: Array<{ kind: string; value: string }> = [];
+  const allFormulas = [];
   if (documentContent.pages) {
     for (const page of documentContent.pages) {
       if (page.formulas) {
@@ -165,3 +161,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };
