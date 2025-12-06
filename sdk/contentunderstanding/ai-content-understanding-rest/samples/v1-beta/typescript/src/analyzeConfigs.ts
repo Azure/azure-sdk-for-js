@@ -17,8 +17,6 @@
  * - Hyperlinks: URLs and links found in the document
  * - Formulas: Mathematical formulas in LaTeX format
  * - Annotations: PDF annotations, comments, and markup
- *
- * @azsdk-weight 81
  */
 
 import "dotenv/config";

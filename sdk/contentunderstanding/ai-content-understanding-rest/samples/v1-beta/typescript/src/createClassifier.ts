@@ -12,8 +12,6 @@
  * - Document routing: Automatically route documents to the right processing pipeline
  * - Content organization: Organize large document collections by type
  * - Multi-document processing: Process files containing multiple document types by segmenting them
- *
- * @azsdk-weight 86
  */
 
 import "dotenv/config";
