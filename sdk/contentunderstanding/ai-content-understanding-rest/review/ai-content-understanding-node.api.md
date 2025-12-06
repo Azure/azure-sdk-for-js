@@ -617,8 +617,8 @@ export interface StringField extends ContentField {
 
 // @public
 export interface SupportedModels {
-    completion: string[];
-    embedding: string[];
+    completion?: string[];
+    embedding?: string[];
 }
 
 // @public
