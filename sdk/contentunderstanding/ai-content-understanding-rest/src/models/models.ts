@@ -2027,9 +2027,9 @@ export function labeledDataKnowledgeSourceDeserializer(
 /** Chat completion and embedding models supported by the analyzer. */
 export interface SupportedModels {
   /** Chat completion models supported by the analyzer. */
-  completion: string[];
+  completion?: string[];
   /** Embedding models supported by the analyzer. */
-  embedding: string[];
+  embedding?: string[];
 }
 
 export function supportedModelsDeserializer(item: any): SupportedModels {
