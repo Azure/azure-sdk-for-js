@@ -37,6 +37,15 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
   });
 
   describe("Certificate Validation & Processing", function () {
+    let tempDir: string;
+    let tempCaFile: string;
+
+    afterEach(async function () {
+      if (tempDir) {
+        await fs.rm(tempDir, { recursive: true, force: true });
+      }
+    });
+
     it("should throw error for invalid CA certificate data", async function () {
       vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", "https://test-proxy.example.com");
       vi.stubEnv("AZURE_KUBERNETES_CA_DATA", "invalid-certificate-data");
@@ -52,8 +61,8 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
     });
     it("should validate CA file changes and cache invalidation", async function () {
       const invalidCaContent = "invalid-certificate-data";
-      const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cert-test-"));
-      const tempCaFile = path.join(tempDir, "ca.pem");
+      tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cert-test-"));
+      tempCaFile = path.join(tempDir, "ca.pem");
       // Copy valid certificate initially
       await fs.copyFile(TEST_CERT_PATH, tempCaFile);
 
@@ -100,12 +109,11 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
 
       // Should be a new object reference since cache was invalidated
       assert.equal(tlsSettings3.ca, getTestCertificateContent());
-      await fs.rm(tempDir, { recursive: true, force: true });
     });
 
     it("should handle empty CA file during rotation", async function () {
-      const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cert-test-"));
-      const tempCaFile = path.join(tempDir, "ca.pem");
+      tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cert-test-"));
+      tempCaFile = path.join(tempDir, "ca.pem");
 
       await fs.copyFile(TEST_CERT_PATH, tempCaFile);
 
@@ -142,8 +150,6 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           enableAzureKubernetesTokenProxy: true,
         });
       }, /CA certificate file is empty/);
-
-      await fs.rm(tempDir, { recursive: true, force: true });
     });
   });
 
