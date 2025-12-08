@@ -1,7 +1,7 @@
 parameters:
   - name: SpecCommitId
     type: string
-    default: 'ef166dcba5eca12026b6b0cdebec6b866ea7ca92'
+    default: 'main'
     displayName: 'Spec commit id'
   - name: TspConfigRelativePath
     type: string
