@@ -37,8 +37,8 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
   });
 
   describe("Certificate Validation & Processing", function () {
-    let tempDir: string;
-    let tempCaFile: string;
+    let tempDir: string | undefined;
+    let tempCaFile: string | undefined;
 
     afterEach(async function () {
       if (tempDir) {
@@ -47,8 +47,8 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         } catch (error) {
           // Ignore cleanup errors to prevent test suite failures
         } finally {
-          tempDir = undefined as any;
-          tempCaFile = undefined as any;
+          tempDir = undefined;
+          tempCaFile = undefined;
         }
       }
     });
