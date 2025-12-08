@@ -42,7 +42,14 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
 
     afterEach(async function () {
       if (tempDir) {
-        await fs.rm(tempDir, { recursive: true, force: true });
+        try {
+          await fs.rm(tempDir, { recursive: true, force: true });
+        } catch (error) {
+          // Ignore cleanup errors to prevent test suite failures
+        } finally {
+          tempDir = undefined as any;
+          tempCaFile = undefined as any;
+        }
       }
     });
 
