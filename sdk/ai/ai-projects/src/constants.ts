@@ -4,7 +4,7 @@
 /**
  * Current version of the `@azure/ai-projects` package.
  */
-export const SDK_VERSION = `2.0.0-beta.2`;
+export const SDK_VERSION = `2.0.0-beta.3`;
 
 /**
  * The package name of the `@azure/ai-projects` package.
