@@ -27,9 +27,7 @@ export function _listByNetAppAccountSend(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: VolumeGroupsListByNetAppAccountOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumeGroupsListByNetAppAccountOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups{?api%2Dversion}",
@@ -45,10 +43,7 @@ export function _listByNetAppAccountSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -70,9 +65,7 @@ export function listByNetAppAccount(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: VolumeGroupsListByNetAppAccountOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumeGroupsListByNetAppAccountOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<VolumeGroup> {
   return buildPagedAsyncIterator(
     context,
@@ -163,10 +156,7 @@ export function _createSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: volumeGroupDetailsSerializer(body),
   });
 }
@@ -224,10 +214,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

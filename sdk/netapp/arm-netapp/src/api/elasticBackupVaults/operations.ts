@@ -33,9 +33,7 @@ export function _listByElasticAccountSend(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: ElasticBackupVaultsListByElasticAccountOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticBackupVaultsListByElasticAccountOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticBackupVaults{?api%2Dversion}",
@@ -51,10 +49,7 @@ export function _listByElasticAccountSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -76,9 +71,7 @@ export function listByElasticAccount(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: ElasticBackupVaultsListByElasticAccountOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticBackupVaultsListByElasticAccountOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ElasticBackupVault> {
   return buildPagedAsyncIterator(
     context,
@@ -169,10 +162,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: elasticBackupVaultUpdateSerializer(body),
   });
 }
@@ -214,9 +204,7 @@ export function _createOrUpdateSend(
   accountName: string,
   backupVaultName: string,
   body: ElasticBackupVault,
-  options: ElasticBackupVaultsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticBackupVaultsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticBackupVaults/{backupVaultName}{?api%2Dversion}",
@@ -234,10 +222,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: elasticBackupVaultSerializer(body),
   });
 }
@@ -262,9 +247,7 @@ export function createOrUpdate(
   accountName: string,
   backupVaultName: string,
   body: ElasticBackupVault,
-  options: ElasticBackupVaultsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticBackupVaultsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ElasticBackupVault>, ElasticBackupVault> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -297,10 +280,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

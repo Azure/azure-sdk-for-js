@@ -29,9 +29,7 @@ export function _listByNetAppAccountSend(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: BackupVaultsListByNetAppAccountOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupVaultsListByNetAppAccountOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults{?api%2Dversion}",
@@ -47,10 +45,7 @@ export function _listByNetAppAccountSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -72,9 +67,7 @@ export function listByNetAppAccount(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: BackupVaultsListByNetAppAccountOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupVaultsListByNetAppAccountOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<BackupVault> {
   return buildPagedAsyncIterator(
     context,
@@ -165,10 +158,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: backupVaultPatchSerializer(body),
   });
 }
@@ -226,10 +216,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: backupVaultSerializer(body),
   });
 }
@@ -287,10 +274,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
