@@ -235,25 +235,24 @@ export function isResourceValid(resource: { id?: string }, err: { message?: stri
 /**
  * @hidden
  */
-export function isItemResourceValid(resource: { id?: string }, err: { message?: string }): boolean {
+export function assertItemResourceIsValid(resource: { id?: string }) {
   // TODO: fix strictness issues so that caller contexts respects the types of the functions
-  if (resource.id) {
-    if (typeof resource.id !== "string") {
-      err.message = "Id must be a string.";
-      return false;
-    }
-
-    if (
-      resource.id.indexOf("/") !== -1 ||
-      resource.id.indexOf("\\") !== -1 ||
-      resource.id.indexOf("#") !== -1
-    ) {
-      err.message = "Id contains illegal chars.";
-      return false;
-    }
+  if (resource.id === undefined) {
+    return;
   }
-  return true;
+
+  const actualType = typeof resource.id;
+
+  if (actualType !== 'string') {
+    throw new Error(`Id must be a string. Got ${actualType}`);
+  }
+
+  if (illegalIdCharactersRegex.test(resource.id)) {
+    throw new Error("Id contains illegal chars.");
+  }
 }
+
+const illegalIdCharactersRegex = /[\/\\#]/;
 
 /** @hidden */
 export function getIdFromLink(resourceLink: string): string {

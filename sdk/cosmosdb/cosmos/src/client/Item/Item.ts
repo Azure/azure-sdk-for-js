@@ -3,12 +3,12 @@
 import type { ClientContext } from "../../ClientContext.js";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
+  assertItemResourceIsValid,
   Constants,
   copyObject,
   createDocumentUri,
   getIdFromLink,
   getPathFromLink,
-  isItemResourceValid,
   ResourceType,
   StatusCodes,
 } from "../../common/index.js";
@@ -255,11 +255,10 @@ export class Item {
         this.container,
         this.partitionKey,
       );
+
+      assertItemResourceIsValid(body);
+
       let partitionKey = this.partitionKey;
-      const err = {};
-      if (!isItemResourceValid(body, err)) {
-        throw err;
-      }
       let url = this.url;
 
       let response: Response<T & Resource>;

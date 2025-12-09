@@ -5,11 +5,11 @@ import { ChangeFeedIterator } from "../../ChangeFeedIterator.js";
 import type { ChangeFeedOptions } from "../../ChangeFeedOptions.js";
 import type { ClientContext } from "../../ClientContext.js";
 import {
+  assertItemResourceIsValid,
   Constants,
   copyObject,
   getIdFromLink,
   getPathFromLink,
-  isItemResourceValid,
   ResourceType,
   StatusCodes,
   SubStatusCodes,
@@ -544,10 +544,9 @@ export class Items {
 
           partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
         }
-        const err = {};
-        if (!isItemResourceValid(body, err)) {
-          throw err;
-        }
+        
+        assertItemResourceIsValid(body);
+
         const path = getPathFromLink(this.container.url, ResourceType.item);
         const id = getIdFromLink(this.container.url);
 
@@ -710,10 +709,7 @@ export class Items {
           partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
         }
 
-        const err = {};
-        if (!isItemResourceValid(body, err)) {
-          throw err;
-        }
+        assertItemResourceIsValid(body);
 
         const path = getPathFromLink(this.container.url, ResourceType.item);
         const id = getIdFromLink(this.container.url);
