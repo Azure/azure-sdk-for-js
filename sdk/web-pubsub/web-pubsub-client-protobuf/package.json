@@ -15,6 +15,8 @@
     "build-protobuf:esm": "pbjs -t static-module -w es6 -o ./src/generated/clientProto.js ./src/protos/client.proto && pbts -o ./src/generated/clientProto.d.ts ./src/generated/clientProto.js",
     "build:samples": "dev-tool samples publish -f",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check:ci": "dev-tool check --tag ci",
+    "check:release": "dev-tool check --tag release",
     "clean": "rimraf --glob dist test-dist temp types *.tgz *.log",
     "copy-files": "npm run copy-files:cjs && npm run copy-files:esm",
     "copy-files:cjs": "cpy --flat --rename=clientProto.js ./src/generated/clientProto.cjs ./dist/commonjs/generated/ && cpy --flat ./src/generated/clientProto.d.ts ./dist/esm/generated/",
@@ -48,7 +50,7 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-client/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub-client-protobuf/README.md",
   "sideEffects": false,
   "dependencies": {
     "@azure/logger": "^1.1.4",

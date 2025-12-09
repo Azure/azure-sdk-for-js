@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createKeyVault, KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
-import {
+import type { KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
+import { createKeyVault } from "./api/index.js";
+import type {
   KeyCreateParameters,
   KeyBundle,
   KeyImportParameters,
@@ -23,7 +24,7 @@ import {
   GetRandomBytesRequest,
   RandomBytes,
 } from "./models/models.js";
-import {
+import type {
   GetKeyAttestationOptionalParams,
   GetRandomBytesOptionalParams,
   UpdateKeyRotationPolicyOptionalParams,
@@ -77,9 +78,9 @@ import {
   rotateKey,
   createKey,
 } from "./api/operations.js";
-import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
 export { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
 

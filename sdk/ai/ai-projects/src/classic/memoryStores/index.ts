@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
   deleteScope,
   getUpdateResult,
@@ -13,7 +13,7 @@ import {
   updateMemoryStore,
   createMemoryStore,
 } from "../../api/memoryStores/operations.js";
-import {
+import type {
   MemoryStoresDeleteScopeOptionalParams,
   MemoryStoresGetUpdateResultOptionalParams,
   MemoryStoresUpdateMemoriesOptionalParams,
@@ -24,7 +24,7 @@ import {
   MemoryStoresUpdateMemoryStoreOptionalParams,
   MemoryStoresCreateMemoryStoreOptionalParams,
 } from "../../api/memoryStores/options.js";
-import {
+import type {
   MemoryStoreDefinitionUnion,
   MemoryStore,
   DeleteMemoryStoreResponse,
@@ -32,8 +32,8 @@ import {
   MemoryStoreUpdateResponse,
   MemoryStoreDeleteScopeResponse,
 } from "../../models/models.js";
-import { MemoryStoreUpdateMemoriesPoller } from "../../api/memoryStores/memoryStoreUpdateMemoriesPoller.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { MemoryStoreUpdateMemoriesPoller } from "../../api/memoryStores/memoryStoreUpdateMemoriesPoller.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a MemoryStores operations. */
 export interface MemoryStoresOperations {

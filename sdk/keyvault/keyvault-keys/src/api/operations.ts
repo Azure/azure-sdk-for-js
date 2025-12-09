@@ -1,52 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultContext as Client } from "./index.js";
-import {
+import type { KeyVaultContext as Client } from "./index.js";
+import type {
   KeyCreateParameters,
-  keyCreateParametersSerializer,
   KeyBundle,
-  keyBundleDeserializer,
-  keyVaultErrorDeserializer,
   KeyImportParameters,
-  keyImportParametersSerializer,
   DeletedKeyBundle,
-  deletedKeyBundleDeserializer,
   KeyUpdateParameters,
-  keyUpdateParametersSerializer,
   _KeyListResult,
-  _keyListResultDeserializer,
   KeyItem,
   BackupKeyResult,
-  backupKeyResultDeserializer,
   KeyRestoreParameters,
-  keyRestoreParametersSerializer,
   KeyOperationsParameters,
-  keyOperationsParametersSerializer,
   KeyOperationResult,
-  keyOperationResultDeserializer,
   KeySignParameters,
-  keySignParametersSerializer,
   KeyVerifyParameters,
-  keyVerifyParametersSerializer,
   KeyVerifyResult,
-  keyVerifyResultDeserializer,
   KeyReleaseParameters,
-  keyReleaseParametersSerializer,
   KeyReleaseResult,
-  keyReleaseResultDeserializer,
   _DeletedKeyListResult,
-  _deletedKeyListResultDeserializer,
   DeletedKeyItem,
   KeyRotationPolicy,
+  GetRandomBytesRequest,
+  RandomBytes} from "../models/models.js";
+import {
+  keyCreateParametersSerializer,
+  keyBundleDeserializer,
+  keyVaultErrorDeserializer,
+  keyImportParametersSerializer,
+  deletedKeyBundleDeserializer,
+  keyUpdateParametersSerializer,
+  _keyListResultDeserializer,
+  backupKeyResultDeserializer,
+  keyRestoreParametersSerializer,
+  keyOperationsParametersSerializer,
+  keyOperationResultDeserializer,
+  keySignParametersSerializer,
+  keyVerifyParametersSerializer,
+  keyVerifyResultDeserializer,
+  keyReleaseParametersSerializer,
+  keyReleaseResultDeserializer,
+  _deletedKeyListResultDeserializer,
   keyRotationPolicySerializer,
   keyRotationPolicyDeserializer,
-  GetRandomBytesRequest,
   getRandomBytesRequestSerializer,
-  RandomBytes,
   randomBytesDeserializer,
 } from "../models/models.js";
-import {
+import type {
   GetKeyAttestationOptionalParams,
   GetRandomBytesOptionalParams,
   UpdateKeyRotationPolicyOptionalParams,
@@ -73,14 +74,16 @@ import {
   RotateKeyOptionalParams,
   CreateKeyOptionalParams,
 } from "./options.js";
+import type {
+  PagedAsyncIterableIterator} from "../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

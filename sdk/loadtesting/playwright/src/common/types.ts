@@ -4,7 +4,7 @@
 import type { ConnectOptions } from "@playwright/test";
 import type { ServiceAuth, ServiceOS, SDKLanguage } from "./constants.js";
 import type { TokenCredential } from "@azure/identity";
-import { CIInfo } from "../utils/cIInfoProvider.js";
+import type { CIInfo } from "../utils/cIInfoProvider.js";
 
 // Public APIs
 

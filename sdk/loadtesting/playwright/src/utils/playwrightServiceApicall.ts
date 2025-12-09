@@ -7,7 +7,7 @@ import {
   exitWithFailureMessage,
 } from "./utils.js";
 import { HttpService } from "../common/httpService.js";
-import { TestRunCreatePayload } from "../common/types.js";
+import type { TestRunCreatePayload } from "../common/types.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { Constants } from "../common/constants.js";
 

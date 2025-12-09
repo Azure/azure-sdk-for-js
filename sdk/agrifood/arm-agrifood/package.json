@@ -4,9 +4,7 @@
   "author": "Microsoft Corporation",
   "description": "A generated SDK for AgriFoodMgmtClient.",
   "version": "1.0.0-beta.7",
-  "engines": {
-    "node": ">=20.0.0"
-  },
+  "engines": { "node": ">=20.0.0" },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
@@ -16,14 +14,7 @@
     "@azure/core-rest-pipeline": "^1.18.0",
     "tslib": "^2.8.1"
   },
-  "keywords": [
-    "node",
-    "azure",
-    "typescript",
-    "browser",
-    "isomorphic",
-    "cloud"
-  ],
+  "keywords": ["node", "azure", "typescript", "browser", "isomorphic", "cloud"],
   "license": "MIT",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -43,22 +34,16 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/agrifood/arm-agrifood",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/arm-agrifood/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
-  ],
+  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
+  "files": ["dist/", "README.md", "LICENSE", "review/", "CHANGELOG.md"],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
     "check-format": "echo skipped",
+    "check:ci": "dev-tool check --tag ci",
+    "check:release": "dev-tool check --tag release",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run extract-api",
@@ -72,46 +57,27 @@
   },
   "sideEffects": false,
   "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/agriFoodMgmtClient.ts",
-        "prefix": "packageDetails"
-      }
-    ]
+    "constantPaths": [{ "path": "src/agriFoodMgmtClient.ts", "prefix": "packageDetails" }]
   },
   "autoPublish": true,
   "//sampleConfiguration": {
     "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
+    "productSlugs": ["azure"],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-agrifood?view=azure-node-preview"
   },
   "type": "module",
   "tshy": {
     "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
+    "exports": { "./package.json": "./package.json", ".": "./src/index.ts" },
+    "dialects": ["esm", "commonjs"],
     "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/index.d.ts",
-        "default": "./dist/commonjs/index.js"
-      }
+      "import": { "types": "./dist/esm/index.d.ts", "default": "./dist/esm/index.js" },
+      "require": { "types": "./dist/commonjs/index.d.ts", "default": "./dist/commonjs/index.js" }
     }
   }
 }

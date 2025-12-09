@@ -1,36 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../index.js";
+import type { AIProjectContext as Client } from "../index.js";
+import type {
+  MemoryStoreDefinitionUnion,
+  MemoryStore,
+  _AgentsPagedResultMemoryStore,
+  DeleteMemoryStoreResponse,
+  MemoryStoreSearchResponse,
+  MemoryStoreUpdateResponse,
+  MemoryStoreDeleteScopeResponse} from "../../models/models.js";
 import {
   memorySearchOptionsSerializer,
   apiErrorResponseDeserializer,
   memoryStoreDefinitionUnionSerializer,
-  MemoryStoreDefinitionUnion,
-  MemoryStore,
   memoryStoreObjectDeserializer,
-  _AgentsPagedResultMemoryStore,
   _agentsPagedResultMemoryStoreObjectDeserializer,
-  DeleteMemoryStoreResponse,
   deleteMemoryStoreResponseDeserializer,
   itemParamUnionArraySerializer,
-  MemoryStoreSearchResponse,
   memoryStoreSearchResponseDeserializer,
-  MemoryStoreUpdateResponse,
   memoryStoreUpdateResponseDeserializer,
-  MemoryStoreDeleteScopeResponse,
   memoryStoreDeleteScopeResponseDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  MemoryStoreUpdateMemoriesPoller} from "./memoryStoreUpdateMemoriesPoller.js";
 import {
-  createMemoryStoreUpdateMemoriesPoller,
-  MemoryStoreUpdateMemoriesPoller,
+  createMemoryStoreUpdateMemoriesPoller
 } from "./memoryStoreUpdateMemoriesPoller.js";
-import {
+import type {
   MemoryStoresDeleteScopeOptionalParams,
   MemoryStoresGetUpdateResultOptionalParams,
   MemoryStoresUpdateMemoriesOptionalParams,
@@ -41,9 +44,10 @@ import {
   MemoryStoresUpdateMemoryStoreOptionalParams,
   MemoryStoresCreateMemoryStoreOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

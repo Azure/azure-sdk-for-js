@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createWidgetAnalytics,
+import type {
   WidgetAnalyticsContext,
-  WidgetAnalyticsClientOptionalParams,
+  WidgetAnalyticsClientOptionalParams} from "./api/index.js";
+import {
+  createWidgetAnalytics
 } from "./api/index.js";
-import { WidgetsOperations, _getWidgetsOperations } from "./classic/widgets/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { WidgetsOperations} from "./classic/widgets/index.js";
+import { _getWidgetsOperations } from "./classic/widgets/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { WidgetAnalyticsClientOptionalParams } from "./api/widgetAnalyticsContext.js";
 

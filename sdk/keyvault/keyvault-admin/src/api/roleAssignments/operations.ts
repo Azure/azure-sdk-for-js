@@ -1,30 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultContext as Client } from "../index.js";
+import type { KeyVaultContext as Client } from "../index.js";
+import type {
+  RoleAssignment,
+  RoleAssignmentCreateParameters,
+  _RoleAssignmentListResult} from "../../models/models.js";
 import {
   keyVaultErrorDeserializer,
-  RoleAssignment,
   roleAssignmentDeserializer,
-  RoleAssignmentCreateParameters,
   roleAssignmentCreateParametersSerializer,
-  _RoleAssignmentListResult,
   _roleAssignmentListResultDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   RoleAssignmentsListForScopeOptionalParams,
   RoleAssignmentsGetOptionalParams,
   RoleAssignmentsCreateOptionalParams,
   RoleAssignmentsDeleteOptionalParams,
 } from "./options.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

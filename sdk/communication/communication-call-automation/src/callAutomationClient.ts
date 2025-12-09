@@ -14,14 +14,15 @@ import {
   createCommunicationAuthPolicy,
 } from "@azure/communication-common";
 import { logger } from "./models/logger.js";
-import {
+import type {
   AnswerCallRequest,
-  CallAutomationApiClient,
   CommunicationUserIdentifierModel,
   CreateCallRequest,
   RedirectCallRequest,
   RejectCallRequest,
-  ConnectRequest,
+  ConnectRequest} from "./generated/src/index.js";
+import {
+  CallAutomationApiClient
 } from "./generated/src/index.js";
 import { CallConnection } from "./callConnection.js";
 import { CallRecording } from "./callRecording.js";

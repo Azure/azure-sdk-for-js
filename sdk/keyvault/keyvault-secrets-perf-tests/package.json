@@ -37,8 +37,8 @@
   ],
   "files": [
     "dist/",
-    "README.md",
-    "LICENSE"
+    "LICENSE",
+    "README.md"
   ],
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
@@ -64,6 +64,8 @@
     "build": "npm run clean && dev-tool run build-package",
     "build:samples": "echo Skipped.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
+    "check:ci": "dev-tool check --tag ci",
+    "check:release": "dev-tool check --tag release",
     "clean": "rimraf --glob dist dist-* types *.tgz *.log",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
     "lint": "eslint -c ../../../common/tools/eslint-plugin-azure-sdk/eslint.perftests.config.mjs src",

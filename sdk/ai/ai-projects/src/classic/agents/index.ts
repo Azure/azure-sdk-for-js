@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
   listAgentVersions,
   deleteAgentVersion,
@@ -16,7 +16,7 @@ import {
   createAgent,
   getAgent,
 } from "../../api/agents/operations.js";
-import {
+import type {
   AgentsListAgentVersionsOptionalParams,
   AgentsDeleteAgentVersionOptionalParams,
   AgentsGetAgentVersionOptionalParams,
@@ -30,14 +30,14 @@ import {
   AgentsCreateAgentVersionOptionalParams,
   AgentsCreateAgentVersionFromManifestOptionalParams,
 } from "../../api/agents/options.js";
-import {
+import type {
   Agent,
   AgentVersion,
   AgentDefinitionUnion,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Agents operations. */
 export interface AgentsOperations {

@@ -2,12 +2,14 @@ import { scriptCheck, workingTreeUnchangedCheck } from "../framework/check";
 
 export const format = scriptCheck({
   description: "Run format command",
+  tags: ["ci"],
   checkCommand: "pnpm check-format",
   fixCommand: "pnpm format",
 });
 
 export const lint = scriptCheck({
   description: "Run lint command",
+  tags: ["ci"],
   checkCommand: "pnpm lint",
   fixCommand: "pnpm lint:fix",
 });

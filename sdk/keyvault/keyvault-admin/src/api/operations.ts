@@ -1,33 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultContext as Client } from "./index.js";
-import {
+import type { KeyVaultContext as Client } from "./index.js";
+import type {
   FullBackupOperation,
+  SASTokenParameter,
+  PreBackupOperationParameters,
+  RestoreOperation,
+  RestoreOperationParameters,
+  PreRestoreOperationParameters,
+  SelectiveKeyRestoreOperation,
+  SelectiveKeyRestoreOperationParameters,
+  UpdateSettingRequest,
+  Setting,
+  SettingsListResult} from "../models/models.js";
+import {
   fullBackupOperationDeserializer,
   keyVaultErrorDeserializer,
-  SASTokenParameter,
   sasTokenParameterSerializer,
-  PreBackupOperationParameters,
   preBackupOperationParametersSerializer,
-  RestoreOperation,
   restoreOperationDeserializer,
-  RestoreOperationParameters,
   restoreOperationParametersSerializer,
-  PreRestoreOperationParameters,
   preRestoreOperationParametersSerializer,
-  SelectiveKeyRestoreOperation,
   selectiveKeyRestoreOperationDeserializer,
-  SelectiveKeyRestoreOperationParameters,
   selectiveKeyRestoreOperationParametersSerializer,
-  UpdateSettingRequest,
   updateSettingRequestSerializer,
-  Setting,
   settingDeserializer,
-  SettingsListResult,
   settingsListResultDeserializer,
 } from "../models/models.js";
-import {
+import type {
   GetSettingsOptionalParams,
   GetSettingOptionalParams,
   UpdateSettingOptionalParams,
@@ -42,13 +43,14 @@ import {
 } from "./options.js";
 import { getLongRunningPoller } from "../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getSettingsSend(
   context: Client,

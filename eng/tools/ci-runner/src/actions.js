@@ -72,6 +72,13 @@ export function executeActions(
           );
         });
         break;
+      case "check":
+        exitCode = runInPackageDirs(action, packageDirs, (packageDir) => {
+          console.log(
+            `\nInvoke "npm run check --fix" inside ${tryGetPkgRelativePath(packageDir)} to try to fix failures\n`,
+          );
+        });
+        break;
 
       default:
         exitCode = runAllWithDirection(

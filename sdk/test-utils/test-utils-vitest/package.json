@@ -11,6 +11,8 @@
     "build": "npm run clean && dev-tool run build-package",
     "build:samples": "echo Skipped.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check:ci": "dev-tool check --tag ci",
+    "check:release": "dev-tool check --tag release",
     "clean": "rimraf --glob dist dist-* types *.tgz *.log",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "lint": "eslint src test",
@@ -38,7 +40,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/test-utils/test-utils/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/test-utils-vitest/README.md",
   "sideEffects": false,
   "dependencies": {
     "@azure-tools/test-recorder": "^4.0.0",

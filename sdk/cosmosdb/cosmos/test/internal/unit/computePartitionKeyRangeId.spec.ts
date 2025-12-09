@@ -3,12 +3,13 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { computePartitionKeyRangeId } from "../../../src/client/ClientUtils.js";
-import { PartitionKeyInternal } from "../../../src/documents/PartitionKeyInternal.js";
-import { PartitionKeyRangeCache } from "../../../src/routing/partitionKeyRangeCache.js";
-import {
+import type { PartitionKeyInternal } from "../../../src/documents/PartitionKeyInternal.js";
+import type { PartitionKeyRangeCache } from "../../../src/routing/partitionKeyRangeCache.js";
+import type {
   Container,
   DiagnosticNodeInternal,
-  PartitionKeyDefinition,
+  PartitionKeyDefinition} from "../../../src/index.js";
+import {
   PartitionKeyKind,
 } from "../../../src/index.js";
 

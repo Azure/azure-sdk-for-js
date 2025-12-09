@@ -1,38 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext as Client } from "../index.js";
+import type { AgentsContext as Client } from "../index.js";
+import type {
+  _AgentsPagedResultVectorStore,
+  VectorStore,
+  VectorStoreDeletionStatus} from "../../models/models.js";
 import {
   vectorStoreConfigurationSerializer,
   agentV1ErrorDeserializer,
-  _AgentsPagedResultVectorStore,
   _agentsPagedResultVectorStoreDeserializer,
-  VectorStore,
   vectorStoreDeserializer,
   vectorStoreExpirationPolicySerializer,
   vectorStoreChunkingStrategyRequestUnionSerializer,
-  VectorStoreDeletionStatus,
   vectorStoreDeletionStatusDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   VectorStoresDeleteVectorStoreOptionalParams,
   VectorStoresModifyVectorStoreOptionalParams,
   VectorStoresGetVectorStoreOptionalParams,
   VectorStoresCreateVectorStoreOptionalParams,
   VectorStoresListVectorStoresOptionalParams,
 } from "./options.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState, OperationStatus } from "@azure/core-lro";
+import type { PollerLike, OperationState, OperationStatus } from "@azure/core-lro";
 import { createPoller } from "../poller.js";
 
 export function _deleteVectorStoreSend(

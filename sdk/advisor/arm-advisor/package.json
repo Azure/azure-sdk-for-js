@@ -50,15 +50,15 @@
   },
   "files": [
     "dist/",
-    "README.md",
     "LICENSE",
-    "review/",
-    "CHANGELOG.md"
+    "README.md"
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check:ci": "dev-tool check --tag ci",
+    "check:release": "dev-tool check --tag release",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run extract-api",
@@ -80,7 +80,7 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/advisor/arm-advisor",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/advisor/arm-advisor/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

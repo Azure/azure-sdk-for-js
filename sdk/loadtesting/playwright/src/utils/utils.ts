@@ -17,8 +17,9 @@ import { randomUUID } from "node:crypto";
 import { parseJwt } from "./parseJwt.js";
 import { getPlaywrightVersion } from "./getPlaywrightVersion.js";
 import { createEntraIdAccessToken } from "../common/entraIdAccessToken.js";
-import { FullConfig } from "@playwright/test";
-import { CI_PROVIDERS, CIInfo } from "./cIInfoProvider.js";
+import type { FullConfig } from "@playwright/test";
+import type { CIInfo } from "./cIInfoProvider.js";
+import { CI_PROVIDERS } from "./cIInfoProvider.js";
 import { exec } from "child_process";
 import { getPackageVersionFromFolder } from "./getPackageVersion.js";
 

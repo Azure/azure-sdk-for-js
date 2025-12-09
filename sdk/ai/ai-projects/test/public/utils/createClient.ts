@@ -4,7 +4,8 @@
 import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AIProjectClient, AIProjectClientOptionalParams } from "../../../src/index.js";
+import type { AIProjectClientOptionalParams } from "../../../src/index.js";
+import { AIProjectClient } from "../../../src/index.js";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 

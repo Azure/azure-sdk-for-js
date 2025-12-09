@@ -1,23 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../index.js";
-import {
+import type { AIProjectContext as Client } from "../index.js";
+import type {
   MemoryStoreUpdateResult,
   MemoryStoreUpdateStatus,
   MemoryStoreUpdateResponse,
-  memoryStoreUpdateResponseDeserializer,
-  MemoryStoreOperationUsage,
-} from "../../models/models.js";
+  MemoryStoreOperationUsage} from "../../models/models.js";
 import {
+  memoryStoreUpdateResponseDeserializer
+} from "../../models/models.js";
+import type {
   PollerLike,
   OperationState,
-  createHttpPoller,
   RunningOperation,
-  OperationResponse,
+  OperationResponse} from "@azure/core-lro";
+import {
+  createHttpPoller
 } from "@azure/core-lro";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { PathUncheckedResponse, createRestError } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PathUncheckedResponse} from "@azure-rest/core-client";
+import { createRestError } from "@azure-rest/core-client";
 
 /** State of the Memory Store update operation. */
 export type MemoryStoreUpdateOperationState = OperationState<MemoryStoreUpdateResult> & {
