@@ -107,6 +107,17 @@
     "selfLink": false
   },
   "browser": "./dist/browser/index.js",
+  "//sampleConfiguration": {
+    "productName": "Azure Maps Time Zone",
+    "productSlugs": [
+      "azure",
+      "azure-maps"
+    ],
+    "requiredResources": {
+      "Azure Maps Resource": "https://learn.microsoft.com/azure/azure-maps/how-to-create-template"
+    },
+    "disableDocsMs": true
+  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

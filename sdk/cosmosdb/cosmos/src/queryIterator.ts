@@ -36,7 +36,7 @@ import {
 import { MetadataLookUpType } from "./CosmosDiagnostics.js";
 import { randomUUID } from "@azure/core-util";
 import { HybridQueryExecutionContext } from "./queryExecutionContext/hybridQueryExecutionContext.js";
-import { PartitionKeyRangeCache } from "./routing/index.js";
+import type { PartitionKeyRangeCache } from "./routing/index.js";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables

@@ -144,7 +144,7 @@ describe("AzureSASCredential", () => {
 
 describe("isTokenCredential", function () {
   it("should return true for an object that resembles a TokenCredential", () => {
-    assert.ok(
+    assert.isTrue(
       isTokenCredential({
         getToken() {
           return Promise.resolve({
@@ -207,7 +207,7 @@ describe("isTokenCredential", function () {
 
 describe("isNamedKeyCredential", function () {
   it("should return true for an object that resembles a NamedKeyCredential", () => {
-    assert.ok(isNamedKeyCredential({ name: "foo", key: "bar" }));
+    assert.isTrue(isNamedKeyCredential({ name: "foo", key: "bar" }));
   });
 
   it("should return false for an object that does not resemble a NamedKeyCredential", () => {
@@ -217,7 +217,7 @@ describe("isNamedKeyCredential", function () {
 
 describe("isSASCredential", function () {
   it("should return true for an object that resembles a isSASCredential", () => {
-    assert.ok(isSASCredential({ signature: "sig" }));
+    assert.isTrue(isSASCredential({ signature: "sig" }));
   });
 
   it("should return false for an object that does not resemble a isSASCredential", () => {
@@ -227,7 +227,7 @@ describe("isSASCredential", function () {
 
 describe("isKeyCredential", function () {
   it("should return true for an object that resembles a KeyCredential", () => {
-    assert.ok(isKeyCredential({ key: "bar" }));
+    assert.isTrue(isKeyCredential({ key: "bar" }));
   });
 
   it("should return false for an object that does not resemble a KeyCredential", () => {

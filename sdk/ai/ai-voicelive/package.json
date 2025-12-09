@@ -64,11 +64,11 @@
     "ws": "^8.18.3"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "workspace:*",
-    "@azure-tools/test-recorder": "workspace:*",
-    "@azure-tools/test-utils-vitest": "workspace:*",
-    "@azure/dev-tool": "workspace:*",
-    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
     "@types/ws": "^8.18.1",

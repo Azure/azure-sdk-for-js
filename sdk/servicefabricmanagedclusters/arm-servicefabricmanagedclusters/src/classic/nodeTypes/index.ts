@@ -146,7 +146,7 @@ export interface NodeTypesOperations {
     nodeTypeName: string,
     options?: NodeTypesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Update the configuration of a node type of a given managed cluster, only updating tags. */
+  /** Update the configuration of a node type of a given managed cluster, only updating tags or capacity. */
   update: (
     resourceGroupName: string,
     clusterName: string,

@@ -6214,8 +6214,7 @@ export interface GalleryInVMAccessControlProfileVersionUpdate extends UpdateReso
 }
 
 /** The publishing profile of a gallery image version. */
-export interface GalleryApplicationVersionPublishingProfile
-  extends GalleryArtifactPublishingProfileBase {
+export interface GalleryApplicationVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
   /** The source image from which the Image Version is going to be created. */
   source: UserArtifactSource;
   manageActions?: UserArtifactManage;
@@ -6230,8 +6229,7 @@ export interface GalleryApplicationVersionPublishingProfile
 }
 
 /** The publishing profile of a gallery image Version. */
-export interface GalleryImageVersionPublishingProfile
-  extends GalleryArtifactPublishingProfileBase {}
+export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {}
 
 /** Contains encryption settings for an OS disk image. */
 export interface OSDiskImageEncryption extends DiskImageEncryption {
@@ -6290,8 +6288,7 @@ export interface GalleryDataDiskImage extends GalleryDiskImage {
 }
 
 /** Describes the properties of a gallery inVMAccessControlProfile. */
-export interface GalleryInVMAccessControlProfileProperties
-  extends GalleryResourceProfilePropertiesBase {
+export interface GalleryInVMAccessControlProfileProperties extends GalleryResourceProfilePropertiesBase {
   /** The description of this gallery inVMAccessControlProfile resources. This property is updatable. */
   description?: string;
   /** This property allows you to specify the OS type of the VMs/VMSS for which this profile can be used against. Possible values are: 'Windows' or 'Linux' */
@@ -6301,8 +6298,7 @@ export interface GalleryInVMAccessControlProfileProperties
 }
 
 /** Describes the properties of an inVMAccessControlProfile version. */
-export interface GalleryInVMAccessControlProfileVersionProperties
-  extends GalleryResourceProfileVersionPropertiesBase {
+export interface GalleryInVMAccessControlProfileVersionProperties extends GalleryResourceProfileVersionPropertiesBase {
   /** This property allows you to specify whether the access control rules are in Audit mode, in Enforce mode or Disabled. Possible values are: 'Audit', 'Enforce' or 'Disabled'. */
   mode: AccessControlRulesMode;
   /** This property allows you to specify if the requests will be allowed to access the host endpoints. Possible values are: 'Allow', 'Deny'. */
@@ -7469,8 +7465,7 @@ export interface DiskRestorePoint extends ProxyResource {
 }
 
 /** Describes a Virtual Machine Scale Set VM Reimage Parameters. */
-export interface VirtualMachineScaleSetReimageParameters
-  extends VirtualMachineScaleSetVMReimageParameters {
+export interface VirtualMachineScaleSetReimageParameters extends VirtualMachineScaleSetVMReimageParameters {
   /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
   instanceIds?: string[];
 }

@@ -13,7 +13,7 @@
   "dependencies": {
     "@azure/identity": "dev",
     "@azure/storage-blob": "^12.17.0",
-    "express": "^5.1.0",
+    "express": "^5.2.1",
     "dotenv": "^16.0.0"
   },
   "devDependencies": {

@@ -22,12 +22,10 @@ export interface EnterpriseCustomerOperationsUpdateOptionalParams extends Operat
 export interface EnterpriseCustomerOperationsDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EnterpriseCustomerOperationsListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface EnterpriseCustomerOperationsListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EnterpriseCustomerOperationsListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface EnterpriseCustomerOperationsListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface CacheNodesOperationsGetOptionalParams extends OperationOptions {}
@@ -93,15 +91,13 @@ export interface IspCacheNodesOperationsDeleteOptionalParams extends OperationOp
 }
 
 /** Optional parameters. */
-export interface IspCacheNodesOperationsListByIspCustomerResourceOptionalParams
-  extends OperationOptions {}
+export interface IspCacheNodesOperationsListByIspCustomerResourceOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface IspCacheNodesOperationsGetBgpCidrsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface IspCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams
-  extends OperationOptions {}
+export interface IspCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface EnterpriseMccCustomersGetOptionalParams extends OperationOptions {}
@@ -131,8 +127,7 @@ export interface EnterpriseMccCustomersListBySubscriptionOptionalParams extends 
 export interface EnterpriseMccCacheNodesOperationsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EnterpriseMccCacheNodesOperationsCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface EnterpriseMccCacheNodesOperationsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -147,9 +142,7 @@ export interface EnterpriseMccCacheNodesOperationsDeleteOptionalParams extends O
 }
 
 /** Optional parameters. */
-export interface EnterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResourceOptionalParams
-  extends OperationOptions {}
+export interface EnterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResourceOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EnterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams
-  extends OperationOptions {}
+export interface EnterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams extends OperationOptions {}

@@ -16,11 +16,12 @@ export {
   AnonymousCredential,
   BaseRequestPolicy,
   Credential,
-         AnonymousCredentialPolicy,
-         CredentialPolicy,
-         StorageRetryPolicyFactory,
-         StorageBrowserPolicyFactory,
-       } from "@azure/storage-common";
+  AnonymousCredentialPolicy,
+  CredentialPolicy,
+  StorageRetryPolicyFactory,
+  StorageBrowserPolicyFactory,
+  UserDelegationKey,
+} from "@azure/storage-common";
 export { Metadata } from "./models.js";
 export * from "./QueueClient.js";
 export * from "./QueueSASPermissions.js";

@@ -24,6 +24,15 @@ export interface AddRemoveIncrementalNamedPartitionScalingMechanism extends Scal
 }
 
 // @public
+export interface ApplicationFetchHealthRequest {
+    deployedApplicationsHealthStateFilter?: HealthFilter;
+    eventsHealthStateFilter?: HealthFilter;
+    excludeHealthStatistics?: boolean;
+    servicesHealthStateFilter?: HealthFilter;
+    timeout?: number;
+}
+
+// @public
 export interface ApplicationHealthPolicy {
     considerWarningAsError: boolean;
     defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicy;
@@ -90,7 +99,13 @@ export interface ApplicationTypeVersionUpdateParameters {
 
 // @public
 export interface ApplicationUpdateParameters {
+    properties?: ApplicationUpdateParametersProperties;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface ApplicationUpdateParametersProperties {
+    parameters?: Record<string, string>;
 }
 
 // @public
@@ -299,6 +314,9 @@ export interface FrontendConfiguration {
 }
 
 // @public
+export type HealthFilter = string;
+
+// @public
 export type IPAddressType = string;
 
 // @public
@@ -414,6 +432,16 @@ export enum KnownFaultSimulationStatus {
 }
 
 // @public
+export enum KnownHealthFilter {
+    All = "All",
+    Default = "Default",
+    Error = "Error",
+    None = "None",
+    Ok = "Ok",
+    Warning = "Warning"
+}
+
+// @public
 export enum KnownIPAddressType {
     IPv4 = "IPv4",
     IPv6 = "IPv6"
@@ -518,6 +546,11 @@ export enum KnownProtocol {
 export enum KnownPublicIPAddressVersion {
     IPv4 = "IPv4",
     IPv6 = "IPv6"
+}
+
+// @public
+export enum KnownRestartKind {
+    Simultaneous = "Simultaneous"
 }
 
 // @public
@@ -630,7 +663,8 @@ export enum KnownUpdateType {
 export enum KnownVersions {
     V20241101Preview = "2024-11-01-preview",
     V20250301Preview = "2025-03-01-preview",
-    V20250601Preview = "2025-06-01-preview"
+    V20250601Preview = "2025-06-01-preview",
+    V20251001Preview = "2025-10-01-preview"
 }
 
 // @public
@@ -1011,6 +1045,27 @@ export interface ResourceAzStatus {
     readonly isZoneResilient?: boolean;
     readonly resourceName?: string;
     readonly resourceType?: string;
+}
+
+// @public
+export interface RestartDeployedCodePackageRequest {
+    codePackageInstanceId: string;
+    codePackageName: string;
+    nodeName: string;
+    serviceManifestName: string;
+    servicePackageActivationId?: string;
+}
+
+// @public
+export type RestartKind = string;
+
+// @public
+export interface RestartReplicaRequest {
+    forceRestart?: boolean;
+    partitionId: string;
+    replicaIds: number[];
+    restartKind: RestartKind;
+    timeout?: number;
 }
 
 // @public

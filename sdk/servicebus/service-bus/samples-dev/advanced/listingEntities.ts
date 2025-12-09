@@ -124,8 +124,8 @@ export async function main(): Promise<void> {
   }
 
   // Delete all the newly created queues
-  for (let i = 0; i < numberOfQueues; i++) {
-    await serviceBusAdministrationClient.deleteQueue(baseQueueName + "_" + i);
+  for (let index = 0; index < numberOfQueues; index++) {
+    await serviceBusAdministrationClient.deleteQueue(baseQueueName + "_" + index);
   }
 }
 

@@ -1,5 +1,11 @@
 # Release History
 
+## 12.2.0-beta.1 (2025-11-24)
+
+### Features Added
+
+- Added support for UserDelegationKeyCredential.
+
 ## 12.1.1 (2025-10-16)
 
 ### Features Added

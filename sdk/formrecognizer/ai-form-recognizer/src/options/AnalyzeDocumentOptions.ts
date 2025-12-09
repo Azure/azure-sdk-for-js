@@ -60,8 +60,7 @@ export const FormRecognizerFeature = {
  * Options for the document analysis operation.
  */
 export interface AnalyzeDocumentOptions<Result = AnalyzeResult<AnalyzedDocument>>
-  extends OperationOptions,
-    PollerOptions<DocumentAnalysisPollOperationState<Result>> {
+  extends OperationOptions, PollerOptions<DocumentAnalysisPollOperationState<Result>> {
   /**
    * Locale hint for text recognition and document analysis.
    *

@@ -46,6 +46,9 @@ export function list(context: NetAppManagementContext, resourceGroupName: string
 export function listGetGroupIdListForLdapUser(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: GetGroupIdListForLdapUserRequest, options?: VolumesListGetGroupIdListForLdapUserOptionalParams): PollerLike<OperationState<GetGroupIdListForLdapUserResponse>, GetGroupIdListForLdapUserResponse>;
 
 // @public
+export function listQuotaReport(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesListQuotaReportOptionalParams): PollerLike<OperationState<ListQuotaReportResponse>, ListQuotaReportResponse>;
+
+// @public
 export function listReplications(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesListReplicationsOptionalParams): PagedAsyncIterableIterator<Replication>;
 
 // @public
@@ -149,6 +152,11 @@ export interface VolumesListGetGroupIdListForLdapUserOptionalParams extends Oper
 
 // @public
 export interface VolumesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VolumesListQuotaReportOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public

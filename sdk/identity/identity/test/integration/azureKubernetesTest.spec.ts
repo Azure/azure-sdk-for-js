@@ -9,11 +9,7 @@ describe("Azure Kubernetes Integration test", function () {
   let podName: string;
   const port = requireEnvVar("IDENTITY_FUNCTIONS_CUSTOMHANDLER_PORT");
 
-  beforeEach(async function (ctx) {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
-
+  beforeEach.skipIf(!isLiveMode())(async function () {
     podName = requireEnvVar("IDENTITY_AKS_POD_NAME");
     const pods = runCommand("kubectl", `get pods -o jsonpath='{.items[0].metadata.name}'`);
     assert.include(pods, podName);
@@ -36,11 +32,7 @@ describe("Azure Kubernetes Integration test", function () {
     }
   });
 
-  it("can authenticate using workload identity", async function (ctx) {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
-
+  it.skipIf(!isLiveMode())("can authenticate using workload identity", async function () {
     const response = runCommand(
       "kubectl",
       `exec ${podName} -- wget -qO- http://localhost:${port}/workload-identity`,
@@ -50,19 +42,18 @@ describe("Azure Kubernetes Integration test", function () {
     assert.isTrue(responseObj.success);
   });
 
-  it("can authenticate using user-assigned managed identity", async function (ctx) {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
+  it.skipIf(!isLiveMode())(
+    "can authenticate using user-assigned managed identity",
+    async function () {
+      const response = runCommand(
+        "kubectl",
+        `exec ${podName} -- wget -qO- http://localhost:${port}/managed-identity/user-assigned`,
+      );
 
-    const response = runCommand(
-      "kubectl",
-      `exec ${podName} -- wget -qO- http://localhost:${port}/managed-identity/user-assigned`,
-    );
-
-    const responseObj = JSON.parse(response);
-    assert.isTrue(responseObj.success);
-  });
+      const responseObj = JSON.parse(response);
+      assert.isTrue(responseObj.success);
+    },
+  );
 });
 
 function runCommand(command: string, args: string = ""): any {

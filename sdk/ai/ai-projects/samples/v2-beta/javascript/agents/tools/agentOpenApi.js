@@ -18,7 +18,7 @@ const path = require("path");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["AZURE_AI_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 const weatherSpecPath = path.resolve(__dirname, "../assets", "weather_openapi.json");
 
 function loadOpenApiSpec(specPath) {

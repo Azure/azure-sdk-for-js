@@ -5,6 +5,8 @@ import type { NetAppManagementContext, NetAppManagementClientOptionalParams } fr
 import { createNetAppManagement } from "./api/index.js";
 import type { AccountsOperations } from "./classic/accounts/index.js";
 import { _getAccountsOperations } from "./classic/accounts/index.js";
+import type { ActiveDirectoryConfigsOperations } from "./classic/activeDirectoryConfigs/index.js";
+import { _getActiveDirectoryConfigsOperations } from "./classic/activeDirectoryConfigs/index.js";
 import type { BackupPoliciesOperations } from "./classic/backupPolicies/index.js";
 import { _getBackupPoliciesOperations } from "./classic/backupPolicies/index.js";
 import type { BackupVaultsOperations } from "./classic/backupVaults/index.js";
@@ -17,6 +19,26 @@ import type { BackupsUnderBackupVaultOperations } from "./classic/backupsUnderBa
 import { _getBackupsUnderBackupVaultOperations } from "./classic/backupsUnderBackupVault/index.js";
 import type { BackupsUnderVolumeOperations } from "./classic/backupsUnderVolume/index.js";
 import { _getBackupsUnderVolumeOperations } from "./classic/backupsUnderVolume/index.js";
+import type { BucketsOperations } from "./classic/buckets/index.js";
+import { _getBucketsOperations } from "./classic/buckets/index.js";
+import type { CachesOperations } from "./classic/caches/index.js";
+import { _getCachesOperations } from "./classic/caches/index.js";
+import type { ElasticAccountsOperations } from "./classic/elasticAccounts/index.js";
+import { _getElasticAccountsOperations } from "./classic/elasticAccounts/index.js";
+import type { ElasticBackupPoliciesOperations } from "./classic/elasticBackupPolicies/index.js";
+import { _getElasticBackupPoliciesOperations } from "./classic/elasticBackupPolicies/index.js";
+import type { ElasticBackupVaultsOperations } from "./classic/elasticBackupVaults/index.js";
+import { _getElasticBackupVaultsOperations } from "./classic/elasticBackupVaults/index.js";
+import type { ElasticBackupsOperations } from "./classic/elasticBackups/index.js";
+import { _getElasticBackupsOperations } from "./classic/elasticBackups/index.js";
+import type { ElasticCapacityPoolsOperations } from "./classic/elasticCapacityPools/index.js";
+import { _getElasticCapacityPoolsOperations } from "./classic/elasticCapacityPools/index.js";
+import type { ElasticSnapshotPoliciesOperations } from "./classic/elasticSnapshotPolicies/index.js";
+import { _getElasticSnapshotPoliciesOperations } from "./classic/elasticSnapshotPolicies/index.js";
+import type { ElasticSnapshotsOperations } from "./classic/elasticSnapshots/index.js";
+import { _getElasticSnapshotsOperations } from "./classic/elasticSnapshots/index.js";
+import type { ElasticVolumesOperations } from "./classic/elasticVolumes/index.js";
+import { _getElasticVolumesOperations } from "./classic/elasticVolumes/index.js";
 import type { NetAppResourceOperations } from "./classic/netAppResource/index.js";
 import { _getNetAppResourceOperations } from "./classic/netAppResource/index.js";
 import type { NetAppResourceQuotaLimitsOperations } from "./classic/netAppResourceQuotaLimits/index.js";
@@ -31,6 +53,8 @@ import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { PoolsOperations } from "./classic/pools/index.js";
 import { _getPoolsOperations } from "./classic/pools/index.js";
+import type { RansomwareReportsOperations } from "./classic/ransomwareReports/index.js";
+import { _getRansomwareReportsOperations } from "./classic/ransomwareReports/index.js";
 import type { SnapshotPoliciesOperations } from "./classic/snapshotPolicies/index.js";
 import { _getSnapshotPoliciesOperations } from "./classic/snapshotPolicies/index.js";
 import type { SnapshotsOperations } from "./classic/snapshots/index.js";
@@ -78,7 +102,19 @@ export class NetAppManagementClient {
     this.accounts = _getAccountsOperations(this._client);
     this.netAppResourceRegionInfos = _getNetAppResourceRegionInfosOperations(this._client);
     this.netAppResourceQuotaLimits = _getNetAppResourceQuotaLimitsOperations(this._client);
+    this.activeDirectoryConfigs = _getActiveDirectoryConfigsOperations(this._client);
+    this.elasticBackups = _getElasticBackupsOperations(this._client);
+    this.elasticBackupPolicies = _getElasticBackupPoliciesOperations(this._client);
+    this.elasticBackupVaults = _getElasticBackupVaultsOperations(this._client);
+    this.elasticSnapshotPolicies = _getElasticSnapshotPoliciesOperations(this._client);
+    this.elasticSnapshots = _getElasticSnapshotsOperations(this._client);
+    this.elasticVolumes = _getElasticVolumesOperations(this._client);
+    this.elasticCapacityPools = _getElasticCapacityPoolsOperations(this._client);
+    this.elasticAccounts = _getElasticAccountsOperations(this._client);
+    this.caches = _getCachesOperations(this._client);
+    this.buckets = _getBucketsOperations(this._client);
     this.backupVaults = _getBackupVaultsOperations(this._client);
+    this.ransomwareReports = _getRansomwareReportsOperations(this._client);
     this.volumeQuotaRules = _getVolumeQuotaRulesOperations(this._client);
     this.backupPolicies = _getBackupPoliciesOperations(this._client);
     this.snapshotPolicies = _getSnapshotPoliciesOperations(this._client);
@@ -112,8 +148,32 @@ export class NetAppManagementClient {
   public readonly netAppResourceRegionInfos: NetAppResourceRegionInfosOperations;
   /** The operation groups for netAppResourceQuotaLimits */
   public readonly netAppResourceQuotaLimits: NetAppResourceQuotaLimitsOperations;
+  /** The operation groups for activeDirectoryConfigs */
+  public readonly activeDirectoryConfigs: ActiveDirectoryConfigsOperations;
+  /** The operation groups for elasticBackups */
+  public readonly elasticBackups: ElasticBackupsOperations;
+  /** The operation groups for elasticBackupPolicies */
+  public readonly elasticBackupPolicies: ElasticBackupPoliciesOperations;
+  /** The operation groups for elasticBackupVaults */
+  public readonly elasticBackupVaults: ElasticBackupVaultsOperations;
+  /** The operation groups for elasticSnapshotPolicies */
+  public readonly elasticSnapshotPolicies: ElasticSnapshotPoliciesOperations;
+  /** The operation groups for elasticSnapshots */
+  public readonly elasticSnapshots: ElasticSnapshotsOperations;
+  /** The operation groups for elasticVolumes */
+  public readonly elasticVolumes: ElasticVolumesOperations;
+  /** The operation groups for elasticCapacityPools */
+  public readonly elasticCapacityPools: ElasticCapacityPoolsOperations;
+  /** The operation groups for elasticAccounts */
+  public readonly elasticAccounts: ElasticAccountsOperations;
+  /** The operation groups for caches */
+  public readonly caches: CachesOperations;
+  /** The operation groups for buckets */
+  public readonly buckets: BucketsOperations;
   /** The operation groups for backupVaults */
   public readonly backupVaults: BackupVaultsOperations;
+  /** The operation groups for ransomwareReports */
+  public readonly ransomwareReports: RansomwareReportsOperations;
   /** The operation groups for volumeQuotaRules */
   public readonly volumeQuotaRules: VolumeQuotaRulesOperations;
   /** The operation groups for backupPolicies */

@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a Service Fabric node type of a given managed cluster.
  *
  * @summary delete a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: 2025-06-01-preview/NodeTypeDeleteOperation_example.json
+ * x-ms-original-file: 2025-10-01-preview/NodeTypeDeleteOperation_example.json
  */
 async function deleteANodeType() {
   const credential = new DefaultAzureCredential();

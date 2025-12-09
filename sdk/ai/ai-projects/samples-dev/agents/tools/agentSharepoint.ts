@@ -17,7 +17,7 @@ import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["AZURE_AI_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 const sharepointProjectConnectionId =
   process.env["SHAREPOINT_PROJECT_CONNECTION_ID"] || "<sharepoint project connection id>";
 

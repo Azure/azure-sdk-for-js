@@ -70,7 +70,7 @@
     "@azure/arm-batch": "workspace:^",
     "@azure/arm-compute": "workspace:^",
     "@azure/arm-keyvault": "workspace:^",
-    "@azure/arm-resources": "workspace:^",
+    "@azure/arm-resources": "catalog:arm",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",

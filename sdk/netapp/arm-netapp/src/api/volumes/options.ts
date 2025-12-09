@@ -10,6 +10,12 @@ import type {
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface VolumesListQuotaReportOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
 export interface VolumesRevertRelocationOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

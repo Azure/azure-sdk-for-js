@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createProjectsClient } from "../utils/createClient.js";
+import { createProjectsClient, getToolConnectionId } from "../utils/createClient.js";
 import { assert, beforeEach, it, describe } from "vitest";
 import { isLiveMode, isRecordMode } from "@azure-tools/test-recorder";
 import type OpenAI from "openai";
@@ -187,7 +187,7 @@ describe.skipIf(!isLiveOrRecord)("My test", () => {
       model: "gpt-5-mini",
       tools: [mcpTool],
       instructions,
-      previous_response_id: response.id,
+      conversation: conversation.id,
       input: input_list,
     });
 
@@ -220,4 +220,441 @@ describe.skipIf(!isLiveOrRecord)("My test", () => {
       `Web search response, response ID: ${response.id}, output text: ${response.output_text}`,
     );
   });
+
+  it("should create responses with OpenAPI tool", async function () {
+    // Inline OpenAPI spec for weather API (wttr.in)
+    const weatherOpenApiSpec = {
+      openapi: "3.1.0",
+      info: {
+        title: "get weather data",
+        description: "Retrieves current weather data for a location based on wttr.in.",
+        version: "v1.0.0",
+      },
+      servers: [{ url: "https://wttr.in" }],
+      auth: [],
+      paths: {
+        "/{location}": {
+          get: {
+            description: "Get weather information for a specific location",
+            operationId: "GetCurrentWeather",
+            parameters: [
+              {
+                name: "location",
+                in: "path",
+                description: "City or location to retrieve the weather for",
+                required: true,
+                schema: { type: "string" },
+              },
+              {
+                name: "format",
+                in: "query",
+                description: "Always use j1 value for this parameter",
+                required: true,
+                schema: { type: "string", default: "j1" },
+              },
+            ],
+            responses: {
+              "200": {
+                description: "Successful response",
+                content: { "text/plain": { schema: { type: "string" } } },
+              },
+              "404": { description: "Location not found" },
+            },
+            deprecated: false,
+          },
+        },
+      },
+      components: { schemes: {} },
+    };
+
+    const openApiTool: any = {
+      type: "openapi",
+      openapi: {
+        name: "get_weather",
+        description: "Retrieve weather information for a location",
+        spec: weatherOpenApiSpec,
+        auth: { type: "anonymous" },
+      },
+    };
+
+    const instructions =
+      "You are a helpful weather assistant. Use the get_weather tool to retrieve current weather information.";
+
+    // Create a conversation for the agent interaction
+    const conversation = await openAIClient.conversations.create();
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Send a query to get weather information
+    const response = await openAIClient.responses.create({
+      model: "gpt-5-mini",
+      tools: [openApiTool],
+      instructions,
+      conversation: conversation.id,
+      input: "What is the weather in Seattle?",
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.id);
+    console.log(
+      `OpenAPI tool response, response ID: ${response.id}, output text: ${response.output_text}`,
+    );
+
+    // The response should contain weather information or indicate tool usage
+    assert.isNotNull(response.output);
+    console.log(`Response output items: ${response.output.length}`);
+  }, 60000);
+
+  it("should create responses with SharePoint tool", async function () {
+    const sharepointConnectionId = getToolConnectionId("sharepoint");
+
+    const sharepointTool: any = {
+      type: "sharepoint_grounding_preview",
+      sharepoint_grounding_preview: {
+        project_connections: [
+          {
+            project_connection_id: sharepointConnectionId,
+          },
+        ],
+      },
+    };
+
+    const instructions =
+      "You are a helpful agent that can use SharePoint tools to assist users. Use the available SharePoint tools to answer questions and perform tasks.";
+
+    // Create a conversation for the agent interaction
+    const conversation = await openAIClient.conversations.create();
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Send a query to search SharePoint content
+    const response = await openAIClient.responses.create({
+      model: "gpt-5-mini",
+      tools: [sharepointTool],
+      instructions,
+      conversation: conversation.id,
+      input: "Please summarize the last meeting notes stored in SharePoint.",
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.id);
+    console.log(
+      `SharePoint tool response, response ID: ${response.id}, output text: ${response.output_text}`,
+    );
+
+    // The response should contain SharePoint content or indicate tool usage
+    assert.isNotNull(response.output);
+    console.log(`Response output items: ${response.output.length}`);
+  }, 60000);
+
+  it("should create responses with Microsoft Fabric tool", async function () {
+    const fabricConnectionId = getToolConnectionId("fabric");
+
+    const fabricTool: any = {
+      type: "fabric_dataagent_preview",
+      fabric_dataagent_preview: {
+        project_connections: [
+          {
+            project_connection_id: fabricConnectionId,
+          },
+        ],
+      },
+    };
+
+    const instructions =
+      "You are a helpful assistant that can query Microsoft Fabric data sources.";
+
+    // Create a conversation for the agent interaction
+    const conversation = await openAIClient.conversations.create();
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Send a query to Fabric data sources
+    const response = await openAIClient.responses.create({
+      model: "gpt-5-mini",
+      tools: [fabricTool],
+      instructions,
+      conversation: conversation.id,
+      input: "Tell me about sales records.",
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.id);
+    console.log(
+      `Fabric tool response, response ID: ${response.id}, output text: ${response.output_text}`,
+    );
+
+    // The response should contain Fabric data or indicate tool usage
+    assert.isNotNull(response.output);
+    console.log(`Response output items: ${response.output.length}`);
+  }, 60000);
+
+  it("should create responses with A2A (Agent-to-Agent) tool", async function () {
+    const a2aConnectionId = getToolConnectionId("a2a");
+
+    const a2aTool: any = {
+      type: "a2a_preview",
+      project_connection_id: a2aConnectionId,
+    };
+
+    const instructions = "You are a helpful assistant that can communicate with other agents.";
+
+    // Create a conversation for the agent interaction
+    const conversation = await openAIClient.conversations.create();
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Send a query to trigger A2A communication
+    const response = await openAIClient.responses.create({
+      model: "gpt-5-mini",
+      tools: [a2aTool],
+      instructions,
+      conversation: conversation.id,
+      input: "What can the secondary agent do?",
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.id);
+    console.log(
+      `A2A tool response, response ID: ${response.id}, output text: ${response.output_text}`,
+    );
+
+    // The response should contain A2A communication result or indicate tool usage
+    assert.isNotNull(response.output);
+    console.log(`Response output items: ${response.output.length}`);
+  }, 60000);
+
+  it("should create responses with Bing Custom Search tool", async function () {
+    const bingCustomSearchConnectionId = getToolConnectionId("bing-custom-search");
+    const bingCustomSearchInstanceName =
+      process.env["BING_CUSTOM_SEARCH_INSTANCE_NAME"] || "test-instance";
+
+    const bingCustomSearchTool: any = {
+      type: "bing_custom_search_preview",
+      bing_custom_search_preview: {
+        search_configurations: [
+          {
+            project_connection_id: bingCustomSearchConnectionId,
+            instance_name: bingCustomSearchInstanceName,
+          },
+        ],
+      },
+    };
+
+    const instructions =
+      "You are a helpful agent that can use Bing Custom Search tools to assist users. Use the available Bing Custom Search tools to answer questions and perform tasks.";
+
+    // Create a conversation for the agent interaction
+    const conversation = await openAIClient.conversations.create();
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Send a query to search using Bing Custom Search
+    const response = await openAIClient.responses.create({
+      model: "gpt-5-mini",
+      tools: [bingCustomSearchTool],
+      instructions,
+      conversation: conversation.id,
+      input: "Tell me more about foundry agent service.",
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.id);
+    console.log(
+      `Bing Custom Search tool response, response ID: ${response.id}, output text: ${response.output_text}`,
+    );
+
+    // The response should contain search results or indicate tool usage
+    assert.isNotNull(response.output);
+    console.log(`Response output items: ${response.output.length}`);
+  }, 60000);
+
+  it("should create responses with Bing Grounding tool", async function () {
+    const bingGroundingConnectionId = getToolConnectionId("bing-grounding");
+
+    const bingGroundingTool: any = {
+      type: "bing_grounding",
+      bing_grounding: {
+        search_configurations: [
+          {
+            project_connection_id: bingGroundingConnectionId,
+          },
+        ],
+      },
+    };
+
+    const instructions =
+      "You are a helpful assistant that can search the web for current information.";
+
+    // Create a conversation for the agent interaction
+    const conversation = await openAIClient.conversations.create();
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Send a query that requires current information from the web
+    const response = await openAIClient.responses.create({
+      model: "gpt-5-mini",
+      tools: [bingGroundingTool],
+      instructions,
+      conversation: conversation.id,
+      input: "What is today's date and weather in Seattle?",
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.id);
+    console.log(
+      `Bing Grounding tool response, response ID: ${response.id}, output text: ${response.output_text}`,
+    );
+
+    // The response should contain grounded web results or indicate tool usage
+    assert.isNotNull(response.output);
+    console.log(`Response output items: ${response.output.length}`);
+  }, 60000);
+
+  it("should create responses with Azure AI Search tool", async function () {
+    const aiSearchConnectionId = getToolConnectionId("azure-ai-search");
+    const aiSearchIndexName = process.env["AI_SEARCH_INDEX_NAME"] || "test-index";
+
+    const aiSearchTool: any = {
+      type: "azure_ai_search",
+      azure_ai_search: {
+        indexes: [
+          {
+            project_connection_id: aiSearchConnectionId,
+            index_name: aiSearchIndexName,
+            query_type: "simple",
+          },
+        ],
+      },
+    };
+
+    const instructions =
+      "You are a helpful assistant. You must always provide citations for answers using the tool.";
+
+    // Create a conversation for the agent interaction
+    const conversation = await openAIClient.conversations.create();
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Send a query to search indexed content
+    const response = await openAIClient.responses.create({
+      model: "gpt-5-mini",
+      tools: [aiSearchTool],
+      instructions,
+      conversation: conversation.id,
+      input: "Tell me about the services available.",
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.id);
+    console.log(
+      `Azure AI Search tool response, response ID: ${response.id}, output text: ${response.output_text}`,
+    );
+
+    // The response should contain search results or indicate tool usage
+    assert.isNotNull(response.output);
+    console.log(`Response output items: ${response.output.length}`);
+  }, 60000);
+
+  it("should create responses with Browser Automation tool", async function () {
+    const browserAutomationConnectionId = getToolConnectionId("browser-automation");
+
+    const browserAutomationTool: any = {
+      type: "browser_automation_preview",
+      browser_automation_preview: {
+        connection: {
+          project_connection_id: browserAutomationConnectionId,
+        },
+      },
+    };
+
+    const instructions = `You are an Agent helping with browser automation tasks. 
+      You can answer questions, provide information, and assist with various tasks 
+      related to web browsing using the Browser Automation tool available to you.`;
+
+    // Create a conversation for the agent interaction
+    const conversation = await openAIClient.conversations.create();
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Send a browser automation request
+    const response = await openAIClient.responses.create({
+      model: "gpt-5-mini",
+      tools: [browserAutomationTool],
+      instructions,
+      conversation: conversation.id,
+      input: "Go to finance.yahoo.com and search for MSFT stock price.",
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.id);
+    console.log(
+      `Browser Automation tool response, response ID: ${response.id}, output text: ${response.output_text}`,
+    );
+
+    // The response should contain browser automation results or indicate tool usage
+    assert.isNotNull(response.output);
+    console.log(`Response output items: ${response.output.length}`);
+  }, 120000);
+
+  it("should create responses with Memory Search tool", async function () {
+    const chatModelDeployment = process.env["AZURE_AI_CHAT_MODEL_DEPLOYMENT_NAME"] || "gpt-4o-mini";
+    const embeddingModelDeployment =
+      process.env["AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "text-embedding-3-large";
+    const memoryStoreName = `test_memory_store_${Date.now()}`;
+    const scope = "test_user_123";
+
+    try {
+      // Create a memory store with chat and embedding models
+      const memoryStore = await projectsClient.memoryStores.create(
+        memoryStoreName,
+        {
+          kind: "default",
+          chat_model: chatModelDeployment,
+          embedding_model: embeddingModelDeployment,
+        },
+        {
+          description: "Memory store for test conversations",
+        },
+      );
+      console.log(`Created memory store: ${memoryStore.name} (${memoryStore.id})`);
+
+      const memorySearchTool: any = {
+        type: "memory_search",
+        memory_store_name: memoryStore.name,
+        scope,
+        update_delay: 1,
+      };
+
+      const instructions =
+        "You are a helpful assistant that remembers user preferences using the memory search tool.";
+
+      // Create a conversation for the agent interaction
+      const conversation = await openAIClient.conversations.create();
+      console.log(`Created conversation (id: ${conversation.id})`);
+
+      // Send a request to store a memory
+      const response = await openAIClient.responses.create({
+        model: "gpt-5-mini",
+        tools: [memorySearchTool],
+        instructions,
+        conversation: conversation.id,
+        input: "My favorite color is blue. Please remember this.",
+      });
+
+      assert.isNotNull(response);
+      assert.isNotNull(response.id);
+      console.log(
+        `Memory Search tool response, response ID: ${response.id}, output text: ${response.output_text}`,
+      );
+
+      // The response should indicate memory was stored or tool usage
+      assert.isNotNull(response.output);
+      console.log(`Response output items: ${response.output.length}`);
+
+      // Clean up memory store
+      await projectsClient.memoryStores.delete(memoryStoreName);
+      console.log(`Deleted memory store: ${memoryStoreName}`);
+    } catch (error: any) {
+      // Clean up memory store on error
+      try {
+        await projectsClient.memoryStores.delete(memoryStoreName);
+      } catch {
+        // Ignore cleanup errors
+      }
+      throw error;
+    }
+  }, 120000);
 });

@@ -5,17 +5,19 @@ import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse.js"
 import type { FeedOptions } from "../request/FeedOptions.js";
 import type { DocumentProducer } from "./documentProducer.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { Response } from "../request/index.js";
+
 import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator.js";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
+import { TargetPartitionRangeManager } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
+import { OrderByQueryProcessingStrategy } from "./queryProcessingStrategy/OrderByQueryProcessingStrategy.js";
 
 /** @hidden */
 export class OrderByQueryExecutionContext
   extends ParallelQueryExecutionContextBase
   implements ExecutionContext
 {
-  private orderByComparator: any;
   /**
    * Provides the OrderByQueryExecutionContext.
    * This class is capable of handling orderby queries and dervives from ParallelQueryExecutionContextBase.
@@ -37,6 +39,25 @@ export class OrderByQueryExecutionContext
     partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
     correlatedActivityId: string,
   ) {
+    const rangeManager = TargetPartitionRangeManager.createForOrderByQuery({
+      queryInfo: partitionedQueryExecutionInfo,
+    });
+
+    // Create ORDER BY query processing strategy with sortOrders
+    const processingStrategy = new OrderByQueryProcessingStrategy(
+      partitionedQueryExecutionInfo.queryInfo.orderBy,
+    );
+
+    // Create ORDER BY comparator (need to access sortOrders from partitionedQueryExecutionInfo)
+    const orderByComparator = new OrderByDocumentProducerComparator(
+      partitionedQueryExecutionInfo.queryInfo.orderBy,
+    );
+
+    // Create comparator function for ORDER BY queries
+    const comparator = (docProd1: DocumentProducer, docProd2: DocumentProducer): number => {
+      return orderByComparator.compare(docProd1, docProd2);
+    };
+
     // Calling on base class constructor
     super(
       clientContext,
@@ -45,35 +66,34 @@ export class OrderByQueryExecutionContext
       options,
       partitionedQueryExecutionInfo,
       correlatedActivityId,
+      rangeManager,
+      processingStrategy,
+      comparator,
     );
-    this.orderByComparator = new OrderByDocumentProducerComparator(this.sortOrders);
-  }
-  // Instance members are inherited
-
-  // Overriding documentProducerComparator for OrderByQueryExecutionContexts
-  /**
-   * Provides a Comparator for document producers which respects orderby sort order.
-   * @returns Comparator Function
-   * @hidden
-   */
-  public documentProducerComparator(docProd1: DocumentProducer, docProd2: DocumentProducer): any {
-    return this.orderByComparator.compare(docProd1, docProd2);
   }
 
   /**
-   * Fetches more results from the query execution context.
-   * @param diagnosticNode - Optional diagnostic node for tracing.
-   * @returns A promise that resolves to the fetched results.
-   * @hidden
+   * Fetches next single item from producer for ORDER BY processing.
    */
-  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<any> {
-    try {
-      await this.bufferDocumentProducers(diagnosticNode);
-      await this.fillBufferFromBufferQueue(true);
-      return this.drainBufferedItems();
-    } catch (error) {
-      console.error("Error fetching more results:", error);
-      throw error;
+  protected async fetchFromProducer(producer: DocumentProducer): Promise<Response<any>> {
+    const response = await producer.fetchNextItem();
+    if (response && response.result) {
+      return {
+        result: [response.result],
+        headers: response.headers,
+      };
     }
+    return response;
+  }
+
+  /**
+   * Determines if buffered producers should continue to be processed for ORDER BY queries.
+   * For ORDER BY, only process when no unfilled producers remain to maintain order.
+   * @param isUnfilledQueueEmpty - Whether the unfilled queue is empty
+   * @hidden
+   */
+  protected shouldProcessBufferedProducers(isUnfilledQueueEmpty: boolean): boolean {
+    // For ORDER BY, only process when no unfilled producers remain to maintain order
+    return isUnfilledQueueEmpty;
   }
 }

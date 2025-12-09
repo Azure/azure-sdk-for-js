@@ -7,8 +7,7 @@ import type { OperationOptions } from "@azure-rest/core-client";
 export interface CertificateProfilesRevokeCertificateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CertificateProfilesListByCodeSigningAccountOptionalParams
-  extends OperationOptions {}
+export interface CertificateProfilesListByCodeSigningAccountOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface CertificateProfilesDeleteOptionalParams extends OperationOptions {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all Node types of the specified managed cluster.
  *
  * @summary gets all Node types of the specified managed cluster.
- * x-ms-original-file: 2025-06-01-preview/NodeTypeListOperation_example.json
+ * x-ms-original-file: 2025-10-01-preview/NodeTypeListOperation_example.json
  */
 async function listNodeTypeOfTheSpecifiedManagedCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

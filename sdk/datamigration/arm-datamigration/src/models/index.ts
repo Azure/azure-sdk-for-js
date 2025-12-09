@@ -3693,8 +3693,7 @@ export interface ConnectToTargetSqlDbSyncTaskProperties extends ProjectTaskPrope
 }
 
 /** Properties for the task that validates connection to Azure Database For PostgreSQL server and target server requirements for online migration */
-export interface ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties
-  extends ProjectTaskProperties {
+export interface ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties extends ProjectTaskProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   taskType: "ConnectToTarget.AzureDbForPostgreSql.Sync";
   /** Task input */
@@ -3707,8 +3706,7 @@ export interface ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties
 }
 
 /** Properties for the task that validates connection to Azure Database For PostgreSQL server and target server requirements for online migration for Oracle source. */
-export interface ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties
-  extends ProjectTaskProperties {
+export interface ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties extends ProjectTaskProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   taskType: "ConnectToTarget.Oracle.AzureDbForPostgreSql.Sync";
   /** Task input */
@@ -3935,8 +3933,7 @@ export interface MigrateMySqlAzureDbForMySqlOfflineTaskProperties extends Projec
 }
 
 /** Properties for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for online migrations */
-export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties
-  extends ProjectTaskProperties {
+export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties extends ProjectTaskProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   taskType: "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2";
   /** Task input */
@@ -3968,8 +3965,7 @@ export interface MigrateOracleAzureDbForPostgreSqlSyncTaskProperties extends Pro
 }
 
 /** Properties for task that validates migration input for SQL to Azure SQL DB sync migrations */
-export interface ValidateMigrationInputSqlServerSqlDbSyncTaskProperties
-  extends ProjectTaskProperties {
+export interface ValidateMigrationInputSqlServerSqlDbSyncTaskProperties extends ProjectTaskProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   taskType: "ValidateMigrationInput.SqlServer.SqlDb.Sync";
   /** Task input */
@@ -3995,8 +3991,7 @@ export interface ValidateMigrationInputSqlServerSqlMITaskProperties extends Proj
 }
 
 /** Properties for task that validates migration input for SQL to Azure SQL Database Managed Instance sync scenario */
-export interface ValidateMigrationInputSqlServerSqlMISyncTaskProperties
-  extends ProjectTaskProperties {
+export interface ValidateMigrationInputSqlServerSqlMISyncTaskProperties extends ProjectTaskProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   taskType: "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS";
   /** Task input */
@@ -4022,8 +4017,7 @@ export interface ValidateMongoDbTaskProperties extends ProjectTaskProperties {
 }
 
 /** Properties for the task that validates a migration for Oracle to Azure Database for PostgreSQL for online migrations */
-export interface ValidateOracleAzureDbForPostgreSqlSyncTaskProperties
-  extends ProjectTaskProperties {
+export interface ValidateOracleAzureDbForPostgreSqlSyncTaskProperties extends ProjectTaskProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   taskType: "Validate.Oracle.AzureDbPostgreSql.Sync";
   /** Input for the task that migrates Oracle databases to Azure Database for PostgreSQL for online migrations */
@@ -4237,8 +4231,7 @@ export interface MiSqlConnectionInfo extends ConnectionInfo {
 }
 
 /** Task level output for the task that validates connection to SQL Server and also validates source server requirements */
-export interface ConnectToSourceSqlServerTaskOutputTaskLevel
-  extends ConnectToSourceSqlServerTaskOutput {
+export interface ConnectToSourceSqlServerTaskOutputTaskLevel extends ConnectToSourceSqlServerTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "TaskLevelOutput";
   /**
@@ -4279,8 +4272,7 @@ export interface ConnectToSourceSqlServerTaskOutputTaskLevel
 }
 
 /** Database level output for the task that validates connection to SQL Server and also validates source server requirements */
-export interface ConnectToSourceSqlServerTaskOutputDatabaseLevel
-  extends ConnectToSourceSqlServerTaskOutput {
+export interface ConnectToSourceSqlServerTaskOutputDatabaseLevel extends ConnectToSourceSqlServerTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "DatabaseLevelOutput";
   /**
@@ -4311,8 +4303,7 @@ export interface ConnectToSourceSqlServerTaskOutputDatabaseLevel
 }
 
 /** Login level output for the task that validates connection to SQL Server and also validates source server requirements */
-export interface ConnectToSourceSqlServerTaskOutputLoginLevel
-  extends ConnectToSourceSqlServerTaskOutput {
+export interface ConnectToSourceSqlServerTaskOutputLoginLevel extends ConnectToSourceSqlServerTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "LoginLevelOutput";
   /**
@@ -4343,8 +4334,7 @@ export interface ConnectToSourceSqlServerTaskOutputLoginLevel
 }
 
 /** Agent Job level output for the task that validates connection to SQL Server and also validates source server requirements */
-export interface ConnectToSourceSqlServerTaskOutputAgentJobLevel
-  extends ConnectToSourceSqlServerTaskOutput {
+export interface ConnectToSourceSqlServerTaskOutputAgentJobLevel extends ConnectToSourceSqlServerTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "AgentJobLevelOutput";
   /**
@@ -4446,8 +4436,7 @@ export interface MigrateSsisTaskInput extends SqlMigrationTaskInput {
   ssisMigrationInfo: SsisMigrationInfo;
 }
 
-export interface MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel
-  extends MigrateSchemaSqlServerSqlDbTaskOutput {
+export interface MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel extends MigrateSchemaSqlServerSqlDbTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "MigrationLevelOutput";
   /**
@@ -4487,8 +4476,7 @@ export interface MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel
   readonly targetServerBrandVersion?: string;
 }
 
-export interface MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel
-  extends MigrateSchemaSqlServerSqlDbTaskOutput {
+export interface MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel extends MigrateSchemaSqlServerSqlDbTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "DatabaseLevelOutput";
   /**
@@ -4543,8 +4531,7 @@ export interface MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel
   readonly fileId?: string;
 }
 
-export interface MigrateSchemaSqlServerSqlDbTaskOutputError
-  extends MigrateSchemaSqlServerSqlDbTaskOutput {
+export interface MigrateSchemaSqlServerSqlDbTaskOutputError extends MigrateSchemaSqlServerSqlDbTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "SchemaErrorOutput";
   /**
@@ -4569,8 +4556,7 @@ export interface MigrateSchemaSqlTaskOutputError extends MigrateSchemaSqlServerS
   readonly error?: ReportableException;
 }
 
-export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel
-  extends MigrateMySqlAzureDbForMySqlSyncTaskOutput {
+export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel extends MigrateMySqlAzureDbForMySqlSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "MigrationLevelOutput";
   /**
@@ -4605,8 +4591,7 @@ export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel
   readonly targetServer?: string;
 }
 
-export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel
-  extends MigrateMySqlAzureDbForMySqlSyncTaskOutput {
+export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel extends MigrateMySqlAzureDbForMySqlSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "DatabaseLevelOutput";
   /**
@@ -4686,8 +4671,7 @@ export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel
   readonly latency?: number;
 }
 
-export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel
-  extends MigrateMySqlAzureDbForMySqlSyncTaskOutput {
+export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel extends MigrateMySqlAzureDbForMySqlSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "TableLevelOutput";
   /**
@@ -4757,8 +4741,7 @@ export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel
   readonly lastModifiedTime?: Date;
 }
 
-export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputError
-  extends MigrateMySqlAzureDbForMySqlSyncTaskOutput {
+export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputError extends MigrateMySqlAzureDbForMySqlSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "ErrorOutput";
   /**
@@ -4768,8 +4751,7 @@ export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputError
   readonly error?: ReportableException;
 }
 
-export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError
-  extends MigrateMySqlAzureDbForMySqlSyncTaskOutput {
+export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError extends MigrateMySqlAzureDbForMySqlSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "DatabaseLevelErrorOutput";
   /** Error message */
@@ -4778,8 +4760,7 @@ export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError
   events?: SyncMigrationDatabaseErrorEvent[];
 }
 
-export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel
-  extends MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
+export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel extends MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "MigrationLevelOutput";
   /**
@@ -4831,8 +4812,7 @@ export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLev
   databaseCount?: number;
 }
 
-export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel
-  extends MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
+export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel extends MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "DatabaseLevelOutput";
   /**
@@ -4912,8 +4892,7 @@ export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLeve
   readonly latency?: number;
 }
 
-export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel
-  extends MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
+export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel extends MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "TableLevelOutput";
   /**
@@ -4983,8 +4962,7 @@ export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel
   readonly lastModifiedTime?: Date;
 }
 
-export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError
-  extends MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
+export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError extends MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "ErrorOutput";
   /**
@@ -4996,8 +4974,7 @@ export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError
   events?: SyncMigrationDatabaseErrorEvent[];
 }
 
-export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError
-  extends MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
+export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError extends MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "DatabaseLevelErrorOutput";
   /** Error message */
@@ -5006,8 +4983,7 @@ export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseErro
   events?: SyncMigrationDatabaseErrorEvent[];
 }
 
-export interface MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel
-  extends MigrateSqlServerSqlDbSyncTaskOutput {
+export interface MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel extends MigrateSqlServerSqlDbSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "MigrationLevelOutput";
   /**
@@ -5047,8 +5023,7 @@ export interface MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel
   readonly databaseCount?: number;
 }
 
-export interface MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel
-  extends MigrateSqlServerSqlDbSyncTaskOutput {
+export interface MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel extends MigrateSqlServerSqlDbSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "DatabaseLevelOutput";
   /**
@@ -5128,8 +5103,7 @@ export interface MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel
   readonly latency?: number;
 }
 
-export interface MigrateSqlServerSqlDbSyncTaskOutputTableLevel
-  extends MigrateSqlServerSqlDbSyncTaskOutput {
+export interface MigrateSqlServerSqlDbSyncTaskOutputTableLevel extends MigrateSqlServerSqlDbSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "TableLevelOutput";
   /**
@@ -5199,8 +5173,7 @@ export interface MigrateSqlServerSqlDbSyncTaskOutputTableLevel
   readonly lastModifiedTime?: Date;
 }
 
-export interface MigrateSqlServerSqlDbSyncTaskOutputError
-  extends MigrateSqlServerSqlDbSyncTaskOutput {
+export interface MigrateSqlServerSqlDbSyncTaskOutputError extends MigrateSqlServerSqlDbSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "ErrorOutput";
   /**
@@ -5210,8 +5183,7 @@ export interface MigrateSqlServerSqlDbSyncTaskOutputError
   readonly error?: ReportableException;
 }
 
-export interface MigrateSqlServerSqlDbSyncTaskOutputDatabaseError
-  extends MigrateSqlServerSqlDbSyncTaskOutput {
+export interface MigrateSqlServerSqlDbSyncTaskOutputDatabaseError extends MigrateSqlServerSqlDbSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "DatabaseLevelErrorOutput";
   /** Error message */
@@ -5220,8 +5192,7 @@ export interface MigrateSqlServerSqlDbSyncTaskOutputDatabaseError
   events?: SyncMigrationDatabaseErrorEvent[];
 }
 
-export interface MigrateSqlServerSqlDbTaskOutputMigrationLevel
-  extends MigrateSqlServerSqlDbTaskOutput {
+export interface MigrateSqlServerSqlDbTaskOutputMigrationLevel extends MigrateSqlServerSqlDbTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "MigrationLevelOutput";
   /**
@@ -5295,8 +5266,7 @@ export interface MigrateSqlServerSqlDbTaskOutputMigrationLevel
   readonly exceptionsAndWarnings?: ReportableException[];
 }
 
-export interface MigrateSqlServerSqlDbTaskOutputDatabaseLevel
-  extends MigrateSqlServerSqlDbTaskOutput {
+export interface MigrateSqlServerSqlDbTaskOutputDatabaseLevel extends MigrateSqlServerSqlDbTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "DatabaseLevelOutput";
   /**
@@ -5432,15 +5402,13 @@ export interface MigrateSqlServerSqlDbTaskOutputError extends MigrateSqlServerSq
 }
 
 export interface MigrateSqlServerSqlDbTaskOutputValidationResult
-  extends MigrateSqlServerSqlDbTaskOutput,
-    MigrationValidationResult {
+  extends MigrateSqlServerSqlDbTaskOutput, MigrationValidationResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "MigrationValidationOutput";
 }
 
 export interface MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult
-  extends MigrateSqlServerSqlDbTaskOutput,
-    MigrationValidationDatabaseLevelResult {
+  extends MigrateSqlServerSqlDbTaskOutput, MigrationValidationDatabaseLevelResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "MigrationDatabaseLevelValidationOutput";
 }
@@ -5461,11 +5429,9 @@ export interface MigrateSqlServerSqlMISyncTaskInput extends SqlServerSqlMISyncTa
 }
 
 /** Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online scenario. */
-export interface ValidateMigrationInputSqlServerSqlMISyncTaskInput
-  extends SqlServerSqlMISyncTaskInput {}
+export interface ValidateMigrationInputSqlServerSqlMISyncTaskInput extends SqlServerSqlMISyncTaskInput {}
 
-export interface MigrateSqlServerSqlMISyncTaskOutputMigrationLevel
-  extends MigrateSqlServerSqlMISyncTaskOutput {
+export interface MigrateSqlServerSqlMISyncTaskOutputMigrationLevel extends MigrateSqlServerSqlMISyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "MigrationLevelOutput";
   /**
@@ -5525,8 +5491,7 @@ export interface MigrateSqlServerSqlMISyncTaskOutputMigrationLevel
   readonly databaseErrorCount?: number;
 }
 
-export interface MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel
-  extends MigrateSqlServerSqlMISyncTaskOutput {
+export interface MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel extends MigrateSqlServerSqlMISyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "DatabaseLevelOutput";
   /**
@@ -5586,8 +5551,7 @@ export interface MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel
   readonly exceptionsAndWarnings?: ReportableException[];
 }
 
-export interface MigrateSqlServerSqlMISyncTaskOutputError
-  extends MigrateSqlServerSqlMISyncTaskOutput {
+export interface MigrateSqlServerSqlMISyncTaskOutputError extends MigrateSqlServerSqlMISyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "ErrorOutput";
   /**
@@ -5597,8 +5561,7 @@ export interface MigrateSqlServerSqlMISyncTaskOutputError
   readonly error?: ReportableException;
 }
 
-export interface MigrateSqlServerSqlMITaskOutputMigrationLevel
-  extends MigrateSqlServerSqlMITaskOutput {
+export interface MigrateSqlServerSqlMITaskOutputMigrationLevel extends MigrateSqlServerSqlMITaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "MigrationLevelOutput";
   /**
@@ -5678,8 +5641,7 @@ export interface MigrateSqlServerSqlMITaskOutputMigrationLevel
   readonly exceptionsAndWarnings?: ReportableException[];
 }
 
-export interface MigrateSqlServerSqlMITaskOutputDatabaseLevel
-  extends MigrateSqlServerSqlMITaskOutput {
+export interface MigrateSqlServerSqlMITaskOutputDatabaseLevel extends MigrateSqlServerSqlMITaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "DatabaseLevelOutput";
   /**
@@ -5724,8 +5686,7 @@ export interface MigrateSqlServerSqlMITaskOutputDatabaseLevel
   readonly exceptionsAndWarnings?: ReportableException[];
 }
 
-export interface MigrateSqlServerSqlMITaskOutputAgentJobLevel
-  extends MigrateSqlServerSqlMITaskOutput {
+export interface MigrateSqlServerSqlMITaskOutputAgentJobLevel extends MigrateSqlServerSqlMITaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "AgentJobLevelOutput";
   /**
@@ -5969,8 +5930,7 @@ export interface MongoDbMigrationProgress extends MongoDbProgress {
   databases?: { [propertyName: string]: MongoDbDatabaseProgress };
 }
 
-export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel
-  extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
+export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "MigrationLevelOutput";
   /**
@@ -6005,8 +5965,7 @@ export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel
   readonly targetServer?: string;
 }
 
-export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel
-  extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
+export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "DatabaseLevelOutput";
   /**
@@ -6086,8 +6045,7 @@ export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel
   readonly latency?: number;
 }
 
-export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel
-  extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
+export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "TableLevelOutput";
   /**
@@ -6157,8 +6115,7 @@ export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel
   readonly lastModifiedTime?: Date;
 }
 
-export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputError
-  extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
+export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputError extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "ErrorOutput";
   /**
@@ -6168,8 +6125,7 @@ export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputError
   readonly error?: ReportableException;
 }
 
-export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError
-  extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
+export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "DatabaseLevelErrorOutput";
   /** Error message */
@@ -6178,8 +6134,7 @@ export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError
   events?: SyncMigrationDatabaseErrorEvent[];
 }
 
-export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel
-  extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
+export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "MigrationLevelOutput";
   /**
@@ -6253,8 +6208,7 @@ export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel
   readonly lastStorageUpdate?: Date;
 }
 
-export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel
-  extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
+export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "DatabaseLevelOutput";
   /**
@@ -6334,8 +6288,7 @@ export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel
   readonly objectSummary?: string;
 }
 
-export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel
-  extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
+export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "TableLevelOutput";
   /**
@@ -6390,8 +6343,7 @@ export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel
   readonly lastStorageUpdate?: Date;
 }
 
-export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputError
-  extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
+export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputError extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "ErrorOutput";
   /**

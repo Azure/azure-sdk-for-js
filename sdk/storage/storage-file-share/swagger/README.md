@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/596d8d2a8c1c50bd6ebe60036143f4c4787fc816/specification/storage/data-plane/Microsoft.FileStorage/stable/2025-11-05/file.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b6472ffd34d5d4a155101b41b4eb1f356abff600/specification/storage/data-plane/Microsoft.FileStorage/stable/2026-02-06/file.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -21,7 +21,7 @@ add-credentials: false
 core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "6.0.42"
-package-version: 12.29.1
+package-version: 12.30.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -908,4 +908,26 @@ directive:
     where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}?comp=range"]["put"]["responses"]["201"]["headers"]
     transform: >
       delete $["x-ms-structured-body"];
+```
+
+### Remove EnableSmbDirectoryLease
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}?restype=share"]["put"]
+    transform: >
+      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/EnableSmbDirectoryLease"))});
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}?restype=share"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      delete $["x-ms-enable-smb-directory-lease"];
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}?restype=share&comp=properties"]["put"]
+    transform: >
+      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/EnableSmbDirectoryLease"))});
+  - from: swagger-document
+    where: $["definitions"]["SharePropertiesInternal"]["properties"]
+    transform: >
+      delete $["EnableSmbDirectoryLease"]
 ```
