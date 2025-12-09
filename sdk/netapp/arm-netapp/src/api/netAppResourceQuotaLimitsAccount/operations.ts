@@ -22,9 +22,7 @@ export function _listSend(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: NetAppResourceQuotaLimitsAccountListOptionalParams = {
-    requestOptions: {},
-  },
+  options: NetAppResourceQuotaLimitsAccountListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/quotaLimits{?api%2Dversion}",
@@ -40,10 +38,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -63,9 +58,7 @@ export function list(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: NetAppResourceQuotaLimitsAccountListOptionalParams = {
-    requestOptions: {},
-  },
+  options: NetAppResourceQuotaLimitsAccountListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<QuotaItem> {
   return buildPagedAsyncIterator(
     context,
@@ -81,9 +74,7 @@ export function _getSend(
   resourceGroupName: string,
   accountName: string,
   quotaLimitName: string,
-  options: NetAppResourceQuotaLimitsAccountGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: NetAppResourceQuotaLimitsAccountGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/quotaLimits/{quotaLimitName}{?api%2Dversion}",
@@ -100,10 +91,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -124,9 +112,7 @@ export async function get(
   resourceGroupName: string,
   accountName: string,
   quotaLimitName: string,
-  options: NetAppResourceQuotaLimitsAccountGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: NetAppResourceQuotaLimitsAccountGetOptionalParams = { requestOptions: {} },
 ): Promise<QuotaItem> {
   const result = await _getSend(context, resourceGroupName, accountName, quotaLimitName, options);
   return _getDeserialize(result);

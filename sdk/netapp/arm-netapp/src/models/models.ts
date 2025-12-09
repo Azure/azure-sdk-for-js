@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /**
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
@@ -36,8 +38,8 @@ export interface Operation {
   display?: OperationDisplay;
   /** The origin of operations. */
   origin?: string;
-  /** Properties of operation, include metric specifications. */
-  properties?: OperationProperties;
+  /** One property of operation, include metric specifications. */
+  serviceSpecification?: ServiceSpecification;
 }
 
 export function operationDeserializer(item: any): Operation {
@@ -45,9 +47,9 @@ export function operationDeserializer(item: any): Operation {
     name: item["name"],
     display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : operationPropertiesDeserializer(item["properties"]),
+      : _operationPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -296,8 +298,12 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 
 /** Information regarding Quota Item. */
 export interface QuotaItem extends ProxyResource {
-  /** QuotaItem properties */
-  properties?: QuotaItemProperties;
+  /** The current quota value. */
+  readonly current?: number;
+  /** The default quota value. */
+  readonly default?: number;
+  /** The usage quota value. */
+  readonly usage?: number | null;
 }
 
 export function quotaItemDeserializer(item: any): QuotaItem {
@@ -308,9 +314,9 @@ export function quotaItemDeserializer(item: any): QuotaItem {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : quotaItemPropertiesDeserializer(item["properties"]),
+      : _quotaItemPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -453,17 +459,21 @@ export function quotaItemArrayDeserializer(result: Array<QuotaItem>): any[] {
 
 /** Volume group resource for create */
 export interface VolumeGroupDetails extends ProxyResource {
-  /** Volume group properties */
-  properties?: VolumeGroupProperties;
   /** Resource location */
   location?: string;
+  /** Azure lifecycle management */
+  readonly provisioningState?: string;
+  /** Volume group details */
+  groupMetaData?: VolumeGroupMetaData;
+  /** List of volumes from group */
+  volumes?: VolumeGroupVolumeProperties[];
 }
 
 export function volumeGroupDetailsSerializer(item: VolumeGroupDetails): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : volumeGroupPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["groupMetaData", "volumes"])
+      ? undefined
+      : _volumeGroupDetailsPropertiesSerializer(item),
     location: item["location"],
   };
 }
@@ -476,9 +486,9 @@ export function volumeGroupDetailsDeserializer(item: any): VolumeGroupDetails {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : volumeGroupPropertiesDeserializer(item["properties"]),
+      : _volumeGroupDetailsPropertiesDeserializer(item["properties"])),
     location: item["location"],
   };
 }
@@ -634,8 +644,143 @@ export interface VolumeGroupVolumeProperties {
   tags?: Record<string, string>;
   /** Availability Zone */
   zones?: string[];
-  /** Volume properties */
-  properties: VolumeProperties;
+  /** Unique FileSystem Identifier. */
+  readonly fileSystemId?: string;
+  /** A unique file path for the volume. Used when creating mount targets */
+  creationToken: string;
+  /** The service level of the file system */
+  serviceLevel?: ServiceLevel;
+  /**
+   * Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB.
+   * For large volumes, valid values are in the range 100TiB to 500TiB, and on an exceptional basis, from to 2400GiB to 2400TiB.
+   * For extra large volumes, valid values are in the range 2400GiB to 7200TiB. Values expressed in bytes as multiples of 1 GiB.
+   */
+  usageThreshold: number;
+  /** Set of export policy rules */
+  exportPolicy?: VolumePropertiesExportPolicy;
+  /** Set of protocol types, default NFSv3, CIFS for SMB protocol */
+  protocolTypes?: string[];
+  /** Azure lifecycle management */
+  readonly provisioningState?: string;
+  /** Resource identifier used to identify the Snapshot. */
+  snapshotId?: string | null;
+  /** If enabled (true) the snapshot the volume was created from will be automatically deleted after the volume create operation has finished.  Defaults to false */
+  deleteBaseSnapshot?: boolean;
+  /** Resource identifier used to identify the Backup. */
+  backupId?: string | null;
+  /** Unique Baremetal Tenant Identifier. */
+  readonly baremetalTenantId?: string;
+  /** The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes */
+  subnetId: string;
+  /** The original value of the network features type available to the volume at the time it was created. */
+  networkFeatures?: NetworkFeatures;
+  /** The effective value of the network features type available to the volume, or current effective state of update. */
+  readonly effectiveNetworkFeatures?: NetworkFeatures;
+  /** Network Sibling Set ID for the the group of volumes sharing networking resources. */
+  readonly networkSiblingSetId?: string;
+  /** Provides storage to network proximity information for the volume. */
+  readonly storageToNetworkProximity?: VolumeStorageToNetworkProximity;
+  /** List of mount targets */
+  readonly mountTargets?: MountTargetProperties[];
+  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection. For creating clone volume, set type to ShortTermClone */
+  volumeType?: string;
+  /** DataProtection type volumes include an object containing details of the replication */
+  dataProtection?: VolumePropertiesDataProtection;
+  /** While auto splitting the short term clone volume, if the parent pool does not have enough space to accommodate the volume after split, it will be automatically resized, which will lead to increased billing. To accept capacity pool size auto grow and create a short term clone volume, set the property as accepted. */
+  acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
+  /** Restoring */
+  readonly isRestoring?: boolean;
+  /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (defaults to true). */
+  snapshotDirectoryVisible?: boolean;
+  /** Describe if a volume is KerberosEnabled. To be use with swagger version 2020-05-01 or later */
+  kerberosEnabled?: boolean;
+  /** The security style of volume, default unix, defaults to ntfs for dual protocol or CIFS protocol */
+  securityStyle?: SecurityStyle;
+  /** Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol volume. To be used with swagger version 2020-08-01 or later */
+  smbEncryption?: boolean;
+  /** Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
+  /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbNonBrowsable?: SmbNonBrowsable;
+  /** Enables continuously available share property for smb volume. Only applicable for SMB volume */
+  smbContinuouslyAvailable?: boolean;
+  /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
+  throughputMibps?: number | null;
+  /** Actual throughput in MiB/s for auto qosType volumes calculated based on size and serviceLevel */
+  readonly actualThroughputMibps?: number;
+  /** Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
+  encryptionKeySource?: EncryptionKeySource;
+  /** The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'. */
+  keyVaultPrivateEndpointResourceId?: string;
+  /** Specifies whether LDAP is enabled or not for a given NFS volume. */
+  ldapEnabled?: boolean;
+  /** Specifies the type of LDAP server for a given NFS volume. */
+  ldapServerType?: LdapServerType;
+  /** Specifies whether Cool Access(tiering) is enabled for the volume. */
+  coolAccess?: boolean;
+  /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
+  coolnessPeriod?: number;
+  /**
+   * coolAccessRetrievalPolicy determines the data retrieval behavior from the cool tier to standard storage based on the read pattern for cool access enabled volumes. The possible values for this field are:
+   * Default - Data will be pulled from cool tier to standard storage on random reads. This policy is the default.
+   * OnRead - All client-driven data read is pulled from cool tier to standard storage on both sequential and random reads.
+   * Never - No client-driven data is pulled from cool tier to standard storage.
+   */
+  coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
+  /** coolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier. */
+  coolAccessTieringPolicy?: CoolAccessTieringPolicy;
+  /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
+  unixPermissions?: string | null;
+  /** When a volume is being restored from another volume's snapshot, will show the percentage completion of this cloning process. When this value is empty/null there is no cloning process currently happening on this volume. This value will update every 5 minutes during cloning. */
+  readonly cloneProgress?: number | null;
+  /** Flag indicating whether file access logs are enabled for the volume, based on active diagnostic settings present on the volume. */
+  readonly fileAccessLogs?: FileAccessLogs;
+  /** Specifies whether the volume is enabled for Azure VMware Solution (AVS) datastore purpose */
+  avsDataStore?: AvsDataStore;
+  /** Data store resource unique identifier */
+  readonly dataStoreResourceId?: string[];
+  /** Specifies if default quota is enabled for the volume. */
+  isDefaultQuotaEnabled?: boolean;
+  /** Default user quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies . */
+  defaultUserQuotaInKiBs?: number;
+  /** Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies. */
+  defaultGroupQuotaInKiBs?: number;
+  /** Maximum number of files allowed. Needs a service request in order to be changed. Only allowed to be changed if volume quota is more than 4TiB. */
+  readonly maximumNumberOfFiles?: number;
+  /** Volume Group Name */
+  readonly volumeGroupName?: string;
+  /** Pool Resource Id used in case of creating a volume through volume group */
+  capacityPoolResourceId?: string;
+  /** Proximity placement group associated with the volume */
+  proximityPlacementGroup?: string;
+  /** T2 network information */
+  readonly t2Network?: string;
+  /** Volume spec name is the application specific designation or identifier for the particular volume in a volume group for e.g. data, log */
+  volumeSpecName?: string;
+  /** Specifies if the volume is encrypted or not. Only available on volumes created or updated after 2022-01-01. */
+  readonly encrypted?: boolean;
+  /** Application specific placement rules for the particular volume */
+  placementRules?: PlacementKeyValuePairs[];
+  /** Flag indicating whether subvolume operations are enabled on the volume */
+  enableSubvolumes?: EnableSubvolumes;
+  /** The availability zone where the volume is provisioned. This refers to the logical availability zone where the volume resides. */
+  readonly provisionedAvailabilityZone?: string | null;
+  /** Specifies whether volume is a Large Volume or Regular Volume. */
+  isLargeVolume?: boolean;
+  /**
+   * Specifies the type of the Large Volume. When set to 'LargeVolume', the large volume is created with standard configuration.
+   * If it is set to 'ExtraLargeVolume7Dot2PiB', the extra large volume is created with higher capacity limit 7.2PiB with cool access enabled,
+   * delivering higher capacity limit with lower costs.
+   */
+  largeVolumeType?: LargeVolumeType;
+  /** Id of the snapshot or backup that the volume is restored from. */
+  readonly originatingResourceId?: string | null;
+  /** Space shared by short term clone volume with parent volume in bytes. */
+  readonly inheritedSizeInBytes?: number | null;
+  /** Language supported for volume. */
+  language?: VolumeLanguage;
+  /** Specifies whether the volume operates in Breakthrough Mode. */
+  breakthroughMode?: BreakthroughMode;
 }
 
 export function volumeGroupVolumePropertiesSerializer(item: VolumeGroupVolumeProperties): any {
@@ -647,7 +792,7 @@ export function volumeGroupVolumePropertiesSerializer(item: VolumeGroupVolumePro
       : item["zones"].map((p: any) => {
           return p;
         }),
-    properties: volumePropertiesSerializer(item["properties"]),
+    properties: _volumeGroupVolumePropertiesPropertiesSerializer(item),
   };
 }
 
@@ -656,13 +801,15 @@ export function volumeGroupVolumePropertiesDeserializer(item: any): VolumeGroupV
     id: item["id"],
     name: item["name"],
     type: item["type"],
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     zones: !item["zones"]
       ? item["zones"]
       : item["zones"].map((p: any) => {
           return p;
         }),
-    properties: volumePropertiesDeserializer(item["properties"]),
+    ..._volumeGroupVolumePropertiesPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -984,9 +1131,7 @@ export interface VolumePropertiesExportPolicy {
 }
 
 export function volumePropertiesExportPolicySerializer(item: VolumePropertiesExportPolicy): any {
-  return {
-    rules: !item["rules"] ? item["rules"] : exportPolicyRuleArraySerializer(item["rules"]),
-  };
+  return { rules: !item["rules"] ? item["rules"] : exportPolicyRuleArraySerializer(item["rules"]) };
 }
 
 export function volumePropertiesExportPolicyDeserializer(item: any): VolumePropertiesExportPolicy {
@@ -1533,9 +1678,7 @@ export interface RansomwareProtectionSettings {
 }
 
 export function ransomwareProtectionSettingsSerializer(item: RansomwareProtectionSettings): any {
-  return {
-    desiredRansomwareProtectionState: item["desiredRansomwareProtectionState"],
-  };
+  return { desiredRansomwareProtectionState: item["desiredRansomwareProtectionState"] };
 }
 
 export function ransomwareProtectionSettingsDeserializer(item: any): RansomwareProtectionSettings {
@@ -2094,8 +2237,10 @@ export interface VolumeGroup {
   readonly name?: string;
   /** Resource type */
   readonly type?: string;
-  /** Volume group properties */
-  properties?: VolumeGroupListProperties;
+  /** Azure lifecycle management */
+  readonly provisioningState?: string;
+  /** Volume group details */
+  groupMetaData?: VolumeGroupMetaData;
 }
 
 export function volumeGroupDeserializer(item: any): VolumeGroup {
@@ -2104,9 +2249,9 @@ export function volumeGroupDeserializer(item: any): VolumeGroup {
     id: item["id"],
     name: item["name"],
     type: item["type"],
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : volumeGroupListPropertiesDeserializer(item["properties"]),
+      : _volumeGroupPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -2129,12 +2274,38 @@ export function volumeGroupListPropertiesDeserializer(item: any): VolumeGroupLis
 
 /** Backup under a Backup Vault */
 export interface Backup extends ProxyResource {
-  /** Backup Properties */
-  properties: BackupProperties;
+  /** UUID v4 used to identify the Backup */
+  readonly backupId?: string;
+  /** The creation date of the backup */
+  readonly creationDate?: Date;
+  /** The snapshot creation date of the backup */
+  readonly snapshotCreationDate?: Date | null;
+  /** The completion date of the backup */
+  readonly completionDate?: Date | null;
+  /** Azure lifecycle management */
+  readonly provisioningState?: string;
+  /** Size of backup in bytes */
+  readonly size?: number;
+  /** Label for backup */
+  label?: string;
+  /** Type of backup Manual or Scheduled */
+  readonly backupType?: BackupType;
+  /** Failure reason */
+  readonly failureReason?: string;
+  /** ResourceId used to identify the Volume */
+  volumeResourceId: string;
+  /** Manual backup an already existing snapshot. This will always be false for scheduled backups and true/false for manual backups */
+  useExistingSnapshot?: boolean;
+  /** The name of the snapshot */
+  snapshotName?: string;
+  /** ResourceId used to identify the backup policy */
+  readonly backupPolicyResourceId?: string;
+  /** Specifies if the backup is for a large volume. */
+  readonly isLargeVolume?: boolean;
 }
 
 export function backupSerializer(item: Backup): any {
-  return { properties: backupPropertiesSerializer(item["properties"]) };
+  return { properties: _backupPropertiesSerializer(item) };
 }
 
 export function backupDeserializer(item: any): Backup {
@@ -2145,7 +2316,7 @@ export function backupDeserializer(item: any): Backup {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: backupPropertiesDeserializer(item["properties"]),
+    ..._backupPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -2233,15 +2404,15 @@ export type BackupType = string;
 
 /** Backup patch */
 export interface BackupPatch {
-  /** Backup Patch Properties */
-  properties?: BackupPatchProperties;
+  /** Label for backup */
+  label?: string;
 }
 
 export function backupPatchSerializer(item: BackupPatch): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : backupPatchPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["label"])
+      ? undefined
+      : _backupPatchPropertiesSerializer(item),
   };
 }
 
@@ -2395,19 +2566,154 @@ export type VolumeRestoreRelationshipStatus = string;
 
 /** Volume resource */
 export interface Volume extends TrackedResource {
-  /** Volume properties */
-  properties: VolumeProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   readonly etag?: string;
   /** The availability zones. */
   zones?: string[];
+  /** Unique FileSystem Identifier. */
+  readonly fileSystemId?: string;
+  /** A unique file path for the volume. Used when creating mount targets */
+  creationToken: string;
+  /** The service level of the file system */
+  serviceLevel?: ServiceLevel;
+  /**
+   * Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB.
+   * For large volumes, valid values are in the range 100TiB to 500TiB, and on an exceptional basis, from to 2400GiB to 2400TiB.
+   * For extra large volumes, valid values are in the range 2400GiB to 7200TiB. Values expressed in bytes as multiples of 1 GiB.
+   */
+  usageThreshold: number;
+  /** Set of export policy rules */
+  exportPolicy?: VolumePropertiesExportPolicy;
+  /** Set of protocol types, default NFSv3, CIFS for SMB protocol */
+  protocolTypes?: string[];
+  /** Azure lifecycle management */
+  readonly provisioningState?: string;
+  /** Resource identifier used to identify the Snapshot. */
+  snapshotId?: string | null;
+  /** If enabled (true) the snapshot the volume was created from will be automatically deleted after the volume create operation has finished.  Defaults to false */
+  deleteBaseSnapshot?: boolean;
+  /** Resource identifier used to identify the Backup. */
+  backupId?: string | null;
+  /** Unique Baremetal Tenant Identifier. */
+  readonly baremetalTenantId?: string;
+  /** The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes */
+  subnetId: string;
+  /** The original value of the network features type available to the volume at the time it was created. */
+  networkFeatures?: NetworkFeatures;
+  /** The effective value of the network features type available to the volume, or current effective state of update. */
+  readonly effectiveNetworkFeatures?: NetworkFeatures;
+  /** Network Sibling Set ID for the the group of volumes sharing networking resources. */
+  readonly networkSiblingSetId?: string;
+  /** Provides storage to network proximity information for the volume. */
+  readonly storageToNetworkProximity?: VolumeStorageToNetworkProximity;
+  /** List of mount targets */
+  readonly mountTargets?: MountTargetProperties[];
+  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection. For creating clone volume, set type to ShortTermClone */
+  volumeType?: string;
+  /** DataProtection type volumes include an object containing details of the replication */
+  dataProtection?: VolumePropertiesDataProtection;
+  /** While auto splitting the short term clone volume, if the parent pool does not have enough space to accommodate the volume after split, it will be automatically resized, which will lead to increased billing. To accept capacity pool size auto grow and create a short term clone volume, set the property as accepted. */
+  acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
+  /** Restoring */
+  readonly isRestoring?: boolean;
+  /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (defaults to true). */
+  snapshotDirectoryVisible?: boolean;
+  /** Describe if a volume is KerberosEnabled. To be use with swagger version 2020-05-01 or later */
+  kerberosEnabled?: boolean;
+  /** The security style of volume, default unix, defaults to ntfs for dual protocol or CIFS protocol */
+  securityStyle?: SecurityStyle;
+  /** Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol volume. To be used with swagger version 2020-08-01 or later */
+  smbEncryption?: boolean;
+  /** Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
+  /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbNonBrowsable?: SmbNonBrowsable;
+  /** Enables continuously available share property for smb volume. Only applicable for SMB volume */
+  smbContinuouslyAvailable?: boolean;
+  /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
+  throughputMibps?: number | null;
+  /** Actual throughput in MiB/s for auto qosType volumes calculated based on size and serviceLevel */
+  readonly actualThroughputMibps?: number;
+  /** Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
+  encryptionKeySource?: EncryptionKeySource;
+  /** The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'. */
+  keyVaultPrivateEndpointResourceId?: string;
+  /** Specifies whether LDAP is enabled or not for a given NFS volume. */
+  ldapEnabled?: boolean;
+  /** Specifies the type of LDAP server for a given NFS volume. */
+  ldapServerType?: LdapServerType;
+  /** Specifies whether Cool Access(tiering) is enabled for the volume. */
+  coolAccess?: boolean;
+  /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
+  coolnessPeriod?: number;
+  /**
+   * coolAccessRetrievalPolicy determines the data retrieval behavior from the cool tier to standard storage based on the read pattern for cool access enabled volumes. The possible values for this field are:
+   * Default - Data will be pulled from cool tier to standard storage on random reads. This policy is the default.
+   * OnRead - All client-driven data read is pulled from cool tier to standard storage on both sequential and random reads.
+   * Never - No client-driven data is pulled from cool tier to standard storage.
+   */
+  coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
+  /** coolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier. */
+  coolAccessTieringPolicy?: CoolAccessTieringPolicy;
+  /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
+  unixPermissions?: string | null;
+  /** When a volume is being restored from another volume's snapshot, will show the percentage completion of this cloning process. When this value is empty/null there is no cloning process currently happening on this volume. This value will update every 5 minutes during cloning. */
+  readonly cloneProgress?: number | null;
+  /** Flag indicating whether file access logs are enabled for the volume, based on active diagnostic settings present on the volume. */
+  readonly fileAccessLogs?: FileAccessLogs;
+  /** Specifies whether the volume is enabled for Azure VMware Solution (AVS) datastore purpose */
+  avsDataStore?: AvsDataStore;
+  /** Data store resource unique identifier */
+  readonly dataStoreResourceId?: string[];
+  /** Specifies if default quota is enabled for the volume. */
+  isDefaultQuotaEnabled?: boolean;
+  /** Default user quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies . */
+  defaultUserQuotaInKiBs?: number;
+  /** Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies. */
+  defaultGroupQuotaInKiBs?: number;
+  /** Maximum number of files allowed. Needs a service request in order to be changed. Only allowed to be changed if volume quota is more than 4TiB. */
+  readonly maximumNumberOfFiles?: number;
+  /** Volume Group Name */
+  readonly volumeGroupName?: string;
+  /** Pool Resource Id used in case of creating a volume through volume group */
+  capacityPoolResourceId?: string;
+  /** Proximity placement group associated with the volume */
+  proximityPlacementGroup?: string;
+  /** T2 network information */
+  readonly t2Network?: string;
+  /** Volume spec name is the application specific designation or identifier for the particular volume in a volume group for e.g. data, log */
+  volumeSpecName?: string;
+  /** Specifies if the volume is encrypted or not. Only available on volumes created or updated after 2022-01-01. */
+  readonly encrypted?: boolean;
+  /** Application specific placement rules for the particular volume */
+  placementRules?: PlacementKeyValuePairs[];
+  /** Flag indicating whether subvolume operations are enabled on the volume */
+  enableSubvolumes?: EnableSubvolumes;
+  /** The availability zone where the volume is provisioned. This refers to the logical availability zone where the volume resides. */
+  readonly provisionedAvailabilityZone?: string | null;
+  /** Specifies whether volume is a Large Volume or Regular Volume. */
+  isLargeVolume?: boolean;
+  /**
+   * Specifies the type of the Large Volume. When set to 'LargeVolume', the large volume is created with standard configuration.
+   * If it is set to 'ExtraLargeVolume7Dot2PiB', the extra large volume is created with higher capacity limit 7.2PiB with cool access enabled,
+   * delivering higher capacity limit with lower costs.
+   */
+  largeVolumeType?: LargeVolumeType;
+  /** Id of the snapshot or backup that the volume is restored from. */
+  readonly originatingResourceId?: string | null;
+  /** Space shared by short term clone volume with parent volume in bytes. */
+  readonly inheritedSizeInBytes?: number | null;
+  /** Language supported for volume. */
+  language?: VolumeLanguage;
+  /** Specifies whether the volume operates in Breakthrough Mode. */
+  breakthroughMode?: BreakthroughMode;
 }
 
 export function volumeSerializer(item: Volume): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: volumePropertiesSerializer(item["properties"]),
+    properties: _volumePropertiesSerializer(item),
     zones: !item["zones"]
       ? item["zones"]
       : item["zones"].map((p: any) => {
@@ -2418,7 +2724,9 @@ export function volumeSerializer(item: Volume): any {
 
 export function volumeDeserializer(item: any): Volume {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -2426,7 +2734,7 @@ export function volumeDeserializer(item: any): Volume {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: volumePropertiesDeserializer(item["properties"]),
+    ..._volumePropertiesDeserializer(item["properties"]),
     etag: item["etag"],
     zones: !item["zones"]
       ? item["zones"]
@@ -2456,7 +2764,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -2473,17 +2783,76 @@ export interface VolumePatch {
   readonly type?: string;
   /** Resource tags */
   tags?: Record<string, string>;
-  /** Patchable volume properties */
-  properties?: VolumePatchProperties;
+  /** The service level of the file system */
+  serviceLevel?: ServiceLevel;
+  /**
+   * Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB.
+   * For large volumes, valid values are in the range 100TiB to 500TiB, and on an exceptional basis, from to 2400GiB to 2400TiB.
+   * For extra large volumes, valid values are in the range 2400GiB to 7200TiB. Values expressed in bytes as multiples of 1 GiB.
+   */
+  usageThreshold?: number;
+  /** Set of export policy rules */
+  exportPolicy?: VolumePatchPropertiesExportPolicy;
+  /** Set of protocol types, default NFSv3, CIFS for SMB protocol */
+  protocolTypes?: string[];
+  /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
+  throughputMibps?: number;
+  /** DataProtection type volumes include an object containing details of the replication */
+  dataProtection?: VolumePatchPropertiesDataProtection;
+  /** Specifies if default quota is enabled for the volume. */
+  isDefaultQuotaEnabled?: boolean;
+  /** Default user quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies . */
+  defaultUserQuotaInKiBs?: number;
+  /** Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies. */
+  defaultGroupQuotaInKiBs?: number;
+  /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
+  unixPermissions?: string | null;
+  /** Specifies whether Cool Access(tiering) is enabled for the volume. */
+  coolAccess?: boolean;
+  /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
+  coolnessPeriod?: number;
+  /**
+   * coolAccessRetrievalPolicy determines the data retrieval behavior from the cool tier to standard storage based on the read pattern for cool access enabled volumes. The possible values for this field are:
+   * Default - Data will be pulled from cool tier to standard storage on random reads. This policy is the default.
+   * OnRead - All client-driven data read is pulled from cool tier to standard storage on both sequential and random reads.
+   * Never - No client-driven data is pulled from cool tier to standard storage.
+   */
+  coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
+  /** coolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier. */
+  coolAccessTieringPolicy?: CoolAccessTieringPolicy;
+  /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots. */
+  snapshotDirectoryVisible?: boolean;
+  /** Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
+  /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbNonBrowsable?: SmbNonBrowsable;
 }
 
 export function volumePatchSerializer(item: VolumePatch): any {
   return {
     location: item["location"],
     tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : volumePatchPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "serviceLevel",
+      "usageThreshold",
+      "exportPolicy",
+      "protocolTypes",
+      "throughputMibps",
+      "dataProtection",
+      "isDefaultQuotaEnabled",
+      "defaultUserQuotaInKiBs",
+      "defaultGroupQuotaInKiBs",
+      "unixPermissions",
+      "coolAccess",
+      "coolnessPeriod",
+      "coolAccessRetrievalPolicy",
+      "coolAccessTieringPolicy",
+      "snapshotDirectoryVisible",
+      "smbAccessBasedEnumeration",
+      "smbNonBrowsable",
+    ])
+      ? undefined
+      : _volumePatchPropertiesSerializer(item),
   };
 }
 
@@ -2573,9 +2942,7 @@ export interface VolumePatchPropertiesExportPolicy {
 export function volumePatchPropertiesExportPolicySerializer(
   item: VolumePatchPropertiesExportPolicy,
 ): any {
-  return {
-    rules: !item["rules"] ? item["rules"] : exportPolicyRuleArraySerializer(item["rules"]),
-  };
+  return { rules: !item["rules"] ? item["rules"] : exportPolicyRuleArraySerializer(item["rules"]) };
 }
 
 /** DataProtection type volumes include an object containing details of the replication */
@@ -2611,9 +2978,7 @@ export interface RansomwareProtectionPatchSettings {
 export function ransomwareProtectionPatchSettingsSerializer(
   item: RansomwareProtectionPatchSettings,
 ): any {
-  return {
-    desiredRansomwareProtectionState: item["desiredRansomwareProtectionState"],
-  };
+  return { desiredRansomwareProtectionState: item["desiredRansomwareProtectionState"] };
 }
 
 /** List of volume resources */
@@ -2990,19 +3355,18 @@ export type Type = string;
 
 /** Snapshot of a Volume */
 export interface Snapshot extends ProxyResource {
-  /** Snapshot Properties */
-  properties?: SnapshotProperties;
   /** Resource location */
   location: string;
+  /** UUID v4 used to identify the Snapshot */
+  readonly snapshotId?: string;
+  /** The creation date of the snapshot */
+  readonly created?: Date;
+  /** Azure lifecycle management */
+  readonly provisioningState?: string;
 }
 
 export function snapshotSerializer(item: Snapshot): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : snapshotPropertiesSerializer(item["properties"]),
-    location: item["location"],
-  };
+  return { properties: undefined, location: item["location"] };
 }
 
 export function snapshotDeserializer(item: any): Snapshot {
@@ -3013,9 +3377,9 @@ export function snapshotDeserializer(item: any): Snapshot {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : snapshotPropertiesDeserializer(item["properties"]),
+      : _snapshotPropertiesDeserializer(item["properties"])),
     location: item["location"],
   };
 }
@@ -3095,23 +3459,35 @@ export function snapshotRestoreFilesSerializer(item: SnapshotRestoreFiles): any 
 
 /** Snapshot policy information */
 export interface SnapshotPolicy extends TrackedResource {
-  /** Snapshot policy Properties */
-  properties: SnapshotPolicyProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   readonly etag?: string;
+  /** Schedule for hourly snapshots */
+  hourlySchedule?: HourlySchedule;
+  /** Schedule for daily snapshots */
+  dailySchedule?: DailySchedule;
+  /** Schedule for weekly snapshots */
+  weeklySchedule?: WeeklySchedule;
+  /** Schedule for monthly snapshots */
+  monthlySchedule?: MonthlySchedule;
+  /** The property to decide policy is enabled or not */
+  enabled?: boolean;
+  /** Azure lifecycle management */
+  readonly provisioningState?: string;
 }
 
 export function snapshotPolicySerializer(item: SnapshotPolicy): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: snapshotPolicyPropertiesSerializer(item["properties"]),
+    properties: _snapshotPolicyPropertiesSerializer(item),
   };
 }
 
 export function snapshotPolicyDeserializer(item: any): SnapshotPolicy {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -3119,7 +3495,7 @@ export function snapshotPolicyDeserializer(item: any): SnapshotPolicy {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: snapshotPolicyPropertiesDeserializer(item["properties"]),
+    ..._snapshotPolicyPropertiesDeserializer(item["properties"]),
     etag: item["etag"],
   };
 }
@@ -3313,17 +3689,33 @@ export interface SnapshotPolicyPatch {
   readonly type?: string;
   /** Resource tags */
   tags?: Record<string, string>;
-  /** Snapshot Policy properties */
-  properties?: SnapshotPolicyProperties;
+  /** Schedule for hourly snapshots */
+  hourlySchedule?: HourlySchedule;
+  /** Schedule for daily snapshots */
+  dailySchedule?: DailySchedule;
+  /** Schedule for weekly snapshots */
+  weeklySchedule?: WeeklySchedule;
+  /** Schedule for monthly snapshots */
+  monthlySchedule?: MonthlySchedule;
+  /** The property to decide policy is enabled or not */
+  enabled?: boolean;
+  /** Azure lifecycle management */
+  readonly provisioningState?: string;
 }
 
 export function snapshotPolicyPatchSerializer(item: SnapshotPolicyPatch): any {
   return {
     location: item["location"],
     tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : snapshotPolicyPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "hourlySchedule",
+      "dailySchedule",
+      "weeklySchedule",
+      "monthlySchedule",
+      "enabled",
+    ])
+      ? undefined
+      : _snapshotPolicyPatchPropertiesSerializer(item),
   };
 }
 
@@ -3371,23 +3763,39 @@ export function snapshotPolicyVolumeListDeserializer(item: any): SnapshotPolicyV
 
 /** Backup policy information */
 export interface BackupPolicy extends TrackedResource {
-  /** Backup policy Properties */
-  properties: BackupPolicyProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   readonly etag?: string;
+  /** Backup Policy GUID ID */
+  readonly backupPolicyId?: string;
+  /** Azure lifecycle management */
+  readonly provisioningState?: string;
+  /** Daily backups count to keep */
+  dailyBackupsToKeep?: number;
+  /** Weekly backups count to keep */
+  weeklyBackupsToKeep?: number;
+  /** Monthly backups count to keep */
+  monthlyBackupsToKeep?: number;
+  /** Volumes using current backup policy */
+  readonly volumesAssigned?: number;
+  /** The property to decide policy is enabled or not */
+  enabled?: boolean;
+  /** A list of volumes assigned to this policy */
+  readonly volumeBackups?: VolumeBackups[];
 }
 
 export function backupPolicySerializer(item: BackupPolicy): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: backupPolicyPropertiesSerializer(item["properties"]),
+    properties: _backupPolicyPropertiesSerializer(item),
   };
 }
 
 export function backupPolicyDeserializer(item: any): BackupPolicy {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -3395,7 +3803,7 @@ export function backupPolicyDeserializer(item: any): BackupPolicy {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: backupPolicyPropertiesDeserializer(item["properties"]),
+    ..._backupPolicyPropertiesDeserializer(item["properties"]),
     etag: item["etag"],
   };
 }
@@ -3483,17 +3891,36 @@ export interface BackupPolicyPatch {
   readonly type?: string;
   /** Resource tags */
   tags?: Record<string, string>;
-  /** Backup policy Properties */
-  properties?: BackupPolicyProperties;
+  /** Backup Policy GUID ID */
+  readonly backupPolicyId?: string;
+  /** Azure lifecycle management */
+  readonly provisioningState?: string;
+  /** Daily backups count to keep */
+  dailyBackupsToKeep?: number;
+  /** Weekly backups count to keep */
+  weeklyBackupsToKeep?: number;
+  /** Monthly backups count to keep */
+  monthlyBackupsToKeep?: number;
+  /** Volumes using current backup policy */
+  readonly volumesAssigned?: number;
+  /** The property to decide policy is enabled or not */
+  enabled?: boolean;
+  /** A list of volumes assigned to this policy */
+  readonly volumeBackups?: VolumeBackups[];
 }
 
 export function backupPolicyPatchSerializer(item: BackupPolicyPatch): any {
   return {
     location: item["location"],
     tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : backupPolicyPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "dailyBackupsToKeep",
+      "weeklyBackupsToKeep",
+      "monthlyBackupsToKeep",
+      "enabled",
+    ])
+      ? undefined
+      : _backupPolicyPatchPropertiesSerializer(item),
   };
 }
 
@@ -3526,23 +3953,31 @@ export function backupPolicyArrayDeserializer(result: Array<BackupPolicy>): any[
 
 /** Quota Rule of a Volume */
 export interface VolumeQuotaRule extends TrackedResource {
-  /** Volume Quota Rule Properties */
-  properties?: VolumeQuotaRulesProperties;
+  /** Gets the status of the VolumeQuotaRule at the time the operation was called. */
+  readonly provisioningState?: NetAppProvisioningState;
+  /** Size of quota */
+  quotaSizeInKiBs?: number;
+  /** Type of quota */
+  quotaType?: Type;
+  /** UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running ‘id’ or ‘getent’ command for the user or group and SID can be found by running <wmic useraccount where name='user-name' get sid> */
+  quotaTarget?: string;
 }
 
 export function volumeQuotaRuleSerializer(item: VolumeQuotaRule): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : volumeQuotaRulesPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["quotaSizeInKiBs", "quotaType", "quotaTarget"])
+      ? undefined
+      : _volumeQuotaRulePropertiesSerializer(item),
   };
 }
 
 export function volumeQuotaRuleDeserializer(item: any): VolumeQuotaRule {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -3550,9 +3985,9 @@ export function volumeQuotaRuleDeserializer(item: any): VolumeQuotaRule {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : volumeQuotaRulesPropertiesDeserializer(item["properties"]),
+      : _volumeQuotaRulePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -3625,16 +4060,22 @@ export type NetAppProvisioningState = string;
 export interface VolumeQuotaRulePatch {
   /** Resource tags */
   tags?: Record<string, string>;
-  /** Volume Quota Rule Properties */
-  properties?: VolumeQuotaRulesProperties;
+  /** Gets the status of the VolumeQuotaRule at the time the operation was called. */
+  readonly provisioningState?: NetAppProvisioningState;
+  /** Size of quota */
+  quotaSizeInKiBs?: number;
+  /** Type of quota */
+  quotaType?: Type;
+  /** UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running ‘id’ or ‘getent’ command for the user or group and SID can be found by running <wmic useraccount where name='user-name' get sid> */
+  quotaTarget?: string;
 }
 
 export function volumeQuotaRulePatchSerializer(item: VolumeQuotaRulePatch): any {
   return {
     tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : volumeQuotaRulesPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["quotaSizeInKiBs", "quotaType", "quotaTarget"])
+      ? undefined
+      : _volumeQuotaRulePatchPropertiesSerializer(item),
   };
 }
 
@@ -3880,23 +4321,19 @@ export function ransomwareSuspectsClearRequestSerializer(
 
 /** Backup Vault information */
 export interface BackupVault extends TrackedResource {
-  /** Backup Vault Properties */
-  properties?: BackupVaultProperties;
+  /** Azure lifecycle management */
+  readonly provisioningState?: string;
 }
 
 export function backupVaultSerializer(item: BackupVault): any {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : backupVaultPropertiesSerializer(item["properties"]),
-  };
+  return { tags: item["tags"], location: item["location"], properties: undefined };
 }
 
 export function backupVaultDeserializer(item: any): BackupVault {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -3904,9 +4341,9 @@ export function backupVaultDeserializer(item: any): BackupVault {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : backupVaultPropertiesDeserializer(item["properties"]),
+      : _backupVaultPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -3965,15 +4402,31 @@ export function backupVaultArrayDeserializer(result: Array<BackupVault>): any[] 
 
 /** Bucket resource */
 export interface Bucket extends ProxyResource {
-  /** Bucket properties */
-  properties?: BucketProperties;
+  /** The volume path mounted inside the bucket. The default is the root path '/' if no value is provided when the bucket is created. */
+  path?: string;
+  /** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
+  fileSystemUser?: FileSystemUser;
+  /** Provisioning state of the resource */
+  readonly provisioningState?: NetAppProvisioningState;
+  /**
+   * The bucket credentials status. There states:
+   *
+   * "NoCredentialsSet": Access and Secret key pair have not been generated.
+   * "CredentialsExpired": Access and Secret key pair have expired.
+   * "Active": The certificate has been installed and credentials are unexpired.
+   */
+  readonly status?: CredentialsStatus;
+  /** Properties of the server managing the lifecycle of volume buckets */
+  server?: BucketServerProperties;
+  /** Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. */
+  permissions?: BucketPermissions;
 }
 
 export function bucketSerializer(item: Bucket): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : bucketPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["path", "fileSystemUser", "server", "permissions"])
+      ? undefined
+      : _bucketPropertiesSerializer(item),
   };
 }
 
@@ -3985,9 +4438,9 @@ export function bucketDeserializer(item: any): Bucket {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : bucketPropertiesDeserializer(item["properties"]),
+      : _bucketPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -4175,15 +4628,23 @@ export type BucketPermissions = string;
 
 /** Bucket resource */
 export interface BucketPatch extends ProxyResource {
-  /** Bucket properties */
-  properties?: BucketPatchProperties;
+  /** The volume path mounted inside the bucket. */
+  path?: string;
+  /** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
+  fileSystemUser?: FileSystemUser;
+  /** Provisioning state of the resource */
+  readonly provisioningState?: NetAppProvisioningState;
+  /** Properties of the server managing the lifecycle of volume buckets */
+  server?: BucketServerPatchProperties;
+  /** Access permissions for the bucket. Either ReadOnly or ReadWrite. */
+  permissions?: BucketPatchPermissions;
 }
 
 export function bucketPatchSerializer(item: BucketPatch): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : bucketPatchPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["path", "fileSystemUser", "server", "permissions"])
+      ? undefined
+      : _bucketPatchPropertiesSerializer(item),
   };
 }
 
@@ -4324,7 +4785,9 @@ export function cacheSerializer(item: Cache): any {
 
 export function cacheDeserializer(item: any): Cache {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -4472,9 +4935,7 @@ export interface CachePropertiesExportPolicy {
 }
 
 export function cachePropertiesExportPolicySerializer(item: CachePropertiesExportPolicy): any {
-  return {
-    rules: !item["rules"] ? item["rules"] : exportPolicyRuleArraySerializer(item["rules"]),
-  };
+  return { rules: !item["rules"] ? item["rules"] : exportPolicyRuleArraySerializer(item["rules"]) };
 }
 
 export function cachePropertiesExportPolicyDeserializer(item: any): CachePropertiesExportPolicy {
@@ -4901,7 +5362,9 @@ export function elasticAccountSerializer(item: ElasticAccount): any {
 
 export function elasticAccountDeserializer(item: any): ElasticAccount {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -5084,10 +5547,7 @@ export interface ManagedServiceIdentity {
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
@@ -5095,7 +5555,14 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
@@ -5234,7 +5701,9 @@ export function elasticCapacityPoolSerializer(item: ElasticCapacityPool): any {
 
 export function elasticCapacityPoolDeserializer(item: any): ElasticCapacityPool {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -5556,7 +6025,9 @@ export function elasticVolumeSerializer(item: ElasticVolume): any {
 
 export function elasticVolumeDeserializer(item: any): ElasticVolume {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -6234,7 +6705,9 @@ export function elasticSnapshotPolicySerializer(item: ElasticSnapshotPolicy): an
 
 export function elasticSnapshotPolicyDeserializer(item: any): ElasticSnapshotPolicy {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -6342,11 +6815,7 @@ export interface ElasticSnapshotPolicyDailySchedule {
 export function elasticSnapshotPolicyDailyScheduleSerializer(
   item: ElasticSnapshotPolicyDailySchedule,
 ): any {
-  return {
-    snapshotsToKeep: item["snapshotsToKeep"],
-    hour: item["hour"],
-    minute: item["minute"],
-  };
+  return { snapshotsToKeep: item["snapshotsToKeep"], hour: item["hour"], minute: item["minute"] };
 }
 
 export function elasticSnapshotPolicyDailyScheduleDeserializer(
@@ -6613,7 +7082,9 @@ export function elasticBackupVaultSerializer(item: ElasticBackupVault): any {
 
 export function elasticBackupVaultDeserializer(item: any): ElasticBackupVault {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -6703,7 +7174,9 @@ export function elasticBackupPolicySerializer(item: ElasticBackupPolicy): any {
 
 export function elasticBackupPolicyDeserializer(item: any): ElasticBackupPolicy {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -7038,7 +7511,9 @@ export function activeDirectoryConfigSerializer(item: ActiveDirectoryConfig): an
 
 export function activeDirectoryConfigDeserializer(item: any): ActiveDirectoryConfig {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -7365,8 +7840,10 @@ export function activeDirectoryConfigArrayDeserializer(
 
 /** Information regarding regionInfo Item. */
 export interface RegionInfoResource extends ProxyResource {
-  /** regionInfo properties */
-  properties?: RegionInfo;
+  /** Provides storage to network proximity information in the region. */
+  storageToNetworkProximity?: RegionStorageToNetworkProximity;
+  /** Provides logical availability zone mappings for the subscription for a region. */
+  availabilityZoneMappings?: RegionInfoAvailabilityZoneMappingsItem[];
 }
 
 export function regionInfoResourceDeserializer(item: any): RegionInfoResource {
@@ -7377,9 +7854,9 @@ export function regionInfoResourceDeserializer(item: any): RegionInfoResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : regionInfoDeserializer(item["properties"]),
+      : _regionInfoResourcePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -7484,21 +7961,38 @@ export function regionInfoResourceArrayDeserializer(result: Array<RegionInfoReso
 
 /** NetApp account resource */
 export interface NetAppAccount extends TrackedResource {
-  /** NetApp Account properties */
-  properties?: AccountProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   readonly etag?: string;
   /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentity;
+  /** Azure lifecycle management */
+  readonly provisioningState?: string;
+  /** Active Directories */
+  activeDirectories?: ActiveDirectory[];
+  /** Encryption settings */
+  encryption?: AccountEncryption;
+  /** Shows the status of disableShowmount for all volumes under the subscription, null equals false */
+  readonly disableShowmount?: boolean | null;
+  /** Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes. */
+  nfsV4IDDomain?: string | null;
+  /** MultiAD Status for the account */
+  readonly multiAdStatus?: MultiAdStatus;
+  /** LDAP Configuration for the account. */
+  ldapConfiguration?: LdapConfiguration;
 }
 
 export function netAppAccountSerializer(item: NetAppAccount): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : accountPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "activeDirectories",
+      "encryption",
+      "nfsV4IDDomain",
+      "ldapConfiguration",
+    ])
+      ? undefined
+      : _netAppAccountPropertiesSerializer(item),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
@@ -7507,7 +8001,9 @@ export function netAppAccountSerializer(item: NetAppAccount): any {
 
 export function netAppAccountDeserializer(item: any): NetAppAccount {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -7515,9 +8011,9 @@ export function netAppAccountDeserializer(item: any): NetAppAccount {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : accountPropertiesDeserializer(item["properties"]),
+      : _netAppAccountPropertiesDeserializer(item["properties"])),
     etag: item["etag"],
     identity: !item["identity"]
       ? item["identity"]
@@ -7934,19 +8430,36 @@ export interface NetAppAccountPatch {
   readonly type?: string;
   /** Resource tags */
   tags?: Record<string, string>;
-  /** NetApp Account properties */
-  properties?: AccountProperties;
   /** The identity used for the resource. */
   identity?: ManagedServiceIdentity;
+  /** Azure lifecycle management */
+  readonly provisioningState?: string;
+  /** Active Directories */
+  activeDirectories?: ActiveDirectory[];
+  /** Encryption settings */
+  encryption?: AccountEncryption;
+  /** Shows the status of disableShowmount for all volumes under the subscription, null equals false */
+  readonly disableShowmount?: boolean | null;
+  /** Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes. */
+  nfsV4IDDomain?: string | null;
+  /** MultiAD Status for the account */
+  readonly multiAdStatus?: MultiAdStatus;
+  /** LDAP Configuration for the account. */
+  ldapConfiguration?: LdapConfiguration;
 }
 
 export function netAppAccountPatchSerializer(item: NetAppAccountPatch): any {
   return {
     location: item["location"],
     tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : accountPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "activeDirectories",
+      "encryption",
+      "nfsV4IDDomain",
+      "ldapConfiguration",
+    ])
+      ? undefined
+      : _netAppAccountPatchPropertiesSerializer(item),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
@@ -7997,15 +8510,21 @@ export function encryptionTransitionRequestSerializer(item: EncryptionTransition
 
 /** Result of getKeyVaultStatus with information about how volumes under NetApp account are encrypted. */
 export interface GetKeyVaultStatusResponse {
-  /** Represents the properties of the getKeyVaultStatus. */
-  properties?: GetKeyVaultStatusResponseProperties;
+  /** The URI of the key vault/managed HSM that should be used for encryption. */
+  keyVaultUri?: string;
+  /** The name of the key that should be used for encryption. */
+  keyName?: string;
+  /** Azure resource ID of the key vault/managed HSM that should be used for encryption. */
+  keyVaultResourceId?: string;
+  /** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
+  keyVaultPrivateEndpoints?: KeyVaultPrivateEndpoint[];
 }
 
 export function getKeyVaultStatusResponseDeserializer(item: any): GetKeyVaultStatusResponse {
   return {
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : getKeyVaultStatusResponsePropertiesDeserializer(item["properties"]),
+      : _getKeyVaultStatusResponsePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -8107,23 +8626,43 @@ export function backupsMigrationRequestSerializer(item: BackupsMigrationRequest)
 
 /** Capacity pool resource */
 export interface CapacityPool extends TrackedResource {
-  /** Capacity pool properties */
-  properties: PoolProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   readonly etag?: string;
+  /** UUID v4 used to identify the Pool */
+  readonly poolId?: string;
+  /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). */
+  size: number;
+  /** The service level of the file system */
+  serviceLevel: ServiceLevel;
+  /** Azure lifecycle management */
+  readonly provisioningState?: string;
+  /** Total throughput of pool in MiB/s */
+  readonly totalThroughputMibps?: number;
+  /** Utilized throughput of pool in MiB/s */
+  readonly utilizedThroughputMibps?: number;
+  /** Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level */
+  customThroughputMibps?: number | null;
+  /** The qos type of the pool */
+  qosType?: QosType;
+  /** If enabled (true) the pool can contain cool Access enabled volumes. */
+  coolAccess?: boolean;
+  /** Encryption type of the capacity pool, set encryption type for data at rest for this pool and all volumes in it. This value can only be set when creating new pool. */
+  encryptionType?: EncryptionType | null;
 }
 
 export function capacityPoolSerializer(item: CapacityPool): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: poolPropertiesSerializer(item["properties"]),
+    properties: _capacityPoolPropertiesSerializer(item),
   };
 }
 
 export function capacityPoolDeserializer(item: any): CapacityPool {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -8131,7 +8670,7 @@ export function capacityPoolDeserializer(item: any): CapacityPool {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: poolPropertiesDeserializer(item["properties"]),
+    ..._capacityPoolPropertiesDeserializer(item["properties"]),
     etag: item["etag"],
   };
 }
@@ -8234,17 +8773,28 @@ export interface CapacityPoolPatch {
   readonly type?: string;
   /** Resource tags */
   tags?: Record<string, string>;
-  /** Capacity pool properties */
-  properties?: PoolPatchProperties;
+  /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). */
+  size?: number;
+  /** The qos type of the pool */
+  qosType?: QosType;
+  /** If enabled (true) the pool can contain cool Access enabled volumes. */
+  coolAccess?: boolean;
+  /** Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level */
+  customThroughputMibps?: number | null;
 }
 
 export function capacityPoolPatchSerializer(item: CapacityPoolPatch): any {
   return {
     location: item["location"],
     tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : poolPatchPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "size",
+      "qosType",
+      "coolAccess",
+      "customThroughputMibps",
+    ])
+      ? undefined
+      : _capacityPoolPatchPropertiesSerializer(item),
   };
 }
 
@@ -8318,15 +8868,21 @@ export function backupRestoreFilesSerializer(item: BackupRestoreFiles): any {
 
 /** Subvolume Information properties */
 export interface SubvolumeInfo extends ProxyResource {
-  /** Subvolume Properties */
-  properties?: SubvolumeProperties;
+  /** Path to the subvolume */
+  path?: string;
+  /** Truncate subvolume to the provided size in bytes */
+  size?: number | null;
+  /** parent path to the subvolume */
+  parentPath?: string | null;
+  /** Azure lifecycle management */
+  readonly provisioningState?: string;
 }
 
 export function subvolumeInfoSerializer(item: SubvolumeInfo): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : subvolumePropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["path", "size", "parentPath"])
+      ? undefined
+      : _subvolumeInfoPropertiesSerializer(item),
   };
 }
 
@@ -8338,9 +8894,9 @@ export function subvolumeInfoDeserializer(item: any): SubvolumeInfo {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : subvolumePropertiesDeserializer(item["properties"]),
+      : _subvolumeInfoPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -8357,11 +8913,7 @@ export interface SubvolumeProperties {
 }
 
 export function subvolumePropertiesSerializer(item: SubvolumeProperties): any {
-  return {
-    path: item["path"],
-    size: item["size"],
-    parentPath: item["parentPath"],
-  };
+  return { path: item["path"], size: item["size"], parentPath: item["parentPath"] };
 }
 
 export function subvolumePropertiesDeserializer(item: any): SubvolumeProperties {
@@ -8375,15 +8927,17 @@ export function subvolumePropertiesDeserializer(item: any): SubvolumeProperties 
 
 /** Subvolume Patch Request properties */
 export interface SubvolumePatchRequest {
-  /** Subvolume Properties */
-  properties?: SubvolumePatchParams;
+  /** Truncate subvolume to the provided size in bytes */
+  size?: number | null;
+  /** path to the subvolume */
+  path?: string;
 }
 
 export function subvolumePatchRequestSerializer(item: SubvolumePatchRequest): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : subvolumePatchParamsSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["size", "path"])
+      ? undefined
+      : _subvolumePatchRequestPropertiesSerializer(item),
   };
 }
 
@@ -8434,8 +8988,26 @@ export interface SubvolumeModel {
   readonly name?: string;
   /** Resource type */
   readonly type?: string;
-  /** It represents the minimal properties of the subvolume. */
-  properties?: SubvolumeModelProperties;
+  /** Path to the subvolume */
+  path?: string;
+  /** Path to the parent subvolume */
+  parentPath?: string;
+  /** Size of subvolume */
+  size?: number;
+  /** Bytes used */
+  bytesUsed?: number;
+  /** Permissions of the subvolume */
+  permissions?: string;
+  /** Creation time and date */
+  creationTimeStamp?: Date;
+  /** Most recent access time and date */
+  accessedTimeStamp?: Date;
+  /** Most recent modification time and date */
+  modifiedTimeStamp?: Date;
+  /** Most recent change time and date */
+  changedTimeStamp?: Date;
+  /** Azure lifecycle management */
+  provisioningState?: string;
 }
 
 export function subvolumeModelDeserializer(item: any): SubvolumeModel {
@@ -8443,9 +9015,9 @@ export function subvolumeModelDeserializer(item: any): SubvolumeModel {
     id: item["id"],
     name: item["name"],
     type: item["type"],
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : subvolumeModelPropertiesDeserializer(item["properties"]),
+      : _subvolumeModelPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -8509,11 +9081,7 @@ export interface ResourceNameAvailabilityRequest {
 export function resourceNameAvailabilityRequestSerializer(
   item: ResourceNameAvailabilityRequest,
 ): any {
-  return {
-    name: item["name"],
-    type: item["type"],
-    resourceGroup: item["resourceGroup"],
-  };
+  return { name: item["name"], type: item["type"], resourceGroup: item["resourceGroup"] };
 }
 
 /** Resource type used for verification. */
@@ -8611,11 +9179,7 @@ export interface QuotaAvailabilityRequest {
 }
 
 export function quotaAvailabilityRequestSerializer(item: QuotaAvailabilityRequest): any {
-  return {
-    name: item["name"],
-    type: item["type"],
-    resourceGroup: item["resourceGroup"],
-  };
+  return { name: item["name"], type: item["type"], resourceGroup: item["resourceGroup"] };
 }
 
 /** Resource type used for verification. */
@@ -8657,10 +9221,7 @@ export interface QueryNetworkSiblingSetRequest {
 }
 
 export function queryNetworkSiblingSetRequestSerializer(item: QueryNetworkSiblingSetRequest): any {
-  return {
-    networkSiblingSetId: item["networkSiblingSetId"],
-    subnetId: item["subnetId"],
-  };
+  return { networkSiblingSetId: item["networkSiblingSetId"], subnetId: item["subnetId"] };
 }
 
 /** Describes the contents of a network sibling set. */
@@ -8791,17 +9352,21 @@ export interface UsageResult {
   readonly id?: string;
   /** The name of the usage. */
   readonly name?: UsageName;
-  /** Usage properties */
-  properties?: UsageProperties;
+  /** The current usage value for the subscription. */
+  readonly currentValue?: number;
+  /** The limit of the usage. */
+  readonly limit?: number;
+  /** The unit of the usage. */
+  readonly unit?: string;
 }
 
 export function usageResultDeserializer(item: any): UsageResult {
   return {
     id: item["id"],
     name: !item["name"] ? item["name"] : usageNameDeserializer(item["name"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : usagePropertiesDeserializer(item["properties"]),
+      : _usageResultPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -8852,4 +9417,790 @@ export enum KnownVersions {
   V20250901 = "2025-09-01",
   /** The 2025-09-01-preview API version. */
   V20250901Preview = "2025-09-01-preview",
+}
+
+export function _operationPropertiesDeserializer(item: any) {
+  return {
+    serviceSpecification: !item["serviceSpecification"]
+      ? item["serviceSpecification"]
+      : serviceSpecificationDeserializer(item["serviceSpecification"]),
+  };
+}
+
+export function _quotaItemPropertiesDeserializer(item: any) {
+  return {
+    current: item["current"],
+    default: item["default"],
+    usage: item["usage"],
+  };
+}
+
+export function _volumeGroupVolumePropertiesPropertiesSerializer(
+  item: VolumeGroupVolumeProperties,
+): any {
+  return {
+    creationToken: item["creationToken"],
+    serviceLevel: item["serviceLevel"],
+    usageThreshold: item["usageThreshold"],
+    exportPolicy: !item["exportPolicy"]
+      ? item["exportPolicy"]
+      : volumePropertiesExportPolicySerializer(item["exportPolicy"]),
+    protocolTypes: !item["protocolTypes"]
+      ? item["protocolTypes"]
+      : item["protocolTypes"].map((p: any) => {
+          return p;
+        }),
+    snapshotId: item["snapshotId"],
+    deleteBaseSnapshot: item["deleteBaseSnapshot"],
+    backupId: item["backupId"],
+    subnetId: item["subnetId"],
+    networkFeatures: item["networkFeatures"],
+    volumeType: item["volumeType"],
+    dataProtection: !item["dataProtection"]
+      ? item["dataProtection"]
+      : volumePropertiesDataProtectionSerializer(item["dataProtection"]),
+    acceptGrowCapacityPoolForShortTermCloneSplit:
+      item["acceptGrowCapacityPoolForShortTermCloneSplit"],
+    snapshotDirectoryVisible: item["snapshotDirectoryVisible"],
+    kerberosEnabled: item["kerberosEnabled"],
+    securityStyle: item["securityStyle"],
+    smbEncryption: item["smbEncryption"],
+    smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
+    smbNonBrowsable: item["smbNonBrowsable"],
+    smbContinuouslyAvailable: item["smbContinuouslyAvailable"],
+    throughputMibps: item["throughputMibps"],
+    encryptionKeySource: item["encryptionKeySource"],
+    keyVaultPrivateEndpointResourceId: item["keyVaultPrivateEndpointResourceId"],
+    ldapEnabled: item["ldapEnabled"],
+    ldapServerType: item["ldapServerType"],
+    coolAccess: item["coolAccess"],
+    coolnessPeriod: item["coolnessPeriod"],
+    coolAccessRetrievalPolicy: item["coolAccessRetrievalPolicy"],
+    coolAccessTieringPolicy: item["coolAccessTieringPolicy"],
+    unixPermissions: item["unixPermissions"],
+    avsDataStore: item["avsDataStore"],
+    isDefaultQuotaEnabled: item["isDefaultQuotaEnabled"],
+    defaultUserQuotaInKiBs: item["defaultUserQuotaInKiBs"],
+    defaultGroupQuotaInKiBs: item["defaultGroupQuotaInKiBs"],
+    capacityPoolResourceId: item["capacityPoolResourceId"],
+    proximityPlacementGroup: item["proximityPlacementGroup"],
+    volumeSpecName: item["volumeSpecName"],
+    placementRules: !item["placementRules"]
+      ? item["placementRules"]
+      : placementKeyValuePairsArraySerializer(item["placementRules"]),
+    enableSubvolumes: item["enableSubvolumes"],
+    isLargeVolume: item["isLargeVolume"],
+    largeVolumeType: item["largeVolumeType"],
+    language: item["language"],
+    breakthroughMode: item["breakthroughMode"],
+  };
+}
+
+export function _volumeGroupVolumePropertiesPropertiesDeserializer(item: any) {
+  return {
+    fileSystemId: item["fileSystemId"],
+    creationToken: item["creationToken"],
+    serviceLevel: item["serviceLevel"],
+    usageThreshold: item["usageThreshold"],
+    exportPolicy: !item["exportPolicy"]
+      ? item["exportPolicy"]
+      : volumePropertiesExportPolicyDeserializer(item["exportPolicy"]),
+    protocolTypes: !item["protocolTypes"]
+      ? item["protocolTypes"]
+      : item["protocolTypes"].map((p: any) => {
+          return p;
+        }),
+    provisioningState: item["provisioningState"],
+    snapshotId: item["snapshotId"],
+    deleteBaseSnapshot: item["deleteBaseSnapshot"],
+    backupId: item["backupId"],
+    baremetalTenantId: item["baremetalTenantId"],
+    subnetId: item["subnetId"],
+    networkFeatures: item["networkFeatures"],
+    effectiveNetworkFeatures: item["effectiveNetworkFeatures"],
+    networkSiblingSetId: item["networkSiblingSetId"],
+    storageToNetworkProximity: item["storageToNetworkProximity"],
+    mountTargets: !item["mountTargets"]
+      ? item["mountTargets"]
+      : mountTargetPropertiesArrayDeserializer(item["mountTargets"]),
+    volumeType: item["volumeType"],
+    dataProtection: !item["dataProtection"]
+      ? item["dataProtection"]
+      : volumePropertiesDataProtectionDeserializer(item["dataProtection"]),
+    acceptGrowCapacityPoolForShortTermCloneSplit:
+      item["acceptGrowCapacityPoolForShortTermCloneSplit"],
+    isRestoring: item["isRestoring"],
+    snapshotDirectoryVisible: item["snapshotDirectoryVisible"],
+    kerberosEnabled: item["kerberosEnabled"],
+    securityStyle: item["securityStyle"],
+    smbEncryption: item["smbEncryption"],
+    smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
+    smbNonBrowsable: item["smbNonBrowsable"],
+    smbContinuouslyAvailable: item["smbContinuouslyAvailable"],
+    throughputMibps: item["throughputMibps"],
+    actualThroughputMibps: item["actualThroughputMibps"],
+    encryptionKeySource: item["encryptionKeySource"],
+    keyVaultPrivateEndpointResourceId: item["keyVaultPrivateEndpointResourceId"],
+    ldapEnabled: item["ldapEnabled"],
+    ldapServerType: item["ldapServerType"],
+    coolAccess: item["coolAccess"],
+    coolnessPeriod: item["coolnessPeriod"],
+    coolAccessRetrievalPolicy: item["coolAccessRetrievalPolicy"],
+    coolAccessTieringPolicy: item["coolAccessTieringPolicy"],
+    unixPermissions: item["unixPermissions"],
+    cloneProgress: item["cloneProgress"],
+    fileAccessLogs: item["fileAccessLogs"],
+    avsDataStore: item["avsDataStore"],
+    dataStoreResourceId: !item["dataStoreResourceId"]
+      ? item["dataStoreResourceId"]
+      : item["dataStoreResourceId"].map((p: any) => {
+          return p;
+        }),
+    isDefaultQuotaEnabled: item["isDefaultQuotaEnabled"],
+    defaultUserQuotaInKiBs: item["defaultUserQuotaInKiBs"],
+    defaultGroupQuotaInKiBs: item["defaultGroupQuotaInKiBs"],
+    maximumNumberOfFiles: item["maximumNumberOfFiles"],
+    volumeGroupName: item["volumeGroupName"],
+    capacityPoolResourceId: item["capacityPoolResourceId"],
+    proximityPlacementGroup: item["proximityPlacementGroup"],
+    t2Network: item["t2Network"],
+    volumeSpecName: item["volumeSpecName"],
+    encrypted: item["encrypted"],
+    placementRules: !item["placementRules"]
+      ? item["placementRules"]
+      : placementKeyValuePairsArrayDeserializer(item["placementRules"]),
+    enableSubvolumes: item["enableSubvolumes"],
+    provisionedAvailabilityZone: item["provisionedAvailabilityZone"],
+    isLargeVolume: item["isLargeVolume"],
+    largeVolumeType: item["largeVolumeType"],
+    originatingResourceId: item["originatingResourceId"],
+    inheritedSizeInBytes: item["inheritedSizeInBytes"],
+    language: item["language"],
+    breakthroughMode: item["breakthroughMode"],
+  };
+}
+
+export function _volumeGroupDetailsPropertiesSerializer(item: VolumeGroupDetails): any {
+  return {
+    groupMetaData: !item["groupMetaData"]
+      ? item["groupMetaData"]
+      : volumeGroupMetaDataSerializer(item["groupMetaData"]),
+    volumes: !item["volumes"]
+      ? item["volumes"]
+      : volumeGroupVolumePropertiesArraySerializer(item["volumes"]),
+  };
+}
+
+export function _volumeGroupDetailsPropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    groupMetaData: !item["groupMetaData"]
+      ? item["groupMetaData"]
+      : volumeGroupMetaDataDeserializer(item["groupMetaData"]),
+    volumes: !item["volumes"]
+      ? item["volumes"]
+      : volumeGroupVolumePropertiesArrayDeserializer(item["volumes"]),
+  };
+}
+
+export function _volumeGroupPropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    groupMetaData: !item["groupMetaData"]
+      ? item["groupMetaData"]
+      : volumeGroupMetaDataDeserializer(item["groupMetaData"]),
+  };
+}
+
+export function _backupPropertiesSerializer(item: Backup): any {
+  return {
+    label: item["label"],
+    volumeResourceId: item["volumeResourceId"],
+    useExistingSnapshot: item["useExistingSnapshot"],
+    snapshotName: item["snapshotName"],
+  };
+}
+
+export function _backupPropertiesDeserializer(item: any) {
+  return {
+    backupId: item["backupId"],
+    creationDate: !item["creationDate"] ? item["creationDate"] : new Date(item["creationDate"]),
+    snapshotCreationDate: !item["snapshotCreationDate"]
+      ? item["snapshotCreationDate"]
+      : new Date(item["snapshotCreationDate"]),
+    completionDate: !item["completionDate"]
+      ? item["completionDate"]
+      : new Date(item["completionDate"]),
+    provisioningState: item["provisioningState"],
+    size: item["size"],
+    label: item["label"],
+    backupType: item["backupType"],
+    failureReason: item["failureReason"],
+    volumeResourceId: item["volumeResourceId"],
+    useExistingSnapshot: item["useExistingSnapshot"],
+    snapshotName: item["snapshotName"],
+    backupPolicyResourceId: item["backupPolicyResourceId"],
+    isLargeVolume: item["isLargeVolume"],
+  };
+}
+
+export function _backupPatchPropertiesSerializer(item: BackupPatch): any {
+  return { label: item["label"] };
+}
+
+export function _volumePropertiesSerializer(item: Volume): any {
+  return {
+    creationToken: item["creationToken"],
+    serviceLevel: item["serviceLevel"],
+    usageThreshold: item["usageThreshold"],
+    exportPolicy: !item["exportPolicy"]
+      ? item["exportPolicy"]
+      : volumePropertiesExportPolicySerializer(item["exportPolicy"]),
+    protocolTypes: !item["protocolTypes"]
+      ? item["protocolTypes"]
+      : item["protocolTypes"].map((p: any) => {
+          return p;
+        }),
+    snapshotId: item["snapshotId"],
+    deleteBaseSnapshot: item["deleteBaseSnapshot"],
+    backupId: item["backupId"],
+    subnetId: item["subnetId"],
+    networkFeatures: item["networkFeatures"],
+    volumeType: item["volumeType"],
+    dataProtection: !item["dataProtection"]
+      ? item["dataProtection"]
+      : volumePropertiesDataProtectionSerializer(item["dataProtection"]),
+    acceptGrowCapacityPoolForShortTermCloneSplit:
+      item["acceptGrowCapacityPoolForShortTermCloneSplit"],
+    snapshotDirectoryVisible: item["snapshotDirectoryVisible"],
+    kerberosEnabled: item["kerberosEnabled"],
+    securityStyle: item["securityStyle"],
+    smbEncryption: item["smbEncryption"],
+    smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
+    smbNonBrowsable: item["smbNonBrowsable"],
+    smbContinuouslyAvailable: item["smbContinuouslyAvailable"],
+    throughputMibps: item["throughputMibps"],
+    encryptionKeySource: item["encryptionKeySource"],
+    keyVaultPrivateEndpointResourceId: item["keyVaultPrivateEndpointResourceId"],
+    ldapEnabled: item["ldapEnabled"],
+    ldapServerType: item["ldapServerType"],
+    coolAccess: item["coolAccess"],
+    coolnessPeriod: item["coolnessPeriod"],
+    coolAccessRetrievalPolicy: item["coolAccessRetrievalPolicy"],
+    coolAccessTieringPolicy: item["coolAccessTieringPolicy"],
+    unixPermissions: item["unixPermissions"],
+    avsDataStore: item["avsDataStore"],
+    isDefaultQuotaEnabled: item["isDefaultQuotaEnabled"],
+    defaultUserQuotaInKiBs: item["defaultUserQuotaInKiBs"],
+    defaultGroupQuotaInKiBs: item["defaultGroupQuotaInKiBs"],
+    capacityPoolResourceId: item["capacityPoolResourceId"],
+    proximityPlacementGroup: item["proximityPlacementGroup"],
+    volumeSpecName: item["volumeSpecName"],
+    placementRules: !item["placementRules"]
+      ? item["placementRules"]
+      : placementKeyValuePairsArraySerializer(item["placementRules"]),
+    enableSubvolumes: item["enableSubvolumes"],
+    isLargeVolume: item["isLargeVolume"],
+    largeVolumeType: item["largeVolumeType"],
+    language: item["language"],
+    breakthroughMode: item["breakthroughMode"],
+  };
+}
+
+export function _volumePropertiesDeserializer(item: any) {
+  return {
+    fileSystemId: item["fileSystemId"],
+    creationToken: item["creationToken"],
+    serviceLevel: item["serviceLevel"],
+    usageThreshold: item["usageThreshold"],
+    exportPolicy: !item["exportPolicy"]
+      ? item["exportPolicy"]
+      : volumePropertiesExportPolicyDeserializer(item["exportPolicy"]),
+    protocolTypes: !item["protocolTypes"]
+      ? item["protocolTypes"]
+      : item["protocolTypes"].map((p: any) => {
+          return p;
+        }),
+    provisioningState: item["provisioningState"],
+    snapshotId: item["snapshotId"],
+    deleteBaseSnapshot: item["deleteBaseSnapshot"],
+    backupId: item["backupId"],
+    baremetalTenantId: item["baremetalTenantId"],
+    subnetId: item["subnetId"],
+    networkFeatures: item["networkFeatures"],
+    effectiveNetworkFeatures: item["effectiveNetworkFeatures"],
+    networkSiblingSetId: item["networkSiblingSetId"],
+    storageToNetworkProximity: item["storageToNetworkProximity"],
+    mountTargets: !item["mountTargets"]
+      ? item["mountTargets"]
+      : mountTargetPropertiesArrayDeserializer(item["mountTargets"]),
+    volumeType: item["volumeType"],
+    dataProtection: !item["dataProtection"]
+      ? item["dataProtection"]
+      : volumePropertiesDataProtectionDeserializer(item["dataProtection"]),
+    acceptGrowCapacityPoolForShortTermCloneSplit:
+      item["acceptGrowCapacityPoolForShortTermCloneSplit"],
+    isRestoring: item["isRestoring"],
+    snapshotDirectoryVisible: item["snapshotDirectoryVisible"],
+    kerberosEnabled: item["kerberosEnabled"],
+    securityStyle: item["securityStyle"],
+    smbEncryption: item["smbEncryption"],
+    smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
+    smbNonBrowsable: item["smbNonBrowsable"],
+    smbContinuouslyAvailable: item["smbContinuouslyAvailable"],
+    throughputMibps: item["throughputMibps"],
+    actualThroughputMibps: item["actualThroughputMibps"],
+    encryptionKeySource: item["encryptionKeySource"],
+    keyVaultPrivateEndpointResourceId: item["keyVaultPrivateEndpointResourceId"],
+    ldapEnabled: item["ldapEnabled"],
+    ldapServerType: item["ldapServerType"],
+    coolAccess: item["coolAccess"],
+    coolnessPeriod: item["coolnessPeriod"],
+    coolAccessRetrievalPolicy: item["coolAccessRetrievalPolicy"],
+    coolAccessTieringPolicy: item["coolAccessTieringPolicy"],
+    unixPermissions: item["unixPermissions"],
+    cloneProgress: item["cloneProgress"],
+    fileAccessLogs: item["fileAccessLogs"],
+    avsDataStore: item["avsDataStore"],
+    dataStoreResourceId: !item["dataStoreResourceId"]
+      ? item["dataStoreResourceId"]
+      : item["dataStoreResourceId"].map((p: any) => {
+          return p;
+        }),
+    isDefaultQuotaEnabled: item["isDefaultQuotaEnabled"],
+    defaultUserQuotaInKiBs: item["defaultUserQuotaInKiBs"],
+    defaultGroupQuotaInKiBs: item["defaultGroupQuotaInKiBs"],
+    maximumNumberOfFiles: item["maximumNumberOfFiles"],
+    volumeGroupName: item["volumeGroupName"],
+    capacityPoolResourceId: item["capacityPoolResourceId"],
+    proximityPlacementGroup: item["proximityPlacementGroup"],
+    t2Network: item["t2Network"],
+    volumeSpecName: item["volumeSpecName"],
+    encrypted: item["encrypted"],
+    placementRules: !item["placementRules"]
+      ? item["placementRules"]
+      : placementKeyValuePairsArrayDeserializer(item["placementRules"]),
+    enableSubvolumes: item["enableSubvolumes"],
+    provisionedAvailabilityZone: item["provisionedAvailabilityZone"],
+    isLargeVolume: item["isLargeVolume"],
+    largeVolumeType: item["largeVolumeType"],
+    originatingResourceId: item["originatingResourceId"],
+    inheritedSizeInBytes: item["inheritedSizeInBytes"],
+    language: item["language"],
+    breakthroughMode: item["breakthroughMode"],
+  };
+}
+
+export function _volumePatchPropertiesSerializer(item: VolumePatch): any {
+  return {
+    serviceLevel: item["serviceLevel"],
+    usageThreshold: item["usageThreshold"],
+    exportPolicy: !item["exportPolicy"]
+      ? item["exportPolicy"]
+      : volumePatchPropertiesExportPolicySerializer(item["exportPolicy"]),
+    protocolTypes: !item["protocolTypes"]
+      ? item["protocolTypes"]
+      : item["protocolTypes"].map((p: any) => {
+          return p;
+        }),
+    throughputMibps: item["throughputMibps"],
+    dataProtection: !item["dataProtection"]
+      ? item["dataProtection"]
+      : volumePatchPropertiesDataProtectionSerializer(item["dataProtection"]),
+    isDefaultQuotaEnabled: item["isDefaultQuotaEnabled"],
+    defaultUserQuotaInKiBs: item["defaultUserQuotaInKiBs"],
+    defaultGroupQuotaInKiBs: item["defaultGroupQuotaInKiBs"],
+    unixPermissions: item["unixPermissions"],
+    coolAccess: item["coolAccess"],
+    coolnessPeriod: item["coolnessPeriod"],
+    coolAccessRetrievalPolicy: item["coolAccessRetrievalPolicy"],
+    coolAccessTieringPolicy: item["coolAccessTieringPolicy"],
+    snapshotDirectoryVisible: item["snapshotDirectoryVisible"],
+    smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
+    smbNonBrowsable: item["smbNonBrowsable"],
+  };
+}
+
+export function _snapshotPropertiesSerializer(item: Snapshot): any {
+  return item;
+}
+
+export function _snapshotPropertiesDeserializer(item: any) {
+  return {
+    snapshotId: item["snapshotId"],
+    created: !item["created"] ? item["created"] : new Date(item["created"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function _snapshotPolicyPropertiesSerializer(item: SnapshotPolicy): any {
+  return {
+    hourlySchedule: !item["hourlySchedule"]
+      ? item["hourlySchedule"]
+      : hourlyScheduleSerializer(item["hourlySchedule"]),
+    dailySchedule: !item["dailySchedule"]
+      ? item["dailySchedule"]
+      : dailyScheduleSerializer(item["dailySchedule"]),
+    weeklySchedule: !item["weeklySchedule"]
+      ? item["weeklySchedule"]
+      : weeklyScheduleSerializer(item["weeklySchedule"]),
+    monthlySchedule: !item["monthlySchedule"]
+      ? item["monthlySchedule"]
+      : monthlyScheduleSerializer(item["monthlySchedule"]),
+    enabled: item["enabled"],
+  };
+}
+
+export function _snapshotPolicyPropertiesDeserializer(item: any) {
+  return {
+    hourlySchedule: !item["hourlySchedule"]
+      ? item["hourlySchedule"]
+      : hourlyScheduleDeserializer(item["hourlySchedule"]),
+    dailySchedule: !item["dailySchedule"]
+      ? item["dailySchedule"]
+      : dailyScheduleDeserializer(item["dailySchedule"]),
+    weeklySchedule: !item["weeklySchedule"]
+      ? item["weeklySchedule"]
+      : weeklyScheduleDeserializer(item["weeklySchedule"]),
+    monthlySchedule: !item["monthlySchedule"]
+      ? item["monthlySchedule"]
+      : monthlyScheduleDeserializer(item["monthlySchedule"]),
+    enabled: item["enabled"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function _snapshotPolicyPatchPropertiesSerializer(item: SnapshotPolicyPatch): any {
+  return {
+    hourlySchedule: !item["hourlySchedule"]
+      ? item["hourlySchedule"]
+      : hourlyScheduleSerializer(item["hourlySchedule"]),
+    dailySchedule: !item["dailySchedule"]
+      ? item["dailySchedule"]
+      : dailyScheduleSerializer(item["dailySchedule"]),
+    weeklySchedule: !item["weeklySchedule"]
+      ? item["weeklySchedule"]
+      : weeklyScheduleSerializer(item["weeklySchedule"]),
+    monthlySchedule: !item["monthlySchedule"]
+      ? item["monthlySchedule"]
+      : monthlyScheduleSerializer(item["monthlySchedule"]),
+    enabled: item["enabled"],
+  };
+}
+
+export function _snapshotPolicyPatchPropertiesDeserializer(item: any) {
+  return {
+    hourlySchedule: !item["hourlySchedule"]
+      ? item["hourlySchedule"]
+      : hourlyScheduleDeserializer(item["hourlySchedule"]),
+    dailySchedule: !item["dailySchedule"]
+      ? item["dailySchedule"]
+      : dailyScheduleDeserializer(item["dailySchedule"]),
+    weeklySchedule: !item["weeklySchedule"]
+      ? item["weeklySchedule"]
+      : weeklyScheduleDeserializer(item["weeklySchedule"]),
+    monthlySchedule: !item["monthlySchedule"]
+      ? item["monthlySchedule"]
+      : monthlyScheduleDeserializer(item["monthlySchedule"]),
+    enabled: item["enabled"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function _backupPolicyPropertiesSerializer(item: BackupPolicy): any {
+  return {
+    dailyBackupsToKeep: item["dailyBackupsToKeep"],
+    weeklyBackupsToKeep: item["weeklyBackupsToKeep"],
+    monthlyBackupsToKeep: item["monthlyBackupsToKeep"],
+    enabled: item["enabled"],
+  };
+}
+
+export function _backupPolicyPropertiesDeserializer(item: any) {
+  return {
+    backupPolicyId: item["backupPolicyId"],
+    provisioningState: item["provisioningState"],
+    dailyBackupsToKeep: item["dailyBackupsToKeep"],
+    weeklyBackupsToKeep: item["weeklyBackupsToKeep"],
+    monthlyBackupsToKeep: item["monthlyBackupsToKeep"],
+    volumesAssigned: item["volumesAssigned"],
+    enabled: item["enabled"],
+    volumeBackups: !item["volumeBackups"]
+      ? item["volumeBackups"]
+      : volumeBackupsArrayDeserializer(item["volumeBackups"]),
+  };
+}
+
+export function _backupPolicyPatchPropertiesSerializer(item: BackupPolicyPatch): any {
+  return {
+    dailyBackupsToKeep: item["dailyBackupsToKeep"],
+    weeklyBackupsToKeep: item["weeklyBackupsToKeep"],
+    monthlyBackupsToKeep: item["monthlyBackupsToKeep"],
+    enabled: item["enabled"],
+  };
+}
+
+export function _backupPolicyPatchPropertiesDeserializer(item: any) {
+  return {
+    backupPolicyId: item["backupPolicyId"],
+    provisioningState: item["provisioningState"],
+    dailyBackupsToKeep: item["dailyBackupsToKeep"],
+    weeklyBackupsToKeep: item["weeklyBackupsToKeep"],
+    monthlyBackupsToKeep: item["monthlyBackupsToKeep"],
+    volumesAssigned: item["volumesAssigned"],
+    enabled: item["enabled"],
+    volumeBackups: !item["volumeBackups"]
+      ? item["volumeBackups"]
+      : volumeBackupsArrayDeserializer(item["volumeBackups"]),
+  };
+}
+
+export function _volumeQuotaRulePropertiesSerializer(item: VolumeQuotaRule): any {
+  return {
+    quotaSizeInKiBs: item["quotaSizeInKiBs"],
+    quotaType: item["quotaType"],
+    quotaTarget: item["quotaTarget"],
+  };
+}
+
+export function _volumeQuotaRulePropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    quotaSizeInKiBs: item["quotaSizeInKiBs"],
+    quotaType: item["quotaType"],
+    quotaTarget: item["quotaTarget"],
+  };
+}
+
+export function _volumeQuotaRulePatchPropertiesSerializer(item: VolumeQuotaRulePatch): any {
+  return {
+    quotaSizeInKiBs: item["quotaSizeInKiBs"],
+    quotaType: item["quotaType"],
+    quotaTarget: item["quotaTarget"],
+  };
+}
+
+export function _volumeQuotaRulePatchPropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    quotaSizeInKiBs: item["quotaSizeInKiBs"],
+    quotaType: item["quotaType"],
+    quotaTarget: item["quotaTarget"],
+  };
+}
+
+export function _backupVaultPropertiesSerializer(item: BackupVault): any {
+  return item;
+}
+
+export function _backupVaultPropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function _bucketPropertiesSerializer(item: Bucket): any {
+  return {
+    path: item["path"],
+    fileSystemUser: !item["fileSystemUser"]
+      ? item["fileSystemUser"]
+      : fileSystemUserSerializer(item["fileSystemUser"]),
+    server: !item["server"] ? item["server"] : bucketServerPropertiesSerializer(item["server"]),
+    permissions: item["permissions"],
+  };
+}
+
+export function _bucketPropertiesDeserializer(item: any) {
+  return {
+    path: item["path"],
+    fileSystemUser: !item["fileSystemUser"]
+      ? item["fileSystemUser"]
+      : fileSystemUserDeserializer(item["fileSystemUser"]),
+    provisioningState: item["provisioningState"],
+    status: item["status"],
+    server: !item["server"] ? item["server"] : bucketServerPropertiesDeserializer(item["server"]),
+    permissions: item["permissions"],
+  };
+}
+
+export function _bucketPatchPropertiesSerializer(item: BucketPatch): any {
+  return {
+    path: item["path"],
+    fileSystemUser: !item["fileSystemUser"]
+      ? item["fileSystemUser"]
+      : fileSystemUserSerializer(item["fileSystemUser"]),
+    server: !item["server"]
+      ? item["server"]
+      : bucketServerPatchPropertiesSerializer(item["server"]),
+    permissions: item["permissions"],
+  };
+}
+
+export function _regionInfoResourcePropertiesDeserializer(item: any) {
+  return {
+    storageToNetworkProximity: item["storageToNetworkProximity"],
+    availabilityZoneMappings: !item["availabilityZoneMappings"]
+      ? item["availabilityZoneMappings"]
+      : regionInfoAvailabilityZoneMappingsItemArrayDeserializer(item["availabilityZoneMappings"]),
+  };
+}
+
+export function _netAppAccountPropertiesSerializer(item: NetAppAccount): any {
+  return {
+    activeDirectories: !item["activeDirectories"]
+      ? item["activeDirectories"]
+      : activeDirectoryArraySerializer(item["activeDirectories"]),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : accountEncryptionSerializer(item["encryption"]),
+    nfsV4IDDomain: item["nfsV4IDDomain"],
+    ldapConfiguration: !item["ldapConfiguration"]
+      ? item["ldapConfiguration"]
+      : ldapConfigurationSerializer(item["ldapConfiguration"]),
+  };
+}
+
+export function _netAppAccountPropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    activeDirectories: !item["activeDirectories"]
+      ? item["activeDirectories"]
+      : activeDirectoryArrayDeserializer(item["activeDirectories"]),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : accountEncryptionDeserializer(item["encryption"]),
+    disableShowmount: item["disableShowmount"],
+    nfsV4IDDomain: item["nfsV4IDDomain"],
+    multiAdStatus: item["multiAdStatus"],
+    ldapConfiguration: !item["ldapConfiguration"]
+      ? item["ldapConfiguration"]
+      : ldapConfigurationDeserializer(item["ldapConfiguration"]),
+  };
+}
+
+export function _netAppAccountPatchPropertiesSerializer(item: NetAppAccountPatch): any {
+  return {
+    activeDirectories: !item["activeDirectories"]
+      ? item["activeDirectories"]
+      : activeDirectoryArraySerializer(item["activeDirectories"]),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : accountEncryptionSerializer(item["encryption"]),
+    nfsV4IDDomain: item["nfsV4IDDomain"],
+    ldapConfiguration: !item["ldapConfiguration"]
+      ? item["ldapConfiguration"]
+      : ldapConfigurationSerializer(item["ldapConfiguration"]),
+  };
+}
+
+export function _netAppAccountPatchPropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    activeDirectories: !item["activeDirectories"]
+      ? item["activeDirectories"]
+      : activeDirectoryArrayDeserializer(item["activeDirectories"]),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : accountEncryptionDeserializer(item["encryption"]),
+    disableShowmount: item["disableShowmount"],
+    nfsV4IDDomain: item["nfsV4IDDomain"],
+    multiAdStatus: item["multiAdStatus"],
+    ldapConfiguration: !item["ldapConfiguration"]
+      ? item["ldapConfiguration"]
+      : ldapConfigurationDeserializer(item["ldapConfiguration"]),
+  };
+}
+
+export function _getKeyVaultStatusResponsePropertiesDeserializer(item: any) {
+  return {
+    keyVaultUri: item["keyVaultUri"],
+    keyName: item["keyName"],
+    keyVaultResourceId: item["keyVaultResourceId"],
+    keyVaultPrivateEndpoints: !item["keyVaultPrivateEndpoints"]
+      ? item["keyVaultPrivateEndpoints"]
+      : keyVaultPrivateEndpointArrayDeserializer(item["keyVaultPrivateEndpoints"]),
+  };
+}
+
+export function _capacityPoolPropertiesSerializer(item: CapacityPool): any {
+  return {
+    size: item["size"],
+    serviceLevel: item["serviceLevel"],
+    customThroughputMibps: item["customThroughputMibps"],
+    qosType: item["qosType"],
+    coolAccess: item["coolAccess"],
+    encryptionType: item["encryptionType"],
+  };
+}
+
+export function _capacityPoolPropertiesDeserializer(item: any) {
+  return {
+    poolId: item["poolId"],
+    size: item["size"],
+    serviceLevel: item["serviceLevel"],
+    provisioningState: item["provisioningState"],
+    totalThroughputMibps: item["totalThroughputMibps"],
+    utilizedThroughputMibps: item["utilizedThroughputMibps"],
+    customThroughputMibps: item["customThroughputMibps"],
+    qosType: item["qosType"],
+    coolAccess: item["coolAccess"],
+    encryptionType: item["encryptionType"],
+  };
+}
+
+export function _capacityPoolPatchPropertiesSerializer(item: CapacityPoolPatch): any {
+  return {
+    size: item["size"],
+    qosType: item["qosType"],
+    coolAccess: item["coolAccess"],
+    customThroughputMibps: item["customThroughputMibps"],
+  };
+}
+
+export function _subvolumeInfoPropertiesSerializer(item: SubvolumeInfo): any {
+  return { path: item["path"], size: item["size"], parentPath: item["parentPath"] };
+}
+
+export function _subvolumeInfoPropertiesDeserializer(item: any) {
+  return {
+    path: item["path"],
+    size: item["size"],
+    parentPath: item["parentPath"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function _subvolumePatchRequestPropertiesSerializer(item: SubvolumePatchRequest): any {
+  return { size: item["size"], path: item["path"] };
+}
+
+export function _subvolumeModelPropertiesDeserializer(item: any) {
+  return {
+    path: item["path"],
+    parentPath: item["parentPath"],
+    size: item["size"],
+    bytesUsed: item["bytesUsed"],
+    permissions: item["permissions"],
+    creationTimeStamp: !item["creationTimeStamp"]
+      ? item["creationTimeStamp"]
+      : new Date(item["creationTimeStamp"]),
+    accessedTimeStamp: !item["accessedTimeStamp"]
+      ? item["accessedTimeStamp"]
+      : new Date(item["accessedTimeStamp"]),
+    modifiedTimeStamp: !item["modifiedTimeStamp"]
+      ? item["modifiedTimeStamp"]
+      : new Date(item["modifiedTimeStamp"]),
+    changedTimeStamp: !item["changedTimeStamp"]
+      ? item["changedTimeStamp"]
+      : new Date(item["changedTimeStamp"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function _usageResultPropertiesDeserializer(item: any) {
+  return {
+    currentValue: item["currentValue"],
+    limit: item["limit"],
+    unit: item["unit"],
+  };
 }

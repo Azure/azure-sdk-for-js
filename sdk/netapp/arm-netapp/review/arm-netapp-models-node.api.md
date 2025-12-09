@@ -115,12 +115,25 @@ export type AvsDataStore = string;
 
 // @public
 export interface Backup extends ProxyResource {
-    properties: BackupProperties;
+    readonly backupId?: string;
+    readonly backupPolicyResourceId?: string;
+    readonly backupType?: BackupType;
+    readonly completionDate?: Date | null;
+    readonly creationDate?: Date;
+    readonly failureReason?: string;
+    readonly isLargeVolume?: boolean;
+    label?: string;
+    readonly provisioningState?: string;
+    readonly size?: number;
+    readonly snapshotCreationDate?: Date | null;
+    snapshotName?: string;
+    useExistingSnapshot?: boolean;
+    volumeResourceId: string;
 }
 
 // @public
 export interface BackupPatch {
-    properties?: BackupPatchProperties;
+    label?: string;
 }
 
 // @public
@@ -130,18 +143,32 @@ export interface BackupPatchProperties {
 
 // @public
 export interface BackupPolicy extends TrackedResource {
+    readonly backupPolicyId?: string;
+    dailyBackupsToKeep?: number;
+    enabled?: boolean;
     readonly etag?: string;
-    properties: BackupPolicyProperties;
+    monthlyBackupsToKeep?: number;
+    readonly provisioningState?: string;
+    readonly volumeBackups?: VolumeBackups[];
+    readonly volumesAssigned?: number;
+    weeklyBackupsToKeep?: number;
 }
 
 // @public
 export interface BackupPolicyPatch {
+    readonly backupPolicyId?: string;
+    dailyBackupsToKeep?: number;
+    enabled?: boolean;
     readonly id?: string;
     location?: string;
+    monthlyBackupsToKeep?: number;
     readonly name?: string;
-    properties?: BackupPolicyProperties;
+    readonly provisioningState?: string;
     tags?: Record<string, string>;
     readonly type?: string;
+    readonly volumeBackups?: VolumeBackups[];
+    readonly volumesAssigned?: number;
+    weeklyBackupsToKeep?: number;
 }
 
 // @public
@@ -204,7 +231,7 @@ export type BackupType = string;
 
 // @public
 export interface BackupVault extends TrackedResource {
-    properties?: BackupVaultProperties;
+    readonly provisioningState?: string;
 }
 
 // @public
@@ -233,7 +260,12 @@ export type BreakthroughMode = string;
 
 // @public
 export interface Bucket extends ProxyResource {
-    properties?: BucketProperties;
+    fileSystemUser?: FileSystemUser;
+    path?: string;
+    permissions?: BucketPermissions;
+    readonly provisioningState?: NetAppProvisioningState;
+    server?: BucketServerProperties;
+    readonly status?: CredentialsStatus;
 }
 
 // @public
@@ -250,7 +282,11 @@ export interface BucketGenerateCredentials {
 
 // @public
 export interface BucketPatch extends ProxyResource {
-    properties?: BucketPatchProperties;
+    fileSystemUser?: FileSystemUser;
+    path?: string;
+    permissions?: BucketPatchPermissions;
+    readonly provisioningState?: NetAppProvisioningState;
+    server?: BucketServerPatchProperties;
 }
 
 // @public
@@ -366,16 +402,28 @@ export interface CacheUpdateProperties {
 
 // @public
 export interface CapacityPool extends TrackedResource {
+    coolAccess?: boolean;
+    customThroughputMibps?: number | null;
+    encryptionType?: EncryptionType | null;
     readonly etag?: string;
-    properties: PoolProperties;
+    readonly poolId?: string;
+    readonly provisioningState?: string;
+    qosType?: QosType;
+    serviceLevel: ServiceLevel;
+    size: number;
+    readonly totalThroughputMibps?: number;
+    readonly utilizedThroughputMibps?: number;
 }
 
 // @public
 export interface CapacityPoolPatch {
+    coolAccess?: boolean;
+    customThroughputMibps?: number | null;
     readonly id?: string;
     location?: string;
     readonly name?: string;
-    properties?: PoolPatchProperties;
+    qosType?: QosType;
+    size?: number;
     tags?: Record<string, string>;
     readonly type?: string;
 }
@@ -949,7 +997,10 @@ export interface GetGroupIdListForLdapUserResponse {
 
 // @public
 export interface GetKeyVaultStatusResponse {
-    properties?: GetKeyVaultStatusResponseProperties;
+    keyName?: string;
+    keyVaultPrivateEndpoints?: KeyVaultPrivateEndpoint[];
+    keyVaultResourceId?: string;
+    keyVaultUri?: string;
 }
 
 // @public
@@ -1758,18 +1809,30 @@ export type MultiAdStatus = string;
 
 // @public
 export interface NetAppAccount extends TrackedResource {
+    activeDirectories?: ActiveDirectory[];
+    readonly disableShowmount?: boolean | null;
+    encryption?: AccountEncryption;
     readonly etag?: string;
     identity?: ManagedServiceIdentity;
-    properties?: AccountProperties;
+    ldapConfiguration?: LdapConfiguration;
+    readonly multiAdStatus?: MultiAdStatus;
+    nfsV4IDDomain?: string | null;
+    readonly provisioningState?: string;
 }
 
 // @public
 export interface NetAppAccountPatch {
+    activeDirectories?: ActiveDirectory[];
+    readonly disableShowmount?: boolean | null;
+    encryption?: AccountEncryption;
     readonly id?: string;
     identity?: ManagedServiceIdentity;
+    ldapConfiguration?: LdapConfiguration;
     location?: string;
+    readonly multiAdStatus?: MultiAdStatus;
     readonly name?: string;
-    properties?: AccountProperties;
+    nfsV4IDDomain?: string | null;
+    readonly provisioningState?: string;
     tags?: Record<string, string>;
     readonly type?: string;
 }
@@ -1810,7 +1873,7 @@ export interface Operation {
     display?: OperationDisplay;
     name?: string;
     origin?: string;
-    properties?: OperationProperties;
+    serviceSpecification?: ServiceSpecification;
 }
 
 // @public
@@ -1907,7 +1970,9 @@ export interface QuotaAvailabilityRequest {
 
 // @public
 export interface QuotaItem extends ProxyResource {
-    properties?: QuotaItemProperties;
+    readonly current?: number;
+    readonly default?: number;
+    readonly usage?: number | null;
 }
 
 // @public
@@ -1996,7 +2061,8 @@ export interface RegionInfoAvailabilityZoneMappingsItem {
 
 // @public
 export interface RegionInfoResource extends ProxyResource {
-    properties?: RegionInfo;
+    availabilityZoneMappings?: RegionInfoAvailabilityZoneMappingsItem[];
+    storageToNetworkProximity?: RegionStorageToNetworkProximity;
 }
 
 // @public
@@ -2132,8 +2198,10 @@ export interface SmbSettings {
 
 // @public
 export interface Snapshot extends ProxyResource {
+    readonly created?: Date;
     location: string;
-    properties?: SnapshotProperties;
+    readonly provisioningState?: string;
+    readonly snapshotId?: string;
 }
 
 // @public
@@ -2145,18 +2213,28 @@ export interface SnapshotPatch {
 
 // @public
 export interface SnapshotPolicy extends TrackedResource {
+    dailySchedule?: DailySchedule;
+    enabled?: boolean;
     readonly etag?: string;
-    properties: SnapshotPolicyProperties;
+    hourlySchedule?: HourlySchedule;
+    monthlySchedule?: MonthlySchedule;
+    readonly provisioningState?: string;
+    weeklySchedule?: WeeklySchedule;
 }
 
 // @public
 export interface SnapshotPolicyPatch {
+    dailySchedule?: DailySchedule;
+    enabled?: boolean;
+    hourlySchedule?: HourlySchedule;
     readonly id?: string;
     location?: string;
+    monthlySchedule?: MonthlySchedule;
     readonly name?: string;
-    properties?: SnapshotPolicyProperties;
+    readonly provisioningState?: string;
     tags?: Record<string, string>;
     readonly type?: string;
+    weeklySchedule?: WeeklySchedule;
 }
 
 // @public
@@ -2193,14 +2271,26 @@ export type SnapshotUsage = string;
 
 // @public
 export interface SubvolumeInfo extends ProxyResource {
-    properties?: SubvolumeProperties;
+    parentPath?: string | null;
+    path?: string;
+    readonly provisioningState?: string;
+    size?: number | null;
 }
 
 // @public
 export interface SubvolumeModel {
+    accessedTimeStamp?: Date;
+    bytesUsed?: number;
+    changedTimeStamp?: Date;
+    creationTimeStamp?: Date;
     readonly id?: string;
+    modifiedTimeStamp?: Date;
     readonly name?: string;
-    properties?: SubvolumeModelProperties;
+    parentPath?: string;
+    path?: string;
+    permissions?: string;
+    provisioningState?: string;
+    size?: number;
     readonly type?: string;
 }
 
@@ -2226,7 +2316,8 @@ export interface SubvolumePatchParams {
 
 // @public
 export interface SubvolumePatchRequest {
-    properties?: SubvolumePatchParams;
+    path?: string;
+    size?: number | null;
 }
 
 // @public
@@ -2290,9 +2381,11 @@ export interface UsageProperties {
 
 // @public
 export interface UsageResult {
+    readonly currentValue?: number;
     readonly id?: string;
+    readonly limit?: number;
     readonly name?: UsageName;
-    properties?: UsageProperties;
+    readonly unit?: string;
 }
 
 // @public
@@ -2303,8 +2396,69 @@ export interface UserAssignedIdentity {
 
 // @public
 export interface Volume extends TrackedResource {
+    acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
+    readonly actualThroughputMibps?: number;
+    avsDataStore?: AvsDataStore;
+    backupId?: string | null;
+    readonly baremetalTenantId?: string;
+    breakthroughMode?: BreakthroughMode;
+    capacityPoolResourceId?: string;
+    readonly cloneProgress?: number | null;
+    coolAccess?: boolean;
+    coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
+    coolAccessTieringPolicy?: CoolAccessTieringPolicy;
+    coolnessPeriod?: number;
+    creationToken: string;
+    dataProtection?: VolumePropertiesDataProtection;
+    readonly dataStoreResourceId?: string[];
+    defaultGroupQuotaInKiBs?: number;
+    defaultUserQuotaInKiBs?: number;
+    deleteBaseSnapshot?: boolean;
+    readonly effectiveNetworkFeatures?: NetworkFeatures;
+    enableSubvolumes?: EnableSubvolumes;
+    readonly encrypted?: boolean;
+    encryptionKeySource?: EncryptionKeySource;
     readonly etag?: string;
-    properties: VolumeProperties;
+    exportPolicy?: VolumePropertiesExportPolicy;
+    readonly fileAccessLogs?: FileAccessLogs;
+    readonly fileSystemId?: string;
+    readonly inheritedSizeInBytes?: number | null;
+    isDefaultQuotaEnabled?: boolean;
+    isLargeVolume?: boolean;
+    readonly isRestoring?: boolean;
+    kerberosEnabled?: boolean;
+    keyVaultPrivateEndpointResourceId?: string;
+    language?: VolumeLanguage;
+    largeVolumeType?: LargeVolumeType;
+    ldapEnabled?: boolean;
+    ldapServerType?: LdapServerType;
+    readonly maximumNumberOfFiles?: number;
+    readonly mountTargets?: MountTargetProperties[];
+    networkFeatures?: NetworkFeatures;
+    readonly networkSiblingSetId?: string;
+    readonly originatingResourceId?: string | null;
+    placementRules?: PlacementKeyValuePairs[];
+    protocolTypes?: string[];
+    readonly provisionedAvailabilityZone?: string | null;
+    readonly provisioningState?: string;
+    proximityPlacementGroup?: string;
+    securityStyle?: SecurityStyle;
+    serviceLevel?: ServiceLevel;
+    smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
+    smbContinuouslyAvailable?: boolean;
+    smbEncryption?: boolean;
+    smbNonBrowsable?: SmbNonBrowsable;
+    snapshotDirectoryVisible?: boolean;
+    snapshotId?: string | null;
+    readonly storageToNetworkProximity?: VolumeStorageToNetworkProximity;
+    subnetId: string;
+    readonly t2Network?: string;
+    throughputMibps?: number | null;
+    unixPermissions?: string | null;
+    usageThreshold: number;
+    readonly volumeGroupName?: string;
+    volumeSpecName?: string;
+    volumeType?: string;
     zones?: string[];
 }
 
@@ -2328,17 +2482,20 @@ export interface VolumeBackups {
 
 // @public
 export interface VolumeGroup {
+    groupMetaData?: VolumeGroupMetaData;
     readonly id?: string;
     location?: string;
     readonly name?: string;
-    properties?: VolumeGroupListProperties;
+    readonly provisioningState?: string;
     readonly type?: string;
 }
 
 // @public
 export interface VolumeGroupDetails extends ProxyResource {
+    groupMetaData?: VolumeGroupMetaData;
     location?: string;
-    properties?: VolumeGroupProperties;
+    readonly provisioningState?: string;
+    volumes?: VolumeGroupVolumeProperties[];
 }
 
 // @public
@@ -2365,11 +2522,72 @@ export interface VolumeGroupProperties {
 
 // @public
 export interface VolumeGroupVolumeProperties {
+    acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
+    readonly actualThroughputMibps?: number;
+    avsDataStore?: AvsDataStore;
+    backupId?: string | null;
+    readonly baremetalTenantId?: string;
+    breakthroughMode?: BreakthroughMode;
+    capacityPoolResourceId?: string;
+    readonly cloneProgress?: number | null;
+    coolAccess?: boolean;
+    coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
+    coolAccessTieringPolicy?: CoolAccessTieringPolicy;
+    coolnessPeriod?: number;
+    creationToken: string;
+    dataProtection?: VolumePropertiesDataProtection;
+    readonly dataStoreResourceId?: string[];
+    defaultGroupQuotaInKiBs?: number;
+    defaultUserQuotaInKiBs?: number;
+    deleteBaseSnapshot?: boolean;
+    readonly effectiveNetworkFeatures?: NetworkFeatures;
+    enableSubvolumes?: EnableSubvolumes;
+    readonly encrypted?: boolean;
+    encryptionKeySource?: EncryptionKeySource;
+    exportPolicy?: VolumePropertiesExportPolicy;
+    readonly fileAccessLogs?: FileAccessLogs;
+    readonly fileSystemId?: string;
     readonly id?: string;
+    readonly inheritedSizeInBytes?: number | null;
+    isDefaultQuotaEnabled?: boolean;
+    isLargeVolume?: boolean;
+    readonly isRestoring?: boolean;
+    kerberosEnabled?: boolean;
+    keyVaultPrivateEndpointResourceId?: string;
+    language?: VolumeLanguage;
+    largeVolumeType?: LargeVolumeType;
+    ldapEnabled?: boolean;
+    ldapServerType?: LdapServerType;
+    readonly maximumNumberOfFiles?: number;
+    readonly mountTargets?: MountTargetProperties[];
     name?: string;
-    properties: VolumeProperties;
+    networkFeatures?: NetworkFeatures;
+    readonly networkSiblingSetId?: string;
+    readonly originatingResourceId?: string | null;
+    placementRules?: PlacementKeyValuePairs[];
+    protocolTypes?: string[];
+    readonly provisionedAvailabilityZone?: string | null;
+    readonly provisioningState?: string;
+    proximityPlacementGroup?: string;
+    securityStyle?: SecurityStyle;
+    serviceLevel?: ServiceLevel;
+    smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
+    smbContinuouslyAvailable?: boolean;
+    smbEncryption?: boolean;
+    smbNonBrowsable?: SmbNonBrowsable;
+    snapshotDirectoryVisible?: boolean;
+    snapshotId?: string | null;
+    readonly storageToNetworkProximity?: VolumeStorageToNetworkProximity;
+    subnetId: string;
+    readonly t2Network?: string;
     tags?: Record<string, string>;
+    throughputMibps?: number | null;
     readonly type?: string;
+    unixPermissions?: string | null;
+    usageThreshold: number;
+    readonly volumeGroupName?: string;
+    volumeSpecName?: string;
+    volumeType?: string;
     zones?: string[];
 }
 
@@ -2378,12 +2596,28 @@ export type VolumeLanguage = string;
 
 // @public
 export interface VolumePatch {
+    coolAccess?: boolean;
+    coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
+    coolAccessTieringPolicy?: CoolAccessTieringPolicy;
+    coolnessPeriod?: number;
+    dataProtection?: VolumePatchPropertiesDataProtection;
+    defaultGroupQuotaInKiBs?: number;
+    defaultUserQuotaInKiBs?: number;
+    exportPolicy?: VolumePatchPropertiesExportPolicy;
     readonly id?: string;
+    isDefaultQuotaEnabled?: boolean;
     location?: string;
     readonly name?: string;
-    properties?: VolumePatchProperties;
+    protocolTypes?: string[];
+    serviceLevel?: ServiceLevel;
+    smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
+    smbNonBrowsable?: SmbNonBrowsable;
+    snapshotDirectoryVisible?: boolean;
     tags?: Record<string, string>;
+    throughputMibps?: number;
     readonly type?: string;
+    unixPermissions?: string | null;
+    usageThreshold?: number;
 }
 
 // @public
@@ -2501,12 +2735,18 @@ export interface VolumePropertiesExportPolicy {
 
 // @public
 export interface VolumeQuotaRule extends TrackedResource {
-    properties?: VolumeQuotaRulesProperties;
+    readonly provisioningState?: NetAppProvisioningState;
+    quotaSizeInKiBs?: number;
+    quotaTarget?: string;
+    quotaType?: Type;
 }
 
 // @public
 export interface VolumeQuotaRulePatch {
-    properties?: VolumeQuotaRulesProperties;
+    readonly provisioningState?: NetAppProvisioningState;
+    quotaSizeInKiBs?: number;
+    quotaTarget?: string;
+    quotaType?: Type;
     tags?: Record<string, string>;
 }
 

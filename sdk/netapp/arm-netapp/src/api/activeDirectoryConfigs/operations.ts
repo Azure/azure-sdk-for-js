@@ -32,9 +32,7 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: ActiveDirectoryConfigsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: ActiveDirectoryConfigsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/activeDirectoryConfigs{?api%2Dversion}",
@@ -48,10 +46,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -71,9 +66,7 @@ export async function _listBySubscriptionDeserialize(
 /** List all active directory configurations within the subscription */
 export function listBySubscription(
   context: Client,
-  options: ActiveDirectoryConfigsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: ActiveDirectoryConfigsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ActiveDirectoryConfig> {
   return buildPagedAsyncIterator(
     context,
@@ -87,9 +80,7 @@ export function listBySubscription(
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: ActiveDirectoryConfigsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: ActiveDirectoryConfigsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/activeDirectoryConfigs{?api%2Dversion}",
@@ -104,10 +95,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -128,9 +116,7 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: ActiveDirectoryConfigsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: ActiveDirectoryConfigsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ActiveDirectoryConfig> {
   return buildPagedAsyncIterator(
     context,
@@ -216,10 +202,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: activeDirectoryConfigUpdateSerializer(body),
   });
 }
@@ -259,9 +242,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   activeDirectoryConfigName: string,
   body: ActiveDirectoryConfig,
-  options: ActiveDirectoryConfigsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ActiveDirectoryConfigsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/activeDirectoryConfigs/{activeDirectoryConfigName}{?api%2Dversion}",
@@ -278,10 +259,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: activeDirectoryConfigSerializer(body),
   });
 }
@@ -305,9 +283,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   activeDirectoryConfigName: string,
   body: ActiveDirectoryConfig,
-  options: ActiveDirectoryConfigsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ActiveDirectoryConfigsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ActiveDirectoryConfig>, ActiveDirectoryConfig> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -338,10 +314,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
