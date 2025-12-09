@@ -19,10 +19,8 @@
  * Set these environment variables with your own values:
  * 1) AZURE_AI_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
  *    Microsoft Foundry project. It has the form: https://<account_name>.services.ai.azure.com/api/projects/<project_name>.
- * 2) AZURE_AI_MODEL_DEPLOYMENT_NAME - Required. The name of the model deployment to use for evaluation.
- * 3) DATASET_NAME - Optional. The name of the Dataset to create and use in this sample.
- * 4) DATASET_VERSION - Optional. The version of the Dataset to create and use in this sample.
- * 5) DATA_FOLDER - Optional. The folder path where the data files for upload are located.
+ * 2) MODEL_DEPLOYMENT_NAME - Required. The name of the model deployment to use for evaluation.
+ * 3) DATASET_VERSION - Optional. The version of the Dataset to create and use in this sample.
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");

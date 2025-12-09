@@ -19,9 +19,8 @@
  * Set these environment variables with your own values:
  * 1) AZURE_AI_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
  *    Microsoft Foundry project. It has the form: https://<account_name>.services.ai.azure.com/api/projects/<project_name>.
- * 2) DATA_FOLDER - Optional. The folder path where the data files for upload are located.
- * 3) AZURE_AI_AGENT_NAME - Required. The name of the Agent to perform red teaming evaluation on.
- * 4) MODEL_DEPLOYMENT_NAME - Required. The name of the model deployment to use for the agent.
+ * 2) AZURE_AI_AGENT_NAME - Required. The name of the Agent to perform red teaming evaluation on.
+ * 3) MODEL_DEPLOYMENT_NAME - Required. The name of the model deployment to use for the agent.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
