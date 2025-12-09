@@ -1827,6 +1827,9 @@ export function contentFieldDefinitionRecordSerializer(
 export function contentFieldDefinitionRecordDeserializer(
   item: Record<string, any>,
 ): Record<string, ContentFieldDefinition> {
+  if (!item) {
+    return item;
+  }
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
     result[key] = !item[key]
