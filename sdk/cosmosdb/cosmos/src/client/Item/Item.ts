@@ -249,7 +249,7 @@ export class Item {
     body: T,
     options: RequestOptions = {},
   ): Promise<ItemResponse<T>> {
-    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+    return await withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       this.partitionKey = await setPartitionKeyIfUndefined(
         diagnosticNode,
         this.container,
