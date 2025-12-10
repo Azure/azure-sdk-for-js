@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IdentityClient, getIdentityClientAuthorityHost } from "$internal/client/identityClient.js";
+import { IdentityClient } from "$internal/client/identityClient.js";
+import { getAuthorityHost } from "$internal/util/authorityHost.js";
 import { IdentityTestContext } from "./httpRequests.js";
 import type { IdentityTestContextInterface } from "../../httpRequestsCommon.js";
 import { createResponse } from "../../httpRequestsCommon.js";
 import { ClientSecretCredential } from "@azure/identity";
 import { openIdConfigurationResponse, PlaybackTenantId } from "../../msalTestUtils.js";
 import { isExpectedError } from "../../authTestUtils.js";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach, vi, expect } from "vitest";
 import type { HttpClient } from "@azure/core-rest-pipeline";
 import { createDefaultHttpClient, createHttpHeaders } from "@azure/core-rest-pipeline";
@@ -20,7 +21,7 @@ describe("IdentityClient", function () {
     testContext = new IdentityTestContext({ replaceLogger: true, logLevel: "verbose" });
   });
   afterEach(async function () {
-    if (isNode) {
+    if (isNodeLike) {
       delete process.env.AZURE_AUTHORITY_HOST;
     }
     await testContext.restore();
@@ -40,7 +41,7 @@ describe("IdentityClient", function () {
         }),
       ],
     });
-    if (isNode) {
+    if (isNodeLike) {
       assert.strictEqual(error!.name, "CredentialUnavailableError");
     } else {
       // The browser version of this credential uses a legacy approach.
@@ -78,7 +79,7 @@ describe("IdentityClient", function () {
       httpClient: mockHttpClient,
     });
 
-    if (isNode) {
+    if (isNodeLike) {
       await expect(credential.getToken(["scope"])).rejects.toThrow("This is a test error");
     } else {
       // The browser version of this credential uses a legacy approach.
@@ -105,13 +106,13 @@ describe("IdentityClient", function () {
     );
   });
 
-  it.skipIf(!isNode)("parses authority host environment variable as expected", function () {
+  it.skipIf(!isNodeLike)("parses authority host environment variable as expected", function () {
     process.env.AZURE_AUTHORITY_HOST = "http://totallyinsecure.lol";
-    assert.equal(getIdentityClientAuthorityHost({}), process.env.AZURE_AUTHORITY_HOST);
+    assert.equal(getAuthorityHost({}), process.env.AZURE_AUTHORITY_HOST);
     return;
   });
 
-  it.skipIf(!isNode)(
+  it.skipIf(!isNodeLike)(
     "throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided",
     async function () {
       process.env.AZURE_AUTHORITY_HOST = "http://totallyinsecure.lol";
@@ -159,7 +160,7 @@ describe("IdentityClient", function () {
       httpClient: mockHttpClient,
     });
 
-    if (isNode) {
+    if (isNodeLike) {
       await expect(credential.getToken(["scope"])).rejects.toThrow(
         'Response had no "expiresOn" property.',
       );
@@ -171,9 +172,9 @@ describe("IdentityClient", function () {
     }
   });
 
-  it.skipIf(!isNode)("parses authority host environment variable as expected", function () {
+  it.skipIf(!isNodeLike)("parses authority host environment variable as expected", function () {
     process.env.AZURE_AUTHORITY_HOST = "http://totallyinsecure.lol";
-    assert.equal(getIdentityClientAuthorityHost({}), process.env.AZURE_AUTHORITY_HOST);
+    assert.equal(getAuthorityHost({}), process.env.AZURE_AUTHORITY_HOST);
     return;
   });
 
