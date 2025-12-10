@@ -190,10 +190,12 @@ describe("Translate tests", () => {
   it("Translate using LLM", async () => {
     const input = {
       text: "This is a test",
-      targets: [{ 
-        language: "cs",
-        deploymentName: "gpt-4o-mini",
-       }],
+      targets: [
+        {
+          language: "cs",
+          deploymentName: "gpt-4o-mini",
+        },
+      ],
     };
     const response = await client.path("/translate").post({
       body: { inputs: [input] },
