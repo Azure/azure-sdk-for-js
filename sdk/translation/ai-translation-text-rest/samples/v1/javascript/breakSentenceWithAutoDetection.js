@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how you can provide multiple target languages which results
- * to each input element be translated to all target languages.
+ * @summary This sample demonstrates how to make a simple call to the Azure Text Translator service to get sentences' boundaries.
  */
 const TextTranslationClient = require("@azure-rest/ai-translation-text").default,
   { isUnexpected } = require("@azure-rest/ai-translation-text");
@@ -16,7 +15,7 @@ const resourceId = process.env["TRANSLATOR_RESOURCE_ID"] || "<api key>";
 const region = process.env["TRANSLATOR_REGION"] || "<region>";
 
 async function main() {
-  console.log("== Multiple target languages translation ==");
+  console.log("== Sentence Boundaries with auto-detection sample ==");
 
   const translateCedential = {
     tokenCredential: new DefaultAzureCredential(),
@@ -25,26 +24,21 @@ async function main() {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText = [{ text: "This is a test." }];
-  const translateResponse = await translationClient.path("/translate").post({
+  const inputText = [{ text: "How are you? I am fine. What did you do today?" }];
+  const breakSentenceResponse = await translationClient.path("/breaksentence").post({
     body: inputText,
-    queryParameters: {
-      to: "cs,es,de",
-      from: "en",
-    },
   });
 
-  if (isUnexpected(translateResponse)) {
-    throw translateResponse.body.error;
+  if (isUnexpected(breakSentenceResponse)) {
+    throw breakSentenceResponse.body.error;
   }
 
-  const translations = translateResponse.body;
-  for (const translation of translations) {
-    for (const textKey in translation.translations) {
-      console.log(
-        `Text was translated to: '${translation?.translations[textKey]?.to}' and the result is: '${translation?.translations[textKey]?.text}'.`,
-      );
-    }
+  const breakSentences = breakSentenceResponse.body;
+  for (const breakSentence of breakSentences) {
+    console.log(`The detected sentece boundaries: '${breakSentence?.sentLen.join(", ")}'.`);
+    console.log(
+      `Detected languages of the input text: ${breakSentence?.detectedLanguage?.language} with score: ${breakSentence?.detectedLanguage?.score}.`,
+    );
   }
 }
 

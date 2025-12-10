@@ -25,14 +25,14 @@ async function main() {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const input = {
-    text: "<html><body>This <b>is</b> a test.</body></html>",
-    targets: [{ language: "cs" }],
-    language: "en",
-    textType: "html",
-  };
+  const inputText = [{ text: "<html><body>This <b>is</b> a test.</body></html>" }];
   const translateResponse = await translationClient.path("/translate").post({
-    body: { inputs: [input] },
+    body: inputText,
+    queryParameters: {
+      to: "cs",
+      from: "en",
+      textType: "html",
+    },
   });
 
   if (isUnexpected(translateResponse)) {

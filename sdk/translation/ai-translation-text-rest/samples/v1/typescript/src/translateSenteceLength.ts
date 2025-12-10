@@ -2,23 +2,21 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how it's sometimes useful to exclude specific content from translation.
- * You can use the attribute class=notranslate to specify content that should remain
- * in its original language. In the following example, the content inside the first div
- * element won't be translated, while the content in the second div element will be translated.
+ * @summary This sample demonstrates how to you can ask translator service to include sentence boundaries
+ * for the input text and the translated text.
  */
-const TextTranslationClient = require("@azure-rest/ai-translation-text").default,
-  { isUnexpected } = require("@azure-rest/ai-translation-text");
-const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
+import type { InputTextItem } from "@azure-rest/ai-translation-text";
+import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 const endpoint =
   process.env["TEXT_TRANSLATION_ENDPOINT"] || "https://api.cognitive.microsofttranslator.com";
 const resourceId = process.env["TRANSLATOR_RESOURCE_ID"] || "<api key>";
 const region = process.env["TRANSLATOR_REGION"] || "<region>";
 
-async function main() {
-  console.log("== Marking text input with notranslate div sample ==");
+export async function main(): Promise<void> {
+  console.log("== Translation with sentence boundaries sample ==");
 
   const translateCedential = {
     tokenCredential: new DefaultAzureCredential(),
@@ -27,17 +25,16 @@ async function main() {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText = [
-    {
-      text: '<div class="notranslate">This will not be translated.</div><div>This will be translated.</div>',
-    },
+  const inputText: InputTextItem[] = [
+    { text: "The answer lies in machine translation. This is a test." },
   ];
   const translateResponse = await translationClient.path("/translate").post({
     body: inputText,
     queryParameters: {
       to: "cs",
       from: "en",
-      textType: "html",
+
+      includeSentenceLength: true,
     },
   });
 
@@ -50,11 +47,17 @@ async function main() {
     console.log(
       `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
     );
+    console.log(
+      `Source Sentece length: ${translation?.translations[0]?.sentLen?.srcSentLen.join(", ")}`,
+    );
+    console.log(
+      `Translated Sentece length: ${translation?.translations[0]?.sentLen?.transSentLen.join(
+        ", ",
+      )}`,
+    );
   }
 }
 
 main().catch((err) => {
   console.error(err);
 });
-
-module.exports = { main };

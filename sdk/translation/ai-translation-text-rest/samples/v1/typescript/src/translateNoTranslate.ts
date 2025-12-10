@@ -7,6 +7,7 @@
  * in its original language. In the following example, the content inside the first div
  * element won't be translated, while the content in the second div element will be translated.
  */
+import type { InputTextItem } from "@azure-rest/ai-translation-text";
 import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -26,24 +27,28 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const input = {
-    text: '<div class="notranslate">This will not be translated.</div><div>This will be translated.</div>',
-    language: "en",
-    targets: [{ language: "cs" }],
-    textType: "html",
-  };
+  const inputText: InputTextItem[] = [
+    {
+      text: '<div class="notranslate">This will not be translated.</div><div>This will be translated.</div>',
+    },
+  ];
   const translateResponse = await translationClient.path("/translate").post({
-    body: { inputs: [input] },
+    body: inputText,
+    queryParameters: {
+      to: "cs",
+      from: "en",
+      textType: "html",
+    },
   });
 
   if (isUnexpected(translateResponse)) {
     throw translateResponse.body.error;
   }
 
-  const translations = translateResponse.body.value;
+  const translations = translateResponse.body;
   for (const translation of translations) {
     console.log(
-      `Text was translated to: '${translation?.translations[0]?.language}' and the result is: '${translation?.translations[0]?.text}'.`,
+      `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
     );
   }
 }

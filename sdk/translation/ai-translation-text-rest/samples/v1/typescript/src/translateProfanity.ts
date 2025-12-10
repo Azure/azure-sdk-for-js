@@ -15,7 +15,7 @@
  * or you want no action taken. The accepted values of `ProfanityAction` are `Deleted`, `Marked`
  * and `NoAction` (default).
  */
-import type { TranslateInputItem } from "@azure-rest/ai-translation-text";
+import type { InputTextItem } from "@azure-rest/ai-translation-text";
 import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -35,27 +35,25 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const input: TranslateInputItem = {
-    text: "This is ***.",
-    targets: [{ 
-      language: "cs",
+  const inputText: InputTextItem[] = [{ text: "This is ***." }];
+  const translateResponse = await translationClient.path("/translate").post({
+    body: inputText,
+    queryParameters: {
+      to: "cs",
+      from: "en",
       profanityAction: "Marked",
       profanityMarker: "Asterisk",
-    }],
-    language: "en",
-  };
-  const translateResponse = await translationClient.path("/translate").post({
-    body: { inputs: [input] },
+    },
   });
 
   if (isUnexpected(translateResponse)) {
     throw translateResponse.body.error;
   }
 
-  const translations = translateResponse.body.value;
+  const translations = translateResponse.body;
   for (const translation of translations) {
     console.log(
-      `Text was translated to: '${translation?.translations[0]?.language}' and the result is: '${translation?.translations[0]?.text}'.`,
+      `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
     );
   }
 }

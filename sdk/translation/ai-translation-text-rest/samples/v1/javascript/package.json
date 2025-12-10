@@ -30,9 +30,6 @@
   "dependencies": {
     "@azure-rest/ai-translation-text": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.13.0"
-  },
-  "devDependencies": {
-    "cross-env": "latest"
+    "@azure/identity": "^4.7.0"
   }
 }

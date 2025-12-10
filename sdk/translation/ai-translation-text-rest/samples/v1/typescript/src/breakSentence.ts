@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how to make a simple call to the Azure Text Translator
- * service to get translation for a text which language is know to a target language.
+ * @summary This sample demonstrates how to make a simple call to the Azure Text Translator service to get sentences' boundaries.
  */
 import type { InputTextItem } from "@azure-rest/ai-translation-text";
 import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
@@ -16,7 +15,7 @@ const resourceId = process.env["TRANSLATOR_RESOURCE_ID"] || "<api key>";
 const region = process.env["TRANSLATOR_REGION"] || "<region>";
 
 export async function main(): Promise<void> {
-  console.log("== Simple translate sample ==");
+  console.log("== Get Sentence Boundaries sample ==");
 
   const translateCedential = {
     tokenCredential: new DefaultAzureCredential(),
@@ -25,24 +24,22 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText: InputTextItem[] = [{ text: "This is a test." }];
-  const translateResponse = await translationClient.path("/translate").post({
+  const inputText: InputTextItem[] = [{ text: "zhè shì gè cè shì。" }];
+  const breakSentenceResponse = await translationClient.path("/breaksentence").post({
     body: inputText,
     queryParameters: {
-      to: "cs",
-      from: "en",
+      language: "zh-Hans",
+      script: "Latn",
     },
   });
 
-  if (isUnexpected(translateResponse)) {
-    throw translateResponse.body.error;
+  if (isUnexpected(breakSentenceResponse)) {
+    throw breakSentenceResponse.body.error;
   }
 
-  const translations = translateResponse.body;
-  for (const translation of translations) {
-    console.log(
-      `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
-    );
+  const breakSentences = breakSentenceResponse.body;
+  for (const breakSentence of breakSentences) {
+    console.log(`The detected sentece boundaries: '${breakSentence?.sentLen.join(", ")}'.`);
   }
 }
 

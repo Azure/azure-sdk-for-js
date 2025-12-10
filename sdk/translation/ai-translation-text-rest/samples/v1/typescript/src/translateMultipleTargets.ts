@@ -5,6 +5,7 @@
  * @summary This sample demonstrates how you can provide multiple target languages which results
  * to each input element be translated to all target languages.
  */
+import type { InputTextItem } from "@azure-rest/ai-translation-text";
 import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -24,28 +25,24 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const input = {
-    text: "This is a test.",
-    targets: [
-      { language: "cs" },
-      { language: "es" },
-      { language: "de" }
-    ],
-    language: "en",
-  };
+  const inputText: InputTextItem[] = [{ text: "This is a test." }];
   const translateResponse = await translationClient.path("/translate").post({
-    body: { inputs: [input] },
+    body: inputText,
+    queryParameters: {
+      to: "cs,es,de",
+      from: "en",
+    },
   });
 
   if (isUnexpected(translateResponse)) {
     throw translateResponse.body.error;
   }
 
-  const translations = translateResponse.body.value;
+  const translations = translateResponse.body;
   for (const translation of translations) {
     for (const textKey in translation.translations) {
       console.log(
-        `Text was translated to: '${translation?.translations[textKey]?.language}' and the result is: '${translation?.translations[textKey]?.text}'.`,
+        `Text was translated to: '${translation?.translations[textKey]?.to}' and the result is: '${translation?.translations[textKey]?.text}'.`,
       );
     }
   }
