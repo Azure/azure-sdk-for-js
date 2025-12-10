@@ -29,6 +29,7 @@ import { RedTeamsOperations, _getRedTeamsOperations } from "./classic/redTeams/i
 import { SchedulesOperations, _getSchedulesOperations } from "./classic/schedules/index.js";
 import { TokenCredential } from "@azure/core-auth";
 import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
+import { getCustomFetch } from "./getCustomFetch.js";
 
 export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
@@ -132,13 +133,21 @@ export class AIProjectClient {
   public async getOpenAIClient(): Promise<OpenAI> {
     const scope = "https://ai.azure.com/.default";
     const azureADTokenProvider = await getBearerTokenProvider(this._credential, scope);
+    let customFetch: NonNullable<ConstructorParameters<typeof OpenAI>[0]>["fetch"];
+
+    if (this._options.additionalPolicies?.find((policy) => policy.policy.name === "recording policy")) {
+      customFetch = getCustomFetch(this._azureScopeClient.pipeline, this._options.httpClient);
+    }
 
     const openAIOptions: ConstructorParameters<typeof OpenAI>[0] = {
       apiKey: azureADTokenProvider,
       baseURL: `${this._endpoint}/openai`,
       defaultQuery: { "api-version": this._options?.apiVersion || "2025-11-15-preview" },
       dangerouslyAllowBrowser: true,
+      fetch: customFetch
     };
+
+    
 
     const openaiClient = new OpenAI(openAIOptions);
     return overwriteOpenAIClient(openaiClient);
