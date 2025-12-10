@@ -720,14 +720,14 @@ export async function _copyAnalyzerDeserialize(
     throw createRestError(result);
   }
 
-  if (result?.body === undefined) {
+  if (result?.body?.result === undefined) {
     throw createRestError(
-      `Expected a result in the response at position "result.body"`,
+      `Expected a result in the response at position "result.body.result"`,
       result,
     );
   }
 
-  return contentAnalyzerDeserializer(result.body);
+  return contentAnalyzerDeserializer(result.body.result);
 }
 
 /** Create a copy of the source analyzer to the current location. */
