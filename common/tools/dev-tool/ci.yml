@@ -129,7 +129,7 @@ jobs:
 
           echo "##[group]Synthesize spec-gen-sdk-artifact.json"
           echo "$(System.DefaultWorkingDirectory)/azure-sdk-for-js/common/tools/dev-tool/ci-synth-gen-artifacts.js ${{ parameters.TspConfigRelativePath }} > $(System.DefaultWorkingDirectory)/spec-gen-sdk-artifact.json"
-          $(System.DefaultWorkingDirectory)/azure-sdk-for-js/common/tools/dev-tool/ci-synth-gen-artifacts.js ${{ parameters.TspConfigRelativePath }} > $(System.DefaultWorkingDirectory)/spec-gen-sdk-artifact.json
+          $(System.DefaultWorkingDirectory)/azure-sdk-for-js/common/tools/dev-tool/ci-synth-spec-gen-artifacts.js ${{ parameters.TspConfigRelativePath }} > $(System.DefaultWorkingDirectory)/spec-gen-sdk-artifact.json
           echo "##[endgroup]"
 
           node $(System.DefaultWorkingDirectory)/azure-rest-api-specs/eng/tools/spec-gen-sdk-runner/cmd/spec-gen-sdk-runner.js \
