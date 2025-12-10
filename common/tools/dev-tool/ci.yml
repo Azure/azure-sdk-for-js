@@ -112,10 +112,26 @@ jobs:
           versionSpec: $(PythonVersion)
 
       - script: |
+          npm install -g pnpm
+        displayName: "Install Pnpm"
+
+      - script: |
+          pnpm install --prod --filter @azure/dev-tool
+        workingDirectory: $(System.DefaultWorkingDirectory)/azure-sdk-for-js
+        displayName: "Install library dependencies"
+
+      - script: |
           cd $(System.DefaultWorkingDirectory)/azure-rest-api-specs
+
           echo "##[group]Run npm ci"
           npm ci
           echo "##[endgroup]"
+
+          echo "##[group]Synthesize spec-gen-sdk-artifact.json"
+          echo "$(System.DefaultWorkingDirectory)/azure-sdk-for-js/common/tools/dev-tool/ci-synth-gen-artifacts.js ${{ parameters.TspConfigRelativePath }} > $(System.DefaultWorkingDirectory)/spec-gen-sdk-artifact.json"
+          $(System.DefaultWorkingDirectory)/azure-sdk-for-js/common/tools/dev-tool/ci-synth-gen-artifacts.js ${{ parameters.TspConfigRelativePath }} > $(System.DefaultWorkingDirectory)/spec-gen-sdk-artifact.json
+          echo "##[endgroup]"
+
           node $(System.DefaultWorkingDirectory)/azure-rest-api-specs/eng/tools/spec-gen-sdk-runner/cmd/spec-gen-sdk-runner.js \
             --scp $(System.DefaultWorkingDirectory)/azure-rest-api-specs \
             --sdp $(System.DefaultWorkingDirectory)/azure-sdk-for-js \
@@ -127,3 +143,22 @@ jobs:
             --sdk-release-type beta \
             --rm local
         displayName: 'Generate SDK'
+
+      - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+        parameters:
+          ArtifactName: $(PipelineArtifactsName)
+          ArtifactPath: $(StagedArtifactsFolder)
+          CustomCondition: and(succeededOrFailed(), ne(variables['StagedArtifactsFolder'], ''))
+
+      - ${{ if in(variables['Build.Reason'], 'PullRequest') }}:
+        - pwsh: |
+            . $(SpecRepoDirectory)/eng/common/scripts/Helpers/ApiView-Helpers.ps1
+            Create-API-Review `
+              -specGenSDKArtifactPath "$(System.DefaultWorkingDirectory)/spec-gen-sdk-artifact.json" `
+              -apiviewArtifactName "$(PipelineArtifactsName)" `
+              -buildId "$(Build.BuildId)" `
+              -commitish "$(System.PullRequest.SourceCommitId)" `
+              -repoName "Azure/azure-sdk-for-js" `
+              -pullRequestNumber "$(System.PullRequest.PullRequestNumber)"
+          displayName: 'Detect API Change and Create API Review'
+          condition: succeeded()
