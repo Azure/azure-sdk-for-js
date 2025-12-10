@@ -26,29 +26,24 @@ async function main() {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText = [{ text: "hudha akhtabar." }];
+  const input = {
+    text: "hudha akhtabar.",
+    targets: [{ language: "zh-Hans", toScript: "Latn" }],
+    language: "ar",
+    script: "Latn",
+  };
   const translateResponse = await translationClient.path("/translate").post({
-    body: inputText,
-    queryParameters: {
-      to: "zh-Hans",
-      toScript: "Latn",
-      from: "ar",
-      fromScript: "Latn",
-    },
+    body: { inputs: [input] },
   });
 
   if (isUnexpected(translateResponse)) {
     throw translateResponse.body.error;
   }
 
-  const translations = translateResponse.body;
+  const translations = translateResponse.body.value;
   for (const translation of translations) {
-    console.log(`Source Text: ${translation.sourceText?.text}`);
     console.log(
-      `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
-    );
-    console.log(
-      `Transliterated text (${translation?.translations[0]?.transliteration?.script}): ${translation?.translations[0]?.transliteration?.text}`,
+      `Text was translated to: '${translation?.translations[0]?.language}' and the result is: '${translation?.translations[0]?.text}'.`,
     );
   }
 }

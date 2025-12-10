@@ -25,23 +25,23 @@ async function main() {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText = [{ text: "This is a test." }];
+  const input = {
+    text: "This is a test.",
+    targets: [{ language: "cs" }],
+    language: "en",
+  };
   const translateResponse = await translationClient.path("/translate").post({
-    body: inputText,
-    queryParameters: {
-      to: "cs",
-      from: "en",
-    },
+    body: { inputs: [input] },
   });
 
   if (isUnexpected(translateResponse)) {
     throw translateResponse.body.error;
   }
 
-  const translations = translateResponse.body;
+  const translations = translateResponse.body.value;
   for (const translation of translations) {
     console.log(
-      `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
+      `Text was translated to: '${translation?.translations[0]?.language}' and the result is: '${translation?.translations[0]?.text}'.`,
     );
   }
 }

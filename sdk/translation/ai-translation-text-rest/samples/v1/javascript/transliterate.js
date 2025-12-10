@@ -28,7 +28,7 @@ async function main() {
 
   const inputText = [{ text: "这是个测试。" }];
   const transliterateResponse = await translationClient.path("/transliterate").post({
-    body: inputText,
+    body: { inputs: inputText },
     queryParameters: {
       language: "zh-Hans",
       fromScript: "Hans",
@@ -40,8 +40,8 @@ async function main() {
     throw transliterateResponse.body.error;
   }
 
-  const translations = transliterateResponse.body;
-  for (const transliteration of translations) {
+  const transliterations = transliterateResponse.body.value;
+  for (const transliteration of transliterations) {
     console.log(
       `Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`,
     );

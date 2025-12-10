@@ -6,7 +6,6 @@
  * service to get translation for a multiple text fields and each input text
  * is in different language.
  */
-import type { InputTextItem } from "@azure-rest/ai-translation-text";
 import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -26,16 +25,13 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText: InputTextItem[] = [
-    { text: "This is a test." },
-    { text: "Esto es una prueba." },
-    { text: "Dies ist ein Test." },
+  const inputs = [
+    { text: "This is a test.", targets: [{ language: "cs" }] },
+    { text: "Esto es una prueba.", targets: [{ language: "cs" }] },
+    { text: "Dies ist ein Test.", targets: [{ language: "cs" }] },
   ];
   const translateResponse = await translationClient.path("/translate").post({
-    body: inputText,
-    queryParameters: {
-      to: "cs",
-    },
+    body: { inputs: inputs },
   });
 
   if (isUnexpected(translateResponse)) {
