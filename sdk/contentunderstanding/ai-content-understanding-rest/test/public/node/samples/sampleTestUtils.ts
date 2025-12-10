@@ -6,7 +6,10 @@
  */
 
 import type { Recorder, TestInfo } from "@azure-tools/test-recorder";
-import { createRecorder as baseCreateRecorder, testPollingOptions } from "../../utils/recordedClient.js";
+import {
+  createRecorder as baseCreateRecorder,
+  testPollingOptions,
+} from "../../utils/recordedClient.js";
 import { ContentUnderstandingClient } from "../../../../src/index.js";
 import { getEndpoint, getKey, isLiveMode } from "../../../utils/injectables.js";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -20,7 +23,10 @@ const __dirname = path.dirname(__filename);
 
 // Path to sample files
 export const SAMPLE_FILES_PATH = path.resolve(__dirname, "../../../../sample_files");
-export const SAMPLES_DEV_EXAMPLE_DATA_PATH = path.resolve(__dirname, "../../../../samples-dev/example-data");
+export const SAMPLES_DEV_EXAMPLE_DATA_PATH = path.resolve(
+  __dirname,
+  "../../../../samples-dev/example-data",
+);
 
 // Test URLs for samples
 export const TEST_INVOICE_URL =
