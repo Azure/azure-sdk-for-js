@@ -39,8 +39,6 @@ const options: AzureMonitorOpenTelemetryOptions = {
 useAzureMonitor(options);
 ```
 
-- When running on Node.js 20.6 or later, the SDK automatically registers `@opentelemetry/instrumentation/hook.mjs` via `module.register`, so you no longer need to pass `--experimental-loader` or `--import` flags manually to enable auto-instrumentation for ESM modules. On earlier Node.js versions, add the loader flag yourself or follow the [Node.js customization hooks guidance](https://nodejs.org/api/module.html#customization-hooks).
-
 - Connection String could be set using the environment variable `APPLICATIONINSIGHTS_CONNECTION_STRING`.
 
 ## Configuration
