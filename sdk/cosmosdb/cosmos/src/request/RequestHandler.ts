@@ -47,13 +47,15 @@ async function httpRequest(
 
   // Wrap users passed abort events and call our own internal abort()
   const userSignal = requestContext.options && requestContext.options.abortSignal;
+  let userSignalListener: EventListener | undefined = undefined;
   if (userSignal) {
     if (userSignal.aborted) {
       controller.abort();
     } else {
-      userSignal.addEventListener("abort", () => {
+      userSignalListener = () => {
         controller.abort();
-      });
+      };
+      userSignal.addEventListener("abort", userSignalListener);
     }
   }
 
@@ -112,7 +114,6 @@ async function httpRequest(
     if (error.name === "AbortError") {
       // If the user passed signal caused the abort, cancel the timeout and rethrow the error
       if (userSignal && userSignal.aborted === true) {
-        clearTimeout(timeout);
         throw error;
       }
       throw new TimeoutError(
@@ -120,9 +121,14 @@ async function httpRequest(
       );
     }
     throw error;
+  } finally {
+    clearTimeout(timeout);
+
+    if (userSignal && userSignalListener) {
+      userSignal.removeEventListener("abort", userSignalListener);
+    }
   }
 
-  clearTimeout(timeout);
   const result =
     response.status === 204 || response.status === 304 || response.bodyAsText === ""
       ? null

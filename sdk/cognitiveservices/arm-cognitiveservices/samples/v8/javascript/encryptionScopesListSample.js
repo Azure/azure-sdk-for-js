@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets the content filters associated with the Azure OpenAI account.
  *
  * @summary Gets the content filters associated with the Azure OpenAI account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListEncryptionScopes.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListEncryptionScopes.json
  */
 async function listEncryptionScopes() {
   const subscriptionId =

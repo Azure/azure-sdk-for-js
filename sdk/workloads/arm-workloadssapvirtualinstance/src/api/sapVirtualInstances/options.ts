@@ -5,8 +5,7 @@ import { StartRequest, StopRequest } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface SAPVirtualInstancesGetAvailabilityZoneDetailsOptionalParams
-  extends OperationOptions {}
+export interface SAPVirtualInstancesGetAvailabilityZoneDetailsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface SAPVirtualInstancesGetDiskConfigurationsOptionalParams extends OperationOptions {}
@@ -15,8 +14,7 @@ export interface SAPVirtualInstancesGetDiskConfigurationsOptionalParams extends 
 export interface SAPVirtualInstancesGetSapSupportedSkuOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SAPVirtualInstancesGetSizingRecommendationsOptionalParams
-  extends OperationOptions {}
+export interface SAPVirtualInstancesGetSizingRecommendationsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface SAPVirtualInstancesStopOptionalParams extends OperationOptions {

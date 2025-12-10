@@ -1,0 +1,44 @@
+{
+  "name": "@azure-samples/ai-projects-ts-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure AI Projects client library samples for TypeScript (Beta)",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/ai/ai-projects"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects",
+  "dependencies": {
+    "@azure/ai-projects": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^4.11.1",
+    "openai": "^6.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~5.9.3"
+  }
+}

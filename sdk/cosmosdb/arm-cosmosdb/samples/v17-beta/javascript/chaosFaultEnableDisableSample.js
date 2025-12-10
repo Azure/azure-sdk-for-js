@@ -1,0 +1,41 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
+
+/**
+ * This sample demonstrates how to Enable, disable Chaos Fault in a CosmosDB account.
+ *
+ * @summary Enable, disable Chaos Fault in a CosmosDB account.
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/ChaosFaultEnableDisable.json
+ */
+async function chaosFaultEnableDisable() {
+  const subscriptionId =
+    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "myResourceGroupName";
+  const accountName = "myAccountName";
+  const chaosFault = "ServiceUnavailability";
+  const chaosFaultRequest = {
+    action: "Enable",
+    containerName: "testCollection",
+    databaseName: "testDatabase",
+    region: "EastUS",
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.chaosFault.beginEnableDisableAndWait(
+    resourceGroupName,
+    accountName,
+    chaosFault,
+    chaosFaultRequest,
+  );
+  console.log(result);
+}
+
+async function main() {
+  await chaosFaultEnableDisable();
+}
+
+main().catch(console.error);

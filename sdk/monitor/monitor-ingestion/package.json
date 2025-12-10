@@ -87,7 +87,7 @@
     "@azure/monitor-query-logs": "^1.0.0",
     "@types/node": "catalog:",
     "@types/pako": "^2.0.0",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",

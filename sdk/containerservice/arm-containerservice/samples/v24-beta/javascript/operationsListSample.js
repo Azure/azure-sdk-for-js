@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets a list of operations.
  *
  * @summary Gets a list of operations.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/Operation_List.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/Operation_List.json
  */
 async function listAvailableOperationsForTheContainerServiceResourceProvider() {
   const subscriptionId =

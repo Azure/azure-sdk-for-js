@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets the specified namespace of a managed cluster.
  *
  * @summary Gets the specified namespace of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/ManagedNamespacesGet.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/ManagedNamespacesGet.json
  */
 async function getManagedNamespace() {
   const subscriptionId =

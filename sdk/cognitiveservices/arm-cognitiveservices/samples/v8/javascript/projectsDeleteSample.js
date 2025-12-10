@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Deletes a Cognitive Services project from the resource group.
  *
  * @summary Deletes a Cognitive Services project from the resource group.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/DeleteProject.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/DeleteProject.json
  */
 async function deleteProject() {
   const subscriptionId =

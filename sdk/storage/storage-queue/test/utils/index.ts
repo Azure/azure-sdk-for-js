@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { StorageSharedKeyCredential } from "@azure/storage-common";
-import { newPipeline } from "../../src/Pipeline.js";
+import { newPipeline, StoragePipelineOptions } from "../../src/Pipeline.js";
 import { QueueServiceClient } from "../../src/QueueServiceClient.js";
 import {
   generateAccountSASQueryParameters,
@@ -14,7 +14,9 @@ import {
 import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-import { configureStorageClient } from "./testutils.common.js";
+import { configureStorageClient, SimpleTokenCredential } from "./testutils.common.js";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { TokenCredential } from "@azure/identity";
 export * from "./testutils.common.js";
 
 export function getGenericQSU(
@@ -100,4 +102,60 @@ export function getSASConnectionStringFromEnvironment(recorder: Recorder): strin
     ".queue.",
     ".file.",
   )}/;TableEndpoint=${queueEndpoint.replace(".queue.", ".table.")}/;SharedAccessSignature=${sas}`;
+}
+
+export function getTokenBSUWithDefaultCredential(
+  recorder: Recorder,
+  accountType: string = "",
+  accountNameSuffix: string = "",
+  queueOptions?: StoragePipelineOptions,
+): QueueServiceClient {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+
+  const accountName = env[accountNameEnvVar];
+
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  const credential = createTestCredential();
+  const queuePrimaryURL = `https://${accountName}${accountNameSuffix}.queue.core.windows.net/`;
+  const client = new QueueServiceClient(queuePrimaryURL, credential, queueOptions);
+  configureStorageClient(recorder, client);
+  return client;
+}
+
+export function getTokenCredential(): TokenCredential {
+  const accountTokenEnvVar = `ACCOUNT_TOKEN`;
+
+  const accountToken = env[accountTokenEnvVar];
+
+  if (!accountToken || accountToken === "") {
+    throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
+  }
+
+  return new SimpleTokenCredential(accountToken);
+}
+
+export function getTokenBSU(recorder: Recorder): QueueServiceClient {
+  const accountNameEnvVar = `ACCOUNT_NAME`;
+
+  const accountName = env[accountNameEnvVar];
+
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  const credential = getTokenCredential();
+  const pipeline = newPipeline(credential);
+  const blobPrimaryURL = `https://${accountName}.queue.core.windows.net/`;
+  const client = new QueueServiceClient(blobPrimaryURL, pipeline);
+  configureStorageClient(recorder, client);
+  return client;
+}
+
+export function getSignatureFromSasUrl(sasUrl: string): string {
+  const url = new URL(sasUrl);
+  const signature = url.searchParams.get("sig");
+  return signature!;
 }

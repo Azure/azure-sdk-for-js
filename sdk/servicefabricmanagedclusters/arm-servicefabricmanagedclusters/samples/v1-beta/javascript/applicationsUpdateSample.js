@@ -7,10 +7,10 @@ const {
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to updates the tags of an application resource of a given managed cluster.
+ * This sample demonstrates how to updates an application resource of a given managed cluster.
  *
- * @summary updates the tags of an application resource of a given managed cluster.
- * x-ms-original-file: 2025-06-01-preview/ApplicationPatchOperation_example.json
+ * @summary updates an application resource of a given managed cluster.
+ * x-ms-original-file: 2025-10-01-preview/ApplicationPatchOperation_example.json
  */
 async function patchAnApplication() {
   const credential = new DefaultAzureCredential();
@@ -18,6 +18,7 @@ async function patchAnApplication() {
   const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
   const result = await client.applications.update("resRg", "myCluster", "myApp", {
     tags: { a: "b" },
+    properties: { parameters: { param1: "value1", param2: "value2" } },
   });
   console.log(result);
 }

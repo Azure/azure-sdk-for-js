@@ -1,4 +1,145 @@
 # Release History
+
+## 18.0.0 (2025-11-18)
+The App Service has been divided into three separate services: App Service, Domain Registration, and Certificate Registration. APIs for Domain Registration are available in the @azure/arm-domainregistration package, and APIs for Certificate Registration are provided in the @azure/arm-certificateregistration package.
+
+### Features Added
+  - Added operation AppServicePlans.getServerFarmInstanceDetails
+  - Added operation AppServicePlans.getServerFarmRdpPassword
+  - Added operation AppServicePlans.recycleManagedInstanceWorker
+  - Added Interface AppServicePlansGetServerFarmInstanceDetailsOptionalParams
+  - Added Interface AppServicePlansGetServerFarmRdpPasswordOptionalParams
+  - Added Interface AppServicePlansRecycleManagedInstanceWorkerOptionalParams
+  - Added Interface DefaultIdentity
+  - Added Interface DiagnosticData
+  - Added Interface InstallScript
+  - Added Interface InstallScriptSource
+  - Added Interface KeyVaultReferenceWithStatus
+  - Added Interface RegistryAdapter
+  - Added Interface ServerFarmInstance
+  - Added Interface ServerFarmInstanceDetails
+  - Added Interface ServerFarmNetworkSettings
+  - Added Interface ServerFarmRdpDetails
+  - Added Interface StorageMount
+  - Interface AppServicePlan has a new optional parameter identity
+  - Interface AppServicePlan has a new optional parameter installScripts
+  - Interface AppServicePlan has a new optional parameter isCustomMode
+  - Interface AppServicePlan has a new optional parameter network
+  - Interface AppServicePlan has a new optional parameter planDefaultIdentity
+  - Interface AppServicePlan has a new optional parameter rdpEnabled
+  - Interface AppServicePlan has a new optional parameter registryAdapters
+  - Interface AppServicePlan has a new optional parameter storageMounts
+  - Interface AppServicePlanPatchResource has a new optional parameter identity
+  - Interface ListGeoRegionsOptionalParams has a new optional parameter customModeWorkersEnabled
+  - Interface SitePatchResource has a new optional parameter publicNetworkAccess
+  - Added Type Alias AppServicePlansGetServerFarmInstanceDetailsResponse
+  - Added Type Alias AppServicePlansGetServerFarmRdpPasswordResponse
+  - Added Type Alias AppServicePlansRecycleManagedInstanceWorkerResponse
+  - Added Type Alias InstallScriptType
+  - Added Type Alias RegistryAdapterType
+  - Added Type Alias StorageMountType
+  - Added Enum KnownInstallScriptType
+  - Added Enum KnownRegistryAdapterType
+  - Added Enum KnownStorageMountType
+
+### Breaking Changes
+  - Removed operation group AppServiceCertificateOrders
+  - Removed operation group CertificateOrdersDiagnostics
+  - Removed operation group CertificateRegistrationProvider
+  - Removed operation group DomainRegistrationProvider
+  - Removed operation group Domains
+  - Removed operation group TopLevelDomains
+  - Class WebSiteManagementClient no longer has parameter appServiceCertificateOrders
+  - Class WebSiteManagementClient no longer has parameter certificateOrdersDiagnostics
+  - Class WebSiteManagementClient no longer has parameter certificateRegistrationProvider
+  - Class WebSiteManagementClient no longer has parameter domainRegistrationProvider
+  - Class WebSiteManagementClient no longer has parameter domains
+  - Class WebSiteManagementClient no longer has parameter topLevelDomains
+  - Removed Interface Address
+  - Removed Interface AppServiceCertificate
+  - Removed Interface AppServiceCertificateCollection
+  - Removed Interface AppServiceCertificateOrder
+  - Removed Interface AppServiceCertificateOrderCollection
+  - Removed Interface AppServiceCertificateOrderPatchResource
+  - Removed Interface AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams
+  - Removed Interface AppServiceCertificateOrdersCreateOrUpdateOptionalParams
+  - Removed Interface AppServiceCertificateOrdersDeleteCertificateOptionalParams
+  - Removed Interface AppServiceCertificateOrdersDeleteOptionalParams
+  - Removed Interface AppServiceCertificateOrdersGetCertificateOptionalParams
+  - Removed Interface AppServiceCertificateOrdersGetOptionalParams
+  - Removed Interface AppServiceCertificateOrdersListByResourceGroupOptionalParams
+  - Removed Interface AppServiceCertificateOrdersListCertificatesOptionalParams
+  - Removed Interface AppServiceCertificateOrdersListOptionalParams
+  - Removed Interface AppServiceCertificateOrdersReissueOptionalParams
+  - Removed Interface AppServiceCertificateOrdersRenewOptionalParams
+  - Removed Interface AppServiceCertificateOrdersResendEmailOptionalParams
+  - Removed Interface AppServiceCertificateOrdersResendRequestEmailsOptionalParams
+  - Removed Interface AppServiceCertificateOrdersRetrieveCertificateActionsOptionalParams
+  - Removed Interface AppServiceCertificateOrdersRetrieveCertificateEmailHistoryOptionalParams
+  - Removed Interface AppServiceCertificateOrdersRetrieveSiteSealOptionalParams
+  - Removed Interface AppServiceCertificateOrdersUpdateCertificateOptionalParams
+  - Removed Interface AppServiceCertificateOrdersUpdateOptionalParams
+  - Removed Interface AppServiceCertificateOrdersValidatePurchaseInformationOptionalParams
+  - Removed Interface AppServiceCertificateOrdersVerifyDomainOwnershipOptionalParams
+  - Removed Interface AppServiceCertificatePatchResource
+  - Removed Interface AppServiceCertificateResource
+  - Removed Interface CertificateDetails
+  - Removed Interface CertificateEmail
+  - Removed Interface CertificateOrderAction
+  - Removed Interface CertificateOrderContact
+  - Removed Interface CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams
+  - Removed Interface CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseOptionalParams
+  - Removed Interface CertificateRegistrationProviderListOperationsOptionalParams
+  - Removed Interface Contact
+  - Removed Interface DiagnosticData_2
+  - Removed Interface Domain
+  - Removed Interface DomainCollection
+  - Removed Interface DomainControlCenterSsoRequest
+  - Removed Interface DomainOwnershipIdentifier
+  - Removed Interface DomainOwnershipIdentifierCollection
+  - Removed Interface DomainPatchResource
+  - Removed Interface DomainPurchaseConsent
+  - Removed Interface DomainRecommendationSearchParameters
+  - Removed Interface DomainRegistrationProviderListOperationsOptionalParams
+  - Removed Interface DomainsCheckAvailabilityOptionalParams
+  - Removed Interface DomainsCreateOrUpdateOptionalParams
+  - Removed Interface DomainsCreateOrUpdateOwnershipIdentifierOptionalParams
+  - Removed Interface DomainsDeleteOptionalParams
+  - Removed Interface DomainsDeleteOwnershipIdentifierOptionalParams
+  - Removed Interface DomainsGetControlCenterSsoRequestOptionalParams
+  - Removed Interface DomainsGetOptionalParams
+  - Removed Interface DomainsGetOwnershipIdentifierOptionalParams
+  - Removed Interface DomainsListByResourceGroupOptionalParams
+  - Removed Interface DomainsListOptionalParams
+  - Removed Interface DomainsListOwnershipIdentifiersOptionalParams
+  - Removed Interface DomainsListRecommendationsOptionalParams
+  - Removed Interface DomainsRenewOptionalParams
+  - Removed Interface DomainsTransferOutOptionalParams
+  - Removed Interface DomainsUpdateOptionalParams
+  - Removed Interface DomainsUpdateOwnershipIdentifierOptionalParams
+  - Removed Interface HostName
+  - Removed Interface NameIdentifierCollection
+  - Removed Interface ReissueCertificateOrderRequest
+  - Removed Interface RenewCertificateOrderRequest
+  - Removed Interface SiteSeal
+  - Removed Interface SiteSealRequest
+  - Removed Interface TldLegalAgreement
+  - Removed Interface TldLegalAgreementCollection
+  - Removed Interface TopLevelDomain
+  - Removed Interface TopLevelDomainAgreementOption
+  - Removed Interface TopLevelDomainCollection
+  - Removed Interface TopLevelDomainsGetOptionalParams
+  - Removed Interface TopLevelDomainsListAgreementsOptionalParams
+  - Removed Interface TopLevelDomainsListOptionalParams
+  - Removed Type Alias CertificateOrderActionType
+  - Removed Type Alias CertificateOrderStatus
+  - Removed Type Alias CertificateProductType
+  - Removed Type Alias DnsType
+  - Removed Type Alias DomainStatus
+  - Removed Type Alias DomainType
+  - Removed Type Alias ResourceNotRenewableReason
+  - Removed Enum KnownResourceNotRenewableReason
+
     
 ## 17.0.0 (2025-06-13)
     

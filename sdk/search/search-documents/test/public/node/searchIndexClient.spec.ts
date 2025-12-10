@@ -2,18 +2,20 @@
 // Licensed under the MIT License.
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { delay } from "@azure/core-util";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type {
   AzureOpenAIParameters,
   AzureOpenAIVectorizer,
-  KnowledgeAgent,
+  KnowledgeBase,
+  KnowledgeSource,
   SearchIndex,
   SynonymMap,
   VectorSearchAlgorithmConfiguration,
   VectorSearchProfile,
 } from "../../../src/index.js";
-import { AzureKeyCredential, SearchIndexClient } from "../../../src/index.js";
+import { AzureKeyCredential, SearchClient, SearchIndexClient } from "../../../src/index.js";
 import { defaultServiceVersion } from "../../../src/serviceUtils.js";
 import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
@@ -68,30 +70,44 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;
-    let TEST_AGENT_NAME: string;
-    let azureOpenAIParameters: AzureOpenAIParameters;
-    let knowledgeAgent: KnowledgeAgent;
+    let TEST_BASE_NAME: string;
+    let embeddingAzureOpenAIParameters: AzureOpenAIParameters;
+    let chatAzureOpenAIParameters: AzureOpenAIParameters;
+    let knowledgeBase: KnowledgeBase;
+    let knowledgeSource: KnowledgeSource;
 
     beforeEach(async (ctx) => {
       recorder = new Recorder(ctx);
       TEST_INDEX_NAME = createRandomIndexName();
-      TEST_AGENT_NAME = createRandomIndexName();
+      TEST_BASE_NAME = createRandomIndexName();
       ({
         indexClient,
         indexName: TEST_INDEX_NAME,
-        agentName: TEST_AGENT_NAME,
-        azureOpenAIParameters,
+        baseName: TEST_BASE_NAME,
+        embeddingAzureOpenAIParameters,
+        chatAzureOpenAIParameters,
       } = await createClients<Hotel>(
         defaultServiceVersion,
         recorder,
         TEST_INDEX_NAME,
-        TEST_AGENT_NAME,
+        TEST_BASE_NAME,
       ));
-      knowledgeAgent = {
-        name: "knowledge-agent",
-        models: [{ kind: "azureOpenAI", azureOpenAIParameters }],
-        targetIndexes: [{ indexName: TEST_INDEX_NAME }],
+      knowledgeSource = {
+        kind: "searchIndex",
+        name: "searchIndex-ks",
+        searchIndexParameters: {
+          searchIndexName: TEST_INDEX_NAME,
+        },
       };
+      knowledgeBase = {
+        name: "knowledge-base",
+        models: [{ kind: "azureOpenAI", azureOpenAIParameters: chatAzureOpenAIParameters }],
+        knowledgeSources: [knowledgeSource],
+      };
+
+      await indexClient.getKnowledgeSourceStatus(knowledgeSource.name).catch(() => {
+        // ignore errors in case the knowledge source is not yet created
+      });
 
       await createSynonymMaps(indexClient);
       await createSimpleIndex(indexClient, TEST_INDEX_NAME);
@@ -100,7 +116,8 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
 
     afterEach(async () => {
       await indexClient.deleteIndex(TEST_INDEX_NAME);
-      await indexClient.deleteKnowledgeAgent(knowledgeAgent.name);
+      await indexClient.deleteKnowledgeBase(knowledgeBase.name);
+      await indexClient.deleteKnowledgeSource(knowledgeSource.name);
       await delay(WAIT_TIME);
       await deleteSynonymMaps(indexClient);
       await recorder?.stop();
@@ -298,38 +315,38 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       });
     });
 
-    describe("#knowledgeAgent", async () => {
+    describe("#knowledgeBase", async () => {
       beforeEach(async () => {
-        await indexClient.createKnowledgeAgent(knowledgeAgent);
+        await indexClient.createKnowledgeBase(knowledgeBase);
       });
       afterEach(async () => {
-        await indexClient.deleteKnowledgeAgent(knowledgeAgent.name);
+        await indexClient.deleteKnowledgeBase(knowledgeBase.name);
       });
 
-      it("creates knowledge agents", async () => {
-        const test = await indexClient.getKnowledgeAgent(knowledgeAgent.name);
-        assert.deepEqual(test.name, knowledgeAgent.name);
+      it("creates knowledge bases", async () => {
+        const test = await indexClient.getKnowledgeBase(knowledgeBase.name);
+        assert.deepEqual(test.name, knowledgeBase.name);
       });
-      it("updates knowledge agents", async () => {
-        const test = await indexClient.createOrUpdateKnowledgeAgent(
-          knowledgeAgent.name,
-          knowledgeAgent,
+      it("updates knowledge bases", async () => {
+        const test = await indexClient.createOrUpdateKnowledgeBase(
+          knowledgeBase.name,
+          knowledgeBase,
         );
 
-        assert.deepEqual(test.name, knowledgeAgent.name);
+        assert.deepEqual(test.name, knowledgeBase.name);
       });
-      it("lists knowledge agents", async () => {
+      it("lists knowledge bases", async () => {
         const test = [];
-        for await (const ka of indexClient.listKnowledgeAgents()) {
-          test.push(ka.name);
+        for await (const kb of indexClient.listKnowledgeBases()) {
+          test.push(kb.name);
         }
-        assert.deepEqual(test, [knowledgeAgent.name]);
+        assert.deepEqual(test, [knowledgeBase.name]);
       });
-      it("deletes knowledge agents", async () => {
-        await indexClient.deleteKnowledgeAgent(knowledgeAgent.name);
+      it("deletes knowledge bases", async () => {
+        await indexClient.deleteKnowledgeBase(knowledgeBase.name);
         const test = [];
-        for await (const ka of indexClient.listKnowledgeAgents()) {
-          test.push(ka.name);
+        for await (const kb of indexClient.listKnowledgeBases()) {
+          test.push(kb.name);
         }
         assert.deepEqual(test, []);
       });
@@ -346,7 +363,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       const vectorizer: AzureOpenAIVectorizer = {
         kind: "azureOpenAI",
         vectorizerName: "vectorizer",
-        parameters: azureOpenAIParameters,
+        parameters: embeddingAzureOpenAIParameters,
       };
       const profile: VectorSearchProfile = {
         name: "profile",
@@ -388,6 +405,77 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       } finally {
         await indexClient.deleteIndex(index);
       }
+    });
+  });
+
+  // TODO: Remove skip and fix recording issues before enabling these tests in PRs
+  // To run these tests locally in 'live' mode, remove the skip modifier
+  describe.skip("preview", () => {
+    let recorder: Recorder;
+    let indexClient: SearchIndexClient;
+    let index: SearchIndex;
+
+    beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      ({ indexClient } = await createClients<Hotel>(defaultServiceVersion, recorder, "", ""));
+      index = {
+        name: "content-security-test",
+        purviewEnabled: true,
+        fields: [
+          {
+            type: "Edm.String",
+            name: "id",
+            key: true,
+          },
+          {
+            name: "sensitivityLabel",
+            type: "Edm.String",
+            filterable: false,
+            sortable: false,
+            facetable: true,
+            sensitivityLabel: true,
+          },
+        ],
+      };
+      await indexClient.createOrUpdateIndex(index);
+      await delay(WAIT_TIME);
+    });
+
+    afterEach(async () => {
+      await indexClient.deleteIndex(index.name);
+      await recorder?.stop();
+    });
+
+    it("verify content security indexes", async () => {
+      const documents = [
+        { id: "1", sensitivityLabel: "87867195-f2b8-4ac2-b0b6-6bb73cb33afc" },
+        { id: "2", sensitivityLabel: "9fbde396-1a24-4c79-8edf-9254a0f35055" },
+        { id: "3", sensitivityLabel: "1a19d03a-48bc-4359-8038-5b5f6d5847c3" },
+        { id: "4", sensitivityLabel: "1a19d03a-48bc-4359-0000-5b5f6d5847c4" },
+      ];
+
+      const searchClient: SearchClient<{ id: string; sensitivityLabel: string }> = new SearchClient(
+        indexClient.endpoint,
+        index.name,
+        createTestCredential(),
+      );
+
+      await searchClient.uploadDocuments(documents);
+      await delay(WAIT_TIME);
+
+      // Test that search with invalid authorization token throws an error
+      let errorThrown = false;
+      try {
+        await searchClient.search("*", {
+          xMsQuerySourceAuthorization: "Invalid token",
+          xMsEnableElevatedRead: true,
+        });
+      } catch (ex: any) {
+        errorThrown = true;
+        // Verify it's an auth related error
+        assert.isTrue(ex.message.includes("Invalid header"));
+      }
+      assert.isTrue(errorThrown, "Expected search with invalid header to throw an error");
     });
   });
 });

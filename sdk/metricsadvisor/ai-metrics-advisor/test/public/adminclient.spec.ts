@@ -40,9 +40,9 @@ matrix([[true, false]] as const, async (useAad) => {
             new Date(Date.UTC(2021, 10, 1)),
           );
           let result = getYieldedValue(await iterator.next());
-          assert.ok(result.status, "Expecting first status");
+          assert.isDefined(result.status, "Expecting first status");
           result = getYieldedValue(await iterator.next());
-          assert.ok(result.status, "Expecting second status");
+          assert.isDefined(result.status, "Expecting second status");
         });
 
         it("lists ingestion status with datetime strings", async () => {
@@ -52,9 +52,9 @@ matrix([[true, false]] as const, async (useAad) => {
             "2021-11-01T00:00:00.000Z",
           );
           let result = getYieldedValue(await iterator.next());
-          assert.ok(result.status, "Expecting first status");
+          assert.isDefined(result.status, "Expecting first status");
           result = getYieldedValue(await iterator.next());
-          assert.ok(result.status, "Expecting second status");
+          assert.isDefined(result.status, "Expecting second status");
         });
 
         it("lists ingestion status by page", async () => {
@@ -76,8 +76,11 @@ matrix([[true, false]] as const, async (useAad) => {
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
           );
 
-          assert.ok(result.latestSuccessTimestamp, "Expecting valid latest success timestamp");
-          assert.ok(result.latestActiveTimestamp, "Expecting valid latest active timestamp");
+          assert.isDefined(
+            result.latestSuccessTimestamp,
+            "Expecting valid latest success timestamp",
+          );
+          assert.isDefined(result.latestActiveTimestamp, "Expecting valid latest active timestamp");
         });
 
         it("refreshes ingesetion status", async (ctx) => {
@@ -140,7 +143,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
           const actual = await client.createDetectionConfig(expected);
 
-          assert.ok(actual.id, "Expecting valid detection config");
+          assert.isDefined(actual.id, "Expecting valid detection config");
           createdDetectionConfigId = actual.id!;
 
           assert.equal(actual.name, expected.name);
@@ -204,7 +207,7 @@ matrix([[true, false]] as const, async (useAad) => {
           };
 
           const actual = await client.updateDetectionConfig(createdDetectionConfigId, expected);
-          assert.ok(actual.id, "Expecting valid detection config");
+          assert.isDefined(actual.id, "Expecting valid detection config");
           createdDetectionConfigId = actual.id!;
 
           assert.equal(actual.name, expected.name);
@@ -213,7 +216,7 @@ matrix([[true, false]] as const, async (useAad) => {
             actual.wholeSeriesDetectionCondition,
             expected.wholeSeriesDetectionCondition,
           );
-          assert.ok(
+          assert.isDefined(
             actual.seriesGroupDetectionConditions,
             "Expecting valid seriesGroupDetectionConditions",
           );
@@ -225,7 +228,10 @@ matrix([[true, false]] as const, async (useAad) => {
             actual.seriesGroupDetectionConditions![0].hardThresholdCondition,
             expected.seriesGroupDetectionConditions![0].hardThresholdCondition,
           );
-          assert.ok(actual.seriesDetectionConditions, "Expecting valid seriesDetectionConditions");
+          assert.isDefined(
+            actual.seriesDetectionConditions,
+            "Expecting valid seriesDetectionConditions",
+          );
           delete (actual.seriesDetectionConditions![0].seriesKey as any).seriesId; // workaround service issue
           assert.deepStrictEqual(
             actual.seriesDetectionConditions![0].seriesKey,
@@ -249,9 +255,9 @@ matrix([[true, false]] as const, async (useAad) => {
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
           );
           let result = getYieldedValue(await iterator.next());
-          assert.ok(result.id, "Expecting first detection config");
+          assert.isDefined(result.id, "Expecting first detection config");
           result = getYieldedValue(await iterator.next());
-          assert.ok(result.id, "Expecting second detection config");
+          assert.isDefined(result.id, "Expecting second detection config");
         });
 
         it("lists detection configurations by page", async () => {
@@ -261,7 +267,7 @@ matrix([[true, false]] as const, async (useAad) => {
             )
             .byPage();
           const result = await iterator.next();
-          assert.ok(result.value.length > 1, "Expecting more than one entries in page");
+          assert.isTrue(result.value.length > 1, "Expecting more than one entries in page");
         });
 
         let expectedAlertConfigName: string;
@@ -284,7 +290,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
           const actual = await client.createAlertConfig(expectedAlertConfig);
 
-          assert.ok(actual.id, "Expecting valid alert config");
+          assert.isDefined(actual.id, "Expecting valid alert config");
           createdAlertConfigId = actual.id;
           assert.equal(actual.name, expectedAlertConfig.name);
           assert.equal(actual.description, expectedAlertConfig.description);
@@ -303,7 +309,7 @@ matrix([[true, false]] as const, async (useAad) => {
         it("retrieves an alert configuration", async () => {
           const actual = await client.getAlertConfig(createdAlertConfigId);
 
-          assert.ok(actual.id, "Expecting valid alert config");
+          assert.isDefined(actual.id, "Expecting valid alert config");
           createdAlertConfigId = actual.id;
           assert.equal(actual.name, expectedAlertConfigName);
         });
@@ -328,7 +334,7 @@ matrix([[true, false]] as const, async (useAad) => {
           };
 
           const actual = await client.updateAlertConfig(createdAlertConfigId, patch);
-          assert.ok(actual.id, "Expecting valid alerting config");
+          assert.isDefined(actual.id, "Expecting valid alerting config");
           assert.equal(actual.name, "new alert config name");
           assert.equal(actual.description, "new alert config description");
           assert.equal(actual.crossMetricsOperator, "OR");
@@ -360,9 +366,9 @@ matrix([[true, false]] as const, async (useAad) => {
           try {
             const iterator = client.listAlertConfigs(createdDetectionConfigId);
             let result = getYieldedValue(await iterator.next());
-            assert.ok(result.id, "Expecting first alert config");
+            assert.isDefined(result.id, "Expecting first alert config");
             result = getYieldedValue(await iterator.next());
-            assert.ok(result.id, "Expecting second alert config");
+            assert.isDefined(result.id, "Expecting second alert config");
             const pageIterator = client.listAlertConfigs(createdDetectionConfigId).byPage();
             const pageResult = await pageIterator.next();
             assert.isTrue(pageResult.value.length > 1, "Expecting more than one entries in page");

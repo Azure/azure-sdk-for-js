@@ -29,9 +29,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DatabaseMigrationsMongoToCosmosDbvCoreMongo operations. */
-export class DatabaseMigrationsMongoToCosmosDbvCoreMongoImpl
-  implements DatabaseMigrationsMongoToCosmosDbvCoreMongo
-{
+export class DatabaseMigrationsMongoToCosmosDbvCoreMongoImpl implements DatabaseMigrationsMongoToCosmosDbvCoreMongo {
   private readonly client: DataMigrationManagementClient;
 
   /**

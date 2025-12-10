@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Creates or updates JWT authenticator in the managed cluster and updates the managed cluster to apply the settings.
  *
  * @summary Creates or updates JWT authenticator in the managed cluster and updates the managed cluster to apply the settings.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/JWTAuthenticators_Create_Or_Update.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/JWTAuthenticators_Create_Or_Update.json
  */
 async function createOrUpdateJwtAuthenticator() {
   const subscriptionId =

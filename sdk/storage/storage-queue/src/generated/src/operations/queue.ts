@@ -23,7 +23,7 @@ import {
   QueueGetAccessPolicyOptionalParams,
   QueueGetAccessPolicyResponse,
   QueueSetAccessPolicyOptionalParams,
-  QueueSetAccessPolicyResponse
+  QueueSetAccessPolicyResponse,
 } from "../models/index.js";
 
 /** Class containing Queue operations. */
@@ -60,11 +60,11 @@ export class QueueImpl implements Queue {
    * @param options The options parameters.
    */
   getProperties(
-    options?: QueueGetPropertiesOptionalParams
+    options?: QueueGetPropertiesOptionalParams,
   ): Promise<QueueGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getPropertiesOperationSpec
+      getPropertiesOperationSpec,
     );
   }
 
@@ -74,11 +74,11 @@ export class QueueImpl implements Queue {
    * @param options The options parameters.
    */
   setMetadata(
-    options?: QueueSetMetadataOptionalParams
+    options?: QueueSetMetadataOptionalParams,
   ): Promise<QueueSetMetadataResponse> {
     return this.client.sendOperationRequest(
       { options },
-      setMetadataOperationSpec
+      setMetadataOperationSpec,
     );
   }
 
@@ -88,11 +88,11 @@ export class QueueImpl implements Queue {
    * @param options The options parameters.
    */
   getAccessPolicy(
-    options?: QueueGetAccessPolicyOptionalParams
+    options?: QueueGetAccessPolicyOptionalParams,
   ): Promise<QueueGetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getAccessPolicyOperationSpec
+      getAccessPolicyOperationSpec,
     );
   }
 
@@ -101,11 +101,11 @@ export class QueueImpl implements Queue {
    * @param options The options parameters.
    */
   setAccessPolicy(
-    options?: QueueSetAccessPolicyOptionalParams
+    options?: QueueSetAccessPolicyOptionalParams,
   ): Promise<QueueSetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       { options },
-      setAccessPolicyOperationSpec
+      setAccessPolicyOperationSpec,
     );
   }
 }
@@ -117,15 +117,15 @@ const createOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     201: {
-      headersMapper: Mappers.QueueCreateHeaders
+      headersMapper: Mappers.QueueCreateHeaders,
     },
     204: {
-      headersMapper: Mappers.QueueCreateHeaders
+      headersMapper: Mappers.QueueCreateHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.QueueCreateExceptionHeaders
-    }
+      headersMapper: Mappers.QueueCreateExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeoutInSeconds],
   urlParameters: [Parameters.url],
@@ -133,77 +133,77 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.version,
     Parameters.requestId,
     Parameters.accept1,
-    Parameters.metadata
+    Parameters.metadata,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}",
   httpMethod: "DELETE",
   responses: {
     204: {
-      headersMapper: Mappers.QueueDeleteHeaders
+      headersMapper: Mappers.QueueDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.QueueDeleteExceptionHeaders
-    }
+      headersMapper: Mappers.QueueDeleteExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeoutInSeconds],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.accept1
+    Parameters.accept1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const getPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}",
   httpMethod: "GET",
   responses: {
     200: {
-      headersMapper: Mappers.QueueGetPropertiesHeaders
+      headersMapper: Mappers.QueueGetPropertiesHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.QueueGetPropertiesExceptionHeaders
-    }
+      headersMapper: Mappers.QueueGetPropertiesExceptionHeaders,
+    },
   },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp3],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp4],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.accept1
+    Parameters.accept1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const setMetadataOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}",
   httpMethod: "PUT",
   responses: {
     204: {
-      headersMapper: Mappers.QueueSetMetadataHeaders
+      headersMapper: Mappers.QueueSetMetadataHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.QueueSetMetadataExceptionHeaders
-    }
+      headersMapper: Mappers.QueueSetMetadataExceptionHeaders,
+    },
   },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp3],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp4],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
     Parameters.accept1,
-    Parameters.metadata
+    Parameters.metadata,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const getAccessPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}",
@@ -214,54 +214,54 @@ const getAccessPolicyOperationSpec: coreClient.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "SignedIdentifier" }
-          }
+            type: { name: "Composite", className: "SignedIdentifier" },
+          },
         },
         serializedName: "SignedIdentifiers",
         xmlName: "SignedIdentifiers",
         xmlIsWrapped: true,
-        xmlElementName: "SignedIdentifier"
+        xmlElementName: "SignedIdentifier",
       },
-      headersMapper: Mappers.QueueGetAccessPolicyHeaders
+      headersMapper: Mappers.QueueGetAccessPolicyHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.QueueGetAccessPolicyExceptionHeaders
-    }
+      headersMapper: Mappers.QueueGetAccessPolicyExceptionHeaders,
+    },
   },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp4],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp5],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.accept1
+    Parameters.accept1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const setAccessPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}",
   httpMethod: "PUT",
   responses: {
     204: {
-      headersMapper: Mappers.QueueSetAccessPolicyHeaders
+      headersMapper: Mappers.QueueSetAccessPolicyHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.QueueSetAccessPolicyExceptionHeaders
-    }
+      headersMapper: Mappers.QueueSetAccessPolicyExceptionHeaders,
+    },
   },
   requestBody: Parameters.queueAcl,
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp4],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp5],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
     Parameters.version,
-    Parameters.requestId
+    Parameters.requestId,
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };

@@ -28,3 +28,5 @@ extends:
         AZURE_CLIENT_ID: $(IDENTITY_SP_CLIENT_ID)
         AZURE_CLIENT_SECRET: $(IDENTITY_SP_CLIENT_SECRET)
         AZURE_TENANT_ID: $(IDENTITY_SP_TENANT_ID)
+        # Test tenants deleted for security reason. Disable service principal live test.
+        SKIP_SP_LIVE_TESTS: "true"

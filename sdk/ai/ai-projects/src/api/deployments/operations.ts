@@ -8,12 +8,12 @@ import {
   _PagedDeployment,
   _pagedDeploymentDeserializer,
 } from "../../models/models.js";
-import { DeploymentsListOptionalParams, DeploymentsGetOptionalParams } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { DeploymentsListOptionalParams, DeploymentsGetOptionalParams } from "./options.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,

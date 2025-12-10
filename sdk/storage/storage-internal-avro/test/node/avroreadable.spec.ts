@@ -24,7 +24,7 @@ describe("AvroReadableFromStream", () => {
       assert.equal(err.message, "Stream no longer readable.");
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("abort read should work", async () => {
@@ -39,7 +39,7 @@ describe("AvroReadableFromStream", () => {
         AbortErrorCaught = true;
       }
     }
-    assert.ok(AbortErrorCaught);
+    assert.isDefined(AbortErrorCaught);
   });
 
   it("abort after read should not throw", async () => {

@@ -73,7 +73,7 @@
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
-    "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
+    "@azure-tools/vite-plugin-browser-test-map": "workspace:^",
     "@azure/core-rest-pipeline": "workspace:^",
     "@azure/core-util": "workspace:^",
     "@azure/dev-tool": "workspace:^",
@@ -83,7 +83,7 @@
     "@types/chai-as-promised": "catalog:testing",
     "@types/debug": "^4.1.12",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "buffer": "^6.0.3",
     "chai": "catalog:testing",

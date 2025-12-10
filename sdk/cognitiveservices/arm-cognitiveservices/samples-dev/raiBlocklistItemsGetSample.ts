@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specified custom blocklist Item associated with the custom blocklist.
  *
  * @summary Gets the specified custom blocklist Item associated with the custom blocklist.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/GetRaiBlocklistItem.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/GetRaiBlocklistItem.json
  */
 async function getRaiBlocklistItem(): Promise<void> {
   const subscriptionId =

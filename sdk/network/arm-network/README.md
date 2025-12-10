@@ -6,7 +6,7 @@ Network Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/network/arm-network) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-network) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-network?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-network) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

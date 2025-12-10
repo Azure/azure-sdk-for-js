@@ -1,5 +1,55 @@
 # Release History
 
+## 12.3.0-beta.1 (2025-11-17)
+
+### Features Added
+
+- Add support for elevated read for document retrieval operations [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Add support for new facet results: avg, min, max, cardinality [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Add new knowledge source kinds types: `web`, `remoteSharePoint`, `indexedSharePoint`, `indexedOneLake`.[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added support for `sharepoint` data source type in `SearchIndexerDataSourceType`.
+- Add support for indexers runtime [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Add support for purview in search indexes [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Add new property in service limits [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Add new `ContentUnderstandingSkill` in skills [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added `product` scoring function aggregation type in `ScoringFunctionAggregation`. [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added support for new Azure OpenAI models: `gpt-5`, `gpt-5-mini`, `gpt-5-nano` in `AzureOpenAIModelName`.[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added `maxCumulativeIndexerRuntimeSeconds` property in `ServiceLimits` for runtime constraints.[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added enhanced knowledge source configuration options:[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+  - `sourceDataFields`, `searchFields`, `semanticConfigurationName` in `SearchIndexKnowledgeSourceParameters`
+  - `isADLSGen2`, `ingestionParameters` in `AzureBlobKnowledgeSourceParameters`
+- Added optional parameter `x-ms-enable-elevated-read` for document retrieval operations with elevated permissions.[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added support for partial content responses (HTTP 206) in knowledge base operations.[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added `error` property in `KnowledgeBaseActivityRecord` for improved error tracking.[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added enhanced knowledge source parameters: `includeReferences`, `includeReferenceSourceData`, `alwaysQuerySource`, `rerankerThreshold` in `SearchIndexKnowledgeSourceParams`.[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added new method `getKnowledgeSourceStatus` to search index client. [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+
+### Breaking Changes
+- Renamed KnowledgeAgent* -> KnowledgeBase* [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Renamed Knowledge Agent to Knowledge Base across all APIs and models:[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+  - All `KnowledgeAgent*` classes renamed to `KnowledgeBase*` equivalents
+  - API paths changed from `/agents` to `/knowledgebases`
+  - All agent-related activity record types updated with new naming convention
+- Removed deprecated Knowledge Agent configuration models:[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+  - `KnowledgeAgentOutputConfiguration`
+  - `KnowledgeAgentRequestLimits`
+  - `KnowledgeAgentModel`
+  - `KnowledgeAgentModelKind`
+  - `KnowledgeAgentAzureOpenAIModel`
+- Removed properties from `KnowledgeSourceReference`:[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+  - `includeReferences`
+  - `includeReferenceSourceData`
+  - `alwaysQuerySource`
+  - `maxSubQueries`
+  - `rerankerThreshold`
+- Removed `sourceDataSelect` property from `SearchIndexKnowledgeSourceParameters`.[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Removed properties from `AzureBlobKnowledgeSourceParameters`:[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+  - `identity`
+  - `embeddingModel`
+  - `chatCompletionModel`
+  - `ingestionSchedule`
+  - `disableImageVerbalization`
+
 ## 12.2.0-beta.3 (2025-10-07)
 
 ### Features Added

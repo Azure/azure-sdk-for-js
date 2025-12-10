@@ -30,7 +30,7 @@ import { writeBanner } from "./utils/helpers.js";
 import "dotenv/config";
 
 async function getOpenIdMetadata(): Promise<void> {
-  await writeBanner("getOpenIdMetadata");
+  writeBanner("getOpenIdMetadata");
   const endpoint = process.env.ATTESTATION_AAD_URL;
 
   if (!endpoint) {
@@ -46,7 +46,7 @@ async function getOpenIdMetadata(): Promise<void> {
 }
 
 async function getOpenIdMetadataAnonymously(): Promise<void> {
-  await writeBanner("getOpenIdMetadata - Anonymously.");
+  writeBanner("getOpenIdMetadata - Anonymously.");
   const endpoint = process.env.ATTESTATION_AAD_URL;
 
   if (!endpoint) {
@@ -62,7 +62,7 @@ async function getOpenIdMetadataAnonymously(): Promise<void> {
 }
 
 async function getSigningCertificates(): Promise<void> {
-  await writeBanner("getSigningCertificates");
+  writeBanner("getSigningCertificates");
   const endpoint = process.env.ATTESTATION_AAD_URL;
 
   if (!endpoint) {
@@ -77,7 +77,7 @@ async function getSigningCertificates(): Promise<void> {
   console.log(`There are ${attestationSigners.length} signers`);
 
   // Now print the Key ID and certificate subject for each signer.
-  await attestationSigners.forEach((element) => {
+  attestationSigners.forEach((element) => {
     console.log(`  Element Key ID: ${element.keyId};`);
     const cert = new X509();
     cert.readCertPEM(element.certificates[0]);

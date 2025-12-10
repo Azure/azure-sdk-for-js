@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters.js";
 import { StorageClient } from "../storageClient.js";
 import {
   ServiceListFileSystemsOptionalParams,
-  ServiceListFileSystemsResponse
+  ServiceListFileSystemsResponse,
 } from "../models/index.js";
 
 /** Class containing Service operations. */
@@ -33,11 +33,11 @@ export class ServiceImpl implements Service {
    * @param options The options parameters.
    */
   listFileSystems(
-    options?: ServiceListFileSystemsOptionalParams
+    options?: ServiceListFileSystemsOptionalParams,
   ): Promise<ServiceListFileSystemsResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listFileSystemsOperationSpec
+      listFileSystemsOperationSpec,
     );
   }
 }
@@ -50,25 +50,25 @@ const listFileSystemsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FileSystemList,
-      headersMapper: Mappers.ServiceListFileSystemsHeaders
+      headersMapper: Mappers.ServiceListFileSystemsHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ServiceListFileSystemsExceptionHeaders
-    }
+      headersMapper: Mappers.ServiceListFileSystemsExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.resource,
     Parameters.prefix,
     Parameters.continuation,
     Parameters.maxResults,
-    Parameters.timeout
+    Parameters.timeout,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.accept,
     Parameters.requestId,
-    Parameters.version
+    Parameters.version,
   ],
-  serializer
+  serializer,
 };

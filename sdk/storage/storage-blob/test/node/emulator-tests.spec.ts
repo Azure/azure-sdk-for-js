@@ -66,8 +66,8 @@ describe("Emulator Tests", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
   });
 
   it("BlockBlobClient can be created with a connection string", async () => {
@@ -103,15 +103,15 @@ describe("Emulator Tests", () => {
       containerName,
       "Container name didn't match with the provided one.",
     );
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(!result.leaseDuration);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isUndefined(result.leaseDuration);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
-    assert.ok(!result.blobPublicAccess);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
+    assert.isUndefined(result.blobPublicAccess);
   });
 
   it("ContainerClient can be created from BSU()", async () => {
@@ -124,9 +124,9 @@ describe("Emulator Tests", () => {
       containerName,
       "Container name didn't match with the provided one.",
     );
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
   });
 
   it("PageBlobClient can be created with a connection string", async () => {

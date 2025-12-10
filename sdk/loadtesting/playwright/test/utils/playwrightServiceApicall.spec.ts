@@ -19,9 +19,9 @@ const mockState = {
 
 // Mock modules using only inline function definitions to avoid hoisting issues
 vi.mock("../../src/common/httpService.js", () => ({
-  HttpService: vi.fn().mockImplementation(() => ({
-    callAPI: (...args: any[]) => mockState.callAPI(...args),
-  })),
+  HttpService: vi.fn().mockImplementation(function (this: any) {
+    this.callAPI = (...args: any[]) => mockState.callAPI(...args);
+  }),
 }));
 
 vi.mock("../../src/utils/utils.js", () => ({

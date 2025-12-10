@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { UserDelegationKey } from "@azure/storage-common";
 import type {
   CopyStatusType,
   DirectoryDeleteHeaders,
@@ -39,6 +40,8 @@ import type {
   ShareSetMetadataHeaders,
   ShareStats,
   ShareSetPropertiesHeaders,
+  ServiceGetUserDelegationKeyHeaders,
+  UserDelegationKey as UserDelegationKeyModel,
 } from "./generated/src/models/index.js";
 import type {
   FileDownloadResponse,
@@ -612,6 +615,8 @@ export {
   ServiceGetPropertiesHeaders,
   ListSharesResponse as ListSharesResponseModel,
   RetentionPolicy,
+  ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel,
+  ServiceGetUserDelegationKeyHeaders,
   ServiceListSharesSegmentHeaders,
   ServiceSetPropertiesHeaders,
   ShareCreatePermissionHeaders,
@@ -634,13 +639,17 @@ export {
   LeaseStateType,
   LeaseStatusType,
   CopyFileSmbInfo,
+  ShareNfsSettings,
+  ShareNfsSettingsEncryptionInTransit,
   ShareProtocolSettings,
   ShareSmbSettings,
+  ShareSmbSettingsEncryptionInTransit,
   SmbMultichannel,
   ShareFileRangeList,
   ClearRange,
   ShareAccessTier,
   ShareRootSquash,
+  UserDelegationKey as UserDelegationKeyModel,
 } from "./generated/src/models/index.js";
 
 export {
@@ -734,3 +743,12 @@ export interface ListHandlesResponse {
   handleList?: HandleItem[];
   continuationToken: string;
 }
+
+/**
+ * Contains response data for the {@link getUserDelegationKey} operation.
+ */
+export declare type ServiceGetUserDelegationKeyResponse = WithResponse<
+  UserDelegationKey & ServiceGetUserDelegationKeyHeaders,
+  ServiceGetUserDelegationKeyHeaders,
+  UserDelegationKeyModel
+>;

@@ -10,7 +10,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates a machine in the specified agent pool.
  *
  * @summary Creates or updates a machine in the specified agent pool.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/MachineCreate_Update.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/MachineCreate_Update.json
  */
 async function createOrUpdateMachine(): Promise<void> {
   const subscriptionId =

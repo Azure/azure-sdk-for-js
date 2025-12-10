@@ -102,7 +102,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2025-11-05",
+    defaultValue: "2026-02-06",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -682,6 +682,17 @@ export const include1: OperationQueryParameter = {
     },
   },
   collectionFormat: "CSV",
+};
+
+export const startFrom: OperationQueryParameter = {
+  parameterPath: ["options", "startFrom"],
+  mapper: {
+    serializedName: "startFrom",
+    xmlName: "startFrom",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const delimiter: OperationQueryParameter = {
@@ -1332,6 +1343,54 @@ export const comp18: OperationQueryParameter = {
     defaultValue: "tags",
     isConstant: true,
     serializedName: "comp",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const ifModifiedSince1: OperationParameter = {
+  parameterPath: ["options", "blobModifiedAccessConditions", "ifModifiedSince"],
+  mapper: {
+    serializedName: "x-ms-blob-if-modified-since",
+    xmlName: "x-ms-blob-if-modified-since",
+    type: {
+      name: "DateTimeRfc1123",
+    },
+  },
+};
+
+export const ifUnmodifiedSince1: OperationParameter = {
+  parameterPath: [
+    "options",
+    "blobModifiedAccessConditions",
+    "ifUnmodifiedSince",
+  ],
+  mapper: {
+    serializedName: "x-ms-blob-if-unmodified-since",
+    xmlName: "x-ms-blob-if-unmodified-since",
+    type: {
+      name: "DateTimeRfc1123",
+    },
+  },
+};
+
+export const ifMatch1: OperationParameter = {
+  parameterPath: ["options", "blobModifiedAccessConditions", "ifMatch"],
+  mapper: {
+    serializedName: "x-ms-blob-if-match",
+    xmlName: "x-ms-blob-if-match",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const ifNoneMatch1: OperationParameter = {
+  parameterPath: ["options", "blobModifiedAccessConditions", "ifNoneMatch"],
+  mapper: {
+    serializedName: "x-ms-blob-if-none-match",
+    xmlName: "x-ms-blob-if-none-match",
     type: {
       name: "String",
     },

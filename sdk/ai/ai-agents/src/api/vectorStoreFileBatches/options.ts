@@ -11,8 +11,7 @@ import type { OperationOptions } from "@azure-rest/core-client";
 import type { PollingOptionsParams } from "../options.js";
 
 /** Optional parameters. */
-export interface VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams
-  extends OperationOptions {
+export interface VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams extends OperationOptions {
   /** Filter by file status. */
   filter?: VectorStoreFileStatusFilter;
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
@@ -26,17 +25,14 @@ export interface VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalPara
 }
 
 /** Optional parameters. */
-export interface VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams
-  extends OperationOptions {}
+export interface VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams
-  extends OperationOptions {}
+export interface VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams
-  extends OperationOptions,
-    PollingOptionsParams {
+  extends OperationOptions, PollingOptionsParams {
   /** List of file identifiers. */
   fileIds?: string[];
   /** List of Azure assets. */

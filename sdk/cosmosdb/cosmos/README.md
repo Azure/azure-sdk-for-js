@@ -399,6 +399,77 @@ const { resources } = await container.items
   .fetchAll();
 ```
 
+**Note:** To use continuation tokens with queries, ensure that `enableQueryControl` is set to `true` in the query options. This enables support for retrieving query continuation tokens for paginating through large result sets.
+
+Here's an example of using continuation tokens with `enableQueryControl`:
+
+```ts snippet:QueryWithContinuationToken
+import { CosmosClient } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
+const queryIterator = container.items.query("SELECT * from c", {
+  maxItemCount: 10,
+  enableQueryControl: true,
+  forceQueryPlan: true,
+});
+
+let pageCount = 0;
+while (queryIterator.hasMoreResults()) {
+  pageCount++;
+  const { resources, continuationToken } = await queryIterator.fetchNext();
+  console.log(`Page ${pageCount} has ${resources.length} items`);
+  // continuationToken can be saved and used later to resume from where you left off
+}
+```
+
+**Special case: ORDER BY queries**
+
+When using `enableQueryControl` with ORDER BY queries, be aware that the continuation token behavior requires special handling:
+
+```ts snippet:QueryWithContinuationTokenOrderBy
+import { CosmosClient } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
+const queryIterator = container.items.query("SELECT * from c ORDER BY c.id", {
+  maxItemCount: 10,
+  enableQueryControl: true,
+  forceQueryPlan: true,
+});
+
+let pageCount = 0;
+while (queryIterator.hasMoreResults()) {
+  pageCount++;
+  const { resources, continuationToken } = await queryIterator.fetchNext();
+  if (resources.length > 0) {
+    // Process results
+    // Safe to use continuationToken after receiving data
+    if (continuationToken) {
+      // Can persist token for resuming later
+    }
+  }
+}
+```
+
+**Important:** When using `enableQueryControl` with ORDER BY queries:
+- The `resources` array and `continuationToken` may be empty and `undefined` repectively during the initial calls
+- This occurs because the query needs to consolidate results across partitions before returning
+- Always verify `resources.length > 0` before relying on the continuation token
+- Use `forceQueryPlan: true` in your query options to ensure consistent query execution behavior across partitions, which helps with continuation token stability
+
 For more information on querying Cosmos DB databases using the SQL API, see [Query Azure Cosmos DB data with SQL queries][cosmos_sql_queries].
 
 ### Change Feed Pull Model
@@ -741,6 +812,7 @@ Currently the features below are **not supported**. For alternatives options, ch
 - Change Feed: Processor
 - Change Feed: Read multiple partitions key values
 - Cross-partition ORDER BY for mixed types
+- We recommend upgrading to the latest SDK to use continuation tokens for pagination. When using continuation tokens with `enableQueryControl` on cross-partition queries (queries that scan multiple partitions), ensure you set `forceQueryPlan: true` in query options to enforce a deterministic execution plan. Without it, query execution behavior may vary across partitions, affecting continuation token consistency.
 
 ### Control Plane Limitations:
 
@@ -750,9 +822,9 @@ Currently the features below are **not supported**. For alternatives options, ch
 
 ## Workarounds
 
-### Continuation token for cross partitions queries
+### Continuation token for cross partitions queries for older versions(< 4.9.0)
 
-You can achieve cross partition queries with continuation token support by using
+You can achieve cross partition queries with continuation token support for older versions before 4.9.0 by using
 [Side car pattern](https://github.com/Azure-Samples/Cosmosdb-query-sidecar).
 This pattern can also enable applications to be composed of heterogeneous components and technologies.
 

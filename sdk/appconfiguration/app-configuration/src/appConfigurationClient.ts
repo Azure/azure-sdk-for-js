@@ -56,6 +56,7 @@ import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging
 import { getPagedAsyncIterator } from "@azure/core-paging";
 import type { PipelinePolicy, RestError } from "@azure/core-rest-pipeline";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { audienceErrorHandlingPolicy } from "./internal/audienceErrorHandlingPolicy.js";
 import { SyncTokens, syncTokenPolicy } from "./internal/syncTokenPolicy.js";
 import { queryParamPolicy } from "./internal/queryParamPolicy.js";
 import type { TokenCredential } from "@azure/core-auth";
@@ -195,6 +196,13 @@ export class AppConfigurationClient {
       appConfigEndpoint,
       options?.apiVersion ?? appConfigurationApiVersion,
       internalClientPipelineOptions,
+    );
+    this.client.pipeline.addPolicy(
+      audienceErrorHandlingPolicy(appConfigOptions?.audience !== undefined),
+      {
+        phase: "Sign",
+        beforePolicies: [authPolicy.name],
+      },
     );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
     this.client.pipeline.addPolicy(queryParamPolicy());

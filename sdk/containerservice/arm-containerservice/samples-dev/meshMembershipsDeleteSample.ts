@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes the mesh membership of a managed cluster.
  *
  * @summary Deletes the mesh membership of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/MeshMemberships_Delete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/MeshMemberships_Delete.json
  */
 async function deleteMeshMembership(): Promise<void> {
   const subscriptionId =

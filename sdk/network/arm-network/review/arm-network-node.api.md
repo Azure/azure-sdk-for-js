@@ -21,6 +21,9 @@ export interface AadAuthenticationParameters {
 export type Access = string;
 
 // @public
+export type AccessMode = string;
+
+// @public
 export type AccessRuleDirection = string;
 
 // @public
@@ -289,6 +292,7 @@ export interface ApplicationGateway extends Resource {
     readonly defaultPredefinedSslPolicy?: ApplicationGatewaySslPolicyName;
     enableFips?: boolean;
     enableHttp2?: boolean;
+    entraJWTValidationConfigs?: ApplicationGatewayEntraJWTValidationConfig[];
     readonly etag?: string;
     firewallPolicy?: SubResource;
     forceFirewallPolicyAssociation?: boolean;
@@ -432,6 +436,7 @@ export interface ApplicationGatewayBackendHttpSettings extends SubResource {
 
 // @public
 export interface ApplicationGatewayBackendSettings extends SubResource {
+    enableL4ClientIpPreservation?: boolean;
     readonly etag?: string;
     hostName?: string;
     name?: string;
@@ -447,9 +452,13 @@ export interface ApplicationGatewayBackendSettings extends SubResource {
 
 // @public
 export interface ApplicationGatewayClientAuthConfiguration {
+    verifyClientAuthMode?: ApplicationGatewayClientAuthVerificationModes;
     verifyClientCertIssuerDN?: boolean;
     verifyClientRevocation?: ApplicationGatewayClientRevocationOptions;
 }
+
+// @public
+export type ApplicationGatewayClientAuthVerificationModes = string;
 
 // @public
 export type ApplicationGatewayClientRevocationOptions = string;
@@ -471,6 +480,17 @@ export interface ApplicationGatewayCustomError {
 
 // @public
 export type ApplicationGatewayCustomErrorStatusCode = string;
+
+// @public
+export interface ApplicationGatewayEntraJWTValidationConfig extends SubResource {
+    audiences?: string[];
+    clientId?: string;
+    readonly etag?: string;
+    name?: string;
+    readonly provisioningState?: ProvisioningState;
+    tenantId?: string;
+    unAuthorizedRequestAction?: ApplicationGatewayUnAuthorizedRequestAction;
+}
 
 // @public
 export interface ApplicationGatewayFirewallDisabledRuleGroup {
@@ -642,6 +662,7 @@ export interface ApplicationGatewayLoadDistributionTarget extends SubResource {
 export interface ApplicationGatewayOnDemandProbe {
     backendAddressPool?: SubResource;
     backendHttpSettings?: SubResource;
+    enableProbeProxyProtocolHeader?: boolean;
     host?: string;
     match?: ApplicationGatewayProbeHealthResponseMatch;
     path?: string;
@@ -789,6 +810,7 @@ export type ApplicationGatewayPrivateLinkResourcesListResponse = ApplicationGate
 
 // @public
 export interface ApplicationGatewayProbe extends SubResource {
+    enableProbeProxyProtocolHeader?: boolean;
     readonly etag?: string;
     host?: string;
     interval?: number;
@@ -837,6 +859,7 @@ export type ApplicationGatewayRedirectType = string;
 export interface ApplicationGatewayRequestRoutingRule extends SubResource {
     backendAddressPool?: SubResource;
     backendHttpSettings?: SubResource;
+    entraJWTValidationConfig?: SubResource;
     readonly etag?: string;
     httpListener?: SubResource;
     loadDistributionPolicy?: SubResource;
@@ -1169,6 +1192,9 @@ export interface ApplicationGatewayTrustedRootCertificate extends SubResource {
     readonly provisioningState?: ProvisioningState;
     readonly type?: string;
 }
+
+// @public
+export type ApplicationGatewayUnAuthorizedRequestAction = string;
 
 // @public
 export interface ApplicationGatewayUrlConfiguration {
@@ -2302,6 +2328,13 @@ export interface BreakOutCategoryPolicies {
 }
 
 // @public
+export interface CertificateAuthentication {
+    inboundAuthCertificateChain?: string[];
+    inboundAuthCertificateSubjectName?: string;
+    outboundAuthCertificate?: string;
+}
+
+// @public
 export interface CheckDnsNameAvailabilityOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2456,6 +2489,9 @@ export type ConnectedGroupAddressOverlap = string;
 
 // @public
 export type ConnectedGroupPrivateEndpointsScale = string;
+
+// @public
+export type ConnectionAuthenticationType = string;
 
 // @public
 export interface ConnectionMonitor {
@@ -3111,9 +3147,24 @@ export type DdosCustomPoliciesUpdateTagsResponse = DdosCustomPolicy;
 
 // @public
 export interface DdosCustomPolicy extends Resource {
+    detectionRules?: DdosDetectionRule[];
     readonly etag?: string;
+    frontEndIpConfiguration?: SubResource[];
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
+}
+
+// @public
+export type DdosDetectionMode = string;
+
+// @public
+export interface DdosDetectionRule extends SubResource {
+    detectionMode?: DdosDetectionMode;
+    readonly etag?: string;
+    name?: string;
+    readonly provisioningState?: ProvisioningState;
+    trafficDetectionRule?: TrafficDetectionRule;
+    readonly type?: string;
 }
 
 // @public
@@ -3220,6 +3271,9 @@ export interface DdosSettings {
 
 // @public
 export type DdosSettingsProtectionMode = string;
+
+// @public
+export type DdosTrafficType = string;
 
 // @public
 export interface DefaultAdminRule extends BaseAdminRule {
@@ -3335,6 +3389,11 @@ export type Direction = string;
 
 // @public
 export type DisableBgpRoutePropagation = string;
+
+// @public
+export interface DisassociateCloudServicePublicIpRequest {
+    publicIpArmId: string;
+}
 
 // @public
 export interface DisconnectActiveSessionsNextOptionalParams extends coreClient.OperationOptions {
@@ -5486,6 +5545,7 @@ export interface FlowLog extends Resource {
     format?: FlowLogFormatParameters;
     identity?: ManagedServiceIdentity;
     readonly provisioningState?: ProvisioningState;
+    recordTypes?: string;
     retentionPolicy?: RetentionPolicyParameters;
     storageId?: string;
     readonly targetResourceGuid?: string;
@@ -5508,6 +5568,7 @@ export interface FlowLogInformation {
     flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
     format?: FlowLogFormatParameters;
     identity?: ManagedServiceIdentity;
+    recordTypes?: string;
     retentionPolicy?: RetentionPolicyParameters;
     storageId: string;
     targetResourceId: string;
@@ -6583,6 +6644,9 @@ export type IPVersion = string;
 export type IsGlobal = string;
 
 // @public
+export type IsRollback = string;
+
+// @public
 export type IssueType = string;
 
 // @public
@@ -6592,6 +6656,12 @@ export type IsWorkloadProtected = string;
 export enum KnownAccess {
     Allow = "Allow",
     Deny = "Deny"
+}
+
+// @public
+export enum KnownAccessMode {
+    Default = "Default",
+    Restricted = "Restricted"
 }
 
 // @public
@@ -6655,6 +6725,12 @@ export enum KnownApplicationGatewayBackendHealthServerHealth {
     Partial = "Partial",
     Unknown = "Unknown",
     Up = "Up"
+}
+
+// @public
+export enum KnownApplicationGatewayClientAuthVerificationModes {
+    Passthrough = "Passthrough",
+    Strict = "Strict"
 }
 
 // @public
@@ -6840,6 +6916,12 @@ export enum KnownApplicationGatewayTierTypes {
 }
 
 // @public
+export enum KnownApplicationGatewayUnAuthorizedRequestAction {
+    Allow = "Allow",
+    Deny = "Deny"
+}
+
+// @public
 export enum KnownApplicationGatewayWafRuleActionTypes {
     Allow = "Allow",
     AnomalyScoring = "AnomalyScoring",
@@ -6852,8 +6934,7 @@ export enum KnownApplicationGatewayWafRuleActionTypes {
 export enum KnownApplicationGatewayWafRuleSensitivityTypes {
     High = "High",
     Low = "Low",
-    Medium = "Medium",
-    None = "None"
+    Medium = "Medium"
 }
 
 // @public
@@ -7034,6 +7115,12 @@ export enum KnownConnectedGroupPrivateEndpointsScale {
 }
 
 // @public
+export enum KnownConnectionAuthenticationType {
+    Certificate = "Certificate",
+    PSK = "PSK"
+}
+
+// @public
 export enum KnownConnectionMonitorEndpointFilterItemType {
     AgentAddress = "AgentAddress"
 }
@@ -7110,10 +7197,22 @@ export enum KnownCustomIpPrefixType {
 }
 
 // @public
+export enum KnownDdosDetectionMode {
+    TrafficThreshold = "TrafficThreshold"
+}
+
+// @public
 export enum KnownDdosSettingsProtectionMode {
     Disabled = "Disabled",
     Enabled = "Enabled",
     VirtualNetworkInherited = "VirtualNetworkInherited"
+}
+
+// @public
+export enum KnownDdosTrafficType {
+    Tcp = "Tcp",
+    TcpSyn = "TcpSyn",
+    Udp = "Udp"
 }
 
 // @public
@@ -7611,6 +7710,12 @@ export enum KnownIsGlobal {
 }
 
 // @public
+export enum KnownIsRollback {
+    False = "false",
+    True = "true"
+}
+
+// @public
 export enum KnownIssueType {
     AgentStopped = "AgentStopped",
     DnsResolution = "DnsResolution",
@@ -7641,6 +7746,12 @@ export enum KnownLoadBalancerOutboundRuleProtocol {
     All = "All",
     Tcp = "Tcp",
     Udp = "Udp"
+}
+
+// @public
+export enum KnownLoadBalancerScope {
+    Private = "Private",
+    Public = "Public"
 }
 
 // @public
@@ -7896,6 +8007,13 @@ export enum KnownPreferredRoutingGateway {
 }
 
 // @public
+export enum KnownPrivateEndpointIPVersionType {
+    DualStack = "DualStack",
+    IPv4 = "IPv4",
+    IPv6 = "IPv6"
+}
+
+// @public
 export enum KnownPrivateEndpointVNetPolicies {
     Basic = "Basic",
     Disabled = "Disabled"
@@ -8024,6 +8142,12 @@ export enum KnownRouteNextHopType {
 }
 
 // @public
+export enum KnownRouteTableUsageMode {
+    ManagedOnly = "ManagedOnly",
+    UseExisting = "UseExisting"
+}
+
+// @public
 export enum KnownRoutingRuleDestinationType {
     AddressPrefix = "AddressPrefix",
     ServiceTag = "ServiceTag"
@@ -8141,8 +8265,7 @@ export enum KnownSecurityRuleProtocol {
 export enum KnownSensitivityType {
     High = "High",
     Low = "Low",
-    Medium = "Medium",
-    None = "None"
+    Medium = "Medium"
 }
 
 // @public
@@ -8677,6 +8800,7 @@ export interface LoadBalancer extends Resource {
     probes?: Probe[];
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
+    scope?: LoadBalancerScope;
     sku?: LoadBalancerSku;
 }
 
@@ -8954,6 +9078,9 @@ export interface LoadBalancers {
     migrateToIpBased(groupName: string, loadBalancerName: string, options?: LoadBalancersMigrateToIpBasedOptionalParams): Promise<LoadBalancersMigrateToIpBasedResponse>;
     updateTags(resourceGroupName: string, loadBalancerName: string, parameters: TagsObject, options?: LoadBalancersUpdateTagsOptionalParams): Promise<LoadBalancersUpdateTagsResponse>;
 }
+
+// @public
+export type LoadBalancerScope = string;
 
 // @public
 export interface LoadBalancersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -10454,6 +10581,7 @@ export interface NetworkManagerRoutingConfiguration extends ChildResource {
     description?: string;
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
+    routeTableUsageMode?: RouteTableUsageMode;
     readonly systemData?: SystemData;
 }
 
@@ -12597,6 +12725,7 @@ export interface PrivateEndpoint extends Resource {
     readonly etag?: string;
     extendedLocation?: ExtendedLocation;
     ipConfigurations?: PrivateEndpointIPConfiguration[];
+    ipVersionType?: PrivateEndpointIPVersionType;
     manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
     readonly networkInterfaces?: NetworkInterface[];
     privateLinkServiceConnections?: PrivateLinkServiceConnection[];
@@ -12631,6 +12760,9 @@ export interface PrivateEndpointIPConfiguration {
     privateIPAddress?: string;
     readonly type?: string;
 }
+
+// @public
+export type PrivateEndpointIPVersionType = string;
 
 // @public
 export interface PrivateEndpointListResult {
@@ -12705,6 +12837,7 @@ export type PrivateEndpointVNetPolicies = string;
 
 // @public
 export interface PrivateLinkService extends Resource {
+    accessMode?: AccessMode;
     readonly alias?: string;
     autoApproval?: PrivateLinkServicePropertiesAutoApproval;
     destinationIPAddress?: string;
@@ -13021,6 +13154,10 @@ export interface PublicIPAddresses {
     beginDdosProtectionStatusAndWait(resourceGroupName: string, publicIpAddressName: string, options?: PublicIPAddressesDdosProtectionStatusOptionalParams): Promise<PublicIPAddressesDdosProtectionStatusResponse>;
     beginDelete(resourceGroupName: string, publicIpAddressName: string, options?: PublicIPAddressesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, publicIpAddressName: string, options?: PublicIPAddressesDeleteOptionalParams): Promise<void>;
+    beginDisassociateCloudServiceReservedPublicIp(resourceGroupName: string, publicIpAddressName: string, parameters: DisassociateCloudServicePublicIpRequest, options?: PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams): Promise<SimplePollerLike<OperationState<PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse>, PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse>>;
+    beginDisassociateCloudServiceReservedPublicIpAndWait(resourceGroupName: string, publicIpAddressName: string, parameters: DisassociateCloudServicePublicIpRequest, options?: PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams): Promise<PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse>;
+    beginReserveCloudServicePublicIpAddress(resourceGroupName: string, publicIpAddressName: string, parameters: ReserveCloudServicePublicIpAddressRequest, options?: PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams): Promise<SimplePollerLike<OperationState<PublicIPAddressesReserveCloudServicePublicIpAddressResponse>, PublicIPAddressesReserveCloudServicePublicIpAddressResponse>>;
+    beginReserveCloudServicePublicIpAddressAndWait(resourceGroupName: string, publicIpAddressName: string, parameters: ReserveCloudServicePublicIpAddressRequest, options?: PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams): Promise<PublicIPAddressesReserveCloudServicePublicIpAddressResponse>;
     get(resourceGroupName: string, publicIpAddressName: string, options?: PublicIPAddressesGetOptionalParams): Promise<PublicIPAddressesGetResponse>;
     getCloudServicePublicIPAddress(resourceGroupName: string, cloudServiceName: string, roleInstanceName: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, options?: PublicIPAddressesGetCloudServicePublicIPAddressOptionalParams): Promise<PublicIPAddressesGetCloudServicePublicIPAddressResponse>;
     getVirtualMachineScaleSetPublicIPAddress(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, options?: PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams): Promise<PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse>;
@@ -13066,6 +13203,21 @@ export interface PublicIPAddressesDeleteOptionalParams extends coreClient.Operat
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface PublicIPAddressesDisassociateCloudServiceReservedPublicIpHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse = PublicIPAddress;
 
 // @public
 export interface PublicIPAddressesGetCloudServicePublicIPAddressOptionalParams extends coreClient.OperationOptions {
@@ -13174,6 +13326,21 @@ export interface PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesO
 
 // @public
 export type PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse = PublicIPAddressListResult;
+
+// @public
+export interface PublicIPAddressesReserveCloudServicePublicIpAddressHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PublicIPAddressesReserveCloudServicePublicIpAddressResponse = PublicIPAddress;
 
 // @public
 export interface PublicIPAddressesUpdateTagsOptionalParams extends coreClient.OperationOptions {
@@ -13553,6 +13720,11 @@ export interface RecordSet {
 // @public
 export interface ReferencedPublicIpAddress {
     id?: string;
+}
+
+// @public
+export interface ReserveCloudServicePublicIpAddressRequest {
+    isRollback: IsRollback;
 }
 
 // @public
@@ -14018,6 +14190,9 @@ export interface RouteTablesUpdateTagsOptionalParams extends coreClient.Operatio
 
 // @public
 export type RouteTablesUpdateTagsResponse = RouteTable;
+
+// @public
+export type RouteTableUsageMode = string;
 
 // @public
 export interface RoutingConfiguration {
@@ -15557,6 +15732,12 @@ export interface TrafficAnalyticsProperties {
 }
 
 // @public
+export interface TrafficDetectionRule {
+    packetsPerSecond?: number;
+    trafficType?: DdosTrafficType;
+}
+
+// @public
 export interface TrafficSelectorPolicy {
     localAddressRanges: string[];
     remoteAddressRanges: string[];
@@ -16388,7 +16569,9 @@ export interface VirtualNetworkGatewayAutoScaleConfiguration {
 
 // @public
 export interface VirtualNetworkGatewayConnection extends Resource {
+    authenticationType?: ConnectionAuthenticationType;
     authorizationKey?: string;
+    certificateAuthentication?: CertificateAuthentication;
     connectionMode?: VirtualNetworkGatewayConnectionMode;
     connectionProtocol?: VirtualNetworkGatewayConnectionProtocol;
     readonly connectionStatus?: VirtualNetworkGatewayConnectionStatus;

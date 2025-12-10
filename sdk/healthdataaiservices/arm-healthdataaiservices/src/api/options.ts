@@ -49,8 +49,7 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams extends Operatio
 }
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsListByDeidServiceOptionalParams
-  extends OperationOptions {}
+export interface PrivateEndpointConnectionsListByDeidServiceOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface PrivateLinksListByDeidServiceOptionalParams extends OperationOptions {}

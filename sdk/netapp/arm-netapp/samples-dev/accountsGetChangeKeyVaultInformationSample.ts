@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to contains data from encryption.keyVaultProperties as well as information about which private endpoint is used by each encryption sibling set. Response from this endpoint can be modified and used as request body for POST request.
  *
  * @summary contains data from encryption.keyVaultProperties as well as information about which private endpoint is used by each encryption sibling set. Response from this endpoint can be modified and used as request body for POST request.
- * x-ms-original-file: 2025-07-01-preview/Accounts_GetChangeKeyVaultInformation.json
+ * x-ms-original-file: 2025-09-01-preview/Accounts_GetChangeKeyVaultInformation.json
  */
 async function accountsGetChangeKeyVaultInformation(): Promise<void> {
   const credential = new DefaultAzureCredential();

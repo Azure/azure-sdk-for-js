@@ -61,6 +61,7 @@
     "@azure/logger": "^1.1.4",
     "@types/node": "catalog:",
     "@types/prompts": "^2.4.9",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "eslint": "catalog:",

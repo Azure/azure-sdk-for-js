@@ -3,7 +3,7 @@
 import { RestError } from "@azure/core-rest-pipeline";
 import { DeleteKeyPoller } from "../../src/lro/delete/poller.js";
 import { RecoverDeletedKeyPoller } from "../../src/lro/recover/poller.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect } from "vitest";
 
 describe("The LROs properly throw on unexpected errors", () => {
   describe("delete LRO", () => {
@@ -55,7 +55,7 @@ describe("The LROs properly throw on unexpected errors", () => {
       await poller.poll();
       await poller.poll();
 
-      assert.isUndefined(poller.getOperationState().isCompleted);
+      expect(poller.getOperationState().isCompleted).toBeFalsy();
     });
 
     it("Errors other than 403 and 404 throw", async () => {
@@ -140,7 +140,7 @@ describe("The LROs properly throw on unexpected errors", () => {
       await poller.poll();
       await poller.poll();
 
-      assert.isUndefined(poller.getOperationState().isCompleted);
+      expect(poller.getOperationState().isCompleted).toBeFalsy();
     });
 
     it("Errors other than 403 and 404 throw", async () => {

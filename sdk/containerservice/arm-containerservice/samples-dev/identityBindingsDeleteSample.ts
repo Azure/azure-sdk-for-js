@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes an identity binding in the specified managed cluster.
  *
  * @summary Deletes an identity binding in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/IdentityBindings_Delete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/IdentityBindings_Delete.json
  */
 async function deleteIdentityBinding(): Promise<void> {
   const subscriptionId =

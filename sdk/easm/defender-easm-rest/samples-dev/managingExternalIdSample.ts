@@ -68,7 +68,7 @@ async function main(): Promise<void> {
   const external_ids: string[] = [];
   const update_ids: string[] = [];
 
-  await external_id_mapping.forEach(async (mapping) => {
+  external_id_mapping.forEach(async (mapping) => {
     external_ids.push(mapping.external_id);
 
     const task_response = await client.path("/assets").post({
@@ -88,7 +88,7 @@ async function main(): Promise<void> {
   });
 
   // By calling the /tasks/{taskId} endpoint, we can view the progress of each update using the `get` method
-  await update_ids.forEach(async (id) => {
+  update_ids.forEach(async (id) => {
     const task_response = await client.path("/tasks/{taskId}", id).get();
 
     if (isUnexpected(task_response)) {
@@ -115,7 +115,7 @@ async function main(): Promise<void> {
 
   const assets = assets_response.body.value!;
 
-  await assets.forEach((asset) => {
+  assets.forEach((asset) => {
     console.log(`${asset.externalId}, ${asset.name}`);
   });
 }

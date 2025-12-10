@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the specified volume group only if there are no volumes under volume group.
  *
  * @summary delete the specified volume group only if there are no volumes under volume group.
- * x-ms-original-file: 2025-07-01-preview/VolumeGroups_Delete.json
+ * x-ms-original-file: 2025-09-01-preview/VolumeGroups_Delete.json
  */
 async function volumeGroupsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

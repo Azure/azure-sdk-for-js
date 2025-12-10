@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the commitmentPlans associated with the Cognitive Services account.
  *
  * @summary Gets the commitmentPlans associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListCommitmentPlans.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListCommitmentPlans.json
  */
 async function listCommitmentPlans(): Promise<void> {
   const subscriptionId =

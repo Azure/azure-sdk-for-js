@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete quota rule
  *
  * @summary delete quota rule
- * x-ms-original-file: 2025-07-01-preview/VolumeQuotaRules_Delete.json
+ * x-ms-original-file: 2025-09-01-preview/VolumeQuotaRules_Delete.json
  */
 async function volumeQuotaRulesDelete() {
   const credential = new DefaultAzureCredential();

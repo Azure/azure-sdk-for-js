@@ -21,9 +21,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedEnvironmentPrivateLinkResources operations. */
-export class ManagedEnvironmentPrivateLinkResourcesImpl
-  implements ManagedEnvironmentPrivateLinkResources
-{
+export class ManagedEnvironmentPrivateLinkResourcesImpl implements ManagedEnvironmentPrivateLinkResources {
   private readonly client: ContainerAppsAPIClient;
 
   /**

@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Contains list of Guardrails version along with its support info and whether it is a default version.
  *
  * @summary Contains list of Guardrails version along with its support info and whether it is a default version.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/ListGuardrailsVersions.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/ListGuardrailsVersions.json
  */
 async function listGuardrailsVersions() {
   const subscriptionId =

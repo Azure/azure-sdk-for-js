@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists Cognitive Services project connection by name.
  *
  * @summary Lists Cognitive Services project connection by name.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ProjectConnection/get.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ProjectConnection/get.json
  */
 async function getProjectConnection(): Promise<void> {
   const subscriptionId =

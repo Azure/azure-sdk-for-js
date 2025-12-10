@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Get usages for the requested subscription
  *
  * @summary Get usages for the requested subscription
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListUsages.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListUsages.json
  */
 async function getUsages() {
   const subscriptionId =

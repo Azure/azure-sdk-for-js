@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  GlobalRulestackListAppIdsOptionalParams} from "@azure/arm-paloaltonetworksngfw";
+import {
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to List of AppIds for GlobalRulestack ApiVersion
  *
  * @summary List of AppIds for GlobalRulestack ApiVersion
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listAppIds_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_listAppIds_MaximumSet_Gen.json
  */
-
-import type { GlobalRulestackListAppIdsOptionalParams } from "@azure/arm-paloaltonetworksngfw";
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function globalRulestackListAppIdsMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const appIdVersion = "8543";
@@ -27,7 +29,10 @@ async function globalRulestackListAppIdsMaximumSetGen(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
-  const result = await client.globalRulestack.listAppIds(globalRulestackName, options);
+  const result = await client.globalRulestack.listAppIds(
+    globalRulestackName,
+    options,
+  );
   console.log(result);
 }
 
@@ -35,7 +40,7 @@ async function globalRulestackListAppIdsMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to List of AppIds for GlobalRulestack ApiVersion
  *
  * @summary List of AppIds for GlobalRulestack ApiVersion
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listAppIds_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_listAppIds_MinimumSet_Gen.json
  */
 async function globalRulestackListAppIdsMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";

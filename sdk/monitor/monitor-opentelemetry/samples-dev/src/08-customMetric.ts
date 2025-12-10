@@ -29,14 +29,14 @@ export class CustomMetricExample {
     async function metricExport(): Promise<void> {
       const meter = metrics.getMeter("testMeter");
       const customCounter = meter.createCounter("TestCounter");
-      await customCounter.add(1);
-      await customCounter.add(2);
-      await customCounter.add(3);
+      customCounter.add(1);
+      customCounter.add(2);
+      customCounter.add(3);
     }
 
     async function setupRoutes(): Promise<void> {
       await app.get("/", async (_req: any, res: any) => {
-        await metricExport().then(() => {
+        await metricExport().then((): void => {
           res.send("Metrics sent to Azure Monitor");
         });
       });

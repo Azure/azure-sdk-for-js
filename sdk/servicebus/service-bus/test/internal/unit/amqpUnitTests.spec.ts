@@ -187,7 +187,7 @@ describe("AMQP message encoding", () => {
 
       const rheaMessage = toRheaMessage(sbMessage, defaultDataTransformer);
       assert.equal(rheaMessage.ttl, ttl);
-      assert.ok(
+      assert.isTrue(
         rheaMessage.absolute_expiry_time instanceof Date &&
           !isNaN(rheaMessage.absolute_expiry_time.getTime()),
       );

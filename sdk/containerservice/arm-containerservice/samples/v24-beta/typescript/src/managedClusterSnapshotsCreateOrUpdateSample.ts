@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates a managed cluster snapshot.
  *
  * @summary Creates or updates a managed cluster snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/ManagedClusterSnapshotsCreate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/ManagedClusterSnapshotsCreate.json
  */
 async function createOrUpdateManagedClusterSnapshot(): Promise<void> {
   const subscriptionId =

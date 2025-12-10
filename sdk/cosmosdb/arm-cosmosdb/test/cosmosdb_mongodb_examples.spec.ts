@@ -48,7 +48,7 @@ describe("Cosmosdb test", () => {
       recorder.configureClientOptions({}),
     );
     location = "uksouth";
-    resourceGroupName = "myjstest";
+    resourceGroupName = "SSS3PT_myjstest";
     accountName = "myaccountxxyz3";
     databaseName = "mydatabasexxxx";
   });

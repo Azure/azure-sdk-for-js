@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to starts peering the external cluster for this migration volume
  *
  * @summary starts peering the external cluster for this migration volume
- * x-ms-original-file: 2025-07-01-preview/Volumes_PeerExternalCluster.json
+ * x-ms-original-file: 2025-09-01-preview/Volumes_PeerExternalCluster.json
  */
 async function volumesPeerExternalCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

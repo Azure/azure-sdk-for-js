@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes a managed cluster.
  *
  * @summary Deletes a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/ManagedClustersDelete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/ManagedClustersDelete.json
  */
 async function deleteManagedCluster(): Promise<void> {
   const subscriptionId =

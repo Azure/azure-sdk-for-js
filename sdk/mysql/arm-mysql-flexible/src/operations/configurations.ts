@@ -309,6 +309,7 @@ export class ConfigurationsImpl implements Configurations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri",
     });
     await poller.poll();
     return poller;

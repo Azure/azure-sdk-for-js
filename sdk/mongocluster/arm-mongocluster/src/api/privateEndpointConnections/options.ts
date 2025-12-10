@@ -19,5 +19,4 @@ export interface PrivateEndpointConnectionsCreateOptionalParams extends Operatio
 export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsListByMongoClusterOptionalParams
-  extends OperationOptions {}
+export interface PrivateEndpointConnectionsListByMongoClusterOptionalParams extends OperationOptions {}

@@ -75,7 +75,7 @@ export interface CosmosClientOptions {
   plugins?: PluginConfig[];
 
   /** An optional parameter to set throughput bucket number. This value can be overridden at request level
-   * For more information, visit [Cosmos DB throughput Bucketing](https://aka.ms/cosmsodb-bucketing).
+   * For more information, visit [Cosmos DB throughput Bucketing](https://aka.ms/cosmosdb-bucketing).
    */
   throughputBucket?: number;
 

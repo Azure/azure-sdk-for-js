@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the status of the replication
  *
  * @summary get the status of the replication
- * x-ms-original-file: 2025-07-01-preview/Volumes_ReplicationStatus.json
+ * x-ms-original-file: 2025-09-01-preview/Volumes_ReplicationStatus.json
  */
 async function volumesReplicationStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

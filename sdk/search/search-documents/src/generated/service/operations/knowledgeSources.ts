@@ -22,6 +22,8 @@ import {
   KnowledgeSourcesListResponse,
   KnowledgeSourcesCreateOptionalParams,
   KnowledgeSourcesCreateResponse,
+  KnowledgeSourcesGetStatusOptionalParams,
+  KnowledgeSourcesGetStatusResponse,
 } from "../models/index.js";
 
 /** Class containing KnowledgeSources operations. */
@@ -105,6 +107,21 @@ export class KnowledgeSourcesImpl implements KnowledgeSources {
     return this.client.sendOperationRequest(
       { knowledgeSource, options },
       createOperationSpec,
+    );
+  }
+
+  /**
+   * Returns the current status and synchronization history of a knowledge source.
+   * @param sourceName The name of the knowledge source for which to retrieve status.
+   * @param options The options parameters.
+   */
+  getStatus(
+    sourceName: string,
+    options?: KnowledgeSourcesGetStatusOptionalParams,
+  ): Promise<KnowledgeSourcesGetStatusResponse> {
+    return this.client.sendOperationRequest(
+      { sourceName, options },
+      getStatusOperationSpec,
     );
   }
 }
@@ -205,5 +222,21 @@ const createOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
+  serializer,
+};
+const getStatusOperationSpec: coreClient.OperationSpec = {
+  path: "/knowledgesources('{sourceName}')/status",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.KnowledgeSourceStatus,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.sourceName],
+  headerParameters: [Parameters.accept],
   serializer,
 };

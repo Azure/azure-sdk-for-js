@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to starts a fault simulation on the cluster.
  *
  * @summary starts a fault simulation on the cluster.
- * x-ms-original-file: 2025-06-01-preview/faultSimulation/ManagedClusterStartFaultSimulation_example.json
+ * x-ms-original-file: 2025-10-01-preview/faultSimulation/ManagedClusterStartFaultSimulation_example.json
  */
 async function startManagedClusterFaultSimulation() {
   const credential = new DefaultAzureCredential();

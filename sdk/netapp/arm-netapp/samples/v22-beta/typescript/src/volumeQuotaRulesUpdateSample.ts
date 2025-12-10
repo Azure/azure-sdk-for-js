@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch a quota rule
  *
  * @summary patch a quota rule
- * x-ms-original-file: 2025-07-01-preview/VolumeQuotaRules_Update.json
+ * x-ms-original-file: 2025-09-01-preview/VolumeQuotaRules_Update.json
  */
 async function volumeQuotaRulesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

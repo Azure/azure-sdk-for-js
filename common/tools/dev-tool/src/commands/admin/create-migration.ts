@@ -7,7 +7,8 @@ import { spawnSync } from "node:child_process";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import migrationTemplate, { MigrationTemplate } from "../../templates/migration";
 import { createPrinter } from "../../util/printer";
-import { ensureDir, pathExists, writeFile } from "fs-extra";
+import { mkdir, writeFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { format } from "../../util/prettier";
 
 const log = createPrinter("create-migration");
@@ -82,7 +83,7 @@ export default leafCommand(commandInfo, async (options) => {
       );
     }
 
-    if (await pathExists(migrationFile)) {
+    if (existsSync(migrationFile)) {
       failed = true;
       log.error(`Migration '${id}' already exists.`);
     }
@@ -139,7 +140,7 @@ export default leafCommand(commandInfo, async (options) => {
 
   const formattedResult = await format(result, "typescript");
 
-  await ensureDir(path.dirname(migrationFile));
+  await mkdir(path.dirname(migrationFile), { recursive: true });
   await writeFile(migrationFile, formattedResult);
 
   log.success(`Migration '${id}' created successfully!`);

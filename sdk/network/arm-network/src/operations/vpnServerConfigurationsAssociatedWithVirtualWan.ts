@@ -18,9 +18,7 @@ import type {
 } from "../models/index.js";
 
 /** Class containing VpnServerConfigurationsAssociatedWithVirtualWan operations. */
-export class VpnServerConfigurationsAssociatedWithVirtualWanImpl
-  implements VpnServerConfigurationsAssociatedWithVirtualWan
-{
+export class VpnServerConfigurationsAssociatedWithVirtualWanImpl implements VpnServerConfigurationsAssociatedWithVirtualWan {
   private readonly client: NetworkManagementClient;
 
   /**

@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Updates tags on a managed namespace.
  *
  * @summary Updates tags on a managed namespace.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/ManagedNamespacesUpdateTags.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/ManagedNamespacesUpdateTags.json
  */
 async function updateManagedNamespaceTags() {
   const subscriptionId =

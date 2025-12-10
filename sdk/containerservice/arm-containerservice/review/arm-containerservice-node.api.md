@@ -1305,7 +1305,8 @@ export enum KnownMeshMembershipProvisioningState {
 // @public
 export enum KnownMode {
     Iptables = "IPTABLES",
-    Ipvs = "IPVS"
+    Ipvs = "IPVS",
+    Nftables = "NFTABLES"
 }
 
 // @public
@@ -1589,6 +1590,7 @@ export enum KnownWeekDay {
 // @public
 export enum KnownWorkloadRuntime {
     KataMshvVmIsolation = "KataMshvVmIsolation",
+    KataVmIsolation = "KataVmIsolation",
     OCIContainer = "OCIContainer",
     WasmWasi = "WasmWasi"
 }
@@ -2283,10 +2285,23 @@ export interface ManagedClusterIdentity {
     };
 }
 
+// @public (undocumented)
+export interface ManagedClusterIngressDefaultDomainProfile {
+    readonly domainName?: string;
+    enabled?: boolean;
+}
+
 // @public
 export interface ManagedClusterIngressProfile {
+    applicationLoadBalancer?: ManagedClusterIngressProfileApplicationLoadBalancer;
     gatewayAPI?: ManagedClusterIngressProfileGatewayConfiguration;
     webAppRouting?: ManagedClusterIngressProfileWebAppRouting;
+}
+
+// @public
+export interface ManagedClusterIngressProfileApplicationLoadBalancer {
+    enabled?: boolean;
+    readonly identity?: UserAssignedIdentity;
 }
 
 // @public (undocumented)
@@ -2301,6 +2316,7 @@ export interface ManagedClusterIngressProfileNginx {
 
 // @public
 export interface ManagedClusterIngressProfileWebAppRouting {
+    defaultDomain?: ManagedClusterIngressDefaultDomainProfile;
     dnsZoneResourceIds?: string[];
     enabled?: boolean;
     readonly identity?: UserAssignedIdentity;

@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get long running operation status.
  *
  * @summary get long running operation status.
- * x-ms-original-file: 2025-06-01-preview/OperationStatusFailed_example.json
+ * x-ms-original-file: 2025-10-01-preview/OperationStatusFailed_example.json
  */
 async function errorResponseDescribingWhyTheOperationFailed() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function errorResponseDescribingWhyTheOperationFailed() {
  * This sample demonstrates how to get long running operation status.
  *
  * @summary get long running operation status.
- * x-ms-original-file: 2025-06-01-preview/OperationStatusSucceeded_example.json
+ * x-ms-original-file: 2025-10-01-preview/OperationStatusSucceeded_example.json
  */
 async function okTheRequestHasSucceeded() {
   const credential = new DefaultAzureCredential();

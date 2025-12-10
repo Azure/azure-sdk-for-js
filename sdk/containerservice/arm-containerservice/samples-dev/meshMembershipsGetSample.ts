@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the mesh membership of a managed cluster.
  *
  * @summary Gets the mesh membership of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/MeshMemberships_Get.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/MeshMemberships_Get.json
  */
 async function getMeshMembership(): Promise<void> {
   const subscriptionId =

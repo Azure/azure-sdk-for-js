@@ -15,9 +15,7 @@ import type {
 } from "../models/index.js";
 
 /** Class containing NetworkSecurityPerimeterOperationStatuses operations. */
-export class NetworkSecurityPerimeterOperationStatusesImpl
-  implements NetworkSecurityPerimeterOperationStatuses
-{
+export class NetworkSecurityPerimeterOperationStatusesImpl implements NetworkSecurityPerimeterOperationStatuses {
   private readonly client: NetworkManagementClient;
 
   /**

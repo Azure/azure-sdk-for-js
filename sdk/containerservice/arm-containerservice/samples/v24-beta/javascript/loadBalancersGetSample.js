@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets the specified load balancer.
  *
  * @summary Gets the specified load balancer.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/LoadBalancers_Get.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/LoadBalancers_Get.json
  */
 async function getLoadBalancer() {
   const subscriptionId =

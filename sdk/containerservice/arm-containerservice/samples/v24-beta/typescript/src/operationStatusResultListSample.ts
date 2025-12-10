@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a list of operations in the specified managedCluster
  *
  * @summary Gets a list of operations in the specified managedCluster
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-08-02-preview/examples/OperationStatusResultList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/OperationStatusResultList.json
  */
 async function listOfOperationStatusResult(): Promise<void> {
   const subscriptionId =

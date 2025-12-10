@@ -29,6 +29,21 @@ export interface WebPubSubClientOptions {
    * The retry options for reconnection. Only available when autoReconnect is true.
    */
   reconnectRetryOptions?: WebPubSubRetryOptions;
+  /**
+   * The idle timeout in milliseconds used to detect half-open connections when no data or pong has
+   * been received. Default is 120000ms (120 seconds). Set to 0 to disable this timeout check. Must
+   * be greater than or equal to 0. We recommend keeping this value comfortably larger than
+   * `keepAliveIntervalInMs` (for example 3x) so that probes have time to run before the timeout
+   * closes the socket.
+   */
+  keepAliveTimeoutInMs?: number;
+  /**
+   * The interval in milliseconds at which to send keep-alive ping messages to the runtime. Default
+   * is 20000ms (20 seconds). Set to 0 to disable client-initiated keep-alive pings. Must be greater
+   * than or equal to 0. We recommend choosing a value that is lower than `keepAliveTimeoutInMs`
+   * (again, about 3x lower) so the timeout only triggers when multiple pings fail.
+   */
+  keepAliveIntervalInMs?: number;
 }
 
 /**

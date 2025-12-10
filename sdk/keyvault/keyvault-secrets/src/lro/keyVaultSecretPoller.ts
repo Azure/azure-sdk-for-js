@@ -62,8 +62,7 @@ export interface KeyVaultSecretPollOperationOptions {
 export class KeyVaultSecretPollOperation<
   TState extends KeyVaultSecretPollOperationState<TResult>,
   TResult,
-> implements PollOperation<TState, TResult>
-{
+> implements PollOperation<TState, TResult> {
   private cancelMessage: string = "";
 
   constructor(
