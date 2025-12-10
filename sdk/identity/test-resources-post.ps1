@@ -182,3 +182,63 @@ Set-Content -Path "$workingFolder/kubeconfig.yaml" -Value $kubeConfig
 # Apply the config
 kubectl apply -f "$workingFolder/kubeconfig.yaml" --overwrite=true
 Write-Host "Applied kubeconfig.yaml"
+
+Write-Host ""
+Write-Host "=== LOGGS ==="
+
+# Container Instance logs and IMDS test
+Write-Host "ACI Logs:"
+az container logs -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'] --tail 50
+
+Write-Host "Container Name: $($DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'])"
+Write-Host "Container IP: $aciIP"
+Write-Host ""
+
+Write-Host "--- Container State ---"
+az container show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'] `
+  --query "{name:name,provisioningState:provisioningState,state:instanceView.state,restartCount:containers[0].instanceView.restartCount,ip:ipAddress.ip,os:osType}" `
+  -o table
+
+Write-Host ""
+Write-Host "--- Container Identity Assignment ---"
+az container show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'] `
+  --query "identity" `
+  -o json
+
+Write-Host ""
+Write-Host "--- Container Environment Variables (sanitized) ---"
+az container show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'] `
+  --query "containers[0].environmentVariables[].{name:name,hasValue:value}" `
+  -o table
+
+Write-Host ""
+Write-Host "--- Container Events ---"
+az container show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'] `
+  --query "instanceView.events[].{Time:firstTimestamp,Type:type,Message:message}" `
+  -o table
+
+Write-Host ""
+Write-Host "--- Testing Container Endpoints ---"
+try {
+    Write-Host "Testing health endpoint..."
+    $healthResp = Invoke-WebRequest -Uri "http://${aciIP}/" -UseBasicParsing -TimeoutSec 10 -ErrorAction Stop
+    Write-Host "Health endpoint response: $($healthResp.StatusCode)"
+    Write-Host $healthResp.Content
+} catch {
+    Write-Host "Health endpoint failed: $($_.Exception.Message)"
+}
+
+Write-Host ""
+try {
+    Write-Host "Testing managed identity endpoint..."
+    $miResp = Invoke-WebRequest -Uri "http://${aciIP}/managed-identity/user-assigned" -UseBasicParsing -TimeoutSec 30 -ErrorAction Stop
+    Write-Host "Managed identity endpoint response: $($miResp.StatusCode)"
+    Write-Host $miResp.Content
+} catch {
+    Write-Host "Managed identity endpoint failed: $($_.Exception.Message)"
+    if ($_.Exception.Response) {
+        $reader = [System.IO.StreamReader]::new($_.Exception.Response.GetResponseStream())
+        $responseBody = $reader.ReadToEnd()
+        Write-Host "Response body: $responseBody"
+    }
+}
