@@ -30,7 +30,7 @@ export async function main(): Promise<void> {
   const input = {
     text: 'The word <mstrans:dictionary translation ="wordomatic">wordomatic</mstrans:dictionary> is a dictionary entry.',
     targets: [{ language: "es" }],
-    language: "en"
+    language: "en",
   };
   const translateResponse = await translationClient.path("/translate").post({
     body: { inputs: [input] },

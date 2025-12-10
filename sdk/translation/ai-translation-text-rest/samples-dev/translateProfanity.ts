@@ -37,11 +37,13 @@ export async function main(): Promise<void> {
 
   const input: TranslateInputItem = {
     text: "This is ***.",
-    targets: [{ 
-      language: "cs",
-      profanityAction: "Marked",
-      profanityMarker: "Asterisk",
-    }],
+    targets: [
+      {
+        language: "cs",
+        profanityAction: "Marked",
+        profanityMarker: "Asterisk",
+      },
+    ],
     language: "en",
   };
   const translateResponse = await translationClient.path("/translate").post({

@@ -24,14 +24,14 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const input = { 
-    text: "This is a test.", 
-    targets: [{ language: "cs",}],
-    language: "en"
+  const input = {
+    text: "This is a test.",
+    targets: [{ language: "cs" }],
+    language: "en",
   };
   const translateResponse = await translationClient.path("/translate").post({
     body: { inputs: [input] },
-    });
+  });
 
   if (isUnexpected(translateResponse)) {
     throw translateResponse.body.error;

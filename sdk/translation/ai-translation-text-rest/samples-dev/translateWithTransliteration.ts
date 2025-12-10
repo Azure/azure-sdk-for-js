@@ -29,7 +29,7 @@ export async function main(): Promise<void> {
     text: "hudha akhtabar.",
     targets: [{ language: "zh-Hans", toScript: "Latn" }],
     language: "ar",
-    script: "Latn"
+    script: "Latn",
   };
   const translateResponse = await translationClient.path("/translate").post({
     body: { inputs: [input] },

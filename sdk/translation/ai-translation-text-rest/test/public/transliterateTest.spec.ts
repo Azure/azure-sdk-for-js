@@ -91,7 +91,8 @@ describe("Transliterate tests", () => {
 
     let editDistanceValue = 0;
     for (let i = 0; i < expectedText.length; i++) {
-      editDistanceValue = editDistanceValue + editDistance(expectedText[i], transliterations[i].text);
+      editDistanceValue =
+        editDistanceValue + editDistance(expectedText[i], transliterations[i].text);
     }
     assert.isTrue(editDistanceValue < 6);
   });

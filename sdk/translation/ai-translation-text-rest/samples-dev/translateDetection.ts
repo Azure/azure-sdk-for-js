@@ -26,7 +26,7 @@ export async function main(): Promise<void> {
 
   const input = {
     text: "This is a test.",
-    targets: [{ language: "cs",}],
+    targets: [{ language: "cs" }],
   };
   const translateResponse = await translationClient.path("/translate").post({
     body: { inputs: [input] },

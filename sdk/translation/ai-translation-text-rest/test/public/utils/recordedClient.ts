@@ -26,7 +26,7 @@ const recorderEnvSetup: RecorderStartOptions = {
       {
         target: getEndpoint(),
         value: MOCKS.ENDPOINT,
-      }
+      },
     ],
     headerSanitizers: [
       {

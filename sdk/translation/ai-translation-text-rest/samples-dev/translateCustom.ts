@@ -38,11 +38,13 @@ export async function main(): Promise<void> {
 
   const input = {
     text: "This is a test.",
-    targets: [{
-      language: "cs",
-      category: "<<CUSTOM CATEGORY ID>>",
-    }],
-    language: "en"
+    targets: [
+      {
+        language: "cs",
+        category: "<<CUSTOM CATEGORY ID>>",
+      },
+    ],
+    language: "en",
   };
   const translateResponse = await translationClient.path("/translate").post({
     body: { inputs: [input] },

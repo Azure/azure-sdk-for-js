@@ -31,11 +31,11 @@ describe("Translate tests", () => {
   });
 
   it("translate basic", async () => {
-    const input = { 
-      text: "This is a test.", 
-      targets: [{ language: "cs",}],
-      language: "en"
-    }
+    const input = {
+      text: "This is a test.",
+      targets: [{ language: "cs" }],
+      language: "en",
+    };
     const response = await client.path("/translate").post({
       body: { inputs: [input] },
     });
@@ -97,8 +97,8 @@ describe("Translate tests", () => {
     const input = {
       text: 'The word <mstrans:dictionary translation ="wordomatic">wordomatic</mstrans:dictionary> is a dictionary entry.',
       targets: [{ language: "es" }],
-      language: "en"
-    }
+      language: "en",
+    };
     const response = await client.path("/translate").post({
       body: { inputs: [input] },
     });
@@ -119,8 +119,8 @@ describe("Translate tests", () => {
       text: "hudha akhtabar.",
       targets: [{ language: "zh-Hans", toScript: "Latn" }],
       language: "ar",
-      script: "Latn"
-    }
+      script: "Latn",
+    };
     const response = await client.path("/translate").post({
       body: { inputs: [input] },
     });
@@ -168,11 +168,7 @@ describe("Translate tests", () => {
   it("multiple target languages", async () => {
     const input = {
       text: "This is a test.",
-      targets: [
-        { language: "cs" },
-        { language: "es" },
-        { language: "de" }
-      ]
+      targets: [{ language: "cs" }, { language: "es" }, { language: "de" }],
     };
     const response = await client.path("/translate").post({
       body: { inputs: [input] },
@@ -197,7 +193,7 @@ describe("Translate tests", () => {
     const input = {
       text: "<html><body>This <b>is</b> a test.</body></html>",
       targets: [{ language: "cs" }],
-    }
+    };
     const response = await client.path("/translate").post({
       body: { inputs: [input] },
     });
@@ -217,11 +213,13 @@ describe("Translate tests", () => {
   it("with profanity", async () => {
     const input: TranslateInputItem = {
       text: "shit this is fucking crazy shit fuck",
-      targets: [{
-        language: "zh-Hans",
-        profanityAction: "Marked",
-        profanityMarker: "Asterisk",
-      }]
+      targets: [
+        {
+          language: "zh-Hans",
+          profanityAction: "Marked",
+          profanityMarker: "Asterisk",
+        },
+      ],
     };
     const response = await client.path("/translate").post({
       body: { inputs: [input] },
