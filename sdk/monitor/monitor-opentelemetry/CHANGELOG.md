@@ -6,6 +6,8 @@
 
 - Allow configuring additional metric views through `AzureMonitorOpenTelemetryOptions` and pass them to the NodeSDK.
 
+- Add support for automatic instrumentation in ESM environments.
+
 ### 1.14.2 (2025-11-13)
 
 ### Bugs Fixed
