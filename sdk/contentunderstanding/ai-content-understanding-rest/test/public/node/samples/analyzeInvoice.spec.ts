@@ -6,8 +6,8 @@
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
+import type { ContentUnderstandingClient } from "../../../../src/index.js";
 import {
-  ContentUnderstandingClient,
   type DocumentContent,
   type ContentFieldUnion,
   type ArrayField,
