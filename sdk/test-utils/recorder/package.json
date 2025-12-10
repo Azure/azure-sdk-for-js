@@ -63,7 +63,7 @@
     "concurrently": "^9.2.1",
     "cross-env": "catalog:",
     "eslint": "catalog:",
-    "express": "^5.1.0",
+    "express": "catalog:internal",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",

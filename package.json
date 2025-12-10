@@ -28,10 +28,10 @@
     "rimraf": "^6.1.0",
     "turbo": "^2.6.1"
   },
-  "packageManager": "pnpm@10.17.0",
+  "packageManager": "pnpm@10.24.0",
   "engines": {
     "node": ">=20",
-    "pnpm": ">=10.17.0"
+    "pnpm": ">=10.24.0"
   },
   "pnpm": {
     "overrides": {}
