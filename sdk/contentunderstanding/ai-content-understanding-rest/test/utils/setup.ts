@@ -3,6 +3,7 @@
 
 import dotenv from "dotenv";
 import path from "path";
+import fs from "fs";
 import type { TestProject } from "vitest/node";
 import { EnvVarKeys } from "./constants.js";
 import * as MOCKS from "./constants.js";
@@ -44,6 +45,47 @@ function assertEnvironmentVariable(key: string): string | undefined {
   return value;
 }
 
+/**
+ * Auto-detect whether recordings were made with API key or AAD authentication.
+ * Checks if any recording file contains "Ocp-Apim-Subscription-Key" header (API key auth)
+ * or "Authorization" header (AAD auth).
+ * @returns true if recordings use API key, false if they use AAD, null if cannot determine
+ */
+function detectRecordingAuthType(): boolean | null {
+  const recordingsDir = path.join(__dirname, "..", "..", "recordings", "node");
+
+  if (!fs.existsSync(recordingsDir)) {
+    return null;
+  }
+
+  // Check first recording file we find
+  const dirs = fs.readdirSync(recordingsDir);
+  for (const dir of dirs) {
+    const dirPath = path.join(recordingsDir, dir);
+    if (fs.statSync(dirPath).isDirectory()) {
+      const files = fs.readdirSync(dirPath);
+      for (const file of files) {
+        if (file.endsWith(".json")) {
+          try {
+            const content = fs.readFileSync(path.join(dirPath, file), "utf-8");
+            // Check for API key header in recording
+            if (content.includes('"Ocp-Apim-Subscription-Key"')) {
+              return true; // Uses API key
+            }
+            // Check for Authorization header (AAD)
+            if (content.includes('"Authorization"')) {
+              return false; // Uses AAD
+            }
+          } catch {
+            // Continue to next file
+          }
+        }
+      }
+    }
+  }
+  return null;
+}
+
 export default async function ({ provide }: TestProject): Promise<void> {
   const testMode = assertEnvironmentVariable(EnvVarKeys.TEST_MODE);
   if (["live", "record"].includes(testMode ?? "")) {
@@ -63,8 +105,12 @@ export default async function ({ provide }: TestProject): Promise<void> {
     provide(EnvVarKeys.TEST_MODE, testMode);
     provide(EnvVarKeys.TESTING_CONTAINER_SAS_URL, testingContainerSasUrl);
   } else {
+    // Auto-detect auth type from recordings for playback mode
+    const usesApiKey = detectRecordingAuthType();
+    const mockKey = usesApiKey === true ? MOCKS.KEY : null;
+
     provide(EnvVarKeys.ENDPOINT, MOCKS.ENDPOINT);
-    provide(EnvVarKeys.KEY, MOCKS.KEY);
+    provide(EnvVarKeys.KEY, mockKey);
     provide(EnvVarKeys.TEST_MODE, testMode);
     provide(EnvVarKeys.TESTING_CONTAINER_SAS_URL, MOCKS.TESTING_CONTAINER_SAS_URL);
   }
