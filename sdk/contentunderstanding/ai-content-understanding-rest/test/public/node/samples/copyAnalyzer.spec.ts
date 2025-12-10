@@ -6,8 +6,8 @@
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
+import type { ContentUnderstandingClient } from "../../../../src/index.js";
 import {
-  ContentUnderstandingClient,
   type ContentAnalyzer,
   type ContentAnalyzerConfig,
   type ContentFieldSchema,
@@ -25,7 +25,10 @@ describe("Sample: copyAnalyzer", () => {
     recorder = await createRecorder(context);
     client = createClient(recorder);
     // Generate unique analyzer IDs
-    const baseId = recorder.variable("copyBaseId", `test_analyzer_${Math.floor(Date.now() / 1000)}`);
+    const baseId = recorder.variable(
+      "copyBaseId",
+      `test_analyzer_${Math.floor(Date.now() / 1000)}`,
+    );
     sourceAnalyzerId = `${baseId}_source`;
     targetAnalyzerId = `${baseId}_target`;
   });

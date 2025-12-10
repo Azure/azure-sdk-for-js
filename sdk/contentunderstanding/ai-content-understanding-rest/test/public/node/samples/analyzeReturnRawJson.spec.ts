@@ -6,9 +6,14 @@
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { ContentUnderstandingClient } from "../../../../src/index.js";
+import type { ContentUnderstandingClient } from "../../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
-import { createRecorder, createClient, testPollingOptions, TEST_INVOICE_URL } from "./sampleTestUtils.js";
+import {
+  createRecorder,
+  createClient,
+  testPollingOptions,
+  TEST_INVOICE_URL,
+} from "./sampleTestUtils.js";
 
 describe("Sample: analyzeReturnRawJson", () => {
   let recorder: Recorder;

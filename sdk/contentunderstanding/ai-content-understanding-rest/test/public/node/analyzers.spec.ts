@@ -66,11 +66,7 @@ describe("ContentUnderstandingClient - Analyzers", () => {
       },
     };
 
-    const poller = client.createAnalyzer(
-      testAnalyzerId,
-      analyzerConfig as any,
-      testPollingOptions,
-    );
+    const poller = client.createAnalyzer(testAnalyzerId, analyzerConfig as any, testPollingOptions);
 
     const result = await poller.pollUntilDone();
     assert.ok(result, "Expected a result from the poller");
