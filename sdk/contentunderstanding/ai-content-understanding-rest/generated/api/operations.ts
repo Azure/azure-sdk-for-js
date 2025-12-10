@@ -651,14 +651,7 @@ export async function _createAnalyzerDeserialize(
     throw createRestError(result);
   }
 
-  if (result?.body?.result === undefined) {
-    throw createRestError(
-      `Expected a result in the response at position "result.body.result"`,
-      result,
-    );
-  }
-
-  return contentAnalyzerDeserializer(result.body.result);
+  return contentAnalyzerDeserializer(result.body);
 }
 
 /** Create a new analyzer asynchronously. */
@@ -722,7 +715,7 @@ export function _copyAnalyzerSend(
 export async function _copyAnalyzerDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ContentAnalyzer> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["201", "200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -747,7 +740,7 @@ export function copyAnalyzer(
   return getLongRunningPoller(
     context,
     _copyAnalyzerDeserialize,
-    ["202", "200", "201"],
+    ["201", "200", "202"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
