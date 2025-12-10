@@ -1645,9 +1645,6 @@ sdk/workloadorchestration/arm-workloadorchestration/ @qiaozha @MaryGao
 sdk/compute/arm-computerecommender/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-sdk/planetarycomputer/planetarycomputer/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
 sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao
 
 ###########
