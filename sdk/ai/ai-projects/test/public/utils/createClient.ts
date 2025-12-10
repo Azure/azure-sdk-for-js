@@ -23,6 +23,14 @@ const replaceableVariables = {
   SHAREPOINT_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
   FABRIC_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
   A2A_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
+  BING_CUSTOM_SEARCH_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
+  BING_CUSTOM_SEARCH_INSTANCE_NAME: "test-instance",
+  BING_GROUNDING_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
+  AZURE_AI_SEARCH_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
+  AI_SEARCH_INDEX_NAME: "test-index",
+  BROWSER_AUTOMATION_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
+  AZURE_AI_CHAT_MODEL_DEPLOYMENT_NAME: "gpt-4o-mini",
+  AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME: "text-embedding-3-large",
   RESOURCE_GROUP_NAME: "00000",
   WORKSPACE_NAME: "00000",
   DATASET_NAME: "00000",
@@ -117,6 +125,14 @@ export function getToolConnectionId(toolType: string): string {
       return assertEnvironmentVariable("FABRIC_PROJECT_CONNECTION_ID");
     case "a2a":
       return assertEnvironmentVariable("A2A_PROJECT_CONNECTION_ID");
+    case "bing-custom-search":
+      return assertEnvironmentVariable("BING_CUSTOM_SEARCH_PROJECT_CONNECTION_ID");
+    case "bing-grounding":
+      return assertEnvironmentVariable("BING_GROUNDING_CONNECTION_ID");
+    case "azure-ai-search":
+      return assertEnvironmentVariable("AZURE_AI_SEARCH_CONNECTION_ID");
+    case "browser-automation":
+      return assertEnvironmentVariable("BROWSER_AUTOMATION_PROJECT_CONNECTION_ID");
     default:
       throw new Error(`Unsupported tool type: ${toolType}`);
   }
