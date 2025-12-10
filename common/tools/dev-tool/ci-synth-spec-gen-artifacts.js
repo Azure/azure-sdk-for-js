@@ -29,31 +29,38 @@ if (!fs.existsSync(resolvedTspconfigPath)) {
 const tspconfigContent = fs.readFileSync(tspconfigPath, "utf8");
 const tspconfig = yaml.parse(tspconfigContent);
 
-const tsEmitterOutputDir = tspconfig["options"]?.["@azure-tools/typespec-ts"]?.["emitter-output-dir"];
+const tsEmitterOutputDir =
+  tspconfig["options"]?.["@azure-tools/typespec-ts"]?.["emitter-output-dir"];
 if (!tsEmitterOutputDir) {
-  console.error("The tspconfig.yaml does not have @azure-tools/typespec-ts emitter-output-dir option");
+  console.error(
+    "The tspconfig.yaml does not have @azure-tools/typespec-ts emitter-output-dir option",
+  );
   process.exit(1);
 }
 const paramters = tspconfig.parameters;
 const updatedTsEmitterOutputDir = tsEmitterOutputDir
-      .replace("{service-dir}", paramters["service-dir"]["default"])
-      .replace("{output-dir}/", "");
+  .replace("{service-dir}", paramters["service-dir"]["default"])
+  .replace("{output-dir}/", "");
 const jsRepoPath = path.normalize(path.join(process.argv[1], "../../../../"));
 const packageJsonPath = path.join(jsRepoPath, updatedTsEmitterOutputDir, "package.json");
-if(!fs.existsSync(packageJsonPath)) {
-  console.error(`The resolved package directory ${jsRepoPath}/${updatedTsEmitterOutputDir} does not contains a package.json`);
+if (!fs.existsSync(packageJsonPath)) {
+  console.error(
+    `The resolved package directory ${jsRepoPath}/${updatedTsEmitterOutputDir} does not contains a package.json`,
+  );
   process.exit(1);
 }
 const packageJsonContent = fs.readFileSync(packageJsonPath, "utf8");
 const packageJson = JSON.parse(packageJsonContent);
-const unscopedPackageName = packageJson.name.startsWith("@") ? packageJson.name.split("/")[1] : packageJson.name;
+const unscopedPackageName = packageJson.name.startsWith("@")
+  ? packageJson.name.split("/")[1]
+  : packageJson.name;
 const specGenArtifact = {
   language: "azure-sdk-for-js",
   apiViewRequestData: [
     {
       packageName: packageJson.name,
       filePath: `${packageJson.name}/${unscopedPackageName}-node.api.json`,
-    }
+    },
   ],
-}
+};
 console.log(JSON.stringify(specGenArtifact, null, 2));
