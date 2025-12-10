@@ -25,9 +25,10 @@ describe("ContentUnderstandingClient - Analyzers", () => {
     );
     // Note: Analyzer IDs cannot contain hyphens
     // Use recorder.variable to ensure consistent IDs between record and playback modes
+    // Add random suffix to avoid conflicts when tests run in parallel
     testAnalyzerId = recorder.variable(
       "testAnalyzerId",
-      `test_analyzer_${Math.floor(Date.now() / 1000)}`,
+      `test_main_analyzer_${Math.floor(Date.now() / 1000)}_${Math.floor(Math.random() * 10000)}`,
     );
   });
 
