@@ -34,3 +34,14 @@ export function dirName(): string {
   // @ts-ignore ESM only output
   return dirname(fileURLToPath(import.meta.url));
 }
+
+/**
+ * Returns the current module URL for loader registration scenarios.
+ * Used by the instrumentation loader to register Node.js module hooks.
+ * @internal
+ */
+export function getModuleParentURL(): string {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore ESM only output
+  return import.meta.url;
+}

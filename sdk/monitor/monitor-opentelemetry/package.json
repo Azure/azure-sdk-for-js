@@ -114,7 +114,8 @@
     "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
-      ".": "./src/index.ts"
+      ".": "./src/index.ts",
+      "./loader": "./src/loader.ts"
     },
     "dialects": [
       "esm",
@@ -132,6 +133,16 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./loader": {
+      "import": {
+        "types": "./dist/esm/loader.d.ts",
+        "default": "./dist/esm/loader.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/loader.d.ts",
+        "default": "./dist/commonjs/loader.js"
       }
     }
   }

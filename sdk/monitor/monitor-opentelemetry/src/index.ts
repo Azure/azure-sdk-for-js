@@ -25,10 +25,15 @@ import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { getInstance } from "./utils/statsbeat.js";
 import { patchOpenTelemetryInstrumentationEnable } from "./utils/opentelemetryInstrumentationPatcher.js";
 import { parseResourceDetectorsFromEnvVar } from "./utils/common.js";
+import { registerInstrumentationLoader } from "./utils/instrumentationLoader.js";
 
 export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
 
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
+
+// Register instrumentation loader immediately at import time for ESM support.
+// This ensures the loader hooks are registered before any instrumented modules are loaded.
+registerInstrumentationLoader();
 
 let sdk: NodeSDK;
 let browserSdkLoader: BrowserSdkLoader | undefined;
