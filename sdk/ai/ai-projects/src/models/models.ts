@@ -6854,17 +6854,17 @@ export interface EvaluatorVersion {
   /** Definition of the evaluator */
   definition: EvaluatorDefinitionUnion;
   /** Creator of the evaluator */
-  readonly created_by: string;
+  readonly created_by?: string;
   /** Creation date/time of the evaluator */
-  readonly created_at: number;
+  readonly created_at?: number;
   /** Last modified date/time of the evaluator */
-  readonly modified_at: number;
+  readonly modified_at?: number;
   /** Asset ID, a unique identifier for the asset */
   readonly id?: string;
   /** The name of the resource */
   readonly name: string;
   /** The version of the resource */
-  readonly version: string;
+  readonly version?: string;
   /** The asset description text. */
   description?: string;
   /** Tag dictionary. Tags can be added, removed, and updated. */
@@ -7107,11 +7107,11 @@ export function promptBasedEvaluatorDefinitionDeserializer(
 /** The response body for cluster insights. */
 export interface Insight {
   /** The unique identifier for the insights report. */
-  readonly id: string;
+  readonly id?: string;
   /** Metadata about the insights report. */
-  readonly metadata: InsightsMetadata;
+  readonly metadata?: InsightsMetadata;
   /** The current state of the insights. */
-  readonly state: OperationState;
+  readonly state?: OperationState;
   /** User friendly display name for the insight. */
   displayName: string;
   /** Request for the insights analysis. */
@@ -7788,7 +7788,7 @@ export function insightArrayDeserializer(result: Array<Insight>): any[] {
 /** Schedule model. */
 export interface Schedule {
   /** Identifier of the schedule. */
-  readonly id: string;
+  readonly id?: string;
   /** Name of the schedule. */
   displayName?: string;
   /** Description of the schedule. */
@@ -7806,7 +7806,7 @@ export interface Schedule {
   /** Schedule's properties. Unlike tags, properties are add-only. Once added, a property cannot be removed. */
   properties?: Record<string, string>;
   /** System metadata for the resource. */
-  readonly systemData: Record<string, string>;
+  readonly systemData?: Record<string, string>;
 }
 
 export function scheduleSerializer(item: Schedule): any {
