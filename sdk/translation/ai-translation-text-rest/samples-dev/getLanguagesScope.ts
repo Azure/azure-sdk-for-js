@@ -49,13 +49,10 @@ export async function main(): Promise<void> {
     }
   }
 
-  if (languages.dictionary) {
-    console.log("Dictionary languages:");
-    for (const key in languages.dictionary) {
-      const dictionaryLanguage = languages.dictionary[key];
-      console.log(
-        `${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`,
-      );
+  if (languages.models) {
+    console.log("Available LLM Models:");
+    for (const model in languages.models) {
+      console.log(model);
     }
   }
 }

@@ -6,7 +6,6 @@
  * service to convert characters or letters of a source language to the corresponding
  * characters or letters of a target language.
  */
-import type { InputTextItem } from "@azure-rest/ai-translation-text";
 import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -26,9 +25,9 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText: InputTextItem[] = [{ text: "这是个测试。" }];
+  const inputText = [{ text: "这是个测试。" }];
   const transliterateResponse = await translationClient.path("/transliterate").post({
-    body: inputText,
+    body: { inputs: inputText },
     queryParameters: {
       language: "zh-Hans",
       fromScript: "Hans",
@@ -40,8 +39,8 @@ export async function main(): Promise<void> {
     throw transliterateResponse.body.error;
   }
 
-  const translations = transliterateResponse.body;
-  for (const transliteration of translations) {
+  const transliterations = transliterateResponse.body.value;
+  for (const transliteration of transliterations) {
     console.log(
       `Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`,
     );

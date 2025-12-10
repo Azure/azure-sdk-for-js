@@ -5,7 +5,6 @@
  * @summary This sample demonstrates how you can select whether the translated text is plain text or HTML text.
  * Any HTML needs to be a well-formed, complete element. Possible values are: plain (default) or html.
  */
-import type { InputTextItem } from "@azure-rest/ai-translation-text";
 import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -25,14 +24,14 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText: InputTextItem[] = [{ text: "<html><body>This <b>is</b> a test.</body></html>" }];
+  const input = {
+    text: "<html><body>This <b>is</b> a test.</body></html>",
+    targets: [{ language: "cs" }],
+    language: "en",
+    textType: "html",
+  };
   const translateResponse = await translationClient.path("/translate").post({
-    body: inputText,
-    queryParameters: {
-      to: "cs",
-      from: "en",
-      textType: "html",
-    },
+    body: { inputs: [input] },
   });
 
   if (isUnexpected(translateResponse)) {

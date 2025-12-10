@@ -97,8 +97,7 @@ describe("Translate tests", () => {
     const input = {
       text: 'The word <mstrans:dictionary translation ="wordomatic">wordomatic</mstrans:dictionary> is a dictionary entry.',
       targets: [{ language: "es" }],
-      language: "en",
-      textType: "html",
+      language: "en"
     }
     const response = await client.path("/translate").post({
       body: { inputs: [input] },
