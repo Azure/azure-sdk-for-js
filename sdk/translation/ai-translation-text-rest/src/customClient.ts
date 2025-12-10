@@ -127,7 +127,7 @@ export default function createClient(
     options = {};
   }
 
-  options.apiVersion = options.apiVersion ?? "3.0";
+  options.apiVersion = options.apiVersion ?? "2025-10-01-preview";
 
   if (!endpoint) {
     serviceEndpoint = DEFAULT_ENPOINT;

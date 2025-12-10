@@ -29,7 +29,7 @@ describe("Transliterate tests", () => {
       toScript: "Latn",
     };
     const response = await client.path("/transliterate").post({
-      body: inputText,
+      body: { inputs: inputText },
       queryParameters: parameters,
     });
     assert.equal(response.status, "200");
@@ -38,7 +38,7 @@ describe("Transliterate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body.value;
     assert.isTrue(translations[0].script !== null);
     assert.isTrue(translations[0].text !== null);
   });
@@ -51,7 +51,7 @@ describe("Transliterate tests", () => {
       toScript: "Latn",
     };
     const response = await client.path("/transliterate").post({
-      body: inputText,
+      body: { inputs: inputText },
       queryParameters: parameters,
     });
     assert.equal(response.status, "200");
@@ -60,7 +60,7 @@ describe("Transliterate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body.value;
     assert.isTrue(translations[0].script !== null);
     assert.isTrue(translations[0].text !== null);
   });
@@ -73,7 +73,7 @@ describe("Transliterate tests", () => {
       toScript: "gujr",
     };
     const response = await client.path("/transliterate").post({
-      body: inputText,
+      body: { inputs: inputText },
       queryParameters: parameters,
     });
     assert.equal(response.status, "200");
@@ -82,7 +82,7 @@ describe("Transliterate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body.value;
     assert.isTrue(translations[0].text !== null);
     assert.isTrue(translations[1].text !== null);
     assert.isTrue(translations[2].text !== null);
