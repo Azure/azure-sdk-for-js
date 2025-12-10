@@ -18,9 +18,13 @@ export function getCustomFetch(pipeline: Pipeline, customHttpClient?: HttpClient
       rawHeaders[key] = value;
     }
     const httpClient = customHttpClient ?? createDefaultHttpClient();
+    let rawBody: ArrayBuffer | undefined;
+    if (fetchRequest.body) {
+      rawBody = await fetchRequest.arrayBuffer();
+    }
     const request = createPipelineRequest({
       url: fetchRequest.url,
-      body: fetchRequest.body,
+      body: rawBody,
       headers: createHttpHeaders(rawHeaders),
       method: fetchRequest.method as HttpMethods,
       abortSignal: fetchRequest.signal,
