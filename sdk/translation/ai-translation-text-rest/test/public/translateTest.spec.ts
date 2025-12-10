@@ -12,8 +12,6 @@ import {
   startRecorder,
 } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { text } from "stream/consumers";
-import { Script } from "vm";
 
 describe("Translate tests", () => {
   let recorder: Recorder;
@@ -187,6 +185,31 @@ describe("Translate tests", () => {
     assert.isTrue(translations[0].translations[0].text != null);
     assert.isTrue(translations[0].translations[1].text != null);
     assert.isTrue(translations[0].translations[2].text != null);
+  });
+
+  it("Translate using LLM", async () => {
+    const input = {
+      text: "This is a test",
+      targets: [{ 
+        language: "cs",
+        deploymentName: "gpt-4o-mini",
+       }],
+    };
+    const response = await client.path("/translate").post({
+      body: { inputs: [input] },
+    });
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
+    }
+
+    const translations = response.body.value;
+    assert.isTrue(translations.length === 1);
+    assert.isTrue(translations[0].translations.length === 1);
+    assert.isTrue(translations[0].detectedLanguage?.language === "en");
+    assert.isTrue(translations[0].translations[0].sourceTokens != null);
+    assert.isTrue(translations[0].translations[0].targetTokens != null);
   });
 
   it("different text types", async () => {
