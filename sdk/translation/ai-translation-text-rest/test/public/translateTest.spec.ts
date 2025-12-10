@@ -207,7 +207,6 @@ describe("Translate tests", () => {
     const translations = response.body.value;
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
-    assert.isTrue(translations[0].detectedLanguage?.language === "en");
     assert.isTrue(translations[0].translations[0].sourceTokens != null);
     assert.isTrue(translations[0].translations[0].targetTokens != null);
   });

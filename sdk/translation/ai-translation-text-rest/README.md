@@ -135,12 +135,10 @@ if (languages.transliteration) {
   }
 }
 
-if (languages.dictionary) {
-  console.log("Dictionary languages:");
-  for (const [key, dictionaryLanguage] of Object.entries(languages.dictionary)) {
-    console.log(
-      `${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`,
-    );
+if (languages.models) {
+  console.log("Available LLM Models:");
+  for (const model in languages.models) {
+    console.log(model);
   }
 }
 ```
@@ -166,24 +164,23 @@ const credential: TranslatorCredential = {
 };
 const translationClient = TextTranslationClient(endpoint, credential);
 
-const inputText = [{ text: "This is a test." }];
-const parameters = {
-  to: "cs",
-  from: "en",
+const input = {
+  text: "This is a test.",
+  targets: [{ language: "cs" }],
+  language: "en",
 };
 const translateResponse = await translationClient.path("/translate").post({
-  body: inputText,
-  queryParameters: parameters,
+  body: { inputs: [input] },
 });
 
 if (isUnexpected(translateResponse)) {
   throw translateResponse.body.error;
 }
 
-const translations = translateResponse.body;
+const translations = translateResponse.body.value;
 for (const translation of translations) {
   console.log(
-    `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
+    `Text was translated to: '${translation?.translations[0]?.language}' and the result is: '${translation?.translations[0]?.text}'.`,
   );
 }
 ```
@@ -216,7 +213,7 @@ const parameters = {
   toScript: "Latn",
 };
 const transliterateResponse = await translationClient.path("/transliterate").post({
-  body: inputText,
+  body: { inputs: inputText },
   queryParameters: parameters,
 });
 
@@ -224,8 +221,8 @@ if (isUnexpected(transliterateResponse)) {
   throw transliterateResponse.body.error;
 }
 
-const translations = transliterateResponse.body;
-for (const transliteration of translations) {
+const transliterations = transliterateResponse.body.value;
+for (const transliteration of transliterations) {
   console.log(
     `Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`,
   );
@@ -234,139 +231,7 @@ for (const transliteration of translations) {
 
 Please refer to the service documentation for a conceptual discussion of [transliterate][transliterate_doc].
 
-### Break Sentence
 
-Identifies the positioning of sentence boundaries in a piece of text.
-
-```ts snippet:ReadmeSampleBreakSentence
-import TextTranslationClient, {
-  TranslatorCredential,
-  isUnexpected,
-} from "@azure-rest/ai-translation-text";
-
-const endpoint = "https://api.cognitive.microsofttranslator.com";
-const key = "YOUR_SUBSCRIPTION_KEY";
-const region = "westus";
-const credential: TranslatorCredential = {
-  key,
-  region,
-};
-const translationClient = TextTranslationClient(endpoint, credential);
-
-const inputText = [{ text: "zhè shì gè cè shì。" }];
-const parameters = {
-  language: "zh-Hans",
-  script: "Latn",
-};
-const breakSentenceResponse = await translationClient.path("/breaksentence").post({
-  body: inputText,
-  queryParameters: parameters,
-});
-
-if (isUnexpected(breakSentenceResponse)) {
-  throw breakSentenceResponse.body.error;
-}
-
-const breakSentences = breakSentenceResponse.body;
-for (const breakSentence of breakSentences) {
-  console.log(`The detected sentece boundaries: '${breakSentence?.sentLen.join(", ")}'.`);
-}
-```
-
-Please refer to the service documentation for a conceptual discussion of [break sentence][breaksentence_doc].
-
-### Dictionary Lookup
-
-Returns equivalent words for the source term in the target language.
-
-```ts snippet:ReadmeSampleDictionaryLookup
-import TextTranslationClient, {
-  TranslatorCredential,
-  isUnexpected,
-} from "@azure-rest/ai-translation-text";
-
-const endpoint = "https://api.cognitive.microsofttranslator.com";
-const key = "YOUR_SUBSCRIPTION_KEY";
-const region = "westus";
-const credential: TranslatorCredential = {
-  key,
-  region,
-};
-const translationClient = TextTranslationClient(endpoint, credential);
-
-const inputText = [{ text: "fly" }];
-const parameters = {
-  to: "es",
-  from: "en",
-};
-const dictionaryResponse = await translationClient.path("/dictionary/lookup").post({
-  body: inputText,
-  queryParameters: parameters,
-});
-
-if (isUnexpected(dictionaryResponse)) {
-  throw dictionaryResponse.body.error;
-}
-
-const dictionaryEntries = dictionaryResponse.body;
-for (const dictionaryEntry of dictionaryEntries) {
-  console.log(
-    `For the given input ${dictionaryEntry?.translations?.length} entries were found in the dictionary.`,
-  );
-  console.log(
-    `First entry: '${dictionaryEntry?.translations[0]?.displayTarget}', confidence: ${dictionaryEntry?.translations[0]?.confidence}.`,
-  );
-}
-```
-
-Please refer to the service documentation for a conceptual discussion of [dictionary lookup][dictionarylookup_doc].
-
-### Dictionary Examples
-
-Returns grammatical structure and context examples for the source term and target term pair.
-
-```ts snippet:ReadmeSampleDictionaryExamples
-import TextTranslationClient, {
-  TranslatorCredential,
-  isUnexpected,
-} from "@azure-rest/ai-translation-text";
-
-const endpoint = "https://api.cognitive.microsofttranslator.com";
-const key = "YOUR_SUBSCRIPTION_KEY";
-const region = "westus";
-const credential: TranslatorCredential = {
-  key,
-  region,
-};
-const translationClient = TextTranslationClient(endpoint, credential);
-
-const inputText = [{ text: "fly", translation: "volar" }];
-const parameters = {
-  to: "es",
-  from: "en",
-};
-const dictionaryResponse = await translationClient.path("/dictionary/examples").post({
-  body: inputText,
-  queryParameters: parameters,
-});
-
-if (isUnexpected(dictionaryResponse)) {
-  throw dictionaryResponse.body.error;
-}
-
-const dictionaryExamples = dictionaryResponse.body;
-for (const dictionaryExample of dictionaryExamples) {
-  console.log(
-    `For the given input ${dictionaryExample?.examples?.length} examples were found in the dictionary.`,
-  );
-  const firstExample = dictionaryExample?.examples[0];
-  console.log(
-    `Example: '${firstExample.targetPrefix + firstExample.targetTerm + firstExample.targetSuffix}'.`,
-  );
-}
-```
-
-Please refer to the service documentation for a conceptual discussion of [dictionary examples][dictionaryexamples_doc].
 
 ## Troubleshooting
 
