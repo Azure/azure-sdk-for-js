@@ -6,8 +6,7 @@
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { ContentUnderstandingClient } from "../../../../src/index.js";
-import { type AudioVisualContent } from "../../../../src/index.js";
+import { ContentUnderstandingClient, type AudioVisualContent } from "../../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import {
   createRecorder,
