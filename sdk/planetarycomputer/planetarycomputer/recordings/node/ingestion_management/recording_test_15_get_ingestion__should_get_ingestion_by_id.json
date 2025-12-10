@@ -8,7 +8,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "211",
+        "Content-Length": "179",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
         "x-ms-client-request-id": "Sanitized"
@@ -17,7 +17,7 @@
         "importType": "StaticCatalog",
         "displayName": "Ingestion for Get Test",
         "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-        "00000000-0000-0000-0000-000000000000ExistingItems": true,
+        "skipExistingItems": true,
         "keepOriginalAssets": true
       },
       "StatusCode": 201,
@@ -42,11 +42,11 @@
       },
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
-        "creationTime": "2025-11-05T11:43:57.2504778Z",
+        "creationTime": "2025-11-24T18:19:31.2193419Z",
         "importType": "StaticCatalog",
         "displayName": "Ingestion for Get Test",
         "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-        "00000000-0000-0000-0000-000000000000ExistingItems": true,
+        "skipExistingItems": true,
         "keepOriginalAssets": true,
         "status": "Ready"
       }
@@ -84,11 +84,11 @@
       },
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
-        "creationTime": "2025-11-05T11:43:57.2504778Z",
+        "creationTime": "2025-11-24T18:19:31.2193419Z",
         "importType": "StaticCatalog",
         "displayName": "Ingestion for Get Test",
         "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-        "00000000-0000-0000-0000-000000000000ExistingItems": true,
+        "skipExistingItems": true,
         "keepOriginalAssets": true,
         "status": "Ready"
       }

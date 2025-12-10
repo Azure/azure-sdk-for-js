@@ -84,7 +84,7 @@
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
         "kind": "BlobManagedIdentity",
-        "created": "2025-11-05T11:42:48.7083139Z",
+        "created": "2025-11-24T18:18:58.9340948Z",
         "connectionInfo": {
           "containerUrl": "https://SANITIZED.blob.core.windows.net/sample-container",
           "objectId": "00000000-0000-0000-0000-000000000000"
@@ -158,7 +158,7 @@
           {
             "id": "00000000-0000-0000-0000-000000000000",
             "kind": "BlobManagedIdentity",
-            "created": "2025-11-05T11:38:28.4888562Z"
+            "created": "2025-11-24T18:13:59.5714082Z"
           }
         ]
       }

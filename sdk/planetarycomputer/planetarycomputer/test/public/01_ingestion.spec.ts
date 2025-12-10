@@ -94,7 +94,7 @@ describe("Ingestion Management", () => {
 
     // Create ingestion source (following sample pattern)
     const createdSource = await client.ingestion.createSource({
-      id: crypto.randomUUID(),
+      id: isPlaybackMode() ? "00000000-0000-0000-0000-000000000000" : crypto.randomUUID(),
       kind: "BlobManagedIdentity",
       connectionInfo: {
         containerUri,
@@ -140,7 +140,7 @@ describe("Ingestion Management", () => {
 
     // Create SAS token ingestion source (following sample pattern)
     const createdSasSource = await client.ingestion.createSource({
-      id: crypto.randomUUID(),
+      id: isPlaybackMode() ? "00000000-0000-0000-0000-000000000000" : crypto.randomUUID(),
       kind: "SasToken",
       connectionInfo: {
         containerUri: sasContainerUri,
@@ -462,14 +462,14 @@ describe("Ingestion Management", () => {
     const managedIdentityObjectId = managedIdentities[0].objectId;
 
     // Use a unique container URI to avoid conflicts
-    const testContainerId = crypto.randomUUID();
+    const testContainerId = isPlaybackMode() ? "00000000-0000-0000-0000-000000000000" : crypto.randomUUID();
     const containerUri = `https://test.blob.core.windows.net/test-container-${testContainerId}`;
 
     console.log(`Using unique container URI: ${containerUri}`);
 
     // Create a source to delete
     const createdSource = await client.ingestion.createSource({
-      id: crypto.randomUUID(),
+      id: isPlaybackMode() ? "00000000-0000-0000-0000-000000000000" : crypto.randomUUID(),
       kind: "BlobManagedIdentity",
       connectionInfo: {
         containerUri,
@@ -597,12 +597,13 @@ describe("Ingestion Management", () => {
 
     const managedIdentityObjectId = managedIdentities[0].objectId;
 
-    // Create a source
-    const testContainerId = crypto.randomUUID();
+    // Create a source - use consistent IDs in playback mode
+    const testContainerId = isPlaybackMode() ? "00000000-0000-0000-0000-000000000000" : crypto.randomUUID();
     const containerUri = `https://test.blob.core.windows.net/test-container-${testContainerId}`;
+    const sourceId = isPlaybackMode() ? "00000000-0000-0000-0000-000000000000" : crypto.randomUUID();
 
     const createdSource = await client.ingestion.createSource({
-      id: crypto.randomUUID(),
+      id: sourceId,
       kind: "BlobManagedIdentity",
       connectionInfo: {
         containerUri,
@@ -631,22 +632,19 @@ describe("Ingestion Management", () => {
     console.log("=".repeat(80));
 
     // Generate test SAS token data
-    const testContainerId = crypto.randomUUID();
+    const testContainerId = isPlaybackMode() ? "00000000-0000-0000-0000-000000000000" : crypto.randomUUID();
     const sasContainerUri = `https://test.blob.core.windows.net/test-container-${testContainerId}`;
 
     // Generate a valid SAS token format with required fields
-    const now = new Date();
-    const startTime = now.toISOString().replace(/\.\d{3}Z$/, "Z");
-    const expiryTime = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
-      .toISOString()
-      .replace(/\.\d{3}Z$/, "Z");
+    const startTime = isPlaybackMode() ? "2021-01-01T00:00:00Z" : new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
+    const expiryTime = isPlaybackMode() ? "2099-12-31T23:59:59Z" : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().replace(/\.\d{3}Z$/, "Z");
     const sasToken = `sp=rl&st=${startTime}&se=${expiryTime}&sv=2023-01-03&sr=c&sig=InitialRandomSignature123456`;
 
     // Step 1: Create initial source using createSource
     console.log("Step 1: Creating initial SAS token ingestion source with createSource...");
 
     const createdSource = await client.ingestion.createSource({
-      id: crypto.randomUUID(),
+      id: isPlaybackMode() ? "00000000-0000-0000-0000-000000000000" : crypto.randomUUID(),
       kind: "SasToken",
       connectionInfo: {
         containerUri: sasContainerUri,

@@ -21,7 +21,7 @@ const replaceableVariables: Record<string, string> = {
   PLANETARYCOMPUTER_MANAGED_IDENTITY_OBJECT_ID: "00000000-0000-0000-0000-000000000000",
   PLANETARYCOMPUTER_INGESTION_SAS_CONTAINER_URI:
     "https://SANITIZED.blob.core.windows.net/sample-container",
-  PLANETARYCOMPUTER_INGESTION_SAS_TOKEN: "fake-sas-token",
+  PLANETARYCOMPUTER_INGESTION_SAS_TOKEN: "sv=2021-01-01&st=2021-01-01T00:00:00Z&se=2099-12-31T23:59:59Z&sr=c&sp=rl&sig=Sanitized",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -40,8 +40,8 @@ const recorderEnvSetup: RecorderStartOptions = {
       {
         key: "operation-location",
         regex: true,
-        target: "/operations/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}",
-        value: "/operations/00000000-0000-0000-0000-000000000000",
+        target: "https?://[^/]+/inma/operations/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}",
+        value: "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/operations/00000000-0000-0000-0000-000000000000",
       },
       // Sanitize Location header for resource creation
       {
@@ -66,7 +66,7 @@ const recorderEnvSetup: RecorderStartOptions = {
       },
     ],
     bodySanitizers: [
-      // Sanitize UUIDs in response bodies (JSON)
+      // Sanitize UUIDs in request/response bodies (JSON) - for .id fields
       {
         regex: true,
         target: '"id"\\s*:\\s*"[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"',
@@ -95,6 +95,35 @@ const recorderEnvSetup: RecorderStartOptions = {
         regex: true,
         target: '"naip-atl-[a-f0-9]{8}"',
         value: '"naip-atl-00000000"',
+      },
+      // Sanitize specific STAC item ID used in tests
+      {
+        regex: true,
+        target: "ga_m_3308421_se_16_060_20211114",
+        value: "fake-item-id",
+      },
+      // Sanitize specific blob storage URL used in tests
+      {
+        regex: true,
+        target: "https://naipeuwest\\.blob\\.core\\.windows\\.net",
+        value: "https://SANITIZED.blob.core.windows.net",
+      },
+      // Sanitize naip-atl collection ID without suffix
+      {
+        regex: true,
+        target: "naip-atl(?!-)",
+        value: "naip-atl-00000000",
+      },
+      // Sanitize SAS token timestamps (st= and se= parameters)
+      {
+        regex: true,
+        target: "st=\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z",
+        value: "st=2021-01-01T00:00:00Z",
+      },
+      {
+        regex: true,
+        target: "se=\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z",
+        value: "se=2099-12-31T23:59:59Z",
       },
     ],
     // URI sanitizers
@@ -159,30 +188,42 @@ const recorderEnvSetup: RecorderStartOptions = {
         target: "naip-atl-[a-f0-9]{8}",
         value: "naip-atl-00000000",
       },
+      // Sanitize specific STAC item ID used in tests
+      {
+        regex: true,
+        target: "ga_m_3308421_se_16_060_20211114",
+        value: "fake-item-id",
+      },
+      // Sanitize naip-atl collection ID without suffix
+      {
+        regex: true,
+        target: "naip-atl(?!-)",
+        value: "naip-atl-00000000",
+      },
     ],
     // General sanitizers for credentials
     generalSanitizers: [
       {
-        target: process.env.PLANETARYCOMPUTER_SUBSCRIPTION_ID || "skip",
+        target: process.env.PLANETARYCOMPUTER_SUBSCRIPTION_ID || "00000000-0000-0000-0000-000000000000",
         value: "00000000-0000-0000-0000-000000000000",
       },
       {
-        target: process.env.PLANETARYCOMPUTER_TENANT_ID || "skip",
+        target: process.env.PLANETARYCOMPUTER_TENANT_ID || "00000000-0000-0000-0000-000000000000",
         value: "00000000-0000-0000-0000-000000000000",
       },
       {
-        target: process.env.PLANETARYCOMPUTER_CLIENT_ID || "skip",
+        target: process.env.PLANETARYCOMPUTER_CLIENT_ID || "00000000-0000-0000-0000-000000000000",
         value: "00000000-0000-0000-0000-000000000000",
       },
       {
-        target: process.env.PLANETARYCOMPUTER_CLIENT_SECRET || "skip",
+        target: process.env.PLANETARYCOMPUTER_CLIENT_SECRET || "00000000-0000-0000-0000-000000000000",
         value: "00000000-0000-0000-0000-000000000000",
       },
     ],
   },
   removeCentralSanitizers: [
     "AZSDK3493", // Sanitizes JSON path $..name
-    "AZSDK3430", // Sanitizes JSON path $..id
+    "AZSDK3430", // Sanitizes JSON path $..id - we handle IDs with recorder.variable()
     "AZSDK2003", // Default hostname sanitizer
   ],
 };

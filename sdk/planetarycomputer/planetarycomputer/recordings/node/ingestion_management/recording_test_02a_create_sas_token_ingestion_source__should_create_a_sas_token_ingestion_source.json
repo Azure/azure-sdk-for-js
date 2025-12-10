@@ -18,7 +18,7 @@
         "kind": "SasToken",
         "connectionInfo": {
           "containerUrl": "https://SANITIZED.blob.core.windows.net/sample-container",
-          "sasToken": "sv=2021-01-01&st=2020-01-01T00:00:00Z&se=2099-12-31T23:59:59Z&sr=c&sp=rl&sig=Sanitized"
+          "sasToken": "sv=2021-01-01&st=2021-01-01T00:00:00Z&se=2099-12-31T23:59:59Z&sr=c&sp=rl&sig=Sanitized"
         }
       },
       "StatusCode": 201,
@@ -44,7 +44,7 @@
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
         "kind": "SasToken",
-        "created": "2025-11-05T11:38:33.0677144Z",
+        "created": "2025-11-24T18:14:04.9478838Z",
         "connectionInfo": {
           "containerUrl": "https://SANITIZED.blob.core.windows.net/sample-container",
           "expiration": "2099-12-31T23:59:59.0000000Z"

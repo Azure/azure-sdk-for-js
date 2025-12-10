@@ -8,7 +8,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "215",
+        "Content-Length": "183",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
         "x-ms-client-request-id": "Sanitized"
@@ -17,7 +17,7 @@
         "importType": "StaticCatalog",
         "displayName": "Ingestion for Status Check",
         "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-        "00000000-0000-0000-0000-000000000000ExistingItems": true,
+        "skipExistingItems": true,
         "keepOriginalAssets": true
       },
       "StatusCode": 201,
@@ -42,11 +42,11 @@
       },
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
-        "creationTime": "2025-11-05T11:42:27.8081697Z",
+        "creationTime": "2025-11-24T18:18:41.7621893Z",
         "importType": "StaticCatalog",
         "displayName": "Ingestion for Status Check",
         "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-        "00000000-0000-0000-0000-000000000000ExistingItems": true,
+        "skipExistingItems": true,
         "keepOriginalAssets": true,
         "status": "Ready"
       }
@@ -76,7 +76,7 @@
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
         "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
-        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions/00000000-0000-0000-0000-000000000000/runs/c5e71f82-ca09-4477-868f-7b71018d70f5?api-version=2025-04-30-preview",
+        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions/00000000-0000-0000-0000-000000000000/runs/ff5adb67-5b16-4989-b308-39ae7448cf4b?api-version=2025-04-30-preview",
         "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -86,9 +86,9 @@
       },
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
-        "creationTime": "2025-11-05T11:42:27.9167653Z",
+        "creationTime": "2025-11-24T18:18:42.7257932Z",
         "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-        "00000000-0000-0000-0000-000000000000ExistingItems": true,
+        "skipExistingItems": true,
         "keepOriginalAssets": true,
         "operation": {
           "id": "00000000-0000-0000-0000-000000000000",
@@ -96,10 +96,10 @@
           "statusHistory": [
             {
               "status": "Pending",
-              "timestamp": "2025-11-05T11:42:27.888039Z"
+              "timestamp": "2025-11-24T18:18:42.6773157Z"
             }
           ],
-          "creationTime": "2025-11-05T11:42:27.8880377Z",
+          "creationTime": "2025-11-24T18:18:42.6773145Z",
           "totalItems": 0,
           "totalPendingItems": 0,
           "totalSuccessfulItems": 0,
@@ -140,9 +140,9 @@
       },
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
-        "creationTime": "2025-11-05T11:42:27.9167653Z",
+        "creationTime": "2025-11-24T18:18:42.7257932Z",
         "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-        "00000000-0000-0000-0000-000000000000ExistingItems": true,
+        "skipExistingItems": true,
         "keepOriginalAssets": true,
         "operation": {
           "id": "00000000-0000-0000-0000-000000000000",
@@ -150,10 +150,10 @@
           "statusHistory": [
             {
               "status": "Pending",
-              "timestamp": "2025-11-05T11:42:27.888039Z"
+              "timestamp": "2025-11-24T18:18:42.6773157Z"
             }
           ],
-          "creationTime": "2025-11-05T11:42:27.8880377Z",
+          "creationTime": "2025-11-24T18:18:42.6773145Z",
           "totalItems": 0,
           "totalPendingItems": 0,
           "totalSuccessfulItems": 0,
