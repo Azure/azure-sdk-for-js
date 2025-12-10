@@ -14552,26 +14552,14 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@types/node':
-        specifier: ^20.0.0
+        specifier: 'catalog:'
         version: 20.19.25
-      '@vitest/browser-playwright':
-        specifier: catalog:testing
-        version: 4.0.15(msw@2.7.3(@types/node@20.19.25)(typescript@5.9.3))(playwright@1.57.0)(vite@7.2.6(@types/node@20.19.25)(terser@5.39.0)(tsx@4.21.0)(yaml@2.8.2))(vitest@4.0.15)
-      '@vitest/coverage-istanbul':
-        specifier: catalog:testing
-        version: 4.0.15(vitest@4.0.15)
       cross-env:
         specifier: 'catalog:'
         version: 7.0.3
-      dotenv:
-        specifier: catalog:testing
-        version: 16.6.1
       eslint:
         specifier: 'catalog:'
         version: 9.39.1
-      playwright:
-        specifier: catalog:testing
-        version: 1.57.0
       prettier:
         specifier: 'catalog:'
         version: 3.7.4
@@ -14584,9 +14572,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
-      vitest:
-        specifier: catalog:testing
-        version: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@20.19.25)(@vitest/browser-playwright@4.0.15)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.25)(typescript@5.9.3))(terser@5.39.0)(tsx@4.21.0)(yaml@2.8.2)
 
   sdk/healthinsights/health-insights-cancerprofiling-rest:
     dependencies:
