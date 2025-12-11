@@ -48,6 +48,24 @@ const __dirname = path.dirname(__filename);
  */
 
 /**
+ * @typedef {Object} RenderContext
+ * @property {string} [repo_name]
+ * @property {string} [branch]
+ * @property {string} [build]
+ * @property {string} [build_url]
+ * @property {string} [commit]
+ * @property {boolean} [isfork]
+ * @property {boolean} [isrelease]
+ * @property {string} [rel_url]
+ * @property {string} [release]
+ * @property {string} [repo]
+ * @property {string} [curtime]
+ * @property {string[]} inconsistent
+ * @property {string[]} external
+ * @property {Record<string, RepoPackageInfo>} packages
+ */
+
+/**
  *
  * @param {Record<string, RepoPackageInfo>} data
  * @param {string} pkgSrc
@@ -91,7 +109,7 @@ async function getRepoPackages(workspaceDir) {
 /**
  * Loads yaml data from a pnpm-lock.yaml file
  * @param {string} lockPath - path to pnpm-lock.yaml
- * @returns
+ * @returns {Promise<any>} - the parsed yaml data
  */
 async function readPnpmLock(lockPath) {
   const data = await readFile(lockPath, "utf8");
@@ -157,7 +175,7 @@ async function getTarballPackages(tarballDir) {
 
 /**
  *
- * @param {*} context
+ * @param {RenderContext} context
  * @param {string} dest - destination file path to write the rendered HTML
  * @returns {Promise<void>}
  */
@@ -216,8 +234,9 @@ async function render(context, dest) {
  * @param {string} spec - version specifier
  * @param {string} pkg - dependent package name
  * @param {"runtime" | "dev" | "peer"} depType
+ * @returns {void}
  */
-async function appendDependencyData(dependencies, dep, spec, pkg, depType) {
+function appendDependencyData(dependencies, dep, spec, pkg, depType) {
   if (!dependencies[dep]) {
     dependencies[dep] = {};
   }
@@ -245,7 +264,6 @@ async function appendDependencyData(dependencies, dep, spec, pkg, depType) {
  *   }
  * },
  * ```
- * }}
  *
  * @param {Record<string, RepoPackageInfo>} pkgs
  * @returns {Record<string, Record<string, [string, string][]>>}
@@ -282,12 +300,12 @@ function dumpRepoPackages(repoPackages, internalPackages, external, workspaceDir
    */
   const dumpedPackages = {};
   for (const [pkgName, pkgInfo] of Object.entries(repoPackages)) {
-    var newDep = [];
+    let newDep = [];
 
     if (external) {
       newDep = Object.entries(pkgInfo.run || {}).map(([name, version]) => ({ name, version }));
     } else {
-      for (var name in pkgInfo.run) {
+      for (const name in pkgInfo.run) {
         if (internalPackages.includes(name)) {
           const version = pkgInfo.run[name];
           newDep.push({ name, version });
@@ -380,9 +398,9 @@ async function main() {
   const args = parser.parse_args();
 
   const context = {
-    /** @type Record<string, RepoPackageInfo>> */
+    /** @type {Record<string, RepoPackageInfo>} */
     packages: {},
-    /** @type Record<string, Record<string, [string, string][]>> */
+    /** @type {Record<string, Record<string, [string, string][]>>} */
     dependencies: {},
     /** @type {string[]} */
     external: [],
