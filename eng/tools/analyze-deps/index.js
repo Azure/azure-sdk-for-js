@@ -3,7 +3,7 @@
 
 // @ts-check
 
-// import { Buffer } from "node:buffer";
+import { Buffer } from "node:buffer";
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
