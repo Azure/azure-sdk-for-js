@@ -55,6 +55,10 @@ export {
   ApplianceOperationValueDisplay,
   ApplianceGetTelemetryConfigResult,
   KnownVersions,
+  KnownArtifactType,
+  ArtifactType,
+  KnownSSHKeyType,
+  SSHKeyType,
 } from "./models/index.js";
 export { ResourceConnectorManagementClientOptionalParams } from "./api/index.js";
 export {

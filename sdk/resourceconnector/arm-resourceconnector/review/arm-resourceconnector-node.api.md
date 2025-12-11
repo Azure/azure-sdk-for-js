@@ -147,6 +147,9 @@ export interface ArtifactProfile {
 }
 
 // @public
+export type ArtifactType = string;
+
+// @public
 export enum AzureClouds {
     AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
     AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
@@ -230,6 +233,11 @@ export enum KnownAccessProfileType {
 }
 
 // @public
+export enum KnownArtifactType {
+    LogsArtifactType = "LogsArtifactType"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -253,6 +261,15 @@ export enum KnownProvider {
 export enum KnownResourceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned"
+}
+
+// @public
+export enum KnownSSHKeyType {
+    LogsKey = "LogsKey",
+    ManagementCAKey = "ManagementCAKey",
+    ScopedAccessKey = "ScopedAccessKey",
+    SSHCustomerUser = "SSHCustomerUser",
+    UserManagementKey = "UserManagementKey"
 }
 
 // @public
@@ -383,6 +400,9 @@ export interface SSHKey {
     readonly privateKey?: string;
     readonly publicKey?: string;
 }
+
+// @public
+export type SSHKeyType = string;
 
 // @public
 export type Status = string;

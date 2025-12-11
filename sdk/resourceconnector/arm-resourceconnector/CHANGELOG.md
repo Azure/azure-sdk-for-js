@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.1 (2025-11-21)
+## 2.0.0-beta.1 (2025-12-11)
 Compared with version 1.0.0
 
 ### Features Added
@@ -22,6 +22,7 @@ Compared with version 1.0.0
   - Added Type Alias AzureSupportedClouds
   - Added Enum AzureClouds
   - Added Enum KnownVersions
+  - Enum KnownSSHKeyType has a new value UserManagementKey
   - Enum KnownStatus has a new value ArcGatewayUpdateComplete
   - Enum KnownStatus has a new value ArcGatewayUpdateFailed
   - Enum KnownStatus has a new value ArcGatewayUpdatePreparing
@@ -58,10 +59,6 @@ Compared with version 1.0.0
   - Interface ApplianceOperation no longer has parameter provider
   - Interface ApplianceOperation no longer has parameter resource
   - Interface AppliancesUpdateOptionalParams no longer has parameter tags
-  - Removed Type Alias ArtifactType
-  - Removed Type Alias SSHKeyType
-  - Removed Enum KnownArtifactType
-  - Removed Enum KnownSSHKeyType
   - Enum KnownProvider no longer has value KubeVirt
   - Enum KnownProvider no longer has value OpenStack
 

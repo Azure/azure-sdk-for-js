@@ -46,6 +46,8 @@
       "@azure/arm-resourceconnector!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-resourceconnector!KnownAccessProfileType:enum": "Microsoft.ResourceConnector.AccessProfileType",
       "@azure/arm-resourceconnector!KnownVersions:enum": "Microsoft.ResourceConnector.Versions",
+      "@azure/arm-resourceconnector!KnownArtifactType:enum": "Microsoft.ResourceConnector.ArtifactType",
+      "@azure/arm-resourceconnector!KnownSSHKeyType:enum": "Microsoft.ResourceConnector.SSHKeyType",
       "@azure/arm-resourceconnector!AppliancesOperations#getTelemetryConfig:member": "Microsoft.ResourceConnector.AppliancesOperationGroup.getTelemetryConfig",
       "@azure/arm-resourceconnector!AppliancesOperations#ListOperations:member": "Azure.ResourceManager.Legacy.Operations.list",
       "@azure/arm-resourceconnector!AppliancesOperations#getUpgradeGraph:member": "Microsoft.ResourceConnector.Appliances.getUpgradeGraph",

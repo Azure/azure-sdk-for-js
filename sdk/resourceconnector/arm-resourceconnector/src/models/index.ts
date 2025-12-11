@@ -46,4 +46,8 @@ export {
   ApplianceOperationValueDisplay,
   ApplianceGetTelemetryConfigResult,
   KnownVersions,
+  KnownArtifactType,
+  ArtifactType,
+  KnownSSHKeyType,
+  SSHKeyType,
 } from "./models.js";

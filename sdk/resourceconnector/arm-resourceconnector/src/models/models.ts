@@ -1028,3 +1028,45 @@ export enum KnownVersions {
   /** The 2025-03-01-preview API version. */
   V20250301Preview = "2025-03-01-preview",
 }
+
+/** Appliance ArtifactType definition. */
+export enum KnownArtifactType {
+  /** LogsArtifactType */
+  LogsArtifactType = "LogsArtifactType",
+}
+
+/**
+ * Appliance ArtifactType definition. \
+ * {@link KnownArtifactType} can be used interchangeably with ArtifactType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LogsArtifactType**
+ */
+export type ArtifactType = string;
+
+/** Appliance SSHKeyType definition. */
+export enum KnownSSHKeyType {
+  /** SSHCustomerUser */
+  SSHCustomerUser = "SSHCustomerUser",
+  /** ManagementCAKey */
+  ManagementCAKey = "ManagementCAKey",
+  /** LogsKey */
+  LogsKey = "LogsKey",
+  /** ScopedAccessKey */
+  ScopedAccessKey = "ScopedAccessKey",
+  /** UserManagementKey */
+  UserManagementKey = "UserManagementKey",
+}
+
+/**
+ * Appliance SSHKeyType definition. \
+ * {@link KnownSSHKeyType} can be used interchangeably with SSHKeyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SSHCustomerUser** \
+ * **ManagementCAKey** \
+ * **LogsKey** \
+ * **ScopedAccessKey** \
+ * **UserManagementKey**
+ */
+export type SSHKeyType = string;
