@@ -1,0 +1,16 @@
+{
+  "apiVersion": "v2.1",
+  "emitterVersion": "0.47.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "AzureMonitorExporter",
+    "CrossLanguageDefinitionId": {
+      "@azure/monitor-opentelemetry-exporter!TelemetryItem:interface": "AzureMonitorExporter.TelemetryEnvelope",
+      "@azure/monitor-opentelemetry-exporter!MonitorBase:interface": "AzureMonitorExporter.Base",
+      "@azure/monitor-opentelemetry-exporter!EventDomain:interface": "AzureMonitorExporter.Domain",
+      "@azure/monitor-opentelemetry-exporter!TrackResponse:interface": "AzureMonitorExporter.TrackResponse",
+      "@azure/monitor-opentelemetry-exporter!TelemetryErrorDetails:interface": "AzureMonitorExporter.ErrorDetails",
+      "@azure/monitor-opentelemetry-exporter!KnownVersions:enum": "AzureMonitorExporter.Versions",
+      "@azure/monitor-opentelemetry-exporter!AzureMonitorExporterClient#track:member(1)": "AzureMonitorExporter.track"
+    }
+  }
+}
