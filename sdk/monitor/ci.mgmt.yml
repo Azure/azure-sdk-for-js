@@ -6,14 +6,11 @@ trigger:
       - main
       - release/*
       - hotfix/*
-    exclude:
-      - feature/v4
   paths:
     include:
       - sdk/monitor/ci.mgmt.yml
       - sdk/monitor/arm-monitor-profile-2020-09-01-hybrid
       - sdk/monitor/arm-monitor
-      - sdk/monitor/monitor-opentelemetry-exporter
 pr:
   branches:
     include:
@@ -21,14 +18,11 @@ pr:
       - feature/*
       - release/*
       - hotfix/*
-    exclude:
-      - feature/v4
   paths:
     include:
       - sdk/monitor/ci.mgmt.yml
       - sdk/monitor/arm-monitor-profile-2020-09-01-hybrid
       - sdk/monitor/arm-monitor
-      - sdk/monitor/monitor-opentelemetry-exporter
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -39,5 +33,3 @@ extends:
         safeName: azurearmmonitor
       - name: azure-arm-monitor-profile-2020-09-01-hybrid
         safeName: azurearmmonitorprofile20200901hybrid
-      - name: azure-monitor-opentelemetry-exporter
-        safeName: azuremonitoropentelemetryexporter

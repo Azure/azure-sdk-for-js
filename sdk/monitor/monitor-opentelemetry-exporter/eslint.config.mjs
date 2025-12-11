@@ -1,14 +1,28 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default azsdkEslint.config([
+export default [
+  { ignores: ["src/Declarations"] },
+  ...azsdkEslint.configs.recommendedTypeChecked,
   {
-    rules: {
-      "@azure/azure-sdk/ts-modules-only-named": "warn",
-      "@azure/azure-sdk/ts-package-json-types": "warn",
-      "@azure/azure-sdk/ts-package-json-engine-is-present": "warn",
-      "@azure/azure-sdk/ts-package-json-files-required": "off",
-      "@azure/azure-sdk/ts-package-json-main-is-cjs": "off",
-      "tsdoc/syntax": "warn",
-    },
+    "rules": {
+      "@typescript-eslint/no-unsafe-member-access": "warn",
+      "@typescript-eslint/no-unsafe-assignment": "warn",
+      "@typescript-eslint/no-unsafe-call": "warn",
+      "@typescript-eslint/no-unsafe-argument": "warn",
+      "@typescript-eslint/restrict-template-expressions": "warn",
+      "@typescript-eslint/no-floating-promises": "warn",
+      "no-underscore-dangle": [
+        "error",
+        {
+          "allowAfterThis": true
+        }
+      ],
+      "n/no-unsupported-features/es-syntax": [
+        "error",
+        {
+          "ignores": ["modules"]
+        }
+      ]
+    }
   },
-]);
+];
