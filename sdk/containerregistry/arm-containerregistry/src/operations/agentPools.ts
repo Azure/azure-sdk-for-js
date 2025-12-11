@@ -23,10 +23,11 @@ import type {
   AgentPoolsGetResponse,
   AgentPoolsCreateOptionalParams,
   AgentPoolsCreateResponse,
-  AgentPoolsDeleteOptionalParams,
   AgentPoolUpdateParameters,
   AgentPoolsUpdateOptionalParams,
   AgentPoolsUpdateResponse,
+  AgentPoolsDeleteOptionalParams,
+  AgentPoolsDeleteResponse,
   AgentPoolsGetQueueStatusOptionalParams,
   AgentPoolsGetQueueStatusResponse,
   AgentPoolsListNextResponse,
@@ -47,8 +48,8 @@ export class AgentPoolsImpl implements AgentPools {
 
   /**
    * Lists all the agent pools for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param options The options parameters.
    */
   public list(
@@ -108,9 +109,26 @@ export class AgentPoolsImpl implements AgentPools {
   }
 
   /**
+   * Lists all the agent pools for a specified container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: AgentPoolsListOptionalParams,
+  ): Promise<AgentPoolsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
    * Gets the detailed information for a given agent pool.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
@@ -128,8 +146,8 @@ export class AgentPoolsImpl implements AgentPools {
 
   /**
    * Creates an agent pool for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param agentPoolName The name of the agent pool.
    * @param agentPool The parameters of an agent pool that needs to scheduled.
    * @param options The options parameters.
@@ -195,6 +213,7 @@ export class AgentPoolsImpl implements AgentPools {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -202,8 +221,8 @@ export class AgentPoolsImpl implements AgentPools {
 
   /**
    * Creates an agent pool for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param agentPoolName The name of the agent pool.
    * @param agentPool The parameters of an agent pool that needs to scheduled.
    * @param options The options parameters.
@@ -226,89 +245,9 @@ export class AgentPoolsImpl implements AgentPools {
   }
 
   /**
-   * Deletes a specified agent pool resource.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param agentPoolName The name of the agent pool.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    registryName: string,
-    agentPoolName: string,
-    options?: AgentPoolsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, agentPoolName, options },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes a specified agent pool resource.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param agentPoolName The name of the agent pool.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    agentPoolName: string,
-    options?: AgentPoolsDeleteOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDelete(resourceGroupName, registryName, agentPoolName, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
    * Updates an agent pool with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param agentPoolName The name of the agent pool.
    * @param updateParameters The parameters for updating an agent pool.
    * @param options The options parameters.
@@ -374,6 +313,7 @@ export class AgentPoolsImpl implements AgentPools {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -381,8 +321,8 @@ export class AgentPoolsImpl implements AgentPools {
 
   /**
    * Updates an agent pool with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param agentPoolName The name of the agent pool.
    * @param updateParameters The parameters for updating an agent pool.
    * @param options The options parameters.
@@ -405,26 +345,93 @@ export class AgentPoolsImpl implements AgentPools {
   }
 
   /**
-   * Lists all the agent pools for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * Deletes a specified agent pool resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
+   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
-  private _list(
+  async beginDelete(
     resourceGroupName: string,
     registryName: string,
-    options?: AgentPoolsListOptionalParams,
-  ): Promise<AgentPoolsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, options },
-      listOperationSpec,
-    );
+    agentPoolName: string,
+    options?: AgentPoolsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<AgentPoolsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, registryName, agentPoolName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AgentPoolsDeleteResponse,
+      OperationState<AgentPoolsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a specified agent pool resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
+   * @param agentPoolName The name of the agent pool.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    registryName: string,
+    agentPoolName: string,
+    options?: AgentPoolsDeleteOptionalParams,
+  ): Promise<AgentPoolsDeleteResponse> {
+    const poller = await this.beginDelete(resourceGroupName, registryName, agentPoolName, options);
+    return poller.pollUntilDone();
   }
 
   /**
    * Gets the count of queued runs for a given agent pool.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
@@ -442,8 +449,8 @@ export class AgentPoolsImpl implements AgentPools {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -462,6 +469,27 @@ export class AgentPoolsImpl implements AgentPools {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AgentPoolListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
   httpMethod: "GET",
@@ -470,15 +498,15 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AgentPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
     Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept],
@@ -501,7 +529,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AgentPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.agentPool,
@@ -509,35 +537,12 @@ const createOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
     Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.agentPoolName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -557,7 +562,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AgentPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.updateParameters,
@@ -565,31 +570,41 @@ const updateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
     Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools",
-  httpMethod: "GET",
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
+  httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.AgentPoolListResult,
+      headersMapper: Mappers.AgentPoolsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
+    Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -602,15 +617,15 @@ const getQueueStatusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AgentPoolQueueStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
     Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept],
@@ -624,15 +639,15 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AgentPoolListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

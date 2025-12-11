@@ -1,5 +1,45 @@
 # Release History
 
+## 12.0.0-beta.1 (2025-12-11)
+Compared with version 11.0.0
+
+### Features Added
+  - Added operation Registries.scheduleRun
+  - Added operation Runs.cancel
+  - Added operation Runs.update
+  - Added operation TaskRuns.delete
+  - Added operation Tasks.create
+  - Added operation Tasks.delete
+  - Added operation Tasks.update
+  - Added Interface AgentPoolsCreateHeaders
+  - Added Interface AgentPoolsDeleteHeaders
+  - Added Interface AgentPoolsUpdateHeaders
+  - Added Interface TaskRunsCreateHeaders
+  - Added Interface TaskRunsUpdateHeaders
+  - Interface SourceRegistryCredentials has a new optional parameter identity
+  - Added Type Alias AgentPoolsDeleteResponse
+
+### Breaking Changes
+  - Removed operation Registries.beginScheduleRun
+  - Removed operation Registries.beginScheduleRunAndWait
+  - Removed operation Runs.beginCancel
+  - Removed operation Runs.beginCancelAndWait
+  - Removed operation Runs.beginUpdate
+  - Removed operation Runs.beginUpdateAndWait
+  - Removed operation TaskRuns.beginDelete
+  - Removed operation TaskRuns.beginDeleteAndWait
+  - Removed operation Tasks.beginCreate
+  - Removed operation Tasks.beginCreateAndWait
+  - Removed operation Tasks.beginDelete
+  - Removed operation Tasks.beginDeleteAndWait
+  - Removed operation Tasks.beginUpdate
+  - Removed operation Tasks.beginUpdateAndWait
+  - Operation AgentPools.beginDeleteAndWait has a new signature
+  - Removed Interface ErrorResponseBody
+  - Removed Interface ErrorResponseForContainerRegistry
+  - Removed Interface InnerErrorDescription
+  - Removed Interface RunFilter
+
 ## 11.0.0 (2025-11-05)
 Compared with version 10.1.0
 
