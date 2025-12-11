@@ -111,6 +111,13 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
           value: "sanitized_blockid",
         },
       ],
+      removeHeaderSanitizer: {
+        headersForRemoval: [
+          "x-stainless-os",
+          "x-stainless-retry-count",
+          "x-stainless-runtime-version",
+        ],
+      },
     },
     ["record", "playback"],
   );

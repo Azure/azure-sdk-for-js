@@ -10,6 +10,14 @@ import {
 } from "@azure/core-rest-pipeline";
 
 type FetchFn = NonNullable<NonNullable<ConstructorParameters<typeof OpenAI>[0]>["fetch"]>;
+
+/**
+ * A custom `fetch` implementation that forwards requests to an Azure Core Pipeline.
+ * This allows us to send traffic to the test proxy for recording and playback.
+ * @param pipeline - The pipeline to use
+ * @param customHttpClient - The http client to make requests with
+ * @returns A fetch-compatible function.
+ */
 export function getCustomFetch(pipeline: Pipeline, customHttpClient?: HttpClient): FetchFn {
   return async function (resource, options): Promise<Response> {
     const fetchRequest = new Request(resource, options);
