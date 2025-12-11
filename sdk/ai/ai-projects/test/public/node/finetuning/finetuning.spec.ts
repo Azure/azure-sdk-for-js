@@ -4,12 +4,11 @@
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../../utils/createClient.js";
-import { assert, beforeEach, afterEach, it, describe } from "vitest";
+import { assert, beforeEach, afterEach, it, describe, expect } from "vitest";
 import type { AIProjectClient } from "../../../../src/index.js";
-// import type { FineTuningJob, JobCreateParams } from "openai/resources/fine-tuning/jobs";
+import type { FineTuningJob, JobCreateParams } from "openai/resources/fine-tuning/jobs";
 import type { OpenAI } from "openai/client";
-// import { FineTuningJobType, testFinetuningParams } from "./finetuningHelper.js";
-// import type { TrainingType } from "./finetuningHelper.js";
+import { TrainingType, FineTuningJobType, testFinetuningParams } from "./finetuningHelper.js";
 
 const isLive = isLiveMode();
 
@@ -28,99 +27,153 @@ describe("finetuning - basic", () => {
     await recorder.stop();
   });
 
-  async function uploadFileAndWait(): Promise<Awaited<ReturnType<typeof openai.files.retrieve>>> {
-    const dataUrl = new URL("./data/sft_training_set.jsonl", import.meta.url);
-    const fs = await import("fs");
-    console.log(`Uploading file`);
-    const created = await openai.files.create({
-      file: fs.createReadStream(dataUrl),
-      purpose: "fine-tune",
-    });
+  function validateFineTuningJob(
+    jobObj: FineTuningJob,
+    expectedJobId?: string,
+    expectedModel?: string,
+    expectedStatus?: string,
+  ): void {
+    assert.isNotNull(jobObj);
+    assert.isNotNull(jobObj.id);
+    assert.isNotNull(jobObj.model);
+    assert.isNotNull(jobObj.created_at);
+    assert.isNotNull(jobObj.status);
+    assert.isNotNull(jobObj.training_file);
 
-    console.log(`Uploaded file with ID: ${created.id}`);
-
-    return openai.files.retrieve(created.id);
+    if (expectedJobId !== undefined) {
+      assert.equal(jobObj.id, expectedJobId);
+    }
+    if (expectedModel !== undefined) {
+      assert.equal(jobObj.model, expectedModel);
+    }
+    if (expectedStatus !== undefined) {
+      assert.equal(jobObj.status, expectedStatus);
+    }
   }
 
-  // async function createSftFinetuningJob(
-  //   trainingFileId: string,
-  //   validationFileId: string,
-  //   trainingType: TrainingType
-  // ): Promise<FineTuningJob> {
-  //   const fineTuningJob = await openai.fineTuning.jobs.create({} as JobCreateParams, {
-  //     body: {
-  //       trainingType: trainingType,
-  //       training_file: trainingFileId,
-  //       validation_file: validationFileId,
-  //       model: testFinetuningParams[FineTuningJobType.SFT_JOB_TYPE].openai.model_name,
-  //       method: {
-  //         type: "supervised",
-  //         supervised: {
-  //           hyperparameters: {
-  //             n_epochs: testFinetuningParams[FineTuningJobType.SFT_JOB_TYPE].nEpochs,
-  //             batch_size: testFinetuningParams[FineTuningJobType.SFT_JOB_TYPE].batchSize,
-  //             learning_rate_multiplier: testFinetuningParams[FineTuningJobType.SFT_JOB_TYPE].learningRateMultiplier,
-  //           },
-  //         },
-  //       },
-  //     },
-  //   });
-  //   console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
+  async function uploadTestFiles(jobType: FineTuningJobType): Promise<{
+    trainingFile: OpenAI.Files.FileObject;
+    validationFile: OpenAI.Files.FileObject;
+  }> {
+    const trainingFilePath: string = testFinetuningParams[jobType].trainingFileName;
+    const validationFilePath: string = testFinetuningParams[jobType].validationFileName;
+    const trainingFileUrl: URL = new URL(`./data/${trainingFilePath}`, import.meta.url);
+    const validationFileUrl: URL = new URL(`./data/${validationFilePath}`, import.meta.url);
 
-  //   return fineTuningJob;
-  // }
+    const fs = await import("fs");
 
-  // async function sftCreateJobHelper(): Promise<Awaited<ReturnType<typeof openai.files.retrieve>>> {
-  //   const dataUrl = new URL("./data/training_set.jsonl", import.meta.url);
-  //   const fs = await import("fs");
-  //   console.log(`Uploading file`);
-  //   const created = await openai.files.create({
-  //     file: fs.createReadStream(dataUrl),
-  //     purpose: "fine-tune",
-  //   });
+    console.log(`Uploading file`);
+    const trainingFile: OpenAI.Files.FileObject = await openai.files.create({
+      file: fs.createReadStream(trainingFileUrl),
+      purpose: "fine-tune",
+    });
+    console.log(`Uploaded file with ID: ${trainingFile.id}`);
+    const validationFile: OpenAI.Files.FileObject = await openai.files.create({
+      file: fs.createReadStream(validationFileUrl),
+      purpose: "fine-tune",
+    });
+    console.log(`Uploaded file with ID: ${validationFile.id}`);
 
-  //   console.log(`Uploaded file with ID: ${created.id}`);
+    const trainingProcessedFile: OpenAI.Files.FileObject = await openai.files.waitForProcessing(
+      trainingFile.id,
+    );
+    const validationProcessedFile: OpenAI.Files.FileObject = await openai.files.waitForProcessing(
+      validationFile.id,
+    );
+    console.log("Files processed.");
 
-  //   return openai.files.retrieve(created.id);
-  // }
+    assert.isNotNull(trainingProcessedFile);
+    assert.isNotNull(validationProcessedFile);
+
+    assert.isNotNull(trainingProcessedFile.id);
+    assert.isNotNull(validationProcessedFile.id);
+
+    return { trainingFile: trainingProcessedFile, validationFile: validationProcessedFile };
+  }
+
+  async function cleanupTestFile(fileId: string): Promise<void> {
+    console.log(`Deleting file with ID: ${fileId}`);
+    const deletedFile = await openai.files.delete(fileId);
+    console.log(`Successfully deleted file: ${deletedFile?.id}`);
+  }
+
+  async function createSftFinetuningJob(
+    trainingFileId: string,
+    validationFileId: string,
+    trainingType: TrainingType,
+    modelType: "openai" | "oss",
+  ): Promise<FineTuningJob> {
+    return openai.fineTuning.jobs.create({} as JobCreateParams, {
+      body: {
+        trainingType: trainingType,
+        training_file: trainingFileId,
+        validation_file: validationFileId,
+        model: testFinetuningParams[FineTuningJobType.SFT_JOB_TYPE][modelType]!.modelName,
+        method: {
+          type: "supervised",
+          supervised: {
+            hyperparameters: {
+              n_epochs: testFinetuningParams.nEpochs,
+              batch_size: testFinetuningParams.batchSize,
+              learning_rate_multiplier: testFinetuningParams.learningRateMultiplier,
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async function sftCreateJobHelper(
+    modelType: "openai" | "oss",
+    trainingType: TrainingType,
+  ): Promise<void> {
+    const { trainingFile, validationFile } = await uploadTestFiles(FineTuningJobType.SFT_JOB_TYPE);
+    const fineTuningJob = await createSftFinetuningJob(
+      trainingFile.id,
+      validationFile.id,
+      trainingType,
+      modelType,
+    );
+    console.log(
+      `Created fine-tuning SFT ${modelType} ${trainingType} job with ID:`,
+      fineTuningJob.id,
+    );
+
+    validateFineTuningJob(fineTuningJob);
+
+    if (fineTuningJob.training_file !== undefined) {
+      assert.equal(fineTuningJob.training_file, trainingFile.id);
+    }
+    if (fineTuningJob.validation_file !== undefined) {
+      assert.equal(fineTuningJob.validation_file, validationFile.id);
+    }
+    assert.isNotNull(fineTuningJob.method);
+    if (fineTuningJob.method?.type !== undefined) {
+      assert.equal(fineTuningJob.method?.type, "supervised");
+    }
+    console.log(
+      `Created fine-tuning SFT ${modelType} ${trainingType} job SFT method validation passed - type: ${fineTuningJob.method?.type}`,
+    );
+
+    if (modelType === "oss") {
+      validateFineTuningJob(
+        fineTuningJob,
+        undefined,
+        testFinetuningParams[FineTuningJobType.SFT_JOB_TYPE].oss!.modelName,
+      );
+    }
+
+    console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
+    const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
+    console.log(
+      `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
+    );
+
+    await cleanupTestFile(trainingFile.id);
+    await cleanupTestFile(validationFile.id);
+  }
 
   it.skipIf(!isLive)("should test sft finetuning create job openai standard", async () => {
-    // Create (upload) and wait until processed
-    console.log(`Starting file upload.`);
-    const uploadedFile = await uploadFileAndWait();
-    assert.isNotNull(uploadedFile);
-    assert.isString(uploadedFile.id);
-    console.log(`Uploaded and processed file ID: ${uploadedFile.id}`);
-
-    // Retrieve metadata
-    console.log(`Retrieving metadata for file ID: ${uploadedFile.id}`);
-    const got = await openai.files.retrieve(uploadedFile.id);
-    assert.isNotNull(got);
-    assert.equal(got.id, uploadedFile.id);
-    console.log(`Retrieved metadata for file ID: ${got.id}`);
-
-    // Retrieve content
-    console.log(`Retrieving content for file ID: ${uploadedFile.id}`);
-    const contentResponse = await openai.files.content(uploadedFile.id);
-    const buf = Buffer.from(await contentResponse.arrayBuffer());
-    const text = buf.toString("utf-8");
-    console.log(`Retrieved file content (first 200 chars):\n${text.slice(0, 200)}...`);
-    assert.include(text, `"messages":`);
-    assert.include(text, `"system"`);
-    assert.include(text, `"assistant"`);
-
-    // List
-    console.log(`Listing files to verify presence of file ID: ${uploadedFile.id}`);
-    const listed = await openai.files.list();
-    assert.isArray(listed.data);
-    const found = listed.data.find((f) => f.id === uploadedFile.id);
-    assert.isNotNull(found);
-    console.log(`Verified uploaded file ID ${uploadedFile.id} appears in list.`);
-
-    // Delete
-    console.log(`Deleting file ID: ${uploadedFile.id}`);
-    const deleted = await openai.files.delete(uploadedFile.id);
-    assert.isTrue(deleted?.deleted === true, "expected file to be deleted");
-    console.log(`Deleted file with ID: ${uploadedFile.id}`);
+    await sftCreateJobHelper("openai", TrainingType.STANDARD_TRAINING_TYPE);
   });
 });
