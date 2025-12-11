@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how you can ask translation service to include alignment
- * projection from source text to translated text.
+ * @summary You can combine both Translation and Transliteration in one Translate call.
+ * Your source Text can be in non-standard Script of a language as well as you
+ * can ask for non-standard Script of a target language.
  */
-import type { InputTextItem } from "@azure-rest/ai-translation-text";
 import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +16,7 @@ const resourceId = process.env["TRANSLATOR_RESOURCE_ID"] || "<api key>";
 const region = process.env["TRANSLATOR_REGION"] || "<region>";
 
 export async function main(): Promise<void> {
-  console.log("== Translation with alignments sample ==");
+  console.log("== Translate with transliteration sample ==");
 
   const translateCedential = {
     tokenCredential: new DefaultAzureCredential(),
@@ -25,27 +25,25 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText: InputTextItem[] = [{ text: "The answer lies in machine translation." }];
+  const input = {
+    text: "hudha akhtabar.",
+    targets: [{ language: "zh-Hans", toScript: "Latn" }],
+    language: "ar",
+    script: "Latn",
+  };
   const translateResponse = await translationClient.path("/translate").post({
-    body: inputText,
-    queryParameters: {
-      to: "cs",
-      from: "en",
-
-      includeAlignment: true,
-    },
+    body: { inputs: [input] },
   });
 
   if (isUnexpected(translateResponse)) {
     throw translateResponse.body.error;
   }
 
-  const translations = translateResponse.body;
+  const translations = translateResponse.body.value;
   for (const translation of translations) {
     console.log(
-      `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
+      `Text was translated to: '${translation?.translations[0]?.language}' and the result is: '${translation?.translations[0]?.text}'.`,
     );
-    console.log(`Alignments: ${translation?.translations[0]?.alignment?.proj}`);
   }
 }
 

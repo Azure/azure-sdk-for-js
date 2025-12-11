@@ -5,7 +5,6 @@
  * @summary This sample demonstrates how to make a simple call to the Azure Text Translator
  * service to get translation for a text which language is know to a target language.
  */
-import type { InputTextItem } from "@azure-rest/ai-translation-text";
 import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -25,23 +24,23 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText: InputTextItem[] = [{ text: "This is a test." }];
+  const input = {
+    text: "This is a test.",
+    targets: [{ language: "cs" }],
+    language: "en",
+  };
   const translateResponse = await translationClient.path("/translate").post({
-    body: inputText,
-    queryParameters: {
-      to: "cs",
-      from: "en",
-    },
+    body: { inputs: [input] },
   });
 
   if (isUnexpected(translateResponse)) {
     throw translateResponse.body.error;
   }
 
-  const translations = translateResponse.body;
+  const translations = translateResponse.body.value;
   for (const translation of translations) {
     console.log(
-      `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
+      `Text was translated to: '${translation?.translations[0]?.language}' and the result is: '${translation?.translations[0]?.text}'.`,
     );
   }
 }

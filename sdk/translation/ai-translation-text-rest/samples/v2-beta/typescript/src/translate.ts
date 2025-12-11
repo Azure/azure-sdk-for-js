@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how to make a simple call to the Azure Text Translator service to get sentences' boundaries.
+ * @summary This sample demonstrates how to make a simple call to the Azure Text Translator
+ * service to get translation for a text which language is know to a target language.
  */
-import type { InputTextItem } from "@azure-rest/ai-translation-text";
 import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -15,7 +15,7 @@ const resourceId = process.env["TRANSLATOR_RESOURCE_ID"] || "<api key>";
 const region = process.env["TRANSLATOR_REGION"] || "<region>";
 
 export async function main(): Promise<void> {
-  console.log("== Get Sentence Boundaries sample ==");
+  console.log("== Simple translate sample ==");
 
   const translateCedential = {
     tokenCredential: new DefaultAzureCredential(),
@@ -24,22 +24,24 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText: InputTextItem[] = [{ text: "zhè shì gè cè shì。" }];
-  const breakSentenceResponse = await translationClient.path("/breaksentence").post({
-    body: inputText,
-    queryParameters: {
-      language: "zh-Hans",
-      script: "Latn",
-    },
+  const input = {
+    text: "This is a test.",
+    targets: [{ language: "cs" }],
+    language: "en",
+  };
+  const translateResponse = await translationClient.path("/translate").post({
+    body: { inputs: [input] },
   });
 
-  if (isUnexpected(breakSentenceResponse)) {
-    throw breakSentenceResponse.body.error;
+  if (isUnexpected(translateResponse)) {
+    throw translateResponse.body.error;
   }
 
-  const breakSentences = breakSentenceResponse.body;
-  for (const breakSentence of breakSentences) {
-    console.log(`The detected sentece boundaries: '${breakSentence?.sentLen.join(", ")}'.`);
+  const translations = translateResponse.body.value;
+  for (const translation of translations) {
+    console.log(
+      `Text was translated to: '${translation?.translations[0]?.language}' and the result is: '${translation?.translations[0]?.text}'.`,
+    );
   }
 }
 

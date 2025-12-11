@@ -8,7 +8,6 @@
  *
  * Note You must include the From parameter in your API translation request instead of using the autodetect feature.
  */
-import type { InputTextItem, TranslatedTextItemOutput } from "@azure-rest/ai-translation-text";
 import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -28,27 +27,23 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText: InputTextItem[] = [
-    {
-      text: 'The word <mstrans:dictionary translation="wordomatic">wordomatic</mstrans:dictionary> is a dictionary entry.',
-    },
-  ];
+  const input = {
+    text: 'The word <mstrans:dictionary translation ="wordomatic">wordomatic</mstrans:dictionary> is a dictionary entry.',
+    targets: [{ language: "es" }],
+    language: "en",
+  };
   const translateResponse = await translationClient.path("/translate").post({
-    body: inputText,
-    queryParameters: {
-      to: "cs",
-      from: "en",
-    },
+    body: { inputs: [input] },
   });
 
   if (isUnexpected(translateResponse)) {
     throw translateResponse.body.error;
   }
 
-  const translations = translateResponse.body as TranslatedTextItemOutput[];
+  const translations = translateResponse.body.value;
   for (const translation of translations) {
     console.log(
-      `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
+      `Text was translated to: '${translation?.translations[0]?.language}' and the result is: '${translation?.translations[0]?.text}'.`,
     );
   }
 }

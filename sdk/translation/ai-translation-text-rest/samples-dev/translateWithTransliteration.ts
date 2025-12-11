@@ -6,7 +6,6 @@
  * Your source Text can be in non-standard Script of a language as well as you
  * can ask for non-standard Script of a target language.
  */
-import type { InputTextItem } from "@azure-rest/ai-translation-text";
 import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -26,29 +25,24 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText: InputTextItem[] = [{ text: "hudha akhtabar." }];
+  const input = {
+    text: "hudha akhtabar.",
+    targets: [{ language: "zh-Hans", toScript: "Latn" }],
+    language: "ar",
+    script: "Latn",
+  };
   const translateResponse = await translationClient.path("/translate").post({
-    body: inputText,
-    queryParameters: {
-      to: "zh-Hans",
-      toScript: "Latn",
-      from: "ar",
-      fromScript: "Latn",
-    },
+    body: { inputs: [input] },
   });
 
   if (isUnexpected(translateResponse)) {
     throw translateResponse.body.error;
   }
 
-  const translations = translateResponse.body;
+  const translations = translateResponse.body.value;
   for (const translation of translations) {
-    console.log(`Source Text: ${translation.sourceText?.text}`);
     console.log(
-      `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
-    );
-    console.log(
-      `Transliterated text (${translation?.translations[0]?.transliteration?.script}): ${translation?.translations[0]?.transliteration?.text}`,
+      `Text was translated to: '${translation?.translations[0]?.language}' and the result is: '${translation?.translations[0]?.text}'.`,
     );
   }
 }
