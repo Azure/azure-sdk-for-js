@@ -657,4 +657,89 @@ describe.skipIf(!isLiveOrRecord)("My test", () => {
       throw error;
     }
   }, 120000);
+
+  it("should create responses with Computer Use tool", async function () {
+    const computerUseModelDeployment =
+      process.env["COMPUTER_USE_MODEL_DEPLOYMENT_NAME"] || "computer-use-preview";
+
+    const computerUseTool: any = {
+      type: "computer_use_preview",
+      display_width: 1026,
+      display_height: 769,
+      environment: "windows",
+    };
+
+    const instructions = `You are a computer automation assistant. Be direct and efficient.`;
+
+    // Create a conversation for the agent interaction
+    const conversation = await openAIClient.conversations.create();
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Send an initial request with a text prompt (no screenshot for basic test)
+    // Computer Use models require truncation: "auto"
+    const response = await openAIClient.responses.create({
+      model: computerUseModelDeployment,
+      tools: [computerUseTool],
+      instructions,
+      conversation: conversation.id,
+      input: "Describe what you would do to search for 'Azure AI' in a web browser.",
+      truncation: "auto",
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.id);
+    console.log(
+      `Computer Use tool response, response ID: ${response.id}, output text: ${response.output_text}`,
+    );
+
+    // The response should contain computer use actions or indicate tool usage
+    assert.isNotNull(response.output);
+    console.log(`Response output items: ${response.output.length}`);
+  }, 120000);
+
+  it("should create responses with Image Generation tool", async function () {
+    const imageGenModelDeployment = "gpt-image-1";
+
+    const imageGenTool: any = {
+      type: "image_generation",
+      quality: "low",
+      size: "1024x1024",
+    };
+
+    const instructions = "Generate images based on user prompts.";
+
+    // Create a conversation for the agent interaction
+    const conversation = await openAIClient.conversations.create();
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Send a request to generate an image
+    const response = await openAIClient.responses.create({
+      model: "gpt-5-mini",
+      tools: [imageGenTool],
+      instructions,
+      conversation: conversation.id,
+      input: "Generate a simple image of a blue circle.",
+    },
+    {
+      headers: {"x-ms-oai-image-generation-deployment": imageGenModelDeployment}
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.id);
+    console.log(
+      `Image Generation tool response, response ID: ${response.id}, output text: ${response.output_text}`,
+    );
+
+    // The response should contain image generation results or indicate tool usage
+    assert.isNotNull(response.output);
+    console.log(`Response output items: ${response.output.length}`);
+
+    // Check if image data was generated
+    const imageData = response.output?.filter(
+      (output: any) => output.type === "image_generation_call",
+    );
+    if (imageData && imageData.length > 0) {
+      console.log("Image generation call found in response");
+    }
+  }, 120000);
 });
