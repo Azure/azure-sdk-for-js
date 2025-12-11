@@ -30,8 +30,26 @@ const __dirname = path.dirname(__filename);
  */
 
 /**
+ * @typedef {Object} RepoPackageInfo
+ * @property {string} src
+ * @property {string} ver
+ * @property {Record<string, string>} [run]
+ * @property {Record<string, string>} [dev]
+ * @property {Record<string, string>} [peer]
+ */
+
+/**
+ * @typedef {Object} DumpedPackageInfo
+ * @property {string} name
+ * @property {string} version
+ * @property {string} type
+ * @property {string} src - relative source path
+ * @property {{name: string, version: string}[]} deps
+ */
+
+/**
  *
- * @param {Record<string, {src: string, ver: string, run?: Record<string, string>, dev?: Record<string, string>, peer?: Record<string, string>}>} data
+ * @param {Record<string, RepoPackageInfo>} data
  * @param {string} pkgSrc
  * @param {PackageJson} pkgJson
  */
@@ -46,39 +64,42 @@ function appendPackageData(data, pkgSrc, pkgJson) {
 }
 
 /**
- *
+ * Gets packages from a pnpm workspace
  * @param {string} workspaceDir
- * @returns {Promise<Record<string, {src: string, ver: string, run?: Record<string, string>, dev?: Record<string, string>, peer?: Record<string, string>}>>}
+ * @returns {Promise<Record<string, RepoPackageInfo>>}
  */
 async function getRepoPackages(workspaceDir) {
   const pkgs = await getPackageJsons(workspaceDir);
   /**
-   * @type {Record<string, {src: string, ver: string, run?: Record<string, string>, dev?: Record<string, string>, peer?: Record<string, string>}>}
+   * @type {Record<string, RepoPackageInfo>}
    */
   const packageData = {};
 
   for (const projName of Object.keys(pkgs)) {
     const proj = pkgs[projName];
+    if (["test", "management"].includes(proj.versionPolicy)) {
+      // too many and similar Management packages to be useful
+      continue;
+    }
     const projDir = path.join(workspaceDir, proj.projectFolder);
     const packageJson = proj.json;
     appendPackageData(packageData, projDir, packageJson);
   }
-
   return packageData;
 }
 
 /**
- *
+ * Loads yaml data from a pnpm-lock.yaml file
  * @param {string} lockPath - path to pnpm-lock.yaml
  * @returns
  */
 async function readPnpmLock(lockPath) {
   const data = await readFile(lockPath, "utf8");
-  return yaml.safeLoad(data);
+  return yaml.load(data);
 }
 
 /**
- *
+ * Reads a file from a compressed tarball
  * @param {string} archivePath - path to tarball file
  * @param {string} filePath - path to file inside the tarball
  * @param {BufferEncoding} encoding - encoding of the file content
@@ -111,14 +132,14 @@ async function readCompressedFile(archivePath, filePath, encoding) {
 }
 
 /**
- *
+ * Gets packages from tarball files in a directory
  * @param {string} tarballDir - directory containing tarball files
- * @returns {Promise<Record<string, {src: string, ver: string, run?: Record<string, string>, dev?: Record<string, string>, peer?: Record<string, string>}>>}
+ * @returns {Promise<Record<string, RepoPackageInfo>>}
  */
 async function getTarballPackages(tarballDir) {
   const files = await readdir(tarballDir);
   /**
-   * @type {Record<string, {src: string, ver: string, run?: Record<string, string>, dev?: Record<string, string>, peer?: Record<string, string>}>}
+   * @type {Record<string, RepoPackageInfo>}
    */
   const packageData = {};
 
@@ -190,11 +211,11 @@ async function render(context, dest) {
 
 /**
  *
- * @param {*} dependencies
- * @param {*} dep
- * @param {*} spec
- * @param {*} pkg
- * @param {*} depType
+ * @param {Record<string, Record<string, [string, string][]>>} dependencies
+ * @param {string} dep - dependency name
+ * @param {string} spec - version specifier
+ * @param {string} pkg - dependent package name
+ * @param {"runtime" | "dev" | "peer"} depType
  */
 async function appendDependencyData(dependencies, dep, spec, pkg, depType) {
   if (!dependencies[dep]) {
@@ -206,7 +227,31 @@ async function appendDependencyData(dependencies, dep, spec, pkg, depType) {
   dependencies[dep][spec].push([pkg, depType]);
 }
 
+/**
+ * Gets all dependencies with version specifiers and corresponding dependents. Example entries:
+ *
+ * ```json
+ * {
+ *   '@azure/schema-registry': {
+ *      '^1.2.0': [ [ '@azure/schema-registry-avro', 'runtime' ] ],
+ *      '^1.3.0': [ [ '@azure/schema-registry-json', 'runtime' ] ]
+ *   },
+ *   avsc: { '^5.5.1': [ [ '@azure/schema-registry-avro', 'runtime' ] ] },
+ *   'lru-cache': {
+ *     '^11.1.0': [
+ *       [ '@azure/schema-registry-avro', 'runtime' ],
+ *       [ '@azure/schema-registry-json', 'runtime' ]
+ *     ]
+ *   }
+ * },
+ * ```
+ * }}
+ *
+ * @param {Record<string, RepoPackageInfo>} pkgs
+ * @returns {Record<string, Record<string, [string, string][]>>}
+ */
 function constructDeps(pkgs) {
+  /** @type {Record<string, Record<string, [string, string][]>>} */
   const dependencies = {};
 
   for (const [name, data] of Object.entries(pkgs)) {
@@ -220,24 +265,25 @@ function constructDeps(pkgs) {
       appendDependencyData(dependencies, dep, spec, name, "peer");
     }
   }
-
   return dependencies;
 }
 
 /**
  *
- * @param {Record<string, {src: string, ver: string, run?: Record<string, string>, dev?: Record<string, string>, peer?: Record<string, string>}>} repoPackages
+ * @param {Record<string, RepoPackageInfo>} repoPackages
  * @param {string[]} internalPackages - list of internal package names
  * @param {boolean} external - whether to include external dependencies
- * @returns {Record<string, {name: string, version: string, type: string, deps: {name: string, version: string}[]}>}
+ * @param {string} workspaceDir - path to Pnpm workspace directory
+ * @returns {Record<string, {name: string, version: string, type: string, src: string, deps: {name: string, version: string}[]}>}
  */
-function dumpRepoPackages(repoPackages, internalPackages, external) {
+function dumpRepoPackages(repoPackages, internalPackages, external, workspaceDir) {
   /**
-   * @type {Record<string, {name: string, version: string, type: string, deps: {name: string, version: string}[]}>}
+   * @type {Record<string, DumpedPackageInfo>}
    */
-  const dumpData = {};
+  const dumpedPackages = {};
   for (const [pkgName, pkgInfo] of Object.entries(repoPackages)) {
     var newDep = [];
+
     if (external) {
       newDep = Object.entries(pkgInfo.run || {}).map(([name, version]) => ({ name, version }));
     } else {
@@ -248,59 +294,64 @@ function dumpRepoPackages(repoPackages, internalPackages, external) {
         }
       }
     }
-
-    dumpData[`${pkgName}:${pkgInfo.ver}`] = {
+    dumpedPackages[`${pkgName}:${pkgInfo.ver}`] = {
       name: pkgName,
       version: pkgInfo.ver,
       type: "internal",
+      src: pkgInfo.src.replace(workspaceDir + path.sep, "").replace(/\\/g, "/"),
       deps: newDep,
     };
   }
-  return dumpData;
+  return dumpedPackages;
 }
 
 /**
  *
- * @param {Record<string, {name: string, version: string, type: string, deps: {name: string, version: string}[]}>} packages
- * @param {string[]} internalPackages - list of internal package names
+ * @param {Record<string, RepoPackageInfo>} repoPackages
+ * @param {Record<string, DumpedPackageInfo>} dumpedPackages
  * @param {object} pnpmLock - loaded yaml data from pnpm-lock.yaml
  * @param {string} pkgId
- * @param {boolean} external
+ * @param {boolean} external - whether to include external dependencies in the graph data
  */
-function resolveRepoPackageDeps(packages, internalPackages, pnpmLock, pkgId, external) {
-  const yamlKey = `@rush-temp/${packages[pkgId].name.replace(/@[a-z]*\//i, "")}`;
-  const packageKey = pnpmLock.dependencies[yamlKey];
-  const resolvedDeps = pnpmLock.packages[packageKey].dependencies;
+function resolveRepoPackageDeps(repoPackages, dumpedPackages, pnpmLock, pkgId, external) {
+  const internalPackages = Object.keys(repoPackages);
+  const packageDir = dumpedPackages[pkgId]?.src;
+  /** @type {Record<string, string>} */
+  const resolvedDeps = {};
+  /** @type {Record<string, { specifier: string, version: string}>} */
+  const depsInPnpmLock = pnpmLock.importers[packageDir]?.dependencies || {};
+  for (const depName of Object.keys(depsInPnpmLock)) {
+    const resolvedVersion = depsInPnpmLock[depName].version.startsWith("link:")
+      ? repoPackages[depName]?.ver
+      : depsInPnpmLock[depName].version;
+    resolvedDeps[depName] = resolvedVersion;
+  }
 
-  for (const dep of packages[pkgId].deps) {
+  for (const dep of dumpedPackages[pkgId].deps) {
     if (resolvedDeps[dep.name]) {
       // Replace the version spec with the resolved version
       dep.version = resolvedDeps[dep.name];
 
       // Add the dependency to the top level of the packages list
       const depId = `${dep.name}:${dep.version}`;
-      if (!packages[depId]) {
+      if (!dumpedPackages[depId]) {
         if (internalPackages.includes(dep.name)) {
-          packages[depId] = {
+          dumpedPackages[depId] = {
             name: dep.name,
             version: dep.version,
             type: "internalbinary",
+            src: "",
             deps: [],
           };
         } else if (external) {
-          packages[depId] = {
+          dumpedPackages[depId] = {
             name: dep.name,
             version: dep.version,
             type: "external",
+            src: "",
             deps: [],
           };
         }
-      }
-    } else {
-      // Local linked projects are not listed here, so pull the version from the local package.json
-      const depInfo = Object.values(packages).find((pkgInfo) => pkgInfo.name == dep.name);
-      if (depInfo) {
-        dep.version = depInfo.version;
       }
     }
   }
@@ -329,13 +380,18 @@ async function main() {
   const args = parser.parse_args();
 
   const context = {
+    /** @type Record<string, RepoPackageInfo>> */
     packages: {},
+    /** @type Record<string, Record<string, [string, string][]>> */
     dependencies: {},
+    /** @type {string[]} */
     external: [],
+    /** @type {string[]} */
     inconsistent: [],
   };
 
-  const repoPackages = await getRepoPackages(path.resolve(`${__dirname}/../../../`));
+  const workspaceDir = path.resolve(__dirname, "../../../");
+  const repoPackages = await getRepoPackages(workspaceDir);
   context.packages = args.packdir
     ? await getTarballPackages(path.resolve(args.packdir))
     : repoPackages;
@@ -399,13 +455,19 @@ async function main() {
 
   if (args.dump) {
     const internalPackages = Object.keys(repoPackages);
-    const dumpData = dumpRepoPackages(context.packages, internalPackages, args.external);
-    const pnpmLock = await readPnpmLock(path.resolve(`${__dirname}/../../../pnpm-lock.yaml`));
-    for (const pkgId of Object.keys(dumpData)) {
-      resolveRepoPackageDeps(dumpData, internalPackages, pnpmLock, pkgId, args.external);
+    const dumpPackages = dumpRepoPackages(
+      context.packages,
+      internalPackages,
+      args.external,
+      workspaceDir,
+    );
+
+    const pnpmLock = await readPnpmLock(path.resolve(`${workspaceDir}/pnpm-lock.yaml`));
+    for (const pkgId of Object.keys(dumpPackages)) {
+      resolveRepoPackageDeps(repoPackages, dumpPackages, pnpmLock, pkgId, args.external);
     }
-    await writeFile(`${args.dump}/data.js`, "const data = " + JSON.stringify(dumpData) + ";");
-    await writeFile(`${args.dump}/arcdata.json`, JSON.stringify(dumpData));
+    await writeFile(`${args.dump}/data.js`, "const data = " + JSON.stringify(dumpPackages) + ";");
+    await writeFile(`${args.dump}/arcdata.json`, JSON.stringify(dumpPackages));
   }
 }
 
