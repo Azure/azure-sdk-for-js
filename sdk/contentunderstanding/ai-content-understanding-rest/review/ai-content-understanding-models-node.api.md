@@ -4,7 +4,7 @@
 
 ```ts
 
-import { ErrorModel } from '@azure-rest/core-client';
+import type { ErrorModel } from '@azure-rest/core-client';
 
 // @public
 export interface AnalyzeInput {
