@@ -4,11 +4,12 @@
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../../utils/createClient.js";
-import { assert, beforeEach, afterEach, it, describe, expect } from "vitest";
+import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AIProjectClient } from "../../../../src/index.js";
 import type { FineTuningJob, JobCreateParams } from "openai/resources/fine-tuning/jobs";
 import type { OpenAI } from "openai/client";
 import { TrainingType, FineTuningJobType, testFinetuningParams } from "./finetuningHelper.js";
+import fs from "fs";
 
 const isLive = isLiveMode();
 
@@ -59,8 +60,6 @@ describe("finetuning - basic", () => {
     const validationFilePath: string = testFinetuningParams[jobType].validationFileName;
     const trainingFileUrl: URL = new URL(`./data/${trainingFilePath}`, import.meta.url);
     const validationFileUrl: URL = new URL(`./data/${validationFilePath}`, import.meta.url);
-
-    const fs = await import("fs");
 
     console.log(`Uploading file`);
     const trainingFile: OpenAI.Files.FileObject = await openai.files.create({
