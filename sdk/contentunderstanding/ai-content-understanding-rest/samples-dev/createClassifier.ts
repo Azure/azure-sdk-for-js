@@ -19,7 +19,6 @@
 import "dotenv/config";
 import * as fs from "fs";
 import * as path from "path";
-import { fileURLToPath } from "url";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { ContentUnderstandingClient } from "@azure-rest/ai-content-understanding";
@@ -100,9 +99,15 @@ export async function main(): Promise<void> {
   }
 
   // Analyze a document with the classifier
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
-  const filePath = path.resolve(__dirname, "./example-data", "mixed_financial_docs.pdf");
+  // Helper to get the directory of the current file (works in both ESM and CommonJS)
+  const sampleDir = ((): string => {
+    if (typeof __dirname !== "undefined") return __dirname;
+    if (typeof process !== "undefined" && process.argv && process.argv[1]) {
+      return path.dirname(process.argv[1]);
+    }
+    return path.resolve(process.cwd(), "samples-dev");
+  })();
+  const filePath = path.resolve(sampleDir, "./example-data", "mixed_financial_docs.pdf");
 
   if (!fs.existsSync(filePath)) {
     console.log("\nSkipping document analysis - sample file not found.");

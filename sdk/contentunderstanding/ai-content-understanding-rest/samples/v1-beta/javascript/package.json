@@ -1,0 +1,37 @@
+{
+  "name": "@azure-samples/ai-content-understanding-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Content Understanding client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/contentunderstanding/ai-content-understanding-rest"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding-rest",
+  "dependencies": {
+    "@azure-rest/ai-content-understanding": "file:../../..",
+    "dotenv": "latest",
+    "@azure/identity": "^4.13.0",
+    "@azure/core-auth": "^1.9.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
+  }
+}

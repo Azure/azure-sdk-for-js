@@ -4,7 +4,7 @@
 
 ```ts
 
-import { ErrorModel } from '@azure-rest/core-client';
+import type { ErrorModel } from '@azure-rest/core-client';
 
 // @public
 export interface AnalyzeInput {
@@ -479,8 +479,8 @@ export interface StringField extends ContentField {
 
 // @public
 export interface SupportedModels {
-    completion: string[];
-    embedding: string[];
+    completion?: string[];
+    embedding?: string[];
 }
 
 // @public
