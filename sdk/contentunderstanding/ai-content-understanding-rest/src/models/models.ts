@@ -1222,9 +1222,9 @@ export function audioVisualContentDeserializer(item: any): AudioVisualContent {
       : item["cameraShotTimesMs"].map((p: any) => {
           return p;
         }),
-    keyFrameTimesMs: !item["keyFrameTimesMs"]
-      ? item["keyFrameTimesMs"]
-      : item["keyFrameTimesMs"].map((p: any) => {
+    keyFrameTimesMs: !item["KeyFrameTimesMs"]
+      ? item["KeyFrameTimesMs"]
+      : item["KeyFrameTimesMs"].map((p: any) => {
           return p;
         }),
     transcriptPhrases: !item["transcriptPhrases"]
@@ -1680,6 +1680,9 @@ export function contentFieldDefinitionRecordSerializer(
 export function contentFieldDefinitionRecordDeserializer(
   item: Record<string, any>,
 ): Record<string, ContentFieldDefinition> {
+  if (!item) {
+    return item;
+  }
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
     result[key] = !item[key] ? item[key] : contentFieldDefinitionDeserializer(item[key]);
@@ -1865,12 +1868,16 @@ export interface SupportedModels {
 
 export function supportedModelsDeserializer(item: any): SupportedModels {
   return {
-    completion: item["completion"].map((p: any) => {
-      return p;
-    }),
-    embedding: item["embedding"].map((p: any) => {
-      return p;
-    }),
+    completion: !item["completion"]
+      ? item["completion"]
+      : item["completion"].map((p: any) => {
+          return p;
+        }),
+    embedding: !item["embedding"]
+      ? item["embedding"]
+      : item["embedding"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
