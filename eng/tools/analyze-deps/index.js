@@ -3,7 +3,7 @@
 
 // @ts-check
 
-import { Buffer } from "node:buffer";
+// import { Buffer } from "node:buffer";
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
@@ -20,7 +20,22 @@ import { getPackageJsons } from "@azure-tools/eng-package-utils";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const appendPackageData = (data, pkgSrc, pkgJson) => {
+/**
+ * @typedef {Object} PackageJson
+ * @property {string} name
+ * @property {string} version
+ * @property {Record<string, string>} [dependencies]
+ * @property {Record<string, string>} [devDependencies]
+ * @property {Record<string, string>} [peerDependencies]
+ */
+
+/**
+ *
+ * @param {Record<string, {src: string, ver: string, run?: Record<string, string>, dev?: Record<string, string>, peer?: Record<string, string>}>} data
+ * @param {string} pkgSrc
+ * @param {PackageJson} pkgJson
+ */
+function appendPackageData(data, pkgSrc, pkgJson) {
   data[pkgJson.name] = {
     src: pkgSrc,
     ver: pkgJson.version,
@@ -28,10 +43,18 @@ const appendPackageData = (data, pkgSrc, pkgJson) => {
     dev: pkgJson.devDependencies,
     peer: pkgJson.peerDependencies,
   };
-};
+}
 
-const getRepoPackages = async (workspaceDir) => {
+/**
+ *
+ * @param {string} workspaceDir
+ * @returns {Promise<Record<string, {src: string, ver: string, run?: Record<string, string>, dev?: Record<string, string>, peer?: Record<string, string>}>>}
+ */
+async function getRepoPackages(workspaceDir) {
   const pkgs = await getPackageJsons(workspaceDir);
+  /**
+   * @type {Record<string, {src: string, ver: string, run?: Record<string, string>, dev?: Record<string, string>, peer?: Record<string, string>}>}
+   */
   const packageData = {};
 
   for (const projName of Object.keys(pkgs)) {
@@ -42,14 +65,26 @@ const getRepoPackages = async (workspaceDir) => {
   }
 
   return packageData;
-};
+}
 
-const readPnpmLock = async (lockPath) => {
+/**
+ *
+ * @param {string} lockPath - path to pnpm-lock.yaml
+ * @returns
+ */
+async function readPnpmLock(lockPath) {
   const data = await readFile(lockPath, "utf8");
   return yaml.safeLoad(data);
-};
+}
 
-const readCompressedFile = async (archivePath, filePath, encoding) => {
+/**
+ *
+ * @param {string} archivePath - path to tarball file
+ * @param {string} filePath - path to file inside the tarball
+ * @param {BufferEncoding} encoding - encoding of the file content
+ * @returns {Promise<string|undefined>} - content of the file or undefined if not found
+ */
+async function readCompressedFile(archivePath, filePath, encoding) {
   const data = [];
   let processed = false;
 
@@ -73,10 +108,18 @@ const readCompressedFile = async (archivePath, filePath, encoding) => {
   } else {
     return undefined;
   }
-};
+}
 
-const getTarballPackages = async (tarballDir) => {
+/**
+ *
+ * @param {string} tarballDir - directory containing tarball files
+ * @returns {Promise<Record<string, {src: string, ver: string, run?: Record<string, string>, dev?: Record<string, string>, peer?: Record<string, string>}>>}
+ */
+async function getTarballPackages(tarballDir) {
   const files = await readdir(tarballDir);
+  /**
+   * @type {Record<string, {src: string, ver: string, run?: Record<string, string>, dev?: Record<string, string>, peer?: Record<string, string>}>}
+   */
   const packageData = {};
 
   for (const file of files) {
@@ -89,9 +132,15 @@ const getTarballPackages = async (tarballDir) => {
     }
   }
   return packageData;
-};
+}
 
-const render = async (context, dest) => {
+/**
+ *
+ * @param {*} context
+ * @param {string} dest - destination file path to write the rendered HTML
+ * @returns {Promise<void>}
+ */
+async function render(context, dest) {
   context.repo_name = "azure-sdk-for-js";
   context.branch =
     process.env.SYSTEM_PULLREQUEST_SOURCEBRANCH || process.env.BUILD_SOURCEBRANCHNAME;
@@ -137,9 +186,17 @@ const render = async (context, dest) => {
 
   const template = await readFile("deps.html.hbs", "utf8");
   return writeFile(dest, Handlebars.compile(template)(context));
-};
+}
 
-const appendDependencyData = (dependencies, dep, spec, pkg, depType) => {
+/**
+ *
+ * @param {*} dependencies
+ * @param {*} dep
+ * @param {*} spec
+ * @param {*} pkg
+ * @param {*} depType
+ */
+async function appendDependencyData(dependencies, dep, spec, pkg, depType) {
   if (!dependencies[dep]) {
     dependencies[dep] = {};
   }
@@ -147,9 +204,9 @@ const appendDependencyData = (dependencies, dep, spec, pkg, depType) => {
     dependencies[dep][spec] = [];
   }
   dependencies[dep][spec].push([pkg, depType]);
-};
+}
 
-const constructDeps = (pkgs) => {
+function constructDeps(pkgs) {
   const dependencies = {};
 
   for (const [name, data] of Object.entries(pkgs)) {
@@ -165,9 +222,19 @@ const constructDeps = (pkgs) => {
   }
 
   return dependencies;
-};
+}
 
-const dumpRepoPackages = (repoPackages, internalPackages, external) => {
+/**
+ *
+ * @param {Record<string, {src: string, ver: string, run?: Record<string, string>, dev?: Record<string, string>, peer?: Record<string, string>}>} repoPackages
+ * @param {string[]} internalPackages - list of internal package names
+ * @param {boolean} external - whether to include external dependencies
+ * @returns {Record<string, {name: string, version: string, type: string, deps: {name: string, version: string}[]}>}
+ */
+function dumpRepoPackages(repoPackages, internalPackages, external) {
+  /**
+   * @type {Record<string, {name: string, version: string, type: string, deps: {name: string, version: string}[]}>}
+   */
   const dumpData = {};
   for (const [pkgName, pkgInfo] of Object.entries(repoPackages)) {
     var newDep = [];
@@ -176,7 +243,7 @@ const dumpRepoPackages = (repoPackages, internalPackages, external) => {
     } else {
       for (var name in pkgInfo.run) {
         if (internalPackages.includes(name)) {
-          version = pkgInfo.run[name];
+          const version = pkgInfo.run[name];
           newDep.push({ name, version });
         }
       }
@@ -190,9 +257,17 @@ const dumpRepoPackages = (repoPackages, internalPackages, external) => {
     };
   }
   return dumpData;
-};
+}
 
-const resolveRepoPackageDeps = (packages, internalPackages, pnpmLock, pkgId, external) => {
+/**
+ *
+ * @param {Record<string, {name: string, version: string, type: string, deps: {name: string, version: string}[]}>} packages
+ * @param {string[]} internalPackages - list of internal package names
+ * @param {object} pnpmLock - loaded yaml data from pnpm-lock.yaml
+ * @param {string} pkgId
+ * @param {boolean} external
+ */
+function resolveRepoPackageDeps(packages, internalPackages, pnpmLock, pkgId, external) {
   const yamlKey = `@rush-temp/${packages[pkgId].name.replace(/@[a-z]*\//i, "")}`;
   const packageKey = pnpmLock.dependencies[yamlKey];
   const resolvedDeps = pnpmLock.packages[packageKey].dependencies;
@@ -229,9 +304,9 @@ const resolveRepoPackageDeps = (packages, internalPackages, pnpmLock, pkgId, ext
       }
     }
   }
-};
+}
 
-const main = async () => {
+async function main() {
   const parser = new argparse.ArgumentParser({
     prog: "analyze-deps",
     description: "Analyze dependencies in NodeJS packages.",
@@ -250,92 +325,91 @@ const main = async () => {
     metavar: "DIR",
     help: "analyze packed tarballs in DIR rather than source packages in this repository",
   });
-  try {
-    const args = parser.parse_args();
 
-    const context = {
-      packages: {},
-      dependencies: {},
-      external: [],
-      inconsistent: [],
-    };
+  const args = parser.parse_args();
 
-    const repoPackages = await getRepoPackages(path.resolve(`${__dirname}/../../../`));
-    context.packages = args.packdir
-      ? await getTarballPackages(path.resolve(args.packdir))
-      : repoPackages;
-    context.dependencies = constructDeps(context.packages);
-    context.external = Object.keys(context.dependencies).filter((p) => !(p in repoPackages));
-    context.inconsistent = Object.keys(context.dependencies).filter(
-      (p) => Object.keys(context.dependencies[p]).length > 1,
-    );
+  const context = {
+    packages: {},
+    dependencies: {},
+    external: [],
+    inconsistent: [],
+  };
 
-    if (args.verbose) {
-      console.log("Packages analyzed:");
-      for (const pkg of Object.keys(context.packages).sort()) {
-        const info = context.packages[pkg];
-        console.log(`${pkg} ${info.ver}`);
-        console.log(`  from ${info.src}`);
+  const repoPackages = await getRepoPackages(path.resolve(`${__dirname}/../../../`));
+  context.packages = args.packdir
+    ? await getTarballPackages(path.resolve(args.packdir))
+    : repoPackages;
+  context.dependencies = constructDeps(context.packages);
+  context.external = Object.keys(context.dependencies).filter((p) => !(p in repoPackages));
+  context.inconsistent = Object.keys(context.dependencies).filter(
+    (p) => Object.keys(context.dependencies[p]).length > 1,
+  );
+
+  if (args.verbose) {
+    console.log("Packages analyzed:");
+    for (const pkg of Object.keys(context.packages).sort()) {
+      const info = context.packages[pkg];
+      console.log(`${pkg} ${info.ver}`);
+      console.log(`  from ${info.src}`);
+    }
+
+    console.log("\nDependencies discovered:");
+    for (const dep of Object.keys(context.dependencies).sort()) {
+      const info = context.dependencies[dep];
+      console.log(`${dep}`);
+      for (const ver of Object.keys(info).sort()) {
+        const pkgs = info[ver];
+        console.log(`${ver}`);
+        for (const pkg of pkgs.sort()) {
+          console.log(`  * ${pkg[0]} (${pkg[1]})`);
+        }
       }
+      console.log("");
+    }
 
-      console.log("\nDependencies discovered:");
-      for (const dep of Object.keys(context.dependencies).sort()) {
-        const info = context.dependencies[dep];
-        console.log(`${dep}`);
-        for (const ver of Object.keys(info).sort()) {
-          const pkgs = info[ver];
-          console.log(`${ver}`);
-          for (const pkg of pkgs.sort()) {
-            console.log(`  * ${pkg[0]} (${pkg[1]})`);
-          }
+    for (const inc of context.inconsistent) {
+      const info = context.dependencies[inc];
+      const vers = Object.keys(info).sort();
+      console.log(`\nDependency '${inc}' has ${vers.length} unique specifiers:`);
+      for (const ver of vers.sort()) {
+        const pkgs = info[ver];
+        console.log(`'${ver}'`);
+        console.log(`${"-".repeat(ver.length + 2)}`);
+        for (const pkg of pkgs.sort()) {
+          console.log(`  * ${pkg[0]} (${pkg[1]})`);
         }
         console.log("");
       }
-
-      for (const inc of context.inconsistent) {
-        const info = context.dependencies[inc];
-        const vers = Object.keys(info).sort();
-        console.log(`\nDependency '${inc}' has ${vers.length} unique specifiers:`);
-        for (const ver of vers.sort()) {
-          const pkgs = info[ver];
-          console.log(`'${ver}'`);
-          console.log(`${"-".repeat(ver.length + 2)}`);
-          for (const pkg of pkgs.sort()) {
-            console.log(`  * ${pkg[0]} (${pkg[1]})`);
-          }
-          console.log("");
-        }
-      }
     }
-
-    if (context.inconsistent.length > 0) {
-      if (!args.verbose) {
-        console.log(
-          "Incompatible dependency versions detected in libraries, run this script with --verbose for details",
-        );
-      }
-    } else {
-      console.log("All library dependencies verified, no incompatible versions detected");
-    }
-
-    if (args.out) {
-      await render(context, args.out);
-    }
-
-    if (args.dump) {
-      const internalPackages = Object.keys(repoPackages);
-      const dumpData = dumpRepoPackages(context.packages, internalPackages, args.external);
-      const pnpmLock = await readPnpmLock(path.resolve(`${__dirname}/../../../pnpm-lock.yaml`));
-      for (const pkgId of Object.keys(dumpData)) {
-        resolveRepoPackageDeps(dumpData, internalPackages, pnpmLock, pkgId, args.external);
-      }
-      await writeFile(`${args.dump}/data.js`, "const data = " + JSON.stringify(dumpData) + ";");
-      await writeFile(`${args.dump}/arcdata.json`, JSON.stringify(dumpData));
-    }
-  } catch (ex) {
-    console.error(ex);
-  } finally {
   }
-};
 
-main();
+  if (context.inconsistent.length > 0) {
+    if (!args.verbose) {
+      console.log(
+        "Incompatible dependency versions detected in libraries, run this script with --verbose for details",
+      );
+    }
+  } else {
+    console.log("All library dependencies verified, no incompatible versions detected");
+  }
+
+  if (args.out) {
+    await render(context, args.out);
+  }
+
+  if (args.dump) {
+    const internalPackages = Object.keys(repoPackages);
+    const dumpData = dumpRepoPackages(context.packages, internalPackages, args.external);
+    const pnpmLock = await readPnpmLock(path.resolve(`${__dirname}/../../../pnpm-lock.yaml`));
+    for (const pkgId of Object.keys(dumpData)) {
+      resolveRepoPackageDeps(dumpData, internalPackages, pnpmLock, pkgId, args.external);
+    }
+    await writeFile(`${args.dump}/data.js`, "const data = " + JSON.stringify(dumpData) + ";");
+    await writeFile(`${args.dump}/arcdata.json`, JSON.stringify(dumpData));
+  }
+}
+
+main().catch((err) => {
+  console.error("Fatal error in analyze-deps:", util.inspect(err));
+  process.exit(1);
+});
