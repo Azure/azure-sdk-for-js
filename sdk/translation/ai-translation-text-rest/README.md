@@ -1,29 +1,23 @@
 # Azure TextTranslation REST client library for JavaScript
 
-Text translation is a cloud-based REST API feature of the Translator service that uses neural
-machine translation technology to enable quick and accurate source-to-target text translation
-in real time across all supported languages.
+Azure text translation is a cloud-based REST API provided by the Azure Translator service. It utilizes neural machine translation technology to deliver precise, contextually relevant, and semantically accurate real-time text translations across all supported languages.
 
-The following methods are supported by the Text Translation feature:
+The client library offers several key functionalities:
 
-Languages. Returns a list of languages supported by Translate, Transliterate, and Dictionary Lookup operations.
+- Retrieve the list of languages supported for translation and transliteration operations, as well as LLM models available for translations.
 
-Translate. Renders single source-language text to multiple target-language texts with a single request.
+- Perform deterministic text translation from a specified source language to a target language, with configurable parameters to ensure precision and maintain contextual integrity.
 
-Transliterate. Converts characters or letters of a source language to the corresponding characters or letters of a target language.
+- Execute transliteration by converting text from the original script to an alternative script representation.
 
-Detect. Returns the source code language code and a boolean variable denoting whether the detected language is supported for text translation and transliteration.
-
-Dictionary lookup. Returns equivalent words for the source term in the target language.
-
-Dictionary example Returns grammatical structure and context examples for the source term and target term pair.
+- Use LLM models to produce translation output variants that are tone-specific and gender-aware.
 
 **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
 Key links:
 
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-translation-text)
-- [API reference documentation](https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-reference)
+- [API reference documentation](hhttps://learn.microsoft.com/azure/ai-services/translator/text-translation/preview/rest-api-guide)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-text-rest/samples)
 
 ## Getting started
@@ -239,8 +233,6 @@ When you interact with the Translator Service using the TextTranslator client li
 
 For example, if you submit a translation request without a target translate language, a `400` error is returned, indicating "Bad Request".
 
-You can find the different error codes returned by the service in the [Service Documentation][service_errors].
-
 ### Logging
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
@@ -255,13 +247,9 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 [azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_portal]: https://portal.azure.com
-[translator_resource_create]: https://learn.microsoft.com/azure/cognitive-services/Translator/create-translator-resource
-[translator_auth]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-reference#authentication
-[service_errors]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-reference#errors
+[translator_resource_create]: https://learn.microsoft.com/azure/ai-services/translator/how-to/create-translator-resource?tabs=foundry
+[translator_auth]: https://learn.microsoft.com/azure/ai-services/translator/text-translation/reference/authentication
 [translator_client_class]: https://learn.microsoft.com/javascript/api/@azure-rest/ai-translation-text/texttranslationclient
-[languages_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-languages
-[translate_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-translate
-[transliterate_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-transliterate
-[breaksentence_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-break-sentence
-[dictionarylookup_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-dictionary-lookup
-[dictionaryexamples_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-dictionary-examples
+[languages_doc]: https://learn.microsoft.com/azure/ai-services/translator/text-translation/preview/get-languages
+[translate_doc]: https://learn.microsoft.com/azure/ai-services/translator/text-translation/preview/translate-api
+[transliterate_doc]: https://learn.microsoft.com/azure/ai-services/translator/text-translation/preview/transliterate-api

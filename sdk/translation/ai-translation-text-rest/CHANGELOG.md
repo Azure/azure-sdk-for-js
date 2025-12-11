@@ -1,6 +1,25 @@
 # Release History
 
-## 2.0.0-beta.1 (Unreleased)
+## 2.0.0-beta.1 (2025-12-15)
+
+### Features Added
+
+- Upgraded to API version `2025-10-01-preview`
+- Added support for the latest Azure AI Translator API, including translations using LLM models, adaptive custom translation, tone variant translations, and gender-specific translations.
+- Added `TranslationTarget` for configuring translation options.
+
+### Breaking Changes
+
+- Get languages returns `models` listing the LLM models available for translations.
+- Dictionary, sentence boundaries and text alignments features have been deprecated.
+
+### Bugs Fixed
+
+### Other Changes
+
+- Updated dependencies to latest versions
+
+## 1.0.3 (Unreleased)
 
 ### Features Added
 
