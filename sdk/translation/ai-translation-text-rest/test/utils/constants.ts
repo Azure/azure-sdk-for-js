@@ -13,7 +13,7 @@ export const EnvVarKeys = {
   TEST_MODE: "TEST_MODE",
 } as const;
 
-export const ENDPOINT = "https://endpoint/";
+export const ENDPOINT = "https://endpoint";
 export const KEY = "api_key";
 export const DISABLE_LOCAL_AUTH = false;
 export const REGION = "region";
