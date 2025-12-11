@@ -17,7 +17,7 @@ The client library offers several key functionalities:
 Key links:
 
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-translation-text)
-- [API reference documentation](hhttps://learn.microsoft.com/azure/ai-services/translator/text-translation/preview/rest-api-guide)
+- [API reference documentation](https://learn.microsoft.com/azure/ai-services/translator/text-translation/preview/rest-api-guide)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-text-rest/samples)
 
 ## Getting started
