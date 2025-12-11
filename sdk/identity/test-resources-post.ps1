@@ -187,8 +187,7 @@ Write-Host ""
 Write-Host "=== LOGGS ==="
 
 # Container Instance logs and IMDS test
-Write-Host "ACI Logs:"
-az container logs -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'] --tail 50
+az container logs -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME']
 
 Write-Host "Container Name: $($DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'])"
 Write-Host "Container IP: $aciIP"
@@ -200,45 +199,44 @@ az container show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONT
   -o table
 
 Write-Host ""
-Write-Host "--- Container Identity Assignment ---"
-az container show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'] `
-  --query "identity" `
-  -o json
+Write-Host "ACI Identity Assignment:"
+az container show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'] --query "identity" -o json
 
 Write-Host ""
-Write-Host "--- Container Environment Variables (sanitized) ---"
-az container show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'] `
-  --query "containers[0].environmentVariables[].{name:name,hasValue:value}" `
-  -o table
+Write-Host "VM Identity Assignment:"
+az vm identity show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_VM_NAME'] -o json
 
 Write-Host ""
-Write-Host "--- Container Events ---"
-az container show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'] `
-  --query "instanceView.events[].{Time:firstTimestamp,Type:type,Message:message}" `
-  -o table
+Write-Host "Expected User-Assigned Identity:"
+Write-Host "  Client ID: $MIClientId"
+Write-Host "  Object ID: $MIObjectId"
+Write-Host "  Resource ID: $($DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY'])"
 
 Write-Host ""
-Write-Host "--- Testing Container Endpoints ---"
+Write-Host "=== Identity Check (VM) ==="
+
 try {
-    Write-Host "Testing health endpoint..."
-    $healthResp = Invoke-WebRequest -Uri "http://${aciIP}/" -UseBasicParsing -TimeoutSec 10 -ErrorAction Stop
-    Write-Host "Health endpoint response: $($healthResp.StatusCode)"
-    Write-Host $healthResp.Content
-} catch {
-    Write-Host "Health endpoint failed: $($_.Exception.Message)"
-}
+  $uamiId = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY']
+  Write-Host "User-Assigned Managed Identity Resource ID: $uamiId"
+  $vmIdentityJson = az vm identity show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_VM_NAME'] -o json
+  $vmIdentity = $vmIdentityJson | ConvertFrom-Json
 
-Write-Host ""
-try {
-    Write-Host "Testing managed identity endpoint..."
-    $miResp = Invoke-WebRequest -Uri "http://${aciIP}/managed-identity/user-assigned" -UseBasicParsing -TimeoutSec 30 -ErrorAction Stop
-    Write-Host "Managed identity endpoint response: $($miResp.StatusCode)"
-    Write-Host $miResp.Content
-} catch {
-    Write-Host "Managed identity endpoint failed: $($_.Exception.Message)"
-    if ($_.Exception.Response) {
-        $reader = [System.IO.StreamReader]::new($_.Exception.Response.GetResponseStream())
-        $responseBody = $reader.ReadToEnd()
-        Write-Host "Response body: $responseBody"
+  $hasExpectedUami = $false
+  $clientIdMatches = $false
+  $principalIdMatches = $false
+
+  if ($vmIdentity -and $vmIdentity.userAssignedIdentities -and $uamiId) {
+    $vmUami = $vmIdentity.userAssignedIdentities.$uamiId
+    if ($null -ne $vmUami) {
+      $hasExpectedUami = $true
+      if ($MIClientId) { $clientIdMatches = ($vmUami.clientId -eq $MIClientId) }
+      if ($MIObjectId) { $principalIdMatches = ($vmUami.principalId -eq $MIObjectId) }
     }
+  }
+
+  Write-Host "VM has expected UAMI attached: $hasExpectedUami"
+  Write-Host "VM UAMI clientId matches expected: $clientIdMatches"
+  Write-Host "VM UAMI principalId matches expected: $principalIdMatches"
+} catch {
+  Write-Host "VM identity check failed: $($_.Exception.Message)"
 }

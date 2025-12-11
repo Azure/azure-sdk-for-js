@@ -18,8 +18,8 @@ describe("Azure Container Instance Integration test", function () {
     });
     healthRequest.allowInsecureConnection = true;
 
-    const response = await client.sendRequest(healthRequest);
-    console.log(`STATUS: ${response.status} - ${response.bodyAsText}`);
+    const res = await client.sendRequest(healthRequest);
+    console.log(`STATUS: ${res.status} - ${res.bodyAsText}`);
 
     const request = createPipelineRequest({
       url: `http://${containerIp}/managed-identity/user-assigned`,
