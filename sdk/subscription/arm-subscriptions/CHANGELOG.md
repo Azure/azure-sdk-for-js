@@ -33,7 +33,7 @@
   - Removed Type Alias SpendingLimit
   - Removed Type Alias SubscriptionState
 
-If you need to query subscriptions, please switch to use the [`@azure/arm-resources-subscriptions`](https://www.npmjs.com/package/@azure/arm-resources-subscriptions) package instead.  The API similarity should mean this is generally a drop-in replacement for subscription iteration:
+If you need to query subscriptions, please switch to use the [`@azure/arm-resources-subscriptions`](https://www.npmjs.com/package/@azure/arm-resources-subscriptions) package instead. The API similarity should mean this is generally a drop-in replacement for subscription iteration:
 
 ```diff
 -import { SubscriptionClient } from "@azure/arm-subscriptions";
