@@ -75,7 +75,7 @@ useAzureMonitor({
 // Your application code follows...
 ```
 
-For CommonJS applications, no additional flags are needed - the loader is automatically registered when `useAzureMonitor()` is called.
+For CommonJS applications, no additional flags are needed - the loader is automatically registered when the package is imported.
 
 > _Note:_ ESM support requires Node.js 18.19.0 or later. For more details on ESM support in OpenTelemetry, see the [OpenTelemetry ESM Support documentation](https://github.com/open-telemetry/opentelemetry-js/blob/main/doc/esm-support.md).
 
