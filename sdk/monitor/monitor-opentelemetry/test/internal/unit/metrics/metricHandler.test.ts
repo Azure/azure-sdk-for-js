@@ -118,9 +118,7 @@ describe("MetricHandler", () => {
       } as NodeJS.ProcessEnv;
       createHandler();
 
-      const aggregation = handler
-        .getMetricReader()
-        .selectAggregation(InstrumentType.HISTOGRAM);
+      const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
 
       assert.strictEqual(
         aggregation.type,
@@ -136,9 +134,7 @@ describe("MetricHandler", () => {
       } as NodeJS.ProcessEnv;
       createHandler();
 
-      const aggregation = handler
-        .getMetricReader()
-        .selectAggregation(InstrumentType.HISTOGRAM);
+      const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
 
       assert.strictEqual(
         aggregation.type,
@@ -154,14 +150,42 @@ describe("MetricHandler", () => {
       } as NodeJS.ProcessEnv;
       createHandler();
 
-      const aggregation = handler
-        .getMetricReader()
-        .selectAggregation(InstrumentType.HISTOGRAM);
+      const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
 
       assert.strictEqual(
         aggregation.type,
         AggregationType.DEFAULT,
         "Should fall back to default aggregation for invalid values",
+      );
+    });
+
+    it("uses default aggregation when env is not set", () => {
+      // Ensure the env var is not set
+      delete process.env.OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION;
+      createHandler();
+
+      const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
+
+      assert.strictEqual(
+        aggregation.type,
+        AggregationType.DEFAULT,
+        "Should use default aggregation when environment variable is not set",
+      );
+    });
+
+    it("uses default aggregation when env is empty string", () => {
+      process.env = {
+        ...process.env,
+        OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION: "",
+      } as NodeJS.ProcessEnv;
+      createHandler();
+
+      const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
+
+      assert.strictEqual(
+        aggregation.type,
+        AggregationType.DEFAULT,
+        "Should use default aggregation when environment variable is empty",
       );
     });
   });

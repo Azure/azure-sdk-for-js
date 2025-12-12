@@ -8,7 +8,11 @@ import type {
   PeriodicExportingMetricReaderOptions,
   ViewOptions,
 } from "@opentelemetry/sdk-metrics";
-import { AggregationType, InstrumentType, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import {
+  AggregationType,
+  InstrumentType,
+  PeriodicExportingMetricReader,
+} from "@opentelemetry/sdk-metrics";
 import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 import type { InternalConfig } from "../shared/config.js";
 import { StandardMetrics } from "./standardMetrics.js";
@@ -44,7 +48,10 @@ function resolveHistogramAggregationFromEnv(): AggregationOption | undefined {
 class AzureMonitorMetricExporterWithAggregation extends AzureMonitorMetricExporter {
   private _histogramAggregation?: AggregationOption;
 
-  constructor(options: AzureMonitorExporterOptions | undefined, histogramAggregation?: AggregationOption) {
+  constructor(
+    options: AzureMonitorExporterOptions | undefined,
+    histogramAggregation?: AggregationOption,
+  ) {
     super(options);
     this._histogramAggregation = histogramAggregation;
   }
