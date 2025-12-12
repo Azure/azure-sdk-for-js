@@ -928,4 +928,34 @@ describe("finetuning - basic", () => {
       "Who invented the telephone?",
     );
   });
+
+  it.skipIf(!isLive)("should test finetuning deploy and infer openai model rft job", async () => {
+    await deployAndInferJobHelper(
+      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_RFT_FINE_TUNING_JOB_ID",
+      "OpenAI",
+      50,
+      "testFinetuningDeployAndInferOpenaiModelRftJob",
+      "Target: 85 Numbers: [20, 4, 15, 10]. Find a mathematical expression using all numbers exactly once to reach the target.",
+    );
+  });
+
+  it.skipIf(!isLive)("should test finetuning deploy and infer openai model dpo job", async () => {
+    await deployAndInferJobHelper(
+      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_DPO_FINE_TUNING_JOB_ID",
+      "OpenAI",
+      50,
+      "testFinetuningDeployAndInferOpenaiModelDpoJob",
+      "What is the largest desert in the world?",
+    );
+  });
+
+  it.skipIf(!isLive)("should test finetuning deploy and infer oss model sft job", async () => {
+    await deployAndInferJobHelper(
+      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OSS_MODEL_SFT_FINE_TUNING_JOB_ID",
+      "Mistral AI",
+      50,
+      "testFinetuningDeployAndInferOssModelSftJob",
+      "Who invented the telephone?",
+    );
+  });
 });
