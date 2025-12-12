@@ -16,7 +16,7 @@ import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 import type { InternalConfig } from "../shared/config.js";
 import { StandardMetrics } from "./standardMetrics.js";
 import type { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
-import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS } from "./types.js";
+import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS, HISTOGRAM_AGGREGATION_MAP } from "./types.js";
 import { LiveMetrics } from "./quickpulse/liveMetrics.js";
 import { PerformanceCounterMetrics } from "./performanceCounters.js";
 import { Logger } from "../shared/logging/index.js";
@@ -25,11 +25,6 @@ type MetricExporterOptions = ConstructorParameters<typeof AzureMonitorMetricExpo
 
 const DEFAULT_HISTOGRAM_AGGREGATION_ENV_VAR =
   "OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION";
-
-const HISTOGRAM_AGGREGATION_MAP: Record<string, AggregationOption> = {
-  explicit_bucket_histogram: { type: AggregationType.EXPLICIT_BUCKET_HISTOGRAM },
-  base2_exponential_bucket_histogram: { type: AggregationType.EXPONENTIAL_HISTOGRAM },
-};
 
 function resolveHistogramAggregationFromEnv(): AggregationOption | undefined {
   const envValue = process.env[DEFAULT_HISTOGRAM_AGGREGATION_ENV_VAR];
