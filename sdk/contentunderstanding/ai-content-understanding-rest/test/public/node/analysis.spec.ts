@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { createRecorder, testPollingOptions } from "../utils/recordedClient.js";
+import { createRecorder } from "../utils/recordedClient.js";
 import { ContentUnderstandingClient } from "../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
-import { getEndpoint, getKey, isLiveMode } from "../../utils/injectables.js";
+import { getEndpoint, getKey } from "../../utils/injectables.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 import fs from "node:fs";
@@ -33,12 +33,6 @@ describe("ContentUnderstandingClient - Analysis", () => {
   });
 
   it("should analyze a PDF file from binary", async () => {
-    // Skip in playback mode - no recording exists for this test
-    if (!isLiveMode()) {
-      console.log("Skipping binary analysis test in playback mode");
-      return;
-    }
-
     const filePath = getSampleFilePath("sample_invoice.pdf");
 
     // Check if file exists
@@ -50,12 +44,7 @@ describe("ContentUnderstandingClient - Analysis", () => {
     const pdfBytes = fs.readFileSync(filePath);
 
     // Use the analyzeBinary method from the SDK
-    const poller = client.analyzeBinary(
-      testAnalyzerId,
-      "application/pdf",
-      pdfBytes,
-      testPollingOptions,
-    );
+    const poller = client.analyzeBinary(testAnalyzerId, "application/pdf", pdfBytes);
 
     await poller.pollUntilDone();
     // Poller may not return the full AnalyzeResult directly. Extract the operationId from the operation-location
@@ -78,7 +67,6 @@ describe("ContentUnderstandingClient - Analysis", () => {
 
     const poller = client.analyze(testAnalyzerId, {
       inputs: [{ url: testUrl }],
-      ...testPollingOptions,
     });
 
     await poller.pollUntilDone();
@@ -100,7 +88,6 @@ describe("ContentUnderstandingClient - Analysis", () => {
 
     const poller = client.analyze(testAnalyzerId, {
       inputs: [{ url: testUrl }],
-      ...testPollingOptions,
     });
 
     await poller.pollUntilDone();
@@ -130,7 +117,6 @@ describe("ContentUnderstandingClient - Analysis", () => {
     try {
       const poller = client.analyze(testAnalyzerId, {
         inputs: [{ url: invalidUrl }],
-        ...testPollingOptions,
       });
       await poller.pollUntilDone();
       // If the poller completes without throwing, try to fetch the result to see the error
