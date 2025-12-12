@@ -210,8 +210,7 @@ describe("MetricHandler", () => {
     it("handles values with whitespace", () => {
       process.env = {
         ...process.env,
-        OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION:
-          "  explicit_bucket_histogram  ",
+        OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION: "  explicit_bucket_histogram  ",
       } as NodeJS.ProcessEnv;
       createHandler();
 
@@ -235,9 +234,7 @@ describe("MetricHandler", () => {
       expect(warnSpy).toHaveBeenCalledWith(
         expect.stringContaining("unsupported value 'invalid_value'"),
       );
-      expect(warnSpy).toHaveBeenCalledWith(
-        expect.stringContaining("explicit_bucket_histogram"),
-      );
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("explicit_bucket_histogram"));
       expect(warnSpy).toHaveBeenCalledWith(
         expect.stringContaining("base2_exponential_bucket_histogram"),
       );
