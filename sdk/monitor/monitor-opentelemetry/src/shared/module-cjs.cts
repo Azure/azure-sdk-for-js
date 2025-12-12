@@ -35,7 +35,7 @@ export function getModuleParentURL(): string | undefined {
   try {
     // Convert __filename to a file URL for consistency with ESM
     // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { pathToFileURL } = require("node:url");
+    const { pathToFileURL }: typeof import("node:url") = require("node:url");
     return pathToFileURL(__filename).href;
   } catch {
     // node:url not available
