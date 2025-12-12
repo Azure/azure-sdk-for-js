@@ -5,18 +5,11 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder, testPollingOptions } from "../utils/recordedClient.js";
 import { ContentUnderstandingClient } from "../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
-import { getEndpoint, getKey } from "../../utils/injectables.js";
+import { getEndpoint, getKey, isLiveMode } from "../../utils/injectables.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
-import path from "node:path";
 import fs from "node:fs";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Path to sample files
-const SAMPLE_FILES_PATH = path.resolve(__dirname, "../../../sample_files");
+import { getSampleFilePath } from "./samples/sampleTestUtils.js";
 
 describe("ContentUnderstandingClient - Analysis", () => {
   let recorder: Recorder;
@@ -40,7 +33,13 @@ describe("ContentUnderstandingClient - Analysis", () => {
   });
 
   it("should analyze a PDF file from binary", async () => {
-    const filePath = path.join(SAMPLE_FILES_PATH, "sample_invoice.pdf");
+    // Skip in playback mode - no recording exists for this test
+    if (!isLiveMode()) {
+      console.log("Skipping binary analysis test in playback mode");
+      return;
+    }
+
+    const filePath = getSampleFilePath("sample_invoice.pdf");
 
     // Check if file exists
     if (!fs.existsSync(filePath)) {
