@@ -66,7 +66,7 @@ const __dirname = path.dirname(__filename);
  */
 
 /**
- *
+ * Appends package data to the given data object
  * @param {Record<string, RepoPackageInfo>} data
  * @param {string} pkgSrc
  * @param {PackageJson} pkgJson
@@ -174,7 +174,7 @@ async function getTarballPackages(tarballDir) {
 }
 
 /**
- *
+ * Renders the HTML report
  * @param {RenderContext} context
  * @param {string} dest - destination file path to write the rendered HTML
  * @returns {Promise<void>}
@@ -228,7 +228,7 @@ async function render(context, dest) {
 }
 
 /**
- *
+ * Appends dependency data to the given dependencies object
  * @param {Record<string, Record<string, [string, string][]>>} dependencies
  * @param {string} dep - dependency name
  * @param {string} spec - version specifier
@@ -287,12 +287,12 @@ function constructDeps(pkgs) {
 }
 
 /**
- *
+ * Dumps repository packages into a flattened structure
  * @param {Record<string, RepoPackageInfo>} repoPackages
  * @param {string[]} internalPackages - list of internal package names
  * @param {boolean} external - whether to include external dependencies
  * @param {string} workspaceDir - path to Pnpm workspace directory
- * @returns {Record<string, {name: string, version: string, type: string, src: string, deps: {name: string, version: string}[]}>}
+ * @returns {Record<string, DumpedPackageInfo>}
  */
 function dumpRepoPackages(repoPackages, internalPackages, external, workspaceDir) {
   /**
@@ -324,7 +324,7 @@ function dumpRepoPackages(repoPackages, internalPackages, external, workspaceDir
 }
 
 /**
- *
+ * Resolves package dependency versions using pnpm-lock.yaml data
  * @param {Record<string, RepoPackageInfo>} repoPackages
  * @param {Record<string, DumpedPackageInfo>} dumpedPackages
  * @param {object} pnpmLock - loaded yaml data from pnpm-lock.yaml
