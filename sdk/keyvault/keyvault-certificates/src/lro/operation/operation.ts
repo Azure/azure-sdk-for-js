@@ -22,8 +22,7 @@ import { tracingClient } from "../../tracing.js";
 /**
  * An interface representing the publicly available properties of the state of the CertificateOperationPoller.
  */
-export interface CertificateOperationState
-  extends KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy> {
+export interface CertificateOperationState extends KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy> {
   /**
    * The operation of the certificate
    */

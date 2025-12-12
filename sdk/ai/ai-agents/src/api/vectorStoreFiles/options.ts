@@ -18,8 +18,7 @@ export interface VectorStoreFilesGetVectorStoreFileOptionalParams extends Operat
 
 /** Optional parameters. */
 export interface VectorStoreFilesCreateVectorStoreFileOptionalParams
-  extends OperationOptions,
-    PollingOptionsParams {
+  extends OperationOptions, PollingOptionsParams {
   /** Identifier of the file. */
   fileId?: string;
   /** Azure asset ID. */

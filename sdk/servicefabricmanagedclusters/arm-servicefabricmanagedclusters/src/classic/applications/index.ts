@@ -3,6 +3,8 @@
 
 import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
+  restartDeployedCodePackage,
+  fetchHealth,
   updateUpgrade,
   startRollback,
   resumeUpgrade,
@@ -14,6 +16,8 @@ import {
   get,
 } from "../../api/applications/operations.js";
 import type {
+  ApplicationsRestartDeployedCodePackageOptionalParams,
+  ApplicationsFetchHealthOptionalParams,
   ApplicationsUpdateUpgradeOptionalParams,
   ApplicationsStartRollbackOptionalParams,
   ApplicationsResumeUpgradeOptionalParams,
@@ -29,12 +33,30 @@ import type {
   ApplicationUpdateParameters,
   RuntimeResumeApplicationUpgradeParameters,
   RuntimeUpdateApplicationUpgradeParameters,
+  ApplicationFetchHealthRequest,
+  RestartDeployedCodePackageRequest,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Applications operations. */
 export interface ApplicationsOperations {
+  /** Restart a code package instance of a service replica or instance. This is a potentially destabilizing operation that should be used with immense care. */
+  restartDeployedCodePackage: (
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    parameters: RestartDeployedCodePackageRequest,
+    options?: ApplicationsRestartDeployedCodePackageOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** Get the status of the deployed application health. It will query the cluster to find the health of the deployed application. */
+  fetchHealth: (
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    parameters: ApplicationFetchHealthRequest,
+    options?: ApplicationsFetchHealthOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Send a request to update the current application upgrade. */
   updateUpgrade: (
     resourceGroupName: string,
@@ -83,14 +105,14 @@ export interface ApplicationsOperations {
     applicationName: string,
     options?: ApplicationsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Updates the tags of an application resource of a given managed cluster. */
+  /** Updates an application resource of a given managed cluster. */
   update: (
     resourceGroupName: string,
     clusterName: string,
     applicationName: string,
     parameters: ApplicationUpdateParameters,
     options?: ApplicationsUpdateOptionalParams,
-  ) => Promise<ApplicationResource>;
+  ) => PollerLike<OperationState<ApplicationResource>, ApplicationResource>;
   /** Create or update a Service Fabric managed application resource with the specified name. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -110,6 +132,28 @@ export interface ApplicationsOperations {
 
 function _getApplications(context: ServiceFabricManagedClustersManagementContext) {
   return {
+    restartDeployedCodePackage: (
+      resourceGroupName: string,
+      clusterName: string,
+      applicationName: string,
+      parameters: RestartDeployedCodePackageRequest,
+      options?: ApplicationsRestartDeployedCodePackageOptionalParams,
+    ) =>
+      restartDeployedCodePackage(
+        context,
+        resourceGroupName,
+        clusterName,
+        applicationName,
+        parameters,
+        options,
+      ),
+    fetchHealth: (
+      resourceGroupName: string,
+      clusterName: string,
+      applicationName: string,
+      parameters: ApplicationFetchHealthRequest,
+      options?: ApplicationsFetchHealthOptionalParams,
+    ) => fetchHealth(context, resourceGroupName, clusterName, applicationName, parameters, options),
     updateUpgrade: (
       resourceGroupName: string,
       clusterName: string,

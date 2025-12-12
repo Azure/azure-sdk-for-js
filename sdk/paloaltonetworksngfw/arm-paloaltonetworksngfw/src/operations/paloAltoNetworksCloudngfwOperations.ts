@@ -21,9 +21,7 @@ import type {
 } from "../models/index.js";
 
 /** Class containing PaloAltoNetworksCloudngfwOperations operations. */
-export class PaloAltoNetworksCloudngfwOperationsImpl
-  implements PaloAltoNetworksCloudngfwOperations
-{
+export class PaloAltoNetworksCloudngfwOperationsImpl implements PaloAltoNetworksCloudngfwOperations {
   private readonly client: PaloAltoNetworksCloudngfw;
 
   /**

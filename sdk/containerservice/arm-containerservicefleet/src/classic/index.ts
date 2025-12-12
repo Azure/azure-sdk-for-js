@@ -3,6 +3,7 @@
 
 export { AutoUpgradeProfileOperationsOperations } from "./autoUpgradeProfileOperations/index.js";
 export { AutoUpgradeProfilesOperations } from "./autoUpgradeProfiles/index.js";
+export { FleetManagedNamespacesOperations } from "./fleetManagedNamespaces/index.js";
 export { FleetMembersOperations } from "./fleetMembers/index.js";
 export { FleetsOperations } from "./fleets/index.js";
 export { FleetUpdateStrategiesOperations } from "./fleetUpdateStrategies/index.js";

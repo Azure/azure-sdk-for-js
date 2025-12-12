@@ -84,6 +84,7 @@ export interface ChangeFeedIteratorOptions {
     changeFeedStartFrom?: ChangeFeedStartFrom;
     excludedLocations?: string[];
     maxItemCount?: number;
+    priorityLevel?: PriorityLevel;
     sessionToken?: string;
     throughputBucket?: number;
 }

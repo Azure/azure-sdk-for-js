@@ -30,11 +30,10 @@ import {
   DeleteMemoryStoreResponse,
   MemoryStoreSearchResponse,
   MemoryStoreUpdateResponse,
-  MemoryStoreUpdateResult,
   MemoryStoreDeleteScopeResponse,
 } from "../../models/models.js";
+import { MemoryStoreUpdateMemoriesPoller } from "../../api/memoryStores/memoryStoreUpdateMemoriesPoller.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a MemoryStores operations. */
 export interface MemoryStoresOperations {
@@ -55,7 +54,7 @@ export interface MemoryStoresOperations {
     name: string,
     scope: string,
     options?: MemoryStoresUpdateMemoriesOptionalParams,
-  ) => PollerLike<OperationState<MemoryStoreUpdateResult>, MemoryStoreUpdateResult>;
+  ) => MemoryStoreUpdateMemoriesPoller;
   /** Search for relevant memories from a memory store based on conversation context. */
   searchMemories: (
     name: string,

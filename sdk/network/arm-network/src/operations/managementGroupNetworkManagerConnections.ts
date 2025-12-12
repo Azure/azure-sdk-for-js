@@ -26,9 +26,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagementGroupNetworkManagerConnections operations. */
-export class ManagementGroupNetworkManagerConnectionsImpl
-  implements ManagementGroupNetworkManagerConnections
-{
+export class ManagementGroupNetworkManagerConnectionsImpl implements ManagementGroupNetworkManagerConnections {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -202,7 +200,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters38,
+  requestBody: Parameters.parameters40,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

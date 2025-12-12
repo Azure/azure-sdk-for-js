@@ -23,9 +23,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ObjectReplicationPoliciesOperations operations. */
-export class ObjectReplicationPoliciesOperationsImpl
-  implements ObjectReplicationPoliciesOperations
-{
+export class ObjectReplicationPoliciesOperationsImpl implements ObjectReplicationPoliciesOperations {
   private readonly client: StorageManagementClient;
 
   /**

@@ -29,8 +29,7 @@ export interface TestSecretClientInterface {
 /**
  * An interface representing the state of the restore secret's poll operation
  */
-export interface RestoreSecretBackupPollOperationState
-  extends PollOperationState<SecretProperties> {
+export interface RestoreSecretBackupPollOperationState extends PollOperationState<SecretProperties> {
   /**
    * The backup of the secret.
    */
@@ -48,8 +47,10 @@ export interface RestoreSecretBackupPollOperationState
 /**
  * An interface representing a restore secret's poll operation
  */
-export interface RestoreSecretBackupPollOperation
-  extends PollOperation<RestoreSecretBackupPollOperationState, SecretProperties> {}
+export interface RestoreSecretBackupPollOperation extends PollOperation<
+  RestoreSecretBackupPollOperationState,
+  SecretProperties
+> {}
 
 /**
  * Reaches to the service and updates the restore secret's poll operation.

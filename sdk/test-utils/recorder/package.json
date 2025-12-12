@@ -54,7 +54,7 @@
     "@azure/logger": "^1.0.0"
   },
   "devDependencies": {
-    "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
+    "@azure-tools/vite-plugin-browser-test-map": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
@@ -63,7 +63,7 @@
     "concurrently": "^9.2.1",
     "cross-env": "catalog:",
     "eslint": "catalog:",
-    "express": "^5.1.0",
+    "express": "catalog:internal",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",

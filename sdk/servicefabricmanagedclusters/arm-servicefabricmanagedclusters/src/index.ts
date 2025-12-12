@@ -36,6 +36,7 @@ export {
   KnownCreatedByType,
   CreatedByType,
   ApplicationUpdateParameters,
+  ApplicationUpdateParametersProperties,
   RuntimeResumeApplicationUpgradeParameters,
   RuntimeUpdateApplicationUpgradeParameters,
   KnownRuntimeUpgradeKind,
@@ -47,6 +48,10 @@ export {
   RuntimeRollingUpgradeMode,
   KnownRuntimeFailureAction,
   RuntimeFailureAction,
+  ApplicationFetchHealthRequest,
+  KnownHealthFilter,
+  HealthFilter,
+  RestartDeployedCodePackageRequest,
   ApplicationTypeResource,
   ApplicationTypeResourceProperties,
   ApplicationTypeUpdateParameters,
@@ -101,6 +106,9 @@ export {
   AveragePartitionLoadScalingTrigger,
   AverageServiceLoadScalingTrigger,
   ServiceUpdateParameters,
+  RestartReplicaRequest,
+  KnownRestartKind,
+  RestartKind,
   ManagedClusterCodeVersionResult,
   ManagedClusterVersionDetails,
   KnownOsType,
@@ -227,6 +235,8 @@ export {
 } from "./models/index.js";
 export { ServiceFabricManagedClustersManagementClientOptionalParams } from "./api/index.js";
 export {
+  ApplicationsRestartDeployedCodePackageOptionalParams,
+  ApplicationsFetchHealthOptionalParams,
   ApplicationsUpdateUpgradeOptionalParams,
   ApplicationsStartRollbackOptionalParams,
   ApplicationsResumeUpgradeOptionalParams,
@@ -298,6 +308,7 @@ export { OperationResultsGetOptionalParams } from "./api/operationResults/index.
 export { OperationsListOptionalParams } from "./api/operations/index.js";
 export { OperationStatusGetOptionalParams } from "./api/operationStatus/index.js";
 export {
+  ServicesRestartReplicaOptionalParams,
   ServicesListByApplicationsOptionalParams,
   ServicesDeleteOptionalParams,
   ServicesUpdateOptionalParams,

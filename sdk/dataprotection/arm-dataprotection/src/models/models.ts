@@ -2240,8 +2240,7 @@ export function azureBackupRecoveryPointBasedRestoreRequestUnionSerializer(
 }
 
 /** AzureBackup Restore with Rehydration Request */
-export interface AzureBackupRestoreWithRehydrationRequest
-  extends AzureBackupRecoveryPointBasedRestoreRequest {
+export interface AzureBackupRestoreWithRehydrationRequest extends AzureBackupRecoveryPointBasedRestoreRequest {
   /** Priority to be used for rehydration. Values High or Standard */
   rehydrationPriority: RehydrationPriority;
   /** Retention duration in ISO 8601 format i.e P10D . */

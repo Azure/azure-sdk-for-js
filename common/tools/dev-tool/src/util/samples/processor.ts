@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import fs from "fs-extra";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import ts from "typescript";
 import { convert } from "./convert";
@@ -25,7 +25,7 @@ export async function processSources(
   const importedRelativeModules = new Set<string>();
 
   const jobs = sources.map(async (source) => {
-    const sourceText = (await fs.readFile(source)).toString("utf8");
+    const sourceText = (await readFile(source)).toString("utf8");
 
     // File-scoped information
     let summary: string | undefined = undefined;
@@ -157,6 +157,7 @@ export async function processSources(
       if (
         result.summary === undefined &&
         !importedRelativeModules.has(result.relativeSourcePath.replace(/\.ts$/, "")) &&
+        !importedRelativeModules.has(result.relativeSourcePath.replace(/\.ts$/, ".js")) &&
         !result.azSdkTags.util
       ) {
         fail(

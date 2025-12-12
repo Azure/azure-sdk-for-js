@@ -30,9 +30,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedEnvironmentPrivateEndpointConnections operations. */
-export class ManagedEnvironmentPrivateEndpointConnectionsImpl
-  implements ManagedEnvironmentPrivateEndpointConnections
-{
+export class ManagedEnvironmentPrivateEndpointConnectionsImpl implements ManagedEnvironmentPrivateEndpointConnections {
   private readonly client: ContainerAppsAPIClient;
 
   /**

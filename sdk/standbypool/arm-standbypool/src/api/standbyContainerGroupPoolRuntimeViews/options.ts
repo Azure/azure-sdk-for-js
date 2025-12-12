@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams
-  extends OperationOptions {}
+export interface StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface StandbyContainerGroupPoolRuntimeViewsGetOptionalParams extends OperationOptions {}

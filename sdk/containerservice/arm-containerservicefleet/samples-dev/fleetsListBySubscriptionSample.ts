@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to lists fleets in the specified subscription.
  *
  * @summary lists fleets in the specified subscription.
- * x-ms-original-file: 2025-04-01-preview/Fleets_ListBySub.json
+ * x-ms-original-file: 2025-08-01-preview/Fleets_ListBySub.json
  */
-
-import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function listsTheFleetResourcesInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -27,7 +26,7 @@ async function listsTheFleetResourcesInASubscription(): Promise<void> {
  * This sample demonstrates how to lists fleets in the specified subscription.
  *
  * @summary lists fleets in the specified subscription.
- * x-ms-original-file: 2025-04-01-preview/Fleets_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-08-01-preview/Fleets_ListBySubscription_MaximumSet_Gen.json
  */
 async function listsTheFleetResourcesInASubscriptionGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

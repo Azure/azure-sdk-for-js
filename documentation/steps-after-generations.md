@@ -12,20 +12,24 @@ pnpm install
 pnpm build --filter=<your-package-name>...
 ```
 
+# Customizing the generated code
+
+If the generated code does not fit your needs, you can use the JavaScript customization workflow to make edits. This should only be done in coordination with the JavaScript architects. For more information, see the [Modular (DPG) Customization Guide](https://aka.ms/azsdk/js/customization).
+
 # Generate CHANGELOG.md
 
 Install `js-sdk-release-tools`
 ```
-npm install -g @azure-tools/js-sdk-release-tools
+npm --prefix eng/tools/js-sdk-release-tools ci
 ```
 
 After you build your package, run
 ```
-changelog-tool <your-package-path>
+npm --prefix eng/tools/js-sdk-release-tools exec --no -- changelog-tool <your-package-path>
 ```
 Here is the example
 ```
-changelog-tool sdk/advisor/arm-advisor
+npm --prefix eng/tools/js-sdk-release-tools exec --no -- changelog-tool sdk/advisor/arm-advisor
 ```
 
 # Improve README.md document

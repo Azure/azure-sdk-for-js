@@ -299,8 +299,9 @@ export interface VectorizableImageUrlQuery<TModel extends object> extends BaseVe
 /**
  * The query parameters to use for vector search when a base 64 encoded binary of an image that needs to be vectorized is provided.
  */
-export interface VectorizableImageBinaryQuery<TModel extends object>
-  extends BaseVectorQuery<TModel> {
+export interface VectorizableImageBinaryQuery<
+  TModel extends object,
+> extends BaseVectorQuery<TModel> {
   /**
    * Polymorphic discriminator, which specifies the different types this object can be
    */

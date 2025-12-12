@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AIProjectClient } from "./aiProjectClient.js";
-import { _updateMemoriesDeserialize } from "./api/memoryStores/operations.js";
+import { createMemoryStoreUpdateMemoriesPoller } from "./api/memoryStores/memoryStoreUpdateMemoriesPoller.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -51,9 +51,21 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   const resourceLocationConfig = metadata?.["resourceLocationConfig"] as
     | ResourceLocationConfig
     | undefined;
-  const { deserializer, expectedStatuses = [] } =
-    getDeserializationHelper(initialRequestUrl, requestMethod) ?? {};
-  const deserializeHelper = options?.processResponseBody ?? deserializer;
+  const helper = getDeserializationHelper(initialRequestUrl, requestMethod);
+  if (helper?.kind === "memoryUpdate") {
+    return createMemoryStoreUpdateMemoriesPoller(
+      (client as any)["_client"] ?? client,
+      helper.expectedStatuses ?? ["202", "200"],
+      undefined,
+      {
+        updateIntervalInMs: options?.updateIntervalInMs,
+        abortSignal: options?.abortSignal,
+        restoreFrom: serializedState,
+      },
+    ) as unknown as PollerLike<OperationState<TResult>, TResult>;
+  }
+  const deserializeHelper = options?.processResponseBody ?? helper?.deserializer;
+  const expectedStatuses = helper?.expectedStatuses ?? [];
   if (!deserializeHelper) {
     throw new Error(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
@@ -75,13 +87,14 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 
 interface DeserializationHelper {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  deserializer: Function;
-  expectedStatuses: string[];
+  deserializer?: Function;
+  expectedStatuses?: string[];
+  kind?: "memoryUpdate";
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /memory_stores/{name}:update_memories": {
-    deserializer: _updateMemoriesDeserialize,
+    kind: "memoryUpdate",
     expectedStatuses: ["202", "200"],
   },
 };

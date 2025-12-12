@@ -39,9 +39,7 @@ import type { OperationOptions } from "@azure/core-client";
  * result.
  */
 export interface SendConfigurationSettingsOptions
-  extends OperationOptions,
-    ListSettingsOptions,
-    EtagEntity {
+  extends OperationOptions, ListSettingsOptions, EtagEntity {
   /**
    * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
    */

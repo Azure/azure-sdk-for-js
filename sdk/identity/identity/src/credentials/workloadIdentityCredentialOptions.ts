@@ -8,8 +8,7 @@ import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCreden
  * Options for the {@link WorkloadIdentityCredential}
  */
 export interface WorkloadIdentityCredentialOptions
-  extends MultiTenantTokenCredentialOptions,
-    AuthorityValidationOptions {
+  extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
   /**
    * ID of the application's Microsoft Entra tenant. Also called its directory ID.
    */
@@ -23,7 +22,7 @@ export interface WorkloadIdentityCredentialOptions
    */
   tokenFilePath?: string;
   /**
-   * Enables the identity binding feature.
+   * Enables the {@link https://learn.microsoft.com/azure/aks/identity-bindings-concepts | identity binding feature}.
    */
-  enableAzureKubernetesTokenProxy?: boolean;
+  enableAzureProxy?: boolean;
 }

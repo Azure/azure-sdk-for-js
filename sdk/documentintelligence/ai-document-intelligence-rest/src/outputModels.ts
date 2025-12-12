@@ -61,8 +61,7 @@ export interface DocumentIntelligenceInnerErrorOutput {
 }
 
 /** Get Operation response object. */
-export interface DocumentModelBuildOperationDetailsOutput
-  extends DocumentIntelligenceOperationDetailsOutputParent {
+export interface DocumentModelBuildOperationDetailsOutput extends DocumentIntelligenceOperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentModelDetailsOutput;
   /** Type of operation. */
@@ -188,8 +187,7 @@ export interface DocumentIntelligenceWarningOutput {
 }
 
 /** Get Operation response object. */
-export interface DocumentModelComposeOperationDetailsOutput
-  extends DocumentIntelligenceOperationDetailsOutputParent {
+export interface DocumentModelComposeOperationDetailsOutput extends DocumentIntelligenceOperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentModelDetailsOutput;
   /** Type of operation. */
@@ -197,8 +195,7 @@ export interface DocumentModelComposeOperationDetailsOutput
 }
 
 /** Get Operation response object. */
-export interface DocumentModelCopyToOperationDetailsOutput
-  extends DocumentIntelligenceOperationDetailsOutputParent {
+export interface DocumentModelCopyToOperationDetailsOutput extends DocumentIntelligenceOperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentModelDetailsOutput;
   /** Type of operation. */
@@ -206,8 +203,7 @@ export interface DocumentModelCopyToOperationDetailsOutput
 }
 
 /** Get Operation response object. */
-export interface DocumentClassifierCopyToOperationDetailsOutput
-  extends DocumentIntelligenceOperationDetailsOutputParent {
+export interface DocumentClassifierCopyToOperationDetailsOutput extends DocumentIntelligenceOperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentClassifierDetailsOutput;
   /** Type of operation. */
@@ -259,8 +255,7 @@ export interface ClassifierDocumentTypeDetailsOutput {
 }
 
 /** Get Operation response object. */
-export interface DocumentClassifierBuildOperationDetailsOutput
-  extends DocumentIntelligenceOperationDetailsOutputParent {
+export interface DocumentClassifierBuildOperationDetailsOutput extends DocumentIntelligenceOperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentClassifierDetailsOutput;
   /** Type of operation. */
