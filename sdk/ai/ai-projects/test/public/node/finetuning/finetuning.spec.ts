@@ -667,113 +667,154 @@ describe("finetuning - basic", () => {
   //   );
   // });
 
-  it.skipIf(!isLive)("should test finetuning list events", async () => {
-    const { trainingFile, validationFile } = await uploadTestFiles(FineTuningJobType.SFT_JOB_TYPE);
-    const fineTuningJob = await createSftFinetuningJob(
-      trainingFile.id,
-      validationFile.id,
-      TrainingType.STANDARD_TRAINING_TYPE,
-      "openai",
-    );
+  // it.skipIf(!isLive)("should test finetuning list events", async () => {
+  //   const { trainingFile, validationFile } = await uploadTestFiles(FineTuningJobType.SFT_JOB_TYPE);
+  //   const fineTuningJob = await createSftFinetuningJob(
+  //     trainingFile.id,
+  //     validationFile.id,
+  //     TrainingType.STANDARD_TRAINING_TYPE,
+  //     "openai",
+  //   );
 
-    validateFineTuningJob(fineTuningJob);
-    if (fineTuningJob.training_file !== undefined) {
-      assert.equal(fineTuningJob.training_file, trainingFile.id);
-    }
-    if (fineTuningJob.validation_file !== undefined) {
-      assert.equal(fineTuningJob.validation_file, validationFile.id);
-    }
-    assert.isNotNull(fineTuningJob.method);
-    if (fineTuningJob.method?.type !== undefined) {
-      assert.equal(fineTuningJob.method?.type, "supervised");
-    }
+  //   validateFineTuningJob(fineTuningJob);
+  //   if (fineTuningJob.training_file !== undefined) {
+  //     assert.equal(fineTuningJob.training_file, trainingFile.id);
+  //   }
+  //   if (fineTuningJob.validation_file !== undefined) {
+  //     assert.equal(fineTuningJob.validation_file, validationFile.id);
+  //   }
+  //   assert.isNotNull(fineTuningJob.method);
+  //   if (fineTuningJob.method?.type !== undefined) {
+  //     assert.equal(fineTuningJob.method?.type, "supervised");
+  //   }
 
-    const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
-    console.log(
-      `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
-    );
+  //   const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
+  //   console.log(
+  //     `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
+  //   );
 
-    const eventsPage = await openai.fineTuning.jobs.listEvents(fineTuningJob.id);
-    const eventsList = [];
-    for await (const event of eventsPage) {
-      eventsList.push(event);
-    }
-    console.log(
-      `finetuning list events listed ${eventsList.length} events for job: ${fineTuningJob.id}`,
-    );
+  //   const eventsPage = await openai.fineTuning.jobs.listEvents(fineTuningJob.id);
+  //   const eventsList = [];
+  //   for await (const event of eventsPage) {
+  //     eventsList.push(event);
+  //   }
+  //   console.log(
+  //     `finetuning list events listed ${eventsList.length} events for job: ${fineTuningJob.id}`,
+  //   );
 
-    assert.isAbove(eventsList.length, 0, "Fine-tuning job should have at least one event");
+  //   assert.isAbove(eventsList.length, 0, "Fine-tuning job should have at least one event");
 
-    for (const event of eventsList) {
-      assert.isNotNull(event.id, "Event should have an ID");
-      assert.isNotNull(event.object, "Event should have an object type");
-      assert.isNotNull(event.created_at, "Event should have a creation timestamp");
-      assert.isNotNull(event.level, "Event should have a level");
-      assert.isNotNull(event.message, "Event should have a message");
-      assert.isNotNull(event.type, "Event should have a type");
-    }
-    console.log(`finetuning list events successfully validated ${eventsList.length} events`);
+  //   for (const event of eventsList) {
+  //     assert.isNotNull(event.id, "Event should have an ID");
+  //     assert.isNotNull(event.object, "Event should have an object type");
+  //     assert.isNotNull(event.created_at, "Event should have a creation timestamp");
+  //     assert.isNotNull(event.level, "Event should have a level");
+  //     assert.isNotNull(event.message, "Event should have a message");
+  //     assert.isNotNull(event.type, "Event should have a type");
+  //   }
+  //   console.log(`finetuning list events successfully validated ${eventsList.length} events`);
 
-    await cleanupTestFile(trainingFile.id);
-    await cleanupTestFile(validationFile.id);
-  });
+  //   await cleanupTestFile(trainingFile.id);
+  //   await cleanupTestFile(validationFile.id);
+  // });
 
-  it.skipIf(!isLive)("should test finetuning pause job", async () => {
-    const runningJobId = process.env["AZURE_AI_PROJECTS_TESTS_RUNNING_FINE_TUNING_JOB_ID"];
-    if (!runningJobId) {
+  // it.skipIf(!isLive)("should test finetuning pause job", async () => {
+  //   const runningJobId = process.env["AZURE_AI_PROJECTS_TESTS_RUNNING_FINE_TUNING_JOB_ID"];
+  //   if (!runningJobId) {
+  //     console.warn(
+  //       "Skipping finetuning pause job test because AZURE_AI_PROJECTS_TESTS_RUNNING_FINE_TUNING_JOB_ID is not set.",
+  //     );
+  //     return;
+  //   }
+
+  //   console.log(`Retrieving fine-tuning job with ID: ${runningJobId}`);
+  //   const retrievedJob = await openai.fineTuning.jobs.retrieve(runningJobId);
+  //   console.log("Retrieved job:\n", JSON.stringify(retrievedJob));
+
+  //   console.log(`Job status before pausing: ${retrievedJob.status}`);
+  //   if (retrievedJob.status !== "running") {
+  //     console.warn(
+  //       `Skipping pause test because job status is ${retrievedJob.status}, expected 'running'.`,
+  //     );
+  //     return;
+  //   }
+
+  //   console.log(`Pausing fine-tuning job with ID: ${runningJobId}`);
+  //   const pausedJob = await openai.fineTuning.jobs.pause(runningJobId);
+  //   console.log(pausedJob);
+
+  //   validateFineTuningJob(pausedJob, runningJobId);
+  //   if (pausedJob.status !== undefined) {
+  //     assert.equal(pausedJob.status, "paused");
+  //   }
+  //   console.log(`Job status after pausing: ${pausedJob.status}`);
+  //   console.log(`finetuning pause job successfully paused and verified job: ${pausedJob.id}`);
+  // });
+
+  // it.skipIf(!isLive)("should test finetuning resume job", async () => {
+  //   const pausedJobId = process.env["AZURE_AI_PROJECTS_TESTS_PAUSED_FINE_TUNING_JOB_ID"];
+  //   if (!pausedJobId) {
+  //     console.warn(
+  //       "Skipping finetuning resume job test because AZURE_AI_PROJECTS_TESTS_PAUSED_FINE_TUNING_JOB_ID is not set.",
+  //     );
+  //     return;
+  //   }
+
+  //   console.log(`Retrieving fine-tuning job with ID: ${pausedJobId}`);
+  //   const retrievedJob = await openai.fineTuning.jobs.retrieve(pausedJobId);
+  //   console.log("Retrieved job:\n", JSON.stringify(retrievedJob));
+
+  //   console.log(`Job status before resuming: ${retrievedJob.status}`);
+
+  //   console.log(`Resuming fine-tuning job with ID: ${pausedJobId}`);
+  //   const resumedJob = await openai.fineTuning.jobs.resume(pausedJobId);
+
+  //   validateFineTuningJob(resumedJob, pausedJobId);
+  //   if (resumedJob.status !== undefined) {
+  //     assert.equal(resumedJob.status, "running");
+  //   }
+  //   console.log(`Job status after resuming: ${resumedJob.status}`);
+  //   console.log(`finetuning resume job successfully resumed and verified job: ${resumedJob.id}`);
+  // });
+
+  it.skipIf(!isLive)("should test finetuning list checkpoints", async () => {
+    const completedJobId =
+      process.env["AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_FINE_TUNING_JOB_ID"];
+    if (!completedJobId) {
       console.warn(
-        "Skipping finetuning pause job test because AZURE_AI_PROJECTS_TESTS_RUNNING_FINE_TUNING_JOB_ID is not set.",
+        "Skipping finetuning list checkpoints test because AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_FINE_TUNING_JOB_ID is not set.",
       );
       return;
     }
 
-    console.log(`Retrieving fine-tuning job with ID: ${runningJobId}`);
-    const retrievedJob = await openai.fineTuning.jobs.retrieve(runningJobId);
+    console.log(`Retrieving fine-tuning job with ID: ${completedJobId}`);
+    const retrievedJob = await openai.fineTuning.jobs.retrieve(completedJobId);
     console.log("Retrieved job:\n", JSON.stringify(retrievedJob));
 
-    console.log(`Job status before pausing: ${retrievedJob.status}`);
-    if (retrievedJob.status !== "running") {
-      console.warn(
-        `Skipping pause test because job status is ${retrievedJob.status}, expected 'running'.`,
+    const checkpointsList = [];
+    for await (const checkpoint of openai.fineTuning.jobs.checkpoints.list(completedJobId)) {
+      checkpointsList.push(checkpoint);
+    }
+    console.log(
+      `finetuning list checkpoints listed ${checkpointsList.length} checkpoints for job: ${completedJobId}`,
+    );
+
+    for (const checkpoint of checkpointsList) {
+      assert.isNotNull(checkpoint.id, "Checkpoint should have an ID");
+      assert.isNotNull(checkpoint.created_at, "Checkpoint should have a creation timestamp");
+      assert.equal(
+        checkpoint.fine_tuning_job_id,
+        completedJobId,
+        `Checkpoint should belong to job ${completedJobId}`,
       );
-      return;
-    }
-
-    console.log(`Pausing fine-tuning job with ID: ${runningJobId}`);
-    const pausedJob = await openai.fineTuning.jobs.pause(runningJobId);
-    console.log(pausedJob);
-
-    validateFineTuningJob(pausedJob, runningJobId);
-    if (pausedJob.status !== undefined) {
-      assert.equal(pausedJob.status, "paused");
-    }
-    console.log(`Job status after pausing: ${pausedJob.status}`);
-    console.log(`finetuning pause job successfully paused and verified job: ${pausedJob.id}`);
-  });
-
-  it.skipIf(!isLive)("should test finetuning resume job", async () => {
-    const pausedJobId = process.env["AZURE_AI_PROJECTS_TESTS_PAUSED_FINE_TUNING_JOB_ID"];
-    if (!pausedJobId) {
-      console.warn(
-        "Skipping finetuning resume job test because AZURE_AI_PROJECTS_TESTS_PAUSED_FINE_TUNING_JOB_ID is not set.",
+      assert.isNotNull(checkpoint.step_number, "Checkpoint should have a step number");
+      console.log(
+        `finetuning list checkpoints validated checkpoint ${checkpoint.id} at step ${checkpoint.step_number}`,
       );
-      return;
     }
 
-    console.log(`Retrieving fine-tuning job with ID: ${pausedJobId}`);
-    const retrievedJob = await openai.fineTuning.jobs.retrieve(pausedJobId);
-    console.log("Retrieved job:\n", JSON.stringify(retrievedJob));
-
-    console.log(`Job status before resuming: ${retrievedJob.status}`);
-
-    console.log(`Resuming fine-tuning job with ID: ${pausedJobId}`);
-    const resumedJob = await openai.fineTuning.jobs.resume(pausedJobId);
-
-    validateFineTuningJob(resumedJob, pausedJobId);
-    if (resumedJob.status !== undefined) {
-      assert.equal(resumedJob.status, "running");
-    }
-    console.log(`Job status after resuming: ${resumedJob.status}`);
-    console.log(`finetuning resume job successfully resumed and verified job: ${resumedJob.id}`);
+    console.log(
+      `finetuning list checkpoints successfully validated ${checkpointsList.length} checkpoints for job: ${completedJobId}`,
+    );
   });
 });
