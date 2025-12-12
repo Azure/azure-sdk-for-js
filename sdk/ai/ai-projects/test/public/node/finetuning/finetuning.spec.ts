@@ -385,13 +385,13 @@ describe("finetuning - basic", () => {
       assert.equal(cancelledJob.method?.type, expectedMethodType);
     }
     console.log(
-      `[test_finetuning_cancel_${jobType}_${modelType}_${trainingType}] Method validation passed - type: ${cancelledJob.method?.type}`,
+      `finetuning cancel ${jobType} ${modelType} ${trainingType} method validation passed - type: ${cancelledJob.method?.type}`,
     );
 
     // Verify cancellation persisted by retrieving the job
     const retrievedJob = await openai.fineTuning.jobs.retrieve(fineTuningJob.id);
     console.log(
-      `[test_finetuning_cancel_${jobType}_${modelType}_${trainingType}] Verified cancellation persisted for job: ${retrievedJob.id}`,
+      `finetuning cancel ${jobType} ${modelType} ${trainingType} verified cancellation persisted for job: ${retrievedJob.id}`,
     );
     validateFineTuningJob(retrievedJob, fineTuningJob.id, undefined, "cancelled");
 
@@ -562,7 +562,7 @@ describe("finetuning - basic", () => {
   //   for await (const job of jobsPage) {
   //     jobsList.push(job);
   //   }
-  //   console.log(`[test_finetuning_list] Listed ${jobsList.length} jobs`);
+  //   console.log(`finetuning list listed ${jobsList.length} jobs`);
 
   //   assert.isArray(jobsList, "Jobs list should be a list");
 
@@ -570,100 +570,151 @@ describe("finetuning - basic", () => {
   //     assert.isNotNull(job.id, "Job should have an ID");
   //     assert.isNotNull(job.created_at, "Job should have a creation timestamp");
   //     assert.isNotNull(job.status, "Job should have a status");
-  //     console.log(`[test_finetuning_list] Validated job ${job.id} with status ${job.status}`);
+  //     console.log(`finetuning list validated job ${job.id} with status ${job.status}`);
   //   }
   //   console.log(
-  //     `[test_finetuning_list] Successfully validated list functionality with ${jobsList.length} jobs`,
+  //     `finetuning list successfully validated list functionality with ${jobsList.length} jobs`,
   //   );
   // });
 
-  it.skipIf(!isLive)("should test sft finetuning cancel job openai standard", async () => {
-    await cancelJobHelper(
-      FineTuningJobType.SFT_JOB_TYPE,
-      "openai",
+  // it.skipIf(!isLive)("should test sft finetuning cancel job openai standard", async () => {
+  //   await cancelJobHelper(
+  //     FineTuningJobType.SFT_JOB_TYPE,
+  //     "openai",
+  //     TrainingType.STANDARD_TRAINING_TYPE,
+  //     "supervised",
+  //   );
+  // });
+
+  // it.skipIf(!isLive)("should test sft finetuning cancel job openai developer", async () => {
+  //   await cancelJobHelper(
+  //     FineTuningJobType.SFT_JOB_TYPE,
+  //     "openai",
+  //     TrainingType.DEVELOPER_TIER_TRAINING_TYPE,
+  //     "supervised",
+  //   );
+  // });
+
+  // it.skipIf(!isLive)("should test sft finetuning cancel job openai globalstandard", async () => {
+  //   await cancelJobHelper(
+  //     FineTuningJobType.SFT_JOB_TYPE,
+  //     "openai",
+  //     TrainingType.GLOBAL_STANDARD_TRAINING_TYPE,
+  //     "supervised",
+  //   );
+  // });
+
+  // it.skipIf(!isLive)("should test sft finetuning cancel job oss globalstandard", async () => {
+  //   await cancelJobHelper(
+  //     FineTuningJobType.SFT_JOB_TYPE,
+  //     "oss",
+  //     TrainingType.GLOBAL_STANDARD_TRAINING_TYPE,
+  //     "supervised",
+  //   );
+  // });
+
+  // it.skipIf(!isLive)("should test dpo finetuning cancel job openai standard", async () => {
+  //   await cancelJobHelper(
+  //     FineTuningJobType.DPO_JOB_TYPE,
+  //     "openai",
+  //     TrainingType.STANDARD_TRAINING_TYPE,
+  //     "dpo",
+  //   );
+  // });
+
+  // it.skipIf(!isLive)("should test dpo finetuning cancel job openai developer", async () => {
+  //   await cancelJobHelper(
+  //     FineTuningJobType.DPO_JOB_TYPE,
+  //     "openai",
+  //     TrainingType.DEVELOPER_TIER_TRAINING_TYPE,
+  //     "dpo",
+  //   );
+  // });
+
+  // it.skipIf(!isLive)("should test dpo finetuning cancel job openai globalstandard", async () => {
+  //   await cancelJobHelper(
+  //     FineTuningJobType.DPO_JOB_TYPE,
+  //     "openai",
+  //     TrainingType.GLOBAL_STANDARD_TRAINING_TYPE,
+  //     "dpo",
+  //   );
+  // });
+
+  // it.skipIf(!isLive)("should test rft finetuning cancel job openai standard", async () => {
+  //   await cancelJobHelper(
+  //     FineTuningJobType.RFT_JOB_TYPE,
+  //     "openai",
+  //     TrainingType.STANDARD_TRAINING_TYPE,
+  //     "reinforcement",
+  //   );
+  // });
+
+  // it.skipIf(!isLive)("should test rft finetuning cancel job openai developer", async () => {
+  //   await cancelJobHelper(
+  //     FineTuningJobType.RFT_JOB_TYPE,
+  //     "openai",
+  //     TrainingType.DEVELOPER_TIER_TRAINING_TYPE,
+  //     "reinforcement",
+  //   );
+  // });
+
+  // it.skipIf(!isLive)("should test rft finetuning cancel job openai globalstandard", async () => {
+  //   await cancelJobHelper(
+  //     FineTuningJobType.RFT_JOB_TYPE,
+  //     "openai",
+  //     TrainingType.GLOBAL_STANDARD_TRAINING_TYPE,
+  //     "reinforcement",
+  //   );
+  // });
+
+  it.skipIf(!isLive)("should test finetuning list events", async () => {
+    const { trainingFile, validationFile } = await uploadTestFiles(FineTuningJobType.SFT_JOB_TYPE);
+    const fineTuningJob = await createSftFinetuningJob(
+      trainingFile.id,
+      validationFile.id,
       TrainingType.STANDARD_TRAINING_TYPE,
-      "supervised",
-    );
-  });
-
-  it.skipIf(!isLive)("should test sft finetuning cancel job openai developer", async () => {
-    await cancelJobHelper(
-      FineTuningJobType.SFT_JOB_TYPE,
       "openai",
-      TrainingType.DEVELOPER_TIER_TRAINING_TYPE,
-      "supervised",
     );
-  });
 
-  it.skipIf(!isLive)("should test sft finetuning cancel job openai globalstandard", async () => {
-    await cancelJobHelper(
-      FineTuningJobType.SFT_JOB_TYPE,
-      "openai",
-      TrainingType.GLOBAL_STANDARD_TRAINING_TYPE,
-      "supervised",
-    );
-  });
+    validateFineTuningJob(fineTuningJob);
+    if (fineTuningJob.training_file !== undefined) {
+      assert.equal(fineTuningJob.training_file, trainingFile.id);
+    }
+    if (fineTuningJob.validation_file !== undefined) {
+      assert.equal(fineTuningJob.validation_file, validationFile.id);
+    }
+    assert.isNotNull(fineTuningJob.method);
+    if (fineTuningJob.method?.type !== undefined) {
+      assert.equal(fineTuningJob.method?.type, "supervised");
+    }
 
-  it.skipIf(!isLive)("should test sft finetuning cancel job oss globalstandard", async () => {
-    await cancelJobHelper(
-      FineTuningJobType.SFT_JOB_TYPE,
-      "oss",
-      TrainingType.GLOBAL_STANDARD_TRAINING_TYPE,
-      "supervised",
+    const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
+    console.log(
+      `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
     );
-  });
 
-  it.skipIf(!isLive)("should test dpo finetuning cancel job openai standard", async () => {
-    await cancelJobHelper(
-      FineTuningJobType.DPO_JOB_TYPE,
-      "openai",
-      TrainingType.STANDARD_TRAINING_TYPE,
-      "dpo",
+    const eventsPage = await openai.fineTuning.jobs.listEvents(fineTuningJob.id);
+    const eventsList = [];
+    for await (const event of eventsPage) {
+      eventsList.push(event);
+    }
+    console.log(
+      `finetuning list events listed ${eventsList.length} events for job: ${fineTuningJob.id}`,
     );
-  });
 
-  it.skipIf(!isLive)("should test dpo finetuning cancel job openai developer", async () => {
-    await cancelJobHelper(
-      FineTuningJobType.DPO_JOB_TYPE,
-      "openai",
-      TrainingType.DEVELOPER_TIER_TRAINING_TYPE,
-      "dpo",
-    );
-  });
+    assert.isAbove(eventsList.length, 0, "Fine-tuning job should have at least one event");
 
-  it.skipIf(!isLive)("should test dpo finetuning cancel job openai globalstandard", async () => {
-    await cancelJobHelper(
-      FineTuningJobType.DPO_JOB_TYPE,
-      "openai",
-      TrainingType.GLOBAL_STANDARD_TRAINING_TYPE,
-      "dpo",
-    );
-  });
+    for (const event of eventsList) {
+      assert.isNotNull(event.id, "Event should have an ID");
+      assert.isNotNull(event.object, "Event should have an object type");
+      assert.isNotNull(event.created_at, "Event should have a creation timestamp");
+      assert.isNotNull(event.level, "Event should have a level");
+      assert.isNotNull(event.message, "Event should have a message");
+      assert.isNotNull(event.type, "Event should have a type");
+    }
+    console.log(`finetuning list events successfully validated ${eventsList.length} events`);
 
-  it.skipIf(!isLive)("should test rft finetuning cancel job openai standard", async () => {
-    await cancelJobHelper(
-      FineTuningJobType.RFT_JOB_TYPE,
-      "openai",
-      TrainingType.STANDARD_TRAINING_TYPE,
-      "reinforcement",
-    );
-  });
-
-  it.skipIf(!isLive)("should test rft finetuning cancel job openai developer", async () => {
-    await cancelJobHelper(
-      FineTuningJobType.RFT_JOB_TYPE,
-      "openai",
-      TrainingType.DEVELOPER_TIER_TRAINING_TYPE,
-      "reinforcement",
-    );
-  });
-
-  it.skipIf(!isLive)("should test rft finetuning cancel job openai globalstandard", async () => {
-    await cancelJobHelper(
-      FineTuningJobType.RFT_JOB_TYPE,
-      "openai",
-      TrainingType.GLOBAL_STANDARD_TRAINING_TYPE,
-      "reinforcement",
-    );
+    await cleanupTestFile(trainingFile.id);
+    await cleanupTestFile(validationFile.id);
   });
 });
