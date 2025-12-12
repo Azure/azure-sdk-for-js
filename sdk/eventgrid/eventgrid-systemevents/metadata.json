@@ -1,6 +1,6 @@
 {
   "apiVersion": "2024-01-01",
-  "emitterVersion": "0.46.0",
+  "emitterVersion": "0.47.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.EventGrid.SystemEvents",
     "CrossLanguageDefinitionId": {
@@ -95,6 +95,7 @@
       "@azure/eventgrid-systemevents!AcsChatThreadParticipant:interface": "Microsoft.EventGrid.SystemEvents.AcsChatThreadParticipantProperties",
       "@azure/eventgrid-systemevents!AcsChatThreadEventBase:interface": "Microsoft.EventGrid.SystemEvents.AcsChatThreadEventBaseProperties",
       "@azure/eventgrid-systemevents!AcsChatThreadCreatedWithUserEventData:interface": "Microsoft.EventGrid.SystemEvents.AcsChatThreadCreatedWithUserEventData",
+      "@azure/eventgrid-systemevents!AcsChatRetentionPolicy:interface": "Microsoft.EventGrid.SystemEvents.AcsChatRetentionPolicy",
       "@azure/eventgrid-systemevents!AcsChatThreadEventInThreadBase:interface": "Microsoft.EventGrid.SystemEvents.AcsChatThreadEventInThreadBaseProperties",
       "@azure/eventgrid-systemevents!AcsChatThreadCreatedEventData:interface": "Microsoft.EventGrid.SystemEvents.AcsChatThreadCreatedEventData",
       "@azure/eventgrid-systemevents!AcsChatThreadWithUserDeletedEventData:interface": "Microsoft.EventGrid.SystemEvents.AcsChatThreadWithUserDeletedEventData",
@@ -294,14 +295,12 @@
       "@azure/eventgrid-systemevents!ResourceNotificationsResourceManagementCreatedOrUpdatedEventData:interface": "Microsoft.EventGrid.SystemEvents.ResourceNotificationsResourceManagementCreatedOrUpdatedEventData",
       "@azure/eventgrid-systemevents!ResourceNotificationsResourceManagementDeletedEventData:interface": "Microsoft.EventGrid.SystemEvents.ResourceNotificationsResourceManagementDeletedEventData",
       "@azure/eventgrid-systemevents!ResourceNotificationsContainerServiceEventResourcesScheduledEventData:interface": "Microsoft.EventGrid.SystemEvents.ResourceNotificationsContainerServiceEventResourcesScheduledEventData",
-      "@azure/eventgrid-systemevents!ResourceNotificationsAksResourcesFleetGateCreatedEventData:interface": "Microsoft.EventGrid.SystemEvents.ResourceNotificationsAksResourcesFleetGateCreatedEventData",
-      "@azure/eventgrid-systemevents!ResourceNotificationsAksResourcesFleetGateUpdatedEventData:interface": "Microsoft.EventGrid.SystemEvents.ResourceNotificationsAksResourcesFleetGateUpdatedEventData",
-      "@azure/eventgrid-systemevents!ResourceNotificationsAksResourcesFleetGateDeletedEventData:interface": "Microsoft.EventGrid.SystemEvents.ResourceNotificationsAksResourcesFleetGateDeletedEventData",
-      "@azure/eventgrid-systemevents!ResourceNotificationsAksResourcesFleetGateDeletedEventDataResourceInfo:interface": "Microsoft.EventGrid.SystemEvents.ResourceNotificationsAksResourcesFleetGateDeletedEventData.resourceInfo.anonymous",
       "@azure/eventgrid-systemevents!KnownCommunicationIdentifierModelKind:enum": "Microsoft.EventGrid.SystemEvents.CommunicationIdentifierModelKind",
       "@azure/eventgrid-systemevents!KnownCommunicationCloudEnvironmentModel:enum": "Microsoft.EventGrid.SystemEvents.CommunicationCloudEnvironmentModel",
       "@azure/eventgrid-systemevents!KnownAcsCallParticipantKind:enum": "Microsoft.EventGrid.SystemEvents.AcsCallParticipantKind",
       "@azure/eventgrid-systemevents!KnownAcsCallEndedByKind:enum": "Microsoft.EventGrid.SystemEvents.AcsCallEndedByKind",
+      "@azure/eventgrid-systemevents!KnownAcsChatRetentionPolicyKind:enum": "Microsoft.EventGrid.SystemEvents.AcsChatRetentionPolicyKind",
+      "@azure/eventgrid-systemevents!KnownAcsChatThreadDeletedReasonType:enum": "Microsoft.EventGrid.SystemEvents.AcsChatThreadDeletedReasonType",
       "@azure/eventgrid-systemevents!KnownAcsRecordingContentType:enum": "Microsoft.EventGrid.SystemEvents.recordingContentType",
       "@azure/eventgrid-systemevents!KnownAcsRecordingChannelType:enum": "Microsoft.EventGrid.SystemEvents.recordingChannelType",
       "@azure/eventgrid-systemevents!KnownAcsRecordingFormatType:enum": "Microsoft.EventGrid.SystemEvents.recordingFormatType",
