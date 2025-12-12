@@ -37,7 +37,7 @@ describe("Sample: analyzeReturnRawJson", () => {
     await poller.pollUntilDone();
 
     // Get the operation ID from the poller to retrieve the full result
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     const operationLocation = (poller as any).operationState?.config?.operationLocation;
     assert.ok(operationLocation, "Should have operation location from poller");
 
