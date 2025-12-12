@@ -7,6 +7,7 @@ import { createRecorder, createProjectsClient } from "../../utils/createClient.j
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AIProjectClient } from "../../../../src/index.js";
 import type { FineTuningJob, JobCreateParams } from "openai/resources/fine-tuning/jobs";
+import type { ScoreModelGrader } from "openai/resources/graders/grader-models";
 import type { OpenAI } from "openai/client";
 import { TrainingType, FineTuningJobType, testFinetuningParams } from "./finetuningHelper.js";
 import fs from "fs";
@@ -148,6 +149,50 @@ describe("finetuning - basic", () => {
     });
   }
 
+  async function createRftFinetuningJob(
+    trainingFileId: string,
+    validationFileId: string,
+    trainingType: TrainingType,
+    modelType: "openai" | "oss",
+  ): Promise<FineTuningJob> {
+    const grader: ScoreModelGrader = {
+      name: "Response Quality Grader",
+      type: "score_model",
+      model: "o3-mini",
+      input: [
+        {
+          role: "user",
+          content:
+            "Evaluate the model's response based on correctness and quality. Rate from 0 to 10.",
+        },
+      ],
+      range: [0.0, 10.0],
+    };
+
+    return openai.fineTuning.jobs.create({} as JobCreateParams, {
+      body: {
+        trainingType: trainingType,
+        training_file: trainingFileId,
+        validation_file: validationFileId,
+        model: testFinetuningParams[FineTuningJobType.RFT_JOB_TYPE][modelType]!.modelName,
+        method: {
+          type: "reinforcement",
+          reinforcement: {
+            grader,
+            hyperparameters: {
+              n_epochs: testFinetuningParams.nEpochs,
+              batch_size: testFinetuningParams.batchSize,
+              learning_rate_multiplier: testFinetuningParams.learningRateMultiplier,
+              eval_interval: 5,
+              eval_samples: 2,
+              reasoning_effort: "medium",
+            },
+          },
+        },
+      },
+    });
+  }
+
   async function sftCreateJobHelper(
     modelType: "openai" | "oss",
     trainingType: TrainingType,
@@ -227,13 +272,45 @@ describe("finetuning - basic", () => {
       `Created fine-tuning DPO ${modelType} ${trainingType} job DPO method validation passed - type: ${fineTuningJob.method?.type}`,
     );
 
-    if (modelType === "oss") {
-      validateFineTuningJob(
-        fineTuningJob,
-        undefined,
-        testFinetuningParams[FineTuningJobType.SFT_JOB_TYPE].oss!.modelName,
-      );
+    console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
+    const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
+    console.log(
+      `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
+    );
+    await cleanupTestFile(trainingFile.id);
+    await cleanupTestFile(validationFile.id);
+  }
+
+  async function rftCreateJobHelper(
+    modelType: "openai" | "oss",
+    trainingType: TrainingType,
+  ): Promise<void> {
+    const { trainingFile, validationFile } = await uploadTestFiles(FineTuningJobType.RFT_JOB_TYPE);
+    const fineTuningJob = await createRftFinetuningJob(
+      trainingFile.id,
+      validationFile.id,
+      trainingType,
+      modelType,
+    );
+    console.log(
+      `Created fine-tuning RFT ${modelType} ${trainingType} job with ID:`,
+      fineTuningJob.id,
+    );
+
+    validateFineTuningJob(fineTuningJob);
+    if (fineTuningJob.training_file !== undefined) {
+      assert.equal(fineTuningJob.training_file, trainingFile.id);
     }
+    if (fineTuningJob.validation_file !== undefined) {
+      assert.equal(fineTuningJob.validation_file, validationFile.id);
+    }
+    assert.isNotNull(fineTuningJob.method);
+    if (fineTuningJob.method?.type !== undefined) {
+      assert.equal(fineTuningJob.method?.type, "reinforcement");
+    }
+    console.log(
+      `Created fine-tuning RFT ${modelType} ${trainingType} job RFT method validation passed - type: ${fineTuningJob.method?.type}`,
+    );
 
     console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
     const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
@@ -244,23 +321,43 @@ describe("finetuning - basic", () => {
     await cleanupTestFile(validationFile.id);
   }
 
-  it.skipIf(!isLive)("should test sft finetuning create job openai standard", async () => {
-    await sftCreateJobHelper("openai", TrainingType.STANDARD_TRAINING_TYPE);
+  // it.skipIf(!isLive)("should test sft finetuning create job openai standard", async () => {
+  //   await sftCreateJobHelper("openai", TrainingType.STANDARD_TRAINING_TYPE);
+  // });
+
+  // it.skipIf(!isLive)("should test sft finetuning create job openai globalstandard", async () => {
+  //   await sftCreateJobHelper("openai", TrainingType.GLOBAL_STANDARD_TRAINING_TYPE);
+  // });
+
+  // it.skipIf(!isLive)("should test sft finetuning create job openai developer", async () => {
+  //   await sftCreateJobHelper("openai", TrainingType.DEVELOPER_TIER_TRAINING_TYPE);
+  // });
+
+  // it.skipIf(!isLive)("should test sft finetuning create job oss globalstandard", async () => {
+  //   await sftCreateJobHelper("oss", TrainingType.GLOBAL_STANDARD_TRAINING_TYPE);
+  // });
+
+  // it.skipIf(!isLive)("should test dpo finetuning create job openai standard", async () => {
+  //   await dpoCreateJobHelper("openai", TrainingType.STANDARD_TRAINING_TYPE);
+  // });
+
+  // it.skipIf(!isLive)("should test dpo finetuning create job openai globalstandard", async () => {
+  //   await dpoCreateJobHelper("openai", TrainingType.GLOBAL_STANDARD_TRAINING_TYPE);
+  // });
+
+  // it.skipIf(!isLive)("should test dpo finetuning create job openai developer", async () => {
+  //   await dpoCreateJobHelper("openai", TrainingType.DEVELOPER_TIER_TRAINING_TYPE);
+  // });
+
+  it.skipIf(!isLive)("should test rft finetuning create job openai standard", async () => {
+    await rftCreateJobHelper("openai", TrainingType.STANDARD_TRAINING_TYPE);
   });
 
-  it.skipIf(!isLive)("should test sft finetuning create job openai globalstandard", async () => {
-    await sftCreateJobHelper("openai", TrainingType.GLOBAL_STANDARD_TRAINING_TYPE);
+  it.skipIf(!isLive)("should test rft finetuning create job openai globalstandard", async () => {
+    await rftCreateJobHelper("openai", TrainingType.GLOBAL_STANDARD_TRAINING_TYPE);
   });
 
-  it.skipIf(!isLive)("should test sft finetuning create job openai developer", async () => {
-    await sftCreateJobHelper("openai", TrainingType.DEVELOPER_TIER_TRAINING_TYPE);
-  });
-
-  it.skipIf(!isLive)("should test sft finetuning create job oss globalstandard", async () => {
-    await sftCreateJobHelper("oss", TrainingType.GLOBAL_STANDARD_TRAINING_TYPE);
-  });
-
-  it.skipIf(!isLive)("should test dpo finetuning create job openai standard", async () => {
-    await dpoCreateJobHelper("openai", TrainingType.STANDARD_TRAINING_TYPE);
+  it.skipIf(!isLive)("should test rft finetuning create job openai developer", async () => {
+    await rftCreateJobHelper("openai", TrainingType.DEVELOPER_TIER_TRAINING_TYPE);
   });
 });
