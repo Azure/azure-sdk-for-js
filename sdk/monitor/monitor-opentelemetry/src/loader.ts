@@ -31,7 +31,10 @@ if (typeof registerFn === "function") {
       // Handle potential promise rejection (Node.js 20.6+ returns a promise-like object)
       if (result && typeof result.catch === "function") {
         void result.catch((error: unknown) => {
-          Logger.getInstance().warn("Failed to register OpenTelemetry instrumentation loader", error);
+          Logger.getInstance().warn(
+            "Failed to register OpenTelemetry instrumentation loader",
+            error,
+          );
         });
       }
     } catch (error) {
