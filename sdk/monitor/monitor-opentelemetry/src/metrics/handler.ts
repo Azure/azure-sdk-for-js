@@ -43,7 +43,9 @@ function resolveHistogramAggregationFromEnv(): AggregationOption | undefined {
     return aggregation;
   }
 
-  const validValues = Object.keys(HISTOGRAM_AGGREGATION_MAP).map((v) => `'${v}'`).join(" and ");
+  const validValues = Object.keys(HISTOGRAM_AGGREGATION_MAP)
+    .map((v) => `'${v}'`)
+    .join(" and ");
   Logger.getInstance().warn(
     `${DEFAULT_HISTOGRAM_AGGREGATION_ENV_VAR} has unsupported value '${envValue}'. Supported values are ${validValues}.`,
   );
