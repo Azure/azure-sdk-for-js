@@ -39,7 +39,7 @@ describe("Sample: deleteResult", () => {
     const result = await poller.pollUntilDone();
 
     // Get the operation ID
-     
+
     const operationLocation = (poller as any).operationState?.config?.operationLocation;
     let operationId: string | undefined;
 
