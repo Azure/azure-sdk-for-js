@@ -43,6 +43,8 @@ useAzureMonitor(options);
 
 ### ESM Support
 
+> _Note:_ ESM support requires Node.js 18.19.0 or later. For more details on ESM support in OpenTelemetry, see the [OpenTelemetry ESM Support documentation](https://github.com/open-telemetry/opentelemetry-js/blob/main/doc/esm-support.md).
+
 For ECMAScript Module (ESM) applications, OpenTelemetry instrumentation requires the loader hooks to be registered **before** any instrumented modules (like `http`) are loaded. This is a fundamental requirement of ESM - modules cannot be instrumented after they are loaded.
 
 Use the `--import` flag to ensure the loader is registered at the very start of the Node.js process. Replace `<your-app-entry-point>` with the path to your application's main file (e.g., `./dist/index.js`, `./src/index.mjs`, `./server.js`, etc.):
@@ -76,8 +78,6 @@ useAzureMonitor({
 ```
 
 For CommonJS applications, no additional flags are needed - the loader is automatically registered when `useAzureMonitor()` is called.
-
-> _Note:_ ESM support requires Node.js 18.19.0 or later. For more details on ESM support in OpenTelemetry, see the [OpenTelemetry ESM Support documentation](https://github.com/open-telemetry/opentelemetry-js/blob/main/doc/esm-support.md).
 
 ## Configuration
 
