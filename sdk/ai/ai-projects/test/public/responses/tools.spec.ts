@@ -713,16 +713,18 @@ describe.skipIf(!isLiveOrRecord)("My test", () => {
     console.log(`Created conversation (id: ${conversation.id})`);
 
     // Send a request to generate an image
-    const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
-      tools: [imageGenTool],
-      instructions,
-      conversation: conversation.id,
-      input: "Generate a simple image of a blue circle.",
-    },
-    {
-      headers: {"x-ms-oai-image-generation-deployment": imageGenModelDeployment}
-    });
+    const response = await openAIClient.responses.create(
+      {
+        model: "gpt-5-mini",
+        tools: [imageGenTool],
+        instructions,
+        conversation: conversation.id,
+        input: "Generate a simple image of a blue circle.",
+      },
+      {
+        headers: { "x-ms-oai-image-generation-deployment": imageGenModelDeployment },
+      },
+    );
 
     assert.isNotNull(response);
     assert.isNotNull(response.id);
@@ -742,4 +744,123 @@ describe.skipIf(!isLiveOrRecord)("My test", () => {
       console.log("Image generation call found in response");
     }
   }, 120000);
+
+  it("should create responses with MCP tool using project connection auth", async function () {
+    const mcpConnectionId = getToolConnectionId("mcp-connection");
+
+    const mcpTool: any = {
+      type: "mcp",
+      server_label: "api-specs",
+      server_url: "https://api.githubcopilot.com/mcp",
+      require_approval: "always",
+      project_connection_id: mcpConnectionId,
+    };
+
+    const instructions = "Use MCP tools as needed.";
+
+    // Create a conversation for the agent interaction
+    const conversation = await openAIClient.conversations.create();
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Send a request that will trigger MCP tool
+    const response = await openAIClient.responses.create({
+      model: "gpt-5-mini",
+      tools: [mcpTool],
+      instructions,
+      conversation: conversation.id,
+      input: "What is my username in Github profile?",
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.id);
+    console.log(`MCP Connection Auth tool response, response ID: ${response.id}`);
+
+    // The response should contain MCP approval requests or tool usage
+    assert.isNotNull(response.output);
+    console.log(`Response output items: ${response.output.length}`);
+
+    // Check for MCP approval requests
+    const approvalRequests = response.output?.filter(
+      (output: any) => output.type === "mcp_approval_request",
+    );
+    if (approvalRequests && approvalRequests.length > 0) {
+      console.log(`Found ${approvalRequests.length} MCP approval request(s)`);
+    }
+  }, 60000);
+
+  it("should create responses with OpenAPI tool using project connection auth", async function () {
+    const openApiConnectionId = getToolConnectionId("openapi");
+
+    // Inline TripAdvisor OpenAPI spec (simplified for testing)
+    const tripAdvisorOpenApiSpec = {
+      openapi: "3.1.0",
+      info: {
+        title: "TripAdvisor Content API",
+        description: "Fetch TripAdvisor location details.",
+        version: "v1.0.0",
+      },
+      servers: [{ url: "https://api.content.tripadvisor.com/api/v1" }],
+      paths: {
+        "/location/{locationId}/details": {
+          get: {
+            description: "Get location details",
+            operationId: "getLocationDetails",
+            parameters: [
+              {
+                name: "locationId",
+                in: "path",
+                description: "The TripAdvisor location ID",
+                required: true,
+                schema: { type: "string" },
+              },
+            ],
+            responses: {
+              "200": { description: "Successful response" },
+            },
+          },
+        },
+      },
+    };
+
+    const openApiTool: any = {
+      type: "openapi",
+      openapi: {
+        name: "get_tripadvisor_location_details",
+        description: "Fetch TripAdvisor location details via project connection auth.",
+        spec: tripAdvisorOpenApiSpec,
+        auth: {
+          type: "project_connection",
+          security_scheme: {
+            project_connection_id: openApiConnectionId,
+          },
+        },
+      },
+    };
+
+    const instructions =
+      "You are a travel assistant that consults the TripAdvisor Content API to answer user questions about locations.";
+
+    // Create a conversation for the agent interaction
+    const conversation = await openAIClient.conversations.create();
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Send a request to get location details
+    const response = await openAIClient.responses.create({
+      model: "gpt-5-mini",
+      tools: [openApiTool],
+      instructions,
+      conversation: conversation.id,
+      input: "Get details for TripAdvisor location 293919.",
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.id);
+    console.log(
+      `OpenAPI Connection Auth tool response, response ID: ${response.id}, output text: ${response.output_text}`,
+    );
+
+    // The response should contain OpenAPI tool results or indicate tool usage
+    assert.isNotNull(response.output);
+    console.log(`Response output items: ${response.output.length}`);
+  }, 60000);
 });
