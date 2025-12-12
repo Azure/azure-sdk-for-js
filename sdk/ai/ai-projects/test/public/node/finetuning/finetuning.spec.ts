@@ -369,10 +369,6 @@ describe("finetuning - basic", () => {
       TrainingType.STANDARD_TRAINING_TYPE,
       "openai",
     );
-    console.log(
-      `Created fine-tuning SFT ${"openai"} ${TrainingType.STANDARD_TRAINING_TYPE} job with ID:`,
-      fineTuningJob.id,
-    );
 
     console.log(`Retrieving fine-tuning job with ID: ${fineTuningJob.id}`);
     const retrievedJob = await openai.fineTuning.jobs.retrieve(fineTuningJob.id);
@@ -392,6 +388,84 @@ describe("finetuning - basic", () => {
     assert.isTrue(
       retrievedJob.model.includes(
         testFinetuningParams[FineTuningJobType.SFT_JOB_TYPE]["openai"]!.modelName,
+      ),
+    );
+
+    console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
+    const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
+    console.log(
+      `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
+    );
+    await cleanupTestFile(trainingFile.id);
+    await cleanupTestFile(validationFile.id);
+  });
+
+  it.skipIf(!isLive)("should test dpo finetuning retrieve job", async () => {
+    const { trainingFile, validationFile } = await uploadTestFiles(FineTuningJobType.DPO_JOB_TYPE);
+    const fineTuningJob = await createDpoFinetuningJob(
+      trainingFile.id,
+      validationFile.id,
+      TrainingType.STANDARD_TRAINING_TYPE,
+      "openai",
+    );
+
+    console.log(`Retrieving fine-tuning job with ID: ${fineTuningJob.id}`);
+    const retrievedJob = await openai.fineTuning.jobs.retrieve(fineTuningJob.id);
+    console.log("Retrieved job:\n", JSON.stringify(retrievedJob));
+
+    validateFineTuningJob(retrievedJob);
+    if (retrievedJob.training_file !== undefined) {
+      assert.equal(retrievedJob.training_file, trainingFile.id);
+    }
+    if (retrievedJob.validation_file !== undefined) {
+      assert.equal(retrievedJob.validation_file, validationFile.id);
+    }
+    assert.isNotNull(retrievedJob.method);
+    if (retrievedJob.method?.type !== undefined) {
+      assert.equal(retrievedJob.method?.type, "dpo");
+    }
+    assert.isTrue(
+      retrievedJob.model.includes(
+        testFinetuningParams[FineTuningJobType.DPO_JOB_TYPE]["openai"]!.modelName,
+      ),
+    );
+
+    console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
+    const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
+    console.log(
+      `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
+    );
+    await cleanupTestFile(trainingFile.id);
+    await cleanupTestFile(validationFile.id);
+  });
+
+  it.skipIf(!isLive)("should test rft finetuning retrieve job", async () => {
+    const { trainingFile, validationFile } = await uploadTestFiles(FineTuningJobType.RFT_JOB_TYPE);
+    const fineTuningJob = await createRftFinetuningJob(
+      trainingFile.id,
+      validationFile.id,
+      TrainingType.STANDARD_TRAINING_TYPE,
+      "openai",
+    );
+
+    console.log(`Retrieving fine-tuning job with ID: ${fineTuningJob.id}`);
+    const retrievedJob = await openai.fineTuning.jobs.retrieve(fineTuningJob.id);
+    console.log("Retrieved job:\n", JSON.stringify(retrievedJob));
+
+    validateFineTuningJob(retrievedJob);
+    if (retrievedJob.training_file !== undefined) {
+      assert.equal(retrievedJob.training_file, trainingFile.id);
+    }
+    if (retrievedJob.validation_file !== undefined) {
+      assert.equal(retrievedJob.validation_file, validationFile.id);
+    }
+    assert.isNotNull(retrievedJob.method);
+    if (retrievedJob.method?.type !== undefined) {
+      assert.equal(retrievedJob.method?.type, "reinforcement");
+    }
+    assert.isTrue(
+      retrievedJob.model.includes(
+        testFinetuningParams[FineTuningJobType.RFT_JOB_TYPE]["openai"]!.modelName,
       ),
     );
 
