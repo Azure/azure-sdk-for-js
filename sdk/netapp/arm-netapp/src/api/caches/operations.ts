@@ -315,7 +315,7 @@ export function _updateSend(
   });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Cache> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -323,7 +323,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
     throw error;
   }
 
-  return;
+  return cacheDeserializer(result.body);
 }
 
 /** Patch the specified Cache */
@@ -335,14 +335,14 @@ export function update(
   cacheName: string,
   body: CacheUpdate,
   options: CachesUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<OperationState<Cache>, Cache> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, poolName, cacheName, body, options),
     resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  }) as PollerLike<OperationState<Cache>, Cache>;
 }
 
 export function _createOrUpdateSend(

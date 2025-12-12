@@ -13,7 +13,7 @@ Use the client library for Azure AI Content Understanding to:
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding-rest)
-- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-content-understanding)
+- Package (NPM)
 - [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/ai-content-understanding?view=azure-node-preview)
 - [Product documentation][product_docs]
 - [Samples][samples_directory]
@@ -93,7 +93,7 @@ You need to configure the default model mappings in your Microsoft Foundry resou
 
 To configure model deployments using code, see the [Configure Defaults sample][sample_configure_defaults] for a complete example. Here's a quick overview:
 
-```typescript
+```typescript snippet:ignore
 import { ContentUnderstandingClient } from "@azure-rest/ai-content-understanding";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -154,7 +154,7 @@ const client = new ContentUnderstandingClient("<endpoint>", credential);
 
 You can also authenticate using an API key from your Microsoft Foundry resource:
 
-```typescript
+```typescript snippet:ignore
 import { ContentUnderstandingClient } from "@azure-rest/ai-content-understanding";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -231,7 +231,6 @@ We guarantee that all client instance methods are thread-safe and independent of
 [Long-running operations][long_running_operations] |
 [Handling failures][handling_failures] |
 [Diagnostics][diagnostics] |
-[Mocking][mocking] |
 [Client lifetime][client_lifetime]
 
 ## Examples
@@ -252,7 +251,7 @@ The samples demonstrate:
 
 Use the `prebuilt-documentSearch` analyzer to extract markdown content from documents:
 
-```typescript
+```typescript snippet:ignore
 import { ContentUnderstandingClient } from "@azure-rest/ai-content-understanding";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -284,7 +283,7 @@ if (result.contents && result.contents.length > 0) {
 
 Use the `prebuilt-invoice` analyzer to extract structured invoice fields:
 
-```typescript
+```typescript snippet:ignore
 import {
   ContentUnderstandingClient,
   type DocumentContent,
@@ -490,5 +489,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [long_running_operations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/README.md
 [handling_failures]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/README.md
 [diagnostics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/logger/README.md
-[mocking]: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Troubleshoot-sdk-mocking.md
 [client_lifetime]: https://devblogs.microsoft.com/azure-sdk/lifetime-management-and-thread-safety-guarantees-of-azure-sdk-net-clients/

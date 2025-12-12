@@ -20,10 +20,6 @@ export function getRegion(): string {
   return inject(EnvVarKeys.REGION);
 }
 
-export function getCustomEndpoint(): string {
-  return inject(EnvVarKeys.CUSTOM_ENDPOINT);
-}
-
 export function getResourceId(): string {
   return inject(EnvVarKeys.RESOURCE_ID);
 }

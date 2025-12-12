@@ -7,7 +7,7 @@ import { ContentUnderstandingClient } from "../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { getEndpoint, getKey } from "../../utils/injectables.js";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { DefaultAzureCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("ContentUnderstandingClient - Analyzers", () => {
   let recorder: Recorder;
@@ -20,7 +20,7 @@ describe("ContentUnderstandingClient - Analyzers", () => {
     const key = getKey();
     client = new ContentUnderstandingClient(
       getEndpoint(),
-      key ? new AzureKeyCredential(key) : new DefaultAzureCredential(),
+      key ? new AzureKeyCredential(key) : createTestCredential(),
       recorder.configureClientOptions({}),
     );
     // Note: Analyzer IDs cannot contain hyphens

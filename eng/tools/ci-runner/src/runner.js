@@ -55,7 +55,6 @@ export function runAllWithDirection(action, filters, extraParams, ciFlag) {
       "--json",
       "--depth",
       "-1",
-      "--only-projects",
       ...packages,
     );
 

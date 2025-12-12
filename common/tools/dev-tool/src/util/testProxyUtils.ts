@@ -4,7 +4,18 @@
 import { ChildProcess, exec, spawn, SpawnOptions } from "node:child_process";
 import { createPrinter } from "./printer";
 import { ProjectInfo, resolveProject, resolveRoot } from "./resolveProject";
-import fs from "fs-extra";
+import {
+  access,
+  chmod,
+  constants,
+  lstat,
+  mkdir,
+  readFile,
+  rm,
+  symlink,
+  unlink,
+} from "node:fs/promises";
+import { createWriteStream, existsSync } from "node:fs";
 import path from "node:path";
 import { extract } from "tar";
 import * as unzipper from "unzipper";
@@ -156,18 +167,18 @@ export async function getTestProxyExecutable(): Promise<string> {
 
   // Check the executable is already downloaded and is, in fact, executable. If it's not, download it.
   try {
-    await fs.access(executableLocation, fs.constants.X_OK);
+    await access(executableLocation, constants.X_OK);
     log(`Test proxy executable already exists at ${executableLocation}, not downloading it.`);
   } catch {
     // Nuking the root .test-proxy folder, without the version, ensures that older versions of the test proxy
     // get cleaned up, so we don't end up with a ton of different test proxy versions using up disk space.
-    await fs.remove(downloadLocation);
+    await rm(downloadLocation, { recursive: true, force: true });
 
-    await fs.mkdirp(downloadLocationWithVersion);
+    await mkdir(downloadLocationWithVersion, { recursive: true });
     await downloadTestProxy(downloadLocationWithVersion, getDownloadUrl(binary, targetVersion));
 
     // Mark the executable as executable by all
-    await fs.chmod(executableLocation, 0o755);
+    await chmod(executableLocation, 0o755);
   }
 
   cachedTestProxyExecutableLocation = executableLocation;
@@ -209,7 +220,7 @@ export async function runTestProxyCommand(argv: string[]): Promise<void> {
     stdio: "inherit",
     env: { ...process.env },
   }).result;
-  if (await fs.pathExists("assets.json")) {
+  if (existsSync("assets.json")) {
     await linkRecordingsDirectory();
   }
 }
@@ -246,10 +257,10 @@ export async function linkRecordingsDirectory() {
 
   const symlinkLocation = path.join(project.path, "_recordings");
 
-  if (await fs.pathExists(symlinkLocation)) {
-    const stat = await fs.lstat(symlinkLocation);
+  if (existsSync(symlinkLocation)) {
+    const stat = await lstat(symlinkLocation);
     if (stat.isSymbolicLink()) {
-      await fs.unlink(symlinkLocation);
+      await unlink(symlinkLocation);
     } else {
       log.warn(
         "Could not create symbolic link to recordings directory: a file exists at _recordings already.",
@@ -260,7 +271,7 @@ export async function linkRecordingsDirectory() {
 
   // Try and create a symlink but fail gracefully if it doesn't work
   try {
-    await fs.symlink(relativeRecordingsDirectory, symlinkLocation);
+    await symlink(relativeRecordingsDirectory, symlinkLocation);
   } catch (e) {
     log.warn("Could not create symbolic link to recordings directory");
     log.warn(e);
@@ -298,7 +309,7 @@ export async function startTestProxy(): Promise<TestProxy> {
     `https://0.0.0.0:${process.env.TEST_PROXY_HTTPS_PORT ?? 5001}/`,
   ]);
 
-  const log = fs.createWriteStream("./testProxyOutput.log", { flags: "a" });
+  const log = createWriteStream("./testProxyOutput.log", { flags: "a" });
   testProxy.command.stdout?.pipe(log);
   testProxy.command.stderr?.pipe(log);
 
@@ -345,12 +356,12 @@ async function getTargetVersion() {
   try {
     let contentInVersionFile: string;
     const overrideFile = `${path.join(await resolveRoot(), "eng/target_proxy_version.txt")}`;
-    const overrideExists = await fs.exists(overrideFile);
+    const overrideExists = existsSync(overrideFile);
 
     if (overrideExists) {
-      contentInVersionFile = await fs.readFile(overrideFile, "utf-8");
+      contentInVersionFile = await readFile(overrideFile, "utf-8");
     } else {
-      contentInVersionFile = await fs.readFile(
+      contentInVersionFile = await readFile(
         `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
         "utf-8",
       );

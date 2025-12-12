@@ -1079,8 +1079,8 @@
 # PRLabel: %Monitor
 /sdk/monitor/monitor-ingestion/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
-/sdk/monitor/monitor-opentelemetry @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber @lzchen @jeremydvoss
-/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber @lzchen @jeremydvoss
+/sdk/monitor/monitor-opentelemetry @hectorhdzg @rads-1996 @MSNev @JacksonWeber @lzchen @jeremydvoss
+/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @rads-1996 @MSNev @JacksonWeber @lzchen @jeremydvoss
 
 /sdk/monitor/monitor-query-logs/ @Azure/azure-sdk-write-monitor-query-logs
 /sdk/monitor/monitor-query-metrics/ @Azure/azure-sdk-write-monitor-query-metrics

@@ -76,7 +76,7 @@ export interface CachesOperations {
     cacheName: string,
     body: CacheUpdate,
     options?: CachesUpdateOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<OperationState<Cache>, Cache>;
   /** Create or update the specified Cache within the Capacity Pool */
   createOrUpdate: (
     resourceGroupName: string,

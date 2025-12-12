@@ -318,7 +318,7 @@ export interface CacheProperties {
     cifsChangeNotifications?: CifsChangeNotifyState;
     readonly encryption?: EncryptionState;
     encryptionKeySource: EncryptionKeySource;
-    exportPolicy?: ExportPolicyRule[];
+    exportPolicy?: CachePropertiesExportPolicy;
     filepath: string;
     globalFileLocking?: GlobalFileLockingState;
     kerberos?: KerberosState;
@@ -339,6 +339,11 @@ export interface CacheProperties {
 }
 
 // @public
+export interface CachePropertiesExportPolicy {
+    rules?: ExportPolicyRule[];
+}
+
+// @public
 export type CacheProvisioningState = string;
 
 // @public
@@ -350,7 +355,7 @@ export interface CacheUpdate {
 // @public
 export interface CacheUpdateProperties {
     cifsChangeNotifications?: CifsChangeNotifyState;
-    exportPolicy?: ExportPolicyRule[];
+    exportPolicy?: CachePropertiesExportPolicy;
     keyVaultPrivateEndpointResourceId?: string;
     protocolTypes?: ProtocolTypes[];
     size?: number;

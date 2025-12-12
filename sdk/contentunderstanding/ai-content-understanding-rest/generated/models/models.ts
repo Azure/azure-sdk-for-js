@@ -2034,16 +2034,12 @@ export interface SupportedModels {
 
 export function supportedModelsDeserializer(item: any): SupportedModels {
   return {
-    completion: !item["completion"]
-      ? item["completion"]
-      : item["completion"].map((p: any) => {
-          return p;
-        }),
-    embedding: !item["embedding"]
-      ? item["embedding"]
-      : item["embedding"].map((p: any) => {
-          return p;
-        }),
+    completion: item["completion"].map((p: any) => {
+      return p;
+    }),
+    embedding: item["embedding"].map((p: any) => {
+      return p;
+    }),
   };
 }
 

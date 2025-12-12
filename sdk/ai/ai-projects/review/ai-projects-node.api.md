@@ -1170,18 +1170,18 @@ export type EvaluatorType = "builtin" | "custom";
 // @public
 export interface EvaluatorVersion {
     categories: EvaluatorCategory[];
-    readonly created_at: number;
-    readonly created_by: string;
+    readonly created_at?: number;
+    readonly created_by?: string;
     definition: EvaluatorDefinitionUnion;
     description?: string;
     display_name?: string;
     evaluator_type: EvaluatorType;
     readonly id?: string;
     metadata?: Record<string, string>;
-    readonly modified_at: number;
+    readonly modified_at?: number;
     readonly name: string;
     tags?: Record<string, string>;
-    readonly version: string;
+    readonly version?: string;
 }
 
 // @public
@@ -1366,11 +1366,11 @@ export type IndexUnion = AzureAISearchIndex | ManagedAzureAISearchIndex | Cosmos
 // @public
 export interface Insight {
     displayName: string;
-    readonly id: string;
-    readonly metadata: InsightsMetadata;
+    readonly id?: string;
+    readonly metadata?: InsightsMetadata;
     request: InsightRequestUnion;
     readonly result?: InsightResultUnion;
-    readonly state: OperationState;
+    readonly state?: OperationState;
 }
 
 // @public
@@ -2287,10 +2287,10 @@ export interface Schedule {
     description?: string;
     displayName?: string;
     enabled: boolean;
-    readonly id: string;
+    readonly id?: string;
     properties?: Record<string, string>;
     readonly provisioningStatus?: ScheduleProvisioningStatus;
-    readonly systemData: Record<string, string>;
+    readonly systemData?: Record<string, string>;
     tags?: Record<string, string>;
     task: ScheduleTaskUnion;
     trigger: TriggerUnion;
