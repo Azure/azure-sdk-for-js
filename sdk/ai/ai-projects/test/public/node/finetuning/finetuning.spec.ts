@@ -175,4 +175,16 @@ describe("finetuning - basic", () => {
   it.skipIf(!isLive)("should test sft finetuning create job openai standard", async () => {
     await sftCreateJobHelper("openai", TrainingType.STANDARD_TRAINING_TYPE);
   });
+
+  it.skipIf(!isLive)("should test sft finetuning create job openai globalstandard", async () => {
+    await sftCreateJobHelper("openai", TrainingType.GLOBAL_STANDARD_TRAINING_TYPE);
+  });
+
+  it.skipIf(!isLive)("should test sft finetuning create job openai developer", async () => {
+    await sftCreateJobHelper("openai", TrainingType.DEVELOPER_TIER_TRAINING_TYPE);
+  });
+
+  it.skipIf(!isLive)("should test sft finetuning create job oss globalstandard", async () => {
+    await sftCreateJobHelper("oss", TrainingType.GLOBAL_STANDARD_TRAINING_TYPE);
+  });
 });
