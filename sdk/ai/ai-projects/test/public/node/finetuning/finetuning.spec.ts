@@ -717,4 +717,63 @@ describe("finetuning - basic", () => {
     await cleanupTestFile(trainingFile.id);
     await cleanupTestFile(validationFile.id);
   });
+
+  it.skipIf(!isLive)("should test finetuning pause job", async () => {
+    const runningJobId = process.env["AZURE_AI_PROJECTS_TESTS_RUNNING_FINE_TUNING_JOB_ID"];
+    if (!runningJobId) {
+      console.warn(
+        "Skipping finetuning pause job test because AZURE_AI_PROJECTS_TESTS_RUNNING_FINE_TUNING_JOB_ID is not set.",
+      );
+      return;
+    }
+
+    console.log(`Retrieving fine-tuning job with ID: ${runningJobId}`);
+    const retrievedJob = await openai.fineTuning.jobs.retrieve(runningJobId);
+    console.log("Retrieved job:\n", JSON.stringify(retrievedJob));
+
+    console.log(`Job status before pausing: ${retrievedJob.status}`);
+    if (retrievedJob.status !== "running") {
+      console.warn(
+        `Skipping pause test because job status is ${retrievedJob.status}, expected 'running'.`,
+      );
+      return;
+    }
+
+    console.log(`Pausing fine-tuning job with ID: ${runningJobId}`);
+    const pausedJob = await openai.fineTuning.jobs.pause(runningJobId);
+    console.log(pausedJob);
+
+    validateFineTuningJob(pausedJob, runningJobId);
+    if (pausedJob.status !== undefined) {
+      assert.equal(pausedJob.status, "paused");
+    }
+    console.log(`Job status after pausing: ${pausedJob.status}`);
+    console.log(`finetuning pause job successfully paused and verified job: ${pausedJob.id}`);
+  });
+
+  it.skipIf(!isLive)("should test finetuning resume job", async () => {
+    const pausedJobId = process.env["AZURE_AI_PROJECTS_TESTS_PAUSED_FINE_TUNING_JOB_ID"];
+    if (!pausedJobId) {
+      console.warn(
+        "Skipping finetuning resume job test because AZURE_AI_PROJECTS_TESTS_PAUSED_FINE_TUNING_JOB_ID is not set.",
+      );
+      return;
+    }
+
+    console.log(`Retrieving fine-tuning job with ID: ${pausedJobId}`);
+    const retrievedJob = await openai.fineTuning.jobs.retrieve(pausedJobId);
+    console.log("Retrieved job:\n", JSON.stringify(retrievedJob));
+
+    console.log(`Job status before resuming: ${retrievedJob.status}`);
+
+    console.log(`Resuming fine-tuning job with ID: ${pausedJobId}`);
+    const resumedJob = await openai.fineTuning.jobs.resume(pausedJobId);
+
+    validateFineTuningJob(resumedJob, pausedJobId);
+    if (resumedJob.status !== undefined) {
+      assert.equal(resumedJob.status, "running");
+    }
+    console.log(`Job status after resuming: ${resumedJob.status}`);
+    console.log(`finetuning resume job successfully resumed and verified job: ${resumedJob.id}`);
+  });
 });
