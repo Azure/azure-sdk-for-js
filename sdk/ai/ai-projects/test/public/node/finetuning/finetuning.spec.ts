@@ -603,4 +603,67 @@ describe("finetuning - basic", () => {
       "supervised",
     );
   });
+
+  it.skipIf(!isLive)("should test sft finetuning cancel job oss globalstandard", async () => {
+    await cancelJobHelper(
+      FineTuningJobType.SFT_JOB_TYPE,
+      "oss",
+      TrainingType.GLOBAL_STANDARD_TRAINING_TYPE,
+      "supervised",
+    );
+  });
+
+  it.skipIf(!isLive)("should test dpo finetuning cancel job openai standard", async () => {
+    await cancelJobHelper(
+      FineTuningJobType.DPO_JOB_TYPE,
+      "openai",
+      TrainingType.STANDARD_TRAINING_TYPE,
+      "dpo",
+    );
+  });
+
+  it.skipIf(!isLive)("should test dpo finetuning cancel job openai developer", async () => {
+    await cancelJobHelper(
+      FineTuningJobType.DPO_JOB_TYPE,
+      "openai",
+      TrainingType.DEVELOPER_TIER_TRAINING_TYPE,
+      "dpo",
+    );
+  });
+
+  it.skipIf(!isLive)("should test dpo finetuning cancel job openai globalstandard", async () => {
+    await cancelJobHelper(
+      FineTuningJobType.DPO_JOB_TYPE,
+      "openai",
+      TrainingType.GLOBAL_STANDARD_TRAINING_TYPE,
+      "dpo",
+    );
+  });
+
+  it.skipIf(!isLive)("should test rft finetuning cancel job openai standard", async () => {
+    await cancelJobHelper(
+      FineTuningJobType.RFT_JOB_TYPE,
+      "openai",
+      TrainingType.STANDARD_TRAINING_TYPE,
+      "reinforcement",
+    );
+  });
+
+  it.skipIf(!isLive)("should test rft finetuning cancel job openai developer", async () => {
+    await cancelJobHelper(
+      FineTuningJobType.RFT_JOB_TYPE,
+      "openai",
+      TrainingType.DEVELOPER_TIER_TRAINING_TYPE,
+      "reinforcement",
+    );
+  });
+
+  it.skipIf(!isLive)("should test rft finetuning cancel job openai globalstandard", async () => {
+    await cancelJobHelper(
+      FineTuningJobType.RFT_JOB_TYPE,
+      "openai",
+      TrainingType.GLOBAL_STANDARD_TRAINING_TYPE,
+      "reinforcement",
+    );
+  });
 });
