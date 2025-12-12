@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { ExpressRouteAuthorization } from "../../models/models.js";
-import {
+import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { $delete, createOrUpdate, get, list } from "../../api/authorizations/operations.js";
+import type {
   AuthorizationsDeleteOptionalParams,
   AuthorizationsCreateOrUpdateOptionalParams,
   AuthorizationsGetOptionalParams,
   AuthorizationsListOptionalParams,
 } from "../../api/authorizations/options.js";
-import { $delete, createOrUpdate, get, list } from "../../api/authorizations/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { ExpressRouteAuthorization } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Authorizations operations. */
 export interface AuthorizationsOperations {

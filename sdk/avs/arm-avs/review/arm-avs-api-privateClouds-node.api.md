@@ -4,10 +4,10 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function $delete(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
@@ -17,6 +17,9 @@ export function createOrUpdate(context: AzureVMwareSolutionAPIContext, resourceG
 
 // @public
 export function get(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsGetOptionalParams): Promise<PrivateCloud>;
+
+// @public
+export function getVcfLicense(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsGetVcfLicenseOptionalParams): Promise<VcfLicenseUnion>;
 
 // @public
 export function list(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, options?: PrivateCloudsListOptionalParams): PagedAsyncIterableIterator<PrivateCloud>;
@@ -39,6 +42,10 @@ export interface PrivateCloudsDeleteOptionalParams extends OperationOptions {
 
 // @public
 export interface PrivateCloudsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateCloudsGetVcfLicenseOptionalParams extends OperationOptions {
 }
 
 // @public
