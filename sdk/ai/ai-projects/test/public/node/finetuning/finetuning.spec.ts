@@ -122,6 +122,32 @@ describe("finetuning - basic", () => {
     });
   }
 
+  async function createDpoFinetuningJob(
+    trainingFileId: string,
+    validationFileId: string,
+    trainingType: TrainingType,
+    modelType: "openai" | "oss",
+  ): Promise<FineTuningJob> {
+    return openai.fineTuning.jobs.create({} as JobCreateParams, {
+      body: {
+        trainingType: trainingType,
+        training_file: trainingFileId,
+        validation_file: validationFileId,
+        model: testFinetuningParams[FineTuningJobType.DPO_JOB_TYPE][modelType]!.modelName,
+        method: {
+          type: "dpo",
+          dpo: {
+            hyperparameters: {
+              n_epochs: testFinetuningParams.nEpochs,
+              batch_size: testFinetuningParams.batchSize,
+              learning_rate_multiplier: testFinetuningParams.learningRateMultiplier,
+            },
+          },
+        },
+      },
+    });
+  }
+
   async function sftCreateJobHelper(
     modelType: "openai" | "oss",
     trainingType: TrainingType,
@@ -139,7 +165,6 @@ describe("finetuning - basic", () => {
     );
 
     validateFineTuningJob(fineTuningJob);
-
     if (fineTuningJob.training_file !== undefined) {
       assert.equal(fineTuningJob.training_file, trainingFile.id);
     }
@@ -167,7 +192,54 @@ describe("finetuning - basic", () => {
     console.log(
       `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
     );
+    await cleanupTestFile(trainingFile.id);
+    await cleanupTestFile(validationFile.id);
+  }
 
+  async function dpoCreateJobHelper(
+    modelType: "openai" | "oss",
+    trainingType: TrainingType,
+  ): Promise<void> {
+    const { trainingFile, validationFile } = await uploadTestFiles(FineTuningJobType.DPO_JOB_TYPE);
+    const fineTuningJob = await createDpoFinetuningJob(
+      trainingFile.id,
+      validationFile.id,
+      trainingType,
+      modelType,
+    );
+    console.log(
+      `Created fine-tuning DPO ${modelType} ${trainingType} job with ID:`,
+      fineTuningJob.id,
+    );
+
+    validateFineTuningJob(fineTuningJob);
+    if (fineTuningJob.training_file !== undefined) {
+      assert.equal(fineTuningJob.training_file, trainingFile.id);
+    }
+    if (fineTuningJob.validation_file !== undefined) {
+      assert.equal(fineTuningJob.validation_file, validationFile.id);
+    }
+    assert.isNotNull(fineTuningJob.method);
+    if (fineTuningJob.method?.type !== undefined) {
+      assert.equal(fineTuningJob.method?.type, "dpo");
+    }
+    console.log(
+      `Created fine-tuning DPO ${modelType} ${trainingType} job DPO method validation passed - type: ${fineTuningJob.method?.type}`,
+    );
+
+    if (modelType === "oss") {
+      validateFineTuningJob(
+        fineTuningJob,
+        undefined,
+        testFinetuningParams[FineTuningJobType.SFT_JOB_TYPE].oss!.modelName,
+      );
+    }
+
+    console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
+    const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
+    console.log(
+      `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
+    );
     await cleanupTestFile(trainingFile.id);
     await cleanupTestFile(validationFile.id);
   }
@@ -186,5 +258,9 @@ describe("finetuning - basic", () => {
 
   it.skipIf(!isLive)("should test sft finetuning create job oss globalstandard", async () => {
     await sftCreateJobHelper("oss", TrainingType.GLOBAL_STANDARD_TRAINING_TYPE);
+  });
+
+  it.skipIf(!isLive)("should test dpo finetuning create job openai standard", async () => {
+    await dpoCreateJobHelper("openai", TrainingType.STANDARD_TRAINING_TYPE);
   });
 });
