@@ -4,10 +4,6 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { KeyCredential } from '@azure/core-auth';
-import type { TokenCredential } from '@azure/core-auth';
-
 // @public
 export interface AgentConfig {
     agentId: string;
@@ -50,11 +46,6 @@ export interface AudioNoiseReduction {
     type: string;
 }
 
-// @public (undocumented)
-export interface AudioStreamOptions extends SendEventOptions {
-    turnId?: string;
-}
-
 // @public
 export type AudioTimestampType = string;
 
@@ -63,9 +54,18 @@ export interface AvatarConfig {
     character: string;
     customized: boolean;
     iceServers?: IceServer[];
+    model?: PhotoAvatarBaseModes;
+    outputProtocol?: AvatarOutputProtocol;
     style?: string;
+    type?: AvatarConfigTypes;
     video?: VideoParams;
 }
+
+// @public
+export type AvatarConfigTypes = string;
+
+// @public
+export type AvatarOutputProtocol = string;
 
 // @public
 export interface AzureCustomVoice extends AzureVoice {
@@ -92,11 +92,25 @@ export interface AzureCustomVoice extends AzureVoice {
 
 // @public
 export interface AzurePersonalVoice extends AzureVoice {
+    // (undocumented)
+    customLexiconUrl?: string;
+    // (undocumented)
+    locale?: string;
     model: PersonalVoiceModels;
     name: string;
+    // (undocumented)
+    pitch?: string;
+    // (undocumented)
+    preferLocales?: string[];
+    // (undocumented)
+    rate?: string;
+    // (undocumented)
+    style?: string;
     temperature?: number;
     // (undocumented)
     type: "azure-personal";
+    // (undocumented)
+    volume?: string;
 }
 
 // @public
@@ -241,14 +255,9 @@ export interface Background {
 // @public
 export interface CachedTokenDetails {
     audioTokens: number;
+    imageTokens: number;
     textTokens: number;
 }
-
-// @public
-export function classifyConnectionError(error: VoiceLiveConnectionError | Error | unknown): VoiceLiveConnectionError;
-
-// @public
-export function classifyProtocolError(error: Error, messageType: string): VoiceLiveProtocolError;
 
 // @public
 export interface ClientEvent {
@@ -366,38 +375,6 @@ export type ClientEventType = string;
 export type ClientEventUnion = ClientEventSessionUpdate | ClientEventSessionAvatarConnect | ClientEventInputAudioTurnStart | ClientEventInputAudioTurnAppend | ClientEventInputAudioTurnEnd | ClientEventInputAudioTurnCancel | ClientEventInputAudioClear | ClientEventInputAudioBufferAppend | ClientEventInputAudioBufferCommit | ClientEventInputAudioBufferClear | ClientEventConversationItemCreate | ClientEventConversationItemTruncate | ClientEventConversationItemDelete | ClientEventResponseCreate | ClientEventResponseCancel | ClientEventConversationItemRetrieve | ClientEvent;
 
 // @public
-export interface ConnectedEventArgs {
-    connectionId: string;
-    timestamp: Date;
-}
-
-// @public
-export interface ConnectionContext {
-    readonly endpoint: string;
-    readonly model: string;
-    readonly sessionId?: string;
-    readonly timestamp: Date;
-}
-
-// @public
-export enum ConnectionState {
-    // (undocumented)
-    Connected = "connected",
-    // (undocumented)
-    Connecting = "connecting",
-    // (undocumented)
-    Disconnected = "disconnected",
-    // (undocumented)
-    Disconnecting = "disconnecting"
-}
-
-// @public (undocumented)
-export interface ConnectOptions {
-    abortSignal?: AbortSignalLike;
-    timeoutInMs?: number;
-}
-
-// @public
 export interface ContentPart {
     // (undocumented)
     type: ContentPartType;
@@ -407,7 +384,7 @@ export interface ContentPart {
 export type ContentPartType = string;
 
 // @public
-export type ContentPartUnion = RequestTextContentPart | RequestAudioContentPart | ResponseTextContentPart | ResponseAudioContentPart | ContentPart;
+export type ContentPartUnion = RequestImageContentPart | RequestTextContentPart | RequestAudioContentPart | ResponseTextContentPart | ResponseAudioContentPart | ContentPart;
 
 // @public
 export interface ConversationItemBase {
@@ -422,19 +399,7 @@ export interface ConversationRequestItem {
 }
 
 // @public
-export type ConversationRequestItemUnion = MessageItemUnion | FunctionCallItem | FunctionCallOutputItem | ConversationRequestItem;
-
-// @public (undocumented)
-export interface CreateSessionOptions extends VoiceLiveSessionOptions {
-}
-
-// @public
-export interface DisconnectedEventArgs {
-    code: number;
-    reason: string;
-    timestamp: Date;
-    wasClean: boolean;
-}
+export type ConversationRequestItemUnion = MessageItemUnion | FunctionCallItem | FunctionCallOutputItem | MCPApprovalResponseRequestItem | ConversationRequestItem;
 
 // @public
 export interface EouDetection {
@@ -447,14 +412,6 @@ export type EouDetectionUnion = AzureSemanticDetection | AzureSemanticDetectionE
 
 // @public
 export type EouThresholdLevel = string;
-
-// @public
-export interface ErrorEventArgs {
-    context: string;
-    error: Error;
-    recoverable: boolean;
-    timestamp: Date;
-}
 
 // @public
 export interface ErrorResponse {
@@ -532,6 +489,7 @@ export interface InputTokenDetails {
     audioTokens: number;
     cachedTokens: number;
     cachedTokensDetails: CachedTokenDetails;
+    imageTokens: number;
     textTokens: number;
 }
 
@@ -550,6 +508,18 @@ export enum KnownAnimationOutputType {
 // @public
 export enum KnownAudioTimestampType {
     Word = "word"
+}
+
+// @public
+export enum KnownAvatarConfigTypes {
+    PhotoAvatar = "photo-avatar",
+    VideoAvatar = "video-avatar"
+}
+
+// @public
+export enum KnownAvatarOutputProtocol {
+    Webrtc = "webrtc",
+    Websocket = "websocket"
 }
 
 // @public
@@ -573,6 +543,7 @@ export enum KnownClientEventType {
     InputAudioTurnCancel = "input_audio.turn.cancel",
     InputAudioTurnEnd = "input_audio.turn.end",
     InputAudioTurnStart = "input_audio.turn.start",
+    McpApprovalResponse = "mcp_approval_response",
     ResponseCancel = "response.cancel",
     ResponseCreate = "response.create",
     SessionAvatarConnect = "session.avatar.connect",
@@ -583,6 +554,7 @@ export enum KnownClientEventType {
 export enum KnownContentPartType {
     Audio = "audio",
     InputAudio = "input_audio",
+    InputImage = "input_image",
     InputText = "input_text",
     Text = "text"
 }
@@ -612,7 +584,17 @@ export enum KnownItemParamStatus {
 export enum KnownItemType {
     FunctionCall = "function_call",
     FunctionCallOutput = "function_call_output",
+    McpApprovalRequest = "mcp_approval_request",
+    McpApprovalResponse = "mcp_approval_response",
+    McpCall = "mcp_call",
+    McpListTools = "mcp_list_tools",
     Message = "message"
+}
+
+// @public
+export enum KnownMCPApprovalType {
+    Always = "always",
+    Never = "never"
 }
 
 // @public
@@ -635,8 +617,10 @@ export enum KnownOAIVoice {
     Alloy = "alloy",
     Ash = "ash",
     Ballad = "ballad",
+    Cedar = "cedar",
     Coral = "coral",
     Echo = "echo",
+    Marin = "marin",
     Sage = "sage",
     Shimmer = "shimmer",
     Verse = "verse"
@@ -656,6 +640,18 @@ export enum KnownPersonalVoiceModels {
     DragonLatestNeural = "DragonLatestNeural",
     PhoenixLatestNeural = "PhoenixLatestNeural",
     PhoenixV2Neural = "PhoenixV2Neural"
+}
+
+// @public
+export enum KnownPhotoAvatarBaseModes {
+    Vasa1 = "vasa-1"
+}
+
+// @public
+export enum KnownRequestImageContentPartDetail {
+    Auto = "auto",
+    High = "high",
+    Low = "low"
 }
 
 // @public
@@ -688,6 +684,11 @@ export enum KnownServerEventType {
     InputAudioBufferCommitted = "input_audio_buffer.committed",
     InputAudioBufferSpeechStarted = "input_audio_buffer.speech_started",
     InputAudioBufferSpeechStopped = "input_audio_buffer.speech_stopped",
+    McpApprovalRequest = "mcp_approval_request",
+    McpApprovalResponse = "mcp_approval_response",
+    McpListToolsCompleted = "mcp_list_tools.completed",
+    McpListToolsFailed = "mcp_list_tools.failed",
+    McpListToolsInProgress = "mcp_list_tools.in_progress",
     ResponseAnimationBlendshapesDelta = "response.animation_blendshapes.delta",
     ResponseAnimationBlendshapesDone = "response.animation_blendshapes.done",
     ResponseAnimationVisemeDelta = "response.animation_viseme.delta",
@@ -704,6 +705,11 @@ export enum KnownServerEventType {
     ResponseDone = "response.done",
     ResponseFunctionCallArgumentsDelta = "response.function_call_arguments.delta",
     ResponseFunctionCallArgumentsDone = "response.function_call_arguments.done",
+    ResponseMcpCallArgumentsDelta = "response.mcp_call_arguments.delta",
+    ResponseMcpCallArgumentsDone = "response.mcp_call_arguments.done",
+    ResponseMcpCallCompleted = "response.mcp_call.completed",
+    ResponseMcpCallFailed = "response.mcp_call.failed",
+    ResponseMcpCallInProgress = "response.mcp_call.in_progress",
     ResponseOutputItemAdded = "response.output_item.added",
     ResponseOutputItemDone = "response.output_item.done",
     ResponseTextDelta = "response.text.delta",
@@ -722,7 +728,8 @@ export enum KnownToolChoiceLiteral {
 
 // @public
 export enum KnownToolType {
-    Function = "function"
+    Function = "function",
+    Mcp = "mcp"
 }
 
 // @public
@@ -738,6 +745,42 @@ export interface LogProbProperties {
     bytes: number[];
     logprob: number;
     token: string;
+}
+
+// @public
+export interface MCPApprovalResponseRequestItem extends ConversationRequestItem {
+    approvalRequestId: string;
+    approve: boolean;
+    type: "mcp_approval_response";
+}
+
+// @public
+export type MCPApprovalType = string;
+
+// @public
+export interface MCPServer extends Tool {
+    // (undocumented)
+    allowedTools?: string[];
+    // (undocumented)
+    authorization?: string;
+    // (undocumented)
+    headers?: Record<string, string>;
+    // (undocumented)
+    requireApproval?: MCPApprovalType | Record<string, string[]>;
+    // (undocumented)
+    serverLabel: string;
+    // (undocumented)
+    serverUrl: string;
+    // (undocumented)
+    type: "mcp";
+}
+
+// @public
+export interface MCPTool {
+    annotations?: any;
+    description?: string;
+    inputSchema: any;
+    name: string;
 }
 
 // @public
@@ -757,7 +800,7 @@ export interface MessageItem extends ConversationRequestItem {
 }
 
 // @public
-export type MessageItemUnion = SystemMessageItem | UserMessageItem | AssistantMessageItem | MessageItem;
+export type MessageItemUnion = AssistantMessageItem | SystemMessageItem | UserMessageItem | MessageItem;
 
 // @public
 export type MessageRole = string;
@@ -793,12 +836,28 @@ export interface OutputTokenDetails {
 export type PersonalVoiceModels = string;
 
 // @public
+export type PhotoAvatarBaseModes = string;
+
+// @public
 export interface RequestAudioContentPart extends ContentPart {
     // (undocumented)
     transcript?: string;
     // (undocumented)
     type: "input_audio";
 }
+
+// @public
+export interface RequestImageContentPart extends ContentPart {
+    // (undocumented)
+    detail?: RequestImageContentPartDetail;
+    // (undocumented)
+    type: "input_image";
+    // (undocumented)
+    url?: string;
+}
+
+// @public
+export type RequestImageContentPartDetail = string;
 
 // @public
 export interface RequestSession {
@@ -873,6 +932,7 @@ export interface ResponseCreateParams {
     maxOutputTokens?: number | "inf";
     modalities?: Modality[];
     outputAudioFormat?: OutputAudioFormat;
+    preGeneratedAssistantMessage?: AssistantMessageItem;
     temperature?: number;
     toolChoice?: string;
     tools?: ToolUnion[];
@@ -933,7 +993,41 @@ export interface ResponseItem {
 export type ResponseItemStatus = string;
 
 // @public
-export type ResponseItemUnion = ResponseMessageItem | ResponseFunctionCallItem | ResponseFunctionCallOutputItem | ResponseItem;
+export type ResponseItemUnion = ResponseMessageItem | ResponseFunctionCallItem | ResponseFunctionCallOutputItem | ResponseMCPListToolItem | ResponseMCPCallItem | ResponseMCPApprovalRequestItem | ResponseMCPApprovalResponseItem | ResponseItem;
+
+// @public
+export interface ResponseMCPApprovalRequestItem extends ResponseItem {
+    arguments?: string;
+    name: string;
+    serverLabel: string;
+    type: "mcp_approval_request";
+}
+
+// @public
+export interface ResponseMCPApprovalResponseItem extends ResponseItem {
+    approvalRequestId: string;
+    approve: boolean;
+    reason?: string;
+    type: "mcp_approval_response";
+}
+
+// @public
+export interface ResponseMCPCallItem extends ResponseItem {
+    approvalRequestId?: string;
+    arguments: string;
+    error?: any;
+    name: string;
+    output?: string;
+    serverLabel: string;
+    type: "mcp_call";
+}
+
+// @public
+export interface ResponseMCPListToolItem extends ResponseItem {
+    serverLabel: string;
+    tools: MCPTool[];
+    type: "mcp_list_tools";
+}
 
 // @public
 export interface ResponseMessageItem extends ResponseItem {
@@ -991,12 +1085,6 @@ export interface ResponseTextContentPart extends ContentPart {
     type: "text";
 }
 
-// @public (undocumented)
-export interface SendEventOptions {
-    abortSignal?: AbortSignalLike;
-    timeoutInMs?: number;
-}
-
 // @public
 export interface ServerEvent {
     // (undocumented)
@@ -1014,8 +1102,6 @@ export interface ServerEventConversationItemCreated extends ServerEvent {
 
 // @public
 export interface ServerEventConversationItemDeleted extends ServerEvent {
-    // (undocumented)
-    eventId?: string;
     itemId: string;
     type: "conversation.item.deleted";
 }
@@ -1058,8 +1144,6 @@ export interface ServerEventConversationItemRetrieved extends ServerEvent {
 export interface ServerEventConversationItemTruncated extends ServerEvent {
     audioEndInMs: number;
     contentIndex: number;
-    // (undocumented)
-    eventId?: string;
     itemId: string;
     type: "conversation.item.truncated";
 }
@@ -1103,6 +1187,27 @@ export interface ServerEventInputAudioBufferSpeechStopped extends ServerEvent {
     audioEndInMs: number;
     itemId: string;
     type: "input_audio_buffer.speech_stopped";
+}
+
+// @public
+export interface ServerEventMcpListToolsCompleted extends ServerEvent {
+    itemId: string;
+    // (undocumented)
+    type: "mcp_list_tools.completed";
+}
+
+// @public
+export interface ServerEventMcpListToolsFailed extends ServerEvent {
+    itemId: string;
+    // (undocumented)
+    type: "mcp_list_tools.failed";
+}
+
+// @public
+export interface ServerEventMcpListToolsInProgress extends ServerEvent {
+    itemId: string;
+    // (undocumented)
+    type: "mcp_list_tools.in_progress";
 }
 
 // @public
@@ -1298,6 +1403,51 @@ export interface ServerEventResponseFunctionCallArgumentsDone extends ServerEven
 }
 
 // @public
+export interface ServerEventResponseMcpCallArgumentsDelta extends ServerEvent {
+    delta: string;
+    itemId: string;
+    obfuscation?: string;
+    outputIndex: number;
+    responseId: string;
+    // (undocumented)
+    type: "response.mcp_call_arguments.delta";
+}
+
+// @public
+export interface ServerEventResponseMcpCallArgumentsDone extends ServerEvent {
+    arguments?: string;
+    itemId: string;
+    outputIndex: number;
+    responseId: string;
+    // (undocumented)
+    type: "response.mcp_call_arguments.done";
+}
+
+// @public
+export interface ServerEventResponseMcpCallCompleted extends ServerEvent {
+    itemId: string;
+    outputIndex: number;
+    // (undocumented)
+    type: "response.mcp_call.completed";
+}
+
+// @public
+export interface ServerEventResponseMcpCallFailed extends ServerEvent {
+    itemId: string;
+    outputIndex: number;
+    // (undocumented)
+    type: "response.mcp_call.failed";
+}
+
+// @public
+export interface ServerEventResponseMcpCallInProgress extends ServerEvent {
+    itemId: string;
+    outputIndex: number;
+    // (undocumented)
+    type: "response.mcp_call.in_progress";
+}
+
+// @public
 export interface ServerEventResponseOutputItemAdded extends ServerEvent {
     // (undocumented)
     item?: ResponseItemUnion;
@@ -1359,7 +1509,7 @@ export interface ServerEventSessionUpdated extends ServerEvent {
 export type ServerEventType = string;
 
 // @public
-export type ServerEventUnion = ServerEventError | ServerEventSessionCreated | ServerEventSessionUpdated | ServerEventSessionAvatarConnecting | ServerEventInputAudioBufferCommitted | ServerEventInputAudioBufferCleared | ServerEventInputAudioBufferSpeechStarted | ServerEventInputAudioBufferSpeechStopped | ServerEventConversationItemCreated | ServerEventConversationItemInputAudioTranscriptionCompleted | ServerEventConversationItemInputAudioTranscriptionFailed | ServerEventConversationItemTruncated | ServerEventConversationItemDeleted | ServerEventResponseCreated | ServerEventResponseDone | ServerEventResponseOutputItemAdded | ServerEventResponseOutputItemDone | ServerEventResponseContentPartAdded | ServerEventResponseContentPartDone | ServerEventResponseTextDelta | ServerEventResponseTextDone | ServerEventResponseAudioTranscriptDelta | ServerEventResponseAudioTranscriptDone | ServerEventResponseAudioDelta | ServerEventResponseAudioDone | ServerEventResponseAnimationBlendshapeDelta | ServerEventResponseAnimationBlendshapeDone | ServerEventResponseAudioTimestampDelta | ServerEventResponseAudioTimestampDone | ServerEventResponseAnimationVisemeDelta | ServerEventResponseAnimationVisemeDone | ServerEventConversationItemInputAudioTranscriptionDelta | ServerEventConversationItemRetrieved | ServerEventResponseFunctionCallArgumentsDelta | ServerEventResponseFunctionCallArgumentsDone | ServerEvent;
+export type ServerEventUnion = ServerEventError | ServerEventSessionCreated | ServerEventSessionUpdated | ServerEventSessionAvatarConnecting | ServerEventInputAudioBufferCommitted | ServerEventInputAudioBufferCleared | ServerEventInputAudioBufferSpeechStarted | ServerEventInputAudioBufferSpeechStopped | ServerEventConversationItemCreated | ServerEventConversationItemInputAudioTranscriptionCompleted | ServerEventConversationItemInputAudioTranscriptionFailed | ServerEventConversationItemTruncated | ServerEventConversationItemDeleted | ServerEventResponseCreated | ServerEventResponseDone | ServerEventResponseOutputItemAdded | ServerEventResponseOutputItemDone | ServerEventResponseContentPartAdded | ServerEventResponseContentPartDone | ServerEventResponseTextDelta | ServerEventResponseTextDone | ServerEventResponseAudioTranscriptDelta | ServerEventResponseAudioTranscriptDone | ServerEventResponseAudioDelta | ServerEventResponseAudioDone | ServerEventResponseAnimationBlendshapeDelta | ServerEventResponseAnimationBlendshapeDone | ServerEventResponseAudioTimestampDelta | ServerEventResponseAudioTimestampDone | ServerEventResponseAnimationVisemeDelta | ServerEventResponseAnimationVisemeDone | ServerEventConversationItemInputAudioTranscriptionDelta | ServerEventConversationItemRetrieved | ServerEventResponseFunctionCallArgumentsDelta | ServerEventResponseFunctionCallArgumentsDone | ServerEventMcpListToolsInProgress | ServerEventMcpListToolsCompleted | ServerEventMcpListToolsFailed | ServerEventResponseMcpCallArgumentsDelta | ServerEventResponseMcpCallArgumentsDone | ServerEventResponseMcpCallInProgress | ServerEventResponseMcpCallCompleted | ServerEventResponseMcpCallFailed | ServerEvent;
 
 // @public
 export interface ServerVad extends TurnDetection {
@@ -1383,16 +1533,6 @@ export interface ServerVad extends TurnDetection {
 
 // @public
 export interface SessionBase {
-}
-
-// @public
-export interface SessionContext extends ConnectionContext {
-    readonly conversationId?: string;
-    readonly sessionId: string;
-}
-
-// @public (undocumented)
-export interface StartSessionOptions extends VoiceLiveSessionOptions {
 }
 
 // @public
@@ -1443,7 +1583,7 @@ export type ToolChoiceSelectionUnion = ToolChoiceFunctionSelection | ToolChoiceS
 export type ToolType = string;
 
 // @public
-export type ToolUnion = FunctionTool | Tool;
+export type ToolUnion = FunctionTool | MCPServer | Tool;
 
 // @public
 export interface TurnDetection {
@@ -1456,11 +1596,6 @@ export type TurnDetectionType = string;
 
 // @public
 export type TurnDetectionUnion = ServerVad | AzureSemanticVad | AzureSemanticVadEn | AzureSemanticVadMultilingual | TurnDetection;
-
-// @public (undocumented)
-export interface TurnOptions extends SendEventOptions {
-    turnId?: string;
-}
 
 // @public
 export interface UserMessageItem extends MessageItem {
@@ -1494,167 +1629,12 @@ export interface VideoResolution {
 export type Voice = OAIVoice | OpenAIVoice | AzureVoiceUnion;
 
 // @public
-export class VoiceLiveAuthenticationError extends VoiceLiveConnectionError {
-    constructor(message: string, code: string, cause?: Error);
-}
-
-// @public
-export class VoiceLiveClient {
-    constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: VoiceLiveClientOptions);
-    // (undocumented)
-    get apiVersion(): string;
-    createSession(model: string, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
-    createSession(sessionConfig: RequestSession, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
-    // (undocumented)
-    get endpoint(): string;
-    startSession(model: string, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
-    startSession(sessionConfig: RequestSession, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
-}
-
-// @public (undocumented)
-export interface VoiceLiveClientOptions {
-    apiVersion?: string;
-    defaultSessionOptions?: VoiceLiveSessionOptions;
-}
-
-// @public
-export class VoiceLiveConnectionError extends Error {
-    constructor(message: string, code: string, context?: string, recoverable?: boolean, cause?: Error);
-    readonly cause?: Error;
-    readonly code: string;
-    readonly context: string;
-    readonly recoverable: boolean;
-    readonly timestamp: Date;
-}
-
-// @public
-export class VoiceLiveError extends VoiceLiveConnectionError {
-    constructor(message: string, code: string, context?: string, recoverable?: boolean, cause?: Error);
-}
-
-// @public
-export enum VoiceLiveErrorCodes {
-    // (undocumented)
-    AlreadyConnected = "ALREADY_CONNECTED",
-    // (undocumented)
-    AuthenticationFailed = "AUTHENTICATION_FAILED",
-    // (undocumented)
-    BufferOverflow = "BUFFER_OVERFLOW",
-    // (undocumented)
-    ConnectionFailed = "CONNECTION_FAILED",
-    // (undocumented)
-    ConnectionLost = "CONNECTION_LOST",
-    // (undocumented)
-    ConnectionTimeout = "CONNECTION_TIMEOUT",
-    // (undocumented)
-    Forbidden = "FORBIDDEN",
-    // (undocumented)
-    InvalidCredentials = "INVALID_CREDENTIALS",
-    // (undocumented)
-    InvalidMessage = "INVALID_MESSAGE",
-    // (undocumented)
-    InvalidState = "INVALID_STATE",
-    // (undocumented)
-    MessageTooLarge = "MESSAGE_TOO_LARGE",
-    // (undocumented)
-    NotConnected = "NOT_CONNECTED",
-    // (undocumented)
-    OperationCancelled = "OPERATION_CANCELLED",
-    // (undocumented)
-    ProtocolError = "PROTOCOL_ERROR",
-    // (undocumented)
-    Unauthorized = "UNAUTHORIZED",
-    // (undocumented)
-    WebSocketError = "WEBSOCKET_ERROR"
-}
-
-// @public
 export interface VoiceLiveErrorDetails {
     code?: string;
     eventId?: string;
     message: string;
     param?: string;
     type?: string;
-}
-
-// @public
-export class VoiceLiveProtocolError extends VoiceLiveConnectionError {
-    constructor(message: string, code: string, cause?: Error);
-}
-
-// @public
-export class VoiceLiveSession {
-    constructor(endpoint: string, credential: TokenCredential | KeyCredential, apiVersion: string, model: string, options?: VoiceLiveSessionOptions);
-    get activeTurnId(): string | undefined;
-    addConversationItem(item: ConversationRequestItem, options?: SendEventOptions): Promise<void>;
-    connect(options?: ConnectOptions): Promise<void>;
-    get connectionState(): ConnectionState;
-    disconnect(): Promise<void>;
-    dispose(): Promise<void>;
-    endAudioTurn(turnId?: string, options?: SendEventOptions): Promise<void>;
-    get isConnected(): boolean;
-    sendAudio(audioData: ArrayBuffer | Uint8Array, options?: AudioStreamOptions): Promise<void>;
-    sendEvent(event: ClientEventUnion, options?: SendEventOptions): Promise<void>;
-    get sessionId(): string | undefined;
-    startAudioTurn(options?: TurnOptions): Promise<string>;
-    subscribe(handlers: VoiceLiveSessionHandlers): VoiceLiveSubscription;
-    updateSession(session: RequestSession, options?: SendEventOptions): Promise<void>;
-}
-
-// @public
-export interface VoiceLiveSessionHandlers {
-    onConnected?: (args: ConnectedEventArgs, context: ConnectionContext) => Promise<void>;
-    onConversationItemCreated?: (event: ServerEventConversationItemCreated, context: SessionContext) => Promise<void>;
-    onConversationItemDeleted?: (event: ServerEventConversationItemDeleted, context: SessionContext) => Promise<void>;
-    onConversationItemInputAudioTranscriptionCompleted?: (event: ServerEventConversationItemInputAudioTranscriptionCompleted, context: SessionContext) => Promise<void>;
-    onConversationItemInputAudioTranscriptionDelta?: (event: ServerEventConversationItemInputAudioTranscriptionDelta, context: SessionContext) => Promise<void>;
-    onConversationItemInputAudioTranscriptionFailed?: (event: ServerEventConversationItemInputAudioTranscriptionFailed, context: SessionContext) => Promise<void>;
-    onConversationItemRetrieved?: (event: ServerEventConversationItemRetrieved, context: SessionContext) => Promise<void>;
-    onConversationItemTruncated?: (event: ServerEventConversationItemTruncated, context: SessionContext) => Promise<void>;
-    onDisconnected?: (args: DisconnectedEventArgs, context: ConnectionContext) => Promise<void>;
-    onError?: (args: ErrorEventArgs, context: ConnectionContext) => Promise<void>;
-    onInputAudioBufferCleared?: (event: ServerEventInputAudioBufferCleared, context: SessionContext) => Promise<void>;
-    onInputAudioBufferCommitted?: (event: ServerEventInputAudioBufferCommitted, context: SessionContext) => Promise<void>;
-    onInputAudioBufferSpeechStarted?: (event: ServerEventInputAudioBufferSpeechStarted, context: SessionContext) => Promise<void>;
-    onInputAudioBufferSpeechStopped?: (event: ServerEventInputAudioBufferSpeechStopped, context: SessionContext) => Promise<void>;
-    onResponseAnimationBlendshapeDelta?: (event: ServerEventResponseAnimationBlendshapeDelta, context: SessionContext) => Promise<void>;
-    onResponseAnimationBlendshapeDone?: (event: ServerEventResponseAnimationBlendshapeDone, context: SessionContext) => Promise<void>;
-    onResponseAnimationVisemeDelta?: (event: ServerEventResponseAnimationVisemeDelta, context: SessionContext) => Promise<void>;
-    onResponseAnimationVisemeDone?: (event: ServerEventResponseAnimationVisemeDone, context: SessionContext) => Promise<void>;
-    onResponseAudioDelta?: (event: ServerEventResponseAudioDelta, context: SessionContext) => Promise<void>;
-    onResponseAudioDone?: (event: ServerEventResponseAudioDone, context: SessionContext) => Promise<void>;
-    onResponseAudioTimestampDelta?: (event: ServerEventResponseAudioTimestampDelta, context: SessionContext) => Promise<void>;
-    onResponseAudioTimestampDone?: (event: ServerEventResponseAudioTimestampDone, context: SessionContext) => Promise<void>;
-    onResponseAudioTranscriptDelta?: (event: ServerEventResponseAudioTranscriptDelta, context: SessionContext) => Promise<void>;
-    onResponseAudioTranscriptDone?: (event: ServerEventResponseAudioTranscriptDone, context: SessionContext) => Promise<void>;
-    onResponseContentPartAdded?: (event: ServerEventResponseContentPartAdded, context: SessionContext) => Promise<void>;
-    onResponseContentPartDone?: (event: ServerEventResponseContentPartDone, context: SessionContext) => Promise<void>;
-    onResponseCreated?: (event: ServerEventResponseCreated, context: SessionContext) => Promise<void>;
-    onResponseDone?: (event: ServerEventResponseDone, context: SessionContext) => Promise<void>;
-    onResponseFunctionCallArgumentsDelta?: (event: ServerEventResponseFunctionCallArgumentsDelta, context: SessionContext) => Promise<void>;
-    onResponseFunctionCallArgumentsDone?: (event: ServerEventResponseFunctionCallArgumentsDone, context: SessionContext) => Promise<void>;
-    onResponseOutputItemAdded?: (event: ServerEventResponseOutputItemAdded, context: SessionContext) => Promise<void>;
-    onResponseOutputItemDone?: (event: ServerEventResponseOutputItemDone, context: SessionContext) => Promise<void>;
-    onResponseTextDelta?: (event: ServerEventResponseTextDelta, context: SessionContext) => Promise<void>;
-    onResponseTextDone?: (event: ServerEventResponseTextDone, context: SessionContext) => Promise<void>;
-    onServerError?: (event: ServerEventError, context: SessionContext) => Promise<void>;
-    onServerEvent?: (event: ServerEventUnion, context: SessionContext) => Promise<void>;
-    onSessionAvatarConnecting?: (event: ServerEventSessionAvatarConnecting, context: SessionContext) => Promise<void>;
-    onSessionCreated?: (event: ServerEventSessionCreated, context: SessionContext) => Promise<void>;
-    onSessionUpdated?: (event: ServerEventSessionUpdated, context: SessionContext) => Promise<void>;
-}
-
-// @public (undocumented)
-export interface VoiceLiveSessionOptions {
-    connectionTimeoutInMs?: number;
-    enableDebugLogging?: boolean;
-}
-
-// @public
-export interface VoiceLiveSubscription {
-    close(): Promise<void>;
-    readonly isActive: boolean;
-    readonly subscriptionId: string;
 }
 
 // (No @packageDocumentation comment for this package)

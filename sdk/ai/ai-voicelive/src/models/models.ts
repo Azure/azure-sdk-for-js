@@ -3,6 +3,12 @@
 
 import { stringToUint8Array } from "@azure/core-util";
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Error object returned in case of API failure. */
 export interface VoiceLiveErrorDetails {
   /** Error code, or null if unspecified. */
@@ -184,6 +190,8 @@ export enum KnownClientEventType {
   ResponseCancel = "response.cancel",
   /** session.avatar.connect */
   SessionAvatarConnect = "session.avatar.connect",
+  /** mcp_approval_response */
+  McpApprovalResponse = "mcp_approval_response",
 }
 
 /**
@@ -206,7 +214,8 @@ export enum KnownClientEventType {
  * **conversation.item.delete** \
  * **response.create** \
  * **response.cancel** \
- * **session.avatar.connect**
+ * **session.avatar.connect** \
+ * **mcp_approval_response**
  */
 export type ClientEventType = string;
 
@@ -424,6 +433,10 @@ export enum KnownOAIVoice {
   Shimmer = "shimmer",
   /** Verse voice. */
   Verse = "verse",
+  /** Marin voice. */
+  Marin = "marin",
+  /** Cedar voice. */
+  Cedar = "cedar",
 }
 
 /**
@@ -438,7 +451,9 @@ export enum KnownOAIVoice {
  * **echo**: Echo voice. \
  * **sage**: Sage voice. \
  * **shimmer**: Shimmer voice. \
- * **verse**: Verse voice.
+ * **verse**: Verse voice. \
+ * **marin**: Marin voice. \
+ * **cedar**: Cedar voice.
  */
 export type OAIVoice = string;
 
@@ -664,6 +679,13 @@ export interface AzurePersonalVoice extends AzureVoice {
   temperature?: number;
   /** Underlying neural model to use for personal voice. */
   model: PersonalVoiceModels;
+  customLexiconUrl?: string;
+  preferLocales?: string[];
+  locale?: string;
+  style?: string;
+  pitch?: string;
+  rate?: string;
+  volume?: string;
 }
 
 export function azurePersonalVoiceSerializer(item: AzurePersonalVoice): any {
@@ -672,6 +694,17 @@ export function azurePersonalVoiceSerializer(item: AzurePersonalVoice): any {
     name: item["name"],
     temperature: item["temperature"],
     model: item["model"],
+    custom_lexicon_url: item["customLexiconUrl"],
+    prefer_locales: !item["preferLocales"]
+      ? item["preferLocales"]
+      : item["preferLocales"].map((p: any) => {
+          return p;
+        }),
+    locale: item["locale"],
+    style: item["style"],
+    pitch: item["pitch"],
+    rate: item["rate"],
+    volume: item["volume"],
   };
 }
 
@@ -681,6 +714,17 @@ export function azurePersonalVoiceDeserializer(item: any): AzurePersonalVoice {
     name: item["name"],
     temperature: item["temperature"],
     model: item["model"],
+    customLexiconUrl: item["custom_lexicon_url"],
+    preferLocales: !item["prefer_locales"]
+      ? item["prefer_locales"]
+      : item["prefer_locales"].map((p: any) => {
+          return p;
+        }),
+    locale: item["locale"],
+    style: item["style"],
+    pitch: item["pitch"],
+    rate: item["rate"],
+    volume: item["volume"],
   };
 }
 
@@ -1232,41 +1276,71 @@ export function audioEchoCancellationDeserializer(item: any): AudioEchoCancellat
 
 /** Configuration for avatar streaming and behavior during the session. */
 export interface AvatarConfig {
+  /** Type of avatar to use. */
+  type?: AvatarConfigTypes;
   /** Optional list of ICE servers to use for WebRTC connection establishment. */
   iceServers?: IceServer[];
   /** The character name or ID used for the avatar. */
   character: string;
   /** Optional avatar style, such as emotional tone or speaking style. */
   style?: string;
+  /** Base model to use for the avatar. Required for photo avatar. */
+  model?: PhotoAvatarBaseModes;
   /** Indicates whether the avatar is customized or not. */
   customized: boolean;
   /** Optional video configuration including resolution, bitrate, and codec. */
   video?: VideoParams;
+  /** Output protocol for avatar streaming. Default is 'webrtc'. */
+  outputProtocol?: AvatarOutputProtocol;
 }
 
 export function avatarConfigSerializer(item: AvatarConfig): any {
   return {
+    type: item["type"],
     ice_servers: !item["iceServers"]
       ? item["iceServers"]
       : iceServerArraySerializer(item["iceServers"]),
     character: item["character"],
     style: item["style"],
+    model: item["model"],
     customized: item["customized"],
     video: !item["video"] ? item["video"] : videoParamsSerializer(item["video"]),
+    output_protocol: item["outputProtocol"],
   };
 }
 
 export function avatarConfigDeserializer(item: any): AvatarConfig {
   return {
+    type: item["type"],
     iceServers: !item["ice_servers"]
       ? item["ice_servers"]
       : iceServerArrayDeserializer(item["ice_servers"]),
     character: item["character"],
     style: item["style"],
+    model: item["model"],
     customized: item["customized"],
     video: !item["video"] ? item["video"] : videoParamsDeserializer(item["video"]),
+    outputProtocol: item["output_protocol"],
   };
 }
+
+/** Avatar config types */
+export enum KnownAvatarConfigTypes {
+  /** Video avatar */
+  VideoAvatar = "video-avatar",
+  /** Photo avatar */
+  PhotoAvatar = "photo-avatar",
+}
+
+/**
+ * Avatar config types \
+ * {@link KnownAvatarConfigTypes} can be used interchangeably with AvatarConfigTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **video-avatar**: Video avatar \
+ * **photo-avatar**: Photo avatar
+ */
+export type AvatarConfigTypes = string;
 
 export function iceServerArraySerializer(result: Array<IceServer>): any[] {
   return result.map((item) => {
@@ -1309,6 +1383,21 @@ export function iceServerDeserializer(item: any): IceServer {
     credential: item["credential"],
   };
 }
+
+/** Photo avatar base modes */
+export enum KnownPhotoAvatarBaseModes {
+  /** VASA-1 model */
+  Vasa1 = "vasa-1",
+}
+
+/**
+ * Photo avatar base modes \
+ * {@link KnownPhotoAvatarBaseModes} can be used interchangeably with PhotoAvatarBaseModes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **vasa-1**: VASA-1 model
+ */
+export type PhotoAvatarBaseModes = string;
 
 /** Video streaming parameters for avatar. */
 export interface VideoParams {
@@ -1422,6 +1511,24 @@ export function backgroundDeserializer(item: any): Background {
   };
 }
 
+/** Avatar config output protocols */
+export enum KnownAvatarOutputProtocol {
+  /** WebRTC protocol, output the audio/video streams via WebRTC */
+  Webrtc = "webrtc",
+  /** WebSocket protocol, output the video frames over WebSocket */
+  Websocket = "websocket",
+}
+
+/**
+ * Avatar config output protocols \
+ * {@link KnownAvatarOutputProtocol} can be used interchangeably with AvatarOutputProtocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **webrtc**: WebRTC protocol, output the audio\/video streams via WebRTC \
+ * **websocket**: WebSocket protocol, output the video frames over WebSocket
+ */
+export type AvatarOutputProtocol = string;
+
 /** Configuration for input audio transcription. */
 export interface AudioInputTranscriptionOptions {
   /**
@@ -1459,7 +1566,11 @@ export function audioInputTranscriptionOptionsDeserializer(
   return {
     model: item["model"],
     language: item["language"],
-    customSpeech: item["custom_speech"],
+    customSpeech: !item["custom_speech"]
+      ? item["custom_speech"]
+      : Object.fromEntries(
+          Object.entries(item["custom_speech"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     phraseList: !item["phrase_list"]
       ? item["phrase_list"]
       : item["phrase_list"].map((p: any) => {
@@ -1511,12 +1622,15 @@ export function toolDeserializer(item: any): Tool {
 }
 
 /** Alias for ToolUnion */
-export type ToolUnion = FunctionTool | Tool;
+export type ToolUnion = FunctionTool | MCPServer | Tool;
 
 export function toolUnionSerializer(item: ToolUnion): any {
   switch (item.type) {
     case "function":
       return functionToolSerializer(item as FunctionTool);
+
+    case "mcp":
+      return mcpServerSerializer(item as MCPServer);
 
     default:
       return toolSerializer(item);
@@ -1527,6 +1641,9 @@ export function toolUnionDeserializer(item: any): ToolUnion {
   switch (item.type) {
     case "function":
       return functionToolDeserializer(item as FunctionTool);
+
+    case "mcp":
+      return mcpServerDeserializer(item as MCPServer);
 
     default:
       return toolDeserializer(item);
@@ -1540,6 +1657,8 @@ export function toolUnionDeserializer(item: any): ToolUnion {
 export enum KnownToolType {
   /** function */
   Function = "function",
+  /** mcp */
+  Mcp = "mcp",
 }
 
 /**
@@ -1548,7 +1667,8 @@ export enum KnownToolType {
  * {@link KnownToolType} can be used interchangeably with ToolType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **function**
+ * **function** \
+ * **mcp**
  */
 export type ToolType = string;
 
@@ -1578,6 +1698,83 @@ export function functionToolDeserializer(item: any): FunctionTool {
   };
 }
 
+/** The definition of an MCP server as used by the voicelive endpoint. */
+export interface MCPServer extends Tool {
+  type: "mcp";
+  serverLabel: string;
+  serverUrl: string;
+  authorization?: string;
+  headers?: Record<string, string>;
+  allowedTools?: string[];
+  requireApproval?: MCPApprovalType | Record<string, string[]>;
+}
+
+export function mcpServerSerializer(item: MCPServer): any {
+  return {
+    type: item["type"],
+    server_label: item["serverLabel"],
+    server_url: item["serverUrl"],
+    authorization: item["authorization"],
+    headers: item["headers"],
+    allowed_tools: !item["allowedTools"]
+      ? item["allowedTools"]
+      : item["allowedTools"].map((p: any) => {
+          return p;
+        }),
+    require_approval: !item["requireApproval"]
+      ? item["requireApproval"]
+      : _mcpServerRequireApprovalSerializer(item["requireApproval"]),
+  };
+}
+
+export function mcpServerDeserializer(item: any): MCPServer {
+  return {
+    type: item["type"],
+    serverLabel: item["server_label"],
+    serverUrl: item["server_url"],
+    authorization: item["authorization"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : Object.fromEntries(Object.entries(item["headers"]).map(([k, p]: [string, any]) => [k, p])),
+    allowedTools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : item["allowed_tools"].map((p: any) => {
+          return p;
+        }),
+    requireApproval: !item["require_approval"]
+      ? item["require_approval"]
+      : _mcpServerRequireApprovalDeserializer(item["require_approval"]),
+  };
+}
+
+/** Alias for _MCPServerRequireApproval */
+export type _MCPServerRequireApproval = MCPApprovalType | Record<string, string[]>;
+
+export function _mcpServerRequireApprovalSerializer(item: _MCPServerRequireApproval): any {
+  return item;
+}
+
+export function _mcpServerRequireApprovalDeserializer(item: any): _MCPServerRequireApproval {
+  return item;
+}
+
+/** The available set of MCP approval types. */
+export enum KnownMCPApprovalType {
+  /** Approval is never required. */
+  Never = "never",
+  /** Approval is always required. */
+  Always = "always",
+}
+
+/**
+ * The available set of MCP approval types. \
+ * {@link KnownMCPApprovalType} can be used interchangeably with MCPApprovalType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **never**: Approval is never required. \
+ * **always**: Approval is always required.
+ */
+export type MCPApprovalType = string;
 /**
  * The combined set of available representations for a voicelive tool_choice parameter, encompassing both string
  * literal options like 'auto' as well as structured references to defined tools.
@@ -1698,11 +1895,7 @@ export interface ClientEventSessionAvatarConnect extends ClientEvent {
 export function clientEventSessionAvatarConnectSerializer(
   item: ClientEventSessionAvatarConnect,
 ): any {
-  return {
-    type: item["type"],
-    event_id: item["eventId"],
-    client_sdp: item["clientSdp"],
-  };
+  return { type: item["type"], event_id: item["eventId"], client_sdp: item["clientSdp"] };
 }
 
 /** Indicates the start of a new audio input turn. */
@@ -1716,11 +1909,7 @@ export interface ClientEventInputAudioTurnStart extends ClientEvent {
 export function clientEventInputAudioTurnStartSerializer(
   item: ClientEventInputAudioTurnStart,
 ): any {
-  return {
-    type: item["type"],
-    event_id: item["eventId"],
-    turn_id: item["turnId"],
-  };
+  return { type: item["type"], event_id: item["eventId"], turn_id: item["turnId"] };
 }
 
 /** Appends audio data to an ongoing input turn. */
@@ -1753,11 +1942,7 @@ export interface ClientEventInputAudioTurnEnd extends ClientEvent {
 }
 
 export function clientEventInputAudioTurnEndSerializer(item: ClientEventInputAudioTurnEnd): any {
-  return {
-    type: item["type"],
-    event_id: item["eventId"],
-    turn_id: item["turnId"],
-  };
+  return { type: item["type"], event_id: item["eventId"], turn_id: item["turnId"] };
 }
 
 /** Cancels an in-progress input audio turn. */
@@ -1771,11 +1956,7 @@ export interface ClientEventInputAudioTurnCancel extends ClientEvent {
 export function clientEventInputAudioTurnCancelSerializer(
   item: ClientEventInputAudioTurnCancel,
 ): any {
-  return {
-    type: item["type"],
-    event_id: item["eventId"],
-    turn_id: item["turnId"],
-  };
+  return { type: item["type"], event_id: item["eventId"], turn_id: item["turnId"] };
 }
 
 /** Clears all input audio currently being streamed. */
@@ -1813,11 +1994,7 @@ export interface ClientEventInputAudioBufferAppend extends ClientEvent {
 export function clientEventInputAudioBufferAppendSerializer(
   item: ClientEventInputAudioBufferAppend,
 ): any {
-  return {
-    type: item["type"],
-    event_id: item["eventId"],
-    audio: item["audio"],
-  };
+  return { type: item["type"], event_id: item["eventId"], audio: item["audio"] };
 }
 
 /**
@@ -1914,6 +2091,7 @@ export type ConversationRequestItemUnion =
   | MessageItemUnion
   | FunctionCallItem
   | FunctionCallOutputItem
+  | MCPApprovalResponseRequestItem
   | ConversationRequestItem;
 
 export function conversationRequestItemUnionSerializer(item: ConversationRequestItemUnion): any {
@@ -1926,6 +2104,9 @@ export function conversationRequestItemUnionSerializer(item: ConversationRequest
 
     case "function_call_output":
       return functionCallOutputItemSerializer(item as FunctionCallOutputItem);
+
+    case "mcp_approval_response":
+      return mcpApprovalResponseRequestItemSerializer(item as MCPApprovalResponseRequestItem);
 
     default:
       return conversationRequestItemSerializer(item);
@@ -1943,6 +2124,9 @@ export function conversationRequestItemUnionDeserializer(item: any): Conversatio
     case "function_call_output":
       return functionCallOutputItemDeserializer(item as FunctionCallOutputItem);
 
+    case "mcp_approval_response":
+      return mcpApprovalResponseRequestItemDeserializer(item as MCPApprovalResponseRequestItem);
+
     default:
       return conversationRequestItemDeserializer(item);
   }
@@ -1956,6 +2140,14 @@ export enum KnownItemType {
   FunctionCall = "function_call",
   /** function_call_output */
   FunctionCallOutput = "function_call_output",
+  /** mcp_list_tools */
+  McpListTools = "mcp_list_tools",
+  /** mcp_call */
+  McpCall = "mcp_call",
+  /** mcp_approval_request */
+  McpApprovalRequest = "mcp_approval_request",
+  /** mcp_approval_response */
+  McpApprovalResponse = "mcp_approval_response",
 }
 
 /** Type of ItemType */
@@ -1966,7 +2158,7 @@ export interface MessageItem extends ConversationRequestItem {
   /** The type of the item; must be 'message' for message items. */
   type: "message";
   /** The role of the message origionator. */
-  /** The discriminator possible values: system, user, assistant */
+  /** The discriminator possible values: assistant, system, user */
   role: MessageRole;
   /** The content parts of the message. */
   content: MessageContentPartUnion[];
@@ -1996,21 +2188,21 @@ export function messageItemDeserializer(item: any): MessageItem {
 
 /** Alias for MessageItemUnion */
 export type MessageItemUnion =
+  | AssistantMessageItem
   | SystemMessageItem
   | UserMessageItem
-  | AssistantMessageItem
   | MessageItem;
 
 export function messageItemUnionSerializer(item: MessageItemUnion): any {
   switch (item.role) {
+    case "assistant":
+      return assistantMessageItemSerializer(item as AssistantMessageItem);
+
     case "system":
       return systemMessageItemSerializer(item as SystemMessageItem);
 
     case "user":
       return userMessageItemSerializer(item as UserMessageItem);
-
-    case "assistant":
-      return assistantMessageItemSerializer(item as AssistantMessageItem);
 
     default:
       return messageItemSerializer(item);
@@ -2019,14 +2211,14 @@ export function messageItemUnionSerializer(item: MessageItemUnion): any {
 
 export function messageItemUnionDeserializer(item: any): MessageItemUnion {
   switch (item.role) {
+    case "assistant":
+      return assistantMessageItemDeserializer(item as AssistantMessageItem);
+
     case "system":
       return systemMessageItemDeserializer(item as SystemMessageItem);
 
     case "user":
       return userMessageItemDeserializer(item as UserMessageItem);
-
-    case "assistant":
-      return assistantMessageItemDeserializer(item as AssistantMessageItem);
 
     default:
       return messageItemDeserializer(item);
@@ -2124,6 +2316,8 @@ export enum KnownContentPartType {
   InputText = "input_text",
   /** input_audio */
   InputAudio = "input_audio",
+  /** input_image */
+  InputImage = "input_image",
   /** text */
   Text = "text",
   /** audio */
@@ -2158,11 +2352,7 @@ export interface InputAudioContentPart extends MessageContentPart {
 }
 
 export function inputAudioContentPartSerializer(item: InputAudioContentPart): any {
-  return {
-    type: item["type"],
-    audio: item["audio"],
-    transcript: item["transcript"],
-  };
+  return { type: item["type"], audio: item["audio"], transcript: item["transcript"] };
 }
 
 export function inputAudioContentPartDeserializer(item: any): InputAudioContentPart {
@@ -2210,6 +2400,31 @@ export enum KnownItemParamStatus {
  */
 export type ItemParamStatus = string;
 
+/** An assistant message item within a conversation. */
+export interface AssistantMessageItem extends MessageItem {
+  role: "assistant";
+}
+
+export function assistantMessageItemSerializer(item: AssistantMessageItem): any {
+  return {
+    type: item["type"],
+    role: item["role"],
+    content: messageContentPartUnionArraySerializer(item["content"]),
+    status: item["status"],
+    id: item["id"],
+  };
+}
+
+export function assistantMessageItemDeserializer(item: any): AssistantMessageItem {
+  return {
+    type: item["type"],
+    role: item["role"],
+    content: messageContentPartUnionArrayDeserializer(item["content"]),
+    status: item["status"],
+    id: item["id"],
+  };
+}
+
 /** A system message item within a conversation. */
 export interface SystemMessageItem extends MessageItem {
   role: "system";
@@ -2251,31 +2466,6 @@ export function userMessageItemSerializer(item: UserMessageItem): any {
 }
 
 export function userMessageItemDeserializer(item: any): UserMessageItem {
-  return {
-    type: item["type"],
-    role: item["role"],
-    content: messageContentPartUnionArrayDeserializer(item["content"]),
-    status: item["status"],
-    id: item["id"],
-  };
-}
-
-/** An assistant message item within a conversation. */
-export interface AssistantMessageItem extends MessageItem {
-  role: "assistant";
-}
-
-export function assistantMessageItemSerializer(item: AssistantMessageItem): any {
-  return {
-    type: item["type"],
-    role: item["role"],
-    content: messageContentPartUnionArraySerializer(item["content"]),
-    status: item["status"],
-    id: item["id"],
-  };
-}
-
-export function assistantMessageItemDeserializer(item: any): AssistantMessageItem {
   return {
     type: item["type"],
     role: item["role"],
@@ -2344,6 +2534,38 @@ export function functionCallOutputItemDeserializer(item: any): FunctionCallOutpu
   };
 }
 
+/** A request item that represents a response to an MCP approval request. */
+export interface MCPApprovalResponseRequestItem extends ConversationRequestItem {
+  /** The type of the item. */
+  type: "mcp_approval_response";
+  /** The ID of the approval request. */
+  approvalRequestId: string;
+  /** Whether the tool call was approved. */
+  approve: boolean;
+}
+
+export function mcpApprovalResponseRequestItemSerializer(
+  item: MCPApprovalResponseRequestItem,
+): any {
+  return {
+    type: item["type"],
+    id: item["id"],
+    approval_request_id: item["approvalRequestId"],
+    approve: item["approve"],
+  };
+}
+
+export function mcpApprovalResponseRequestItemDeserializer(
+  item: any,
+): MCPApprovalResponseRequestItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+    approvalRequestId: item["approval_request_id"],
+    approve: item["approve"],
+  };
+}
+
 /**
  * Send this event to truncate a previous assistant message’s audio. The server
  * will produce audio faster than voicelive, so this event is useful when the user
@@ -2401,11 +2623,7 @@ export interface ClientEventConversationItemDelete extends ClientEvent {
 export function clientEventConversationItemDeleteSerializer(
   item: ClientEventConversationItemDelete,
 ): any {
-  return {
-    type: item["type"],
-    event_id: item["eventId"],
-    item_id: item["itemId"],
-  };
+  return { type: item["type"], event_id: item["eventId"], item_id: item["itemId"] };
 }
 
 /**
@@ -2494,6 +2712,11 @@ export interface ResponseCreateParams {
    * given model. Defaults to `inf`.
    */
   maxOutputTokens?: number | "inf";
+  /**
+   * Create the response with pre-generated assistant message. The message item would be
+   * added into the conversation history and returned with synthesized audio output in the created response.
+   */
+  preGeneratedAssistantMessage?: AssistantMessageItem;
 }
 
 export function responseCreateParamsSerializer(item: ResponseCreateParams): any {
@@ -2520,6 +2743,9 @@ export function responseCreateParamsSerializer(item: ResponseCreateParams): any 
     max_output_tokens: !item["maxOutputTokens"]
       ? item["maxOutputTokens"]
       : _responseCreateParamsMaxOutputTokensSerializer(item["maxOutputTokens"]),
+    pre_generated_assistant_message: !item["preGeneratedAssistantMessage"]
+      ? item["preGeneratedAssistantMessage"]
+      : assistantMessageItemSerializer(item["preGeneratedAssistantMessage"]),
   };
 }
 
@@ -2547,6 +2773,9 @@ export function responseCreateParamsDeserializer(item: any): ResponseCreateParam
     maxOutputTokens: !item["max_output_tokens"]
       ? item["max_output_tokens"]
       : _responseCreateParamsMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    preGeneratedAssistantMessage: !item["pre_generated_assistant_message"]
+      ? item["pre_generated_assistant_message"]
+      : assistantMessageItemDeserializer(item["pre_generated_assistant_message"]),
   };
 }
 
@@ -2597,11 +2826,7 @@ export interface ClientEventResponseCancel extends ClientEvent {
 }
 
 export function clientEventResponseCancelSerializer(item: ClientEventResponseCancel): any {
-  return {
-    type: item["type"],
-    event_id: item["eventId"],
-    response_id: item["responseId"],
-  };
+  return { type: item["type"], event_id: item["eventId"], response_id: item["responseId"] };
 }
 
 /**
@@ -2620,11 +2845,7 @@ export interface ClientEventConversationItemRetrieve extends ClientEvent {
 export function clientEventConversationItemRetrieveSerializer(
   item: ClientEventConversationItemRetrieve,
 ): any {
-  return {
-    type: item["type"],
-    event_id: item["eventId"],
-    item_id: item["itemId"],
-  };
+  return { type: item["type"], event_id: item["eventId"], item_id: item["itemId"] };
 }
 
 /** VoiceLive session object configuration. */
@@ -2844,6 +3065,10 @@ export type ResponseItemUnion =
   | ResponseMessageItem
   | ResponseFunctionCallItem
   | ResponseFunctionCallOutputItem
+  | ResponseMCPListToolItem
+  | ResponseMCPCallItem
+  | ResponseMCPApprovalRequestItem
+  | ResponseMCPApprovalResponseItem
   | ResponseItem;
 
 export function responseItemUnionDeserializer(item: any): ResponseItemUnion {
@@ -2856,6 +3081,18 @@ export function responseItemUnionDeserializer(item: any): ResponseItemUnion {
 
     case "function_call_output":
       return responseFunctionCallOutputItemDeserializer(item as ResponseFunctionCallOutputItem);
+
+    case "mcp_list_tools":
+      return responseMCPListToolItemDeserializer(item as ResponseMCPListToolItem);
+
+    case "mcp_call":
+      return responseMCPCallItemDeserializer(item as ResponseMCPCallItem);
+
+    case "mcp_approval_request":
+      return responseMCPApprovalRequestItemDeserializer(item as ResponseMCPApprovalRequestItem);
+
+    case "mcp_approval_response":
+      return responseMCPApprovalResponseItemDeserializer(item as ResponseMCPApprovalResponseItem);
 
     default:
       return responseItemDeserializer(item);
@@ -2910,6 +3147,7 @@ export function contentPartDeserializer(item: any): ContentPart {
 
 /** Alias for ContentPartUnion */
 export type ContentPartUnion =
+  | RequestImageContentPart
   | RequestTextContentPart
   | RequestAudioContentPart
   | ResponseTextContentPart
@@ -2918,6 +3156,9 @@ export type ContentPartUnion =
 
 export function contentPartUnionSerializer(item: ContentPartUnion): any {
   switch (item.type) {
+    case "input_image":
+      return requestImageContentPartSerializer(item as RequestImageContentPart);
+
     case "input_text":
       return requestTextContentPartSerializer(item as RequestTextContentPart);
 
@@ -2931,6 +3172,9 @@ export function contentPartUnionSerializer(item: ContentPartUnion): any {
 
 export function contentPartUnionDeserializer(item: any): ContentPartUnion {
   switch (item.type) {
+    case "input_image":
+      return requestImageContentPartDeserializer(item as RequestImageContentPart);
+
     case "input_text":
       return requestTextContentPartDeserializer(item as RequestTextContentPart);
 
@@ -2947,6 +3191,46 @@ export function contentPartUnionDeserializer(item: any): ContentPartUnion {
       return contentPartDeserializer(item);
   }
 }
+
+/** Input image content part. */
+export interface RequestImageContentPart extends ContentPart {
+  type: "input_image";
+  url?: string;
+  detail?: RequestImageContentPartDetail;
+}
+
+export function requestImageContentPartSerializer(item: RequestImageContentPart): any {
+  return { type: item["type"], url: item["url"], detail: item["detail"] };
+}
+
+export function requestImageContentPartDeserializer(item: any): RequestImageContentPart {
+  return {
+    type: item["type"],
+    url: item["url"],
+    detail: item["detail"],
+  };
+}
+
+/** Specifies an image's detail level. Can be 'auto', 'low', 'high', or an unknown future value. */
+export enum KnownRequestImageContentPartDetail {
+  /** Automatically select an appropriate detail level. */
+  Auto = "auto",
+  /** Use a lower detail level to reduce bandwidth or cost. */
+  Low = "low",
+  /** Use a higher detail level—potentially more resource-intensive. */
+  High = "high",
+}
+
+/**
+ * Specifies an image's detail level. Can be 'auto', 'low', 'high', or an unknown future value. \
+ * {@link KnownRequestImageContentPartDetail} can be used interchangeably with RequestImageContentPartDetail,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **auto**: Automatically select an appropriate detail level. \
+ * **low**: Use a lower detail level to reduce bandwidth or cost. \
+ * **high**: Use a higher detail level—potentially more resource-intensive.
+ */
+export type RequestImageContentPartDetail = string;
 
 /** A text content part for a request. */
 export interface RequestTextContentPart extends ContentPart {
@@ -3069,6 +3353,135 @@ export function responseFunctionCallOutputItemDeserializer(
   };
 }
 
+/** A response item that lists the tools available on an MCP server. */
+export interface ResponseMCPListToolItem extends ResponseItem {
+  /** The type of the item. */
+  type: "mcp_list_tools";
+  /** The tools available on the server. */
+  tools: MCPTool[];
+  /** The label of the server that provides the tools. */
+  serverLabel: string;
+}
+
+export function responseMCPListToolItemDeserializer(item: any): ResponseMCPListToolItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    tools: mcpToolArrayDeserializer(item["tools"]),
+    serverLabel: item["server_label"],
+  };
+}
+
+export function mcpToolArrayDeserializer(result: Array<MCPTool>): any[] {
+  return result.map((item) => {
+    return mcpToolDeserializer(item);
+  });
+}
+
+/** Represents a mcp tool definition. */
+export interface MCPTool {
+  /** The name of the tool. */
+  name: string;
+  /** The description of the tool. */
+  description?: string;
+  /** The input schema for the tool. */
+  inputSchema: any;
+  /** The annotations for the tool. */
+  annotations?: any;
+}
+
+export function mcpToolDeserializer(item: any): MCPTool {
+  return {
+    name: item["name"],
+    description: item["description"],
+    inputSchema: item["input_schema"],
+    annotations: item["annotations"],
+  };
+}
+
+/** A response item that represents a call to an MCP tool. */
+export interface ResponseMCPCallItem extends ResponseItem {
+  /** The type of the item. */
+  type: "mcp_call";
+  /** The ID of the approval request, if any. */
+  approvalRequestId?: string;
+  /** The arguments for the tool call. */
+  arguments: string;
+  /** The label of the server that provides the tool. */
+  serverLabel: string;
+  /** The name of the tool to call. */
+  name: string;
+  /** The output of the tool call. */
+  output?: string;
+  /** The error, if any, from the tool call. */
+  error?: any;
+}
+
+export function responseMCPCallItemDeserializer(item: any): ResponseMCPCallItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    approvalRequestId: item["approval_request_id"],
+    arguments: item["arguments"],
+    serverLabel: item["server_label"],
+    name: item["name"],
+    output: item["output"],
+    error: item["error"],
+  };
+}
+
+/** A response item that represents a request for approval to call an MCP tool. */
+export interface ResponseMCPApprovalRequestItem extends ResponseItem {
+  /** The type of the item. */
+  type: "mcp_approval_request";
+  /** The arguments for the tool call. */
+  arguments?: string;
+  /** The name of the tool to call. */
+  name: string;
+  /** The label of the server that provides the tool. */
+  serverLabel: string;
+}
+
+export function responseMCPApprovalRequestItemDeserializer(
+  item: any,
+): ResponseMCPApprovalRequestItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    arguments: item["arguments"],
+    name: item["name"],
+    serverLabel: item["server_label"],
+  };
+}
+
+/** A response item that represents a response to an MCP approval request. */
+export interface ResponseMCPApprovalResponseItem extends ResponseItem {
+  /** The type of the item. */
+  type: "mcp_approval_response";
+  /** The ID of the approval request. */
+  approvalRequestId: string;
+  /** Whether the tool call was approved. */
+  approve: boolean;
+  /** The reason for the approval decision. */
+  reason?: string;
+}
+
+export function responseMCPApprovalResponseItemDeserializer(
+  item: any,
+): ResponseMCPApprovalResponseItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    approvalRequestId: item["approval_request_id"],
+    approve: item["approve"],
+    reason: item["reason"],
+  };
+}
+
 /** Overall usage statistics for a response. */
 export interface TokenUsage {
   /** Total number of tokens (input + output). */
@@ -3101,6 +3514,8 @@ export interface InputTokenDetails {
   textTokens: number;
   /** Number of audio tokens used in the input. */
   audioTokens: number;
+  /** Number of image tokens used in the input. */
+  imageTokens: number;
   /** Details of cached token usage. */
   cachedTokensDetails: CachedTokenDetails;
 }
@@ -3110,6 +3525,7 @@ export function inputTokenDetailsDeserializer(item: any): InputTokenDetails {
     cachedTokens: item["cached_tokens"],
     textTokens: item["text_tokens"],
     audioTokens: item["audio_tokens"],
+    imageTokens: item["image_tokens"],
     cachedTokensDetails: cachedTokenDetailsDeserializer(item["cached_tokens_details"]),
   };
 }
@@ -3120,12 +3536,15 @@ export interface CachedTokenDetails {
   textTokens: number;
   /** Number of cached audio tokens. */
   audioTokens: number;
+  /** Number of cached image tokens. */
+  imageTokens: number;
 }
 
 export function cachedTokenDetailsDeserializer(item: any): CachedTokenDetails {
   return {
     textTokens: item["text_tokens"],
     audioTokens: item["audio_tokens"],
+    imageTokens: item["image_tokens"],
   };
 }
 
@@ -3154,7 +3573,7 @@ export function _responseMaxOutputTokensDeserializer(item: any): _ResponseMaxOut
 /** A voicelive server event. */
 export interface ServerEvent {
   /** The type of event. */
-  /** The discriminator possible values: error, session.created, session.updated, session.avatar.connecting, input_audio_buffer.committed, input_audio_buffer.cleared, input_audio_buffer.speech_started, input_audio_buffer.speech_stopped, conversation.item.created, conversation.item.input_audio_transcription.completed, conversation.item.input_audio_transcription.failed, conversation.item.truncated, conversation.item.deleted, response.created, response.done, response.output_item.added, response.output_item.done, response.content_part.added, response.content_part.done, response.text.delta, response.text.done, response.audio_transcript.delta, response.audio_transcript.done, response.audio.delta, response.audio.done, response.animation_blendshapes.delta, response.animation_blendshapes.done, response.audio_timestamp.delta, response.audio_timestamp.done, response.animation_viseme.delta, response.animation_viseme.done, conversation.item.input_audio_transcription.delta, conversation.item.retrieved, response.function_call_arguments.delta, response.function_call_arguments.done */
+  /** The discriminator possible values: error, session.created, session.updated, session.avatar.connecting, input_audio_buffer.committed, input_audio_buffer.cleared, input_audio_buffer.speech_started, input_audio_buffer.speech_stopped, conversation.item.created, conversation.item.input_audio_transcription.completed, conversation.item.input_audio_transcription.failed, conversation.item.truncated, conversation.item.deleted, response.created, response.done, response.output_item.added, response.output_item.done, response.content_part.added, response.content_part.done, response.text.delta, response.text.done, response.audio_transcript.delta, response.audio_transcript.done, response.audio.delta, response.audio.done, response.animation_blendshapes.delta, response.animation_blendshapes.done, response.audio_timestamp.delta, response.audio_timestamp.done, response.animation_viseme.delta, response.animation_viseme.done, conversation.item.input_audio_transcription.delta, conversation.item.retrieved, response.function_call_arguments.delta, response.function_call_arguments.done, mcp_list_tools.in_progress, mcp_list_tools.completed, mcp_list_tools.failed, response.mcp_call_arguments.delta, response.mcp_call_arguments.done, response.mcp_call.in_progress, response.mcp_call.completed, response.mcp_call.failed */
   type: ServerEventType;
   eventId?: string;
 }
@@ -3203,6 +3622,14 @@ export type ServerEventUnion =
   | ServerEventConversationItemRetrieved
   | ServerEventResponseFunctionCallArgumentsDelta
   | ServerEventResponseFunctionCallArgumentsDone
+  | ServerEventMcpListToolsInProgress
+  | ServerEventMcpListToolsCompleted
+  | ServerEventMcpListToolsFailed
+  | ServerEventResponseMcpCallArgumentsDelta
+  | ServerEventResponseMcpCallArgumentsDone
+  | ServerEventResponseMcpCallInProgress
+  | ServerEventResponseMcpCallCompleted
+  | ServerEventResponseMcpCallFailed
   | ServerEvent;
 
 export function serverEventUnionDeserializer(item: any): ServerEventUnion {
@@ -3364,6 +3791,40 @@ export function serverEventUnionDeserializer(item: any): ServerEventUnion {
         item as ServerEventResponseFunctionCallArgumentsDone,
       );
 
+    case "mcp_list_tools.in_progress":
+      return serverEventMcpListToolsInProgressDeserializer(
+        item as ServerEventMcpListToolsInProgress,
+      );
+
+    case "mcp_list_tools.completed":
+      return serverEventMcpListToolsCompletedDeserializer(item as ServerEventMcpListToolsCompleted);
+
+    case "mcp_list_tools.failed":
+      return serverEventMcpListToolsFailedDeserializer(item as ServerEventMcpListToolsFailed);
+
+    case "response.mcp_call_arguments.delta":
+      return serverEventResponseMcpCallArgumentsDeltaDeserializer(
+        item as ServerEventResponseMcpCallArgumentsDelta,
+      );
+
+    case "response.mcp_call_arguments.done":
+      return serverEventResponseMcpCallArgumentsDoneDeserializer(
+        item as ServerEventResponseMcpCallArgumentsDone,
+      );
+
+    case "response.mcp_call.in_progress":
+      return serverEventResponseMcpCallInProgressDeserializer(
+        item as ServerEventResponseMcpCallInProgress,
+      );
+
+    case "response.mcp_call.completed":
+      return serverEventResponseMcpCallCompletedDeserializer(
+        item as ServerEventResponseMcpCallCompleted,
+      );
+
+    case "response.mcp_call.failed":
+      return serverEventResponseMcpCallFailedDeserializer(item as ServerEventResponseMcpCallFailed);
+
     default:
       return serverEventDeserializer(item);
   }
@@ -3441,6 +3902,26 @@ export enum KnownServerEventType {
   ResponseFunctionCallArgumentsDelta = "response.function_call_arguments.delta",
   /** response.function_call_arguments.done */
   ResponseFunctionCallArgumentsDone = "response.function_call_arguments.done",
+  /** mcp_list_tools.in_progress */
+  McpListToolsInProgress = "mcp_list_tools.in_progress",
+  /** mcp_list_tools.completed */
+  McpListToolsCompleted = "mcp_list_tools.completed",
+  /** mcp_list_tools.failed */
+  McpListToolsFailed = "mcp_list_tools.failed",
+  /** response.mcp_call_arguments.delta */
+  ResponseMcpCallArgumentsDelta = "response.mcp_call_arguments.delta",
+  /** response.mcp_call_arguments.done */
+  ResponseMcpCallArgumentsDone = "response.mcp_call_arguments.done",
+  /** mcp_approval_request */
+  McpApprovalRequest = "mcp_approval_request",
+  /** mcp_approval_response */
+  McpApprovalResponse = "mcp_approval_response",
+  /** response.mcp_call.in_progress */
+  ResponseMcpCallInProgress = "response.mcp_call.in_progress",
+  /** response.mcp_call.completed */
+  ResponseMcpCallCompleted = "response.mcp_call.completed",
+  /** response.mcp_call.failed */
+  ResponseMcpCallFailed = "response.mcp_call.failed",
 }
 
 /**
@@ -3482,7 +3963,17 @@ export enum KnownServerEventType {
  * **response.animation_viseme.delta** \
  * **response.animation_viseme.done** \
  * **response.function_call_arguments.delta** \
- * **response.function_call_arguments.done**
+ * **response.function_call_arguments.done** \
+ * **mcp_list_tools.in_progress** \
+ * **mcp_list_tools.completed** \
+ * **mcp_list_tools.failed** \
+ * **response.mcp_call_arguments.delta** \
+ * **response.mcp_call_arguments.done** \
+ * **mcp_approval_request** \
+ * **mcp_approval_response** \
+ * **response.mcp_call.in_progress** \
+ * **response.mcp_call.completed** \
+ * **response.mcp_call.failed**
  */
 export type ServerEventType = string;
 
@@ -3985,7 +4476,6 @@ export interface ServerEventConversationItemTruncated extends ServerEvent {
   contentIndex: number;
   /** The duration up to which the audio was truncated, in milliseconds. */
   audioEndInMs: number;
-  eventId?: string;
 }
 
 export function serverEventConversationItemTruncatedDeserializer(
@@ -4010,7 +4500,6 @@ export interface ServerEventConversationItemDeleted extends ServerEvent {
   type: "conversation.item.deleted";
   /** The ID of the item that was deleted. */
   itemId: string;
-  eventId?: string;
 }
 
 export function serverEventConversationItemDeletedDeserializer(
@@ -4630,5 +5119,171 @@ export function serverEventResponseFunctionCallArgumentsDoneDeserializer(
     callId: item["call_id"],
     arguments: item["arguments"],
     name: item["name"],
+  };
+}
+
+/** MCP list tools in progress message. */
+export interface ServerEventMcpListToolsInProgress extends ServerEvent {
+  type: "mcp_list_tools.in_progress";
+  /** The item ID. */
+  itemId: string;
+}
+
+export function serverEventMcpListToolsInProgressDeserializer(
+  item: any,
+): ServerEventMcpListToolsInProgress {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    itemId: item["item_id"],
+  };
+}
+
+/** MCP list tools completed message. */
+export interface ServerEventMcpListToolsCompleted extends ServerEvent {
+  type: "mcp_list_tools.completed";
+  /** The item ID. */
+  itemId: string;
+}
+
+export function serverEventMcpListToolsCompletedDeserializer(
+  item: any,
+): ServerEventMcpListToolsCompleted {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    itemId: item["item_id"],
+  };
+}
+
+/** MCP list tools failed message. */
+export interface ServerEventMcpListToolsFailed extends ServerEvent {
+  type: "mcp_list_tools.failed";
+  /** The item ID. */
+  itemId: string;
+}
+
+export function serverEventMcpListToolsFailedDeserializer(
+  item: any,
+): ServerEventMcpListToolsFailed {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    itemId: item["item_id"],
+  };
+}
+
+/** Represents a delta update of the arguments for an MCP tool call. */
+export interface ServerEventResponseMcpCallArgumentsDelta extends ServerEvent {
+  type: "response.mcp_call_arguments.delta";
+  /** The delta of the arguments. */
+  delta: string;
+  /** The ID of the item associated with the event. */
+  itemId: string;
+  /** The ID of the response associated with the event. */
+  responseId: string;
+  /** The index of the output associated with the event. */
+  outputIndex: number;
+  /** The obfuscation of the arguments. */
+  obfuscation?: string;
+}
+
+export function serverEventResponseMcpCallArgumentsDeltaDeserializer(
+  item: any,
+): ServerEventResponseMcpCallArgumentsDelta {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    delta: item["delta"],
+    itemId: item["item_id"],
+    responseId: item["response_id"],
+    outputIndex: item["output_index"],
+    obfuscation: item["obfuscation"],
+  };
+}
+
+/** Indicates the completion of the arguments for an MCP tool call. */
+export interface ServerEventResponseMcpCallArgumentsDone extends ServerEvent {
+  type: "response.mcp_call_arguments.done";
+  /** The ID of the item associated with the event. */
+  itemId: string;
+  /** The ID of the response associated with the event. */
+  responseId: string;
+  /** The index of the output associated with the event. */
+  outputIndex: number;
+  /** The full arguments for the tool call. */
+  arguments?: string;
+}
+
+export function serverEventResponseMcpCallArgumentsDoneDeserializer(
+  item: any,
+): ServerEventResponseMcpCallArgumentsDone {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    itemId: item["item_id"],
+    responseId: item["response_id"],
+    outputIndex: item["output_index"],
+    arguments: item["arguments"],
+  };
+}
+
+/** Indicates the MCP call running. */
+export interface ServerEventResponseMcpCallInProgress extends ServerEvent {
+  type: "response.mcp_call.in_progress";
+  /** The ID of the item associated with the event. */
+  itemId: string;
+  /** The index of the output associated with the event. */
+  outputIndex: number;
+}
+
+export function serverEventResponseMcpCallInProgressDeserializer(
+  item: any,
+): ServerEventResponseMcpCallInProgress {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    itemId: item["item_id"],
+    outputIndex: item["output_index"],
+  };
+}
+
+/** Indicates the MCP call has completed. */
+export interface ServerEventResponseMcpCallCompleted extends ServerEvent {
+  type: "response.mcp_call.completed";
+  /** The ID of the item associated with the event. */
+  itemId: string;
+  /** The index of the output associated with the event. */
+  outputIndex: number;
+}
+
+export function serverEventResponseMcpCallCompletedDeserializer(
+  item: any,
+): ServerEventResponseMcpCallCompleted {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    itemId: item["item_id"],
+    outputIndex: item["output_index"],
+  };
+}
+
+/** Indicates the MCP call has failed. */
+export interface ServerEventResponseMcpCallFailed extends ServerEvent {
+  type: "response.mcp_call.failed";
+  /** The ID of the item associated with the event. */
+  itemId: string;
+  /** The index of the output associated with the event. */
+  outputIndex: number;
+}
+
+export function serverEventResponseMcpCallFailedDeserializer(
+  item: any,
+): ServerEventResponseMcpCallFailed {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    itemId: item["item_id"],
+    outputIndex: item["output_index"],
   };
 }
