@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
-import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import type {
   AggregationOption,
   PeriodicExportingMetricReaderOptions,
@@ -22,8 +21,15 @@ import { LiveMetrics } from "./quickpulse/liveMetrics.js";
 import { PerformanceCounterMetrics } from "./performanceCounters.js";
 import { Logger } from "../shared/logging/index.js";
 
+type MetricExporterOptions = ConstructorParameters<typeof AzureMonitorMetricExporter>[0];
+
 const DEFAULT_HISTOGRAM_AGGREGATION_ENV_VAR =
   "OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION";
+
+const HISTOGRAM_AGGREGATION_MAP: Record<string, AggregationOption> = {
+  explicit_bucket_histogram: { type: AggregationType.EXPLICIT_BUCKET_HISTOGRAM },
+  base2_exponential_bucket_histogram: { type: AggregationType.EXPONENTIAL_HISTOGRAM },
+};
 
 function resolveHistogramAggregationFromEnv(): AggregationOption | undefined {
   const envValue = process.env[DEFAULT_HISTOGRAM_AGGREGATION_ENV_VAR];
@@ -32,15 +38,14 @@ function resolveHistogramAggregationFromEnv(): AggregationOption | undefined {
   }
 
   const normalized = envValue.trim().toLowerCase();
-  if (normalized === "explicit_bucket_histogram") {
-    return { type: AggregationType.EXPLICIT_BUCKET_HISTOGRAM };
-  }
-  if (normalized === "base2_exponential_bucket_histogram") {
-    return { type: AggregationType.EXPONENTIAL_HISTOGRAM };
+  const aggregation = HISTOGRAM_AGGREGATION_MAP[normalized];
+  if (aggregation) {
+    return aggregation;
   }
 
+  const validValues = Object.keys(HISTOGRAM_AGGREGATION_MAP).map((v) => `'${v}'`).join(" and ");
   Logger.getInstance().warn(
-    `${DEFAULT_HISTOGRAM_AGGREGATION_ENV_VAR} has unsupported value '${envValue}'. Supported values are 'explicit_bucket_histogram' and 'base2_exponential_bucket_histogram'.`,
+    `${DEFAULT_HISTOGRAM_AGGREGATION_ENV_VAR} has unsupported value '${envValue}'. Supported values are ${validValues}.`,
   );
   return undefined;
 }
@@ -48,10 +53,7 @@ function resolveHistogramAggregationFromEnv(): AggregationOption | undefined {
 class AzureMonitorMetricExporterWithAggregation extends AzureMonitorMetricExporter {
   private _histogramAggregation?: AggregationOption;
 
-  constructor(
-    options: AzureMonitorExporterOptions | undefined,
-    histogramAggregation?: AggregationOption,
-  ) {
+  constructor(options: MetricExporterOptions, histogramAggregation?: AggregationOption) {
     super(options);
     this._histogramAggregation = histogramAggregation;
   }
