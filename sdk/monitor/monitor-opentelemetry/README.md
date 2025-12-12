@@ -65,7 +65,7 @@ For example, in your `package.json`:
 
 Then in your application entry file, call `useAzureMonitor()` to configure the SDK:
 
-```js
+```ts snippet:ReadmeSampleESMUsage
 import { useAzureMonitor } from "@azure/monitor-opentelemetry";
 
 useAzureMonitor({

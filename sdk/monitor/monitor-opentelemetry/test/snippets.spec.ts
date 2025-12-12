@@ -22,6 +22,16 @@ import type { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-h
 import type { IncomingMessage, RequestOptions } from "node:http";
 
 describe("snippets", () => {
+  it("ReadmeSampleESMUsage", () => {
+    useAzureMonitor({
+      azureMonitorExporterOptions: {
+        connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING,
+      },
+    });
+
+    // Your application code follows...
+  });
+
   it("ReadmeSampleUseAzureMonitor", () => {
     const options: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
