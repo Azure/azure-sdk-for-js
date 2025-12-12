@@ -4,6 +4,7 @@
 ### Features Added
 
 - Added support for continuation tokens in queries. This capability is available when using the `enableQueryControl` feature in `FeedOptions`.
+- Added support for `quantizerType` property in vector index definition. This is an optional parameter and applies to index types DiskANN and quantizedFlat. Allowed values are "product" and "spherical".
 
 ## 4.8.0 (2025-11-20)
 
