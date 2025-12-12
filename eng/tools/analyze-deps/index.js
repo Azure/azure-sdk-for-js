@@ -93,8 +93,7 @@ async function getRepoPackages(workspaceDir) {
    */
   const packageData = {};
 
-  for (const projName of Object.keys(pkgs)) {
-    const proj = pkgs[projName];
+  for (const [projName, proj] of Object.entries(pkgs)) {
     if (["test", "management"].includes(proj.versionPolicy)) {
       // too many and similar Management packages to be useful
       continue;
@@ -331,17 +330,16 @@ function dumpRepoPackages(repoPackages, internalPackages, external, workspaceDir
  * @param {boolean} external - whether to include external dependencies in the graph data
  */
 function resolveRepoPackageDeps(repoPackages, dumpedPackages, pnpmLock, external) {
-  for (const pkgId of Object.keys(dumpedPackages)) {
-    const internalPackages = Object.keys(repoPackages);
-    const packageDir = dumpedPackages[pkgId]?.src;
+  const internalPackages = Object.keys(repoPackages);
+  for (const [pkgId, dumpedPkg] of Object.entries(dumpedPackages)) {
+    const packageDir = dumpedPkg?.src;
     /** @type {Record<string, string>} */
     const resolvedDeps = {};
     /** @type {Record<string, { specifier: string, version: string}>} */
-    const depsInPnpmLock = pnpmLock.importers[packageDir]?.dependencies || {};
-    for (const depName of Object.keys(depsInPnpmLock)) {
-      const resolvedVersion = depsInPnpmLock[depName].version.startsWith("link:")
+    for (const [depName, v] of Object.entries(pnpmLock.importers[packageDir]?.dependencies || {})) {
+      const resolvedVersion = v.version.startsWith("link:")
         ? repoPackages[depName]?.ver
-        : depsInPnpmLock[depName].version;
+        : v.version;
       resolvedDeps[depName] = resolvedVersion;
     }
 
@@ -474,7 +472,7 @@ async function main() {
 
   if (args.dump) {
     const internalPackages = Object.keys(repoPackages);
-    const dumpPackages = dumpRepoPackages(
+    const dumpedPackages = dumpRepoPackages(
       context.packages,
       internalPackages,
       args.external,
@@ -482,9 +480,9 @@ async function main() {
     );
 
     const pnpmLock = await readPnpmLock(path.resolve(`${workspaceDir}/pnpm-lock.yaml`));
-    resolveRepoPackageDeps(repoPackages, dumpPackages, pnpmLock, args.external);
-    await writeFile(`${args.dump}/data.js`, "const data = " + JSON.stringify(dumpPackages) + ";");
-    await writeFile(`${args.dump}/arcdata.json`, JSON.stringify(dumpPackages));
+    resolveRepoPackageDeps(repoPackages, dumpedPackages, pnpmLock, args.external);
+    await writeFile(`${args.dump}/data.js`, "const data = " + JSON.stringify(dumpedPackages) + ";");
+    await writeFile(`${args.dump}/arcdata.json`, JSON.stringify(dumpedPackages));
   }
 }
 
