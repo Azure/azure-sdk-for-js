@@ -1,6 +1,7 @@
 # Release History
 
 ## 6.0.0 (2025-10-30)
+Operation groups SubscriptionOperations,Subscriptions and Tenants has been removed since 6.0.0. These APIs are available in the @azure/arm-resources-subscriptions package.
 
 ### Features Added
   - Added operation group SubscriptionOperation
