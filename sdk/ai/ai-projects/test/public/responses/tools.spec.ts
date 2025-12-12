@@ -779,13 +779,47 @@ describe.skipIf(!isLiveOrRecord)("My test", () => {
     assert.isNotNull(response.output);
     console.log(`Response output items: ${response.output.length}`);
 
-    // Check for MCP approval requests
-    const approvalRequests = response.output?.filter(
-      (output: any) => output.type === "mcp_approval_request",
-    );
-    if (approvalRequests && approvalRequests.length > 0) {
-      console.log(`Found ${approvalRequests.length} MCP approval request(s)`);
+    // Process any MCP approval requests that were generated
+    const inputList: OpenAI.Responses.ResponseInputItem.McpApprovalResponse[] = [];
+    for (const item of response.output) {
+      if (item.type === "mcp_approval_request") {
+        if (item.server_label === "api-specs" && item.id) {
+          console.log(`\nReceived MCP approval request (id: ${item.id})`);
+          console.log(`  Server: ${item.server_label}`);
+          console.log(`  Tool: ${item.name}`);
+
+          // Automatically approve the MCP request to allow the agent to proceed
+          // In production, you might want to implement more sophisticated approval logic
+          inputList.push({
+            type: "mcp_approval_response",
+            approval_request_id: item.id,
+            approve: true,
+          });
+        }
+      }
     }
+
+    console.log(`\nProcessing ${inputList.length} approval request(s)`);
+    console.log("Final input:");
+    console.log(JSON.stringify(inputList, null, 2));
+
+    // Send the approval response back to continue the agent's work
+    // This allows the MCP tool to access the GitHub repository and complete the original request
+    console.log("\nSending approval response...");
+    const finalResponse = await openAIClient.responses.create(
+      {
+        model: "gpt-5-mini",
+        tools: [mcpTool],
+        instructions,
+        input: inputList,
+        conversation: conversation.id,
+      }
+    );
+
+    assert.isNotNull(finalResponse.output);
+    assert.isNotNull(finalResponse.output_text);
+    console.log(`\nResponse: ${finalResponse.output_text}`);
+
   }, 60000);
 
   it("should create responses with OpenAPI tool using project connection auth", async function () {
