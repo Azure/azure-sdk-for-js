@@ -8,7 +8,7 @@
  * instrumentation hooks are registered before any application modules are loaded.
  * This is required because ESM modules cannot be instrumented after they are loaded.
  *
- * Usage: node --import @azure/monitor-opentelemetry/loader <your-app-entry-point>
+ * Usage: node --import \@azure/monitor-opentelemetry/loader \<your-app-entry-point\>
  */
 
 import * as nodeModule from "node:module";
