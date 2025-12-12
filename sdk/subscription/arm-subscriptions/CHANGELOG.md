@@ -33,7 +33,7 @@
   - Removed Type Alias SpendingLimit
   - Removed Type Alias SubscriptionState
 
-Operation groups SubscriptionOperations, Subscriptions and Tenants have been removed since 6.0.0. If you need to query these operation groups, please switch to use the [`@azure/arm-resources-subscriptions`](https://www.npmjs.com/package/@azure/arm-resources-subscriptions) package instead. The API similarity should mean this is generally a drop-in replacement for subscription iteration:
+Operation groups SubscriptionOperations, Subscriptions and Tenants have been removed since 6.0.0. If you need to query these, please switch to use the [`@azure/arm-resources-subscriptions`](https://www.npmjs.com/package/@azure/arm-resources-subscriptions) package instead. The API similarity should mean this is generally a drop-in replacement for subscription iteration:
 
 ```diff
 -import { SubscriptionClient } from "@azure/arm-subscriptions";
