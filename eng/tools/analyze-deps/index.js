@@ -337,9 +337,7 @@ function resolveRepoPackageDeps(repoPackages, dumpedPackages, pnpmLock, external
     const resolvedDeps = {};
     /** @type {Record<string, { specifier: string, version: string}>} */
     for (const [depName, v] of Object.entries(pnpmLock.importers[packageDir]?.dependencies || {})) {
-      const resolvedVersion = v.version.startsWith("link:")
-        ? repoPackages[depName]?.ver
-        : v.version;
+      const resolvedVersion = v.version.startsWith("link:") ? repoPackages[depName].ver : v.version;
       resolvedDeps[depName] = resolvedVersion;
     }
 
@@ -487,6 +485,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error("Fatal error in analyze-deps:", util.inspect(err));
+  console.error("Fatal error in analyze-deps:", err);
   process.exit(1);
 });
