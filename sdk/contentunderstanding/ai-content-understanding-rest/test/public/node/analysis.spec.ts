@@ -7,7 +7,7 @@ import { ContentUnderstandingClient } from "../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { getEndpoint, getKey } from "../../utils/injectables.js";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { DefaultAzureCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
 import path from "node:path";
 import fs from "node:fs";
 import { fileURLToPath } from "url";
@@ -29,7 +29,7 @@ describe("ContentUnderstandingClient - Analysis", () => {
     const key = getKey();
     client = new ContentUnderstandingClient(
       getEndpoint(),
-      key ? new AzureKeyCredential(key) : new DefaultAzureCredential(),
+      key ? new AzureKeyCredential(key) : createTestCredential(),
       recorder.configureClientOptions({}),
     );
     testAnalyzerId = "prebuilt-documentSearch";

@@ -13,7 +13,7 @@ import {
 import { ContentUnderstandingClient } from "../../../../src/index.js";
 import { getEndpoint, getKey, isLiveMode } from "../../../utils/injectables.js";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { DefaultAzureCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
 import path from "node:path";
 import fs from "node:fs";
 import { fileURLToPath } from "url";
@@ -66,7 +66,7 @@ export function createClient(recorder: Recorder): ContentUnderstandingClient {
   const key = getKey();
   return new ContentUnderstandingClient(
     getEndpoint(),
-    key ? new AzureKeyCredential(key) : new DefaultAzureCredential(),
+    key ? new AzureKeyCredential(key) : createTestCredential(),
     recorder.configureClientOptions({}),
   );
 }
