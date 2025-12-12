@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to create a UpdateRun
  *
  * @summary create a UpdateRun
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_CreateOrUpdate.json
+ * x-ms-original-file: 2025-08-01-preview/UpdateRuns_CreateOrUpdate.json
  */
-
-import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function createAnUpdateRun(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -49,7 +48,7 @@ async function createAnUpdateRun(): Promise<void> {
  * This sample demonstrates how to create a UpdateRun
  *
  * @summary create a UpdateRun
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-08-01-preview/UpdateRuns_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function createAnUpdateRunGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

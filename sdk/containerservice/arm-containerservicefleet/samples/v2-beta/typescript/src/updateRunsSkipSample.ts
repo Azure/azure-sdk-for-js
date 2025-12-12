@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
  *
  * @summary skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_Skip.json
+ * x-ms-original-file: 2025-08-01-preview/UpdateRuns_Skip.json
  */
-
-import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -28,7 +27,7 @@ async function skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun(
  * This sample demonstrates how to skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
  *
  * @summary skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_Skip_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-08-01-preview/UpdateRuns_Skip_MaximumSet_Gen.json
  */
 async function skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRunGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

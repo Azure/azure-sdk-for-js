@@ -60,7 +60,7 @@ export function listPeeringPassphrases(context: NetAppManagementContext, resourc
 export function poolChange(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: PoolChangeRequest, options?: CachesPoolChangeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function update(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: CacheUpdate, options?: CachesUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function update(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: CacheUpdate, options?: CachesUpdateOptionalParams): PollerLike<OperationState<Cache>, Cache>;
 
 // (No @packageDocumentation comment for this package)
 
