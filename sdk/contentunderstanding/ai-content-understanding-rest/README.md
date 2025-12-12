@@ -93,7 +93,7 @@ You need to configure the default model mappings in your Microsoft Foundry resou
 
 To configure model deployments using code, see the [Configure Defaults sample][sample_configure_defaults] for a complete example. Here's a quick overview:
 
-```typescript
+```typescript snippet:ignore
 import { ContentUnderstandingClient } from "@azure-rest/ai-content-understanding";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -154,7 +154,7 @@ const client = new ContentUnderstandingClient("<endpoint>", credential);
 
 You can also authenticate using an API key from your Microsoft Foundry resource:
 
-```typescript
+```typescript snippet:ignore
 import { ContentUnderstandingClient } from "@azure-rest/ai-content-understanding";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -251,7 +251,7 @@ The samples demonstrate:
 
 Use the `prebuilt-documentSearch` analyzer to extract markdown content from documents:
 
-```typescript
+```typescript snippet:ignore
 import { ContentUnderstandingClient } from "@azure-rest/ai-content-understanding";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -283,7 +283,7 @@ if (result.contents && result.contents.length > 0) {
 
 Use the `prebuilt-invoice` analyzer to extract structured invoice fields:
 
-```typescript
+```typescript snippet:ignore
 import {
   ContentUnderstandingClient,
   type DocumentContent,
