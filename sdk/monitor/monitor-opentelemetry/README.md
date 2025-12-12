@@ -77,7 +77,7 @@ useAzureMonitor({
 // Your application code follows...
 ```
 
-For CommonJS applications, no additional flags are needed - the loader is automatically registered when `useAzureMonitor()` is called.
+For CommonJS applications, no additional flags are needed - the loader is automatically registered when the package is imported.
 
 ## Configuration
 
