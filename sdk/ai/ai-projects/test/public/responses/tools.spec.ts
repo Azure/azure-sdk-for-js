@@ -806,20 +806,17 @@ describe.skipIf(!isLiveOrRecord)("My test", () => {
     // Send the approval response back to continue the agent's work
     // This allows the MCP tool to access the GitHub repository and complete the original request
     console.log("\nSending approval response...");
-    const finalResponse = await openAIClient.responses.create(
-      {
-        model: "gpt-5-mini",
-        tools: [mcpTool],
-        instructions,
-        input: inputList,
-        conversation: conversation.id,
-      }
-    );
+    const finalResponse = await openAIClient.responses.create({
+      model: "gpt-5-mini",
+      tools: [mcpTool],
+      instructions,
+      input: inputList,
+      conversation: conversation.id,
+    });
 
     assert.isNotNull(finalResponse.output);
     assert.isNotNull(finalResponse.output_text);
     console.log(`\nResponse: ${finalResponse.output_text}`);
-
   }, 60000);
 
   it("should create responses with OpenAPI tool using project connection auth", async function () {
