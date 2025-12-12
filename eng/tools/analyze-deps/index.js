@@ -324,51 +324,52 @@ function dumpRepoPackages(repoPackages, internalPackages, external, workspaceDir
 }
 
 /**
- * Resolves package dependency versions using pnpm-lock.yaml data
+ * Resolves dependency versions for dumped packages using pnpm-lock.yaml data
  * @param {Record<string, RepoPackageInfo>} repoPackages
  * @param {Record<string, DumpedPackageInfo>} dumpedPackages
  * @param {object} pnpmLock - loaded yaml data from pnpm-lock.yaml
- * @param {string} pkgId
  * @param {boolean} external - whether to include external dependencies in the graph data
  */
-function resolveRepoPackageDeps(repoPackages, dumpedPackages, pnpmLock, pkgId, external) {
-  const internalPackages = Object.keys(repoPackages);
-  const packageDir = dumpedPackages[pkgId]?.src;
-  /** @type {Record<string, string>} */
-  const resolvedDeps = {};
-  /** @type {Record<string, { specifier: string, version: string}>} */
-  const depsInPnpmLock = pnpmLock.importers[packageDir]?.dependencies || {};
-  for (const depName of Object.keys(depsInPnpmLock)) {
-    const resolvedVersion = depsInPnpmLock[depName].version.startsWith("link:")
-      ? repoPackages[depName]?.ver
-      : depsInPnpmLock[depName].version;
-    resolvedDeps[depName] = resolvedVersion;
-  }
+function resolveRepoPackageDeps(repoPackages, dumpedPackages, pnpmLock, external) {
+  for (const pkgId of Object.keys(dumpedPackages)) {
+    const internalPackages = Object.keys(repoPackages);
+    const packageDir = dumpedPackages[pkgId]?.src;
+    /** @type {Record<string, string>} */
+    const resolvedDeps = {};
+    /** @type {Record<string, { specifier: string, version: string}>} */
+    const depsInPnpmLock = pnpmLock.importers[packageDir]?.dependencies || {};
+    for (const depName of Object.keys(depsInPnpmLock)) {
+      const resolvedVersion = depsInPnpmLock[depName].version.startsWith("link:")
+        ? repoPackages[depName]?.ver
+        : depsInPnpmLock[depName].version;
+      resolvedDeps[depName] = resolvedVersion;
+    }
 
-  for (const dep of dumpedPackages[pkgId].deps) {
-    if (resolvedDeps[dep.name]) {
-      // Replace the version spec with the resolved version
-      dep.version = resolvedDeps[dep.name];
+    for (const dep of dumpedPackages[pkgId].deps) {
+      if (resolvedDeps[dep.name]) {
+        // Replace the version spec with the resolved version
+        dep.version = resolvedDeps[dep.name];
 
-      // Add the dependency to the top level of the packages list
-      const depId = `${dep.name}:${dep.version}`;
-      if (!dumpedPackages[depId]) {
-        if (internalPackages.includes(dep.name)) {
-          dumpedPackages[depId] = {
-            name: dep.name,
-            version: dep.version,
-            type: "internalbinary",
-            src: "",
-            deps: [],
-          };
-        } else if (external) {
-          dumpedPackages[depId] = {
-            name: dep.name,
-            version: dep.version,
-            type: "external",
-            src: "",
-            deps: [],
-          };
+        // Add the dependency to the top level of the packages list
+        const depId = `${dep.name}:${dep.version}`;
+        if (!dumpedPackages[depId]) {
+          if (internalPackages.includes(dep.name)) {
+            dumpedPackages[depId] = {
+              name: dep.name,
+              version: dep.version,
+              type: "internalbinary",
+              src: "",
+              deps: [],
+            };
+          } else if (external) {
+            dumpedPackages[depId] = {
+              name: dep.name,
+              version: dep.version,
+              type: "external",
+              src: "",
+              deps: [],
+            };
+          }
         }
       }
     }
@@ -481,9 +482,7 @@ async function main() {
     );
 
     const pnpmLock = await readPnpmLock(path.resolve(`${workspaceDir}/pnpm-lock.yaml`));
-    for (const pkgId of Object.keys(dumpPackages)) {
-      resolveRepoPackageDeps(repoPackages, dumpPackages, pnpmLock, pkgId, args.external);
-    }
+    resolveRepoPackageDeps(repoPackages, dumpPackages, pnpmLock, args.external);
     await writeFile(`${args.dump}/data.js`, "const data = " + JSON.stringify(dumpPackages) + ";");
     await writeFile(`${args.dump}/arcdata.json`, JSON.stringify(dumpPackages));
   }
