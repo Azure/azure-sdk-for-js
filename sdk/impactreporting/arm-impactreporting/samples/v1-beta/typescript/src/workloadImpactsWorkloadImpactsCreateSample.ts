@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ImpactClient } from "@azure/arm-impactreporting";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to create a WorkloadImpact
  *
  * @summary create a WorkloadImpact
  * x-ms-original-file: 2024-05-01-preview/WorkloadArmOperation_create.json
  */
+
+import { ImpactClient } from "@azure/arm-impactreporting";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function reportingArmOperationFailure(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
