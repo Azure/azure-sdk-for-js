@@ -37,7 +37,6 @@ async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = await project.getOpenAIClient();
 
-  // [START evaluation_cluster_insight]
   // Create an evaluation
   const dataSourceConfig = {
     type: "custom",
@@ -176,7 +175,6 @@ async function main() {
 
   await openAIClient.evals.delete(evalObject.id);
   console.log("Evaluation deleted");
-  // [END evaluation_cluster_insight]
 }
 
 main().catch((err) => {
