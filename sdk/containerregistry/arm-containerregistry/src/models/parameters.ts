@@ -184,35 +184,21 @@ export const regenerateCredentialParameters: OperationParameter = {
   mapper: RegenerateCredentialParametersMapper,
 };
 
-export const runRequest: OperationParameter = {
-  parameterPath: "runRequest",
-  mapper: RunRequestMapper,
-};
-
-export const resourceGroupName1: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      MinLength: 1,
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const apiVersion1: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2019-06-01-preview",
+    defaultValue: "2025-03-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
       name: "String",
     },
   },
+};
+
+export const runRequest: OperationParameter = {
+  parameterPath: "runRequest",
+  mapper: RunRequestMapper,
 };
 
 export const cacheRuleName: OperationURLParameter = {

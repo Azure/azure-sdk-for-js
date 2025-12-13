@@ -85,7 +85,7 @@ describe("ContainerRegistry test", () => {
   });
 
   it("tasks create test", async () => {
-    const res = await client.tasks.beginCreateAndWait(resourceGroup, registryName, taskName, {
+    const res = await client.tasks.create(resourceGroup, registryName, taskName, {
       location: location,
       tags: {
         testkey: "value",
@@ -132,7 +132,7 @@ describe("ContainerRegistry test", () => {
   });
 
   it("tasks update test", async () => {
-    const res = await client.tasks.beginUpdateAndWait(resourceGroup, registryName, taskName, {
+    const res = await client.tasks.update(resourceGroup, registryName, taskName, {
       tags: {
         testkey: "value",
       },
@@ -165,7 +165,7 @@ describe("ContainerRegistry test", () => {
   });
 
   it("tasks delete test", async () => {
-    await client.tasks.beginDeleteAndWait(resourceGroup, registryName, taskName);
+    await client.tasks.delete(resourceGroup, registryName, taskName);
     const resArray = new Array();
     for await (const item of client.tasks.list(resourceGroup, registryName)) {
       resArray.push(item);

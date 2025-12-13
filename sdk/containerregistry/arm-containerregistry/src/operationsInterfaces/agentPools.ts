@@ -13,10 +13,11 @@ import type {
   AgentPoolsGetResponse,
   AgentPoolsCreateOptionalParams,
   AgentPoolsCreateResponse,
-  AgentPoolsDeleteOptionalParams,
   AgentPoolUpdateParameters,
   AgentPoolsUpdateOptionalParams,
   AgentPoolsUpdateResponse,
+  AgentPoolsDeleteOptionalParams,
+  AgentPoolsDeleteResponse,
   AgentPoolsGetQueueStatusOptionalParams,
   AgentPoolsGetQueueStatusResponse,
 } from "../models/index.js";
@@ -26,8 +27,8 @@ import type {
 export interface AgentPools {
   /**
    * Lists all the agent pools for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param options The options parameters.
    */
   list(
@@ -37,8 +38,8 @@ export interface AgentPools {
   ): PagedAsyncIterableIterator<AgentPool>;
   /**
    * Gets the detailed information for a given agent pool.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
@@ -50,8 +51,8 @@ export interface AgentPools {
   ): Promise<AgentPoolsGetResponse>;
   /**
    * Creates an agent pool for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param agentPoolName The name of the agent pool.
    * @param agentPool The parameters of an agent pool that needs to scheduled.
    * @param options The options parameters.
@@ -65,8 +66,8 @@ export interface AgentPools {
   ): Promise<SimplePollerLike<OperationState<AgentPoolsCreateResponse>, AgentPoolsCreateResponse>>;
   /**
    * Creates an agent pool for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param agentPoolName The name of the agent pool.
    * @param agentPool The parameters of an agent pool that needs to scheduled.
    * @param options The options parameters.
@@ -79,35 +80,9 @@ export interface AgentPools {
     options?: AgentPoolsCreateOptionalParams,
   ): Promise<AgentPoolsCreateResponse>;
   /**
-   * Deletes a specified agent pool resource.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param agentPoolName The name of the agent pool.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    registryName: string,
-    agentPoolName: string,
-    options?: AgentPoolsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes a specified agent pool resource.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param agentPoolName The name of the agent pool.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    agentPoolName: string,
-    options?: AgentPoolsDeleteOptionalParams,
-  ): Promise<void>;
-  /**
    * Updates an agent pool with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param agentPoolName The name of the agent pool.
    * @param updateParameters The parameters for updating an agent pool.
    * @param options The options parameters.
@@ -121,8 +96,8 @@ export interface AgentPools {
   ): Promise<SimplePollerLike<OperationState<AgentPoolsUpdateResponse>, AgentPoolsUpdateResponse>>;
   /**
    * Updates an agent pool with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param agentPoolName The name of the agent pool.
    * @param updateParameters The parameters for updating an agent pool.
    * @param options The options parameters.
@@ -135,9 +110,35 @@ export interface AgentPools {
     options?: AgentPoolsUpdateOptionalParams,
   ): Promise<AgentPoolsUpdateResponse>;
   /**
+   * Deletes a specified agent pool resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
+   * @param agentPoolName The name of the agent pool.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    registryName: string,
+    agentPoolName: string,
+    options?: AgentPoolsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>>;
+  /**
+   * Deletes a specified agent pool resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
+   * @param agentPoolName The name of the agent pool.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    registryName: string,
+    agentPoolName: string,
+    options?: AgentPoolsDeleteOptionalParams,
+  ): Promise<AgentPoolsDeleteResponse>;
+  /**
    * Gets the count of queued runs for a given agent pool.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */

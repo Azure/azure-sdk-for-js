@@ -53,13 +53,19 @@ export interface AgentPoolQueueStatus {
 export interface AgentPools {
     beginCreate(resourceGroupName: string, registryName: string, agentPoolName: string, agentPool: AgentPool, options?: AgentPoolsCreateOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsCreateResponse>, AgentPoolsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, registryName: string, agentPoolName: string, agentPool: AgentPool, options?: AgentPoolsCreateOptionalParams): Promise<AgentPoolsCreateResponse>;
-    beginDelete(resourceGroupName: string, registryName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, registryName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, registryName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<AgentPoolsDeleteResponse>;
     beginUpdate(resourceGroupName: string, registryName: string, agentPoolName: string, updateParameters: AgentPoolUpdateParameters, options?: AgentPoolsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsUpdateResponse>, AgentPoolsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, registryName: string, agentPoolName: string, updateParameters: AgentPoolUpdateParameters, options?: AgentPoolsUpdateOptionalParams): Promise<AgentPoolsUpdateResponse>;
     get(resourceGroupName: string, registryName: string, agentPoolName: string, options?: AgentPoolsGetOptionalParams): Promise<AgentPoolsGetResponse>;
     getQueueStatus(resourceGroupName: string, registryName: string, agentPoolName: string, options?: AgentPoolsGetQueueStatusOptionalParams): Promise<AgentPoolsGetQueueStatusResponse>;
     list(resourceGroupName: string, registryName: string, options?: AgentPoolsListOptionalParams): PagedAsyncIterableIterator<AgentPool>;
+}
+
+// @public
+export interface AgentPoolsCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -72,10 +78,19 @@ export interface AgentPoolsCreateOptionalParams extends coreClient.OperationOpti
 export type AgentPoolsCreateResponse = AgentPool;
 
 // @public
+export interface AgentPoolsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface AgentPoolsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type AgentPoolsDeleteResponse = AgentPoolsDeleteHeaders;
 
 // @public
 export interface AgentPoolsGetOptionalParams extends coreClient.OperationOptions {
@@ -104,6 +119,12 @@ export interface AgentPoolsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type AgentPoolsListResponse = AgentPoolListResult;
+
+// @public
+export interface AgentPoolsUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface AgentPoolsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -723,19 +744,6 @@ export interface ErrorResponse {
 }
 
 // @public
-export interface ErrorResponseBody {
-    code: string;
-    details?: InnerErrorDescription[];
-    message: string;
-    target?: string;
-}
-
-// @public
-export interface ErrorResponseForContainerRegistry {
-    error?: ErrorResponseBody;
-}
-
-// @public
 interface Event_2 extends EventInfo {
     eventRequestMessage?: EventRequestMessage;
     eventResponseMessage?: EventResponseMessage;
@@ -893,13 +901,6 @@ export interface ImportSource {
 export interface ImportSourceCredentials {
     password: string;
     username?: string;
-}
-
-// @public
-export interface InnerErrorDescription {
-    code: string;
-    message: string;
-    target?: string;
 }
 
 // @public
@@ -1514,8 +1515,6 @@ export interface Registries {
     beginGenerateCredentialsAndWait(resourceGroupName: string, registryName: string, generateCredentialsParameters: GenerateCredentialsParameters, options?: RegistriesGenerateCredentialsOptionalParams): Promise<RegistriesGenerateCredentialsResponse>;
     beginImportImage(resourceGroupName: string, registryName: string, parameters: ImportImageParameters, options?: RegistriesImportImageOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginImportImageAndWait(resourceGroupName: string, registryName: string, parameters: ImportImageParameters, options?: RegistriesImportImageOptionalParams): Promise<void>;
-    beginScheduleRun(resourceGroupName: string, registryName: string, runRequest: RunRequestUnion, options?: RegistriesScheduleRunOptionalParams): Promise<SimplePollerLike<OperationState<RegistriesScheduleRunResponse>, RegistriesScheduleRunResponse>>;
-    beginScheduleRunAndWait(resourceGroupName: string, registryName: string, runRequest: RunRequestUnion, options?: RegistriesScheduleRunOptionalParams): Promise<RegistriesScheduleRunResponse>;
     beginUpdate(resourceGroupName: string, registryName: string, registryUpdateParameters: RegistryUpdateParameters, options?: RegistriesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RegistriesUpdateResponse>, RegistriesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, registryName: string, registryUpdateParameters: RegistryUpdateParameters, options?: RegistriesUpdateOptionalParams): Promise<RegistriesUpdateResponse>;
     checkNameAvailability(registryNameCheckRequest: RegistryNameCheckRequest, options?: RegistriesCheckNameAvailabilityOptionalParams): Promise<RegistriesCheckNameAvailabilityResponse>;
@@ -1528,6 +1527,7 @@ export interface Registries {
     listPrivateLinkResources(resourceGroupName: string, registryName: string, options?: RegistriesListPrivateLinkResourcesOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
     listUsages(resourceGroupName: string, registryName: string, options?: RegistriesListUsagesOptionalParams): Promise<RegistriesListUsagesResponse>;
     regenerateCredential(resourceGroupName: string, registryName: string, regenerateCredentialParameters: RegenerateCredentialParameters, options?: RegistriesRegenerateCredentialOptionalParams): Promise<RegistriesRegenerateCredentialResponse>;
+    scheduleRun(resourceGroupName: string, registryName: string, runRequest: RunRequestUnion, options?: RegistriesScheduleRunOptionalParams): Promise<RegistriesScheduleRunResponse>;
 }
 
 // @public
@@ -1677,8 +1677,6 @@ export type RegistriesRegenerateCredentialResponse = RegistryListCredentialsResu
 
 // @public
 export interface RegistriesScheduleRunOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1947,19 +1945,6 @@ export interface Run extends ProxyResource {
 }
 
 // @public
-export interface RunFilter {
-    agentPoolName?: string;
-    createTime?: Date;
-    finishTime?: Date;
-    isArchiveEnabled?: boolean;
-    outputImageManifests?: string;
-    runId?: string;
-    runType?: RunType;
-    status?: RunStatus;
-    taskName?: string;
-}
-
-// @public
 export interface RunGetLogResult {
     logArtifactLink?: string;
     logLink?: string;
@@ -1976,27 +1961,23 @@ export interface RunRequest {
     agentPoolName?: string;
     isArchiveEnabled?: boolean;
     logTemplate?: string;
-    type: "DockerBuildRequest" | "FileTaskRunRequest" | "TaskRunRequest" | "EncodedTaskRunRequest";
+    type: "DockerBuildRequest" | "EncodedTaskRunRequest" | "FileTaskRunRequest" | "TaskRunRequest";
 }
 
 // @public (undocumented)
-export type RunRequestUnion = RunRequest | DockerBuildRequest | FileTaskRunRequest | TaskRunRequest | EncodedTaskRunRequest;
+export type RunRequestUnion = RunRequest | DockerBuildRequest | EncodedTaskRunRequest | FileTaskRunRequest | TaskRunRequest;
 
 // @public
 export interface Runs {
-    beginCancel(resourceGroupName: string, registryName: string, runId: string, options?: RunsCancelOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginCancelAndWait(resourceGroupName: string, registryName: string, runId: string, options?: RunsCancelOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, registryName: string, runId: string, runUpdateParameters: RunUpdateParameters, options?: RunsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RunsUpdateResponse>, RunsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, registryName: string, runId: string, runUpdateParameters: RunUpdateParameters, options?: RunsUpdateOptionalParams): Promise<RunsUpdateResponse>;
+    cancel(resourceGroupName: string, registryName: string, runId: string, options?: RunsCancelOptionalParams): Promise<void>;
     get(resourceGroupName: string, registryName: string, runId: string, options?: RunsGetOptionalParams): Promise<RunsGetResponse>;
     getLogSasUrl(resourceGroupName: string, registryName: string, runId: string, options?: RunsGetLogSasUrlOptionalParams): Promise<RunsGetLogSasUrlResponse>;
     list(resourceGroupName: string, registryName: string, options?: RunsListOptionalParams): PagedAsyncIterableIterator<Run>;
+    update(resourceGroupName: string, registryName: string, runId: string, runUpdateParameters: RunUpdateParameters, options?: RunsUpdateOptionalParams): Promise<RunsUpdateResponse>;
 }
 
 // @public
 export interface RunsCancelOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2034,8 +2015,6 @@ export type RunStatus = string;
 
 // @public
 export interface RunsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2192,6 +2171,7 @@ export interface SourceProperties {
 
 // @public
 export interface SourceRegistryCredentials {
+    identity?: string;
     loginMode?: SourceRegistryLoginMode;
 }
 
@@ -2351,13 +2331,18 @@ export interface TaskRunRequest extends RunRequest {
 export interface TaskRuns {
     beginCreate(resourceGroupName: string, registryName: string, taskRunName: string, taskRun: TaskRun, options?: TaskRunsCreateOptionalParams): Promise<SimplePollerLike<OperationState<TaskRunsCreateResponse>, TaskRunsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, registryName: string, taskRunName: string, taskRun: TaskRun, options?: TaskRunsCreateOptionalParams): Promise<TaskRunsCreateResponse>;
-    beginDelete(resourceGroupName: string, registryName: string, taskRunName: string, options?: TaskRunsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, registryName: string, taskRunName: string, options?: TaskRunsDeleteOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, registryName: string, taskRunName: string, updateParameters: TaskRunUpdateParameters, options?: TaskRunsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TaskRunsUpdateResponse>, TaskRunsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, registryName: string, taskRunName: string, updateParameters: TaskRunUpdateParameters, options?: TaskRunsUpdateOptionalParams): Promise<TaskRunsUpdateResponse>;
+    delete(resourceGroupName: string, registryName: string, taskRunName: string, options?: TaskRunsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, registryName: string, taskRunName: string, options?: TaskRunsGetOptionalParams): Promise<TaskRunsGetResponse>;
     getDetails(resourceGroupName: string, registryName: string, taskRunName: string, options?: TaskRunsGetDetailsOptionalParams): Promise<TaskRunsGetDetailsResponse>;
     list(resourceGroupName: string, registryName: string, options?: TaskRunsListOptionalParams): PagedAsyncIterableIterator<TaskRun>;
+}
+
+// @public
+export interface TaskRunsCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -2371,8 +2356,6 @@ export type TaskRunsCreateResponse = TaskRun;
 
 // @public
 export interface TaskRunsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2404,6 +2387,12 @@ export interface TaskRunsListOptionalParams extends coreClient.OperationOptions 
 export type TaskRunsListResponse = TaskRunListResult;
 
 // @public
+export interface TaskRunsUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface TaskRunsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2425,21 +2414,16 @@ export interface TaskRunUpdateParameters {
 
 // @public
 export interface Tasks {
-    beginCreate(resourceGroupName: string, registryName: string, taskName: string, taskCreateParameters: Task, options?: TasksCreateOptionalParams): Promise<SimplePollerLike<OperationState<TasksCreateResponse>, TasksCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, registryName: string, taskName: string, taskCreateParameters: Task, options?: TasksCreateOptionalParams): Promise<TasksCreateResponse>;
-    beginDelete(resourceGroupName: string, registryName: string, taskName: string, options?: TasksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, registryName: string, taskName: string, options?: TasksDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, registryName: string, taskName: string, taskUpdateParameters: TaskUpdateParameters, options?: TasksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TasksUpdateResponse>, TasksUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, registryName: string, taskName: string, taskUpdateParameters: TaskUpdateParameters, options?: TasksUpdateOptionalParams): Promise<TasksUpdateResponse>;
+    create(resourceGroupName: string, registryName: string, taskName: string, taskCreateParameters: Task, options?: TasksCreateOptionalParams): Promise<TasksCreateResponse>;
+    delete(resourceGroupName: string, registryName: string, taskName: string, options?: TasksDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, registryName: string, taskName: string, options?: TasksGetOptionalParams): Promise<TasksGetResponse>;
     getDetails(resourceGroupName: string, registryName: string, taskName: string, options?: TasksGetDetailsOptionalParams): Promise<TasksGetDetailsResponse>;
     list(resourceGroupName: string, registryName: string, options?: TasksListOptionalParams): PagedAsyncIterableIterator<Task>;
+    update(resourceGroupName: string, registryName: string, taskName: string, taskUpdateParameters: TaskUpdateParameters, options?: TasksUpdateOptionalParams): Promise<TasksUpdateResponse>;
 }
 
 // @public
 export interface TasksCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2447,8 +2431,6 @@ export type TasksCreateResponse = Task;
 
 // @public
 export interface TasksDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2487,26 +2469,24 @@ export interface TaskStepProperties {
     readonly baseImageDependencies?: BaseImageDependency[];
     contextAccessToken?: string;
     contextPath?: string;
-    type: "Docker" | "FileTask" | "EncodedTask";
+    type: "Docker" | "EncodedTask" | "FileTask";
 }
 
 // @public (undocumented)
-export type TaskStepPropertiesUnion = TaskStepProperties | DockerBuildStep | FileTaskStep | EncodedTaskStep;
+export type TaskStepPropertiesUnion = TaskStepProperties | DockerBuildStep | EncodedTaskStep | FileTaskStep;
 
 // @public
 export interface TaskStepUpdateParameters {
     contextAccessToken?: string;
     contextPath?: string;
-    type: "Docker" | "FileTask" | "EncodedTask";
+    type: "Docker" | "EncodedTask" | "FileTask";
 }
 
 // @public (undocumented)
-export type TaskStepUpdateParametersUnion = TaskStepUpdateParameters | DockerBuildStepUpdateParameters | FileTaskStepUpdateParameters | EncodedTaskStepUpdateParameters;
+export type TaskStepUpdateParametersUnion = TaskStepUpdateParameters | DockerBuildStepUpdateParameters | EncodedTaskStepUpdateParameters | FileTaskStepUpdateParameters;
 
 // @public
 export interface TasksUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public

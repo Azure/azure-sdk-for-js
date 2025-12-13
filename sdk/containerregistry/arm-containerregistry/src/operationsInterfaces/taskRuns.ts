@@ -13,10 +13,10 @@ import type {
   TaskRunsGetResponse,
   TaskRunsCreateOptionalParams,
   TaskRunsCreateResponse,
-  TaskRunsDeleteOptionalParams,
   TaskRunUpdateParameters,
   TaskRunsUpdateOptionalParams,
   TaskRunsUpdateResponse,
+  TaskRunsDeleteOptionalParams,
   TaskRunsGetDetailsOptionalParams,
   TaskRunsGetDetailsResponse,
 } from "../models/index.js";
@@ -26,8 +26,8 @@ import type {
 export interface TaskRuns {
   /**
    * Lists all the task runs for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param options The options parameters.
    */
   list(
@@ -37,8 +37,8 @@ export interface TaskRuns {
   ): PagedAsyncIterableIterator<TaskRun>;
   /**
    * Gets the detailed information for a given task run.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param options The options parameters.
    */
@@ -50,8 +50,8 @@ export interface TaskRuns {
   ): Promise<TaskRunsGetResponse>;
   /**
    * Creates a task run for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param taskRun The parameters of a run that needs to scheduled.
    * @param options The options parameters.
@@ -65,8 +65,8 @@ export interface TaskRuns {
   ): Promise<SimplePollerLike<OperationState<TaskRunsCreateResponse>, TaskRunsCreateResponse>>;
   /**
    * Creates a task run for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param taskRun The parameters of a run that needs to scheduled.
    * @param options The options parameters.
@@ -79,35 +79,9 @@ export interface TaskRuns {
     options?: TaskRunsCreateOptionalParams,
   ): Promise<TaskRunsCreateResponse>;
   /**
-   * Deletes a specified task run resource.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskRunName The name of the task run.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    registryName: string,
-    taskRunName: string,
-    options?: TaskRunsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes a specified task run resource.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskRunName The name of the task run.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    taskRunName: string,
-    options?: TaskRunsDeleteOptionalParams,
-  ): Promise<void>;
-  /**
    * Updates a task run with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param updateParameters The parameters for updating a task run.
    * @param options The options parameters.
@@ -121,8 +95,8 @@ export interface TaskRuns {
   ): Promise<SimplePollerLike<OperationState<TaskRunsUpdateResponse>, TaskRunsUpdateResponse>>;
   /**
    * Updates a task run with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param updateParameters The parameters for updating a task run.
    * @param options The options parameters.
@@ -135,9 +109,22 @@ export interface TaskRuns {
     options?: TaskRunsUpdateOptionalParams,
   ): Promise<TaskRunsUpdateResponse>;
   /**
+   * Deletes a specified task run resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
+   * @param taskRunName The name of the task run.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    options?: TaskRunsDeleteOptionalParams,
+  ): Promise<void>;
+  /**
    * Gets the detailed information for a given task run that includes all secrets.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param options The options parameters.
    */
