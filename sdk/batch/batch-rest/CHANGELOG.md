@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0 (2026-01-20)
+
+### Other Changes
+
+- First stable release. No changes from 1.0.0-beta.4.
+
 ## 1.0.0-beta.4 (2025-11-12)
 
 ### Breaking Changes
