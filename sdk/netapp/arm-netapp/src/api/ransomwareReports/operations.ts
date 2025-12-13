@@ -34,9 +34,7 @@ export function _clearSuspectsSend(
   volumeName: string,
   ransomwareReportName: string,
   body: RansomwareSuspectsClearRequest,
-  options: RansomwareReportsClearSuspectsOptionalParams = {
-    requestOptions: {},
-  },
+  options: RansomwareReportsClearSuspectsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/ransomwareReports/{ransomwareReportName}/clearSuspects{?api%2Dversion}",
@@ -83,9 +81,7 @@ export function clearSuspects(
   volumeName: string,
   ransomwareReportName: string,
   body: RansomwareSuspectsClearRequest,
-  options: RansomwareReportsClearSuspectsOptionalParams = {
-    requestOptions: {},
-  },
+  options: RansomwareReportsClearSuspectsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _clearSuspectsDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -129,10 +125,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -198,10 +191,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
