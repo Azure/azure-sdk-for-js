@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-avs",
-  "version": "7.0.0",
+  "version": "8.0.0",
   "description": "A generated SDK for AzureVMwareSolutionAPI.",
   "engines": {
     "node": ">=20.0.0"
@@ -12,27 +12,29 @@
       "./package.json": "./package.json",
       ".": "./src/index.ts",
       "./api": "./src/api/index.ts",
-      "./api/pureStoragePolicies": "./src/api/pureStoragePolicies/index.ts",
+      "./api/workloadNetworks": "./src/api/workloadNetworks/index.ts",
+      "./api/virtualMachines": "./src/api/virtualMachines/index.ts",
       "./api/skus": "./src/api/skus/index.ts",
-      "./api/provisionedNetworks": "./src/api/provisionedNetworks/index.ts",
-      "./api/hosts": "./src/api/hosts/index.ts",
-      "./api/iscsiPaths": "./src/api/iscsiPaths/index.ts",
+      "./api/scriptPackages": "./src/api/scriptPackages/index.ts",
       "./api/scriptExecutions": "./src/api/scriptExecutions/index.ts",
       "./api/scriptCmdlets": "./src/api/scriptCmdlets/index.ts",
-      "./api/scriptPackages": "./src/api/scriptPackages/index.ts",
+      "./api/pureStoragePolicies": "./src/api/pureStoragePolicies/index.ts",
+      "./api/provisionedNetworks": "./src/api/provisionedNetworks/index.ts",
+      "./api/privateClouds": "./src/api/privateClouds/index.ts",
       "./api/placementPolicies": "./src/api/placementPolicies/index.ts",
-      "./api/virtualMachines": "./src/api/virtualMachines/index.ts",
-      "./api/addons": "./src/api/addons/index.ts",
-      "./api/cloudLinks": "./src/api/cloudLinks/index.ts",
-      "./api/globalReachConnections": "./src/api/globalReachConnections/index.ts",
-      "./api/authorizations": "./src/api/authorizations/index.ts",
+      "./api/maintenances": "./src/api/maintenances/index.ts",
+      "./api/locations": "./src/api/locations/index.ts",
+      "./api/licenses": "./src/api/licenses/index.ts",
+      "./api/iscsiPaths": "./src/api/iscsiPaths/index.ts",
+      "./api/hosts": "./src/api/hosts/index.ts",
       "./api/hcxEnterpriseSites": "./src/api/hcxEnterpriseSites/index.ts",
+      "./api/globalReachConnections": "./src/api/globalReachConnections/index.ts",
       "./api/datastores": "./src/api/datastores/index.ts",
       "./api/clusters": "./src/api/clusters/index.ts",
-      "./api/privateClouds": "./src/api/privateClouds/index.ts",
-      "./api/locations": "./src/api/locations/index.ts",
+      "./api/cloudLinks": "./src/api/cloudLinks/index.ts",
+      "./api/authorizations": "./src/api/authorizations/index.ts",
+      "./api/addons": "./src/api/addons/index.ts",
       "./api/operations": "./src/api/operations/index.ts",
-      "./api/workloadNetworks": "./src/api/workloadNetworks/index.ts",
       "./models": "./src/models/index.ts"
     },
     "dialects": [
@@ -174,22 +176,40 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
-    "./api/pureStoragePolicies": {
+    "./api/workloadNetworks": {
       "browser": {
-        "types": "./dist/browser/api/pureStoragePolicies/index.d.ts",
-        "default": "./dist/browser/api/pureStoragePolicies/index.js"
+        "types": "./dist/browser/api/workloadNetworks/index.d.ts",
+        "default": "./dist/browser/api/workloadNetworks/index.js"
       },
       "react-native": {
-        "types": "./dist/react-native/api/pureStoragePolicies/index.d.ts",
-        "default": "./dist/react-native/api/pureStoragePolicies/index.js"
+        "types": "./dist/react-native/api/workloadNetworks/index.d.ts",
+        "default": "./dist/react-native/api/workloadNetworks/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/pureStoragePolicies/index.d.ts",
-        "default": "./dist/esm/api/pureStoragePolicies/index.js"
+        "types": "./dist/esm/api/workloadNetworks/index.d.ts",
+        "default": "./dist/esm/api/workloadNetworks/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/pureStoragePolicies/index.d.ts",
-        "default": "./dist/commonjs/api/pureStoragePolicies/index.js"
+        "types": "./dist/commonjs/api/workloadNetworks/index.d.ts",
+        "default": "./dist/commonjs/api/workloadNetworks/index.js"
+      }
+    },
+    "./api/virtualMachines": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachines/index.d.ts",
+        "default": "./dist/browser/api/virtualMachines/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/virtualMachines/index.d.ts",
+        "default": "./dist/react-native/api/virtualMachines/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachines/index.d.ts",
+        "default": "./dist/esm/api/virtualMachines/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachines/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachines/index.js"
       }
     },
     "./api/skus": {
@@ -210,58 +230,22 @@
         "default": "./dist/commonjs/api/skus/index.js"
       }
     },
-    "./api/provisionedNetworks": {
+    "./api/scriptPackages": {
       "browser": {
-        "types": "./dist/browser/api/provisionedNetworks/index.d.ts",
-        "default": "./dist/browser/api/provisionedNetworks/index.js"
+        "types": "./dist/browser/api/scriptPackages/index.d.ts",
+        "default": "./dist/browser/api/scriptPackages/index.js"
       },
       "react-native": {
-        "types": "./dist/react-native/api/provisionedNetworks/index.d.ts",
-        "default": "./dist/react-native/api/provisionedNetworks/index.js"
+        "types": "./dist/react-native/api/scriptPackages/index.d.ts",
+        "default": "./dist/react-native/api/scriptPackages/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/provisionedNetworks/index.d.ts",
-        "default": "./dist/esm/api/provisionedNetworks/index.js"
+        "types": "./dist/esm/api/scriptPackages/index.d.ts",
+        "default": "./dist/esm/api/scriptPackages/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/provisionedNetworks/index.d.ts",
-        "default": "./dist/commonjs/api/provisionedNetworks/index.js"
-      }
-    },
-    "./api/hosts": {
-      "browser": {
-        "types": "./dist/browser/api/hosts/index.d.ts",
-        "default": "./dist/browser/api/hosts/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/hosts/index.d.ts",
-        "default": "./dist/react-native/api/hosts/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/hosts/index.d.ts",
-        "default": "./dist/esm/api/hosts/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/hosts/index.d.ts",
-        "default": "./dist/commonjs/api/hosts/index.js"
-      }
-    },
-    "./api/iscsiPaths": {
-      "browser": {
-        "types": "./dist/browser/api/iscsiPaths/index.d.ts",
-        "default": "./dist/browser/api/iscsiPaths/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/iscsiPaths/index.d.ts",
-        "default": "./dist/react-native/api/iscsiPaths/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/iscsiPaths/index.d.ts",
-        "default": "./dist/esm/api/iscsiPaths/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/iscsiPaths/index.d.ts",
-        "default": "./dist/commonjs/api/iscsiPaths/index.js"
+        "types": "./dist/commonjs/api/scriptPackages/index.d.ts",
+        "default": "./dist/commonjs/api/scriptPackages/index.js"
       }
     },
     "./api/scriptExecutions": {
@@ -300,22 +284,58 @@
         "default": "./dist/commonjs/api/scriptCmdlets/index.js"
       }
     },
-    "./api/scriptPackages": {
+    "./api/pureStoragePolicies": {
       "browser": {
-        "types": "./dist/browser/api/scriptPackages/index.d.ts",
-        "default": "./dist/browser/api/scriptPackages/index.js"
+        "types": "./dist/browser/api/pureStoragePolicies/index.d.ts",
+        "default": "./dist/browser/api/pureStoragePolicies/index.js"
       },
       "react-native": {
-        "types": "./dist/react-native/api/scriptPackages/index.d.ts",
-        "default": "./dist/react-native/api/scriptPackages/index.js"
+        "types": "./dist/react-native/api/pureStoragePolicies/index.d.ts",
+        "default": "./dist/react-native/api/pureStoragePolicies/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/scriptPackages/index.d.ts",
-        "default": "./dist/esm/api/scriptPackages/index.js"
+        "types": "./dist/esm/api/pureStoragePolicies/index.d.ts",
+        "default": "./dist/esm/api/pureStoragePolicies/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/scriptPackages/index.d.ts",
-        "default": "./dist/commonjs/api/scriptPackages/index.js"
+        "types": "./dist/commonjs/api/pureStoragePolicies/index.d.ts",
+        "default": "./dist/commonjs/api/pureStoragePolicies/index.js"
+      }
+    },
+    "./api/provisionedNetworks": {
+      "browser": {
+        "types": "./dist/browser/api/provisionedNetworks/index.d.ts",
+        "default": "./dist/browser/api/provisionedNetworks/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/provisionedNetworks/index.d.ts",
+        "default": "./dist/react-native/api/provisionedNetworks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/provisionedNetworks/index.d.ts",
+        "default": "./dist/esm/api/provisionedNetworks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/provisionedNetworks/index.d.ts",
+        "default": "./dist/commonjs/api/provisionedNetworks/index.js"
+      }
+    },
+    "./api/privateClouds": {
+      "browser": {
+        "types": "./dist/browser/api/privateClouds/index.d.ts",
+        "default": "./dist/browser/api/privateClouds/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/privateClouds/index.d.ts",
+        "default": "./dist/react-native/api/privateClouds/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateClouds/index.d.ts",
+        "default": "./dist/esm/api/privateClouds/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateClouds/index.d.ts",
+        "default": "./dist/commonjs/api/privateClouds/index.js"
       }
     },
     "./api/placementPolicies": {
@@ -336,94 +356,94 @@
         "default": "./dist/commonjs/api/placementPolicies/index.js"
       }
     },
-    "./api/virtualMachines": {
+    "./api/maintenances": {
       "browser": {
-        "types": "./dist/browser/api/virtualMachines/index.d.ts",
-        "default": "./dist/browser/api/virtualMachines/index.js"
+        "types": "./dist/browser/api/maintenances/index.d.ts",
+        "default": "./dist/browser/api/maintenances/index.js"
       },
       "react-native": {
-        "types": "./dist/react-native/api/virtualMachines/index.d.ts",
-        "default": "./dist/react-native/api/virtualMachines/index.js"
+        "types": "./dist/react-native/api/maintenances/index.d.ts",
+        "default": "./dist/react-native/api/maintenances/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/virtualMachines/index.d.ts",
-        "default": "./dist/esm/api/virtualMachines/index.js"
+        "types": "./dist/esm/api/maintenances/index.d.ts",
+        "default": "./dist/esm/api/maintenances/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/virtualMachines/index.d.ts",
-        "default": "./dist/commonjs/api/virtualMachines/index.js"
+        "types": "./dist/commonjs/api/maintenances/index.d.ts",
+        "default": "./dist/commonjs/api/maintenances/index.js"
       }
     },
-    "./api/addons": {
+    "./api/locations": {
       "browser": {
-        "types": "./dist/browser/api/addons/index.d.ts",
-        "default": "./dist/browser/api/addons/index.js"
+        "types": "./dist/browser/api/locations/index.d.ts",
+        "default": "./dist/browser/api/locations/index.js"
       },
       "react-native": {
-        "types": "./dist/react-native/api/addons/index.d.ts",
-        "default": "./dist/react-native/api/addons/index.js"
+        "types": "./dist/react-native/api/locations/index.d.ts",
+        "default": "./dist/react-native/api/locations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/addons/index.d.ts",
-        "default": "./dist/esm/api/addons/index.js"
+        "types": "./dist/esm/api/locations/index.d.ts",
+        "default": "./dist/esm/api/locations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/addons/index.d.ts",
-        "default": "./dist/commonjs/api/addons/index.js"
+        "types": "./dist/commonjs/api/locations/index.d.ts",
+        "default": "./dist/commonjs/api/locations/index.js"
       }
     },
-    "./api/cloudLinks": {
+    "./api/licenses": {
       "browser": {
-        "types": "./dist/browser/api/cloudLinks/index.d.ts",
-        "default": "./dist/browser/api/cloudLinks/index.js"
+        "types": "./dist/browser/api/licenses/index.d.ts",
+        "default": "./dist/browser/api/licenses/index.js"
       },
       "react-native": {
-        "types": "./dist/react-native/api/cloudLinks/index.d.ts",
-        "default": "./dist/react-native/api/cloudLinks/index.js"
+        "types": "./dist/react-native/api/licenses/index.d.ts",
+        "default": "./dist/react-native/api/licenses/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/cloudLinks/index.d.ts",
-        "default": "./dist/esm/api/cloudLinks/index.js"
+        "types": "./dist/esm/api/licenses/index.d.ts",
+        "default": "./dist/esm/api/licenses/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/cloudLinks/index.d.ts",
-        "default": "./dist/commonjs/api/cloudLinks/index.js"
+        "types": "./dist/commonjs/api/licenses/index.d.ts",
+        "default": "./dist/commonjs/api/licenses/index.js"
       }
     },
-    "./api/globalReachConnections": {
+    "./api/iscsiPaths": {
       "browser": {
-        "types": "./dist/browser/api/globalReachConnections/index.d.ts",
-        "default": "./dist/browser/api/globalReachConnections/index.js"
+        "types": "./dist/browser/api/iscsiPaths/index.d.ts",
+        "default": "./dist/browser/api/iscsiPaths/index.js"
       },
       "react-native": {
-        "types": "./dist/react-native/api/globalReachConnections/index.d.ts",
-        "default": "./dist/react-native/api/globalReachConnections/index.js"
+        "types": "./dist/react-native/api/iscsiPaths/index.d.ts",
+        "default": "./dist/react-native/api/iscsiPaths/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/globalReachConnections/index.d.ts",
-        "default": "./dist/esm/api/globalReachConnections/index.js"
+        "types": "./dist/esm/api/iscsiPaths/index.d.ts",
+        "default": "./dist/esm/api/iscsiPaths/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/globalReachConnections/index.d.ts",
-        "default": "./dist/commonjs/api/globalReachConnections/index.js"
+        "types": "./dist/commonjs/api/iscsiPaths/index.d.ts",
+        "default": "./dist/commonjs/api/iscsiPaths/index.js"
       }
     },
-    "./api/authorizations": {
+    "./api/hosts": {
       "browser": {
-        "types": "./dist/browser/api/authorizations/index.d.ts",
-        "default": "./dist/browser/api/authorizations/index.js"
+        "types": "./dist/browser/api/hosts/index.d.ts",
+        "default": "./dist/browser/api/hosts/index.js"
       },
       "react-native": {
-        "types": "./dist/react-native/api/authorizations/index.d.ts",
-        "default": "./dist/react-native/api/authorizations/index.js"
+        "types": "./dist/react-native/api/hosts/index.d.ts",
+        "default": "./dist/react-native/api/hosts/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/authorizations/index.d.ts",
-        "default": "./dist/esm/api/authorizations/index.js"
+        "types": "./dist/esm/api/hosts/index.d.ts",
+        "default": "./dist/esm/api/hosts/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/authorizations/index.d.ts",
-        "default": "./dist/commonjs/api/authorizations/index.js"
+        "types": "./dist/commonjs/api/hosts/index.d.ts",
+        "default": "./dist/commonjs/api/hosts/index.js"
       }
     },
     "./api/hcxEnterpriseSites": {
@@ -442,6 +462,24 @@
       "require": {
         "types": "./dist/commonjs/api/hcxEnterpriseSites/index.d.ts",
         "default": "./dist/commonjs/api/hcxEnterpriseSites/index.js"
+      }
+    },
+    "./api/globalReachConnections": {
+      "browser": {
+        "types": "./dist/browser/api/globalReachConnections/index.d.ts",
+        "default": "./dist/browser/api/globalReachConnections/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/globalReachConnections/index.d.ts",
+        "default": "./dist/react-native/api/globalReachConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/globalReachConnections/index.d.ts",
+        "default": "./dist/esm/api/globalReachConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/globalReachConnections/index.d.ts",
+        "default": "./dist/commonjs/api/globalReachConnections/index.js"
       }
     },
     "./api/datastores": {
@@ -480,40 +518,58 @@
         "default": "./dist/commonjs/api/clusters/index.js"
       }
     },
-    "./api/privateClouds": {
+    "./api/cloudLinks": {
       "browser": {
-        "types": "./dist/browser/api/privateClouds/index.d.ts",
-        "default": "./dist/browser/api/privateClouds/index.js"
+        "types": "./dist/browser/api/cloudLinks/index.d.ts",
+        "default": "./dist/browser/api/cloudLinks/index.js"
       },
       "react-native": {
-        "types": "./dist/react-native/api/privateClouds/index.d.ts",
-        "default": "./dist/react-native/api/privateClouds/index.js"
+        "types": "./dist/react-native/api/cloudLinks/index.d.ts",
+        "default": "./dist/react-native/api/cloudLinks/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/privateClouds/index.d.ts",
-        "default": "./dist/esm/api/privateClouds/index.js"
+        "types": "./dist/esm/api/cloudLinks/index.d.ts",
+        "default": "./dist/esm/api/cloudLinks/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/privateClouds/index.d.ts",
-        "default": "./dist/commonjs/api/privateClouds/index.js"
+        "types": "./dist/commonjs/api/cloudLinks/index.d.ts",
+        "default": "./dist/commonjs/api/cloudLinks/index.js"
       }
     },
-    "./api/locations": {
+    "./api/authorizations": {
       "browser": {
-        "types": "./dist/browser/api/locations/index.d.ts",
-        "default": "./dist/browser/api/locations/index.js"
+        "types": "./dist/browser/api/authorizations/index.d.ts",
+        "default": "./dist/browser/api/authorizations/index.js"
       },
       "react-native": {
-        "types": "./dist/react-native/api/locations/index.d.ts",
-        "default": "./dist/react-native/api/locations/index.js"
+        "types": "./dist/react-native/api/authorizations/index.d.ts",
+        "default": "./dist/react-native/api/authorizations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/locations/index.d.ts",
-        "default": "./dist/esm/api/locations/index.js"
+        "types": "./dist/esm/api/authorizations/index.d.ts",
+        "default": "./dist/esm/api/authorizations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/locations/index.d.ts",
-        "default": "./dist/commonjs/api/locations/index.js"
+        "types": "./dist/commonjs/api/authorizations/index.d.ts",
+        "default": "./dist/commonjs/api/authorizations/index.js"
+      }
+    },
+    "./api/addons": {
+      "browser": {
+        "types": "./dist/browser/api/addons/index.d.ts",
+        "default": "./dist/browser/api/addons/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/addons/index.d.ts",
+        "default": "./dist/react-native/api/addons/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/addons/index.d.ts",
+        "default": "./dist/esm/api/addons/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/addons/index.d.ts",
+        "default": "./dist/commonjs/api/addons/index.js"
       }
     },
     "./api/operations": {
@@ -532,24 +588,6 @@
       "require": {
         "types": "./dist/commonjs/api/operations/index.d.ts",
         "default": "./dist/commonjs/api/operations/index.js"
-      }
-    },
-    "./api/workloadNetworks": {
-      "browser": {
-        "types": "./dist/browser/api/workloadNetworks/index.d.ts",
-        "default": "./dist/browser/api/workloadNetworks/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/workloadNetworks/index.d.ts",
-        "default": "./dist/react-native/api/workloadNetworks/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/workloadNetworks/index.d.ts",
-        "default": "./dist/esm/api/workloadNetworks/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/workloadNetworks/index.d.ts",
-        "default": "./dist/commonjs/api/workloadNetworks/index.js"
       }
     },
     "./models": {
