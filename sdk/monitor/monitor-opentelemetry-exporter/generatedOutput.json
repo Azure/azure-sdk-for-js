@@ -1,0 +1,30 @@
+{
+  "packages": [
+    {
+      "packageName": "@azure/monitor-opentelemetry-exporter",
+      "version": "1.0.0-beta.36",
+      "language": "JavaScript",
+      "path": [
+        "rush.json",
+        "common/config/rush/pnpm-lock.yaml",
+        "sdk/monitor/monitor-opentelemetry-exporter",
+        "sdk/monitor/ci.mgmt.yml"
+      ],
+      "apiViewArtifact": "",
+      "packageFolder": "sdk/monitor/monitor-opentelemetry-exporter",
+      "typespecProject": [
+        "specification/applicationinsights/ApplicationInsights.Monitor.Exporters"
+      ],
+      "artifacts": [
+        "sdk/monitor/monitor-opentelemetry-exporter/azure-monitor-opentelemetry-exporter-1.0.0-beta.36.tgz"
+      ],
+      "changelog": {
+        "content": "",
+        "hasBreakingChange": false,
+        "breakingChangeItems": []
+      },
+      "result": "succeeded"
+    }
+  ],
+  "language": "JavaScript"
+}
