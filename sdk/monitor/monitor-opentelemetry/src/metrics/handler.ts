@@ -2,15 +2,67 @@
 // Licensed under the MIT License.
 
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
-import type { PeriodicExportingMetricReaderOptions, ViewOptions } from "@opentelemetry/sdk-metrics";
-import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import type {
+  AggregationOption,
+  PeriodicExportingMetricReaderOptions,
+  ViewOptions,
+} from "@opentelemetry/sdk-metrics";
+import {
+  AggregationType,
+  InstrumentType,
+  PeriodicExportingMetricReader,
+} from "@opentelemetry/sdk-metrics";
 import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 import type { InternalConfig } from "../shared/config.js";
 import { StandardMetrics } from "./standardMetrics.js";
 import type { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
-import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS } from "./types.js";
+import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS, HISTOGRAM_AGGREGATION_MAP } from "./types.js";
 import { LiveMetrics } from "./quickpulse/liveMetrics.js";
 import { PerformanceCounterMetrics } from "./performanceCounters.js";
+import { Logger } from "../shared/logging/index.js";
+
+type MetricExporterOptions = ConstructorParameters<typeof AzureMonitorMetricExporter>[0];
+
+const DEFAULT_HISTOGRAM_AGGREGATION_ENV_VAR =
+  "OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION";
+
+function resolveHistogramAggregationFromEnv(): AggregationOption | undefined {
+  const envValue = process.env[DEFAULT_HISTOGRAM_AGGREGATION_ENV_VAR];
+  if (!envValue) {
+    return undefined;
+  }
+
+  const normalized = envValue.trim().toLowerCase();
+  const aggregation = HISTOGRAM_AGGREGATION_MAP[normalized];
+  if (aggregation) {
+    return aggregation;
+  }
+
+  const validValues = Object.keys(HISTOGRAM_AGGREGATION_MAP)
+    .map((v) => `'${v}'`)
+    .join(" and ");
+  Logger.getInstance().warn(
+    `${DEFAULT_HISTOGRAM_AGGREGATION_ENV_VAR} has unsupported value '${envValue}'. Supported values are ${validValues}.`,
+  );
+  return undefined;
+}
+
+class AzureMonitorMetricExporterWithAggregation extends AzureMonitorMetricExporter {
+  private _histogramAggregation?: AggregationOption;
+
+  constructor(options: MetricExporterOptions, histogramAggregation?: AggregationOption) {
+    super(options);
+    this._histogramAggregation = histogramAggregation;
+  }
+
+  public selectAggregation(instrumentType: InstrumentType): AggregationOption {
+    if (instrumentType === InstrumentType.HISTOGRAM && this._histogramAggregation) {
+      return this._histogramAggregation;
+    }
+
+    return { type: AggregationType.DEFAULT };
+  }
+}
 
 /**
  * Azure Monitor OpenTelemetry Metric Handler
@@ -55,7 +107,11 @@ export class MetricHandler {
     ) {
       this._views.push({ meterName: "@opentelemetry/instrumentation-redis" });
     }
-    this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterOptions);
+    const histogramAggregation = resolveHistogramAggregationFromEnv();
+    this._azureExporter = new AzureMonitorMetricExporterWithAggregation(
+      this._config.azureMonitorExporterOptions,
+      histogramAggregation,
+    );
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
       exportIntervalMillis: this._config.metricExportIntervalMillis || defaultInterval,
