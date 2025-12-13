@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * This file contains only generated model types and (de)serializers.
- * Disable this rule for deserializer functions which require 'any' for raw JSON input.
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Schema of the data property of an EventGridEvent for a Microsoft.ApiCenter.ApiDefinitionAdded event. */
 export interface ApiCenterApiDefinitionAddedEventData {
@@ -454,7 +455,12 @@ export interface ApiManagementCircuitBreaker {
 
 export function apiManagementCircuitBreakerDeserializer(item: any): ApiManagementCircuitBreaker {
   return {
-    rules: item["rules"],
+    rules: Object.fromEntries(
+      Object.entries(item["rules"]).map(([k, p]: [string, any]) => [
+        k,
+        Object.fromEntries(Object.entries(p).map(([k, p]: [string, any]) => [k, p])),
+      ]),
+    ),
   };
 }
 
@@ -906,7 +912,9 @@ export function avsScriptExecutionFinishedEventDataDeserializer(
       : item["output"].map((p: any) => {
           return p;
         }),
-    namedOutputs: item["namedOutputs"],
+    namedOutputs: Object.fromEntries(
+      Object.entries(item["namedOutputs"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -1137,8 +1145,12 @@ export interface AcsIncomingCallCustomContext {
 
 export function acsIncomingCallCustomContextDeserializer(item: any): AcsIncomingCallCustomContext {
   return {
-    sipHeaders: item["sipHeaders"],
-    voipHeaders: item["voipHeaders"],
+    sipHeaders: Object.fromEntries(
+      Object.entries(item["sipHeaders"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    voipHeaders: Object.fromEntries(
+      Object.entries(item["voipHeaders"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -1463,6 +1475,8 @@ export interface AcsChatMessageEventBase extends AcsChatEventBase {
   senderCommunicationIdentifier: CommunicationIdentifierModel;
   /** The display name of the sender */
   senderDisplayName?: string;
+  /** The Sequence id of the message */
+  sequenceId?: number;
   /** The original compose time of the message */
   composeTime: Date;
   /** The type of the message */
@@ -1483,6 +1497,7 @@ export function acsChatMessageEventBaseDeserializer(item: any): AcsChatMessageEv
       item["senderCommunicationIdentifier"],
     ),
     senderDisplayName: item["senderDisplayName"],
+    sequenceId: item["sequenceId"],
     composeTime: new Date(item["composeTime"]),
     type: item["type"],
     version: item["version"],
@@ -1506,6 +1521,7 @@ export function acsChatMessageReceivedEventDataDeserializer(
       item["senderCommunicationIdentifier"],
     ),
     senderDisplayName: item["senderDisplayName"],
+    sequenceId: item["sequenceId"],
     composeTime: new Date(item["composeTime"]),
     type: item["type"],
     version: item["version"],
@@ -1515,7 +1531,9 @@ export function acsChatMessageReceivedEventDataDeserializer(
     transactionId: item["transactionId"],
     threadId: item["threadId"],
     messageBody: item["messageBody"],
-    metadata: item["metadata"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -1527,6 +1545,8 @@ export interface AcsChatMessageEventInThreadBase extends AcsChatEventInThreadBas
   senderCommunicationIdentifier: CommunicationIdentifierModel;
   /** The display name of the sender */
   senderDisplayName?: string;
+  /** The Sequence id of the message */
+  sequenceId?: number;
   /** The original compose time of the message */
   composeTime: Date;
   /** The type of the message */
@@ -1546,6 +1566,7 @@ export function acsChatMessageEventInThreadBaseDeserializer(
       item["senderCommunicationIdentifier"],
     ),
     senderDisplayName: item["senderDisplayName"],
+    sequenceId: item["sequenceId"],
     composeTime: new Date(item["composeTime"]),
     type: item["type"],
     version: item["version"],
@@ -1569,13 +1590,16 @@ export function acsChatAzureBotCommandReceivedInThreadEventDataDeserializer(
       item["senderCommunicationIdentifier"],
     ),
     senderDisplayName: item["senderDisplayName"],
+    sequenceId: item["sequenceId"],
     composeTime: new Date(item["composeTime"]),
     type: item["type"],
     version: item["version"],
     transactionId: item["transactionId"],
     threadId: item["threadId"],
     messageBody: item["messageBody"],
-    metadata: item["metadata"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -1596,13 +1620,16 @@ export function acsChatTypingIndicatorReceivedInThreadEventDataDeserializer(
       item["senderCommunicationIdentifier"],
     ),
     senderDisplayName: item["senderDisplayName"],
+    sequenceId: item["sequenceId"],
     composeTime: new Date(item["composeTime"]),
     type: item["type"],
     version: item["version"],
     transactionId: item["transactionId"],
     threadId: item["threadId"],
     messageBody: item["messageBody"],
-    metadata: item["metadata"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -1623,13 +1650,16 @@ export function acsChatMessageReceivedInThreadEventDataDeserializer(
       item["senderCommunicationIdentifier"],
     ),
     senderDisplayName: item["senderDisplayName"],
+    sequenceId: item["sequenceId"],
     composeTime: new Date(item["composeTime"]),
     type: item["type"],
     version: item["version"],
     transactionId: item["transactionId"],
     threadId: item["threadId"],
     messageBody: item["messageBody"],
-    metadata: item["metadata"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -1652,6 +1682,7 @@ export function acsChatMessageEditedEventDataDeserializer(
       item["senderCommunicationIdentifier"],
     ),
     senderDisplayName: item["senderDisplayName"],
+    sequenceId: item["sequenceId"],
     composeTime: new Date(item["composeTime"]),
     type: item["type"],
     version: item["version"],
@@ -1661,7 +1692,9 @@ export function acsChatMessageEditedEventDataDeserializer(
     transactionId: item["transactionId"],
     threadId: item["threadId"],
     messageBody: item["messageBody"],
-    metadata: item["metadata"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
     editTime: new Date(item["editTime"]),
   };
 }
@@ -1685,13 +1718,16 @@ export function acsChatMessageEditedInThreadEventDataDeserializer(
       item["senderCommunicationIdentifier"],
     ),
     senderDisplayName: item["senderDisplayName"],
+    sequenceId: item["sequenceId"],
     composeTime: new Date(item["composeTime"]),
     type: item["type"],
     version: item["version"],
     transactionId: item["transactionId"],
     threadId: item["threadId"],
     messageBody: item["messageBody"],
-    metadata: item["metadata"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
     editTime: new Date(item["editTime"]),
   };
 }
@@ -1711,6 +1747,7 @@ export function acsChatMessageDeletedEventDataDeserializer(
       item["senderCommunicationIdentifier"],
     ),
     senderDisplayName: item["senderDisplayName"],
+    sequenceId: item["sequenceId"],
     composeTime: new Date(item["composeTime"]),
     type: item["type"],
     version: item["version"],
@@ -1738,6 +1775,7 @@ export function acsChatMessageDeletedInThreadEventDataDeserializer(
       item["senderCommunicationIdentifier"],
     ),
     senderDisplayName: item["senderDisplayName"],
+    sequenceId: item["sequenceId"],
     composeTime: new Date(item["composeTime"]),
     type: item["type"],
     version: item["version"],
@@ -1763,7 +1801,9 @@ export function acsChatThreadParticipantDeserializer(item: any): AcsChatThreadPa
     participantCommunicationIdentifier: communicationIdentifierModelDeserializer(
       item["participantCommunicationIdentifier"],
     ),
-    metadata: item["metadata"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -1797,6 +1837,8 @@ export interface AcsChatThreadCreatedWithUserEventData extends AcsChatThreadEven
   readonly metadata?: Record<string, string>;
   /** The list of properties of participants who are part of the thread */
   readonly participants: AcsChatThreadParticipant[];
+  /** The retention policy for the chat. */
+  retentionPolicy?: AcsChatRetentionPolicy;
 }
 
 export function acsChatThreadCreatedWithUserEventDataDeserializer(
@@ -1813,9 +1855,16 @@ export function acsChatThreadCreatedWithUserEventDataDeserializer(
     createdByCommunicationIdentifier: communicationIdentifierModelDeserializer(
       item["createdByCommunicationIdentifier"],
     ),
-    properties: item["properties"],
-    metadata: item["metadata"],
+    properties: Object.fromEntries(
+      Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
     participants: acsChatThreadParticipantArrayDeserializer(item["participants"]),
+    retentionPolicy: !item["retentionPolicy"]
+      ? item["retentionPolicy"]
+      : acsChatRetentionPolicyDeserializer(item["retentionPolicy"]),
   };
 }
 
@@ -1826,6 +1875,39 @@ export function acsChatThreadParticipantArrayDeserializer(
     return acsChatThreadParticipantDeserializer(item);
   });
 }
+
+/** Schema of common properties of all chat retention policy */
+export interface AcsChatRetentionPolicy {
+  /** The chat retention policy kind. */
+  kind?: AcsChatRetentionPolicyKind;
+  /** The delete thread after number of days. */
+  deleteThreadAfterDays?: number;
+}
+
+export function acsChatRetentionPolicyDeserializer(item: any): AcsChatRetentionPolicy {
+  return {
+    kind: item["kind"],
+    deleteThreadAfterDays: item["deleteThreadAfterDays"],
+  };
+}
+
+/** Chat Retention Policy kind */
+export enum KnownAcsChatRetentionPolicyKind {
+  /** None */
+  None = "none",
+  /** ThreadCreationDate */
+  ThreadCreationDate = "threadCreationDate",
+}
+
+/**
+ * Chat Retention Policy kind \
+ * {@link KnownAcsChatRetentionPolicyKind} can be used interchangeably with AcsChatRetentionPolicyKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none**: None \
+ * **threadCreationDate**: ThreadCreationDate
+ */
+export type AcsChatRetentionPolicyKind = string;
 
 /** Schema of common properties of all chat thread events */
 export interface AcsChatThreadEventInThreadBase extends AcsChatEventInThreadBase {
@@ -1856,6 +1938,8 @@ export interface AcsChatThreadCreatedEventData extends AcsChatThreadEventInThrea
   readonly metadata?: Record<string, string>;
   /** The list of properties of participants who are part of the thread */
   readonly participants: AcsChatThreadParticipant[];
+  /** The retention policy for the chat. */
+  retentionPolicy?: AcsChatRetentionPolicy;
 }
 
 export function acsChatThreadCreatedEventDataDeserializer(
@@ -1869,9 +1953,16 @@ export function acsChatThreadCreatedEventDataDeserializer(
     createdByCommunicationIdentifier: communicationIdentifierModelDeserializer(
       item["createdByCommunicationIdentifier"],
     ),
-    properties: item["properties"],
-    metadata: item["metadata"],
+    properties: Object.fromEntries(
+      Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
     participants: acsChatThreadParticipantArrayDeserializer(item["participants"]),
+    retentionPolicy: !item["retentionPolicy"]
+      ? item["retentionPolicy"]
+      : acsChatRetentionPolicyDeserializer(item["retentionPolicy"]),
   };
 }
 
@@ -1907,6 +1998,8 @@ export interface AcsChatThreadDeletedEventData extends AcsChatThreadEventInThrea
   deletedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The deletion time of the thread */
   deleteTime: Date;
+  /** The chat thread deletion reason. */
+  reason?: AcsChatThreadDeletedReasonType;
 }
 
 export function acsChatThreadDeletedEventDataDeserializer(
@@ -1921,8 +2014,27 @@ export function acsChatThreadDeletedEventDataDeserializer(
       item["deletedByCommunicationIdentifier"],
     ),
     deleteTime: new Date(item["deleteTime"]),
+    reason: item["reason"],
   };
 }
+
+/** Chat Thread Deletion Reason Type */
+export enum KnownAcsChatThreadDeletedReasonType {
+  /** DeletedByUser */
+  DeletedByUser = "deletedByUser",
+  /** DeletedByPolicy */
+  DeletedByPolicy = "deletedByPolicy",
+}
+
+/**
+ * Chat Thread Deletion Reason Type \
+ * {@link KnownAcsChatThreadDeletedReasonType} can be used interchangeably with AcsChatThreadDeletedReasonType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **deletedByUser**: DeletedByUser \
+ * **deletedByPolicy**: DeletedByPolicy
+ */
+export type AcsChatThreadDeletedReasonType = string;
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser event. */
 export interface AcsChatThreadPropertiesUpdatedPerUserEventData extends AcsChatThreadEventBase {
@@ -1934,6 +2046,8 @@ export interface AcsChatThreadPropertiesUpdatedPerUserEventData extends AcsChatT
   readonly metadata?: Record<string, string>;
   /** The updated thread properties */
   properties: Record<string, any>;
+  /** The retention policy for the chat. */
+  retentionPolicy?: AcsChatRetentionPolicy;
 }
 
 export function acsChatThreadPropertiesUpdatedPerUserEventDataDeserializer(
@@ -1951,8 +2065,15 @@ export function acsChatThreadPropertiesUpdatedPerUserEventDataDeserializer(
       item["editedByCommunicationIdentifier"],
     ),
     editTime: new Date(item["editTime"]),
-    metadata: item["metadata"],
-    properties: item["properties"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    properties: Object.fromEntries(
+      Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    retentionPolicy: !item["retentionPolicy"]
+      ? item["retentionPolicy"]
+      : acsChatRetentionPolicyDeserializer(item["retentionPolicy"]),
   };
 }
 
@@ -1966,6 +2087,8 @@ export interface AcsChatThreadPropertiesUpdatedEventData extends AcsChatThreadEv
   properties: Record<string, any>;
   /** The thread metadata */
   readonly metadata: Record<string, string>;
+  /** The retention policy for the chat. */
+  retentionPolicy?: AcsChatRetentionPolicy;
 }
 
 export function acsChatThreadPropertiesUpdatedEventDataDeserializer(
@@ -1980,8 +2103,15 @@ export function acsChatThreadPropertiesUpdatedEventDataDeserializer(
       item["editedByCommunicationIdentifier"],
     ),
     editTime: new Date(item["editTime"]),
-    properties: item["properties"],
-    metadata: item["metadata"],
+    properties: Object.fromEntries(
+      Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    metadata: Object.fromEntries(
+      Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    retentionPolicy: !item["retentionPolicy"]
+      ? item["retentionPolicy"]
+      : acsChatRetentionPolicyDeserializer(item["retentionPolicy"]),
   };
 }
 
@@ -2492,8 +2622,10 @@ export function acsRouterJobEventDataDeserializer(item: any): AcsRouterJobEventD
     channelReference: item["channelReference"],
     channelId: item["channelId"],
     queueId: item["queueId"],
-    labels: item["labels"],
-    tags: item["tags"],
+    labels: Object.fromEntries(
+      Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -2510,8 +2642,10 @@ export function acsRouterJobCancelledEventDataDeserializer(
 ): AcsRouterJobCancelledEventData {
   return {
     queueId: item["queueId"],
-    labels: item["labels"],
-    tags: item["tags"],
+    labels: Object.fromEntries(
+      Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     jobId: item["jobId"],
     channelReference: item["channelReference"],
     channelId: item["channelId"],
@@ -2533,8 +2667,10 @@ export function acsRouterJobClassificationFailedEventDataDeserializer(
 ): AcsRouterJobClassificationFailedEventData {
   return {
     queueId: item["queueId"],
-    labels: item["labels"],
-    tags: item["tags"],
+    labels: Object.fromEntries(
+      Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     jobId: item["jobId"],
     channelReference: item["channelReference"],
     channelId: item["channelId"],
@@ -2592,8 +2728,10 @@ export function acsRouterJobClassifiedEventDataDeserializer(
 ): AcsRouterJobClassifiedEventData {
   return {
     queueId: item["queueId"],
-    labels: item["labels"],
-    tags: item["tags"],
+    labels: Object.fromEntries(
+      Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     jobId: item["jobId"],
     channelReference: item["channelReference"],
     channelId: item["channelId"],
@@ -2620,7 +2758,9 @@ export function acsRouterQueueDetailsDeserializer(item: any): AcsRouterQueueDeta
   return {
     id: item["id"],
     name: item["name"],
-    labels: item["labels"],
+    labels: Object.fromEntries(
+      Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -2720,8 +2860,10 @@ export interface AcsRouterJobClosedEventData extends AcsRouterJobEventData {
 export function acsRouterJobClosedEventDataDeserializer(item: any): AcsRouterJobClosedEventData {
   return {
     queueId: item["queueId"],
-    labels: item["labels"],
-    tags: item["tags"],
+    labels: Object.fromEntries(
+      Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     jobId: item["jobId"],
     channelReference: item["channelReference"],
     channelId: item["channelId"],
@@ -2744,8 +2886,10 @@ export function acsRouterJobCompletedEventDataDeserializer(
 ): AcsRouterJobCompletedEventData {
   return {
     queueId: item["queueId"],
-    labels: item["labels"],
-    tags: item["tags"],
+    labels: Object.fromEntries(
+      Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     jobId: item["jobId"],
     channelReference: item["channelReference"],
     channelId: item["channelId"],
@@ -2760,8 +2904,10 @@ export interface AcsRouterJobDeletedEventData extends AcsRouterJobEventData {}
 export function acsRouterJobDeletedEventDataDeserializer(item: any): AcsRouterJobDeletedEventData {
   return {
     queueId: item["queueId"],
-    labels: item["labels"],
-    tags: item["tags"],
+    labels: Object.fromEntries(
+      Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     jobId: item["jobId"],
     channelReference: item["channelReference"],
     channelId: item["channelId"],
@@ -2781,8 +2927,10 @@ export function acsRouterJobExceptionTriggeredEventDataDeserializer(
 ): AcsRouterJobExceptionTriggeredEventData {
   return {
     queueId: item["queueId"],
-    labels: item["labels"],
-    tags: item["tags"],
+    labels: Object.fromEntries(
+      Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     jobId: item["jobId"],
     channelReference: item["channelReference"],
     channelId: item["channelId"],
@@ -2804,8 +2952,10 @@ export interface AcsRouterJobQueuedEventData extends AcsRouterJobEventData {
 export function acsRouterJobQueuedEventDataDeserializer(item: any): AcsRouterJobQueuedEventData {
   return {
     queueId: item["queueId"],
-    labels: item["labels"],
-    tags: item["tags"],
+    labels: Object.fromEntries(
+      Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     jobId: item["jobId"],
     channelReference: item["channelReference"],
     channelId: item["channelId"],
@@ -2840,8 +2990,10 @@ export function acsRouterJobReceivedEventDataDeserializer(
 ): AcsRouterJobReceivedEventData {
   return {
     queueId: item["queueId"],
-    labels: item["labels"],
-    tags: item["tags"],
+    labels: Object.fromEntries(
+      Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     jobId: item["jobId"],
     channelReference: item["channelReference"],
     channelId: item["channelId"],
@@ -2923,8 +3075,10 @@ export function acsRouterJobSchedulingFailedEventDataDeserializer(
 ): AcsRouterJobSchedulingFailedEventData {
   return {
     queueId: item["queueId"],
-    labels: item["labels"],
-    tags: item["tags"],
+    labels: Object.fromEntries(
+      Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     jobId: item["jobId"],
     channelReference: item["channelReference"],
     channelId: item["channelId"],
@@ -2953,8 +3107,10 @@ export function acsRouterJobUnassignedEventDataDeserializer(
 ): AcsRouterJobUnassignedEventData {
   return {
     queueId: item["queueId"],
-    labels: item["labels"],
-    tags: item["tags"],
+    labels: Object.fromEntries(
+      Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     jobId: item["jobId"],
     channelReference: item["channelReference"],
     channelId: item["channelId"],
@@ -2982,8 +3138,10 @@ export function acsRouterJobWaitingForActivationEventDataDeserializer(
 ): AcsRouterJobWaitingForActivationEventData {
   return {
     queueId: item["queueId"],
-    labels: item["labels"],
-    tags: item["tags"],
+    labels: Object.fromEntries(
+      Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     jobId: item["jobId"],
     channelReference: item["channelReference"],
     channelId: item["channelId"],
@@ -3012,8 +3170,10 @@ export function acsRouterJobWorkerSelectorsExpiredEventDataDeserializer(
 ): AcsRouterJobWorkerSelectorsExpiredEventData {
   return {
     queueId: item["queueId"],
-    labels: item["labels"],
-    tags: item["tags"],
+    labels: Object.fromEntries(
+      Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     jobId: item["jobId"],
     channelReference: item["channelReference"],
     channelId: item["channelId"],
@@ -3101,10 +3261,18 @@ export function acsRouterWorkerOfferAcceptedEventDataDeserializer(
     offerId: item["offerId"],
     assignmentId: item["assignmentId"],
     jobPriority: item["jobPriority"],
-    workerLabels: item["workerLabels"],
-    workerTags: item["workerTags"],
-    jobLabels: item["jobLabels"],
-    jobTags: item["jobTags"],
+    workerLabels: Object.fromEntries(
+      Object.entries(item["workerLabels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    workerTags: Object.fromEntries(
+      Object.entries(item["workerTags"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    jobLabels: Object.fromEntries(
+      Object.entries(item["jobLabels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    jobTags: Object.fromEntries(
+      Object.entries(item["jobTags"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -3183,12 +3351,20 @@ export function acsRouterWorkerOfferIssuedEventDataDeserializer(
     queueId: item["queueId"],
     offerId: item["offerId"],
     jobPriority: item["jobPriority"],
-    workerLabels: item["workerLabels"],
+    workerLabels: Object.fromEntries(
+      Object.entries(item["workerLabels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     offeredOn: new Date(item["offeredOn"]),
     expiresOn: new Date(item["expiresOn"]),
-    workerTags: item["workerTags"],
-    jobLabels: item["jobLabels"],
-    jobTags: item["jobTags"],
+    workerTags: Object.fromEntries(
+      Object.entries(item["workerTags"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    jobLabels: Object.fromEntries(
+      Object.entries(item["jobLabels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    jobTags: Object.fromEntries(
+      Object.entries(item["jobTags"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -3239,8 +3415,10 @@ export function acsRouterWorkerRegisteredEventDataDeserializer(
       item["channelConfigurations"],
     ),
     totalCapacity: item["totalCapacity"],
-    labels: item["labels"],
-    tags: item["tags"],
+    labels: Object.fromEntries(
+      Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -3308,8 +3486,10 @@ export function acsRouterWorkerUpdatedEventDataDeserializer(
       item["channelConfigurations"],
     ),
     totalCapacity: item["totalCapacity"],
-    labels: item["labels"],
-    tags: item["tags"],
+    labels: Object.fromEntries(
+      Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     updatedWorkerProperties: item["updatedWorkerProperties"].map((p: any) => {
       return p;
     }),
@@ -4461,9 +4641,13 @@ export interface DeviceTelemetryEvent {
 
 export function deviceTelemetryEventDeserializer(item: any): DeviceTelemetryEvent {
   return {
-    body: item["body"],
-    properties: item["properties"],
-    systemProperties: item["systemProperties"],
+    body: Object.fromEntries(Object.entries(item["body"]).map(([k, p]: [string, any]) => [k, p])),
+    properties: Object.fromEntries(
+      Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    systemProperties: Object.fromEntries(
+      Object.entries(item["systemProperties"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -4528,9 +4712,13 @@ export function iotHubDeviceTelemetryEventDataDeserializer(
   item: any,
 ): IotHubDeviceTelemetryEventData {
   return {
-    body: item["body"],
-    properties: item["properties"],
-    systemProperties: item["systemProperties"],
+    body: Object.fromEntries(Object.entries(item["body"]).map(([k, p]: [string, any]) => [k, p])),
+    properties: Object.fromEntries(
+      Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    systemProperties: Object.fromEntries(
+      Object.entries(item["systemProperties"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -5521,8 +5709,16 @@ export function machineLearningServicesModelRegisteredEventDataDeserializer(
   return {
     modelName: item["modelName"],
     modelVersion: item["modelVersion"],
-    modelTags: item["modelTags"],
-    modelProperties: item["modelProperties"],
+    modelTags: !item["modelTags"]
+      ? item["modelTags"]
+      : Object.fromEntries(
+          Object.entries(item["modelTags"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    modelProperties: !item["modelProperties"]
+      ? item["modelProperties"]
+      : Object.fromEntries(
+          Object.entries(item["modelProperties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
   };
 }
 
@@ -5547,8 +5743,16 @@ export function machineLearningServicesModelDeployedEventDataDeserializer(
     serviceName: item["serviceName"],
     serviceComputeType: item["serviceComputeType"],
     modelIds: item["modelIds"],
-    serviceTags: item["serviceTags"],
-    serviceProperties: item["serviceProperties"],
+    serviceTags: !item["serviceTags"]
+      ? item["serviceTags"]
+      : Object.fromEntries(
+          Object.entries(item["serviceTags"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    serviceProperties: !item["serviceProperties"]
+      ? item["serviceProperties"]
+      : Object.fromEntries(
+          Object.entries(item["serviceProperties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
   };
 }
 
@@ -5576,8 +5780,14 @@ export function machineLearningServicesRunCompletedEventDataDeserializer(
     experimentName: item["experimentName"],
     runId: item["runId"],
     runType: item["runType"],
-    runTags: item["runTags"],
-    runProperties: item["runProperties"],
+    runTags: !item["runTags"]
+      ? item["runTags"]
+      : Object.fromEntries(Object.entries(item["runTags"]).map(([k, p]: [string, any]) => [k, p])),
+    runProperties: !item["runProperties"]
+      ? item["runProperties"]
+      : Object.fromEntries(
+          Object.entries(item["runProperties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
   };
 }
 
@@ -5642,8 +5852,14 @@ export function machineLearningServicesRunStatusChangedEventDataDeserializer(
     experimentName: item["experimentName"],
     runId: item["runId"],
     runType: item["runType"],
-    runTags: item["runTags"],
-    runProperties: item["runProperties"],
+    runTags: !item["runTags"]
+      ? item["runTags"]
+      : Object.fromEntries(Object.entries(item["runTags"]).map(([k, p]: [string, any]) => [k, p])),
+    runProperties: !item["runProperties"]
+      ? item["runProperties"]
+      : Object.fromEntries(
+          Object.entries(item["runProperties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     runStatus: item["runStatus"],
   };
 }
@@ -5838,7 +6054,9 @@ export function resourceAuthorizationDeserializer(item: any): ResourceAuthorizat
   return {
     scope: item["scope"],
     action: item["action"],
-    evidence: item["evidence"],
+    evidence: Object.fromEntries(
+      Object.entries(item["evidence"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -5901,7 +6119,9 @@ export function resourceWriteSuccessEventDataDeserializer(
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
-    claims: item["claims"],
+    claims: Object.fromEntries(
+      Object.entries(item["claims"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     correlationId: item["correlationId"],
     httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
   };
@@ -5945,7 +6165,9 @@ export function resourceWriteFailureEventDataDeserializer(
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
-    claims: item["claims"],
+    claims: Object.fromEntries(
+      Object.entries(item["claims"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     correlationId: item["correlationId"],
     httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
   };
@@ -5987,7 +6209,9 @@ export function resourceWriteCancelEventDataDeserializer(item: any): ResourceWri
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
-    claims: item["claims"],
+    claims: Object.fromEntries(
+      Object.entries(item["claims"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     correlationId: item["correlationId"],
     httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
   };
@@ -6031,7 +6255,9 @@ export function resourceDeleteSuccessEventDataDeserializer(
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
-    claims: item["claims"],
+    claims: Object.fromEntries(
+      Object.entries(item["claims"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     correlationId: item["correlationId"],
     httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
   };
@@ -6075,7 +6301,9 @@ export function resourceDeleteFailureEventDataDeserializer(
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
-    claims: item["claims"],
+    claims: Object.fromEntries(
+      Object.entries(item["claims"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     correlationId: item["correlationId"],
     httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
   };
@@ -6119,7 +6347,9 @@ export function resourceDeleteCancelEventDataDeserializer(
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
-    claims: item["claims"],
+    claims: Object.fromEntries(
+      Object.entries(item["claims"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     correlationId: item["correlationId"],
     httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
   };
@@ -6163,7 +6393,9 @@ export function resourceActionSuccessEventDataDeserializer(
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
-    claims: item["claims"],
+    claims: Object.fromEntries(
+      Object.entries(item["claims"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     correlationId: item["correlationId"],
     httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
   };
@@ -6207,7 +6439,9 @@ export function resourceActionFailureEventDataDeserializer(
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
-    claims: item["claims"],
+    claims: Object.fromEntries(
+      Object.entries(item["claims"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     correlationId: item["correlationId"],
     httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
   };
@@ -6251,7 +6485,9 @@ export function resourceActionCancelEventDataDeserializer(
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
-    claims: item["claims"],
+    claims: Object.fromEntries(
+      Object.entries(item["claims"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     correlationId: item["correlationId"],
     httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
   };
@@ -6466,7 +6702,9 @@ export function storageBlobCreatedEventDataDeserializer(item: any): StorageBlobC
     url: item["url"],
     sequencer: item["sequencer"],
     identity: item["identity"],
-    storageDiagnostics: item["storageDiagnostics"],
+    storageDiagnostics: Object.fromEntries(
+      Object.entries(item["storageDiagnostics"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -6529,7 +6767,9 @@ export function storageBlobDeletedEventDataDeserializer(item: any): StorageBlobD
     url: item["url"],
     sequencer: item["sequencer"],
     identity: item["identity"],
-    storageDiagnostics: item["storageDiagnostics"],
+    storageDiagnostics: Object.fromEntries(
+      Object.entries(item["storageDiagnostics"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -6564,7 +6804,9 @@ export function storageDirectoryCreatedEventDataDeserializer(
     url: item["url"],
     sequencer: item["sequencer"],
     identity: item["identity"],
-    storageDiagnostics: item["storageDiagnostics"],
+    storageDiagnostics: Object.fromEntries(
+      Object.entries(item["storageDiagnostics"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -6599,7 +6841,9 @@ export function storageDirectoryDeletedEventDataDeserializer(
     recursive: item["recursive"],
     sequencer: item["sequencer"],
     identity: item["identity"],
-    storageDiagnostics: item["storageDiagnostics"],
+    storageDiagnostics: Object.fromEntries(
+      Object.entries(item["storageDiagnostics"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -6632,7 +6876,9 @@ export function storageBlobRenamedEventDataDeserializer(item: any): StorageBlobR
     destinationUrl: item["destinationUrl"],
     sequencer: item["sequencer"],
     identity: item["identity"],
-    storageDiagnostics: item["storageDiagnostics"],
+    storageDiagnostics: Object.fromEntries(
+      Object.entries(item["storageDiagnostics"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -6667,7 +6913,9 @@ export function storageDirectoryRenamedEventDataDeserializer(
     destinationUrl: item["destinationUrl"],
     sequencer: item["sequencer"],
     identity: item["identity"],
-    storageDiagnostics: item["storageDiagnostics"],
+    storageDiagnostics: Object.fromEntries(
+      Object.entries(item["storageDiagnostics"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -6804,7 +7052,9 @@ export function storageBlobTierChangedEventDataDeserializer(
     url: item["url"],
     sequencer: item["sequencer"],
     identity: item["identity"],
-    storageDiagnostics: item["storageDiagnostics"],
+    storageDiagnostics: Object.fromEntries(
+      Object.entries(item["storageDiagnostics"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -6845,7 +7095,9 @@ export function storageAsyncOperationInitiatedEventDataDeserializer(
     url: item["url"],
     sequencer: item["sequencer"],
     identity: item["identity"],
-    storageDiagnostics: item["storageDiagnostics"],
+    storageDiagnostics: Object.fromEntries(
+      Object.entries(item["storageDiagnostics"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -7692,7 +7944,9 @@ export function eventGridMqttClientCreatedOrUpdatedEventDataDeserializer(
     state: item["state"],
     createdOn: new Date(item["createdOn"]),
     updatedOn: new Date(item["updatedOn"]),
-    attributes: item["attributes"],
+    attributes: Object.fromEntries(
+      Object.entries(item["attributes"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -7881,8 +8135,14 @@ export function resourceNotificationsResourceUpdatedDetailsDeserializer(
     name: item["name"],
     type: item["type"],
     location: item["location"],
-    tags: item["tags"],
-    properties: item["properties"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    properties: !item["properties"]
+      ? item["properties"]
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
   };
 }
 
@@ -8029,86 +8289,5 @@ export function resourceNotificationsContainerServiceEventResourcesScheduledEven
       item["operationalInfo"],
     ),
     apiVersion: item["apiVersion"],
-  };
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.AKSResources.FleetGateCreated event. */
-export interface ResourceNotificationsAksResourcesFleetGateCreatedEventData extends ResourceNotificationsResourceUpdatedEventData {}
-
-export function resourceNotificationsAksResourcesFleetGateCreatedEventDataDeserializer(
-  item: any,
-): ResourceNotificationsAksResourcesFleetGateCreatedEventData {
-  return {
-    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(item["resourceInfo"]),
-    operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
-      item["operationalInfo"],
-    ),
-    apiVersion: item["apiVersion"],
-  };
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.AKSResources.FleetGateUpdated event. */
-export interface ResourceNotificationsAksResourcesFleetGateUpdatedEventData extends ResourceNotificationsResourceUpdatedEventData {}
-
-export function resourceNotificationsAksResourcesFleetGateUpdatedEventDataDeserializer(
-  item: any,
-): ResourceNotificationsAksResourcesFleetGateUpdatedEventData {
-  return {
-    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(item["resourceInfo"]),
-    operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
-      item["operationalInfo"],
-    ),
-    apiVersion: item["apiVersion"],
-  };
-}
-
-/** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.AKSResources.FleetGateDeleted event. */
-export interface ResourceNotificationsAksResourcesFleetGateDeletedEventData {
-  /** resourceInfo details for deleted event */
-  resourceInfo: {
-    id: string;
-    name: string;
-    type: string;
-    properties: Record<string, any>;
-  };
-  /** details about operational info */
-  operationalInfo: ResourceNotificationsOperationalDetails;
-  /** api version of the resource properties bag */
-  apiVersion: string;
-}
-
-export function resourceNotificationsAksResourcesFleetGateDeletedEventDataDeserializer(
-  item: any,
-): ResourceNotificationsAksResourcesFleetGateDeletedEventData {
-  return {
-    resourceInfo:
-      _resourceNotificationsAksResourcesFleetGateDeletedEventDataResourceInfoDeserializer(
-        item["resourceInfo"],
-      ),
-    operationalInfo: resourceNotificationsOperationalDetailsDeserializer(item["operationalInfo"]),
-    apiVersion: item["apiVersion"],
-  };
-}
-
-/** model interface _ResourceNotificationsAksResourcesFleetGateDeletedEventDataResourceInfo */
-export interface _ResourceNotificationsAksResourcesFleetGateDeletedEventDataResourceInfo {
-  /** id of the resource for which the event is being emitted */
-  id: string;
-  /** name of the resource for which the event is being emitted */
-  name: string;
-  /** the type of the resource for which the event is being emitted */
-  type: string;
-  /** properties in the payload of the resource for which the event is being emitted */
-  readonly properties: Record<string, any>;
-}
-
-export function _resourceNotificationsAksResourcesFleetGateDeletedEventDataResourceInfoDeserializer(
-  item: any,
-): _ResourceNotificationsAksResourcesFleetGateDeletedEventDataResourceInfo {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    properties: item["properties"],
   };
 }
