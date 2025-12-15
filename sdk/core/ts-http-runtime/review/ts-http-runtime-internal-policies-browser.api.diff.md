@@ -7,13 +7,10 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -10,11 +10,11 @@
- // @public
- export const agentPolicyName = "agentPolicy";
+@@ -12,9 +12,9 @@
  
  // @public
--export function decompressResponsePolicy(): PipelinePolicy;
-+export function decompressResponsePolicy(): never;
+ export function decompressResponsePolicy(): PipelinePolicy;
  
 -// @public
 +// @public (undocumented)
@@ -29,20 +26,21 @@ For the complete API surface, see the corresponding -node.api.md file.
 -// @public @deprecated
 -export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
 +// @public (undocumented)
-+export function getDefaultProxySettings(): never;
++export function getDefaultProxySettings(_proxyUrl?: string): never;
  
  // @public
  export function logPolicy(options?: LogPolicyOptions): PipelinePolicy;
  
-@@ -67,13 +67,11 @@
+@@ -67,13 +67,13 @@
  // @public
  export const multipartPolicyName = "multipartPolicy";
  
  // @public
 -export function proxyPolicy(proxySettings?: ProxySettings, options?: {
--    customNoProxyList?: string[];
++export function proxyPolicy(_proxySettings?: ProxySettings, _options?: {
+     customNoProxyList?: string[];
 -}): PipelinePolicy;
-+export function proxyPolicy(): never;
++}): never;
  
 -// @public
 +// @public (undocumented)
