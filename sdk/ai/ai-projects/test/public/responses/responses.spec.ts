@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createProjectsClient } from "../utils/createClient.js";
-import { assert, beforeEach, it, describe } from "vitest";
-import { isLiveMode, isRecordMode } from "@azure-tools/test-recorder";
+import { createProjectsClient, createRecorder } from "../utils/createClient.js";
+import { afterEach, assert, beforeEach, it, describe } from "vitest";
+import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import type OpenAI from "openai";
 import type { AIProjectClient } from "../../../src/index.js";
 
-const isLiveOrRecord = isLiveMode() || isRecordMode();
-// OpenAI SDK tests don't work with test recorder
-// Skip in playback mode (only run in live/record mode)
-describe.skipIf(!isLiveOrRecord)("My test", () => {
+describe("responses - basic", () => {
   let projectsClient: AIProjectClient;
   let openAIClient: OpenAI;
+  let recorder: Recorder;
 
-  beforeEach(async function () {
-    projectsClient = createProjectsClient();
+  beforeEach(async function (context: VitestTestContext) {
+    recorder = await createRecorder(context);
+    projectsClient = createProjectsClient(recorder);
     openAIClient = await projectsClient.getOpenAIClient();
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
   });
 
   it("should create and list responses", async function () {
