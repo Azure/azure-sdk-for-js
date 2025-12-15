@@ -5,6 +5,7 @@
       "@azure/arm-workloadorchestration": ["./dist/browser/index.d.ts"],
       "@azure/arm-workloadorchestration/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

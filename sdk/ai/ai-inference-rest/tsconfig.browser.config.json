@@ -5,6 +5,7 @@
       "@azure-rest/ai-inference": ["./dist/browser/index.d.ts"],
       "@azure-rest/ai-inference/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

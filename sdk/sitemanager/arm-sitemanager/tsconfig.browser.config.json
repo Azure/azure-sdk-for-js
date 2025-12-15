@@ -5,6 +5,7 @@
       "@azure/arm-sitemanager": ["./dist/browser/index.d.ts"],
       "@azure/arm-sitemanager/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

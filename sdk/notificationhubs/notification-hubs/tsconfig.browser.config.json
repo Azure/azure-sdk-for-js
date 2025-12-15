@@ -5,6 +5,7 @@
       "@azure/notification-hubs": ["./dist/browser/index.d.ts"],
       "@azure/notification-hubs/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

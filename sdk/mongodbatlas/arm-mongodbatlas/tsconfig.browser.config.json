@@ -5,6 +5,7 @@
       "@azure/arm-mongodbatlas": ["./dist/browser/index.d.ts"],
       "@azure/arm-mongodbatlas/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

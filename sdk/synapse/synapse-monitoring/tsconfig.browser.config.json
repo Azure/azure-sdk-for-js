@@ -5,6 +5,7 @@
       "@azure/synapse-monitoring": ["./dist/browser/index.d.ts"],
       "@azure/synapse-monitoring/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

@@ -5,6 +5,7 @@
       "@azure/arm-recoveryservicesdatareplication": ["./dist/browser/index.d.ts"],
       "@azure/arm-recoveryservicesdatareplication/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

@@ -5,6 +5,7 @@
       "@azure/arm-storagediscovery": ["./dist/browser/index.d.ts"],
       "@azure/arm-storagediscovery/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

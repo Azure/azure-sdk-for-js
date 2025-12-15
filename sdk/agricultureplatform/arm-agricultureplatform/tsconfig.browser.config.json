@@ -5,6 +5,7 @@
       "@azure/arm-agricultureplatform": ["./dist/browser/index.d.ts"],
       "@azure/arm-agricultureplatform/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

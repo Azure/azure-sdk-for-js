@@ -5,6 +5,7 @@
       "@azure/storage-queue": ["./dist/browser/index.d.ts"],
       "@azure/storage-queue/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

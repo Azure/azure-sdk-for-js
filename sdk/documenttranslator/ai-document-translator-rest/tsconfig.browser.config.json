@@ -5,6 +5,7 @@
       "@azure-rest/ai-document-translator": ["./dist/browser/index.d.ts"],
       "@azure-rest/ai-document-translator/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

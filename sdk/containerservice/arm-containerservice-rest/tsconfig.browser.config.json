@@ -5,6 +5,7 @@
       "@azure-rest/arm-containerservice": ["./dist/browser/index.d.ts"],
       "@azure-rest/arm-containerservice/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

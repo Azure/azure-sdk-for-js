@@ -5,6 +5,7 @@
       "@azure/ai-language-text": ["./dist/browser/index.d.ts"],
       "@azure/ai-language-text/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

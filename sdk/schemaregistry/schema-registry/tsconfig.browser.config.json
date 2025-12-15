@@ -5,6 +5,7 @@
       "@azure/schema-registry": ["./dist/browser/index.d.ts"],
       "@azure/schema-registry/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

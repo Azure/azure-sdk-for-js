@@ -5,6 +5,7 @@
       "@azure/arm-trustedsigning": ["./dist/browser/index.d.ts"],
       "@azure/arm-trustedsigning/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

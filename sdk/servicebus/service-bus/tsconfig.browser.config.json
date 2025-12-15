@@ -5,7 +5,8 @@
       "@azure/service-bus": ["./dist/browser/index.d.ts"],
       "@azure/service-bus/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   },
   "exclude": [
     "./test/**/node",

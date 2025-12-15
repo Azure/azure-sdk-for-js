@@ -5,6 +5,7 @@
       "@azure/arm-servicenetworking": ["./dist/browser/index.d.ts"],
       "@azure/arm-servicenetworking/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

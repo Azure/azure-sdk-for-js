@@ -5,6 +5,7 @@
       "@azure/arm-hybridconnectivity": ["./dist/browser/index.d.ts"],
       "@azure/arm-hybridconnectivity/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

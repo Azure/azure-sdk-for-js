@@ -5,6 +5,7 @@
       "@azure/arm-playwright": ["./dist/browser/index.d.ts"],
       "@azure/arm-playwright/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

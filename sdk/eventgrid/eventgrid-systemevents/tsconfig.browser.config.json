@@ -5,6 +5,7 @@
       "@azure/eventgrid-systemevents": ["./dist/browser/index.d.ts"],
       "@azure/eventgrid-systemevents/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

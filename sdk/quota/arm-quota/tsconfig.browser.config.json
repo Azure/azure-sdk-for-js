@@ -5,6 +5,7 @@
       "@azure/arm-quota": ["./dist/browser/index.d.ts"],
       "@azure/arm-quota/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

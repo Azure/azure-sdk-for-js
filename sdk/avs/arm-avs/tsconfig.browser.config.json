@@ -5,6 +5,7 @@
       "@azure/arm-avs": ["./dist/browser/index.d.ts"],
       "@azure/arm-avs/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

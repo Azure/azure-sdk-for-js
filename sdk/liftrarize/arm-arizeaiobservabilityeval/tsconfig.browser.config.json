@@ -5,6 +5,7 @@
       "@azure/arm-arizeaiobservabilityeval": ["./dist/browser/index.d.ts"],
       "@azure/arm-arizeaiobservabilityeval/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

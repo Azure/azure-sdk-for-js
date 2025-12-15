@@ -5,6 +5,7 @@
       "@azure/arm-deviceprovisioningservices": ["./dist/browser/index.d.ts"],
       "@azure/arm-deviceprovisioningservices/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

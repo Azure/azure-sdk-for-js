@@ -5,6 +5,7 @@
       "@azure/core-lro": ["./dist/browser/index.d.ts"],
       "@azure/core-lro/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

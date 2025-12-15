@@ -5,6 +5,7 @@
       "@azure-rest/purview-workflow": ["./dist/browser/index.d.ts"],
       "@azure-rest/purview-workflow/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

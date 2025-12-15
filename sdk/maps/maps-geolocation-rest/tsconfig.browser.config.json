@@ -5,6 +5,7 @@
       "@azure-rest/maps-geolocation": ["./dist/browser/index.d.ts"],
       "@azure-rest/maps-geolocation/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

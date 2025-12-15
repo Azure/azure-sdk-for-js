@@ -6,6 +6,7 @@
       "@azure/event-hubs/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
     },
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "customConditions": ["browser"]
   }
 }

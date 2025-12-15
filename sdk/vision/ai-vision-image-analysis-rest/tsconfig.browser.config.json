@@ -5,6 +5,7 @@
       "@azure-rest/ai-vision-image-analysis": ["./dist/browser/index.d.ts"],
       "@azure-rest/ai-vision-image-analysis/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

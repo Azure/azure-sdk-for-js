@@ -5,6 +5,7 @@
       "@azure/arm-iotfirmwaredefense": ["./dist/browser/index.d.ts"],
       "@azure/arm-iotfirmwaredefense/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

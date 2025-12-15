@@ -5,6 +5,7 @@
       "@azure-rest/purview-administration": ["./dist/browser/index.d.ts"],
       "@azure-rest/purview-administration/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

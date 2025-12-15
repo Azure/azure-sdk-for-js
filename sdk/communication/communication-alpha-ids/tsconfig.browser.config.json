@@ -5,6 +5,7 @@
       "@azure-tools/communication-alpha-ids": ["./dist/browser/index.d.ts"],
       "@azure-tools/communication-alpha-ids/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

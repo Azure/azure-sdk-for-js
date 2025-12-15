@@ -5,6 +5,7 @@
       "@azure/communication-common": ["./dist/browser/index.d.ts"],
       "@azure/communication-common/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

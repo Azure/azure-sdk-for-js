@@ -5,6 +5,7 @@
       "@azure-tools/test-recorder": ["./dist/browser/index.d.ts"],
       "@azure-tools/test-recorder/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

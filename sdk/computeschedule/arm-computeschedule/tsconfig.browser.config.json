@@ -5,6 +5,7 @@
       "@azure/arm-computeschedule": ["./dist/browser/index.d.ts"],
       "@azure/arm-computeschedule/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

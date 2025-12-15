@@ -5,6 +5,7 @@
       "@azure-tools/communication-short-codes": ["./dist/browser/index.d.ts"],
       "@azure-tools/communication-short-codes/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

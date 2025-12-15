@@ -5,6 +5,7 @@
       "@azure/storage-file-share": ["./dist/browser/index.d.ts"],
       "@azure/storage-file-share/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }
