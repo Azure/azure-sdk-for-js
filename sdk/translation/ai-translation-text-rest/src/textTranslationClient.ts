@@ -20,10 +20,10 @@ export interface TextTranslationClientOptions extends ClientOptions {
  */
 export default function createClient(
   endpointParam: string,
-  { apiVersion = "3.0", ...options }: TextTranslationClientOptions = {},
+  { apiVersion = "2025-10-01-preview", ...options }: TextTranslationClientOptions = {},
 ): TextTranslationClient {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-ai-translation-text-rest/1.0.0-beta.1`;
+  const endpointUrl = options.endpoint ?? `${endpointParam}`;
+  const userAgentInfo = `azsdk-js-ai-translation-text-rest/2.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
