@@ -5,6 +5,7 @@
       "@azure-rest/iot-device-update": ["./dist/browser/index.d.ts"],
       "@azure-rest/iot-device-update/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

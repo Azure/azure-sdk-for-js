@@ -5,6 +5,7 @@
       "@azure/ai-projects": ["./dist/browser/index.d.ts"],
       "@azure/ai-projects/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

@@ -5,6 +5,7 @@
       "@azure-tools/communication-toll-free-verification": ["./dist/browser/index.d.ts"],
       "@azure-tools/communication-toll-free-verification/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

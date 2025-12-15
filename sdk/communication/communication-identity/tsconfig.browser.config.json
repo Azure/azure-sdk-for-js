@@ -5,6 +5,7 @@
       "@azure/communication-identity": ["./dist/browser/index.d.ts"],
       "@azure/communication-identity/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

@@ -5,6 +5,7 @@
       "@azure/storage-file-datalake": ["./dist/browser/index.d.ts"],
       "@azure/storage-file-datalake/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

@@ -5,6 +5,7 @@
       "@azure-rest/core-client": ["./dist/browser/index.d.ts"],
       "@azure-rest/core-client/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

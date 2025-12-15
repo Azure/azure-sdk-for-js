@@ -5,6 +5,7 @@
       "@azure/web-pubsub-client": ["./dist/browser/index.d.ts"],
       "@azure/web-pubsub-client/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

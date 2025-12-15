@@ -5,6 +5,7 @@
       "@azure/arm-carbonoptimization": ["./dist/browser/index.d.ts"],
       "@azure/arm-carbonoptimization/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

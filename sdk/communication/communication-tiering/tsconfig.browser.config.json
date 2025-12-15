@@ -5,6 +5,7 @@
       "@azure-tools/communication-tiering": ["./dist/browser/index.d.ts"],
       "@azure-tools/communication-tiering/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

@@ -5,6 +5,7 @@
       "@azure/eventgrid-namespaces": ["./dist/browser/index.d.ts"],
       "@azure/eventgrid-namespaces/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

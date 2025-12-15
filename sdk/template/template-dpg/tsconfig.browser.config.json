@@ -5,6 +5,7 @@
       "@azure/template-dpg": ["./dist/browser/index.d.ts"],
       "@azure/template-dpg/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

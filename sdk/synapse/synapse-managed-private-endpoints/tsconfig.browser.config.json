@@ -5,6 +5,7 @@
       "@azure/synapse-managed-private-endpoints": ["./dist/browser/index.d.ts"],
       "@azure/synapse-managed-private-endpoints/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

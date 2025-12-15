@@ -5,6 +5,7 @@
       "@azure-tools/test-utils-vitest": ["./dist/browser/index.d.ts"],
       "@azure-tools/test-utils-vitest/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

@@ -5,6 +5,7 @@
       "@azure-rest/purview-datamap": ["./dist/browser/index.d.ts"],
       "@azure-rest/purview-datamap/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

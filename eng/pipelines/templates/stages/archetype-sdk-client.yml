@@ -64,7 +64,7 @@ extends:
                 - ${{ each config in parameters.AdditionalMatrixConfigs }}:
                     - ${{ config }}
               MatrixFilters:
-                - TestType=node|browser
+                - TestType=browser
                 - DependencyVersion=^$
                 - ${{ each filter in parameters.MatrixFilters }}:
                     - ${{ filter}}

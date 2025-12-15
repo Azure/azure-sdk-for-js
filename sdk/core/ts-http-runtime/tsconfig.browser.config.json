@@ -5,6 +5,7 @@
       "@typespec/ts-http-runtime": ["./dist/browser/index.d.ts"],
       "@typespec/ts-http-runtime/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

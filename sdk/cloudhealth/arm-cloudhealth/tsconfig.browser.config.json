@@ -5,6 +5,7 @@
       "@azure/arm-cloudhealth": ["./dist/browser/index.d.ts"],
       "@azure/arm-cloudhealth/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

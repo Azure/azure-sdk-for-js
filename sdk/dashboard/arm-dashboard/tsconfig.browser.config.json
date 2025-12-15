@@ -5,6 +5,7 @@
       "@azure/arm-dashboard": ["./dist/browser/index.d.ts"],
       "@azure/arm-dashboard/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

@@ -5,6 +5,7 @@
       "@azure/ai-text-analytics": ["./dist/browser/index.d.ts"],
       "@azure/ai-text-analytics/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

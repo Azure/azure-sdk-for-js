@@ -5,6 +5,7 @@
       "@azure/core-rest-pipeline": ["./dist/browser/index.d.ts"],
       "@azure/core-rest-pipeline/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

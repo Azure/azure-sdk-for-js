@@ -5,6 +5,7 @@
       "@azure/core-sse": ["./dist/browser/index.d.ts"],
       "@azure/core-sse/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

@@ -5,6 +5,7 @@
       "@azure/arm-mongocluster": ["./dist/browser/index.d.ts"],
       "@azure/arm-mongocluster/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

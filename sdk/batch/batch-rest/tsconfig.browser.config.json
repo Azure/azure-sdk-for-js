@@ -5,6 +5,7 @@
       "@azure-rest/batch": ["./dist/browser/index.d.ts"],
       "@azure-rest/batch/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

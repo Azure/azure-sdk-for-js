@@ -5,6 +5,7 @@
       "@azure/template": ["./dist/browser/index.d.ts"],
       "@azure/template/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

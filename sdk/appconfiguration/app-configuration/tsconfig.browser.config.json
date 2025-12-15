@@ -5,6 +5,7 @@
       "@azure/app-configuration": ["./dist/browser/index.d.ts"],
       "@azure/app-configuration/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

@@ -5,6 +5,7 @@
       "@azure/abort-controller": ["./dist/browser/index.d.ts"],
       "@azure/abort-controller/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

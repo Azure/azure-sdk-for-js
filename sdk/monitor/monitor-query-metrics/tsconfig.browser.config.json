@@ -5,6 +5,7 @@
       "@azure/monitor-query-metrics": ["./dist/browser/index.d.ts"],
       "@azure/monitor-query-metrics/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

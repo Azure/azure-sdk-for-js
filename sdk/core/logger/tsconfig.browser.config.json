@@ -5,6 +5,7 @@
       "@azure/logger": ["./dist/browser/index.d.ts"],
       "@azure/logger/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

@@ -5,6 +5,7 @@
       "@azure/storage-blob": ["./dist/browser/index.d.ts"],
       "@azure/storage-blob/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

@@ -5,6 +5,7 @@
       "@azure/ai-form-recognizer": ["./dist/browser/index.d.ts"],
       "@azure/ai-form-recognizer/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

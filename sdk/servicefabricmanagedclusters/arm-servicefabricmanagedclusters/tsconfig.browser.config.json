@@ -5,6 +5,7 @@
       "@azure/arm-servicefabricmanagedclusters": ["./dist/browser/index.d.ts"],
       "@azure/arm-servicefabricmanagedclusters/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

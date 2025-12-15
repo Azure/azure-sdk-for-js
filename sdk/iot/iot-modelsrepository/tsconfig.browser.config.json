@@ -5,6 +5,7 @@
       "@azure/iot-modelsrepository": ["./dist/browser/index.d.ts"],
       "@azure/iot-modelsrepository/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

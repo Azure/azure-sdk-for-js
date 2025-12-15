@@ -5,6 +5,7 @@
       "@azure-rest/maps-render": ["./dist/browser/index.d.ts"],
       "@azure-rest/maps-render/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

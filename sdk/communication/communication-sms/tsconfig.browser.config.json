@@ -5,6 +5,7 @@
       "@azure/communication-sms": ["./dist/browser/index.d.ts"],
       "@azure/communication-sms/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

@@ -5,6 +5,7 @@
       "@azure/data-tables": ["./dist/browser/index.d.ts"],
       "@azure/data-tables/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

@@ -5,6 +5,7 @@
       "@azure/communication-rooms": ["./dist/browser/index.d.ts"],
       "@azure/communication-rooms/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

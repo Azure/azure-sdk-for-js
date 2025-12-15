@@ -5,6 +5,7 @@
       "@azure/monitor-ingestion": ["./dist/browser/index.d.ts"],
       "@azure/monitor-ingestion/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

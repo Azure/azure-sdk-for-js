@@ -5,6 +5,7 @@
       "@azure-rest/agrifood-farming": ["./dist/browser/index.d.ts"],
       "@azure-rest/agrifood-farming/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

@@ -5,6 +5,7 @@
       "@azure/arm-resourcesbicep": ["./dist/browser/index.d.ts"],
       "@azure/arm-resourcesbicep/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

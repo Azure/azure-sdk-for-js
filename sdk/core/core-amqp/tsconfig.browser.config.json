@@ -5,6 +5,7 @@
       "@azure/core-amqp": ["./dist/browser/index.d.ts"],
       "@azure/core-amqp/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

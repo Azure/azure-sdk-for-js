@@ -5,6 +5,7 @@
       "@azure-rest/communication-job-router": ["./dist/browser/index.d.ts"],
       "@azure-rest/communication-job-router/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

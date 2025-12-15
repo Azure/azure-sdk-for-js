@@ -5,6 +5,7 @@
       "@azure/core-http-compat": ["./dist/browser/index.d.ts"],
       "@azure/core-http-compat/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

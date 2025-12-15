@@ -5,6 +5,7 @@
       "@azure-rest/synapse-access-control": ["./dist/browser/index.d.ts"],
       "@azure-rest/synapse-access-control/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

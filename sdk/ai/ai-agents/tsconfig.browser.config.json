@@ -5,6 +5,7 @@
       "@azure/ai-agents": ["./dist/browser/index.d.ts"],
       "@azure/ai-agents/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

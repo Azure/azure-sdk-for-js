@@ -5,6 +5,7 @@
       "@azure/communication-call-automation": ["./dist/browser/index.d.ts"],
       "@azure/communication-call-automation/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

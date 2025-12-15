@@ -5,6 +5,7 @@
       "@azure/ai-voicelive": ["./dist/browser/index.d.ts"],
       "@azure/ai-voicelive/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }

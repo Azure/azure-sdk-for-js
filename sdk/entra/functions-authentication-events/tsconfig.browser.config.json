@@ -5,6 +5,7 @@
       "@azure/functions-authentication-events": ["./dist/browser/index.d.ts"],
       "@azure/functions-authentication-events/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    }
+    },
+    "customConditions": ["browser"]
   }
 }
