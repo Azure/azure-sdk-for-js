@@ -33,7 +33,6 @@
       // ....
     }
     ```
-  - Removed Interface Location_2
   - Removed Interface SubscriptionPolicies
   - Removed Interface SubscriptionsGetOptionalParams
   - Removed Interface SubscriptionsListLocationsOptionalParams
