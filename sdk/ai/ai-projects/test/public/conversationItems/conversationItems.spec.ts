@@ -35,7 +35,6 @@ describe("conversationitems - basic", () => {
     await recorder.stop();
   });
 
-
   it.skip("should create, list, get, and delete conversation items", async function () {
     // Create conversation
     const conversation = await openAIClient.conversations.create();

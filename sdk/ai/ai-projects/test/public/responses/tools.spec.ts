@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createProjectsClient, createRecorder, getToolConnectionId } from "../utils/createClient.js";
+import {
+  createProjectsClient,
+  createRecorder,
+  getToolConnectionId,
+} from "../utils/createClient.js";
 import { afterEach, assert, beforeEach, it, describe } from "vitest";
 import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import type OpenAI from "openai";
