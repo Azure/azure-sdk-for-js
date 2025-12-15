@@ -20684,7 +20684,7 @@ importers:
         version: link:../../logic/arm-logic
       '@azure/arm-operationalinsights':
         specifier: ^9.0.0
-        version: link:../../operationalinsights/arm-operationalinsights
+        version: 9.0.0
       '@azure/arm-storage':
         specifier: catalog:arm
         version: 18.5.0
@@ -22809,16 +22809,16 @@ importers:
         specifier: ^1.9.0
         version: link:../../core/core-auth
       '@azure/core-client':
-        specifier: ^1.9.2
+        specifier: ^1.9.3
         version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.2.0
+        specifier: ^2.5.4
         version: 2.7.2
       '@azure/core-paging':
         specifier: ^1.6.2
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
-        specifier: ^1.19.0
+        specifier: ^1.19.1
         version: link:../../core/core-rest-pipeline
       tslib:
         specifier: ^2.8.1
@@ -22840,7 +22840,7 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: workspace:^
         version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
@@ -22857,9 +22857,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.1
       playwright:
         specifier: catalog:testing
         version: 1.57.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.7.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.2
@@ -33513,6 +33519,10 @@ packages:
     resolution: {integrity: sha512-6QmZ9aGdiz+9u7jPhQEg2zY/Tn8hwJrmjAMuHlWpnqE2kHvSDnKCE3BiNLZsENfi/IeLKBuW0QIdZ5UhbSSA0A==}
     engines: {node: '>=14.0.0'}
 
+  '@azure/arm-operationalinsights@9.0.0':
+    resolution: {integrity: sha512-2MGyYUdi0ITlqqVq1XEHf7oX20I5VX0/OH/Lu+g4MW6h4js+sPSLjTBpVbafD/NoroLAdVdltVCOR6h3b1bTxg==}
+    engines: {node: '>=14.0.0'}
+
   '@azure/arm-recoveryservices@5.4.0':
     resolution: {integrity: sha512-+BsxHcFzJH28hMAsyI+bbAYVw79d12WagttmFvoidXXq76/5KpNCA2NWTGSV0AlJ+QaCF6+7I7P91PRYnJsr+w==}
     engines: {node: '>=14.0.0'}
@@ -38868,6 +38878,18 @@ snapshots:
       - supports-color
 
   '@azure/arm-network@32.2.0':
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.22.2
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/arm-operationalinsights@9.0.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.10.1
