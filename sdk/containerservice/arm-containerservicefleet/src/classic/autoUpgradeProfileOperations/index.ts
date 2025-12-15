@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
+import type { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
 import { generateUpdateRun } from "../../api/autoUpgradeProfileOperations/operations.js";
-import { AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams } from "../../api/autoUpgradeProfileOperations/options.js";
-import { GenerateResponse } from "../../models/models.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams } from "../../api/autoUpgradeProfileOperations/options.js";
+import type { GenerateResponse } from "../../models/models.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AutoUpgradeProfileOperations operations. */
 export interface AutoUpgradeProfileOperationsOperations {

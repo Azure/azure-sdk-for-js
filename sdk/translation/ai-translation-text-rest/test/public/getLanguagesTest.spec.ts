@@ -31,7 +31,7 @@ describe("GetLanguages tests", () => {
     const languages = response.body;
     assert.isTrue(languages.translation !== null);
     assert.isTrue(languages.transliteration !== null);
-    assert.isTrue(languages.dictionary !== null);
+    assert.isTrue(languages.models !== null);
   });
 
   it("translation scope", async () => {
@@ -109,10 +109,10 @@ describe("GetLanguages tests", () => {
     assert.isTrue(languages?.transliteration?.["zh-Hant"]?.scripts[1].toScripts.length === 2);
   });
 
-  it("dictionary scope", async () => {
+  it("models scope", async () => {
     const parameters = {
       queryParameters: {
-        scope: "dictionary",
+        scope: "models",
       },
     };
     const response = await client.path("/languages").get(parameters);
@@ -123,36 +123,11 @@ describe("GetLanguages tests", () => {
     }
 
     const languages = response.body;
-    assert.isTrue(languages.dictionary !== null);
-    assert.isTrue(languages?.dictionary?.["de"]?.name !== null);
-    assert.isTrue(languages?.dictionary?.["de"]?.nativeName !== null);
-    assert.isTrue(languages?.dictionary?.["de"]?.translations !== null);
-
-    assert.isTrue(languages?.dictionary?.["de"]?.translations[0].code !== null);
-    assert.isTrue(languages?.dictionary?.["de"]?.translations[0].dir !== null);
-    assert.isTrue(languages?.dictionary?.["de"]?.translations[0].name !== null);
-    assert.isTrue(languages?.dictionary?.["de"]?.translations[0].nativeName !== null);
-  });
-
-  it("dictionary scope with multiple translations", async () => {
-    const parameters = {
-      queryParameters: {
-        scope: "dictionary",
-      },
-    };
-    const response = await client.path("/languages").get(parameters);
-    assert.equal(response.status, "200");
-
-    if (isUnexpected(response)) {
-      throw response.body;
+    assert.isTrue(languages.models !== null);
+    assert.isTrue(languages.models!.length > 0);
+    for (const model of languages.models!) {
+      assert.isTrue(model.includes("gpt"));
     }
-
-    const languages = response.body;
-    assert.isTrue(languages.dictionary !== null);
-    assert.isTrue(languages?.dictionary?.["en"]?.name !== null);
-    assert.isTrue(languages?.dictionary?.["en"]?.nativeName !== null);
-    assert.isTrue(languages?.dictionary?.["en"]?.translations !== null);
-    assert.isTrue(languages?.dictionary?.["en"]?.translations?.length !== 1);
   });
 
   it("with culture", async () => {
@@ -171,7 +146,7 @@ describe("GetLanguages tests", () => {
     const languages = response.body;
     assert.isTrue(languages.translation !== null);
     assert.isTrue(languages.transliteration !== null);
-    assert.isTrue(languages.dictionary !== null);
+    assert.isTrue(languages.models !== null);
 
     assert.isTrue(languages?.translation?.["en"]?.name !== null);
     assert.isTrue(languages?.translation?.["en"]?.nativeName !== null);
