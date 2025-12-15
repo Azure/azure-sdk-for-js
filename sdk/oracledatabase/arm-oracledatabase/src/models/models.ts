@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
 /**
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
@@ -5380,84 +5378,16 @@ export function autonomousDatabaseFromBackupTimestampPropertiesDeserializer(
 export interface AutonomousDatabaseUpdate {
   /** Resource tags. */
   tags?: Record<string, string>;
-  /** Admin password. */
-  adminPassword?: string;
-  /** The maintenance schedule type of the Autonomous Database Serverless. */
-  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType;
-  /** The compute amount (CPUs) available to the database. */
-  computeCount?: number;
-  /** The number of CPU cores to be made available to the database. */
-  cpuCoreCount?: number;
-  /** Customer Contacts. */
-  customerContacts?: CustomerContact[];
-  /** The quantity of data in the database, in terabytes. */
-  dataStorageSizeInTbs?: number;
-  /** The size, in gigabytes, of the data volume that will be created and attached to the database. */
-  dataStorageSizeInGbs?: number;
-  /** The user-friendly name for the Autonomous Database. */
-  displayName?: string;
-  /** Indicates if auto scaling is enabled for the Autonomous Database CPU core count. */
-  isAutoScalingEnabled?: boolean;
-  /** Indicates if auto scaling is enabled for the Autonomous Database storage. */
-  isAutoScalingForStorageEnabled?: boolean;
-  /** The Azure resource ID of the Disaster Recovery peer database, which is located in a different region from the current peer database. */
-  peerDbId?: string;
-  /** Indicates whether the Autonomous Database has local or called in-region Data Guard enabled. */
-  isLocalDataGuardEnabled?: boolean;
-  /** Specifies if the Autonomous Database requires mTLS connections. */
-  isMtlsConnectionRequired?: boolean;
-  /** The Oracle license model that applies to the Oracle Autonomous Database. The default is LICENSE_INCLUDED. */
-  licenseModel?: LicenseModel;
-  /** The list of scheduled operations. */
-  scheduledOperationsList?: ScheduledOperationsTypeUpdate[];
-  /** The Oracle Database Edition that applies to the Autonomous databases. */
-  databaseEdition?: DatabaseEditionType;
-  /** Details for the long-term backup schedule. */
-  longTermBackupSchedule?: LongTermBackUpScheduleDetails;
-  /** Parameter that allows users to select an acceptable maximum data loss limit in seconds, up to which Automatic Failover will be triggered when necessary for a Local Autonomous Data Guard */
-  localAdgAutoFailoverMaxDataLossLimit?: number;
-  /** Indicates the Autonomous Database mode. */
-  openMode?: OpenModeType;
-  /** The Autonomous Database permission level. */
-  permissionLevel?: PermissionLevelType;
-  /** The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled. */
-  role?: RoleType;
-  /** Retention period, in days, for long-term backups */
-  backupRetentionPeriodInDays?: number;
-  /** The client IP access control list (ACL). This is an array of CIDR notations and/or IP addresses. Values should be separate strings, separated by commas. Example: ['1.1.1.1','1.1.1.0/24','1.1.2.25'] */
-  whitelistedIps?: string[];
+  /** The resource-specific properties for this resource. */
+  properties?: AutonomousDatabaseUpdateProperties;
 }
 
 export function autonomousDatabaseUpdateSerializer(item: AutonomousDatabaseUpdate): any {
   return {
     tags: item["tags"],
-    properties: areAllPropsUndefined(item, [
-      "adminPassword",
-      "autonomousMaintenanceScheduleType",
-      "computeCount",
-      "cpuCoreCount",
-      "customerContacts",
-      "dataStorageSizeInTbs",
-      "dataStorageSizeInGbs",
-      "displayName",
-      "isAutoScalingEnabled",
-      "isAutoScalingForStorageEnabled",
-      "peerDbId",
-      "isLocalDataGuardEnabled",
-      "isMtlsConnectionRequired",
-      "licenseModel",
-      "scheduledOperationsList",
-      "databaseEdition",
-      "longTermBackupSchedule",
-      "localAdgAutoFailoverMaxDataLossLimit",
-      "openMode",
-      "permissionLevel",
-      "role",
-      "backupRetentionPeriodInDays",
-      "whitelistedIps",
-    ])
-      ? undefined
-      : _autonomousDatabaseUpdatePropertiesSerializer(item),
+    properties: !item["properties"]
+      ? item["properties"]
+      : autonomousDatabaseUpdatePropertiesSerializer(item["properties"]),
   };
 }
 
@@ -7841,42 +7771,4 @@ export function privateIpAddressPropertiesArrayDeserializer(
   return result.map((item) => {
     return privateIpAddressPropertiesDeserializer(item);
   });
-}
-
-export function _autonomousDatabaseUpdatePropertiesSerializer(item: AutonomousDatabaseUpdate): any {
-  return {
-    adminPassword: item["adminPassword"],
-    autonomousMaintenanceScheduleType: item["autonomousMaintenanceScheduleType"],
-    computeCount: item["computeCount"],
-    cpuCoreCount: item["cpuCoreCount"],
-    customerContacts: !item["customerContacts"]
-      ? item["customerContacts"]
-      : customerContactArraySerializer(item["customerContacts"]),
-    dataStorageSizeInTbs: item["dataStorageSizeInTbs"],
-    dataStorageSizeInGbs: item["dataStorageSizeInGbs"],
-    displayName: item["displayName"],
-    isAutoScalingEnabled: item["isAutoScalingEnabled"],
-    isAutoScalingForStorageEnabled: item["isAutoScalingForStorageEnabled"],
-    peerDbId: item["peerDbId"],
-    isLocalDataGuardEnabled: item["isLocalDataGuardEnabled"],
-    isMtlsConnectionRequired: item["isMtlsConnectionRequired"],
-    licenseModel: item["licenseModel"],
-    scheduledOperationsList: !item["scheduledOperationsList"]
-      ? item["scheduledOperationsList"]
-      : scheduledOperationsTypeUpdateArraySerializer(item["scheduledOperationsList"]),
-    databaseEdition: item["databaseEdition"],
-    longTermBackupSchedule: !item["longTermBackupSchedule"]
-      ? item["longTermBackupSchedule"]
-      : longTermBackUpScheduleDetailsSerializer(item["longTermBackupSchedule"]),
-    localAdgAutoFailoverMaxDataLossLimit: item["localAdgAutoFailoverMaxDataLossLimit"],
-    openMode: item["openMode"],
-    permissionLevel: item["permissionLevel"],
-    role: item["role"],
-    backupRetentionPeriodInDays: item["backupRetentionPeriodInDays"],
-    whitelistedIps: !item["whitelistedIps"]
-      ? item["whitelistedIps"]
-      : item["whitelistedIps"].map((p: any) => {
-          return p;
-        }),
-  };
 }

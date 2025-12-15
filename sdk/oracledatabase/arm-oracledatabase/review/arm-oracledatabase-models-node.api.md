@@ -245,30 +245,8 @@ export interface AutonomousDatabaseStandbySummary {
 
 // @public
 export interface AutonomousDatabaseUpdate {
-    adminPassword?: string;
-    autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType;
-    backupRetentionPeriodInDays?: number;
-    computeCount?: number;
-    cpuCoreCount?: number;
-    customerContacts?: CustomerContact[];
-    databaseEdition?: DatabaseEditionType;
-    dataStorageSizeInGbs?: number;
-    dataStorageSizeInTbs?: number;
-    displayName?: string;
-    isAutoScalingEnabled?: boolean;
-    isAutoScalingForStorageEnabled?: boolean;
-    isLocalDataGuardEnabled?: boolean;
-    isMtlsConnectionRequired?: boolean;
-    licenseModel?: LicenseModel;
-    localAdgAutoFailoverMaxDataLossLimit?: number;
-    longTermBackupSchedule?: LongTermBackUpScheduleDetails;
-    openMode?: OpenModeType;
-    peerDbId?: string;
-    permissionLevel?: PermissionLevelType;
-    role?: RoleType;
-    scheduledOperationsList?: ScheduledOperationsTypeUpdate[];
+    properties?: AutonomousDatabaseUpdateProperties;
     tags?: Record<string, string>;
-    whitelistedIps?: string[];
 }
 
 // @public

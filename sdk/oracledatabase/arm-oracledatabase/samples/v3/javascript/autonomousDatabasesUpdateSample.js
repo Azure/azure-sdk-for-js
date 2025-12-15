@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
-import { DefaultAzureCredential } from "@azure/identity";
+const { OracleDatabaseManagementClient } = require("@azure/arm-oracledatabase");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to update a AutonomousDatabase
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary update a AutonomousDatabase
  * x-ms-original-file: 2025-09-01/AutonomousDatabases_Update_MaximumSet_Gen.json
  */
-async function patchAutonomousDatabaseGeneratedByMaximumSetRule(): Promise<void> {
+async function patchAutonomousDatabaseGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
@@ -64,7 +64,7 @@ async function patchAutonomousDatabaseGeneratedByMaximumSetRule(): Promise<void>
  * @summary update a AutonomousDatabase
  * x-ms-original-file: 2025-09-01/autonomousDatabase_patch.json
  */
-async function autonomousDatabasesUpdate(): Promise<void> {
+async function autonomousDatabasesUpdate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
@@ -72,7 +72,7 @@ async function autonomousDatabasesUpdate(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await patchAutonomousDatabaseGeneratedByMaximumSetRule();
   await autonomousDatabasesUpdate();
 }

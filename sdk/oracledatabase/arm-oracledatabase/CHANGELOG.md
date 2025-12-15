@@ -1,48 +1,132 @@
 # Release History
 
-## 4.0.0 (2025-12-15)
+## 3.1.0 (2025-12-15)
 
 ### Features Added
-  - Interface AutonomousDatabaseUpdate has a new optional parameter adminPassword
-  - Interface AutonomousDatabaseUpdate has a new optional parameter autonomousMaintenanceScheduleType
-  - Interface AutonomousDatabaseUpdate has a new optional parameter backupRetentionPeriodInDays
-  - Interface AutonomousDatabaseUpdate has a new optional parameter computeCount
-  - Interface AutonomousDatabaseUpdate has a new optional parameter cpuCoreCount
-  - Interface AutonomousDatabaseUpdate has a new optional parameter customerContacts
-  - Interface AutonomousDatabaseUpdate has a new optional parameter databaseEdition
-  - Interface AutonomousDatabaseUpdate has a new optional parameter dataStorageSizeInGbs
-  - Interface AutonomousDatabaseUpdate has a new optional parameter dataStorageSizeInTbs
-  - Interface AutonomousDatabaseUpdate has a new optional parameter displayName
-  - Interface AutonomousDatabaseUpdate has a new optional parameter isAutoScalingEnabled
-  - Interface AutonomousDatabaseUpdate has a new optional parameter isAutoScalingForStorageEnabled
-  - Interface AutonomousDatabaseUpdate has a new optional parameter isLocalDataGuardEnabled
-  - Interface AutonomousDatabaseUpdate has a new optional parameter isMtlsConnectionRequired
-  - Interface AutonomousDatabaseUpdate has a new optional parameter licenseModel
-  - Interface AutonomousDatabaseUpdate has a new optional parameter localAdgAutoFailoverMaxDataLossLimit
-  - Interface AutonomousDatabaseUpdate has a new optional parameter longTermBackupSchedule
-  - Interface AutonomousDatabaseUpdate has a new optional parameter openMode
-  - Interface AutonomousDatabaseUpdate has a new optional parameter peerDbId
-  - Interface AutonomousDatabaseUpdate has a new optional parameter permissionLevel
-  - Interface AutonomousDatabaseUpdate has a new optional parameter role
-  - Interface AutonomousDatabaseUpdate has a new optional parameter scheduledOperationsList
-  - Interface AutonomousDatabaseUpdate has a new optional parameter whitelistedIps
-
-### Breaking Changes
-  - Interface AutonomousDatabaseUpdate no longer has parameter properties
-
-## 3.0.0 (2025-09-25)
-
-### Features Added
+  - Added operation group AutonomousDatabaseBackupsOperations
+  - Added operation group AutonomousDatabaseCharacterSetsOperations
+  - Added operation group AutonomousDatabaseNationalCharacterSetsOperations
+  - Added operation group AutonomousDatabasesOperations
+  - Added operation group AutonomousDatabaseVersionsOperations
+  - Added operation group CloudExadataInfrastructuresOperations
+  - Added operation group CloudVmClustersOperations
+  - Added operation group DbNodesOperations
+  - Added operation group DbServersOperations
+  - Added operation group DbSystemShapesOperations
   - Added operation group DbSystemsOperations
   - Added operation group DbVersionsOperations
+  - Added operation group DnsPrivateViewsOperations
+  - Added operation group DnsPrivateZonesOperations
+  - Added operation group ExadbVmClustersOperations
+  - Added operation group ExascaleDbNodesOperations
+  - Added operation group ExascaleDbStorageVaultsOperations
+  - Added operation group FlexComponentsOperations
+  - Added operation group GiMinorVersionsOperations
+  - Added operation group GiVersionsOperations
   - Added operation group NetworkAnchorsOperations
+  - Added operation group OperationsOperations
+  - Added operation group OracleSubscriptionsOperations
   - Added operation group ResourceAnchorsOperations
-  - Added operation AutonomousDatabasesOperations.action
-  - Added operation CloudExadataInfrastructuresOperations.configureExascale
+  - Added operation group SystemVersionsOperations
+  - Added operation group VirtualNetworkAddressesOperations
+  - Added Class OracleDatabaseManagementClient
+  - Added Interface ActivationLinks
+  - Added Interface AddRemoveDbNode
+  - Added Interface AllConnectionStringType
+  - Added Interface ApexDetailsType
+  - Added Interface AutonomousDatabase
+  - Added Interface AutonomousDatabaseBackup
+  - Added Interface AutonomousDatabaseBackupProperties
+  - Added Interface AutonomousDatabaseBackupsCreateOrUpdateOptionalParams
+  - Added Interface AutonomousDatabaseBackupsDeleteOptionalParams
+  - Added Interface AutonomousDatabaseBackupsGetOptionalParams
+  - Added Interface AutonomousDatabaseBackupsListByParentOptionalParams
+  - Added Interface AutonomousDatabaseBackupsUpdateOptionalParams
+  - Added Interface AutonomousDatabaseBackupUpdate
+  - Added Interface AutonomousDatabaseBackupUpdateProperties
+  - Added Interface AutonomousDatabaseBaseProperties
+  - Added Interface AutonomousDatabaseCharacterSet
+  - Added Interface AutonomousDatabaseCharacterSetProperties
+  - Added Interface AutonomousDatabaseCharacterSetsGetOptionalParams
+  - Added Interface AutonomousDatabaseCharacterSetsListByLocationOptionalParams
+  - Added Interface AutonomousDatabaseCloneProperties
+  - Added Interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties
+  - Added Interface AutonomousDatabaseFromBackupTimestampProperties
   - Added Interface AutonomousDatabaseLifecycleAction
+  - Added Interface AutonomousDatabaseNationalCharacterSet
+  - Added Interface AutonomousDatabaseNationalCharacterSetProperties
+  - Added Interface AutonomousDatabaseNationalCharacterSetsGetOptionalParams
+  - Added Interface AutonomousDatabaseNationalCharacterSetsListByLocationOptionalParams
+  - Added Interface AutonomousDatabaseProperties
   - Added Interface AutonomousDatabasesActionOptionalParams
+  - Added Interface AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams
+  - Added Interface AutonomousDatabasesCreateOrUpdateOptionalParams
+  - Added Interface AutonomousDatabasesDeleteOptionalParams
+  - Added Interface AutonomousDatabasesFailoverOptionalParams
+  - Added Interface AutonomousDatabasesGenerateWalletOptionalParams
+  - Added Interface AutonomousDatabasesGetOptionalParams
+  - Added Interface AutonomousDatabasesListByResourceGroupOptionalParams
+  - Added Interface AutonomousDatabasesListBySubscriptionOptionalParams
+  - Added Interface AutonomousDatabasesRestoreOptionalParams
+  - Added Interface AutonomousDatabasesShrinkOptionalParams
+  - Added Interface AutonomousDatabasesSwitchoverOptionalParams
+  - Added Interface AutonomousDatabaseStandbySummary
+  - Added Interface AutonomousDatabasesUpdateOptionalParams
+  - Added Interface AutonomousDatabaseUpdate
+  - Added Interface AutonomousDatabaseUpdateProperties
+  - Added Interface AutonomousDatabaseVersionsGetOptionalParams
+  - Added Interface AutonomousDatabaseVersionsListByLocationOptionalParams
+  - Added Interface AutonomousDatabaseWalletFile
+  - Added Interface AutonomousDbVersion
+  - Added Interface AutonomousDbVersionProperties
+  - Added Interface AzureSubscriptions
+  - Added Interface CloudAccountDetails
+  - Added Interface CloudExadataInfrastructure
+  - Added Interface CloudExadataInfrastructureProperties
+  - Added Interface CloudExadataInfrastructuresAddStorageCapacityOptionalParams
   - Added Interface CloudExadataInfrastructuresConfigureExascaleOptionalParams
+  - Added Interface CloudExadataInfrastructuresCreateOrUpdateOptionalParams
+  - Added Interface CloudExadataInfrastructuresDeleteOptionalParams
+  - Added Interface CloudExadataInfrastructuresGetOptionalParams
+  - Added Interface CloudExadataInfrastructuresListByResourceGroupOptionalParams
+  - Added Interface CloudExadataInfrastructuresListBySubscriptionOptionalParams
+  - Added Interface CloudExadataInfrastructuresUpdateOptionalParams
+  - Added Interface CloudExadataInfrastructureUpdate
+  - Added Interface CloudExadataInfrastructureUpdateProperties
+  - Added Interface CloudVmCluster
+  - Added Interface CloudVmClusterProperties
+  - Added Interface CloudVmClustersAddVmsOptionalParams
+  - Added Interface CloudVmClustersCreateOrUpdateOptionalParams
+  - Added Interface CloudVmClustersDeleteOptionalParams
+  - Added Interface CloudVmClustersGetOptionalParams
+  - Added Interface CloudVmClustersListByResourceGroupOptionalParams
+  - Added Interface CloudVmClustersListBySubscriptionOptionalParams
+  - Added Interface CloudVmClustersListPrivateIpAddressesOptionalParams
+  - Added Interface CloudVmClustersRemoveVmsOptionalParams
+  - Added Interface CloudVmClustersUpdateOptionalParams
+  - Added Interface CloudVmClusterUpdate
+  - Added Interface CloudVmClusterUpdateProperties
   - Added Interface ConfigureExascaleCloudExadataInfrastructureDetails
+  - Added Interface ConnectionStringType
+  - Added Interface ConnectionUrlType
+  - Added Interface CustomerContact
+  - Added Interface DataCollectionOptions
+  - Added Interface DayOfWeek
+  - Added Interface DayOfWeekUpdate
+  - Added Interface DbActionResponse
+  - Added Interface DbIormConfig
+  - Added Interface DbNode
+  - Added Interface DbNodeAction
+  - Added Interface DbNodeDetails
+  - Added Interface DbNodeProperties
+  - Added Interface DbNodesActionOptionalParams
+  - Added Interface DbNodesGetOptionalParams
+  - Added Interface DbNodesListByParentOptionalParams
+  - Added Interface DbServer
+  - Added Interface DbServerPatchingDetails
+  - Added Interface DbServerProperties
+  - Added Interface DbServersGetOptionalParams
+  - Added Interface DbServersListByParentOptionalParams
   - Added Interface DbSystem
   - Added Interface DbSystemBaseProperties
   - Added Interface DbSystemOptions
@@ -50,6 +134,10 @@
   - Added Interface DbSystemsCreateOrUpdateOptionalParams
   - Added Interface DbSystemsDeleteOptionalParams
   - Added Interface DbSystemsGetOptionalParams
+  - Added Interface DbSystemShape
+  - Added Interface DbSystemShapeProperties
+  - Added Interface DbSystemShapesGetOptionalParams
+  - Added Interface DbSystemShapesListByLocationOptionalParams
   - Added Interface DbSystemsListByResourceGroupOptionalParams
   - Added Interface DbSystemsListBySubscriptionOptionalParams
   - Added Interface DbSystemsUpdateOptionalParams
@@ -59,135 +147,22 @@
   - Added Interface DbVersionProperties
   - Added Interface DbVersionsGetOptionalParams
   - Added Interface DbVersionsListByLocationOptionalParams
-  - Added Interface DnsForwardingRule
-  - Added Interface ExascaleConfigDetails
-  - Added Interface NetworkAnchor
-  - Added Interface NetworkAnchorProperties
-  - Added Interface NetworkAnchorsCreateOrUpdateOptionalParams
-  - Added Interface NetworkAnchorsDeleteOptionalParams
-  - Added Interface NetworkAnchorsGetOptionalParams
-  - Added Interface NetworkAnchorsListByResourceGroupOptionalParams
-  - Added Interface NetworkAnchorsListBySubscriptionOptionalParams
-  - Added Interface NetworkAnchorsUpdateOptionalParams
-  - Added Interface NetworkAnchorUpdate
-  - Added Interface NetworkAnchorUpdateProperties
-  - Added Interface ResourceAnchor
-  - Added Interface ResourceAnchorProperties
-  - Added Interface ResourceAnchorsCreateOrUpdateOptionalParams
-  - Added Interface ResourceAnchorsDeleteOptionalParams
-  - Added Interface ResourceAnchorsGetOptionalParams
-  - Added Interface ResourceAnchorsListByResourceGroupOptionalParams
-  - Added Interface ResourceAnchorsListBySubscriptionOptionalParams
-  - Added Interface ResourceAnchorsUpdateOptionalParams
-  - Added Interface ResourceAnchorUpdate
-  - Interface AutonomousDatabaseBaseProperties has a new optional parameter scheduledOperationsList
-  - Interface AutonomousDatabaseCloneProperties has a new optional parameter scheduledOperationsList
-  - Interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties has a new optional parameter scheduledOperationsList
-  - Interface AutonomousDatabaseFromBackupTimestampProperties has a new optional parameter scheduledOperationsList
-  - Interface AutonomousDatabaseProperties has a new optional parameter scheduledOperationsList
-  - Interface AutonomousDatabaseUpdateProperties has a new optional parameter scheduledOperationsList
-  - Interface CloudExadataInfrastructureProperties has a new optional parameter exascaleConfig
-  - Interface CloudVmClusterProperties has a new optional parameter exascaleDbStorageVaultId
-  - Interface CloudVmClusterProperties has a new optional parameter storageManagementType
-  - Interface DbSystemShapeProperties has a new optional parameter shapeAttributes
-  - Interface DbSystemShapesListByLocationOptionalParams has a new optional parameter shapeAttribute
-  - Interface ExadbVmClusterProperties has a new optional parameter shapeAttribute
-  - Interface ExascaleDbStorageVaultProperties has a new optional parameter attachedShapeAttributes
-  - Interface ExascaleDbStorageVaultProperties has a new optional parameter exadataInfrastructureId
-  - Interface GiVersionsListByLocationOptionalParams has a new optional parameter shapeAttribute
-  - Interface OracleDatabaseManagementClientOptionalParams has a new optional parameter cloudSetting
-  - Added Type Alias AutonomousDatabaseLifecycleActionEnum
-  - Added Type Alias AzureSupportedClouds
-  - Added Type Alias BaseDbSystemShapes
-  - Added Type Alias DbSystemBasePropertiesUnion
-  - Added Type Alias DbSystemDatabaseEditionType
-  - Added Type Alias DbSystemLifecycleState
-  - Added Type Alias DbSystemSourceType
-  - Added Type Alias DiskRedundancyType
-  - Added Type Alias ExadataVmClusterStorageManagementType
-  - Added Type Alias ShapeAttribute
-  - Added Type Alias ShapeFamilyType
-  - Added Type Alias StorageManagementType
-  - Added Type Alias StorageVolumePerformanceMode
-  - Added Enum AzureClouds
-  - Added Enum KnownAutonomousDatabaseLifecycleActionEnum
-  - Added Enum KnownBaseDbSystemShapes
-  - Added Enum KnownDbSystemDatabaseEditionType
-  - Added Enum KnownDbSystemLifecycleState
-  - Added Enum KnownDbSystemSourceType
-  - Added Enum KnownDiskRedundancyType
-  - Added Enum KnownExadataVmClusterStorageManagementType
-  - Added Enum KnownShapeAttribute
-  - Added Enum KnownShapeFamilyType
-  - Added Enum KnownStorageManagementType
-  - Added Enum KnownStorageVolumePerformanceMode
-  - Enum KnownVersions has a new value V20250901
-
-### Breaking Changes
-  - Interface AutonomousDatabaseBaseProperties no longer has parameter scheduledOperations
-  - Interface AutonomousDatabaseCloneProperties no longer has parameter scheduledOperations
-  - Interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties no longer has parameter scheduledOperations
-  - Interface AutonomousDatabaseFromBackupTimestampProperties no longer has parameter scheduledOperations
-  - Interface AutonomousDatabaseProperties no longer has parameter scheduledOperations
-  - Interface AutonomousDatabaseUpdateProperties no longer has parameter scheduledOperations
-  - Parameter name of interface DayOfWeekUpdate is now optional
-  - Parameter dayOfWeek of interface ScheduledOperationsTypeUpdate is now optional
-
-    
-## 2.0.0 (2025-06-05)
-    
-### Features Added
-
-  - Added operation group ExadbVmClustersOperations
-  - Added operation group ExascaleDbNodesOperations
-  - Added operation group ExascaleDbStorageVaultsOperations
-  - Added operation group FlexComponentsOperations
-  - Added operation group GiMinorVersionsOperations
-  - Added operation AutonomousDatabaseBackupsOperations.createOrUpdate
-  - Added operation AutonomousDatabaseBackupsOperations.delete
-  - Added operation AutonomousDatabaseBackupsOperations.listByParent
-  - Added operation AutonomousDatabaseBackupsOperations.update
-  - Added operation AutonomousDatabasesOperations.changeDisasterRecoveryConfiguration
-  - Added operation AutonomousDatabasesOperations.createOrUpdate
-  - Added operation AutonomousDatabasesOperations.delete
-  - Added operation AutonomousDatabasesOperations.failover
-  - Added operation AutonomousDatabasesOperations.restore
-  - Added operation AutonomousDatabasesOperations.shrink
-  - Added operation AutonomousDatabasesOperations.switchover
-  - Added operation AutonomousDatabasesOperations.update
-  - Added operation CloudExadataInfrastructuresOperations.addStorageCapacity
-  - Added operation CloudExadataInfrastructuresOperations.createOrUpdate
-  - Added operation CloudExadataInfrastructuresOperations.delete
-  - Added operation CloudExadataInfrastructuresOperations.update
-  - Added operation CloudVmClustersOperations.addVms
-  - Added operation CloudVmClustersOperations.createOrUpdate
-  - Added operation CloudVmClustersOperations.delete
-  - Added operation CloudVmClustersOperations.removeVms
-  - Added operation CloudVmClustersOperations.update
-  - Added operation DbNodesOperations.action
-  - Added operation DbNodesOperations.listByParent
-  - Added operation DbServersOperations.listByParent
-  - Added operation OracleSubscriptionsOperations.addAzureSubscriptions
-  - Added operation OracleSubscriptionsOperations.createOrUpdate
-  - Added operation OracleSubscriptionsOperations.delete
-  - Added operation OracleSubscriptionsOperations.listActivationLinks
-  - Added operation OracleSubscriptionsOperations.listCloudAccountDetails
-  - Added operation OracleSubscriptionsOperations.listSaasSubscriptionDetails
-  - Added operation OracleSubscriptionsOperations.update
-  - Added operation VirtualNetworkAddressesOperations.createOrUpdate
-  - Added operation VirtualNetworkAddressesOperations.delete
-  - Added operation VirtualNetworkAddressesOperations.listByParent
-  - Added Interface AutonomousDatabaseBackupsListByParentOptionalParams
-  - Added Interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties
-  - Added Interface AutonomousDatabaseFromBackupTimestampProperties
-  - Added Interface AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams
-  - Added Interface AzureSubscriptions
-  - Added Interface DbActionResponse
-  - Added Interface DbNodeDetails
-  - Added Interface DbNodesListByParentOptionalParams
-  - Added Interface DbServersListByParentOptionalParams
   - Added Interface DefinedFileSystemConfiguration
   - Added Interface DisasterRecoveryConfigurationDetails
+  - Added Interface DnsForwardingRule
+  - Added Interface DnsPrivateView
+  - Added Interface DnsPrivateViewProperties
+  - Added Interface DnsPrivateViewsGetOptionalParams
+  - Added Interface DnsPrivateViewsListByLocationOptionalParams
+  - Added Interface DnsPrivateZone
+  - Added Interface DnsPrivateZoneProperties
+  - Added Interface DnsPrivateZonesGetOptionalParams
+  - Added Interface DnsPrivateZonesListByLocationOptionalParams
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface EstimatedPatchingTime
+  - Added Interface ExadataIormConfig
   - Added Interface ExadbVmCluster
   - Added Interface ExadbVmClusterProperties
   - Added Interface ExadbVmClustersCreateOrUpdateOptionalParams
@@ -200,6 +175,7 @@
   - Added Interface ExadbVmClustersUpdateOptionalParams
   - Added Interface ExadbVmClusterUpdate
   - Added Interface ExadbVmClusterUpdateProperties
+  - Added Interface ExascaleConfigDetails
   - Added Interface ExascaleDbNode
   - Added Interface ExascaleDbNodeProperties
   - Added Interface ExascaleDbNodesActionOptionalParams
@@ -221,183 +197,229 @@
   - Added Interface FlexComponentProperties
   - Added Interface FlexComponentsGetOptionalParams
   - Added Interface FlexComponentsListByParentOptionalParams
+  - Added Interface GenerateAutonomousDatabaseWalletDetails
   - Added Interface GiMinorVersion
   - Added Interface GiMinorVersionProperties
   - Added Interface GiMinorVersionsGetOptionalParams
   - Added Interface GiMinorVersionsListByParentOptionalParams
+  - Added Interface GiVersion
+  - Added Interface GiVersionProperties
+  - Added Interface GiVersionsGetOptionalParams
+  - Added Interface GiVersionsListByLocationOptionalParams
+  - Added Interface LongTermBackUpScheduleDetails
+  - Added Interface MaintenanceWindow
+  - Added Interface Month
+  - Added Interface NetworkAnchor
+  - Added Interface NetworkAnchorProperties
+  - Added Interface NetworkAnchorsCreateOrUpdateOptionalParams
+  - Added Interface NetworkAnchorsDeleteOptionalParams
+  - Added Interface NetworkAnchorsGetOptionalParams
+  - Added Interface NetworkAnchorsListByResourceGroupOptionalParams
+  - Added Interface NetworkAnchorsListBySubscriptionOptionalParams
+  - Added Interface NetworkAnchorsUpdateOptionalParams
+  - Added Interface NetworkAnchorUpdate
+  - Added Interface NetworkAnchorUpdateProperties
+  - Added Interface NsgCidr
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface OracleDatabaseManagementClientOptionalParams
+  - Added Interface OracleSubscription
+  - Added Interface OracleSubscriptionProperties
   - Added Interface OracleSubscriptionsAddAzureSubscriptionsOptionalParams
+  - Added Interface OracleSubscriptionsCreateOrUpdateOptionalParams
+  - Added Interface OracleSubscriptionsDeleteOptionalParams
+  - Added Interface OracleSubscriptionsGetOptionalParams
+  - Added Interface OracleSubscriptionsListActivationLinksOptionalParams
+  - Added Interface OracleSubscriptionsListBySubscriptionOptionalParams
+  - Added Interface OracleSubscriptionsListCloudAccountDetailsOptionalParams
+  - Added Interface OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams
+  - Added Interface OracleSubscriptionsUpdateOptionalParams
+  - Added Interface OracleSubscriptionUpdate
+  - Added Interface OracleSubscriptionUpdateProperties
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
+  - Added Interface PeerDbDetails
+  - Added Interface Plan
+  - Added Interface PlanUpdate
+  - Added Interface PortRange
+  - Added Interface PrivateIpAddressesFilter
+  - Added Interface PrivateIpAddressProperties
+  - Added Interface ProfileType
+  - Added Interface ProxyResource
   - Added Interface RemoveVirtualMachineFromExadbVmClusterDetails
+  - Added Interface Resource
+  - Added Interface ResourceAnchor
+  - Added Interface ResourceAnchorProperties
+  - Added Interface ResourceAnchorsCreateOrUpdateOptionalParams
+  - Added Interface ResourceAnchorsDeleteOptionalParams
+  - Added Interface ResourceAnchorsGetOptionalParams
+  - Added Interface ResourceAnchorsListByResourceGroupOptionalParams
+  - Added Interface ResourceAnchorsListBySubscriptionOptionalParams
+  - Added Interface ResourceAnchorsUpdateOptionalParams
+  - Added Interface ResourceAnchorUpdate
+  - Added Interface RestoreAutonomousDatabaseDetails
   - Added Interface RestorePollerOptions
+  - Added Interface SaasSubscriptionDetails
+  - Added Interface ScheduledOperationsType
+  - Added Interface ScheduledOperationsTypeUpdate
+  - Added Interface SystemData
+  - Added Interface SystemVersion
+  - Added Interface SystemVersionProperties
+  - Added Interface SystemVersionsGetOptionalParams
+  - Added Interface SystemVersionsListByLocationOptionalParams
+  - Added Interface TrackedResource
+  - Added Interface VirtualNetworkAddress
+  - Added Interface VirtualNetworkAddressesCreateOrUpdateOptionalParams
+  - Added Interface VirtualNetworkAddressesDeleteOptionalParams
+  - Added Interface VirtualNetworkAddressesGetOptionalParams
   - Added Interface VirtualNetworkAddressesListByParentOptionalParams
+  - Added Interface VirtualNetworkAddressProperties
+  - Added Type Alias ActionType
   - Added Type Alias AddSubscriptionOperationState
-  - Added Type Alias ContinuablePage
+  - Added Type Alias AutonomousDatabaseBackupLifecycleState
+  - Added Type Alias AutonomousDatabaseBackupType
+  - Added Type Alias AutonomousDatabaseBasePropertiesUnion
+  - Added Type Alias AutonomousDatabaseLifecycleActionEnum
+  - Added Type Alias AutonomousDatabaseLifecycleState
+  - Added Type Alias AutonomousMaintenanceScheduleType
+  - Added Type Alias AzureResourceProvisioningState
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BaseDbSystemShapes
+  - Added Type Alias CloneType
+  - Added Type Alias CloudAccountProvisioningState
+  - Added Type Alias CloudExadataInfrastructureLifecycleState
+  - Added Type Alias CloudVmClusterLifecycleState
+  - Added Type Alias ComputeModel
+  - Added Type Alias ConsumerGroup
+  - Added Type Alias CreatedByType
+  - Added Type Alias DatabaseEditionType
+  - Added Type Alias DataBaseType
+  - Added Type Alias DataSafeStatusType
+  - Added Type Alias DayOfWeekName
+  - Added Type Alias DbNodeActionEnum
+  - Added Type Alias DbNodeMaintenanceType
+  - Added Type Alias DbNodeProvisioningState
+  - Added Type Alias DbServerPatchingStatus
+  - Added Type Alias DbServerProvisioningState
+  - Added Type Alias DbSystemBasePropertiesUnion
+  - Added Type Alias DbSystemDatabaseEditionType
+  - Added Type Alias DbSystemLifecycleState
+  - Added Type Alias DbSystemSourceType
+  - Added Type Alias DisasterRecoveryType
+  - Added Type Alias DiskRedundancy
+  - Added Type Alias DiskRedundancyType
+  - Added Type Alias DnsPrivateViewsLifecycleState
+  - Added Type Alias DnsPrivateZonesLifecycleState
+  - Added Type Alias ExadataVmClusterStorageManagementType
   - Added Type Alias ExadbVmClusterLifecycleState
   - Added Type Alias ExascaleDbStorageVaultLifecycleState
+  - Added Type Alias GenerateType
   - Added Type Alias GridImageType
   - Added Type Alias HardwareType
+  - Added Type Alias HostFormatType
+  - Added Type Alias Intent
+  - Added Type Alias IormLifecycleState
+  - Added Type Alias LicenseModel
+  - Added Type Alias MonthName
+  - Added Type Alias Objective
+  - Added Type Alias OpenModeType
+  - Added Type Alias OperationsInsightsStatusType
+  - Added Type Alias OracleSubscriptionProvisioningState
+  - Added Type Alias Origin
+  - Added Type Alias PatchingMode
+  - Added Type Alias PermissionLevelType
+  - Added Type Alias Preference
+  - Added Type Alias ProtocolType
+  - Added Type Alias RefreshableModelType
+  - Added Type Alias RefreshableStatusType
+  - Added Type Alias RepeatCadenceType
+  - Added Type Alias ResourceProvisioningState
+  - Added Type Alias RoleType
+  - Added Type Alias SessionModeType
+  - Added Type Alias ShapeAttribute
   - Added Type Alias ShapeFamily
+  - Added Type Alias ShapeFamilyType
+  - Added Type Alias SourceType
+  - Added Type Alias StorageManagementType
+  - Added Type Alias StorageVolumePerformanceMode
+  - Added Type Alias SyntaxFormatType
   - Added Type Alias SystemShapes
-  - Interface AutonomousDatabaseBaseProperties has a new optional parameter remoteDisasterRecoveryConfiguration
-  - Interface AutonomousDatabaseBaseProperties has a new optional parameter timeDisasterRecoveryRoleChanged
-  - Interface CloudExadataInfrastructureProperties has a new optional parameter computeModel
-  - Interface CloudExadataInfrastructureProperties has a new optional parameter databaseServerType
-  - Interface CloudExadataInfrastructureProperties has a new optional parameter definedFileSystemConfiguration
-  - Interface CloudExadataInfrastructureProperties has a new optional parameter storageServerType
-  - Interface CloudVmClusterProperties has a new optional parameter computeModel
-  - Interface CloudVmClusterProperties has a new optional parameter fileSystemConfigurationDetails
-  - Interface CloudVmClusterUpdateProperties has a new optional parameter fileSystemConfigurationDetails
-  - Interface DbServerProperties has a new optional parameter computeModel
-  - Interface DbSystemShapeProperties has a new optional parameter areServerTypesSupported
-  - Interface DbSystemShapeProperties has a new optional parameter computeModel
-  - Interface DbSystemShapeProperties has a new optional parameter displayName
-  - Interface DbSystemShapesListByLocationOptionalParams has a new optional parameter zone
-  - Interface GiVersionsListByLocationOptionalParams has a new optional parameter shape
-  - Interface GiVersionsListByLocationOptionalParams has a new optional parameter zone
-  - Interface OracleSubscriptionProperties has a new optional parameter addSubscriptionOperationState
-  - Interface OracleSubscriptionProperties has a new optional parameter azureSubscriptionIds
-  - Interface OracleSubscriptionProperties has a new optional parameter lastOperationStatusDetail
-  - Interface PeerDbDetails has a new optional parameter peerDbLocation
-  - Interface PeerDbDetails has a new optional parameter peerDbOcid
+  - Added Type Alias TlsAuthenticationType
+  - Added Type Alias VirtualNetworkAddressLifecycleState
+  - Added Type Alias WorkloadType
+  - Added Type Alias ZoneType
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
   - Added Enum KnownAddSubscriptionOperationState
+  - Added Enum KnownAutonomousDatabaseBackupLifecycleState
+  - Added Enum KnownAutonomousDatabaseBackupType
+  - Added Enum KnownAutonomousDatabaseLifecycleActionEnum
+  - Added Enum KnownAutonomousDatabaseLifecycleState
+  - Added Enum KnownAutonomousMaintenanceScheduleType
+  - Added Enum KnownAzureResourceProvisioningState
+  - Added Enum KnownBaseDbSystemShapes
+  - Added Enum KnownCloneType
+  - Added Enum KnownCloudAccountProvisioningState
+  - Added Enum KnownCloudExadataInfrastructureLifecycleState
+  - Added Enum KnownCloudVmClusterLifecycleState
+  - Added Enum KnownComputeModel
+  - Added Enum KnownConsumerGroup
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDatabaseEditionType
+  - Added Enum KnownDataBaseType
+  - Added Enum KnownDataSafeStatusType
+  - Added Enum KnownDayOfWeekName
+  - Added Enum KnownDbNodeActionEnum
+  - Added Enum KnownDbNodeMaintenanceType
+  - Added Enum KnownDbNodeProvisioningState
+  - Added Enum KnownDbServerPatchingStatus
+  - Added Enum KnownDbServerProvisioningState
+  - Added Enum KnownDbSystemDatabaseEditionType
+  - Added Enum KnownDbSystemLifecycleState
+  - Added Enum KnownDbSystemSourceType
+  - Added Enum KnownDisasterRecoveryType
+  - Added Enum KnownDiskRedundancy
+  - Added Enum KnownDiskRedundancyType
+  - Added Enum KnownDnsPrivateViewsLifecycleState
+  - Added Enum KnownDnsPrivateZonesLifecycleState
+  - Added Enum KnownExadataVmClusterStorageManagementType
   - Added Enum KnownExadbVmClusterLifecycleState
   - Added Enum KnownExascaleDbStorageVaultLifecycleState
+  - Added Enum KnownGenerateType
   - Added Enum KnownGridImageType
   - Added Enum KnownHardwareType
+  - Added Enum KnownHostFormatType
+  - Added Enum KnownIntent
+  - Added Enum KnownIormLifecycleState
+  - Added Enum KnownLicenseModel
+  - Added Enum KnownMonthName
+  - Added Enum KnownObjective
+  - Added Enum KnownOpenModeType
+  - Added Enum KnownOperationsInsightsStatusType
+  - Added Enum KnownOracleSubscriptionProvisioningState
+  - Added Enum KnownOrigin
+  - Added Enum KnownPatchingMode
+  - Added Enum KnownPermissionLevelType
+  - Added Enum KnownPreference
+  - Added Enum KnownProtocolType
+  - Added Enum KnownRefreshableModelType
+  - Added Enum KnownRefreshableStatusType
+  - Added Enum KnownRepeatCadenceType
+  - Added Enum KnownResourceProvisioningState
+  - Added Enum KnownRoleType
+  - Added Enum KnownSessionModeType
+  - Added Enum KnownShapeAttribute
   - Added Enum KnownShapeFamily
+  - Added Enum KnownShapeFamilyType
+  - Added Enum KnownSourceType
+  - Added Enum KnownStorageManagementType
+  - Added Enum KnownStorageVolumePerformanceMode
+  - Added Enum KnownSyntaxFormatType
   - Added Enum KnownSystemShapes
+  - Added Enum KnownTlsAuthenticationType
   - Added Enum KnownVersions
-  - Enum KnownDataBaseType has a new value CloneFromBackupTimestamp
-  - Enum KnownDataBaseType has a new value CrossRegionDisasterRecovery
-  - Added function restorePoller
+  - Added Enum KnownVirtualNetworkAddressLifecycleState
+  - Added Enum KnownWorkloadType
+  - Added Enum KnownZoneType
 
-### Breaking Changes
-
-  - Removed operation AutonomousDatabaseBackups.beginCreateOrUpdate
-  - Removed operation AutonomousDatabaseBackups.beginCreateOrUpdateAndWait
-  - Removed operation AutonomousDatabaseBackups.beginDelete
-  - Removed operation AutonomousDatabaseBackups.beginDeleteAndWait
-  - Removed operation AutonomousDatabaseBackups.beginUpdate
-  - Removed operation AutonomousDatabaseBackups.beginUpdateAndWait
-  - Removed operation AutonomousDatabaseBackups.listByAutonomousDatabase
-  - Removed operation AutonomousDatabases.beginCreateOrUpdate
-  - Removed operation AutonomousDatabases.beginCreateOrUpdateAndWait
-  - Removed operation AutonomousDatabases.beginDelete
-  - Removed operation AutonomousDatabases.beginDeleteAndWait
-  - Removed operation AutonomousDatabases.beginFailover
-  - Removed operation AutonomousDatabases.beginFailoverAndWait
-  - Removed operation AutonomousDatabases.beginRestore
-  - Removed operation AutonomousDatabases.beginRestoreAndWait
-  - Removed operation AutonomousDatabases.beginShrink
-  - Removed operation AutonomousDatabases.beginShrinkAndWait
-  - Removed operation AutonomousDatabases.beginSwitchover
-  - Removed operation AutonomousDatabases.beginSwitchoverAndWait
-  - Removed operation AutonomousDatabases.beginUpdate
-  - Removed operation AutonomousDatabases.beginUpdateAndWait
-  - Removed operation CloudExadataInfrastructures.beginAddStorageCapacity
-  - Removed operation CloudExadataInfrastructures.beginAddStorageCapacityAndWait
-  - Removed operation CloudExadataInfrastructures.beginCreateOrUpdate
-  - Removed operation CloudExadataInfrastructures.beginCreateOrUpdateAndWait
-  - Removed operation CloudExadataInfrastructures.beginDelete
-  - Removed operation CloudExadataInfrastructures.beginDeleteAndWait
-  - Removed operation CloudExadataInfrastructures.beginUpdate
-  - Removed operation CloudExadataInfrastructures.beginUpdateAndWait
-  - Removed operation CloudVmClusters.beginAddVms
-  - Removed operation CloudVmClusters.beginAddVmsAndWait
-  - Removed operation CloudVmClusters.beginCreateOrUpdate
-  - Removed operation CloudVmClusters.beginCreateOrUpdateAndWait
-  - Removed operation CloudVmClusters.beginDelete
-  - Removed operation CloudVmClusters.beginDeleteAndWait
-  - Removed operation CloudVmClusters.beginRemoveVms
-  - Removed operation CloudVmClusters.beginRemoveVmsAndWait
-  - Removed operation CloudVmClusters.beginUpdate
-  - Removed operation CloudVmClusters.beginUpdateAndWait
-  - Removed operation DbNodes.beginAction
-  - Removed operation DbNodes.beginActionAndWait
-  - Removed operation DbNodes.listByCloudVmCluster
-  - Removed operation DbServers.listByCloudExadataInfrastructure
-  - Removed operation OracleSubscriptions.beginCreateOrUpdate
-  - Removed operation OracleSubscriptions.beginCreateOrUpdateAndWait
-  - Removed operation OracleSubscriptions.beginDelete
-  - Removed operation OracleSubscriptions.beginDeleteAndWait
-  - Removed operation OracleSubscriptions.beginListActivationLinks
-  - Removed operation OracleSubscriptions.beginListActivationLinksAndWait
-  - Removed operation OracleSubscriptions.beginListCloudAccountDetails
-  - Removed operation OracleSubscriptions.beginListCloudAccountDetailsAndWait
-  - Removed operation OracleSubscriptions.beginListSaasSubscriptionDetails
-  - Removed operation OracleSubscriptions.beginListSaasSubscriptionDetailsAndWait
-  - Removed operation OracleSubscriptions.beginUpdate
-  - Removed operation OracleSubscriptions.beginUpdateAndWait
-  - Removed operation VirtualNetworkAddresses.beginCreateOrUpdate
-  - Removed operation VirtualNetworkAddresses.beginCreateOrUpdateAndWait
-  - Removed operation VirtualNetworkAddresses.beginDelete
-  - Removed operation VirtualNetworkAddresses.beginDeleteAndWait
-  - Removed operation VirtualNetworkAddresses.listByCloudVmCluster
-  - Class OracleDatabaseManagementClient has a new signature
-  - Interface AutonomousDatabaseBackupsCreateOrUpdateOptionalParams no longer has parameter resumeFrom
-  - Interface AutonomousDatabaseBackupsDeleteOptionalParams no longer has parameter resumeFrom
-  - Interface AutonomousDatabaseBackupsUpdateOptionalParams no longer has parameter resumeFrom
-  - Interface AutonomousDatabasesCreateOrUpdateOptionalParams no longer has parameter resumeFrom
-  - Interface AutonomousDatabasesDeleteOptionalParams no longer has parameter resumeFrom
-  - Interface AutonomousDatabasesFailoverOptionalParams no longer has parameter resumeFrom
-  - Interface AutonomousDatabasesRestoreOptionalParams no longer has parameter resumeFrom
-  - Interface AutonomousDatabasesShrinkOptionalParams no longer has parameter resumeFrom
-  - Interface AutonomousDatabasesSwitchoverOptionalParams no longer has parameter resumeFrom
-  - Interface AutonomousDatabasesUpdateOptionalParams no longer has parameter resumeFrom
-  - Interface CloudExadataInfrastructuresAddStorageCapacityOptionalParams no longer has parameter resumeFrom
-  - Interface CloudExadataInfrastructuresCreateOrUpdateOptionalParams no longer has parameter resumeFrom
-  - Interface CloudExadataInfrastructuresDeleteOptionalParams no longer has parameter resumeFrom
-  - Interface CloudExadataInfrastructuresUpdateOptionalParams no longer has parameter resumeFrom
-  - Interface CloudVmClustersAddVmsOptionalParams no longer has parameter resumeFrom
-  - Interface CloudVmClustersCreateOrUpdateOptionalParams no longer has parameter resumeFrom
-  - Interface CloudVmClustersDeleteOptionalParams no longer has parameter resumeFrom
-  - Interface CloudVmClustersRemoveVmsOptionalParams no longer has parameter resumeFrom
-  - Interface CloudVmClustersUpdateOptionalParams no longer has parameter resumeFrom
-  - Interface DbNodesActionOptionalParams no longer has parameter resumeFrom
-  - Interface OracleDatabaseManagementClientOptionalParams no longer has parameter $host
-  - Interface OracleDatabaseManagementClientOptionalParams no longer has parameter endpoint
-  - Interface OracleSubscriptionsCreateOrUpdateOptionalParams no longer has parameter resumeFrom
-  - Interface OracleSubscriptionsDeleteOptionalParams no longer has parameter resumeFrom
-  - Interface OracleSubscriptionsListActivationLinksOptionalParams no longer has parameter resumeFrom
-  - Interface OracleSubscriptionsListCloudAccountDetailsOptionalParams no longer has parameter resumeFrom
-  - Interface OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams no longer has parameter resumeFrom
-  - Interface OracleSubscriptionsUpdateOptionalParams no longer has parameter resumeFrom
-  - Interface VirtualNetworkAddressesCreateOrUpdateOptionalParams no longer has parameter resumeFrom
-  - Interface VirtualNetworkAddressesDeleteOptionalParams no longer has parameter resumeFrom
-  - Interface DbSystemShapeProperties has a new required parameter shapeName
-  - Parameter name of interface DayOfWeekUpdate is now required
-  - Parameter lifecycleState of interface DbNodeProperties is now required
-  - Parameter timeCreated of interface DbNodeProperties is now required
-  - Parameter vnicId of interface DbNodeProperties is now required
-  - Parameter displayName of interface DnsPrivateViewProperties is now required
-  - Parameter lifecycleState of interface DnsPrivateViewProperties is now required
-  - Parameter lifecycleState of interface DnsPrivateZoneProperties is now required
-  - Parameter dayOfWeek of interface ScheduledOperationsTypeUpdate is now required
-  - Type of parameter dataBaseType of interface AutonomousDatabaseBaseProperties is changed from "Clone" | "Regular" to DataBaseType
-  - Type of parameter tags of interface AutonomousDatabaseUpdate is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter tags of interface CloudExadataInfrastructureUpdate is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter tags of interface CloudVmClusterUpdate is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, unknown> to any
-  - Type of parameter tags of interface TrackedResource is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Class OracleDatabaseManagementClient no longer has parameter $host
-  - Class OracleDatabaseManagementClient no longer has parameter apiVersion
-  - Class OracleDatabaseManagementClient no longer has parameter subscriptionId
-  - Removed Enum KnownUpdateAction
-  - Removed Enum KnownValidationStatus
-  - Removed function getContinuationToken
-    
-    
-## 1.0.0 (2024-06-25)
-
-### Features Added
-
-The package of @azure/arm-oracledatabase is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

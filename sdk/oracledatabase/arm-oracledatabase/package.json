@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-oracledatabase",
-  "version": "4.0.0",
+  "version": "3.1.0",
   "description": "A generated SDK for OracleDatabaseManagementClient.",
   "engines": {
     "node": ">=20.0.0"
