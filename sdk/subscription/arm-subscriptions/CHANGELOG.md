@@ -19,20 +19,20 @@
 ### Breaking Changes
   - Operation groups SubscriptionOperations, Subscriptions and Tenants have been removed since 6.0.0. If you need to query these, please switch to use the [`@azure/arm-resources-subscriptions`](https://www.npmjs.com/package/@azure/arm-resources-subscriptions) package instead. The API similarity should mean this is generally a drop-in replacement for subscription iteration:
 
-```diff
--import { SubscriptionClient } from "@azure/arm-subscriptions";
-+import { SubscriptionClient } from "@azure/arm-resources-subscriptions";
-import { DefaultAzureCredential } from "@azure/identity";
+    ```diff
+    -import { SubscriptionClient } from "@azure/arm-subscriptions";
+    +import { SubscriptionClient } from "@azure/arm-resources-subscriptions";
+    import { DefaultAzureCredential } from "@azure/identity";
 
-const credential = new DefaultAzureCredential();
+    const credential = new DefaultAzureCredential();
 
-// Create a SubscriptionClient
-const subscriptionClient = new SubscriptionClient(credential);
+    // Create a SubscriptionClient
+    const subscriptionClient = new SubscriptionClient(credential);
 
-for await (const subscription of subscriptionClient.subscriptions.list()) {
-  // ....
-}
-```
+    for await (const subscription of subscriptionClient.subscriptions.list()) {
+      // ....
+    }
+    ```
   - Removed Interface Location_2
   - Removed Interface SubscriptionPolicies
   - Removed Interface SubscriptionsGetOptionalParams
