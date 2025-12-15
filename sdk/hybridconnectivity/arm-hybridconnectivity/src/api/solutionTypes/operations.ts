@@ -1,36 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPIContext as Client } from "../index.js";
+import type { HybridConnectivityManagementAPIContext as Client } from "../index.js";
+import type { SolutionTypeResource, _SolutionTypeResourceListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  SolutionTypeResource,
   solutionTypeResourceDeserializer,
-  _SolutionTypeResourceListResult,
   _solutionTypeResourceListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   SolutionTypesListBySubscriptionOptionalParams,
   SolutionTypesListByResourceGroupOptionalParams,
   SolutionTypesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: SolutionTypesListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: SolutionTypesListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/solutionTypes{?api%2Dversion}",
@@ -44,10 +35,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -67,9 +55,7 @@ export async function _listBySubscriptionDeserialize(
 /** List SolutionTypeResource resources by subscription ID */
 export function listBySubscription(
   context: Client,
-  options: SolutionTypesListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: SolutionTypesListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<SolutionTypeResource> {
   return buildPagedAsyncIterator(
     context,
@@ -83,9 +69,7 @@ export function listBySubscription(
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: SolutionTypesListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: SolutionTypesListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/solutionTypes{?api%2Dversion}",
@@ -100,10 +84,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -124,9 +105,7 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: SolutionTypesListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: SolutionTypesListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<SolutionTypeResource> {
   return buildPagedAsyncIterator(
     context,
@@ -157,10 +136,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

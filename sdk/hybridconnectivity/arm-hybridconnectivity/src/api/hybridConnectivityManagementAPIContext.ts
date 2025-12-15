@@ -3,9 +3,11 @@
 
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
-import { AzureSupportedClouds, getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import type { AzureSupportedClouds } from "../static-helpers/cloudSettingHelpers.js";
+import { getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
+import type { Client, ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
 
 /** REST API for public clouds. */
 export interface HybridConnectivityManagementAPIContext extends Client {
@@ -34,7 +36,7 @@ export function createHybridConnectivityManagementAPI(
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-hybridconnectivity/2.0.0-beta.2`;
+  const userAgentInfo = `azsdk-js-arm-hybridconnectivity/2.0.0`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -42,9 +44,7 @@ export function createHybridConnectivityManagementAPI(
     ...options,
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
-    credentials: {
-      scopes: options.credentials?.scopes ?? [`${endpointUrl}/.default`],
-    },
+    credentials: { scopes: options.credentials?.scopes ?? [`${endpointUrl}/.default`] },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
@@ -64,9 +64,5 @@ export function createHybridConnectivityManagementAPI(
       return next(req);
     },
   });
-  return {
-    ...clientContext,
-    apiVersion,
-    subscriptionId,
-  } as HybridConnectivityManagementAPIContext;
+  return { ...clientContext, apiVersion, subscriptionId } as HybridConnectivityManagementAPIContext;
 }
