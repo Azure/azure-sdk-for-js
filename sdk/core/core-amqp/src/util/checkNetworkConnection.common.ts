@@ -5,6 +5,6 @@
  * Checks whether a network connection is detected.
  * @internal
  */
-export function checkNetworkConnection(_host: string): Promise<boolean> {
+export function checkNetworkConnection(): Promise<boolean> {
   return Promise.resolve(self.navigator.onLine);
 }

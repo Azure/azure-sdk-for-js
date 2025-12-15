@@ -7,10 +7,13 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -12,9 +12,9 @@
+@@ -10,11 +10,11 @@
+ // @public
+ export const agentPolicyName = "agentPolicy";
  
  // @public
- export function decompressResponsePolicy(): PipelinePolicy;
+-export function decompressResponsePolicy(): PipelinePolicy;
++export function decompressResponsePolicy(): never;
  
 -// @public
 +// @public (undocumented)
