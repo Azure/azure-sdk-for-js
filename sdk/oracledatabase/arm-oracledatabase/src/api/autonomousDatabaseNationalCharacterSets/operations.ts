@@ -41,10 +41,7 @@ export function _listByLocationSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -82,9 +79,7 @@ export function _getSend(
   context: Client,
   location: string,
   adbsncharsetname: string,
-  options: AutonomousDatabaseNationalCharacterSetsGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabaseNationalCharacterSetsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/autonomousDatabaseNationalCharacterSets/{adbsncharsetname}{?api%2Dversion}",
@@ -100,10 +95,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -125,9 +117,7 @@ export async function get(
   context: Client,
   location: string,
   adbsncharsetname: string,
-  options: AutonomousDatabaseNationalCharacterSetsGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabaseNationalCharacterSetsGetOptionalParams = { requestOptions: {} },
 ): Promise<AutonomousDatabaseNationalCharacterSet> {
   const result = await _getSend(context, location, adbsncharsetname, options);
   return _getDeserialize(result);

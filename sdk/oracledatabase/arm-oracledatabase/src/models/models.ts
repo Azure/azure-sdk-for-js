@@ -1,6 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -224,7 +232,9 @@ export function cloudExadataInfrastructureSerializer(item: CloudExadataInfrastru
 
 export function cloudExadataInfrastructureDeserializer(item: any): CloudExadataInfrastructure {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -826,7 +836,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -1273,7 +1285,9 @@ export function cloudVmClusterSerializer(item: CloudVmCluster): any {
 
 export function cloudVmClusterDeserializer(item: any): CloudVmCluster {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -1553,10 +1567,7 @@ export interface FileSystemConfigurationDetails {
 export function fileSystemConfigurationDetailsSerializer(
   item: FileSystemConfigurationDetails,
 ): any {
-  return {
-    mountPoint: item["mountPoint"],
-    fileSystemSizeGb: item["fileSystemSizeGb"],
-  };
+  return { mountPoint: item["mountPoint"], fileSystemSizeGb: item["fileSystemSizeGb"] };
 }
 
 export function fileSystemConfigurationDetailsDeserializer(
@@ -2229,11 +2240,7 @@ export interface OracleSubscriptionProperties {
 }
 
 export function oracleSubscriptionPropertiesSerializer(item: OracleSubscriptionProperties): any {
-  return {
-    termUnit: item["termUnit"],
-    productCode: item["productCode"],
-    intent: item["intent"],
-  };
+  return { termUnit: item["termUnit"], productCode: item["productCode"], intent: item["intent"] };
 }
 
 export function oracleSubscriptionPropertiesDeserializer(item: any): OracleSubscriptionProperties {
@@ -3331,7 +3338,9 @@ export function autonomousDatabaseSerializer(item: AutonomousDatabase): any {
 
 export function autonomousDatabaseDeserializer(item: any): AutonomousDatabase {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -5371,16 +5380,84 @@ export function autonomousDatabaseFromBackupTimestampPropertiesDeserializer(
 export interface AutonomousDatabaseUpdate {
   /** Resource tags. */
   tags?: Record<string, string>;
-  /** The resource-specific properties for this resource. */
-  properties?: AutonomousDatabaseUpdateProperties;
+  /** Admin password. */
+  adminPassword?: string;
+  /** The maintenance schedule type of the Autonomous Database Serverless. */
+  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType;
+  /** The compute amount (CPUs) available to the database. */
+  computeCount?: number;
+  /** The number of CPU cores to be made available to the database. */
+  cpuCoreCount?: number;
+  /** Customer Contacts. */
+  customerContacts?: CustomerContact[];
+  /** The quantity of data in the database, in terabytes. */
+  dataStorageSizeInTbs?: number;
+  /** The size, in gigabytes, of the data volume that will be created and attached to the database. */
+  dataStorageSizeInGbs?: number;
+  /** The user-friendly name for the Autonomous Database. */
+  displayName?: string;
+  /** Indicates if auto scaling is enabled for the Autonomous Database CPU core count. */
+  isAutoScalingEnabled?: boolean;
+  /** Indicates if auto scaling is enabled for the Autonomous Database storage. */
+  isAutoScalingForStorageEnabled?: boolean;
+  /** The Azure resource ID of the Disaster Recovery peer database, which is located in a different region from the current peer database. */
+  peerDbId?: string;
+  /** Indicates whether the Autonomous Database has local or called in-region Data Guard enabled. */
+  isLocalDataGuardEnabled?: boolean;
+  /** Specifies if the Autonomous Database requires mTLS connections. */
+  isMtlsConnectionRequired?: boolean;
+  /** The Oracle license model that applies to the Oracle Autonomous Database. The default is LICENSE_INCLUDED. */
+  licenseModel?: LicenseModel;
+  /** The list of scheduled operations. */
+  scheduledOperationsList?: ScheduledOperationsTypeUpdate[];
+  /** The Oracle Database Edition that applies to the Autonomous databases. */
+  databaseEdition?: DatabaseEditionType;
+  /** Details for the long-term backup schedule. */
+  longTermBackupSchedule?: LongTermBackUpScheduleDetails;
+  /** Parameter that allows users to select an acceptable maximum data loss limit in seconds, up to which Automatic Failover will be triggered when necessary for a Local Autonomous Data Guard */
+  localAdgAutoFailoverMaxDataLossLimit?: number;
+  /** Indicates the Autonomous Database mode. */
+  openMode?: OpenModeType;
+  /** The Autonomous Database permission level. */
+  permissionLevel?: PermissionLevelType;
+  /** The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled. */
+  role?: RoleType;
+  /** Retention period, in days, for long-term backups */
+  backupRetentionPeriodInDays?: number;
+  /** The client IP access control list (ACL). This is an array of CIDR notations and/or IP addresses. Values should be separate strings, separated by commas. Example: ['1.1.1.1','1.1.1.0/24','1.1.2.25'] */
+  whitelistedIps?: string[];
 }
 
 export function autonomousDatabaseUpdateSerializer(item: AutonomousDatabaseUpdate): any {
   return {
     tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : autonomousDatabaseUpdatePropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "adminPassword",
+      "autonomousMaintenanceScheduleType",
+      "computeCount",
+      "cpuCoreCount",
+      "customerContacts",
+      "dataStorageSizeInTbs",
+      "dataStorageSizeInGbs",
+      "displayName",
+      "isAutoScalingEnabled",
+      "isAutoScalingForStorageEnabled",
+      "peerDbId",
+      "isLocalDataGuardEnabled",
+      "isMtlsConnectionRequired",
+      "licenseModel",
+      "scheduledOperationsList",
+      "databaseEdition",
+      "longTermBackupSchedule",
+      "localAdgAutoFailoverMaxDataLossLimit",
+      "openMode",
+      "permissionLevel",
+      "role",
+      "backupRetentionPeriodInDays",
+      "whitelistedIps",
+    ])
+      ? undefined
+      : _autonomousDatabaseUpdatePropertiesSerializer(item),
   };
 }
 
@@ -5692,10 +5769,7 @@ export interface AutonomousDatabaseBackupProperties {
 export function autonomousDatabaseBackupPropertiesSerializer(
   item: AutonomousDatabaseBackupProperties,
 ): any {
-  return {
-    displayName: item["displayName"],
-    retentionPeriodInDays: item["retentionPeriodInDays"],
-  };
+  return { displayName: item["displayName"], retentionPeriodInDays: item["retentionPeriodInDays"] };
 }
 
 export function autonomousDatabaseBackupPropertiesDeserializer(
@@ -6078,7 +6152,9 @@ export function exadbVmClusterSerializer(item: ExadbVmCluster): any {
 
 export function exadbVmClusterDeserializer(item: any): ExadbVmCluster {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -6568,7 +6644,9 @@ export function exascaleDbStorageVaultSerializer(item: ExascaleDbStorageVault): 
 
 export function exascaleDbStorageVaultDeserializer(item: any): ExascaleDbStorageVault {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -6823,7 +6901,9 @@ export function networkAnchorSerializer(item: NetworkAnchor): any {
 
 export function networkAnchorDeserializer(item: any): NetworkAnchor {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -6947,10 +7027,7 @@ export interface DnsForwardingRule {
 }
 
 export function dnsForwardingRuleSerializer(item: DnsForwardingRule): any {
-  return {
-    domainNames: item["domainNames"],
-    forwardingIpAddress: item["forwardingIpAddress"],
-  };
+  return { domainNames: item["domainNames"], forwardingIpAddress: item["forwardingIpAddress"] };
 }
 
 export function dnsForwardingRuleDeserializer(item: any): DnsForwardingRule {
@@ -7050,7 +7127,9 @@ export function resourceAnchorSerializer(item: ResourceAnchor): any {
 
 export function resourceAnchorDeserializer(item: any): ResourceAnchor {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -7145,7 +7224,9 @@ export function dbSystemSerializer(item: DbSystem): any {
 
 export function dbSystemDeserializer(item: any): DbSystem {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -7760,4 +7841,42 @@ export function privateIpAddressPropertiesArrayDeserializer(
   return result.map((item) => {
     return privateIpAddressPropertiesDeserializer(item);
   });
+}
+
+export function _autonomousDatabaseUpdatePropertiesSerializer(item: AutonomousDatabaseUpdate): any {
+  return {
+    adminPassword: item["adminPassword"],
+    autonomousMaintenanceScheduleType: item["autonomousMaintenanceScheduleType"],
+    computeCount: item["computeCount"],
+    cpuCoreCount: item["cpuCoreCount"],
+    customerContacts: !item["customerContacts"]
+      ? item["customerContacts"]
+      : customerContactArraySerializer(item["customerContacts"]),
+    dataStorageSizeInTbs: item["dataStorageSizeInTbs"],
+    dataStorageSizeInGbs: item["dataStorageSizeInGbs"],
+    displayName: item["displayName"],
+    isAutoScalingEnabled: item["isAutoScalingEnabled"],
+    isAutoScalingForStorageEnabled: item["isAutoScalingForStorageEnabled"],
+    peerDbId: item["peerDbId"],
+    isLocalDataGuardEnabled: item["isLocalDataGuardEnabled"],
+    isMtlsConnectionRequired: item["isMtlsConnectionRequired"],
+    licenseModel: item["licenseModel"],
+    scheduledOperationsList: !item["scheduledOperationsList"]
+      ? item["scheduledOperationsList"]
+      : scheduledOperationsTypeUpdateArraySerializer(item["scheduledOperationsList"]),
+    databaseEdition: item["databaseEdition"],
+    longTermBackupSchedule: !item["longTermBackupSchedule"]
+      ? item["longTermBackupSchedule"]
+      : longTermBackUpScheduleDetailsSerializer(item["longTermBackupSchedule"]),
+    localAdgAutoFailoverMaxDataLossLimit: item["localAdgAutoFailoverMaxDataLossLimit"],
+    openMode: item["openMode"],
+    permissionLevel: item["permissionLevel"],
+    role: item["role"],
+    backupRetentionPeriodInDays: item["backupRetentionPeriodInDays"],
+    whitelistedIps: !item["whitelistedIps"]
+      ? item["whitelistedIps"]
+      : item["whitelistedIps"].map((p: any) => {
+          return p;
+        }),
+  };
 }

@@ -1,5 +1,35 @@
 # Release History
 
+## 4.0.0 (2025-12-15)
+
+### Features Added
+  - Interface AutonomousDatabaseUpdate has a new optional parameter adminPassword
+  - Interface AutonomousDatabaseUpdate has a new optional parameter autonomousMaintenanceScheduleType
+  - Interface AutonomousDatabaseUpdate has a new optional parameter backupRetentionPeriodInDays
+  - Interface AutonomousDatabaseUpdate has a new optional parameter computeCount
+  - Interface AutonomousDatabaseUpdate has a new optional parameter cpuCoreCount
+  - Interface AutonomousDatabaseUpdate has a new optional parameter customerContacts
+  - Interface AutonomousDatabaseUpdate has a new optional parameter databaseEdition
+  - Interface AutonomousDatabaseUpdate has a new optional parameter dataStorageSizeInGbs
+  - Interface AutonomousDatabaseUpdate has a new optional parameter dataStorageSizeInTbs
+  - Interface AutonomousDatabaseUpdate has a new optional parameter displayName
+  - Interface AutonomousDatabaseUpdate has a new optional parameter isAutoScalingEnabled
+  - Interface AutonomousDatabaseUpdate has a new optional parameter isAutoScalingForStorageEnabled
+  - Interface AutonomousDatabaseUpdate has a new optional parameter isLocalDataGuardEnabled
+  - Interface AutonomousDatabaseUpdate has a new optional parameter isMtlsConnectionRequired
+  - Interface AutonomousDatabaseUpdate has a new optional parameter licenseModel
+  - Interface AutonomousDatabaseUpdate has a new optional parameter localAdgAutoFailoverMaxDataLossLimit
+  - Interface AutonomousDatabaseUpdate has a new optional parameter longTermBackupSchedule
+  - Interface AutonomousDatabaseUpdate has a new optional parameter openMode
+  - Interface AutonomousDatabaseUpdate has a new optional parameter peerDbId
+  - Interface AutonomousDatabaseUpdate has a new optional parameter permissionLevel
+  - Interface AutonomousDatabaseUpdate has a new optional parameter role
+  - Interface AutonomousDatabaseUpdate has a new optional parameter scheduledOperationsList
+  - Interface AutonomousDatabaseUpdate has a new optional parameter whitelistedIps
+
+### Breaking Changes
+  - Interface AutonomousDatabaseUpdate no longer has parameter properties
+
 ## 3.0.0 (2025-09-25)
 
 ### Features Added

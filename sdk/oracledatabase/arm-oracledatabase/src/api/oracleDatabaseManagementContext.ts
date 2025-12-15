@@ -34,7 +34,7 @@ export function createOracleDatabaseManagement(
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-oracledatabase/3.0.0`;
+  const userAgentInfo = `azsdk-js-arm-oracledatabase/4.0.0`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -42,9 +42,7 @@ export function createOracleDatabaseManagement(
     ...options,
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
-    credentials: {
-      scopes: options.credentials?.scopes ?? [`${endpointUrl}/.default`],
-    },
+    credentials: { scopes: options.credentials?.scopes ?? [`${endpointUrl}/.default`] },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
@@ -64,9 +62,5 @@ export function createOracleDatabaseManagement(
       return next(req);
     },
   });
-  return {
-    ...clientContext,
-    apiVersion,
-    subscriptionId,
-  } as OracleDatabaseManagementContext;
+  return { ...clientContext, apiVersion, subscriptionId } as OracleDatabaseManagementContext;
 }
