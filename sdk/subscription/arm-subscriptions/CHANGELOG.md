@@ -17,23 +17,7 @@
   - Added Type Alias SubscriptionOperationGetResponse
 
 ### Breaking Changes
-  - Removed operation group SubscriptionOperations
-  - Removed operation group Subscriptions
-  - Removed operation group Tenants
-  - Class SubscriptionClient no longer has parameter subscriptionOperations
-  - Class SubscriptionClient no longer has parameter subscriptions
-  - Class SubscriptionClient no longer has parameter tenants
-  - Removed Interface Location_2
-  - Removed Interface SubscriptionPolicies
-  - Removed Interface SubscriptionsGetOptionalParams
-  - Removed Interface SubscriptionsListLocationsOptionalParams
-  - Removed Interface SubscriptionsListOptionalParams
-  - Removed Interface TenantIdDescription
-  - Removed Interface TenantsListOptionalParams
-  - Removed Type Alias SpendingLimit
-  - Removed Type Alias SubscriptionState
-
-Operation groups SubscriptionOperations, Subscriptions and Tenants have been removed since 6.0.0. If you need to query these, please switch to use the [`@azure/arm-resources-subscriptions`](https://www.npmjs.com/package/@azure/arm-resources-subscriptions) package instead. The API similarity should mean this is generally a drop-in replacement for subscription iteration:
+  - Operation groups SubscriptionOperations, Subscriptions and Tenants have been removed since 6.0.0. If you need to query these, please switch to use the [`@azure/arm-resources-subscriptions`](https://www.npmjs.com/package/@azure/arm-resources-subscriptions) package instead. The API similarity should mean this is generally a drop-in replacement for subscription iteration:
 
 ```diff
 -import { SubscriptionClient } from "@azure/arm-subscriptions";
@@ -49,6 +33,16 @@ for await (const subscription of subscriptionClient.subscriptions.list()) {
   // ....
 }
 ```
+  - Removed Interface Location_2
+  - Removed Interface SubscriptionPolicies
+  - Removed Interface SubscriptionsGetOptionalParams
+  - Removed Interface SubscriptionsListLocationsOptionalParams
+  - Removed Interface SubscriptionsListOptionalParams
+  - Removed Interface TenantIdDescription
+  - Removed Interface TenantsListOptionalParams
+  - Removed Type Alias SpendingLimit
+  - Removed Type Alias SubscriptionState
+
     
 ## 5.1.0 (2022-11-11)
     
