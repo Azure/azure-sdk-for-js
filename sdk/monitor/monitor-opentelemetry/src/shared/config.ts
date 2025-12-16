@@ -7,6 +7,7 @@ import {
   detectResources,
   emptyResource,
   envDetector,
+  resourceFromAttributes,
 } from "@opentelemetry/resources";
 import type {
   BrowserSdkLoaderOptions,
@@ -22,6 +23,7 @@ import {
   azureFunctionsDetector,
   azureVmDetector,
 } from "@opentelemetry/resource-detector-azure";
+import { ConnectionStringParser } from "../utils/connectionStringParser.js";
 
 /**
  * Azure Monitor OpenTelemetry Client Configuration
@@ -52,6 +54,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
 
   public set resource(resource: Resource) {
     this._resource = this._resource.merge(resource);
+    this._ensureApplicationIdResourceAttribute();
   }
 
   /**
@@ -131,6 +134,9 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     this._mergeJsonConfig();
     // ENV configuration will take precedence over other configurations
     this._mergeEnvConfig();
+
+    // Ensure microsoft.applicationid is present if a connection string provides it
+    this._ensureApplicationIdResourceAttribute();
   }
 
   private _mergeEnvConfig(): void {
@@ -245,5 +251,26 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
 
     // Default fallback
     return defaultInterval;
+  }
+
+  /**
+   * Populate microsoft.applicationid resource attribute from connection string when missing.
+   */
+  private _ensureApplicationIdResourceAttribute(): void {
+    if (this._resource.attributes["microsoft.applicationid"]) {
+      return;
+    }
+
+    const connectionString =
+      this.azureMonitorExporterOptions?.connectionString ||
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"];
+    const parsed = ConnectionStringParser.parse(connectionString);
+    const applicationId = parsed.applicationid;
+
+    if (applicationId) {
+      this._resource = this._resource.merge(
+        resourceFromAttributes({ "microsoft.applicationid": applicationId }),
+      );
+    }
   }
 }
