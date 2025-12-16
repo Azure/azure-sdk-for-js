@@ -51,9 +51,8 @@ export interface Racks {
     options?: RacksGetOptionalParams,
   ): Promise<RacksGetResponse>;
   /**
-   * Create a new rack or update properties of the existing one.
-   * All customer initiated requests will be rejected as the life cycle of this resource is managed by
-   * the system.
+   * Create a new rack or update properties of the existing one. All customer initiated requests will be
+   * rejected as the life cycle of this resource is managed by the system.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param rackName The name of the rack.
    * @param rackParameters The request body.
@@ -68,9 +67,8 @@ export interface Racks {
     SimplePollerLike<OperationState<RacksCreateOrUpdateResponse>, RacksCreateOrUpdateResponse>
   >;
   /**
-   * Create a new rack or update properties of the existing one.
-   * All customer initiated requests will be rejected as the life cycle of this resource is managed by
-   * the system.
+   * Create a new rack or update properties of the existing one. All customer initiated requests will be
+   * rejected as the life cycle of this resource is managed by the system.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param rackName The name of the rack.
    * @param rackParameters The request body.
@@ -83,9 +81,8 @@ export interface Racks {
     options?: RacksCreateOrUpdateOptionalParams,
   ): Promise<RacksCreateOrUpdateResponse>;
   /**
-   * Delete the provided rack.
-   * All customer initiated requests will be rejected as the life cycle of this resource is managed by
-   * the system.
+   * Delete the provided rack. All customer initiated requests will be rejected as the life cycle of this
+   * resource is managed by the system.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param rackName The name of the rack.
    * @param options The options parameters.
@@ -96,9 +93,8 @@ export interface Racks {
     options?: RacksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<RacksDeleteResponse>, RacksDeleteResponse>>;
   /**
-   * Delete the provided rack.
-   * All customer initiated requests will be rejected as the life cycle of this resource is managed by
-   * the system.
+   * Delete the provided rack. All customer initiated requests will be rejected as the life cycle of this
+   * resource is managed by the system.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param rackName The name of the rack.
    * @param options The options parameters.

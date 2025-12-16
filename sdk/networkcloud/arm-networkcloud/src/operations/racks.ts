@@ -202,9 +202,8 @@ export class RacksImpl implements Racks {
   }
 
   /**
-   * Create a new rack or update properties of the existing one.
-   * All customer initiated requests will be rejected as the life cycle of this resource is managed by
-   * the system.
+   * Create a new rack or update properties of the existing one. All customer initiated requests will be
+   * rejected as the life cycle of this resource is managed by the system.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param rackName The name of the rack.
    * @param rackParameters The request body.
@@ -273,9 +272,8 @@ export class RacksImpl implements Racks {
   }
 
   /**
-   * Create a new rack or update properties of the existing one.
-   * All customer initiated requests will be rejected as the life cycle of this resource is managed by
-   * the system.
+   * Create a new rack or update properties of the existing one. All customer initiated requests will be
+   * rejected as the life cycle of this resource is managed by the system.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param rackName The name of the rack.
    * @param rackParameters The request body.
@@ -297,9 +295,8 @@ export class RacksImpl implements Racks {
   }
 
   /**
-   * Delete the provided rack.
-   * All customer initiated requests will be rejected as the life cycle of this resource is managed by
-   * the system.
+   * Delete the provided rack. All customer initiated requests will be rejected as the life cycle of this
+   * resource is managed by the system.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param rackName The name of the rack.
    * @param options The options parameters.
@@ -364,9 +361,8 @@ export class RacksImpl implements Racks {
   }
 
   /**
-   * Delete the provided rack.
-   * All customer initiated requests will be rejected as the life cycle of this resource is managed by
-   * the system.
+   * Delete the provided rack. All customer initiated requests will be rejected as the life cycle of this
+   * resource is managed by the system.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param rackName The name of the rack.
    * @param options The options parameters.
