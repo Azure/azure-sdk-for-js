@@ -747,9 +747,6 @@
 /sdk/managednetworkfabric/arm-managednetworkfabric/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/mobilenetwork/arm-mobilenetwork/      @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
 /sdk/managementgroups/arm-managementgroups/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
