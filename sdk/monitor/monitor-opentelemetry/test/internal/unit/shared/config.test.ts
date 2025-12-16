@@ -295,10 +295,7 @@ describe("Library/Config", () => {
         },
       });
 
-      assert.strictEqual(
-        config.resource.attributes["microsoft.applicationid"],
-        "custom-app-id",
-      );
+      assert.strictEqual(config.resource.attributes["microsoft.applicationid"], "custom-app-id");
     });
 
     it("instrumentation key validation-valid key passed", () => {
