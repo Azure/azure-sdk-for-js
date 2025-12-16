@@ -337,11 +337,6 @@ function resolveRepoPackageDeps(repoPackages, dumpedPackages, pnpmLock, external
     const resolvedDeps = {};
     /** @type {Record<string, { specifier: string, version: string}>} */
     for (const [depName, v] of Object.entries(pnpmLock.importers[packageDir]?.dependencies || {})) {
-      if (v.version.startsWith("link:") && !repoPackages[depName]) {
-        console.error(`[analyze-deps debug] repoPackages is missing key for '${depName}' (from packageDir: '${packageDir}')`);
-        // You can also log all keys for deeper analysis:
-        console.error(`[analyze-deps debug] repoPackages keys: ${Object.keys(repoPackages).join(', ')}`);
-      }
       const resolvedVersion = v.version.startsWith("link:") ? repoPackages[depName].ver : v.version;
       resolvedDeps[depName] = resolvedVersion;
     }
