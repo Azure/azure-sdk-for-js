@@ -101,6 +101,8 @@
     "test:node": "dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "npm run test:node && npm run test:browser",
+    "test:integration": "bash ./scripts/integration-test.sh",
+    "test:integration:windows": "powershell -ExecutionPolicy Bypass -File ./scripts/integration-test.ps1",
     "update-snippets": "dev-tool run update-snippets",
     "dev": "./fast-dev.sh",
     "watch": "dev-tool run build-package --watch"
