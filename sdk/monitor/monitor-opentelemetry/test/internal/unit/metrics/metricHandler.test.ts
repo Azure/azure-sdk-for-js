@@ -3,9 +3,10 @@
 
 import { MetricHandler } from "../../../../src/metrics/index.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
+import { Logger } from "../../../../src/shared/logging/index.js";
 import { ExportResultCode } from "@opentelemetry/core";
 import { metrics as MetricsApi } from "@opentelemetry/api";
-import { MeterProvider } from "@opentelemetry/sdk-metrics";
+import { AggregationType, InstrumentType, MeterProvider } from "@opentelemetry/sdk-metrics";
 import type { MockInstance } from "vitest";
 import { assert, afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -107,6 +108,154 @@ describe("MetricHandler", () => {
     createHandler();
     const meterProvider = MetricsApi.getMeterProvider() as MeterProvider;
     assert.strictEqual(meterProvider["_sharedState"]["viewRegistry"]["_registeredViews"].length, 5); // redis4 is now supported via redis
+  });
+
+  describe("OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION", () => {
+    it("uses exponential histogram aggregation when env is set", () => {
+      process.env = {
+        ...process.env,
+        OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION:
+          "base2_exponential_bucket_histogram",
+      } as NodeJS.ProcessEnv;
+      createHandler();
+
+      const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
+
+      assert.strictEqual(
+        aggregation.type,
+        AggregationType.EXPONENTIAL_HISTOGRAM,
+        "Should select exponential histogram aggregation",
+      );
+    });
+
+    it("uses explicit bucket histogram aggregation when env is set", () => {
+      process.env = {
+        ...process.env,
+        OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION: "explicit_bucket_histogram",
+      } as NodeJS.ProcessEnv;
+      createHandler();
+
+      const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
+
+      assert.strictEqual(
+        aggregation.type,
+        AggregationType.EXPLICIT_BUCKET_HISTOGRAM,
+        "Should select explicit bucket histogram aggregation",
+      );
+    });
+
+    it("falls back to default aggregation on invalid value", () => {
+      process.env = {
+        ...process.env,
+        OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION: "invalid",
+      } as NodeJS.ProcessEnv;
+      createHandler();
+
+      const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
+
+      assert.strictEqual(
+        aggregation.type,
+        AggregationType.DEFAULT,
+        "Should fall back to default aggregation for invalid values",
+      );
+    });
+
+    it("uses default aggregation when env is not set", () => {
+      // Ensure the env var is not set
+      delete process.env.OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION;
+      createHandler();
+
+      const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
+
+      assert.strictEqual(
+        aggregation.type,
+        AggregationType.DEFAULT,
+        "Should use default aggregation when environment variable is not set",
+      );
+    });
+
+    it("uses default aggregation when env is empty string", () => {
+      process.env = {
+        ...process.env,
+        OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION: "",
+      } as NodeJS.ProcessEnv;
+      createHandler();
+
+      const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
+
+      assert.strictEqual(
+        aggregation.type,
+        AggregationType.DEFAULT,
+        "Should use default aggregation when environment variable is empty",
+      );
+    });
+
+    it("handles case-insensitive values", () => {
+      process.env = {
+        ...process.env,
+        OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION:
+          "BASE2_EXPONENTIAL_BUCKET_HISTOGRAM",
+      } as NodeJS.ProcessEnv;
+      createHandler();
+
+      const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
+
+      assert.strictEqual(
+        aggregation.type,
+        AggregationType.EXPONENTIAL_HISTOGRAM,
+        "Should handle uppercase values",
+      );
+    });
+
+    it("handles values with whitespace", () => {
+      process.env = {
+        ...process.env,
+        OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION: "  explicit_bucket_histogram  ",
+      } as NodeJS.ProcessEnv;
+      createHandler();
+
+      const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.HISTOGRAM);
+
+      assert.strictEqual(
+        aggregation.type,
+        AggregationType.EXPLICIT_BUCKET_HISTOGRAM,
+        "Should trim whitespace from values",
+      );
+    });
+
+    it("logs warning for invalid values", () => {
+      const warnSpy = vi.spyOn(Logger.getInstance(), "warn");
+      process.env = {
+        ...process.env,
+        OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION: "invalid_value",
+      } as NodeJS.ProcessEnv;
+      createHandler();
+
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining("unsupported value 'invalid_value'"),
+      );
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("explicit_bucket_histogram"));
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining("base2_exponential_bucket_histogram"),
+      );
+    });
+
+    it("uses default aggregation for non-histogram instrument types", () => {
+      process.env = {
+        ...process.env,
+        OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION:
+          "base2_exponential_bucket_histogram",
+      } as NodeJS.ProcessEnv;
+      createHandler();
+
+      const aggregation = handler.getMetricReader().selectAggregation(InstrumentType.COUNTER);
+
+      assert.strictEqual(
+        aggregation.type,
+        AggregationType.DEFAULT,
+        "Should use default aggregation for non-histogram instruments",
+      );
+    });
   });
 
   describe("#autoCollect", () => {
