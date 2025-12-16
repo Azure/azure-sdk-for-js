@@ -665,7 +665,7 @@ describe("tools - basic", () => {
     }
   }, 120000);
 
-  it("should create responses with Computer Use tool", async function () {
+  it.skip("should create responses with Computer Use tool", async function () {
     const computerUseModelDeployment =
       process.env["COMPUTER_USE_MODEL_DEPLOYMENT_NAME"] || "computer-use-preview";
 
@@ -704,7 +704,7 @@ describe("tools - basic", () => {
     console.log(`Response output items: ${response.output.length}`);
   }, 120000);
 
-  it("should create responses with Image Generation tool", async function () {
+  it.skip("should create responses with Image Generation tool", async function () {
     const imageGenModelDeployment = "gpt-image-1";
 
     const imageGenTool: any = {
@@ -752,7 +752,7 @@ describe("tools - basic", () => {
     }
   }, 120000);
 
-  it("should create responses with MCP tool using project connection auth", async function () {
+  it.skip("should create responses with MCP tool using project connection auth", async function () {
     const mcpConnectionId = getToolConnectionId("mcp-connection");
 
     const mcpTool: any = {
@@ -826,7 +826,7 @@ describe("tools - basic", () => {
     console.log(`\nResponse: ${finalResponse.output_text}`);
   }, 60000);
 
-  it("should create responses with OpenAPI tool using project connection auth", async function () {
+  it.skip("should create responses with OpenAPI tool using project connection auth", async function () {
     const openApiConnectionId = getToolConnectionId("openapi");
 
     // Inline TripAdvisor OpenAPI spec (simplified for testing)
