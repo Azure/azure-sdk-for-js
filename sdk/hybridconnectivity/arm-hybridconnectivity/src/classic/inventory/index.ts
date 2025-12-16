@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
+import type { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
 import { listBySolutionConfiguration, get } from "../../api/inventory/operations.js";
-import {
+import type {
   InventoryListBySolutionConfigurationOptionalParams,
   InventoryGetOptionalParams,
 } from "../../api/inventory/options.js";
-import { InventoryResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { InventoryResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Inventory operations. */
 export interface InventoryOperations {

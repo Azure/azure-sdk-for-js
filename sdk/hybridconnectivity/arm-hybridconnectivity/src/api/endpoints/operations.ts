@@ -1,31 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPIContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { HybridConnectivityManagementAPIContext as Client } from "../index.js";
+import type {
   EndpointResource,
-  endpointResourceSerializer,
-  endpointResourceDeserializer,
   _EndpointsList,
-  _endpointsListDeserializer,
-  listCredentialsRequestSerializer,
   EndpointAccessResource,
-  endpointAccessResourceDeserializer,
-  listIngressGatewayCredentialsRequestSerializer,
   IngressGatewayResource,
-  ingressGatewayResourceDeserializer,
   ManagedProxyRequest,
-  managedProxyRequestSerializer,
   ManagedProxyResource,
-  managedProxyResourceDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  endpointResourceSerializer,
+  endpointResourceDeserializer,
+  _endpointsListDeserializer,
+  listCredentialsRequestSerializer,
+  endpointAccessResourceDeserializer,
+  listIngressGatewayCredentialsRequestSerializer,
+  ingressGatewayResourceDeserializer,
+  managedProxyRequestSerializer,
+  managedProxyResourceDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   EndpointsListManagedProxyDetailsOptionalParams,
   EndpointsListIngressGatewayCredentialsOptionalParams,
   EndpointsListCredentialsOptionalParams,
@@ -35,21 +35,15 @@ import {
   EndpointsCreateOrUpdateOptionalParams,
   EndpointsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listManagedProxyDetailsSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
   managedProxyRequest: ManagedProxyRequest,
-  options: EndpointsListManagedProxyDetailsOptionalParams = {
-    requestOptions: {},
-  },
+  options: EndpointsListManagedProxyDetailsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/listManagedProxyDetails{?api%2Dversion}",
@@ -65,10 +59,7 @@ export function _listManagedProxyDetailsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: managedProxyRequestSerializer(managedProxyRequest),
   });
 }
@@ -92,9 +83,7 @@ export async function listManagedProxyDetails(
   resourceUri: string,
   endpointName: string,
   managedProxyRequest: ManagedProxyRequest,
-  options: EndpointsListManagedProxyDetailsOptionalParams = {
-    requestOptions: {},
-  },
+  options: EndpointsListManagedProxyDetailsOptionalParams = { requestOptions: {} },
 ): Promise<ManagedProxyResource> {
   const result = await _listManagedProxyDetailsSend(
     context,
@@ -110,9 +99,7 @@ export function _listIngressGatewayCredentialsSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
-  options: EndpointsListIngressGatewayCredentialsOptionalParams = {
-    requestOptions: {},
-  },
+  options: EndpointsListIngressGatewayCredentialsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/listIngressGatewayCredentials{?api%2Dversion,expiresin}",
@@ -129,10 +116,7 @@ export function _listIngressGatewayCredentialsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: !options["listIngressGatewayCredentialsRequest"]
       ? options["listIngressGatewayCredentialsRequest"]
       : listIngressGatewayCredentialsRequestSerializer(
@@ -159,9 +143,7 @@ export async function listIngressGatewayCredentials(
   context: Client,
   resourceUri: string,
   endpointName: string,
-  options: EndpointsListIngressGatewayCredentialsOptionalParams = {
-    requestOptions: {},
-  },
+  options: EndpointsListIngressGatewayCredentialsOptionalParams = { requestOptions: {} },
 ): Promise<IngressGatewayResource> {
   const result = await _listIngressGatewayCredentialsSend(
     context,
@@ -193,10 +175,7 @@ export function _listCredentialsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: !options["listCredentialsRequest"]
       ? options["listCredentialsRequest"]
       : listCredentialsRequestSerializer(options["listCredentialsRequest"]),
@@ -244,10 +223,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -294,13 +270,7 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -351,10 +321,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: endpointResourceSerializer(endpointResource),
   });
 }
@@ -403,10 +370,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: endpointResourceSerializer(endpointResource),
   });
 }
@@ -461,10 +425,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
