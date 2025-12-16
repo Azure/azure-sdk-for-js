@@ -191,7 +191,7 @@ export async function main(): Promise<void> {
   // await resumeJob(openAIClient, fineTuningJob.id);
 
   // 8) List events for the fine-tuning job
-  // console.log(`\nListing events for fine-tuning job with ID: ${fineTuningJob.id}`);
+  console.log(`\nListing events for fine-tuning job with ID: ${fineTuningJob.id}`);
   await listEvents(openAIClient, fineTuningJob.id);
 
   // Uncomment the commented methods to test specific functionalities.
