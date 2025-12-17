@@ -78,11 +78,11 @@ export class VoiceLiveSession {
   private readonly _options: Required<VoiceLiveSessionOptions>;
   private readonly _messageParser: VoiceLiveMessageParser;
   private readonly _model: string;
+  private readonly _apiVersion: string;
   private _connectionManager?: ConnectionManager;
   private _sessionId?: string;
   private _activeTurnId?: string;
   private _disposed = false;
-
   // Handler-based subscription management
   private readonly _subscriptionManager: SubscriptionManager;
 
@@ -107,6 +107,7 @@ export class VoiceLiveSession {
     this._options = this._buildDefaultOptions(options);
     this._messageParser = new VoiceLiveMessageParser();
     this._model = model;
+    this._apiVersion = apiVersion;
 
     // Initialize handler-based subscription management
     this._subscriptionManager = new SubscriptionManager();
@@ -139,7 +140,7 @@ export class VoiceLiveSession {
       // Get WebSocket URL with authentication and model
       const wsUrl = await this._credentialHandler.getWebSocketUrl(
         this._endpoint,
-        "2025-10-01", // TODO: make this configurable through constructor
+        this._apiVersion,
         this._model,
       );
       const authHeaders = await this._credentialHandler.getAuthHeaders();

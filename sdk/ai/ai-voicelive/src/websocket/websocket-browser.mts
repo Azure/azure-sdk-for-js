@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { AbortSignalLike } from "@azure/abort-controller";
-import WebSocket from "ws";
 import {
   WebSocketState,
   type VoiceLiveWebSocketLike,
@@ -11,9 +10,9 @@ import {
 import { VoiceLiveConnectionError, VoiceLiveErrorCodes } from "../errors/connectionErrors.js";
 
 /**
- * Node.js WebSocket implementation using 'ws' library
+ * Browser WebSocket implementation using native WebSocket API
  */
-export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
+export class VoiceLiveWebSocket implements VoiceLiveWebSocketLike {
   private _ws?: WebSocket;
   private _url?: string;
   private _options: WebSocketFactoryOptions;
@@ -27,7 +26,6 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
     this._options = {
       connectionTimeoutInMs: 30000,
       maxMessageSize: 1024 * 1024, // 1MB
-      compression: true,
       ...options,
     };
   }
@@ -49,12 +47,11 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
           ),
         );
       }, this._options.connectionTimeoutInMs);
-
       // Handle abort signal
       const abortHandler = (): void => {
         clearTimeout(timeoutId);
         if (this._ws) {
-          this._ws.terminate();
+          this._ws.close();
         }
         reject(
           new VoiceLiveConnectionError(
@@ -73,15 +70,15 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
       }
 
       try {
-        this._ws = new WebSocket(url, protocols, {
-          headers: this._options.headers,
-          maxPayload: this._options.maxMessageSize,
-          perMessageDeflate: this._options.compression,
-        });
+        // Browser WebSocket API doesn't support custom headers, so we need to pass
+        // authentication and other headers as query parameters
+        const urlWithHeaders = this._addHeadersToUrl(url, this._options.headers);
 
+        this._ws = new WebSocket(urlWithHeaders, protocols);
+        this._ws.binaryType = "arraybuffer";
         this._url = url;
 
-        this._ws.on("open", () => {
+        this._ws.addEventListener("open", () => {
           clearTimeout(timeoutId);
           if (abortSignal) {
             abortSignal.removeEventListener("abort", abortHandler);
@@ -90,50 +87,53 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
           resolve();
         });
 
-        this._ws.on("close", (code: number, reason: Buffer) => {
+        this._ws.addEventListener("close", (event: CloseEvent) => {
           clearTimeout(timeoutId);
           if (abortSignal) {
             abortSignal.removeEventListener("abort", abortHandler);
           }
-          this._onClose?.(code, reason.toString());
+          this._onClose?.(event.code, event.reason);
         });
 
-        this._ws.on("message", (data: WebSocket.Data) => {
-          if (typeof data === "string") {
-            this._onMessage?.(data);
-          } else if (data instanceof Buffer) {
-            // Convert Buffer to ArrayBuffer
-            const arrayBuffer = new ArrayBuffer(data.length);
-            const view = new Uint8Array(arrayBuffer);
-            view.set(data);
-            this._onMessage?.(arrayBuffer);
-          } else if (data instanceof ArrayBuffer) {
-            this._onMessage?.(data);
-          } else {
-            // Handle other data types by converting to ArrayBuffer
-            const buffer = Buffer.from(data as any);
-            const arrayBuffer = new ArrayBuffer(buffer.length);
-            const view = new Uint8Array(arrayBuffer);
-            view.set(buffer);
-            this._onMessage?.(arrayBuffer);
+        this._ws.addEventListener("message", (event: MessageEvent) => {
+          if (typeof event.data === "string") {
+            this._onMessage?.(event.data);
+          } else if (event.data instanceof ArrayBuffer) {
+            this._onMessage?.(event.data);
+          } else if (event.data instanceof Blob) {
+            // Convert Blob to ArrayBuffer
+            const reader = new FileReader();
+            reader.onload = () => {
+              if (reader.result instanceof ArrayBuffer) {
+                this._onMessage?.(reader.result);
+              }
+            };
+            reader.onerror = () => {
+              this._onError?.(
+                new VoiceLiveConnectionError(
+                  "Failed to read blob data",
+                  VoiceLiveErrorCodes.WebSocketError,
+                  "blob_read",
+                ),
+              );
+            };
+            reader.readAsArrayBuffer(event.data);
           }
         });
 
-        this._ws.on("error", (error: Error) => {
+        this._ws.addEventListener("error", () => {
           clearTimeout(timeoutId);
           if (abortSignal) {
             abortSignal.removeEventListener("abort", abortHandler);
           }
-          this._onError?.(error);
-          reject(
-            new VoiceLiveConnectionError(
-              `WebSocket error: ${error.message}`,
-              VoiceLiveErrorCodes.WebSocketError,
-              "websocket_connection",
-              true, // Potentially recoverable
-              error,
-            ),
+          const error = new VoiceLiveConnectionError(
+            "WebSocket connection failed",
+            VoiceLiveErrorCodes.WebSocketError,
+            "websocket_connection",
+            true,
           );
+          this._onError?.(error);
+          reject(error);
         });
       } catch (error) {
         clearTimeout(timeoutId);
@@ -164,9 +164,9 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
       };
 
       if (this._ws!.readyState === WebSocket.CLOSING) {
-        this._ws!.once("close", closeHandler);
+        this._ws!.addEventListener("close", closeHandler, { once: true });
       } else {
-        this._ws!.once("close", closeHandler);
+        this._ws!.addEventListener("close", closeHandler, { once: true });
         this._ws!.close(code, reason);
       }
     });
@@ -198,28 +198,29 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
       };
 
       if (abortSignal) {
-        abortSignal.addEventListener("abort", abortHandler);
+        abortSignal.addEventListener("abort", abortHandler, { once: true });
       }
 
-      this._ws!.send(data, (error?: Error) => {
+      try {
+        this._ws!.send(data);
         if (abortSignal) {
           abortSignal.removeEventListener("abort", abortHandler);
         }
-
-        if (error) {
-          reject(
-            new VoiceLiveConnectionError(
-              `Failed to send WebSocket message: ${error.message}`,
-              VoiceLiveErrorCodes.WebSocketError,
-              "message_send",
-              true,
-              error,
-            ),
-          );
-        } else {
-          resolve();
+        resolve();
+      } catch (error) {
+        if (abortSignal) {
+          abortSignal.removeEventListener("abort", abortHandler);
         }
-      });
+        reject(
+          new VoiceLiveConnectionError(
+            `Failed to send WebSocket message: ${error instanceof Error ? error.message : "Unknown error"}`,
+            VoiceLiveErrorCodes.WebSocketError,
+            "message_send",
+            true,
+            error instanceof Error ? error : new Error(String(error)),
+          ),
+        );
+      }
     });
   }
 
@@ -250,5 +251,43 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
 
   get url(): string | undefined {
     return this._url;
+  }
+
+  /**
+   * Converts headers to query parameters for browser WebSocket connections.
+   * Browser WebSocket API doesn't support custom headers, so authentication
+   * and other headers need to be passed as query parameters.
+   */
+  private _addHeadersToUrl(url: string, headers?: Record<string, string>): string {
+    if (!headers || Object.keys(headers).length === 0) {
+      return url;
+    }
+
+    const urlObj = new URL(url);
+    
+    // Convert known authentication headers to appropriate query parameters
+    for (const [key, value] of Object.entries(headers)) {
+      const lowerKey = key.toLowerCase();
+      
+      if (lowerKey === "authorization") {
+        // Convert Bearer token to authorization query parameter
+        urlObj.searchParams.set("authorization", value);
+      } else if (lowerKey === "api-key") {
+        // API key goes to api-key query parameter
+        urlObj.searchParams.set("api-key", value);
+      } else if (lowerKey === "x-ms-client-request-id") {
+        // Client request ID as query parameter
+        urlObj.searchParams.set("client-request-id", value);
+      } else if (lowerKey === "user-agent") {
+        // User-Agent cannot be set in WebSocket, skip it
+        continue;
+      } else {
+        // For other headers, convert to query parameters with 'h-' prefix
+        // to avoid conflicts with existing query parameters
+        urlObj.searchParams.set(`h-${lowerKey}`, value);
+      }
+    }
+
+    return urlObj.toString();
   }
 }

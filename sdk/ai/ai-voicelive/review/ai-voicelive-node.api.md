@@ -4,6 +4,10 @@
 
 ```ts
 
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { KeyCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
+
 // @public
 export interface AgentConfig {
     agentId: string;
@@ -44,6 +48,11 @@ export interface AudioInputTranscriptionOptions {
 // @public
 export interface AudioNoiseReduction {
     type: string;
+}
+
+// @public (undocumented)
+export interface AudioStreamOptions extends SendEventOptions {
+    turnId?: string;
 }
 
 // @public
@@ -260,6 +269,12 @@ export interface CachedTokenDetails {
 }
 
 // @public
+export function classifyConnectionError(error: VoiceLiveConnectionError | Error | unknown): VoiceLiveConnectionError;
+
+// @public
+export function classifyProtocolError(error: Error, messageType: string): VoiceLiveProtocolError;
+
+// @public
 export interface ClientEvent {
     // (undocumented)
     eventId?: string;
@@ -375,6 +390,38 @@ export type ClientEventType = string;
 export type ClientEventUnion = ClientEventSessionUpdate | ClientEventSessionAvatarConnect | ClientEventInputAudioTurnStart | ClientEventInputAudioTurnAppend | ClientEventInputAudioTurnEnd | ClientEventInputAudioTurnCancel | ClientEventInputAudioClear | ClientEventInputAudioBufferAppend | ClientEventInputAudioBufferCommit | ClientEventInputAudioBufferClear | ClientEventConversationItemCreate | ClientEventConversationItemTruncate | ClientEventConversationItemDelete | ClientEventResponseCreate | ClientEventResponseCancel | ClientEventConversationItemRetrieve | ClientEvent;
 
 // @public
+export interface ConnectedEventArgs {
+    connectionId: string;
+    timestamp: Date;
+}
+
+// @public
+export interface ConnectionContext {
+    readonly endpoint: string;
+    readonly model: string;
+    readonly sessionId?: string;
+    readonly timestamp: Date;
+}
+
+// @public
+export enum ConnectionState {
+    // (undocumented)
+    Connected = "connected",
+    // (undocumented)
+    Connecting = "connecting",
+    // (undocumented)
+    Disconnected = "disconnected",
+    // (undocumented)
+    Disconnecting = "disconnecting"
+}
+
+// @public (undocumented)
+export interface ConnectOptions {
+    abortSignal?: AbortSignalLike;
+    timeoutInMs?: number;
+}
+
+// @public
 export interface ContentPart {
     // (undocumented)
     type: ContentPartType;
@@ -401,6 +448,18 @@ export interface ConversationRequestItem {
 // @public
 export type ConversationRequestItemUnion = MessageItemUnion | FunctionCallItem | FunctionCallOutputItem | MCPApprovalResponseRequestItem | ConversationRequestItem;
 
+// @public (undocumented)
+export interface CreateSessionOptions extends VoiceLiveSessionOptions {
+}
+
+// @public
+export interface DisconnectedEventArgs {
+    code: number;
+    reason: string;
+    timestamp: Date;
+    wasClean: boolean;
+}
+
 // @public
 export interface EouDetection {
     // (undocumented)
@@ -412,6 +471,14 @@ export type EouDetectionUnion = AzureSemanticDetection | AzureSemanticDetectionE
 
 // @public
 export type EouThresholdLevel = string;
+
+// @public
+export interface ErrorEventArgs {
+    context: string;
+    error: Error;
+    recoverable: boolean;
+    timestamp: Date;
+}
 
 // @public
 export interface ErrorResponse {
@@ -1085,6 +1152,12 @@ export interface ResponseTextContentPart extends ContentPart {
     type: "text";
 }
 
+// @public (undocumented)
+export interface SendEventOptions {
+    abortSignal?: AbortSignalLike;
+    timeoutInMs?: number;
+}
+
 // @public
 export interface ServerEvent {
     // (undocumented)
@@ -1536,6 +1609,16 @@ export interface SessionBase {
 }
 
 // @public
+export interface SessionContext extends ConnectionContext {
+    readonly conversationId?: string;
+    readonly sessionId: string;
+}
+
+// @public (undocumented)
+export interface StartSessionOptions extends VoiceLiveSessionOptions {
+}
+
+// @public
 export interface SystemMessageItem extends MessageItem {
     // (undocumented)
     role: "system";
@@ -1597,6 +1680,11 @@ export type TurnDetectionType = string;
 // @public
 export type TurnDetectionUnion = ServerVad | AzureSemanticVad | AzureSemanticVadEn | AzureSemanticVadMultilingual | TurnDetection;
 
+// @public (undocumented)
+export interface TurnOptions extends SendEventOptions {
+    turnId?: string;
+}
+
 // @public
 export interface UserMessageItem extends MessageItem {
     // (undocumented)
@@ -1629,12 +1717,167 @@ export interface VideoResolution {
 export type Voice = OAIVoice | OpenAIVoice | AzureVoiceUnion;
 
 // @public
+export class VoiceLiveAuthenticationError extends VoiceLiveConnectionError {
+    constructor(message: string, code: string, cause?: Error);
+}
+
+// @public
+export class VoiceLiveClient {
+    constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: VoiceLiveClientOptions);
+    // (undocumented)
+    get apiVersion(): string;
+    createSession(model: string, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
+    createSession(sessionConfig: RequestSession, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
+    // (undocumented)
+    get endpoint(): string;
+    startSession(model: string, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
+    startSession(sessionConfig: RequestSession, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
+}
+
+// @public (undocumented)
+export interface VoiceLiveClientOptions {
+    apiVersion?: string;
+    defaultSessionOptions?: VoiceLiveSessionOptions;
+}
+
+// @public
+export class VoiceLiveConnectionError extends Error {
+    constructor(message: string, code: string, context?: string, recoverable?: boolean, cause?: Error);
+    readonly cause?: Error;
+    readonly code: string;
+    readonly context: string;
+    readonly recoverable: boolean;
+    readonly timestamp: Date;
+}
+
+// @public
+export class VoiceLiveError extends VoiceLiveConnectionError {
+    constructor(message: string, code: string, context?: string, recoverable?: boolean, cause?: Error);
+}
+
+// @public
+export enum VoiceLiveErrorCodes {
+    // (undocumented)
+    AlreadyConnected = "ALREADY_CONNECTED",
+    // (undocumented)
+    AuthenticationFailed = "AUTHENTICATION_FAILED",
+    // (undocumented)
+    BufferOverflow = "BUFFER_OVERFLOW",
+    // (undocumented)
+    ConnectionFailed = "CONNECTION_FAILED",
+    // (undocumented)
+    ConnectionLost = "CONNECTION_LOST",
+    // (undocumented)
+    ConnectionTimeout = "CONNECTION_TIMEOUT",
+    // (undocumented)
+    Forbidden = "FORBIDDEN",
+    // (undocumented)
+    InvalidCredentials = "INVALID_CREDENTIALS",
+    // (undocumented)
+    InvalidMessage = "INVALID_MESSAGE",
+    // (undocumented)
+    InvalidState = "INVALID_STATE",
+    // (undocumented)
+    MessageTooLarge = "MESSAGE_TOO_LARGE",
+    // (undocumented)
+    NotConnected = "NOT_CONNECTED",
+    // (undocumented)
+    OperationCancelled = "OPERATION_CANCELLED",
+    // (undocumented)
+    ProtocolError = "PROTOCOL_ERROR",
+    // (undocumented)
+    Unauthorized = "UNAUTHORIZED",
+    // (undocumented)
+    WebSocketError = "WEBSOCKET_ERROR"
+}
+
+// @public
 export interface VoiceLiveErrorDetails {
     code?: string;
     eventId?: string;
     message: string;
     param?: string;
     type?: string;
+}
+
+// @public
+export class VoiceLiveProtocolError extends VoiceLiveConnectionError {
+    constructor(message: string, code: string, cause?: Error);
+}
+
+// @public
+export class VoiceLiveSession {
+    constructor(endpoint: string, credential: TokenCredential | KeyCredential, apiVersion: string, model: string, options?: VoiceLiveSessionOptions);
+    get activeTurnId(): string | undefined;
+    addConversationItem(item: ConversationRequestItem, options?: SendEventOptions): Promise<void>;
+    connect(options?: ConnectOptions): Promise<void>;
+    get connectionState(): ConnectionState;
+    disconnect(): Promise<void>;
+    dispose(): Promise<void>;
+    endAudioTurn(turnId?: string, options?: SendEventOptions): Promise<void>;
+    get isConnected(): boolean;
+    sendAudio(audioData: ArrayBuffer | Uint8Array, options?: AudioStreamOptions): Promise<void>;
+    sendEvent(event: ClientEventUnion, options?: SendEventOptions): Promise<void>;
+    get sessionId(): string | undefined;
+    startAudioTurn(options?: TurnOptions): Promise<string>;
+    subscribe(handlers: VoiceLiveSessionHandlers): VoiceLiveSubscription;
+    updateSession(session: RequestSession, options?: SendEventOptions): Promise<void>;
+}
+
+// @public
+export interface VoiceLiveSessionHandlers {
+    onConnected?: (args: ConnectedEventArgs, context: ConnectionContext) => Promise<void>;
+    onConversationItemCreated?: (event: ServerEventConversationItemCreated, context: SessionContext) => Promise<void>;
+    onConversationItemDeleted?: (event: ServerEventConversationItemDeleted, context: SessionContext) => Promise<void>;
+    onConversationItemInputAudioTranscriptionCompleted?: (event: ServerEventConversationItemInputAudioTranscriptionCompleted, context: SessionContext) => Promise<void>;
+    onConversationItemInputAudioTranscriptionDelta?: (event: ServerEventConversationItemInputAudioTranscriptionDelta, context: SessionContext) => Promise<void>;
+    onConversationItemInputAudioTranscriptionFailed?: (event: ServerEventConversationItemInputAudioTranscriptionFailed, context: SessionContext) => Promise<void>;
+    onConversationItemRetrieved?: (event: ServerEventConversationItemRetrieved, context: SessionContext) => Promise<void>;
+    onConversationItemTruncated?: (event: ServerEventConversationItemTruncated, context: SessionContext) => Promise<void>;
+    onDisconnected?: (args: DisconnectedEventArgs, context: ConnectionContext) => Promise<void>;
+    onError?: (args: ErrorEventArgs, context: ConnectionContext) => Promise<void>;
+    onInputAudioBufferCleared?: (event: ServerEventInputAudioBufferCleared, context: SessionContext) => Promise<void>;
+    onInputAudioBufferCommitted?: (event: ServerEventInputAudioBufferCommitted, context: SessionContext) => Promise<void>;
+    onInputAudioBufferSpeechStarted?: (event: ServerEventInputAudioBufferSpeechStarted, context: SessionContext) => Promise<void>;
+    onInputAudioBufferSpeechStopped?: (event: ServerEventInputAudioBufferSpeechStopped, context: SessionContext) => Promise<void>;
+    onResponseAnimationBlendshapeDelta?: (event: ServerEventResponseAnimationBlendshapeDelta, context: SessionContext) => Promise<void>;
+    onResponseAnimationBlendshapeDone?: (event: ServerEventResponseAnimationBlendshapeDone, context: SessionContext) => Promise<void>;
+    onResponseAnimationVisemeDelta?: (event: ServerEventResponseAnimationVisemeDelta, context: SessionContext) => Promise<void>;
+    onResponseAnimationVisemeDone?: (event: ServerEventResponseAnimationVisemeDone, context: SessionContext) => Promise<void>;
+    onResponseAudioDelta?: (event: ServerEventResponseAudioDelta, context: SessionContext) => Promise<void>;
+    onResponseAudioDone?: (event: ServerEventResponseAudioDone, context: SessionContext) => Promise<void>;
+    onResponseAudioTimestampDelta?: (event: ServerEventResponseAudioTimestampDelta, context: SessionContext) => Promise<void>;
+    onResponseAudioTimestampDone?: (event: ServerEventResponseAudioTimestampDone, context: SessionContext) => Promise<void>;
+    onResponseAudioTranscriptDelta?: (event: ServerEventResponseAudioTranscriptDelta, context: SessionContext) => Promise<void>;
+    onResponseAudioTranscriptDone?: (event: ServerEventResponseAudioTranscriptDone, context: SessionContext) => Promise<void>;
+    onResponseContentPartAdded?: (event: ServerEventResponseContentPartAdded, context: SessionContext) => Promise<void>;
+    onResponseContentPartDone?: (event: ServerEventResponseContentPartDone, context: SessionContext) => Promise<void>;
+    onResponseCreated?: (event: ServerEventResponseCreated, context: SessionContext) => Promise<void>;
+    onResponseDone?: (event: ServerEventResponseDone, context: SessionContext) => Promise<void>;
+    onResponseFunctionCallArgumentsDelta?: (event: ServerEventResponseFunctionCallArgumentsDelta, context: SessionContext) => Promise<void>;
+    onResponseFunctionCallArgumentsDone?: (event: ServerEventResponseFunctionCallArgumentsDone, context: SessionContext) => Promise<void>;
+    onResponseOutputItemAdded?: (event: ServerEventResponseOutputItemAdded, context: SessionContext) => Promise<void>;
+    onResponseOutputItemDone?: (event: ServerEventResponseOutputItemDone, context: SessionContext) => Promise<void>;
+    onResponseTextDelta?: (event: ServerEventResponseTextDelta, context: SessionContext) => Promise<void>;
+    onResponseTextDone?: (event: ServerEventResponseTextDone, context: SessionContext) => Promise<void>;
+    onServerError?: (event: ServerEventError, context: SessionContext) => Promise<void>;
+    onServerEvent?: (event: ServerEventUnion, context: SessionContext) => Promise<void>;
+    onSessionAvatarConnecting?: (event: ServerEventSessionAvatarConnecting, context: SessionContext) => Promise<void>;
+    onSessionCreated?: (event: ServerEventSessionCreated, context: SessionContext) => Promise<void>;
+    onSessionUpdated?: (event: ServerEventSessionUpdated, context: SessionContext) => Promise<void>;
+}
+
+// @public (undocumented)
+export interface VoiceLiveSessionOptions {
+    connectionTimeoutInMs?: number;
+    enableDebugLogging?: boolean;
+}
+
+// @public
+export interface VoiceLiveSubscription {
+    close(): Promise<void>;
+    readonly isActive: boolean;
+    readonly subscriptionId: string;
 }
 
 // (No @packageDocumentation comment for this package)

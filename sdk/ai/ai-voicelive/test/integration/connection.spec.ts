@@ -4,7 +4,7 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { VoiceLiveSession } from "../../src/index.js";
+import type { VoiceLiveSession, ErrorEventArgs } from "../../src/index.js";
 import { VoiceLiveClient } from "../../src/index.js";
 
 describe("VoiceLive Integration - Connection Tests", () => {
@@ -49,7 +49,7 @@ describe("VoiceLive Integration - Connection Tests", () => {
   });
 
   it.skipIf(!isLiveMode())("should establish WebSocket connection", async function () {
-    session = await client.createSession("gpt-4o-mini");
+    session = await client.createSession("gpt-4o");
     
     // Connect to the WebSocket endpoint
     await session.connect();
@@ -58,7 +58,7 @@ describe("VoiceLive Integration - Connection Tests", () => {
   });
 
   it.skipIf(!isLiveMode())("should handle connection with authentication", async function () {
-    session = await client.createSession("gpt-4o-mini");
+    session = await client.createSession("gpt-4o");
     
     // Test connection with proper authentication
     await session.connect();
@@ -115,7 +115,7 @@ describe("VoiceLive Integration - Connection Tests", () => {
   });
 
   it.skipIf(!isLiveMode())("should handle session reconnection", async function () {
-    session = await client.createSession("gpt-4o-mini");
+    session = await client.createSession("gpt-4o");
     
     // Initial connection
     await session.connect();
@@ -134,11 +134,11 @@ describe("VoiceLive Integration - Connection Tests", () => {
     expect(endpoint).toMatch(/^https:\/\/.+/);
     
     // The endpoint should be a valid AI Services endpoint
-    expect(endpoint).toContain(".cognitiveservices.azure.com");
+    expect(endpoint).toContain("services.ai.azure.com");
   });
 
   it.skipIf(!isLiveMode())("should handle session lifecycle correctly", async function (this: any) {
-    session = await client.createSession("gpt-4o-mini");
+    session = await client.createSession("gpt-4o");
     
     // Track session state changes
     let errorReceived = false;
@@ -150,7 +150,9 @@ describe("VoiceLive Integration - Connection Tests", () => {
       onDisconnected: async () => {
         // Connection closed
       },
-      onError: async () => {
+      onError: async (args: ErrorEventArgs) => {
+        console.log("Got unexpexted error event:", args);
+        
         errorReceived = true;
       },
       onSessionUpdated: async () => {
@@ -166,8 +168,7 @@ describe("VoiceLive Integration - Connection Tests", () => {
       
       // Update session to trigger events
       await session.updateSession({
-        model: "gpt-4o-mini",
-        voice: "alloy",
+        model: "gpt-4o-mini"
       });
       
       // Give some time for events to be processed
