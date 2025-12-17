@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import type { TokenCredential } from "@azure/core-auth";
 import type { ServiceApiVersion } from "./Declarations/Constants.js";
-import type { ApplicationInsightsClientOptionalParams } from "./generated/index.js";
+import type { ApplicationInsightsClientOptionalParams } from "./client/applicationInsightsClient.js";
 
 /**
  * Provides configuration options for AzureMonitorTraceExporter.

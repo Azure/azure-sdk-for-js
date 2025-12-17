@@ -33,7 +33,7 @@ import {
 import { experimentalOpenTelemetryValues, type Tags } from "../types.js";
 import { getInstance } from "../platform/index.js";
 import type { TelemetryItem as Envelope, MetricsData } from "../generated/index.js";
-import { KnownContextTagKeys } from "../generated/index.js";
+import { KnownContextTagKeys } from "./contextTagKeys.js";
 import type { Resource } from "@opentelemetry/resources";
 import type { Attributes, HrTime } from "@opentelemetry/api";
 import { hrTimeToNanoseconds } from "@opentelemetry/core";
@@ -58,18 +58,18 @@ export function createTagsFromResource(resource: Resource): Tags {
   const context = getInstance();
   const tags: Tags = { ...context.tags };
   if (resource && resource.attributes) {
-    tags[KnownContextTagKeys.AiCloudRole] = getCloudRole(resource);
-    tags[KnownContextTagKeys.AiCloudRoleInstance] = getCloudRoleInstance(resource);
+      tags[KnownContextTagKeys.AiCloudRole] = getCloudRole(resource);
+      tags[KnownContextTagKeys.AiCloudRoleInstance] = getCloudRoleInstance(resource);
     if (resource.attributes[SEMRESATTRS_DEVICE_ID]) {
-      tags[KnownContextTagKeys.AiDeviceId] = String(resource.attributes[SEMRESATTRS_DEVICE_ID]);
+        tags[KnownContextTagKeys.AiDeviceId] = String(resource.attributes[SEMRESATTRS_DEVICE_ID]);
     }
     if (resource.attributes[SEMRESATTRS_DEVICE_MODEL_NAME]) {
-      tags[KnownContextTagKeys.AiDeviceModel] = String(
+        tags[KnownContextTagKeys.AiDeviceModel] = String(
         resource.attributes[SEMRESATTRS_DEVICE_MODEL_NAME],
       );
     }
     if (resource.attributes[SEMRESATTRS_SERVICE_VERSION]) {
-      tags[KnownContextTagKeys.AiApplicationVer] = String(
+        tags[KnownContextTagKeys.AiApplicationVer] = String(
         resource.attributes[SEMRESATTRS_SERVICE_VERSION],
       );
     }
@@ -252,12 +252,21 @@ export function createResourceMetricEnvelope(
           baseType: "MetricData",
           baseData: baseData,
         },
-        tags: tags,
+        tags: sanitizeTags(tags),
       };
       return envelope;
     }
   }
   return;
+}
+
+export function sanitizeTags(tags?: Tags): Record<string, string> | undefined {
+  if (!tags) {
+    return undefined;
+  }
+  return Object.fromEntries(
+    Object.entries(tags).filter(([, value]) => value !== undefined),
+  ) as Record<string, string>;
 }
 
 export function serializeAttribute(value: AnyValue): string {

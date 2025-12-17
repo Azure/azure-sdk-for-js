@@ -6,10 +6,24 @@
     "CrossLanguageDefinitionId": {
       "@azure/monitor-opentelemetry-exporter!TelemetryItem:interface": "AzureMonitorExporter.TelemetryEnvelope",
       "@azure/monitor-opentelemetry-exporter!MonitorBase:interface": "AzureMonitorExporter.Base",
-      "@azure/monitor-opentelemetry-exporter!EventDomain:interface": "AzureMonitorExporter.Domain",
+      "@azure/monitor-opentelemetry-exporter!MonitorDomain:interface": "AzureMonitorExporter.Domain",
       "@azure/monitor-opentelemetry-exporter!TrackResponse:interface": "AzureMonitorExporter.TrackResponse",
       "@azure/monitor-opentelemetry-exporter!TelemetryErrorDetails:interface": "AzureMonitorExporter.ErrorDetails",
+      "@azure/monitor-opentelemetry-exporter!MetricDataPoint:interface": "AzureMonitorExporter.DataPoint",
+      "@azure/monitor-opentelemetry-exporter!TelemetryEventData:interface": "AzureMonitorExporter.EventData",
+      "@azure/monitor-opentelemetry-exporter!TelemetryExceptionData:interface": "AzureMonitorExporter.ExceptionData",
+      "@azure/monitor-opentelemetry-exporter!TelemetryExceptionDetails:interface": "AzureMonitorExporter.ExceptionDetails",
+      "@azure/monitor-opentelemetry-exporter!StackFrame:interface": "AzureMonitorExporter.StackFrame",
+      "@azure/monitor-opentelemetry-exporter!MessageData:interface": "AzureMonitorExporter.MessageData",
+      "@azure/monitor-opentelemetry-exporter!MetricsData:interface": "AzureMonitorExporter.MetricsData",
+      "@azure/monitor-opentelemetry-exporter!PageViewData:interface": "AzureMonitorExporter.PageViewData",
+      "@azure/monitor-opentelemetry-exporter!PageViewPerfData:interface": "AzureMonitorExporter.PageViewPerfData",
+      "@azure/monitor-opentelemetry-exporter!RemoteDependencyData:interface": "AzureMonitorExporter.RemoteDependencyData",
+      "@azure/monitor-opentelemetry-exporter!RequestData:interface": "AzureMonitorExporter.RequestData",
       "@azure/monitor-opentelemetry-exporter!KnownVersions:enum": "AzureMonitorExporter.Versions",
+      "@azure/monitor-opentelemetry-exporter!KnownDataPointType:enum": "AzureMonitorExporter.DataPointType",
+      "@azure/monitor-opentelemetry-exporter!KnownSeverityLevel:enum": "AzureMonitorExporter.SeverityLevel",
+      "@azure/monitor-opentelemetry-exporter!KnownContextTagKeys:enum": "AzureMonitorExporter.ContextTagKeys",
       "@azure/monitor-opentelemetry-exporter!AzureMonitorExporterClient#track:member(1)": "AzureMonitorExporter.track"
     }
   }

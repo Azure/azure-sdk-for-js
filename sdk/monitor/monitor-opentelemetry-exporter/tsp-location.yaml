@@ -1,4 +1,4 @@
 directory: specification/applicationinsights/ApplicationInsights.Monitor.Exporters
-commit: e321a813953d325382207059f8565d61d4020f12
+commit: d131fceec1f6539f295a8d3f0b1946aff8b5c1ab
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 

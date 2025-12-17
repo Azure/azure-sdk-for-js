@@ -1,7 +1,7 @@
 {
   "dryRun": false,
   "specFolder": "C:/Users/hectorh/Documents/GitHub/azure-sdk-for-js/_rest-specs",
-  "headSha": "e321a813953d325382207059f8565d61d4020f12",
+  "headSha": "d131fceec1f6539f295a8d3f0b1946aff8b5c1ab",
   "repoHttpsUrl": "https://github.com/Azure/azure-rest-api-specs",
   "relatedTypeSpecProjectFolder": [
     "specification/applicationinsights/ApplicationInsights.Monitor.Exporters/"

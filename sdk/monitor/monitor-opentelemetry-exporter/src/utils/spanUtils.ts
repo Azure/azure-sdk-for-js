@@ -53,6 +53,7 @@ import {
   hrTimeToDate,
   isSqlDB,
   isSyntheticSource,
+  sanitizeTags,
   serializeAttribute,
 } from "./common.js";
 import type { Tags, Properties, MSLink, Measurements } from "../types.js";
@@ -78,8 +79,9 @@ import type {
   RequestData,
   TelemetryItem as Envelope,
   TelemetryExceptionDetails,
+  MonitorDomain,
 } from "../generated/index.js";
-import { KnownContextTagKeys } from "../generated/index.js";
+import { KnownContextTagKeys } from "./contextTagKeys.js";
 import { msToTimeSpan } from "./breezeUtils.js";
 
 function createTagsFromSpan(span: ReadableSpan): Tags {
@@ -103,7 +105,7 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   const httpUserAgent = getUserAgent(span.attributes);
   if (httpUserAgent) {
     // TODO: Not exposed in Swagger, need to update def
-    tags["ai.user.userAgent"] = String(httpUserAgent);
+    (tags as Record<string, string>)["ai.user.userAgent"] = String(httpUserAgent);
   }
   if (isSyntheticSource(span.attributes)) {
     tags[KnownContextTagKeys.AiOperationSyntheticSource] = "True";
@@ -344,6 +346,7 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
   const time = hrTimeToDate(span.startTime);
   const instrumentationKey = ikey;
   const tags = createTagsFromSpan(span);
+  const sanitizedTags = sanitizeTags(tags);
   const [properties, measurements] = createPropertiesFromSpan(span);
   switch (span.kind) {
     case SpanKind.CLIENT:
@@ -371,58 +374,88 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
     sampleRate = Number(span.attributes[AzureMonitorSampleRate]);
   }
 
-  // Azure SDK
-  if (span.attributes[AzNamespace]) {
-    if (span.kind === SpanKind.INTERNAL) {
-      baseData.type = `${DependencyTypes.InProc} | ${span.attributes[AzNamespace]}`;
+  // Azure SDK specifics apply only to dependency telemetry
+  if (baseType === "RemoteDependencyData") {
+    const depData = baseData as RemoteDependencyData;
+    if (span.attributes[AzNamespace]) {
+      if (span.kind === SpanKind.INTERNAL) {
+        depData.type = `${DependencyTypes.InProc} | ${span.attributes[AzNamespace]}`;
+      }
+      if (span.attributes[AzNamespace] === MicrosoftEventHub) {
+        parseEventHubSpan(span, depData);
+      }
     }
-    if (span.attributes[AzNamespace] === MicrosoftEventHub) {
-      parseEventHubSpan(span, baseData);
+
+    // Truncate dependency-specific fields
+    if (depData.id) {
+      depData.id = depData.id.substring(0, MaxPropertyLengths.NINE_BIT);
+    }
+    if (depData.name) {
+      depData.name = depData.name.substring(0, MaxPropertyLengths.TEN_BIT);
+    }
+    if (depData.resultCode) {
+      depData.resultCode = String(depData.resultCode).substring(0, MaxPropertyLengths.TEN_BIT);
+    }
+    if (depData.data) {
+      depData.data = String(depData.data).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
+    }
+    if (depData.type) {
+      depData.type = String(depData.type).substring(0, MaxPropertyLengths.TEN_BIT);
+    }
+    if (depData.target) {
+      depData.target = String(depData.target).substring(0, MaxPropertyLengths.TEN_BIT);
+    }
+    if (depData.properties) {
+      for (const key of Object.keys(depData.properties)) {
+        depData.properties[key] = depData.properties[key].substring(
+          0,
+          MaxPropertyLengths.THIRTEEN_BIT,
+        );
+      }
+    }
+  } else {
+    const reqData = baseData as RequestData;
+    if (reqData.id) {
+      reqData.id = reqData.id.substring(0, MaxPropertyLengths.NINE_BIT);
+    }
+    if (reqData.name) {
+      reqData.name = reqData.name.substring(0, MaxPropertyLengths.TEN_BIT);
+    }
+    if (reqData.responseCode) {
+      reqData.responseCode = String(reqData.responseCode).substring(0, MaxPropertyLengths.TEN_BIT);
+    }
+    if (reqData.url) {
+      reqData.url = String(reqData.url).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
+    }
+    if (reqData.source) {
+      reqData.source = String(reqData.source).substring(0, MaxPropertyLengths.TEN_BIT);
+    }
+    if (reqData.properties) {
+      for (const key of Object.keys(reqData.properties)) {
+        reqData.properties[key] = reqData.properties[key].substring(
+          0,
+          MaxPropertyLengths.THIRTEEN_BIT,
+        );
+      }
     }
   }
 
-  // Truncate properties
-  if (baseData.id) {
-    baseData.id = baseData.id.substring(0, MaxPropertyLengths.NINE_BIT);
-  }
-  if (baseData.name) {
-    baseData.name = baseData.name.substring(0, MaxPropertyLengths.TEN_BIT);
-  }
-  if (baseData.resultCode) {
-    baseData.resultCode = String(baseData.resultCode).substring(0, MaxPropertyLengths.TEN_BIT);
-  }
-  if (baseData.data) {
-    baseData.data = String(baseData.data).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
-  }
-  if (baseData.type) {
-    baseData.type = String(baseData.type).substring(0, MaxPropertyLengths.TEN_BIT);
-  }
-  if (baseData.target) {
-    baseData.target = String(baseData.target).substring(0, MaxPropertyLengths.TEN_BIT);
-  }
-  if (baseData.properties) {
-    for (const key of Object.keys(baseData.properties)) {
-      baseData.properties[key] = baseData.properties[key].substring(
-        0,
-        MaxPropertyLengths.THIRTEEN_BIT,
-      );
-    }
-  }
+  const enrichedBaseData = {
+    ...(baseData as MonitorDomain),
+    properties,
+    measurements,
+  } as MonitorDomain & { properties?: Properties; measurements?: Measurements };
 
   return {
     name,
     sampleRate,
     time,
     instrumentationKey,
-    tags,
+    tags: sanitizedTags,
     version: 1,
     data: {
       baseType,
-      baseData: {
-        ...baseData,
-        properties,
-        measurements,
-      },
+      baseData: enrichedBaseData,
     },
   };
 }
@@ -441,12 +474,13 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       let baseData: TelemetryExceptionData | MessageData;
       const properties = createPropertiesFromSpanAttributes(event.attributes);
 
-      const tags: Tags = createTagsFromResource(span.resource);
-      tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-      const spanId = span.spanContext().spanId;
-      if (spanId) {
-        tags[KnownContextTagKeys.AiOperationParentId] = spanId;
-      }
+       const tags: Tags = createTagsFromResource(span.resource);
+       tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
+       const spanId = span.spanContext().spanId;
+       if (spanId) {
+         tags[KnownContextTagKeys.AiOperationParentId] = spanId;
+       }
+       const sanitizedEventTags = sanitizeTags(tags);
 
       // Only generate exception telemetry for incoming requests
       if (event.name === "exception") {
@@ -498,8 +532,11 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
         sampleRate = Number(span.attributes[AzureMonitorSampleRate]);
       }
       // Truncate properties
-      if (baseData.message) {
-        baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
+      if ("message" in baseData && (baseData as MessageData).message) {
+        (baseData as MessageData).message = String((baseData as MessageData).message).substring(
+          0,
+          MaxPropertyLengths.FIFTEEN_BIT,
+        );
       }
       if (baseData.properties) {
         for (const key of Object.keys(baseData.properties)) {
@@ -519,7 +556,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           baseType: baseType,
           baseData: baseData,
         },
-        tags: tags,
+         tags: sanitizedEventTags,
       };
       envelopes.push(env);
     });
