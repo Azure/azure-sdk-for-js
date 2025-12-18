@@ -1,6 +1,6 @@
 # Contributing
 
-## How to contribute to the Azure SDK for Javascript
+## How to contribute to the Azure SDK for JavaScript
 
 There are many ways that you can contribute to the Azure SDK for JavaScript project:
 
