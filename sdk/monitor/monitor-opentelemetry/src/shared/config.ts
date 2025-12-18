@@ -135,7 +135,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     // ENV configuration will take precedence over other configurations
     this._mergeEnvConfig();
 
-    // Ensure microsoft.applicationid is present if a connection string provides it
+    // Ensure microsoft.applicationId is present if a connection string provides it
     this._ensureApplicationIdResourceAttribute();
   }
 
@@ -254,10 +254,10 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   }
 
   /**
-   * Populate microsoft.applicationid resource attribute from connection string when missing.
+   * Populate microsoft.applicationId resource attribute from connection string when missing.
    */
   private _ensureApplicationIdResourceAttribute(): void {
-    if (this._resource.attributes["microsoft.applicationid"]) {
+    if (this._resource.attributes["microsoft.applicationId"]) {
       return;
     }
 
@@ -269,7 +269,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
 
     if (applicationId) {
       this._resource = this._resource.merge(
-        resourceFromAttributes({ "microsoft.applicationid": applicationId }),
+        resourceFromAttributes({ "microsoft.applicationId": applicationId }),
       );
     }
   }

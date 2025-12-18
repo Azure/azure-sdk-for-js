@@ -6,7 +6,7 @@
 
 - Allow configuring additional metric views through `AzureMonitorOpenTelemetryOptions` and pass them to the NodeSDK.
 - Honor `OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION` for selecting default histogram aggregation (explicit or exponential).
-- Automatically populate the `microsoft.applicationid` resource attribute from the Application Insights connection string when it is not already set.
+- Automatically populate the `microsoft.applicationId` resource attribute from the Application Insights connection string when it is not already set.
 
 ### 1.14.2 (2025-11-13)
 

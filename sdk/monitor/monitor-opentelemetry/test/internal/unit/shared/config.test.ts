@@ -271,7 +271,7 @@ describe("Library/Config", () => {
       assert.strictEqual(config.samplingRatio, 0);
     });
 
-    it("sets microsoft.applicationid from connection string when missing", () => {
+    it("sets microsoft.applicationId from connection string when missing", () => {
       vi.stubEnv(
         "APPLICATIONINSIGHTS_CONNECTION_STRING",
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;ApplicationId=my-app-id",
@@ -279,12 +279,12 @@ describe("Library/Config", () => {
 
       const config = new InternalConfig();
 
-      assert.strictEqual(config.resource.attributes["microsoft.applicationid"], "my-app-id");
+      assert.strictEqual(config.resource.attributes["microsoft.applicationId"], "my-app-id");
     });
 
-    it("does not overwrite existing microsoft.applicationid on resource", () => {
+    it("does not overwrite existing microsoft.applicationId on resource", () => {
       const customResource = resourceFromAttributes({
-        "microsoft.applicationid": "custom-app-id",
+        "microsoft.applicationId": "custom-app-id",
       });
 
       const config = new InternalConfig({
@@ -295,7 +295,7 @@ describe("Library/Config", () => {
         },
       });
 
-      assert.strictEqual(config.resource.attributes["microsoft.applicationid"], "custom-app-id");
+      assert.strictEqual(config.resource.attributes["microsoft.applicationId"], "custom-app-id");
     });
 
     it("instrumentation key validation-valid key passed", () => {
