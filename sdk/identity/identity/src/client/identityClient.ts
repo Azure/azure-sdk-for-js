@@ -345,7 +345,6 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
    * This follows MSAL INetworkModule behavior so the response is in expected format.
    */
   private parseResponseBody(response: PipelineResponse) {
-
     let parsedBody: {};
     try {
       parsedBody = JSON.parse(response.bodyAsText || "");
