@@ -334,6 +334,10 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     }
   }
 
+  /**
+   * Parses the response body if possible. Add error properties if parsing fails.
+   * This follows MSAL INetworkModule behavior so the response is in expected format.
+   */
   private parseResponseBody(response: PipelineResponse) {
     const HttpStatus = {
       CLIENT_ERROR_RANGE_START: 400,
@@ -349,6 +353,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       let errorType;
       let errorDescriptionHelper;
       /**
+       * Determine error type based on status code ranges following MSAL patterns:
        * Client error responses (400 – 499)
        * Server error responses (500 – 599)
        */

@@ -251,7 +251,7 @@ describe("ManagedIdentityCredential (MSAL)", function () {
     });
 
     describe("error handling", function () {
-      it("can handle empty body response", async function () {
+      it("can handle empty body response for server errors", async function () {
         vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
           "Imds",
         );
@@ -280,6 +280,40 @@ describe("ManagedIdentityCredential (MSAL)", function () {
             `Expected CredentialUnavailableError, got: ${e}`,
           );
           assert.match(e.message, /A server error occured/);
+        }
+        expect(sendGetSpy).toHaveBeenCalled();
+        expect(sendRequestSpy).toHaveBeenCalled();
+      });
+
+      it("can handle empty body response for client errors", async function () {
+        vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
+          "Imds",
+        );
+
+        acquireTokenStub.mockRestore();
+
+        const sendGetSpy = vi.spyOn(IdentityClient.prototype, "sendGetRequestAsync");
+        // Stub the response from this.sendRequest(request) inside sendGetRequestAsync.
+        const sendRequestSpy = vi
+          .spyOn(IdentityClient.prototype, "sendRequest")
+          .mockImplementation(async (request: any) => {
+            return {
+              request,
+              status: 432,
+              bodyAsText: undefined,
+              headers: createHttpHeaders(),
+            } as any;
+          });
+
+        const credential = new ManagedIdentityCredential();
+        try {
+          await credential.getToken("scope");
+        } catch (e: any) {
+          assert.isTrue(
+            e instanceof CredentialUnavailableError,
+            `Expected CredentialUnavailableError, got: ${e}`,
+          );
+          assert.match(e.message, /A client error occured/);
         }
         expect(sendGetSpy).toHaveBeenCalled();
         expect(sendRequestSpy).toHaveBeenCalled();
