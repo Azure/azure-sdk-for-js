@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { KeyCredential } from "@azure/core-auth";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -10,7 +11,7 @@ import { VoiceLiveClient } from "../../src/index.js";
 describe("VoiceLive Integration - Connection Tests", () => {
   let client: VoiceLiveClient;
   let session: VoiceLiveSession;
-  
+
   const endpoint = process.env.VOICELIVE_ENDPOINT || process.env.AI_SERVICES_ENDPOINT;
   const apiKey = process.env.VOICELIVE_API_KEY || process.env.AI_SERVICES_KEY;
 
@@ -24,11 +25,12 @@ describe("VoiceLive Integration - Connection Tests", () => {
     }
 
     if (!apiKey) {
-      throw new Error("Missing VOICELIVE_API_KEY or AI_SERVICES_KEY environment variable");
+      const credential = createTestCredential();
+      client = new VoiceLiveClient(endpoint, credential);
     }
-
-    const credential = createTestCredential();
-    client = new VoiceLiveClient(endpoint, credential);
+    else {
+      client = new VoiceLiveClient(endpoint, { key: apiKey } as KeyCredential);
+    }
   });
 
   afterEach(async function () {

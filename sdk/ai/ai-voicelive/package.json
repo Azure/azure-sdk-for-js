@@ -60,7 +60,7 @@
     "@azure/core-rest-pipeline": "^1.20.0",
     "@azure/core-util": "^1.12.0",
     "@azure/logger": "^1.2.0",
-    "https-proxy-agent": "^7.0.0",
+    "https-proxy-agent": "^7.0.1",
     "tslib": "^2.8.1",
     "ws": "^8.18.3"
   },
@@ -75,8 +75,6 @@
     "@types/ws": "^8.18.1",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
-    "@vitest/coverage-v8": "4.0.15",
-    "@vitest/ui": "4.0.15",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
@@ -163,3 +161,5 @@
   "types": "./dist/commonjs/index.d.ts",
   "module": "./dist/esm/index.js"
 }
+
+
