@@ -21,6 +21,12 @@ import {
 import { getAuthorityHost } from "../util/authorityHost.js";
 
 const noCorrelationId = "noCorrelationId";
+const HttpStatus = {
+  CLIENT_ERROR_RANGE_START: 400,
+  CLIENT_ERROR_RANGE_END: 499,
+  SERVER_ERROR_RANGE_START: 500,
+  SERVER_ERROR_RANGE_END: 599,
+};
 
 /**
  * An internal type used to communicate details of a token request's
@@ -339,17 +345,12 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
    * This follows MSAL INetworkModule behavior so the response is in expected format.
    */
   private parseResponseBody(response: PipelineResponse) {
-    const HttpStatus = {
-      CLIENT_ERROR_RANGE_START: 400,
-      CLIENT_ERROR_RANGE_END: 499,
-      SERVER_ERROR_RANGE_START: 500,
-      SERVER_ERROR_RANGE_END: 599,
-    };
+
     let parsedBody: {};
     try {
       parsedBody = JSON.parse(response.bodyAsText || "");
     } catch (error) {
-      logger.info("IdentityClient: Could not parse response body as JSON.");
+      logger.info(`IdentityClient: Could not parse response body: ${error}`);
       let errorType;
       let errorDescriptionHelper;
       /**
@@ -374,9 +375,15 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         errorDescriptionHelper = "An unknown";
       }
 
+      const errorDescriptionLines = [
+        `${errorDescriptionHelper} error occured.`,
+        `Http status code: ${response.status}`,
+        `Http status message: ${response.bodyAsText || "Unknown"}`,
+        `Headers: ${JSON.stringify(response.headers)}`,
+      ];
       parsedBody = {
         error: errorType,
-        error_description: `${errorDescriptionHelper} error occured.\nHttp status code: ${response.status}\nHttp status message: ${response.bodyAsText || "Unknown"}\nHeaders: ${JSON.stringify(response.headers)}`,
+        error_description: errorDescriptionLines.join("\n"),
       };
     }
     return parsedBody;
