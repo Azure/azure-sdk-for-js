@@ -4,18 +4,42 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import {
   type ClientEventResponseCreate,
-  RequestSession,
+  type RequestSession,
   VoiceLiveClient,
   type VoiceLiveSession,
 } from "../../src/index.js";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { generateTestAudio } from "../infrastructure/audioTestHelpers.js";
+import { generateTestAudio, sendAudio } from "../infrastructure/audioTestHelpers.js";
 import { SessionEventRecorder } from "../infrastructure/sessionEventRecorder.js";
-import { FunctionTool, KnownClientEventType, KnownInputAudioFormat, KnownItemType, KnownMessageRole, KnownModality, KnownServerEventType, KnownToolType, ServerEventSessionCreated, ServerEventSessionUpdated } from "../../src/models/models.js";
-import dotenv from 'dotenv';
+import {
+  type FunctionTool,
+  type InputAudioContentPart,
+  type InputTextContentPart, KnownClientEventType, KnownContentPartType, KnownInputAudioFormat, KnownItemType, KnownMessageRole, KnownModality, KnownResponseStatus, KnownServerEventType, KnownToolType, KnownTurnDetectionType,
+  type MessageItem,
+  type OutputTextContentPart,
+  type ServerEventConversationItemCreated,
+  type ServerEventConversationItemInputAudioTranscriptionCompleted,
+  type ServerEventInputAudioBufferCommitted,
+  type ServerEventInputAudioBufferSpeechStarted,
+  type ServerEventInputAudioBufferSpeechStopped,
+  type ServerEventResponseDone,
+  type ServerEventResponseFunctionCallArgumentsDone,
+  type ServerEventResponseMcpCallArgumentsDelta,
+  type ServerEventSessionCreated,
+  type ServerEventSessionUpdated,
+  type ServerVad
+} from "../../src/models/models.js";
 
-dotenv.config();
+// Only configure dotenv in Node.js environments
+if (typeof self === 'undefined') {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    require('dotenv').config();
+  } catch {
+    // dotenv not available or we're in a browser, ignore
+  }
+}
 
 describe("Basic Conversation Tests", () => {
   let client: VoiceLiveClient;
@@ -175,20 +199,24 @@ describe("Basic Conversation Tests", () => {
     expect(responseCreated).toBeDefined();
     expect(responseDone).toBeDefined();
   }, timeoutMs);
-});
-/*
+
+
   it("should handle session configuration updates", async () => {
     const initialConfig = {
-      model: "gpt-4o-realtime-preview",
-      modalities: ["text"],
+      model: "gpt-4o",
+      modalities: [KnownModality.Text],
       instructions: "Your name is Frank. Never forget that!",
-    };
+    } as RequestSession;
 
-    const session = await client.startSession(initialConfig);
+    const session = await client.createSession(initialConfig);
     sessions.push(session);
 
-    await waitForEvent(session, "session.created");
-    await waitForEvent(session, "session.updated");
+    const recorder = new SessionEventRecorder(session); // Attach recorder first
+
+    await session.connect();
+    await recorder.waitForEvent(KnownServerEventType.SessionCreated);
+    await session.updateSession(initialConfig);
+    await recorder.waitForEvent(KnownServerEventType.SessionUpdated);
 
     // Update the session configuration
     const updatedConfig = {
@@ -197,68 +225,76 @@ describe("Basic Conversation Tests", () => {
     };
 
     await session.updateSession(updatedConfig);
-    const sessionUpdated = await waitForEvent(session, "session.updated");
+    const sessionUpdated = await recorder.waitForEvent(KnownServerEventType.SessionUpdated) as ServerEventSessionUpdated;
 
     expect(sessionUpdated.session.instructions).toBe(updatedConfig.instructions);
   }, timeoutMs);
 
   it("should handle turn detection configuration", async () => {
     const sessionConfig = {
-      model: "gpt-4o-realtime-preview",
-      input_audio_format: "pcm16",
+      model: "gpt-4o",
+      input_audio_format: KnownInputAudioFormat.Pcm16,
       turn_detection: {
-        type: "server_vad",
+        type: KnownTurnDetectionType.ServerVad,
         threshold: 0.5,
         prefix_padding_ms: 300,
         silence_duration_ms: 500,
       },
-    };
+    } as RequestSession;
 
-    const session = await client.startSession(sessionConfig);
+    const session = await client.createSession(sessionConfig);
     sessions.push(session);
 
-    const sessionCreated = await waitForEvent(session, "session.created");
-    const sessionUpdated = await waitForEvent(session, "session.updated");
+    const recorder = new SessionEventRecorder(session); // Attach recorder first
+
+    await session.connect();
+
+    const sessionCreated = await recorder.waitForEvent(KnownServerEventType.SessionCreated) as ServerEventSessionCreated;
+    await session.updateSession(sessionConfig);
+    const sessionUpdated = await recorder.waitForEvent(KnownServerEventType.SessionUpdated) as ServerEventSessionUpdated;
 
     // Default should be server VAD
-    expect(sessionCreated.session.turn_detection.type).toBe("server_vad");
+    expect(sessionCreated.session.turnDetection?.type).toBe(KnownTurnDetectionType.ServerVad);
 
     // Updated configuration should match our settings  
-    expect(sessionUpdated.session.turn_detection.type).toBe("server_vad");
-    expect(sessionUpdated.session.turn_detection.threshold).toBe(0.5);
+    expect(sessionUpdated.session.turnDetection?.type).toBe(KnownTurnDetectionType.ServerVad);
+    const turnDetection = sessionUpdated.session.turnDetection as ServerVad;
+    expect(turnDetection.threshold).toBe(0.5);
   }, timeoutMs);
 
   it("should handle audio buffer operations", async () => {
     const sessionConfig = {
-      model: "gpt-4o-realtime-preview",
-      input_audio_format: "pcm16",
-      turn_detection: { type: "none" }, // Disable turn detection for manual control
-    };
+      model: "gpt-4o",
+      input_audio_format: KnownInputAudioFormat.Pcm16,
+      turn_detection: null, // Disable turn detection for manual control
+    } as RequestSession;
 
-    const session = await client.startSession(sessionConfig);
+    const session = await client.createSession(sessionConfig);
     sessions.push(session);
 
-    await waitForEvent(session, "session.created");
-    await waitForEvent(session, "session.updated");
+    const recorder = new SessionEventRecorder(session); // Attach recorder first
+
+    await session.connect();
+    await recorder.waitForEvent(KnownServerEventType.SessionCreated);
+    await session.updateSession(sessionConfig);
+    await recorder.waitForEvent(KnownServerEventType.SessionUpdated);
 
     // Send some audio data
-    const audioData1 = generateTestAudio("What is the weather like?");
+    const audioData1 = await generateTestAudio("What is the weather like?");
     await session.sendAudio(audioData1);
 
     // Clear the buffer (in real implementation this would send input_audio_buffer.clear)
     await session.sendEvent({
-      type: "input_audio_buffer.clear",
-      event_id: `clear-${Date.now()}`,
+      type: KnownClientEventType.InputAudioBufferClear,
     });
 
     // Send different audio
-    const audioData2 = generateTestAudio("Computer, how old are you?");
+    const audioData2 = await generateTestAudio("Computer, how old are you?");
     await session.sendAudio(audioData2);
 
     // Commit the buffer (in real implementation this would send input_audio_buffer.commit)
     await session.sendEvent({
-      type: "input_audio_buffer.commit",
-      event_id: `commit-${Date.now()}`,
+      type: KnownClientEventType.InputAudioBufferCommit
     });
 
     // Verify session is still connected and functional
@@ -267,16 +303,20 @@ describe("Basic Conversation Tests", () => {
 
   it("should handle multiple audio frames", async () => {
     const sessionConfig = {
-      model: "gpt-4o-realtime-preview",
-      input_audio_format: "pcm16",
-      turn_detection: { type: "none" },
+      model: "gpt-4o",
+      input_audio_format: KnownInputAudioFormat.Pcm16,
+      turn_detection: null,
     };
 
-    const session = await client.startSession(sessionConfig);
+    const session = await client.createSession(sessionConfig);
     sessions.push(session);
 
-    await waitForEvent(session, "session.created");
-    await waitForEvent(session, "session.updated");
+    const recorder = new SessionEventRecorder(session); // Attach recorder first
+
+    await session.connect();
+    await recorder.waitForEvent(KnownServerEventType.SessionCreated);
+    await session.updateSession(sessionConfig);
+    await recorder.waitForEvent(KnownServerEventType.SessionUpdated);
 
     // Send multiple small audio frames
     for (let i = 0; i < 10; i++) { // Reduced from 300 to 10 for faster test
@@ -286,23 +326,21 @@ describe("Basic Conversation Tests", () => {
 
     // Clear and send actual audio
     await session.sendEvent({
-      type: "input_audio_buffer.clear",
-      event_id: `clear-multi-${Date.now()}`,
+      type: KnownClientEventType.InputAudioBufferClear,
     });
 
-    const realAudio = generateTestAudio("Test message");
+    const realAudio = await generateTestAudio("Test message");
     await session.sendAudio(realAudio);
 
     await session.sendEvent({
-      type: "input_audio_buffer.commit",
-      event_id: `commit-multi-${Date.now()}`,
+      type: KnownClientEventType.InputAudioBufferCommit,
     });
 
     expect(session.isConnected).toBe(true);
   }, timeoutMs);
 
   it("should handle session disposal", async () => {
-    const session = await client.startSession("gpt-4o-realtime-preview");
+    const session = await client.startSession("gpt-4o");
     sessions.push(session);
 
     expect(session.isConnected).toBe(true);
@@ -311,206 +349,215 @@ describe("Basic Conversation Tests", () => {
 
     expect(session.isConnected).toBe(false);
   }, timeoutMs);
-});
 
-/**
- * Helper function to validate response update sequence
+  /**
+   * Helper function to validate response update sequence
+   */
+  function validateResponseUpdates(responseItems: any[], previousItemId?: string): void {
+    let responseId = "";
+    let responseItemId = "";
+    const deltaBuilders = new Map<string, string>();
 
-function validateResponseUpdates(responseItems: any[], previousItemId?: string): void {
-  let responseId = "";
-  let responseItemId = "";
-  const deltaBuilders = new Map<string, string>();
+    for (const item of responseItems) {
+      switch (item.type) {
+        case KnownServerEventType.ResponseCreated:
+          expect(responseId).toBe("");
+          expect(item.response).toBeDefined();
+          expect(item.response.status).toBe("in_progress");
+          responseId = item.response.id;
+          break;
 
-  for (const item of responseItems) {
-    switch (item.type) {
-      case "response.created":
-        expect(responseId).toBe("");
-        expect(item.response).toBeDefined();
-        expect(item.response.status).toBe("in_progress");
-        responseId = item.response.id;
-        break;
+        case KnownServerEventType.ResponseOutputItemAdded:
+          expect(item.response_id).toBe(responseId);
+          expect(item.output_index).toBe(0);
+          expect(item.item).toBeDefined();
+          responseItemId = item.item.id;
 
-      case "response.output_item.added":
-        expect(item.response_id).toBe(responseId);
-        expect(item.output_index).toBe(0);
-        expect(item.item).toBeDefined();
-        responseItemId = item.item.id;
+          if (item.item.type === KnownItemType.Message) {
+            expect(item.item.role).toBe(KnownMessageRole.Assistant);
+            expect(item.item.status).toBe(KnownResponseStatus.Incomplete);
+          } else if (item.item.type === KnownItemType.FunctionCall) {
+            expect(item.item.status).toBe(KnownResponseStatus.InProgress);
+            expect(item.item.name).toBeTruthy();
+            deltaBuilders.set(item.item.call_id, "");
+          }
+          break;
 
-        if (item.item.type === "message") {
-          expect(item.item.role).toBe("assistant");
-          expect(item.item.status).toBe("incomplete");
-        } else if (item.item.type === "function_call") {
-          expect(item.item.status).toBe("in_progress");
-          expect(item.item.name).toBeTruthy();
-          deltaBuilders.set(item.item.call_id, "");
+        case KnownServerEventType.ConversationItemCreated:
+          if (previousItemId !== undefined) {
+            expect(item.previous_item_id).toBe(previousItemId);
+          }
+          expect(item.item).toBeDefined();
+          break;
+
+        case KnownServerEventType.ResponseContentPartAdded:
+          expect(item.response_id).toBe(responseId);
+          expect(item.item_id).toBe(responseItemId);
+          expect(item.part).toBeDefined();
+          expect(item.output_index).toBe(0);
+          expect(item.content_index).toBeGreaterThanOrEqual(0);
+          deltaBuilders.set(item.item_id, "");
+          break;
+
+        case KnownServerEventType.ResponseTextDelta:
+          {
+            expect(item.response_id).toBe(responseId);
+            expect(item.item_id).toBe(responseItemId);
+            expect(item.delta).toBeTruthy();
+            const currentText = deltaBuilders.get(item.item_id) || "";
+            deltaBuilders.set(item.item_id, currentText + item.delta);
+            break;
+          }
+        case KnownServerEventType.ResponseAudioTranscriptDelta: {
+          expect(item.response_id).toBe(responseId);
+          expect(item.item_id).toBe(responseItemId);
+          expect(item.delta).toBeTruthy();
+          const currentTranscript = deltaBuilders.get(item.item_id) || "";
+          deltaBuilders.set(item.item_id, currentTranscript + item.delta);
+          break;
         }
-        break;
-
-      case "conversation.item.created":
-        if (previousItemId !== undefined) {
-          expect(item.previous_item_id).toBe(previousItemId);
+        case KnownServerEventType.ResponseAudioDelta: {
+          expect(item.response_id).toBe(responseId);
+          expect(item.item_id).toBe(responseItemId);
+          expect(item.delta).toBeTruthy();
+          break;
         }
-        expect(item.item).toBeDefined();
-        break;
-
-      case "response.content_part.added":
-        expect(item.response_id).toBe(responseId);
-        expect(item.item_id).toBe(responseItemId);
-        expect(item.part).toBeDefined();
-        expect(item.output_index).toBe(0);
-        expect(item.content_index).toBeGreaterThanOrEqual(0);
-        deltaBuilders.set(item.item_id, "");
-        break;
-
-      case "response.text.delta":
-        expect(item.response_id).toBe(responseId);
-        expect(item.item_id).toBe(responseItemId);
-        expect(item.delta).toBeTruthy();
-        const currentText = deltaBuilders.get(item.item_id) || "";
-        deltaBuilders.set(item.item_id, currentText + item.delta);
-        break;
-
-      case "response.audio_transcript.delta":
-        expect(item.response_id).toBe(responseId);
-        expect(item.item_id).toBe(responseItemId);
-        expect(item.delta).toBeTruthy();
-        const currentTranscript = deltaBuilders.get(item.item_id) || "";
-        deltaBuilders.set(item.item_id, currentTranscript + item.delta);
-        break;
-
-      case "response.audio.delta":
-        expect(item.response_id).toBe(responseId);
-        expect(item.item_id).toBe(responseItemId);
-        expect(item.delta).toBeTruthy();
-        break;
-
-      case "response.text.done":
-      case "response.audio_transcript.done":
-        expect(item.response_id).toBe(responseId);
-        expect(item.item_id).toBe(responseItemId);
-        expect(item.text || item.transcript).toBeTruthy();
-        const finalText = deltaBuilders.get(item.item_id) || "";
-        expect(item.text || item.transcript).toBe(finalText);
-        break;
-
-      case "response.content_part.done":
-        expect(item.response_id).toBe(responseId);
-        expect(item.item_id).toBe(responseItemId);
-        expect(item.part).toBeDefined();
-        break;
-
-      case "response.output_item.done":
-        expect(item.response_id).toBe(responseId);
-        expect(item.item).toBeDefined();
-
-        if (item.item.type === "message") {
-          expect(item.item.role).toBe("assistant");
-          expect(item.item.status).toBe("completed");
-          expect(item.item.content.length).toBeGreaterThan(0);
-        } else if (item.item.type === "function_call") {
-          expect(item.item.status).toBe("completed");
-          expect(item.item.name).toBeTruthy();
-          const finalArgs = deltaBuilders.get(item.item.call_id) || "";
-          expect(item.item.arguments).toBe(finalArgs);
+        case KnownServerEventType.ResponseTextDone:
+        case KnownServerEventType.ResponseAudioTranscriptDone: {
+          expect(item.response_id).toBe(responseId);
+          expect(item.item_id).toBe(responseItemId);
+          expect(item.text || item.transcript).toBeTruthy();
+          const finalText = deltaBuilders.get(item.item_id) || "";
+          expect(item.text || item.transcript).toBe(finalText);
+          break;
         }
-        break;
+        case KnownServerEventType.ResponseContentPartDone: {
+          expect(item.response_id).toBe(responseId);
+          expect(item.item_id).toBe(responseItemId);
+          expect(item.part).toBeDefined();
+          break;
+        }
+        case KnownServerEventType.ResponseOutputItemDone: {
+          expect(item.response_id).toBe(responseId);
+          expect(item.item).toBeDefined();
 
-      case "response.done":
-        expect(item.response).toBeDefined();
-        expect(item.response.status).toBe("completed");
-        expect(item.response.id).toBe(responseId);
-        expect(item.response.usage).toBeDefined();
-        expect(item.response.output.length).toBeGreaterThan(0);
-        break;
-
-      case "response.function_call_arguments.delta":
-        expect(item.response_id).toBe(responseId);
-        expect(item.item_id).toBe(responseItemId);
-        expect(item.delta).toBeTruthy();
-        const currentArgs = deltaBuilders.get(item.call_id) || "";
-        deltaBuilders.set(item.call_id, currentArgs + item.delta);
-        break;
-
-      case "response.function_call_arguments.done":
-        expect(item.response_id).toBe(responseId);
-        expect(item.item_id).toBe(responseItemId);
-        expect(item.arguments).toBeTruthy();
-        const finalArguments = deltaBuilders.get(item.call_id) || "";
-        expect(item.arguments).toBe(finalArguments);
-        break;
+          if (item.item.type === KnownItemType.Message) {
+            expect(item.item.role).toBe(KnownMessageRole.Assistant);
+            expect(item.item.status).toBe(KnownResponseStatus.Completed);
+            expect(item.item.content.length).toBeGreaterThan(0);
+          } else if (item.item.type === KnownItemType.FunctionCall) {
+            expect(item.item.status).toBe(KnownResponseStatus.Completed);
+            expect(item.item.name).toBeTruthy();
+            const finalArgs = deltaBuilders.get(item.item.call_id) || "";
+            expect(item.item.arguments).toBe(finalArgs);
+          }
+          break;
+        }
+        case KnownServerEventType.ResponseDone: {
+          expect(item.response).toBeDefined();
+          expect(item.response.status).toBe(KnownResponseStatus.Completed);
+          expect(item.response.id).toBe(responseId);
+          expect(item.response.usage).toBeDefined();
+          expect(item.response.output.length).toBeGreaterThan(0);
+          break;
+        }
+        case KnownServerEventType.ResponseFunctionCallArgumentsDelta: {
+          expect(item.response_id).toBe(responseId);
+          expect(item.item_id).toBe(responseItemId);
+          expect(item.delta).toBeTruthy();
+          const currentArgs = deltaBuilders.get(item.call_id) || "";
+          deltaBuilders.set(item.call_id, currentArgs + item.delta);
+          break;
+        }
+        case KnownServerEventType.ResponseFunctionCallArgumentsDone: {
+          expect(item.response_id).toBe(responseId);
+          expect(item.item_id).toBe(responseItemId);
+          expect(item.arguments).toBeTruthy();
+          const finalArguments = deltaBuilders.get(item.call_id) || "";
+          expect(item.arguments).toBe(finalArguments);
+          break;
+        }
+      }
     }
   }
-}
 
-it("should handle basic hello conversation with audio", async () => {
-  const sessionConfig = {
-    model: "gpt-4o-realtime-preview",
-    input_audio_format: "pcm16",
-  };
+  it("should handle basic hello conversation with audio", async () => {
+    const sessionConfig = {
+      model: "gpt-4o",
+      inputAudioFormat: KnownInputAudioFormat.Pcm16,
+      turnDetection: {
+        type: KnownTurnDetectionType.ServerVad,
+        threshold: 0.5,
+        prefixPaddingMs: 300,
+      }
+    } as RequestSession;
 
-  const session = await client.startSession(sessionConfig);
-  sessions.push(session);
+    const session = await client.createSession(sessionConfig);
+    sessions.push(session);
 
-  // Wait for session created and updated events
-  const sessionCreated = await getNextUpdate(session, "session.created");
-  const sessionUpdated = await getNextUpdate(session, "session.updated");
+    const recorder = new SessionEventRecorder(session); // Attach recorder first
 
-  expect(sessionUpdated.session.input_audio_format).toBe("pcm16");
-  expect(sessionCreated.session.id).toBe(sessionUpdated.session.id);
-  expect(sessionCreated.session.model).toBe(sessionUpdated.session.model);
+    await session.connect();
+    const sessionCreated = await recorder.waitForEvent(KnownServerEventType.SessionCreated) as ServerEventSessionCreated;
+    await session.updateSession(sessionConfig);
+    const sessionUpdated = await recorder.waitForEvent(KnownServerEventType.SessionUpdated) as ServerEventSessionUpdated;
 
-  // Send audio to the service
-  await sendAudio(session, "What is the weather like?");
+    expect(sessionUpdated.session.inputAudioFormat).toBe(KnownInputAudioFormat.Pcm16);
+    expect(sessionCreated.session.id).toBe(sessionUpdated.session.id);
+    expect(sessionCreated.session.model).toBe(sessionUpdated.session.model);
 
-  // Expect speech started event
-  const speechStarted = await getNextUpdate(session, "input_audio_buffer.speech_started");
-  expect(speechStarted.audio_start_ms).toBeGreaterThanOrEqual(0);
-  const inputAudioId = speechStarted.item_id;
+    // Send audio to the service
+    await sendAudio(session, "What is the weather like?");
 
-  // Expect speech ended event
-  const speechEnded = await getNextUpdate(session, "input_audio_buffer.speech_stopped");
-  expect(speechEnded.item_id).toBe(inputAudioId);
-  expect(speechEnded.audio_end_ms).toBeGreaterThan(speechStarted.audio_start_ms);
+    // Expect speech started event
+    const speechStarted = await recorder.waitForEvent(KnownServerEventType.InputAudioBufferSpeechStarted) as ServerEventInputAudioBufferSpeechStarted;
+    expect(speechStarted.audioStartInMs).toBeGreaterThanOrEqual(0);
+    const inputAudioId = speechStarted.itemId;
 
-  // Expect buffer committed event
-  const bufferCommitted = await getNextUpdate(session, "input_audio_buffer.committed");
-  expect(bufferCommitted.item_id).toBe(inputAudioId);
+    // Expect speech ended event
+    const speechEnded = await recorder.waitForEvent(KnownServerEventType.InputAudioBufferSpeechStopped) as ServerEventInputAudioBufferSpeechStopped;
+    expect(speechEnded.itemId).toBe(inputAudioId);
+    expect(speechEnded.audioEndInMs).toBeGreaterThan(speechStarted.audioStartInMs);
 
-  // Expect transcription completed event
-  const transcript = await getNextUpdate(session, "conversation.item.input_audio_transcription.completed");
-  expect(transcript.item_id).toBe(inputAudioId);
-  expect(transcript.transcript).toBeTruthy();
+    // Expect buffer committed event
+    const bufferCommitted = await recorder.waitForEvent(KnownServerEventType.InputAudioBufferCommitted) as ServerEventInputAudioBufferCommitted;
+    expect(bufferCommitted.itemId).toBe(inputAudioId);
 
-  // Expect conversation item created event
-  const conversationItemCreated = await getNextUpdate(session, "conversation.item.created");
-  expect(conversationItemCreated.previous_item_id).toBeNull();
-  expect(conversationItemCreated.item.type).toBe("message");
+    // Expect transcription completed event
+    const transcript = await recorder.waitForEvent(KnownServerEventType.ConversationItemInputAudioTranscriptionCompleted) as ServerEventConversationItemInputAudioTranscriptionCompleted;
+    expect(transcript.itemId).toBe(inputAudioId);
+    expect(transcript.transcript).toBeTruthy();
 
-  const message = conversationItemCreated.item;
-  expect(message.role).toBe("user");
-  expect(message.content.length).toBe(1);
-  expect(message.content[0].type).toBe("input_audio");
-  expect(message.content[0].transcript).toBe(transcript.transcript);
+    // Expect conversation item created event
+    const conversationItemCreated = await recorder.waitForEvent(KnownServerEventType.ConversationItemCreated) as ServerEventConversationItemCreated;
+    expect(conversationItemCreated.previousItemId).toBeNull();
+    expect(conversationItemCreated.item?.type).toBe(KnownItemType.Message);
 
-  // Expect response created event
-  const responseCreated = await getNextUpdate(session, "response.created");
+    const message = conversationItemCreated.item as MessageItem;
+    expect(message.role).toBe(KnownMessageRole.User);
+    expect(message.content.length).toBe(1);
+    expect(message.content[0].type).toBe(KnownContentPartType.InputAudio);
+    const inputItem = message.content[0] as InputAudioContentPart;
+    expect(inputItem.transcript).toBe(transcript.transcript);
 
-  // Collect all response updates until done
-  const responseItems = await collectResponseUpdates(session);
-  expect(responseItems.length).toBeGreaterThan(0);
+    // Expect response created event
+    const responseCreated = await recorder.waitForEvent(KnownServerEventType.ResponseCreated);
 
-  // Add response created to the beginning for validation
-  responseItems.unshift(responseCreated);
+    // Collect all response updates until done
+    const responseItems = await recorder.waitForEvents(KnownServerEventType.ResponseDone);
+    expect(responseItems.length).toBeGreaterThan(0);
 
-  // Validate the sequence of response updates
-  validateResponseUpdates(responseItems, message.id);
-}, timeoutMs);
+    // Add response created to the beginning for validation
+    responseItems.unshift(responseCreated);
 
-it("should handle basic tool call", async () => {
-  // Define addition function tool
-  const additionTool = {
-    type: "function",
-    function: {
+    // Validate the sequence of response updates
+    validateResponseUpdates(responseItems, message.id);
+  }, timeoutMs);
+
+  it("should handle basic tool call", async () => {
+    // Define addition function tool
+    const additionTool: FunctionTool = {
+      type: KnownToolType.Function,
       name: "add_numbers",
       description: "Add two numbers together",
       parameters: {
@@ -527,90 +574,90 @@ it("should handle basic tool call", async () => {
         },
         required: ["a", "b"],
       },
-    },
-  };
+    };
 
-  const sessionConfig = {
-    model: "gpt-4o-realtime-preview",
-    modalities: ["text"],
-    tools: [additionTool],
-  };
+    const sessionConfig: RequestSession = {
+      model: "gpt-4o",
+      modalities: [KnownModality.Text],
+      tools: [additionTool],
+    };
 
-  const session = await client.startSession(sessionConfig);
-  sessions.push(session);
+    const session = await client.createSession(sessionConfig);
+    sessions.push(session);
 
-  // Wait for session events
-  const sessionCreated = await getNextUpdate(session, "session.created");
-  const sessionUpdated = await getNextUpdate(session, "session.updated");
+    const recorder = new SessionEventRecorder(session);
 
-  expect(sessionUpdated.session.input_audio_format).toBe("pcm16");
-  expect(sessionCreated.session.id).toBe(sessionUpdated.session.id);
+    await session.connect();
+    const sessionCreated = await recorder.waitForEvent(KnownServerEventType.SessionCreated) as ServerEventSessionCreated;
+    await session.updateSession(sessionConfig);
+    const sessionUpdated = await recorder.waitForEvent(KnownServerEventType.SessionUpdated) as ServerEventSessionUpdated;
 
-  // Add text message item
-  const messageItem = {
-    type: "message",
-    role: "user",
-    content: [{
-      type: "input_text",
-      text: "What is 13 plus 29?",
-    }],
-  };
+    expect(sessionUpdated.session.inputAudioFormat).toBe(KnownInputAudioFormat.Pcm16);
+    expect(sessionCreated.session.id).toBe(sessionUpdated.session.id);
 
-  await session.addConversationItem(messageItem);
+    // Add text message item
+    const messageItem = {
+      type: KnownItemType.Message,
+      role: KnownMessageRole.User,
+      content: [{
+        type: "input_text",
+        text: "What is 13 plus 29?",
+      }],
+    };
 
-  // Expect conversation item created
-  const conversationItemCreated = await getNextUpdate(session, "conversation.item.created");
-  expect(conversationItemCreated.previous_item_id).toBeNull();
+    await session.addConversationItem(messageItem);
 
-  const message = conversationItemCreated.item;
-  expect(message.role).toBe("user");
-  expect(message.content.length).toBe(1);
-  expect(message.content[0].type).toBe("input_text");
-  expect(message.content[0].text).toBe(messageItem.content[0].text);
+    // Expect conversation item created
+    const conversationItemCreated = await recorder.waitForEvent(KnownServerEventType.ConversationItemCreated) as ServerEventConversationItemCreated;
+    expect(conversationItemCreated.previousItemId).toBeNull();
 
-  // Start response generation - need to send response.create event
-  await session.sendEvent({
-    type: "response.create",
-    event_id: "test-response-" + Date.now(),
-  });
+    const message = conversationItemCreated.item as MessageItem;
+    expect(message.role).toBe(KnownMessageRole.User);
+    expect(message.content.length).toBe(1);
+    expect(message.content[0].type).toBe(KnownContentPartType.InputText);
+    const textPart = message.content[0] as InputTextContentPart
+    expect(textPart.text).toBe(messageItem.content[0].text);
 
-  const responseCreated = await getNextUpdate(session, "response.created");
-  const responseItems = await collectResponseUpdates(session);
-  expect(responseItems.length).toBeGreaterThan(0);
+    // Start response generation - need to send response.create event
+    await session.sendEvent({
+      type: KnownClientEventType.ResponseCreate,
+    });
 
-  responseItems.unshift(responseCreated);
-  validateResponseUpdates(responseItems, "");
+    const responseCreated = await recorder.waitForEvent(KnownServerEventType.ResponseCreated);
+    const responseItems = await recorder.waitForEvents(KnownServerEventType.ResponseDone);
+    expect(responseItems.length).toBeGreaterThan(0);
 
-  // Find function call arguments done event
-  const callDone = responseItems.find(
-    (item) => item.type === "response.function_call_arguments.done"
-  );
-  expect(callDone).toBeDefined();
+    responseItems.unshift(responseCreated);
+    validateResponseUpdates(responseItems, "");
 
-  // Add function call output
-  const outputItem = {
-    type: "function_call_output",
-    call_id: callDone.call_id,
-    output: "42",
-  };
+    // Find function call arguments done event
+    const callDone = responseItems.find(
+      (item) => item.type === KnownServerEventType.ResponseFunctionCallArgumentsDone
+    ) as ServerEventResponseFunctionCallArgumentsDone;
+    expect(callDone).toBeDefined();
 
-  await session.addConversationItem(outputItem);
-  await getNextUpdate(session, "conversation.item.created");
+    // Add function call output
+    const outputItem = {
+      type: KnownItemType.FunctionCallOutput,
+      callId: callDone.callId,
+      output: "42",
+    };
 
-  // Generate another response
-  await session.sendEvent({
-    type: "response.create",
-    event_id: "test-response-2-" + Date.now(),
-  });
+    await session.addConversationItem(outputItem);
+    await recorder.waitForEvent(KnownServerEventType.ConversationItemCreated);
 
-  const functionResponses = await collectResponseUpdates(session);
-  expect(functionResponses.length).toBeGreaterThan(0);
-}, timeoutMs);
+    // Generate another response
+    await session.sendEvent({
+      type: KnownClientEventType.ResponseCreate,
+    });
 
-it("should handle parallel tool calls", async () => {
-  const additionTool = {
-    type: "function",
-    function: {
+    const functionResponses = await recorder.waitForEvents(KnownServerEventType.ResponseDone);
+    expect(functionResponses.length).toBeGreaterThan(0);
+  }, timeoutMs);
+
+  it("should handle parallel tool calls", async () => {
+    const additionTool: FunctionTool = {
+      type: KnownToolType.Function,
       name: "add_numbers",
       description: "Add two numbers together",
       parameters: {
@@ -621,231 +668,307 @@ it("should handle parallel tool calls", async () => {
         },
         required: ["a", "b"],
       },
-    },
-  };
+    };
 
-  const options: VoiceLiveSessionOptions = {
-    model: "gpt-4o-realtime-preview",
-    modalities: ["text"],
-    tools: [additionTool],
-  };
+    const sessionConfig: RequestSession = {
+      model: "gpt-4o",
+      modalities: [KnownModality.Text],
+      tools: [additionTool],
+    };
 
-  const session = await client.startSession(options);
-  sessions.push(session);
+    const session = await client.createSession(sessionConfig);
+    sessions.push(session);
 
-  // Wait for session events
-  await getNextUpdate(session, "session.created");
-  await getNextUpdate(session, "session.updated");
+    const recorder = new SessionEventRecorder(session);
 
-  // Add message with multiple parts
-  const content1 = { type: "input_text", text: "What is 13 plus 29?" };
-  const content2 = { type: "input_text", text: "What is 87 plus 11?" };
+    await session.connect();
+    await recorder.waitForEvent(KnownServerEventType.SessionCreated);
+    await session.updateSession(sessionConfig);
+    await recorder.waitForEvent(KnownServerEventType.SessionUpdated);
 
-  await session.sendMessage([content1, content2]);
+    // Add message with multiple parts
+    const content1 = { type: KnownContentPartType.InputText, text: "What is 13 plus 29?" };
+    const content2 = { type: KnownContentPartType.InputText, text: "What is 87 plus 11?" };
 
-  const conversationItemCreated = await getNextUpdate(session, "conversation.item.created");
-  const message = conversationItemCreated.item;
-  expect(message.role).toBe("user");
-  expect(message.content.length).toBe(2);
-  expect(message.content[0].text).toBe(content1.text);
-  expect(message.content[1].text).toBe(content2.text);
+    const messageItem = {
+      type: KnownItemType.Message,
+      role: KnownMessageRole.User,
+      content: [content1, content2],
+    } as MessageItem;
 
-  // Start response
-  await session.generateResponse();
+    const messageEvent = {
+      type: KnownClientEventType.ConversationItemCreate,
+      item: messageItem,
+    };
 
-  const responseCreated = await getNextUpdate(session, "response.created");
-  const responseItems = await collectResponseUpdates(session);
+    await session.sendEvent(messageEvent);
 
-  responseItems.unshift(responseCreated);
-  validateResponseUpdates(responseItems, "");
+    const conversationItemCreated = await recorder.waitForEvent(KnownServerEventType.ConversationItemCreated) as ServerEventConversationItemCreated;
+    const message = conversationItemCreated.item as MessageItem;
+    expect(message.role).toBe(KnownMessageRole.User);
+    expect(message.content.length).toBe(2);
+    const contentPart1 = message.content[0] as InputTextContentPart;
+    const contentPart2 = message.content[1] as InputTextContentPart;
 
-  // Should have two function call done events for parallel calls
-  const callDones = responseItems.filter(
-    (item) => item.type === "response.function_call_arguments.done"
-  );
-  expect(callDones.length).toBe(2);
+    expect(contentPart1.text).toBe(content1.text);
+    expect(contentPart2.text).toBe(content2.text);
 
-  // Add outputs for both function calls
-  await session.sendMessage([{
-    type: "function_call_output",
-    call_id: callDones[0].call_id,
-    output: "42",
-  }]);
+    // Start response
+    await session.sendEvent({
+      type: KnownClientEventType.ResponseCreate,
+    });
 
-  await session.sendMessage([{
-    type: "function_call_output",
-    call_id: callDones[1].call_id,
-    output: "98",
-  }]);
+    const responseCreated = await recorder.waitForEvent(KnownServerEventType.ResponseCreated);
+    const responseItems = await recorder.waitForEvents(KnownServerEventType.ResponseDone);
 
-  await getNextUpdate(session, "conversation.item.created");
-  await getNextUpdate(session, "conversation.item.created");
+    responseItems.unshift(responseCreated);
+    validateResponseUpdates(responseItems, "");
 
-  // Generate final response
-  await session.generateResponse();
-  const functionResponses = await collectResponseUpdates(session);
-  expect(functionResponses.length).toBeGreaterThan(0);
-}, timeoutMs);
+    // Should have two function call done events for parallel calls
+    const callDones = responseItems.filter(
+      (item) => item.type === KnownServerEventType.ResponseFunctionCallArgumentsDone
+    );
 
-it("should handle instruction configuration", async () => {
-  const options: VoiceLiveSessionOptions = {
-    model: "gpt-4o-realtime-preview",
-    modalities: ["text"],
-    instructions: "Your name is Frank. Never forget that!",
-  };
+    expect(callDones.length).toBe(2);
 
-  const session = await client.startSession(options);
-  sessions.push(session);
+    const call1Done = callDones[0] as ServerEventResponseFunctionCallArgumentsDone;
+    const call2Done = callDones[1] as ServerEventResponseFunctionCallArgumentsDone;
 
-  await getNextUpdate(session, "session.created");
-  await getNextUpdate(session, "session.updated");
+    // Add outputs for both function calls
+    await session.sendEvent({
+      type: KnownClientEventType.ConversationItemCreate,
+      item: {
+        type: KnownItemType.FunctionCallOutput,
+        callId: call1Done.callId,
+        output: "42",
+      }
+    });
 
-  // Ask for name
-  await session.sendMessage([{
-    type: "input_text",
-    text: "What is your name?",
-  }]);
+    await session.sendEvent({
+      type: KnownClientEventType.ConversationItemCreate,
+      item: {
+        type: KnownItemType.FunctionCallOutput,
+        callId: call2Done.callId,
+        output: "98",
+      }
+    });
 
-  await getNextUpdate(session, "conversation.item.created");
+    await recorder.waitForEvent(KnownServerEventType.ConversationItemCreated);
+    await recorder.waitForEvent(KnownServerEventType.ConversationItemCreated);
 
-  await session.generateResponse();
-  const responses = await collectResponseUpdates(session);
-  expect(responses.length).toBeGreaterThan(0);
+    // Generate final response
+    await session.sendEvent({
+      type: KnownClientEventType.ResponseCreate,
+    });
+    const functionResponses = await recorder.waitForEvents(KnownServerEventType.ResponseDone);
+    expect(functionResponses.length).toBeGreaterThan(0);
+  }, timeoutMs);
 
-  const responseDone = responses.find((r) => r.type === "response.done");
-  expect(responseDone).toBeDefined();
-  expect(responseDone.response.output.length).toBeGreaterThan(0);
+  it("should handle instruction configuration", async () => {
+    const sessionConfig: RequestSession = {
+      model: "gpt-4o",
+      modalities: [KnownModality.Text],
+      instructions: "Your name is Frank. Never forget that!",
+    };
 
-  const messageItem = responseDone.response.output.find(
-    (item: any) => item.type === "message"
-  );
-  expect(messageItem).toBeDefined();
+    const session = await client.createSession(sessionConfig);
+    sessions.push(session);
 
-  const textPart = messageItem.content.find((part: any) => part.type === "text");
-  expect(textPart).toBeDefined();
-  expect(textPart.text).toContain("Frank");
+    const recorder = new SessionEventRecorder(session);
 
-  // Update instructions
-  await session.updateSession({
-    ...options,
-    instructions: "Your name is Samantha. Never forget that!",
-  });
+    await session.connect();
+    await recorder.waitForEvent(KnownServerEventType.SessionCreated);
+    await session.updateSession(sessionConfig);
+    await recorder.waitForEvent(KnownServerEventType.SessionUpdated);
 
-  await getNextUpdate(session, "session.updated");
+    // Ask for name
+    await session.sendEvent({
+      type: KnownClientEventType.ConversationItemCreate,
+      item: {
+        type: KnownItemType.Message,
+        role: KnownMessageRole.User,
+        content: [{
+          type: KnownContentPartType.InputText,
+          text: "What is your name?",
+        }],
+      },
+    });
 
-  // Ask for name again
-  await session.sendMessage([{
-    type: "input_text",
-    text: "What is your name?",
-  }]);
+    await recorder.waitForEvent(KnownServerEventType.ConversationItemCreated);
 
-  await getNextUpdate(session, "conversation.item.created");
-  await session.generateResponse();
+    await session.sendEvent({
+      type: KnownClientEventType.ResponseCreate,
+    });
+    const responses = await recorder.waitForEvents(KnownServerEventType.ResponseDone);
+    expect(responses.length).toBeGreaterThan(0);
 
-  const newResponses = await collectResponseUpdates(session);
-  const newResponseDone = newResponses.find((r) => r.type === "response.done");
-  const newMessageItem = newResponseDone.response.output.find(
-    (item: any) => item.type === "message"
-  );
-  const newTextPart = newMessageItem.content.find((part: any) => part.type === "text");
-  expect(newTextPart.text).toContain("Samantha");
-}, timeoutMs);
+    const responseDone = responses.find((r) => r.type === KnownServerEventType.ResponseDone) as ServerEventResponseDone;
+    expect(responseDone).toBeDefined();
+    const response = responseDone.response as Response;
+    expect(responseDone.response.output?.length).toBeGreaterThan(0);
 
-it("should handle turn detection configuration", async () => {
-  const options: VoiceLiveSessionOptions = {
-    model: "gpt-4o-realtime-preview",
-    inputAudioFormat: "pcm16",
-    turnDetection: {
-      type: "server_vad",
-      threshold: 0.5,
-      prefix_padding_ms: 300,
-      silence_duration_ms: 500,
-    },
-  };
+    const messageItem = responseDone.response.output?.find(
+      (item: any) => item.type === KnownItemType.Message
+    ) as MessageItem;
+    expect(messageItem).toBeDefined();
 
-  const session = await client.startSession(options);
-  sessions.push(session);
+    const textPart = messageItem.content.find((part: any) => part.type === "text") as OutputTextContentPart;
+    expect(textPart).toBeDefined();
+    expect(textPart.text).toContain("Frank");
 
-  const sessionCreated = await getNextUpdate(session, "session.created");
-  const sessionUpdated = await getNextUpdate(session, "session.updated");
+    // Update instructions
+    await session.updateSession({
+      ...sessionConfig,
+      instructions: "Your name is Samantha. Never forget that!",
+    });
 
-  // Default turn detection should be server VAD
-  expect(sessionCreated.session.turn_detection.type).toBe("server_vad");
+    await recorder.waitForEvent(KnownServerEventType.SessionUpdated);
 
-  // Updated turn detection should match our configuration
-  expect(sessionUpdated.session.turn_detection.type).toBe("server_vad");
-  expect(sessionUpdated.session.turn_detection.threshold).toBe(0.5);
-}, timeoutMs);
+    // Ask for name again
+    await session.sendEvent({
+      type: KnownClientEventType.ConversationItemCreate,
+      item: {
+        type: KnownItemType.Message,
+        role: KnownMessageRole.User,
+        content: [{
+          type: KnownContentPartType.InputText,
+          text: "What is your name?",
+        }],
+      },
+    });
 
-it("should handle clear buffer and commit flow", async () => {
-  const options: VoiceLiveSessionOptions = {
-    model: "gpt-4o-realtime-preview",
-    inputAudioFormat: "pcm16",
-    turnDetection: { type: "none" }, // Disable turn detection
-  };
+    await recorder.waitForEvent(KnownServerEventType.ConversationItemCreated);
+    await session.sendEvent({
+      type: KnownClientEventType.ResponseCreate,
+    });
 
-  const session = await client.startSession(options);
-  sessions.push(session);
+    const newResponses = await recorder.waitForEvents(KnownServerEventType.ResponseDone);
+    const newResponseDone = newResponses.find((r) => r.type === KnownServerEventType.ResponseDone) as ServerEventResponseDone;
 
-  await getNextUpdate(session, "session.created");
-  await getNextUpdate(session, "session.updated");
+    const newMessageItem = newResponseDone.response.output?.find(
+      (item: any) => item.type === KnownItemType.Message
+    ) as MessageItem;
+    const newTextPart = newMessageItem.content?.find((part: any) => part.type === "text") as OutputTextContentPart;
+    expect(newTextPart.text).toContain("Samantha");
+  }, timeoutMs);
 
-  // Send some audio then clear it
-  await sendAudio(session, "What is the weather like?");
-  await session.clearAudioBuffer();
+  it("should handle turn detection configuration with custom settings", async () => {
+    const sessionConfig: RequestSession = {
+      model: "gpt-4o",
+      inputAudioFormat: KnownInputAudioFormat.Pcm16,
+      turnDetection: {
+        type: KnownTurnDetectionType.ServerVad,
+        threshold: 0.5,
+        prefixPaddingMs: 300,
+        silenceDurationMs: 500,
+      } as ServerVad,
+    };
 
-  // Send different audio and commit
-  await sendAudio(session, "Computer, how old are you?");
-  await session.commitAudioBuffer();
+    const session = await client.createSession(sessionConfig);
+    sessions.push(session);
 
-  const bufferCommitted = await getNextUpdate(session, "input_audio_buffer.committed");
-  expect(bufferCommitted.item_id).toBeTruthy();
+    const recorder = new SessionEventRecorder(session);
 
-  // Generate response
-  await session.generateResponse();
-  const responses = await collectResponseUpdates(session);
-  expect(responses.length).toBeGreaterThan(0);
+    await session.connect();
+    const sessionCreated = await recorder.waitForEvent(KnownServerEventType.SessionCreated) as ServerEventSessionCreated;
+    await session.updateSession(sessionConfig);
+    const sessionUpdated = await recorder.waitForEvent(KnownServerEventType.SessionUpdated) as ServerEventSessionUpdated;
 
-  const responseDone = responses.find((r) => r.type === "response.done");
-  expect(responseDone).toBeDefined();
-  expect(responseDone.response.output.length).toBeGreaterThan(0);
-}, timeoutMs);
+    // Default turn detection should be server VAD
+    expect(sessionCreated.session.turnDetection?.type).toBe(KnownTurnDetectionType.ServerVad);
 
-it("should handle multiple audio frames", async () => {
-  const options: VoiceLiveSessionOptions = {
-    model: "gpt-4o-realtime-preview",
-    inputAudioFormat: "pcm16",
-    turnDetection: { type: "none" },
-  };
+    // Updated turn detection should match our configuration
+    expect(sessionUpdated.session.turnDetection?.type).toBe(KnownTurnDetectionType.ServerVad);
+    const turnDetection = sessionUpdated.session.turnDetection as ServerVad;
+    expect(turnDetection.threshold).toBe(0.5);
+  }, timeoutMs);
 
-  const session = await client.startSession(options);
-  sessions.push(session);
+  it("should handle clear buffer and commit flow", async () => {
+    const sessionConfig: RequestSession = {
+      model: "gpt-4o",
+      inputAudioFormat: KnownInputAudioFormat.Pcm16,
+      turnDetection: undefined, // Disable turn detection
+    };
 
-  await getNextUpdate(session, "session.created");
-  await getNextUpdate(session, "session.updated");
+    const session = await client.createSession(sessionConfig);
+    sessions.push(session);
 
-  // Send many small audio frames
-  for (let i = 0; i < 300; i++) {
-    const emptyAudio = new Uint8Array(3200); // 3200 bytes of silence
-    await session.sendAudio(emptyAudio);
-  }
+    const recorder = new SessionEventRecorder(session);
 
-  await session.clearAudioBuffer();
+    await session.connect();
+    await recorder.waitForEvent(KnownServerEventType.SessionCreated);
+    await session.updateSession(sessionConfig);
+    await recorder.waitForEvent(KnownServerEventType.SessionUpdated);
 
-  // Now send actual audio
-  await sendAudio(session, "What is the weather like?");
-  await session.commitAudioBuffer();
+    // Send some audio then clear it
+    await sendAudio(session, "What is the weather like?");
+    await session.sendEvent({
+      type: KnownClientEventType.InputAudioBufferClear,
+    });
 
-  const bufferCommitted = await getNextUpdate(session, "input_audio_buffer.committed");
-  const speechTranscribed = await getNextUpdate(
-    session,
-    "conversation.item.input_audio_transcription.completed"
-  );
+    // Send different audio and commit
+    await sendAudio(session, "Computer, how old are you?");
+    await session.sendEvent({
+      type: KnownClientEventType.InputAudioBufferCommit,
+    });
 
-  expect(speechTranscribed.transcript.length).toBeGreaterThan(0);
-}, timeoutMs);
-  });
-  */
+    const bufferCommitted = await recorder.waitForEvent(KnownServerEventType.InputAudioBufferCommitted) as ServerEventInputAudioBufferCommitted;
+    expect(bufferCommitted.itemId).toBeTruthy();
+
+    // Generate response
+    await session.sendEvent({
+      type: KnownClientEventType.ResponseCreate,
+    });
+    const responses = await recorder.waitForEvents(KnownServerEventType.ResponseDone);
+    expect(responses.length).toBeGreaterThan(0);
+
+    const responseDone = responses.find((r) => r.type === KnownServerEventType.ResponseDone) as ServerEventResponseDone;
+    expect(responseDone).toBeDefined();
+    expect(responseDone.response.output?.length).toBeGreaterThan(0);
+  }, timeoutMs);
+
+  it("should handle multiple audio frames with transcription", async () => {
+    const sessionConfig: RequestSession = {
+      model: "gpt-4o",
+      inputAudioFormat: KnownInputAudioFormat.Pcm16,
+      turnDetection: undefined,
+    };
+
+    const session = await client.createSession(sessionConfig);
+    sessions.push(session);
+
+    const recorder = new SessionEventRecorder(session);
+
+    await session.connect();
+    await recorder.waitForEvent(KnownServerEventType.SessionCreated);
+    await session.updateSession(sessionConfig);
+    await recorder.waitForEvent(KnownServerEventType.SessionUpdated);
+
+    // Send many small audio frames
+    for (let i = 0; i < 300; i++) {
+      const emptyAudio = new Uint8Array(3200); // 3200 bytes of silence
+      await session.sendAudio(emptyAudio);
+    }
+
+    await session.sendEvent({
+      type: KnownClientEventType.InputAudioBufferClear,
+    });
+
+    // Now send actual audio
+    await sendAudio(session, "What is the weather like?");
+    await session.sendEvent({
+      type: KnownClientEventType.InputAudioBufferCommit,
+    });
+
+    const bufferCommitted = await recorder.waitForEvent(KnownServerEventType.InputAudioBufferCommitted) as ServerEventInputAudioBufferCommitted;
+    const speechTranscribed = await recorder.waitForEvent(
+      KnownServerEventType.ConversationItemInputAudioTranscriptionCompleted
+    ) as ServerEventConversationItemInputAudioTranscriptionCompleted;
+
+    expect(speechTranscribed.transcript.length).toBeGreaterThan(0);
+  }, timeoutMs);
+});
+
 
 
 

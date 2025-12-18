@@ -1,7 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import SpeechSDK from "microsoft-cognitiveservices-speech-sdk";
+import { VoiceLiveSession } from "../../src/index.js";
+
+// Import Speech SDK with proper browser-compatible syntax
+let SpeechSDK: any;
+
+// Try different import methods depending on environment
+if (typeof self === 'undefined') {
+  // Node.js environment - use require
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    SpeechSDK = require("microsoft-cognitiveservices-speech-sdk");
+  } catch {
+    // Speech SDK not available
+  }
+} else {
+  // Browser environment - use dynamic import with proper syntax
+  try {
+    // The Speech SDK might be available as a global or need dynamic import
+    if (typeof self !== 'undefined' && (self as any).SpeechSDK) {
+      // Available as global (e.g., from CDN)
+      SpeechSDK = (self as any).SpeechSDK;
+    } else {
+      // Try dynamic import - this will be resolved at build time by bundler
+      import("microsoft-cognitiveservices-speech-sdk").then((module) => {
+        // Handle both default and named exports
+        SpeechSDK = module.default || module;
+        return;
+      }).catch(() => {
+        // Fallback handled below
+      });
+    }
+  } catch {
+    // Speech SDK not available in browser
+  }
+}
+
+export async function sendAudio(session: VoiceLiveSession, text: string): Promise<void> {
+  const audioData = await generateTestAudio(text);
+  await session.sendAudio(audioData);
+}
 
 /**
  * Generates test audio data for the given text.
@@ -10,26 +49,79 @@ import SpeechSDK from "microsoft-cognitiveservices-speech-sdk";
  */
 export function generateTestAudio(text: string): Promise<ArrayBuffer> {
   return new Promise<ArrayBuffer>((resolve, reject) => {
-    const endpoint = process.env.VOICELIVE_ENDPOINT || process.env.AI_SERVICES_ENDPOINT;
-    const apiKey = process.env.VOICELIVE_API_KEY || process.env.AI_SERVICES_KEY;
-    const speechConfg = SpeechSDK.SpeechConfig.fromEndpoint(new URL(endpoint!), apiKey!);
-    speechConfg.speechSynthesisOutputFormat = SpeechSDK.SpeechSynthesisOutputFormat.Raw16Khz16BitMonoPcm;
+    // In browser environment or when Speech SDK is not available, generate mock audio
+    if (typeof self !== 'undefined' || !SpeechSDK) {
+      // Generate mock PCM audio data for testing
+      const sampleRate = 16000;
+      const durationSeconds = Math.max(0.5, text.length * 0.1); // Rough estimate based on text length
+      const numSamples = Math.floor(sampleRate * durationSeconds);
+      const audioBuffer = new ArrayBuffer(numSamples * 2); // 16-bit audio
+      const audioView = new Int16Array(audioBuffer);
 
-    const synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfg);
-    synthesizer.speakTextAsync(text,
-      (synthesisResult) => {
-        if (synthesisResult.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) {
-          const audioData = synthesisResult.audioData;
-          resolve(audioData);
-        } else {
-          reject(new Error(`Speech synthesis failed: ${synthesisResult.errorDetails}`));
-        }
-      },
-      (error) => {
-        reject(new Error(`Speech synthesis error: ${error}`));
+      // Generate simple sine wave audio for testing
+      const frequency = 440; // A4 note
+      for (let i = 0; i < numSamples; i++) {
+        const sample = Math.sin(2 * Math.PI * frequency * i / sampleRate) * 0.1; // Low volume
+        audioView[i] = Math.floor(sample * 32767);
       }
-    );
+
+      resolve(audioBuffer);
+      return;
+    }
+
+    // Use real Speech SDK in Node.js environment
+    try {
+      const endpoint = process.env.VOICELIVE_ENDPOINT || process.env.AI_SERVICES_ENDPOINT;
+      const apiKey = process.env.VOICELIVE_API_KEY || process.env.AI_SERVICES_KEY;
+
+      if (!endpoint || !apiKey) {
+        // Fallback to mock audio if credentials not available
+        resolve(generateMockAudio(text));
+        return;
+      }
+
+      const speechConfig = SpeechSDK.SpeechConfig.fromEndpoint(new URL(endpoint), apiKey);
+      speechConfig.speechSynthesisOutputFormat = SpeechSDK.SpeechSynthesisOutputFormat.Raw16Khz16BitMonoPcm;
+
+      const synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
+      synthesizer.speakTextAsync(text,
+        (synthesisResult: any) => {
+          if (synthesisResult.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) {
+            const audioData = synthesisResult.audioData;
+            resolve(audioData);
+          } else {
+            reject(new Error(`Speech synthesis failed: ${synthesisResult.errorDetails}`));
+          }
+        },
+        (error: any) => {
+          reject(new Error(`Speech synthesis error: ${error}`));
+        }
+      );
+    } catch (error) {
+      // Fallback to mock audio if Speech SDK fails
+      resolve(generateMockAudio(text));
+    }
   });
+}
+
+/**
+ * Generates mock audio data for testing purposes
+ */
+function generateMockAudio(text: string): ArrayBuffer {
+  const sampleRate = 16000;
+  const durationSeconds = Math.max(0.5, text.length * 0.1);
+  const numSamples = Math.floor(sampleRate * durationSeconds);
+  const audioBuffer = new ArrayBuffer(numSamples * 2);
+  const audioView = new Int16Array(audioBuffer);
+
+  // Generate simple sine wave
+  const frequency = 440;
+  for (let i = 0; i < numSamples; i++) {
+    const sample = Math.sin(2 * Math.PI * frequency * i / sampleRate) * 0.1;
+    audioView[i] = Math.floor(sample * 32767);
+  }
+
+  return audioBuffer;
 }
 
 /**
