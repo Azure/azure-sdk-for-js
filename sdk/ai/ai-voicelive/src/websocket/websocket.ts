@@ -3,6 +3,8 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import WebSocket from "ws";
+import { HttpsProxyAgent } from "https-proxy-agent";
+import { isNode } from "@azure/core-util";
 import {
   WebSocketState,
   type VoiceLiveWebSocketLike,
@@ -73,11 +75,40 @@ export class VoiceLiveWebSocket implements VoiceLiveWebSocketLike {
       }
 
       try {
-        this._ws = new WebSocket(url, protocols, {
+        const wsOptions: WebSocket.ClientOptions = {
           headers: this._options.headers,
           maxPayload: this._options.maxMessageSize,
           perMessageDeflate: this._options.compression,
-        });
+        };
+
+        // Add proxy agent if proxy options are provided and we're in Node.js
+        if (isNode && this._options.proxyOptions) {
+          const { host, port, username, password } = this._options.proxyOptions;
+          
+          // Build proxy URL with authentication if provided
+          let proxyUrl = host;
+          if (!proxyUrl.includes("://")) {
+            proxyUrl = `http://${proxyUrl}`;
+          }
+          
+          // Remove trailing slash if present
+          proxyUrl = proxyUrl.replace(/\/$/, "");
+          
+          // Add port
+          proxyUrl = `${proxyUrl}:${port}`;
+          
+          // Add authentication if provided
+          if (username && password) {
+            const url = new URL(proxyUrl);
+            url.username = username;
+            url.password = password;
+            proxyUrl = url.toString();
+          }
+          
+          wsOptions.agent = new HttpsProxyAgent(proxyUrl);
+        }
+
+        this._ws = new WebSocket(url, protocols, wsOptions);
 
         this._url = url;
 
