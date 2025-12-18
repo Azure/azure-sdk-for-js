@@ -140,7 +140,7 @@ function exampleNodeInvocation(info: SampleReadmeConfiguration) {
     .map((envVar) => `${envVar}="<${envVar.replace(/_/g, " ").toLowerCase()}>"`)
     .join(" ");
 
-  const command = envVars !== "" ? `cross-env ${envVars} node` : "node";
+  const command = envVars !== "" ? `npx cross-env ${envVars} node` : "node";
 
   return `${command} ${
     info.useTypeScript ? "dist/" : ""
@@ -267,7 +267,7 @@ ${fence(
   })()}`,
 )}
 
-Alternatively, run a single sample with the correct environment variables set (setting up the \`.env\` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the \`.env\` file is not required if you do this), for example (cross-platform):
 
 ${fence("bash", `${exampleNodeInvocation(info)}`)}
 
