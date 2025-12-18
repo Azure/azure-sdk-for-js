@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import { defineConfig } from "vitest/config";
-import viteConfig from "../../../vitest.shared.config.ts";
+import config from "./vitest.config.ts";
 
 export default defineConfig({
-  ...viteConfig,
+  ...config,
   test: {
-    ...viteConfig.test,
+    ...config.test,
     // Enable verbose reporting
     reporter: ["verbose", "junit"],
     // Show console.log statements
@@ -21,7 +21,7 @@ export default defineConfig({
     },
     // Environment variables for debugging
     env: {
-      ...viteConfig.test?.env,
+      ...config.test?.env,
       AZURE_LOG_LEVEL: "verbose",
       DEBUG: "azure:ai-voicelive:*",
     },

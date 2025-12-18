@@ -32,7 +32,7 @@ export class VoiceLiveMessageParser {
       } else {
         messageText = data;
       }
-
+console.log('Parsing incoming message data:', messageText);
       const parsedData = JSON.parse(messageText);
 
       // Validate and type the message based on the 'type' field

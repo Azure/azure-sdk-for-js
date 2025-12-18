@@ -3,17 +3,19 @@
 
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type {
-  RequestSession,
-  ClientEventSessionUpdate,
-  ClientEventUnion,
-  ClientEventInputAudioBufferAppend,
-  ClientEventInputAudioTurnStart,
-  ClientEventInputAudioTurnAppend,
-  ClientEventInputAudioTurnEnd,
-  ConversationRequestItem,
-  ClientEventConversationItemCreate,
-  ServerEventUnion,
+import {
+  type RequestSession,
+  type ClientEventSessionUpdate,
+  type ClientEventUnion,
+  type ClientEventInputAudioBufferAppend,
+  type ClientEventInputAudioTurnStart,
+  type ClientEventInputAudioTurnAppend,
+  type ClientEventInputAudioTurnEnd,
+  type ConversationRequestItem,
+  type ClientEventConversationItemCreate,
+  type ServerEventUnion,
+  KnownClientEventType,
+  KnownServerEventType,
 } from "./models/index.js";
 import { ConnectionManager, ConnectionState } from "./websocket/connectionManager.js";
 import { VoiceLiveWebSocketFactory } from "./websocket/websocketFactory.js";
@@ -39,9 +41,9 @@ export interface VoiceLiveSessionOptions {
   enableDebugLogging?: boolean;
 }
 
-export interface CreateSessionOptions extends VoiceLiveSessionOptions {}
+export interface CreateSessionOptions extends VoiceLiveSessionOptions { }
 
-export interface StartSessionOptions extends VoiceLiveSessionOptions {}
+export interface StartSessionOptions extends VoiceLiveSessionOptions { }
 export interface ConnectOptions {
   /** Abort signal to cancel connection attempt */
   abortSignal?: AbortSignalLike;
@@ -203,7 +205,6 @@ export class VoiceLiveSession {
 
   /**
    * Subscribe to VoiceLive session events using strongly-typed handlers.
-   * This follows the Azure SDK pattern used by EventHub, Service Bus, etc.
    *
    * @param handlers - Handler functions for different types of events
    * @returns A subscription object that can be used to stop receiving events
@@ -230,7 +231,7 @@ export class VoiceLiveSession {
     this._ensureConnected();
 
     const updateEvent: ClientEventSessionUpdate = {
-      type: "session.update",
+      type: KnownClientEventType.SessionUpdate,
       session: session,
       eventId: this._generateEventId(),
     };
@@ -252,7 +253,7 @@ export class VoiceLiveSession {
     if (options.turnId) {
       // Turn-based audio
       const appendEvent: ClientEventInputAudioTurnAppend = {
-        type: "input_audio.turn.append",
+        type: KnownClientEventType.InputAudioTurnAppend,
         audio: audioBase64,
         turnId: options.turnId,
         eventId: this._generateEventId(),
@@ -261,7 +262,7 @@ export class VoiceLiveSession {
     } else {
       // Buffer-based audio (VAD mode)
       const bufferEvent: ClientEventInputAudioBufferAppend = {
-        type: "input_audio_buffer.append",
+        type: KnownClientEventType.InputAudioBufferAppend,
         audio: audioBase64,
         eventId: this._generateEventId(),
       };
@@ -279,7 +280,7 @@ export class VoiceLiveSession {
     this._activeTurnId = turnId;
 
     const startEvent: ClientEventInputAudioTurnStart = {
-      type: "input_audio.turn.start",
+      type: KnownClientEventType.InputAudioTurnStart,
       turnId: turnId,
       eventId: this._generateEventId(),
     };
@@ -300,7 +301,7 @@ export class VoiceLiveSession {
     }
 
     const endEvent: ClientEventInputAudioTurnEnd = {
-      type: "input_audio.turn.end",
+      type: KnownClientEventType.InputAudioTurnEnd,
       turnId: targetTurnId,
       eventId: this._generateEventId(),
     };
@@ -322,7 +323,7 @@ export class VoiceLiveSession {
     this._ensureConnected();
 
     const createEvent: ClientEventConversationItemCreate = {
-      type: "conversation.item.create",
+      type: KnownClientEventType.ConversationItemCreate,
       item: item,
       eventId: this._generateEventId(),
     };
@@ -481,7 +482,7 @@ export class VoiceLiveSession {
 
   private _handleServerEvent(event: any): void {
     // Extract session information from events
-    if (event.type === "session.created" && event.session?.id) {
+    if (event.type === KnownServerEventType.SessionCreated && event.session?.id) {
       this._sessionId = event.session.id;
       logger.info("Session created", { sessionId: this._sessionId });
     }
