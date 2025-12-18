@@ -3,7 +3,11 @@
 
 import { assert } from "vitest";
 import type { Expectation } from "./types.js";
-import type { MonitorBase, RequestData, TelemetryItem as Envelope } from "../../src/generated/index.js";
+import type {
+  MonitorBase,
+  RequestData,
+  TelemetryItem as Envelope,
+} from "../../src/generated/index.js";
 import { KnownContextTagKeys } from "../../src/generated/index.js";
 
 export const assertData = (actual: MonitorBase, expected: MonitorBase): void => {
@@ -92,9 +96,7 @@ export const assertTraceExpectation = (actual: Envelope[], expectations: Expecta
 
     if ((expectation.data?.baseData as any)?.name) {
       envelope = actual.filter((e) => {
-        return (
-          (e.data!.baseData as any).name === (expectation.data!.baseData as any).name
-        );
+        return (e.data!.baseData as any).name === (expectation.data!.baseData as any).name;
       });
     } else {
       envelope = actual.filter((e) => {
