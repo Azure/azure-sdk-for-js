@@ -3,7 +3,7 @@ trigger: none
 extends:
     template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
-      Location: westus2
+      Location: westus3
       PackageName: "@azure/identity"
       ServiceDirectory: identity
       TimeoutInMinutes: 120
