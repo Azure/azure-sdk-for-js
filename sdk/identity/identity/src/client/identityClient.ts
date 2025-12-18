@@ -254,7 +254,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     this.logIdentifiers(response);
 
     return {
-      body: response.bodyAsText ? JSON.parse(response.bodyAsText) : undefined,
+      body: this.parseResponseBody(response) as T,
       headers: response.headers.toJSON(),
       status: response.status,
     };
@@ -279,7 +279,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     this.logIdentifiers(response);
 
     return {
-      body: response.bodyAsText ? JSON.parse(response.bodyAsText) : undefined,
+      body: this.parseResponseBody(response) as T,
       headers: response.headers.toJSON(),
       status: response.status,
     };
@@ -332,5 +332,48 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         e.message,
       );
     }
+  }
+
+  private parseResponseBody(response: PipelineResponse) {
+    const HttpStatus = {
+      CLIENT_ERROR_RANGE_START: 400,
+      CLIENT_ERROR_RANGE_END: 499,
+      SERVER_ERROR_RANGE_START: 500,
+      SERVER_ERROR_RANGE_END: 599,
+    };
+    let parsedBody: {};
+    try {
+      parsedBody = JSON.parse(response.bodyAsText || "");
+    } catch (error) {
+      logger.info("IdentityClient: Could not parse response body as JSON.");
+      let errorType;
+      let errorDescriptionHelper;
+      /**
+       * Client error responses (400 – 499)
+       * Server error responses (500 – 599)
+       */
+      if (
+        response.status >= HttpStatus.CLIENT_ERROR_RANGE_START &&
+        response.status <= HttpStatus.CLIENT_ERROR_RANGE_END
+      ) {
+        errorType = "client_error";
+        errorDescriptionHelper = "A client";
+      } else if (
+        response.status >= HttpStatus.SERVER_ERROR_RANGE_START &&
+        response.status <= HttpStatus.SERVER_ERROR_RANGE_END
+      ) {
+        errorType = "server_error";
+        errorDescriptionHelper = "A server";
+      } else {
+        errorType = "unknown_error";
+        errorDescriptionHelper = "An unknown";
+      }
+
+      parsedBody = {
+        error: errorType,
+        error_description: `${errorDescriptionHelper} error occured.\nHttp status code: ${response.status}\nHttp status message: ${response.bodyAsText || "Unknown"}\nHeaders: ${JSON.stringify(response.headers)}`,
+      };
+    }
+    return parsedBody;
   }
 }
