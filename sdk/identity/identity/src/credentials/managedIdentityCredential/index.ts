@@ -250,10 +250,9 @@ export class ManagedIdentityCredential implements TokenCredential {
           }
 
           return result;
-        } else if (isImdsMsi) {
+        } else if (isImdsMsi && this.sendProbeRequest) {
           // In the IMDS scenario we will probe the IMDS endpoint to ensure it's available before trying to get a token.
           // If the IMDS endpoint is not available and this is the source that MSAL will use, we will fail-fast with an error that tells DAC to move to the next credential.
-          console.log("CHECK IMDS")
           logger.getToken.info("Using the IMDS endpoint to probe for availability.");
           const isAvailable = await imdsMsi.isAvailable({
             scopes,
