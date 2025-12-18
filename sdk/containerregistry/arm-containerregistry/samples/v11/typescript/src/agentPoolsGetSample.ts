@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the detailed information for a given agent pool.
  *
  * @summary Gets the detailed information for a given agent pool.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/AgentPoolsGet.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/AgentPoolsGet.json
  */
 async function agentPoolsGet(): Promise<void> {
   const subscriptionId =
