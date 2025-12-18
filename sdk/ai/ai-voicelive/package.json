@@ -76,6 +76,7 @@
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "@vitest/coverage-v8": "4.0.15",
+    "@vitest/ui": "4.0.15",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",

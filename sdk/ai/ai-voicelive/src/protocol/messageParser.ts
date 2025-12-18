@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServerEventUnion, ClientEventUnion } from "../models/index.js";
-import { clientEventUnionSerializer, serverEventUnionDeserializer } from "../models/models.js";
+import { logger } from "../logger.js";
+import { type ServerEventUnion, type ClientEventUnion, KnownServerEventType } from "../models/index.js";
+import { clientEventUnionSerializer, KnownClientEventType, type ServerEventError, type ServerEventErrorDetails, serverEventUnionDeserializer } from "../models/models.js";
 
 /**
  * Parsed message containing event data and metadata
@@ -32,7 +33,7 @@ export class VoiceLiveMessageParser {
       } else {
         messageText = data;
       }
-console.log('Parsing incoming message data:', messageText);
+
       const parsedData = JSON.parse(messageText);
 
       // Validate and type the message based on the 'type' field
@@ -55,8 +56,19 @@ console.log('Parsing incoming message data:', messageText);
 
       return null; // Unknown message format
     } catch (error) {
-      // Invalid JSON or parsing error
-      return null;
+      logger.error("Failed to parse incoming message:", error);
+      return {
+        type: "server",
+        event: {
+          type: KnownServerEventType.Error,
+          error: {
+            type: "error",
+            code: "MessageParsingError",
+            message: "Failed to parse incoming message data. " + (error instanceof Error ? error.message : String(error)),
+          } as ServerEventErrorDetails
+        } as ServerEventError,
+        raw: data,
+      };
     }
   }
 
@@ -88,64 +100,7 @@ console.log('Parsing incoming message data:', messageText);
    */
   private _isValidServerEventType(type: string): boolean {
     // Based on the comprehensive analysis in EXISTING_TYPES_ANALYSIS.md
-    const validServerTypes = [
-      // Error handling
-      "error",
-
-      // Session management
-      "session.created",
-      "session.updated",
-      "session.avatar.connecting",
-
-      // Audio buffer events
-      "input_audio_buffer.committed",
-      "input_audio_buffer.cleared",
-      "input_audio_buffer.speech_started",
-      "input_audio_buffer.speech_stopped",
-
-      // Conversation item events
-      "conversation.item.created",
-      "conversation.item.truncated",
-      "conversation.item.deleted",
-      "conversation.item.retrieved",
-      "conversation.item.input_audio_transcription.completed",
-      "conversation.item.input_audio_transcription.failed",
-      "conversation.item.input_audio_transcription.delta",
-
-      // Response lifecycle events
-      "response.created",
-      "response.done",
-      "response.output_item.added",
-      "response.output_item.done",
-
-      // Content streaming events
-      "response.content_part.added",
-      "response.content_part.done",
-      "response.text.delta",
-      "response.text.done",
-
-      // Audio streaming events
-      "response.audio_transcript.delta",
-      "response.audio_transcript.done",
-      "response.audio.delta",
-      "response.audio.done",
-
-      // Animation events
-      "response.animation.blendshape.delta",
-      "response.animation.blendshape.done",
-      "response.animation.viseme.delta",
-      "response.animation.viseme.done",
-
-      // Timestamp events
-      "response.audio.timestamp.delta",
-      "response.audio.timestamp.done",
-
-      // Function call events
-      "response.function_call_arguments.delta",
-      "response.function_call_arguments.done",
-    ];
-
-    return validServerTypes.includes(type);
+    return Object.values(KnownServerEventType).includes(type as KnownServerEventType);
   }
 
   /**
@@ -153,36 +108,6 @@ console.log('Parsing incoming message data:', messageText);
    */
   private _isValidClientEventType(type: string): boolean {
     // Based on the comprehensive analysis in EXISTING_TYPES_ANALYSIS.md
-    const validClientTypes = [
-      // Session management
-      "session.update",
-      "session.avatar.connect",
-
-      // Turn-based audio
-      "input_audio_turn.start",
-      "input_audio_turn.append",
-      "input_audio_turn.end",
-      "input_audio_turn.cancel",
-
-      // Buffer-based audio
-      "input_audio_buffer.append",
-      "input_audio_buffer.commit",
-      "input_audio_buffer.clear",
-
-      // Audio control
-      "input_audio.clear",
-
-      // Conversation management
-      "conversation.item.create",
-      "conversation.item.truncate",
-      "conversation.item.delete",
-      "conversation.item.retrieve",
-
-      // Response management
-      "response.create",
-      "response.cancel",
-    ];
-
-    return validClientTypes.includes(type);
+    return Object.values(KnownClientEventType).includes(type as KnownClientEventType);
   }
 }

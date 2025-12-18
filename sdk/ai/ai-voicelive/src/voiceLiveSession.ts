@@ -3,7 +3,6 @@
 
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import {
   type RequestSession,
   type ClientEventSessionUpdate,
@@ -148,15 +147,6 @@ export class VoiceLiveSession {
       );
       const authHeaders = await this._credentialHandler.getAuthHeaders();
 
-      // Detect proxy settings from environment variables (HTTPS_PROXY, HTTP_PROXY)
-      const proxySettings = getDefaultProxySettings();
-      if (proxySettings) {
-        logger.info("Proxy detected from environment variables", {
-          host: proxySettings.host,
-          port: proxySettings.port,
-        });
-      }
-
       // Create connection manager
       const websocketFactory = new VoiceLiveWebSocketFactory();
       this._connectionManager = new ConnectionManager(
@@ -164,8 +154,7 @@ export class VoiceLiveSession {
           websocketFactory.create({
             headers: { ...authHeaders },
             connectionTimeoutInMs: this._options.connectionTimeoutInMs,
-            compression: true,
-            proxyOptions: proxySettings,
+            compression: true
           }),
         {
           endpoint: wsUrl,

@@ -4,7 +4,7 @@
 import type { AbortSignalLike } from "@azure/abort-controller";
 import WebSocket from "ws";
 import { HttpsProxyAgent } from "https-proxy-agent";
-import { isNode } from "@azure/core-util";
+import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import {
   WebSocketState,
   type VoiceLiveWebSocketLike,
@@ -81,30 +81,32 @@ export class VoiceLiveWebSocket implements VoiceLiveWebSocketLike {
           perMessageDeflate: this._options.compression,
         };
 
-        // Add proxy agent if proxy options are provided and we're in Node.js
-        if (isNode && this._options.proxyOptions) {
-          const { host, port, username, password } = this._options.proxyOptions;
-          
+        // Detect proxy settings from environment variables (HTTPS_PROXY, HTTP_PROXY)
+        const proxySettings = getDefaultProxySettings();
+        if (proxySettings) {
+
+          const { host, port, username, password } = proxySettings;
+
           // Build proxy URL with authentication if provided
           let proxyUrl = host;
           if (!proxyUrl.includes("://")) {
             proxyUrl = `http://${proxyUrl}`;
           }
-          
+
           // Remove trailing slash if present
           proxyUrl = proxyUrl.replace(/\/$/, "");
-          
+
           // Add port
           proxyUrl = `${proxyUrl}:${port}`;
-          
+
           // Add authentication if provided
           if (username && password) {
-            const url = new URL(proxyUrl);
-            url.username = username;
-            url.password = password;
-            proxyUrl = url.toString();
+            const pUrl = new URL(proxyUrl);
+            pUrl.username = username;
+            pUrl.password = password;
+            proxyUrl = pUrl.toString();
           }
-          
+
           wsOptions.agent = new HttpsProxyAgent(proxyUrl);
         }
 

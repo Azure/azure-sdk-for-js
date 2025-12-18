@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { VoiceLiveSession } from "../../src/index.js";
+import type { VoiceLiveSession } from "../../src/index.js";
 
 // Import Speech SDK with proper browser-compatible syntax
 let SpeechSDK: any;
@@ -9,37 +9,24 @@ let SpeechSDK: any;
 // Try different import methods depending on environment
 if (typeof self === 'undefined') {
   // Node.js environment - use require
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    SpeechSDK = require("microsoft-cognitiveservices-speech-sdk");
-  } catch {
-    // Speech SDK not available
-  }
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  SpeechSDK = require("microsoft-cognitiveservices-speech-sdk");
 } else {
   // Browser environment - use dynamic import with proper syntax
-  try {
-    // The Speech SDK might be available as a global or need dynamic import
-    if (typeof self !== 'undefined' && (self as any).SpeechSDK) {
-      // Available as global (e.g., from CDN)
-      SpeechSDK = (self as any).SpeechSDK;
-    } else {
-      // Try dynamic import - this will be resolved at build time by bundler
-      import("microsoft-cognitiveservices-speech-sdk").then((module) => {
-        // Handle both default and named exports
-        SpeechSDK = module.default || module;
-        return;
-      }).catch(() => {
-        // Fallback handled below
-      });
-    }
-  } catch {
-    // Speech SDK not available in browser
+  // The Speech SDK might be available as a global or need dynamic import
+  if (typeof self !== 'undefined' && (self as any).SpeechSDK) {
+    // Available as global (e.g., from CDN)
+    SpeechSDK = (self as any).SpeechSDK;
+  } else {
+    // Try dynamic import - this will be resolved at build time by bundler
+    import("microsoft-cognitiveservices-speech-sdk").then((module) => {
+      // Handle both default and named exports
+      SpeechSDK = module.default || module;
+      return;
+    }).catch(() => {
+      // Fallback handled below
+    });
   }
-}
-
-export async function sendAudio(session: VoiceLiveSession, text: string): Promise<void> {
-  const audioData = await generateTestAudio(text);
-  await session.sendAudio(audioData);
 }
 
 /**
@@ -49,25 +36,6 @@ export async function sendAudio(session: VoiceLiveSession, text: string): Promis
  */
 export function generateTestAudio(text: string): Promise<ArrayBuffer> {
   return new Promise<ArrayBuffer>((resolve, reject) => {
-    // In browser environment or when Speech SDK is not available, generate mock audio
-    if (typeof self !== 'undefined' || !SpeechSDK) {
-      // Generate mock PCM audio data for testing
-      const sampleRate = 16000;
-      const durationSeconds = Math.max(0.5, text.length * 0.1); // Rough estimate based on text length
-      const numSamples = Math.floor(sampleRate * durationSeconds);
-      const audioBuffer = new ArrayBuffer(numSamples * 2); // 16-bit audio
-      const audioView = new Int16Array(audioBuffer);
-
-      // Generate simple sine wave audio for testing
-      const frequency = 440; // A4 note
-      for (let i = 0; i < numSamples; i++) {
-        const sample = Math.sin(2 * Math.PI * frequency * i / sampleRate) * 0.1; // Low volume
-        audioView[i] = Math.floor(sample * 32767);
-      }
-
-      resolve(audioBuffer);
-      return;
-    }
 
     // Use real Speech SDK in Node.js environment
     try {
@@ -76,7 +44,7 @@ export function generateTestAudio(text: string): Promise<ArrayBuffer> {
 
       if (!endpoint || !apiKey) {
         // Fallback to mock audio if credentials not available
-        resolve(generateMockAudio(text));
+        reject(new Error("Speech synthesis credentials are not set in environment variables."));
         return;
       }
 
@@ -102,6 +70,12 @@ export function generateTestAudio(text: string): Promise<ArrayBuffer> {
       resolve(generateMockAudio(text));
     }
   });
+}
+
+export async function sendTestAudio(session: VoiceLiveSession, text: string): Promise<void> {
+  const audioData = await generateTestAudio(text);
+  await session.sendAudio(audioData);
+  await session.sendAudio(generateSilentAudio(1000)); // Send 500ms of silence after
 }
 
 /**
