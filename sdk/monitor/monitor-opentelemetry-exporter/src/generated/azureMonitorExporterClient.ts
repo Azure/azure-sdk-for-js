@@ -9,6 +9,7 @@ import {
 import { track } from "./api/operations.js";
 import { TrackOptionalParams } from "./api/options.js";
 import { TelemetryItem, TrackResponse } from "./models/models.js";
+import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
 export { AzureMonitorExporterClientOptionalParams } from "./api/azureMonitorExporterContext.js";
@@ -19,7 +20,10 @@ export class AzureMonitorExporterClient {
   public readonly pipeline: Pipeline;
 
   /** OpenTelemetry Exporter for Azure Monitor */
-  constructor(credential: any, options: AzureMonitorExporterClientOptionalParams = {}) {
+  constructor(
+    credential: any | TokenCredential,
+    options: AzureMonitorExporterClientOptionalParams = {},
+  ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`

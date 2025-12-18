@@ -9,11 +9,13 @@ export {
   TrackResponse,
   TelemetryErrorDetails,
   MetricDataPoint,
+  KnownDataPointType,
   DataPointType,
   TelemetryEventData,
   TelemetryExceptionData,
   TelemetryExceptionDetails,
   StackFrame,
+  KnownSeverityLevel,
   SeverityLevel,
   MessageData,
   MetricsData,
@@ -22,6 +24,7 @@ export {
   RemoteDependencyData,
   RequestData,
   Versions,
+  KnownContextTagKeys,
   ContextTagKeys,
 } from "./models/index.js";
 export { AzureMonitorExporterClientOptionalParams, TrackOptionalParams } from "./api/index.js";

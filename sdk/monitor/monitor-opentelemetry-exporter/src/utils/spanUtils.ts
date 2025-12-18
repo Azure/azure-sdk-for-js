@@ -81,7 +81,7 @@ import type {
   TelemetryExceptionDetails,
   MonitorDomain,
 } from "../generated/index.js";
-import { KnownContextTagKeys } from "./contextTagKeys.js";
+import { KnownContextTagKeys } from "../generated/index.js";
 import { msToTimeSpan } from "./breezeUtils.js";
 
 function createTagsFromSpan(span: ReadableSpan): Tags {
@@ -474,13 +474,13 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       let baseData: TelemetryExceptionData | MessageData;
       const properties = createPropertiesFromSpanAttributes(event.attributes);
 
-       const tags: Tags = createTagsFromResource(span.resource);
-       tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-       const spanId = span.spanContext().spanId;
-       if (spanId) {
-         tags[KnownContextTagKeys.AiOperationParentId] = spanId;
-       }
-       const sanitizedEventTags = sanitizeTags(tags);
+      const tags: Tags = createTagsFromResource(span.resource);
+      tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
+      const spanId = span.spanContext().spanId;
+      if (spanId) {
+        tags[KnownContextTagKeys.AiOperationParentId] = spanId;
+      }
+      const sanitizedEventTags = sanitizeTags(tags);
 
       // Only generate exception telemetry for incoming requests
       if (event.name === "exception") {
@@ -556,7 +556,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           baseType: baseType,
           baseData: baseData,
         },
-         tags: sanitizedEventTags,
+        tags: sanitizedEventTags,
       };
       envelopes.push(env);
     });

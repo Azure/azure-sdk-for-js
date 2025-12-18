@@ -11,7 +11,7 @@ import type {
   TelemetryExceptionDetails,
 } from "../generated/index.js";
 import type { SeverityLevel } from "../generated/index.js";
-import { KnownContextTagKeys } from "./contextTagKeys.js";
+import { KnownContextTagKeys } from "../generated/index.js";
 import {
   createTagsFromResource,
   hrTimeToDate,
@@ -114,8 +114,8 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     }
   }
   // Truncate properties
-    if (hasMessage(baseData)) {
-      baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
+  if (hasMessage(baseData)) {
+    baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
   }
   for (const key of Object.keys(properties)) {
     properties[key] = String(properties[key]).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
@@ -124,7 +124,10 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     ...(baseData as MonitorDomain),
     properties,
     measurements,
-  } as MonitorDomain & { properties?: Properties; measurements?: Measurements } & Partial<MessageData>;
+  } as MonitorDomain & {
+    properties?: Properties;
+    measurements?: Measurements;
+  } & Partial<MessageData>;
 
   return {
     name,
@@ -140,31 +143,31 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   };
 }
 
-  function hasMessage(baseData: unknown): baseData is { message?: string } {
-    return typeof (baseData as any)?.message !== "undefined";
-  }
+function hasMessage(baseData: unknown): baseData is { message?: string } {
+  return typeof (baseData as any)?.message !== "undefined";
+}
 
 function createTagsFromLog(log: ReadableLogRecord): Tags {
-    const tags: Tags = createTagsFromResource(log.resource);
+  const tags: Tags = createTagsFromResource(log.resource);
   if (log.spanContext?.traceId) {
-      tags[KnownContextTagKeys.AiOperationId] = log.spanContext.traceId;
+    tags[KnownContextTagKeys.AiOperationId] = log.spanContext.traceId;
   }
   if (log.spanContext?.spanId) {
-      tags[KnownContextTagKeys.AiOperationParentId] = log.spanContext.spanId;
+    tags[KnownContextTagKeys.AiOperationParentId] = log.spanContext.spanId;
   }
-     if (log.attributes[KnownContextTagKeys.AiOperationName]) {
-      tags[KnownContextTagKeys.AiOperationName] = log.attributes[
-        KnownContextTagKeys.AiOperationName
-      ] as string;
+  if (log.attributes[KnownContextTagKeys.AiOperationName]) {
+    tags[KnownContextTagKeys.AiOperationName] = log.attributes[
+      KnownContextTagKeys.AiOperationName
+    ] as string;
   }
   if (isSyntheticSource(log.attributes as Attributes)) {
-      tags[KnownContextTagKeys.AiOperationSyntheticSource] = "True";
+    tags[KnownContextTagKeys.AiOperationSyntheticSource] = "True";
   }
 
   // Set ai.location.ip from microsoft.client.ip if it exists
   const microsoftClientIp = log.attributes?.[MicrosoftClientIp];
   if (microsoftClientIp) {
-      tags[KnownContextTagKeys.AiLocationIp] = String(microsoftClientIp);
+    tags[KnownContextTagKeys.AiLocationIp] = String(microsoftClientIp);
   }
 
   // Map user ID attributes

@@ -4,6 +4,7 @@
 import { logger } from "../logger.js";
 import { Versions } from "../models/models.js";
 import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
+import { TokenCredential } from "@azure/core-auth";
 
 /** OpenTelemetry Exporter for Azure Monitor */
 export interface AzureMonitorExporterContext extends Client {
@@ -21,6 +22,7 @@ export interface AzureMonitorExporterClientOptionalParams extends ClientOptions 
 
 /** OpenTelemetry Exporter for Azure Monitor */
 export function createAzureMonitorExporter(
+  credential: any | TokenCredential,
   options: AzureMonitorExporterClientOptionalParams = {},
 ): AzureMonitorExporterContext {
   const host = options.host ?? "https://dc.services.visualstudio.com";
@@ -35,8 +37,9 @@ export function createAzureMonitorExporter(
     ...options,
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
+    credentials: { scopes: options.credentials?.scopes ?? ["https://monitor.azure.com/.default"] },
   };
-  const clientContext = getClient(endpointUrl, undefined, updatedOptions);
+  const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   return { ...clientContext, apiVersion } as AzureMonitorExporterContext;
 }

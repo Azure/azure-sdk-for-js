@@ -183,7 +183,22 @@ export function metricDataPointDeserializer(item: any): MetricDataPoint {
 }
 
 /** Type of the metric data. */
-export type DataPointType = "Measurement" | "Aggregation";
+export enum KnownDataPointType {
+  /** Single measurement. */
+  Measurement = "Measurement",
+  /** Aggregated value. */
+  Aggregation = "Aggregation",
+}
+
+/**
+ * Type of the metric data. \
+ * {@link KnownDataPointType} can be used interchangeably with DataPointType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Measurement**: Single measurement. \
+ * **Aggregation**: Aggregated value.
+ */
+export type DataPointType = string;
 
 /**
  * Instances of Event represent structured event records that can be grouped and
@@ -348,7 +363,31 @@ export function stackFrameDeserializer(item: any): StackFrame {
 }
 
 /** Defines the level of severity for the event. */
-export type SeverityLevel = "Verbose" | "Information" | "Warning" | "Error" | "Critical";
+export enum KnownSeverityLevel {
+  /** Verbose level. */
+  Verbose = "Verbose",
+  /** Information level. */
+  Information = "Information",
+  /** Warning level. */
+  Warning = "Warning",
+  /** Error level. */
+  Error = "Error",
+  /** Critical level. */
+  Critical = "Critical",
+}
+
+/**
+ * Defines the level of severity for the event. \
+ * {@link KnownSeverityLevel} can be used interchangeably with SeverityLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Verbose**: Verbose level. \
+ * **Information**: Information level. \
+ * **Warning**: Warning level. \
+ * **Error**: Error level. \
+ * **Critical**: Critical level.
+ */
+export type SeverityLevel = string;
 
 /**
  * Instances of Message represent printf-like trace statements that are
@@ -716,36 +755,102 @@ export function requestDataDeserializer(item: any): RequestData {
 
 /** Type of Versions */
 export type Versions = "v2.1";
+
 /** The context tag keys. */
-export type ContextTagKeys =
-  | "ai.application.ver"
-  | "ai.device.id"
-  | "ai.device.locale"
-  | "ai.device.model"
-  | "ai.device.oemName"
-  | "ai.device.osVersion"
-  | "ai.device.type"
-  | "ai.location.ip"
-  | "ai.location.country"
-  | "ai.location.province"
-  | "ai.location.city"
-  | "ai.operation.id"
-  | "ai.operation.name"
-  | "ai.operation.parentId"
-  | "ai.operation.syntheticSource"
-  | "ai.operation.correlationVector"
-  | "ai.session.id"
-  | "ai.session.isFirst"
-  | "ai.user.accountId"
-  | "ai.user.id"
-  | "ai.user.authUserId"
-  | "ai.cloud.role"
-  | "ai.cloud.roleVer"
-  | "ai.cloud.roleInstance"
-  | "ai.cloud.location"
-  | "ai.internal.sdkVersion"
-  | "ai.internal.agentVersion"
-  | "ai.internal.nodeName";
+export enum KnownContextTagKeys {
+  /** Application version. */
+  AiApplicationVer = "ai.application.ver",
+  /** Device ID. */
+  AiDeviceId = "ai.device.id",
+  /** Device locale. */
+  AiDeviceLocale = "ai.device.locale",
+  /** Device model. */
+  AiDeviceModel = "ai.device.model",
+  /** Device OEM name. */
+  AiDeviceOemName = "ai.device.oemName",
+  /** Device OS version. */
+  AiDeviceOSVersion = "ai.device.osVersion",
+  /** Device type. */
+  AiDeviceType = "ai.device.type",
+  /** Location IP. */
+  AiLocationIp = "ai.location.ip",
+  /** Location country. */
+  AiLocationCountry = "ai.location.country",
+  /** Location province. */
+  AiLocationProvince = "ai.location.province",
+  /** Location city. */
+  AiLocationCity = "ai.location.city",
+  /** Operation ID. */
+  AiOperationId = "ai.operation.id",
+  /** Operation name. */
+  AiOperationName = "ai.operation.name",
+  /** Operation parent ID. */
+  AiOperationParentId = "ai.operation.parentId",
+  /** Operation synthetic source. */
+  AiOperationSyntheticSource = "ai.operation.syntheticSource",
+  /** Operation correlation vector. */
+  AiOperationCorrelationVector = "ai.operation.correlationVector",
+  /** Session ID. */
+  AiSessionId = "ai.session.id",
+  /** If session is the first one. */
+  AiSessionIsFirst = "ai.session.isFirst",
+  /** User account ID. */
+  AiUserAccountId = "ai.user.accountId",
+  /** User ID. */
+  AiUserId = "ai.user.id",
+  /** Authenticated user ID. */
+  AiUserAuthUserId = "ai.user.authUserId",
+  /** Cloud role. */
+  AiCloudRole = "ai.cloud.role",
+  /** Cloud role version. */
+  AiCloudRoleVer = "ai.cloud.roleVer",
+  /** Cloud role instance. */
+  AiCloudRoleInstance = "ai.cloud.roleInstance",
+  /** Cloud location. */
+  AiCloudLocation = "ai.cloud.location",
+  /** Internal SDK version. */
+  AiInternalSdkVersion = "ai.internal.sdkVersion",
+  /** Internal agent version. */
+  AiInternalAgentVersion = "ai.internal.agentVersion",
+  /** Internal node name. */
+  AiInternalNodeName = "ai.internal.nodeName",
+}
+
+/**
+ * The context tag keys. \
+ * {@link KnownContextTagKeys} can be used interchangeably with ContextTagKeys,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ai.application.ver**: Application version. \
+ * **ai.device.id**: Device ID. \
+ * **ai.device.locale**: Device locale. \
+ * **ai.device.model**: Device model. \
+ * **ai.device.oemName**: Device OEM name. \
+ * **ai.device.osVersion**: Device OS version. \
+ * **ai.device.type**: Device type. \
+ * **ai.location.ip**: Location IP. \
+ * **ai.location.country**: Location country. \
+ * **ai.location.province**: Location province. \
+ * **ai.location.city**: Location city. \
+ * **ai.operation.id**: Operation ID. \
+ * **ai.operation.name**: Operation name. \
+ * **ai.operation.parentId**: Operation parent ID. \
+ * **ai.operation.syntheticSource**: Operation synthetic source. \
+ * **ai.operation.correlationVector**: Operation correlation vector. \
+ * **ai.session.id**: Session ID. \
+ * **ai.session.isFirst**: If session is the first one. \
+ * **ai.user.accountId**: User account ID. \
+ * **ai.user.id**: User ID. \
+ * **ai.user.authUserId**: Authenticated user ID. \
+ * **ai.cloud.role**: Cloud role. \
+ * **ai.cloud.roleVer**: Cloud role version. \
+ * **ai.cloud.roleInstance**: Cloud role instance. \
+ * **ai.cloud.location**: Cloud location. \
+ * **ai.internal.sdkVersion**: Internal SDK version. \
+ * **ai.internal.agentVersion**: Internal agent version. \
+ * **ai.internal.nodeName**: Internal node name.
+ */
+export type ContextTagKeys = string;
 
 export function telemetryItemArraySerializer(result: Array<TelemetryItem>): any[] {
   return result.map((item) => {

@@ -3,9 +3,9 @@
 
 import { SDK_INFO } from "@opentelemetry/core";
 import { ATTR_TELEMETRY_SDK_VERSION } from "@opentelemetry/semantic-conventions";
-import { KnownContextTagKeys } from "../../../utils/contextTagKeys.js";
 import * as ai from "../../../utils/constants/applicationinsights.js";
 import type { Tags } from "../../../types.js";
+import { KnownContextTagKeys } from "../../../generated/index.js";
 import {
   ENV_AZURE_MONITOR_PREFIX,
   ENV_APPLICATIONINSIGHTS_SHIM_VERSION,

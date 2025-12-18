@@ -400,7 +400,7 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes, null);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+        assert.strictEqual((sender as any).appInsightsClientOptions.host, redirectHost);
       }, 1500);
     });
 
@@ -425,7 +425,7 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes, null);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+        assert.strictEqual((sender as any).appInsightsClientOptions.host, redirectHost);
       }, 1500);
 
       await delay(2000); // wait enough time for timeout callback
@@ -449,12 +449,12 @@ describe("HttpSender", () => {
       let result = await sender.exportEnvelopes([envelope]);
       setTimeout(() => {
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+        assert.strictEqual((sender as any).appInsightsClientOptions.host, redirectHost);
       }, 1500);
       result = await sender.exportEnvelopes([envelope]);
       setTimeout(() => {
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+        assert.strictEqual((sender as any).appInsightsClientOptions.host, redirectHost);
       }, 1500);
 
       await delay(4000); // wait enough time for timeout callbacks
