@@ -35,5 +35,5 @@ export const installable: Check = {
 export const areTheTypesWrong = scriptCheck({
   tags: ["release"],
   description: "are the types wrong must not display any errors",
-  checkCommand: "dev-tool run vendored attw --pack .",
+  checkCommand: "attw --pack .",
 });
