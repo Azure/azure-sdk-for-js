@@ -14268,6 +14268,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.57.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.7.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.2
