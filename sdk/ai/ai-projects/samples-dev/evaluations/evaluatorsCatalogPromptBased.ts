@@ -68,7 +68,6 @@ export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = await project.getOpenAIClient();
 
-  // [START evaluators_catalog_prompt]
   // Create a prompt-based custom evaluator
   console.log("Creating a single evaluator version - Prompt based (json style)");
   const promptEvaluator = await project.evaluators.createVersion("my_custom_evaluator_prompt", {
@@ -280,7 +279,6 @@ Ground Truth:
 
   await openAIClient.evals.delete(evalObject.id);
   console.log("Evaluation deleted");
-  // [END evaluators_catalog_prompt]
 }
 
 main().catch((err) => {

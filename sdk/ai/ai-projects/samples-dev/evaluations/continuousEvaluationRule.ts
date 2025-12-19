@@ -27,7 +27,6 @@ export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = await project.getOpenAIClient();
 
-  // [START continuous_evaluation_rule]
   // Create agent
   console.log("Creating agent...");
   const agent = await project.agents.createVersion(agentName, {
@@ -77,7 +76,6 @@ export async function main(): Promise<void> {
   console.log(
     `Continuous Evaluation Rule created (id: ${continuousEvalRule.id}, name: ${continuousEvalRule.displayName})`,
   );
-  // [END continuous_evaluation_rule]
 
   // Clean up
   console.log("\nCleaning up resources...");
