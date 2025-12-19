@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import { validate, list, $delete, createOrUpdate, get } from "../../api/edgeDevices/operations.js";
-import {
+import type {
   EdgeDevicesValidateOptionalParams,
   EdgeDevicesListOptionalParams,
   EdgeDevicesDeleteOptionalParams,
   EdgeDevicesCreateOrUpdateOptionalParams,
   EdgeDevicesGetOptionalParams,
 } from "../../api/edgeDevices/options.js";
-import { EdgeDeviceUnion, ValidateRequest, ValidateResponse } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { EdgeDeviceUnion, ValidateRequest, ValidateResponse } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a EdgeDevices operations. */
 export interface EdgeDevicesOperations {

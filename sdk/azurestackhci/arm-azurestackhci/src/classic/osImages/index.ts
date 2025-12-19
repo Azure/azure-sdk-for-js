@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import { listBySubscriptionLocationResource, get } from "../../api/osImages/operations.js";
-import {
+import type {
   OsImagesListBySubscriptionLocationResourceOptionalParams,
   OsImagesGetOptionalParams,
 } from "../../api/osImages/options.js";
-import { OsImage } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { OsImage } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a OsImages operations. */
 export interface OsImagesOperations {

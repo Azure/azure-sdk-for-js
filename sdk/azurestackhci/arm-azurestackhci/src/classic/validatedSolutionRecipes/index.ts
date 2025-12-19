@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import {
   listBySubscriptionLocationResource,
   get,
 } from "../../api/validatedSolutionRecipes/operations.js";
-import {
+import type {
   ValidatedSolutionRecipesListBySubscriptionLocationResourceOptionalParams,
   ValidatedSolutionRecipesGetOptionalParams,
 } from "../../api/validatedSolutionRecipes/options.js";
-import { ValidatedSolutionRecipe } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ValidatedSolutionRecipe } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ValidatedSolutionRecipes operations. */
 export interface ValidatedSolutionRecipesOperations {

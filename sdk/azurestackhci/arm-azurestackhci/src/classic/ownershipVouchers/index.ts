@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import { validate } from "../../api/ownershipVouchers/operations.js";
-import { OwnershipVouchersValidateOptionalParams } from "../../api/ownershipVouchers/options.js";
-import {
+import type { OwnershipVouchersValidateOptionalParams } from "../../api/ownershipVouchers/options.js";
+import type {
   ValidateOwnershipVouchersRequest,
   ValidateOwnershipVouchersResponse,
 } from "../../models/models.js";

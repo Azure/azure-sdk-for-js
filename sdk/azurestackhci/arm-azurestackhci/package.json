@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-azurestackhci",
-  "version": "1.0.0-beta.1",
+  "version": "4.0.0-beta.4",
   "description": "A generated SDK for AzureStackHCIClient.",
   "engines": {
     "node": ">=20.0.0"

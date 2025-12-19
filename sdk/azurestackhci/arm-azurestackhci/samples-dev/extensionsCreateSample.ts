@@ -20,12 +20,14 @@ async function createArcExtension(): Promise<void> {
     "default",
     "MicrosoftMonitoringAgent",
     {
-      type: "MicrosoftMonitoringAgent",
-      enableAutomaticUpgrade: false,
-      protectedSettings: { workspaceKey: "xx" },
-      publisher: "Microsoft.Compute",
-      settings: { workspaceId: "xx" },
-      typeHandlerVersion: "1.10",
+      extensionParameters: {
+        type: "MicrosoftMonitoringAgent",
+        enableAutomaticUpgrade: false,
+        protectedSettings: { workspaceKey: "xx" },
+        publisher: "Microsoft.Compute",
+        settings: { workspaceId: "xx" },
+        typeHandlerVersion: "1.10",
+      },
     },
   );
   console.log(result);

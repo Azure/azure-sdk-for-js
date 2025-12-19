@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/edgeMachines/operations.js";
-import {
+import type {
   EdgeMachinesListBySubscriptionOptionalParams,
   EdgeMachinesListByResourceGroupOptionalParams,
   EdgeMachinesDeleteOptionalParams,
@@ -18,9 +18,9 @@ import {
   EdgeMachinesCreateOrUpdateOptionalParams,
   EdgeMachinesGetOptionalParams,
 } from "../../api/edgeMachines/options.js";
-import { EdgeMachine, EdgeMachinePatch } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { EdgeMachine, EdgeMachinePatch } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a EdgeMachines operations. */
 export interface EdgeMachinesOperations {

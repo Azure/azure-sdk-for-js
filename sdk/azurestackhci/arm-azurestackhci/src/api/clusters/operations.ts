@@ -1,38 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { AzureStackHCIContext as Client } from "../index.js";
+import type {
   Cluster,
-  clusterSerializer,
-  clusterDeserializer,
   ClusterPatch,
-  clusterPatchSerializer,
   _ClusterList,
-  _clusterListDeserializer,
   SecretsLocationsChangeRequest,
-  secretsLocationsChangeRequestSerializer,
   UploadCertificateRequest,
-  uploadCertificateRequestSerializer,
   ClusterIdentityResponse,
-  clusterIdentityResponseDeserializer,
   SoftwareAssuranceChangeRequest,
-  softwareAssuranceChangeRequestSerializer,
   ChangeRingRequest,
-  changeRingRequestSerializer,
   LogCollectionRequest,
-  logCollectionRequestSerializer,
   RemoteSupportRequest,
-  remoteSupportRequestSerializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  clusterSerializer,
+  clusterDeserializer,
+  clusterPatchSerializer,
+  _clusterListDeserializer,
+  secretsLocationsChangeRequestSerializer,
+  uploadCertificateRequestSerializer,
+  clusterIdentityResponseDeserializer,
+  softwareAssuranceChangeRequestSerializer,
+  changeRingRequestSerializer,
+  logCollectionRequestSerializer,
+  remoteSupportRequestSerializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ClustersConfigureRemoteSupportOptionalParams,
   ClustersTriggerLogCollectionOptionalParams,
   ClustersChangeRingOptionalParams,
@@ -47,13 +47,9 @@ import {
   ClustersCreateOptionalParams,
   ClustersGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _configureRemoteSupportSend(
   context: Client,
@@ -74,14 +70,12 @@ export function _configureRemoteSupportSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: remoteSupportRequestSerializer(remoteSupportRequest),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: remoteSupportRequestSerializer(remoteSupportRequest),
+  });
 }
 
 export async function _configureRemoteSupportDeserialize(
@@ -139,14 +133,12 @@ export function _triggerLogCollectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: logCollectionRequestSerializer(logCollectionRequest),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: logCollectionRequestSerializer(logCollectionRequest),
+  });
 }
 
 export async function _triggerLogCollectionDeserialize(
@@ -204,14 +196,12 @@ export function _changeRingSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: changeRingRequestSerializer(changeRingRequest),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: changeRingRequestSerializer(changeRingRequest),
+  });
 }
 
 export async function _changeRingDeserialize(result: PathUncheckedResponse): Promise<Cluster> {
@@ -261,14 +251,12 @@ export function _extendSoftwareAssuranceBenefitSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: softwareAssuranceChangeRequestSerializer(softwareAssuranceChangeRequest),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: softwareAssuranceChangeRequestSerializer(softwareAssuranceChangeRequest),
+  });
 }
 
 export async function _extendSoftwareAssuranceBenefitDeserialize(
@@ -330,12 +318,10 @@ export function _createIdentitySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _createIdentityDeserialize(
@@ -385,13 +371,11 @@ export function _uploadCertificateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      body: uploadCertificateRequestSerializer(uploadCertificateRequest),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: uploadCertificateRequestSerializer(uploadCertificateRequest),
+  });
 }
 
 export async function _uploadCertificateDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -447,14 +431,12 @@ export function _updateSecretsLocationsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: secretsLocationsChangeRequestSerializer(body),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: secretsLocationsChangeRequestSerializer(body),
+  });
 }
 
 export async function _updateSecretsLocationsDeserialize(
@@ -501,12 +483,10 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -552,12 +532,10 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -659,14 +637,12 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: clusterPatchSerializer(cluster),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: clusterPatchSerializer(cluster),
+  });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Cluster> {
@@ -711,14 +687,12 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: clusterSerializer(cluster),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: clusterSerializer(cluster),
+  });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<Cluster> {
@@ -762,12 +736,10 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Cluster> {

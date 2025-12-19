@@ -1,11 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import { listByOffer, get } from "../../api/skus/operations.js";
-import { SkusListByOfferOptionalParams, SkusGetOptionalParams } from "../../api/skus/options.js";
-import { Sku } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type {
+  SkusListByOfferOptionalParams,
+  SkusGetOptionalParams,
+} from "../../api/skus/options.js";
+import type { Sku } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Skus operations. */
 export interface SkusOperations {

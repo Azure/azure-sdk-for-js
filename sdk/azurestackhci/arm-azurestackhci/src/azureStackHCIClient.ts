@@ -1,68 +1,54 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createAzureStackHCI,
-  AzureStackHCIContext,
-  AzureStackHCIClientOptionalParams,
-} from "./api/index.js";
-import { ArcSettingsOperations, _getArcSettingsOperations } from "./classic/arcSettings/index.js";
-import { ClustersOperations, _getClustersOperations } from "./classic/clusters/index.js";
-import {
-  DeploymentSettingsOperations,
-  _getDeploymentSettingsOperations,
-} from "./classic/deploymentSettings/index.js";
-import {
-  EdgeDeviceJobsOperations,
-  _getEdgeDeviceJobsOperations,
-} from "./classic/edgeDeviceJobs/index.js";
-import { EdgeDevicesOperations, _getEdgeDevicesOperations } from "./classic/edgeDevices/index.js";
-import {
-  EdgeMachineJobsOperations,
-  _getEdgeMachineJobsOperations,
-} from "./classic/edgeMachineJobs/index.js";
-import {
-  EdgeMachinesOperations,
-  _getEdgeMachinesOperations,
-} from "./classic/edgeMachines/index.js";
-import { ExtensionsOperations, _getExtensionsOperations } from "./classic/extensions/index.js";
-import {
-  KubernetesVersionsOperations,
-  _getKubernetesVersionsOperations,
-} from "./classic/kubernetesVersions/index.js";
-import { OffersOperations, _getOffersOperations } from "./classic/offers/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { OsImagesOperations, _getOsImagesOperations } from "./classic/osImages/index.js";
-import {
-  OwnershipVouchersOperations,
-  _getOwnershipVouchersOperations,
-} from "./classic/ownershipVouchers/index.js";
-import {
-  PlatformUpdatesOperations,
-  _getPlatformUpdatesOperations,
-} from "./classic/platformUpdates/index.js";
-import { PublishersOperations, _getPublishersOperations } from "./classic/publishers/index.js";
-import {
-  SecuritySettingsOperations,
-  _getSecuritySettingsOperations,
-} from "./classic/securitySettings/index.js";
-import { SkusOperations, _getSkusOperations } from "./classic/skus/index.js";
-import {
-  UpdateContentsOperations,
-  _getUpdateContentsOperations,
-} from "./classic/updateContents/index.js";
-import { UpdateRunsOperations, _getUpdateRunsOperations } from "./classic/updateRuns/index.js";
-import {
-  UpdateSummariesOperations,
-  _getUpdateSummariesOperations,
-} from "./classic/updateSummaries/index.js";
-import { UpdatesOperations, _getUpdatesOperations } from "./classic/updates/index.js";
-import {
-  ValidatedSolutionRecipesOperations,
-  _getValidatedSolutionRecipesOperations,
-} from "./classic/validatedSolutionRecipes/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { AzureStackHCIContext, AzureStackHCIClientOptionalParams } from "./api/index.js";
+import { createAzureStackHCI } from "./api/index.js";
+import type { ArcSettingsOperations } from "./classic/arcSettings/index.js";
+import { _getArcSettingsOperations } from "./classic/arcSettings/index.js";
+import type { ClustersOperations } from "./classic/clusters/index.js";
+import { _getClustersOperations } from "./classic/clusters/index.js";
+import type { DeploymentSettingsOperations } from "./classic/deploymentSettings/index.js";
+import { _getDeploymentSettingsOperations } from "./classic/deploymentSettings/index.js";
+import type { EdgeDeviceJobsOperations } from "./classic/edgeDeviceJobs/index.js";
+import { _getEdgeDeviceJobsOperations } from "./classic/edgeDeviceJobs/index.js";
+import type { EdgeDevicesOperations } from "./classic/edgeDevices/index.js";
+import { _getEdgeDevicesOperations } from "./classic/edgeDevices/index.js";
+import type { EdgeMachineJobsOperations } from "./classic/edgeMachineJobs/index.js";
+import { _getEdgeMachineJobsOperations } from "./classic/edgeMachineJobs/index.js";
+import type { EdgeMachinesOperations } from "./classic/edgeMachines/index.js";
+import { _getEdgeMachinesOperations } from "./classic/edgeMachines/index.js";
+import type { ExtensionsOperations } from "./classic/extensions/index.js";
+import { _getExtensionsOperations } from "./classic/extensions/index.js";
+import type { KubernetesVersionsOperations } from "./classic/kubernetesVersions/index.js";
+import { _getKubernetesVersionsOperations } from "./classic/kubernetesVersions/index.js";
+import type { OffersOperations } from "./classic/offers/index.js";
+import { _getOffersOperations } from "./classic/offers/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { OsImagesOperations } from "./classic/osImages/index.js";
+import { _getOsImagesOperations } from "./classic/osImages/index.js";
+import type { OwnershipVouchersOperations } from "./classic/ownershipVouchers/index.js";
+import { _getOwnershipVouchersOperations } from "./classic/ownershipVouchers/index.js";
+import type { PlatformUpdatesOperations } from "./classic/platformUpdates/index.js";
+import { _getPlatformUpdatesOperations } from "./classic/platformUpdates/index.js";
+import type { PublishersOperations } from "./classic/publishers/index.js";
+import { _getPublishersOperations } from "./classic/publishers/index.js";
+import type { SecuritySettingsOperations } from "./classic/securitySettings/index.js";
+import { _getSecuritySettingsOperations } from "./classic/securitySettings/index.js";
+import type { SkusOperations } from "./classic/skus/index.js";
+import { _getSkusOperations } from "./classic/skus/index.js";
+import type { UpdateContentsOperations } from "./classic/updateContents/index.js";
+import { _getUpdateContentsOperations } from "./classic/updateContents/index.js";
+import type { UpdateRunsOperations } from "./classic/updateRuns/index.js";
+import { _getUpdateRunsOperations } from "./classic/updateRuns/index.js";
+import type { UpdateSummariesOperations } from "./classic/updateSummaries/index.js";
+import { _getUpdateSummariesOperations } from "./classic/updateSummaries/index.js";
+import type { UpdatesOperations } from "./classic/updates/index.js";
+import { _getUpdatesOperations } from "./classic/updates/index.js";
+import type { ValidatedSolutionRecipesOperations } from "./classic/validatedSolutionRecipes/index.js";
+import { _getValidatedSolutionRecipesOperations } from "./classic/validatedSolutionRecipes/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { AzureStackHCIClientOptionalParams } from "./api/azureStackHCIContext.js";
 

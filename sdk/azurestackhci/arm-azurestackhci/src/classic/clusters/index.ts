@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import {
   configureRemoteSupport,
   triggerLogCollection,
@@ -17,7 +17,7 @@ import {
   create,
   get,
 } from "../../api/clusters/operations.js";
-import {
+import type {
   ClustersConfigureRemoteSupportOptionalParams,
   ClustersTriggerLogCollectionOptionalParams,
   ClustersChangeRingOptionalParams,
@@ -32,7 +32,7 @@ import {
   ClustersCreateOptionalParams,
   ClustersGetOptionalParams,
 } from "../../api/clusters/options.js";
-import {
+import type {
   Cluster,
   ClusterPatch,
   SecretsLocationsChangeRequest,
@@ -43,8 +43,8 @@ import {
   LogCollectionRequest,
   RemoteSupportRequest,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Clusters operations. */
 export interface ClustersOperations {

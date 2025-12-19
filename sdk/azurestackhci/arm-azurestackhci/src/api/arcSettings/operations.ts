@@ -1,30 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { AzureStackHCIContext as Client } from "../index.js";
+import type {
   ArcSetting,
-  arcSettingSerializer,
-  arcSettingDeserializer,
   ArcSettingsPatch,
-  arcSettingsPatchSerializer,
   _ArcSettingList,
-  _arcSettingListDeserializer,
   PasswordCredential,
-  passwordCredentialDeserializer,
   ArcIdentityResponse,
-  arcIdentityResponseDeserializer,
   ReconcileArcSettingsRequest,
-  reconcileArcSettingsRequestSerializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  arcSettingSerializer,
+  arcSettingDeserializer,
+  arcSettingsPatchSerializer,
+  _arcSettingListDeserializer,
+  passwordCredentialDeserializer,
+  arcIdentityResponseDeserializer,
+  reconcileArcSettingsRequestSerializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ArcSettingsInitializeDisableProcessOptionalParams,
   ArcSettingsConsentAndInstallDefaultExtensionsOptionalParams,
   ArcSettingsReconcileOptionalParams,
@@ -36,13 +36,9 @@ import {
   ArcSettingsCreateOptionalParams,
   ArcSettingsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _initializeDisableProcessSend(
   context: Client,
@@ -128,12 +124,10 @@ export function _consentAndInstallDefaultExtensionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _consentAndInstallDefaultExtensionsDeserialize(
@@ -188,14 +182,12 @@ export function _reconcileSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: reconcileArcSettingsRequestSerializer(reconcileArcSettingsRequest),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: reconcileArcSettingsRequestSerializer(reconcileArcSettingsRequest),
+  });
 }
 
 export async function _reconcileDeserialize(result: PathUncheckedResponse): Promise<ArcSetting> {
@@ -254,12 +246,10 @@ export function _createIdentitySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _createIdentityDeserialize(
@@ -312,12 +302,10 @@ export function _generatePasswordSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _generatePasswordDeserialize(
@@ -369,12 +357,10 @@ export function _listByClusterSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _listByClusterDeserialize(
@@ -483,14 +469,12 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: arcSettingsPatchSerializer(arcSetting),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: arcSettingsPatchSerializer(arcSetting),
+  });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<ArcSetting> {
@@ -545,14 +529,12 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: arcSettingSerializer(arcSetting),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: arcSettingSerializer(arcSetting),
+  });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<ArcSetting> {
@@ -606,12 +588,10 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<ArcSetting> {

@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import {
   listByClusters,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/deploymentSettings/operations.js";
-import {
+import type {
   DeploymentSettingsListByClustersOptionalParams,
   DeploymentSettingsDeleteOptionalParams,
   DeploymentSettingsCreateOrUpdateOptionalParams,
   DeploymentSettingsGetOptionalParams,
 } from "../../api/deploymentSettings/options.js";
-import { DeploymentSetting } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { DeploymentSetting } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DeploymentSettings operations. */
 export interface DeploymentSettingsOperations {

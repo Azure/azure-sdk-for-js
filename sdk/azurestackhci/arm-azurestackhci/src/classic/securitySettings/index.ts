@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import {
   listByClusters,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/securitySettings/operations.js";
-import {
+import type {
   SecuritySettingsListByClustersOptionalParams,
   SecuritySettingsDeleteOptionalParams,
   SecuritySettingsCreateOrUpdateOptionalParams,
   SecuritySettingsGetOptionalParams,
 } from "../../api/securitySettings/options.js";
-import { SecuritySetting } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { SecuritySetting } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SecuritySettings operations. */
 export interface SecuritySettingsOperations {

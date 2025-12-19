@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import { list, $delete, put, get } from "../../api/updateRuns/operations.js";
-import {
+import type {
   UpdateRunsListOptionalParams,
   UpdateRunsDeleteOptionalParams,
   UpdateRunsPutOptionalParams,
   UpdateRunsGetOptionalParams,
 } from "../../api/updateRuns/options.js";
-import { UpdateRun } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { UpdateRun } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a UpdateRuns operations. */
 export interface UpdateRunsOperations {

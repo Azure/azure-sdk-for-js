@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import { listBySubscriptionLocationResource } from "../../api/kubernetesVersions/operations.js";
-import { KubernetesVersionsListBySubscriptionLocationResourceOptionalParams } from "../../api/kubernetesVersions/options.js";
-import { KubernetesVersion } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { KubernetesVersionsListBySubscriptionLocationResourceOptionalParams } from "../../api/kubernetesVersions/options.js";
+import type { KubernetesVersion } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a KubernetesVersions operations. */
 export interface KubernetesVersionsOperations {

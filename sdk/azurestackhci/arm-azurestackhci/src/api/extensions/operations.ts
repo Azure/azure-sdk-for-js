@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { AzureStackHCIContext as Client } from "../index.js";
+import type {
   Extension,
-  extensionSerializer,
-  extensionDeserializer,
   ExtensionPatch,
-  extensionPatchSerializer,
   _ExtensionList,
-  _extensionListDeserializer,
   ExtensionUpgradeParameters,
-  extensionUpgradeParametersSerializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  extensionSerializer,
+  extensionDeserializer,
+  extensionPatchSerializer,
+  _extensionListDeserializer,
+  extensionUpgradeParametersSerializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ExtensionsUpgradeOptionalParams,
   ExtensionsListByArcSettingOptionalParams,
   ExtensionsDeleteOptionalParams,
@@ -28,13 +28,9 @@ import {
   ExtensionsCreateOptionalParams,
   ExtensionsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _upgradeSend(
   context: Client,
@@ -59,13 +55,11 @@ export function _upgradeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      body: extensionUpgradeParametersSerializer(extensionUpgradeParameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: extensionUpgradeParametersSerializer(extensionUpgradeParameters),
+  });
 }
 
 export async function _upgradeDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -126,12 +120,10 @@ export function _listByArcSettingSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _listByArcSettingDeserialize(
@@ -246,14 +238,12 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: extensionPatchSerializer(extension),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: extensionPatchSerializer(extension),
+  });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Extension> {
@@ -317,14 +307,12 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: extensionSerializer(extension),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: extensionSerializer(extension),
+  });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<Extension> {
@@ -387,12 +375,10 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Extension> {

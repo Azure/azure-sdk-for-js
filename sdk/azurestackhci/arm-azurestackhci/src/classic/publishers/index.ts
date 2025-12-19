@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import { listByCluster, get } from "../../api/publishers/operations.js";
-import {
+import type {
   PublishersListByClusterOptionalParams,
   PublishersGetOptionalParams,
 } from "../../api/publishers/options.js";
-import { Publisher } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Publisher } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Publishers operations. */
 export interface PublishersOperations {
