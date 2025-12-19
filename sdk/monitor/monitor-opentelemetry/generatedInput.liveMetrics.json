@@ -1,0 +1,9 @@
+{
+  "dryRun": false,
+  "specFolder": "C:/Repos/azure-rest-api-specs",
+  "headSha": "f06f8e459f7215245fb79f1a70952e4ee9d8eaba",
+  "repoHttpsUrl": "https://github.com/Azure/azure-rest-api-specs",
+  "relatedTypeSpecProjectFolder": [
+    "specification/applicationinsights/ApplicationInsights.LiveMetrics/"
+  ]
+}
