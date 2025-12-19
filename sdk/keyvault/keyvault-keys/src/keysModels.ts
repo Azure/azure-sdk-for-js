@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type * as coreClient from "@azure-rest/core-client";
-import type { CommonClientOptions } from "@azure/core-client";
+import type { ExtendedCommonClientOptions } from "@azure/keyvault-common";
 
 import type { DeletionRecoveryLevel } from "./models/models.js";
 import { JsonWebKeyOperation as KeyOperation, JsonWebKeyType as KeyType } from "./models/models.js";
@@ -15,47 +15,6 @@ export { KeyType, KeyOperation };
  * The latest supported Key Vault service API version
  */
 export const LATEST_API_VERSION = "7.6";
-
-/**
- * Options for keep alive behavior of HTTP connections.
- */
-interface KeepAliveOptions {
-  /**
-   * When true, connections will be kept alive for multiple requests.
-   * Defaults to true.
-   */
-  enable?: boolean;
-}
-
-/**
- * Options for how redirect responses are handled.
- */
-interface RedirectOptions {
-  /**
-   * When true, redirect responses are followed. Defaults to true.
-   */
-  handleRedirects?: boolean;
-
-  /**
-   * The maximum number of times the redirect URL will be tried before
-   * failing. Defaults to 20.
-   */
-  maxRetries?: number;
-}
-
-/**
- * Extended common client options that include keep alive and redirect options.
- */
-type ExtendedCommonClientOptions = CommonClientOptions & {
-  /**
-   * Options to disable keep alive.
-   */
-  keepAliveOptions?: KeepAliveOptions;
-  /**
-   * Options to redirect requests.
-   */
-  redirectOptions?: RedirectOptions;
-};
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
