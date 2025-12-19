@@ -3,7 +3,6 @@
 ## 1.0.0-beta.2 (Unreleased)
 
 ### Features Added
-
 - Added Model Context Protocol (MCP) support for integrating external tools and services
   - `MCPServer` tool type for connecting to MCP servers
   - MCP approval workflow with `MCPApprovalType` and approval request/response items
@@ -25,7 +24,6 @@
 - Added automatic proxy support with environment variable detection (HTTPS_PROXY, HTTP_PROXY)
 
 ### Other Changes
-
 - Added comprehensive test infrastructure including integration and unit tests for MCP functionality
 - Refactored WebSocket implementations for better maintainability
 - Added developer tooling including VS Code debug configurations and additional npm scripts
