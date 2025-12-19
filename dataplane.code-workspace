@@ -1,292 +1,164 @@
 {
   "folders": [
     {
-      "name": "abort-controller",
-      "path": "sdk/core/abort-controller"
+      "name": "dev-tool",
+      "path": "common/tools/dev-tool",
     },
     {
-      "name": "purview-catalog",
-      "path": "sdk/purview/purview-catalog-rest"
+      "name": "eslint-plugin-azure-sdk",
+      "path": "common/tools/eslint-plugin-azure-sdk",
     },
     {
-      "name": "anomaly-detector-rest",
-      "path": "sdk/anomalydetector/ai-anomaly-detector-rest"
+      "name": "vite-plugin-browser-test-map",
+      "path": "common/tools/vite-plugin-browser-test-map",
     },
     {
-      "name": "app-configuration",
-      "path": "sdk/appconfiguration/app-configuration"
-    },
-    {
-      "name": "communication-chat",
-      "path": "sdk/communication/communication-chat"
-    },
-    {
-      "name": "communication-common",
-      "path": "sdk/communication/communication-common"
-    },
-    {
-      "path": "sdk/communication/communication-email"
-    },
-    {
-      "name": "communication-identity",
-      "path": "sdk/communication/communication-identity"
-    },
-    {
-      "name": "communication-sms",
-      "path": "sdk/communication/communication-sms"
-    },
-    {
-      "name": "container-registry",
-      "path": "sdk/containerregistry/container-registry"
-    },
-    {
-      "name": "core-amqp",
-      "path": "sdk/core/core-amqp"
-    },
-    {
-      "name": "core-auth",
-      "path": "sdk/core/core-auth"
-    },
-    {
-      "name": "core-client",
-      "path": "sdk/core/core-client"
-    },
-    {
-      "name": "core-client-rest",
-      "path": "sdk/core/core-client-rest"
-    },
-    {
-      "name": "ai-document-translator",
-      "path": "sdk/documenttranslator/ai-document-translator-rest"
-    },
-    {
-      "name": "confidential-ledger",
-      "path": "sdk/confidentialledger/confidential-ledger-rest"
-    },
-    {
-      "name": "agrifood-farming",
-      "path": "sdk/agrifood/agrifood-farming-rest"
-    },
-    {
-      "name": "core-rest-pipeline",
-      "path": "sdk/core/core-rest-pipeline"
-    },
-    {
-      "name": "core-lro",
-      "path": "sdk/core/core-lro"
-    },
-    {
-      "name": "core-paging",
-      "path": "sdk/core/core-paging"
-    },
-    {
-      "name": "core-tracing",
-      "path": "sdk/core/core-tracing"
-    },
-    {
-      "name": "core-util",
-      "path": "sdk/core/core-util"
-    },
-    {
-      "name": "core-xml",
-      "path": "sdk/core/core-xml"
-    },
-    {
-      "name": "cosmos",
-      "path": "sdk/cosmosdb/cosmos"
-    },
-    {
-      "name": "eventgrid",
-      "path": "sdk/eventgrid/eventgrid"
-    },
-    {
-      "name": "event-hubs",
-      "path": "sdk/eventhub/event-hubs"
-    },
-    {
-      "name": "eventhubs-checkpointstore-blob",
-      "path": "sdk/eventhub/eventhubs-checkpointstore-blob"
-    },
-    {
-      "name": "form-recognizer",
-      "path": "sdk/formrecognizer/ai-form-recognizer"
-    },
-    {
-      "name": "identity",
-      "path": "sdk/identity/identity"
-    },
-    {
-      "name": "keyvault-admin",
-      "path": "sdk/keyvault/keyvault-admin"
-    },
-    {
-      "name": "keyvault-certificates",
-      "path": "sdk/keyvault/keyvault-certificates"
-    },
-    {
-      "name": "keyvault-keys",
-      "path": "sdk/keyvault/keyvault-keys"
-    },
-    {
-      "name": "keyvault-secrets",
-      "path": "sdk/keyvault/keyvault-secrets"
-    },
-    {
-      "name": "logger",
-      "path": "sdk/core/logger"
-    },
-    {
-      "name": "maps-common",
-      "path": "sdk/maps/maps-common"
-    },
-    {
-      "name": "maps-route-rest",
-      "path": "sdk/maps/maps-route-rest"
-    },
-    {
-      "name": "metrics-advisor",
-      "path": "sdk/metricsadvisor/ai-metrics-advisor"
-    },
-    {
-      "name": "schema-registry",
-      "path": "sdk/schemaregistry/schema-registry"
-    },
-    {
-      "name": "schema-registry-avro",
-      "path": "sdk/schemaregistry/schema-registry-avro"
-    },
-    {
-      "name": "search",
-      "path": "sdk/search/search-documents"
-    },
-    {
-      "name": "service-bus",
-      "path": "sdk/servicebus/service-bus"
-    },
-    {
-      "name": "storage-blob",
-      "path": "sdk/storage/storage-blob"
-    },
-    {
-      "name": "storage-blob-changefeed",
-      "path": "sdk/storage/storage-blob-changefeed"
-    },
-    {
-      "name": "storage-file-datalake",
-      "path": "sdk/storage/storage-file-datalake"
-    },
-    {
-      "name": "storage-file-share",
-      "path": "sdk/storage/storage-file-share"
-    },
-    {
-      "name": "storage-internal-avro",
-      "path": "sdk/storage/storage-internal-avro"
-    },
-    {
-      "name": "storage-queue",
-      "path": "sdk/storage/storage-queue"
-    },
-    {
-      "name": "synapse-access-control",
-      "path": "sdk/synapse/synapse-access-control"
-    },
-    {
-      "name": "synapse-artifacts",
-      "path": "sdk/synapse/synapse-artifacts"
-    },
-    {
-      "name": "synapse-managed-private-endpoints",
-      "path": "sdk/synapse/synapse-managed-private-endpoints"
-    },
-    {
-      "name": "synapse-monitoring",
-      "path": "sdk/synapse/synapse-monitoring"
-    },
-    {
-      "name": "synapse-spark",
-      "path": "sdk/synapse/synapse-spark"
-    },
-    {
-      "name": "tables",
-      "path": "sdk/tables/data-tables"
-    },
-    {
-      "name": "text analytics",
-      "path": "sdk/textanalytics/ai-text-analytics"
-    },
-    {
-      "name": "monitor",
-      "path": "sdk/monitor/monitor-opentelemetry-exporter"
-    },
-    {
-      "name": "test recorder",
-      "path": "sdk/test-utils/recorder"
-    },
-    {
-      "name": "template",
-      "path": "sdk/template/template"
-    },
-    {
-      "name": "eslint plugin",
-      "path": "common/tools/eslint-plugin-azure-sdk"
-    },
-    {
-      "name": "dev tool",
-      "path": "common/tools/dev-tool"
-    },
-    {
-      "name": "purview-scanning",
-      "path": "sdk/purview/purview-scanning-rest"
-    },
-    {
-      "name": "perf",
-      "path": "sdk/test-utils/perf"
-    },
-    {
-      "name": "multi-version test",
-      "path": "sdk/test-utils/multi-version"
-    },
-    {
-      "name": "digital-twins-core",
-      "path": "sdk/digitaltwins/digital-twins-core"
-    },
-    {
-      "name": "mixed-reality-authentication",
-      "path": "sdk/mixedreality/mixed-reality-authentication"
+      "name": "turborepo-remote-cache",
+      "path": "eng/containers/turborepo-remote-cache",
     },
     {
       "name": "attestation",
-      "path": "sdk/attestation/attestation"
+      "path": "sdk/attestation/attestation",
     },
     {
-      "path": "sdk/web-pubsub/web-pubsub"
+      "name": "container-registry",
+      "path": "sdk/containerregistry/container-registry",
     },
     {
-      "path": "sdk/web-pubsub/web-pubsub-express"
+      "name": "abort-controller",
+      "path": "sdk/core/abort-controller",
     },
     {
-      "path": "sdk/test-utils/test-utils"
+      "name": "core-amqp",
+      "path": "sdk/core/core-amqp",
     },
     {
-      "path": "sdk/purview/purview-administration-rest"
+      "name": "core-auth",
+      "path": "sdk/core/core-auth",
     },
     {
-      "path": "sdk/instrumentation/opentelemetry-instrumentation-azure-sdk"
+      "name": "core-client",
+      "path": "sdk/core/core-client",
     },
     {
-      "path": "sdk/core/core-http-compat"
+      "name": "core-client-rest",
+      "path": "sdk/core/core-client-rest",
     },
     {
-      "path": "sdk/openai/openai"
-    }
+      "name": "core-http-compat",
+      "path": "sdk/core/core-http-compat",
+    },
+    {
+      "name": "core-lro",
+      "path": "sdk/core/core-lro",
+    },
+    {
+      "name": "core-paging",
+      "path": "sdk/core/core-paging",
+    },
+    {
+      "name": "core-rest-pipeline",
+      "path": "sdk/core/core-rest-pipeline",
+    },
+    {
+      "name": "core-sse",
+      "path": "sdk/core/core-sse",
+    },
+    {
+      "name": "core-tracing",
+      "path": "sdk/core/core-tracing",
+    },
+    {
+      "name": "core-util",
+      "path": "sdk/core/core-util",
+    },
+    {
+      "name": "core-xml",
+      "path": "sdk/core/core-xml",
+    },
+    {
+      "name": "logger",
+      "path": "sdk/core/logger",
+    },
+    {
+      "name": "ts-http-runtime",
+      "path": "sdk/core/ts-http-runtime",
+    },
+    {
+      "name": "identity",
+      "path": "sdk/identity/identity",
+    },
+    {
+      "name": "identity-broker",
+      "path": "sdk/identity/identity-broker",
+    },
+    {
+      "name": "identity-cache-persistence",
+      "path": "sdk/identity/identity-cache-persistence",
+    },
+    {
+      "name": "identity-vscode",
+      "path": "sdk/identity/identity-vscode",
+    },
+    {
+      "name": "opentelemetry-instrumentation-azure-sdk",
+      "path": "sdk/instrumentation/opentelemetry-instrumentation-azure-sdk",
+    },
+    {
+      "name": "ai-metrics-advisor",
+      "path": "sdk/metricsadvisor/ai-metrics-advisor",
+    },
+    {
+      "name": "notification-hubs",
+      "path": "sdk/notificationhubs/notification-hubs",
+    },
+    {
+      "name": "schema-registry",
+      "path": "sdk/schemaregistry/schema-registry",
+    },
+    {
+      "name": "schema-registry-avro",
+      "path": "sdk/schemaregistry/schema-registry-avro",
+    },
+    {
+      "name": "schema-registry-json",
+      "path": "sdk/schemaregistry/schema-registry-json",
+    },
+    {
+      "name": "data-tables",
+      "path": "sdk/tables/data-tables",
+    },
+    {
+      "name": "template",
+      "path": "sdk/template/template",
+    },
+    {
+      "name": "template-dpg",
+      "path": "sdk/template/template-dpg",
+    },
+    {
+      "name": "test-utils-perf",
+      "path": "sdk/test-utils/perf",
+    },
+    {
+      "name": "test-utils-recorder",
+      "path": "sdk/test-utils/recorder",
+    },
+    {
+      "name": "test-utils-test-credential",
+      "path": "sdk/test-utils/test-credential",
+    },
+    {
+      "name": "test-utils-vitest",
+      "path": "sdk/test-utils/test-utils-vitest",
+    },
   ],
   "settings": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.detectIndentation": false,
     "editor.formatOnSave": true,
     "[markdown]": {
-      "editor.formatOnSave": false
+      "editor.formatOnSave": false,
     },
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
@@ -308,19 +180,19 @@
       "**/types/*": true,
       "**/coverage/*": true,
       "**/*.d.ts": true,
-      "**/test-browser/*": true
+      "**/test-browser/*": true,
     },
-    "typescript.tsdk": "core-http/node_modules/typescript/lib",
+    "typescript.tsdk": "sdk/core/core-rest-pipeline/node_modules/typescript/lib",
     "files.exclude": {
-      "**/node_modules": true
+      "**/node_modules": true,
     },
-    "eslint.useFlatConfig": true
+    "eslint.useFlatConfig": true,
   },
   "extensions": {
     "recommendations": [
       "dbaeumer.vscode-eslint",
       "esbenp.prettier-vscode",
-      "streetsidesoftware.code-spell-checker"
-    ]
-  }
+      "streetsidesoftware.code-spell-checker",
+    ],
+  },
 }
