@@ -104,8 +104,8 @@ describe.runIf(isLiveMode())("VoiceLive Integration - Connection Tests", () => {
     } finally {
       // Cleanup both sessions
       await Promise.all([
-        session1.disconnect().catch(() => { }),
-        session2.disconnect().catch(() => { }),
+        session1.disconnect().catch(() => {}),
+        session2.disconnect().catch(() => {}),
       ]);
     }
   });

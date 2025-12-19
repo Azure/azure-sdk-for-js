@@ -59,7 +59,6 @@ describe.runIf(isLiveMode())("MCP Approval Workflow - Live", () => {
   const timeoutMs = 90000; // Approval tests take longer
 
   beforeEach(function (this: any) {
-
     // Throw error if no endpoint configured
     if (!endpoint) {
       throw new Error("Missing VOICELIVE_ENDPOINT or AI_SERVICES_ENDPOINT environment variable");

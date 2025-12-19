@@ -73,7 +73,6 @@ describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
   const apiKey = process.env.VOICELIVE_API_KEY || process.env.AI_SERVICES_KEY;
 
   beforeEach(function (this: any) {
-
     if (!endpoint) {
       throw new Error("Missing VOICELIVE_ENDPOINT or AI_SERVICES_ENDPOINT environment variable");
     }
