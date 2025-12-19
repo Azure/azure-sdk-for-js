@@ -83,7 +83,7 @@ export async function deployModel(openAIClient: OpenAI, jobId: string): Promise<
   const deploymentName = "gpt-4-1-fine-tuned";
 
   const deploymentConfig: Deployment = {
-    sku: { name: "GlobalStandard", capacity: 100 },
+    sku: { name: "GlobalStandard", capacity: 50 },
     properties: {
       model: {
         format: "OpenAI",
@@ -100,22 +100,13 @@ export async function deployModel(openAIClient: OpenAI, jobId: string): Promise<
     new DefaultAzureCredential(),
     subscription_id as string,
   );
-  const deployment = await cognitiveClient.deployments.beginCreateOrUpdate(
+  await cognitiveClient.deployments.beginCreateOrUpdate(
     resource_group as string,
     account_name as string,
     deploymentName,
     deploymentConfig,
   );
 
-  while (
-    deployment.getOperationState().status !== "succeeded" &&
-    deployment.getOperationState().status !== "failed"
-  ) {
-    console.log(`Deployment status: ${deployment.getOperationState().status}`);
-    await new Promise((resolve) => setTimeout(resolve, 60_000));
-  }
-
-  console.log(`Model deployment completed: ${deploymentName}`);
   return deploymentName;
 }
 
@@ -191,7 +182,7 @@ export async function main(): Promise<void> {
   // await resumeJob(openAIClient, fineTuningJob.id);
 
   // 8) List events for the fine-tuning job
-  // console.log(`\nListing events for fine-tuning job with ID: ${fineTuningJob.id}`);
+  console.log(`\nListing events for fine-tuning job with ID: ${fineTuningJob.id}`);
   await listEvents(openAIClient, fineTuningJob.id);
 
   // Uncomment the commented methods to test specific functionalities.
