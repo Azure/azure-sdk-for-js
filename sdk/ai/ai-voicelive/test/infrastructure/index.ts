@@ -34,3 +34,4 @@ export * from "./testConstants.js";
 
 // Phase 3: MCP Test Infrastructure
 export * from "./mcpTestHelpers.js";
+export { MICROSOFT_LEARN_MCP_SERVER, isMicrosoftLearnMcpServerAvailable } from "./microsoftLearnMcp.js";
