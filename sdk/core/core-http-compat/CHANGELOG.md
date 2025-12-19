@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Move runtime dependencies "@azure/core-rest-pipeline" and "@azure/core-client" to `peerDependencies` and rely on the consumer of `core-http-compat` to pull in them.
+
 ## 2.3.1 (2025-09-11)
 
 ### Other Changes
