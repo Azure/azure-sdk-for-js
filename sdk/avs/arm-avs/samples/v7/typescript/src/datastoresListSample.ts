@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Datastore resources by Cluster
  *
  * @summary list Datastore resources by Cluster
- * x-ms-original-file: 2024-09-01/Datastores_List.json
+ * x-ms-original-file: 2025-09-01/Datastores_List.json
  */
 async function datastoresList(): Promise<void> {
   const credential = new DefaultAzureCredential();

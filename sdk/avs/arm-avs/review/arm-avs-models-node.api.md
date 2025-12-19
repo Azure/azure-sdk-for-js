@@ -78,7 +78,45 @@ export interface AvailabilityProperties {
 export type AvailabilityStrategy = string;
 
 // @public
+export interface AvailableWindowForMaintenanceWhileRescheduleOperation extends RescheduleOperationConstraint {
+    readonly endsAt: Date;
+    kind: "AvailableWindowForMaintenance";
+    readonly startsAt: Date;
+}
+
+// @public
+export interface AvailableWindowForMaintenanceWhileScheduleOperation extends ScheduleOperationConstraint {
+    readonly endsAt: Date;
+    kind: "AvailableWindowForMaintenance";
+    readonly startsAt: Date;
+}
+
+// @public
 export type AzureHybridBenefitType = string;
+
+// @public
+export type BlockedDatesConstraintCategory = string;
+
+// @public
+export interface BlockedDatesConstraintTimeRange {
+    readonly endsAt: Date;
+    readonly reason?: string;
+    readonly startsAt: Date;
+}
+
+// @public
+export interface BlockedWhileRescheduleOperation extends RescheduleOperationConstraint {
+    readonly category: BlockedDatesConstraintCategory;
+    kind: "Blocked";
+    readonly timeRanges?: BlockedDatesConstraintTimeRange[];
+}
+
+// @public
+export interface BlockedWhileScheduleOperation extends ScheduleOperationConstraint {
+    readonly category: BlockedDatesConstraintCategory;
+    kind: "Blocked";
+    readonly timeRanges?: BlockedDatesConstraintTimeRange[];
+}
 
 // @public
 export interface Circuit {
@@ -357,6 +395,21 @@ export interface IdentitySource {
 }
 
 // @public
+export interface ImpactedMaintenanceResource {
+    readonly errors?: ImpactedMaintenanceResourceError[];
+    readonly id?: string;
+}
+
+// @public
+export interface ImpactedMaintenanceResourceError {
+    readonly actionRequired?: boolean;
+    readonly details?: string;
+    readonly errorCode?: string;
+    readonly name?: string;
+    readonly resolutionSteps?: string[];
+}
+
+// @public
 export type InternetEnum = string;
 
 // @public
@@ -391,13 +444,9 @@ export enum KnownAddonProvisioningState {
 
 // @public
 export enum KnownAddonType {
-    // (undocumented)
     Arc = "Arc",
-    // (undocumented)
     HCX = "HCX",
-    // (undocumented)
     SRM = "SRM",
-    // (undocumented)
     VR = "VR"
 }
 
@@ -423,6 +472,13 @@ export enum KnownAvailabilityStrategy {
 export enum KnownAzureHybridBenefitType {
     None = "None",
     SqlHost = "SqlHost"
+}
+
+// @public
+export enum KnownBlockedDatesConstraintCategory {
+    HiPriorityEvent = "HiPriorityEvent",
+    Holiday = "Holiday",
+    QuotaExhausted = "QuotaExhausted"
 }
 
 // @public
@@ -484,9 +540,7 @@ export enum KnownDatastoreStatus {
 
 // @public
 export enum KnownDhcpTypeEnum {
-    // (undocumented)
     Relay = "RELAY",
-    // (undocumented)
     Server = "SERVER"
 }
 
@@ -569,9 +623,7 @@ export enum KnownHcxEnterpriseSiteStatus {
 
 // @public
 export enum KnownHostKind {
-    // (undocumented)
     General = "General",
-    // (undocumented)
     Specialized = "Specialized"
 }
 
@@ -603,6 +655,83 @@ export enum KnownIscsiPathProvisioningState {
     Pending = "Pending",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownLicenseKind {
+    VmwareFirewall = "VmwareFirewall"
+}
+
+// @public
+export enum KnownLicenseName {
+    VmwareFirewall = "VmwareFirewall"
+}
+
+// @public
+export enum KnownLicenseProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownMaintenanceCheckType {
+    Precheck = "Precheck",
+    Preflight = "Preflight"
+}
+
+// @public
+export enum KnownMaintenanceManagementOperationKind {
+    MaintenanceReadinessRefresh = "MaintenanceReadinessRefresh",
+    Reschedule = "Reschedule",
+    Schedule = "Schedule"
+}
+
+// @public
+export enum KnownMaintenanceProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownMaintenanceReadinessRefreshOperationStatus {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    NotApplicable = "NotApplicable",
+    NotStarted = "NotStarted"
+}
+
+// @public
+export enum KnownMaintenanceReadinessStatus {
+    DataNotAvailable = "DataNotAvailable",
+    NotApplicable = "NotApplicable",
+    NotReady = "NotReady",
+    Ready = "Ready"
+}
+
+// @public
+export enum KnownMaintenanceStateName {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    NotScheduled = "NotScheduled",
+    Scheduled = "Scheduled",
+    Success = "Success"
+}
+
+// @public
+export enum KnownMaintenanceStatusFilter {
+    Active = "Active",
+    Inactive = "Inactive"
+}
+
+// @public
+export enum KnownMaintenanceType {
+    Esxi = "ESXI",
+    Nsxt = "NSXT",
+    Vcsa = "VCSA"
 }
 
 // @public
@@ -648,9 +777,7 @@ export enum KnownPlacementPolicyState {
 
 // @public
 export enum KnownPlacementPolicyType {
-    // (undocumented)
     VmHost = "VmHost",
-    // (undocumented)
     VmVm = "VmVm"
 }
 
@@ -713,6 +840,12 @@ export enum KnownQuotaEnabled {
 }
 
 // @public
+export enum KnownRescheduleOperationConstraintKind {
+    AvailableWindowForMaintenanceWhileRescheduleOperation = "AvailableWindowForMaintenance",
+    BlockedWhileRescheduleOperation = "Blocked"
+}
+
+// @public
 export enum KnownResourceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned"
@@ -737,6 +870,13 @@ export enum KnownResourceSkuRestrictionsType {
 }
 
 // @public
+export enum KnownScheduleOperationConstraintKind {
+    AvailableWindowForMaintenanceWhileScheduleOperation = "AvailableWindowForMaintenance",
+    BlockedWhileScheduleOperation = "Blocked",
+    SchedulingWindow = "SchedulingWindow"
+}
+
+// @public
 export enum KnownScriptCmdletAudience {
     Any = "Any",
     Automation = "Automation"
@@ -751,11 +891,8 @@ export enum KnownScriptCmdletProvisioningState {
 
 // @public
 export enum KnownScriptExecutionParameterType {
-    // (undocumented)
     Credential = "Credential",
-    // (undocumented)
     SecureValue = "SecureValue",
-    // (undocumented)
     Value = "Value"
 }
 
@@ -816,9 +953,15 @@ export enum KnownTrialStatus {
 }
 
 // @public
+export enum KnownVcfLicenseKind {
+    Vcf5 = "vcf5"
+}
+
+// @public
 export enum KnownVersions {
     V20230901 = "2023-09-01",
-    V20240901 = "2024-09-01"
+    V20240901 = "2024-09-01",
+    V20250901 = "2025-09-01"
 }
 
 // @public
@@ -932,6 +1075,133 @@ export enum KnownWorkloadNetworkVMGroupProvisioningState {
     Succeeded = "Succeeded",
     Updating = "Updating"
 }
+
+// @public
+export interface Label {
+    key: string;
+    value: string;
+}
+
+// @public
+export interface License extends ProxyResource {
+    properties?: LicensePropertiesUnion;
+}
+
+// @public
+export type LicenseKind = string;
+
+// @public
+export type LicenseName = string;
+
+// @public
+export interface LicenseProperties {
+    kind: LicenseKind;
+    readonly provisioningState?: LicenseProvisioningState;
+}
+
+// @public
+export type LicensePropertiesUnion = VmwareFirewallLicenseProperties | LicenseProperties;
+
+// @public
+export type LicenseProvisioningState = string;
+
+// @public
+export interface Maintenance extends ProxyResource {
+    properties?: MaintenanceProperties;
+}
+
+// @public
+export type MaintenanceCheckType = string;
+
+// @public
+export interface MaintenanceFailedCheck {
+    readonly impactedResources?: ImpactedMaintenanceResource[];
+    readonly name?: string;
+}
+
+// @public
+export interface MaintenanceManagementOperation {
+    readonly kind: MaintenanceManagementOperationKind;
+}
+
+// @public
+export type MaintenanceManagementOperationKind = string;
+
+// @public
+export type MaintenanceManagementOperationUnion = ScheduleOperation | RescheduleOperation | MaintenanceReadinessRefreshOperation | MaintenanceManagementOperation;
+
+// @public
+export interface MaintenanceProperties {
+    readonly clusterId?: number;
+    readonly component?: MaintenanceType;
+    readonly displayName?: string;
+    readonly estimatedDurationInMinutes?: number;
+    readonly impact?: string;
+    readonly infoLink?: string;
+    readonly maintenanceReadiness?: MaintenanceReadiness;
+    readonly operations?: MaintenanceManagementOperationUnion[];
+    readonly provisioningState?: MaintenanceProvisioningState;
+    readonly scheduledByMicrosoft?: boolean;
+    readonly scheduledStartTime?: Date;
+    readonly state?: MaintenanceState;
+}
+
+// @public
+export type MaintenanceProvisioningState = string;
+
+// @public
+export interface MaintenanceReadiness {
+    readonly failedChecks?: MaintenanceFailedCheck[];
+    readonly lastUpdated?: Date;
+    readonly message?: string;
+    readonly status: MaintenanceReadinessStatus;
+    readonly type: MaintenanceCheckType;
+}
+
+// @public
+export interface MaintenanceReadinessRefreshOperation extends MaintenanceManagementOperation {
+    readonly disabledReason?: string;
+    readonly isDisabled?: boolean;
+    kind: "MaintenanceReadinessRefresh";
+    readonly message?: string;
+    readonly refreshedByMicrosoft?: boolean;
+    readonly status?: MaintenanceReadinessRefreshOperationStatus;
+}
+
+// @public
+export type MaintenanceReadinessRefreshOperationStatus = string;
+
+// @public
+export type MaintenanceReadinessStatus = string;
+
+// @public
+export interface MaintenanceReschedule {
+    message?: string;
+    rescheduleTime?: Date;
+}
+
+// @public
+export interface MaintenanceSchedule {
+    message?: string;
+    scheduleTime?: Date;
+}
+
+// @public
+export interface MaintenanceState {
+    endedAt?: Date;
+    message?: string;
+    name?: MaintenanceStateName;
+    startedAt?: Date;
+}
+
+// @public
+export type MaintenanceStateName = string;
+
+// @public
+export type MaintenanceStatusFilter = string;
+
+// @public
+export type MaintenanceType = string;
 
 // @public
 export interface ManagementCluster {
@@ -1058,6 +1328,7 @@ export interface PrivateCloudProperties {
     secondaryCircuit?: Circuit;
     readonly vcenterCertificateThumbprint?: string;
     vcenterPassword?: string;
+    vcfLicense?: VcfLicenseUnion;
     virtualNetworkId?: string;
     readonly vmotionNetwork?: string;
 }
@@ -1144,6 +1415,25 @@ export interface Quota {
 export type QuotaEnabled = string;
 
 // @public
+export interface RescheduleOperation extends MaintenanceManagementOperation {
+    readonly constraints?: RescheduleOperationConstraintUnion[];
+    readonly disabledReason?: string;
+    readonly isDisabled?: boolean;
+    kind: "Reschedule";
+}
+
+// @public
+export interface RescheduleOperationConstraint {
+    readonly kind: RescheduleOperationConstraintKind;
+}
+
+// @public
+export type RescheduleOperationConstraintKind = string;
+
+// @public
+export type RescheduleOperationConstraintUnion = AvailableWindowForMaintenanceWhileRescheduleOperation | BlockedWhileRescheduleOperation | RescheduleOperationConstraint;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -1207,6 +1497,32 @@ export type ResourceSkuRestrictionsType = string;
 export interface ResourceSkuZoneDetails {
     capabilities: ResourceSkuCapabilities[];
     name: string[];
+}
+
+// @public
+export interface ScheduleOperation extends MaintenanceManagementOperation {
+    readonly constraints?: ScheduleOperationConstraintUnion[];
+    readonly disabledReason?: string;
+    readonly isDisabled?: boolean;
+    kind: "Schedule";
+}
+
+// @public
+export interface ScheduleOperationConstraint {
+    readonly kind: ScheduleOperationConstraintKind;
+}
+
+// @public
+export type ScheduleOperationConstraintKind = string;
+
+// @public
+export type ScheduleOperationConstraintUnion = SchedulingWindow | AvailableWindowForMaintenanceWhileScheduleOperation | BlockedWhileScheduleOperation | ScheduleOperationConstraint;
+
+// @public
+export interface SchedulingWindow extends ScheduleOperationConstraint {
+    readonly endsAt: Date;
+    kind: "SchedulingWindow";
+    readonly startsAt: Date;
 }
 
 // @public
@@ -1361,6 +1677,29 @@ export interface Trial {
 export type TrialStatus = string;
 
 // @public
+export interface Vcf5License extends VcfLicense {
+    broadcomContractNumber?: string;
+    broadcomSiteId?: string;
+    cores: number;
+    endDate: Date;
+    kind: "vcf5";
+    labels?: Label[];
+    licenseKey?: string;
+}
+
+// @public
+export interface VcfLicense {
+    kind: VcfLicenseKind;
+    readonly provisioningState?: LicenseProvisioningState;
+}
+
+// @public
+export type VcfLicenseKind = string;
+
+// @public
+export type VcfLicenseUnion = Vcf5License | VcfLicense;
+
+// @public
 export interface VirtualMachine extends ProxyResource {
     properties?: VirtualMachineProperties;
 }
@@ -1410,6 +1749,17 @@ export interface VmPlacementPolicyProperties extends PlacementPolicyProperties {
 
 // @public
 export type VMTypeEnum = string;
+
+// @public
+export interface VmwareFirewallLicenseProperties extends LicenseProperties {
+    broadcomContractNumber?: string;
+    broadcomSiteId?: string;
+    cores: number;
+    endDate: Date;
+    kind: "VmwareFirewall";
+    labels?: Label[];
+    licenseKey?: string;
+}
 
 // @public
 export interface WorkloadNetwork extends ProxyResource {

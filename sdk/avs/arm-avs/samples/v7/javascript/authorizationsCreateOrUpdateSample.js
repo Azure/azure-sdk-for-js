@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a ExpressRouteAuthorization
  *
  * @summary create a ExpressRouteAuthorization
- * x-ms-original-file: 2024-09-01/Authorizations_CreateOrUpdate.json
+ * x-ms-original-file: 2025-09-01/Authorizations_CreateOrUpdate.json
  */
 async function authorizationsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

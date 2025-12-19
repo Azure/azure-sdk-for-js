@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a HcxEnterpriseSite
  *
  * @summary create a HcxEnterpriseSite
- * x-ms-original-file: 2024-09-01/HcxEnterpriseSites_CreateOrUpdate.json
+ * x-ms-original-file: 2025-09-01/HcxEnterpriseSites_CreateOrUpdate.json
  */
 async function hcxEnterpriseSitesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a WorkloadNetworkVMGroup
  *
  * @summary create a WorkloadNetworkVMGroup
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_CreateVMGroup.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_CreateVMGroup.json
  */
 async function workloadNetworksCreateVMGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

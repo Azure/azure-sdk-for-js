@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { PureStoragePolicy } from "../../models/models.js";
-import {
+import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { $delete, createOrUpdate, get, list } from "../../api/pureStoragePolicies/operations.js";
+import type {
   PureStoragePoliciesDeleteOptionalParams,
   PureStoragePoliciesCreateOrUpdateOptionalParams,
   PureStoragePoliciesGetOptionalParams,
   PureStoragePoliciesListOptionalParams,
 } from "../../api/pureStoragePolicies/options.js";
-import { $delete, createOrUpdate, get, list } from "../../api/pureStoragePolicies/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PureStoragePolicy } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PureStoragePolicies operations. */
 export interface PureStoragePoliciesOperations {

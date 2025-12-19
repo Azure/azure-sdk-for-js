@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { GlobalReachConnection } from "../../models/models.js";
-import {
+import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { $delete, createOrUpdate, get, list } from "../../api/globalReachConnections/operations.js";
+import type {
   GlobalReachConnectionsDeleteOptionalParams,
   GlobalReachConnectionsCreateOrUpdateOptionalParams,
   GlobalReachConnectionsGetOptionalParams,
   GlobalReachConnectionsListOptionalParams,
 } from "../../api/globalReachConnections/options.js";
-import { $delete, createOrUpdate, get, list } from "../../api/globalReachConnections/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { GlobalReachConnection } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GlobalReachConnections operations. */
 export interface GlobalReachConnectionsOperations {

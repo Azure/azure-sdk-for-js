@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a ScriptExecution
  *
  * @summary create a ScriptExecution
- * x-ms-original-file: 2024-09-01/ScriptExecutions_CreateOrUpdate.json
+ * x-ms-original-file: 2025-09-01/ScriptExecutions_CreateOrUpdate.json
  */
 async function scriptExecutionsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,23 +21,11 @@ async function scriptExecutionsCreateOrUpdate(): Promise<void> {
       timeout: "P0Y0M0DT0H60M60S",
       retention: "P0Y0M60DT0H60M60S",
       parameters: [
-        {
-          name: "DomainName",
-          type: "Value",
-          value: "placeholderDomain.local",
-        },
-        {
-          name: "BaseUserDN",
-          type: "Value",
-          value: "DC=placeholder, DC=placeholder",
-        },
+        { name: "DomainName", type: "Value", value: "placeholderDomain.local" },
+        { name: "BaseUserDN", type: "Value", value: "DC=placeholder, DC=placeholder" },
       ],
       hiddenParameters: [
-        {
-          name: "Password",
-          type: "SecureValue",
-          secureValue: "PlaceholderPassword",
-        },
+        { name: "Password", type: "SecureValue", secureValue: "PlaceholderPassword" },
       ],
     },
   });

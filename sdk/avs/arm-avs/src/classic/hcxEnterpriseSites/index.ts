@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { HcxEnterpriseSite } from "../../models/models.js";
-import {
+import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { $delete, createOrUpdate, get, list } from "../../api/hcxEnterpriseSites/operations.js";
+import type {
   HcxEnterpriseSitesDeleteOptionalParams,
   HcxEnterpriseSitesCreateOrUpdateOptionalParams,
   HcxEnterpriseSitesGetOptionalParams,
   HcxEnterpriseSitesListOptionalParams,
 } from "../../api/hcxEnterpriseSites/options.js";
-import { $delete, createOrUpdate, get, list } from "../../api/hcxEnterpriseSites/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { HcxEnterpriseSite } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a HcxEnterpriseSites operations. */
 export interface HcxEnterpriseSitesOperations {

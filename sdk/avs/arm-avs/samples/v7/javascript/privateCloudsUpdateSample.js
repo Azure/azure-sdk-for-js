@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a PrivateCloud
  *
  * @summary update a PrivateCloud
- * x-ms-original-file: 2024-09-01/PrivateClouds_Update.json
+ * x-ms-original-file: 2025-09-01/PrivateClouds_Update.json
  */
 async function privateCloudsUpdate() {
   const credential = new DefaultAzureCredential();
@@ -35,7 +35,7 @@ async function privateCloudsUpdate() {
  * This sample demonstrates how to update a PrivateCloud
  *
  * @summary update a PrivateCloud
- * x-ms-original-file: 2024-09-01/PrivateClouds_Update_Stretched.json
+ * x-ms-original-file: 2025-09-01/PrivateClouds_Update_Stretched.json
  */
 async function privateCloudsUpdateStretched() {
   const credential = new DefaultAzureCredential();

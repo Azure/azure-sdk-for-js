@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to list PlacementPolicy resources by Cluster
  *
  * @summary list PlacementPolicy resources by Cluster
- * x-ms-original-file: 2024-09-01/PlacementPolicies_List.json
+ * x-ms-original-file: 2025-09-01/PlacementPolicies_List.json
  */
-
-import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function placementPoliciesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
