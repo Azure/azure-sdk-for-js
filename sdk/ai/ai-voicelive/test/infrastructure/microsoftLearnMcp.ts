@@ -17,14 +17,6 @@ import type { MCPServer } from "../../src/models/index.js";
  *
  * This server is publicly accessible and provides real tools for
  * querying Microsoft Learn content.
- *
- * @example
- * ```typescript
- * await session.configureSession({
- *   model: "gpt-4o-realtime-preview-2024-12-17",
- *   tools: [MICROSOFT_LEARN_MCP_SERVER]
- * });
- * ```
  */
 export const MICROSOFT_LEARN_MCP_SERVER: MCPServer = {
   type: "mcp",
