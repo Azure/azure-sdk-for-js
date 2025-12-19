@@ -966,7 +966,7 @@ describe("finetuning - basic", () => {
       "testFinetuningDeployAndInferOssModelSftJob",
     );
     await inferJobHelper(
-      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_DEPLOYMENT_NAME",
+      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OSS_MODEL_SFT_DEPLOYMENT_NAME",
       "testFinetuningDeployAndInferOssModelSftJob",
       "Who invented the telephone?",
     );
