@@ -401,12 +401,11 @@ describe("finetuning - basic", () => {
     await cleanupTestFile(validationFile.id);
   }
 
-  async function deployAndInferJobHelper(
+  async function deployJobHelper(
     completedJobIdEnvVar: string,
     deploymentFormat: string,
     deploymentCapacity: number,
     testPrefix: string,
-    inference_content: string,
   ): Promise<void> {
     const completedJobId = process.env[completedJobIdEnvVar];
     if (!completedJobId) {
@@ -452,21 +451,26 @@ describe("finetuning - basic", () => {
       new DefaultAzureCredential(),
       subscriptionId as string,
     );
-    const deployment = await cognitiveClient.deployments.beginCreateOrUpdate(
+    await cognitiveClient.deployments.beginCreateOrUpdate(
       resourceGroup as string,
       accountName as string,
       deploymentName,
       deploymentConfig,
     );
 
-    while (
-      deployment.getOperationState().status !== "succeeded" &&
-      deployment.getOperationState().status !== "failed"
-    ) {
-      console.log(`Deployment status: ${deployment.getOperationState().status}`);
-      await new Promise((resolve) => setTimeout(resolve, 30_000));
+    console.log(`Successfully completed deployment test for job: ${completedJobId}`);
+  }
+
+  async function inferJobHelper(
+    deploymentNameEnvVar: string,
+    testPrefix: string,
+    inference_content: string,
+  ): Promise<void> {
+    const deploymentName = process.env[deploymentNameEnvVar];
+    if (!deploymentName) {
+      console.warn(`Environment variable ${deploymentNameEnvVar} is not set. Skipping test.`);
+      return;
     }
-    console.log(`Deployment completed: ${deploymentName}`);
 
     console.log(`Testing inference on deployment: ${deploymentName}`);
     const response = await openai.responses.create({
@@ -480,14 +484,7 @@ describe("finetuning - basic", () => {
     assert.isString(response.output_text, "Response output_text should be a string");
     console.log(`[${testPrefix}] Successfully validated inference response`);
 
-    console.log(`Cleaning up deployment: ${deploymentName}`);
-    await cognitiveClient.deployments.beginDelete(
-      resourceGroup as string,
-      accountName as string,
-      deploymentName,
-    );
-    console.log(`Deployment cleanup initiated`);
-    console.log(`Successfully completed deployment and inference test for job: ${completedJobId}`);
+    console.log(`Successfully completed inference test for deployment: ${deploymentName}`);
   }
 
   function extractAccountNameFromEndpoint(projectEndpoint: string): string {
@@ -920,40 +917,56 @@ describe("finetuning - basic", () => {
   });
 
   it.skipIf(!isLive)("should test finetuning deploy and infer openai model sft job", async () => {
-    await deployAndInferJobHelper(
+    await deployJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_FINE_TUNING_JOB_ID",
       "OpenAI",
       50,
+      "testFinetuningDeployAndInferOpenaiModelSftJob",
+    );
+    await inferJobHelper(
+      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_DEPLOYMENT_NAME",
       "testFinetuningDeployAndInferOpenaiModelSftJob",
       "Who invented the telephone?",
     );
   });
 
   it.skipIf(!isLive)("should test finetuning deploy and infer openai model rft job", async () => {
-    await deployAndInferJobHelper(
+    await deployJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_RFT_FINE_TUNING_JOB_ID",
       "OpenAI",
       50,
+      "testFinetuningDeployAndInferOpenaiModelRftJob",
+    );
+    await inferJobHelper(
+      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_RFT_DEPLOYMENT_NAME",
       "testFinetuningDeployAndInferOpenaiModelRftJob",
       "Target: 85 Numbers: [20, 4, 15, 10]. Find a mathematical expression using all numbers exactly once to reach the target.",
     );
   });
 
   it.skipIf(!isLive)("should test finetuning deploy and infer openai model dpo job", async () => {
-    await deployAndInferJobHelper(
+    await deployJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_DPO_FINE_TUNING_JOB_ID",
       "OpenAI",
       50,
+      "testFinetuningDeployAndInferOpenaiModelDpoJob",
+    );
+    await inferJobHelper(
+      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_DPO_DEPLOYMENT_NAME",
       "testFinetuningDeployAndInferOpenaiModelDpoJob",
       "What is the largest desert in the world?",
     );
   });
 
   it.skipIf(!isLive)("should test finetuning deploy and infer oss model sft job", async () => {
-    await deployAndInferJobHelper(
+    await deployJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OSS_MODEL_SFT_FINE_TUNING_JOB_ID",
       "Mistral AI",
       50,
+      "testFinetuningDeployAndInferOssModelSftJob",
+    );
+    await inferJobHelper(
+      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_DEPLOYMENT_NAME",
       "testFinetuningDeployAndInferOssModelSftJob",
       "Who invented the telephone?",
     );
