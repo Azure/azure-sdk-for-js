@@ -31,9 +31,9 @@ import {
   KnownMessageRole,
   KnownContentPartType,
   type ResponseMCPCallItem,
-  ServerEventConversationItemCreated,
-  ServerEventResponseOutputItemDone,
-  ServerEventResponseOutputItemAdded
+  type ServerEventConversationItemCreated,
+  type ServerEventResponseOutputItemDone,
+  type ServerEventResponseOutputItemAdded
 } from "../../src/index.js";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -189,8 +189,6 @@ describe("MCP Approval Workflow - Live", () => {
       await session.updateSession(sessionConfig);
       await recorder.waitForEvent(KnownServerEventType.McpListToolsCompleted);
 
-      let approvalRequestId: string | undefined;
-
       const userMessage = {
         type: KnownItemType.Message,
         role: KnownMessageRole.User,
@@ -213,9 +211,9 @@ describe("MCP Approval Workflow - Live", () => {
       const itemCreated = events.find(event => event.type === KnownServerEventType.ConversationItemCreated) as ServerEventConversationItemCreated;
       expect(itemCreated).toBeDefined();
       expect(itemCreated.item?.type).toBe(KnownItemType.McpCall);
-      var items = events.filter(event => event.type === KnownServerEventType.ConversationItemCreated) as ServerEventConversationItemCreated[];
+      const items = events.filter(event => event.type === KnownServerEventType.ConversationItemCreated) as ServerEventConversationItemCreated[];
       const approvalRequest = items[1].item as MCPApprovalResponseRequestItem;
-      approvalRequestId = approvalRequest.id;
+      const approvalRequestId: string | undefined = approvalRequest.id;
       expect(approvalRequestId).toBeDefined();
 
       // Listen for tool execution start
