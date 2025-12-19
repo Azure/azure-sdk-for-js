@@ -7,25 +7,27 @@ import type { VoiceLiveSession } from "../../src/index.js";
 let SpeechSDK: any;
 
 // Try different import methods depending on environment
-if (typeof self === 'undefined') {
+if (typeof self === "undefined") {
   // Node.js environment - use require
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   SpeechSDK = require("microsoft-cognitiveservices-speech-sdk");
 } else {
   // Browser environment - use dynamic import with proper syntax
   // The Speech SDK might be available as a global or need dynamic import
-  if (typeof self !== 'undefined' && (self as any).SpeechSDK) {
+  if (typeof self !== "undefined" && (self as any).SpeechSDK) {
     // Available as global (e.g., from CDN)
     SpeechSDK = (self as any).SpeechSDK;
   } else {
     // Try dynamic import - this will be resolved at build time by bundler
-    import("microsoft-cognitiveservices-speech-sdk").then((module) => {
-      // Handle both default and named exports
-      SpeechSDK = module.default || module;
-      return;
-    }).catch(() => {
-      // Fallback handled below
-    });
+    import("microsoft-cognitiveservices-speech-sdk")
+      .then((module) => {
+        // Handle both default and named exports
+        SpeechSDK = module.default || module;
+        return;
+      })
+      .catch(() => {
+        // Fallback handled below
+      });
   }
 }
 
@@ -36,7 +38,6 @@ if (typeof self === 'undefined') {
  */
 export function generateTestAudio(text: string): Promise<ArrayBuffer> {
   return new Promise<ArrayBuffer>((resolve, reject) => {
-
     // Use real Speech SDK in Node.js environment
     try {
       const endpoint = process.env.VOICELIVE_ENDPOINT || process.env.AI_SERVICES_ENDPOINT;
@@ -49,10 +50,12 @@ export function generateTestAudio(text: string): Promise<ArrayBuffer> {
       }
 
       const speechConfig = SpeechSDK.SpeechConfig.fromEndpoint(new URL(endpoint), apiKey);
-      speechConfig.speechSynthesisOutputFormat = SpeechSDK.SpeechSynthesisOutputFormat.Raw16Khz16BitMonoPcm;
+      speechConfig.speechSynthesisOutputFormat =
+        SpeechSDK.SpeechSynthesisOutputFormat.Raw16Khz16BitMonoPcm;
 
       const synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
-      synthesizer.speakTextAsync(text,
+      synthesizer.speakTextAsync(
+        text,
         (synthesisResult: any) => {
           if (synthesisResult.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) {
             const audioData = synthesisResult.audioData;
@@ -63,7 +66,7 @@ export function generateTestAudio(text: string): Promise<ArrayBuffer> {
         },
         (error: any) => {
           reject(new Error(`Speech synthesis error: ${error}`));
-        }
+        },
       );
     } catch (error) {
       // Fallback to mock audio if Speech SDK fails
@@ -91,7 +94,7 @@ function generateMockAudio(text: string): ArrayBuffer {
   // Generate simple sine wave
   const frequency = 440;
   for (let i = 0; i < numSamples; i++) {
-    const sample = Math.sin(2 * Math.PI * frequency * i / sampleRate) * 0.1;
+    const sample = Math.sin((2 * Math.PI * frequency * i) / sampleRate) * 0.1;
     audioView[i] = Math.floor(sample * 32767);
   }
 

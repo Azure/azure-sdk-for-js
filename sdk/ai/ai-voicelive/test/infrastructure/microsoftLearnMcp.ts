@@ -3,10 +3,10 @@
 
 /**
  * Microsoft Learn MCP Server Configuration
- * 
+ *
  * The Microsoft Learn MCP server provides tools for querying
  * Microsoft Learn documentation and resources.
- * 
+ *
  * Server URL: https://learn.microsoft.com/api/mcp
  */
 
@@ -14,10 +14,10 @@ import type { MCPServer } from "../../src/models/index.js";
 
 /**
  * Microsoft Learn MCP Server configuration for integration testing.
- * 
+ *
  * This server is publicly accessible and provides real tools for
  * querying Microsoft Learn content.
- * 
+ *
  * @example
  * ```typescript
  * await session.configureSession({

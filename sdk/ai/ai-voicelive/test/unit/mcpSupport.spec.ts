@@ -59,7 +59,7 @@ describe("VoiceLive MCP Support", () => {
         },
         {
           type: "mcp",
-          serverLabel: "calendar-server", 
+          serverLabel: "calendar-server",
           serverUrl: "https://calendar-mcp.example.com",
           allowedTools: ["get_events", "create_event"],
           requireApproval: "always",
@@ -86,13 +86,13 @@ describe("VoiceLive MCP Support", () => {
         serverLabel: "enterprise-server",
         serverUrl: "https://enterprise-mcp.internal.com",
         headers: {
-          "Authorization": "Bearer token123",
+          Authorization: "Bearer token123",
           "X-API-Version": "v1",
         },
         allowedTools: ["read_data", "write_data", "delete_data"],
         requireApproval: {
-          "delete_data": ["admin", "supervisor"],
-          "write_data": ["admin"],
+          delete_data: ["admin", "supervisor"],
+          write_data: ["admin"],
         },
       };
 
@@ -107,12 +107,12 @@ describe("VoiceLive MCP Support", () => {
       const sessionConfig = sessionUpdateMessages[0].session;
       const mcpTool = sessionConfig.tools[0];
       expect(mcpTool.headers).toEqual({
-        "Authorization": "Bearer token123",
+        Authorization: "Bearer token123",
         "X-API-Version": "v1",
       });
       expect(mcpTool.requireApproval).toEqual({
-        "delete_data": ["admin", "supervisor"],
-        "write_data": ["admin"],
+        delete_data: ["admin", "supervisor"],
+        write_data: ["admin"],
       });
     });
 
@@ -598,7 +598,7 @@ describe("VoiceLive MCP Support", () => {
     });
 
     it("should validate MCP server configuration", async () => {
-      // Test missing required fields - this test is more for illustration 
+      // Test missing required fields - this test is more for illustration
       // since the actual validation would happen in the real implementation
       const invalidConfig = {
         tools: [

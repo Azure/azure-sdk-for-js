@@ -264,11 +264,11 @@ export class VoiceLiveWebSocket implements VoiceLiveWebSocketLike {
     }
 
     const urlObj = new URL(url);
-    
+
     // Convert known authentication headers to appropriate query parameters
     for (const [key, value] of Object.entries(headers)) {
       const lowerKey = key.toLowerCase();
-      
+
       if (lowerKey === "authorization") {
         // Convert Bearer token to authorization query parameter
         urlObj.searchParams.set("authorization", value);

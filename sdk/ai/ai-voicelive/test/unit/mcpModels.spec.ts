@@ -3,17 +3,14 @@
 
 /**
  * Phase 1: MCP Model Serialization & Validation Tests
- * 
+ *
  * This test suite validates the serialization and deserialization of MCP-related
  * models to ensure proper JSON structure and field mapping between TypeScript
  * models and the wire protocol format.
  */
 
 import { describe, it, expect } from "vitest";
-import type {
-  MCPServer,
-  MCPApprovalResponseRequestItem,
-} from "../../src/models/index.js";
+import type { MCPServer, MCPApprovalResponseRequestItem } from "../../src/models/index.js";
 // Import serializers directly from implementation for unit testing
 import {
   mcpServerSerializer,
@@ -156,16 +153,16 @@ describe("MCP Models - Serialization & Validation", () => {
         serverLabel: "per-tool-approval",
         serverUrl: "https://pertool.example.com",
         requireApproval: {
-          "delete_file": ["admin"],
-          "write_file": ["admin", "user"],
+          delete_file: ["admin"],
+          write_file: ["admin", "user"],
         },
       };
 
       const serialized = mcpServerSerializer(mcpServer);
 
       expect(serialized.require_approval).toEqual({
-        "delete_file": ["admin"],
-        "write_file": ["admin", "user"],
+        delete_file: ["admin"],
+        write_file: ["admin", "user"],
       });
     });
 
@@ -286,7 +283,9 @@ describe("MCP Models - Serialization & Validation", () => {
 
       const deserialized = responseMCPApprovalRequestItemDeserializer(wireFormat);
 
-      expect(deserialized.arguments).toBe('{"complex": {"nested": {"data": "value"}}, "array": [1, 2, 3]}');
+      expect(deserialized.arguments).toBe(
+        '{"complex": {"nested": {"data": "value"}}, "array": [1, 2, 3]}',
+      );
       // Verify it's valid JSON
       const parsedArgs = JSON.parse(deserialized.arguments!);
       expect(parsedArgs.complex.nested.data).toBe("value");
@@ -505,7 +504,13 @@ describe("MCP Models - Serialization & Validation", () => {
       const deserialized = responseMCPListToolItemDeserializer(wireFormat);
 
       expect(deserialized.tools).toHaveLength(5);
-      expect(deserialized.tools.map((t) => t.name)).toEqual(["tool1", "tool2", "tool3", "tool4", "tool5"]);
+      expect(deserialized.tools.map((t) => t.name)).toEqual([
+        "tool1",
+        "tool2",
+        "tool3",
+        "tool4",
+        "tool5",
+      ]);
     });
 
     it("should verify tool schemas are intact", () => {

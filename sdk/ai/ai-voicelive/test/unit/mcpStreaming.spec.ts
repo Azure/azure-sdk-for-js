@@ -3,7 +3,7 @@
 
 /**
  * Phase 2: MCP Streaming & Delta Accumulation Tests
- * 
+ *
  * This test suite validates the streaming delta accumulation for MCP tool call arguments.
  * The protocol sends partial JSON strings via delta events which accumulate to form complete
  * arguments, signaled by a done event.
@@ -136,7 +136,7 @@ describe("MCP Streaming - Delta Accumulation", () => {
       const itemId = "item_five_deltas";
       const responseId = "resp_five";
       const outputIndex = 0;
-      const deltas = ['{"user":', '{"id":', '123,', '"name":', '"Alice"}}'];
+      const deltas = ['{"user":', '{"id":', "123,", '"name":', '"Alice"}}'];
       const receivedDeltas: string[] = [];
 
       const unsubscribe = session.onServerEvent?.("response.mcp_call_arguments.delta", (event) => {
@@ -170,9 +170,12 @@ describe("MCP Streaming - Delta Accumulation", () => {
       });
 
       let doneReceived: any = null;
-      const doneUnsubscribe = session.onServerEvent?.("response.mcp_call_arguments.done", (event) => {
-        doneReceived = event;
-      });
+      const doneUnsubscribe = session.onServerEvent?.(
+        "response.mcp_call_arguments.done",
+        (event) => {
+          doneReceived = event;
+        },
+      );
 
       mockWebSocket.enqueueInboundMessage(doneEvent);
       await new Promise((resolve) => setTimeout(resolve, 10));
@@ -201,7 +204,7 @@ describe("MCP Streaming - Delta Accumulation", () => {
         ',"name":"C"},',
         '{"id":4',
         ',"name":"D"}',
-        ']}',
+        "]}",
       ];
       const receivedDeltas: string[] = [];
 
@@ -297,12 +300,12 @@ describe("MCP Streaming - Delta Accumulation", () => {
       await new Promise((resolve) => setTimeout(resolve, 10));
 
       expect(receivedEvent).toBeTruthy();
-      expect(receivedEvent.delta).toContain('\\n');
+      expect(receivedEvent.delta).toContain("\\n");
 
       // Verify newlines handled correctly
       const parsed = JSON.parse(receivedEvent.delta);
-      expect(parsed.message).toContain('\n');
-      expect(parsed.message.split('\n')).toHaveLength(3);
+      expect(parsed.message).toContain("\n");
+      expect(parsed.message.split("\n")).toHaveLength(3);
 
       unsubscribe?.();
     });
@@ -535,8 +538,8 @@ describe("MCP Streaming - Delta Accumulation", () => {
       const events = [
         { item_id: itemIdA, delta: '{"a":' },
         { item_id: itemIdB, delta: '{"b":' },
-        { item_id: itemIdA, delta: '1}' },
-        { item_id: itemIdB, delta: '2}' },
+        { item_id: itemIdA, delta: "1}" },
+        { item_id: itemIdB, delta: "2}" },
       ];
 
       for (let i = 0; i < events.length; i++) {

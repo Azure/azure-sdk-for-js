@@ -3,7 +3,7 @@
 
 /**
  * Phase 2: MCP TypeScript Type Safety Tests
- * 
+ *
  * This test suite validates TypeScript discriminated unions and type narrowing
  * for MCP-related types. It ensures that the type system correctly narrows types
  * based on discriminator fields at both compile-time and runtime.
@@ -36,9 +36,7 @@ function isFunctionTool(tool: Tool): tool is FunctionTool {
   return tool.type === "function";
 }
 
-function isMCPApprovalRequestItem(
-  item: ResponseItemUnion,
-): item is ResponseMCPApprovalRequestItem {
+function isMCPApprovalRequestItem(item: ResponseItemUnion): item is ResponseMCPApprovalRequestItem {
   return item.type === "mcp_approval_request";
 }
 

@@ -3,7 +3,7 @@
 
 /**
  * Phase 1: MCP Approval Types Tests
- * 
+ *
  * This test suite validates the different approval type configurations for MCP servers,
  * including string literals ("never", "always") and per-tool approval maps with role arrays.
  */
@@ -11,10 +11,7 @@
 import { describe, it, expect } from "vitest";
 import type { MCPServer } from "../../src/models/index.js";
 // Import serializers directly from implementation for unit testing
-import {
-  mcpServerSerializer,
-  mcpServerDeserializer,
-} from "../../src/models/models.js";
+import { mcpServerSerializer, mcpServerDeserializer } from "../../src/models/models.js";
 
 describe("MCP Approval Types", () => {
   describe("Basic Approval Types", () => {
@@ -66,14 +63,14 @@ describe("MCP Approval Types", () => {
         serverLabel: "single-tool-single-role",
         serverUrl: "https://single.example.com",
         requireApproval: {
-          "sensitive_tool": ["admin"],
+          sensitive_tool: ["admin"],
         },
       };
 
       const serialized = mcpServerSerializer(mcpServer);
 
       expect(serialized.require_approval).toEqual({
-        "sensitive_tool": ["admin"],
+        sensitive_tool: ["admin"],
       });
       expect(typeof serialized.require_approval).toBe("object");
       expect(Array.isArray(serialized.require_approval.sensitive_tool)).toBe(true);
@@ -85,7 +82,7 @@ describe("MCP Approval Types", () => {
         serverLabel: "single-tool-multi-role",
         serverUrl: "https://multi-role.example.com",
         requireApproval: {
-          "sensitive_tool": ["admin", "supervisor", "owner"],
+          sensitive_tool: ["admin", "supervisor", "owner"],
         },
       };
 
@@ -101,18 +98,18 @@ describe("MCP Approval Types", () => {
         serverLabel: "multi-tool-different-roles",
         serverUrl: "https://multi-tool.example.com",
         requireApproval: {
-          "delete": ["admin"],
-          "write": ["admin", "user"],
-          "read": [],
+          delete: ["admin"],
+          write: ["admin", "user"],
+          read: [],
         },
       };
 
       const serialized = mcpServerSerializer(mcpServer);
 
       expect(serialized.require_approval).toEqual({
-        "delete": ["admin"],
-        "write": ["admin", "user"],
-        "read": [],
+        delete: ["admin"],
+        write: ["admin", "user"],
+        read: [],
       });
       expect(Object.keys(serialized.require_approval)).toHaveLength(3);
     });
@@ -138,7 +135,7 @@ describe("MCP Approval Types", () => {
         serverLabel: "empty-roles-server",
         serverUrl: "https://empty-roles.example.com",
         requireApproval: {
-          "public_tool": [],
+          public_tool: [],
         },
       };
 
@@ -178,8 +175,8 @@ describe("MCP Approval Types", () => {
         serverLabel: "object-server",
         serverUrl: "https://object.example.com",
         requireApproval: {
-          "tool1": ["role1"],
-          "tool2": ["role2", "role3"],
+          tool1: ["role1"],
+          tool2: ["role2", "role3"],
         },
       };
 
@@ -209,8 +206,8 @@ describe("MCP Approval Types", () => {
         serverLabel: "object-server",
         serverUrl: "https://object.example.com",
         requireApproval: {
-          "delete_file": ["admin", "supervisor"],
-          "write_file": ["admin", "user"],
+          delete_file: ["admin", "supervisor"],
+          write_file: ["admin", "user"],
         },
       };
 
@@ -218,8 +215,8 @@ describe("MCP Approval Types", () => {
       const objectDeserialized = mcpServerDeserializer(objectSerialized);
 
       expect(objectDeserialized.requireApproval).toEqual({
-        "delete_file": ["admin", "supervisor"],
-        "write_file": ["admin", "user"],
+        delete_file: ["admin", "supervisor"],
+        write_file: ["admin", "user"],
       });
     });
   });
@@ -232,7 +229,7 @@ describe("MCP Approval Types", () => {
         serverUrl: "https://special.example.com",
         requireApproval: {
           "tool-with-dash": ["admin"],
-          "tool_with_underscore": ["user"],
+          tool_with_underscore: ["user"],
           "tool.with.dot": ["owner"],
         },
       };
@@ -250,7 +247,7 @@ describe("MCP Approval Types", () => {
         serverLabel: "special-roles-server",
         serverUrl: "https://special-roles.example.com",
         requireApproval: {
-          "delete_tool": ["admin-super", "user_admin", "role.special"],
+          delete_tool: ["admin-super", "user_admin", "role.special"],
         },
       };
 

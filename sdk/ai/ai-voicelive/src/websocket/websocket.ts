@@ -84,7 +84,6 @@ export class VoiceLiveWebSocket implements VoiceLiveWebSocketLike {
         // Detect proxy settings from environment variables (HTTPS_PROXY, HTTP_PROXY)
         const proxySettings = getDefaultProxySettings();
         if (proxySettings) {
-
           const { host, port, username, password } = proxySettings;
 
           // Build proxy URL with authentication if provided

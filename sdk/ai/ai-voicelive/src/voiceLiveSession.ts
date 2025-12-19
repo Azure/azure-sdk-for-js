@@ -41,9 +41,9 @@ export interface VoiceLiveSessionOptions {
   enableDebugLogging?: boolean;
 }
 
-export interface CreateSessionOptions extends VoiceLiveSessionOptions { }
+export interface CreateSessionOptions extends VoiceLiveSessionOptions {}
 
-export interface StartSessionOptions extends VoiceLiveSessionOptions { }
+export interface StartSessionOptions extends VoiceLiveSessionOptions {}
 export interface ConnectOptions {
   /** Abort signal to cancel connection attempt */
   abortSignal?: AbortSignalLike;
@@ -154,7 +154,7 @@ export class VoiceLiveSession {
           websocketFactory.create({
             headers: { ...authHeaders },
             connectionTimeoutInMs: this._options.connectionTimeoutInMs,
-            compression: true
+            compression: true,
           }),
         {
           endpoint: wsUrl,

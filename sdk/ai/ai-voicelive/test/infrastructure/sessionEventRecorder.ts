@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ServerEventUnion,
-  VoiceLiveSession,
-  VoiceLiveSubscription
-} from "../../src/index.js";
+import type { ServerEventUnion, VoiceLiveSession, VoiceLiveSubscription } from "../../src/index.js";
 
 /**
  * Options for waiting for events
@@ -24,40 +20,43 @@ export interface EventWaitOptions {
 /**
  * A utility class that records all events from a VoiceLive session and provides
  * methods to wait for specific events or collect event sequences.
- * 
+ *
  * This class solves race conditions by attaching to the session before it starts
  * and recording all events in chronological order.
  */
 export class SessionEventRecorder {
   // Default error event types that will cause early exit when exitOnError is true
   private static readonly DEFAULT_ERROR_EVENTS = [
-    'error',
-    'session.error',
-    'connection.error',
-    'response.error',
-    'conversation.error',
-    'input_audio_buffer.error'
+    "error",
+    "session.error",
+    "connection.error",
+    "response.error",
+    "conversation.error",
+    "input_audio_buffer.error",
   ];
 
   private eventStack: ServerEventUnion[] = [];
   private subscription: VoiceLiveSubscription;
-  private pendingWaiters: Map<string, Array<{
-    resolve: (result: ServerEventUnion | ServerEventUnion[]) => void;
-    reject: (error: Error) => void;
-    options: EventWaitOptions & { waitForSingle: boolean };
-    id: symbol;
-  }>> = new Map();
+  private pendingWaiters: Map<
+    string,
+    Array<{
+      resolve: (result: ServerEventUnion | ServerEventUnion[]) => void;
+      reject: (error: Error) => void;
+      options: EventWaitOptions & { waitForSingle: boolean };
+      id: symbol;
+    }>
+  > = new Map();
 
   /**
    * Creates a new SessionEventRecorder and immediately starts recording events.
    * This should be called BEFORE starting the session to avoid race conditions.
-   * 
+   *
    * @param session - The VoiceLiveSession to record events from
    */
   constructor(session: VoiceLiveSession) {
     // Subscribe immediately to start recording all events
     this.subscription = session.subscribe({
-      onServerEvent: async (event) => this.recordEvent(event)
+      onServerEvent: async (event) => this.recordEvent(event),
     });
   }
 
@@ -65,47 +64,44 @@ export class SessionEventRecorder {
    * Wait for a specific event and return just that event.
    * Optionally start searching from a specific event type.
    * Removes all events up to and including the target event from the stack.
-   * 
+   *
    * @param eventType - The event type to wait for
    * @param options - Options for waiting behavior
    * @returns Promise that resolves with the target event
    */
-  async waitForEvent(
-    eventType: string,
-    options: EventWaitOptions = {}
-  ): Promise<ServerEventUnion> {
+  async waitForEvent(eventType: string, options: EventWaitOptions = {}): Promise<ServerEventUnion> {
     const result = await this.waitForEventInternal(eventType, {
       exitOnError: true, // Default to true
       ...options,
-      waitForSingle: true
+      waitForSingle: true,
     });
     return result as ServerEventUnion;
   }
 
   /**
-   * Wait for a specific event and return all events from start (or 'from' event) 
+   * Wait for a specific event and return all events from start (or 'from' event)
    * up to and including the target event.
    * Removes all returned events from the stack.
-   * 
+   *
    * @param eventType - The event type to wait for
    * @param options - Options for waiting behavior
    * @returns Promise that resolves with array of events from start to target (inclusive)
    */
   async waitForEvents(
     eventType: string,
-    options: EventWaitOptions = {}
+    options: EventWaitOptions = {},
   ): Promise<ServerEventUnion[]> {
     const result = await this.waitForEventInternal(eventType, {
       exitOnError: true, // Default to true
       ...options,
-      waitForSingle: false
+      waitForSingle: false,
     });
     return result as ServerEventUnion[];
   }
 
   /**
    * Check if a specific event type exists in the current event stack
-   * 
+   *
    * @param eventType - The event type to check for
    * @param from - Optionally start searching from this event type
    * @returns true if the event exists in the stack
@@ -114,21 +110,19 @@ export class SessionEventRecorder {
     let startIndex = 0;
 
     if (from) {
-      const fromIndex = this.eventStack.findIndex(event => event.type === from);
+      const fromIndex = this.eventStack.findIndex((event) => event.type === from);
       if (fromIndex === -1) {
         return false; // 'from' event not found
       }
       startIndex = fromIndex;
     }
 
-    return this.eventStack.some((event, index) =>
-      index >= startIndex && event.type === eventType
-    );
+    return this.eventStack.some((event, index) => index >= startIndex && event.type === eventType);
   }
 
   /**
    * Get all events currently in the stack (returns a copy)
-   * 
+   *
    * @returns Copy of all recorded events
    */
   getAllEvents(): ServerEventUnion[] {
@@ -137,7 +131,7 @@ export class SessionEventRecorder {
 
   /**
    * Get the number of events currently in the stack
-   * 
+   *
    * @returns Number of events in the stack
    */
   getEventCount(): number {
@@ -160,7 +154,7 @@ export class SessionEventRecorder {
 
     // Reject all pending waiters
     this.pendingWaiters.forEach((waiters) => {
-      waiters.forEach(waiter => {
+      waiters.forEach((waiter) => {
         waiter.reject(new Error("SessionEventRecorder cleanup - recording stopped"));
       });
     });
@@ -173,7 +167,7 @@ export class SessionEventRecorder {
 
   private async waitForEventInternal(
     eventType: string,
-    options: EventWaitOptions & { waitForSingle: boolean }
+    options: EventWaitOptions & { waitForSingle: boolean },
   ): Promise<ServerEventUnion | ServerEventUnion[]> {
     const { from, timeout = 30000, waitForSingle, exitOnError = true, errorEventTypes } = options;
 
@@ -181,7 +175,9 @@ export class SessionEventRecorder {
     if (exitOnError) {
       const errorEvent = this.findErrorEvent(from, errorEventTypes);
       if (errorEvent) {
-        throw new Error(`Session error occurred: ${errorEvent.type} - ${JSON.stringify(errorEvent)}`);
+        throw new Error(
+          `Session error occurred: ${errorEvent.type} - ${JSON.stringify(errorEvent)}`,
+        );
       }
     }
 
@@ -193,7 +189,7 @@ export class SessionEventRecorder {
 
     // Need to wait for future events
     return new Promise((resolve, reject) => {
-      const waiterId = Symbol('waiter');
+      const waiterId = Symbol("waiter");
       const timeoutId = setTimeout(() => {
         this.removeWaiter(eventType, waiterId);
         reject(new Error(`Timeout waiting for event: ${eventType}`));
@@ -211,7 +207,7 @@ export class SessionEventRecorder {
           reject(error);
         },
         options,
-        id: waiterId
+        id: waiterId,
       };
 
       this.addWaiter(eventType, waiter);
@@ -221,13 +217,13 @@ export class SessionEventRecorder {
   private searchExistingEvents(
     targetEventType: string,
     fromEventType?: string,
-    waitForSingle: boolean = false
+    waitForSingle: boolean = false,
   ): ServerEventUnion | ServerEventUnion[] | null {
     let startIndex = 0;
 
     // Find the 'from' event if specified
     if (fromEventType) {
-      const fromIndex = this.eventStack.findIndex(event => event.type === fromEventType);
+      const fromIndex = this.eventStack.findIndex((event) => event.type === fromEventType);
       if (fromIndex === -1) {
         return null; // 'from' event not found yet
       }
@@ -235,8 +231,8 @@ export class SessionEventRecorder {
     }
 
     // Find the target event from the start index
-    const targetIndex = this.eventStack.findIndex((event, index) =>
-      index >= startIndex && event.type === targetEventType
+    const targetIndex = this.eventStack.findIndex(
+      (event, index) => index >= startIndex && event.type === targetEventType,
     );
 
     if (targetIndex === -1) {
@@ -258,29 +254,26 @@ export class SessionEventRecorder {
 
   private findErrorEvent(
     fromEventType?: string,
-    customErrorTypes?: string[]
+    customErrorTypes?: string[],
   ): ServerEventUnion | null {
     let startIndex = 0;
 
     // Find the 'from' event if specified
     if (fromEventType) {
-      const fromIndex = this.eventStack.findIndex(event => event.type === fromEventType);
+      const fromIndex = this.eventStack.findIndex((event) => event.type === fromEventType);
       if (fromIndex !== -1) {
         startIndex = fromIndex;
       }
     }
 
-    const errorTypes = [
-      ...SessionEventRecorder.DEFAULT_ERROR_EVENTS,
-      ...(customErrorTypes || [])
-    ];
+    const errorTypes = [...SessionEventRecorder.DEFAULT_ERROR_EVENTS, ...(customErrorTypes || [])];
 
     // Look for error events from the start index
     for (let i = startIndex; i < this.eventStack.length; i++) {
       const event = this.eventStack[i];
 
       // Check if it's a known error event type
-      if (errorTypes.some(errorType => event.type.includes(errorType))) {
+      if (errorTypes.some((errorType) => event.type.includes(errorType))) {
         return event;
       }
 
@@ -290,9 +283,11 @@ export class SessionEventRecorder {
       }
 
       // Check for session disconnection/failure events
-      if (event.type.includes('disconnect') ||
-        event.type.includes('failed') ||
-        event.type.includes('close')) {
+      if (
+        event.type.includes("disconnect") ||
+        event.type.includes("failed") ||
+        event.type.includes("close")
+      ) {
         return event;
       }
     }
@@ -310,24 +305,27 @@ export class SessionEventRecorder {
     const allWaiters = Array.from(this.pendingWaiters.values()).flat();
     const failedWaiters: symbol[] = [];
 
-    allWaiters.forEach(waiter => {
+    allWaiters.forEach((waiter) => {
       const { exitOnError, errorEventTypes } = waiter.options;
 
       if (exitOnError) {
         // Check if this new event is an error event
         const errorTypes = [
           ...SessionEventRecorder.DEFAULT_ERROR_EVENTS,
-          ...(errorEventTypes || [])
+          ...(errorEventTypes || []),
         ];
 
-        const isErrorEvent = errorTypes.some(errorType => event.type.includes(errorType)) ||
+        const isErrorEvent =
+          errorTypes.some((errorType) => event.type.includes(errorType)) ||
           (event as any).error === true ||
-          event.type.includes('disconnect') ||
-          event.type.includes('failed') ||
-          event.type.includes('close');
+          event.type.includes("disconnect") ||
+          event.type.includes("failed") ||
+          event.type.includes("close");
 
         if (isErrorEvent) {
-          waiter.reject(new Error(`Session error occurred: ${event.type} - ${JSON.stringify(event)}`));
+          waiter.reject(
+            new Error(`Session error occurred: ${event.type} - ${JSON.stringify(event)}`),
+          );
           failedWaiters.push(waiter.id);
           return;
         }
@@ -336,7 +334,7 @@ export class SessionEventRecorder {
 
     // Remove failed waiters from all event types
     this.pendingWaiters.forEach((waiters, eventType) => {
-      const filteredWaiters = waiters.filter(w => !failedWaiters.includes(w.id));
+      const filteredWaiters = waiters.filter((w) => !failedWaiters.includes(w.id));
       this.pendingWaiters.set(eventType, filteredWaiters);
     });
 
@@ -344,7 +342,7 @@ export class SessionEventRecorder {
     const waiters = this.pendingWaiters.get(event.type) || [];
     const completedWaiters: symbol[] = [];
 
-    waiters.forEach(waiter => {
+    waiters.forEach((waiter) => {
       const { from, waitForSingle } = waiter.options;
 
       // Try to fulfill this waiter's request
@@ -357,7 +355,7 @@ export class SessionEventRecorder {
 
     // Remove completed waiters
     if (completedWaiters.length > 0) {
-      const remainingWaiters = waiters.filter(w => !completedWaiters.includes(w.id));
+      const remainingWaiters = waiters.filter((w) => !completedWaiters.includes(w.id));
       this.pendingWaiters.set(event.type, remainingWaiters);
     }
   }
@@ -371,7 +369,7 @@ export class SessionEventRecorder {
 
   private removeWaiter(eventType: string, waiterId: symbol): void {
     const waiters = this.pendingWaiters.get(eventType) || [];
-    const filteredWaiters = waiters.filter(w => w.id !== waiterId);
+    const filteredWaiters = waiters.filter((w) => w.id !== waiterId);
     this.pendingWaiters.set(eventType, filteredWaiters);
   }
 }

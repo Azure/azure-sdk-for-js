@@ -2,8 +2,18 @@
 // Licensed under the MIT License.
 
 import { logger } from "../logger.js";
-import { type ServerEventUnion, type ClientEventUnion, KnownServerEventType } from "../models/index.js";
-import { clientEventUnionSerializer, KnownClientEventType, type ServerEventError, type ServerEventErrorDetails, serverEventUnionDeserializer } from "../models/models.js";
+import {
+  type ServerEventUnion,
+  type ClientEventUnion,
+  KnownServerEventType,
+} from "../models/index.js";
+import {
+  clientEventUnionSerializer,
+  KnownClientEventType,
+  type ServerEventError,
+  type ServerEventErrorDetails,
+  serverEventUnionDeserializer,
+} from "../models/models.js";
 
 /**
  * Parsed message containing event data and metadata
@@ -64,8 +74,10 @@ export class VoiceLiveMessageParser {
           error: {
             type: "error",
             code: "MessageParsingError",
-            message: "Failed to parse incoming message data. " + (error instanceof Error ? error.message : String(error)),
-          } as ServerEventErrorDetails
+            message:
+              "Failed to parse incoming message data. " +
+              (error instanceof Error ? error.message : String(error)),
+          } as ServerEventErrorDetails,
         } as ServerEventError,
         raw: data,
       };
