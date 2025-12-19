@@ -107,6 +107,7 @@ async function deployModel(openAIClient, jobId) {
 }
 
 async function infer(openAIClient, deploymentName) {
+  // Note: Deployment needs to be in succeeded state in order to infer.
   console.log(`Testing fine-tuned model via deployment: ${deploymentName}`);
 
   const response = await openAIClient.responses.create({

@@ -111,6 +111,7 @@ export async function deployModel(openAIClient: OpenAI, jobId: string): Promise<
 }
 
 export async function infer(openAIClient: OpenAI, deploymentName: string): Promise<void> {
+  // Note: Deployment needs to be in succeeded state in order to infer.
   console.log(`Testing fine-tuned model via deployment: ${deploymentName}`);
 
   const response = await openAIClient.responses.create({
