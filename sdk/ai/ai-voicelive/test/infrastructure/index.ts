@@ -31,3 +31,6 @@ export {
   MockKeyCredential,
 } from "./testSessionFactory.js";
 export * from "./testConstants.js";
+
+// Phase 3: MCP Test Infrastructure
+export * from "./mcpTestHelpers.js";
