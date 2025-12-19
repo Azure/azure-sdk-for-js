@@ -50,7 +50,7 @@ if (typeof self === "undefined") {
   }
 }
 
-describe("MCP Approval Workflow - Live", () => {
+describe.runIf(isLiveMode())("MCP Approval Workflow - Live", () => {
   let client: VoiceLiveClient;
   let sessions: VoiceLiveSession[] = [];
   const endpoint = process.env.VOICELIVE_ENDPOINT || process.env.AI_SERVICES_ENDPOINT;
@@ -59,11 +59,6 @@ describe("MCP Approval Workflow - Live", () => {
   const timeoutMs = 90000; // Approval tests take longer
 
   beforeEach(function (this: any) {
-    // Skip if not in live mode
-    if (!isLiveMode()) {
-      this.skip();
-      return;
-    }
 
     // Throw error if no endpoint configured
     if (!endpoint) {

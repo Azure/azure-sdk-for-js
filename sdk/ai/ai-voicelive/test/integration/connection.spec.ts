@@ -8,7 +8,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import type { VoiceLiveSession, ErrorEventArgs } from "../../src/index.js";
 import { VoiceLiveClient } from "../../src/index.js";
 
-describe("VoiceLive Integration - Connection Tests", () => {
+describe.runIf(isLiveMode())("VoiceLive Integration - Connection Tests", () => {
   let client: VoiceLiveClient;
   let session: VoiceLiveSession;
 
@@ -16,10 +16,6 @@ describe("VoiceLive Integration - Connection Tests", () => {
   const apiKey = process.env.VOICELIVE_API_KEY || process.env.AI_SERVICES_KEY;
 
   beforeEach(function (this: any) {
-    if (!isLiveMode()) {
-      this.skip();
-    }
-
     if (!endpoint) {
       throw new Error("Missing VOICELIVE_ENDPOINT or AI_SERVICES_ENDPOINT environment variable");
     }
@@ -108,8 +104,8 @@ describe("VoiceLive Integration - Connection Tests", () => {
     } finally {
       // Cleanup both sessions
       await Promise.all([
-        session1.disconnect().catch(() => {}),
-        session2.disconnect().catch(() => {}),
+        session1.disconnect().catch(() => { }),
+        session2.disconnect().catch(() => { }),
       ]);
     }
   });

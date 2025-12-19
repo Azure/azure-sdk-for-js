@@ -64,7 +64,7 @@ if (typeof self === "undefined") {
   }
 }
 
-describe("Basic Conversation Tests", () => {
+describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
   let client: VoiceLiveClient;
   let sessions: VoiceLiveSession[] = [];
   const timeoutMs = 30000; // 30 second timeout for live tests
@@ -73,9 +73,6 @@ describe("Basic Conversation Tests", () => {
   const apiKey = process.env.VOICELIVE_API_KEY || process.env.AI_SERVICES_KEY;
 
   beforeEach(function (this: any) {
-    if (!isLiveMode()) {
-      this.skip();
-    }
 
     if (!endpoint) {
       throw new Error("Missing VOICELIVE_ENDPOINT or AI_SERVICES_ENDPOINT environment variable");

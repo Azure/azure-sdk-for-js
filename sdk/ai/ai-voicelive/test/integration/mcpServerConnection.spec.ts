@@ -18,7 +18,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { MICROSOFT_LEARN_MCP_SERVER } from "../infrastructure/index.js";
 import { SessionEventRecorder } from "../infrastructure/sessionEventRecorder.js";
 
-describe("MCP Server Connection - Live", () => {
+describe.runIf(isLiveMode())("MCP Server Connection - Live", () => {
   let client: VoiceLiveClient;
   let sessions: VoiceLiveSession[] = [];
 
@@ -38,12 +38,6 @@ describe("MCP Server Connection - Live", () => {
   const timeoutMs = 60000;
 
   beforeEach(function (this: any) {
-    // Skip if not in live mode
-    if (!isLiveMode()) {
-      this.skip();
-      return;
-    }
-
     // Throw error if no endpoint configured
     if (!endpoint) {
       throw new Error("Missing VOICELIVE_ENDPOINT or AI_SERVICES_ENDPOINT environment variable");
