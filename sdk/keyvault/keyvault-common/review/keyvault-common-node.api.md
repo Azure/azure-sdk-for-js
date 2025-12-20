@@ -4,8 +4,34 @@
 
 ```ts
 
+import type { HttpClient } from '@azure/core-rest-pipeline';
+import type { PipelineOptions } from '@azure/core-rest-pipeline';
 import type { PipelinePolicy } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface AdditionalPolicyConfig {
+    policy: PipelinePolicy;
+    position: "perCall" | "perRetry";
+}
+
+// @public
+export interface CommonClientOptions extends PipelineOptions {
+    additionalPolicies?: AdditionalPolicyConfig[];
+    allowInsecureConnection?: boolean;
+    httpClient?: HttpClient;
+}
+
+// @public
+export type ExtendedCommonClientOptions = CommonClientOptions & {
+    keepAliveOptions?: KeepAliveOptions;
+    redirectOptions?: RedirectOptions;
+};
+
+// @public
+export interface KeepAliveOptions {
+    enable?: boolean;
+}
 
 // @public
 export function keyVaultAuthenticationPolicy(credential: TokenCredential, options?: KeyVaultAuthenticationPolicyOptions): PipelinePolicy;
@@ -27,6 +53,12 @@ export interface KeyVaultEntityIdentifier {
 
 // @public
 export function parseKeyVaultIdentifier(collection: string, identifier: string | undefined): KeyVaultEntityIdentifier;
+
+// @public
+export interface RedirectOptions {
+    handleRedirects?: boolean;
+    maxRetries?: number;
+}
 
 // (No @packageDocumentation comment for this package)
 
