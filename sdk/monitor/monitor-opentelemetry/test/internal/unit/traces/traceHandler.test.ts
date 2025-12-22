@@ -15,7 +15,17 @@ import type { Span } from "@opentelemetry/api";
 import { metrics, trace } from "@opentelemetry/api";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import type { MockInstance } from "vitest";
-import { expect, afterEach, assert, beforeAll, beforeEach, describe, it, afterAll, vi } from "vitest";
+import {
+  expect,
+  afterEach,
+  assert,
+  beforeAll,
+  beforeEach,
+  describe,
+  it,
+  afterAll,
+  vi,
+} from "vitest";
 import type Http from "node:http";
 import { ExportResultCode } from "@opentelemetry/core";
 import type { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
