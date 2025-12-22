@@ -52,8 +52,8 @@ export class TraceHandler {
     // Check sampler precedence
     if (this._config.sampler) {
       this._sampler = this._config.sampler;
-    } else if (this._config.tracesPerSecond && this._config.tracesPerSecond >= 0) {
-      // If tracesPerSecond is set, use RateLimitedSampler
+    } else if (this._config.tracesPerSecond && this._config.tracesPerSecond > 0) {
+      // If tracesPerSecond is set to a positive number, use RateLimitedSampler
       this._sampler = new RateLimitedSampler(this._config.tracesPerSecond);
     } else {
       // Otherwise, use PercentageSampler with samplingRatio

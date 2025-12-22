@@ -16,10 +16,10 @@ const RATE_LIMITED_SAMPLER = "microsoft.rate_limited";
 const FIXED_PERCENTAGE_SAMPLER = "microsoft.fixed_percentage";
 const ALWAYS_ON_SAMPLER = "always_on";
 const ALWAYS_OFF_SAMPLER = "always_off";
-const TRACE_ID_RATIO_SAMPLER = "traceidratio";
+const TRACE_ID_RATIO_SAMPLER = "trace_id_ratio";
 const PARENT_BASED_ALWAYS_ON_SAMPLER = "parentbased_always_on";
 const PARENT_BASED_ALWAYS_OFF_SAMPLER = "parentbased_always_off";
-const PARENT_BASED_TRACE_ID_RATIO_SAMPLER = "parentbased_traceidratio";
+const PARENT_BASED_TRACE_ID_RATIO_SAMPLER = "parentbased_trace_id_ratio";
 const SUPPORTED_OTEL_SAMPLERS = [
   RATE_LIMITED_SAMPLER,
   FIXED_PERCENTAGE_SAMPLER,
@@ -58,7 +58,7 @@ export class EnvConfig implements AzureMonitorOpenTelemetryOptions {
    */
   constructor() {
     const envSampler = process.env[TRACES_SAMPLER]?.trim().toLowerCase();
-    const envSamplerArg = process.env[TRACES_SAMPLER_ARG];
+    const envSamplerArg = process.env[TRACES_SAMPLER_ARG]?.trim();
 
     if (!envSampler) {
       return;
@@ -74,17 +74,12 @@ export class EnvConfig implements AzureMonitorOpenTelemetryOptions {
 
   private _applyMicrosoftSampler(envSampler: string, envSamplerArg?: string): void {
     if (envSamplerArg === undefined) {
-      Logger.getInstance().warn(
-        `OTEL_TRACES_SAMPLER_ARG must be set when OTEL_TRACES_SAMPLER is ${envSampler}.`,
-      );
       return;
     }
 
     const argValue = Number(envSamplerArg);
-    if (isNaN(argValue) || argValue < 0) {
-      Logger.getInstance().warn(
-        "Invalid value for OTEL_TRACES_SAMPLER_ARG. It should be a non-negative number.",
-      );
+    if (isNaN(argValue)) {
+      Logger.getInstance().warn("Invalid value for OTEL_TRACES_SAMPLER_ARG. It must be a number.");
       return;
     }
 
@@ -133,7 +128,14 @@ export class EnvConfig implements AzureMonitorOpenTelemetryOptions {
   }
 
   private _parseProbability(arg?: string): number {
-    if (arg === undefined || arg === "") {
+    if (arg === undefined) {
+      return 1;
+    }
+
+    if (arg === "") {
+      Logger.getInstance().warn(
+        "Invalid value for OTEL_TRACES_SAMPLER_ARG. It should be a number in the range [0,1].",
+      );
       return 1;
     }
 

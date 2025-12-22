@@ -53,11 +53,6 @@ describe("Library/TraceHandler", () => {
   });
 
   beforeAll(async () => {
-    _config = new InternalConfig();
-    if (_config.azureMonitorExporterOptions) {
-      _config.azureMonitorExporterOptions.connectionString = connectionString;
-    }
-
     await new Promise((resolve) => {
       if (!http) {
         // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
@@ -138,6 +133,17 @@ describe("Library/TraceHandler", () => {
       handler = new TraceHandler(_config, metricHandler);
 
       expect(handler.getSampler()).toBeInstanceOf(RateLimitedSampler);
+    });
+
+    it("uses ApplicationInsightsSampler when tracesPerSecond is 0", () => {
+      _config.tracesPerSecond = 0;
+      _config.samplingRatio = 0.3;
+
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+
+      expect(handler.getSampler()).toBeInstanceOf(ApplicationInsightsSampler);
+      expect(handler.getSampler().toString()).toBe("ApplicationInsightsSampler{0.3}");
     });
 
     it("uses ApplicationInsightsSampler when no sampler or rate limit is provided", () => {
