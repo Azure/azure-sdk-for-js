@@ -33,7 +33,9 @@
     "@azure/ai-projects": "next",
     "dotenv": "latest",
     "@azure/identity": "^4.13.0",
-    "openai": "^6.1.0"
+    "openai": "^6.1.0",
+    "@azure/monitor-opentelemetry": "^1.14.2",
+    "@opentelemetry/api": "^1.9.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
