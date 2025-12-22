@@ -126,7 +126,7 @@ export const ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL =
  * Enable verbose statsbeat logging and surfacing failures.
  * @internal
  */
-export const ENV_SDK_STATS_LOGGING = "SDK_STATS_LOGGING";
+export const ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING = "APPLICATIONINSIGHTS_SDK_STATS_LOGGING";
 
 /**
  * QuickPulse metric counter names.

@@ -582,7 +582,7 @@ describe("BaseSender", () => {
     it("should report success when statsbeat sender encounters non-retriable failure", async () => {
       const originalEnv = process.env;
       const newEnv = { ...process.env } as NodeJS.ProcessEnv;
-      delete newEnv.SDK_STATS_LOGGING;
+      delete newEnv.APPLICATIONINSIGHTS_SDK_STATS_LOGGING;
       process.env = newEnv;
 
       sender = new TestBaseSender({
@@ -605,9 +605,12 @@ describe("BaseSender", () => {
       process.env = originalEnv;
     });
 
-    it("should surface failure when SDK_STATS_LOGGING is enabled for statsbeat sender", async () => {
+    it("should surface failure when APPLICATIONINSIGHTS_SDK_STATS_LOGGING is enabled for statsbeat sender", async () => {
       const originalEnv = process.env;
-      const newEnv = { ...process.env, SDK_STATS_LOGGING: "true" } as NodeJS.ProcessEnv;
+      const newEnv = {
+        ...process.env,
+        APPLICATIONINSIGHTS_SDK_STATS_LOGGING: "true",
+      } as NodeJS.ProcessEnv;
       process.env = newEnv;
 
       sender = new TestBaseSender({

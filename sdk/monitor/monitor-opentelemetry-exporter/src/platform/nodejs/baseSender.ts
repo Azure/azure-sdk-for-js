@@ -23,7 +23,7 @@ import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import {
   ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
-  ENV_SDK_STATS_LOGGING,
+  ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING,
   RetriableRestErrorTypes,
 } from "../../Declarations/Constants.js";
 import { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
@@ -406,7 +406,7 @@ export abstract class BaseSender {
 
   // Silence noisy failures from statsbeat OTel metric readers unless logging is explicitly enabled
   private buildExportResult(result: ExportResult): ExportResult {
-    const shouldSurfaceStatsbeatFailures = !!process.env[ENV_SDK_STATS_LOGGING];
+    const shouldSurfaceStatsbeatFailures = !!process.env[ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING];
     if (this.isStatsbeatSender && result.code === ExportResultCode.FAILED) {
       return shouldSurfaceStatsbeatFailures ? result : { code: ExportResultCode.SUCCESS };
     }
