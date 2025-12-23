@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DefaultAzureCredential } from "@azure/identity";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AIProjectClient } from "../../../../src/index.js";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { CognitiveServicesManagementClient, type Deployment } from "@azure/arm-cognitiveservices";
 import type { FineTuningJob, JobCreateParams } from "openai/resources/fine-tuning/jobs";
 import type { ScoreModelGrader } from "openai/resources/graders/grader-models";
@@ -454,10 +454,8 @@ describe("finetuning - basic", () => {
     console.log(
       `Deploying fine-tuned model: ${finetunedModelName} with deployment name: ${deploymentName}`,
     );
-    const cognitiveClient = new CognitiveServicesManagementClient(
-      new DefaultAzureCredential(),
-      subscriptionId,
-    );
+    const credential = createTestCredential();
+    const cognitiveClient = new CognitiveServicesManagementClient(credential, subscriptionId);
     await cognitiveClient.deployments.beginCreateOrUpdate(
       resourceGroup,
       accountName,
