@@ -92,6 +92,14 @@ async function deployModel(openAIClient, jobId) {
   console.log(
     `Deploying fine-tuned model: ${fineTunedModelName} with deployment name: ${deploymentName}`,
   );
+  // Check for required environment variables
+  if (!subscription_id || !resource_group || !account_name) {
+    throw new Error(
+      "Please set AZURE_AI_PROJECTS_AZURE_SUBSCRIPTION_ID, \
+      AZURE_AI_PROJECTS_AZURE_RESOURCE_GROUP, and \
+      AZURE_AI_PROJECTS_AZURE_AOAI_ACCOUNT environment variables.",
+    );
+  }
   const cognitiveClient = new CognitiveServicesManagementClient(
     new DefaultAzureCredential(),
     subscription_id,

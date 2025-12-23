@@ -28,9 +28,9 @@ const trainingFilePath = path.join(__dirname, "data", "sft_training_set.jsonl");
 const validationFilePath = path.join(__dirname, "data", "sft_validation_set.jsonl");
 
 // For Deployment and inferencing on model
-const subscription_id = process.env["AZURE_AI_PROJECTS_AZURE_SUBSCRIPTION_ID"];
-const resource_group = process.env["AZURE_AI_PROJECTS_AZURE_RESOURCE_GROUP"];
-const account_name = process.env["AZURE_AI_PROJECTS_AZURE_AOAI_ACCOUNT"];
+const subscription_id: string = process.env["AZURE_AI_PROJECTS_AZURE_SUBSCRIPTION_ID"];
+const resource_group: string = process.env["AZURE_AI_PROJECTS_AZURE_RESOURCE_GROUP"];
+const account_name: string = process.env["AZURE_AI_PROJECTS_AZURE_AOAI_ACCOUNT"];
 
 export async function retrieveJob(openAIClient: OpenAI, jobId: string): Promise<void> {
   console.log(`\nGetting fine-tuning job with ID: ${jobId}`);
@@ -97,13 +97,21 @@ export async function deployModel(openAIClient: OpenAI, jobId: string): Promise<
   console.log(
     `Deploying fine-tuned model: ${fineTunedModelName} with deployment name: ${deploymentName}`,
   );
+  // Check for required environment variables
+  if (!subscription_id || !resource_group || !account_name) {
+    throw new Error(
+      "Please set AZURE_AI_PROJECTS_AZURE_SUBSCRIPTION_ID, \
+      AZURE_AI_PROJECTS_AZURE_RESOURCE_GROUP, and \
+      AZURE_AI_PROJECTS_AZURE_AOAI_ACCOUNT environment variables.",
+    );
+  }
   const cognitiveClient = new CognitiveServicesManagementClient(
     new DefaultAzureCredential(),
-    subscription_id as string,
+    subscription_id,
   );
   await cognitiveClient.deployments.beginCreateOrUpdate(
-    resource_group as string,
-    account_name as string,
+    resource_group,
+    account_name,
     deploymentName,
     deploymentConfig,
   );
