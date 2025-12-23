@@ -23,6 +23,7 @@ import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import {
   ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
+  ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING,
   RetriableRestErrorTypes,
 } from "../../Declarations/Constants.js";
 import { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
@@ -207,9 +208,9 @@ export abstract class BaseSender {
               statusCode,
             );
           }
-          return {
+          return this.buildExportResult({
             code: ExportResultCode.FAILED,
-          };
+          });
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
           if (!this.isStatsbeatSender) {
@@ -230,9 +231,9 @@ export abstract class BaseSender {
           this.incrementStatsbeatFailure();
           this.customerSDKStatsMetrics?.countDroppedItems(envelopes, DropCode.CLIENT_EXCEPTION);
         }
-        return {
+        return this.buildExportResult({
           code: ExportResultCode.FAILED,
-        };
+        });
       }
     } catch (error: any) {
       const restError = error as RestError;
@@ -265,7 +266,7 @@ export abstract class BaseSender {
               ExceptionType.CLIENT_EXCEPTION,
             );
           }
-          return { code: ExportResultCode.FAILED, error: redirectError };
+          return this.buildExportResult({ code: ExportResultCode.FAILED, error: redirectError });
         }
       } else if (
         restError.statusCode &&
@@ -325,7 +326,7 @@ export abstract class BaseSender {
           restError.message,
         );
       }
-      return { code: ExportResultCode.FAILED, error: restError };
+      return this.buildExportResult({ code: ExportResultCode.FAILED, error: restError });
     }
   }
 
@@ -337,10 +338,10 @@ export abstract class BaseSender {
       const success = await this.persister.push(envelopes);
       return success
         ? { code: ExportResultCode.SUCCESS }
-        : {
+        : this.buildExportResult({
             code: ExportResultCode.FAILED,
             error: new Error("Failed to persist envelope in disk."),
-          };
+          });
     } catch (ex: any) {
       if (!this.isStatsbeatSender) {
         this.networkStatsbeatMetrics?.countWriteFailure();
@@ -351,7 +352,7 @@ export abstract class BaseSender {
           );
         }
       }
-      return { code: ExportResultCode.FAILED, error: ex };
+      return this.buildExportResult({ code: ExportResultCode.FAILED, error: ex });
     }
   }
 
@@ -401,5 +402,14 @@ export abstract class BaseSender {
       return true;
     }
     return false;
+  }
+
+  // Silence noisy failures from statsbeat OTel metric readers unless logging is explicitly enabled
+  private buildExportResult(result: ExportResult): ExportResult {
+    const shouldSurfaceStatsbeatFailures = !!process.env[ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING];
+    if (this.isStatsbeatSender && result.code === ExportResultCode.FAILED) {
+      return shouldSurfaceStatsbeatFailures ? result : { code: ExportResultCode.SUCCESS };
+    }
+    return result;
   }
 }

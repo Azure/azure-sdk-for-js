@@ -5,6 +5,7 @@
 ### Features Added
 
 - Allow configuring additional metric views through `AzureMonitorOpenTelemetryOptions` and pass them to the NodeSDK.
+- Honor `OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION` for selecting default histogram aggregation (explicit or exponential).
 
 ### 1.14.2 (2025-11-13)
 

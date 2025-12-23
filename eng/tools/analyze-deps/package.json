@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "analyze-deps": "node index.js"
+    "analyze-deps": "node index.js",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore  \"./**/*.{js,json}\"",
+    "typecheck": "tsc"
   },
   "author": "",
   "license": "ISC",
@@ -17,5 +19,10 @@
     "semver": "^7.5.4",
     "tar": "^6.2.1",
     "@azure-tools/eng-package-utils": "file:../eng-package-utils"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "prettier": "^3.6.2",
+    "typescript": "~5.9.3"
   }
 }

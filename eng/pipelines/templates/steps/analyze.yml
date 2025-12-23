@@ -62,7 +62,7 @@ steps:
     displayName: "Install tool dependencies"
 
   - script: |
-      node index.js --verbose --dump "$(Build.ArtifactStagingDirectory)/data.js" --out "$(Build.ArtifactStagingDirectory)/dependencies.html"
+      node index.js --verbose --dump "$(Build.ArtifactStagingDirectory)" --out "$(Build.ArtifactStagingDirectory)/dependencies.html"
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
     displayName: "Analyze library dependencies"
 

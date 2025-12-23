@@ -578,6 +578,79 @@ describe("BaseSender", () => {
 
       expect(diag.error).not.toHaveBeenCalled();
     });
+
+    it("should report success when statsbeat sender encounters non-retriable failure", async () => {
+      const originalEnv = process.env;
+      const newEnv = { ...process.env } as NodeJS.ProcessEnv;
+      delete newEnv.APPLICATIONINSIGHTS_SDK_STATS_LOGGING;
+      process.env = newEnv;
+
+      sender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: true,
+      });
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 400,
+        result: "",
+      });
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+
+      process.env = originalEnv;
+    });
+
+    it("should surface failure when APPLICATIONINSIGHTS_SDK_STATS_LOGGING is enabled for statsbeat sender", async () => {
+      const originalEnv = process.env;
+      const newEnv = {
+        ...process.env,
+        APPLICATIONINSIGHTS_SDK_STATS_LOGGING: "true",
+      } as NodeJS.ProcessEnv;
+      process.env = newEnv;
+
+      sender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: true,
+      });
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 400,
+        result: "",
+      });
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(result.code).toBe(ExportResultCode.FAILED);
+
+      process.env = originalEnv;
+    });
+
+    it("should keep failure result for customer sender non-retriable failure", async () => {
+      sender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 400,
+        result: "",
+      });
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(result.code).toBe(ExportResultCode.FAILED);
+    });
   });
 
   describe("Performance Counter Detection", () => {

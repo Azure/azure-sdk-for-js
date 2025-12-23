@@ -11,6 +11,7 @@
 ### Other Changes
 
 - Detect AKS when the `KUBERNETES_SERVICE_HOST` environment variable is defined.
+- Statsbeat exports now report success on failed sends to prevent PeriodicExportingMetricReader errors from surfacing to customers.
 
 ## 1.0.0-beta.36 (2025-11-10)
 

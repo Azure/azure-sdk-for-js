@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Deletes a specified task.
  *
  * @summary Deletes a specified task.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/TasksDelete.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/TasksDelete.json
  */
 async function tasksDelete() {
   const subscriptionId =

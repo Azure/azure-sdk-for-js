@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Returns a task with extended information that includes all secrets.
  *
  * @summary Returns a task with extended information that includes all secrets.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/TasksGetDetails.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/TasksGetDetails.json
  */
 async function tasksGetDetails() {
   const subscriptionId =

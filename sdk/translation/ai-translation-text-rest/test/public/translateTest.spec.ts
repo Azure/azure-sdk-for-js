@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { TextTranslationClient } from "../../src/index.js";
+import type { TextTranslationClient, TranslateInputItem } from "../../src/index.js";
 import { isUnexpected } from "../../src/index.js";
 import {
   createCustomTranslationClient,
@@ -29,13 +29,13 @@ describe("Translate tests", () => {
   });
 
   it("translate basic", async () => {
-    const parameters = {
-      to: "cs",
-      from: "en",
+    const input = {
+      text: "This is a test.",
+      targets: [{ language: "cs" }],
+      language: "en",
     };
     const response = await client.path("/translate").post({
-      body: [{ text: "This is a test." }],
-      queryParameters: parameters,
+      body: { inputs: [input] },
     });
     assert.equal(response.status, "200");
 
@@ -43,19 +43,18 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body.value;
     assert.isTrue(translations[0].translations.length > 0);
     assert.isTrue(translations[0].translations[0].text !== null);
   });
 
   it("with auto detect", async () => {
-    const inputText = [{ text: "This is a test." }];
-    const parameters = {
-      to: "cs",
+    const input = {
+      text: "This is a test.",
+      targets: [{ language: "cs" }],
     };
     const response = await client.path("/translate").post({
-      body: inputText,
-      queryParameters: parameters,
+      body: { inputs: [input] },
     });
     assert.equal(response.status, "200");
 
@@ -63,7 +62,7 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body.value;
     assert.isTrue(translations[0].translations.length > 0);
     assert.isTrue(translations[0].detectedLanguage?.language === "en");
     assert.isTrue(translations[0].detectedLanguage?.score === 1);
@@ -71,15 +70,14 @@ describe("Translate tests", () => {
   });
 
   it("no translate tag", async () => {
-    const inputText = [{ text: "<span class=notranslate>今天是怎么回事是</span>非常可怕的" }];
-    const parameters = {
-      to: "zh-chs",
-      from: "en",
+    const input = {
+      text: "<span class=notranslate>今天是怎么回事是</span>非常可怕的",
+      targets: [{ language: "zh-chs" }],
+      language: "en",
       textType: "html",
     };
     const response = await client.path("/translate").post({
-      body: inputText,
-      queryParameters: parameters,
+      body: { inputs: [input] },
     });
     assert.equal(response.status, "200");
 
@@ -87,25 +85,20 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body.value;
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
     assert.isTrue(translations[0].translations[0].text.includes("今天是怎么回事是"));
   });
 
   it("dictionary tag", async () => {
-    const inputText = [
-      {
-        text: 'The word < mstrans:dictionary translation ="wordomatic">wordomatic</mstrans:dictionary> is a dictionary entry.',
-      },
-    ];
-    const parameters = {
-      to: "es",
-      from: "en",
+    const input = {
+      text: 'The word <mstrans:dictionary translation ="wordomatic">wordomatic</mstrans:dictionary> is a dictionary entry.',
+      targets: [{ language: "es" }],
+      language: "en",
     };
     const response = await client.path("/translate").post({
-      body: inputText,
-      queryParameters: parameters,
+      body: { inputs: [input] },
     });
     assert.equal(response.status, "200");
 
@@ -113,23 +106,21 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body.value;
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
     assert.isTrue(translations[0].translations[0].text.includes("wordomatic"));
   });
 
   it("transliteration", async () => {
-    const inputText = [{ text: "hudha akhtabar." }];
-    const parameters = {
-      to: "zh-Hans",
-      from: "ar",
-      fromScript: "Latn",
-      toScript: "Latn",
+    const input = {
+      text: "hudha akhtabar.",
+      targets: [{ language: "zh-Hans", toScript: "Latn" }],
+      language: "ar",
+      script: "Latn",
     };
     const response = await client.path("/translate").post({
-      body: inputText,
-      queryParameters: parameters,
+      body: { inputs: [input] },
     });
     assert.equal(response.status, "200");
 
@@ -137,49 +128,19 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body.value;
     assert.isTrue(translations[0].translations.length === 1);
     assert.isTrue(translations[0].translations[0].text !== null);
   });
 
-  it("from latin to latin script", async () => {
-    const inputText = [{ text: "ap kaise ho" }];
-    const parameters = {
-      to: "ta",
-      from: "hi",
-      fromScript: "Latn",
-      toScript: "Latn",
-    };
-    const response = await client.path("/translate").post({
-      body: inputText,
-      queryParameters: parameters,
-    });
-    assert.equal(response.status, "200");
-
-    if (isUnexpected(response)) {
-      throw response.body;
-    }
-
-    const translations = response.body;
-    assert.isTrue(translations[0].translations.length === 1);
-    assert.isTrue(translations[0].translations[0].transliteration != null);
-    assert.isTrue(
-      translations[0].translations[0].transliteration?.text.includes("eppadi irukkiraai?"),
-    );
-  });
-
   it("multiple input text", async () => {
-    const inputText = [
-      { text: "This is a test." },
-      { text: "Esto es una prueba." },
-      { text: "Dies ist ein Test." },
+    const inputs = [
+      { text: "This is a test.", targets: [{ language: "cs" }] },
+      { text: "Esto es una prueba.", targets: [{ language: "cs" }] },
+      { text: "Dies ist ein Test.", targets: [{ language: "cs" }] },
     ];
-    const parameters = {
-      to: "cs",
-    };
     const response = await client.path("/translate").post({
-      body: inputText,
-      queryParameters: parameters,
+      body: { inputs: inputs },
     });
     assert.equal(response.status, "200");
 
@@ -187,7 +148,7 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body.value;
     assert.isTrue(translations.length === 3);
     assert.isTrue(translations[0].detectedLanguage?.language === "en");
     assert.isTrue(translations[1].detectedLanguage?.language === "es");
@@ -203,13 +164,12 @@ describe("Translate tests", () => {
   });
 
   it("multiple target languages", async () => {
-    const inputText = [{ text: "This is a test." }];
-    const parameters = {
-      to: "cs,es,de",
+    const input = {
+      text: "This is a test.",
+      targets: [{ language: "cs" }, { language: "es" }, { language: "de" }],
     };
     const response = await client.path("/translate").post({
-      body: inputText,
-      queryParameters: parameters,
+      body: { inputs: [input] },
     });
     assert.equal(response.status, "200");
 
@@ -217,7 +177,7 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body.value;
     assert.isTrue(translations[0].translations.length === 3);
     assert.isTrue(translations[0].detectedLanguage?.language === "en");
     assert.isTrue(translations[0].detectedLanguage?.score === 1);
@@ -227,14 +187,18 @@ describe("Translate tests", () => {
     assert.isTrue(translations[0].translations[2].text != null);
   });
 
-  it("different text types", async () => {
-    const inputText = [{ text: "<html><body>This <b>is</b> a test.</body></html>" }];
-    const parameters = {
-      to: "cs",
+  it("Translate using LLM", async () => {
+    const input = {
+      text: "This is a test",
+      targets: [
+        {
+          language: "cs",
+          deploymentName: "gpt-4o-mini",
+        },
+      ],
     };
     const response = await client.path("/translate").post({
-      body: inputText,
-      queryParameters: parameters,
+      body: { inputs: [input] },
     });
     assert.equal(response.status, "200");
 
@@ -242,23 +206,47 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body.value;
+    assert.isTrue(translations.length === 1);
+    assert.isTrue(translations[0].translations.length === 1);
+    assert.isTrue(translations[0].translations[0].sourceTokens != null);
+    assert.isTrue(translations[0].translations[0].targetTokens != null);
+  });
+
+  it("different text types", async () => {
+    const input = {
+      text: "<html><body>This <b>is</b> a test.</body></html>",
+      targets: [{ language: "cs" }],
+    };
+    const response = await client.path("/translate").post({
+      body: { inputs: [input] },
+    });
+    assert.equal(response.status, "200");
+
+    if (isUnexpected(response)) {
+      throw response.body;
+    }
+
+    const translations = response.body.value;
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
     assert.isTrue(translations[0].detectedLanguage?.language === "en");
     assert.isTrue(translations[0].detectedLanguage?.score === 1);
   });
 
-  // FIXME: This test is failing, not removing profanity
-  it.skip("with profanity", async () => {
-    const inputText = [{ text: "shit this is fucking crazy" }];
+  it("with profanity", async () => {
+    const input: TranslateInputItem = {
+      text: "shit this is fucking crazy shit fuck",
+      targets: [
+        {
+          language: "zh-Hans",
+          profanityAction: "Marked",
+          profanityMarker: "Asterisk",
+        },
+      ],
+    };
     const response = await client.path("/translate").post({
-      body: inputText,
-      queryParameters: {
-        to: "zh-cn",
-        profanityAction: "Marked",
-        profanityMarker: "Asterisk",
-      },
+      body: { inputs: [input] },
     });
     assert.equal(response.status, "200");
 
@@ -266,76 +254,20 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body.value;
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
     assert.isTrue(translations[0].detectedLanguage?.language === "en");
-    assert.isTrue(translations[0].detectedLanguage?.score === 1);
     assert.isTrue(translations[0].translations[0].text.includes("***"));
   });
 
-  it("with alignment", async () => {
-    const inputText = [{ text: "It is a beautiful morning" }];
-    const parameters = {
-      to: "cs",
-      includeAlignment: true,
-    };
-    const response = await client.path("/translate").post({
-      body: inputText,
-      queryParameters: parameters,
-    });
-    assert.equal(response.status, "200");
-
-    if (isUnexpected(response)) {
-      throw response.body;
-    }
-
-    const translations = response.body;
-    assert.isTrue(translations.length === 1);
-    assert.isTrue(translations[0].translations.length === 1);
-    assert.isTrue(translations[0].detectedLanguage?.language === "en");
-    assert.isTrue(translations[0].detectedLanguage?.score === 1);
-    assert.isTrue(translations[0].translations[0].alignment?.proj != null);
-  });
-
-  it("with include sentence length", async () => {
-    const inputText = [
-      {
-        text: "La réponse se trouve dans la traduction automatique. La meilleure technologie de traduction automatique ne peut pas toujours fournir des traductions adaptées à un site ou des utilisateurs comme un être humain. Il suffit de copier et coller un extrait de code n'importe où.",
-      },
-    ];
-    const parameters = {
-      to: "fr",
-      includeSentenceLength: true,
-    };
-    const response = await client.path("/translate").post({
-      body: inputText,
-      queryParameters: parameters,
-    });
-    assert.equal(response.status, "200");
-
-    if (isUnexpected(response)) {
-      throw response.body;
-    }
-
-    const translations = response.body;
-    assert.isTrue(translations.length === 1);
-    assert.isTrue(translations[0].translations.length === 1);
-    assert.isTrue(translations[0].detectedLanguage?.language === "fr");
-    assert.isTrue(translations[0].detectedLanguage?.score === 1);
-    assert.isTrue(translations[0].translations[0].sentLen?.srcSentLen.length === 3);
-    assert.isTrue(translations[0].translations[0].sentLen?.transSentLen.length === 3);
-  });
-
   it("with custom endpoint", async () => {
-    const inputText = [{ text: "This is a test." }];
-    const parameters = {
-      to: "cs",
-      includeSentenceLength: true,
+    const input = {
+      text: "This is a test.",
+      targets: [{ language: "cs" }],
     };
     const response = await customClient.path("/translate").post({
-      body: inputText,
-      queryParameters: parameters,
+      body: { inputs: [input] },
     });
     assert.equal(response.status, "200");
 
@@ -343,7 +275,7 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body.value;
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
     assert.isTrue(translations[0].detectedLanguage?.language === "en");
@@ -353,26 +285,24 @@ describe("Translate tests", () => {
 
   it("with token", async () => {
     const tokenClient = await createTokenTranslationClient({ recorder });
-    const inputText = [{ text: "This is a test." }];
-    const parameters = {
-      to: "cs",
+    const input = {
+      text: "This is a test.",
+      targets: [{ language: "cs" }],
     };
     const response = await tokenClient.path("/translate").post({
-      body: inputText,
-      queryParameters: parameters,
+      body: { inputs: [input] },
     });
     assert.equal(response.status, "200");
   });
 
   it("with AAD authentication", async () => {
     const tokenClient = await createAADAuthenticationTranslationClient({ recorder });
-    const inputText = [{ text: "This is a test." }];
-    const parameters = {
-      to: "cs",
+    const input = {
+      text: "This is a test.",
+      targets: [{ language: "cs" }],
     };
     const response = await tokenClient.path("/translate").post({
-      body: inputText,
-      queryParameters: parameters,
+      body: { inputs: [input] },
     });
     assert.equal(response.status, "200");
   });

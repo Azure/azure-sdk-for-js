@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- Fixed an issue where `IdentityClient` does not pass response in expected format for MSAL in empty response situations with additional logging. [#36906](https://github.com/Azure/azure-sdk-for-js/pull/36906)
+
 ### Other Changes
 
 - Refactored and cleaned up `MsalClientOptions` to eliminate nested property duplication, replaced `getIdentityClientAuthorityHost` with `getAuthorityHost`, and removed deprecated `isNode` in favor of `isNodeLike`. [#36731](https://github.com/Azure/azure-sdk-for-js/pull/36731)

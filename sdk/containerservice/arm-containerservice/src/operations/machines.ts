@@ -11,9 +11,6 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { createHttpPoller } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
 import type {
   Machine,
   MachinesListNextOptionalParams,
@@ -21,8 +18,6 @@ import type {
   MachinesListResponse,
   MachinesGetOptionalParams,
   MachinesGetResponse,
-  MachinesCreateOrUpdateOptionalParams,
-  MachinesCreateOrUpdateResponse,
   MachinesListNextResponse,
 } from "../models/index.js";
 
@@ -146,7 +141,7 @@ export class MachinesImpl implements Machines {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
-   * @param machineName Host name of the machine.
+   * @param machineName host name of the machine
    * @param options The options parameters.
    */
   get(
@@ -160,113 +155,6 @@ export class MachinesImpl implements Machines {
       { resourceGroupName, resourceName, agentPoolName, machineName, options },
       getOperationSpec,
     );
-  }
-
-  /**
-   * Creates or updates a machine in the specified agent pool.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
-   * @param machineName Host name of the machine.
-   * @param parameters The machine to create or update.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    resourceGroupName: string,
-    resourceName: string,
-    agentPoolName: string,
-    machineName: string,
-    parameters: Machine,
-    options?: MachinesCreateOrUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<MachinesCreateOrUpdateResponse>, MachinesCreateOrUpdateResponse>
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<MachinesCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        resourceName,
-        agentPoolName,
-        machineName,
-        parameters,
-        options,
-      },
-      spec: createOrUpdateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      MachinesCreateOrUpdateResponse,
-      OperationState<MachinesCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Creates or updates a machine in the specified agent pool.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
-   * @param machineName Host name of the machine.
-   * @param parameters The machine to create or update.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    resourceName: string,
-    agentPoolName: string,
-    machineName: string,
-    parameters: Machine,
-    options?: MachinesCreateOrUpdateOptionalParams,
-  ): Promise<MachinesCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      resourceName,
-      agentPoolName,
-      machineName,
-      parameters,
-      options,
-    );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -336,50 +224,6 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.machineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer,
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/machines/{machineName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Machine,
-      headersMapper: Mappers.MachinesCreateOrUpdateHeaders,
-    },
-    201: {
-      bodyMapper: Mappers.Machine,
-      headersMapper: Mappers.MachinesCreateOrUpdateHeaders,
-    },
-    202: {
-      bodyMapper: Mappers.Machine,
-      headersMapper: Mappers.MachinesCreateOrUpdateHeaders,
-    },
-    204: {
-      bodyMapper: Mappers.Machine,
-      headersMapper: Mappers.MachinesCreateOrUpdateHeaders,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.MachinesCreateOrUpdateExceptionHeaders,
-    },
-  },
-  requestBody: Parameters.parameters8,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
-    Parameters.agentPoolName,
-    Parameters.machineName,
-  ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-  ],
-  mediaType: "json",
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
