@@ -91,7 +91,7 @@ describe.runIf(isLive)("finetuning - basic", () => {
   }
 
   async function cleanupTestFile(fileId: string): Promise<void> {
-    const deletedFile = await openai.files.delete(fileId);
+    await openai.files.delete(fileId);
   }
 
   async function createSftFinetuningJob(
@@ -222,7 +222,7 @@ describe.runIf(isLive)("finetuning - basic", () => {
       );
     }
 
-    const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
+    await openai.fineTuning.jobs.cancel(fineTuningJob.id);
     await cleanupTestFile(trainingFile.id);
     await cleanupTestFile(validationFile.id);
   }
@@ -251,7 +251,7 @@ describe.runIf(isLive)("finetuning - basic", () => {
       assert.equal(fineTuningJob.method?.type, "dpo");
     }
 
-    const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
+    await openai.fineTuning.jobs.cancel(fineTuningJob.id);
     await cleanupTestFile(trainingFile.id);
     await cleanupTestFile(validationFile.id);
   }
@@ -280,7 +280,7 @@ describe.runIf(isLive)("finetuning - basic", () => {
       assert.equal(fineTuningJob.method?.type, "reinforcement");
     }
 
-    const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
+    await openai.fineTuning.jobs.cancel(fineTuningJob.id);
     await cleanupTestFile(trainingFile.id);
     await cleanupTestFile(validationFile.id);
   }
@@ -485,7 +485,7 @@ describe.runIf(isLive)("finetuning - basic", () => {
       ),
     );
 
-    const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
+    await openai.fineTuning.jobs.cancel(fineTuningJob.id);
     await cleanupTestFile(trainingFile.id);
     await cleanupTestFile(validationFile.id);
   });
@@ -518,7 +518,7 @@ describe.runIf(isLive)("finetuning - basic", () => {
       ),
     );
 
-    const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
+    await openai.fineTuning.jobs.cancel(fineTuningJob.id);
     await cleanupTestFile(trainingFile.id);
     await cleanupTestFile(validationFile.id);
   });
@@ -551,7 +551,7 @@ describe.runIf(isLive)("finetuning - basic", () => {
       ),
     );
 
-    const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
+    await openai.fineTuning.jobs.cancel(fineTuningJob.id);
     await cleanupTestFile(trainingFile.id);
     await cleanupTestFile(validationFile.id);
   });
@@ -683,7 +683,7 @@ describe.runIf(isLive)("finetuning - basic", () => {
       assert.equal(fineTuningJob.method?.type, "supervised");
     }
 
-    const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
+    await openai.fineTuning.jobs.cancel(fineTuningJob.id);
 
     const eventsPage = await openai.fineTuning.jobs.listEvents(fineTuningJob.id);
     const eventsList = [];
@@ -710,12 +710,6 @@ describe.runIf(isLive)("finetuning - basic", () => {
     const runningJobId = assertEnvironmentVariable(
       "AZURE_AI_PROJECTS_TESTS_RUNNING_FINE_TUNING_JOB_ID",
     );
-    if (!runningJobId) {
-      console.warn(
-        "Skipping finetuning pause job test because AZURE_AI_PROJECTS_TESTS_RUNNING_FINE_TUNING_JOB_ID is not set.",
-      );
-      return;
-    }
 
     const retrievedJob = await openai.fineTuning.jobs.retrieve(runningJobId);
 
@@ -738,14 +732,6 @@ describe.runIf(isLive)("finetuning - basic", () => {
     const pausedJobId = assertEnvironmentVariable(
       "AZURE_AI_PROJECTS_TESTS_PAUSED_FINE_TUNING_JOB_ID",
     );
-    if (!pausedJobId) {
-      console.warn(
-        "Skipping finetuning resume job test because AZURE_AI_PROJECTS_TESTS_PAUSED_FINE_TUNING_JOB_ID is not set.",
-      );
-      return;
-    }
-
-    const retrievedJob = await openai.fineTuning.jobs.retrieve(pausedJobId);
 
     const resumedJob = await openai.fineTuning.jobs.resume(pausedJobId);
 
@@ -759,14 +745,6 @@ describe.runIf(isLive)("finetuning - basic", () => {
     const completedJobId = assertEnvironmentVariable(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_FINE_TUNING_JOB_ID",
     );
-    if (!completedJobId) {
-      console.warn(
-        "Skipping finetuning list checkpoints test because AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_FINE_TUNING_JOB_ID is not set.",
-      );
-      return;
-    }
-
-    const retrievedJob = await openai.fineTuning.jobs.retrieve(completedJobId);
 
     const checkpointsList = [];
     for await (const checkpoint of openai.fineTuning.jobs.checkpoints.list(completedJobId)) {
