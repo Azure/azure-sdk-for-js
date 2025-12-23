@@ -61,7 +61,7 @@ export class PlaywrightReporterStorageManager {
       console.log(`✅ Successfully uploaded Playwright report for run: ${runId} to Azure Storage.`);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
-      console.error(`❌ Failed to upload HTML report: ${errorMessage}`);
+      coreLogger.error(`Failed to upload HTML report: ${errorMessage}`);
       throw new Error(
         ServiceErrorMessageConstants.HTML_REPORT_UPLOAD_FAILED.formatWithError(errorMessage),
       );
@@ -91,7 +91,9 @@ export class PlaywrightReporterStorageManager {
 
       coreLogger.info("✅ Uploaded service worker file as sasworker.js");
     } catch (error) {
-      console.error("Error uploading service worker file:", error);
+      coreLogger.error(
+        `Error uploading service worker file: ${error instanceof Error ? error.message : String(error)}`,
+      );
       throw error;
     }
   }
@@ -146,7 +148,9 @@ export class PlaywrightReporterStorageManager {
         );
       }
     } catch (error) {
-      console.error("Error modifying index.html:", error);
+      coreLogger.error(
+        `Error modifying index.html: ${error instanceof Error ? error.message : String(error)}`,
+      );
       throw error;
     }
   }
