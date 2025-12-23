@@ -21,7 +21,8 @@ const replaceableVariables: Record<string, string> = {
   PLANETARYCOMPUTER_MANAGED_IDENTITY_OBJECT_ID: "00000000-0000-0000-0000-000000000000",
   PLANETARYCOMPUTER_INGESTION_SAS_CONTAINER_URI:
     "https://SANITIZED.blob.core.windows.net/sample-container",
-  PLANETARYCOMPUTER_INGESTION_SAS_TOKEN: "sv=2021-01-01&st=2021-01-01T00:00:00Z&se=2099-12-31T23:59:59Z&sr=c&sp=rl&sig=Sanitized",
+  PLANETARYCOMPUTER_INGESTION_SAS_TOKEN:
+    "sv=2021-01-01&st=2021-01-01T00:00:00Z&se=2099-12-31T23:59:59Z&sr=c&sp=rl&sig=Sanitized",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -40,8 +41,10 @@ const recorderEnvSetup: RecorderStartOptions = {
       {
         key: "operation-location",
         regex: true,
-        target: "https?://[^/]+/inma/operations/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}",
-        value: "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/operations/00000000-0000-0000-0000-000000000000",
+        target:
+          "https?://[^/]+/inma/operations/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}",
+        value:
+          "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/operations/00000000-0000-0000-0000-000000000000",
       },
       // Sanitize Location header for resource creation
       {
@@ -204,7 +207,8 @@ const recorderEnvSetup: RecorderStartOptions = {
     // General sanitizers for credentials
     generalSanitizers: [
       {
-        target: process.env.PLANETARYCOMPUTER_SUBSCRIPTION_ID || "00000000-0000-0000-0000-000000000000",
+        target:
+          process.env.PLANETARYCOMPUTER_SUBSCRIPTION_ID || "00000000-0000-0000-0000-000000000000",
         value: "00000000-0000-0000-0000-000000000000",
       },
       {
@@ -216,7 +220,8 @@ const recorderEnvSetup: RecorderStartOptions = {
         value: "00000000-0000-0000-0000-000000000000",
       },
       {
-        target: process.env.PLANETARYCOMPUTER_CLIENT_SECRET || "00000000-0000-0000-0000-000000000000",
+        target:
+          process.env.PLANETARYCOMPUTER_CLIENT_SECRET || "00000000-0000-0000-0000-000000000000",
         value: "00000000-0000-0000-0000-000000000000",
       },
     ],
