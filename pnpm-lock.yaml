@@ -951,6 +951,9 @@ importers:
       '@azure/ai-agents':
         specifier: 1.1.0
         version: 1.1.0
+      '@azure/arm-cognitiveservices':
+        specifier: catalog:arm
+        version: 7.6.0
       '@azure/core-auth':
         specifier: ^1.6.0
         version: link:../../core/core-auth

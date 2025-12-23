@@ -61,6 +61,7 @@
     "@azure-rest/core-client": "^2.1.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/ai-agents": "1.1.0",
+    "@azure/arm-cognitiveservices": "catalog:arm",
     "@azure/core-auth": "^1.6.0",
     "@azure/core-lro": "^3.0.0",
     "@azure/core-paging": "^1.5.0",
