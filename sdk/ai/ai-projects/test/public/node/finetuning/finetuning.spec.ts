@@ -353,14 +353,8 @@ describe.runIf(isLive)("finetuning - basic", () => {
     completedJobIdEnvVar: string,
     deploymentFormat: string,
     deploymentCapacity: number,
-    testPrefix: string,
   ): Promise<void> {
     const completedJobId = assertEnvironmentVariable(completedJobIdEnvVar);
-    if (!completedJobId) {
-      console.warn(`Environment variable ${completedJobIdEnvVar} is not set. Skipping test.`);
-      return;
-    }
-
     const subscriptionId: string = assertEnvironmentVariable(
       "AZURE_AI_PROJECTS_TESTS_AZURE_SUBSCRIPTION_ID",
     );
@@ -368,14 +362,12 @@ describe.runIf(isLive)("finetuning - basic", () => {
       "AZURE_AI_PROJECTS_TESTS_AZURE_RESOURCE_GROUP",
     );
     const projectEndpoint: string = assertEnvironmentVariable("AZURE_AI_PROJECT_ENDPOINT");
-    if (!subscriptionId || !resourceGroup || !projectEndpoint) {
-      console.warn(`One or more required environment variables are not set. Skipping test.`);
-      return;
-    }
 
     const accountName = extractAccountNameFromEndpoint(projectEndpoint);
     const job = await openai.fineTuning.jobs.retrieve(completedJobId);
-
+    if (!job.fine_tuned_model) {
+      throw new Error("Fine-tuned model not found on the job object.");
+    }
     const finetunedModelName: string = job.fine_tuned_model;
     const deploymentName = `test-${completedJobId.slice(-8)}`;
 
@@ -402,15 +394,9 @@ describe.runIf(isLive)("finetuning - basic", () => {
 
   async function inferJobHelper(
     deploymentNameEnvVar: string,
-    testPrefix: string,
     inference_content: string,
   ): Promise<void> {
     const deploymentName = assertEnvironmentVariable(deploymentNameEnvVar);
-    if (!deploymentName) {
-      console.warn(`Environment variable ${deploymentNameEnvVar} is not set. Skipping test.`);
-      return;
-    }
-
     const response = await openai.responses.create({
       model: deploymentName,
       input: [{ role: "user", content: inference_content }],
@@ -804,7 +790,6 @@ describe.runIf(isLive)("finetuning - basic", () => {
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_FINE_TUNING_JOB_ID",
       "OpenAI",
       50,
-      "testFinetuningDeployOpenaiModelSftJob",
     );
   });
 
@@ -813,7 +798,6 @@ describe.runIf(isLive)("finetuning - basic", () => {
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_DPO_FINE_TUNING_JOB_ID",
       "OpenAI",
       50,
-      "testFinetuningDeployOpenaiModelDpoJob",
     );
   });
 
@@ -822,7 +806,6 @@ describe.runIf(isLive)("finetuning - basic", () => {
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_RFT_FINE_TUNING_JOB_ID",
       "OpenAI",
       50,
-      "testFinetuningDeployOpenaiModelRftJob",
     );
   });
 
@@ -831,14 +814,12 @@ describe.runIf(isLive)("finetuning - basic", () => {
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OSS_MODEL_SFT_FINE_TUNING_JOB_ID",
       "Mistral AI",
       50,
-      "testFinetuningDeployOssModelSftJob",
     );
   });
 
   it("should test finetuning infer openai model sft job", async () => {
     await inferJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_DEPLOYMENT_NAME",
-      "testFinetuningInferOpenaiModelSftJob",
       "Who invented the telephone?",
     );
   });
@@ -846,7 +827,6 @@ describe.runIf(isLive)("finetuning - basic", () => {
   it("should test finetuning infer openai model dpo job", async () => {
     await inferJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_DPO_DEPLOYMENT_NAME",
-      "testFinetuningInferOpenaiModelDpoJob",
       "What is the largest desert in the world?",
     );
   });
@@ -854,7 +834,6 @@ describe.runIf(isLive)("finetuning - basic", () => {
   it("should test finetuning infer openai model rft job", async () => {
     await inferJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_RFT_DEPLOYMENT_NAME",
-      "testFinetuningInferOpenaiModelRftJob",
       "Target: 85 Numbers: [20, 4, 15, 10]. Find a mathematical expression using all numbers exactly once to reach the target.",
     );
   });
@@ -862,7 +841,6 @@ describe.runIf(isLive)("finetuning - basic", () => {
   it("should test finetuning infer oss model sft job", async () => {
     await inferJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OSS_MODEL_SFT_DEPLOYMENT_NAME",
-      "testFinetuningInferOssModelSftJob",
       "Who invented the telephone?",
     );
   });
