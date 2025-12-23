@@ -496,7 +496,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.ManagedNamespacesCreateOrUpdateExceptionHeaders,
     },
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
