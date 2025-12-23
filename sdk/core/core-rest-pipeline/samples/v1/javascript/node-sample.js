@@ -7,7 +7,7 @@
 const {
   createDefaultHttpClient,
   createHttpHeaders,
-  createPipelineRequest
+  createPipelineRequest,
 } = require("@azure/core-rest-pipeline");
 
 async function main() {
@@ -17,12 +17,12 @@ async function main() {
     url: `http://example.com/?_=${stamp}`,
     method: "GET",
     headers: createHttpHeaders({
-      cookie: ""
-    })
+      cookie: "",
+    }),
   });
   request.allowInsecureConnection = true;
   const response = await client.sendRequest(request);
-  console.dir(response);
+  await console.dir(response);
 }
 
 main()

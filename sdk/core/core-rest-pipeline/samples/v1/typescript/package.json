@@ -30,7 +30,9 @@
     "dotenv": "latest"
   },
   "devDependencies": {
-    "typescript": "~5.8.2",
-    "rimraf": "latest"
+    "@types/node": "^20.0.0",
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~5.9.3"
   }
 }

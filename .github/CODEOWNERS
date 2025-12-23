@@ -281,10 +281,10 @@
 # ServiceOwners: @ganeshyb @glharper @dargilco @ZachhK @bobogogo1990
 
 # PRLabel: %Voice Live
-/sdk/ai/ai-voicelive @rhurey @xitzhang
+/sdk/ai/ai-voicelive @rhurey @xitzhang @amber-yujueWang 
 
 # ServiceLabel: %Voice Live
-# ServiceOwners: @rhurey @xitzhang
+# ServiceOwners: @rhurey @xitzhang @amber-yujueWang
 
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
@@ -745,9 +745,6 @@
 
 # PRLabel: %Mgmt
 /sdk/managednetworkfabric/arm-managednetworkfabric/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/mobilenetwork/arm-mobilenetwork/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/managementgroups/arm-managementgroups/ @qiaozha @MaryGao
