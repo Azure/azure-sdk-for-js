@@ -9,6 +9,10 @@ import {
 } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeAll } from "vitest";
 
+// Test timeout set to 120 seconds to accommodate emulator operations which include:
+// - Container creation with specific throughput (25000 RU/s)
+// - Insertion of 100 documents with 1536-dimensional vectors
+// - Multiple query executions with full-text search and vector distance operations
 describe("FTSQuery", { timeout: 120000 }, () => {
   const partitionKey = "id";
   let container: Container;
@@ -209,12 +213,13 @@ describe("FTSQuery", { timeout: 120000 }, () => {
       },
     ],
     [
+      // Note: Changed LIMIT from 13 to 11 to match .NET SDK test case
+      // See: https://github.com/Azure/azure-cosmos-dotnet-v3/blob/master/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/HybridSearchQueryTests.cs
       `SELECT c.index AS Index, c.title AS Title, c.text AS Text
         FROM c
         ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))
         OFFSET 0 LIMIT 11`,
       {
-        // Updated to match .NET SDK expected values (LIMIT 11 instead of 13)
         expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2, 22],
         expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2, 22],
       },
@@ -262,8 +267,9 @@ describe("FTSQuery", { timeout: 120000 }, () => {
   ];
 
   // Weighted RRF tests - These are separated because the .NET SDK marks them as
-  // needing an emulator refresh. See: HybridSearchQueryTests.cs WeightedRankFusionTests
-  // which has [Ignore("This test is disabled because it needs an emulator refresh.")]
+  // needing an emulator refresh.
+  // See: https://github.com/Azure/azure-cosmos-dotnet-v3/blob/master/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/HybridSearchQueryTests.cs
+  // The WeightedRankFusionTests method has [Ignore("This test is disabled because it needs an emulator refresh.")]
   const weightedRRFQueriesMap: Array<
     [string | SqlQuerySpec, { expected1: number[]; expected2: number[] }]
   > = [
