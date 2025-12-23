@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to obtain an OpenAI client and perform sft operations using open-source models.
+ * This sample demonstrates how to obtain an OpenAI client and perform Supervised Fine-Tuning (SFT) operations using open-source models.
  * Supported open-source models with SFT: Ministral-3b
  *
  * @summary Using an OpenAI client, this sample demonstrates how to create and cancel sft fine-tuning jobs.

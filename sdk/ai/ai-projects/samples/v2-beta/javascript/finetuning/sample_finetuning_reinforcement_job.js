@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to obtain an OpenAI client and perform reinforcement fine-tuning operations.
+ * This sample demonstrates how to obtain an OpenAI client and perform Reinforcement fine-tuning (RFT) operations.
  * Supported OpenAI models: o4-mini
  *
  * @summary Using an OpenAI client, this sample demonstrates how to create and cancel reinforcement fine-tuning jobs.

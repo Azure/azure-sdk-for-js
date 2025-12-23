@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to obtain an OpenAI client and perform sft operations.
+ * This sample demonstrates how to obtain an OpenAI client and perform Supervised Fine-Tuning (SFT) operations.
  * It also shows how to deploy the fine-tuned model using Azure Cognitive Services Management Client
  * and perform inference on the deployed model.
  * Supported OpenAI models: GPT 4o, 4o-mini, 4.1, 4.1-mini
