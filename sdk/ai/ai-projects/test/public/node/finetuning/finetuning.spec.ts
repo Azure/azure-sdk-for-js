@@ -367,9 +367,7 @@ describe.runIf(isLive)("finetuning - basic", () => {
     const resourceGroup: string = assertEnvironmentVariable(
       "AZURE_AI_PROJECTS_TESTS_AZURE_RESOURCE_GROUP",
     );
-    const projectEndpoint: string = assertEnvironmentVariable(
-      "AZURE_AI_PROJECTS_TESTS_PROJECT_ENDPOINT",
-    );
+    const projectEndpoint: string = assertEnvironmentVariable("AZURE_AI_PROJECT_ENDPOINT");
     if (!subscriptionId || !resourceGroup || !projectEndpoint) {
       console.warn(`One or more required environment variables are not set. Skipping test.`);
       return;
