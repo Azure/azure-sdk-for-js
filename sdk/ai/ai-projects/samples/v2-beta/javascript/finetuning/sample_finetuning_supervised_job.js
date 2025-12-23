@@ -78,7 +78,10 @@ async function deployModel(openAIClient, jobId) {
   // Note: Deployment can only be started after the fine-tuning job completes successfully.
   console.log(`Retrieving fine-tuning job with ID: ${jobId}`);
   const job = await openAIClient.fineTuning.jobs.retrieve(jobId);
-  const finetunedModelName = job.fine_tuned_model;
+  if (!job.fine_tuned_model) {
+    throw new Error("Fine-tuned model not found on the job object.");
+  }
+  const fineTunedModelName = job.fine_tuned_model;
   const deploymentName = "gpt-4-1-fine-tuned";
 
   const deploymentConfig = {
