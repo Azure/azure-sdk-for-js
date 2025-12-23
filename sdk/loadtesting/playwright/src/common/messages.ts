@@ -63,4 +63,49 @@ export const ServiceErrorMessageConstants = {
     key: "InvalidAuthTypeError",
     message: "Invalid authentication type specified. Please use either ENTRA_ID or ACCESS_TOKEN.",
   },
+  FAILED_TO_GET_WORKSPACE_DETAILS: {
+    key: "FailedToGetWorkspaceDetails",
+    message: "Failed to retrieve workspace details from the Playwright service.",
+    formatWithErrorDetails: (errorDetails: string): string =>
+      `Failed to retrieve workspace details from the Playwright service. Error: ${errorDetails}. Please verify your service URL and authentication credentials.`,
+  },
+  STORAGE_URI_NOT_FOUND: {
+    key: "StorageUriNotFound",
+    message: "Storage URI not found in workspace details",
+  },
+  UNABLE_TO_EXTRACT_WORKSPACE_ID: {
+    key: "UnableToExtractWorkspaceId",
+    message: "Unable to extract workspace ID from service URL",
+  },
+  HTML_REPORT_UPLOAD_FAILED: {
+    key: "HtmlReportUploadFailed",
+    message: "HTML report upload failed",
+    formatWithError: (errorMessage: string): string => `HTML report upload failed: ${errorMessage}`,
+  },
+  HTML_REPORT_FOLDER_NOT_FOUND: {
+    key: "HtmlReportFolderNotFound",
+    message: "HTML report folder not found",
+    formatWithFolder: (folderName: string): string => `HTML report folder not found: ${folderName}`,
+  },
+  UPLOAD_FAILED_MULTIPLE_FILES: {
+    key: "UploadFailedMultipleFiles",
+    message: "Upload failed: multiple files could not be uploaded",
+    formatWithDetails: (failed: number, errors: string[]): string =>
+      `Upload failed: ${failed} files could not be uploaded. Sample errors: ${errors.join(", ")}`,
+  },
+  UPLOAD_RETRY_EXHAUSTED: {
+    key: "UploadRetryExhausted",
+    message: "Failed after maximum retry attempts",
+    formatWithDetails: (maxRetries: number, errorMessage: string): string =>
+      `Failed after ${maxRetries} attempts: ${errorMessage}`,
+  },
+  REPORTER_REQUIRES_ENTRA_AUTH: {
+    key: "ReporterRequiresEntraAuth",
+    message: "The Azure Playwright Reporter can only be used with ENTRA_ID authentication.",
+  },
+  HTML_REPORTER_REQUIRED: {
+    key: "HtmlReporterRequired",
+    message:
+      "The Azure Playwright Reporter requires the 'html' reporter to be configured in your Playwright configuration. Please add the HTML reporter to generate test reports that can be uploaded to Azure Storage. Example: reporter: [['html'], ['@azure/playwright/reporter']]",
+  },
 };

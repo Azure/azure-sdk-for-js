@@ -22,6 +22,7 @@ class PlaywrightServiceConfig {
   public runName: string;
   public apiVersion: string;
   private _serviceAuthType: string = ServiceAuth.ENTRA_ID;
+  public credential: any;
 
   constructor() {
     this.serviceOs = (process.env[InternalEnvironmentVariables.MPT_SERVICE_OS] ||
@@ -110,6 +111,9 @@ class PlaywrightServiceConfig {
     }
     if (options?.connectTimeout) {
       this.connectTimeout = options.connectTimeout;
+    }
+    if (options?.credential) {
+      this.credential = options.credential;
     }
   };
 }
