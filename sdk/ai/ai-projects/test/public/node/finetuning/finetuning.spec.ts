@@ -17,7 +17,7 @@ import fs from "fs";
 
 const isLive = isLiveMode();
 
-describe("finetuning - basic", () => {
+describe.runIf(isLive)("finetuning - basic", () => {
   let recorder: Recorder;
   let projectsClient: AIProjectClient;
   let openai: OpenAI;
@@ -433,47 +433,47 @@ describe("finetuning - basic", () => {
     return endpointClean.split(".services.ai.azure.com")[0];
   }
 
-  it.skipIf(!isLive)("should test sft finetuning create job openai standard", async () => {
+  it("should test sft finetuning create job openai standard", async () => {
     await sftCreateJobHelper("openai", TrainingType.STANDARD_TRAINING_TYPE);
   });
 
-  it.skipIf(!isLive)("should test sft finetuning create job openai globalstandard", async () => {
+  it("should test sft finetuning create job openai globalstandard", async () => {
     await sftCreateJobHelper("openai", TrainingType.GLOBAL_STANDARD_TRAINING_TYPE);
   });
 
-  it.skipIf(!isLive)("should test sft finetuning create job openai developer", async () => {
+  it("should test sft finetuning create job openai developer", async () => {
     await sftCreateJobHelper("openai", TrainingType.DEVELOPER_TIER_TRAINING_TYPE);
   });
 
-  it.skipIf(!isLive)("should test sft finetuning create job oss globalstandard", async () => {
+  it("should test sft finetuning create job oss globalstandard", async () => {
     await sftCreateJobHelper("oss", TrainingType.GLOBAL_STANDARD_TRAINING_TYPE);
   });
 
-  it.skipIf(!isLive)("should test dpo finetuning create job openai standard", async () => {
+  it("should test dpo finetuning create job openai standard", async () => {
     await dpoCreateJobHelper("openai", TrainingType.STANDARD_TRAINING_TYPE);
   });
 
-  it.skipIf(!isLive)("should test dpo finetuning create job openai globalstandard", async () => {
+  it("should test dpo finetuning create job openai globalstandard", async () => {
     await dpoCreateJobHelper("openai", TrainingType.GLOBAL_STANDARD_TRAINING_TYPE);
   });
 
-  it.skipIf(!isLive)("should test dpo finetuning create job openai developer", async () => {
+  it("should test dpo finetuning create job openai developer", async () => {
     await dpoCreateJobHelper("openai", TrainingType.DEVELOPER_TIER_TRAINING_TYPE);
   });
 
-  it.skipIf(!isLive)("should test rft finetuning create job openai standard", async () => {
+  it("should test rft finetuning create job openai standard", async () => {
     await rftCreateJobHelper("openai", TrainingType.STANDARD_TRAINING_TYPE);
   });
 
-  it.skipIf(!isLive)("should test rft finetuning create job openai globalstandard", async () => {
+  it("should test rft finetuning create job openai globalstandard", async () => {
     await rftCreateJobHelper("openai", TrainingType.GLOBAL_STANDARD_TRAINING_TYPE);
   });
 
-  it.skipIf(!isLive)("should test rft finetuning create job openai developer", async () => {
+  it("should test rft finetuning create job openai developer", async () => {
     await rftCreateJobHelper("openai", TrainingType.DEVELOPER_TIER_TRAINING_TYPE);
   });
 
-  it.skipIf(!isLive)("should test sft finetuning retrieve job", async () => {
+  it("should test sft finetuning retrieve job", async () => {
     const { trainingFile, validationFile } = await uploadTestFiles(FineTuningJobType.SFT_JOB_TYPE);
     const fineTuningJob = await createSftFinetuningJob(
       trainingFile.id,
@@ -506,7 +506,7 @@ describe("finetuning - basic", () => {
     await cleanupTestFile(validationFile.id);
   });
 
-  it.skipIf(!isLive)("should test dpo finetuning retrieve job", async () => {
+  it("should test dpo finetuning retrieve job", async () => {
     const { trainingFile, validationFile } = await uploadTestFiles(FineTuningJobType.DPO_JOB_TYPE);
     const fineTuningJob = await createDpoFinetuningJob(
       trainingFile.id,
@@ -539,7 +539,7 @@ describe("finetuning - basic", () => {
     await cleanupTestFile(validationFile.id);
   });
 
-  it.skipIf(!isLive)("should test rft finetuning retrieve job", async () => {
+  it("should test rft finetuning retrieve job", async () => {
     const { trainingFile, validationFile } = await uploadTestFiles(FineTuningJobType.RFT_JOB_TYPE);
     const fineTuningJob = await createRftFinetuningJob(
       trainingFile.id,
@@ -572,7 +572,7 @@ describe("finetuning - basic", () => {
     await cleanupTestFile(validationFile.id);
   });
 
-  it.skipIf(!isLive)("should test finetuning list jobs", async () => {
+  it("should test finetuning list jobs", async () => {
     const jobsPage = await openai.fineTuning.jobs.list();
     const jobsList: FineTuningJob[] = [];
     for await (const job of jobsPage) {
@@ -588,7 +588,7 @@ describe("finetuning - basic", () => {
     }
   });
 
-  it.skipIf(!isLive)("should test sft finetuning cancel job openai standard", async () => {
+  it("should test sft finetuning cancel job openai standard", async () => {
     await cancelJobHelper(
       FineTuningJobType.SFT_JOB_TYPE,
       "openai",
@@ -597,7 +597,7 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test sft finetuning cancel job openai developer", async () => {
+  it("should test sft finetuning cancel job openai developer", async () => {
     await cancelJobHelper(
       FineTuningJobType.SFT_JOB_TYPE,
       "openai",
@@ -606,7 +606,7 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test sft finetuning cancel job openai globalstandard", async () => {
+  it("should test sft finetuning cancel job openai globalstandard", async () => {
     await cancelJobHelper(
       FineTuningJobType.SFT_JOB_TYPE,
       "openai",
@@ -615,7 +615,7 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test sft finetuning cancel job oss globalstandard", async () => {
+  it("should test sft finetuning cancel job oss globalstandard", async () => {
     await cancelJobHelper(
       FineTuningJobType.SFT_JOB_TYPE,
       "oss",
@@ -624,7 +624,7 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test dpo finetuning cancel job openai standard", async () => {
+  it("should test dpo finetuning cancel job openai standard", async () => {
     await cancelJobHelper(
       FineTuningJobType.DPO_JOB_TYPE,
       "openai",
@@ -633,7 +633,7 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test dpo finetuning cancel job openai developer", async () => {
+  it("should test dpo finetuning cancel job openai developer", async () => {
     await cancelJobHelper(
       FineTuningJobType.DPO_JOB_TYPE,
       "openai",
@@ -642,7 +642,7 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test dpo finetuning cancel job openai globalstandard", async () => {
+  it("should test dpo finetuning cancel job openai globalstandard", async () => {
     await cancelJobHelper(
       FineTuningJobType.DPO_JOB_TYPE,
       "openai",
@@ -651,7 +651,7 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test rft finetuning cancel job openai standard", async () => {
+  it("should test rft finetuning cancel job openai standard", async () => {
     await cancelJobHelper(
       FineTuningJobType.RFT_JOB_TYPE,
       "openai",
@@ -660,7 +660,7 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test rft finetuning cancel job openai developer", async () => {
+  it("should test rft finetuning cancel job openai developer", async () => {
     await cancelJobHelper(
       FineTuningJobType.RFT_JOB_TYPE,
       "openai",
@@ -669,7 +669,7 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test rft finetuning cancel job openai globalstandard", async () => {
+  it("should test rft finetuning cancel job openai globalstandard", async () => {
     await cancelJobHelper(
       FineTuningJobType.RFT_JOB_TYPE,
       "openai",
@@ -678,7 +678,7 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test finetuning list events", async () => {
+  it("should test finetuning list events", async () => {
     const { trainingFile, validationFile } = await uploadTestFiles(FineTuningJobType.SFT_JOB_TYPE);
     const fineTuningJob = await createSftFinetuningJob(
       trainingFile.id,
@@ -722,7 +722,7 @@ describe("finetuning - basic", () => {
     await cleanupTestFile(validationFile.id);
   });
 
-  it.skipIf(!isLive)("should test finetuning pause job", async () => {
+  it("should test finetuning pause job", async () => {
     const runningJobId = assertEnvironmentVariable(
       "AZURE_AI_PROJECTS_TESTS_RUNNING_FINE_TUNING_JOB_ID",
     );
@@ -750,7 +750,7 @@ describe("finetuning - basic", () => {
     }
   });
 
-  it.skipIf(!isLive)("should test finetuning resume job", async () => {
+  it("should test finetuning resume job", async () => {
     const pausedJobId = assertEnvironmentVariable(
       "AZURE_AI_PROJECTS_TESTS_PAUSED_FINE_TUNING_JOB_ID",
     );
@@ -771,7 +771,7 @@ describe("finetuning - basic", () => {
     }
   });
 
-  it.skipIf(!isLive)("should test finetuning list checkpoints", async () => {
+  it("should test finetuning list checkpoints", async () => {
     const completedJobId = assertEnvironmentVariable(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_FINE_TUNING_JOB_ID",
     );
@@ -801,7 +801,7 @@ describe("finetuning - basic", () => {
     }
   });
 
-  it.skipIf(!isLive)("should test finetuning deploy openai model sft job", async () => {
+  it("should test finetuning deploy openai model sft job", async () => {
     await deployJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_FINE_TUNING_JOB_ID",
       "OpenAI",
@@ -810,7 +810,7 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test finetuning deploy openai model dpo job", async () => {
+  it("should test finetuning deploy openai model dpo job", async () => {
     await deployJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_DPO_FINE_TUNING_JOB_ID",
       "OpenAI",
@@ -819,7 +819,7 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test finetuning deploy openai model rft job", async () => {
+  it("should test finetuning deploy openai model rft job", async () => {
     await deployJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_RFT_FINE_TUNING_JOB_ID",
       "OpenAI",
@@ -828,7 +828,7 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test finetuning deploy oss model sft job", async () => {
+  it("should test finetuning deploy oss model sft job", async () => {
     await deployJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OSS_MODEL_SFT_FINE_TUNING_JOB_ID",
       "Mistral AI",
@@ -837,7 +837,7 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test finetuning infer openai model sft job", async () => {
+  it("should test finetuning infer openai model sft job", async () => {
     await inferJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_DEPLOYMENT_NAME",
       "testFinetuningInferOpenaiModelSftJob",
@@ -845,7 +845,7 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test finetuning infer openai model dpo job", async () => {
+  it("should test finetuning infer openai model dpo job", async () => {
     await inferJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_DPO_DEPLOYMENT_NAME",
       "testFinetuningInferOpenaiModelDpoJob",
@@ -853,7 +853,7 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test finetuning infer openai model rft job", async () => {
+  it("should test finetuning infer openai model rft job", async () => {
     await inferJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_RFT_DEPLOYMENT_NAME",
       "testFinetuningInferOpenaiModelRftJob",
@@ -861,7 +861,7 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test finetuning infer oss model sft job", async () => {
+  it("should test finetuning infer oss model sft job", async () => {
     await inferJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OSS_MODEL_SFT_DEPLOYMENT_NAME",
       "testFinetuningInferOssModelSftJob",
