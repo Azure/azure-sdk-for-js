@@ -19,7 +19,7 @@ const path = require("path");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
-const modelName = process.env["MODEL_NAME"] || "gpt-4.1";
+const modelName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4.1";
 const trainingFilePath = path.join(__dirname, "data", "sft_training_set.jsonl");
 const validationFilePath = path.join(__dirname, "data", "sft_validation_set.jsonl");
 
