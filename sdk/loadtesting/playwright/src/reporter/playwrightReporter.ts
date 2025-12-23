@@ -57,9 +57,7 @@ export default class PlaywrightReporter implements Reporter {
   }
 
   /**
-
    * Called when test run ends. Uploads Playwright test report to Azure Storage.
-
    */
 
   async onEnd(): Promise<void> {

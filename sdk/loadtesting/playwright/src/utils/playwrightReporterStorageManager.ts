@@ -155,7 +155,7 @@ export class PlaywrightReporterStorageManager {
     }
   }
 
-  //  Uploads the entire Playwright HTML report folder after tests complete.
+  // Uploads the entire Playwright HTML report folder after tests complete.
 
   async uploadPlaywrightHtmlReportAfterTests(
     outputFolderName?: string,
@@ -337,7 +337,7 @@ export class PlaywrightReporterStorageManager {
             completedTasks++;
           })
           .finally(() => {
-            // CLEANUP: Remove completed promise from executing array
+            // Cleanup: remove completed promise from executing array
             const index = executing.indexOf(wrappedPromise);
             if (index > -1) executing.splice(index, 1);
           });
