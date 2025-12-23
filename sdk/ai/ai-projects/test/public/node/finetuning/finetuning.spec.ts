@@ -65,17 +65,14 @@ describe("finetuning - basic", () => {
     const trainingFileUrl: URL = new URL(`./data/${trainingFilePath}`, import.meta.url);
     const validationFileUrl: URL = new URL(`./data/${validationFilePath}`, import.meta.url);
 
-    console.log(`Uploading file`);
     const trainingFile: OpenAI.Files.FileObject = await openai.files.create({
       file: fs.createReadStream(trainingFileUrl),
       purpose: "fine-tune",
     });
-    console.log(`Uploaded file with ID: ${trainingFile.id}`);
     const validationFile: OpenAI.Files.FileObject = await openai.files.create({
       file: fs.createReadStream(validationFileUrl),
       purpose: "fine-tune",
     });
-    console.log(`Uploaded file with ID: ${validationFile.id}`);
 
     const trainingProcessedFile: OpenAI.Files.FileObject = await openai.files.waitForProcessing(
       trainingFile.id,
@@ -83,7 +80,6 @@ describe("finetuning - basic", () => {
     const validationProcessedFile: OpenAI.Files.FileObject = await openai.files.waitForProcessing(
       validationFile.id,
     );
-    console.log("Files processed.");
 
     assert.isNotNull(trainingProcessedFile);
     assert.isNotNull(validationProcessedFile);
@@ -95,9 +91,7 @@ describe("finetuning - basic", () => {
   }
 
   async function cleanupTestFile(fileId: string): Promise<void> {
-    console.log(`Deleting file with ID: ${fileId}`);
     const deletedFile = await openai.files.delete(fileId);
-    console.log(`Successfully deleted file: ${deletedFile?.id}`);
   }
 
   async function createSftFinetuningJob(
@@ -207,10 +201,6 @@ describe("finetuning - basic", () => {
       trainingType,
       modelType,
     );
-    console.log(
-      `Created fine-tuning SFT ${modelType} ${trainingType} job with ID:`,
-      fineTuningJob.id,
-    );
 
     validateFineTuningJob(fineTuningJob);
     if (fineTuningJob.training_file !== undefined) {
@@ -223,9 +213,6 @@ describe("finetuning - basic", () => {
     if (fineTuningJob.method?.type !== undefined) {
       assert.equal(fineTuningJob.method?.type, "supervised");
     }
-    console.log(
-      `Created fine-tuning SFT ${modelType} ${trainingType} job SFT method validation passed - type: ${fineTuningJob.method?.type}`,
-    );
 
     if (modelType === "oss") {
       validateFineTuningJob(
@@ -235,11 +222,7 @@ describe("finetuning - basic", () => {
       );
     }
 
-    console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
     const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
-    console.log(
-      `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
-    );
     await cleanupTestFile(trainingFile.id);
     await cleanupTestFile(validationFile.id);
   }
@@ -255,10 +238,6 @@ describe("finetuning - basic", () => {
       trainingType,
       modelType,
     );
-    console.log(
-      `Created fine-tuning DPO ${modelType} ${trainingType} job with ID:`,
-      fineTuningJob.id,
-    );
 
     validateFineTuningJob(fineTuningJob);
     if (fineTuningJob.training_file !== undefined) {
@@ -271,15 +250,8 @@ describe("finetuning - basic", () => {
     if (fineTuningJob.method?.type !== undefined) {
       assert.equal(fineTuningJob.method?.type, "dpo");
     }
-    console.log(
-      `Created fine-tuning DPO ${modelType} ${trainingType} job DPO method validation passed - type: ${fineTuningJob.method?.type}`,
-    );
 
-    console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
     const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
-    console.log(
-      `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
-    );
     await cleanupTestFile(trainingFile.id);
     await cleanupTestFile(validationFile.id);
   }
@@ -295,10 +267,6 @@ describe("finetuning - basic", () => {
       trainingType,
       modelType,
     );
-    console.log(
-      `Created fine-tuning RFT ${modelType} ${trainingType} job with ID:`,
-      fineTuningJob.id,
-    );
 
     validateFineTuningJob(fineTuningJob);
     if (fineTuningJob.training_file !== undefined) {
@@ -311,15 +279,8 @@ describe("finetuning - basic", () => {
     if (fineTuningJob.method?.type !== undefined) {
       assert.equal(fineTuningJob.method?.type, "reinforcement");
     }
-    console.log(
-      `Created fine-tuning RFT ${modelType} ${trainingType} job RFT method validation passed - type: ${fineTuningJob.method?.type}`,
-    );
 
-    console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
     const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
-    console.log(
-      `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
-    );
     await cleanupTestFile(trainingFile.id);
     await cleanupTestFile(validationFile.id);
   }
@@ -361,16 +322,8 @@ describe("finetuning - basic", () => {
       default:
         throw new Error(`Unsupported job type: ${jobType}`);
     }
-    console.log(
-      `Created fine-tuning ${jobType} ${modelType} ${trainingType} job with ID:`,
-      fineTuningJob.id,
-    );
 
-    console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
     const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
-    console.log(
-      `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
-    );
 
     // Validate the cancelled job
     validateFineTuningJob(cancelledJob, fineTuningJob.id);
@@ -387,15 +340,9 @@ describe("finetuning - basic", () => {
     if (cancelledJob.method?.type !== undefined) {
       assert.equal(cancelledJob.method?.type, expectedMethodType);
     }
-    console.log(
-      `finetuning cancel ${jobType} ${modelType} ${trainingType} method validation passed - type: ${cancelledJob.method?.type}`,
-    );
 
     // Verify cancellation persisted by retrieving the job
     const retrievedJob = await openai.fineTuning.jobs.retrieve(fineTuningJob.id);
-    console.log(
-      `finetuning cancel ${jobType} ${modelType} ${trainingType} verified cancellation persisted for job: ${retrievedJob.id}`,
-    );
     validateFineTuningJob(retrievedJob, fineTuningJob.id, undefined, "cancelled");
 
     await cleanupTestFile(trainingFile.id);
@@ -429,17 +376,11 @@ describe("finetuning - basic", () => {
     }
 
     const accountName = extractAccountNameFromEndpoint(projectEndpoint);
-    console.log(`${testPrefix} Account Name: ${accountName}`);
-
-    console.log(`Test deployment for completed job ID: ${completedJobId}`);
-
     const job = await openai.fineTuning.jobs.retrieve(completedJobId);
-    console.log(`${testPrefix} Retrieved job with status: ${job.status}`);
 
     const finetunedModelName: string = job.fine_tuned_model!!;
     const deploymentName = `test-${completedJobId.slice(-8)}`;
 
-    console.log(`${testPrefix} Deploying model: ${finetunedModelName} as ${deploymentName}`);
     const deploymentConfig: Deployment = {
       sku: { name: "GlobalStandard", capacity: deploymentCapacity },
       properties: {
@@ -451,9 +392,6 @@ describe("finetuning - basic", () => {
       },
     };
 
-    console.log(
-      `Deploying fine-tuned model: ${finetunedModelName} with deployment name: ${deploymentName}`,
-    );
     const credential = createTestCredential();
     const cognitiveClient = new CognitiveServicesManagementClient(credential, subscriptionId);
     await cognitiveClient.deployments.beginCreateOrUpdate(
@@ -462,8 +400,6 @@ describe("finetuning - basic", () => {
       deploymentName,
       deploymentConfig,
     );
-
-    console.log(`Successfully completed deployment test for job: ${completedJobId}`);
   }
 
   async function inferJobHelper(
@@ -477,19 +413,14 @@ describe("finetuning - basic", () => {
       return;
     }
 
-    console.log(`Testing inference on deployment: ${deploymentName}`);
     const response = await openai.responses.create({
       model: deploymentName,
       input: [{ role: "user", content: inference_content }],
     });
-    console.log(`Model response: ${response.output_text}`);
 
     assert.isNotNull(response, "Response should not be null");
     assert.isNotNull(response.output_text, "Response output_text should not be null");
     assert.isString(response.output_text, "Response output_text should be a string");
-    console.log(`[${testPrefix}] Successfully validated inference response`);
-
-    console.log(`Successfully completed inference test for deployment: ${deploymentName}`);
   }
 
   function extractAccountNameFromEndpoint(projectEndpoint: string): string {
@@ -551,9 +482,7 @@ describe("finetuning - basic", () => {
       "openai",
     );
 
-    console.log(`Retrieving fine-tuning job with ID: ${fineTuningJob.id}`);
     const retrievedJob = await openai.fineTuning.jobs.retrieve(fineTuningJob.id);
-    console.log("Retrieved job:\n", JSON.stringify(retrievedJob));
 
     validateFineTuningJob(retrievedJob, fineTuningJob.id);
     if (retrievedJob.training_file !== undefined) {
@@ -572,11 +501,7 @@ describe("finetuning - basic", () => {
       ),
     );
 
-    console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
     const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
-    console.log(
-      `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
-    );
     await cleanupTestFile(trainingFile.id);
     await cleanupTestFile(validationFile.id);
   });
@@ -590,9 +515,7 @@ describe("finetuning - basic", () => {
       "openai",
     );
 
-    console.log(`Retrieving fine-tuning job with ID: ${fineTuningJob.id}`);
     const retrievedJob = await openai.fineTuning.jobs.retrieve(fineTuningJob.id);
-    console.log("Retrieved job:\n", JSON.stringify(retrievedJob));
 
     validateFineTuningJob(retrievedJob, fineTuningJob.id);
     if (retrievedJob.training_file !== undefined) {
@@ -611,11 +534,7 @@ describe("finetuning - basic", () => {
       ),
     );
 
-    console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
     const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
-    console.log(
-      `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
-    );
     await cleanupTestFile(trainingFile.id);
     await cleanupTestFile(validationFile.id);
   });
@@ -629,9 +548,7 @@ describe("finetuning - basic", () => {
       "openai",
     );
 
-    console.log(`Retrieving fine-tuning job with ID: ${fineTuningJob.id}`);
     const retrievedJob = await openai.fineTuning.jobs.retrieve(fineTuningJob.id);
-    console.log("Retrieved job:\n", JSON.stringify(retrievedJob));
 
     validateFineTuningJob(retrievedJob, fineTuningJob.id);
     if (retrievedJob.training_file !== undefined) {
@@ -650,11 +567,7 @@ describe("finetuning - basic", () => {
       ),
     );
 
-    console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
     const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
-    console.log(
-      `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
-    );
     await cleanupTestFile(trainingFile.id);
     await cleanupTestFile(validationFile.id);
   });
@@ -665,7 +578,6 @@ describe("finetuning - basic", () => {
     for await (const job of jobsPage) {
       jobsList.push(job);
     }
-    console.log(`finetuning list listed ${jobsList.length} jobs`);
 
     assert.isArray(jobsList, "Jobs list should be a list");
 
@@ -673,11 +585,7 @@ describe("finetuning - basic", () => {
       assert.isNotNull(job.id, "Job should have an ID");
       assert.isNotNull(job.created_at, "Job should have a creation timestamp");
       assert.isNotNull(job.status, "Job should have a status");
-      console.log(`finetuning list validated job ${job.id} with status ${job.status}`);
     }
-    console.log(
-      `finetuning list successfully validated list functionality with ${jobsList.length} jobs`,
-    );
   });
 
   it.skipIf(!isLive)("should test sft finetuning cancel job openai standard", async () => {
@@ -792,18 +700,12 @@ describe("finetuning - basic", () => {
     }
 
     const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
-    console.log(
-      `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
-    );
 
     const eventsPage = await openai.fineTuning.jobs.listEvents(fineTuningJob.id);
     const eventsList = [];
     for await (const event of eventsPage) {
       eventsList.push(event);
     }
-    console.log(
-      `finetuning list events listed ${eventsList.length} events for job: ${fineTuningJob.id}`,
-    );
 
     assert.isAbove(eventsList.length, 0, "Fine-tuning job should have at least one event");
 
@@ -815,7 +717,6 @@ describe("finetuning - basic", () => {
       assert.isNotNull(event.message, "Event should have a message");
       assert.isNotNull(event.type, "Event should have a type");
     }
-    console.log(`finetuning list events successfully validated ${eventsList.length} events`);
 
     await cleanupTestFile(trainingFile.id);
     await cleanupTestFile(validationFile.id);
@@ -832,11 +733,8 @@ describe("finetuning - basic", () => {
       return;
     }
 
-    console.log(`Retrieving fine-tuning job with ID: ${runningJobId}`);
     const retrievedJob = await openai.fineTuning.jobs.retrieve(runningJobId);
-    console.log("Retrieved job:\n", JSON.stringify(retrievedJob));
 
-    console.log(`Job status before pausing: ${retrievedJob.status}`);
     if (retrievedJob.status !== "running") {
       console.warn(
         `Skipping pause test because job status is ${retrievedJob.status}, expected 'running'.`,
@@ -844,16 +742,12 @@ describe("finetuning - basic", () => {
       return;
     }
 
-    console.log(`Pausing fine-tuning job with ID: ${runningJobId}`);
     const pausedJob = await openai.fineTuning.jobs.pause(runningJobId);
-    console.log(pausedJob);
 
     validateFineTuningJob(pausedJob, runningJobId);
     if (pausedJob.status !== undefined) {
       assert.equal(pausedJob.status, "paused");
     }
-    console.log(`Job status after pausing: ${pausedJob.status}`);
-    console.log(`finetuning pause job successfully paused and verified job: ${pausedJob.id}`);
   });
 
   it.skipIf(!isLive)("should test finetuning resume job", async () => {
@@ -867,21 +761,14 @@ describe("finetuning - basic", () => {
       return;
     }
 
-    console.log(`Retrieving fine-tuning job with ID: ${pausedJobId}`);
     const retrievedJob = await openai.fineTuning.jobs.retrieve(pausedJobId);
-    console.log("Retrieved job:\n", JSON.stringify(retrievedJob));
 
-    console.log(`Job status before resuming: ${retrievedJob.status}`);
-
-    console.log(`Resuming fine-tuning job with ID: ${pausedJobId}`);
     const resumedJob = await openai.fineTuning.jobs.resume(pausedJobId);
 
     validateFineTuningJob(resumedJob, pausedJobId);
     if (resumedJob.status !== undefined) {
       assert.equal(resumedJob.status, "running");
     }
-    console.log(`Job status after resuming: ${resumedJob.status}`);
-    console.log(`finetuning resume job successfully resumed and verified job: ${resumedJob.id}`);
   });
 
   it.skipIf(!isLive)("should test finetuning list checkpoints", async () => {
@@ -895,17 +782,12 @@ describe("finetuning - basic", () => {
       return;
     }
 
-    console.log(`Retrieving fine-tuning job with ID: ${completedJobId}`);
     const retrievedJob = await openai.fineTuning.jobs.retrieve(completedJobId);
-    console.log("Retrieved job:\n", JSON.stringify(retrievedJob));
 
     const checkpointsList = [];
     for await (const checkpoint of openai.fineTuning.jobs.checkpoints.list(completedJobId)) {
       checkpointsList.push(checkpoint);
     }
-    console.log(
-      `finetuning list checkpoints listed ${checkpointsList.length} checkpoints for job: ${completedJobId}`,
-    );
 
     for (const checkpoint of checkpointsList) {
       assert.isNotNull(checkpoint.id, "Checkpoint should have an ID");
@@ -916,14 +798,7 @@ describe("finetuning - basic", () => {
         `Checkpoint should belong to job ${completedJobId}`,
       );
       assert.isNotNull(checkpoint.step_number, "Checkpoint should have a step number");
-      console.log(
-        `finetuning list checkpoints validated checkpoint ${checkpoint.id} at step ${checkpoint.step_number}`,
-      );
     }
-
-    console.log(
-      `finetuning list checkpoints successfully validated ${checkpointsList.length} checkpoints for job: ${completedJobId}`,
-    );
   });
 
   it.skipIf(!isLive)("should test finetuning deploy openai model sft job", async () => {
