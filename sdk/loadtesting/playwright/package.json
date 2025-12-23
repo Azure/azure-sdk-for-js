@@ -50,7 +50,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "build": "npm run clean && dev-tool run build-package && npm run copy-static && dev-tool run extract-api",
+    "copy-static": "node -e \"const fs = require('fs'); const path = require('path'); const src = 'src/utils/sasworker.js'; const targets = ['dist/commonjs/utils/sasworker.js', 'dist/esm/utils/sasworker.js', 'dist/browser/utils/sasworker.js', 'dist/react-native/utils/sasworker.js']; targets.forEach(target => { fs.mkdirSync(path.dirname(target), {recursive: true}); fs.copyFileSync(src, target); });\"",
     "build:samples": "echo Skipped.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist *.log dist-test temp types *.tgz *.xml samples/**/test-results/",
