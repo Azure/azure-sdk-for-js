@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 /* ============================================================
    Service Worker: Redirect trace/index.html to trace.playwright.dev
    - Intercepts navigation to trace/index.html with trace parameter
