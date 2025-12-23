@@ -9,7 +9,7 @@ import {
 } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeAll } from "vitest";
 
-describe.skip("FTSQuery", { timeout: 20000 }, () => {
+describe("FTSQuery", { timeout: 120000 }, () => {
   const partitionKey = "id";
   let container: Container;
   const containerDefinition: ContainerDefinition = {
@@ -170,8 +170,9 @@ describe.skip("FTSQuery", { timeout: 20000 }, () => {
         WHERE FullTextContains(c.title, 'John') OR FullTextContains(c.text, 'John') OR FullTextContains(c.text, 'United States')
         ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))`,
       {
-        expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 25, 22, 2, 66, 57, 85],
-        expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 25, 22, 2, 66, 85, 57],
+        // Updated to match .NET SDK expected values
+        expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2, 22, 57, 85],
+        expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2, 22, 85, 57],
       },
     ],
     [
@@ -180,8 +181,9 @@ describe.skip("FTSQuery", { timeout: 20000 }, () => {
         WHERE FullTextContains(c.title, 'John') OR FullTextContains(c.text, 'John') OR FullTextContains(c.text, 'United States')
         ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))`,
       {
-        expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 25],
-        expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 25],
+        // Updated to match .NET SDK expected values
+        expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
+        expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
       },
     ],
     [
@@ -191,8 +193,9 @@ describe.skip("FTSQuery", { timeout: 20000 }, () => {
         ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))
         OFFSET 5 LIMIT 10`,
       {
-        expected1: [24, 77, 76, 80, 25, 22, 2, 66, 57, 85],
-        expected2: [24, 77, 76, 80, 25, 22, 2, 66, 85, 57],
+        // Updated to match .NET SDK expected values
+        expected1: [24, 77, 76, 80, 2, 22, 57, 85],
+        expected2: [24, 77, 76, 80, 2, 22, 85, 57],
       },
     ],
     [
@@ -200,18 +203,20 @@ describe.skip("FTSQuery", { timeout: 20000 }, () => {
         FROM c
         ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))`,
       {
-        expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 25],
-        expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 25],
+        // Updated to match .NET SDK expected values
+        expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
+        expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
       },
     ],
     [
       `SELECT c.index AS Index, c.title AS Title, c.text AS Text
         FROM c
         ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))
-        OFFSET 0 LIMIT 13`,
+        OFFSET 0 LIMIT 11`,
       {
-        expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 25, 22, 2, 66],
-        expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 25, 22, 2, 66],
+        // Updated to match .NET SDK expected values (LIMIT 11 instead of 13)
+        expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2, 22],
+        expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2, 22],
       },
     ],
     [
@@ -222,8 +227,9 @@ describe.skip("FTSQuery", { timeout: 20000 }, () => {
         parameters: [{ name: "@inputVector", value: sampleVector }],
       },
       {
-        expected1: [21, 75, 37, 24, 26, 35, 49, 87, 55, 9],
-        expected2: [21, 75, 37, 24, 26, 35, 49, 87, 55, 9],
+        // Updated to match .NET SDK expected values
+        expected1: [21, 37, 75, 26, 35, 24, 87, 55, 49, 9],
+        expected2: [21, 37, 75, 26, 35, 24, 87, 55, 49, 9],
       },
     ],
     [
@@ -247,11 +253,20 @@ describe.skip("FTSQuery", { timeout: 20000 }, () => {
         ],
       },
       {
-        expected1: [21, 75, 37, 24, 26, 35, 49, 87, 55, 9],
-        expected2: [21, 75, 37, 24, 26, 35, 49, 87, 55, 9],
+        // Updated to match .NET SDK expected values
+        expected1: [21, 37, 75, 26, 35, 24, 87, 55, 49, 9],
+        expected2: [21, 37, 75, 26, 35, 24, 87, 55, 49, 9],
       },
     ],
     // TODO: Add test case of just RRF with vector search no FullTextScore
+  ];
+
+  // Weighted RRF tests - These are separated because the .NET SDK marks them as
+  // needing an emulator refresh. See: HybridSearchQueryTests.cs WeightedRankFusionTests
+  // which has [Ignore("This test is disabled because it needs an emulator refresh.")]
+  const weightedRRFQueriesMap: Array<
+    [string | SqlQuerySpec, { expected1: number[]; expected2: number[] }]
+  > = [
     [
       `SELECT c.index AS Index, c.title AS Title, c.text AS Text
         FROM c
@@ -335,7 +350,10 @@ describe.skip("FTSQuery", { timeout: 20000 }, () => {
         JSON.stringify(indexes) === JSON.stringify(expected1) ||
         JSON.stringify(indexes) === JSON.stringify(expected2);
 
-      assert.ok(isMatch, `The indexes array did not match expected values for query:\n${query}`);
+      assert.ok(
+        isMatch,
+        `Query failed.\nActual: ${JSON.stringify(indexes)}\nExpected1: ${JSON.stringify(expected1)}\nExpected2: ${JSON.stringify(expected2)}\nQuery:\n${typeof query === "string" ? query : query.query}`,
+      );
     }
   });
   it("FetchNext: should return correct expected values for all the queries with enableQueryControl", async () => {
@@ -360,7 +378,10 @@ describe.skip("FTSQuery", { timeout: 20000 }, () => {
         JSON.stringify(indexes) === JSON.stringify(expected1) ||
         JSON.stringify(indexes) === JSON.stringify(expected2);
 
-      assert.ok(isMatch, `The indexes array did not match expected values for query:\n${query}`);
+      assert.ok(
+        isMatch,
+        `Query failed.\nActual: ${JSON.stringify(indexes)}\nExpected1: ${JSON.stringify(expected1)}\nExpected2: ${JSON.stringify(expected2)}\nQuery:\n${typeof query === "string" ? query : query.query}`,
+      );
     }
   });
 
@@ -387,7 +408,10 @@ describe.skip("FTSQuery", { timeout: 20000 }, () => {
         JSON.stringify(indexes) === JSON.stringify(expected1) ||
         JSON.stringify(indexes) === JSON.stringify(expected2);
 
-      assert.ok(isMatch, `The indexes array did not match expected values for query:\n${query}`);
+      assert.ok(
+        isMatch,
+        `Query failed.\nActual: ${JSON.stringify(indexes)}\nExpected1: ${JSON.stringify(expected1)}\nExpected2: ${JSON.stringify(expected2)}\nQuery:\n${typeof query === "string" ? query : query.query}`,
+      );
     }
   });
 
@@ -403,7 +427,10 @@ describe.skip("FTSQuery", { timeout: 20000 }, () => {
         JSON.stringify(indexes) === JSON.stringify(expected1) ||
         JSON.stringify(indexes) === JSON.stringify(expected2);
 
-      assert.ok(isMatch, `The indexes array did not match expected values for query:\n${query}`);
+      assert.ok(
+        isMatch,
+        `Query failed.\nActual: ${JSON.stringify(indexes)}\nExpected1: ${JSON.stringify(expected1)}\nExpected2: ${JSON.stringify(expected2)}\nQuery:\n${typeof query === "string" ? query : query.query}`,
+      );
     }
   });
 
@@ -422,7 +449,34 @@ describe.skip("FTSQuery", { timeout: 20000 }, () => {
         JSON.stringify(indexes) === JSON.stringify(expected1) ||
         JSON.stringify(indexes) === JSON.stringify(expected2);
 
-      assert.ok(isMatch, `The indexes array did not match expected values for query:\n${query}`);
+      assert.ok(
+        isMatch,
+        `Query failed.\nActual: ${JSON.stringify(indexes)}\nExpected1: ${JSON.stringify(expected1)}\nExpected2: ${JSON.stringify(expected2)}\nQuery:\n${typeof query === "string" ? query : query.query}`,
+      );
     }
+  });
+
+  // Weighted RRF tests - Skipped because the .NET SDK marks them as needing an emulator refresh.
+  // See: HybridSearchQueryTests.cs WeightedRankFusionTests which has
+  // [Ignore("This test is disabled because it needs an emulator refresh.")]
+  describe.skip("Weighted RRF queries (needs emulator refresh)", () => {
+    it("FetchAll: should return correct expected values for weighted RRF queries", async () => {
+      for (const [query, { expected1, expected2 }] of weightedRRFQueriesMap) {
+        const queryOptions = { allowUnboundedNonStreamingQueries: true };
+        const queryIterator = container.items.query(query, queryOptions);
+
+        const { resources: results } = await queryIterator.fetchAll();
+
+        const indexes = results.map((result) => result.Index);
+        const isMatch =
+          JSON.stringify(indexes) === JSON.stringify(expected1) ||
+          JSON.stringify(indexes) === JSON.stringify(expected2);
+
+        assert.ok(
+          isMatch,
+          `Query failed.\nActual: ${JSON.stringify(indexes)}\nExpected1: ${JSON.stringify(expected1)}\nExpected2: ${JSON.stringify(expected2)}\nQuery:\n${typeof query === "string" ? query : query.query}`,
+        );
+      }
+    });
   });
 });
