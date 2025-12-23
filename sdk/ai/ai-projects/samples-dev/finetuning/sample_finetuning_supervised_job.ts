@@ -28,9 +28,12 @@ const trainingFilePath = path.join(__dirname, "data", "sft_training_set.jsonl");
 const validationFilePath = path.join(__dirname, "data", "sft_validation_set.jsonl");
 
 // For Deployment and inferencing on model
-const subscription_id: string = process.env["AZURE_AI_PROJECTS_AZURE_SUBSCRIPTION_ID"];
-const resource_group: string = process.env["AZURE_AI_PROJECTS_AZURE_RESOURCE_GROUP"];
-const account_name: string = process.env["AZURE_AI_PROJECTS_AZURE_AOAI_ACCOUNT"];
+const subscription_id: string =
+  process.env["AZURE_AI_PROJECTS_AZURE_SUBSCRIPTION_ID"] || "<subscription id string>";
+const resource_group: string =
+  process.env["AZURE_AI_PROJECTS_AZURE_RESOURCE_GROUP"] || "<resource group string>";
+const account_name: string =
+  process.env["AZURE_AI_PROJECTS_AZURE_AOAI_ACCOUNT"] || "<AOAI account string>";
 
 export async function retrieveJob(openAIClient: OpenAI, jobId: string): Promise<void> {
   console.log(`\nGetting fine-tuning job with ID: ${jobId}`);
