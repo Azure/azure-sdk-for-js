@@ -11,7 +11,6 @@ import { getTestDatabase } from "../common/TestHelpers.js";
 import type { Database } from "$internal/client/Database/Database.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
-// Skipping these tests as they are not supported by public emulator
 describe("Vector search feature", async () => {
   describe("VectorEmbeddingPolicy", async () => {
     let database: Database;
@@ -69,8 +68,7 @@ describe("Vector search feature", async () => {
       }
     });
 
-    // skipping the test case for now. Will enable it once the changes are live on backend
-    it.skip("validate VectorEmbeddingPolicy", async () => {
+    it("validate VectorEmbeddingPolicy", async () => {
       const indexingPolicy: IndexingPolicy = {
         vectorIndexes: [
           { path: "/vector1", type: VectorIndexType.Flat },
@@ -125,7 +123,6 @@ describe("Vector search feature", async () => {
       assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[0].path === "/vector1");
       assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[1].path === "/vector2");
       assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[2].path === "/vector3");
-
       assert(containerdef.indexingPolicy.vectorIndexes.length === 3);
       assert(containerdef.indexingPolicy.vectorIndexes[0].path === "/vector1");
       assert(containerdef.indexingPolicy.vectorIndexes[1].path === "/vector2");
@@ -141,7 +138,44 @@ describe("Vector search feature", async () => {
       assert(containerdef.indexingPolicy.vectorIndexes[1].vectorIndexShardKey[0] === "/Country");
       assert(containerdef.indexingPolicy.vectorIndexes[2].vectorIndexShardKey[0] === "/ZipCode");
     });
+    it.skip("validate VectorEmbeddingPolicy with Float16 data type", async () => {
+      const indexingPolicy: IndexingPolicy = {
+        vectorIndexes: [{ path: "/vector1", type: VectorIndexType.QuantizedFlat }],
+      };
+      const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
+        vectorEmbeddings: [
+          {
+            path: "/vector1",
+            dataType: VectorEmbeddingDataType.Float16,
+            dimensions: 500,
+            distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
+          },
+        ],
+      };
+      const containerName = "JSApp-vector embedding container float16";
+      try {
+        const { resource: containerdef } = await database.containers.createIfNotExists({
+          id: containerName,
+          vectorEmbeddingPolicy: vectorEmbeddingPolicy,
+          indexingPolicy: indexingPolicy,
+        });
 
+        assert(containerdef.vectorEmbeddingPolicy !== undefined);
+        assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings.length === 1);
+        assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[0].path === "/vector1");
+        assert(
+          containerdef.vectorEmbeddingPolicy.vectorEmbeddings[0].dataType ===
+            VectorEmbeddingDataType.Float16,
+        );
+      } catch (e) {
+        assert.fail(`Container creation failed for Float16 data type with error: ${e}`);
+      }
+      try {
+        await database.container(containerName).delete();
+      } catch {
+        // Ignore if container is not found
+      }
+    });
     it("should fail to create vector indexing policy", async () => {
       const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
         vectorEmbeddings: [

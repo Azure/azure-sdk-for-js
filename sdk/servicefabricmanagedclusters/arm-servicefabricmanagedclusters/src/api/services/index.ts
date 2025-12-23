@@ -1,8 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { listByApplications, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
+  restartReplica,
+  listByApplications,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "./operations.js";
+export {
+  ServicesRestartReplicaOptionalParams,
   ServicesListByApplicationsOptionalParams,
   ServicesDeleteOptionalParams,
   ServicesUpdateOptionalParams,

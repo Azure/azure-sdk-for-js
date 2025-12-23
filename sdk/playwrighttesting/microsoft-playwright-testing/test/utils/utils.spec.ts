@@ -87,6 +87,7 @@ describe("Service Utils", () => {
   afterEach(() => {
     vi.unstubAllEnvs();
     vi.restoreAllMocks();
+    vi.mocked(process.exit).mockReset();
   });
 
   it("should return access token set in env variable", () => {

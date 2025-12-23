@@ -3,7 +3,7 @@
 
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import { getSignatureFromSasUrl } from "../../public/node/utils/utils.js";
-import { UserDelegationKeyCredential } from "$internal/credentials/UserDelegationKeyCredential.js";
+import { UserDelegationKeyCredential } from "@azure/storage-common";
 import {
   getAccountKey,
   getEncryptionScope1,
@@ -117,23 +117,23 @@ describe.runIf(getAccountKey())(
         policyMode: "Unlocked",
       });
 
-      assert.ok(result.immutabilityPolicyExpiry);
+      assert.isDefined(result.immutabilityPolicyExpiry);
       assert.equal(
         result.immutabilityPolicyMode,
         "unlocked" as BlobImmutabilityPolicyMode | undefined,
       );
 
       const setLegalHoldResult = await sasBlobClient.setLegalHold(true);
-      assert.ok(setLegalHoldResult.legalHold);
+      assert.isDefined(setLegalHoldResult.legalHold);
 
       const propertiesResult = await blobClient.getProperties();
 
-      assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
+      assert.isDefined(propertiesResult.immutabilityPolicyExpiresOn);
       assert.equal(
         propertiesResult.immutabilityPolicyMode,
         "unlocked" as BlobImmutabilityPolicyMode | undefined,
       );
-      assert.ok(propertiesResult.legalHold);
+      assert.isDefined(propertiesResult.legalHold);
     });
 
     it("Container sas - set immutability policy and legalhold with container SAS should work", async () => {
@@ -168,23 +168,23 @@ describe.runIf(getAccountKey())(
         policyMode: "Unlocked",
       });
 
-      assert.ok(result.immutabilityPolicyExpiry);
+      assert.isDefined(result.immutabilityPolicyExpiry);
       assert.equal(
         result.immutabilityPolicyMode,
         "unlocked" as BlobImmutabilityPolicyMode | undefined,
       );
 
       const setLegalHoldResult = await sasBlobClient.setLegalHold(true);
-      assert.ok(setLegalHoldResult.legalHold);
+      assert.isDefined(setLegalHoldResult.legalHold);
 
       const propertiesResult = await blobClient.getProperties();
 
-      assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
+      assert.isDefined(propertiesResult.immutabilityPolicyExpiresOn);
       assert.equal(
         propertiesResult.immutabilityPolicyMode,
         "unlocked" as BlobImmutabilityPolicyMode | undefined,
       );
-      assert.ok(propertiesResult.legalHold);
+      assert.isDefined(propertiesResult.legalHold);
     });
 
     it("Blob sas - set immutability policy and legalhold with blob SAS should work", async () => {
@@ -214,23 +214,23 @@ describe.runIf(getAccountKey())(
         policyMode: "Unlocked",
       });
 
-      assert.ok(result.immutabilityPolicyExpiry);
+      assert.isDefined(result.immutabilityPolicyExpiry);
       assert.equal(
         result.immutabilityPolicyMode,
         "unlocked" as BlobImmutabilityPolicyMode | undefined,
       );
 
       const setLegalHoldResult = await sasBlobClient.setLegalHold(true);
-      assert.ok(setLegalHoldResult.legalHold);
+      assert.isDefined(setLegalHoldResult.legalHold);
 
       const propertiesResult = await blobClient.getProperties();
 
-      assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
+      assert.isDefined(propertiesResult.immutabilityPolicyExpiresOn);
       assert.equal(
         propertiesResult.immutabilityPolicyMode,
         "unlocked" as BlobImmutabilityPolicyMode | undefined,
       );
-      assert.ok(propertiesResult.legalHold);
+      assert.isDefined(propertiesResult.legalHold);
     });
   },
 );
@@ -287,7 +287,7 @@ describe("Generation for user delegation SAS against container Node.js only", ()
     ensureClientRecording(recorder, containerClientWithSAS);
 
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
+    assert.isTrue(result.serviceEndpoint.length > 0);
     assert.deepStrictEqual(result.continuationToken, "");
 
     const stringToSign = containerClient.generateUserDelegationSasStringToSign(
@@ -321,7 +321,7 @@ describe("Generation for user delegation SAS against container Node.js only", ()
     ensureClientRecording(recorder, containerClientWithSAS);
 
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
+    assert.isTrue(result.serviceEndpoint.length > 0);
     assert.deepStrictEqual(result.continuationToken, "");
 
     const stringToSign = containerClient.generateUserDelegationSasStringToSign(

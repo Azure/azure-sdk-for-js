@@ -4,16 +4,30 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AadConfiguration {
     adminGroupObjectIds: string[];
 }
+
+// @public
+export interface ActionState {
+    readonly actionType?: string;
+    readonly correlationId?: string;
+    readonly endTime?: string;
+    readonly message?: string;
+    readonly startTime?: string;
+    readonly status?: ActionStateStatus;
+    readonly stepStates?: StepState[];
+}
+
+// @public
+export type ActionStateStatus = string;
 
 // @public
 export type ActionType = string;
@@ -163,6 +177,8 @@ export type AgentPoolsListByKubernetesClusterNextResponse = AgentPoolList;
 
 // @public
 export interface AgentPoolsListByKubernetesClusterOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -217,11 +233,13 @@ export interface AvailableUpgrade {
 
 // @public
 export interface BareMetalMachine extends TrackedResource {
+    readonly actionStates?: ActionState[];
     readonly associatedResourceIds?: string[];
     bmcConnectionString: string;
     bmcCredentials: AdministrativeCredentials;
     bmcMacAddress: string;
     bootMacAddress: string;
+    readonly caCertificate?: CertificateInfo;
     readonly clusterId?: string;
     readonly cordonStatus?: BareMetalMachineCordonStatus;
     readonly detailedStatus?: BareMetalMachineDetailedStatus;
@@ -300,6 +318,7 @@ export interface BareMetalMachineKeySet extends TrackedResource {
     readonly lastValidation?: Date;
     osGroupName?: string;
     privilegeLevel: BareMetalMachineKeySetPrivilegeLevel;
+    privilegeLevelName?: string;
     readonly provisioningState?: BareMetalMachineKeySetProvisioningState;
     userList: KeySetUser[];
     readonly userListStatus?: KeySetUserStatus[];
@@ -390,6 +409,8 @@ export type BareMetalMachineKeySetsListByClusterNextResponse = BareMetalMachineK
 
 // @public
 export interface BareMetalMachineKeySetsListByClusterOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -450,8 +471,16 @@ export interface BareMetalMachineReplaceParameters {
     bmcMacAddress?: string;
     bootMacAddress?: string;
     machineName?: string;
+    safeguardMode?: BareMetalMachineReplaceSafeguardMode;
     serialNumber?: string;
+    storagePolicy?: BareMetalMachineReplaceStoragePolicy;
 }
+
+// @public
+export type BareMetalMachineReplaceSafeguardMode = string;
+
+// @public
+export type BareMetalMachineReplaceStoragePolicy = string;
 
 // @public
 export interface BareMetalMachineRunCommandParameters {
@@ -492,6 +521,8 @@ export interface BareMetalMachines {
     beginRunCommandAndWait(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunCommandParameters: BareMetalMachineRunCommandParameters, options?: BareMetalMachinesRunCommandOptionalParams): Promise<BareMetalMachinesRunCommandResponse>;
     beginRunDataExtracts(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunDataExtractsParameters: BareMetalMachineRunDataExtractsParameters, options?: BareMetalMachinesRunDataExtractsOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesRunDataExtractsResponse>, BareMetalMachinesRunDataExtractsResponse>>;
     beginRunDataExtractsAndWait(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunDataExtractsParameters: BareMetalMachineRunDataExtractsParameters, options?: BareMetalMachinesRunDataExtractsOptionalParams): Promise<BareMetalMachinesRunDataExtractsResponse>;
+    beginRunDataExtractsRestricted(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunDataExtractsRestrictedParameters: BareMetalMachineRunDataExtractsParameters, options?: BareMetalMachinesRunDataExtractsRestrictedOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesRunDataExtractsRestrictedResponse>, BareMetalMachinesRunDataExtractsRestrictedResponse>>;
+    beginRunDataExtractsRestrictedAndWait(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunDataExtractsRestrictedParameters: BareMetalMachineRunDataExtractsParameters, options?: BareMetalMachinesRunDataExtractsRestrictedOptionalParams): Promise<BareMetalMachinesRunDataExtractsRestrictedResponse>;
     beginRunReadCommands(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunReadCommandsParameters: BareMetalMachineRunReadCommandsParameters, options?: BareMetalMachinesRunReadCommandsOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesRunReadCommandsResponse>, BareMetalMachinesRunReadCommandsResponse>>;
     beginRunReadCommandsAndWait(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunReadCommandsParameters: BareMetalMachineRunReadCommandsParameters, options?: BareMetalMachinesRunReadCommandsOptionalParams): Promise<BareMetalMachinesRunReadCommandsResponse>;
     beginStart(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesStartOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesStartResponse>, BareMetalMachinesStartResponse>>;
@@ -571,6 +602,8 @@ export type BareMetalMachinesListByResourceGroupNextResponse = BareMetalMachineL
 
 // @public
 export interface BareMetalMachinesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -585,6 +618,8 @@ export type BareMetalMachinesListBySubscriptionNextResponse = BareMetalMachineLi
 
 // @public
 export interface BareMetalMachinesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -675,6 +710,20 @@ export interface BareMetalMachinesRunDataExtractsOptionalParams extends coreClie
 
 // @public
 export type BareMetalMachinesRunDataExtractsResponse = OperationStatusResult;
+
+// @public
+export interface BareMetalMachinesRunDataExtractsRestrictedHeaders {
+    location?: string;
+}
+
+// @public
+export interface BareMetalMachinesRunDataExtractsRestrictedOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BareMetalMachinesRunDataExtractsRestrictedResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesRunReadCommandsHeaders {
@@ -857,6 +906,8 @@ export type BmcKeySetsListByClusterNextResponse = BmcKeySetList;
 
 // @public
 export interface BmcKeySetsListByClusterOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -884,6 +935,12 @@ export type BmcKeySetsUpdateResponse = BmcKeySet;
 export type BootstrapProtocol = string;
 
 // @public
+export interface CertificateInfo {
+    readonly hash?: string;
+    readonly value?: string;
+}
+
+// @public
 export interface CloudServicesNetwork extends TrackedResource {
     additionalEgressEndpoints?: EgressEndpoint[];
     readonly associatedResourceIds?: string[];
@@ -897,6 +954,8 @@ export interface CloudServicesNetwork extends TrackedResource {
     readonly hybridAksClustersAssociatedIds?: string[];
     readonly interfaceName?: string;
     readonly provisioningState?: CloudServicesNetworkProvisioningState;
+    storageOptions?: CloudServicesNetworkStorageOptions;
+    readonly storageStatus?: CloudServicesNetworkStorageStatus;
     readonly virtualMachinesAssociatedIds?: string[];
 }
 
@@ -916,6 +975,7 @@ export interface CloudServicesNetworkList {
 export interface CloudServicesNetworkPatchParameters {
     additionalEgressEndpoints?: EgressEndpoint[];
     enableDefaultEgressEndpoints?: CloudServicesNetworkEnableDefaultEgressEndpoints;
+    storageOptions?: CloudServicesNetworkStorageOptionsPatch;
     tags?: {
         [propertyName: string]: string;
     };
@@ -985,6 +1045,8 @@ export type CloudServicesNetworksListByResourceGroupNextResponse = CloudServices
 
 // @public
 export interface CloudServicesNetworksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -999,10 +1061,41 @@ export type CloudServicesNetworksListBySubscriptionNextResponse = CloudServicesN
 
 // @public
 export interface CloudServicesNetworksListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
 export type CloudServicesNetworksListBySubscriptionResponse = CloudServicesNetworkList;
+
+// @public
+export type CloudServicesNetworkStorageMode = string;
+
+// @public
+export interface CloudServicesNetworkStorageOptions {
+    mode?: CloudServicesNetworkStorageMode;
+    sizeMiB?: number;
+    storageApplianceId?: string;
+}
+
+// @public
+export interface CloudServicesNetworkStorageOptionsPatch {
+    mode?: CloudServicesNetworkStorageMode;
+    sizeMiB?: number;
+    storageApplianceId?: string;
+}
+
+// @public
+export interface CloudServicesNetworkStorageStatus {
+    readonly mode?: CloudServicesNetworkStorageMode;
+    readonly sizeMiB?: number;
+    readonly status?: CloudServicesNetworkStorageStatusStatus;
+    readonly statusMessage?: string;
+    readonly volumeId?: string;
+}
+
+// @public
+export type CloudServicesNetworkStorageStatusStatus = string;
 
 // @public
 export interface CloudServicesNetworksUpdateHeaders {
@@ -1024,6 +1117,7 @@ export type CloudServicesNetworksUpdateResponse = CloudServicesNetwork;
 
 // @public
 export interface Cluster extends TrackedResource {
+    readonly actionStates?: ActionState[];
     aggregatorOrSingleRackDefinition: RackDefinition;
     analyticsOutputSettings?: AnalyticsOutputSettings;
     analyticsWorkspaceId?: string;
@@ -1211,6 +1305,8 @@ export type ClusterManagersListByResourceGroupNextResponse = ClusterManagerList;
 
 // @public
 export interface ClusterManagersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -1225,6 +1321,8 @@ export type ClusterManagersListBySubscriptionNextResponse = ClusterManagerList;
 
 // @public
 export interface ClusterManagersListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -1411,6 +1509,8 @@ export type ClustersListByResourceGroupNextResponse = ClusterList;
 
 // @public
 export interface ClustersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -1425,6 +1525,8 @@ export type ClustersListBySubscriptionNextResponse = ClusterList;
 
 // @public
 export interface ClustersListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -1498,10 +1600,21 @@ export interface ClusterUpdateVersionParameters {
 }
 
 // @public
+export interface CommandOutputOverride {
+    associatedIdentity?: IdentitySelector;
+    commandOutputType?: CommandOutputType;
+    containerUrl?: string;
+}
+
+// @public
 export interface CommandOutputSettings {
     associatedIdentity?: IdentitySelector;
     containerUrl?: string;
+    overrides?: CommandOutputOverride[];
 }
+
+// @public
+export type CommandOutputType = string;
 
 // @public
 interface Console_2 extends TrackedResource {
@@ -1603,6 +1716,8 @@ export type ConsolesListByVirtualMachineNextResponse = ConsoleList;
 
 // @public
 export interface ConsolesListByVirtualMachineOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -1795,6 +1910,13 @@ export interface KeySetUserStatus {
 }
 
 // @public
+export enum KnownActionStateStatus {
+    Completed = "Completed",
+    Failed = "Failed",
+    InProgress = "InProgress"
+}
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
 }
@@ -1874,6 +1996,7 @@ export enum KnownBareMetalMachineKeySetDetailedStatus {
 
 // @public
 export enum KnownBareMetalMachineKeySetPrivilegeLevel {
+    Other = "Other",
     Standard = "Standard",
     Superuser = "Superuser"
 }
@@ -1912,6 +2035,18 @@ export enum KnownBareMetalMachineProvisioningState {
 export enum KnownBareMetalMachineReadyState {
     False = "False",
     True = "True"
+}
+
+// @public
+export enum KnownBareMetalMachineReplaceSafeguardMode {
+    All = "All",
+    None = "None"
+}
+
+// @public
+export enum KnownBareMetalMachineReplaceStoragePolicy {
+    DiscardAll = "DiscardAll",
+    Preserve = "Preserve"
 }
 
 // @public
@@ -1980,6 +2115,19 @@ export enum KnownCloudServicesNetworkProvisioningState {
     Failed = "Failed",
     Provisioning = "Provisioning",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownCloudServicesNetworkStorageMode {
+    None = "None",
+    Standard = "Standard"
+}
+
+// @public
+export enum KnownCloudServicesNetworkStorageStatusStatus {
+    Available = "Available",
+    ExpandingVolume = "ExpandingVolume",
+    ExpansionFailed = "ExpansionFailed"
 }
 
 // @public
@@ -2082,6 +2230,14 @@ export enum KnownClusterType {
 export enum KnownClusterUpdateStrategyType {
     PauseAfterRack = "PauseAfterRack",
     Rack = "Rack"
+}
+
+// @public
+export enum KnownCommandOutputType {
+    BareMetalMachineRunCommand = "BareMetalMachineRunCommand",
+    BareMetalMachineRunDataExtracts = "BareMetalMachineRunDataExtracts",
+    BareMetalMachineRunReadCommands = "BareMetalMachineRunReadCommands",
+    StorageRunReadCommands = "StorageRunReadCommands"
 }
 
 // @public
@@ -2366,6 +2522,12 @@ export enum KnownRackSkuType {
 }
 
 // @public
+export enum KnownRelayType {
+    Platform = "Platform",
+    Public = "Public"
+}
+
+// @public
 export enum KnownRemoteVendorManagementFeature {
     Supported = "Supported",
     Unsupported = "Unsupported"
@@ -2391,6 +2553,14 @@ export enum KnownRuntimeProtectionEnforcementLevel {
 export enum KnownSkipShutdown {
     False = "False",
     True = "True"
+}
+
+// @public
+export enum KnownStepStateStatus {
+    Completed = "Completed",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    NotStarted = "NotStarted"
 }
 
 // @public
@@ -2668,6 +2838,8 @@ export type KubernetesClusterFeaturesListByKubernetesClusterNextResponse = Kuber
 
 // @public
 export interface KubernetesClusterFeaturesListByKubernetesClusterOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -2803,6 +2975,8 @@ export type KubernetesClustersListByResourceGroupNextResponse = KubernetesCluste
 
 // @public
 export interface KubernetesClustersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -2817,6 +2991,8 @@ export type KubernetesClustersListBySubscriptionNextResponse = KubernetesCluster
 
 // @public
 export interface KubernetesClustersListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -2970,6 +3146,8 @@ export type L2NetworksListByResourceGroupNextResponse = L2NetworkList;
 
 // @public
 export interface L2NetworksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -2984,6 +3162,8 @@ export type L2NetworksListBySubscriptionNextResponse = L2NetworkList;
 
 // @public
 export interface L2NetworksListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -3114,6 +3294,8 @@ export type L3NetworksListByResourceGroupNextResponse = L3NetworkList;
 
 // @public
 export interface L3NetworksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -3128,6 +3310,8 @@ export type L3NetworksListBySubscriptionNextResponse = L3NetworkList;
 
 // @public
 export interface L3NetworksListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -3259,6 +3443,8 @@ export type MetricsConfigurationsListByClusterNextResponse = ClusterMetricsConfi
 
 // @public
 export interface MetricsConfigurationsListByClusterOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -3619,6 +3805,8 @@ export type RacksListByResourceGroupNextResponse = RackList;
 
 // @public
 export interface RacksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -3633,6 +3821,8 @@ export type RacksListBySubscriptionNextResponse = RackList;
 
 // @public
 export interface RacksListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -3655,6 +3845,9 @@ export interface RacksUpdateOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type RacksUpdateResponse = Rack;
+
+// @public
+export type RelayType = string;
 
 // @public
 export type RemoteVendorManagementFeature = string;
@@ -3690,6 +3883,7 @@ export interface RuntimeProtectionStatus {
 // @public
 export interface SecretArchiveReference {
     readonly keyVaultId?: string;
+    readonly keyVaultUri?: string;
     readonly secretName?: string;
     readonly secretVersion?: string;
 }
@@ -3740,8 +3934,21 @@ export interface SshPublicKey {
 }
 
 // @public
+export interface StepState {
+    readonly endTime?: string;
+    readonly message?: string;
+    readonly startTime?: string;
+    readonly status?: StepStateStatus;
+    readonly stepName?: string;
+}
+
+// @public
+export type StepStateStatus = string;
+
+// @public
 export interface StorageAppliance extends TrackedResource {
     administratorCredentials: AdministrativeCredentials;
+    readonly caCertificate?: CertificateInfo;
     readonly capacity?: number;
     readonly capacityUsed?: number;
     readonly clusterId?: string;
@@ -3761,6 +3968,12 @@ export interface StorageAppliance extends TrackedResource {
     serialNumber: string;
     storageApplianceSkuId: string;
     readonly version?: string;
+}
+
+// @public
+export interface StorageApplianceCommandSpecification {
+    arguments?: string[];
+    command: string;
 }
 
 // @public
@@ -3797,6 +4010,12 @@ export interface StorageAppliancePatchParameters {
 export type StorageApplianceProvisioningState = string;
 
 // @public
+export interface StorageApplianceRunReadCommandsParameters {
+    commands: StorageApplianceCommandSpecification[];
+    limitTimeSeconds: number;
+}
+
+// @public
 export interface StorageAppliances {
     beginCreateOrUpdate(resourceGroupName: string, storageApplianceName: string, storageApplianceParameters: StorageAppliance, options?: StorageAppliancesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesCreateOrUpdateResponse>, StorageAppliancesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, storageApplianceName: string, storageApplianceParameters: StorageAppliance, options?: StorageAppliancesCreateOrUpdateOptionalParams): Promise<StorageAppliancesCreateOrUpdateResponse>;
@@ -3806,6 +4025,8 @@ export interface StorageAppliances {
     beginDisableRemoteVendorManagementAndWait(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDisableRemoteVendorManagementOptionalParams): Promise<StorageAppliancesDisableRemoteVendorManagementResponse>;
     beginEnableRemoteVendorManagement(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesEnableRemoteVendorManagementOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesEnableRemoteVendorManagementResponse>, StorageAppliancesEnableRemoteVendorManagementResponse>>;
     beginEnableRemoteVendorManagementAndWait(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesEnableRemoteVendorManagementOptionalParams): Promise<StorageAppliancesEnableRemoteVendorManagementResponse>;
+    beginRunReadCommands(resourceGroupName: string, storageApplianceName: string, storageApplianceRunReadCommandsParameters: StorageApplianceRunReadCommandsParameters, options?: StorageAppliancesRunReadCommandsOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesRunReadCommandsResponse>, StorageAppliancesRunReadCommandsResponse>>;
+    beginRunReadCommandsAndWait(resourceGroupName: string, storageApplianceName: string, storageApplianceRunReadCommandsParameters: StorageApplianceRunReadCommandsParameters, options?: StorageAppliancesRunReadCommandsOptionalParams): Promise<StorageAppliancesRunReadCommandsResponse>;
     beginUpdate(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesUpdateResponse>, StorageAppliancesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesUpdateOptionalParams): Promise<StorageAppliancesUpdateResponse>;
     get(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesGetOptionalParams): Promise<StorageAppliancesGetResponse>;
@@ -3897,6 +4118,8 @@ export type StorageAppliancesListByResourceGroupNextResponse = StorageApplianceL
 
 // @public
 export interface StorageAppliancesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -3911,10 +4134,26 @@ export type StorageAppliancesListBySubscriptionNextResponse = StorageApplianceLi
 
 // @public
 export interface StorageAppliancesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
 export type StorageAppliancesListBySubscriptionResponse = StorageApplianceList;
+
+// @public
+export interface StorageAppliancesRunReadCommandsHeaders {
+    location?: string;
+}
+
+// @public
+export interface StorageAppliancesRunReadCommandsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type StorageAppliancesRunReadCommandsResponse = OperationStatusResult;
 
 // @public
 export interface StorageAppliancesUpdateHeaders {
@@ -4073,6 +4312,8 @@ export type TrunkedNetworksListByResourceGroupNextResponse = TrunkedNetworkList;
 
 // @public
 export interface TrunkedNetworksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -4087,6 +4328,8 @@ export type TrunkedNetworksListBySubscriptionNextResponse = TrunkedNetworkList;
 
 // @public
 export interface TrunkedNetworksListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -4135,21 +4378,30 @@ export interface VirtualMachine extends TrackedResource {
     readonly detailedStatusMessage?: string;
     readonly etag?: string;
     extendedLocation: ExtendedLocation;
+    identity?: ManagedServiceIdentity;
     isolateEmulatorThread?: VirtualMachineIsolateEmulatorThread;
     memorySizeGB: number;
     networkAttachments?: NetworkAttachment[];
     networkData?: string;
+    networkDataContent?: string;
     placementHints?: VirtualMachinePlacementHint[];
     readonly powerState?: VirtualMachinePowerState;
     readonly provisioningState?: VirtualMachineProvisioningState;
     sshPublicKeys?: SshPublicKey[];
     storageProfile: StorageProfile;
     userData?: string;
+    userDataContent?: string;
     virtioInterface?: VirtualMachineVirtioInterfaceType;
     vmDeviceModel?: VirtualMachineDeviceModelType;
     vmImage: string;
     vmImageRepositoryCredentials?: ImageRepositoryCredentials;
     readonly volumes?: string[];
+}
+
+// @public
+export interface VirtualMachineAssignRelayParameters {
+    machineId: string;
+    relayType?: RelayType;
 }
 
 // @public
@@ -4175,6 +4427,7 @@ export interface VirtualMachineList {
 
 // @public
 export interface VirtualMachinePatchParameters {
+    identity?: ManagedServiceIdentity;
     tags?: {
         [propertyName: string]: string;
     };
@@ -4208,6 +4461,8 @@ export type VirtualMachineProvisioningState = string;
 
 // @public
 export interface VirtualMachines {
+    beginAssignRelay(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesAssignRelayOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesAssignRelayResponse>, VirtualMachinesAssignRelayResponse>>;
+    beginAssignRelayAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesAssignRelayOptionalParams): Promise<VirtualMachinesAssignRelayResponse>;
     beginCreateOrUpdate(resourceGroupName: string, virtualMachineName: string, virtualMachineParameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesCreateOrUpdateResponse>, VirtualMachinesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, virtualMachineName: string, virtualMachineParameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<VirtualMachinesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesDeleteResponse>, VirtualMachinesDeleteResponse>>;
@@ -4226,6 +4481,21 @@ export interface VirtualMachines {
     listByResourceGroup(resourceGroupName: string, options?: VirtualMachinesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;
     listBySubscription(options?: VirtualMachinesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;
 }
+
+// @public
+export interface VirtualMachinesAssignRelayHeaders {
+    location?: string;
+}
+
+// @public
+export interface VirtualMachinesAssignRelayOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+    virtualMachineAssignRelayParameters?: VirtualMachineAssignRelayParameters;
+}
+
+// @public
+export type VirtualMachinesAssignRelayResponse = OperationStatusResult;
 
 // @public
 export type VirtualMachineSchedulingExecution = string;
@@ -4278,6 +4548,8 @@ export type VirtualMachinesListByResourceGroupNextResponse = VirtualMachineList;
 
 // @public
 export interface VirtualMachinesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -4292,6 +4564,8 @@ export type VirtualMachinesListBySubscriptionNextResponse = VirtualMachineList;
 
 // @public
 export interface VirtualMachinesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -4377,6 +4651,7 @@ export type VirtualMachineVirtioInterfaceType = string;
 
 // @public
 export interface Volume extends TrackedResource {
+    readonly allocatedSizeMiB?: number;
     readonly attachedTo?: string[];
     readonly detailedStatus?: VolumeDetailedStatus;
     readonly detailedStatusMessage?: string;
@@ -4385,6 +4660,7 @@ export interface Volume extends TrackedResource {
     readonly provisioningState?: VolumeProvisioningState;
     readonly serialNumber?: string;
     sizeMiB: number;
+    storageApplianceId?: string;
 }
 
 // @public
@@ -4466,6 +4742,8 @@ export type VolumesListByResourceGroupNextResponse = VolumeList;
 
 // @public
 export interface VolumesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -4480,6 +4758,8 @@ export type VolumesListBySubscriptionNextResponse = VolumeList;
 
 // @public
 export interface VolumesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public

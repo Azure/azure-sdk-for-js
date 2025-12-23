@@ -71,6 +71,20 @@ describe("ContainerClient", () => {
     assert.strictEqual(true, exists);
   });
 
+  it("getProperties", async () => {
+    const result = await containerClient.getProperties();
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isUndefined(result.leaseDuration);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
+    assert.isUndefined(result.blobPublicAccess);
+    assert.isDefined(result.clientRequestId); // As default pipeline involves UniqueRequestIDPolicy
+  });
+
   it("Bearer token challenge should work", async () => {
     // Validate that bad audience should fail first.
     const authToken = await createTestCredential().getToken(
@@ -127,11 +141,11 @@ describe("ContainerClient", () => {
     }
 
     const result = (await containerClient.listBlobsFlat().byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length);
-    assert.ok(blobClients[0].url.indexOf(result.segment.blobItems![0].name));
+    assert.notStrictEqual(blobClients[0].url.indexOf(result.segment.blobItems![0].name), -1);
 
     for (const blob of blobClients) {
       await blob.delete();
@@ -157,12 +171,12 @@ describe("ContainerClient", () => {
         .byPage()
         .next()
     ).value;
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length);
-    assert.ok(blobClients[0].url.indexOf(result.segment.blobItems![0].name));
-    assert.ok(result.segment.blobItems![0].properties.contentMD5 === undefined);
+    assert.notStrictEqual(blobClients[0].url.indexOf(result.segment.blobItems![0].name), -1);
+    assert.isUndefined(result.segment.blobItems![0].properties.contentMD5);
 
     for (const blob of blobClients) {
       await blob.delete();
@@ -175,11 +189,11 @@ describe("ContainerClient", () => {
     await blockBlobClient.upload("", 0);
 
     const iteratorResult = await containerClient.listBlobsFlat().byPage().next();
-    assert.ok(!iteratorResult.done);
+    assert.isFalse(iteratorResult.done);
     if (!iteratorResult.done) {
       const result = iteratorResult.value;
-      assert.ok(result.serviceEndpoint.length > 0);
-      assert.ok(containerClient.url.indexOf(result.containerName));
+      assert.isAbove(result.serviceEndpoint.length, 0);
+      assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
       assert.deepStrictEqual(result.continuationToken, "");
       assert.deepStrictEqual(result.segment.blobItems.length, 1);
       assert.equal(blobName, result.segment.blobItems[0].name);
@@ -198,11 +212,11 @@ describe("ContainerClient", () => {
     }
 
     const result = (await containerClient.listBlobsFlat({ prefix: "" }).byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length);
-    assert.ok(blobClients[0].url.indexOf(result.segment.blobItems![0].name));
+    assert.notStrictEqual(blobClients[0].url.indexOf(result.segment.blobItems![0].name), -1);
 
     for (const blob of blobClients) {
       await blob.delete();
@@ -242,11 +256,11 @@ describe("ContainerClient", () => {
         .next()
     ).value;
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
     assert.deepStrictEqual(result.segment.blobItems!.length, 1);
-    assert.ok(blobClients[0].url.indexOf(result.segment.blobItems![0].name));
-    assert.ok(isSuperSet(result.segment.blobItems![0].metadata, metadata));
+    assert.notStrictEqual(blobClients[0].url.indexOf(result.segment.blobItems![0].name), -1);
+    assert.isTrue(isSuperSet(result.segment.blobItems![0].metadata, metadata));
     assert.equal(result.segment.blobItems![0].properties.accessTier, BlockBlobTier.Cool);
 
     const result2 = (
@@ -263,11 +277,11 @@ describe("ContainerClient", () => {
         .next()
     ).value;
 
-    assert.ok(result2.serviceEndpoint.length > 0);
-    assert.ok(containerClient.url.indexOf(result2.containerName));
+    assert.isAbove(result2.serviceEndpoint.length, 0);
+    assert.notStrictEqual(containerClient.url.indexOf(result2.containerName), -1);
     assert.deepStrictEqual(result2.segment.blobItems!.length, 1);
-    assert.ok(blobClients[0].url.indexOf(result2.segment.blobItems![0].name));
-    assert.ok(isSuperSet(result2.segment.blobItems![0].metadata, metadata));
+    assert.notStrictEqual(blobClients[1].url.indexOf(result2.segment.blobItems![0].name), -1);
+    assert.isTrue(isSuperSet(result2.segment.blobItems![0].metadata, metadata));
     assert.equal(result2.segment.blobItems![0].properties.accessTier, BlockBlobTier.Cool);
 
     for (const blob of blobClients) {
@@ -291,12 +305,12 @@ describe("ContainerClient", () => {
         .byPage()
         .next()
     ).value;
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.segment.blobItems!.length, 1);
     assert.deepStrictEqual(result.segment.blobItems![0].name, blockBlobName);
-    assert.ok(result.segment.blobItems![0].hasVersionsOnly);
+    assert.isDefined(result.segment.blobItems![0].hasVersionsOnly);
   });
 
   it("listBlobFlat with blobs encrypted with CPK", async () => {
@@ -332,10 +346,122 @@ describe("ContainerClient", () => {
         .next()
     ).value;
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
     assert.deepStrictEqual(result.segment.blobItems!.length, 1);
-    assert.ok(blobURLs[0].url.indexOf(result.segment.blobItems![0].name));
+    assert.notStrictEqual(blobURLs[0].url.indexOf(result.segment.blobItems![0].name), -1);
+  });
+
+  it("listBlobsFlat with startFrom", async () => {
+    const blobClients = [];
+    let startFrom = "";
+    for (let i = 0; i < 3; i++) {
+      const blobName = getUniqueName(`blockblob/${i}`, { recorder });
+      if (i === 1) {
+        startFrom = blobName;
+      }
+      const blobClient = containerClient.getBlobClient(blobName);
+
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.upload("", 0);
+      blobClients.push(blobClient);
+    }
+
+    const result = (
+      await containerClient
+        .listBlobsFlat({
+          startFrom: startFrom,
+        })
+        .byPage()
+        .next()
+    ).value;
+    assert.isTrue(result.serviceEndpoint.length > 0);
+    assert.include(containerClient.url, result.containerName);
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length - 1);
+    assert.include(blobClients[1].url, result.segment.blobItems![0].name);
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listBlobsFlat with startFrom", async () => {
+    const blobClients = [];
+    const prefix = "blockblob";
+    let startFrom = "";
+    for (let i = 0; i < 5; i++) {
+      const blobName = getUniqueName(`${prefix}/${i}`, { recorder });
+      if (i === 1) {
+        startFrom = blobName;
+      }
+      const blobClient = containerClient.getBlobClient(blobName);
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.upload("", 0);
+      blobClients.push(blobClient);
+    }
+
+    let i = 1;
+    let iter = containerClient
+      .listBlobsFlat({
+        startFrom: startFrom,
+      })
+      .byPage({ maxPageSize: 2 });
+    let response = (await iter.next()).value;
+    for (const blob of response.segment.blobItems) {
+      assert.include(blobClients[i].url, blob.name);
+      i++;
+    }
+    // Gets next marker
+    const marker = response.continuationToken;
+    // Passing next marker as continuationToken
+    iter = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 2 });
+    response = (await iter.next()).value;
+    // Gets 2 blobs
+    for (const blob of response.segment.blobItems) {
+      assert.include(blobClients[i].url, blob.name);
+      i++;
+    }
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("listBlobsFlat with startFrom with special char", async () => {
+    const blobClients = [];
+
+    const dirName = "first_dir\uFFFF/";
+    let startFrom = "";
+    for (let i = 0; i < 3; i++) {
+      const blobName = getUniqueName(`${dirName}/${i}`, { recorder });
+      if (i === 1) {
+        startFrom = blobName;
+      }
+      const blobClient = containerClient.getBlobClient(blobName);
+
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.upload("", 0);
+      blobClients.push(blobClient);
+    }
+
+    const result = (
+      await containerClient
+        .listBlobsFlat({
+          startFrom: startFrom,
+        })
+        .byPage()
+        .next()
+    ).value;
+    assert.isTrue(result.serviceEndpoint.length > 0);
+    assert.include(containerClient.url, result.containerName);
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length - 1);
+    assert.include(blobClients[1].url, result.segment.blobItems![0].name);
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
   });
 
   it("Verify PagedAsyncIterableIterator for listBlobsFlat", async () => {
@@ -365,8 +491,8 @@ describe("ContainerClient", () => {
       includeUncommitedBlobs: true,
       prefix,
     })) {
-      assert.ok(blobClients[i].url.indexOf(blob.name));
-      assert.ok(isSuperSet(blob.metadata, metadata));
+      assert.notStrictEqual(blobClients[i].url.indexOf(blob.name), -1);
+      assert.isTrue(isSuperSet(blob.metadata, metadata));
       i++;
     }
 
@@ -403,12 +529,12 @@ describe("ContainerClient", () => {
     });
 
     let blobItem = getYieldedValue(await iterator.next());
-    assert.ok(blobClients[0].url.indexOf(blobItem.name));
-    assert.ok(isSuperSet(blobItem.metadata, metadata));
+    assert.notStrictEqual(blobClients[0].url.indexOf(blobItem.name), -1);
+    assert.isTrue(isSuperSet(blobItem.metadata, metadata));
 
     blobItem = getYieldedValue(await iterator.next());
-    assert.ok(blobClients[1].url.indexOf(blobItem.name));
-    assert.ok(isSuperSet(blobItem.metadata, metadata));
+    assert.notStrictEqual(blobClients[1].url.indexOf(blobItem.name), -1);
+    assert.isTrue(isSuperSet(blobItem.metadata, metadata));
 
     for (const blob of blobClients) {
       await blob.delete();
@@ -445,8 +571,8 @@ describe("ContainerClient", () => {
       })
       .byPage({ maxPageSize: 2 })) {
       for (const blob of response.segment.blobItems) {
-        assert.ok(blobClients[i].url.indexOf(blob.name));
-        assert.ok(isSuperSet(blob.metadata, metadata));
+        assert.notStrictEqual(blobClients[i].url.indexOf(blob.name), -1);
+        assert.isTrue(isSuperSet(blob.metadata, metadata));
         i++;
       }
     }
@@ -487,8 +613,8 @@ describe("ContainerClient", () => {
       .byPage({ maxPageSize: 2 });
     let response = (await iter.next()).value;
     for (const blob of response.segment.blobItems) {
-      assert.ok(blobClients[i].url.indexOf(blob.name));
-      assert.ok(isSuperSet(blob.metadata, metadata));
+      assert.notStrictEqual(blobClients[i].url.indexOf(blob.name), -1);
+      assert.isTrue(isSuperSet(blob.metadata, metadata));
       i++;
     }
     // Gets next marker
@@ -507,8 +633,8 @@ describe("ContainerClient", () => {
     response = (await iter.next()).value;
     // Gets 2 blobs
     for (const blob of response.segment.blobItems) {
-      assert.ok(blobClients[i].url.indexOf(blob.name));
-      assert.ok(isSuperSet(blob.metadata, metadata));
+      assert.notStrictEqual(blobClients[i].url.indexOf(blob.name), -1);
+      assert.isTrue(isSuperSet(blob.metadata, metadata));
       i++;
     }
 
@@ -531,15 +657,14 @@ describe("ContainerClient", () => {
     const delimiter = "/";
     const result = (await containerClient.listBlobsByHierarchy(delimiter).byPage().next()).value;
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.delimiter, delimiter);
     assert.deepStrictEqual(result.segment.blobPrefixes!.length, blobClients.length);
 
-    for (const blob of blobClients) {
-      let i = 0;
-      assert.ok(blob.url.indexOf(result.segment.blobPrefixes![i++].name));
+    for (let i = 0; i < 3; i++) {
+      assert.notStrictEqual(blobClients[i].url.indexOf(result.segment.blobPrefixes![i].name), -1);
     }
 
     for (const blob of blobClients) {
@@ -568,12 +693,12 @@ describe("ContainerClient", () => {
         .next()
     ).value;
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.delimiter, delimiter);
     assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length);
-    assert.ok(result.segment.blobItems![0].properties.contentMD5 === undefined);
+    assert.isUndefined(result.segment.blobItems![0].properties.contentMD5);
 
     for (const blob of blobClients) {
       await blob.delete();
@@ -598,21 +723,21 @@ describe("ContainerClient", () => {
 
     const delimiter = "/";
     const result = (await containerClient.listBlobsByHierarchy(delimiter).byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.delimiter, delimiter);
     assert.deepStrictEqual(result.segment.blobPrefixes!.length, 3);
 
     for (let i = 0; i < result.segment.blobPrefixes.length; ++i) {
-      assert.ok(
+      assert.isTrue(
         dirNames.includes(result.segment.blobPrefixes[i].name),
         "Directory name for the uploaded blob should be in the prefix list",
       );
     }
 
     for (let i = 0; i < result.segment.blobItems.length; ++i) {
-      assert.ok(
+      assert.isTrue(
         blobNames.includes(result.segment.blobItems[i].name),
         "Uploaded blob should be in the list",
       );
@@ -635,15 +760,14 @@ describe("ContainerClient", () => {
       await containerClient.listBlobsByHierarchy(delimiter, { prefix: "" }).byPage().next()
     ).value;
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.delimiter, delimiter);
     assert.deepStrictEqual(result.segment.blobPrefixes!.length, blobClients.length);
 
-    for (const blob of blobClients) {
-      let i = 0;
-      assert.ok(blob.url.indexOf(result.segment.blobPrefixes![i++].name));
+    for (let i = 0; i < 3; i++) {
+      assert.notStrictEqual(blobClients[i].url.indexOf(result.segment.blobPrefixes![i].name), -1);
     }
 
     for (const blob of blobClients) {
@@ -684,11 +808,11 @@ describe("ContainerClient", () => {
         .next()
     ).value;
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(containerClient.url.indexOf(result.containerName), -1);
     assert.deepStrictEqual(result.segment.blobPrefixes!.length, 1);
     assert.deepStrictEqual(result.segment.blobItems!.length, 0);
-    assert.ok(blobClients[0].url.indexOf(result.segment.blobPrefixes![0].name));
+    assert.notStrictEqual(blobClients[0].url.indexOf(result.segment.blobPrefixes![0].name), -1);
 
     const result2 = (
       await containerClient
@@ -704,11 +828,11 @@ describe("ContainerClient", () => {
         .next()
     ).value;
 
-    assert.ok(result2.serviceEndpoint.length > 0);
-    assert.ok(containerClient.url.indexOf(result2.containerName));
+    assert.isAbove(result2.serviceEndpoint.length, 0);
+    assert.notStrictEqual(containerClient.url.indexOf(result2.containerName), -1);
     assert.deepStrictEqual(result2.segment.blobPrefixes!.length, 1);
     assert.deepStrictEqual(result2.segment.blobItems!.length, 0);
-    assert.ok(blobClients[0].url.indexOf(result2.segment.blobPrefixes![0].name));
+    assert.notStrictEqual(blobClients[1].url.indexOf(result2.segment.blobPrefixes![0].name), -1);
 
     const result3 = (
       await containerClient
@@ -724,14 +848,134 @@ describe("ContainerClient", () => {
         .next()
     ).value;
 
-    assert.ok(result3.serviceEndpoint.length > 0);
-    assert.ok(containerClient.url.indexOf(result3.containerName));
+    assert.isAbove(result3.serviceEndpoint.length, 0);
+    assert.notStrictEqual(containerClient.url.indexOf(result3.containerName), -1);
     assert.deepStrictEqual(result3.continuationToken, "");
     assert.deepStrictEqual(result3.delimiter, delimiter);
     assert.deepStrictEqual(result3.segment.blobItems!.length, 1);
-    assert.ok(isSuperSet(result3.segment.blobItems![0].metadata, metadata));
-    assert.ok(result3.segment.blobItems![0].versionId);
-    assert.ok(blobClients[0].url.indexOf(result3.segment.blobItems![0].name));
+    assert.isTrue(isSuperSet(result3.segment.blobItems![0].metadata, metadata));
+    assert.isDefined(result3.segment.blobItems![0].versionId);
+    assert.notStrictEqual(blobClients[0].url.indexOf(result3.segment.blobItems![0].name), -1);
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("listBlobsByHierarchy with startFrom", async () => {
+    const blobClients = [];
+    let startFrom = "";
+    for (let i = 0; i < 3; i++) {
+      const blobName = getUniqueName(`blockblob${i}/${i}`, { recorder });
+      if (i === 1) {
+        startFrom = blobName;
+      }
+      const blobClient = containerClient.getBlobClient(blobName);
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.upload("", 0);
+      blobClients.push(blobClient);
+    }
+
+    const delimiter = "/";
+    const result = (
+      await containerClient
+        .listBlobsByHierarchy(delimiter, {
+          startFrom: startFrom,
+        })
+        .byPage()
+        .next()
+    ).value;
+
+    assert.isTrue(result.serviceEndpoint.length > 0);
+    assert.include(containerClient.url, result.containerName);
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.delimiter, delimiter);
+    assert.deepStrictEqual(result.segment.blobPrefixes!.length, blobClients.length - 1);
+
+    for (const blob of blobClients) {
+      let i = 0;
+      assert.include(blob.url, result.segment.blobPrefixes![i++].name);
+    }
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("listBlobsByHierarchy with startFrom with special char", async () => {
+    const blobClients = [];
+
+    const dirName = "first_dir\uFFFF";
+    let startFrom = "";
+    for (let i = 0; i < 3; i++) {
+      const blobName = getUniqueName(`${dirName}${i}/${i}`, { recorder });
+      if (i === 1) {
+        startFrom = blobName;
+      }
+      const blobClient = containerClient.getBlobClient(blobName);
+
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.upload("", 0);
+      blobClients.push(blobClient);
+    }
+
+    const result = (
+      await containerClient
+        .listBlobsByHierarchy("/", {
+          startFrom: startFrom,
+        })
+        .byPage()
+        .next()
+    ).value;
+    assert.isTrue(result.serviceEndpoint.length > 0);
+    assert.include(containerClient.url, result.containerName);
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.blobPrefixes!.length, blobClients.length - 1);
+    assert.include(blobClients[1].url, result.segment.blobPrefixes![0].name);
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listBlobsByHierarchy with startFrom", async () => {
+    const blobClients = [];
+    const prefix = "blockblob";
+    let startFrom = "";
+    for (let i = 0; i < 5; i++) {
+      const blobName = getUniqueName(`${prefix}${i}/${i}`, { recorder });
+      if (i === 1) {
+        startFrom = blobName;
+      }
+      const blobClient = containerClient.getBlobClient(blobName);
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.upload("", 0);
+      blobClients.push(blobClient);
+    }
+
+    let i = 1;
+    let iter = containerClient
+      .listBlobsByHierarchy("/", {
+        startFrom: startFrom,
+      })
+      .byPage({ maxPageSize: 2 });
+    let response = (await iter.next()).value;
+    for (const blob of response.segment.blobPrefixes) {
+      assert.include(blobClients[i].url, blob.name);
+      i++;
+    }
+    // Gets next marker
+    const marker = response.continuationToken;
+    // Passing next marker as continuationToken
+    iter = containerClient
+      .listBlobsByHierarchy("/")
+      .byPage({ continuationToken: marker, maxPageSize: 2 });
+    response = (await iter.next()).value;
+    // Gets 2 blobs
+    for (const blob of response.segment.blobPrefixes) {
+      assert.include(blobClients[i].url, blob.name);
+      i++;
+    }
 
     for (const blob of blobClients) {
       await blob.delete();
@@ -762,7 +1006,7 @@ describe("ContainerClient", () => {
       if (item.kind === "prefix") {
         assert.equal(item.name, prefix + "/");
       } else {
-        assert.ok(blobClients[i].url.indexOf(item.name));
+        assert.notStrictEqual(blobClients[i].url.indexOf(item.name), -1);
         assert.deepStrictEqual(item.metadata, metadata);
         i++;
       }
@@ -818,7 +1062,7 @@ describe("ContainerClient", () => {
       if (!isRestError(error)) {
         throw error;
       }
-      assert.ok(error.statusCode === 404);
+      assert.equal(error.statusCode, 404);
     }
   });
 
@@ -858,13 +1102,13 @@ describe("ContainerClient", () => {
       if (!isRestError(error)) {
         throw error;
       }
-      assert.ok(error.statusCode === 404);
+      assert.equal(error.statusCode, 404);
     }
   });
 
   it("exists returns true on an existing container", async () => {
     const result = await containerClient.exists();
-    assert.ok(result, "exists() should return true for an existing container");
+    assert.isTrue(result, "exists() should return true for an existing container");
   });
 
   it("exists returns false on non-existing container", async () => {
@@ -872,7 +1116,7 @@ describe("ContainerClient", () => {
       getUniqueName("newcontainer", { recorder }),
     );
     const result = await newContainerClient.exists();
-    assert.ok(result === false, "exists() should return true for an existing container");
+    assert.strictEqual(result, false, "exists() should return true for an existing container");
   });
 
   it("can list blobs with underscore metadata key name", async () => {
@@ -906,9 +1150,10 @@ describe("ContainerClient", () => {
       .listBlobsFlat({ includeMetadata: true })
       .byPage({ maxPageSize: 5 });
     const page = await iterator.next();
-    assert.ok(!page.done && page.value, "Expecting valid blob listing");
+    assert.isFalse(page.done);
+    assert.isDefined(page.value, "Expecting valid blob listing");
     if (!page.done) {
-      assert.ok(page.value.segment.blobItems.length > 0, "Expecting blobItems");
+      assert.isAbove(page.value.segment.blobItems.length, 0, "Expecting blobItems");
       const blobItem = page.value.segment.blobItems[0];
       assert.deepStrictEqual(blobItem.metadata, options.metadata);
     }
@@ -965,7 +1210,7 @@ describe("ContainerClient", () => {
     for await (const segment of containerClient.findBlobsByTags(`${key2}='default'`).byPage({
       maxPageSize: 1,
     })) {
-      assert.ok(segment.blobs.length <= 1);
+      assert.isAtMost(segment.blobs.length, 1);
       for (const blob of segment.blobs) {
         blobsWithTag2.push(blob);
       }
@@ -983,8 +1228,8 @@ describe("ContainerClient", () => {
 
   it("getAccountInfo", async () => {
     const accountInfo = await containerClient.getAccountInfo();
-    assert.ok(accountInfo.accountKind);
-    assert.ok(accountInfo.skuName);
+    assert.isDefined(accountInfo.accountKind);
+    assert.isDefined(accountInfo.skuName);
     assert.deepStrictEqual(accountInfo.isHierarchicalNamespaceEnabled, false);
   });
 });
@@ -1076,7 +1321,7 @@ describe("Version error test", () => {
       if (!isRestError(err)) {
         throw err;
       }
-      assert.ok(
+      assert.isTrue(
         err.message.startsWith(
           "The provided service version is not enabled on this storage account. Please see",
         ),
@@ -1086,12 +1331,12 @@ describe("Version error test", () => {
 
   it("getAccessPolicy", async () => {
     const result = await containerClient.getAccessPolicy();
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.clientRequestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isTrue(result.etag!.length > 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.clientRequestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a url and a credential", async () => {
@@ -1103,16 +1348,16 @@ describe("Version error test", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(!result.leaseDuration);
+    assert.isTrue(result.etag!.length > 0);
+    assert.isDefined(result.lastModified);
+    assert.isUndefined(result.leaseDuration);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
-    assert.ok(!result.blobPublicAccess);
-    assert.ok(result.clientRequestId);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
+    assert.isUndefined(result.blobPublicAccess);
+    assert.isDefined(result.clientRequestId);
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
@@ -1129,15 +1374,15 @@ describe("Version error test", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(!result.leaseDuration);
+    assert.isTrue(result.etag!.length > 0);
+    assert.isDefined(result.lastModified);
+    assert.isUndefined(result.leaseDuration);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
-    assert.ok(!result.blobPublicAccess);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
+    assert.isUndefined(result.blobPublicAccess);
   });
 
   it("can be created with a url and a TokenCredential", async () => {
@@ -1156,15 +1401,15 @@ describe("Version error test", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(!result.leaseDuration);
+    assert.isTrue(result.etag!.length > 0);
+    assert.isDefined(result.lastModified);
+    assert.isUndefined(result.leaseDuration);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
-    assert.ok(!result.blobPublicAccess);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
+    assert.isUndefined(result.blobPublicAccess);
   });
 
   it("createIfNotExists", async () => {
@@ -1176,7 +1421,7 @@ describe("Version error test", () => {
     const containerClient2 = blobServiceClient.getContainerClient(containerName2);
     const res2 = await containerClient2.createIfNotExists();
     assert.equal(res2.succeeded, true);
-    assert.ok(res2.etag);
+    assert.isDefined(res2.etag);
 
     await containerClient2.delete();
   });
@@ -1186,12 +1431,12 @@ describe("Version error test", () => {
     const containerClient2 = blobServiceClient.getContainerClient(containerName2);
     await containerClient2.create();
     const res = await containerClient2.deleteIfExists();
-    assert.ok(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const containerName3 = getUniqueName("container3", { recorder });
     const containerClient3 = blobServiceClient.getContainerClient(containerName3);
     const res2 = await containerClient3.deleteIfExists();
-    assert.ok(!res2.succeeded);
+    assert.isFalse(res2.succeeded);
     assert.equal(res2.errorCode, "ContainerNotFound");
   });
 });

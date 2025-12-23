@@ -19,6 +19,7 @@ import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { describe, it, assert, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
 import type { IdentityClient } from "$internal/client/identityClient.js";
 import { serviceFabricErrorMessage } from "$internal/credentials/managedIdentityCredential/utils.js";
+import type { InternalManagedIdentityCredentialOptions } from "$internal/credentials/managedIdentityCredential/options.js";
 
 describe("ManagedIdentityCredential (MSAL)", function () {
   let acquireTokenStub: MockInstance<
@@ -207,7 +208,7 @@ describe("ManagedIdentityCredential (MSAL)", function () {
       });
 
       describe("when using IMDS", function () {
-        it("probes the IMDS endpoint", async function () {
+        it("should not probe the IMDS endpoint by default", async function () {
           vi.spyOn(
             ManagedIdentityApplication.prototype,
             "getManagedIdentitySource",
@@ -216,7 +217,33 @@ describe("ManagedIdentityCredential (MSAL)", function () {
 
           const credential = new ManagedIdentityCredential();
           await credential.getToken("scope");
-          expect(imdsIsAvailableStub).toHaveBeenCalledOnce();
+          expect(imdsIsAvailableStub).not.toHaveBeenCalledOnce();
+        });
+
+        it("skips IMDS probing when sendProbeRequest is false", async function () {
+          vi.spyOn(
+            ManagedIdentityApplication.prototype,
+            "getManagedIdentitySource",
+          ).mockReturnValue("DefaultToImds");
+          acquireTokenStub.mockResolvedValue(validAuthenticationResult as AuthenticationResult);
+
+          const options: InternalManagedIdentityCredentialOptions = { sendProbeRequest: false };
+          const credential = new ManagedIdentityCredential(options);
+          await credential.getToken("scope");
+          expect(imdsIsAvailableStub).not.toHaveBeenCalled();
+        });
+
+        it("probes IMDS when sendProbeRequest is true", async function () {
+          vi.spyOn(
+            ManagedIdentityApplication.prototype,
+            "getManagedIdentitySource",
+          ).mockReturnValue("DefaultToImds");
+          acquireTokenStub.mockResolvedValue(validAuthenticationResult as AuthenticationResult);
+
+          const options: InternalManagedIdentityCredentialOptions = { sendProbeRequest: true };
+          const credential = new ManagedIdentityCredential(options);
+          await credential.getToken("scope");
+          expect(imdsIsAvailableStub).toHaveBeenCalled();
         });
       });
     });

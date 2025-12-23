@@ -6,7 +6,6 @@ import {
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
-  AnonymousCredential,
   BlobSASPermissions,
   ContainerSASPermissions,
   ContainerClient,
@@ -18,15 +17,18 @@ import {
   BlobClient,
   SASProtocol,
   BlobBatch,
+  AnonymousCredential,
 } from "@azure/storage-blob";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createBlobServiceClient } from "./utils/clients.js";
 import { ensureClientRecording } from "../utils/recorder.js";
 import { getUniqueName } from "../utils/utils.js";
+import { parseJwt } from "./utils/utils.js";
 import { isRestError } from "@azure/core-rest-pipeline";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { getAccountKey, getAccountName, getEncryptionScope1 } from "../../utils/injectables.js";
-import { SERVICE_VERSION } from "../utils/constants.js";
+import { SERVICE_VERSION, STORAGE_SCOPE } from "../utils/constants.js";
 
 describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
@@ -146,7 +148,7 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
       error = err;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
   });
 
   it("generateAccountSASQueryParameters should not work with invalid service", async () => {
@@ -182,7 +184,7 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
       error = err;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
   });
 
   it("generateAccountSASQueryParameters should not work with invalid resource type", async () => {
@@ -224,7 +226,7 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
       error = err;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
   });
 
   it("generateAccountSASQueryParameters should work with encryption scope", async () => {
@@ -309,7 +311,7 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
     ensureClientRecording(recorder, containerClientWithSAS);
 
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
     assert.deepStrictEqual(result.continuationToken, "");
     await containerClient.delete();
   });
@@ -1012,7 +1014,7 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
     ensureClientRecording(recorder, containerClientWithSAS);
 
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
     assert.deepStrictEqual(result.continuationToken, "");
     await containerClient.delete();
   });
@@ -1053,10 +1055,64 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
     ensureClientRecording(recorder, containerClientWithSAS);
 
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
     assert.deepStrictEqual(result.continuationToken, "");
     await containerClient.delete();
   });
+
+  it.runIf(isLiveMode())(
+    "GenerateUserDelegationSAS with skuoid should work for container",
+    async () => {
+      // The token is sanitized in recording, we cannot get the object id from it.
+      const blobServiceClientWithToken = await createBlobServiceClient("TokenCredential", {
+        recorder,
+      });
+
+      const credential = createTestCredential();
+      const token = (await credential.getToken(STORAGE_SCOPE))?.token;
+      if (!token) {
+        assert.fail("Expected token to be defined");
+      }
+      const jwtObj = parseJwt(token);
+
+      const now = new Date(recorder.variable("now", new Date().toISOString()));
+      now.setHours(now.getHours() - 1);
+      const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+      tmr.setDate(tmr.getDate() + 1);
+      const userDelegationKey = await blobServiceClientWithToken.getUserDelegationKey(now, tmr);
+
+      const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
+
+      const accountName = sharedKeyCredential.accountName;
+
+      const containerName = getUniqueName("container", { recorder });
+      const containerClient = blobServiceClient.getContainerClient(containerName);
+      await containerClient.create();
+
+      const containerSAS = generateBlobSASQueryParameters(
+        {
+          containerName: containerClient.containerName,
+          expiresOn: tmr,
+          permissions: ContainerSASPermissions.parse("racwdl"),
+          protocol: SASProtocol.HttpsAndHttp,
+          startsOn: now,
+          version: SERVICE_VERSION,
+          delegatedUserObjectId: jwtObj.oid,
+        },
+        userDelegationKey,
+        accountName,
+      );
+
+      const sasClient = `${containerClient.url}?${containerSAS}`;
+      const containerClientWithSAS = new ContainerClient(sasClient, newPipeline(credential));
+      ensureClientRecording(recorder, containerClientWithSAS);
+
+      const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
+      assert.isTrue(result.serviceEndpoint.length > 0);
+      assert.deepStrictEqual(result.continuationToken, "");
+      await containerClient.delete();
+    },
+  );
 
   it("GenerateUserDelegationSAS should work for blob", async () => {
     const blobServiceClientWithToken = await createBlobServiceClient("TokenCredential", {
@@ -1120,10 +1176,83 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
     await containerClient.delete();
   });
 
+  it.runIf(isLiveMode())(
+    "GenerateUserDelegationSAS with skuoid should work for blob",
+    async () => {
+      // The token is sanitized in recording, we cannot get the object id from it.
+      const blobServiceClientWithToken = await createBlobServiceClient("TokenCredential", {
+        recorder,
+      });
+
+      const credential = createTestCredential();
+      const token = (await credential.getToken(STORAGE_SCOPE))?.token;
+      if (!token) {
+        assert.fail("Expected token to be defined");
+      }
+      const jwtObj = parseJwt(token);
+
+      const now = new Date(recorder.variable("now", new Date().toISOString()));
+      now.setHours(now.getHours() - 1);
+      const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+      tmr.setDate(tmr.getDate() + 1);
+      const userDelegationKey = await blobServiceClientWithToken.getUserDelegationKey(now, tmr);
+
+      const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
+
+      const accountName = sharedKeyCredential.accountName;
+
+      const containerName = getUniqueName("container", { recorder });
+      const containerClient = blobServiceClient.getContainerClient(containerName);
+      await containerClient.create();
+
+      const blobName = getUniqueName("blob", { recorder });
+      const blobClient = containerClient.getPageBlobClient(blobName);
+      await blobClient.create(1024, {
+        blobHTTPHeaders: {
+          blobContentType: "content-type-original",
+        },
+      });
+
+      const blobSAS = generateBlobSASQueryParameters(
+        {
+          blobName: blobClient.name,
+          cacheControl: "cache-control-override",
+          containerName: blobClient.containerName,
+          contentDisposition: "content-disposition-override",
+          contentEncoding: "content-encoding-override",
+          contentLanguage: "content-language-override",
+          contentType: "content-type-override",
+          expiresOn: tmr,
+          permissions: BlobSASPermissions.parse("racwd"),
+          protocol: SASProtocol.HttpsAndHttp,
+          startsOn: now,
+          delegatedUserObjectId: jwtObj.oid,
+          version: SERVICE_VERSION,
+        },
+        userDelegationKey,
+        accountName,
+      );
+
+      const sasClient = `${blobClient.url}?${blobSAS}`;
+      const blobClientWithSAS = new BlobClient(sasClient, newPipeline(credential));
+      ensureClientRecording(recorder, blobClientWithSAS);
+
+      const properties = await blobClientWithSAS.getProperties();
+      assert.equal(properties.cacheControl, "cache-control-override");
+      assert.equal(properties.contentDisposition, "content-disposition-override");
+      assert.equal(properties.contentEncoding, "content-encoding-override");
+      assert.equal(properties.contentLanguage, "content-language-override");
+      assert.equal(properties.contentType, "content-type-override");
+
+      await containerClient.delete();
+    },
+  );
+
   it("GenerateUserDelegationSAS should work for blob with permanentDelete permssion", async () => {
     const blobServiceClientWithToken = await createBlobServiceClient("TokenCredential", {
       recorder,
     });
+
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
@@ -1483,7 +1612,7 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
     ensureClientRecording(recorder, blobClientWithSAS);
     await blobClientWithSAS.delete();
-    assert.ok(!(await blobClientWithSAS.exists()));
+    assert.isFalse(await blobClientWithSAS.exists());
 
     await containerClient.delete();
   });
@@ -1529,7 +1658,7 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
     ensureClientRecording(recorder, blobClientWithSAS);
     await blobClientWithSAS.delete();
-    assert.ok(!(await blobClientWithSAS.exists()));
+    assert.isFalse(await blobClientWithSAS.exists());
 
     await containerClient.delete();
   });
@@ -1583,7 +1712,7 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
     ensureClientRecording(recorder, blobClientWithSAS);
     await blobClientWithSAS.delete();
-    assert.ok(!(await blobClientWithSAS.exists()));
+    assert.isFalse(await blobClientWithSAS.exists());
 
     await containerClient.delete();
   });
@@ -1637,7 +1766,7 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
     ensureClientRecording(recorder, blobClientWithSAS);
     await blobClientWithSAS.delete();
-    assert.ok(!(await blobClientWithSAS.exists()));
+    assert.isFalse(await blobClientWithSAS.exists());
 
     await containerClient.delete();
   });
@@ -1690,7 +1819,7 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
     ensureClientRecording(recorder, blobClientWithSAS);
     await blobClientWithSAS.delete();
-    assert.ok(!(await blobClientWithSAS.exists()));
+    assert.isFalse(await blobClientWithSAS.exists());
 
     await containerClient.delete();
   });
@@ -1743,7 +1872,7 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
     await blobClientWithSAS.setTags(tags);
 
     await blobClientWithSAS.delete();
-    assert.ok(!(await blobClientWithSAS.exists()));
+    assert.isFalse(await blobClientWithSAS.exists());
 
     await containerClient.delete();
   });
@@ -1860,7 +1989,7 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
 
     const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
     await blobVersionClient.delete();
-    assert.ok(!(await blobVersionClient.exists()));
+    assert.isFalse(await blobVersionClient.exists());
 
     await containerClient.delete();
   });
@@ -2054,13 +2183,13 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
     const containerClientWithSAS = new ContainerClient(sasURL);
     ensureClientRecording(recorder, containerClientWithSAS);
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
     assert.deepStrictEqual(result.continuationToken, "");
 
     try {
       await containerClientWithSAS.generateSasUrl({});
     } catch (err: any) {
-      assert.ok(err instanceof RangeError);
+      assert.instanceOf(err, RangeError);
     }
 
     await containerClient.delete();
@@ -2350,8 +2479,8 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
 
     // delete version
     await blobClientWithVersionIdAndSAS.delete();
-    assert.ok(!(await blobClientWithVersionIdAndSAS.exists()));
-    assert.ok(await blockBlobClient.exists());
+    assert.isFalse(await blobClientWithVersionIdAndSAS.exists());
+    assert.isTrue(await blockBlobClient.exists());
     await containerClient.delete();
   });
 
@@ -2436,8 +2565,8 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
 
     // delete version
     await blobClientWithVersionIdAndSAS.delete();
-    assert.ok(!(await blobClientWithVersionIdAndSAS.exists()));
-    assert.ok(await blockBlobClient.exists());
+    assert.isFalse(await blobClientWithVersionIdAndSAS.exists());
+    assert.isTrue(await blockBlobClient.exists());
     await containerClient.delete();
   });
 
@@ -2549,8 +2678,8 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
-      assert.ok(resp.subResponses[i].statusMessage !== "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.notStrictEqual(resp.subResponses[i].statusMessage, "");
+      assert.isTrue(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
 
@@ -2594,7 +2723,7 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
       if (!isRestError(err)) {
         throw err;
       }
-      assert.ok((err.details as any).authenticationErrorDetail.startsWith("Signed expiry time"));
+      assert.isTrue((err.details as any).authenticationErrorDetail.startsWith("Signed expiry time"));
     }
   });
 });
@@ -2656,7 +2785,7 @@ describe("Generation for user delegation SAS Node.js only", () => {
     await blobClientWithSAS.getProperties();
   });
 
-  it("SAS permission m, e for container should work", async () => {
+  it("user delegation SAS permission m, e for container should work", async () => {
     const sas = generateBlobSASQueryParameters(
       {
         containerName: containerClient.containerName,
@@ -2695,3 +2824,4 @@ describe("Generation for user delegation SAS Node.js only", () => {
     await blobClientWithSAS.getProperties();
   });
 });
+

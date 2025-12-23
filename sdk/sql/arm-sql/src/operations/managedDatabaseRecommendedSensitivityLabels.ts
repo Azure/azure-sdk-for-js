@@ -15,9 +15,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing ManagedDatabaseRecommendedSensitivityLabels operations. */
-export class ManagedDatabaseRecommendedSensitivityLabelsImpl
-  implements ManagedDatabaseRecommendedSensitivityLabels
-{
+export class ManagedDatabaseRecommendedSensitivityLabelsImpl implements ManagedDatabaseRecommendedSensitivityLabels {
   private readonly client: SqlManagementClient;
 
   /**

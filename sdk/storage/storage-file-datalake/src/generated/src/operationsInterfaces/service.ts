@@ -8,7 +8,7 @@
 
 import {
   ServiceListFileSystemsOptionalParams,
-  ServiceListFileSystemsResponse
+  ServiceListFileSystemsResponse,
 } from "../models/index.js";
 
 /** Interface representing a Service. */
@@ -18,6 +18,6 @@ export interface Service {
    * @param options The options parameters.
    */
   listFileSystems(
-    options?: ServiceListFileSystemsOptionalParams
+    options?: ServiceListFileSystemsOptionalParams,
   ): Promise<ServiceListFileSystemsResponse>;
 }

@@ -4,6 +4,7 @@
 import { assertEnvironmentVariable, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { computeSha256Hash, delay, isDefined } from "@azure/core-util";
 import type { OpenAIClient } from "@azure/openai";
+import { assert } from "vitest";
 import type {
   SearchClient,
   SearchField,
@@ -17,7 +18,6 @@ import type {
 } from "@azure/search-documents";
 import { GeographyPoint, KnownAnalyzerNames } from "@azure/search-documents";
 import type { Hotel } from "./interfaces.js";
-import { assert } from "vitest";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
 
@@ -33,7 +33,7 @@ export async function createIndex(
       kind: "azureOpenAI",
       vectorizerName: "vector-search-vectorizer",
       parameters: {
-        deploymentId: assertEnvironmentVariable("AZURE_OPENAI_DEPLOYMENT_NAME"),
+        deploymentId: assertEnvironmentVariable("AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME"),
         resourceUrl: assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT"),
         modelName: "text-embedding-ada-002",
       },
@@ -44,12 +44,12 @@ export async function createIndex(
 
   const algorithmConfigurations: VectorSearchAlgorithmConfiguration[] = [
     {
-      name: "vector-search-algorithm-configuration",
+      name: "vector-search-algorithm-configuration-1",
       kind: "hnsw",
       parameters: { metric: "dotProduct" },
     },
     {
-      name: "vector-search-algorithm-configuration",
+      name: "vector-search-algorithm-configuration-2",
       kind: "exhaustiveKnn",
       parameters: { metric: "euclidean" },
     },
@@ -63,7 +63,6 @@ export async function createIndex(
       compressionName: "vector-search-compression-configuration",
       kind: "scalarQuantization",
       parameters: { quantizedDataType: "int8" },
-      rerankWithOriginalVectors: true,
     },
   ];
   await Promise.all(
@@ -75,12 +74,12 @@ export async function createIndex(
 
   const vectorSearchProfiles: VectorSearchProfile[] = [
     {
-      name: "vector-search-profile",
+      name: "vector-search-profile-1",
       vectorizerName: isPreview ? azureOpenAiVectorizerName : undefined,
       algorithmConfigurationName: exhaustiveKnnAlgorithmConfigurationName,
     },
     {
-      name: "vector-search-profile",
+      name: "vector-search-profile-2",
       vectorizerName: isPreview ? azureOpenAiVectorizerName : undefined,
       algorithmConfigurationName: hnswAlgorithmConfigurationName,
       compressionName: isPreview ? scalarQuantizationCompressionConfigurationName : undefined,
@@ -327,6 +326,7 @@ export async function createIndex(
       profiles: vectorSearchProfiles,
     },
     semanticSearch: {
+      defaultConfigurationName: "semantic-configuration",
       configurations: [
         {
           name: "semantic-configuration",
@@ -556,20 +556,17 @@ export async function populateIndex(
 
   await client.uploadDocuments(testDocuments);
 
-  let count = await client.getDocumentsCount();
-  while (count !== testDocuments.length) {
+  while ((await client.getDocumentsCount()) !== testDocuments.length) {
     await delay(WAIT_TIME);
-    count = await client.getDocumentsCount();
   }
-
-  await delay(WAIT_TIME);
 }
 
 async function addVectorDescriptions(
   documents: Hotel[],
   openAIClient: OpenAIClient,
 ): Promise<void> {
-  const deploymentName = process.env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name";
+  const deploymentName =
+    process.env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME ?? "embedding-deployment-name";
 
   const descriptions = documents.map(({ description }) => description).filter(isDefined);
 

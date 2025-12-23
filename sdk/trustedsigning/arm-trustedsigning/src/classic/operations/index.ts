@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CodeSigningContext } from "../../api/codeSigningContext.js";
-import { Operation } from "../../models/models.js";
-import { list } from "../../api/operations/index.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { OperationsListOptionalParams } from "../../models/options.js";
+import type { CodeSigningContext } from "../../api/codeSigningContext.js";
+import { list } from "../../api/operations/operations.js";
+import type { OperationsListOptionalParams } from "../../api/operations/options.js";
+import type { Operation } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {
@@ -13,14 +13,14 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-export function getOperations(context: CodeSigningContext) {
+function _getOperations(context: CodeSigningContext) {
   return {
     list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
 
-export function getOperationsOperations(context: CodeSigningContext): OperationsOperations {
+export function _getOperationsOperations(context: CodeSigningContext): OperationsOperations {
   return {
-    ...getOperations(context),
+    ..._getOperations(context),
   };
 }

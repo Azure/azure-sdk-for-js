@@ -3,6 +3,7 @@
 
 import type {
   AckMessage,
+  PongMessage,
   ConnectedMessage,
   DisconnectedMessage,
   GroupDataMessage,
@@ -59,6 +60,8 @@ export function parseMessages(input: string): WebPubSubMessage | null {
     }
   } else if (typedMessage.type === "ack") {
     returnMessage = { ...parsedMessage, kind: "ack" } as AckMessage;
+  } else if (typedMessage.type === "pong") {
+    returnMessage = { ...parsedMessage, kind: "pong" } as PongMessage;
   } else {
     // Forward compatible
     return null;
@@ -102,6 +105,10 @@ export function writeMessage(message: WebPubSubMessage): string {
       data = { type: "sequenceAck", sequenceId: message.sequenceId } as SequenceAckData;
       break;
     }
+    case "ping": {
+      data = { type: "ping" } as PingData;
+      break;
+    }
     default: {
       throw new Error(`Unsupported type: ${message.kind}`);
     }
@@ -142,6 +149,10 @@ interface SendEventData {
 interface SequenceAckData {
   readonly type: "sequenceAck";
   sequenceId: number;
+}
+
+interface PingData {
+  readonly type: "ping";
 }
 
 function getPayload(data: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType): any {

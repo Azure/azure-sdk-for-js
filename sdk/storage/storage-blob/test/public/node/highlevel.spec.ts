@@ -25,6 +25,7 @@ import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../utils/constants.js";
 import { getCustomerProvidedKey } from "../../utils/injectables.js";
 import { isRestError, type TransferProgressEvent } from "@azure/core-rest-pipeline";
 import { buffer as bufferUtil } from "node:stream/consumers";
+import { readFile, mkdir, unlink } from "node:fs/promises";
 
 interface RetriableReadableStreamOptions {
   /**
@@ -95,7 +96,7 @@ describe("Highlevel", () => {
 
   beforeAll(async () => {
     if (!fs.existsSync(tempFolderPath)) {
-      fs.mkdirSync(tempFolderPath);
+      await mkdir(tempFolderPath);
     }
     const MB = 1024 * 1024;
     tempFileLargeLength = 256 * MB + 1; // First prime number after 256MB.
@@ -113,8 +114,8 @@ describe("Highlevel", () => {
   });
 
   afterAll(async () => {
-    fs.unlinkSync(tempFileLarge);
-    fs.unlinkSync(tempFileSmall);
+    await unlink(tempFileLarge);
+    await unlink(tempFileSmall);
   });
 
   it.runIf(isLiveMode())(
@@ -134,7 +135,7 @@ describe("Highlevel", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      fs.unlinkSync(tempFile);
+      await unlink(tempFile);
     },
   );
 
@@ -154,11 +155,11 @@ describe("Highlevel", () => {
       );
       await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
-      const downloadedData = fs.readFileSync(downloadedFile);
-      const uploadedData = fs.readFileSync(tempFileLarge);
+      const downloadedData = await readFile(downloadedFile);
+      const uploadedData = await readFile(tempFileLarge);
 
-      fs.unlinkSync(downloadedFile);
-      assert.ok(downloadedData.equals(uploadedData));
+      await unlink(downloadedFile);
+      assert.isTrue(downloadedData.equals(uploadedData));
     },
   );
 
@@ -193,11 +194,11 @@ describe("Highlevel", () => {
       );
       await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
-      const downloadedData = await fs.readFileSync(downloadedFile);
-      const uploadedData = await fs.readFileSync(tempFileSmall);
+      const downloadedData = await readFile(downloadedFile);
+      const uploadedData = await readFile(tempFileSmall);
 
-      fs.unlinkSync(downloadedFile);
-      assert.ok(downloadedData.equals(uploadedData));
+      await unlink(downloadedFile);
+      assert.isTrue(downloadedData.equals(uploadedData));
     },
   );
 
@@ -215,11 +216,11 @@ describe("Highlevel", () => {
       );
       await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
-      const downloadedData = await fs.readFileSync(downloadedFile);
-      const uploadedData = await fs.readFileSync(tempFileSmall);
+      const downloadedData = await readFile(downloadedFile);
+      const uploadedData = await readFile(tempFileSmall);
 
-      fs.unlinkSync(downloadedFile);
-      assert.ok(downloadedData.equals(uploadedData));
+      await unlink(downloadedFile);
+      assert.isTrue(downloadedData.equals(uploadedData));
     },
   );
 
@@ -265,13 +266,13 @@ describe("Highlevel", () => {
           blockSize: 4 * 1024 * 1024,
           concurrency: 20,
           onProgress: (ev) => {
-            assert.ok(ev.loadedBytes);
+            assert.isDefined(ev.loadedBytes);
             eventTriggered = true;
             aborter.abort();
           },
         });
       } catch (err: any) {}
-      assert.ok(eventTriggered);
+      assert.isDefined(eventTriggered);
     },
   );
 
@@ -287,13 +288,13 @@ describe("Highlevel", () => {
           blockSize: 4 * 1024 * 1024,
           concurrency: 20,
           onProgress: (ev) => {
-            assert.ok(ev.loadedBytes);
+            assert.isDefined(ev.loadedBytes);
             eventTriggered = true;
             aborter.abort();
           },
         });
       } catch (err: any) {}
-      assert.ok(eventTriggered);
+      assert.isDefined(eventTriggered);
     },
   );
 
@@ -315,7 +316,7 @@ describe("Highlevel", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      fs.unlinkSync(tempFile);
+      await unlink(tempFile);
     },
   );
 
@@ -334,11 +335,11 @@ describe("Highlevel", () => {
       );
       await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
 
-      const downloadedBuffer = fs.readFileSync(downloadFilePath);
-      const uploadedBuffer = fs.readFileSync(tempFileLarge);
-      assert.ok(uploadedBuffer.equals(downloadedBuffer));
+      const downloadedBuffer = await readFile(downloadFilePath);
+      const uploadedBuffer = await readFile(tempFileLarge);
+      assert.isTrue(uploadedBuffer.equals(downloadedBuffer));
 
-      fs.unlinkSync(downloadFilePath);
+      await unlink(downloadFilePath);
     },
   );
 
@@ -372,11 +373,11 @@ describe("Highlevel", () => {
       );
       await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
 
-      const downloadedBuffer = fs.readFileSync(downloadFilePath);
-      const uploadedBuffer = fs.readFileSync(tempFileLarge);
-      assert.ok(uploadedBuffer.equals(downloadedBuffer));
+      const downloadedBuffer = await readFile(downloadFilePath);
+      const uploadedBuffer = await readFile(tempFileLarge);
+      assert.isTrue(uploadedBuffer.equals(downloadedBuffer));
 
-      fs.unlinkSync(downloadFilePath);
+      await unlink(downloadFilePath);
     },
   );
 
@@ -389,7 +390,12 @@ describe("Highlevel", () => {
     const { readableStreamBody } = await blockBlobClient.download(0);
     assert.isDefined(readableStreamBody);
     const downloadedBuffer = await bufferUtil(readableStreamBody);
-    assert.ok(buf.equals(downloadedBuffer));
+    assert.isTrue(buf.equals(downloadedBuffer));
+    const { readableStreamBody: responseStream } = await blockBlobClient.download(0);
+    assert.isDefined(responseStream);
+
+    const downloadBuffer = await bufferUtil(responseStream);
+    assert.isTrue(buf.equals(downloadBuffer));
   });
 
   it.runIf(isLiveMode())("uploadStream should work with tags", async () => {
@@ -431,11 +437,11 @@ describe("Highlevel", () => {
 
       await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20, {
         onProgress: (ev) => {
-          assert.ok(ev.loadedBytes);
+          assert.isDefined(ev.loadedBytes);
           eventTriggered = true;
         },
       });
-      assert.ok(eventTriggered);
+      assert.isDefined(eventTriggered);
     },
   );
 
@@ -470,7 +476,7 @@ describe("Highlevel", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      fs.unlinkSync(tempFile);
+      await unlink(tempFile);
     },
   );
 
@@ -487,8 +493,8 @@ describe("Highlevel", () => {
         concurrency: 20,
       });
 
-      const localFileContent = fs.readFileSync(tempFileLarge);
-      assert.ok(localFileContent.equals(buf));
+      const localFileContent = await readFile(tempFileLarge);
+      assert.isTrue(localFileContent.equals(buf));
     },
   );
 
@@ -499,7 +505,7 @@ describe("Highlevel", () => {
     } catch (err: any) {
       error = err;
     }
-    assert.ok(
+    assert.isTrue(
       error.message.includes("Unable to allocate the buffer of size:"),
       "Error is not thrown when the count(size provided in bytes) is too large.",
     );
@@ -519,8 +525,8 @@ describe("Highlevel", () => {
         concurrency: 20,
       });
 
-      const localFileContent = fs.readFileSync(tempFileLarge);
-      assert.ok(localFileContent.equals(buf));
+      const localFileContent = await readFile(tempFileLarge);
+      assert.isTrue(localFileContent.equals(buf));
     },
   );
 
@@ -599,7 +605,7 @@ describe("Highlevel", () => {
         },
       });
     } catch (err: any) {}
-    assert.ok(eventTriggered);
+    assert.isDefined(eventTriggered);
   });
 
   it("downloadToBuffer with CPK", async () => {
@@ -614,7 +620,7 @@ describe("Highlevel", () => {
     const downloadToBufferRes = await CPKblockBlobClient.downloadToBuffer(undefined, undefined, {
       customerProvidedKey,
     });
-    assert.ok(downloadToBufferRes.equals(Buffer.from(content)));
+    assert.isTrue(downloadToBufferRes.equals(Buffer.from(content)));
 
     let exceptionCaught = false;
     try {
@@ -626,7 +632,7 @@ describe("Highlevel", () => {
       assert.equal((err.details as any).errorCode, "BlobUsesCustomerSpecifiedEncryption");
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it.runIf(isLiveMode())(
@@ -660,11 +666,11 @@ describe("Highlevel", () => {
       );
       await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
-      const downloadedData = await fs.readFileSync(downloadedFile);
-      const uploadedData = await fs.readFileSync(tempFileSmall);
+      const downloadedData = await readFile(downloadedFile);
+      const uploadedData = await readFile(tempFileSmall);
 
-      fs.unlinkSync(downloadedFile);
-      assert.ok(downloadedData.equals(uploadedData));
+      await unlink(downloadedFile);
+      assert.isTrue(downloadedData.equals(uploadedData));
     },
   );
 
@@ -700,11 +706,11 @@ describe("Highlevel", () => {
       );
       await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
-      const downloadedData = await fs.readFileSync(downloadedFile);
-      const uploadedData = await fs.readFileSync(tempFileSmall);
+      const downloadedData = await readFile(downloadedFile);
+      const uploadedData = await readFile(tempFileSmall);
 
-      fs.unlinkSync(downloadedFile);
-      assert.ok(downloadedData.equals(uploadedData));
+      await unlink(downloadedFile);
+      assert.isTrue(downloadedData.equals(uploadedData));
     },
   );
 
@@ -742,11 +748,11 @@ describe("Highlevel", () => {
       );
       await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
-      const downloadedData = await fs.readFileSync(downloadedFile);
-      const uploadedData = await fs.readFileSync(tempFileSmall);
+      const downloadedData = await readFile(downloadedFile);
+      const uploadedData = await readFile(tempFileSmall);
 
-      fs.unlinkSync(downloadedFile);
-      assert.ok(downloadedData.slice(0, partialSize).equals(uploadedData.slice(0, partialSize)));
+      await unlink(downloadedFile);
+      assert.isTrue(downloadedData.slice(0, partialSize).equals(uploadedData.slice(0, partialSize)));
     },
   );
 
@@ -785,8 +791,8 @@ describe("Highlevel", () => {
         expectedError = true;
       }
 
-      assert.ok(expectedError);
-      fs.unlinkSync(downloadedFile);
+      assert.isDefined(expectedError);
+      await unlink(downloadedFile);
     },
   );
 
@@ -825,7 +831,7 @@ describe("Highlevel", () => {
     } catch (error: any) {
       caughtError = error;
     }
-    fs.unlinkSync(downloadedFile);
+    await unlink(downloadedFile);
     assert.equal(caughtError?.name, "AbortError");
   });
 
@@ -859,7 +865,7 @@ describe("Highlevel", () => {
 
     const response = await blobClient.downloadToFile(downloadedFilePath, 0, undefined);
 
-    assert.ok(
+    assert.isTrue(
       response.contentLength === tempFileSmallLength,
       "response.contentLength doesn't match tempFileSmallLength",
     );
@@ -869,11 +875,11 @@ describe("Highlevel", () => {
       "Expecting response.readableStreamBody to be undefined.",
     );
 
-    const localFileContent = fs.readFileSync(tempFileSmall);
-    const downloadedFileContent = fs.readFileSync(downloadedFilePath);
-    assert.ok(localFileContent.equals(downloadedFileContent));
+    const localFileContent = await readFile(tempFileSmall);
+    const downloadedFileContent = await readFile(downloadedFilePath);
+    assert.isTrue(localFileContent.equals(downloadedFileContent));
 
-    fs.unlinkSync(downloadedFilePath);
+    await unlink(downloadedFilePath);
   });
 
   it.runIf(isLiveMode())("downloadToFile should fail when saving to directory", async () => {
@@ -918,21 +924,21 @@ describe("Highlevel", () => {
 
     await blockBlobClient.uploadData(arrayBuf);
     const res = await blockBlobClient.downloadToBuffer();
-    assert.ok(res.equals(Buffer.from(arrayBuf)));
+    assert.isTrue(res.equals(Buffer.from(arrayBuf)));
 
     const uint8ArrayPartial = new Uint8Array(arrayBuf, 1, 3);
     await blockBlobClient.uploadData(uint8ArrayPartial);
     const res1 = await blockBlobClient.downloadToBuffer();
-    assert.ok(res1.equals(Buffer.from(arrayBuf, 1, 3)));
+    assert.isTrue(res1.equals(Buffer.from(arrayBuf, 1, 3)));
 
     const uint16Array = new Uint16Array(arrayBuf, 4, 2);
     await blockBlobClient.uploadData(uint16Array);
     const res2 = await blockBlobClient.downloadToBuffer();
-    assert.ok(res2.equals(Buffer.from(arrayBuf, 4, 2 * 2)));
+    assert.isTrue(res2.equals(Buffer.from(arrayBuf, 4, 2 * 2)));
 
     const buf = Buffer.from(arrayBuf, 0, 5);
     await blockBlobClient.uploadData(buf);
     const res3 = await blockBlobClient.downloadToBuffer();
-    assert.ok(res3.equals(buf));
+    assert.isTrue(res3.equals(buf));
   });
 });

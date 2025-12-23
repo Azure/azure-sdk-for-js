@@ -22,7 +22,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 import { createBlobServiceClient, createBlockBlobClient } from "./utils/clients.js";
 import { base64encode, generateRandomUint8Array, getUniqueName } from "../utils/utils.js";
-import { bodyToString } from "./utils/utils.js";
+import { bodyToString, parseJwt } from "./utils/utils.js";
 import {
   getAccountKey,
   getStorageConnectionString,
@@ -30,7 +30,7 @@ import {
 } from "../../utils/injectables.js";
 import { ensureClientRecording } from "../utils/recorder.js";
 import { buffer } from "node:stream/consumers";
-import { STORAGE_SCOPE, BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../utils/constants.js";
+import { STORAGE_SCOPE, BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES, SERVICE_VERSION } from "../utils/constants.js";
 import { isRestError } from "@azure/core-rest-pipeline";
 
 describe("BlockBlobClient Node.js only", () => {
@@ -393,7 +393,7 @@ describe.runIf(getAccountKey())("syncUploadFromURL", () => {
       assert.fail("Expected response stream");
     }
     const downloadBuffer = await buffer(stream);
-    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+    assert.equal(downloadBuffer.compare(Buffer.from(content)), 0);
   });
 
   it("syncUploadFromURL - source bear token and destination account key", async () => {
@@ -419,6 +419,66 @@ describe.runIf(getAccountKey())("syncUploadFromURL", () => {
     assert.equal(await bodyToString(downloadRes, body.length), body);
     assert.equal(downloadRes.contentLength, body.length);
   });
+
+  it.runIf(isLiveMode())(
+    "syncUploadFromURL - source delegation sas with bear token and destination account key",
+    async () => {
+      // The token is sanitized in recording, we cannot get the object id from it.
+      const blobServiceClientWithToken = await createBlobServiceClient("TokenCredential", {
+        recorder,
+      });
+
+      const credential = createTestCredential();
+      const token = (await credential.getToken(STORAGE_SCOPE))?.token;
+      if (!token) {
+        assert.fail("Expected token to be defined");
+      }
+      const jwtObj = parseJwt(token);
+
+      const now = new Date(recorder.variable("now", new Date().toISOString()));
+      now.setHours(now.getHours() - 1);
+      const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+      tmr.setDate(tmr.getDate() + 1);
+      const userDelegationKey = await blobServiceClientWithToken.getUserDelegationKey(now, tmr);
+
+      const sharedKeyCredential = containerClient.credential as StorageSharedKeyCredential;
+      const accountName = sharedKeyCredential.accountName;
+
+      const body = "HelloWorld";
+      await blockBlobClient.upload(body, body.length);
+
+      const delegationSAS = generateBlobSASQueryParameters(
+        {
+          containerName: containerClient.containerName,
+          blobName: blockBlobClient.name,
+          expiresOn: tmr,
+          permissions: BlobSASPermissions.parse("racwd"),
+          protocol: SASProtocol.HttpsAndHttp,
+          startsOn: now,
+          version: SERVICE_VERSION,
+          delegatedUserObjectId: jwtObj.oid,
+        },
+        userDelegationKey,
+        accountName,
+      );
+
+      const newBlockBlobClient = containerClient.getBlockBlobClient(
+        recorder.variable("newblockblob", getUniqueName("newblockblob")),
+      );
+
+      await newBlockBlobClient.syncUploadFromURL(`${blockBlobClient.url}?${delegationSAS}`, {
+        sourceAuthorization: {
+          scheme: "Bearer",
+          value: token,
+        },
+      });
+
+      // Validate source and destination blob content match.
+      const downloadRes = await newBlockBlobClient.download();
+      assert.equal(await bodyToString(downloadRes, body.length), body);
+      assert.equal(downloadRes.contentLength!, body.length);
+    },
+  );
 
   it("syncUploadFromURL - destination bearer token", async () => {
     const body = "HelloWorld";
@@ -457,7 +517,7 @@ describe.runIf(getAccountKey())("syncUploadFromURL", () => {
       assert.fail("Expected stream response");
     }
     const downloadBuffer = await buffer(stream);
-    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+    assert.equal(downloadBuffer.compare(Buffer.from(content)), 0);
 
     // Validate source and desintation BlobHttpHeaders match.
     assert.deepStrictEqual(downloadRes.cacheControl, srcHttpHeaders.blobCacheControl);
@@ -485,7 +545,7 @@ describe.runIf(getAccountKey())("syncUploadFromURL", () => {
       assert.fail("Expected stream response");
     }
     const downloadBuffer = await buffer(stream);
-    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+    assert.equal(downloadBuffer.compare(Buffer.from(content)), 0);
 
     // Validate BlobHttpHeaders merged.
     assert.deepStrictEqual(downloadRes.cacheControl, srcHttpHeaders.blobCacheControl);
@@ -525,7 +585,7 @@ describe.runIf(getAccountKey())("syncUploadFromURL", () => {
       assert.fail("Expected stream response");
     }
     const downloadBuffer = await buffer(stream);
-    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+    assert.equal(downloadBuffer.compare(Buffer.from(content)), 0);
 
     // Validate tags set correctly
     const getTagsRes = await blockBlobClient.getTags();
@@ -551,7 +611,7 @@ describe.runIf(getAccountKey())("syncUploadFromURL", () => {
       assert.fail("Expected stream response");
     }
     const downloadBuffer = await buffer(stream);
-    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+    assert.equal(downloadBuffer.compare(Buffer.from(content)), 0);
 
     // Validate tags set correctly
     const getTagsRes = await blockBlobClient.getTags();
@@ -634,7 +694,7 @@ describe.runIf(getAccountKey())("syncUploadFromURL", () => {
       assert.fail("Expected stream response");
     }
     const downloadBuffer = await buffer(stream);
-    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+    assert.equal(downloadBuffer.compare(Buffer.from(content)), 0);
 
     // Validate BlobHttpHeaders merged.
     assert.deepStrictEqual(downloadRes.cacheControl, undefined);
@@ -737,7 +797,7 @@ describe.runIf(getAccountKey())("syncUploadFromURL", () => {
         assert.deepStrictEqual(err.code, "OperationTimedOut");
         exceptionCaught = true;
       }
-      assert.ok(exceptionCaught);
+      assert.isTrue(exceptionCaught);
     },
   );
 });

@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public (undocumented)
 export interface AccessPolicy {
@@ -74,8 +74,8 @@ export interface AccountUsageElements {
 export interface ActiveDirectoryProperties {
     accountType?: AccountType;
     azureStorageSid?: string;
-    domainGuid: string;
-    domainName: string;
+    domainGuid?: string;
+    domainName?: string;
     domainSid?: string;
     forestName?: string;
     netBiosDomainName?: string;
@@ -98,6 +98,7 @@ export interface AzureFilesIdentityBasedAuthentication {
     activeDirectoryProperties?: ActiveDirectoryProperties;
     defaultSharePermission?: DefaultSharePermission;
     directoryServiceOptions: DirectoryServiceOptions;
+    smbOAuthSettings?: SmbOAuthSettings;
 }
 
 // @public
@@ -579,6 +580,11 @@ export type DirectoryServiceOptions = string;
 export type DnsEndpointType = string;
 
 // @public
+export interface DualStackEndpointPreference {
+    publishIpv6Endpoint?: boolean;
+}
+
+// @public
 export type EnabledProtocols = string;
 
 // @public
@@ -594,6 +600,11 @@ export interface Encryption {
 export interface EncryptionIdentity {
     encryptionFederatedIdentityClientId?: string;
     encryptionUserAssignedIdentity?: string;
+}
+
+// @public
+export interface EncryptionInTransit {
+    required?: boolean;
 }
 
 // @public
@@ -692,6 +703,7 @@ export interface Endpoints {
     readonly dfs?: string;
     readonly file?: string;
     internetEndpoints?: StorageAccountInternetEndpoints;
+    ipv6Endpoints?: StorageAccountIpv6Endpoints;
     microsoftEndpoints?: StorageAccountMicrosoftEndpoints;
     readonly queue?: string;
     readonly table?: string;
@@ -1017,6 +1029,11 @@ export type FileSharesUpdateResponse = FileShare;
 
 // @public
 export type Format = string;
+
+// @public
+export interface GeoPriorityReplicationStatus {
+    isBlobEnabled?: boolean;
+}
 
 // @public
 export interface GeoReplicationStats {
@@ -1629,6 +1646,18 @@ export enum KnownState {
 }
 
 // @public
+export enum KnownTriggerType {
+    OnSchedule = "OnSchedule",
+    RunOnce = "RunOnce"
+}
+
+// @public
+export enum KnownZonePlacementPolicy {
+    Any = "Any",
+    None = "None"
+}
+
+// @public
 export type LargeFileSharesState = string;
 
 // @public
@@ -2001,6 +2030,7 @@ export interface NetworkRuleSet {
     bypass?: Bypass;
     defaultAction: DefaultAction;
     ipRules?: IPRule[];
+    ipv6Rules?: IPRule[];
     resourceAccessRules?: ResourceAccessRule[];
     virtualNetworkRules?: VirtualNetworkRule[];
 }
@@ -2083,6 +2113,11 @@ export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams e
 export type NetworkSecurityPerimeterConfigurationsReconcileResponse = NetworkSecurityPerimeterConfigurationsReconcileHeaders;
 
 // @public
+export interface NfsSetting {
+    encryptionInTransit?: EncryptionInTransit;
+}
+
+// @public
 export interface NspAccessRule {
     name?: string;
     readonly properties?: NspAccessRuleProperties;
@@ -2149,6 +2184,7 @@ export interface ObjectReplicationPolicy extends Resource {
     readonly enabledTime?: Date;
     metrics?: ObjectReplicationPolicyPropertiesMetrics;
     readonly policyId?: string;
+    priorityReplication?: ObjectReplicationPolicyPropertiesPriorityReplication;
     rules?: ObjectReplicationPolicyRule[];
     sourceAccount?: string;
 }
@@ -2161,6 +2197,11 @@ export interface ObjectReplicationPolicyFilter {
 
 // @public
 export interface ObjectReplicationPolicyPropertiesMetrics {
+    enabled?: boolean;
+}
+
+// @public
+export interface ObjectReplicationPolicyPropertiesPriorityReplication {
     enabled?: boolean;
 }
 
@@ -2216,6 +2257,11 @@ export interface PermissionScope {
     permissions: string;
     resourceName: string;
     service: string;
+}
+
+// @public
+export interface Placement {
+    zonePlacementPolicy?: ZonePlacementPolicy;
 }
 
 // @public
@@ -2319,6 +2365,7 @@ export interface ProtectedAppendWritesHistory {
 
 // @public
 export interface ProtocolSettings {
+    nfs?: NfsSetting;
     smb?: SmbSetting;
 }
 
@@ -2578,11 +2625,19 @@ export type SkuConversionStatus = string;
 export interface SkuInformation {
     readonly capabilities?: SKUCapability[];
     readonly kind?: Kind;
+    // (undocumented)
+    locationInfo?: SkuInformationLocationInfoItem[];
     readonly locations?: string[];
     name: SkuName;
     readonly resourceType?: string;
     restrictions?: Restriction[];
     readonly tier?: SkuTier;
+}
+
+// @public (undocumented)
+export interface SkuInformationLocationInfoItem {
+    readonly location?: string;
+    readonly zones?: string[];
 }
 
 // @public
@@ -2604,9 +2659,15 @@ export type SkusListResponse = StorageSkuListResult;
 export type SkuTier = "Standard" | "Premium";
 
 // @public
+export interface SmbOAuthSettings {
+    isSmbOAuthEnabled?: boolean;
+}
+
+// @public
 export interface SmbSetting {
     authenticationMethods?: string;
     channelEncryption?: string;
+    encryptionInTransit?: EncryptionInTransit;
     kerberosTicketEncryption?: string;
     multichannel?: Multichannel;
     versions?: string;
@@ -2635,12 +2696,14 @@ export interface StorageAccount extends TrackedResource {
     readonly customDomain?: CustomDomain;
     defaultToOAuthAuthentication?: boolean;
     dnsEndpointType?: DnsEndpointType;
+    dualStackEndpointPreference?: DualStackEndpointPreference;
     enableExtendedGroups?: boolean;
     enableHttpsTrafficOnly?: boolean;
     enableNfsV3?: boolean;
     readonly encryption?: Encryption;
     extendedLocation?: ExtendedLocation;
     readonly failoverInProgress?: boolean;
+    geoPriorityReplicationStatus?: GeoPriorityReplicationStatus;
     readonly geoReplicationStats?: GeoReplicationStats;
     identity?: Identity;
     immutableStorageWithVersioning?: ImmutableStorageAccount;
@@ -2655,6 +2718,7 @@ export interface StorageAccount extends TrackedResource {
     readonly lastGeoFailoverTime?: Date;
     minimumTlsVersion?: MinimumTlsVersion;
     readonly networkRuleSet?: NetworkRuleSet;
+    placement?: Placement;
     readonly primaryEndpoints?: Endpoints;
     readonly primaryLocation?: string;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
@@ -2668,6 +2732,7 @@ export interface StorageAccount extends TrackedResource {
     readonly statusOfPrimary?: AccountStatus;
     readonly statusOfSecondary?: AccountStatus;
     storageAccountSkuConversionStatus?: StorageAccountSkuConversionStatus;
+    zones?: string[];
 }
 
 // @public
@@ -2687,11 +2752,13 @@ export interface StorageAccountCreateParameters {
     customDomain?: CustomDomain;
     defaultToOAuthAuthentication?: boolean;
     dnsEndpointType?: DnsEndpointType;
+    dualStackEndpointPreference?: DualStackEndpointPreference;
     enableExtendedGroups?: boolean;
     enableHttpsTrafficOnly?: boolean;
     enableNfsV3?: boolean;
     encryption?: Encryption;
     extendedLocation?: ExtendedLocation;
+    geoPriorityReplicationStatus?: GeoPriorityReplicationStatus;
     identity?: Identity;
     immutableStorageWithVersioning?: ImmutableStorageAccount;
     isHnsEnabled?: boolean;
@@ -2703,6 +2770,7 @@ export interface StorageAccountCreateParameters {
     location: string;
     minimumTlsVersion?: MinimumTlsVersion;
     networkRuleSet?: NetworkRuleSet;
+    placement?: Placement;
     publicNetworkAccess?: PublicNetworkAccess;
     routingPreference?: RoutingPreference;
     sasPolicy?: SasPolicy;
@@ -2710,6 +2778,7 @@ export interface StorageAccountCreateParameters {
     tags?: {
         [propertyName: string]: string;
     };
+    zones?: string[];
 }
 
 // @public
@@ -2720,6 +2789,18 @@ export interface StorageAccountInternetEndpoints {
     readonly blob?: string;
     readonly dfs?: string;
     readonly file?: string;
+    readonly web?: string;
+}
+
+// @public
+export interface StorageAccountIpv6Endpoints {
+    readonly blob?: string;
+    readonly dfs?: string;
+    readonly file?: string;
+    internetEndpoints?: StorageAccountInternetEndpoints;
+    microsoftEndpoints?: StorageAccountMicrosoftEndpoints;
+    readonly queue?: string;
+    readonly table?: string;
     readonly web?: string;
 }
 
@@ -2956,9 +3037,11 @@ export interface StorageAccountUpdateParameters {
     customDomain?: CustomDomain;
     defaultToOAuthAuthentication?: boolean;
     dnsEndpointType?: DnsEndpointType;
+    dualStackEndpointPreference?: DualStackEndpointPreference;
     enableExtendedGroups?: boolean;
     enableHttpsTrafficOnly?: boolean;
     encryption?: Encryption;
+    geoPriorityReplicationStatus?: GeoPriorityReplicationStatus;
     identity?: Identity;
     immutableStorageWithVersioning?: ImmutableStorageAccount;
     isLocalUserEnabled?: boolean;
@@ -2968,6 +3051,7 @@ export interface StorageAccountUpdateParameters {
     largeFileSharesState?: LargeFileSharesState;
     minimumTlsVersion?: MinimumTlsVersion;
     networkRuleSet?: NetworkRuleSet;
+    placement?: Placement;
     publicNetworkAccess?: PublicNetworkAccess;
     routingPreference?: RoutingPreference;
     sasPolicy?: SasPolicy;
@@ -2975,6 +3059,7 @@ export interface StorageAccountUpdateParameters {
     tags?: {
         [propertyName: string]: string;
     };
+    zones?: string[];
 }
 
 // @public (undocumented)
@@ -3119,6 +3204,8 @@ export interface StorageTaskAssignments {
 // @public
 export interface StorageTaskAssignmentsCreateHeaders {
     // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
     location?: string;
 }
 
@@ -3133,6 +3220,8 @@ export type StorageTaskAssignmentsCreateResponse = StorageTaskAssignment;
 
 // @public
 export interface StorageTaskAssignmentsDeleteHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
     // (undocumented)
     location?: string;
 }
@@ -3189,7 +3278,7 @@ export type StorageTaskAssignmentsListNextResponse = StorageTaskAssignmentsList;
 
 // @public
 export interface StorageTaskAssignmentsListOptionalParams extends coreClient.OperationOptions {
-    maxpagesize?: number;
+    top?: number;
 }
 
 // @public
@@ -3197,6 +3286,8 @@ export type StorageTaskAssignmentsListResponse = StorageTaskAssignmentsList;
 
 // @public
 export interface StorageTaskAssignmentsUpdateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
     // (undocumented)
     location?: string;
 }
@@ -3421,7 +3512,7 @@ export interface TriggerParametersUpdate {
 }
 
 // @public
-export type TriggerType = "RunOnce" | "OnSchedule";
+export type TriggerType = string;
 
 // @public
 export interface UpdateHistoryProperty {
@@ -3481,6 +3572,9 @@ export interface VirtualNetworkRule {
     state?: State;
     virtualNetworkResourceId: string;
 }
+
+// @public
+export type ZonePlacementPolicy = string;
 
 // (No @packageDocumentation comment for this package)
 

@@ -27,8 +27,8 @@ describe("BlobServiceClient", () => {
     }
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
+    assert.isString(result.requestId);
+    assert.isTrue(result.requestId!.length > 0);
   });
 
   it("can be created from a connection string and an option bag", async () => {
@@ -44,8 +44,8 @@ describe("BlobServiceClient", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
+    assert.isString(result.requestId);
+    assert.isTrue(result.requestId!.length > 0);
   });
 
   it.runIf(getStorageConnectionStringWithSas())(
@@ -55,8 +55,8 @@ describe("BlobServiceClient", () => {
       assert.isDefined(newClient);
       const result = await newClient.getProperties();
 
-      assert.ok(typeof result.requestId);
-      assert.ok(result.requestId!.length > 0);
+      assert.isString(result.requestId);
+      assert.isTrue(result.requestId!.length > 0);
     },
   );
 

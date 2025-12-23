@@ -86,7 +86,7 @@ describe("LeaseClient from Container", () => {
 
     await delay(30 * 1000);
     const result2 = await containerClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "expired");
     assert.equal(result2.leaseStatus, "unlocked");
 
@@ -131,7 +131,7 @@ describe("LeaseClient from Container", () => {
     await leaseClient.breakLease(3);
 
     const result2 = await containerClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     if (result2.leaseState === "breaking") {
       assert.equal(result2.leaseStatus, "locked");
     } else if (result2.leaseState === "broken") {
@@ -143,7 +143,7 @@ describe("LeaseClient from Container", () => {
     await delay(5 * 1000);
 
     const result3 = await containerClient.getProperties();
-    assert.ok(!result3.leaseDuration);
+    assert.isUndefined(result3.leaseDuration);
     assert.equal(result3.leaseState, "broken");
     assert.equal(result3.leaseStatus, "unlocked");
   });
@@ -217,7 +217,7 @@ describe("LeaseClient from Blob", () => {
     await delay(20 * 1000);
 
     const result2 = await blobClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "expired");
     assert.equal(result2.leaseStatus, "unlocked");
 
@@ -262,14 +262,14 @@ describe("LeaseClient from Blob", () => {
     await leaseClient.breakLease(5);
 
     const result2 = await blobClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
     await delay(10 * 1000);
 
     const result3 = await blobClient.getProperties();
-    assert.ok(!result3.leaseDuration);
+    assert.isUndefined(result3.leaseDuration);
     assert.equal(result3.leaseState, "broken");
     assert.equal(result3.leaseStatus, "unlocked");
   });

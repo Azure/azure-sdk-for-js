@@ -18,7 +18,6 @@ import { MongoDBInstrumentation } from "@opentelemetry/instrumentation-mongodb";
 import { MySQLInstrumentation } from "@opentelemetry/instrumentation-mysql";
 import { PgInstrumentation } from "@opentelemetry/instrumentation-pg";
 import { RedisInstrumentation } from "@opentelemetry/instrumentation-redis";
-import { RedisInstrumentation as Redis4Instrumentation } from "@opentelemetry/instrumentation-redis-4";
 
 import type { InternalConfig } from "../shared/config.js";
 import type { MetricHandler } from "../metrics/handler.js";
@@ -142,14 +141,12 @@ export class TraceHandler {
         new PgInstrumentation(this._config.instrumentationOptions.postgreSql),
       );
     }
-    if (this._config.instrumentationOptions.redis?.enabled) {
+    if (
+      this._config.instrumentationOptions.redis?.enabled ||
+      this._config.instrumentationOptions.redis4?.enabled
+    ) {
       this._instrumentations.push(
         new RedisInstrumentation(this._config.instrumentationOptions.redis),
-      );
-    }
-    if (this._config.instrumentationOptions.redis4?.enabled) {
-      this._instrumentations.push(
-        new Redis4Instrumentation(this._config.instrumentationOptions.redis4),
       );
     }
   }

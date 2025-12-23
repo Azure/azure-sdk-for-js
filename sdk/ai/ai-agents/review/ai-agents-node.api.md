@@ -1799,6 +1799,9 @@ export class ToolUtility {
     static createBingGroundingTool(searchConfigurations: BingGroundingSearchConfiguration[]): {
         definition: BingGroundingToolDefinition;
     };
+    static createBrowserAutomationTool(connectionId: string): {
+        definition: BrowserAutomationToolDefinition;
+    };
     static createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
         definition: CodeInterpreterToolDefinition;
         resources: ToolResources;

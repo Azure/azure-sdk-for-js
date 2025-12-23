@@ -32,15 +32,15 @@ describe("QueueClient messageId methods", () => {
 
   it("update and delete empty message with default parameters", async () => {
     const eResult = await queueClient.sendMessage(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.clientRequestId);
-    assert.ok(eResult.nextVisibleOn);
-    assert.ok(eResult.version);
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
+    assert.isDefined(eResult.requestId);
+    assert.isDefined(eResult.clientRequestId);
+    assert.isDefined(eResult.nextVisibleOn);
+    assert.isDefined(eResult.version);
 
     const newMessage = "";
     const uResult = await queueClient.updateMessage(
@@ -48,21 +48,21 @@ describe("QueueClient messageId methods", () => {
       eResult.popReceipt,
       newMessage,
     );
-    assert.ok(uResult.version);
-    assert.ok(uResult.nextVisibleOn);
-    assert.ok(uResult.date);
-    assert.ok(uResult.requestId);
-    assert.ok(eResult.clientRequestId);
-    assert.ok(uResult.popReceipt);
+    assert.isDefined(uResult.version);
+    assert.isDefined(uResult.nextVisibleOn);
+    assert.isDefined(uResult.date);
+    assert.isDefined(uResult.requestId);
+    assert.isDefined(eResult.clientRequestId);
+    assert.isDefined(uResult.popReceipt);
 
     let pResult = await queueClient.peekMessages();
     assert.equal(pResult.peekedMessageItems.length, 1);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, newMessage);
 
     const dResult = await queueClient.deleteMessage(eResult.messageId, uResult.popReceipt!);
-    assert.ok(dResult.date);
-    assert.ok(dResult.requestId);
-    assert.ok(dResult.version);
+    assert.isDefined(dResult.date);
+    assert.isDefined(dResult.requestId);
+    assert.isDefined(dResult.version);
 
     pResult = await queueClient.peekMessages();
     assert.equal(pResult.peekedMessageItems.length, 0);
@@ -70,14 +70,14 @@ describe("QueueClient messageId methods", () => {
 
   it("update and delete message with all parameters", async () => {
     const eResult = await queueClient.sendMessage(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.nextVisibleOn);
-    assert.ok(eResult.version);
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
+    assert.isDefined(eResult.requestId);
+    assert.isDefined(eResult.nextVisibleOn);
+    assert.isDefined(eResult.version);
 
     const newMessage = "New Message";
     const uResult = await queueClient.updateMessage(
@@ -86,11 +86,11 @@ describe("QueueClient messageId methods", () => {
       newMessage,
       10,
     );
-    assert.ok(uResult.version);
-    assert.ok(uResult.nextVisibleOn);
-    assert.ok(uResult.date);
-    assert.ok(uResult.requestId);
-    assert.ok(uResult.popReceipt);
+    assert.isDefined(uResult.version);
+    assert.isDefined(uResult.nextVisibleOn);
+    assert.isDefined(uResult.date);
+    assert.isDefined(uResult.requestId);
+    assert.isDefined(uResult.popReceipt);
 
     const pResult = await queueClient.peekMessages();
     assert.equal(pResult.peekedMessageItems.length, 0);
@@ -104,14 +104,14 @@ describe("QueueClient messageId methods", () => {
 
   it("update and delete message with all parameters - test sas connection string MessageIdClient constructor", async () => {
     const eResult = await queueClient.sendMessage(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.nextVisibleOn);
-    assert.ok(eResult.version);
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
+    assert.isDefined(eResult.requestId);
+    assert.isDefined(eResult.nextVisibleOn);
+    assert.isDefined(eResult.version);
 
     const newMessage = "New Message";
     const uResult = await queueClient.updateMessage(
@@ -120,11 +120,11 @@ describe("QueueClient messageId methods", () => {
       newMessage,
       10,
     );
-    assert.ok(uResult.version);
-    assert.ok(uResult.nextVisibleOn);
-    assert.ok(uResult.date);
-    assert.ok(uResult.requestId);
-    assert.ok(uResult.popReceipt);
+    assert.isDefined(uResult.version);
+    assert.isDefined(uResult.nextVisibleOn);
+    assert.isDefined(uResult.date);
+    assert.isDefined(uResult.requestId);
+    assert.isDefined(uResult.popReceipt);
 
     const pResult = await queueClient.peekMessages();
     assert.equal(pResult.peekedMessageItems.length, 0);
@@ -138,14 +138,14 @@ describe("QueueClient messageId methods", () => {
 
   it("update message with 64KB characters size which is computed after encoding", async () => {
     const eResult = await queueClient.sendMessage(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.nextVisibleOn);
-    assert.ok(eResult.version);
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
+    assert.isDefined(eResult.requestId);
+    assert.isDefined(eResult.nextVisibleOn);
+    assert.isDefined(eResult.version);
 
     const newMessage = new Array(64 * 1024 + 1).join("a");
     const uResult = await queueClient.updateMessage(
@@ -153,11 +153,11 @@ describe("QueueClient messageId methods", () => {
       eResult.popReceipt,
       newMessage,
     );
-    assert.ok(uResult.version);
-    assert.ok(uResult.nextVisibleOn);
-    assert.ok(uResult.date);
-    assert.ok(uResult.requestId);
-    assert.ok(uResult.popReceipt);
+    assert.isDefined(uResult.version);
+    assert.isDefined(uResult.nextVisibleOn);
+    assert.isDefined(uResult.date);
+    assert.isDefined(uResult.requestId);
+    assert.isDefined(uResult.popReceipt);
 
     const pResult = await queueClient.peekMessages();
     assert.equal(pResult.peekedMessageItems.length, 1);
@@ -166,14 +166,14 @@ describe("QueueClient messageId methods", () => {
 
   it("update message negative with 65537B (64KB+1B) characters size which is computed after encoding", async () => {
     const eResult = await queueClient.sendMessage(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.nextVisibleOn);
-    assert.ok(eResult.version);
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
+    assert.isDefined(eResult.requestId);
+    assert.isDefined(eResult.nextVisibleOn);
+    assert.isDefined(eResult.version);
 
     const newMessage = new Array(64 * 1024 + 2).join("a");
 
@@ -183,11 +183,10 @@ describe("QueueClient messageId methods", () => {
     } catch (err: any) {
       error = err;
     }
-    assert.ok(error);
-    assert.ok(
-      error.message.includes(
-        "The request body is too large and exceeds the maximum permissible limit.",
-      ),
+    assert.isDefined(error);
+    assert.include(
+      error.message,
+      "The request body is too large and exceeds the maximum permissible limit.",
     );
   });
 
@@ -200,7 +199,7 @@ describe("QueueClient messageId methods", () => {
     } catch (err: any) {
       error = err;
     }
-    assert.ok(error);
+    assert.isDefined(error);
   });
 
   it("verify messageID and queueName passed to the client", async () => {

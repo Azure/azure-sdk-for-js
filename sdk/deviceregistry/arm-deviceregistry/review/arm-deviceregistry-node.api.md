@@ -4,14 +4,14 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -231,6 +231,16 @@ export interface Authentication {
 export type AuthenticationMethod = string;
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export interface BillingContainer extends ProxyResource {
     readonly etag?: string;
     properties?: BillingContainerProperties;
@@ -253,6 +263,11 @@ export interface BillingContainersListBySubscriptionOptionalParams extends Opera
 export interface BillingContainersOperations {
     get: (billingContainerName: string, options?: BillingContainersGetOptionalParams) => Promise<BillingContainer>;
     listBySubscription: (options?: BillingContainersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<BillingContainer>;
+}
+
+// @public
+export interface BrokerStateStoreDestinationConfiguration {
+    key: string;
 }
 
 // @public
@@ -286,25 +301,112 @@ export interface Dataset {
     topic?: Topic;
 }
 
+// @public
+export interface DatasetBrokerStateStoreDestination extends DatasetDestination {
+    configuration: BrokerStateStoreDestinationConfiguration;
+    target: "BrokerStateStore";
+}
+
+// @public
+export interface DatasetDestination {
+    target?: DatasetDestinationTarget;
+}
+
+// @public
+export type DatasetDestinationTarget = string;
+
+// @public
+export type DatasetDestinationUnion = DatasetMqttDestination | DatasetBrokerStateStoreDestination | DatasetStorageDestination | DatasetDestination;
+
+// @public
+export interface DatasetMqttDestination extends DatasetDestination {
+    configuration: MqttDestinationConfiguration;
+    target: "Mqtt";
+}
+
+// @public
+export interface DatasetStorageDestination extends DatasetDestination {
+    configuration: StorageDestinationConfiguration;
+    target: "Storage";
+}
+
+// @public
+export interface DeviceMessagingEndpoint {
+    address: string;
+    endpointType?: string;
+}
+
+// @public
+export interface DeviceRef {
+    deviceName: string;
+    endpointName: string;
+}
+
 // @public (undocumented)
 export class DeviceRegistryManagementClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: DeviceRegistryManagementClientOptionalParams);
     readonly assetEndpointProfiles: AssetEndpointProfilesOperations;
     readonly assets: AssetsOperations;
     readonly billingContainers: BillingContainersOperations;
+    readonly namespaceAssets: NamespaceAssetsOperations;
+    readonly namespaceDevices: NamespaceDevicesOperations;
+    readonly namespaceDiscoveredAssets: NamespaceDiscoveredAssetsOperations;
+    readonly namespaceDiscoveredDevices: NamespaceDiscoveredDevicesOperations;
+    readonly namespaces: NamespacesOperations;
     readonly operations: OperationsOperations;
     readonly operationStatus: OperationStatusOperations;
     readonly pipeline: Pipeline;
+    readonly schemaRegistries: SchemaRegistriesOperations;
+    readonly schemas: SchemasOperations;
+    readonly schemaVersions: SchemaVersionsOperations;
 }
 
 // @public
 export interface DeviceRegistryManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
+}
+
+// @public
+export interface DeviceStatus {
+    readonly config?: StatusConfig;
+    readonly endpoints?: DeviceStatusEndpoints;
+}
+
+// @public
+export interface DeviceStatusEndpoint {
+    readonly error?: StatusError;
+}
+
+// @public
+export interface DeviceStatusEndpoints {
+    readonly inbound?: Record<string, DeviceStatusEndpoint>;
+}
+
+// @public
+export interface DiscoveredInboundEndpoints {
+    additionalConfiguration?: string;
+    address: string;
+    endpointType: string;
+    lastUpdatedOn?: Date;
+    supportedAuthenticationMethods?: AuthenticationMethod[];
+    version?: string;
+}
+
+// @public
+export interface DiscoveredMessagingEndpoints {
+    inbound?: Record<string, DiscoveredInboundEndpoints>;
+    outbound?: DiscoveredOutboundEndpoints;
+}
+
+// @public
+export interface DiscoveredOutboundEndpoints {
+    assigned: Record<string, DeviceMessagingEndpoint>;
 }
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -315,6 +417,14 @@ export interface ErrorDetail {
     readonly details?: ErrorDetail[];
     readonly message?: string;
     readonly target?: string;
+}
+
+// @public
+export interface ErrorDetails {
+    readonly code?: string;
+    readonly correlationId?: string;
+    readonly info?: string;
+    readonly message?: string;
 }
 
 // @public
@@ -337,12 +447,55 @@ export interface EventBase {
 }
 
 // @public
+export interface EventDestination {
+    target?: EventDestinationTarget;
+}
+
+// @public
+export type EventDestinationTarget = string;
+
+// @public
+export type EventDestinationUnion = EventMqttDestination | EventStorageDestination | EventDestination;
+
+// @public
+export interface EventMqttDestination extends EventDestination {
+    configuration: MqttDestinationConfiguration;
+    target: "Mqtt";
+}
+
+// @public
 export type EventObservabilityMode = string;
+
+// @public
+export interface EventStorageDestination extends EventDestination {
+    configuration: StorageDestinationConfiguration;
+    target: "Storage";
+}
 
 // @public
 export interface ExtendedLocation {
     name: string;
     type: string;
+}
+
+// @public
+export type Format = string;
+
+// @public
+export interface HostAuthentication {
+    method: AuthenticationMethod;
+    usernamePasswordCredentials?: UsernamePasswordCredentials;
+    x509Credentials?: X509CertificateCredentials;
+}
+
+// @public
+export interface InboundEndpoints {
+    additionalConfiguration?: string;
+    address: string;
+    authentication?: HostAuthentication;
+    endpointType: string;
+    trustSettings?: TrustSettings;
+    version?: string;
 }
 
 // @public
@@ -375,9 +528,48 @@ export enum KnownDataPointObservabilityMode {
 }
 
 // @public
+export enum KnownDatasetDestinationTarget {
+    BrokerStateStore = "BrokerStateStore",
+    Mqtt = "Mqtt",
+    Storage = "Storage"
+}
+
+// @public
+export enum KnownEventDestinationTarget {
+    Mqtt = "Mqtt",
+    Storage = "Storage"
+}
+
+// @public
 export enum KnownEventObservabilityMode {
     Log = "Log",
     None = "None"
+}
+
+// @public
+export enum KnownFormat {
+    Delta10 = "Delta/1.0",
+    JsonSchemaDraft7 = "JsonSchema/draft-07"
+}
+
+// @public
+export enum KnownManagementActionType {
+    Call = "Call",
+    Read = "Read",
+    Write = "Write"
+}
+
+// @public
+export enum KnownMqttDestinationQos {
+    Qos0 = "Qos0",
+    Qos1 = "Qos1"
+}
+
+// @public
+export enum KnownNamespaceDiscoveredManagementActionType {
+    Call = "Call",
+    Read = "Read",
+    Write = "Write"
 }
 
 // @public
@@ -397,6 +589,28 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownSchemaType {
+    MessageSchema = "MessageSchema"
+}
+
+// @public
+export enum KnownScope {
+    Resources = "Resources"
+}
+
+// @public
+export enum KnownStreamDestinationTarget {
+    Mqtt = "Mqtt",
+    Storage = "Storage"
+}
+
+// @public
+export enum KnownSystemAssignedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned"
+}
+
+// @public
 export enum KnownTopicRetainType {
     Keep = "Keep",
     Never = "Never"
@@ -404,7 +618,33 @@ export enum KnownTopicRetainType {
 
 // @public
 export enum KnownVersions {
-    V20241101 = "2024-11-01"
+    V20241101 = "2024-11-01",
+    V20251001 = "2025-10-01"
+}
+
+// @public
+export interface ManagementAction {
+    actionConfiguration?: string;
+    actionType?: ManagementActionType;
+    name: string;
+    targetUri: string;
+    timeoutInSeconds?: number;
+    topic?: string;
+    typeRef?: string;
+}
+
+// @public
+export type ManagementActionType = string;
+
+// @public
+export interface ManagementGroup {
+    actions?: ManagementAction[];
+    dataSource?: string;
+    defaultTimeoutInSeconds?: number;
+    defaultTopic?: string;
+    managementGroupConfiguration?: string;
+    name: string;
+    typeRef?: string;
 }
 
 // @public
@@ -412,6 +652,640 @@ export interface MessageSchemaReference {
     readonly schemaName: string;
     readonly schemaRegistryNamespace: string;
     readonly schemaVersion: string;
+}
+
+// @public
+export interface Messaging {
+    endpoints?: Record<string, MessagingEndpoint>;
+}
+
+// @public
+export interface MessagingEndpoint {
+    address: string;
+    endpointType?: string;
+    resourceId?: string;
+}
+
+// @public
+export interface MessagingEndpoints {
+    inbound?: Record<string, InboundEndpoints>;
+    outbound?: OutboundEndpoints;
+}
+
+// @public
+export interface MqttDestinationConfiguration {
+    qos?: MqttDestinationQos;
+    retain?: TopicRetainType;
+    topic: string;
+    ttl?: number;
+}
+
+// @public
+export type MqttDestinationQos = string;
+
+// @public
+export interface Namespace extends TrackedResource {
+    identity?: SystemAssignedServiceIdentity;
+    properties?: NamespaceProperties;
+}
+
+// @public
+export interface NamespaceAsset extends TrackedResource {
+    extendedLocation: ExtendedLocation;
+    properties?: NamespaceAssetProperties;
+}
+
+// @public
+export interface NamespaceAssetProperties {
+    assetTypeRefs?: string[];
+    attributes?: Record<string, any>;
+    datasets?: NamespaceDataset[];
+    defaultDatasetsConfiguration?: string;
+    defaultDatasetsDestinations?: DatasetDestinationUnion[];
+    defaultEventsConfiguration?: string;
+    defaultEventsDestinations?: EventDestinationUnion[];
+    defaultManagementGroupsConfiguration?: string;
+    defaultStreamsConfiguration?: string;
+    defaultStreamsDestinations?: StreamDestinationUnion[];
+    description?: string;
+    deviceRef: DeviceRef;
+    discoveredAssetRefs?: string[];
+    displayName?: string;
+    documentationUri?: string;
+    enabled?: boolean;
+    eventGroups?: NamespaceEventGroup[];
+    externalAssetId?: string;
+    hardwareRevision?: string;
+    readonly lastTransitionTime?: Date;
+    managementGroups?: ManagementGroup[];
+    manufacturer?: string;
+    manufacturerUri?: string;
+    model?: string;
+    productCode?: string;
+    readonly provisioningState?: ProvisioningState;
+    serialNumber?: string;
+    softwareRevision?: string;
+    readonly status?: NamespaceAssetStatus;
+    streams?: NamespaceStream[];
+    readonly uuid?: string;
+    readonly version?: number;
+}
+
+// @public
+export interface NamespaceAssetsCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespaceAssetsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespaceAssetsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NamespaceAssetsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NamespaceAssetsOperations {
+    createOrReplace: (resourceGroupName: string, namespaceName: string, assetName: string, resource: NamespaceAsset, options?: NamespaceAssetsCreateOrReplaceOptionalParams) => PollerLike<OperationState<NamespaceAsset>, NamespaceAsset>;
+    delete: (resourceGroupName: string, namespaceName: string, assetName: string, options?: NamespaceAssetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, namespaceName: string, assetName: string, options?: NamespaceAssetsGetOptionalParams) => Promise<NamespaceAsset>;
+    listByResourceGroup: (resourceGroupName: string, namespaceName: string, options?: NamespaceAssetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NamespaceAsset>;
+    update: (resourceGroupName: string, namespaceName: string, assetName: string, properties: NamespaceAssetUpdate, options?: NamespaceAssetsUpdateOptionalParams) => PollerLike<OperationState<NamespaceAsset>, NamespaceAsset>;
+}
+
+// @public
+export interface NamespaceAssetStatus {
+    readonly config?: StatusConfig;
+    readonly datasets?: NamespaceAssetStatusDataset[];
+    readonly eventGroups?: NamespaceAssetStatusEventGroup[];
+    readonly managementGroups?: NamespaceAssetStatusManagementGroup[];
+    readonly streams?: NamespaceAssetStatusStream[];
+}
+
+// @public
+export interface NamespaceAssetStatusDataset {
+    readonly error?: StatusError;
+    readonly messageSchemaReference?: NamespaceMessageSchemaReference;
+    readonly name: string;
+}
+
+// @public
+export interface NamespaceAssetStatusEvent {
+    readonly error?: StatusError;
+    readonly messageSchemaReference?: NamespaceMessageSchemaReference;
+    readonly name: string;
+}
+
+// @public
+export interface NamespaceAssetStatusEventGroup {
+    readonly events?: NamespaceAssetStatusEvent[];
+    readonly name: string;
+}
+
+// @public
+export interface NamespaceAssetStatusManagementAction {
+    readonly error?: StatusError;
+    readonly name: string;
+    readonly requestMessageSchemaReference?: NamespaceMessageSchemaReference;
+    readonly responseMessageSchemaReference?: NamespaceMessageSchemaReference;
+}
+
+// @public
+export interface NamespaceAssetStatusManagementGroup {
+    readonly actions?: NamespaceAssetStatusManagementAction[];
+    readonly name: string;
+}
+
+// @public
+export interface NamespaceAssetStatusStream {
+    readonly error?: StatusError;
+    readonly messageSchemaReference?: NamespaceMessageSchemaReference;
+    readonly name: string;
+}
+
+// @public
+export interface NamespaceAssetsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespaceAssetUpdate {
+    properties?: NamespaceAssetUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface NamespaceAssetUpdateProperties {
+    assetTypeRefs?: string[];
+    attributes?: Record<string, any>;
+    datasets?: NamespaceDataset[];
+    defaultDatasetsConfiguration?: string;
+    defaultDatasetsDestinations?: DatasetDestinationUnion[];
+    defaultEventsConfiguration?: string;
+    defaultEventsDestinations?: EventDestinationUnion[];
+    defaultManagementGroupsConfiguration?: string;
+    defaultStreamsConfiguration?: string;
+    defaultStreamsDestinations?: StreamDestinationUnion[];
+    description?: string;
+    displayName?: string;
+    documentationUri?: string;
+    enabled?: boolean;
+    eventGroups?: NamespaceEventGroup[];
+    hardwareRevision?: string;
+    managementGroups?: ManagementGroup[];
+    manufacturer?: string;
+    manufacturerUri?: string;
+    model?: string;
+    productCode?: string;
+    serialNumber?: string;
+    softwareRevision?: string;
+    streams?: NamespaceStream[];
+}
+
+// @public
+export interface NamespaceDataset {
+    dataPoints?: NamespaceDatasetDataPoint[];
+    datasetConfiguration?: string;
+    dataSource?: string;
+    destinations?: DatasetDestinationUnion[];
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceDatasetDataPoint {
+    dataPointConfiguration?: string;
+    dataSource: string;
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceDevice extends TrackedResource {
+    readonly etag?: string;
+    extendedLocation?: ExtendedLocation;
+    properties?: NamespaceDeviceProperties;
+}
+
+// @public
+export interface NamespaceDeviceProperties {
+    attributes?: Record<string, any>;
+    discoveredDeviceRef?: string;
+    enabled?: boolean;
+    endpoints?: MessagingEndpoints;
+    externalDeviceId?: string;
+    readonly lastTransitionTime?: Date;
+    manufacturer?: string;
+    model?: string;
+    operatingSystem?: string;
+    operatingSystemVersion?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly status?: DeviceStatus;
+    readonly uuid?: string;
+    readonly version?: number;
+}
+
+// @public
+export interface NamespaceDevicesCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespaceDevicesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespaceDevicesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NamespaceDevicesListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NamespaceDevicesOperations {
+    createOrReplace: (resourceGroupName: string, namespaceName: string, deviceName: string, resource: NamespaceDevice, options?: NamespaceDevicesCreateOrReplaceOptionalParams) => PollerLike<OperationState<NamespaceDevice>, NamespaceDevice>;
+    delete: (resourceGroupName: string, namespaceName: string, deviceName: string, options?: NamespaceDevicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, namespaceName: string, deviceName: string, options?: NamespaceDevicesGetOptionalParams) => Promise<NamespaceDevice>;
+    listByResourceGroup: (resourceGroupName: string, namespaceName: string, options?: NamespaceDevicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NamespaceDevice>;
+    update: (resourceGroupName: string, namespaceName: string, deviceName: string, properties: NamespaceDeviceUpdate, options?: NamespaceDevicesUpdateOptionalParams) => PollerLike<OperationState<NamespaceDevice>, NamespaceDevice>;
+}
+
+// @public
+export interface NamespaceDevicesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespaceDeviceUpdate {
+    properties?: NamespaceDeviceUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface NamespaceDeviceUpdateProperties {
+    attributes?: Record<string, any>;
+    enabled?: boolean;
+    endpoints?: MessagingEndpoints;
+    operatingSystemVersion?: string;
+}
+
+// @public
+export interface NamespaceDiscoveredAsset extends TrackedResource {
+    extendedLocation: ExtendedLocation;
+    properties?: NamespaceDiscoveredAssetProperties;
+}
+
+// @public
+export interface NamespaceDiscoveredAssetProperties {
+    assetTypeRefs?: string[];
+    attributes?: Record<string, any>;
+    datasets?: NamespaceDiscoveredDataset[];
+    defaultDatasetsConfiguration?: string;
+    defaultDatasetsDestinations?: DatasetDestinationUnion[];
+    defaultEventsConfiguration?: string;
+    defaultEventsDestinations?: EventDestinationUnion[];
+    defaultManagementGroupsConfiguration?: string;
+    defaultStreamsConfiguration?: string;
+    defaultStreamsDestinations?: StreamDestinationUnion[];
+    description?: string;
+    deviceRef: DeviceRef;
+    discoveryId: string;
+    displayName?: string;
+    documentationUri?: string;
+    eventGroups?: NamespaceDiscoveredEventGroup[];
+    externalAssetId?: string;
+    hardwareRevision?: string;
+    managementGroups?: NamespaceDiscoveredManagementGroup[];
+    manufacturer?: string;
+    manufacturerUri?: string;
+    model?: string;
+    productCode?: string;
+    readonly provisioningState?: ProvisioningState;
+    serialNumber?: string;
+    softwareRevision?: string;
+    streams?: NamespaceDiscoveredStream[];
+    version: number;
+}
+
+// @public
+export interface NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespaceDiscoveredAssetsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespaceDiscoveredAssetsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NamespaceDiscoveredAssetsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NamespaceDiscoveredAssetsOperations {
+    createOrReplace: (resourceGroupName: string, namespaceName: string, discoveredAssetName: string, resource: NamespaceDiscoveredAsset, options?: NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams) => PollerLike<OperationState<NamespaceDiscoveredAsset>, NamespaceDiscoveredAsset>;
+    delete: (resourceGroupName: string, namespaceName: string, discoveredAssetName: string, options?: NamespaceDiscoveredAssetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, namespaceName: string, discoveredAssetName: string, options?: NamespaceDiscoveredAssetsGetOptionalParams) => Promise<NamespaceDiscoveredAsset>;
+    listByResourceGroup: (resourceGroupName: string, namespaceName: string, options?: NamespaceDiscoveredAssetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NamespaceDiscoveredAsset>;
+    update: (resourceGroupName: string, namespaceName: string, discoveredAssetName: string, properties: NamespaceDiscoveredAssetUpdate, options?: NamespaceDiscoveredAssetsUpdateOptionalParams) => PollerLike<OperationState<NamespaceDiscoveredAsset>, NamespaceDiscoveredAsset>;
+}
+
+// @public
+export interface NamespaceDiscoveredAssetsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespaceDiscoveredAssetUpdate {
+    properties?: NamespaceDiscoveredAssetUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface NamespaceDiscoveredAssetUpdateProperties {
+    assetTypeRefs?: string[];
+    attributes?: Record<string, any>;
+    datasets?: NamespaceDiscoveredDataset[];
+    defaultDatasetsConfiguration?: string;
+    defaultDatasetsDestinations?: DatasetDestinationUnion[];
+    defaultEventsConfiguration?: string;
+    defaultEventsDestinations?: EventDestinationUnion[];
+    defaultManagementGroupsConfiguration?: string;
+    defaultStreamsConfiguration?: string;
+    defaultStreamsDestinations?: StreamDestinationUnion[];
+    description?: string;
+    deviceRef?: DeviceRef;
+    discoveryId?: string;
+    displayName?: string;
+    documentationUri?: string;
+    eventGroups?: NamespaceDiscoveredEventGroup[];
+    hardwareRevision?: string;
+    managementGroups?: NamespaceDiscoveredManagementGroup[];
+    manufacturer?: string;
+    manufacturerUri?: string;
+    model?: string;
+    productCode?: string;
+    serialNumber?: string;
+    softwareRevision?: string;
+    streams?: NamespaceDiscoveredStream[];
+    version?: number;
+}
+
+// @public
+export interface NamespaceDiscoveredDataset {
+    dataPoints?: NamespaceDiscoveredDatasetDataPoint[];
+    datasetConfiguration?: string;
+    dataSource?: string;
+    destinations?: DatasetDestinationUnion[];
+    lastUpdatedOn?: Date;
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceDiscoveredDatasetDataPoint {
+    dataPointConfiguration?: string;
+    dataSource: string;
+    lastUpdatedOn?: Date;
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceDiscoveredDevice extends TrackedResource {
+    extendedLocation: ExtendedLocation;
+    properties?: NamespaceDiscoveredDeviceProperties;
+}
+
+// @public
+export interface NamespaceDiscoveredDeviceProperties {
+    attributes?: Record<string, any>;
+    discoveryId: string;
+    endpoints?: DiscoveredMessagingEndpoints;
+    externalDeviceId?: string;
+    manufacturer?: string;
+    model?: string;
+    operatingSystem?: string;
+    operatingSystemVersion?: string;
+    readonly provisioningState?: ProvisioningState;
+    version: number;
+}
+
+// @public
+export interface NamespaceDiscoveredDevicesCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespaceDiscoveredDevicesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespaceDiscoveredDevicesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NamespaceDiscoveredDevicesListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NamespaceDiscoveredDevicesOperations {
+    createOrReplace: (resourceGroupName: string, namespaceName: string, discoveredDeviceName: string, resource: NamespaceDiscoveredDevice, options?: NamespaceDiscoveredDevicesCreateOrReplaceOptionalParams) => PollerLike<OperationState<NamespaceDiscoveredDevice>, NamespaceDiscoveredDevice>;
+    delete: (resourceGroupName: string, namespaceName: string, discoveredDeviceName: string, options?: NamespaceDiscoveredDevicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, namespaceName: string, discoveredDeviceName: string, options?: NamespaceDiscoveredDevicesGetOptionalParams) => Promise<NamespaceDiscoveredDevice>;
+    listByResourceGroup: (resourceGroupName: string, namespaceName: string, options?: NamespaceDiscoveredDevicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NamespaceDiscoveredDevice>;
+    update: (resourceGroupName: string, namespaceName: string, discoveredDeviceName: string, properties: NamespaceDiscoveredDeviceUpdate, options?: NamespaceDiscoveredDevicesUpdateOptionalParams) => PollerLike<OperationState<NamespaceDiscoveredDevice>, NamespaceDiscoveredDevice>;
+}
+
+// @public
+export interface NamespaceDiscoveredDevicesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespaceDiscoveredDeviceUpdate {
+    properties?: NamespaceDiscoveredDeviceUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface NamespaceDiscoveredDeviceUpdateProperties {
+    attributes?: Record<string, any>;
+    discoveryId?: string;
+    endpoints?: DiscoveredMessagingEndpoints;
+    externalDeviceId?: string;
+    operatingSystemVersion?: string;
+    version?: number;
+}
+
+// @public
+export interface NamespaceDiscoveredEvent {
+    dataSource?: string;
+    destinations?: EventDestinationUnion[];
+    eventConfiguration?: string;
+    lastUpdatedOn?: Date;
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceDiscoveredEventGroup {
+    dataSource?: string;
+    defaultDestinations?: EventDestinationUnion[];
+    eventGroupConfiguration?: string;
+    events?: NamespaceDiscoveredEvent[];
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceDiscoveredManagementAction {
+    actionConfiguration?: string;
+    actionType?: NamespaceDiscoveredManagementActionType;
+    lastUpdatedOn?: Date;
+    name: string;
+    targetUri: string;
+    timeoutInSeconds?: number;
+    topic?: string;
+    typeRef?: string;
+}
+
+// @public
+export type NamespaceDiscoveredManagementActionType = string;
+
+// @public
+export interface NamespaceDiscoveredManagementGroup {
+    actions?: NamespaceDiscoveredManagementAction[];
+    dataSource?: string;
+    defaultTimeoutInSeconds?: number;
+    defaultTopic?: string;
+    lastUpdatedOn?: Date;
+    managementGroupConfiguration?: string;
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceDiscoveredStream {
+    destinations?: StreamDestinationUnion[];
+    lastUpdatedOn?: Date;
+    name: string;
+    streamConfiguration?: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceEvent {
+    dataSource?: string;
+    destinations?: EventDestinationUnion[];
+    eventConfiguration?: string;
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceEventGroup {
+    dataSource?: string;
+    defaultDestinations?: EventDestinationUnion[];
+    eventGroupConfiguration?: string;
+    events?: NamespaceEvent[];
+    name: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespaceMessageSchemaReference {
+    readonly schemaName: string;
+    readonly schemaRegistryNamespace: string;
+    readonly schemaVersion: string;
+}
+
+// @public
+export interface NamespaceMigrateRequest {
+    resourceIds?: string[];
+    scope?: Scope;
+}
+
+// @public
+export interface NamespaceProperties {
+    messaging?: Messaging;
+    readonly provisioningState?: ProvisioningState;
+    readonly uuid?: string;
+}
+
+// @public
+export interface NamespacesCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespacesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespacesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NamespacesListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NamespacesListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NamespacesMigrateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespacesOperations {
+    createOrReplace: (resourceGroupName: string, namespaceName: string, resource: Namespace, options?: NamespacesCreateOrReplaceOptionalParams) => PollerLike<OperationState<Namespace>, Namespace>;
+    delete: (resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, namespaceName: string, options?: NamespacesGetOptionalParams) => Promise<Namespace>;
+    listByResourceGroup: (resourceGroupName: string, options?: NamespacesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Namespace>;
+    listBySubscription: (options?: NamespacesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Namespace>;
+    migrate: (resourceGroupName: string, namespaceName: string, body: NamespaceMigrateRequest, options?: NamespacesMigrateOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, namespaceName: string, properties: NamespaceUpdate, options?: NamespacesUpdateOptionalParams) => PollerLike<OperationState<Namespace>, Namespace>;
+}
+
+// @public
+export interface NamespaceStream {
+    destinations?: StreamDestinationUnion[];
+    name: string;
+    streamConfiguration?: string;
+    typeRef?: string;
+}
+
+// @public
+export interface NamespacesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespaceUpdate {
+    identity?: SystemAssignedServiceIdentity;
+    properties?: NamespaceUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface NamespaceUpdateProperties {
+    messaging?: Messaging;
 }
 
 // @public
@@ -466,6 +1340,12 @@ export interface OperationStatusResult {
 export type Origin = string;
 
 // @public
+export interface OutboundEndpoints {
+    assigned: Record<string, DeviceMessagingEndpoint>;
+    unassigned?: Record<string, DeviceMessagingEndpoint>;
+}
+
+// @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
     byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
@@ -503,6 +1383,210 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 }
 
 // @public
+export interface Schema extends ProxyResource {
+    properties?: SchemaProperties;
+}
+
+// @public
+export interface SchemaProperties {
+    description?: string;
+    displayName?: string;
+    format: Format;
+    readonly provisioningState?: ProvisioningState;
+    schemaType: SchemaType;
+    tags?: Record<string, string>;
+    readonly uuid?: string;
+}
+
+// @public
+export interface SchemaRegistriesCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SchemaRegistriesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SchemaRegistriesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemaRegistriesListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemaRegistriesListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemaRegistriesOperations {
+    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, resource: SchemaRegistry, options?: SchemaRegistriesCreateOrReplaceOptionalParams) => PollerLike<OperationState<SchemaRegistry>, SchemaRegistry>;
+    delete: (resourceGroupName: string, schemaRegistryName: string, options?: SchemaRegistriesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, schemaRegistryName: string, options?: SchemaRegistriesGetOptionalParams) => Promise<SchemaRegistry>;
+    listByResourceGroup: (resourceGroupName: string, options?: SchemaRegistriesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SchemaRegistry>;
+    listBySubscription: (options?: SchemaRegistriesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SchemaRegistry>;
+    update: (resourceGroupName: string, schemaRegistryName: string, properties: SchemaRegistryUpdate, options?: SchemaRegistriesUpdateOptionalParams) => PollerLike<OperationState<SchemaRegistry>, SchemaRegistry>;
+}
+
+// @public
+export interface SchemaRegistriesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SchemaRegistry extends TrackedResource {
+    identity?: SystemAssignedServiceIdentity;
+    properties?: SchemaRegistryProperties;
+}
+
+// @public
+export interface SchemaRegistryProperties {
+    description?: string;
+    displayName?: string;
+    namespace: string;
+    readonly provisioningState?: ProvisioningState;
+    storageAccountContainerUrl: string;
+    readonly uuid?: string;
+}
+
+// @public
+export interface SchemaRegistryUpdate {
+    identity?: SystemAssignedServiceIdentity;
+    properties?: SchemaRegistryUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface SchemaRegistryUpdateProperties {
+    description?: string;
+    displayName?: string;
+}
+
+// @public
+export interface SchemasCreateOrReplaceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemasDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SchemasGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemasListBySchemaRegistryOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemasOperations {
+    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, resource: Schema, options?: SchemasCreateOrReplaceOptionalParams) => Promise<Schema>;
+    delete: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, options?: SchemasDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, options?: SchemasGetOptionalParams) => Promise<Schema>;
+    listBySchemaRegistry: (resourceGroupName: string, schemaRegistryName: string, options?: SchemasListBySchemaRegistryOptionalParams) => PagedAsyncIterableIterator<Schema>;
+}
+
+// @public
+export type SchemaType = string;
+
+// @public
+export interface SchemaVersion extends ProxyResource {
+    properties?: SchemaVersionProperties;
+}
+
+// @public
+export interface SchemaVersionProperties {
+    description?: string;
+    readonly hash?: string;
+    readonly provisioningState?: ProvisioningState;
+    schemaContent: string;
+    readonly uuid?: string;
+}
+
+// @public
+export interface SchemaVersionsCreateOrReplaceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemaVersionsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SchemaVersionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemaVersionsListBySchemaOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemaVersionsOperations {
+    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, schemaVersionName: string, resource: SchemaVersion, options?: SchemaVersionsCreateOrReplaceOptionalParams) => Promise<SchemaVersion>;
+    delete: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, schemaVersionName: string, options?: SchemaVersionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, schemaVersionName: string, options?: SchemaVersionsGetOptionalParams) => Promise<SchemaVersion>;
+    listBySchema: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, options?: SchemaVersionsListBySchemaOptionalParams) => PagedAsyncIterableIterator<SchemaVersion>;
+}
+
+// @public
+export type Scope = string;
+
+// @public
+export interface StatusConfig {
+    readonly error?: StatusError;
+    readonly lastTransitionTime?: Date;
+    readonly version?: number;
+}
+
+// @public
+export interface StatusError {
+    readonly code?: string;
+    readonly details?: ErrorDetails[];
+    readonly message?: string;
+}
+
+// @public
+export interface StorageDestinationConfiguration {
+    path: string;
+}
+
+// @public
+export interface StreamDestination {
+    target?: StreamDestinationTarget;
+}
+
+// @public
+export type StreamDestinationTarget = string;
+
+// @public
+export type StreamDestinationUnion = StreamMqttDestination | StreamStorageDestination | StreamDestination;
+
+// @public
+export interface StreamMqttDestination extends StreamDestination {
+    configuration: MqttDestinationConfiguration;
+    target: "Mqtt";
+}
+
+// @public
+export interface StreamStorageDestination extends StreamDestination {
+    configuration: StorageDestinationConfiguration;
+    target: "Storage";
+}
+
+// @public
+export interface SystemAssignedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: SystemAssignedServiceIdentityType;
+}
+
+// @public
+export type SystemAssignedServiceIdentityType = string;
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -528,9 +1612,21 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
+export interface TrustSettings {
+    trustList?: string;
+}
+
+// @public
 export interface UsernamePasswordCredentials {
     passwordSecretName: string;
     usernameSecretName: string;
+}
+
+// @public
+export interface X509CertificateCredentials {
+    certificateSecretName: string;
+    intermediateCertificatesSecretName?: string;
+    keySecretName?: string;
 }
 
 // @public

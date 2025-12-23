@@ -4,10 +4,10 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function $delete(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
@@ -20,6 +20,9 @@ export function get(context: ServiceFabricManagedClustersManagementContext, reso
 
 // @public
 export function listByApplications(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, options?: ServicesListByApplicationsOptionalParams): PagedAsyncIterableIterator<ServiceResource>;
+
+// @public
+export function restartReplica(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: RestartReplicaRequest, options?: ServicesRestartReplicaOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface ServicesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -37,6 +40,11 @@ export interface ServicesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface ServicesListByApplicationsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ServicesRestartReplicaOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public

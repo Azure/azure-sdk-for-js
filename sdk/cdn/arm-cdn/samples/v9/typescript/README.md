@@ -160,7 +160,7 @@ node dist/afdCustomDomainsCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env CDN_SUBSCRIPTION_ID="<cdn subscription id>" CDN_RESOURCE_GROUP="<cdn resource group>" node dist/afdCustomDomainsCreateSample.js
+cross-env CDN_SUBSCRIPTION_ID="<cdn subscription id>" CDN_RESOURCE_GROUP="<cdn resource group>" node dist/afdCustomDomainsCreateSample.js
 ```
 
 ## Next Steps

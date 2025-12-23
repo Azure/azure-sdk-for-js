@@ -106,7 +106,7 @@ describe("MetricHandler", () => {
     };
     createHandler();
     const meterProvider = MetricsApi.getMeterProvider() as MeterProvider;
-    assert.strictEqual(meterProvider["_sharedState"]["viewRegistry"]["_registeredViews"].length, 6);
+    assert.strictEqual(meterProvider["_sharedState"]["viewRegistry"]["_registeredViews"].length, 5); // redis4 is now supported via redis
   });
 
   describe("#autoCollect", () => {
@@ -115,7 +115,7 @@ describe("MetricHandler", () => {
       process.env = env;
       process.env.APPLICATION_INSIGHTS_NO_STANDARD_METRICS = undefined;
       createHandler();
-      assert.ok(handler["_standardMetrics"], "Standard metrics not loaded");
+      assert.isDefined(handler["_standardMetrics"], "Standard metrics not loaded");
     });
 
     it("standard metrics disabled if env var present", () => {
@@ -123,7 +123,7 @@ describe("MetricHandler", () => {
       env["APPLICATION_INSIGHTS_NO_STANDARD_METRICS"] = "true";
       process.env = env;
       createHandler();
-      assert.ok(!handler["_standardMetrics"], "Standard metrics loaded");
+      assert.isUndefined(handler["_standardMetrics"], "Standard metrics loaded");
     });
   });
 

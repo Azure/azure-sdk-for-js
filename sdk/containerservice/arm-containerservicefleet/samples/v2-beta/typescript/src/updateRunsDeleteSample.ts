@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to delete a UpdateRun
  *
  * @summary delete a UpdateRun
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_Delete.json
+ * x-ms-original-file: 2025-08-01-preview/UpdateRuns_Delete.json
  */
-
-import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function deleteAnUpdateRunResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -22,7 +21,7 @@ async function deleteAnUpdateRunResource(): Promise<void> {
  * This sample demonstrates how to delete a UpdateRun
  *
  * @summary delete a UpdateRun
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-08-01-preview/UpdateRuns_Delete_MaximumSet_Gen.json
  */
 async function deleteAnUpdateRunResourceGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

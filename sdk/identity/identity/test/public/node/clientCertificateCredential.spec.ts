@@ -48,8 +48,8 @@ describe("ClientCertificateCredential", function () {
     );
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("authenticates with a PEM certificate string directly", async function () {
@@ -64,8 +64,8 @@ describe("ClientCertificateCredential", function () {
     );
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("allows cancelling the authentication", async function (ctx) {
@@ -104,7 +104,7 @@ describe("ClientCertificateCredential", function () {
       error = e;
     }
     assert.equal(error?.name, "CredentialUnavailableError");
-    assert.ok(error?.message.includes("endpoints_resolution_error"));
+    assert.isTrue(error?.message.includes("endpoints_resolution_error"));
   });
 
   it("supports tracing", async function (ctx) {

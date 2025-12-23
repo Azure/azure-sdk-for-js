@@ -9,9 +9,13 @@ import type {
 } from "@azure-rest/load-testing";
 import { isUnexpected, getLongRunningPoller } from "@azure-rest/load-testing";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { env } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import fs from "node:fs";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+
+const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
+};
 
 describe("Test Administration Operations", () => {
   let recorder: Recorder;
@@ -99,7 +103,11 @@ describe("Test Administration Operations", () => {
       throw fileUploadResult.body.error;
     }
 
-    const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
+    const fileValidatePoller = await getLongRunningPoller(
+      client,
+      fileUploadResult,
+      testPollingOptions,
+    );
     await fileValidatePoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
     });
@@ -208,7 +216,11 @@ describe("Test Profile Administration Operations", () => {
       throw fileUploadResult.body.error;
     }
 
-    const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
+    const fileValidatePoller = await getLongRunningPoller(
+      client,
+      fileUploadResult,
+      testPollingOptions,
+    );
     await fileValidatePoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
     });

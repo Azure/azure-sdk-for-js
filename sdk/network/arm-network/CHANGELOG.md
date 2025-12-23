@@ -1,4 +1,110 @@
 # Release History
+
+## 35.0.0 (2025-11-19)
+
+### Features Added
+  - Added operation PublicIPAddresses.beginDisassociateCloudServiceReservedPublicIp
+  - Added operation PublicIPAddresses.beginDisassociateCloudServiceReservedPublicIpAndWait
+  - Added operation PublicIPAddresses.beginReserveCloudServicePublicIpAddress
+  - Added operation PublicIPAddresses.beginReserveCloudServicePublicIpAddressAndWait
+  - Added Interface ApplicationGatewayEntraJWTValidationConfig
+  - Added Interface DdosDetectionRule
+  - Added Interface DisassociateCloudServicePublicIpRequest
+  - Added Interface PublicIPAddressesDisassociateCloudServiceReservedPublicIpHeaders
+  - Added Interface PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams
+  - Added Interface PublicIPAddressesReserveCloudServicePublicIpAddressHeaders
+  - Added Interface PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams
+  - Added Interface ReserveCloudServicePublicIpAddressRequest
+  - Added Interface TrafficDetectionRule
+  - Interface ApplicationGateway has a new optional parameter entraJWTValidationConfigs
+  - Interface ApplicationGatewayClientAuthConfiguration has a new optional parameter verifyClientAuthMode
+  - Interface ApplicationGatewayRequestRoutingRule has a new optional parameter entraJWTValidationConfig
+  - Interface DdosCustomPolicy has a new optional parameter detectionRules
+  - Interface DdosCustomPolicy has a new optional parameter frontEndIpConfiguration
+  - Interface FlowLog has a new optional parameter recordTypes
+  - Interface FlowLogInformation has a new optional parameter recordTypes
+  - Interface PrivateEndpoint has a new optional parameter ipVersionType
+  - Added Type Alias ApplicationGatewayClientAuthVerificationModes
+  - Added Type Alias ApplicationGatewayUnAuthorizedRequestAction
+  - Added Type Alias DdosDetectionMode
+  - Added Type Alias DdosTrafficType
+  - Added Type Alias IsRollback
+  - Added Type Alias PrivateEndpointIPVersionType
+  - Added Type Alias PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse
+  - Added Type Alias PublicIPAddressesReserveCloudServicePublicIpAddressResponse
+  - Added Enum KnownApplicationGatewayClientAuthVerificationModes
+  - Added Enum KnownApplicationGatewayUnAuthorizedRequestAction
+  - Added Enum KnownDdosDetectionMode
+  - Added Enum KnownDdosTrafficType
+  - Added Enum KnownIsRollback
+  - Added Enum KnownPrivateEndpointIPVersionType
+
+### Breaking Changes
+  - Enum KnownApplicationGatewayWafRuleSensitivityTypes no longer has value None
+  - Enum KnownSensitivityType no longer has value None
+
+## 34.2.0 (2025-11-12)
+
+### Features Added
+  - Added Interface CertificateAuthentication
+  - Interface ApplicationGatewayBackendSettings has a new optional parameter enableL4ClientIpPreservation
+  - Interface ApplicationGatewayOnDemandProbe has a new optional parameter enableProbeProxyProtocolHeader
+  - Interface ApplicationGatewayProbe has a new optional parameter enableProbeProxyProtocolHeader
+  - Interface LoadBalancer has a new optional parameter scope
+  - Interface NetworkManagerRoutingConfiguration has a new optional parameter routeTableUsageMode
+  - Interface PrivateLinkService has a new optional parameter accessMode
+  - Interface VirtualNetworkGatewayConnection has a new optional parameter authenticationType
+  - Interface VirtualNetworkGatewayConnection has a new optional parameter certificateAuthentication
+  - Added Type Alias AccessMode
+  - Added Type Alias ConnectionAuthenticationType
+  - Added Type Alias LoadBalancerScope
+  - Added Type Alias RouteTableUsageMode
+  - Added Enum KnownAccessMode
+  - Added Enum KnownConnectionAuthenticationType
+  - Added Enum KnownLoadBalancerScope
+  - Added Enum KnownRouteTableUsageMode
+
+## 34.1.0 (2025-10-16)
+
+### Features Added
+  - Added operation group NetworkSecurityPerimeterServiceTags
+  - Added operation AzureFirewalls.beginPacketCaptureOperation
+  - Added operation AzureFirewalls.beginPacketCaptureOperationAndWait
+  - Added operation VirtualNetworkGateways.listRadiusSecrets
+  - Added operation VpnServerConfigurations.listRadiusSecrets
+  - Added Interface AzureFirewallPacketCaptureResponse
+  - Added Interface AzureFirewallsPacketCaptureOperationHeaders
+  - Added Interface AzureFirewallsPacketCaptureOperationOptionalParams
+  - Added Interface NetworkSecurityPerimeterServiceTagsListOptionalParams
+  - Added Interface NspServiceTagsListResult
+  - Added Interface NspServiceTagsResource
+  - Added Interface NvaInterfaceConfigurationsProperties
+  - Added Interface NvaInVnetSubnetReferenceProperties
+  - Added Interface RadiusAuthServer
+  - Added Interface RadiusAuthServerListResult
+  - Added Interface VirtualNetworkGatewaysListRadiusSecretsOptionalParams
+  - Added Interface VpnServerConfigurationsListRadiusSecretsOptionalParams
+  - Interface ApplicationGatewayBackendHttpSettings has a new optional parameter dedicatedBackendConnection
+  - Interface ApplicationGatewayBackendHttpSettings has a new optional parameter sniName
+  - Interface ApplicationGatewayBackendHttpSettings has a new optional parameter validateCertChainAndExpiry
+  - Interface ApplicationGatewayBackendHttpSettings has a new optional parameter validateSNI
+  - Interface AzureFirewall has a new optional parameter extendedLocation
+  - Interface FirewallPacketCaptureParameters has a new optional parameter operation
+  - Interface NetworkVirtualAppliance has a new optional parameter nvaInterfaceConfigurations
+  - Interface NetworkVirtualAppliance has a new optional parameter privateIpAddress
+  - Added Type Alias AzureFirewallPacketCaptureOperationType
+  - Added Type Alias AzureFirewallPacketCaptureResponseCode
+  - Added Type Alias AzureFirewallsPacketCaptureOperationResponse
+  - Added Type Alias NetworkSecurityPerimeterServiceTagsListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterServiceTagsListResponse
+  - Added Type Alias NvaNicType
+  - Added Type Alias VirtualNetworkGatewaysListRadiusSecretsResponse
+  - Added Type Alias VpnServerConfigurationsListRadiusSecretsResponse
+  - Added Enum KnownAzureFirewallPacketCaptureOperationType
+  - Added Enum KnownAzureFirewallPacketCaptureResponseCode
+  - Added Enum KnownNvaNicType
+  - Enum KnownTransportProtocol has a new value Quic
+
     
 ## 34.0.0 (2025-05-22)
     

@@ -109,15 +109,15 @@ describe("ContainerClient Node.js only", () => {
     assert.isDefined(newClient);
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(!result.leaseDuration);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isUndefined(result.leaseDuration);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
-    assert.ok(!result.blobPublicAccess);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
+    assert.isUndefined(result.blobPublicAccess);
   });
 
   it.runIf(getStorageConnectionString())(
@@ -136,15 +136,15 @@ describe("ContainerClient Node.js only", () => {
 
       const result = await newClient.getProperties();
 
-      assert.ok(result.etag!.length > 0);
-      assert.ok(result.lastModified);
-      assert.ok(!result.leaseDuration);
+      assert.isAbove(result.etag!.length, 0);
+      assert.isDefined(result.lastModified);
+      assert.isUndefined(result.leaseDuration);
       assert.equal(result.leaseState, "available");
       assert.equal(result.leaseStatus, "unlocked");
-      assert.ok(result.requestId);
-      assert.ok(result.version);
-      assert.ok(result.date);
-      assert.ok(!result.blobPublicAccess);
+      assert.isDefined(result.requestId);
+      assert.isDefined(result.version);
+      assert.isDefined(result.date);
+      assert.isUndefined(result.blobPublicAccess);
     },
   );
 

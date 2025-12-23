@@ -4,9 +4,10 @@
 import type { ContainerClient, BlobClient, BlobServiceClient } from "@azure/storage-blob";
 import {
   getBlobServiceAccountAudience,
-  type PageBlobClient,
+  PageBlobClient,
   PremiumPageBlobTier,
 } from "@azure/storage-blob";
+import type { TokenCredential } from "@azure/core-auth";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -14,6 +15,7 @@ import { createBlobServiceClient, createPageBlobClient } from "./utils/clients.j
 import { bodyToString, getUniqueName } from "./utils/utils.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { SimpleTokenCredential } from "./utils/simpleToken.js";
+import { assertClientUsesTokenCredential } from "./utils/assert.js";
 import { isRestError } from "@azure/core-rest-pipeline";
 
 describe("PageBlobClient", () => {
@@ -139,6 +141,18 @@ describe("PageBlobClient", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
+  it("can be created with a url and a TokenCredential", async () => {
+    const tokenCredential: TokenCredential = {
+      getToken: () =>
+        Promise.resolve({
+          token: "token",
+          expiresOnTimestamp: 12345,
+        }),
+    };
+    const newClient = new PageBlobClient(pageBlobClient.url, tokenCredential);
+    assertClientUsesTokenCredential(newClient);
+  });
+
   it("create with default parameters", async () => {
     await pageBlobClient.create(512);
 
@@ -187,17 +201,17 @@ describe("PageBlobClient", () => {
       const properties = await blobClient.getProperties();
       assert.equal(properties.accessTier, options.tier);
     } catch (err: any) {
-      assert.ok(err.message.startsWith("The access tier is not supported for this blob type."));
+      assert.isTrue(err.message.startsWith("The access tier is not supported for this blob type."));
     }
   });
 
   it("createIfNotExists", async () => {
     const res = await pageBlobClient.createIfNotExists(512);
-    assert.ok(res.succeeded);
-    assert.ok(res.etag);
+    assert.isTrue(res.succeeded);
+    assert.isDefined(res.etag);
 
     const res2 = await pageBlobClient.createIfNotExists(512);
-    assert.ok(!res2.succeeded);
+    assert.isFalse(res2.succeeded);
     assert.equal(res2.errorCode, "BlobAlreadyExists");
   });
 
@@ -280,7 +294,7 @@ describe("PageBlobClient", () => {
     await pageBlobClient.uploadPages("b".repeat(1024), 0, 1024);
 
     const snapshotResult = await pageBlobClient.createSnapshot();
-    assert.ok(snapshotResult.snapshot);
+    assert.isDefined(snapshotResult.snapshot);
 
     await pageBlobClient.uploadPages("a".repeat(512), 0, 512);
     await pageBlobClient.clearPages(512, 512);
@@ -396,7 +410,7 @@ describe("PageBlobClient", () => {
     await pageBlobClient.uploadPages("b".repeat(4096), 0, 4096);
 
     const snapshotResult = await pageBlobClient.createSnapshot();
-    assert.ok(snapshotResult.snapshot);
+    assert.isDefined(snapshotResult.snapshot);
 
     for (let i = 0; i < 4; ++i) {
       await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
@@ -420,7 +434,7 @@ describe("PageBlobClient", () => {
 
     await pageBlobClient.uploadPages("b".repeat(4096), 0, 4096);
     const snapshotResult = await pageBlobClient.createSnapshot();
-    assert.ok(snapshotResult.snapshot);
+    assert.isDefined(snapshotResult.snapshot);
 
     for (let i = 0; i < 4; ++i) {
       await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
@@ -436,9 +450,9 @@ describe("PageBlobClient", () => {
       assert.equal(pageRange.start, index * 512);
       assert.equal(pageRange.end, index * 512 + 511);
       if (index % 2 === 0) {
-        assert.ok(!pageRange.isClear);
+        assert.isFalse(pageRange.isClear);
       } else {
-        assert.ok(pageRange.isClear);
+        assert.isDefined(pageRange.isClear);
       }
       ++index;
     }
@@ -449,7 +463,7 @@ describe("PageBlobClient", () => {
 
     await pageBlobClient.uploadPages("b".repeat(4096), 0, 4096);
     const snapshotResult = await pageBlobClient.createSnapshot();
-    assert.ok(snapshotResult.snapshot);
+    assert.isDefined(snapshotResult.snapshot);
 
     for (let i = 0; i < 4; ++i) {
       await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
@@ -470,7 +484,7 @@ describe("PageBlobClient", () => {
 
     await pageBlobClient.uploadPages("b".repeat(4096), 0, 4096);
     const snapshotResult = await pageBlobClient.createSnapshot();
-    assert.ok(snapshotResult.snapshot);
+    assert.isDefined(snapshotResult.snapshot);
 
     for (let i = 0; i < 4; ++i) {
       await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
@@ -494,7 +508,7 @@ describe("PageBlobClient", () => {
 
     await pageBlobClient.uploadPages("b".repeat(4096), 0, 4096);
     const snapshotResult = await pageBlobClient.createSnapshot();
-    assert.ok(snapshotResult.snapshot);
+    assert.isDefined(snapshotResult.snapshot);
 
     for (let i = 0; i < 4; ++i) {
       await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
@@ -561,7 +575,7 @@ describe("PageBlobClient", () => {
       }
     }
 
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("startCopyIncremental", async () => {
@@ -573,7 +587,7 @@ describe("PageBlobClient", () => {
     await pageBlobClient.uploadPages("b".repeat(1024), 0, 1024);
 
     let snapshotResult = await pageBlobClient.createSnapshot();
-    assert.ok(snapshotResult.snapshot);
+    assert.isDefined(snapshotResult.snapshot);
 
     const destPageBlobClient = containerClient.getPageBlobClient(
       getUniqueName("page", { recorder }),
@@ -624,7 +638,7 @@ describe("PageBlobClient", () => {
 
     await pageBlobClient.uploadPages("c".repeat(1024), 0, 1024);
     snapshotResult = await pageBlobClient.createSnapshot();
-    assert.ok(snapshotResult.snapshot);
+    assert.isDefined(snapshotResult.snapshot);
     copySource = pageBlobClient.withSnapshot(snapshotResult.snapshot!).url;
     copyResponse = await destPageBlobClient.startCopyIncremental(copySource);
 

@@ -33,9 +33,7 @@ export interface Metadata {
  * standard HTTP conditional headers and tags condition.
  */
 export interface ModifiedAccessConditions
-  extends MatchConditions,
-    ModificationConditions,
-    TagConditions {}
+  extends MatchConditions, ModificationConditions, TagConditions {}
 
 /**
  * standard HTTP conditional headers, tags condition and lease condition
@@ -46,15 +44,13 @@ export interface BlobRequestConditions extends ModifiedAccessConditions, LeaseAc
  * Conditions to add to the creation of this page blob.
  */
 export interface PageBlobRequestConditions
-  extends BlobRequestConditions,
-    SequenceNumberAccessConditions {}
+  extends BlobRequestConditions, SequenceNumberAccessConditions {}
 
 /**
  * Conditions to add to the creation of this append blob.
  */
 export interface AppendBlobRequestConditions
-  extends BlobRequestConditions,
-    AppendPositionAccessConditions {}
+  extends BlobRequestConditions, AppendPositionAccessConditions {}
 
 /**
  * Specifies HTTP options for conditional requests based on modification time.

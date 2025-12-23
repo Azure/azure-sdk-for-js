@@ -75,7 +75,7 @@ describe("DataSourceCredential", () => {
         connectionString: "sql-server-connection-string",
       };
       const createdSqlServerCred = await client.createDataSourceCredential(sqlServerCredential);
-      assert.ok(createdSqlServerCred.id, "Expecting valid dataSource credential");
+      assert.isDefined(createdSqlServerCred.id, "Expecting valid dataSource credential");
       createdSqlServerCredId = createdSqlServerCred.id!;
       assert.equal(createdSqlServerCred.name, sqlServerCredential.name);
       assert.equal(createdSqlServerCred.description, sqlServerCredential.description);
@@ -96,7 +96,7 @@ describe("DataSourceCredential", () => {
         createdSqlServerCredId,
         sqlServerCredentialPatch,
       );
-      assert.ok(updated.id, "Expecting valid dataSource credential");
+      assert.isDefined(updated.id, "Expecting valid dataSource credential");
       assert.equal(updated.description, sqlServerCredentialPatch.description);
       assert.equal(updated.type, sqlServerCredentialPatch.type);
       assert.equal(updated.name, sqlServerCredentialPatch.name);
@@ -111,7 +111,7 @@ describe("DataSourceCredential", () => {
       };
 
       const createdDatalakeCred = await client.createDataSourceCredential(datalakeCred);
-      assert.ok(createdDatalakeCred.id, "Expecting valid dataSource credential");
+      assert.isDefined(createdDatalakeCred.id, "Expecting valid dataSource credential");
       createdDatalakeCredId = createdDatalakeCred.id!;
       assert.equal(createdDatalakeCred.name, datalakeCred.name);
       assert.equal(createdDatalakeCred.description, datalakeCred.description);
@@ -132,7 +132,7 @@ describe("DataSourceCredential", () => {
         createdDatalakeCredId,
         dataLakeCredentialPatch,
       );
-      assert.ok(updated.id, "Expecting valid dataSource credential");
+      assert.isDefined(updated.id, "Expecting valid dataSource credential");
       assert.equal(updated.description, dataLakeCredentialPatch.description);
       assert.equal(updated.type, dataLakeCredentialPatch.type);
       assert.equal(updated.name, dataLakeCredentialPatch.name);
@@ -150,7 +150,10 @@ describe("DataSourceCredential", () => {
 
       const createdServicePrincipalCred =
         await client.createDataSourceCredential(servicePrincipalCred);
-      assert.ok(createdServicePrincipalCred.id, "Expecting valid sql server dataSource credential");
+      assert.isDefined(
+        createdServicePrincipalCred.id,
+        "Expecting valid sql server dataSource credential",
+      );
       createdServicePrincipalCredId = createdServicePrincipalCred.id!;
       assert.equal(createdServicePrincipalCred.name, servicePrincipalCred.name);
       assert.equal(createdServicePrincipalCred.description, servicePrincipalCred.description);
@@ -173,7 +176,7 @@ describe("DataSourceCredential", () => {
         createdServicePrincipalCredId,
         servicePrincipalCredentialPatch,
       );
-      assert.ok(updated.id, "Expecting valid dataSource credential");
+      assert.isDefined(updated.id, "Expecting valid dataSource credential");
       assert.equal(updated.description, servicePrincipalCredentialPatch.description);
       assert.equal(updated.type, servicePrincipalCredentialPatch.type);
       assert.equal(updated.name, servicePrincipalCredentialPatch.name);
@@ -198,7 +201,7 @@ describe("DataSourceCredential", () => {
 
       const createdServicePrincipalInKVCred =
         await client.createDataSourceCredential(servicePrincipalInKVCred);
-      assert.ok(createdServicePrincipalInKVCred.id, "Expecting valid dataSource credential");
+      assert.isDefined(createdServicePrincipalInKVCred.id, "Expecting valid dataSource credential");
       createdServicePrincipalInKVCredId = createdServicePrincipalInKVCred.id!;
       assert.equal(createdServicePrincipalInKVCred.name, servicePrincipalInKVCred.name);
       assert.equal(
@@ -228,7 +231,7 @@ describe("DataSourceCredential", () => {
         createdServicePrincipalInKVCredId,
         servicePrincipalInKVCredentialPatch,
       );
-      assert.ok(updated.id, "Expecting valid dataSource credential");
+      assert.isDefined(updated.id, "Expecting valid dataSource credential");
       assert.equal(updated.description, servicePrincipalInKVCredentialPatch.description);
       assert.equal(updated.type, servicePrincipalInKVCredentialPatch.type);
       assert.equal(updated.name, servicePrincipalInKVCredentialPatch.name);
@@ -250,9 +253,9 @@ describe("DataSourceCredential", () => {
       const iterator = client.listDataSourceCredential();
       let result = getYieldedValue(await iterator.next());
 
-      assert.ok(result.id, "Expecting first dataSource credential");
+      assert.isDefined(result.id, "Expecting first dataSource credential");
       result = getYieldedValue(await iterator.next());
-      assert.ok(result.id, "Expecting second dataSource credential");
+      assert.isDefined(result.id, "Expecting second dataSource credential");
 
       const pageIterator = client.listDataSourceCredential().byPage({ maxPageSize: 2 });
       let pageResult = await pageIterator.next();

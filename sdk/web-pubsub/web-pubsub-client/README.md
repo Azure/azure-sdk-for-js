@@ -38,7 +38,7 @@ npm install @azure/web-pubsub-client
 
 ### 2. Connect with your Web PubSub resource
 
-A client uses a Client Access URL to connect and authenticate with the service, which follows a pattern of `wss://<service_name>.webpubsub.azure.com/client/hubs/<hub_name>?access_token=<token>`. A client can have a few ways to obtain the Client Access URL. For this quick start, you can copy and paste one from Azure Portal shown below. (For production, your clients usually get the Client Access URL genegrated on your application server. [See details below](#use-negotiation-server-to-generate-client-access-url) )
+A client uses a Client Access URL to connect and authenticate with the service, which follows a pattern of `wss://<service_name>.webpubsub.azure.com/client/hubs/<hub_name>?access_token=<token>`. A client can have a few ways to obtain the Client Access URL. For this quick start, you can copy and paste one from Azure Portal shown below. (For production, your clients usually get the Client Access URL generated on your application server. [See details below](#use-negotiation-server-to-generate-client-access-url) )
 
 ![get_client_url](https://learn.microsoft.com/azure/azure-web-pubsub/media/howto-websocket-connect/generate-client-url.png)
 

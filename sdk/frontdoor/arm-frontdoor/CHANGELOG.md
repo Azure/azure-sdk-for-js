@@ -1,6 +1,6 @@
 # Release History
 
-## 5.3.1 (Unreleased)
+## 5.3.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 5.3.1 (2025-08-22)
+
+### Other Changes
+
+  - Other fixes
 
 ## 5.3.0 (2024-04-15)
     

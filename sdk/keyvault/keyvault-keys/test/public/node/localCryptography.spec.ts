@@ -213,7 +213,7 @@ describe("Local cryptography public tests", () => {
           digest,
           signature.result,
         );
-        assert.ok(verifyResult);
+        assert.isDefined(verifyResult);
 
         await testClient.flushKey(keyName);
       });

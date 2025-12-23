@@ -60,7 +60,7 @@ node quickstart.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env METRICS_ADVISOR_ENDPOINT="<metrics advisor endpoint>" METRICS_ADVISOR_SUBSCRIPTION_KEY="<metrics advisor subscription key>" METRICS_ADVISOR_API_KEY="<metrics advisor api key>" METRICS_ADVISOR_SQL_SERVER_CONNECTION_STRING="<metrics advisor sql server connection string>" METRICS_ADVISOR_AZURE_SQL_SERVER_QUERY="<metrics advisor azure sql server query>" node quickstart.js
+cross-env METRICS_ADVISOR_ENDPOINT="<metrics advisor endpoint>" METRICS_ADVISOR_SUBSCRIPTION_KEY="<metrics advisor subscription key>" METRICS_ADVISOR_API_KEY="<metrics advisor api key>" METRICS_ADVISOR_SQL_SERVER_CONNECTION_STRING="<metrics advisor sql server connection string>" METRICS_ADVISOR_AZURE_SQL_SERVER_QUERY="<metrics advisor azure sql server query>" node quickstart.js
 ```
 
 ## Next Steps

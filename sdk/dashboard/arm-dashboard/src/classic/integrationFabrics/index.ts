@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DashboardManagementContext } from "../../api/dashboardManagementContext.js";
+import type { DashboardManagementContext } from "../../api/dashboardManagementContext.js";
 import { list, $delete, update, create, get } from "../../api/integrationFabrics/operations.js";
-import {
+import type {
   IntegrationFabricsListOptionalParams,
   IntegrationFabricsDeleteOptionalParams,
   IntegrationFabricsUpdateOptionalParams,
   IntegrationFabricsCreateOptionalParams,
   IntegrationFabricsGetOptionalParams,
 } from "../../api/integrationFabrics/options.js";
-import { IntegrationFabric, IntegrationFabricUpdateParameters } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { IntegrationFabric, IntegrationFabricUpdateParameters } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a IntegrationFabrics operations. */
 export interface IntegrationFabricsOperations {

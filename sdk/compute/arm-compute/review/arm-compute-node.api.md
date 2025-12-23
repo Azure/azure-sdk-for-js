@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AccessControlRules {
@@ -66,6 +66,7 @@ export type ActionType = string;
 
 // @public
 export interface AdditionalCapabilities {
+    enableFips1403Encryption?: boolean;
     hibernationEnabled?: boolean;
     ultraSSDEnabled?: boolean;
 }
@@ -86,6 +87,11 @@ export interface AdditionalUnattendContent {
 
 // @public
 export type AggregatedReplicationState = string;
+
+// @public
+export interface AllInstancesDown {
+    automaticallyApprove?: boolean;
+}
 
 // @public
 export type AllocationStrategy = string;
@@ -357,6 +363,7 @@ export interface CapacityReservation extends TrackedResource {
     readonly provisioningState?: string;
     readonly provisioningTime?: Date;
     readonly reservationId?: string;
+    scheduleProfile?: ScheduleProfile;
     sku: Sku;
     readonly timeCreated?: Date;
     readonly virtualMachinesAssociated?: SubResourceReadOnly[];
@@ -367,6 +374,7 @@ export interface CapacityReservation extends TrackedResource {
 export interface CapacityReservationGroup extends TrackedResource {
     readonly capacityReservations?: SubResourceReadOnly[];
     readonly instanceView?: CapacityReservationGroupInstanceView;
+    reservationType?: ReservationType;
     sharingProfile?: ResourceSharingProfile;
     readonly virtualMachinesAssociated?: SubResourceReadOnly[];
     zones?: string[];
@@ -458,6 +466,7 @@ export type CapacityReservationGroupsUpdateResponse = CapacityReservationGroup;
 export interface CapacityReservationGroupUpdate extends UpdateResource {
     readonly capacityReservations?: SubResourceReadOnly[];
     readonly instanceView?: CapacityReservationGroupInstanceView;
+    reservationType?: ReservationType;
     sharingProfile?: ResourceSharingProfile;
     readonly virtualMachinesAssociated?: SubResourceReadOnly[];
 }
@@ -570,6 +579,7 @@ export interface CapacityReservationUpdate extends UpdateResource {
     readonly provisioningState?: string;
     readonly provisioningTime?: Date;
     readonly reservationId?: string;
+    scheduleProfile?: ScheduleProfile;
     sku?: Sku;
     readonly timeCreated?: Date;
     readonly virtualMachinesAssociated?: SubResourceReadOnly[];
@@ -1373,8 +1383,8 @@ export interface DataDisk {
     createOption: DiskCreateOptionTypes;
     deleteOption?: DiskDeleteOptionTypes;
     detachOption?: DiskDetachOptionTypes;
-    readonly diskIopsReadWrite?: number;
-    readonly diskMBpsReadWrite?: number;
+    diskIopsReadWrite?: number;
+    diskMBpsReadWrite?: number;
     diskSizeGB?: number;
     image?: VirtualHardDisk;
     lun: number;
@@ -2202,6 +2212,7 @@ export type DiskRestorePointGrantAccessResponse = AccessUri;
 export interface DiskRestorePointInstanceView {
     id?: string;
     replicationStatus?: DiskRestorePointReplicationStatus;
+    snapshotAccessState?: SnapshotAccessState;
 }
 
 // @public
@@ -2501,6 +2512,7 @@ export interface ErrorResponse {
 // @public
 export interface EventGridAndResourceGraph {
     enable?: boolean;
+    scheduledEventsApiVersion?: string;
 }
 
 // @public
@@ -3549,6 +3561,9 @@ export interface HardwareProfile {
 }
 
 // @public
+export type HighSpeedInterconnectPlacement = string;
+
+// @public
 export type HostCaching = "None" | "ReadOnly" | "ReadWrite";
 
 // @public
@@ -4158,6 +4173,12 @@ export enum KnownGallerySharingPermissionTypes {
 }
 
 // @public
+export enum KnownHighSpeedInterconnectPlacement {
+    None = "None",
+    Trunk = "Trunk"
+}
+
+// @public
 export enum KnownHyperVGeneration {
     V1 = "V1",
     V2 = "V2"
@@ -4270,7 +4291,14 @@ export enum KnownOrchestrationMode {
 
 // @public
 export enum KnownOrchestrationServiceNames {
-    AutomaticRepairs = "AutomaticRepairs"
+    AutomaticRepairs = "AutomaticRepairs",
+    AutomaticZoneRebalancing = "AutomaticZoneRebalancing"
+}
+
+// @public
+export enum KnownOrchestrationServiceOperationStatus {
+    Completed = "Completed",
+    InProgress = "InProgress"
 }
 
 // @public
@@ -4415,6 +4443,12 @@ export enum KnownReplicationStatusTypes {
 }
 
 // @public
+export enum KnownReservationType {
+    Block = "Block",
+    Targeted = "Targeted"
+}
+
+// @public
 export enum KnownResilientVMDeletionStatus {
     Disabled = "Disabled",
     Enabled = "Enabled",
@@ -4444,6 +4478,12 @@ export enum KnownRestorePointEncryptionType {
 // @public
 export enum KnownRestorePointExpandOptions {
     InstanceView = "instanceView"
+}
+
+// @public
+export enum KnownScriptShellTypes {
+    Default = "Default",
+    Powershell7 = "Powershell7"
 }
 
 // @public
@@ -4839,7 +4879,8 @@ export enum KnownZonalPlatformFaultDomainAlignMode {
 
 // @public
 export enum KnownZonePlacementPolicyType {
-    Any = "Any"
+    Any = "Any",
+    Auto = "Auto"
 }
 
 // @public
@@ -5009,6 +5050,12 @@ export interface ManagedDiskParameters extends SubResource {
 }
 
 // @public
+export interface MaxInstancePercentPerZonePolicy {
+    enabled?: boolean;
+    value?: number;
+}
+
+// @public
 export interface MigrateToVirtualMachineScaleSetInput {
     virtualMachineScaleSetFlexible: SubResource;
 }
@@ -5109,6 +5156,9 @@ export type OrchestrationMode = string;
 export type OrchestrationServiceNames = string;
 
 // @public
+export type OrchestrationServiceOperationStatus = string;
+
+// @public
 export type OrchestrationServiceState = string;
 
 // @public
@@ -5122,6 +5172,8 @@ export interface OrchestrationServiceStateInput {
 
 // @public
 export interface OrchestrationServiceSummary {
+    readonly lastStatusChangeTime?: Date;
+    readonly latestOperationStatus?: OrchestrationServiceOperationStatus;
     readonly serviceName?: OrchestrationServiceNames;
     readonly serviceState?: OrchestrationServiceState;
 }
@@ -5475,6 +5527,7 @@ export interface ProximityPlacementGroupUpdate extends UpdateResource {
 
 // @public
 export interface ProxyAgentSettings {
+    addProxyAgentExtension?: boolean;
     enabled?: boolean;
     imds?: HostEndpointSettings;
     keyIncarnationId?: number;
@@ -5568,10 +5621,14 @@ export interface RequestRateByIntervalInput extends LogAnalyticsInputBase {
 }
 
 // @public
+export type ReservationType = string;
+
+// @public
 export interface ResiliencyPolicy {
     automaticZoneRebalancingPolicy?: AutomaticZoneRebalancingPolicy;
     resilientVMCreationPolicy?: ResilientVMCreationPolicy;
     resilientVMDeletionPolicy?: ResilientVMDeletionPolicy;
+    zoneAllocationPolicy?: ZoneAllocationPolicy;
 }
 
 // @public
@@ -5746,6 +5803,7 @@ export interface RestorePoint extends ProxyResource {
     consistencyMode?: ConsistencyModeTypes;
     excludeDisks?: ApiEntityReference[];
     readonly instanceView?: RestorePointInstanceView;
+    instantAccessDurationMinutes?: number;
     readonly provisioningState?: string;
     sourceMetadata?: RestorePointSourceMetadata;
     sourceRestorePoint?: ApiEntityReference;
@@ -5754,6 +5812,7 @@ export interface RestorePoint extends ProxyResource {
 
 // @public
 export interface RestorePointCollection extends TrackedResource {
+    instantAccess?: boolean;
     readonly provisioningState?: string;
     readonly restorePointCollectionId?: string;
     readonly restorePoints?: RestorePoint[];
@@ -5850,6 +5909,7 @@ export type RestorePointCollectionsUpdateResponse = RestorePointCollection;
 
 // @public
 export interface RestorePointCollectionUpdate extends UpdateResource {
+    instantAccess?: boolean;
     readonly provisioningState?: string;
     readonly restorePointCollectionId?: string;
     readonly restorePoints?: RestorePoint[];
@@ -6127,6 +6187,7 @@ export interface ScheduledEventsAdditionalPublishingTargets {
 
 // @public
 export interface ScheduledEventsPolicy {
+    allInstancesDown?: AllInstancesDown;
     scheduledEventsAdditionalPublishingTargets?: ScheduledEventsAdditionalPublishingTargets;
     userInitiatedReboot?: UserInitiatedReboot;
     userInitiatedRedeploy?: UserInitiatedRedeploy;
@@ -6137,6 +6198,15 @@ export interface ScheduledEventsProfile {
     osImageNotificationProfile?: OSImageNotificationProfile;
     terminateNotificationProfile?: TerminateNotificationProfile;
 }
+
+// @public
+export interface ScheduleProfile {
+    end?: string;
+    start?: string;
+}
+
+// @public
+export type ScriptShellTypes = string;
 
 // @public
 export type SecurityEncryptionTypes = string;
@@ -7492,6 +7562,9 @@ export interface VirtualMachineNetworkInterfaceConfiguration {
     name: string;
     networkSecurityGroup?: SubResource;
     primary?: boolean;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -7532,6 +7605,9 @@ export interface VirtualMachinePublicIPAddressConfiguration {
     publicIPAllocationMethod?: PublicIPAllocationMethod;
     publicIPPrefix?: SubResource;
     sku?: PublicIPAddressSku;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -7609,7 +7685,9 @@ export type VirtualMachineRunCommandsCreateOrUpdateResponse = VirtualMachineRunC
 // @public
 export interface VirtualMachineRunCommandScriptSource {
     commandId?: string;
+    galleryScriptReferenceId?: string;
     script?: string;
+    scriptShell?: ScriptShellTypes;
     scriptUri?: string;
     scriptUriManagedIdentity?: RunCommandManagedIdentity;
 }
@@ -7796,10 +7874,12 @@ export interface VirtualMachineScaleSet extends TrackedResource {
     doNotRunExtensionsOnOverprovisionedVMs?: boolean;
     readonly etag?: string;
     extendedLocation?: ExtendedLocation;
+    highSpeedInterconnectPlacement?: HighSpeedInterconnectPlacement;
     hostGroup?: SubResource;
     identity?: VirtualMachineScaleSetIdentity;
     orchestrationMode?: OrchestrationMode;
     overprovision?: boolean;
+    placement?: Placement;
     plan?: Plan;
     platformFaultDomainCount?: number;
     priorityMixPolicy?: PriorityMixPolicy;
@@ -8057,6 +8137,9 @@ export interface VirtualMachineScaleSetNetworkConfiguration {
     name: string;
     networkSecurityGroup?: SubResource;
     primary?: boolean;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -8109,6 +8192,9 @@ export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
     publicIPAddressVersion?: IPVersion;
     publicIPPrefix?: SubResource;
     sku?: PublicIPAddressSku;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -8202,6 +8288,8 @@ export interface VirtualMachineScaleSets {
     beginReimageAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReimageOptionalParams): Promise<void>;
     beginRestart(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestartAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRestartOptionalParams): Promise<void>;
+    beginScaleOut(resourceGroupName: string, vmScaleSetName: string, parameters: VMScaleSetScaleOutInput, options?: VirtualMachineScaleSetsScaleOutOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginScaleOutAndWait(resourceGroupName: string, vmScaleSetName: string, parameters: VMScaleSetScaleOutInput, options?: VirtualMachineScaleSetsScaleOutOptionalParams): Promise<void>;
     beginSetOrchestrationServiceState(resourceGroupName: string, vmScaleSetName: string, parameters: OrchestrationServiceStateInput, options?: VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginSetOrchestrationServiceStateAndWait(resourceGroupName: string, vmScaleSetName: string, parameters: OrchestrationServiceStateInput, options?: VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams): Promise<void>;
     beginStart(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -8505,6 +8593,18 @@ export interface VirtualMachineScaleSetsRestartOptionalParams extends coreClient
 }
 
 // @public
+export interface VirtualMachineScaleSetsScaleOutHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface VirtualMachineScaleSetsScaleOutOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetsSetOrchestrationServiceStateHeaders {
     location?: string;
     retryAfter?: number;
@@ -8615,6 +8715,9 @@ export interface VirtualMachineScaleSetUpdateNetworkConfiguration {
     name?: string;
     networkSecurityGroup?: SubResource;
     primary?: boolean;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -8651,6 +8754,9 @@ export interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
     idleTimeoutInMinutes?: number;
     name?: string;
     publicIPPrefix?: SubResource;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -9676,6 +9782,17 @@ export interface VMScaleSetConvertToSinglePlacementGroupInput {
 }
 
 // @public
+export interface VMScaleSetScaleOutInput {
+    capacity: number;
+    properties?: VMScaleSetScaleOutInputProperties;
+}
+
+// @public
+export interface VMScaleSetScaleOutInputProperties {
+    zone?: string;
+}
+
+// @public
 export interface VMSizeProperties {
     vCPUsAvailable?: number;
     vCPUsPerCore?: number;
@@ -9699,6 +9816,8 @@ export interface WindowsParameters {
     kbNumbersToExclude?: string[];
     kbNumbersToInclude?: string[];
     maxPatchPublishDate?: Date;
+    patchNameMasksToExclude?: string[];
+    patchNameMasksToInclude?: string[];
 }
 
 // @public
@@ -9729,6 +9848,12 @@ export interface WinRMListener {
 
 // @public
 export type ZonalPlatformFaultDomainAlignMode = string;
+
+// @public
+export interface ZoneAllocationPolicy {
+    maxInstancePercentPerZonePolicy?: MaxInstancePercentPerZonePolicy;
+    maxZoneCount?: number;
+}
 
 // @public
 export type ZonePlacementPolicyType = string;

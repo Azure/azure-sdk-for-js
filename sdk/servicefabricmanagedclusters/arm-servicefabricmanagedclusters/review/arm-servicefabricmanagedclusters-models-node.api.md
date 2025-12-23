@@ -24,6 +24,15 @@ export interface AddRemoveIncrementalNamedPartitionScalingMechanism extends Scal
 }
 
 // @public
+export interface ApplicationFetchHealthRequest {
+    deployedApplicationsHealthStateFilter?: HealthFilter;
+    eventsHealthStateFilter?: HealthFilter;
+    excludeHealthStatistics?: boolean;
+    servicesHealthStateFilter?: HealthFilter;
+    timeout?: number;
+}
+
+// @public
 export interface ApplicationHealthPolicy {
     considerWarningAsError: boolean;
     defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicy;
@@ -90,7 +99,13 @@ export interface ApplicationTypeVersionUpdateParameters {
 
 // @public
 export interface ApplicationUpdateParameters {
+    properties?: ApplicationUpdateParametersProperties;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface ApplicationUpdateParametersProperties {
+    parameters?: Record<string, string>;
 }
 
 // @public
@@ -299,6 +314,9 @@ export interface FrontendConfiguration {
 }
 
 // @public
+export type HealthFilter = string;
+
+// @public
 export type IPAddressType = string;
 
 // @public
@@ -414,6 +432,16 @@ export enum KnownFaultSimulationStatus {
 }
 
 // @public
+export enum KnownHealthFilter {
+    All = "All",
+    Default = "Default",
+    Error = "Error",
+    None = "None",
+    Ok = "Ok",
+    Warning = "Warning"
+}
+
+// @public
 export enum KnownIPAddressType {
     IPv4 = "IPv4",
     IPv6 = "IPv6"
@@ -521,9 +549,32 @@ export enum KnownPublicIPAddressVersion {
 }
 
 // @public
+export enum KnownRestartKind {
+    Simultaneous = "Simultaneous"
+}
+
+// @public
 export enum KnownRollingUpgradeMode {
     Monitored = "Monitored",
     UnmonitoredAuto = "UnmonitoredAuto"
+}
+
+// @public
+export enum KnownRuntimeFailureAction {
+    Manual = "Manual",
+    Rollback = "Rollback"
+}
+
+// @public
+export enum KnownRuntimeRollingUpgradeMode {
+    Monitored = "Monitored",
+    UnmonitoredAuto = "UnmonitoredAuto",
+    UnmonitoredManual = "UnmonitoredManual"
+}
+
+// @public
+export enum KnownRuntimeUpgradeKind {
+    Rolling = "Rolling"
 }
 
 // @public
@@ -611,8 +662,9 @@ export enum KnownUpdateType {
 // @public
 export enum KnownVersions {
     V20241101Preview = "2024-11-01-preview",
-    // (undocumented)
-    V20250301Preview = "2025-03-01-preview"
+    V20250301Preview = "2025-03-01-preview",
+    V20250601Preview = "2025-06-01-preview",
+    V20251001Preview = "2025-10-01-preview"
 }
 
 // @public
@@ -701,6 +753,7 @@ export interface ManagedClusterProperties {
     enableAutoOSUpgrade?: boolean;
     enableHttpGatewayExclusiveAuthMode?: boolean;
     enableIpv6?: boolean;
+    enableOutboundOnlyNodeTypes?: boolean;
     enableServicePublicIP?: boolean;
     fabricSettings?: SettingsSectionDescription[];
     readonly fqdn?: string;
@@ -854,6 +907,7 @@ export interface NodeTypeProperties {
     evictionPolicy?: EvictionPolicyType;
     frontendConfigurations?: FrontendConfiguration[];
     hostGroupId?: string;
+    isOutboundOnly?: boolean;
     isPrimary: boolean;
     isSpotVM?: boolean;
     isStateless?: boolean;
@@ -994,6 +1048,27 @@ export interface ResourceAzStatus {
 }
 
 // @public
+export interface RestartDeployedCodePackageRequest {
+    codePackageInstanceId: string;
+    codePackageName: string;
+    nodeName: string;
+    serviceManifestName: string;
+    servicePackageActivationId?: string;
+}
+
+// @public
+export type RestartKind = string;
+
+// @public
+export interface RestartReplicaRequest {
+    forceRestart?: boolean;
+    partitionId: string;
+    replicaIds: number[];
+    restartKind: RestartKind;
+    timeout?: number;
+}
+
+// @public
 export type RollingUpgradeMode = string;
 
 // @public
@@ -1007,9 +1082,55 @@ export interface RollingUpgradeMonitoringPolicy {
 }
 
 // @public
+export interface RuntimeApplicationHealthPolicy {
+    considerWarningAsError: boolean;
+    defaultServiceTypeHealthPolicy?: RuntimeServiceTypeHealthPolicy;
+    maxPercentUnhealthyDeployedApplications: number;
+    serviceTypeHealthPolicyMap?: Record<string, RuntimeServiceTypeHealthPolicy>;
+}
+
+// @public
+export type RuntimeFailureAction = string;
+
+// @public
 export interface RuntimeResumeApplicationUpgradeParameters {
     upgradeDomainName?: string;
 }
+
+// @public
+export type RuntimeRollingUpgradeMode = string;
+
+// @public
+export interface RuntimeRollingUpgradeUpdateMonitoringPolicy {
+    failureAction?: RuntimeFailureAction;
+    forceRestart?: boolean;
+    healthCheckRetryTimeoutInMilliseconds?: string;
+    healthCheckStableDurationInMilliseconds?: string;
+    healthCheckWaitDurationInMilliseconds?: string;
+    instanceCloseDelayDurationInSeconds?: number;
+    replicaSetCheckTimeoutInMilliseconds?: number;
+    rollingUpgradeMode: RuntimeRollingUpgradeMode;
+    upgradeDomainTimeoutInMilliseconds?: string;
+    upgradeTimeoutInMilliseconds?: string;
+}
+
+// @public
+export interface RuntimeServiceTypeHealthPolicy {
+    maxPercentUnhealthyPartitionsPerService: number;
+    maxPercentUnhealthyReplicasPerPartition: number;
+    maxPercentUnhealthyServices: number;
+}
+
+// @public
+export interface RuntimeUpdateApplicationUpgradeParameters {
+    applicationHealthPolicy?: RuntimeApplicationHealthPolicy;
+    name: string;
+    updateDescription?: RuntimeRollingUpgradeUpdateMonitoringPolicy;
+    upgradeKind: RuntimeUpgradeKind;
+}
+
+// @public
+export type RuntimeUpgradeKind = string;
 
 // @public
 export interface ScalingMechanism {
@@ -1053,6 +1174,7 @@ export type ServiceCorrelationScheme = string;
 // @public
 export interface ServiceEndpoint {
     locations?: string[];
+    networkIdentifier?: string;
     service: string;
 }
 

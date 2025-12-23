@@ -419,7 +419,7 @@ describe("BlockBlobClient", () => {
       exceptionCaught = true;
     }
 
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("stageBlock with invalid CRC64 should fail", async () => {
@@ -442,7 +442,7 @@ describe("BlockBlobClient", () => {
       }
     }
 
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("syncUploadFromURL with public source should work", async () => {
@@ -486,7 +486,7 @@ describe("BlockBlobClient", () => {
     });
 
     const properties = await blockBlobClient.getProperties();
-    assert.ok(properties.accessTier);
+    assert.isDefined(properties.accessTier);
     assert.equal(properties.accessTier!, "Cold");
   });
 

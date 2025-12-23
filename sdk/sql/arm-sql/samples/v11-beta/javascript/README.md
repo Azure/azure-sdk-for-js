@@ -578,7 +578,7 @@ node backupShortTermRetentionPoliciesCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env SQL_SUBSCRIPTION_ID="<sql subscription id>" SQL_RESOURCE_GROUP="<sql resource group>" node backupShortTermRetentionPoliciesCreateOrUpdateSample.js
+cross-env SQL_SUBSCRIPTION_ID="<sql subscription id>" SQL_RESOURCE_GROUP="<sql resource group>" node backupShortTermRetentionPoliciesCreateOrUpdateSample.js
 ```
 
 ## Next Steps

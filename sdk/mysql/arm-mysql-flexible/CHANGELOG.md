@@ -1,14 +1,16 @@
 # Release History
 
-## 4.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 4.0.0-beta.4 (2025-11-10)
 
 ### Bugs Fixed
 
+  - Fix LRO Patch final-state-via issue.
+
+## 4.0.0-beta.3 (2025-08-22)
+
 ### Other Changes
+
+  - Other fixes
 
 ## 4.0.0-beta.2 (2024-06-28)
 Compared with version 3.1.0

@@ -47,21 +47,21 @@ describe("QueueClient message methods, Node.js only", () => {
       messageTimeToLive: 40,
       visibilityTimeout: 0,
     });
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.clientRequestId);
-    assert.ok(eResult.nextVisibleOn);
-    assert.ok(eResult.version);
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
+    assert.isDefined(eResult.requestId);
+    assert.isDefined(eResult.clientRequestId);
+    assert.isDefined(eResult.nextVisibleOn);
+    assert.isDefined(eResult.version);
 
     const pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
-    assert.ok(pResult.date);
-    assert.ok(pResult.requestId);
-    assert.ok(eResult.clientRequestId);
-    assert.ok(pResult.version);
+    assert.isDefined(pResult.date);
+    assert.isDefined(pResult.requestId);
+    assert.isDefined(eResult.clientRequestId);
+    assert.isDefined(pResult.version);
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, newMessageContent);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].dequeueCount, 0);
@@ -73,18 +73,18 @@ describe("QueueClient message methods, Node.js only", () => {
       visibilityTimeout: 10,
       numberOfMessages: 2,
     });
-    assert.ok(dResult.date);
-    assert.ok(dResult.requestId);
-    assert.ok(eResult.clientRequestId);
-    assert.ok(dResult.version);
+    assert.isDefined(dResult.date);
+    assert.isDefined(dResult.requestId);
+    assert.isDefined(eResult.clientRequestId);
+    assert.isDefined(dResult.version);
     assert.deepStrictEqual(dResult.receivedMessageItems.length, 1);
     assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, newMessageContent);
     assert.deepStrictEqual(dResult.receivedMessageItems[0].dequeueCount, 1);
     assert.deepStrictEqual(dResult.receivedMessageItems[0].messageId, eResult.messageId);
     assert.deepStrictEqual(dResult.receivedMessageItems[0].insertedOn, eResult.insertedOn);
     assert.deepStrictEqual(dResult.receivedMessageItems[0].expiresOn, eResult.expiresOn);
-    assert.ok(dResult.receivedMessageItems[0].popReceipt);
-    assert.ok(dResult.receivedMessageItems[0].nextVisibleOn);
+    assert.isDefined(dResult.receivedMessageItems[0].popReceipt);
+    assert.isDefined(dResult.receivedMessageItems[0].nextVisibleOn);
   });
 
   it("enqueue negative with 65537B(64KB+1B) characters including special char which is computed after encoding", async () => {
@@ -101,11 +101,10 @@ describe("QueueClient message methods, Node.js only", () => {
     } catch (err: any) {
       error = err;
     }
-    assert.ok(error);
-    assert.ok(
-      error.message.includes(
-        "The request body is too large and exceeds the maximum permissible limit.",
-      ),
+    assert.isDefined(error);
+    assert.include(
+      error.message,
+      "The request body is too large and exceeds the maximum permissible limit.",
     );
   });
 
@@ -115,14 +114,14 @@ describe("QueueClient message methods, Node.js only", () => {
     configureStorageClient(recorder, newClient);
 
     const eResult = await newClient.sendMessage(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.nextVisibleOn);
-    assert.ok(eResult.version);
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
+    assert.isDefined(eResult.requestId);
+    assert.isDefined(eResult.nextVisibleOn);
+    assert.isDefined(eResult.version);
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
@@ -135,14 +134,14 @@ describe("QueueClient message methods, Node.js only", () => {
     configureStorageClient(recorder, newClient);
 
     const eResult = await newClient.sendMessage(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.nextVisibleOn);
-    assert.ok(eResult.version);
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
+    assert.isDefined(eResult.requestId);
+    assert.isDefined(eResult.nextVisibleOn);
+    assert.isDefined(eResult.version);
   });
 
   it("can be created with a url and a pipeline", async () => {
@@ -152,14 +151,14 @@ describe("QueueClient message methods, Node.js only", () => {
     configureStorageClient(recorder, newClient);
 
     const eResult = await newClient.sendMessage(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.nextVisibleOn);
-    assert.ok(eResult.version);
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
+    assert.isDefined(eResult.requestId);
+    assert.isDefined(eResult.nextVisibleOn);
+    assert.isDefined(eResult.version);
   });
 
   it("can be created with a connection string and a queue name", async () => {
@@ -167,11 +166,11 @@ describe("QueueClient message methods, Node.js only", () => {
     configureStorageClient(recorder, newClient);
 
     const eResult = await newClient.sendMessage(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
   });
 
   it("can be created with a connection string and a queue name and an option bag", async () => {
@@ -183,11 +182,11 @@ describe("QueueClient message methods, Node.js only", () => {
     configureStorageClient(recorder, newClient);
 
     const eResult = await newClient.sendMessage(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
   });
 
   it("can be created with a url and a TokenCredential", async () => {

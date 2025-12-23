@@ -63,6 +63,10 @@ export function makeAliases(
   ] as const;
 }
 
+function shouldCollectCoverage(rootDir: string) {
+  return process.env["TEST_MODE"] === "live" || rootDir.includes("/sdk/core/") || rootDir.includes("\\sdk\\core\\");
+}
+
 function makeNodeAliases(rootDir: string) {
   const [dist, indexFile] = isInDevopsPipeline() ? ["dist/esm", "index.js"] : ["src", "index.ts"];
   return makeAliases(rootDir, { distDir: `./${dist}`, indexFile });
@@ -95,6 +99,7 @@ export default defineConfig({
     ],
     alias: [...makeNodeAliases(process.cwd())],
     coverage: {
+      enabled: shouldCollectCoverage(process.cwd()),
       include: ["src/**/*.ts"],
       exclude: [
         "src/**/*-browser.mts",
@@ -104,7 +109,7 @@ export default defineConfig({
         "test/snippets.spec.ts",
       ],
       provider: "istanbul",
-      reporter: ["text", "json", "html"],
+      reporter: ["text", "cobertura", "html"],
       reportsDirectory: "coverage",
     },
   },

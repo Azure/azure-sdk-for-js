@@ -14,7 +14,7 @@ output-folder: ../
 source-code-folder-path: ./src/generated
 input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/cognitiveservices/data-plane/TextAnalytics/stable/v3.1/TextAnalytics.json
 add-credentials: false
-package-version: 5.1.1
+package-version: 5.1.2
 v3: true
 hide-clients: true
 typescript: true

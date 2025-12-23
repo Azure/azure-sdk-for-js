@@ -48,7 +48,7 @@ describe("dnsresolve test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
-    resourceGroup = "myjstest";
+    resourceGroup = "SSS3PT_myjstest";
     dnsResolverName = "sampleDnsResolver";
     parameters = {
       location: "EastUS",

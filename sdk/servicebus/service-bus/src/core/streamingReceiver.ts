@@ -32,8 +32,7 @@ import { tracingClient } from "../diagnostics/tracing.js";
  * @internal
  */
 export interface StreamingReceiverInitArgs
-  extends ReceiveOptions,
-    Pick<OperationOptionsBase, "abortSignal"> {
+  extends ReceiveOptions, Pick<OperationOptionsBase, "abortSignal"> {
   messageHandlers: MessageHandlers;
 }
 

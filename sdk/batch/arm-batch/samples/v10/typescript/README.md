@@ -96,7 +96,7 @@ node dist/applicationCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env BATCH_SUBSCRIPTION_ID="<batch subscription id>" BATCH_RESOURCE_GROUP="<batch resource group>" node dist/applicationCreateSample.js
+cross-env BATCH_SUBSCRIPTION_ID="<batch subscription id>" BATCH_RESOURCE_GROUP="<batch resource group>" node dist/applicationCreateSample.js
 ```
 
 ## Next Steps

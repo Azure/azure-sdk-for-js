@@ -9,13 +9,17 @@ import {
   ConfigurationSetting,
   featureFlagContentType,
   featureFlagPrefix,
-  FeatureFlagValue
+  FeatureFlagValue,
 } from "@azure/app-configuration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Use configuration provider and feature management library to consume feature flags
 import { load } from "@azure/app-configuration-provider";
-import { ConfigurationMapFeatureFlagProvider, FeatureManager, ITargetingContext } from "@microsoft/feature-management";
+import {
+  ConfigurationMapFeatureFlagProvider,
+  FeatureManager,
+  ITargetingContext,
+} from "@microsoft/feature-management";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -30,6 +34,7 @@ export async function main() {
     isReadOnly: false,
     contentType: featureFlagContentType,
     value: {
+      id: featureFlagName,
       enabled: false,
       description: "I'm a description",
       conditions: {
@@ -77,13 +82,14 @@ export async function main() {
       refresh: {
         enabled: true,
         // refreshIntervalInMs: 30_000, // Optional. Default: 30 seconds
-      }
-    }
+      },
+    },
   });
 
   console.log(`Use feature management library to consume feature flags`);
   const featureManager = new FeatureManager(
-    new ConfigurationMapFeatureFlagProvider(appConfigProvider));
+    new ConfigurationMapFeatureFlagProvider(appConfigProvider),
+  );
 
   let isEnabled = await featureManager.isEnabled(featureFlagName);
   console.log(`Is featureFlag enabled? ${isEnabled}`);
@@ -109,7 +115,7 @@ export async function main() {
     // The feature flag will not be enabled for everyone as targeting filter is configured
     isEnabled = await featureManager.isEnabled(featureFlagName);
     console.log(`Is featureFlag enabled? ${isEnabled}`);
-    
+
     isEnabled = await featureManager.isEnabled(featureFlagName, targetingContext);
     console.log(`Is featureFlag enabled for test@contoso.com? ${isEnabled}`);
   }

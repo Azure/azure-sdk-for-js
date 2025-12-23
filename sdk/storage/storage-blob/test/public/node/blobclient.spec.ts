@@ -7,14 +7,18 @@ import {
   bodyToString,
   createRandomLocalFile,
   readStreamToLocalFileWithLogs,
+  parseJwt,
 } from "./utils/utils.js";
 import { delay, isLiveMode, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import {
   BlobSASPermissions,
   type BlockBlobClient,
   type ContainerClient,
+  SASProtocol,
+  generateBlobSASQueryParameters,
 } from "@azure/storage-blob";
 import type { BlobClient, BlobServiceClient } from "@azure/storage-blob";
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import { createBlobClient, createBlobServiceClient } from "./utils/clients.js";
@@ -31,6 +35,8 @@ import {
 import { assertDestReplicationProps, assertSrcReplicationProps } from "../utils/assert.js";
 import { buffer } from "node:stream/consumers";
 import { isRestError } from "@azure/core-rest-pipeline";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { SERVICE_VERSION, STORAGE_SCOPE } from "../utils/constants.js";
 
 expect.extend({ toSupportTracing });
 
@@ -135,7 +141,7 @@ describe("BlobClient", () => {
 
       const copyURL = blobClient.url + "?" + getAccountSas();
       const result = await tokenNewBlobClient.syncCopyFromURL(copyURL);
-      assert.ok(result.copyId);
+      assert.isDefined(result.copyId);
 
       const properties1 = await blobClient.getProperties();
       const properties2 = await newBlobClient.getProperties();
@@ -143,6 +149,61 @@ describe("BlobClient", () => {
       assert.deepStrictEqual(properties2.copyId, result.copyId);
     },
   );
+
+  it("syncCopyFromURL - source delegation sas with bearer token and destination account key", async (ctx) => {
+    if (!isLiveMode()) {
+      // The token is sanitized in recording, we cannot get the object id from it.
+      ctx.skip();
+    }
+
+    const tokenBlobServiceClient = await createBlobServiceClient("TokenCredential", { recorder });
+
+    const credential = createTestCredential();
+    const token = (await credential.getToken(STORAGE_SCOPE))?.token;
+    const jwtObj = parseJwt(token!);
+
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await tokenBlobServiceClient.getUserDelegationKey(now, tmr);
+    const sharedKeyCredential = containerClient.credential as StorageSharedKeyCredential;
+
+    const accountName = sharedKeyCredential.accountName;
+
+    const delegationSAS = generateBlobSASQueryParameters(
+      {
+        containerName: containerClient.containerName,
+        blobName: blobClient.name,
+        expiresOn: tmr,
+        permissions: BlobSASPermissions.parse("racwd"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        version: SERVICE_VERSION,
+        delegatedUserObjectId: jwtObj.oid,
+      },
+      userDelegationKey,
+      accountName,
+    );
+
+    const newBlobName = recorder.variable("copiedblob", getUniqueName("copiedblob"));
+    const newBlobClient = containerClient.getBlobClient(newBlobName);
+
+    const accessToken = await credential.getToken(STORAGE_SCOPE);
+
+    const result = await newBlobClient.syncCopyFromURL(`${blobClient.url}?${delegationSAS}`, {
+      sourceAuthorization: {
+        scheme: "Bearer",
+        value: accessToken!.token,
+      },
+    });
+    assert.isDefined(result.copyId);
+
+    const properties1 = await blobClient.getProperties();
+    const properties2 = await newBlobClient.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+  });
 
   it.runIf(getStorageConnectionString())("can be created with a connection string", async () => {
     const newClient = await createBlobClient("AccountConnectionString", {
@@ -205,7 +266,7 @@ describe("BlobClient", () => {
       assert.equal(e.details?.errorCode, "ConditionNotMet");
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isTrue(exceptionCaught);
 
     const response = await blockBlobClient.query("select * from BlobStorage", {
       conditions: { tagConditions: "tag = 'val'" },
@@ -349,7 +410,7 @@ describe("BlobClient", () => {
         assert.deepStrictEqual(err.isFatal, true);
         assert.deepStrictEqual(err.name, "ParseError");
         assert.deepStrictEqual(err.position, 0);
-        assert.ok(
+        assert.isTrue(
           err.description.startsWith(
             "Unexpected token ',' at [byte: 3]. Expecting tokens '{', or '['.",
           ),
@@ -466,7 +527,7 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
 
     const properties = await newBlobClient.getProperties();
-    assert.ok(properties.accessTier);
+    assert.isDefined(properties.accessTier);
     assert.equal(properties.accessTier!, "Cold");
   });
 
@@ -490,7 +551,7 @@ describe("BlobClient", () => {
     await unlink(downloadedFile);
     await unlink(tempFileLarge);
 
-    assert.ok(downloadedData.equals(uploadedData));
+    assert.isTrue(downloadedData.equals(uploadedData));
   });
 
   it.runIf(isLiveMode())("query should work with aborter", async () => {

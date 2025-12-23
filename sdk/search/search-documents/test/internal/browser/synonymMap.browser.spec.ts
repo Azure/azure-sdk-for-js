@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import { assert, describe, it } from "vitest";
 import { createSynonymMapFromFile } from "@azure/search-documents";
-import { describe, it, assert } from "vitest";
 
 describe("synonymmap", () => {
   it("create synonymmap from file(browser)", async () => {

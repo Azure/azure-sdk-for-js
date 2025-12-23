@@ -48,7 +48,7 @@ node dashboardsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env PORTAL_SUBSCRIPTION_ID="<portal subscription id>" PORTAL_RESOURCE_GROUP="<portal resource group>" node dashboardsCreateOrUpdateSample.js
+cross-env PORTAL_SUBSCRIPTION_ID="<portal subscription id>" PORTAL_RESOURCE_GROUP="<portal resource group>" node dashboardsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

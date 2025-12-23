@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to The operation to update a capacity reservation.
- *
- * @summary The operation to update a capacity reservation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/capacityReservationExamples/CapacityReservation_Update_MaximumSet_Gen.json
- */
-
+import type {
+  CapacityReservationUpdate} from "@azure/arm-compute";
 import {
-  CapacityReservationUpdate,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to The operation to update a capacity reservation.
+ *
+ * @summary The operation to update a capacity reservation.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/capacityReservationExamples/CapacityReservation_Update_MaximumSet_Gen.json
+ */
 async function capacityReservationUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -53,7 +53,7 @@ async function capacityReservationUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to The operation to update a capacity reservation.
  *
  * @summary The operation to update a capacity reservation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/capacityReservationExamples/CapacityReservation_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/capacityReservationExamples/CapacityReservation_Update_MinimumSet_Gen.json
  */
 async function capacityReservationUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =

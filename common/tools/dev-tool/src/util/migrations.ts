@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { mkdirp, readFile, rm, stat, Stats, writeFile } from "fs-extra";
+import { mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
+import type { Stats } from "node:fs";
 import { userInfo } from "node:os";
 import path from "node:path";
 import { panic } from "./assert";
@@ -366,7 +367,7 @@ export async function suspendMigration(
     );
   }
 
-  await mkdirp(path.dirname(stateFile));
+  await mkdir(path.dirname(stateFile), { recursive: true });
 
   await writeFile(
     stateFile,

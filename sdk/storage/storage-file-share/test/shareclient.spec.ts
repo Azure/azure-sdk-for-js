@@ -58,21 +58,21 @@ describe("ShareClient", () => {
   });
 
   it("exists", async () => {
-    assert.ok(await shareClient.exists());
+    assert.isTrue(await shareClient.exists());
 
     const shareClient2 = serviceClient.getShareClient(
       recorder.variable(shareName, getUniqueName(shareName)),
     );
-    assert.ok(!(await shareClient2.exists()));
+    assert.isFalse(await shareClient2.exists());
   });
 
   it("getProperties", async () => {
     const result = await shareClient.getProperties();
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("create with default parameters", () => {
@@ -94,10 +94,10 @@ describe("ShareClient", () => {
       recorder.variable(shareName, getUniqueName(shareName)),
     );
     const res = await shareClient2.createIfNotExists();
-    assert.ok(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const res2 = await shareClient2.createIfNotExists();
-    assert.ok(!res2.succeeded);
+    assert.isFalse(res2.succeeded);
     assert.equal(res2.errorCode, "ShareAlreadyExists");
 
     await shareClient2.delete();
@@ -116,20 +116,20 @@ describe("ShareClient", () => {
     const snapshotResult = await shareClient2.createSnapshot();
     const snapshotClient = shareClient2.withSnapshot(snapshotResult.snapshot!);
     let snapshotDeleteResult = await snapshotClient.deleteIfExists();
-    assert.ok(snapshotDeleteResult.succeeded);
+    assert.isTrue(snapshotDeleteResult.succeeded);
 
     snapshotDeleteResult = await snapshotClient.deleteIfExists();
-    assert.ok(!snapshotDeleteResult.succeeded);
+    assert.isFalse(snapshotDeleteResult.succeeded);
     assert.equal(snapshotDeleteResult.errorCode, "ShareSnapshotNotFound");
 
     const res = await shareClient2.deleteIfExists();
-    assert.ok(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const shareClient3 = serviceClient.getShareClient(
       recorder.variable(shareName + "3", getUniqueName(shareName + "3")),
     );
     const res2 = await shareClient3.deleteIfExists();
-    assert.ok(!res2.succeeded);
+    assert.isFalse(res2.succeeded);
     assert.equal(res2.errorCode, "ShareNotFound");
   });
 
@@ -179,7 +179,7 @@ describe("ShareClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one.",
       );
     } catch (error: any) {
-      assert.ok((error.statusCode as number) === 404);
+      assert.strictEqual(error.statusCode as number, 404);
     }
   });
 
@@ -197,14 +197,14 @@ describe("ShareClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one.",
       );
     } catch (error: any) {
-      assert.ok((error.statusCode as number) === 404);
+      assert.strictEqual(error.statusCode as number, 404);
     }
   });
 
   it("can get a directory client for root directory", async () => {
     const root = await shareClient.rootDirectoryClient;
     const result = await root.getProperties();
-    assert.ok(result, "Expecting valid properties for the root directory.");
+    assert.isDefined(result, "Expecting valid properties for the root directory.");
   });
 
   it("can be created with a sas connection string and a share name", async () => {
@@ -212,11 +212,11 @@ describe("ShareClient", () => {
     configureStorageClient(recorder, newClient);
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a sas connection string and a share name and an option bag", async () => {
@@ -228,11 +228,11 @@ describe("ShareClient", () => {
     configureStorageClient(recorder, newClient);
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("throws error if constructor shareName parameter is empty", async () => {
@@ -252,21 +252,22 @@ describe("ShareClient", () => {
     const directoryClient = shareClient.getDirectoryClient("test0");
 
     const cResp = await directoryClient.create();
-    assert.ok(cResp.filePermissionKey);
+    assert.isDefined(cResp.filePermissionKey);
 
     const getPermissionResp = await shareClient.getPermission(cResp.filePermissionKey!);
-    assert.ok(getPermissionResp.date!);
+    assert.isDefined(getPermissionResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
-    assert.ok(getPermissionResp.permission && getPermissionResp.permission !== "");
-    assert.ok(getPermissionResp.requestId!);
-    assert.ok(getPermissionResp.version!);
+    assert.isDefined(getPermissionResp.permission);
+    assert.notStrictEqual(getPermissionResp.permission, "");
+    assert.isDefined(getPermissionResp.requestId!);
+    assert.isDefined(getPermissionResp.version!);
 
     const createPermResp = await shareClient.createPermission(getPermissionResp.permission);
-    assert.ok(createPermResp.filePermissionKey!);
-    assert.ok(createPermResp.date!);
+    assert.isDefined(createPermResp.filePermissionKey!);
+    assert.isDefined(createPermResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
-    assert.ok(createPermResp.requestId!);
-    assert.ok(createPermResp.version!);
+    assert.isDefined(createPermResp.requestId!);
+    assert.isDefined(createPermResp.version!);
   });
 
   it("create share specifying accessTier and listShare", async () => {
@@ -277,7 +278,7 @@ describe("ShareClient", () => {
     for await (const shareItem of serviceClient.listShares({ prefix: newShareName })) {
       if (shareItem.name === newShareName) {
         assert.deepStrictEqual(shareItem.properties.accessTier, "Hot");
-        assert.ok(shareItem.properties.accessTierChangeTime);
+        assert.isDefined(shareItem.properties.accessTierChangeTime);
         break;
       }
     }
@@ -292,7 +293,7 @@ describe("ShareClient", () => {
     const getRes = await shareClient.getProperties();
 
     assert.deepStrictEqual(getRes.accessTier, accessTier);
-    assert.ok(getRes.accessTierChangeTime);
+    assert.isDefined(getRes.accessTierChangeTime);
     assert.deepStrictEqual(getRes.accessTierTransitionState, "pending-from-transactionOptimized");
     assert.equal(getRes.quota, quotaInGB);
   });
@@ -374,21 +375,22 @@ describe("ShareClient - OAuth", () => {
     const directoryClient = shareClient.getDirectoryClient(directoryName);
 
     const cResp = await directoryClient.create();
-    assert.ok(cResp.filePermissionKey);
+    assert.isDefined(cResp.filePermissionKey);
 
     const getPermissionResp = await shareClient.getPermission(cResp.filePermissionKey!);
-    assert.ok(getPermissionResp.date!);
+    assert.isDefined(getPermissionResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
-    assert.ok(getPermissionResp.permission && getPermissionResp.permission !== "");
-    assert.ok(getPermissionResp.requestId!);
-    assert.ok(getPermissionResp.version!);
+    assert.isDefined(getPermissionResp.permission);
+    assert.notStrictEqual(getPermissionResp.permission, "");
+    assert.isDefined(getPermissionResp.requestId!);
+    assert.isDefined(getPermissionResp.version!);
 
     const createPermResp = await shareClient.createPermission(getPermissionResp.permission);
-    assert.ok(createPermResp.filePermissionKey!);
-    assert.ok(createPermResp.date!);
+    assert.isDefined(createPermResp.filePermissionKey!);
+    assert.isDefined(createPermResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
-    assert.ok(createPermResp.requestId!);
-    assert.ok(createPermResp.version!);
+    assert.isDefined(createPermResp.requestId!);
+    assert.isDefined(createPermResp.version!);
   });
 
   it("create and get access policy", async () => {
@@ -431,10 +433,10 @@ describe("ShareClient - OAuth", () => {
 
     const { directoryClient } = await shareClient.createDirectory(directoryName);
     assert.deepStrictEqual(directoryClient.name, directoryName);
-    assert.ok(await directoryClient.exists(), "Directory should have been created.");
+    assert.isTrue(await directoryClient.exists(), "Directory should have been created.");
 
     await shareClient.deleteDirectory(directoryName);
-    assert.ok(!(await directoryClient.exists()), "Directory should have been deleted.");
+    assert.isFalse(await directoryClient.exists(), "Directory should have been deleted.");
   });
 
   it("create and delete file", async () => {
@@ -442,10 +444,10 @@ describe("ShareClient - OAuth", () => {
 
     const { fileClient } = await shareClient.createFile(fileName, 1024);
     assert.deepStrictEqual(fileClient.name, fileName);
-    assert.ok(await fileClient.exists(), "File should have been created.");
+    assert.isTrue(await fileClient.exists(), "File should have been created.");
 
     await shareClient.deleteFile(fileName);
-    assert.ok(!(await fileClient.exists()), "Directory should have been deleted.");
+    assert.isFalse(await fileClient.exists(), "Directory should have been deleted.");
   });
 });
 
@@ -484,21 +486,21 @@ describe("ShareClient", () => {
   });
 
   it("exists", async () => {
-    assert.ok(await shareClient.exists());
+    assert.isTrue(await shareClient.exists());
 
     const shareClient2 = serviceClient.getShareClient(
       recorder.variable(shareName, getUniqueName(shareName)),
     );
-    assert.ok(!(await shareClient2.exists()));
+    assert.isFalse(await shareClient2.exists());
   });
 
   it("getProperties", async () => {
     const result = await shareClient.getProperties();
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("create with default parameters", () => {
@@ -520,10 +522,10 @@ describe("ShareClient", () => {
       recorder.variable(shareName, getUniqueName(shareName)),
     );
     const res = await shareClient2.createIfNotExists();
-    assert.ok(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const res2 = await shareClient2.createIfNotExists();
-    assert.ok(!res2.succeeded);
+    assert.isFalse(res2.succeeded);
     assert.equal(res2.errorCode, "ShareAlreadyExists");
 
     await shareClient2.delete();
@@ -539,13 +541,13 @@ describe("ShareClient", () => {
     );
     await shareClient2.create();
     const res = await shareClient2.deleteIfExists();
-    assert.ok(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const shareClient3 = serviceClient.getShareClient(
       recorder.variable(shareName + "3", getUniqueName(shareName + "3")),
     );
     const res2 = await shareClient3.deleteIfExists();
-    assert.ok(!res2.succeeded);
+    assert.isFalse(res2.succeeded);
     assert.equal(res2.errorCode, "ShareNotFound");
   });
 
@@ -595,7 +597,7 @@ describe("ShareClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one.",
       );
     } catch (error: any) {
-      assert.ok((error.statusCode as number) === 404);
+      assert.strictEqual(error.statusCode as number, 404);
     }
   });
 
@@ -613,14 +615,14 @@ describe("ShareClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one.",
       );
     } catch (error: any) {
-      assert.ok((error.statusCode as number) === 404);
+      assert.strictEqual(error.statusCode as number, 404);
     }
   });
 
   it("can get a directory client for root directory", async () => {
     const root = shareClient.rootDirectoryClient;
     const result = await root.getProperties();
-    assert.ok(result, "Expecting valid properties for the root directory.");
+    assert.isDefined(result, "Expecting valid properties for the root directory.");
   });
 
   it("can be created with a sas connection string and a share name", async () => {
@@ -628,11 +630,11 @@ describe("ShareClient", () => {
     configureStorageClient(recorder, newClient);
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a sas connection string and a share name and an option bag", async () => {
@@ -644,11 +646,11 @@ describe("ShareClient", () => {
     configureStorageClient(recorder, newClient);
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("throws error if constructor shareName parameter is empty", async () => {
@@ -668,21 +670,22 @@ describe("ShareClient", () => {
     const directoryClient = shareClient.getDirectoryClient("test0");
 
     const cResp = await directoryClient.create();
-    assert.ok(cResp.filePermissionKey);
+    assert.isDefined(cResp.filePermissionKey);
 
     const getPermissionResp = await shareClient.getPermission(cResp.filePermissionKey!);
-    assert.ok(getPermissionResp.date!);
+    assert.isDefined(getPermissionResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
-    assert.ok(getPermissionResp.permission && getPermissionResp.permission !== "");
-    assert.ok(getPermissionResp.requestId!);
-    assert.ok(getPermissionResp.version!);
+    assert.isDefined(getPermissionResp.permission);
+    assert.notStrictEqual(getPermissionResp.permission, "");
+    assert.isDefined(getPermissionResp.requestId!);
+    assert.isDefined(getPermissionResp.version!);
 
     const createPermResp = await shareClient.createPermission(getPermissionResp.permission);
-    assert.ok(createPermResp.filePermissionKey!);
-    assert.ok(createPermResp.date!);
+    assert.isDefined(createPermResp.filePermissionKey!);
+    assert.isDefined(createPermResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
-    assert.ok(createPermResp.requestId!);
-    assert.ok(createPermResp.version!);
+    assert.isDefined(createPermResp.requestId!);
+    assert.isDefined(createPermResp.version!);
   });
 
   it("create and get binary permission", async () => {
@@ -693,20 +696,21 @@ describe("ShareClient", () => {
       permission: filePermission,
       format: "Binary",
     });
-    assert.ok(createPermResp.filePermissionKey!);
-    assert.ok(createPermResp.date!);
+    assert.isDefined(createPermResp.filePermissionKey!);
+    assert.isDefined(createPermResp.date!);
     assert.equal(createPermResp.errorCode, undefined);
-    assert.ok(createPermResp.requestId!);
-    assert.ok(createPermResp.version!);
+    assert.isDefined(createPermResp.requestId!);
+    assert.isDefined(createPermResp.version!);
 
     const getPermissionResp = await shareClient.getPermission(createPermResp.filePermissionKey!, {
       filePermissionFormat: "Binary",
     });
-    assert.ok(getPermissionResp.date!);
+    assert.isDefined(getPermissionResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
-    assert.ok(getPermissionResp.permission && getPermissionResp.permission !== "");
-    assert.ok(getPermissionResp.requestId!);
-    assert.ok(getPermissionResp.version!);
+    assert.isDefined(getPermissionResp.permission);
+    assert.notStrictEqual(getPermissionResp.permission, "");
+    assert.isDefined(getPermissionResp.requestId!);
+    assert.isDefined(getPermissionResp.version!);
   });
 
   it("create share specifying accessTier and listShare", async () => {
@@ -717,7 +721,7 @@ describe("ShareClient", () => {
     for await (const shareItem of serviceClient.listShares({ prefix: newShareName })) {
       if (shareItem.name === newShareName) {
         assert.deepStrictEqual(shareItem.properties.accessTier, "Hot");
-        assert.ok(shareItem.properties.accessTierChangeTime);
+        assert.isDefined(shareItem.properties.accessTierChangeTime);
         break;
       }
     }
@@ -732,7 +736,7 @@ describe("ShareClient", () => {
     const getRes = await shareClient.getProperties();
 
     assert.deepStrictEqual(getRes.accessTier, accessTier);
-    assert.ok(getRes.accessTierChangeTime);
+    assert.isDefined(getRes.accessTierChangeTime);
     assert.deepStrictEqual(getRes.accessTierTransitionState, "pending-from-transactionOptimized");
     assert.equal(getRes.quota, quotaInGB);
   });
@@ -776,7 +780,7 @@ describe("Version error test", () => {
     try {
       await shareClient.getProperties();
     } catch (err) {
-      assert.ok(
+      assert.isTrue(
         (err as any).message.startsWith(
           "The provided service version is not enabled on this storage account. Please see",
         ),
@@ -856,11 +860,11 @@ describe("ShareClient Provisioned", () => {
     });
     assert.equal(result.shareProvisionedBandwidthMibps, 125);
     assert.equal(result.shareProvisionedIops, 500);
-    assert.ok(result.shareIncludedBurstIops);
+    assert.isDefined(result.shareIncludedBurstIops);
 
     const deleteResult = await shareClient.delete();
-    assert.ok(deleteResult.usageBytes !== undefined);
-    assert.ok(deleteResult.snapshotUsageBytes !== undefined);
+    assert.isDefined(deleteResult.usageBytes);
+    assert.isDefined(deleteResult.snapshotUsageBytes);
   });
 
   it("setProperties with Provisioned Max Iops and Bandwidth", async () => {
@@ -876,22 +880,22 @@ describe("ShareClient Provisioned", () => {
 
     assert.equal(result.provisionedIops, 500);
     assert.equal(result.provisionedBandwidthMibps, 125);
-    assert.ok(result.includedBurstIops);
-    assert.ok(result.quota);
-    assert.ok(result.maxBurstCreditsForIops);
-    assert.ok(result.nextAllowedProvisionedBandwidthDowngradeTime);
-    assert.ok(result.nextAllowedProvisionedIopsDowngradeTime);
-    assert.ok(result.nextAllowedQuotaDowngradeTime);
+    assert.isDefined(result.includedBurstIops);
+    assert.isDefined(result.quota);
+    assert.isDefined(result.maxBurstCreditsForIops);
+    assert.isDefined(result.nextAllowedProvisionedBandwidthDowngradeTime);
+    assert.isDefined(result.nextAllowedProvisionedIopsDowngradeTime);
+    assert.isDefined(result.nextAllowedQuotaDowngradeTime);
 
     const propertiesResult = await shareClient.getProperties();
     assert.equal(propertiesResult.provisionedIops, 500);
     assert.equal(propertiesResult.provisionedBandwidthMibps, 125);
-    assert.ok(propertiesResult.includedBurstIops);
-    assert.ok(propertiesResult.quota);
-    assert.ok(propertiesResult.maxBurstCreditsForIops);
-    assert.ok(propertiesResult.nextAllowedProvisionedBandwidthDowngradeTime);
-    assert.ok(propertiesResult.nextAllowedProvisionedIopsDowngradeTime);
-    assert.ok(propertiesResult.nextAllowedQuotaDowngradeTime);
+    assert.isDefined(propertiesResult.includedBurstIops);
+    assert.isDefined(propertiesResult.quota);
+    assert.isDefined(propertiesResult.maxBurstCreditsForIops);
+    assert.isDefined(propertiesResult.nextAllowedProvisionedBandwidthDowngradeTime);
+    assert.isDefined(propertiesResult.nextAllowedProvisionedIopsDowngradeTime);
+    assert.isDefined(propertiesResult.nextAllowedQuotaDowngradeTime);
 
     let found = false;
     for await (const item of serviceClient.listShares()) {
@@ -900,19 +904,19 @@ describe("ShareClient Provisioned", () => {
         assert.equal(item.properties.provisionedBandwidthMiBps, 125);
         found = true;
       }
-      assert.ok(item.properties.includedBurstIops);
-      assert.ok(item.properties.quota);
-      assert.ok(item.properties.maxBurstCreditsForIops);
-      assert.ok(item.properties.nextAllowedProvisionedBandwidthDowngradeTime);
-      assert.ok(item.properties.nextAllowedProvisionedIopsDowngradeTime);
-      assert.ok(item.properties.nextAllowedQuotaDowngradeTime);
-      assert.ok(item.properties.includedBurstIops);
+      assert.isDefined(item.properties.includedBurstIops);
+      assert.isDefined(item.properties.quota);
+      assert.isDefined(item.properties.maxBurstCreditsForIops);
+      assert.isDefined(item.properties.nextAllowedProvisionedBandwidthDowngradeTime);
+      assert.isDefined(item.properties.nextAllowedProvisionedIopsDowngradeTime);
+      assert.isDefined(item.properties.nextAllowedQuotaDowngradeTime);
+      assert.isDefined(item.properties.includedBurstIops);
     }
 
-    assert.ok(found);
+    assert.isTrue(found);
     const deleteResult = await shareClient.delete();
-    assert.ok(deleteResult.usageBytes !== undefined);
-    assert.ok(deleteResult.snapshotUsageBytes !== undefined);
+    assert.isDefined(deleteResult.usageBytes);
+    assert.isDefined(deleteResult.snapshotUsageBytes);
   });
 
   it("Restore share", async () => {
@@ -925,27 +929,27 @@ describe("ShareClient Provisioned", () => {
     });
     assert.equal(result.shareProvisionedBandwidthMibps, 125);
     assert.equal(result.shareProvisionedIops, 500);
-    assert.ok(result.shareIncludedBurstIops);
+    assert.isDefined(result.shareIncludedBurstIops);
 
     const deleteResult = await shareClient.delete();
-    assert.ok(deleteResult.usageBytes !== undefined);
-    assert.ok(deleteResult.snapshotUsageBytes !== undefined);
+    assert.isDefined(deleteResult.usageBytes);
+    assert.isDefined(deleteResult.snapshotUsageBytes);
 
     let found = false;
     let shareDeleted: ShareItem | undefined;
     for await (const share of serviceClient.listShares({ includeDeleted: true })) {
       if (share.name === shareClient.name) {
         found = true;
-        assert.ok(share.version);
-        assert.ok(share.deleted);
-        assert.ok(share.properties.deletedTime);
-        assert.ok(share.properties.remainingRetentionDays);
+        assert.isDefined(share.version);
+        assert.isDefined(share.deleted);
+        assert.isDefined(share.properties.deletedTime);
+        assert.isDefined(share.properties.remainingRetentionDays);
 
         shareDeleted = share;
       }
     }
-    assert.ok(found);
-    assert.ok(shareDeleted);
+    assert.isTrue(found);
+    assert.isDefined(shareDeleted);
     await delay(60000);
 
     await serviceClient.undeleteShare(shareDeleted!.name, shareDeleted!.version!);

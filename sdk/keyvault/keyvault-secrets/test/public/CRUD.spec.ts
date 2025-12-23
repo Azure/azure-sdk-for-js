@@ -165,21 +165,21 @@ describe("Secret client - create, read, update and delete operations", () => {
 
     let deletedSecret = deletePoller.getResult();
     assert.equal(typeof deletedSecret!.properties.recoveryId, "string");
-    assert.ok(deletedSecret!.properties.deletedOn instanceof Date);
-    assert.ok(deletedSecret!.properties.scheduledPurgeDate instanceof Date);
+    assert.instanceOf(deletedSecret!.properties.deletedOn, Date);
+    assert.instanceOf(deletedSecret!.properties.scheduledPurgeDate, Date);
 
     assert.equal(typeof deletedSecret!.recoveryId, "string");
-    assert.ok(deletedSecret!.deletedOn instanceof Date);
-    assert.ok(deletedSecret!.scheduledPurgeDate instanceof Date);
+    assert.instanceOf(deletedSecret!.deletedOn, Date);
+    assert.instanceOf(deletedSecret!.scheduledPurgeDate, Date);
 
     deletedSecret = await deletePoller.pollUntilDone();
     assert.equal(typeof deletedSecret.properties.recoveryId, "string");
-    assert.ok(deletedSecret.properties.deletedOn instanceof Date);
-    assert.ok(deletedSecret.properties.scheduledPurgeDate instanceof Date);
+    assert.instanceOf(deletedSecret.properties.deletedOn, Date);
+    assert.instanceOf(deletedSecret.properties.scheduledPurgeDate, Date);
 
     assert.equal(typeof deletedSecret!.recoveryId, "string");
-    assert.ok(deletedSecret!.deletedOn instanceof Date);
-    assert.ok(deletedSecret!.scheduledPurgeDate instanceof Date);
+    assert.instanceOf(deletedSecret!.deletedOn, Date);
+    assert.instanceOf(deletedSecret!.scheduledPurgeDate, Date);
 
     try {
       await client.getSecret(secretName);

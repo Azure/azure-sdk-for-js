@@ -1,35 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DurableTaskContext as Client } from "../index.js";
+import type { DurableTaskContext as Client } from "../index.js";
+import type { RetentionPolicy, _RetentionPolicyListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  RetentionPolicy,
   retentionPolicySerializer,
   retentionPolicyDeserializer,
-  _RetentionPolicyListResult,
   _retentionPolicyListResultDeserializer,
 } from "../../models/models.js";
-import {
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   RetentionPoliciesListBySchedulerOptionalParams,
   RetentionPoliciesDeleteOptionalParams,
   RetentionPoliciesUpdateOptionalParams,
   RetentionPoliciesCreateOrReplaceOptionalParams,
   RetentionPoliciesGetOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySchedulerSend(
   context: Client,
@@ -109,13 +102,7 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -242,7 +229,7 @@ export function _createOrReplaceSend(
 export async function _createOrReplaceDeserialize(
   result: PathUncheckedResponse,
 ): Promise<RetentionPolicy> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -262,7 +249,7 @@ export function createOrReplace(
     requestOptions: {},
   },
 ): PollerLike<OperationState<RetentionPolicy>, RetentionPolicy> {
-  return getLongRunningPoller(context, _createOrReplaceDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createOrReplaceDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

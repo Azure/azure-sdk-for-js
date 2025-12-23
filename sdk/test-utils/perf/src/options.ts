@@ -154,7 +154,7 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
   "profile-path": {
     description: "Used as the artifact path",
     defaultValue: `./profile/${getFormattedDate()}-perfProgram.cpuprofile`,
-    // If none provided, profiles get generated at the "/sdk/<service>/perf-tests/<package>/profile/"
+    // If none provided, profiles get generated at the "/sdk/<service>/<package>-perf-tests/profile/"
   },
 };
 

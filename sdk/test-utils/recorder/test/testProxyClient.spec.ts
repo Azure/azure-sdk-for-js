@@ -11,7 +11,7 @@ import { Recorder, env } from "@azure-tools/test-recorder";
 import { createRecordingRequest } from "$internal/utils/createRecordingRequest.js";
 import { paths } from "$internal/utils/paths.js";
 import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "$internal/utils/utils.js";
-import { describe, it, beforeEach, afterEach, expect, type TaskContext } from "vitest";
+import { describe, it, beforeEach, afterEach, expect, type TestContext } from "vitest";
 
 const testRedirectedRequest = (
   client: Recorder,
@@ -26,7 +26,7 @@ const testRedirectedRequest = (
 describe("TestProxyClient functions", () => {
   let client: Recorder;
   let clientHttpClient: HttpClient;
-  let testContext: TaskContext | undefined;
+  let testContext: TestContext | undefined;
   beforeEach(async function (context) {
     testContext = context;
     client = new Recorder(testContext);

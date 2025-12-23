@@ -94,10 +94,10 @@ describe("formDataPolicy", function () {
     const result = await performRequest({ a: "va", b: "vb", c: "👻👻" });
     assert.isUndefined(result.request.formData);
     const multipartBody = result.request.multipartBody as any;
-    assert.ok(multipartBody, "expecting multipartBody to be defined");
+    assert.isDefined(multipartBody, "expecting multipartBody to be defined");
     const parts = (multipartBody as any).parts as BodyPart[];
     const enc = new TextEncoder();
-    assert.ok(parts.length === 3, "need 3 parts");
+    assert.equal(parts.length, 3, "need 3 parts");
     assert.deepEqual(parts[0], {
       headers: createHttpHeaders({
         "Content-Disposition": `form-data; name="a"`,
@@ -122,10 +122,10 @@ describe("formDataPolicy", function () {
     const result = await performRequest({ a: "va", b: ["vb", "👻👻"] });
     assert.isUndefined(result.request.formData);
     const multipartBody = result.request.multipartBody as any;
-    assert.ok(multipartBody, "expecting multipartBody to be defined");
+    assert.isDefined(multipartBody, "expecting multipartBody to be defined");
     const parts = (multipartBody as any).parts as BodyPart[];
     const enc = new TextEncoder();
-    assert.ok(parts.length === 3, "need 3 parts");
+    assert.equal(parts.length, 3, "need 3 parts");
     assert.deepEqual(parts[0], {
       headers: createHttpHeaders({
         "Content-Disposition": `form-data; name="a"`,
@@ -155,7 +155,7 @@ describe("formDataPolicy", function () {
       });
 
       const parts = (result.request.multipartBody as MultipartRequestBody).parts;
-      assert.ok(parts.length === 1, "expected 1 part");
+      assert.equal(parts.length, 1, "expected 1 part");
       assert.deepEqual(
         parts[0].headers,
         createHttpHeaders({
@@ -173,7 +173,7 @@ describe("formDataPolicy", function () {
       });
 
       const parts = (result.request.multipartBody as MultipartRequestBody).parts;
-      assert.ok(parts.length === 1, "expected 1 part");
+      assert.equal(parts.length, 1, "expected 1 part");
       assert.deepEqual(
         parts[0].headers,
         createHttpHeaders({

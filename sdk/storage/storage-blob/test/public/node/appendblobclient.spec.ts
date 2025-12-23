@@ -8,7 +8,10 @@ import {
   BlobSASPermissions,
   type BlobServiceClient,
   type ContainerClient,
+  SASProtocol,
+  generateBlobSASQueryParameters,
 } from "@azure/storage-blob";
+import type { StorageSharedKeyCredential } from "@azure/storage-blob";
 import { getUniqueName } from "../utils/utils.js";
 import { createBlobServiceClient, createAppendBlobClient } from "./utils/clients.js";
 import {
@@ -17,9 +20,9 @@ import {
   getCustomerProvidedKey,
   getStorageConnectionString,
 } from "../../utils/injectables.js";
-import { bodyToString } from "./utils/utils.js";
+import { bodyToString, parseJwt } from "./utils/utils.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { STORAGE_SCOPE } from "../utils/constants.js";
+import { STORAGE_SCOPE, SERVICE_VERSION } from "../utils/constants.js";
 import { isRestError } from "@azure/core-rest-pipeline";
 
 describe("AppendBlobClient (node)", () => {
@@ -178,6 +181,61 @@ describe("AppendBlobClient (node)", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
+  it.runIf(isLiveMode())(
+    "appendBlockFromURL - source delegation sas with bear token and destination account key",
+    async () => {
+      const now = new Date(recorder.variable("now", new Date().toISOString()));
+      now.setHours(now.getHours() - 1);
+      const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+      tmr.setDate(tmr.getDate() + 1);
+      const userDelegationKey = await blobServiceClient.getUserDelegationKey(now, tmr);
+
+      const credential = createTestCredential();
+      const token = (await credential.getToken(STORAGE_SCOPE))?.token;
+      const jwtObj = parseJwt(token!);
+
+      const sharedKeyCredential = containerClient.credential as StorageSharedKeyCredential;
+      const accountName = sharedKeyCredential.accountName;
+      await appendBlobClient.create();
+
+      const content = "Hello World!";
+      const blockBlobName = getUniqueName("blockblob", { recorder });
+      const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
+      await blockBlobClient.upload(content, content.length);
+
+      const delegationSAS = generateBlobSASQueryParameters(
+        {
+          containerName: containerClient.containerName,
+          blobName: blockBlobName,
+          expiresOn: tmr,
+          permissions: BlobSASPermissions.parse("racwd"),
+          protocol: SASProtocol.HttpsAndHttp,
+          startsOn: now,
+          version: SERVICE_VERSION,
+          delegatedUserObjectId: jwtObj.oid,
+        },
+        userDelegationKey,
+        accountName,
+      );
+
+      await appendBlobClient.appendBlockFromURL(
+        `${blockBlobClient.url}?${delegationSAS}`,
+        0,
+        content.length,
+        {
+          sourceAuthorization: {
+            scheme: "Bearer",
+            value: token!,
+          },
+        },
+      );
+
+      const downloadResponse = await appendBlobClient.download(0);
+      assert.equal(await bodyToString(downloadResponse, content.length), content);
+      assert.equal(downloadResponse.contentLength!, content.length);
+    },
+  );
+
   it.runIf(getAccountKey())(
     "appendBlockFromURL - should fail with source error message",
     async function () {
@@ -242,7 +300,7 @@ describe("AppendBlobClient (node)", () => {
       } catch (err: any) {
         exceptionCaught = err.details?.errorCode === "ConditionNotMet";
       }
-      assert.ok(exceptionCaught);
+      assert.isTrue(exceptionCaught);
 
       await newBlobClient.appendBlockFromURL(
         `${blockBlobClient.url}?${sasForTest}`,

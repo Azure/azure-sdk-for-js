@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-computerecommender": ["./src/index.ts"],
+      "@azure/arm-computerecommender/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

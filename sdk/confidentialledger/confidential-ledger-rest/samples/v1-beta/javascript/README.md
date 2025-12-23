@@ -40,7 +40,7 @@ node getEnclaveQuotesCert.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env USER_CERT="<user cert>" USER_CERT_KEY="<user cert key>" ENDPOINT="<endpoint>" LEDGER_ID="<ledger id>" node getEnclaveQuotesCert.js
+cross-env USER_CERT="<user cert>" USER_CERT_KEY="<user cert key>" ENDPOINT="<endpoint>" LEDGER_ID="<ledger id>" node getEnclaveQuotesCert.js
 ```
 
 ## Next Steps

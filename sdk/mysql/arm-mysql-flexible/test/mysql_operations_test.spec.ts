@@ -82,9 +82,60 @@ describe("mysql test", () => {
     assert.equal(res.name, resourcename);
   });
 
+  it("servers update test", async () => {
+    const res1 = await client.servers.get("czwjstest",
+      "czwtestserver");
+    console.log("Public Network Access:", res1.network!.publicNetworkAccess);
+
+    const res = await client.servers.beginUpdateAndWait(
+      "czwjstest",
+      "czwtestserver",
+      {
+       network:{
+        publicNetworkAccess:"Disabled"
+       }
+      },
+      testPollingOptions,
+    );
+    console.log("Public Network Access:", res.network!.publicNetworkAccess);
+    assert.equal(res.name, "czwtestserver");
+  });
+
   it("servers get test", async () => {
-    const res = await client.servers.get(resourceGroup, resourcename);
-    assert.equal(res.name, resourcename);
+    const res = await client.servers.get("czwjstest",
+      "czwtestserver");
+    assert.equal(res.name, "czwtestserver");
+    console.log("Public Network Access:", res.network!.publicNetworkAccess);
+
+  });
+
+  
+  it("configurations beginCreateOrUpdateAndWait test", async () => {
+    const res = await client.configurations.beginCreateOrUpdateAndWait(
+      "czwjstest",
+      "czwtestserver",
+      "max_connections",
+      {
+        value: "150",
+        source: "user-override",
+      },
+      testPollingOptions,
+    );
+    assert.equal(res.name, "max_connections");
+  });
+
+  it("configurations beginUpdateAndWait test", async () => {
+    const res = await client.configurations.beginUpdateAndWait(
+      "czwjstest",
+      "czwtestserver",
+      "max_connections",
+      {
+        value: "200",
+        source: "user-override",
+      },
+      testPollingOptions,
+    );
+    assert.equal(res.name, "max_connections");
   });
 
   it("servers list test", async () => {

@@ -41,7 +41,6 @@ import type {
   FileSystemUndeletePathOption,
   ListDeletedPathsSegmentOptions,
   PathUndeleteHeaders,
-  UserDelegationKey,
 } from "./models.js";
 import { StorageClient } from "./StorageClient.js";
 import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms.js";
@@ -60,6 +59,7 @@ import {
 } from "./sas/DataLakeSASSignatureValues.js";
 import { DeletionIdKey, PathResultTypeConstants } from "./utils/constants.js";
 import { PathClientInternal } from "./utils/PathClientInternal.js";
+import { UserDelegationKey } from "@azure/storage-common";
 
 /**
  * A DataLakeFileSystemClient represents a URL to the Azure Storage file system
@@ -599,6 +599,7 @@ export class DataLakeFileSystemClient extends StorageClient {
           continuation,
           ...updatedOptions,
           upn: options.userPrincipalName,
+          beginFrom: options.startFrom,
         });
 
         const response = rawResponse as FileSystemListPathsResponse;

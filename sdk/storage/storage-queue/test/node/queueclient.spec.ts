@@ -86,10 +86,10 @@ describe("QueueClient Node.js only", () => {
 
   it("getAccessPolicy", async () => {
     const result = await queueClient.getAccessPolicy();
-    assert.ok(result.requestId);
-    assert.ok(result.clientRequestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.clientRequestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("setAccessPolicy", async () => {
@@ -161,10 +161,11 @@ describe("QueueClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.approximateMessagesCount! >= 0);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isDefined(result.approximateMessagesCount);
+    assert.isAtLeast(result.approximateMessagesCount, 0);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
@@ -178,10 +179,11 @@ describe("QueueClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.approximateMessagesCount! >= 0);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isDefined(result.approximateMessagesCount);
+    assert.isAtLeast(result.approximateMessagesCount, 0);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a url and a pipeline", async () => {
@@ -192,10 +194,11 @@ describe("QueueClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.approximateMessagesCount! >= 0);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isDefined(result.approximateMessagesCount);
+    assert.isAtLeast(result.approximateMessagesCount, 0);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a connection string and a queue name", async () => {
@@ -204,9 +207,9 @@ describe("QueueClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a connection string and a queue name and an option bag", async () => {
@@ -219,9 +222,9 @@ describe("QueueClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a url and a TokenCredential", async () => {

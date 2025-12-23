@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AccessPolicyEntry {
@@ -75,20 +75,20 @@ export interface CloudErrorBody {
 }
 
 // @public
+export type CreatedByType = string;
+
+// @public
 export type CreateMode = "recover" | "default";
 
-// @public (undocumented)
-export interface DeletedManagedHsm {
-    readonly id?: string;
-    readonly name?: string;
+// @public
+export interface DeletedManagedHsm extends ProxyResource {
     properties?: DeletedManagedHsmProperties;
-    readonly type?: string;
 }
 
 // @public
 export interface DeletedManagedHsmListResult {
     nextLink?: string;
-    value?: DeletedManagedHsm[];
+    value: DeletedManagedHsm[];
 }
 
 // @public
@@ -104,17 +104,14 @@ export interface DeletedManagedHsmProperties {
 }
 
 // @public
-export interface DeletedVault {
-    readonly id?: string;
-    readonly name?: string;
+export interface DeletedVault extends ProxyResource {
     properties?: DeletedVaultProperties;
-    readonly type?: string;
 }
 
 // @public
 export interface DeletedVaultListResult {
     nextLink?: string;
-    value?: DeletedVault[];
+    value: DeletedVault[];
 }
 
 // @public
@@ -153,9 +150,6 @@ export type GeoReplicationRegionProvisioningState = string;
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-export type IdentityType = string;
-
-// @public
 export interface IPRule {
     value: string;
 }
@@ -170,7 +164,7 @@ export type JsonWebKeyOperation = string;
 export type JsonWebKeyType = string;
 
 // @public
-export interface Key extends Resource {
+export interface Key extends ProxyResource {
     attributes?: KeyAttributes;
     curveName?: JsonWebKeyCurveName;
     // (undocumented)
@@ -179,8 +173,12 @@ export interface Key extends Resource {
     readonly keyUri?: string;
     readonly keyUriWithVersion?: string;
     kty?: JsonWebKeyType;
+    readonly location?: string;
     releasePolicy?: KeyReleasePolicy;
     rotationPolicy?: RotationPolicy;
+    readonly tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -205,7 +203,7 @@ export interface KeyCreateParameters {
 // @public
 export interface KeyListResult {
     nextLink?: string;
-    value?: Key[];
+    value: Key[];
 }
 
 // @public
@@ -374,6 +372,14 @@ export enum KnownCertificatePermissions {
 }
 
 // @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export enum KnownDeletionRecoveryLevel {
     Purgeable = "Purgeable",
     Recoverable = "Recoverable",
@@ -389,14 +395,6 @@ export enum KnownGeoReplicationRegionProvisioningState {
     Preprovisioning = "Preprovisioning",
     Provisioning = "Provisioning",
     Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownIdentityType {
-    Application = "Application",
-    Key = "Key",
-    ManagedIdentity = "ManagedIdentity",
-    User = "User"
 }
 
 // @public
@@ -517,6 +515,12 @@ export enum KnownPublicNetworkAccess {
 }
 
 // @public
+export enum KnownReason {
+    AccountNameInvalid = "AccountNameInvalid",
+    AlreadyExists = "AlreadyExists"
+}
+
+// @public
 export enum KnownSecretPermissions {
     All = "all",
     Backup = "backup",
@@ -574,8 +578,14 @@ export interface LogSpecification {
 }
 
 // @public
-export interface ManagedHsm extends ManagedHsmResource {
+export interface ManagedHsm extends Resource {
+    identity?: ManagedServiceIdentity;
+    location?: string;
     properties?: ManagedHsmProperties;
+    sku?: ManagedHsmSku;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public (undocumented)
@@ -589,7 +599,7 @@ export interface ManagedHsmError {
 }
 
 // @public
-export interface ManagedHsmKey extends ProxyResourceWithoutSystemData {
+export interface ManagedHsmKey extends ProxyResource {
     attributes?: ManagedHsmKeyAttributes;
     curveName?: JsonWebKeyCurveName;
     // (undocumented)
@@ -600,6 +610,9 @@ export interface ManagedHsmKey extends ProxyResourceWithoutSystemData {
     kty?: JsonWebKeyType;
     releasePolicy?: ManagedHsmKeyReleasePolicy;
     rotationPolicy?: ManagedHsmRotationPolicy;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -624,7 +637,7 @@ export interface ManagedHsmKeyCreateParameters {
 // @public
 export interface ManagedHsmKeyListResult {
     nextLink?: string;
-    value?: ManagedHsmKey[];
+    value: ManagedHsmKey[];
 }
 
 // @public
@@ -721,7 +734,7 @@ export interface ManagedHsmLifetimeAction {
 // @public
 export interface ManagedHsmListResult {
     nextLink?: string;
-    value?: ManagedHsm[];
+    value: ManagedHsm[];
 }
 
 // @public
@@ -791,6 +804,7 @@ export type ManagedHsmsCheckMhsmNameAvailabilityResponse = CheckMhsmNameAvailabi
 // @public
 export interface ManagedHsmsCreateOrUpdateHeaders {
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -805,6 +819,7 @@ export type ManagedHsmsCreateOrUpdateResponse = ManagedHsm;
 // @public
 export interface ManagedHsmsDeleteHeaders {
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -892,6 +907,7 @@ export type ManagedHsmsListDeletedResponse = DeletedManagedHsmListResult;
 // @public
 export interface ManagedHsmsPurgeDeletedHeaders {
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -906,6 +922,7 @@ export type ManagedHsmsPurgeDeletedResponse = ManagedHsmsPurgeDeletedHeaders;
 // @public
 export interface ManagedHsmsUpdateHeaders {
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -968,6 +985,7 @@ export interface MhsmNetworkRuleSet {
     bypass?: NetworkRuleBypassOptions;
     defaultAction?: NetworkRuleAction;
     ipRules?: MhsmipRule[];
+    serviceTags?: MhsmServiceTagRule[];
     virtualNetworkRules?: MhsmVirtualNetworkRule[];
 }
 
@@ -977,11 +995,17 @@ export interface MhsmPrivateEndpoint {
 }
 
 // @public
-export interface MhsmPrivateEndpointConnection extends ManagedHsmResource {
+export interface MhsmPrivateEndpointConnection extends Resource {
     etag?: string;
+    identity?: ManagedServiceIdentity;
+    location?: string;
     privateEndpoint?: MhsmPrivateEndpoint;
     privateLinkServiceConnectionState?: MhsmPrivateLinkServiceConnectionState;
-    provisioningState?: PrivateEndpointConnectionProvisioningState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+    sku?: ManagedHsmSku;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -990,7 +1014,7 @@ export interface MhsmPrivateEndpointConnectionItem {
     id?: string;
     privateEndpoint?: MhsmPrivateEndpoint;
     privateLinkServiceConnectionState?: MhsmPrivateLinkServiceConnectionState;
-    provisioningState?: PrivateEndpointConnectionProvisioningState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
@@ -1005,6 +1029,7 @@ export interface MhsmPrivateEndpointConnections {
 // @public
 export interface MhsmPrivateEndpointConnectionsDeleteHeaders {
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1040,7 +1065,7 @@ export type MhsmPrivateEndpointConnectionsListByResourceResponse = MhsmPrivateEn
 // @public
 export interface MhsmPrivateEndpointConnectionsListResult {
     nextLink?: string;
-    value?: MhsmPrivateEndpointConnection[];
+    value: MhsmPrivateEndpointConnection[];
 }
 
 // @public
@@ -1109,7 +1134,12 @@ export type MhsmRegionsListByResourceResponse = MhsmRegionsListResult;
 // @public
 export interface MhsmRegionsListResult {
     nextLink?: string;
-    value?: MhsmGeoReplicatedRegion[];
+    value: MhsmGeoReplicatedRegion[];
+}
+
+// @public
+export interface MhsmServiceTagRule {
+    tag: string;
 }
 
 // @public
@@ -1151,7 +1181,7 @@ export interface OperationDisplay {
 // @public
 export interface OperationListResult {
     nextLink?: string;
-    value?: Operation[];
+    value: Operation[];
 }
 
 // @public
@@ -1187,11 +1217,15 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export interface PrivateEndpointConnection extends Resource {
+export interface PrivateEndpointConnection extends ProxyResource {
     etag?: string;
+    readonly location?: string;
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    provisioningState?: PrivateEndpointConnectionProvisioningState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+    readonly tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -1200,13 +1234,13 @@ export interface PrivateEndpointConnectionItem {
     id?: string;
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    provisioningState?: PrivateEndpointConnectionProvisioningState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
 export interface PrivateEndpointConnectionListResult {
     nextLink?: string;
-    value?: PrivateEndpointConnection[];
+    value: PrivateEndpointConnection[];
 }
 
 // @public
@@ -1274,10 +1308,14 @@ export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnectionsPu
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export interface PrivateLinkResource extends Resource {
+export interface PrivateLinkResource extends ProxyResource {
     readonly groupId?: string;
+    readonly location?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
+    readonly tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -1308,36 +1346,27 @@ export interface PrivateLinkServiceConnectionState {
 export type ProvisioningState = string;
 
 // @public
-export interface ProxyResourceWithoutSystemData {
-    readonly id?: string;
-    readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
+export interface ProxyResource extends Resource {
 }
 
 // @public
 export type PublicNetworkAccess = string;
 
 // @public
-export type Reason = "AccountNameInvalid" | "AlreadyExists";
+export type Reason = string;
 
 // @public
 export interface Resource {
     readonly id?: string;
-    readonly location?: string;
     readonly name?: string;
-    readonly tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
 export interface ResourceListResult {
     nextLink?: string;
-    value?: Resource[];
+    value: TrackedResource[];
 }
 
 // @public (undocumented)
@@ -1347,8 +1376,12 @@ export interface RotationPolicy {
 }
 
 // @public
-export interface Secret extends Resource {
+export interface Secret extends ProxyResource {
+    readonly location?: string;
     properties: SecretProperties;
+    readonly tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -1366,7 +1399,7 @@ export interface SecretCreateOrUpdateParameters {
 // @public
 export interface SecretListResult {
     nextLink?: string;
-    value?: Secret[];
+    value: Secret[];
 }
 
 // @public
@@ -1465,10 +1498,18 @@ export type StoragePermissions = string;
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
-    createdByType?: IdentityType;
+    createdByType?: CreatedByType;
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
-    lastModifiedByType?: IdentityType;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public (undocumented)
@@ -1484,16 +1525,12 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export interface Vault {
-    readonly id?: string;
+export interface Vault extends ProxyResource {
     location?: string;
-    readonly name?: string;
     properties: VaultProperties;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
-    readonly type?: string;
 }
 
 // @public
@@ -1528,7 +1565,7 @@ export interface VaultCreateOrUpdateParameters {
 // @public
 export interface VaultListResult {
     nextLink?: string;
-    value?: Vault[];
+    value: Vault[];
 }
 
 // @public
@@ -1590,7 +1627,7 @@ export interface Vaults {
     delete(resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, vaultName: string, options?: VaultsGetOptionalParams): Promise<VaultsGetResponse>;
     getDeleted(vaultName: string, location: string, options?: VaultsGetDeletedOptionalParams): Promise<VaultsGetDeletedResponse>;
-    list(options?: VaultsListOptionalParams): PagedAsyncIterableIterator<Resource>;
+    list(options?: VaultsListOptionalParams): PagedAsyncIterableIterator<TrackedResource>;
     listByResourceGroup(resourceGroupName: string, options?: VaultsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Vault>;
     listBySubscription(options?: VaultsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Vault>;
     listDeleted(options?: VaultsListDeletedOptionalParams): PagedAsyncIterableIterator<DeletedVault>;
@@ -1604,6 +1641,12 @@ export interface VaultsCheckNameAvailabilityOptionalParams extends coreClient.Op
 
 // @public
 export type VaultsCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
+
+// @public
+export interface VaultsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface VaultsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1690,6 +1733,12 @@ export interface VaultsListOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type VaultsListResponse = ResourceListResult;
+
+// @public
+export interface VaultsPurgeDeletedHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface VaultsPurgeDeletedOptionalParams extends coreClient.OperationOptions {

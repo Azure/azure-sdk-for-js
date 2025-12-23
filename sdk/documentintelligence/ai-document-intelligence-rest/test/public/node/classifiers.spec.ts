@@ -59,7 +59,7 @@ describe("classifiers", () => {
       throw initialResponse.body.error;
     }
 
-    const response = await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+    const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
     assert.isNotEmpty(analyzeResult?.documents);
@@ -67,11 +67,11 @@ describe("classifiers", () => {
 
     // Additionally check that the pages aren't empty and that there are some common fields set
     assert.isNotEmpty(analyzeResult?.pages);
-    assert.ok(analyzeResult?.pages![0].pageNumber);
+    assert.isDefined(analyzeResult?.pages![0].pageNumber);
     assert.isDefined(analyzeResult?.pages![0].angle);
-    assert.ok(analyzeResult?.pages![0].height);
-    assert.ok(analyzeResult?.pages![0].width);
-    assert.ok(analyzeResult?.pages![0].unit);
+    assert.isDefined(analyzeResult?.pages![0].height);
+    assert.isDefined(analyzeResult?.pages![0].width);
+    assert.isDefined(analyzeResult?.pages![0].unit);
   });
 
   it("analyze from PNG file URL", async () => {
@@ -91,7 +91,7 @@ describe("classifiers", () => {
       throw initialResponse.body.error;
     }
 
-    const response = await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+    const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
     assert.isNotEmpty(analyzeResult?.documents);
@@ -112,7 +112,7 @@ describe("classifiers", () => {
       await client.path("/documentClassifiers/{classifierId}", classifierId).get();
       assert.fail("Expected error while accessing a deleted classifier");
     } catch (error: any) {
-      assert.ok(error);
+      assert.isDefined(error);
     }
   });
 });

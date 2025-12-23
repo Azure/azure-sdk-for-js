@@ -92,7 +92,7 @@ describe("Highlevel Node.js only", () => {
       const uploadedData = await fs.readFileSync(tempFileLarge);
 
       fs.unlinkSync(downloadedFile);
-      assert.ok(downloadedData.equals(uploadedData));
+      assert.isTrue(downloadedData.equals(uploadedData));
     },
   );
 
@@ -116,7 +116,7 @@ describe("Highlevel Node.js only", () => {
     const uploadedData = await fs.readFileSync(tempFileSmall);
 
     fs.unlinkSync(downloadedFile);
-    assert.ok(downloadedData.equals(uploadedData));
+    assert.isTrue(downloadedData.equals(uploadedData));
   });
 
   it("uploadFile should abort for large data", async (ctx) => {
@@ -167,7 +167,7 @@ describe("Highlevel Node.js only", () => {
         abortSignal: aborter.signal,
         concurrency: 20,
         onProgress: (ev) => {
-          assert.ok(ev.loadedBytes);
+          assert.isDefined(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
         },
@@ -180,7 +180,7 @@ describe("Highlevel Node.js only", () => {
         "Unexpected error caught: " + err,
       );
     }
-    assert.ok(eventTriggered);
+    assert.isDefined(eventTriggered);
   });
 
   it("uploadFile should update progress for small data", async (ctx) => {
@@ -195,7 +195,7 @@ describe("Highlevel Node.js only", () => {
         abortSignal: aborter.signal,
         concurrency: 20,
         onProgress: (ev) => {
-          assert.ok(ev.loadedBytes);
+          assert.isDefined(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
         },
@@ -208,7 +208,7 @@ describe("Highlevel Node.js only", () => {
         "Unexpected error caught: " + err,
       );
     }
-    assert.ok(eventTriggered);
+    assert.isDefined(eventTriggered);
   });
 
   it("uploadStream should success", { timeout: timeoutForLargeFileUploadingTest }, async (ctx) => {
@@ -228,7 +228,7 @@ describe("Highlevel Node.js only", () => {
 
     const downloadedBuffer = fs.readFileSync(downloadFilePath);
     const uploadedBuffer = fs.readFileSync(tempFileLarge);
-    assert.ok(uploadedBuffer.equals(downloadedBuffer));
+    assert.isTrue(uploadedBuffer.equals(downloadedBuffer));
 
     fs.unlinkSync(downloadFilePath);
   });
@@ -262,11 +262,11 @@ describe("Highlevel Node.js only", () => {
 
       await fileClient.uploadStream(rs, tempFileLargeLength, 4 * 1024 * 1024, 20, {
         onProgress: (ev) => {
-          assert.ok(ev.loadedBytes);
+          assert.isDefined(ev.loadedBytes);
           eventTriggered = true;
         },
       });
-      assert.ok(eventTriggered);
+      assert.isDefined(eventTriggered);
     },
   );
 
@@ -280,22 +280,22 @@ describe("Highlevel Node.js only", () => {
 
     await fileClient.uploadData(arrayBuf);
     const res = await fileClient.downloadToBuffer();
-    assert.ok(res.equals(Buffer.from(arrayBuf)));
+    assert.isTrue(res.equals(Buffer.from(arrayBuf)));
 
     const uint8ArrayPartial = new Uint8Array(arrayBuf, 1, 3);
     await fileClient.uploadData(uint8ArrayPartial);
     const res1 = await fileClient.downloadToBuffer();
-    assert.ok(res1.equals(Buffer.from(arrayBuf, 1, 3)));
+    assert.isTrue(res1.equals(Buffer.from(arrayBuf, 1, 3)));
 
     const uint16Array = new Uint16Array(arrayBuf, 4, 2);
     await fileClient.uploadData(uint16Array);
     const res2 = await fileClient.downloadToBuffer();
-    assert.ok(res2.equals(Buffer.from(arrayBuf, 4, 2 * 2)));
+    assert.isTrue(res2.equals(Buffer.from(arrayBuf, 4, 2 * 2)));
 
     const buf = Buffer.from(arrayBuf, 0, 5);
     await fileClient.uploadData(buf);
     const res3 = await fileClient.downloadToBuffer();
-    assert.ok(res3.equals(buf));
+    assert.isTrue(res3.equals(buf));
   });
 
   it(
@@ -315,7 +315,7 @@ describe("Highlevel Node.js only", () => {
       });
 
       const localFileContent = fs.readFileSync(tempFileLarge);
-      assert.ok(localFileContent.equals(buf));
+      assert.isTrue(localFileContent.equals(buf));
     },
   );
 
@@ -335,7 +335,7 @@ describe("Highlevel Node.js only", () => {
       });
 
       const localFileContent = fs.readFileSync(tempFileLarge);
-      assert.ok(localFileContent.equals(buf));
+      assert.isTrue(localFileContent.equals(buf));
     },
   );
 
@@ -348,8 +348,9 @@ describe("Highlevel Node.js only", () => {
     } catch (err: any) {
       error = err;
     }
-    assert.ok(
-      error.message.includes("Unable to allocate a buffer of size:"),
+    assert.include(
+      error.message,
+      "Unable to allocate a buffer of size:",
       "Error is not thrown when the count (size in bytes) is too large",
     );
   });
@@ -446,7 +447,7 @@ describe("Highlevel Node.js only", () => {
         "Unexpected error caught: " + err,
       );
     }
-    assert.ok(eventTriggered);
+    assert.isDefined(eventTriggered);
   });
 
   it("fileClient.download should success when internal stream unexpected ends at the stream end", async (ctx) => {
@@ -481,7 +482,7 @@ describe("Highlevel Node.js only", () => {
     const uploadedData = await fs.readFileSync(tempFileSmall);
 
     fs.unlinkSync(downloadedFile);
-    assert.ok(downloadedData.equals(uploadedData));
+    assert.isTrue(downloadedData.equals(uploadedData));
   });
 
   it("fileClient.download should download full data successfully when internal stream unexpected ends", async (ctx) => {
@@ -517,7 +518,7 @@ describe("Highlevel Node.js only", () => {
     const uploadedData = await fs.readFileSync(tempFileSmall);
 
     fs.unlinkSync(downloadedFile);
-    assert.ok(downloadedData.equals(uploadedData));
+    assert.isTrue(downloadedData.equals(uploadedData));
   });
 
   it("fileClient.download should download partial data when internal stream unexpected ends", async (ctx) => {
@@ -555,7 +556,7 @@ describe("Highlevel Node.js only", () => {
     const uploadedData = await fs.readFileSync(tempFileSmall);
 
     fs.unlinkSync(downloadedFile);
-    assert.ok(downloadedData.equals(uploadedData.slice(1, partialSize + 1)));
+    assert.isTrue(downloadedData.equals(uploadedData.slice(1, partialSize + 1)));
   });
 
   it("fileClient.download should download data failed when exceeding max stream retry requests", async (ctx) => {
@@ -591,7 +592,7 @@ describe("Highlevel Node.js only", () => {
       expectedError = true;
     }
 
-    assert.ok(expectedError);
+    assert.isDefined(expectedError);
     fs.unlinkSync(downloadedFile);
   });
 
@@ -649,8 +650,9 @@ describe("Highlevel Node.js only", () => {
 
     const response = await fileClient.downloadToFile(downloadedFilePath, 0, undefined);
 
-    assert.ok(
-      response.contentLength === tempFileSmallLength,
+    assert.strictEqual(
+      response.contentLength,
+      tempFileSmallLength,
       "response.contentLength doesn't match tempFileSmallLength",
     );
     assert.equal(
@@ -661,7 +663,7 @@ describe("Highlevel Node.js only", () => {
 
     const localFileContent = fs.readFileSync(tempFileSmall);
     const downloadedFileContent = fs.readFileSync(downloadedFilePath);
-    assert.ok(localFileContent.equals(downloadedFileContent));
+    assert.isTrue(localFileContent.equals(downloadedFileContent));
 
     fs.unlinkSync(downloadedFilePath);
   });

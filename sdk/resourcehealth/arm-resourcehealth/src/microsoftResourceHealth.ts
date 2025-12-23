@@ -86,7 +86,7 @@ export class MicrosoftResourceHealth extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-resourcehealth/4.1.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-resourcehealth/4.1.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

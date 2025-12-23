@@ -77,7 +77,7 @@ node imagesCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env LABSERVICES_SUBSCRIPTION_ID="<labservices subscription id>" LABSERVICES_RESOURCE_GROUP="<labservices resource group>" node imagesCreateOrUpdateSample.js
+cross-env LABSERVICES_SUBSCRIPTION_ID="<labservices subscription id>" LABSERVICES_RESOURCE_GROUP="<labservices resource group>" node imagesCreateOrUpdateSample.js
 ```
 
 ## Next Steps

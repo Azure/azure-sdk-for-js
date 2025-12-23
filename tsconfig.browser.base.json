@@ -2,7 +2,11 @@
   "extends": ["./tsconfig.json", "./tsconfig.nonlib.json"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": [],
+    // Workaround for browser build-test:
+    //   - Some core and storage package have mixed usage of NodeJS and browser types in same file.
+    //   - TypeScript resolves our types from ESM because of `"moduleResolution": "NodeNext"`
+    //     and some files have code similar to `import { ... } from "node:xxx";`
+    "types": ["node"],
     "outDir": "${configDir}/dist-test/browser",
     "noEmit": false,
     "paths": {

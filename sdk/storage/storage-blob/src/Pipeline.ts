@@ -34,25 +34,26 @@ import { parseXML, stringifyXML } from "@azure/core-xml";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import { logger } from "./log.js";
-import type { StorageRetryOptions } from "./StorageRetryPolicyFactory.js";
-import { StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory.js";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
-import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
+import type { StorageRetryOptions } from "@azure/storage-common";
+import {
+  StorageRetryPolicyFactory,
+  AnonymousCredential,
+  StorageSharedKeyCredential,
+  getCachedDefaultHttpClient,
+  storageRequestFailureDetailsParserPolicy,
+  storageBrowserPolicy,
+  storageRetryPolicy,
+  storageSharedKeyCredentialPolicy,
+  StorageBrowserPolicyFactory,
+  storageCorrectContentLengthPolicy,
+} from "@azure/storage-common";
+
 import {
   StorageOAuthScopes,
   StorageBlobLoggingAllowedHeaderNames,
   StorageBlobLoggingAllowedQueryParameters,
   SDK_VERSION,
 } from "./utils/constants.js";
-import {
-  getCachedDefaultHttpClient,
-  storageRequestFailureDetailsParserPolicy,
-} from "@azure/storage-common";
-import { storageBrowserPolicy } from "./policies/StorageBrowserPolicyV2.js";
-import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2.js";
-import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2.js";
-import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory.js";
-import { storageCorrectContentLengthPolicy } from "./policies/StorageCorrectContentLengthPolicy.js";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient

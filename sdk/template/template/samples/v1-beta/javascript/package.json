@@ -12,9 +12,12 @@
     "directory": "sdk/template/template"
   },
   "keywords": [
+    "node",
     "azure",
     "cloud",
-    "typescript"
+    "typescript",
+    "browser",
+    "isomorphic"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -25,6 +28,6 @@
   "dependencies": {
     "@azure/template": "next",
     "dotenv": "latest",
-    "@azure/identity": "^4.2.1"
+    "@azure/identity": "4.11.1"
   }
 }

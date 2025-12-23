@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { SearchField as GeneratedSearchField } from "$internal/generated/service/models/index.js";
+import { assert, describe, it } from "vitest";
+import type { SearchField as GeneratedSearchField, ComplexField, SearchField } from "@azure/search-documents";
 import { KnownAnalyzerNames } from "@azure/search-documents";
-import type { ComplexField, SearchField } from "@azure/search-documents";
 import { convertFieldsToGenerated, convertFieldsToPublic } from "$internal/serviceUtils.js";
-import { describe, it, assert } from "vitest";
 
 describe("serviceUtils", () => {
   it("convert generated fields to public fields", () => {

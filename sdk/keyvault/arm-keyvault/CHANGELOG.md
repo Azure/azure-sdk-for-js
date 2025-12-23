@@ -1,4 +1,43 @@
 # Release History
+
+## 4.0.0 (2025-11-25)
+
+### Features Added
+  - Added Interface MhsmServiceTagRule
+  - Added Interface Permissions
+  - Added Interface ProxyResource
+  - Added Interface TrackedResource
+  - Added Interface VaultsCreateOrUpdateHeaders
+  - Added Interface VaultsPurgeDeletedHeaders
+  - Interface DeletedManagedHsm has a new optional parameter systemData
+  - Interface DeletedVault has a new optional parameter systemData
+  - Interface Key has a new optional parameter systemData
+  - Interface ManagedHsmKey has a new optional parameter systemData
+  - Interface ManagedHsmsCreateOrUpdateHeaders has a new optional parameter retryAfter
+  - Interface ManagedHsmsDeleteHeaders has a new optional parameter retryAfter
+  - Interface ManagedHsmsPurgeDeletedHeaders has a new optional parameter retryAfter
+  - Interface ManagedHsmsUpdateHeaders has a new optional parameter retryAfter
+  - Interface MhsmNetworkRuleSet has a new optional parameter serviceTags
+  - Interface MhsmPrivateEndpointConnectionsDeleteHeaders has a new optional parameter retryAfter
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Interface PrivateLinkResource has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface Secret has a new optional parameter systemData
+  - Added Type Alias CreatedByType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownReason
+  - Operation ManagedHsms.checkMhsmNameAvailability has a new signature
+  - Operation Vaults.checkNameAvailability has a new signature
+  - Type alias "Reason" has been changed
+
+### Breaking Changes
+
+  - Removed Interface ProxyResourceWithoutSystemData
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Removed Type Alias IdentityType
+  - Removed Enum KnownIdentityType
+
     
 ## 3.2.0 (2025-03-12)
     

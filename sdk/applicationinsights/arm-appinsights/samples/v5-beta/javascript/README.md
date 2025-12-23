@@ -113,7 +113,7 @@ node analyticsItemsDeleteSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env APPLICATIONINSIGHTS_SUBSCRIPTION_ID="<applicationinsights subscription id>" APPLICATIONINSIGHTS_RESOURCE_GROUP="<applicationinsights resource group>" node analyticsItemsDeleteSample.js
+cross-env APPLICATIONINSIGHTS_SUBSCRIPTION_ID="<applicationinsights subscription id>" APPLICATIONINSIGHTS_RESOURCE_GROUP="<applicationinsights resource group>" node analyticsItemsDeleteSample.js
 ```
 
 ## Next Steps

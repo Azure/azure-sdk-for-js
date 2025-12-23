@@ -36,9 +36,9 @@ matrix([[true, false]] as const, async (useAad) => {
           new Date(Date.UTC(2021, 10, 1)),
         );
         let result = getYieldedValue(await iterator.next());
-        assert.ok(result.seriesKey, "Expecting first anomaly");
+        assert.isDefined(result.seriesKey, "Expecting first anomaly");
         result = getYieldedValue(await iterator.next());
-        assert.ok(result.seriesKey, "Expecting second anomaly");
+        assert.isDefined(result.seriesKey, "Expecting second anomaly");
       });
 
       it("listAnomaliesForDetectionConfiguration() by page", async () => {
@@ -62,9 +62,9 @@ matrix([[true, false]] as const, async (useAad) => {
           "2021-11-01T00:00:00.000Z",
         );
         let result = getYieldedValue(await iterator.next());
-        assert.ok(result.seriesKey, "Expecting first anomaly");
+        assert.isDefined(result.seriesKey, "Expecting first anomaly");
         result = getYieldedValue(await iterator.next());
-        assert.ok(result.seriesKey, "Expecting second anomaly");
+        assert.isDefined(result.seriesKey, "Expecting second anomaly");
       });
 
       it("listAnomaliesForDetectionConfiguration() throws for invalid datetime strings", async () => {
@@ -91,9 +91,9 @@ matrix([[true, false]] as const, async (useAad) => {
           new Date(Date.UTC(2021, 10, 1)),
         );
         let result = getYieldedValue(await iterator.next());
-        assert.ok(result.rootDimensionKey, "Expecting first incident");
+        assert.isDefined(result.rootDimensionKey, "Expecting first incident");
         result = getYieldedValue(await iterator.next());
-        assert.ok(result.rootDimensionKey, "Expecting second incident");
+        assert.isDefined(result.rootDimensionKey, "Expecting second incident");
       });
 
       it("listIncidentsForDetectionConfiguration() by page", async () => {
@@ -117,9 +117,9 @@ matrix([[true, false]] as const, async (useAad) => {
           "2021-11-01T00:00:00.000Z",
         );
         let result = getYieldedValue(await iterator.next());
-        assert.ok(result.rootDimensionKey, "Expecting first incident");
+        assert.isDefined(result.rootDimensionKey, "Expecting first incident");
         result = getYieldedValue(await iterator.next());
-        assert.ok(result.rootDimensionKey, "Expecting second incident");
+        assert.isDefined(result.rootDimensionKey, "Expecting second incident");
       });
 
       it("listIncidentsForDetectionConfiguration() throws for invalid datetime string", async () => {
@@ -132,7 +132,7 @@ matrix([[true, false]] as const, async (useAad) => {
           await iterator.next();
           assert.fail("Error should have been thrown for invalid date strings");
         } catch (err: any) {
-          assert.ok(err.message, "Invalid time value");
+          assert.isDefined(err.message, "Invalid time value");
         }
       });
 
@@ -144,9 +144,9 @@ matrix([[true, false]] as const, async (useAad) => {
           "category",
         );
         let result = await iterator.next();
-        assert.ok(result.value, "Expecting first dimension value");
+        assert.isDefined(result.value, "Expecting first dimension value");
         result = await iterator.next();
-        assert.ok(result.value, "Expecting second dimension value");
+        assert.isDefined(result.value, "Expecting second dimension value");
       });
 
       it("listAnomalyDimensionValues() with datetime strings", async () => {
@@ -157,9 +157,9 @@ matrix([[true, false]] as const, async (useAad) => {
           "category",
         );
         let result = await iterator.next();
-        assert.ok(result.value, "Expecting first dimension value");
+        assert.isDefined(result.value, "Expecting first dimension value");
         result = await iterator.next();
-        assert.ok(result.value, "Expecting second dimension value");
+        assert.isDefined(result.value, "Expecting second dimension value");
       });
 
       it("listAnomalyDimensionValues() by page", async () => {
@@ -185,9 +185,9 @@ matrix([[true, false]] as const, async (useAad) => {
           "AnomalyTime",
         );
         let result = getYieldedValue(await iterator.next());
-        assert.ok(result.id, "Expecting first alert");
+        assert.isDefined(result.id, "Expecting first alert");
         result = getYieldedValue(await iterator.next());
-        assert.ok(result.id, "Expecting second alert");
+        assert.isDefined(result.id, "Expecting second alert");
       });
 
       it("lists alerts for alert configuration with datetime strings", async () => {
@@ -198,9 +198,9 @@ matrix([[true, false]] as const, async (useAad) => {
           "AnomalyTime",
         );
         let result = getYieldedValue(await iterator.next());
-        assert.ok(result.id, "Expecting first alert");
+        assert.isDefined(result.id, "Expecting first alert");
         result = getYieldedValue(await iterator.next());
-        assert.ok(result.id, "Expecting second alert");
+        assert.isDefined(result.id, "Expecting second alert");
       });
 
       it("lists alerts for alert configuration by page", async () => {
@@ -224,9 +224,9 @@ matrix([[true, false]] as const, async (useAad) => {
           id: assertEnvironmentVariable("METRICS_ADVISOR_ALERT_ID"),
         });
         let result = getYieldedValue(await iterator.next());
-        assert.ok(result.seriesKey, "Expecting first anomaly");
+        assert.isDefined(result.seriesKey, "Expecting first anomaly");
         result = getYieldedValue(await iterator.next());
-        assert.ok(result.seriesKey, "Expecting second anomaly");
+        assert.isDefined(result.seriesKey, "Expecting second anomaly");
       });
 
       it("lists anomalies for alert by page", async () => {
@@ -248,9 +248,9 @@ matrix([[true, false]] as const, async (useAad) => {
           id: assertEnvironmentVariable("METRICS_ADVISOR_ALERT_ID"),
         });
         let result = getYieldedValue(await iterator.next());
-        assert.ok(result.id, "Expecting first incident");
+        assert.isDefined(result.id, "Expecting first incident");
         result = getYieldedValue(await iterator.next());
-        assert.ok(result.id, "Expecting second incident");
+        assert.isDefined(result.id, "Expecting second incident");
       });
 
       it("lists incidents for alert by page", async () => {
@@ -272,9 +272,9 @@ matrix([[true, false]] as const, async (useAad) => {
           new Date(Date.UTC(2021, 7, 5)),
         );
         let result = getYieldedValue(await iterator.next());
-        assert.ok(result.seriesKey, "Expecting first definition");
+        assert.isDefined(result.seriesKey, "Expecting first definition");
         result = getYieldedValue(await iterator.next());
-        assert.ok(result.seriesKey, "Expecting second definition");
+        assert.isDefined(result.seriesKey, "Expecting second definition");
       });
 
       it("listMetricSeriesDefinitions() with datetime string", async () => {
@@ -283,9 +283,9 @@ matrix([[true, false]] as const, async (useAad) => {
           "2021-08-05T00:00:00.000Z",
         );
         let result = getYieldedValue(await iterator.next());
-        assert.ok(result.seriesKey, "Expecting first definition");
+        assert.isDefined(result.seriesKey, "Expecting first definition");
         result = getYieldedValue(await iterator.next());
-        assert.ok(result.seriesKey, "Expecting second definition");
+        assert.isDefined(result.seriesKey, "Expecting second definition");
       });
 
       it("listMetricSeriesDefinitions() by page", async () => {
@@ -307,9 +307,9 @@ matrix([[true, false]] as const, async (useAad) => {
           "category",
         );
         let result = await iterator.next();
-        assert.ok(result.value, "Expecting first dimension value");
+        assert.isDefined(result.value, "Expecting first dimension value");
         result = await iterator.next();
-        assert.ok(result.value, "Expecting second dimension value");
+        assert.isDefined(result.value, "Expecting second dimension value");
       });
 
       it("listMetricDimensionValues() by page", async () => {
@@ -335,7 +335,8 @@ matrix([[true, false]] as const, async (useAad) => {
           new Date(Date.UTC(2021, 7, 5)),
           new Date(Date.UTC(2021, 11, 5)),
         );
-        assert.ok(data && data!.length === 2, "Expecting data for two time series");
+        assert.isDefined(data);
+        assert.equal(data!.length, 2, "Expecting data for two time series");
         assert.equal(
           data![0].definition.metricId,
           assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
@@ -345,13 +346,8 @@ matrix([[true, false]] as const, async (useAad) => {
           category: "Handmade",
         });
 
-        assert.ok(
-          data![0].timestamps &&
-            data![0].timestamps.length > 0 &&
-            data![0].values &&
-            data![0].values.length > 0,
-          "Expecting data for the first time series",
-        );
+        assert.isNotEmpty(data![0].timestamps, "Expecting data for the first time series");
+        assert.isNotEmpty(data![0].values, "Expecting data for the first time series");
 
         assert.equal(
           data![1].definition.metricId,
@@ -362,13 +358,8 @@ matrix([[true, false]] as const, async (useAad) => {
           category: "Home & Garden",
         });
 
-        assert.ok(
-          data![1].timestamps &&
-            data![1].timestamps.length > 0 &&
-            data![1].values &&
-            data![1].values.length > 0,
-          "Expecting data for the second time series",
-        );
+        assert.isNotEmpty(data![1].timestamps, "Expecting data for the second time series");
+        assert.isNotEmpty(data![1].values, "Expecting data for the second time series");
       });
 
       it("lists series data for a metric with datetime strings", async () => {
@@ -381,7 +372,8 @@ matrix([[true, false]] as const, async (useAad) => {
           "2021-08-05T00:00:00.000Z",
           "2021-09-05T00:00:00.000Z",
         );
-        assert.ok(data && data!.length === 2, "Expecting data for two time series");
+        assert.isDefined(data);
+        assert.equal(data!.length, 2, "Expecting data for two time series");
         assert.equal(
           data![0].definition.metricId,
           assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
@@ -391,13 +383,8 @@ matrix([[true, false]] as const, async (useAad) => {
           category: "Home & Garden",
         });
 
-        assert.ok(
-          data![0].timestamps &&
-            data![0].timestamps.length > 0 &&
-            data![0].values &&
-            data![0].values.length > 0,
-          "Expecting data for the first time series",
-        );
+        assert.isNotEmpty(data![0].timestamps, "Expecting data for the first time series");
+        assert.isNotEmpty(data![0].values, "Expecting data for the first time series");
       });
 
       it.skip("list enriched data for a detection configuration", async () => {
@@ -410,37 +397,29 @@ matrix([[true, false]] as const, async (useAad) => {
           new Date(Date.UTC(2021, 7, 1)),
           new Date(Date.UTC(2021, 7, 27)),
         );
-        assert.ok(data && data!.length === 2, "Expecting data for two time series");
+        assert.isDefined(data);
+        assert.equal(data!.length, 2, "Expecting data for two time series");
 
         assert.deepStrictEqual(data![0].seriesKey, {
           region: "Manila",
           category: "Shoes Handbags & Sunglasses",
         });
 
-        assert.ok(
-          data![0].timestamps &&
-            data![0].timestamps.length > 0 &&
-            data![0].values &&
-            data![0].values.length > 0 &&
-            data![0].isAnomaly &&
-            data![0].isAnomaly.length > 0,
-          "Expecting enriched data for the first time series",
-        );
+        assert.isNotEmpty(data![0].timestamps, "Expecting enriched data for the first time series");
+        assert.isNotEmpty(data![0].values, "Expecting enriched data for the first time series");
+        assert.isNotEmpty(data![0].isAnomaly, "Expecting enriched data for the first time series");
 
         assert.deepStrictEqual(data![1].seriesKey, {
           region: "Cairo",
           category: "Home & Garden",
         });
 
-        assert.ok(
-          data![1].timestamps &&
-            data![1].timestamps.length > 0 &&
-            data![1].values &&
-            data![1].values.length > 0 &&
-            data![0].isAnomaly &&
-            data![0].isAnomaly.length > 0,
+        assert.isNotEmpty(
+          data![1].timestamps,
           "Expecting enriched data for the second time series",
         );
+        assert.isNotEmpty(data![1].values, "Expecting enriched data for the second time series");
+        assert.isNotEmpty(data![0].isAnomaly, "Expecting enriched data for the second time series");
       });
 
       it.skip("list enriched data for a detection configuration with datetime strings", async () => {
@@ -453,7 +432,7 @@ matrix([[true, false]] as const, async (useAad) => {
           "2021-08-01T00:00:00.000Z",
           "2021-08-27T00:00:00.000Z",
         );
-        assert.ok(data && data!.length === 2, "Expecting data for two time series");
+        assert.isDefined(data && data!.length === 2, "Expecting data for two time series");
 
         assert.deepStrictEqual(data![0].seriesKey, {
           region: "Manila",
@@ -468,9 +447,9 @@ matrix([[true, false]] as const, async (useAad) => {
           new Date(Date.UTC(2021, 8, 18)),
         );
         let result = getYieldedValue(await iterator.next());
-        assert.ok(result.status, "Expecting first status");
+        assert.isDefined(result.status, "Expecting first status");
         result = getYieldedValue(await iterator.next());
-        assert.ok(result.status, "Expecting second status");
+        assert.isDefined(result.status, "Expecting second status");
       });
 
       it("list metric enrichment status with datetime strings", async () => {
@@ -480,9 +459,9 @@ matrix([[true, false]] as const, async (useAad) => {
           "2021-09-18T00:00:00.000Z",
         );
         let result = getYieldedValue(await iterator.next());
-        assert.ok(result.status, "Expecting first status");
+        assert.isDefined(result.status, "Expecting first status");
         result = getYieldedValue(await iterator.next());
-        assert.ok(result.status, "Expecting second status");
+        assert.isDefined(result.status, "Expecting second status");
       });
 
       it("list metric enrichment status by page", async () => {
@@ -505,13 +484,10 @@ matrix([[true, false]] as const, async (useAad) => {
           assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_INCIDENT_ID"),
         );
 
-        assert.ok(
-          result.rootCauses && result.rootCauses.length > 0,
-          "Expecting non empty root cause list",
-        );
+        assert.isNotEmpty(result.rootCauses, "Expecting non empty root cause list");
         const first = result.rootCauses[0];
         assert.deepStrictEqual(first.path, ["category"]);
-        assert.ok(first.score, "Expecting score");
+        assert.isDefined(first.score, "Expecting score");
         assert.equal(
           first.description,
           "Increase on region = Beijing | category = Handmade contributes the most to current incident.",
@@ -531,7 +507,7 @@ matrix([[true, false]] as const, async (useAad) => {
           };
           const actual = await client.addFeedback(anomalyFeedback);
 
-          assert.ok(actual.id, "Expecting valid feedback");
+          assert.isDefined(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
           assert.equal(actual.feedbackType, "Anomaly");
           if (actual.feedbackType === "Anomaly") {
@@ -550,7 +526,7 @@ matrix([[true, false]] as const, async (useAad) => {
             dimensionKey: { category: "Home & Garden", region: "Cairo" },
           };
           const actual = await client.addFeedback(changePointFeedback);
-          assert.ok(actual.id, "Expecting valid feedback");
+          assert.isDefined(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
           assert.equal(actual.feedbackType, "ChangePoint");
           if (actual.feedbackType === "ChangePoint") {
@@ -570,7 +546,7 @@ matrix([[true, false]] as const, async (useAad) => {
           };
           const actual = await client.addFeedback(periodFeedback);
 
-          assert.ok(actual.id, "Expecting valid feedback");
+          assert.isDefined(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
           assert.equal(actual.feedbackType, "Period");
           if (actual.feedbackType === "Period") {
@@ -589,7 +565,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
           const actual = await client.addFeedback(expectedCommentFeedback);
 
-          assert.ok(actual.id, "Expecting valid feedback");
+          assert.isDefined(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
           assert.equal(actual.feedbackType, "Comment");
           if (actual.feedbackType === "Comment") {
@@ -600,7 +576,7 @@ matrix([[true, false]] as const, async (useAad) => {
         it("retrieves Comment feedback", async () => {
           const actual = await client.getFeedback(createdFeedbackId);
 
-          assert.ok(actual.id, "Expecting valid feedback");
+          assert.isDefined(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
           assert.equal(actual.feedbackType, "Comment");
           if (actual.feedbackType === "Comment") {
@@ -620,9 +596,9 @@ matrix([[true, false]] as const, async (useAad) => {
             },
           );
           let result = getYieldedValue(await iterator.next());
-          assert.ok(result.id, "Expecting first status");
+          assert.isDefined(result.id, "Expecting first status");
           result = getYieldedValue(await iterator.next());
-          assert.ok(result.id, "Expecting second status");
+          assert.isDefined(result.id, "Expecting second status");
         });
 
         it("lists Anomaly feedbacks with datetime strings", async () => {
@@ -637,9 +613,9 @@ matrix([[true, false]] as const, async (useAad) => {
             },
           );
           let result = getYieldedValue(await iterator.next());
-          assert.ok(result.id, "Expecting first status");
+          assert.isDefined(result.id, "Expecting first status");
           result = getYieldedValue(await iterator.next());
-          assert.ok(result.id, "Expecting second status");
+          assert.isDefined(result.id, "Expecting second status");
         });
 
         it("lists Anomaly feedbacks by page", async () => {

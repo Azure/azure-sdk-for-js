@@ -45,7 +45,7 @@ export async function main(): Promise<void> {
 
   await serviceBusAdministrationClient.deleteQueue(queueName);
   const queueExists = await serviceBusAdministrationClient.queueExists(queueName);
-  if (queueExists == true) {
+  if (queueExists === true) {
     console.log("Something went wrong, queue should have been deleted");
     return;
   }

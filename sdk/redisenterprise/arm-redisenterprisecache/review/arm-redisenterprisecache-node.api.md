@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AccessKeys {
@@ -103,7 +103,7 @@ export type AofFrequency = string;
 
 // @public
 export interface Cluster extends TrackedResource {
-    encryption?: ClusterPropertiesEncryption;
+    encryption?: ClusterCommonPropertiesEncryption;
     highAvailability?: HighAvailability;
     readonly hostName?: string;
     identity?: ManagedServiceIdentity;
@@ -111,11 +111,47 @@ export interface Cluster extends TrackedResource {
     minimumTlsVersion?: TlsVersion;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
     readonly redisVersion?: string;
     readonly redundancyMode?: RedundancyMode;
     readonly resourceState?: ResourceState;
     sku: Sku;
     zones?: string[];
+}
+
+// @public
+export interface ClusterCommonProperties {
+    encryption?: ClusterCommonPropertiesEncryption;
+    highAvailability?: HighAvailability;
+    readonly hostName?: string;
+    minimumTlsVersion?: TlsVersion;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    readonly redisVersion?: string;
+    readonly redundancyMode?: RedundancyMode;
+    readonly resourceState?: ResourceState;
+}
+
+// @public
+export interface ClusterCommonPropertiesEncryption {
+    customerManagedKeyEncryption?: ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryption;
+}
+
+// @public
+export interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryption {
+    keyEncryptionKeyIdentity?: ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity;
+    keyEncryptionKeyUrl?: string;
+}
+
+// @public
+export interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity {
+    identityType?: CmkIdentityType;
+    userAssignedIdentityResourceId?: string;
+}
+
+// @public
+export interface ClusterCreateProperties extends ClusterCommonProperties {
+    publicNetworkAccess: PublicNetworkAccess | null;
 }
 
 // @public
@@ -128,31 +164,15 @@ export interface ClusterList {
 }
 
 // @public
-export interface ClusterPropertiesEncryption {
-    customerManagedKeyEncryption?: ClusterPropertiesEncryptionCustomerManagedKeyEncryption;
-}
-
-// @public
-export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryption {
-    keyEncryptionKeyIdentity?: ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity;
-    keyEncryptionKeyUrl?: string;
-}
-
-// @public
-export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity {
-    identityType?: CmkIdentityType;
-    userAssignedIdentityResourceId?: string;
-}
-
-// @public
 export interface ClusterUpdate {
-    encryption?: ClusterPropertiesEncryption;
+    encryption?: ClusterCommonPropertiesEncryption;
     highAvailability?: HighAvailability;
     readonly hostName?: string;
     identity?: ManagedServiceIdentity;
     minimumTlsVersion?: TlsVersion;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
     readonly redisVersion?: string;
     readonly redundancyMode?: RedundancyMode;
     readonly resourceState?: ResourceState;
@@ -160,6 +180,11 @@ export interface ClusterUpdate {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface ClusterUpdateProperties extends ClusterCommonProperties {
+    publicNetworkAccess?: PublicNetworkAccess;
 }
 
 // @public
@@ -175,7 +200,7 @@ export interface Database extends ProxyResource {
     clusteringPolicy?: ClusteringPolicy;
     deferUpgrade?: DeferUpgradeSetting;
     evictionPolicy?: EvictionPolicy;
-    geoReplication?: DatabasePropertiesGeoReplication;
+    geoReplication?: DatabaseCommonPropertiesGeoReplication;
     modules?: Module[];
     persistence?: Persistence;
     port?: number;
@@ -185,15 +210,35 @@ export interface Database extends ProxyResource {
 }
 
 // @public
-export interface DatabaseList {
-    readonly nextLink?: string;
-    value?: Database[];
+export interface DatabaseCommonProperties {
+    accessKeysAuthentication?: AccessKeysAuthentication;
+    clientProtocol?: Protocol;
+    clusteringPolicy?: ClusteringPolicy;
+    deferUpgrade?: DeferUpgradeSetting;
+    evictionPolicy?: EvictionPolicy;
+    geoReplication?: DatabaseCommonPropertiesGeoReplication;
+    modules?: Module[];
+    persistence?: Persistence;
+    port?: number;
+    readonly provisioningState?: ProvisioningState;
+    readonly redisVersion?: string;
+    readonly resourceState?: ResourceState;
 }
 
 // @public
-export interface DatabasePropertiesGeoReplication {
+export interface DatabaseCommonPropertiesGeoReplication {
     groupNickname?: string;
     linkedDatabases?: LinkedDatabase[];
+}
+
+// @public
+export interface DatabaseCreateProperties extends DatabaseCommonProperties {
+}
+
+// @public
+export interface DatabaseList {
+    readonly nextLink?: string;
+    value?: Database[];
 }
 
 // @public
@@ -388,13 +433,17 @@ export interface DatabaseUpdate {
     clusteringPolicy?: ClusteringPolicy;
     deferUpgrade?: DeferUpgradeSetting;
     evictionPolicy?: EvictionPolicy;
-    geoReplication?: DatabasePropertiesGeoReplication;
+    geoReplication?: DatabaseCommonPropertiesGeoReplication;
     modules?: Module[];
     persistence?: Persistence;
     port?: number;
     readonly provisioningState?: ProvisioningState;
     readonly redisVersion?: string;
     readonly resourceState?: ResourceState;
+}
+
+// @public
+export interface DatabaseUpdateProperties extends DatabaseCommonProperties {
 }
 
 // @public
@@ -598,6 +647,12 @@ export enum KnownProvisioningState {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -915,6 +970,9 @@ export interface ProxyResource extends ResourceAutoGenerated {
 // @public
 export interface ProxyResourceAutoGenerated extends Resource {
 }
+
+// @public
+export type PublicNetworkAccess = string;
 
 // @public
 export type RdbFrequency = string;

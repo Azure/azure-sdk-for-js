@@ -85,7 +85,6 @@ describe("TimeoutFailoverRetryPolicy", () => {
       ResourceType.item,
       OperationType.Read,
       true,
-      false,
       gpem,
     );
     retryCtx = { retryCount: 2 };
@@ -127,7 +126,6 @@ describe("TimeoutFailoverRetryPolicy", () => {
       ResourceType.item,
       OperationType.Read,
       true,
-      false,
       gpem,
     );
     assert.equal(
@@ -147,7 +145,6 @@ describe("TimeoutFailoverRetryPolicy", () => {
       HTTPMethod.get,
       ResourceType.item,
       OperationType.Read,
-      false,
       false,
       gpem,
     );
@@ -205,7 +202,6 @@ describe("TimeoutFailoverRetryPolicy", () => {
       ResourceType.item,
       OperationType.Read,
       true,
-      false,
       gpem,
     );
 
@@ -259,7 +255,6 @@ describe("TimeoutFailoverRetryPolicy", () => {
       ResourceType.item,
       OperationType.Create,
       true,
-      false,
       gpem,
     );
     assert.equal(
@@ -300,7 +295,6 @@ describe("TimeoutFailoverRetryPolicy", () => {
       ResourceType.item,
       OperationType.Read,
       true,
-      false,
       gpem,
     );
     //  initialising redable locations

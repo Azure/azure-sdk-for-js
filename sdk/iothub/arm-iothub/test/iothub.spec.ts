@@ -47,7 +47,7 @@ describe("Iothub test", () => {
     const credential = createTestCredential();
     client = new IotHubClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroup = "myjstest";
+    resourceGroup = "SSS3PT_myjstest";
     iothubName = "myiothubxxxxyyyjjrr";
   });
 
@@ -152,6 +152,7 @@ describe("Iothub test", () => {
   });
 
   it("iotHubResource delete test", async () => {
+    await client.iotHubResource.beginDeleteAndWait(resourceGroup, iothubName, testPollingOptions);
     const resArray = new Array();
     for await (const item of client.iotHubResource.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

@@ -28,6 +28,20 @@ async function toBlobPart(
 }
 
 /**
+ * Converts a Uint8Array to a Uint8Array<ArrayBuffer>.
+ * @param source - The source Uint8Array.
+ * @returns
+ */
+function arrayToArrayBuffer(source: Uint8Array): Uint8Array<ArrayBuffer> {
+  if ("resize" in source.buffer) {
+    // ArrayBuffer
+    return source as Uint8Array<ArrayBuffer>;
+  }
+  // SharedArrayBuffer
+  return source.map((x) => x);
+}
+
+/**
  * Accepted binary data types for concat
  *
  * @internal
@@ -48,7 +62,13 @@ export async function concat(
 ): Promise<(() => NodeJS.ReadableStream) | Blob> {
   const parts = [];
   for (const source of sources) {
-    parts.push(await toBlobPart(typeof source === "function" ? source() : source));
+    const blobPart = await toBlobPart(typeof source === "function" ? source() : source);
+    if (blobPart instanceof Blob) {
+      parts.push(blobPart);
+    } else {
+      // Uint8Array
+      parts.push(new Blob([arrayToArrayBuffer(blobPart)]));
+    }
   }
 
   return new Blob(parts);

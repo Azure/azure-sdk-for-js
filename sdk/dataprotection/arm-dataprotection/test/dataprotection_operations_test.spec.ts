@@ -48,7 +48,7 @@ describe("DataProtection test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroup = "SSS3PT_myjstest";
+    resourceGroup = "SSS3PT_czwjstest";
     vaultName = "swaggerExample";
   });
 
@@ -57,7 +57,7 @@ describe("DataProtection test", () => {
   });
   // no operation list api for dataprotection
   it("backupVaults create test", async () => {
-    const res = await client.backupVaults.beginCreateOrUpdateAndWait(
+    const res = await client.backupVaults.createOrUpdate(
       resourceGroup,
       vaultName,
       {
@@ -91,7 +91,7 @@ describe("DataProtection test", () => {
 
   it("backupVaults delete test", async () => {
     const resArray = new Array();
-    await client.backupVaults.beginDeleteAndWait(resourceGroup, vaultName, testPollingOptions);
+    await client.backupVaults.delete(resourceGroup, vaultName, testPollingOptions);
     for await (const item of client.backupVaults.listInResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

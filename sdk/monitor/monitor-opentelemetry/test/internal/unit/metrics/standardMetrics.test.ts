@@ -410,7 +410,7 @@ describe("#StandardMetricsHandler", () => {
   });
 
   it("should retrieve meter provider", () => {
-    assert.ok(autoCollect.getMeterProvider());
+    assert.isDefined(autoCollect.getMeterProvider());
   });
 
   it("should not collect when disabled", async () => {

@@ -8,14 +8,16 @@ import {
   generateBlobSASQueryParameters,
   BlobSASPermissions,
   StorageBlobAudience,
+  SASProtocol,
 } from "@azure/storage-blob";
 import { PageBlobClient, StorageSharedKeyCredential } from "@azure/storage-blob";
-import { delay, Recorder } from "@azure-tools/test-recorder";
+import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createBlobServiceClient, createPageBlobClient } from "./utils/clients.js";
 import { bodyToString, getUniqueName } from "../utils/utils.js";
+import { parseJwt } from "./utils/utils.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { STORAGE_SCOPE } from "../utils/constants.js";
+import { STORAGE_SCOPE, SERVICE_VERSION } from "../utils/constants.js";
 import { isRestError } from "@azure/core-rest-pipeline";
 import {
   getAccountKey,
@@ -203,6 +205,82 @@ describe.runIf(getAccountKey())("PageBlobClient", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
+  it.runIf(isLiveMode())(
+    "uploadPagesFromURL - source delegation sas with bear token and destination account key",
+    async () => {
+      // The token is sanitized in recording, we cannot get the object id from it.
+      const blobServiceClientWithToken = await createBlobServiceClient("TokenCredential", {
+        recorder,
+      });
+
+      const credential = createTestCredential();
+      const token = (await credential.getToken(STORAGE_SCOPE))?.token;
+      if (!token) {
+        assert.fail("Expected token to be defined");
+      }
+      const jwtObj = parseJwt(token);
+
+      const now = new Date(recorder.variable("now", new Date().toISOString()));
+      now.setHours(now.getHours() - 1);
+      const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+      tmr.setDate(tmr.getDate() + 1);
+      const userDelegationKey = await blobServiceClientWithToken.getUserDelegationKey(now, tmr);
+
+      const sharedKeyCredential = containerClient.credential as StorageSharedKeyCredential;
+      const accountName = sharedKeyCredential.accountName;
+
+      const content = "a".repeat(512) + "b".repeat(512);
+      const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
+      const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
+      await blockBlobClient.upload(content, content.length);
+
+      const delegationSAS = generateBlobSASQueryParameters(
+        {
+          containerName: containerClient.containerName,
+          blobName: blockBlobName,
+          expiresOn: tmr,
+          permissions: BlobSASPermissions.parse("racwd"),
+          protocol: SASProtocol.HttpsAndHttp,
+          startsOn: now,
+          version: SERVICE_VERSION,
+          delegatedUserObjectId: jwtObj.oid,
+        },
+        userDelegationKey,
+        accountName,
+      );
+
+      await pageBlobClient.create(1024);
+      const result = await blobClient.download(0);
+      assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
+
+      await pageBlobClient.uploadPagesFromURL(`${blockBlobClient.url}?${delegationSAS}`, 0, 0, 512, {
+        sourceAuthorization: {
+          scheme: "Bearer",
+          value: token,
+        },
+      });
+
+      await pageBlobClient.uploadPagesFromURL(
+        `${blockBlobClient.url}?${delegationSAS}`,
+        512,
+        512,
+        512,
+        {
+          sourceAuthorization: {
+            scheme: "Bearer",
+            value: token,
+          },
+        },
+      );
+
+      const page1 = await pageBlobClient.download(0, 512);
+      const page2 = await pageBlobClient.download(512, 512);
+
+      assert.equal(await bodyToString(page1, 512), "a".repeat(512));
+      assert.equal(await bodyToString(page2, 512), "b".repeat(512));
+    },
+  );
+
   it("uploadPagesFromURL - destination bearer token", async () => {
     await pageBlobClient.create(1024);
 
@@ -304,7 +382,7 @@ describe.runIf(getAccountKey())("PageBlobClient", () => {
       }
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
 
     const content = "b".repeat(512);
     const blockBlobName = getUniqueName("blockblob", { recorder });
@@ -360,7 +438,7 @@ describe.runIf(getAccountKey())("PageBlobClient", () => {
       }
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
 
     // await pageBlobURL.clearPages(Aborter.none, 0, 512, {customerProvidedKey: Test_CPK_INFO});
     // page1 = await pageBlobURL.download(Aborter.none, 0, 512, {customerProvidedKey: Test_CPK_INFO});
@@ -373,7 +451,7 @@ describe.runIf(getAccountKey())("PageBlobClient", () => {
     // } catch (err) {
     //   exceptionCaught = true;
     // }
-    // assert.ok(exceptionCaught);
+    // assert.isDefined(exceptionCaught);
 
     // Resize can work without customer encryption key.
     await pageBlobClient.resize(2048);
@@ -409,7 +487,7 @@ describe.runIf(getAccountKey())("PageBlobClient", () => {
 
     it("PageBlob.startCopyIncremental", async () => {
       const snapshotResult = await pageBlobClient.createSnapshot();
-      assert.ok(snapshotResult.snapshot);
+      assert.isDefined(snapshotResult.snapshot);
       const copySource = pageBlobClient.withSnapshot(snapshotResult.snapshot!).url;
 
       await containerClient.setAccessPolicy("container");
@@ -432,10 +510,10 @@ describe.runIf(getAccountKey())("PageBlobClient", () => {
       await destPageBlobClient.setTags(tags);
 
       const snapshotResult1 = await pageBlobClient.createSnapshot();
-      assert.ok(snapshotResult1.snapshot);
+      assert.isDefined(snapshotResult1.snapshot);
       const copySource1 = pageBlobClient.withSnapshot(snapshotResult1.snapshot!).url;
 
-      assert.ok(
+      assert.isTrue(
         await throwExpectedError(
           destPageBlobClient.startCopyIncremental(copySource1, { conditions: tagConditionUnmet }),
           "ConditionNotMet",
@@ -467,7 +545,7 @@ describe.runIf(getAccountKey())("PageBlobClient", () => {
         sharedKeyCredential,
       );
 
-      assert.ok(
+      assert.isTrue(
         await throwExpectedError(
           pageBlobClient.uploadPagesFromURL(`${blockBlobClient.url}?${sas}`, 0, 0, 512, {
             conditions: tagConditionUnmet,
@@ -517,7 +595,7 @@ describe.runIf(getMdAccountName()).skip("managed disks", () => {
     await mdPageBlobClient.uploadPages("b".repeat(1024), 0, 1024);
 
     const snapshotResult = await mdPageBlobClient.createSnapshot();
-    assert.ok(snapshotResult.snapshot);
+    assert.isDefined(snapshotResult.snapshot);
 
     await mdPageBlobClient.uploadPages("a".repeat(512), 0, 512);
     await mdPageBlobClient.clearPages(512, 512);
@@ -543,7 +621,7 @@ describe.runIf(getMdAccountName()).skip("managed disks", () => {
       new StorageSharedKeyCredential(accountName, accountKey),
     );
     const result = await diskBlobClient.getProperties();
-    assert.ok(result.contentLength);
+    assert.isDefined(result.contentLength);
   });
 
   it("fetch a blob for disk with Bearer token", async function () {
@@ -556,6 +634,6 @@ describe.runIf(getMdAccountName()).skip("managed disks", () => {
     );
 
     const result = await diskBlobClient.getProperties();
-    assert.ok(result.contentLength);
+    assert.isDefined(result.contentLength);
   });
 });

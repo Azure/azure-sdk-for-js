@@ -1,6 +1,6 @@
 # Release History
 
-## 11.0.0-beta.3 (2025-09-12)
+## 11.0.0-beta.4 (2025-09-24)
 Compared with version 10.0.0
 
 ### Features Added
@@ -258,6 +258,11 @@ Compared with version 10.0.0
   - Removed Enum KnownManagedInstancePropertiesProvisioningState
   - Removed Enum KnownReplicationMode
 
+## 11.0.0-beta.3 (2025-08-22)
+
+### Other Changes
+
+  - Other fixes
     
 ## 11.0.0-beta.2 (2024-08-20)
 Compared with version 10.0.0

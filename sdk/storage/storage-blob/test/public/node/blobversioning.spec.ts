@@ -55,14 +55,14 @@ describe("Blob versioning", () => {
     assert.deepStrictEqual(downloadRes2.versionId, uploadRes2.versionId);
 
     const downloadToBufferRes = await blobVersionClient.downloadToBuffer();
-    assert.ok(downloadToBufferRes.equals(Buffer.from(content)));
+    assert.isTrue(downloadToBufferRes.equals(Buffer.from(content)));
   });
 
   it("download a version to file", async function () {
     const downloadedFilePath = getUniqueName("downloadedtofile", { recorder });
     await blobClient.withVersion(uploadRes.versionId!).downloadToFile(downloadedFilePath);
     const downloadedFileContent = await fs.readFile(downloadedFilePath);
-    assert.ok(downloadedFileContent.equals(Buffer.from(content)));
+    assert.isTrue(downloadedFileContent.equals(Buffer.from(content)));
     await fs.unlink(downloadedFilePath);
   });
 });

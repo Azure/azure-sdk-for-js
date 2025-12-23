@@ -96,7 +96,7 @@ describe("LeaseClient from FileSystem", () => {
 
     await delay(16 * 1000);
     const result2 = await fileSystemClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "expired");
     assert.equal(result2.leaseStatus, "unlocked");
 
@@ -141,14 +141,14 @@ describe("LeaseClient from FileSystem", () => {
     await leaseClient.breakLease(3);
 
     const result2 = await fileSystemClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
     await delay(3 * 1000);
 
     const result3 = await fileSystemClient.getProperties();
-    assert.ok(!result3.leaseDuration);
+    assert.isUndefined(result3.leaseDuration);
     assert.equal(result3.leaseState, "broken");
     assert.equal(result3.leaseStatus, "unlocked");
   });
@@ -221,7 +221,7 @@ describe("LeaseClient from File", () => {
     await delay(20 * 1000);
 
     const result2 = await fileClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "expired");
     // assert.equal(result2.leaseStatus, "unlocked"); // TODO: Potential bug of server which returns "locked" for "expired" lease
 
@@ -266,14 +266,14 @@ describe("LeaseClient from File", () => {
     await leaseClient.breakLease(5);
 
     const result2 = await fileClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
     await delay(5 * 1000);
 
     const result3 = await fileClient.getProperties();
-    assert.ok(!result3.leaseDuration);
+    assert.isUndefined(result3.leaseDuration);
     assert.equal(result3.leaseState, "broken");
     // assert.equal(result3.leaseStatus, "unlocked"); // TODO: Potential bug of server which returns "locked" for "broken" lease
   });
@@ -346,7 +346,7 @@ describe("LeaseClient from Directory", () => {
     await delay(20 * 1000);
 
     const result2 = await directoryClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "expired");
     // assert.equal(result2.leaseStatus, "unlocked"); // TODO: Potential bug of server which returns "locked" for "expired" lease
 
@@ -391,14 +391,14 @@ describe("LeaseClient from Directory", () => {
     await leaseClient.breakLease(15);
 
     const result2 = await directoryClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
     await delay(15 * 1000);
 
     const result3 = await directoryClient.getProperties();
-    assert.ok(!result3.leaseDuration);
+    assert.isUndefined(result3.leaseDuration);
     assert.equal(result3.leaseState, "broken");
     // assert.equal(result3.leaseStatus, "unlocked"); // TODO: Potential bug of server which returns "locked" for "broken" lease
   });
