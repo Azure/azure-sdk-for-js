@@ -18357,6 +18357,9 @@ importers:
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
+      '@azure/storage-blob':
+        specifier: ^12.24.0
+        version: 12.29.1
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
