@@ -23,7 +23,7 @@ class PlaywrightServiceConfig {
   public runName: string;
   public apiVersion: string;
   private _serviceAuthType: string = ServiceAuth.ENTRA_ID;
-  public credential: TokenCredential;
+  public credential?: TokenCredential;
 
   constructor() {
     this.serviceOs = (process.env[InternalEnvironmentVariables.MPT_SERVICE_OS] ||
