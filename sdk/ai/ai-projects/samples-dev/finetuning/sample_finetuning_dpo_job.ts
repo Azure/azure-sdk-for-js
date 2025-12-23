@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to obtain an OpenAI client and perform dpo fine-tuning operations.
+ * This sample demonstrates how to obtain an OpenAI client and perform Direct Preference Optimization (DPO) fine-tuning operations.
  * Supported OpenAI models: GPT-4o, GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, and GPT-4o-mini.
  *
  * @summary Using an OpenAI client, this sample demonstrates how to create and cancel dpo fine-tuning jobs.
