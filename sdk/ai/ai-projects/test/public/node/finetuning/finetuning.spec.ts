@@ -424,7 +424,7 @@ describe("finetuning - basic", () => {
     const accountName = extractAccountNameFromEndpoint(projectEndpoint);
     console.log(`${testPrefix} Account Name: ${accountName}`);
 
-    console.log(`Test deployment and inference for completed job ID: ${completedJobId}`);
+    console.log(`Test deployment for completed job ID: ${completedJobId}`);
 
     const job = await openai.fineTuning.jobs.retrieve(completedJobId);
     console.log(`${testPrefix} Retrieved job with status: ${job.status}`);
@@ -916,58 +916,70 @@ describe("finetuning - basic", () => {
     );
   });
 
-  it.skipIf(!isLive)("should test finetuning deploy and infer openai model sft job", async () => {
+  it.skipIf(!isLive)("should test finetuning deploy openai model sft job", async () => {
     await deployJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_FINE_TUNING_JOB_ID",
       "OpenAI",
       50,
-      "testFinetuningDeployAndInferOpenaiModelSftJob",
-    );
-    await inferJobHelper(
-      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_DEPLOYMENT_NAME",
-      "testFinetuningDeployAndInferOpenaiModelSftJob",
-      "Who invented the telephone?",
+      "testFinetuningDeployOpenaiModelSftJob",
     );
   });
 
-  it.skipIf(!isLive)("should test finetuning deploy and infer openai model rft job", async () => {
-    await deployJobHelper(
-      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_RFT_FINE_TUNING_JOB_ID",
-      "OpenAI",
-      50,
-      "testFinetuningDeployAndInferOpenaiModelRftJob",
-    );
-    await inferJobHelper(
-      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_RFT_DEPLOYMENT_NAME",
-      "testFinetuningDeployAndInferOpenaiModelRftJob",
-      "Target: 85 Numbers: [20, 4, 15, 10]. Find a mathematical expression using all numbers exactly once to reach the target.",
-    );
-  });
-
-  it.skipIf(!isLive)("should test finetuning deploy and infer openai model dpo job", async () => {
+  it.skipIf(!isLive)("should test finetuning deploy openai model dpo job", async () => {
     await deployJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_DPO_FINE_TUNING_JOB_ID",
       "OpenAI",
       50,
-      "testFinetuningDeployAndInferOpenaiModelDpoJob",
-    );
-    await inferJobHelper(
-      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_DPO_DEPLOYMENT_NAME",
-      "testFinetuningDeployAndInferOpenaiModelDpoJob",
-      "What is the largest desert in the world?",
+      "testFinetuningDeployOpenaiModelDpoJob",
     );
   });
 
-  it.skipIf(!isLive)("should test finetuning deploy and infer oss model sft job", async () => {
+  it.skipIf(!isLive)("should test finetuning deploy openai model rft job", async () => {
+    await deployJobHelper(
+      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_RFT_FINE_TUNING_JOB_ID",
+      "OpenAI",
+      50,
+      "testFinetuningDeployOpenaiModelRftJob",
+    );
+  });
+
+  it.skipIf(!isLive)("should test finetuning deploy oss model sft job", async () => {
     await deployJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OSS_MODEL_SFT_FINE_TUNING_JOB_ID",
       "Mistral AI",
       50,
-      "testFinetuningDeployAndInferOssModelSftJob",
+      "testFinetuningDeployOssModelSftJob",
     );
+  });
+
+  it.skipIf(!isLive)("should test finetuning infer openai model sft job", async () => {
+    await inferJobHelper(
+      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_DEPLOYMENT_NAME",
+      "testFinetuningInferOpenaiModelSftJob",
+      "Who invented the telephone?",
+    );
+  });
+
+  it.skipIf(!isLive)("should test finetuning infer openai model dpo job", async () => {
+    await inferJobHelper(
+      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_DPO_DEPLOYMENT_NAME",
+      "testFinetuningInferOpenaiModelDpoJob",
+      "What is the largest desert in the world?",
+    );
+  });
+
+  it.skipIf(!isLive)("should test finetuning infer openai model rft job", async () => {
+    await inferJobHelper(
+      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_RFT_DEPLOYMENT_NAME",
+      "testFinetuningInferOpenaiModelRftJob",
+      "Target: 85 Numbers: [20, 4, 15, 10]. Find a mathematical expression using all numbers exactly once to reach the target.",
+    );
+  });
+
+  it.skipIf(!isLive)("should test finetuning infer oss model sft job", async () => {
     await inferJobHelper(
       "AZURE_AI_PROJECTS_TESTS_COMPLETED_OSS_MODEL_SFT_DEPLOYMENT_NAME",
-      "testFinetuningDeployAndInferOssModelSftJob",
+      "testFinetuningInferOssModelSftJob",
       "Who invented the telephone?",
     );
   });
