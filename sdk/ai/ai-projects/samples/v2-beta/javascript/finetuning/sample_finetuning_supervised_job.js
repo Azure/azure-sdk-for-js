@@ -24,9 +24,11 @@ const trainingFilePath = path.join(__dirname, "data", "sft_training_set.jsonl");
 const validationFilePath = path.join(__dirname, "data", "sft_validation_set.jsonl");
 
 // For Deployment and inferencing on model
-const subscription_id = process.env["AZURE_AI_PROJECTS_AZURE_SUBSCRIPTION_ID"];
-const resource_group = process.env["AZURE_AI_PROJECTS_AZURE_RESOURCE_GROUP"];
-const account_name = process.env["AZURE_AI_PROJECTS_AZURE_AOAI_ACCOUNT"];
+const subscription_id =
+  process.env["AZURE_AI_PROJECTS_AZURE_SUBSCRIPTION_ID"] || "<subscription id string>";
+const resource_group =
+  process.env["AZURE_AI_PROJECTS_AZURE_RESOURCE_GROUP"] || "<resource group string>";
+const account_name = process.env["AZURE_AI_PROJECTS_AZURE_AOAI_ACCOUNT"] || "<AOAI account string>";
 
 async function retrieveJob(openAIClient, jobId) {
   console.log(`\nGetting fine-tuning job with ID: ${jobId}`);
@@ -75,7 +77,8 @@ async function deployModel(openAIClient, jobId) {
   // Deploy model using Azure Management SDK (azure-mgmt-cognitiveservices).
   // Note: Deployment can only be started after the fine-tuning job completes successfully.
   console.log(`Retrieving fine-tuning job with ID: ${jobId}`);
-  const fineTunedModelName = (await openAIClient.fineTuning.jobs.retrieve(jobId)).fine_tuned_model;
+  const job = await openAIClient.fineTuning.jobs.retrieve(jobId);
+  const finetunedModelName = job.fine_tuned_model;
   const deploymentName = "gpt-4-1-fine-tuned";
 
   const deploymentConfig = {
