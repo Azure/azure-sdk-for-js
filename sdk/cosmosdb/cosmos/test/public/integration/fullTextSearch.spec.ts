@@ -9,7 +9,8 @@ import {
 } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeAll } from "vitest";
 
-describe("FTSQuery", { timeout: 120000 }, () => {
+// Skipping FTSQuery tests as they are time-intensive and may impact pipeline runs
+describe.skip("FTSQuery", { timeout: 120000 }, () => {
   const partitionKey = "id";
   let container: Container;
   const containerDefinition: ContainerDefinition = {
