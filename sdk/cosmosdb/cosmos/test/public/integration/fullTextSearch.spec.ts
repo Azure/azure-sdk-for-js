@@ -9,10 +9,6 @@ import {
 } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeAll } from "vitest";
 
-// Test timeout set to 120 seconds to accommodate emulator operations which include:
-// - Container creation with specific throughput (25000 RU/s)
-// - Insertion of 100 documents with 1536-dimensional vectors
-// - Multiple query executions with full-text search and vector distance operations
 describe("FTSQuery", { timeout: 120000 }, () => {
   const partitionKey = "id";
   let container: Container;
@@ -174,7 +170,6 @@ describe("FTSQuery", { timeout: 120000 }, () => {
         WHERE FullTextContains(c.title, 'John') OR FullTextContains(c.text, 'John') OR FullTextContains(c.text, 'United States')
         ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))`,
       {
-        // Updated to match .NET SDK expected values
         expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2, 22, 57, 85],
         expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2, 22, 85, 57],
       },
@@ -185,7 +180,6 @@ describe("FTSQuery", { timeout: 120000 }, () => {
         WHERE FullTextContains(c.title, 'John') OR FullTextContains(c.text, 'John') OR FullTextContains(c.text, 'United States')
         ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))`,
       {
-        // Updated to match .NET SDK expected values
         expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
         expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
       },
@@ -197,7 +191,6 @@ describe("FTSQuery", { timeout: 120000 }, () => {
         ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))
         OFFSET 5 LIMIT 10`,
       {
-        // Updated to match .NET SDK expected values
         expected1: [24, 77, 76, 80, 2, 22, 57, 85],
         expected2: [24, 77, 76, 80, 2, 22, 85, 57],
       },
@@ -207,14 +200,11 @@ describe("FTSQuery", { timeout: 120000 }, () => {
         FROM c
         ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))`,
       {
-        // Updated to match .NET SDK expected values
         expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
         expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
       },
     ],
     [
-      // Note: Changed LIMIT from 13 to 11 to match .NET SDK test case
-      // See: https://github.com/Azure/azure-cosmos-dotnet-v3/blob/master/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/HybridSearchQueryTests.cs
       `SELECT c.index AS Index, c.title AS Title, c.text AS Text
         FROM c
         ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))
@@ -232,7 +222,6 @@ describe("FTSQuery", { timeout: 120000 }, () => {
         parameters: [{ name: "@inputVector", value: sampleVector }],
       },
       {
-        // Updated to match .NET SDK expected values
         expected1: [21, 37, 75, 26, 35, 24, 87, 55, 49, 9],
         expected2: [21, 37, 75, 26, 35, 24, 87, 55, 49, 9],
       },
@@ -258,7 +247,6 @@ describe("FTSQuery", { timeout: 120000 }, () => {
         ],
       },
       {
-        // Updated to match .NET SDK expected values
         expected1: [21, 37, 75, 26, 35, 24, 87, 55, 49, 9],
         expected2: [21, 37, 75, 26, 35, 24, 87, 55, 49, 9],
       },
@@ -266,10 +254,6 @@ describe("FTSQuery", { timeout: 120000 }, () => {
     // TODO: Add test case of just RRF with vector search no FullTextScore
   ];
 
-  // Weighted RRF tests - These are separated because the .NET SDK marks them as
-  // needing an emulator refresh.
-  // See: https://github.com/Azure/azure-cosmos-dotnet-v3/blob/master/Microsoft.Azure.Cosmos/tests/Microsoft.Azure.Cosmos.EmulatorTests/Query/HybridSearchQueryTests.cs
-  // The WeightedRankFusionTests method has [Ignore("This test is disabled because it needs an emulator refresh.")]
   const weightedRRFQueriesMap: Array<
     [string | SqlQuerySpec, { expected1: number[]; expected2: number[] }]
   > = [
@@ -462,9 +446,6 @@ describe("FTSQuery", { timeout: 120000 }, () => {
     }
   });
 
-  // Weighted RRF tests - Skipped because the .NET SDK marks them as needing an emulator refresh.
-  // See: HybridSearchQueryTests.cs WeightedRankFusionTests which has
-  // [Ignore("This test is disabled because it needs an emulator refresh.")]
   describe.skip("Weighted RRF queries (needs emulator refresh)", () => {
     it("FetchAll: should return correct expected values for weighted RRF queries", async () => {
       for (const [query, { expected1, expected2 }] of weightedRRFQueriesMap) {
