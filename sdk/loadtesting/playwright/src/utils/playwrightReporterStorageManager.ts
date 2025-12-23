@@ -151,7 +151,7 @@ export class PlaywrightReporterStorageManager {
     }
   }
 
-  //  Uploads the entire Playwright HTML report folder after tests complete.
+  // Uploads the entire Playwright HTML report folder after tests complete.
 
   async uploadPlaywrightHtmlReportAfterTests(
     outputFolderName?: string,
