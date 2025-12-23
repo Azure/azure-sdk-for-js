@@ -376,7 +376,7 @@ describe.runIf(isLive)("finetuning - basic", () => {
     const accountName = extractAccountNameFromEndpoint(projectEndpoint);
     const job = await openai.fineTuning.jobs.retrieve(completedJobId);
 
-    const finetunedModelName: string = job.fine_tuned_model!!;
+    const finetunedModelName: string = job.fine_tuned_model;
     const deploymentName = `test-${completedJobId.slice(-8)}`;
 
     const deploymentConfig: Deployment = {
