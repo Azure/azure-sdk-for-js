@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { DefaultAzureCredential } from "@azure/identity";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../../utils/createClient.js";
@@ -407,15 +408,21 @@ describe("finetuning - basic", () => {
     deploymentCapacity: number,
     testPrefix: string,
   ): Promise<void> {
-    const completedJobId = process.env[completedJobIdEnvVar];
+    const completedJobId = assertEnvironmentVariable(completedJobIdEnvVar);
     if (!completedJobId) {
       console.warn(`Environment variable ${completedJobIdEnvVar} is not set. Skipping test.`);
       return;
     }
 
-    const subscriptionId: string = process.env["AZURE_AI_PROJECTS_TESTS_AZURE_SUBSCRIPTION_ID"]!;
-    const resourceGroup: string = process.env["AZURE_AI_PROJECTS_TESTS_AZURE_RESOURCE_GROUP"]!;
-    const projectEndpoint: string = process.env["AZURE_AI_PROJECTS_TESTS_PROJECT_ENDPOINT"]!;
+    const subscriptionId: string = assertEnvironmentVariable(
+      "AZURE_AI_PROJECTS_TESTS_AZURE_SUBSCRIPTION_ID",
+    );
+    const resourceGroup: string = assertEnvironmentVariable(
+      "AZURE_AI_PROJECTS_TESTS_AZURE_RESOURCE_GROUP",
+    );
+    const projectEndpoint: string = assertEnvironmentVariable(
+      "AZURE_AI_PROJECTS_TESTS_PROJECT_ENDPOINT",
+    );
     if (!subscriptionId || !resourceGroup || !projectEndpoint) {
       console.warn(`One or more required environment variables are not set. Skipping test.`);
       return;
@@ -466,7 +473,7 @@ describe("finetuning - basic", () => {
     testPrefix: string,
     inference_content: string,
   ): Promise<void> {
-    const deploymentName = process.env[deploymentNameEnvVar];
+    const deploymentName = assertEnvironmentVariable(deploymentNameEnvVar);
     if (!deploymentName) {
       console.warn(`Environment variable ${deploymentNameEnvVar} is not set. Skipping test.`);
       return;
@@ -817,7 +824,9 @@ describe("finetuning - basic", () => {
   });
 
   it.skipIf(!isLive)("should test finetuning pause job", async () => {
-    const runningJobId = process.env["AZURE_AI_PROJECTS_TESTS_RUNNING_FINE_TUNING_JOB_ID"];
+    const runningJobId = assertEnvironmentVariable(
+      "AZURE_AI_PROJECTS_TESTS_RUNNING_FINE_TUNING_JOB_ID",
+    );
     if (!runningJobId) {
       console.warn(
         "Skipping finetuning pause job test because AZURE_AI_PROJECTS_TESTS_RUNNING_FINE_TUNING_JOB_ID is not set.",
@@ -850,7 +859,9 @@ describe("finetuning - basic", () => {
   });
 
   it.skipIf(!isLive)("should test finetuning resume job", async () => {
-    const pausedJobId = process.env["AZURE_AI_PROJECTS_TESTS_PAUSED_FINE_TUNING_JOB_ID"];
+    const pausedJobId = assertEnvironmentVariable(
+      "AZURE_AI_PROJECTS_TESTS_PAUSED_FINE_TUNING_JOB_ID",
+    );
     if (!pausedJobId) {
       console.warn(
         "Skipping finetuning resume job test because AZURE_AI_PROJECTS_TESTS_PAUSED_FINE_TUNING_JOB_ID is not set.",
@@ -876,8 +887,9 @@ describe("finetuning - basic", () => {
   });
 
   it.skipIf(!isLive)("should test finetuning list checkpoints", async () => {
-    const completedJobId =
-      process.env["AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_FINE_TUNING_JOB_ID"];
+    const completedJobId = assertEnvironmentVariable(
+      "AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_FINE_TUNING_JOB_ID",
+    );
     if (!completedJobId) {
       console.warn(
         "Skipping finetuning list checkpoints test because AZURE_AI_PROJECTS_TESTS_COMPLETED_OAI_MODEL_SFT_FINE_TUNING_JOB_ID is not set.",
