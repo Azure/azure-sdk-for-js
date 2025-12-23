@@ -413,9 +413,9 @@ describe("finetuning - basic", () => {
       return;
     }
 
-    const subscriptionId = process.env["AZURE_AI_PROJECTS_TESTS_AZURE_SUBSCRIPTION_ID"]!;
-    const resourceGroup = process.env["AZURE_AI_PROJECTS_TESTS_AZURE_RESOURCE_GROUP"]!;
-    const projectEndpoint = process.env["AZURE_AI_PROJECTS_TESTS_PROJECT_ENDPOINT"]!;
+    const subscriptionId: string = process.env["AZURE_AI_PROJECTS_TESTS_AZURE_SUBSCRIPTION_ID"]!;
+    const resourceGroup: string = process.env["AZURE_AI_PROJECTS_TESTS_AZURE_RESOURCE_GROUP"]!;
+    const projectEndpoint: string = process.env["AZURE_AI_PROJECTS_TESTS_PROJECT_ENDPOINT"]!;
     if (!subscriptionId || !resourceGroup || !projectEndpoint) {
       console.warn(`One or more required environment variables are not set. Skipping test.`);
       return;
@@ -429,7 +429,7 @@ describe("finetuning - basic", () => {
     const job = await openai.fineTuning.jobs.retrieve(completedJobId);
     console.log(`${testPrefix} Retrieved job with status: ${job.status}`);
 
-    const finetunedModelName = job.fine_tuned_model;
+    const finetunedModelName: string = job.fine_tuned_model!!;
     const deploymentName = `test-${completedJobId.slice(-8)}`;
 
     console.log(`${testPrefix} Deploying model: ${finetunedModelName} as ${deploymentName}`);
@@ -438,7 +438,7 @@ describe("finetuning - basic", () => {
       properties: {
         model: {
           format: deploymentFormat,
-          name: finetunedModelName as string,
+          name: finetunedModelName,
           version: "1",
         },
       },
@@ -449,11 +449,11 @@ describe("finetuning - basic", () => {
     );
     const cognitiveClient = new CognitiveServicesManagementClient(
       new DefaultAzureCredential(),
-      subscriptionId as string,
+      subscriptionId,
     );
     await cognitiveClient.deployments.beginCreateOrUpdate(
-      resourceGroup as string,
-      accountName as string,
+      resourceGroup,
+      accountName,
       deploymentName,
       deploymentConfig,
     );

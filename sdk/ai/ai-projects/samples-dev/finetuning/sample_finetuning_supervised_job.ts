@@ -79,7 +79,7 @@ export async function deployModel(openAIClient: OpenAI, jobId: string): Promise<
   // Deploy model using Azure Management SDK (azure-mgmt-cognitiveservices).
   // Note: Deployment can only be started after the fine-tuning job completes successfully.
   console.log(`Retrieving fine-tuning job with ID: ${jobId}`);
-  const fineTunedModelName = (await openAIClient.fineTuning.jobs.retrieve(jobId)).fine_tuned_model;
+  const fineTunedModelName: string = (await openAIClient.fineTuning.jobs.retrieve(jobId)).fine_tuned_model!!;
   const deploymentName = "gpt-4-1-fine-tuned";
 
   const deploymentConfig: Deployment = {
@@ -87,7 +87,7 @@ export async function deployModel(openAIClient: OpenAI, jobId: string): Promise<
     properties: {
       model: {
         format: "OpenAI",
-        name: fineTunedModelName as string,
+        name: fineTunedModelName,
         version: "1",
       },
     },
