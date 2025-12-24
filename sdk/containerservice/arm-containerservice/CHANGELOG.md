@@ -1,5 +1,10 @@
 # Release History
 
+## 24.1.0 (2025-12-15)
+
+### Features Added
+  - Enum KnownOssku has a new value Ubuntu2404
+
 ## 24.1.0-beta.1 (2025-11-18)
 Compared with version 24.0.0
 

@@ -32,6 +32,9 @@ const replaceableVariables: Record<string, string> = {
   BROWSER_AUTOMATION_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
   AZURE_AI_CHAT_MODEL_DEPLOYMENT_NAME: "gpt-4o-mini",
   AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME: "text-embedding-3-large",
+  COMPUTER_USE_MODEL_DEPLOYMENT_NAME: "computer-use-preview",
+  MCP_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
+  OPENAPI_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
   RESOURCE_GROUP_NAME: "00000",
   WORKSPACE_NAME: "00000",
   DATASET_NAME: "00000",
@@ -159,6 +162,15 @@ export function getToolConnectionId(toolType: string): string {
       return (
         process.env["BROWSER_AUTOMATION_PROJECT_CONNECTION_ID"] ||
         replaceableVariables.BROWSER_AUTOMATION_PROJECT_CONNECTION_ID
+      );
+    case "mcp-connection":
+      return (
+        process.env["MCP_PROJECT_CONNECTION_ID"] || replaceableVariables.MCP_PROJECT_CONNECTION_ID
+      );
+    case "openapi":
+      return (
+        process.env["OPENAPI_PROJECT_CONNECTION_ID"] ||
+        replaceableVariables.OPENAPI_PROJECT_CONNECTION_ID
       );
     default:
       throw new Error(`Unsupported tool type: ${toolType}`);
