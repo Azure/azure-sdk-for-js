@@ -196,3 +196,17 @@ export type TestRunCreatePayload = {
   config?: RunConfig;
   ciConfig?: CIInfo;
 };
+
+export type WorkspaceMetaData = {
+  id?: string;
+  resourceId?: string;
+  name?: string;
+  state?: string;
+  subscriptionId?: string;
+  subscriptionState?: string;
+  tenantId?: string;
+  location?: string;
+  regionalAffinity?: string;
+  localAuth?: string;
+  storageUri?: string;
+};
