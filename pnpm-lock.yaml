@@ -29090,6 +29090,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-storage':
+        specifier: workspace:^
+        version: link:../arm-storage
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool

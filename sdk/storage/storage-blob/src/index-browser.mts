@@ -22,6 +22,8 @@ export {
   HttpAuthorization,
   ModificationConditions,
   MatchConditions,
+  ObjectReplicationPolicy,
+  getBlobServiceAccountAudience,
 } from "./models.js";
 export {
   Pipeline,
@@ -41,7 +43,7 @@ export {
   StorageOAuthScopes,
   ServiceClientOptions,
 } from "./Pipeline.js";
-export { CommonOptions } from "./StorageClient.js";
+export * from "./StorageClient.js";
 export * from "./generatedModels.js";
 export { RestError };
 export {

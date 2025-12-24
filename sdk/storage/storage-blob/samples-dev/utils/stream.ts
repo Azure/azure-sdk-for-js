@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @azsdk-util
+ */
+
 // A helper method used to read a Node.js readable stream into a Buffer
 export function streamToBuffer(stream: NodeJS.ReadableStream): Promise<Buffer> {
   return new Promise((resolve, reject) => {

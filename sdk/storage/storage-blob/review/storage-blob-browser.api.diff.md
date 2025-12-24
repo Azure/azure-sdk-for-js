@@ -191,7 +191,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -392,14 +316,16 @@
+@@ -390,14 +314,16 @@
      constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
      constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
      constructor(url: string, pipeline: PipelineLike);
@@ -208,7 +208,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      downloadToBuffer(offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
      downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
      downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
-@@ -607,14 +533,8 @@
+@@ -605,14 +531,8 @@
  // @public
  export type BlobDownloadResponseModel = WithResponse<BlobDownloadResponseInternal, BlobDownloadHeaders>;
  
@@ -223,7 +223,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      abortSignal?: AbortSignalLike;
      blockSize?: number;
      concurrency?: number;
-@@ -644,8 +564,9 @@
+@@ -642,8 +562,9 @@
  }
  
  // @public
@@ -233,17 +233,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -735,8 +656,9 @@
- 
- // @public
- export interface BlobGetPropertiesResponse extends BlobGetPropertiesResponseModel {
-     objectReplicationDestinationPolicyId?: string;
-+    // Warning: (ae-forgotten-export) The symbol "ObjectReplicationPolicy" needs to be exported by the entry point index.d.ts
-     objectReplicationSourceProperties?: ObjectReplicationPolicy[];
- }
- 
- // @public
-@@ -952,23 +874,13 @@
+@@ -950,23 +871,13 @@
  
  // @public
  export interface BlobQueryArrowConfiguration {
@@ -268,7 +258,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      columnSeparator?: string;
      escapeCharacter?: string;
      fieldQuote?: string;
-@@ -1058,69 +970,8 @@
+@@ -1056,69 +967,8 @@
      conditions?: ModifiedAccessConditions;
  }
  
@@ -338,7 +328,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
      constructor(url: string, pipeline: PipelineLike);
      createContainer(containerName: string, options?: ContainerCreateOptions): Promise<{
-@@ -1129,8 +980,9 @@
+@@ -1127,8 +977,9 @@
      }>;
      deleteContainer(containerName: string, options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse>;
      findBlobsByTags(tagFilterSqlExpression: string, options?: ServiceFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ServiceFindBlobsByTagsSegmentResponse>;
@@ -348,7 +338,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getAccountInfo(options?: ServiceGetAccountInfoOptions): Promise<ServiceGetAccountInfoResponse>;
      getBlobBatchClient(): BlobBatchClient;
-@@ -1665,8 +1517,9 @@
+@@ -1663,8 +1514,9 @@
      encryptionScope?: string;
      expiresOn?: Date;
      identifier?: string;
@@ -358,7 +348,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      startsOn?: Date;
      version?: string;
  }
-@@ -1828,8 +1681,9 @@
+@@ -1826,8 +1678,9 @@
  export type ContainerFindBlobsByTagsSegmentResponse = WithResponse<FilterBlobSegment & ContainerFilterBlobsHeaders, ContainerFilterBlobsHeaders, FilterBlobSegmentModel>;
  
  // @public
@@ -368,7 +358,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -2024,45 +1878,8 @@
+@@ -2022,45 +1875,8 @@
  export interface ContainerRequestConditions extends LeaseAccessConditions, ModificationConditions {
  }
  
@@ -414,7 +404,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      clientRequestId?: string;
      date?: Date;
      errorCode?: string;
-@@ -2113,13 +1930,8 @@
+@@ -2111,13 +1927,8 @@
  // @public
  export type ContainerUndeleteResponse = WithResponse<ContainerUndeleteHeaders, ContainerUndeleteHeaders>;
  
@@ -428,7 +418,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface CorsRule {
-@@ -2192,17 +2004,8 @@
+@@ -2190,17 +2001,8 @@
      where: string;
  }
  
@@ -446,19 +436,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      lastSyncOn: Date;
      status: GeoReplicationStatusType;
  }
-@@ -2210,11 +2013,8 @@
- // @public
- export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
- 
- // @public
--export function getBlobServiceAccountAudience(storageAccountName: string): string;
--
--// @public
- export interface HttpAuthorization {
-     scheme: string;
-     value: string;
- }
-@@ -2386,13 +2186,8 @@
+@@ -2384,13 +2186,8 @@
      ifNoneMatch?: string;
  }
  
@@ -472,7 +450,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      enabled: boolean;
      includeAPIs?: boolean;
      retentionPolicy?: RetentionPolicy;
-@@ -2405,12 +2200,8 @@
+@@ -2403,12 +2200,8 @@
      ifUnmodifiedSince?: Date;
  }
  
@@ -485,17 +463,16 @@ For the complete API surface, see the corresponding -node.api.md file.
      ifMatch?: string;
      ifModifiedSince?: Date;
      ifNoneMatch?: string;
-@@ -2421,23 +2212,8 @@
- // @public
- export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+@@ -2421,21 +2214,13 @@
  
  // @public
--export interface ObjectReplicationPolicy {
--    policyId: string;
--    rules: ObjectReplicationRule[];
--}
--
--// @public
+ export interface ObjectReplicationPolicy {
+     policyId: string;
++    // Warning: (ae-forgotten-export) The symbol "ObjectReplicationRule" needs to be exported by the entry point index.d.ts
+     rules: ObjectReplicationRule[];
+ }
+ 
+ // @public
 -export interface ObjectReplicationRule {
 -    replicationStatus: ObjectReplicationStatus;
 -    ruleId: string;
@@ -509,7 +486,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      blobSequenceNumber?: number;
      clientRequestId?: string;
      contentMD5?: Uint8Array;
-@@ -2452,8 +2228,9 @@
+@@ -2450,8 +2235,9 @@
  
  // @public
  export interface PageBlobClearPagesOptions extends CommonOptions {
@@ -519,7 +496,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      customerProvidedKey?: CpkInfo;
      encryptionScope?: string;
  }
-@@ -2619,12 +2396,8 @@
+@@ -2617,12 +2403,8 @@
      conditions?: BlobRequestConditions;
  }
  
@@ -532,7 +509,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      blobSequenceNumber?: number;
      clientRequestId?: string;
      date?: Date;
-@@ -2795,31 +2568,9 @@
+@@ -2793,31 +2575,9 @@
  export interface PipelineOptions {
      httpClient?: RequestPolicy;
  }
@@ -564,7 +541,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      P10 = "P10",
      P15 = "P15",
      P20 = "P20",
-@@ -2888,64 +2639,8 @@
+@@ -2886,64 +2646,8 @@
      start: string;
  }
  
@@ -629,7 +606,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      ifSequenceNumberEqualTo?: number;
      ifSequenceNumberLessThan?: number;
      ifSequenceNumberLessThanOrEqualTo?: number;
-@@ -3164,18 +2859,16 @@
+@@ -3162,16 +2866,12 @@
      errorDocument404Path?: string;
      indexDocument?: string;
  }
@@ -646,13 +623,20 @@ For the complete API surface, see the corresponding -node.api.md file.
 +
  export { StorageBrowserPolicyFactory }
  
+ // @public
+ export abstract class StorageClient {
+@@ -3187,8 +2887,10 @@
+     protected readonly storageClientContext: StorageClient_2;
+     readonly url: string;
+ }
+ 
 +export { storageCorrectContentLengthPolicy }
 +
  // @public
  export const StorageOAuthScopes: string | string[];
  
  // @public
-@@ -3191,16 +2884,14 @@
+@@ -3204,16 +2906,14 @@
  export { StorageRetryOptions }
  
  export { StorageRetryPolicy }

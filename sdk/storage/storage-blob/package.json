@@ -71,18 +71,6 @@
     ]
   },
   "//sampleConfiguration": {
-    "skip": [
-      "advancedRequestOptions.js",
-      "anonymousAuth.js",
-      "azureAdAuth.js",
-      "customPipeline.js",
-      "customizedClientHeaders.js",
-      "listBlobsByHierarchy.js",
-      "listBlobs.js",
-      "listContainers.js",
-      "snapshots.js",
-      "sharedKeyAuth.js"
-    ],
     "productName": "Azure Storage Blob",
     "productSlugs": [
       "azure",
@@ -110,6 +98,7 @@
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
+    "@azure/arm-storage": "workspace:^",
     "@azure-tools/test-perf": "^1.0.0",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
