@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this api gets ispCacheNode resource information
  *
  * @summary this api gets ispCacheNode resource information
- * x-ms-original-file: 2023-05-01-preview/EnterpriseMccCacheNodesOperations_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-30-preview/EnterpriseMccCacheNodesOperations_Get_MaximumSet_Gen.json
  */
 async function getsEnterpriseMccCacheNodeResourceInformationOfAnEnterpriseMccCustomerParentResourceGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function getsEnterpriseMccCacheNodeResourceInformationOfAnEnterpriseMccCus
 }
 
 async function main(): Promise<void> {
-  getsEnterpriseMccCacheNodeResourceInformationOfAnEnterpriseMccCustomerParentResourceGeneratedByMaximumSetRule();
+  await getsEnterpriseMccCacheNodeResourceInformationOfAnEnterpriseMccCustomerParentResourceGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);
