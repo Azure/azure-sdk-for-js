@@ -496,3 +496,26 @@ export function getPortalTestRunUrl(workspaceMetadata: WorkspaceMetaData | null)
   const resourceGroupName = resourceIdParts[resourceGroupIndex + 1];
   return `https://ms.portal.azure.com/#@microsoft.onmicrosoft.com/resource/subscriptions/${encodeURIComponent(subscriptionId)}/resourceGroups/${encodeURIComponent(resourceGroupName)}/providers/Microsoft.LoadTestService/playwrightWorkspaces/${encodeURIComponent(name)}/TestRuns`;
 }
+
+export const getStorageAccountNameFromUri = (storageUri: string): string | null => {
+  try {
+    if (!storageUri || typeof storageUri !== "string") {
+      return null;
+    }
+
+    const url = new URL(storageUri);
+    const hostname = url.hostname;
+
+    // Extract storage account name from hostname pattern: {accountname}.blob.core.windows.net
+    const match = hostname.match(/^([^.]+)\.blob\.core\.windows\.net$/i);
+
+    if (match && match[1]) {
+      return match[1];
+    }
+
+    return null;
+  } catch (error) {
+    console.warn("Failed to extract storage account name from URI:", storageUri, error);
+    return null;
+  }
+};

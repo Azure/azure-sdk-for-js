@@ -2,11 +2,7 @@
 // Licensed under the MIT License.
 import type { FullConfig, Reporter } from "@playwright/test/reporter";
 import { PlaywrightReporterStorageManager } from "../utils/playwrightReporterStorageManager.js";
-import {
-  getHtmlReporterOutputFolder,
-  getPortalTestRunUrl,
-  exitWithFailureMessage,
-} from "../utils/utils.js";
+import { getHtmlReporterOutputFolder, getPortalTestRunUrl } from "../utils/utils.js";
 import { coreLogger } from "../common/logger.js";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
 import { ServiceAuth } from "../common/constants.js";
@@ -21,6 +17,7 @@ import type { WorkspaceMetaData } from "../common/types.js";
 export default class PlaywrightReporter implements Reporter {
   private config: FullConfig | undefined;
   private workspaceMetadata: WorkspaceMetaData | null = null;
+  private isReportingEnabled = false;
 
   /**
    * Called when test run begins. Stores configuration for later use and validates serviceAuthType and
@@ -31,66 +28,88 @@ export default class PlaywrightReporter implements Reporter {
   async onBegin(config: FullConfig): Promise<void> {
     coreLogger.info(`Reporter configuration: ${JSON.stringify(config.reporter, null, 2)}`);
 
-    // Validate that HTML reporter is configured
-    this.validateHtmlReporterConfiguration(config);
+    this.config = config;
 
-    // Validate that reporter is used only with ENTRA_ID authentication
+    // Check authentication
     const playwrightServiceConfig = PlaywrightServiceConfig.instance;
     coreLogger.info(`Current authentication type: ${playwrightServiceConfig.serviceAuthType}`);
     const isUsingAccessToken = playwrightServiceConfig.serviceAuthType === ServiceAuth.ACCESS_TOKEN;
     if (isUsingAccessToken) {
-      exitWithFailureMessage(ServiceErrorMessageConstants.REPORTER_REQUIRES_ENTRA_AUTH);
+      console.error(ServiceErrorMessageConstants.REPORTER_REQUIRES_ENTRA_AUTH.message);
+      this.isReportingEnabled = false;
+      return;
     }
     coreLogger.info("Authentication validation passed - using ENTRA_ID");
-    this.config = config;
+
     // Get workspace metadata for later use
     try {
       const playwrightServiceApiClient = new PlaywrightServiceApiCall();
       this.workspaceMetadata = await playwrightServiceApiClient.getWorkspaceMetadata();
-      process.stdout.write("Initializing reporting for this test run.\n");
+
+      if (!this.workspaceMetadata?.storageUri) {
+        console.error(ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message);
+        console.error(ServiceErrorMessageConstants.STORAGE_URI_NOT_FOUND.message);
+        this.isReportingEnabled = false;
+        return;
+      }
+
+      console.log(ServiceErrorMessageConstants.REPORTING_ENABLED.message);
+      this.isReportingEnabled = true;
+
+      this.validateHtmlReporterConfiguration(config);
     } catch (error) {
-      coreLogger.error(
-        `Failed to get workspace metadata: ${error instanceof Error ? error.message : String(error)}\n`,
-      );
-      process.stderr.write("Failed to initialize reporting for this test run.\n");
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      console.error(errorMessage);
+      console.error(ServiceErrorMessageConstants.WORKSPACE_METADATA_FETCH_FAILED.message);
+      this.isReportingEnabled = false;
     }
   }
 
   /**
-   * Called when test run ends. Uploads Playwright test report to Azure Storage.
+   * Called when test run ends. Uploads Playwright test report to Azure Storage if reporting is enabled.
    */
 
   async onEnd(): Promise<void> {
-    process.stdout.write(`Uploading Playwright Test report in Azure storage account.\n`);
-    await this.uploadHtmlReport();
+    if (this.isReportingEnabled) {
+      console.log(ServiceErrorMessageConstants.COLLECTING_ARTIFACTS.message);
+      const uploadSuccess = await this.uploadHtmlReport();
+
+      // Display portal URL only if upload was successful
+      if (uploadSuccess && this.workspaceMetadata) {
+        const portalUrl = getPortalTestRunUrl(this.workspaceMetadata);
+        console.log(ServiceErrorMessageConstants.TEST_REPORT_VIEW_URL.formatWithUrl(portalUrl));
+      }
+    }
   }
 
-  private async uploadHtmlReport(): Promise<void> {
+  private async uploadHtmlReport(): Promise<boolean> {
     try {
       const outputFolder = getHtmlReporterOutputFolder(this.config);
       coreLogger.info(`Resolved Playwright test report output folder: ${outputFolder}`);
       const storageManager = new PlaywrightReporterStorageManager();
       coreLogger.info("Starting Playwright test report upload process");
-      await storageManager.uploadPlaywrightHtmlReportAfterTests(
+      const uploadSuccess = await storageManager.uploadPlaywrightHtmlReportAfterTests(
         outputFolder,
         this.workspaceMetadata,
       );
-      coreLogger.info(`✅ Playwright Test report uploaded successfully to Azure Storage.`);
 
-      // Display portal URL for test report
-      if (this.workspaceMetadata) {
-        const portalUrl = getPortalTestRunUrl(this.workspaceMetadata);
-        process.stdout.write(`You can view test report at: ${portalUrl}\n`);
+      if (uploadSuccess) {
+        coreLogger.info(`Playwright Test report uploaded successfully to Azure Storage.`);
       }
+      return uploadSuccess;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Unknown error";
-      process.stderr.write(`❌ Failed to upload Playwright test report: ${errorMessage}\n`);
+      console.error(ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message);
+      console.error(errorMessage);
+      return false;
     }
   }
 
   private validateHtmlReporterConfiguration(config: FullConfig): void {
     if (!config.reporter || !Array.isArray(config.reporter)) {
-      throw new Error(ServiceErrorMessageConstants.HTML_REPORTER_REQUIRED.message);
+      console.error(ServiceErrorMessageConstants.HTML_REPORTER_REQUIRED.message);
+      this.isReportingEnabled = false;
+      return;
     }
 
     const hasHtmlReporter = config.reporter.some((reporter) => {
@@ -104,7 +123,9 @@ export default class PlaywrightReporter implements Reporter {
     });
 
     if (!hasHtmlReporter) {
-      exitWithFailureMessage(ServiceErrorMessageConstants.HTML_REPORTER_REQUIRED);
+      console.error(ServiceErrorMessageConstants.HTML_REPORTER_REQUIRED.message);
+      this.isReportingEnabled = false;
+      return;
     }
 
     coreLogger.info("HTML reporter validation passed - HTML reporter is configured");
