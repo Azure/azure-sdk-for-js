@@ -1,5 +1,15 @@
 # Release History
 
+## 24.2.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 24.2.0-beta.1 (2025-12-24)
 Compared with version 24.1.0
 
