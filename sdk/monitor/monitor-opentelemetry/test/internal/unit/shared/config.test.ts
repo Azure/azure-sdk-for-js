@@ -320,7 +320,9 @@ describe("Library/Config", () => {
     });
 
     it("does not error when connection string is empty or undefined", () => {
-      assert.doesNotThrow(() => new InternalConfig({ azureMonitorExporterOptions: { connectionString: "" } }));
+      assert.doesNotThrow(
+        () => new InternalConfig({ azureMonitorExporterOptions: { connectionString: "" } }),
+      );
       assert.doesNotThrow(() => new InternalConfig({ azureMonitorExporterOptions: {} }));
     });
 
