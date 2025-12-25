@@ -128,10 +128,10 @@ npm run build
 node dist/agentPoolsCreateSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env CONTAINERREGISTRY_SUBSCRIPTION_ID="<containerregistry subscription id>" CONTAINERREGISTRY_RESOURCE_GROUP="<containerregistry resource group>" node dist/agentPoolsCreateSample.js
+npx cross-env CONTAINERREGISTRY_SUBSCRIPTION_ID="<containerregistry subscription id>" CONTAINERREGISTRY_RESOURCE_GROUP="<containerregistry resource group>" node dist/agentPoolsCreateSample.js
 ```
 
 ## Next Steps
