@@ -13,6 +13,7 @@ const mockState = {
   exitWithFailureMessage: vi.fn(),
   getAccessToken: vi.fn().mockReturnValue("mock-token"),
   getTestRunApiUrl: vi.fn().mockReturnValue("https://example.com/test-run"),
+  getWorkspaceMetaDataApiUrl: vi.fn().mockReturnValue("https://example.com/workspace"),
   randomUUID: vi.fn().mockReturnValue("mock-uuid"),
   extractErrorMessage: vi.fn(),
 };
@@ -29,6 +30,7 @@ vi.mock("../../src/utils/utils.js", () => ({
   getAccessToken: (...args: any[]) => mockState.getAccessToken(...args),
   exitWithFailureMessage: (...args: any[]) => mockState.exitWithFailureMessage(...args),
   extractErrorMessage: (...args: any[]) => mockState.extractErrorMessage(...args),
+  getWorkspaceMetaDataApiUrl: (...args: any[]) => mockState.getWorkspaceMetaDataApiUrl(...args),
 }));
 
 // Mock the global crypto object since it's not imported but used directly
@@ -48,6 +50,7 @@ describe("PlaywrightServiceApiCall", () => {
     // Reset mocks to their default values for each test
     mockState.getAccessToken.mockReturnValue("mock-token");
     mockState.getTestRunApiUrl.mockReturnValue("https://example.com/test-run");
+    mockState.getWorkspaceMetaDataApiUrl.mockReturnValue("https://example.com/workspace");
     mockState.randomUUID.mockReturnValue("mock-uuid");
   });
 
@@ -83,17 +86,24 @@ describe("PlaywrightServiceApiCall", () => {
       expect(result).toEqual({ id: "test-id", name: "test-name" });
     });
 
-    it("should throw error when access token is not available", async () => {
+    it("should exit with failure message when access token is not available", async () => {
       // Arrange
       mockState.getAccessToken.mockReturnValue(undefined);
+      mockState.exitWithFailureMessage.mockImplementation(() => {
+        throw new Error("Exit due to missing token");
+      });
 
       // Act & Assert
       await expect(apiCall.patchTestRunAPI(mockPayload)).rejects.toThrow(
-        "PLAYWRIGHT_SERVICE_ACCESS_TOKEN environment variable is not set.",
+        "Exit due to missing token",
       );
 
       // Verify API was not called
       expect(mockState.callAPI).not.toHaveBeenCalled();
+      expect(mockState.exitWithFailureMessage).toHaveBeenCalledWith(
+        ServiceErrorMessageConstants.FAILED_TO_CREATE_TEST_RUN,
+        "PLAYWRIGHT_SERVICE_ACCESS_TOKEN environment variable is not set.",
+      );
     });
 
     it("should call exitWithFailureMessage when API returns non-200 status", async () => {
@@ -145,6 +155,54 @@ describe("PlaywrightServiceApiCall", () => {
       // Assert
       expect(result).toEqual({});
       expect(mockState.callAPI).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("getWorkspaceMetadata", () => {
+    it("should call the API and return parsed response on success", async () => {
+      const mockResponse = {
+        status: 200,
+        bodyAsText: JSON.stringify({ storageUri: "https://account.blob.core.windows.net" }),
+      };
+      mockState.callAPI.mockResolvedValue(mockResponse);
+
+      const result = await apiCall.getWorkspaceMetadata();
+
+      expect(mockState.getWorkspaceMetaDataApiUrl).toHaveBeenCalledTimes(1);
+      expect(mockState.getAccessToken).toHaveBeenCalledTimes(1);
+      expect(mockState.callAPI).toHaveBeenCalledWith(
+        "GET",
+        "https://example.com/workspace?api-version=" + Constants.LatestAPIVersion,
+        null,
+        "mock-token",
+        "",
+        "mock-uuid",
+      );
+      expect(result).toEqual({ storageUri: "https://account.blob.core.windows.net" });
+    });
+
+    it("should throw when access token is missing", async () => {
+      mockState.getAccessToken.mockReturnValue(undefined);
+
+      await expect(apiCall.getWorkspaceMetadata()).rejects.toThrow(
+        "PLAYWRIGHT_SERVICE_ACCESS_TOKEN environment variable is not set.",
+      );
+
+      expect(mockState.callAPI).not.toHaveBeenCalled();
+    });
+
+    it("should throw with detailed message when API call fails", async () => {
+      const mockResponse = {
+        status: 403,
+        bodyAsText: JSON.stringify({ error: { message: "Forbidden" } }),
+      };
+
+      mockState.callAPI.mockResolvedValue(mockResponse);
+      mockState.extractErrorMessage.mockReturnValue("Forbidden");
+
+      await expect(apiCall.getWorkspaceMetadata()).rejects.toThrow("Forbidden");
+
+      expect(mockState.extractErrorMessage).toHaveBeenCalledWith(mockResponse.bodyAsText);
     });
   });
 });
