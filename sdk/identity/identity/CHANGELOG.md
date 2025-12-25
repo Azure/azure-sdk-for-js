@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Reduced bundle size by optimizing imports from `@azure/msal-node`, e.g. achieving a ~61kb reduction (from 851kb to 790kb) when importing `ClientCertificateCredential`.
+
 ## 4.14.0-beta.2 (2026-02-10)
 
 ### Breaking Changes
