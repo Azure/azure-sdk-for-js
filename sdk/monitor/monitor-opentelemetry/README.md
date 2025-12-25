@@ -36,7 +36,7 @@ const options: AzureMonitorOpenTelemetryOptions = {
       process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
   },
 };
- useAzureMonitor(options);
+useAzureMonitor(options);
 ```
 
 - Connection String can be set via `APPLICATIONINSIGHTS_CONNECTION_STRING`.
