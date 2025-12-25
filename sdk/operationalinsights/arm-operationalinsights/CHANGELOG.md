@@ -1,5 +1,15 @@
 # Release History
 
+## 10.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 10.0.0 (2025-12-15)
 
 ### Features Added
