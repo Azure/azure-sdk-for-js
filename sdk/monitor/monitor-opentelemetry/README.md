@@ -36,10 +36,11 @@ const options: AzureMonitorOpenTelemetryOptions = {
       process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
   },
 };
-useAzureMonitor(options);
+ useAzureMonitor(options);
 ```
 
-- Connection String could be set using the environment variable `APPLICATIONINSIGHTS_CONNECTION_STRING`.
+- Connection String can be set via `APPLICATIONINSIGHTS_CONNECTION_STRING`.
+- Sampler can be set via the OpenTelemetry env vars `OTEL_TRACES_SAMPLER` and `OTEL_TRACES_SAMPLER_ARG` (takes precedence over the `samplingRatio` option). Supported sampler values: `microsoft.rate_limited`, `microsoft.fixed_percentage`, `always_on`, `always_off`, `trace_id_ratio`, `parentbased_always_on`, `parentbased_always_off`, `parentbased_trace_id_ratio`. For `microsoft.rate_limited`, the arg is spans per second; for `trace_id_ratio`/parentbased, the arg is a probability in [0,1]. When the arg is omitted, defaults apply (rate limit disabled; probability defaults to 1). See the upstream OpenTelemetry environment variable spec for full context: https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/.
 
 ## Configuration
 
