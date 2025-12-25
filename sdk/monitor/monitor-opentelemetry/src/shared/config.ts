@@ -54,7 +54,6 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
 
   public set resource(resource: Resource) {
     this._resource = this._resource.merge(resource);
-    this._ensureApplicationIdResourceAttribute();
   }
 
   /**

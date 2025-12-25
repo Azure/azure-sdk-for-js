@@ -282,6 +282,17 @@ describe("Library/Config", () => {
       assert.strictEqual(config.resource.attributes["microsoft.applicationId"], "my-app-id");
     });
 
+    it("sets microsoft.applicationId when provided via azureMonitorExporterOptions and resource lacks it", () => {
+      const config = new InternalConfig({
+        azureMonitorExporterOptions: {
+          connectionString:
+            "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;ApplicationId=from-options",
+        },
+      });
+
+      assert.strictEqual(config.resource.attributes["microsoft.applicationId"], "from-options");
+    });
+
     it("does not overwrite existing microsoft.applicationId on resource", () => {
       const customResource = resourceFromAttributes({
         "microsoft.applicationId": "custom-app-id",
@@ -296,6 +307,21 @@ describe("Library/Config", () => {
       });
 
       assert.strictEqual(config.resource.attributes["microsoft.applicationId"], "custom-app-id");
+    });
+
+    it("gracefully handles connection strings without ApplicationId", () => {
+      const config = new InternalConfig({
+        azureMonitorExporterOptions: {
+          connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+        },
+      });
+
+      assert.strictEqual(config.resource.attributes["microsoft.applicationId"], undefined);
+    });
+
+    it("does not error when connection string is empty or undefined", () => {
+      assert.doesNotThrow(() => new InternalConfig({ azureMonitorExporterOptions: { connectionString: "" } }));
+      assert.doesNotThrow(() => new InternalConfig({ azureMonitorExporterOptions: {} }));
     });
 
     it("instrumentation key validation-valid key passed", () => {
