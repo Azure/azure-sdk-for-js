@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import type { MsalClient } from "../msal/nodeFlows/msalClient.js";
-import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
+import {
+  createMsalClientContext,
+  getTokenOnBehalfOf,
+  type MsalClientContext,
+} from "../msal/nodeFlows/msalClient.js";
 import type {
   OnBehalfOfCredentialAssertionOptions,
   OnBehalfOfCredentialCertificateOptions,
@@ -35,7 +38,7 @@ const logger = credentialLogger(credentialName);
 export class OnBehalfOfCredential implements TokenCredential {
   private tenantId: string;
   private additionallyAllowedTenantIds: string[];
-  private msalClient: MsalClient;
+  private msalContext: MsalClientContext;
   private sendCertificateChain?: boolean;
   private certificatePath?: string;
   private clientSecret?: string;
@@ -178,7 +181,7 @@ export class OnBehalfOfCredential implements TokenCredential {
       additionallyAllowedTenantIds,
     );
 
-    this.msalClient = createMsalClient(clientId, this.tenantId, {
+    this.msalContext = createMsalClientContext(clientId, this.tenantId, {
       ...options,
       logger,
     });
@@ -204,21 +207,24 @@ export class OnBehalfOfCredential implements TokenCredential {
       if (this.certificatePath) {
         const clientCertificate = await this.buildClientCertificate(this.certificatePath);
 
-        return this.msalClient.getTokenOnBehalfOf(
+        return getTokenOnBehalfOf(
+          this.msalContext,
           arrayScopes,
           this.userAssertionToken,
           clientCertificate,
           newOptions,
         );
       } else if (this.clientSecret) {
-        return this.msalClient.getTokenOnBehalfOf(
+        return getTokenOnBehalfOf(
+          this.msalContext,
           arrayScopes,
           this.userAssertionToken,
           this.clientSecret,
           options,
         );
       } else if (this.clientAssertion) {
-        return this.msalClient.getTokenOnBehalfOf(
+        return getTokenOnBehalfOf(
+          this.msalContext,
           arrayScopes,
           this.userAssertionToken,
           this.clientAssertion,

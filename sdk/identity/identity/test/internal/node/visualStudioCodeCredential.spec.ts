@@ -7,17 +7,20 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 describe("VisualStudioCodeCredential (internal)", function () {
   let credential: VisualStudioCodeCredential;
   let msalPluginsModule: any;
+  let msalClientModule: any;
 
   beforeEach(async function () {
     credential = new VisualStudioCodeCredential();
     (credential as any).preparePromise = undefined;
 
     msalPluginsModule = await import("$internal/msal/nodeFlows/msalPlugins.js");
+    msalClientModule = await import("$internal/msal/nodeFlows/msalClient.js");
   });
 
   afterEach(function () {
     vi.restoreAllMocks();
     msalPluginsModule = undefined;
+    msalClientModule = undefined;
   });
 
   describe("hasVSCodePlugin", function () {
@@ -94,14 +97,16 @@ describe("VisualStudioCodeCredential (internal)", function () {
         configurable: true,
       });
       (credential as any).loadAuthRecord = vi.fn().mockResolvedValue({});
+      const mockMsalContext = {} as any;
       const mockGetToken = vi
-        .fn()
+        .spyOn(msalClientModule, "getTokenByInteractiveRequest")
         .mockResolvedValue({ token: "mockToken", expiresOnTimestamp: Date.now() + 3600 });
       (credential as any).prepare = async function () {
-        this.msalClient = { getTokenByInteractiveRequest: mockGetToken };
+        this.msalContext = mockMsalContext;
       };
       await credential.getToken(["scope1"]);
       expect(mockGetToken).toHaveBeenCalledWith(
+        mockMsalContext,
         ["scope1"],
         expect.objectContaining({ disableAutomaticAuthentication: true }),
       );

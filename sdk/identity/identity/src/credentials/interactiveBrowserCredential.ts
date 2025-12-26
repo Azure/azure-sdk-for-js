@@ -16,8 +16,12 @@ import type { AuthenticationRecord } from "../msal/types.js";
 import { credentialLogger } from "../util/logging.js";
 import { ensureScopes } from "../util/scopeUtils.js";
 import { tracingClient } from "../util/tracing.js";
-import type { MsalClient, MsalClientOptions } from "../msal/nodeFlows/msalClient.js";
-import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
+import {
+  createMsalClientContext,
+  getTokenByInteractiveRequest,
+  type MsalClientContext,
+  type MsalClientOptions,
+} from "../msal/nodeFlows/msalClient.js";
 import { DeveloperSignOnClientId } from "../constants.js";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
@@ -29,7 +33,7 @@ const logger = credentialLogger("InteractiveBrowserCredential");
 export class InteractiveBrowserCredential implements TokenCredential {
   private tenantId?: string;
   private additionallyAllowedTenantIds: string[];
-  private msalClient: MsalClient;
+  private msalContext: MsalClientContext;
   private disableAutomaticAuthentication?: boolean;
   private browserCustomizationOptions: InteractiveBrowserCredentialNodeOptions["browserCustomizationOptions"];
   private loginHint?: string;
@@ -75,7 +79,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         };
       }
     }
-    this.msalClient = createMsalClient(
+    this.msalContext = createMsalClientContext(
       options.clientId ?? DeveloperSignOnClientId,
       this.tenantId,
       msalClientOptions,
@@ -108,7 +112,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         );
 
         const arrayScopes = ensureScopes(scopes);
-        return this.msalClient.getTokenByInteractiveRequest(arrayScopes, {
+        return getTokenByInteractiveRequest(this.msalContext, arrayScopes, {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,
           browserCustomizationOptions: this.browserCustomizationOptions,
@@ -140,13 +144,13 @@ export class InteractiveBrowserCredential implements TokenCredential {
       options,
       async (newOptions) => {
         const arrayScopes = ensureScopes(scopes);
-        await this.msalClient.getTokenByInteractiveRequest(arrayScopes, {
+        await getTokenByInteractiveRequest(this.msalContext, arrayScopes, {
           ...newOptions,
           disableAutomaticAuthentication: false, // this method should always allow user interaction
           browserCustomizationOptions: this.browserCustomizationOptions,
           loginHint: this.loginHint,
         });
-        return this.msalClient.getActiveAccount();
+        return this.msalContext.getActiveAccount();
       },
     );
   }
