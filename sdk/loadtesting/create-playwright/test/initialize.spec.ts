@@ -342,7 +342,7 @@ describe("Generated Service Config Content Validation", () => {
       "Note: The HTML reporter must be included alongside the Azure reporter.",
     );
     expect(generatedContent).toContain(
-      "This configuration will replace any existing reporter settings",
+      "This configuration will replace any existing reporter settings from your base config.",
     );
     expect(generatedContent).toContain(
       "If you're already using other reporters, add them to this array.",
