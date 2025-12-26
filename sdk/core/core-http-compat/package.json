@@ -68,7 +68,9 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
+    "@azure/abort-controller": "^2.1.2"
+  },
+  "peerDependencies": {
     "@azure/core-client": "^1.10.0",
     "@azure/core-rest-pipeline": "^1.22.0"
   },
