@@ -86,4 +86,29 @@ describe("DiagFileConsoleLogger filtering", () => {
 
     await sdk.shutdown();
   });
+
+  it("does not filter invalid warnings unrelated to azure monitor", () => {
+    diag.error("an invalid connection string was supplied for component x");
+
+    const flat = loggedMessages.flat().join(" ").toLowerCase();
+    expect(flat).toContain("invalid connection string");
+  });
+
+  it("does not filter unsupported exporter warnings when azure_monitor is absent", () => {
+    diag.error(
+      "unsupported otel_metrics_exporter value \"console\"; supported values are: [none, console, otlp]",
+    );
+
+    const flat = loggedMessages.flat().join(" ").toLowerCase();
+    expect(flat).toContain("unsupported otel_metrics_exporter value");
+    expect(flat).not.toContain("azure_monitor");
+  });
+
+  it("does not filter when only args contain azure_monitor exporter wording", () => {
+    diag.error("message header", "unsupported otel_metrics_exporter value azure_monitor");
+
+    const flat = loggedMessages.flat().join(" ").toLowerCase();
+    expect(flat).toContain("azure_monitor");
+    expect(flat).toContain("unsupported otel_metrics_exporter value");
+  });
 });
