@@ -108,7 +108,7 @@ import config from '${customerConfigFileName}';
 `;
 
     const importCommandJavaScript = `const { defineConfig } = require('@playwright/test');
-const { createAzurePlaywrightConfig, ServiceOS, } = require('@azure/playwright');
+const { createAzurePlaywrightConfig, ServiceOS } = require('@azure/playwright');
 const { DefaultAzureCredential } = require('@azure/identity');
 const config = require('${customerConfigFileName}');
 `;

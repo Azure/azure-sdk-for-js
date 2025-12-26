@@ -208,7 +208,7 @@ describe("Generated Service Config Content Validation", () => {
     const generatedContent = playwrightServiceInitialize["createAzurePlaywrightConfigContent"]();
     expect(generatedContent).toContain("createAzurePlaywrightConfig");
     expect(generatedContent).toContain(
-      "import { createAzurePlaywrightConfig, ServiceOS, } from '@azure/playwright'",
+      "import { createAzurePlaywrightConfig, ServiceOS } from '@azure/playwright'",
     );
     expect(generatedContent).toContain("createAzurePlaywrightConfig(config, {");
     expect(generatedContent).toContain("connectTimeout:");
@@ -252,7 +252,7 @@ describe("Generated Service Config Content Validation", () => {
     expect(generatedContent).toContain("createAzurePlaywrightConfig(config, {");
 
     expect(generatedContent).toContain(
-      "import { createAzurePlaywrightConfig, ServiceOS, } from '@azure/playwright'",
+      "import { createAzurePlaywrightConfig, ServiceOS } from '@azure/playwright'",
     );
 
     const expectedProperties = ["exposeNetwork:", "connectTimeout:", "os:", "credential:"];
