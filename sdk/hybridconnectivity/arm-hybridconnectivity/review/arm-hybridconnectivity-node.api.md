@@ -4,14 +4,14 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AADProfileProperties {
@@ -57,7 +57,12 @@ export type CreatedByType = string;
 
 // @public
 export interface EndpointAccessResource {
-    relay?: RelayNamespaceAccessProperties;
+    readonly accessKey?: string;
+    expiresOn?: number;
+    hybridConnectionName?: string;
+    namespaceName?: string;
+    namespaceNameSuffix?: string;
+    serviceConfigurationToken?: string;
 }
 
 // @public
@@ -168,6 +173,7 @@ export type HostType = string;
 
 // @public (undocumented)
 export class HybridConnectivityManagementAPI {
+    constructor(credential: TokenCredential, options?: HybridConnectivityManagementAPIOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: HybridConnectivityManagementAPIOptionalParams);
     readonly endpoints: EndpointsOperations;
     readonly generateAwsTemplate: GenerateAwsTemplateOperations;
@@ -188,14 +194,21 @@ export interface HybridConnectivityManagementAPIOptionalParams extends ClientOpt
 
 // @public
 export interface IngressGatewayResource {
-    ingress?: IngressProfileProperties;
-    relay?: RelayNamespaceAccessProperties;
+    aadProfile?: AADProfileProperties;
+    readonly accessKey?: string;
+    expiresOn?: number;
+    hostname?: string;
+    hybridConnectionName?: string;
+    namespaceName?: string;
+    namespaceNameSuffix?: string;
+    serviceConfigurationToken?: string;
 }
 
 // @public
 export interface IngressProfileProperties {
-    aadProfile: AADProfileProperties;
     hostname: string;
+    serverId: string;
+    tenantId: string;
 }
 
 // @public
@@ -259,15 +272,10 @@ export enum KnownOrigin {
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
@@ -280,9 +288,7 @@ export enum KnownResourceProvisioningState {
 
 // @public
 export enum KnownServiceName {
-    // (undocumented)
     SSH = "SSH",
-    // (undocumented)
     WAC = "WAC"
 }
 
@@ -296,9 +302,7 @@ export enum KnownSolutionConfigurationStatus {
 
 // @public
 export enum KnownType {
-    // (undocumented)
     Custom = "custom",
-    // (undocumented)
     Default = "default"
 }
 
@@ -452,7 +456,7 @@ export interface PublicCloudConnectorsUpdateOptionalParams extends OperationOpti
 
 // @public
 export interface PublicCloudConnectorUpdate extends TrackedResourceUpdate {
-    properties?: PublicCloudConnectorPropertiesUpdate;
+    awsCloudProfile?: AwsCloudProfileUpdate;
 }
 
 // @public
@@ -501,12 +505,15 @@ export interface ServiceConfigurationPropertiesPatch {
 
 // @public
 export interface ServiceConfigurationResource extends ExtensionResource {
-    properties?: ServiceConfigurationProperties;
+    port?: number;
+    readonly provisioningState?: ProvisioningState;
+    resourceId?: string;
+    serviceName?: ServiceName;
 }
 
 // @public
 export interface ServiceConfigurationResourcePatch {
-    properties?: ServiceConfigurationPropertiesPatch;
+    port?: number;
 }
 
 // @public
@@ -602,7 +609,8 @@ export interface SolutionConfigurationsUpdateOptionalParams extends OperationOpt
 
 // @public
 export interface SolutionConfigurationUpdate extends ProxyResource {
-    properties?: SolutionConfigurationPropertiesUpdate;
+    solutionSettings?: SolutionSettings;
+    solutionType?: string;
 }
 
 // @public

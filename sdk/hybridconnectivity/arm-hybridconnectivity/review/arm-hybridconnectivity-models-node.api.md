@@ -33,7 +33,12 @@ export type CreatedByType = string;
 
 // @public
 export interface EndpointAccessResource {
-    relay?: RelayNamespaceAccessProperties;
+    readonly accessKey?: string;
+    expiresOn?: number;
+    hybridConnectionName?: string;
+    namespaceName?: string;
+    namespaceNameSuffix?: string;
+    serviceConfigurationToken?: string;
 }
 
 // @public
@@ -87,14 +92,21 @@ export type HostType = string;
 
 // @public
 export interface IngressGatewayResource {
-    ingress?: IngressProfileProperties;
-    relay?: RelayNamespaceAccessProperties;
+    aadProfile?: AADProfileProperties;
+    readonly accessKey?: string;
+    expiresOn?: number;
+    hostname?: string;
+    hybridConnectionName?: string;
+    namespaceName?: string;
+    namespaceNameSuffix?: string;
+    serviceConfigurationToken?: string;
 }
 
 // @public
 export interface IngressProfileProperties {
-    aadProfile: AADProfileProperties;
     hostname: string;
+    serverId: string;
+    tenantId: string;
 }
 
 // @public
@@ -144,15 +156,10 @@ export enum KnownOrigin {
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
@@ -165,9 +172,7 @@ export enum KnownResourceProvisioningState {
 
 // @public
 export enum KnownServiceName {
-    // (undocumented)
     SSH = "SSH",
-    // (undocumented)
     WAC = "WAC"
 }
 
@@ -181,9 +186,7 @@ export enum KnownSolutionConfigurationStatus {
 
 // @public
 export enum KnownType {
-    // (undocumented)
     Custom = "custom",
-    // (undocumented)
     Default = "default"
 }
 
@@ -275,7 +278,7 @@ export interface PublicCloudConnectorPropertiesUpdate {
 
 // @public
 export interface PublicCloudConnectorUpdate extends TrackedResourceUpdate {
-    properties?: PublicCloudConnectorPropertiesUpdate;
+    awsCloudProfile?: AwsCloudProfileUpdate;
 }
 
 // @public
@@ -314,12 +317,15 @@ export interface ServiceConfigurationPropertiesPatch {
 
 // @public
 export interface ServiceConfigurationResource extends ExtensionResource {
-    properties?: ServiceConfigurationProperties;
+    port?: number;
+    readonly provisioningState?: ProvisioningState;
+    resourceId?: string;
+    serviceName?: ServiceName;
 }
 
 // @public
 export interface ServiceConfigurationResourcePatch {
-    properties?: ServiceConfigurationPropertiesPatch;
+    port?: number;
 }
 
 // @public
@@ -351,7 +357,8 @@ export type SolutionConfigurationStatus = string;
 
 // @public
 export interface SolutionConfigurationUpdate extends ProxyResource {
-    properties?: SolutionConfigurationPropertiesUpdate;
+    solutionSettings?: SolutionSettings;
+    solutionType?: string;
 }
 
 // @public
