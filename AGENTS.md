@@ -24,6 +24,7 @@
 - Framework: `vitest`; tests in `test/**/*.spec.ts`.
 - Node test config excludes browser/snippets; browser tests via `test:browser`.
 - Coverage with Istanbul; reports in `coverage/` (see `vitest.shared.config.ts`).
+- **Important**: `snippets.spec.ts` files under `sdk/**/*/test/` are NOT real test files. They contain source code for snippets used in markdown documentation and documentation comments. Exclude these files from operations that update normal test files (e.g., refactoring tests, fixing test failures, updating test patterns).
 
 
 ## Security & Configuration Tips
