@@ -97,6 +97,9 @@ export class DiagFileConsoleLogger implements DiagLogger {
     if (this._shouldFilterResourceAttributeWarning(message, args)) {
       return;
     }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
@@ -106,6 +109,9 @@ export class DiagFileConsoleLogger implements DiagLogger {
     if (this._shouldFilterResourceAttributeWarning(message, args)) {
       return;
     }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
@@ -113,6 +119,9 @@ export class DiagFileConsoleLogger implements DiagLogger {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public verbose(message?: any, ...args: any[]): void {
     if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
       return;
     }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
