@@ -1,0 +1,153 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * @summary Create a classifier analyzer to categorize documents.
+ *
+ * This sample demonstrates how to create a classifier analyzer to categorize documents and
+ * use it to analyze documents with and without automatic segmentation.
+ *
+ * Classifiers are a type of custom analyzer that categorize documents into predefined categories.
+ * They're useful for:
+ * - Document routing: Automatically route documents to the right processing pipeline
+ * - Content organization: Organize large document collections by type
+ * - Multi-document processing: Process files containing multiple document types by segmenting them
+ */
+
+require("dotenv/config");
+const fs = require("fs");
+const path = require("path");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { ContentUnderstandingClient } = require("@azure-rest/ai-content-understanding");
+function getCredential() {
+  const key = process.env["AZURE_CONTENT_UNDERSTANDING_KEY"];
+  if (key) {
+    return new AzureKeyCredential(key);
+  }
+  return new DefaultAzureCredential();
+}
+
+async function main() {
+  console.log("== Create Classifier Sample ==");
+
+  const endpoint = process.env["AZURE_CONTENT_UNDERSTANDING_ENDPOINT"];
+  if (!endpoint) {
+    throw new Error("AZURE_CONTENT_UNDERSTANDING_ENDPOINT is required.");
+  }
+
+  const client = new ContentUnderstandingClient(endpoint, getCredential());
+
+  // Generate a unique analyzer ID
+  const analyzerId = `my_classifier_${Math.floor(Date.now() / 1000)}`;
+  console.log(`Creating classifier '${analyzerId}'...`);
+
+  // Define content categories for classification
+  const contentCategories = {
+    Loan_Application: {
+      description:
+        "Documents submitted by individuals or businesses to request funding, " +
+        "typically including personal or business details, financial history, " +
+        "loan amount, purpose, and supporting documentation.",
+    },
+    Invoice: {
+      description:
+        "Billing documents issued by sellers or service providers to request " +
+        "payment for goods or services, detailing items, prices, taxes, totals, " +
+        "and payment terms.",
+    },
+    Bank_Statement: {
+      description:
+        "Official statements issued by banks that summarize account activity " +
+        "over a period, including deposits, withdrawals, fees, and balances.",
+    },
+  };
+
+  // Create analyzer configuration
+  const config = {
+    returnDetails: true,
+    enableSegment: true, // Enable automatic segmentation by category
+    contentCategories,
+  };
+
+  // Create the classifier analyzer
+  const classifier = {
+    baseAnalyzerId: "prebuilt-document",
+    description: "Custom classifier for financial document categorization",
+    config,
+    models: { completion: "gpt-4.1" },
+  };
+
+  // Create the classifier
+  const poller = client.createAnalyzer(analyzerId, classifier);
+  await poller.pollUntilDone();
+
+  // Get the full analyzer details after creation
+  const result = await client.getAnalyzer(analyzerId);
+
+  console.log(`Classifier '${analyzerId}' created successfully!`);
+  if (result.description) {
+    console.log(`  Description: ${result.description}`);
+  }
+
+  // Analyze a document with the classifier
+  // Helper to get the directory of the current file (works in both ESM and CommonJS)
+  const sampleDir = (() => {
+    if (typeof __dirname !== "undefined") return __dirname;
+    if (typeof process !== "undefined" && process.argv && process.argv[1]) {
+      return path.dirname(process.argv[1]);
+    }
+    return path.resolve(process.cwd(), "samples-dev");
+  })();
+  const filePath = path.resolve(sampleDir, "./example-data", "mixed_financial_docs.pdf");
+
+  if (!fs.existsSync(filePath)) {
+    console.log("\nSkipping document analysis - sample file not found.");
+    // Clean up - delete the classifier
+    console.log(`\nCleaning up: deleting classifier '${analyzerId}'...`);
+    await client.deleteAnalyzer(analyzerId);
+    console.log(`Classifier '${analyzerId}' deleted successfully.`);
+    return;
+  }
+
+  const fileBytes = fs.readFileSync(filePath);
+  console.log(`\nAnalyzing document with classifier '${analyzerId}'...`);
+
+  const analyzePoller = client.analyzeBinary(analyzerId, "application/pdf", fileBytes);
+  const analyzeResult = await analyzePoller.pollUntilDone();
+
+  // Display classification results
+  if (analyzeResult.contents && analyzeResult.contents.length > 0) {
+    const content = analyzeResult.contents[0];
+
+    if (content.kind === "document") {
+      const documentContent = content;
+      console.log(`Pages: ${documentContent.startPageNumber}-${documentContent.endPageNumber}`);
+
+      // Display segments (classification results)
+      if (documentContent.segments && documentContent.segments.length > 0) {
+        console.log(`\nFound ${documentContent.segments.length} segment(s):`);
+        for (const segment of documentContent.segments) {
+          console.log(`  Category: ${segment.category ?? "(unknown)"}`);
+          console.log(`  Pages: ${segment.startPageNumber}-${segment.endPageNumber}`);
+          console.log();
+        }
+      } else {
+        console.log("No segments found (document classified as a single unit).");
+      }
+    }
+  } else {
+    console.log("No content found in the analysis result.");
+  }
+
+  // Clean up - delete the classifier
+  console.log(`\nCleaning up: deleting classifier '${analyzerId}'...`);
+  await client.deleteAnalyzer(analyzerId);
+  console.log(`Classifier '${analyzerId}' deleted successfully.`);
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+
+module.exports = { main };
