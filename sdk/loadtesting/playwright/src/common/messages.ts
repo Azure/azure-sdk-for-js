@@ -120,11 +120,15 @@ export const ServiceErrorMessageConstants = {
   },
   COLLECTING_ARTIFACTS: {
     key: "CollectingArtifacts",
-    message: "Collecting artifacts: screenshots, videos, traces, console, network",
+    message: "Collecting artifacts: screenshots, videos, traces.",
   },
   REPORTING_STATUS_SUCCESS: {
     key: "ReportingStatusSuccess",
     message: "Reporting status: SUCCESS",
+  },
+  REPORTING_STATUS_PARTIAL: {
+    key: "ReportingStatusPartial",
+    message: "Reporting status: Partially Uploaded",
   },
   REPORTING_STATUS_FAILED: {
     key: "ReportingStatusFailed",

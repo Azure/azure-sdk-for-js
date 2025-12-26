@@ -15,7 +15,7 @@ import {
   getStorageAccountNameFromUri,
 } from "./utils.js";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
-import type { WorkspaceMetaData } from "../common/types.js";
+import type { WorkspaceMetaData, UploadResult } from "../common/types.js";
 
 export class PlaywrightReporterStorageManager {
   // Uploads the HTML report folder to Azure Storage
@@ -24,7 +24,7 @@ export class PlaywrightReporterStorageManager {
     runId: string,
     outputFolder: string,
     workspaceDetails: WorkspaceMetaData,
-  ): Promise<void> {
+  ): Promise<UploadResult> {
     coreLogger.info(
       `Starting HTML report upload for runId: ${runId}, outputFolder: ${outputFolder}`,
     );
@@ -33,19 +33,20 @@ export class PlaywrightReporterStorageManager {
 
       if (!workspaceDetails.storageUri) {
         coreLogger.error("Storage URI not found in workspace details");
-        console.error(`Reporting status: FAILED`);
-        console.error(ServiceErrorMessageConstants.STORAGE_URI_NOT_FOUND.message);
-        return;
+        return {
+          success: false,
+          errorMessage: ServiceErrorMessageConstants.STORAGE_URI_NOT_FOUND.message,
+        };
       }
 
-      coreLogger.info(`Extracting storage account from URI: ${workspaceDetails.storageUri}`);
       const blobServiceClient = new BlobServiceClient(workspaceDetails?.storageUri, credential);
       const serviceUrlInfo = populateValuesFromServiceUrl();
       if (!serviceUrlInfo?.accountId) {
         coreLogger.error("Unable to extract workspace ID from service URL");
-        console.error(`Reporting status: FAILED`);
-        console.error(ServiceErrorMessageConstants.UNABLE_TO_EXTRACT_WORKSPACE_ID.message);
-        return;
+        return {
+          success: false,
+          errorMessage: ServiceErrorMessageConstants.UNABLE_TO_EXTRACT_WORKSPACE_ID.message,
+        };
       }
 
       const containerName = serviceUrlInfo.accountId.toLowerCase().replace(/[^a-z0-9-]/g, "-");
@@ -68,29 +69,57 @@ export class PlaywrightReporterStorageManager {
       );
 
       await this.modifyTraceIndexHtml(outputFolder);
-      await this.uploadFolderInParallel(containerClient, outputFolder, outputFolder, folderName);
+      const uploadResults = await this.uploadFolderInParallel(
+        containerClient,
+        outputFolder,
+        outputFolder,
+        folderName,
+      );
 
-      console.log(ServiceErrorMessageConstants.REPORTING_STATUS_SUCCESS.message);
+      if (uploadResults.totalFiles === 0) {
+        return { success: false, errorMessage: "No files found to upload" };
+      }
+
+      const failedFiles = uploadResults.totalFiles - uploadResults.uploadedFiles.length;
+      if (failedFiles > 0) {
+        // Get list of failed file names by comparing total files with uploaded files
+        const uploadedSet = new Set(uploadResults.uploadedFiles);
+        const allFiles = collectAllFiles(outputFolder, outputFolder, folderName);
+        const failedFileNames = allFiles
+          .filter((file) => !uploadedSet.has(file.relativePath))
+          .map((file) => file.relativePath);
+
+        return {
+          success: false,
+          partialSuccess: true,
+          failedFileCount: failedFiles,
+          totalFiles: uploadResults.totalFiles,
+          failedFiles: failedFileNames,
+          failedFileDetails: uploadResults.failedFileDetails,
+        };
+      }
+
+      return { success: true };
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      coreLogger.error(`Failed to upload HTML report: ${error}`);
+
       if (
         error instanceof Error &&
         (error.message.includes("AuthorizationFailure") ||
           error.message.includes("not authorized to perform this operation"))
       ) {
-        console.error(ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message);
-        console.error(ServiceErrorMessageConstants.STORAGE_AUTHORIZATION_FAILED.message);
-        throw error;
+        return {
+          success: false,
+          errorMessage: ServiceErrorMessageConstants.STORAGE_AUTHORIZATION_FAILED.message,
+        };
       }
 
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      console.error(ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message);
-      console.error(errorMessage);
-      coreLogger.error(`Failed to upload HTML report: ${error}`);
-      throw error;
+      return { success: false, errorMessage };
     }
   }
   private async modifyTraceIndexHtml(outputFolder: string): Promise<void> {
-    coreLogger.info(`Starting HTML modification for folder: ${outputFolder}`);
+    coreLogger.info(`Starting trace modification for folder: ${outputFolder}`);
     const indexPath = join(outputFolder, "trace/index.html");
 
     if (!existsSync(indexPath)) {
@@ -143,7 +172,7 @@ export class PlaywrightReporterStorageManager {
   async uploadPlaywrightHtmlReportAfterTests(
     outputFolderName?: string,
     workspaceMetadata?: WorkspaceMetaData | null,
-  ): Promise<boolean> {
+  ): Promise<UploadResult> {
     try {
       coreLogger.info(
         `Starting post-test HTML report upload, folder name: ${outputFolderName || "default (playwright-report)"}`,
@@ -151,9 +180,10 @@ export class PlaywrightReporterStorageManager {
       const cred = PlaywrightServiceConfig.instance.credential;
       if (!cred) {
         coreLogger.error("No credential found for authentication");
-        console.error(ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message);
-        console.error(ServiceErrorMessageConstants.NO_CRED_ENTRA_AUTH_ERROR.message);
-        return false;
+        return {
+          success: false,
+          errorMessage: ServiceErrorMessageConstants.NO_CRED_ENTRA_AUTH_ERROR.message,
+        };
       }
       coreLogger.info("Credential found for authentication");
 
@@ -162,24 +192,30 @@ export class PlaywrightReporterStorageManager {
 
       if (!existsSync(outputFolderPath)) {
         coreLogger.error(`HTML report folder not found: ${outputFolderPath}`);
-        console.error(ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message);
-        console.error(
-          ServiceErrorMessageConstants.PLAYWRIGHT_TEST_REPORT_NOT_FOUND.formatWithFolder(
-            folderName,
-          ),
-        );
-        return false;
+        return {
+          success: false,
+          errorMessage:
+            ServiceErrorMessageConstants.PLAYWRIGHT_TEST_REPORT_NOT_FOUND.formatWithFolder(
+              folderName,
+            ),
+        };
       }
       coreLogger.info(`HTML report folder found: ${outputFolderPath}`);
 
       const testRunId = PlaywrightServiceConfig.instance.runId;
       coreLogger.info(`Starting upload for test run ID: ${testRunId}`);
-      await this.uploadHtmlReportFolder(cred, testRunId, outputFolderPath, workspaceMetadata!);
+      const result = await this.uploadHtmlReportFolder(
+        cred,
+        testRunId,
+        outputFolderPath,
+        workspaceMetadata!,
+      );
       coreLogger.info(`Completed upload for test run ID: ${testRunId}`);
-      return true;
+      return result;
     } catch (error) {
-      // Error already logged by uploadHtmlReportFolder
-      return false;
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      coreLogger.error(`Upload failed: ${errorMessage}`);
+      return { success: false, errorMessage };
     }
   }
 
@@ -192,6 +228,8 @@ export class PlaywrightReporterStorageManager {
     runIdFolderPrefix?: string,
   ): Promise<{
     uploadedFiles: string[];
+    failedFiles: string[];
+    failedFileDetails?: Array<{ fileName: string; error: string }>;
     totalFiles: number;
     totalSize: number;
     uploadTime: number;
@@ -202,7 +240,7 @@ export class PlaywrightReporterStorageManager {
     );
 
     if (filesToUpload.length === 0) {
-      return { uploadedFiles: [], totalFiles: 0, totalSize: 0, uploadTime: 0 };
+      return { uploadedFiles: [], failedFiles: [], totalFiles: 0, totalSize: 0, uploadTime: 0 };
     }
 
     const totalSize = filesToUpload.reduce((sum, file) => sum + file.size, 0);
@@ -239,14 +277,37 @@ export class PlaywrightReporterStorageManager {
         coreLogger.error(`   ${index + 1}. ${error}`);
       });
 
+      // Get failed file names and their error messages
+      const uploadedSet = new Set(
+        results
+          .filter((r): r is PromiseFulfilledResult<string> => r.status === "fulfilled")
+          .map((r) => r.value),
+      );
+      const failedFileNames = filesToUpload
+        .filter((file) => !uploadedSet.has(file.relativePath))
+        .map((file) => file.relativePath);
+
+      // Create detailed error mapping
+      const failedFileDetails: Array<{ fileName: string; error: string }> = [];
+      results.forEach((result, index) => {
+        if (result.status === "rejected") {
+          const fileName = filesToUpload[index]?.relativePath || `File at index ${index}`;
+          const errorMessage =
+            result.reason instanceof Error ? result.reason.message : String(result.reason);
+          failedFileDetails.push({ fileName, error: errorMessage });
+        }
+      });
+
       // Log error but don't throw to prevent breaking HTML reporter
       coreLogger.error(
         `Upload failed: ${failed} files could not be uploaded. Sample errors: ${errors.join(", ")}`,
       );
-      console.error(ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message);
-      console.error(ServiceErrorMessageConstants.UPLOAD_FAILED_FILES.formatWithCount(failed));
       return {
-        uploadedFiles: [],
+        uploadedFiles: results
+          .filter((r): r is PromiseFulfilledResult<string> => r.status === "fulfilled")
+          .map((r) => r.value),
+        failedFiles: failedFileNames,
+        failedFileDetails,
         totalFiles: filesToUpload.length,
         totalSize,
         uploadTime,
@@ -259,6 +320,7 @@ export class PlaywrightReporterStorageManager {
 
     return {
       uploadedFiles,
+      failedFiles: [],
       totalFiles: filesToUpload.length,
       totalSize,
       uploadTime,
@@ -282,7 +344,7 @@ export class PlaywrightReporterStorageManager {
             error instanceof Error ? error.message : "Unknown error"
           }`,
         );
-        return fileInfo.relativePath;
+        throw error;
       }
     });
 
@@ -393,7 +455,12 @@ export class PlaywrightReporterStorageManager {
           coreLogger.error(
             `All retry attempts exhausted for ${fileInfo.relativePath}: ${errorMessage}`,
           );
-          return;
+          if (error instanceof Error) {
+            throw error;
+          }
+          throw new Error(
+            `Upload failed for ${fileInfo.relativePath} after ${maxRetries} attempts: ${errorMessage}`,
+          );
         }
 
         // Exponential backoff with jitter (Azure SDK pattern)

@@ -116,7 +116,7 @@ describe("PlaywrightReporter", () => {
     };
     (globalThis as any).__getWorkspaceMetadataMock.mockResolvedValue(workspaceMetadata);
     (globalThis as any).__getHtmlReporterOutputFolderMock.mockReturnValue("custom-report");
-    (globalThis as any).__uploadHtmlReportAfterTestsMock.mockResolvedValue(true);
+    (globalThis as any).__uploadHtmlReportAfterTestsMock.mockResolvedValue({ success: true });
     (globalThis as any).__getPortalTestRunUrlMock.mockReturnValue("https://portal/link/test");
 
     const config = {
@@ -162,9 +162,8 @@ describe("PlaywrightReporter", () => {
 
     await reporter.onBegin(config);
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith("fetch failed");
     expect(consoleErrorSpy).toHaveBeenCalledWith(
-      ServiceErrorMessageConstants.WORKSPACE_METADATA_FETCH_FAILED.message,
+      `${ServiceErrorMessageConstants.WORKSPACE_METADATA_FETCH_FAILED.message}Error: fetch failed `,
     );
 
     await reporter.onEnd();

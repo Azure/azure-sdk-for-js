@@ -7,7 +7,6 @@ import {
   getWorkspaceMetaDataApiUrl,
   exitWithFailureMessage,
 } from "./utils.js";
-import { coreLogger } from "../common/logger.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { HttpService } from "../common/httpService.js";
 import { TestRunCreatePayload } from "../common/types.js";
@@ -49,7 +48,6 @@ export class PlaywrightServiceApiCall {
         contentType,
         correlationId,
       );
-      coreLogger.info(`Test run API response: ${JSON.stringify(response, null, 2)}`);
 
       if (response.status !== 200) {
         const errorMessage = extractErrorMessage(response?.bodyAsText ?? "");
@@ -88,7 +86,6 @@ export class PlaywrightServiceApiCall {
         "",
         correlationId,
       );
-      coreLogger.info(`Workspace metadata API response: ${JSON.stringify(response, null, 2)}`);
 
       if (response.status !== 200) {
         const errorMessage = extractErrorMessage(response?.bodyAsText ?? "");

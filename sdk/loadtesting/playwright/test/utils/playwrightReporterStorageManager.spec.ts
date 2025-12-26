@@ -64,7 +64,6 @@ describe("PlaywrightReporterStorageManager", () => {
 
   it("uploadPlaywrightHtmlReportAfterTests returns false when no credential", async () => {
     const mgr = new PlaywrightReporterStorageManager();
-    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
 
     const ok = await mgr.uploadPlaywrightHtmlReportAfterTests("playwright-report", {
       storageUri: "https://account.blob.core.windows.net",
@@ -74,18 +73,12 @@ describe("PlaywrightReporterStorageManager", () => {
       subscriptionId: "sub",
     } as any);
 
-    expect(ok).toBe(false);
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message,
-    );
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      ServiceErrorMessageConstants.NO_CRED_ENTRA_AUTH_ERROR.message,
-    );
+    expect(ok.success).toBe(false);
+    expect(ok.errorMessage).toBe(ServiceErrorMessageConstants.NO_CRED_ENTRA_AUTH_ERROR.message);
   });
 
   it("uploadPlaywrightHtmlReportAfterTests returns false when output folder missing", async () => {
     const mgr = new PlaywrightReporterStorageManager();
-    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
     PlaywrightServiceConfig.instance.credential = { token: "mock" } as any;
     // Use a unique folder name that does not exist to avoid ESM spy limitations
     const folderName = `non-existent-report-folder-${Date.now()}`;
@@ -103,13 +96,8 @@ describe("PlaywrightReporterStorageManager", () => {
       subscriptionId: "sub",
     } as any);
 
-    expect(ok).toBe(false);
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message,
-    );
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      ServiceErrorMessageConstants.PLAYWRIGHT_TEST_REPORT_NOT_FOUND.formatWithFolder(folderName),
-    );
+    expect(ok.success).toBe(false);
+    expect(ok.errorMessage).toContain("Playwright test report not found");
   });
 
   it("uploadPlaywrightHtmlReportAfterTests calls uploadHtmlReportFolder on success", async () => {
@@ -123,7 +111,7 @@ describe("PlaywrightReporterStorageManager", () => {
       fs.mkdirSync(outputPath, { recursive: true });
     }
 
-    const spy = vi.spyOn(mgr as any, "uploadHtmlReportFolder").mockResolvedValue(undefined);
+    const spy = vi.spyOn(mgr as any, "uploadHtmlReportFolder").mockResolvedValue({ success: true });
 
     const workspace = {
       storageUri: "https://account.blob.core.windows.net",
@@ -135,7 +123,7 @@ describe("PlaywrightReporterStorageManager", () => {
 
     const ok = await mgr.uploadPlaywrightHtmlReportAfterTests(folderName, workspace);
 
-    expect(ok).toBe(true);
+    expect(ok.success).toBe(true);
     expect(spy).toHaveBeenCalledWith(
       PlaywrightServiceConfig.instance.credential,
       "run-123",
@@ -152,7 +140,6 @@ describe("PlaywrightReporterStorageManager", () => {
 
   it("uploadHtmlReportFolder handles missing storageUri without throwing", async () => {
     const mgr = new PlaywrightReporterStorageManager();
-    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
 
     await mgr.uploadHtmlReportFolder({} as any, "run-1", join(process.cwd(), "playwright-report"), {
       // storageUri intentionally missing
@@ -162,12 +149,15 @@ describe("PlaywrightReporterStorageManager", () => {
       subscriptionId: "sub",
     } as any);
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message,
+    const result = await mgr.uploadHtmlReportFolder(
+      {} as any,
+      "run-123",
+      "/path/to/folder",
+      {} as any,
     );
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      ServiceErrorMessageConstants.STORAGE_URI_NOT_FOUND.message,
-    );
+
+    expect(result.success).toBe(false);
+    expect(result.errorMessage).toBe(ServiceErrorMessageConstants.STORAGE_URI_NOT_FOUND.message);
   });
 
   it("modifyTraceIndexHtml is no-op when trace/index.html is missing", async () => {
@@ -282,7 +272,7 @@ describe("PlaywrightReporterStorageManager", () => {
       } as any,
     );
 
-    expect(ok).toBeUndefined();
+    expect(ok.success).toBe(true);
     expect(uploadSpy).toHaveBeenCalled();
     expect(uploadDataSpy).toHaveBeenCalled();
     expect(uploadStreamSpy).toHaveBeenCalled();

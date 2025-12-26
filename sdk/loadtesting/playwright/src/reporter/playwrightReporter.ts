@@ -8,7 +8,7 @@ import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
 import { ServiceAuth } from "../common/constants.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { PlaywrightServiceApiCall } from "../utils/playwrightServiceApicall.js";
-import type { WorkspaceMetaData } from "../common/types.js";
+import type { WorkspaceMetaData, UploadResult } from "../common/types.js";
 
 /**
  * Azure Playwright Reporter - Uploads generated Playwright test report folder to Azure Storage.
@@ -53,14 +53,17 @@ export default class PlaywrightReporter implements Reporter {
         return;
       }
 
-      console.log(ServiceErrorMessageConstants.REPORTING_ENABLED.message);
       this.isReportingEnabled = true;
 
       this.validateHtmlReporterConfiguration(config);
+      if (this.isReportingEnabled) {
+        console.log(ServiceErrorMessageConstants.REPORTING_ENABLED.message);
+      }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
-      console.error(errorMessage);
-      console.error(ServiceErrorMessageConstants.WORKSPACE_METADATA_FETCH_FAILED.message);
+      console.error(
+        `${ServiceErrorMessageConstants.WORKSPACE_METADATA_FETCH_FAILED.message}Error: ${errorMessage} `,
+      );
       this.isReportingEnabled = false;
     }
   }
@@ -72,36 +75,55 @@ export default class PlaywrightReporter implements Reporter {
   async onEnd(): Promise<void> {
     if (this.isReportingEnabled) {
       console.log(ServiceErrorMessageConstants.COLLECTING_ARTIFACTS.message);
-      const uploadSuccess = await this.uploadHtmlReport();
+      const uploadResult = await this.uploadHtmlReport();
 
-      // Display portal URL only if upload was successful
-      if (uploadSuccess && this.workspaceMetadata) {
-        const portalUrl = getPortalTestRunUrl(this.workspaceMetadata);
-        console.log(ServiceErrorMessageConstants.TEST_REPORT_VIEW_URL.formatWithUrl(portalUrl));
+      if (uploadResult.success) {
+        if (
+          uploadResult.partialSuccess &&
+          uploadResult.failedFileDetails &&
+          uploadResult.failedFileDetails.length > 0
+        ) {
+          console.log("Warning: Failed to upload the following files:");
+          uploadResult.failedFileDetails.forEach((fileDetail) => {
+            console.log(`  - ${fileDetail.fileName}, ERROR: ${fileDetail.error}`);
+          });
+          console.log(ServiceErrorMessageConstants.REPORTING_STATUS_PARTIAL.message);
+        } else {
+          console.log(ServiceErrorMessageConstants.REPORTING_STATUS_SUCCESS.message);
+        }
+        // Display portal URL for both full and partial success
+        if (this.workspaceMetadata) {
+          const portalUrl = getPortalTestRunUrl(this.workspaceMetadata);
+          console.log(ServiceErrorMessageConstants.TEST_REPORT_VIEW_URL.formatWithUrl(portalUrl));
+        }
+      } else {
+        console.error(ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message);
+        if (uploadResult.errorMessage) {
+          console.error(`Error: ${uploadResult.errorMessage}`);
+        }
       }
     }
   }
 
-  private async uploadHtmlReport(): Promise<boolean> {
+  private async uploadHtmlReport(): Promise<UploadResult> {
     try {
       const outputFolder = getHtmlReporterOutputFolder(this.config);
       coreLogger.info(`Resolved Playwright test report output folder: ${outputFolder}`);
       const storageManager = new PlaywrightReporterStorageManager();
       coreLogger.info("Starting Playwright test report upload process");
-      const uploadSuccess = await storageManager.uploadPlaywrightHtmlReportAfterTests(
+      const uploadResult = await storageManager.uploadPlaywrightHtmlReportAfterTests(
         outputFolder,
         this.workspaceMetadata,
       );
 
-      if (uploadSuccess) {
+      if (uploadResult.success) {
         coreLogger.info(`Playwright Test report uploaded successfully to Azure Storage.`);
       }
-      return uploadSuccess;
+      return uploadResult;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Unknown error";
-      console.error(ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message);
-      console.error(errorMessage);
-      return false;
+      coreLogger.error(`Upload failed: ${errorMessage}`);
+      return { success: false, errorMessage };
     }
   }
 
