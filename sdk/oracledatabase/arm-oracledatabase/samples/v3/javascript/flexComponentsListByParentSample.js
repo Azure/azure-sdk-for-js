@@ -15,9 +15,7 @@ async function flexComponentsListByParentMaximumSet() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.flexComponents.listByParent("eastus", {
-    shape: "Exadata.X9M",
-  })) {
+  for await (const item of client.flexComponents.listByParent("eastus", { shape: "Exadata.X9M" })) {
     resArray.push(item);
   }
 

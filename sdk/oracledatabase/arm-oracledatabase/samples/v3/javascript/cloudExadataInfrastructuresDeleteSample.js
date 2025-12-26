@@ -1,0 +1,58 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { OracleDatabaseManagementClient } = require("@azure/arm-oracledatabase");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to delete a CloudExadataInfrastructure
+ *
+ * @summary delete a CloudExadataInfrastructure
+ * x-ms-original-file: 2025-09-01/CloudExadataInfrastructures_Delete_MaximumSet_Gen.json
+ */
+async function deleteExadataInfrastructureGeneratedByMaximumSetRule() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new OracleDatabaseManagementClient(credential, subscriptionId);
+  await client.cloudExadataInfrastructures.delete(
+    "rgopenapi",
+    "Replace this value with a string matching RegExp .*",
+  );
+}
+
+/**
+ * This sample demonstrates how to delete a CloudExadataInfrastructure
+ *
+ * @summary delete a CloudExadataInfrastructure
+ * x-ms-original-file: 2025-09-01/CloudExadataInfrastructures_Delete_MinimumSet_Gen.json
+ */
+async function deleteExadataInfrastructureGeneratedByMinimumSetRule() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new OracleDatabaseManagementClient(credential, subscriptionId);
+  await client.cloudExadataInfrastructures.delete(
+    "rgopenapi",
+    "Replace this value with a string matching RegExp .*",
+  );
+}
+
+/**
+ * This sample demonstrates how to delete a CloudExadataInfrastructure
+ *
+ * @summary delete a CloudExadataInfrastructure
+ * x-ms-original-file: 2025-09-01/exaInfra_delete.json
+ */
+async function cloudExadataInfrastructuresDelete() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new OracleDatabaseManagementClient(credential, subscriptionId);
+  await client.cloudExadataInfrastructures.delete("rg000", "infra1");
+}
+
+async function main() {
+  await deleteExadataInfrastructureGeneratedByMaximumSetRule();
+  await deleteExadataInfrastructureGeneratedByMinimumSetRule();
+  await cloudExadataInfrastructuresDelete();
+}
+
+main().catch(console.error);

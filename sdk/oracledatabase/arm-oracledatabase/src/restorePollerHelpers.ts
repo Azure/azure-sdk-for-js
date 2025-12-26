@@ -137,34 +137,24 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 }
 
 interface DeserializationHelper {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/dbSystems/{dbSystemName}":
-    {
-      deserializer: _$deleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/dbSystems/{dbSystemName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/dbSystems/{dbSystemName}":
-    {
-      deserializer: _createOrUpdateDeserialize,
-      expectedStatuses: ["200", "201", "202"],
-    },
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/resourceAnchors/{resourceAnchorName}":
     {
       deserializer: _$deleteDeserializeResourceAnchors,
-      expectedStatuses: ["202", "204", "200"],
+      expectedStatuses: ["202", "204", "200", "201"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/resourceAnchors/{resourceAnchorName}":
-    {
-      deserializer: _updateDeserializeResourceAnchors,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeResourceAnchors, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/resourceAnchors/{resourceAnchorName}":
     {
       deserializer: _createOrUpdateDeserializeResourceAnchors,
@@ -173,13 +163,10 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/networkAnchors/{networkAnchorName}":
     {
       deserializer: _$deleteDeserializeNetworkAnchors,
-      expectedStatuses: ["202", "204", "200"],
+      expectedStatuses: ["202", "204", "200", "201"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/networkAnchors/{networkAnchorName}":
-    {
-      deserializer: _updateDeserializeNetworkAnchors,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeNetworkAnchors, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/networkAnchors/{networkAnchorName}":
     {
       deserializer: _createOrUpdateDeserializeNetworkAnchors,
@@ -188,32 +175,26 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exascaleDbStorageVaults/{exascaleDbStorageVaultName}":
     {
       deserializer: _$deleteDeserializeExascaleDbStorageVaults,
-      expectedStatuses: ["202", "204", "200"],
+      expectedStatuses: ["202", "204", "200", "201"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exascaleDbStorageVaults/{exascaleDbStorageVaultName}":
     {
       deserializer: _updateDeserializeExascaleDbStorageVaults,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exascaleDbStorageVaults/{exascaleDbStorageVaultName}":
-    {
-      deserializer: _createDeserialize,
-      expectedStatuses: ["200", "201", "202"],
-    },
+    { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exadbVmClusters/{exadbVmClusterName}/dbNodes/{exascaleDbNodeName}/action":
-    { deserializer: _actionDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _actionDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exadbVmClusters/{exadbVmClusterName}/removeVms":
-    { deserializer: _removeVmsDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _removeVmsDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exadbVmClusters/{exadbVmClusterName}":
     {
       deserializer: _$deleteDeserializeExadbVmClusters,
-      expectedStatuses: ["202", "204", "200"],
+      expectedStatuses: ["202", "204", "200", "201"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exadbVmClusters/{exadbVmClusterName}":
-    {
-      deserializer: _updateDeserializeExadbVmClusters,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeExadbVmClusters, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exadbVmClusters/{exadbVmClusterName}":
     {
       deserializer: _createOrUpdateDeserializeExadbVmClusters,
@@ -222,12 +203,12 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/autonomousDatabaseBackups/{adbbackupid}":
     {
       deserializer: _updateDeserializeAutonomousDatabaseBackups,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/autonomousDatabaseBackups/{adbbackupid}":
     {
       deserializer: _$deleteDeserializeAutonomousDatabaseBackups,
-      expectedStatuses: ["202", "204", "200"],
+      expectedStatuses: ["202", "204", "200", "201"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/autonomousDatabaseBackups/{adbbackupid}":
     {
@@ -237,30 +218,30 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/action":
     {
       deserializer: _actionDeserializeAutonomousDatabases,
-      expectedStatuses: ["202", "200"],
+      expectedStatuses: ["202", "200", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/changeDisasterRecoveryConfiguration":
     {
       deserializer: _changeDisasterRecoveryConfigurationDeserialize,
-      expectedStatuses: ["202", "200"],
+      expectedStatuses: ["202", "200", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/shrink":
-    { deserializer: _shrinkDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _shrinkDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/restore":
-    { deserializer: _restoreDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _restoreDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/failover":
-    { deserializer: _failoverDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _failoverDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/switchover":
-    { deserializer: _switchoverDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _switchoverDeserialize, expectedStatuses: ["202", "200", "201"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}":
     {
       deserializer: _updateDeserializeAutonomousDatabases,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}":
     {
       deserializer: _$deleteDeserializeAutonomousDatabases,
-      expectedStatuses: ["202", "204", "200"],
+      expectedStatuses: ["202", "204", "200", "201"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}":
     {
@@ -268,37 +249,25 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["200", "201", "202"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}/dbNodes/{dbnodeocid}/action":
-    {
-      deserializer: _actionDeserializeDbNodes,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _actionDeserializeDbNodes, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default/addAzureSubscriptions":
-    {
-      deserializer: _addAzureSubscriptionsDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _addAzureSubscriptionsDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default/listActivationLinks":
-    {
-      deserializer: _listActivationLinksDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _listActivationLinksDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default/listSaasSubscriptionDetails":
     {
       deserializer: _listSaasSubscriptionDetailsDeserialize,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default/listCloudAccountDetails":
-    {
-      deserializer: _listCloudAccountDetailsDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _listCloudAccountDetailsDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default": {
     deserializer: _$deleteDeserializeOracleSubscriptions,
-    expectedStatuses: ["202", "204", "200"],
+    expectedStatuses: ["202", "204", "200", "201"],
   },
   "PATCH /subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default": {
     deserializer: _updateDeserializeOracleSubscriptions,
-    expectedStatuses: ["200", "202"],
+    expectedStatuses: ["200", "202", "201"],
   },
   "PUT /subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default": {
     deserializer: _createOrUpdateDeserializeOracleSubscriptions,
@@ -307,7 +276,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}/virtualNetworkAddresses/{virtualnetworkaddressname}":
     {
       deserializer: _$deleteDeserializeVirtualNetworkAddresses,
-      expectedStatuses: ["202", "204", "200"],
+      expectedStatuses: ["202", "204", "200", "201"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}/virtualNetworkAddresses/{virtualnetworkaddressname}":
     {
@@ -315,46 +284,34 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["200", "201", "202"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}/removeVms":
-    {
-      deserializer: _removeVmsDeserializeCloudVmClusters,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _removeVmsDeserializeCloudVmClusters, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}/addVms":
-    { deserializer: _addVmsDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _addVmsDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}":
     {
       deserializer: _$deleteDeserializeCloudVmClusters,
-      expectedStatuses: ["202", "204", "200"],
+      expectedStatuses: ["202", "204", "200", "201"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}":
-    {
-      deserializer: _updateDeserializeCloudVmClusters,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeCloudVmClusters, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}":
     {
       deserializer: _createOrUpdateDeserializeCloudVmClusters,
       expectedStatuses: ["200", "201", "202"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudExadataInfrastructures/{cloudexadatainfrastructurename}/configureExascale":
-    {
-      deserializer: _configureExascaleDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _configureExascaleDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudExadataInfrastructures/{cloudexadatainfrastructurename}/addStorageCapacity":
-    {
-      deserializer: _addStorageCapacityDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _addStorageCapacityDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudExadataInfrastructures/{cloudexadatainfrastructurename}":
     {
       deserializer: _$deleteDeserializeCloudExadataInfrastructures,
-      expectedStatuses: ["202", "204", "200"],
+      expectedStatuses: ["202", "204", "200", "201"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudExadataInfrastructures/{cloudexadatainfrastructurename}":
     {
       deserializer: _updateDeserializeCloudExadataInfrastructures,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudExadataInfrastructures/{cloudexadatainfrastructurename}":
     {

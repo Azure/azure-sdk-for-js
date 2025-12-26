@@ -24,9 +24,7 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 export function _listByLocationSend(
   context: Client,
   location: string,
-  options: AutonomousDatabaseCharacterSetsListByLocationOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabaseCharacterSetsListByLocationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/autonomousDatabaseCharacterSets{?api%2Dversion}",
@@ -41,10 +39,7 @@ export function _listByLocationSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -65,9 +60,7 @@ export async function _listByLocationDeserialize(
 export function listByLocation(
   context: Client,
   location: string,
-  options: AutonomousDatabaseCharacterSetsListByLocationOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabaseCharacterSetsListByLocationOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AutonomousDatabaseCharacterSet> {
   return buildPagedAsyncIterator(
     context,
@@ -82,9 +75,7 @@ export function _getSend(
   context: Client,
   location: string,
   adbscharsetname: string,
-  options: AutonomousDatabaseCharacterSetsGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabaseCharacterSetsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/autonomousDatabaseCharacterSets/{adbscharsetname}{?api%2Dversion}",
@@ -100,10 +91,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -125,9 +113,7 @@ export async function get(
   context: Client,
   location: string,
   adbscharsetname: string,
-  options: AutonomousDatabaseCharacterSetsGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabaseCharacterSetsGetOptionalParams = { requestOptions: {} },
 ): Promise<AutonomousDatabaseCharacterSet> {
   const result = await _getSend(context, location, adbscharsetname, options);
   return _getDeserialize(result);

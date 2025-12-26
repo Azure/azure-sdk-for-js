@@ -21,10 +21,7 @@ async function exascaleDbStorageVaultsCreateMaximumSet(): Promise<void> {
         "kgqvxvtegzwyppegpvqxnlslvetbjlgveofcpjddenhbpocyzwtswaeaetqkipcxyhedsymuljalirryldlbviuvidhssyiwodacajjnbpkbvbvzwzsjctsidchalyjkievnivikwnnypaojcvhmokddstxwiqxmbfmbvglfimseguwyvibwzllggjtwejdfgezoeuvjjbsyfozswihydzuscjrqnklewongumiljeordhqlsclwlmftzdoey",
       displayName: "storagevault1",
       highCapacityDatabaseStorageInput: { totalSizeInGbs: 1 },
-      highCapacityDatabaseStorage: {
-        availableSizeInGbs: 4,
-        totalSizeInGbs: 12,
-      },
+      highCapacityDatabaseStorage: { availableSizeInGbs: 4, totalSizeInGbs: 12 },
       timeZone: "hyjcftlal",
       lifecycleState: "Provisioning",
       ocid: "ocid1.autonomousdatabase.oc1..aaaaa3klq",

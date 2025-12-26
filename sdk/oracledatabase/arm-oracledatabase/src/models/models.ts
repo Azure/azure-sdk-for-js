@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -224,7 +230,9 @@ export function cloudExadataInfrastructureSerializer(item: CloudExadataInfrastru
 
 export function cloudExadataInfrastructureDeserializer(item: any): CloudExadataInfrastructure {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -826,7 +834,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -1273,7 +1283,9 @@ export function cloudVmClusterSerializer(item: CloudVmCluster): any {
 
 export function cloudVmClusterDeserializer(item: any): CloudVmCluster {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -1553,10 +1565,7 @@ export interface FileSystemConfigurationDetails {
 export function fileSystemConfigurationDetailsSerializer(
   item: FileSystemConfigurationDetails,
 ): any {
-  return {
-    mountPoint: item["mountPoint"],
-    fileSystemSizeGb: item["fileSystemSizeGb"],
-  };
+  return { mountPoint: item["mountPoint"], fileSystemSizeGb: item["fileSystemSizeGb"] };
 }
 
 export function fileSystemConfigurationDetailsDeserializer(
@@ -2229,11 +2238,7 @@ export interface OracleSubscriptionProperties {
 }
 
 export function oracleSubscriptionPropertiesSerializer(item: OracleSubscriptionProperties): any {
-  return {
-    termUnit: item["termUnit"],
-    productCode: item["productCode"],
-    intent: item["intent"],
-  };
+  return { termUnit: item["termUnit"], productCode: item["productCode"], intent: item["intent"] };
 }
 
 export function oracleSubscriptionPropertiesDeserializer(item: any): OracleSubscriptionProperties {
@@ -3331,7 +3336,9 @@ export function autonomousDatabaseSerializer(item: AutonomousDatabase): any {
 
 export function autonomousDatabaseDeserializer(item: any): AutonomousDatabase {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -5692,10 +5699,7 @@ export interface AutonomousDatabaseBackupProperties {
 export function autonomousDatabaseBackupPropertiesSerializer(
   item: AutonomousDatabaseBackupProperties,
 ): any {
-  return {
-    displayName: item["displayName"],
-    retentionPeriodInDays: item["retentionPeriodInDays"],
-  };
+  return { displayName: item["displayName"], retentionPeriodInDays: item["retentionPeriodInDays"] };
 }
 
 export function autonomousDatabaseBackupPropertiesDeserializer(
@@ -6078,7 +6082,9 @@ export function exadbVmClusterSerializer(item: ExadbVmCluster): any {
 
 export function exadbVmClusterDeserializer(item: any): ExadbVmCluster {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -6568,7 +6574,9 @@ export function exascaleDbStorageVaultSerializer(item: ExascaleDbStorageVault): 
 
 export function exascaleDbStorageVaultDeserializer(item: any): ExascaleDbStorageVault {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -6823,7 +6831,9 @@ export function networkAnchorSerializer(item: NetworkAnchor): any {
 
 export function networkAnchorDeserializer(item: any): NetworkAnchor {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -6947,10 +6957,7 @@ export interface DnsForwardingRule {
 }
 
 export function dnsForwardingRuleSerializer(item: DnsForwardingRule): any {
-  return {
-    domainNames: item["domainNames"],
-    forwardingIpAddress: item["forwardingIpAddress"],
-  };
+  return { domainNames: item["domainNames"], forwardingIpAddress: item["forwardingIpAddress"] };
 }
 
 export function dnsForwardingRuleDeserializer(item: any): DnsForwardingRule {
@@ -7050,7 +7057,9 @@ export function resourceAnchorSerializer(item: ResourceAnchor): any {
 
 export function resourceAnchorDeserializer(item: any): ResourceAnchor {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -7145,7 +7154,9 @@ export function dbSystemSerializer(item: DbSystem): any {
 
 export function dbSystemDeserializer(item: any): DbSystem {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],

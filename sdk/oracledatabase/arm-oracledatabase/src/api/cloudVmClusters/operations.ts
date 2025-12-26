@@ -44,9 +44,7 @@ export function _listPrivateIpAddressesSend(
   resourceGroupName: string,
   cloudvmclustername: string,
   body: PrivateIpAddressesFilter,
-  options: CloudVmClustersListPrivateIpAddressesOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudVmClustersListPrivateIpAddressesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}/listPrivateIpAddresses{?api%2Dversion}",
@@ -63,10 +61,7 @@ export function _listPrivateIpAddressesSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: privateIpAddressesFilterSerializer(body),
   });
 }
@@ -90,9 +85,7 @@ export async function listPrivateIpAddresses(
   resourceGroupName: string,
   cloudvmclustername: string,
   body: PrivateIpAddressesFilter,
-  options: CloudVmClustersListPrivateIpAddressesOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudVmClustersListPrivateIpAddressesOptionalParams = { requestOptions: {} },
 ): Promise<PrivateIpAddressProperties[]> {
   const result = await _listPrivateIpAddressesSend(
     context,
@@ -126,10 +119,7 @@ export function _removeVmsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: addRemoveDbNodeSerializer(body),
   });
 }
@@ -137,7 +127,7 @@ export function _removeVmsSend(
 export async function _removeVmsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<CloudVmCluster> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -155,7 +145,7 @@ export function removeVms(
   body: AddRemoveDbNode,
   options: CloudVmClustersRemoveVmsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CloudVmCluster>, CloudVmCluster> {
-  return getLongRunningPoller(context, _removeVmsDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _removeVmsDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -186,16 +176,13 @@ export function _addVmsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: addRemoveDbNodeSerializer(body),
   });
 }
 
 export async function _addVmsDeserialize(result: PathUncheckedResponse): Promise<CloudVmCluster> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -213,7 +200,7 @@ export function addVms(
   body: AddRemoveDbNode,
   options: CloudVmClustersAddVmsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CloudVmCluster>, CloudVmCluster> {
-  return getLongRunningPoller(context, _addVmsDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _addVmsDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -225,9 +212,7 @@ export function addVms(
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: CloudVmClustersListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudVmClustersListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters{?api%2Dversion}",
@@ -242,10 +227,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -266,9 +248,7 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: CloudVmClustersListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudVmClustersListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<CloudVmCluster> {
   return buildPagedAsyncIterator(
     context,
@@ -301,7 +281,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
+  const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -323,7 +303,7 @@ export function $delete(
   cloudvmclustername: string,
   options: CloudVmClustersDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, cloudvmclustername, options),
@@ -353,16 +333,13 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: cloudVmClusterUpdateSerializer(properties),
   });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<CloudVmCluster> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -380,7 +357,7 @@ export function update(
   properties: CloudVmClusterUpdate,
   options: CloudVmClustersUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CloudVmCluster>, CloudVmCluster> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -409,10 +386,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -460,10 +434,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: cloudVmClusterSerializer(resource),
   });
 }
@@ -500,9 +471,7 @@ export function createOrUpdate(
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: CloudVmClustersListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudVmClustersListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/cloudVmClusters{?api%2Dversion}",
@@ -516,10 +485,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -539,9 +505,7 @@ export async function _listBySubscriptionDeserialize(
 /** List CloudVmCluster resources by subscription ID */
 export function listBySubscription(
   context: Client,
-  options: CloudVmClustersListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudVmClustersListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<CloudVmCluster> {
   return buildPagedAsyncIterator(
     context,
