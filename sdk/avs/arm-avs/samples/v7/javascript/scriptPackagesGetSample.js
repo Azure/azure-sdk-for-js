@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a ScriptPackage
  *
  * @summary get a ScriptPackage
- * x-ms-original-file: 2024-09-01/ScriptPackages_Get.json
+ * x-ms-original-file: 2025-09-01/ScriptPackages_Get.json
  */
 async function scriptPackagesGet() {
   const credential = new DefaultAzureCredential();

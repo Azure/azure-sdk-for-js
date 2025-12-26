@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a WorkloadNetwork
  *
  * @summary get a WorkloadNetwork
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_Get.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_Get.json
  */
 async function workloadNetworksGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

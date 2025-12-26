@@ -1,34 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext as Client } from "../index.js";
+import type { AzureVMwareSolutionAPIContext as Client } from "../index.js";
+import type {
+  _ExpressRouteAuthorizationList,
+  ExpressRouteAuthorization,
+} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  _ExpressRouteAuthorizationList,
   _expressRouteAuthorizationListDeserializer,
-  ExpressRouteAuthorization,
   expressRouteAuthorizationSerializer,
   expressRouteAuthorizationDeserializer,
 } from "../../models/models.js";
-import {
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   AuthorizationsDeleteOptionalParams,
   AuthorizationsCreateOrUpdateOptionalParams,
   AuthorizationsGetOptionalParams,
   AuthorizationsListOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _$deleteSend(
   context: Client,
@@ -50,17 +46,11 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "202", "204"];
+  const expectedStatuses = ["200", "202", "204", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -83,7 +73,7 @@ export function $delete(
   authorizationName: string,
   options: AuthorizationsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -116,10 +106,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: expressRouteAuthorizationSerializer(authorization),
   });
 }
@@ -127,7 +114,7 @@ export function _createOrUpdateSend(
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ExpressRouteAuthorization> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -146,7 +133,7 @@ export function createOrUpdate(
   authorization: ExpressRouteAuthorization,
   options: AuthorizationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ExpressRouteAuthorization>, ExpressRouteAuthorization> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -184,10 +171,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -242,10 +226,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

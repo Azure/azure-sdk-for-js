@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list ScriptPackage resources by PrivateCloud
  *
  * @summary list ScriptPackage resources by PrivateCloud
- * x-ms-original-file: 2024-09-01/ScriptPackages_List.json
+ * x-ms-original-file: 2025-09-01/ScriptPackages_List.json
  */
 async function scriptPackagesList() {
   const credential = new DefaultAzureCredential();
