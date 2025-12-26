@@ -336,7 +336,7 @@ describe("Generated Service Config Content Validation", () => {
     // Check for reporter documentation comments
     expect(generatedContent).toContain("Enable Azure Playwright Service Reporting:");
     expect(generatedContent).toContain(
-      "Uncomment the reporter section below to upload test results",
+      "Uncomment the reporter section below to upload test results and reports to Azure Playwright Service.",
     );
     expect(generatedContent).toContain(
       "Note: The HTML reporter must be included alongside the Azure reporter.",
