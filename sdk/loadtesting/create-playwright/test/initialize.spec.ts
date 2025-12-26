@@ -208,12 +208,11 @@ describe("Generated Service Config Content Validation", () => {
     const generatedContent = playwrightServiceInitialize["createAzurePlaywrightConfigContent"]();
     expect(generatedContent).toContain("createAzurePlaywrightConfig");
     expect(generatedContent).toContain(
-      "import { createAzurePlaywrightConfig, ServiceOS, ServiceAuth } from '@azure/playwright'",
+      "import { createAzurePlaywrightConfig, ServiceOS, } from '@azure/playwright'",
     );
     expect(generatedContent).toContain("createAzurePlaywrightConfig(config, {");
     expect(generatedContent).toContain("connectTimeout:");
     expect(generatedContent).toContain("connectTimeout: 3 * 60 * 1000");
-    expect(generatedContent).toContain("serviceAuthType: ServiceAuth.ENTRA_ID");
     expect(generatedContent).toContain("Enable Azure Playwright Service Reporting:");
     expect(generatedContent).toContain("// reporter: [");
     expect(generatedContent).toContain('//   ["html"],');
@@ -230,12 +229,11 @@ describe("Generated Service Config Content Validation", () => {
     const generatedContent = playwrightServiceInitialize["createAzurePlaywrightConfigContent"]();
     expect(generatedContent).toContain("createAzurePlaywrightConfig");
     expect(generatedContent).toContain(
-      "const { createAzurePlaywrightConfig, ServiceOS, ServiceAuth } = require('@azure/playwright')",
+      "const { createAzurePlaywrightConfig, ServiceOS } = require('@azure/playwright')",
     );
     expect(generatedContent).toContain("createAzurePlaywrightConfig(config, {");
     expect(generatedContent).toContain("connectTimeout:");
     expect(generatedContent).toContain("connectTimeout: 3 * 60 * 1000");
-    expect(generatedContent).toContain("serviceAuthType: ServiceAuth.ENTRA_ID");
     expect(generatedContent).toContain("Enable Azure Playwright Service Reporting:");
     expect(generatedContent).toContain("// reporter: [");
     expect(generatedContent).toContain('//   ["html"],');
@@ -254,16 +252,10 @@ describe("Generated Service Config Content Validation", () => {
     expect(generatedContent).toContain("createAzurePlaywrightConfig(config, {");
 
     expect(generatedContent).toContain(
-      "import { createAzurePlaywrightConfig, ServiceOS, ServiceAuth } from '@azure/playwright'",
+      "import { createAzurePlaywrightConfig, ServiceOS, } from '@azure/playwright'",
     );
 
-    const expectedProperties = [
-      "exposeNetwork:",
-      "connectTimeout:",
-      "os:",
-      "credential:",
-      "serviceAuthType:",
-    ];
+    const expectedProperties = ["exposeNetwork:", "connectTimeout:", "os:", "credential:"];
 
     expectedProperties.forEach((prop) => {
       expect(generatedContent, `Missing property: ${prop}`).toContain(prop);
@@ -287,7 +279,6 @@ describe("Generated Service Config Content Validation", () => {
       "connectTimeout: 3 * 60 * 1000, // 3 minutes",
       "os: ServiceOS.LINUX",
       "credential: new DefaultAzureCredential()",
-      "serviceAuthType: ServiceAuth.ENTRA_ID",
     ];
 
     requiredConfigProperties.forEach((prop) => {
@@ -332,7 +323,6 @@ describe("Generated Service Config Content Validation", () => {
     expect(generatedContent).toContain("connectTimeout: 3 * 60 * 1000");
     expect(generatedContent).toContain("os: ServiceOS.LINUX");
     expect(generatedContent).toContain("credential: new DefaultAzureCredential()");
-    expect(generatedContent).toContain("serviceAuthType: ServiceAuth.ENTRA_ID");
   });
 
   it("should include commented reporter configuration with proper documentation", () => {

@@ -102,13 +102,13 @@ export class PlaywrightServiceInitialize {
     );
 
     const importCommandTypeScript = `import { defineConfig } from '@playwright/test';
-import { createAzurePlaywrightConfig, ServiceOS, ServiceAuth } from '@azure/playwright';
+import { createAzurePlaywrightConfig, ServiceOS } from '@azure/playwright';
 import { DefaultAzureCredential } from '@azure/identity';
 import config from '${customerConfigFileName}';
 `;
 
     const importCommandJavaScript = `const { defineConfig } = require('@playwright/test');
-const { createAzurePlaywrightConfig, ServiceOS, ServiceAuth } = require('@azure/playwright');
+const { createAzurePlaywrightConfig, ServiceOS, } = require('@azure/playwright');
 const { DefaultAzureCredential } = require('@azure/identity');
 const config = require('${customerConfigFileName}');
 `;
@@ -129,7 +129,6 @@ export default defineConfig(
     connectTimeout: 3 * 60 * 1000, // 3 minutes
     os: ServiceOS.LINUX,
     credential: new DefaultAzureCredential(),
-    serviceAuthType: ServiceAuth.ENTRA_ID,
   }),
   {
     /*
