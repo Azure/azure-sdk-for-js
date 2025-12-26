@@ -32,7 +32,7 @@ describe("DiagFileConsoleLogger filtering", () => {
     loggedMessages.length = 0;
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     process.env = originalEnv;
     console.log = originalConsoleLog;
     diag.disable();
@@ -46,8 +46,7 @@ describe("DiagFileConsoleLogger filtering", () => {
 
     // Accessing attributes before async attributes settle triggers the OTEL diagnostic warning
     // that this logger is supposed to silence.
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    resource.attributes;
+    void resource.attributes;
 
     expect(loggedMessages).toHaveLength(0);
   });
