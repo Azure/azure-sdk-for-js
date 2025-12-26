@@ -71,7 +71,6 @@ export abstract class BaseContinuationTokenManager {
     endIndex: number;
     continuationToken?: string;
   } {
-    // Process response data
     if (responseResult) {
       this.processResponseResult(responseResult);
     }
