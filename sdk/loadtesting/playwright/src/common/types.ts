@@ -210,3 +210,13 @@ export type WorkspaceMetaData = {
   localAuth?: string;
   storageUri?: string;
 };
+
+export interface UploadResult {
+  success: boolean;
+  errorMessage?: string;
+  failedFileCount?: number;
+  totalFiles?: number;
+  failedFiles?: string[];
+  failedFileDetails?: Array<{ fileName: string; error: string }>;
+  partialSuccess?: boolean;
+}
