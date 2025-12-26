@@ -1,7 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as msal from "@azure/msal-node";
+import { ConfidentialClientApplication, PublicClientApplication } from "@azure/msal-node";
+import type {
+  AccountInfo,
+  AuthenticationResult,
+  Configuration,
+  DeviceCodeRequest,
+  InteractiveRequest,
+  SilentFlowRequest,
+  UsernamePasswordRequest,
+} from "@azure/msal-node";
 
 import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import type { AuthenticationRecord, CertificateParts } from "../types.js";
@@ -29,8 +38,8 @@ import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOption
 import { calculateRegionalAuthority } from "../../regionalAuthority.js";
 import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../../util/tenantIdUtils.js";
-import { CommonClientOptions } from "@azure/core-client";
-import { LogPolicyOptions } from "@azure/core-rest-pipeline";
+import type { CommonClientOptions } from "@azure/core-client";
+import type { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { getAuthorityHost } from "../../util/authorityHost.js";
 
 /**
@@ -280,7 +289,7 @@ export function generateMsalConfiguration(
   clientId: string,
   tenantId: string,
   msalClientOptions: MsalClientOptions = {},
-): msal.Configuration {
+): Configuration {
   const resolvedTenant = resolveTenantId(
     msalClientOptions.logger ?? msalLogger,
     tenantId,
@@ -295,7 +304,7 @@ export function generateMsalConfiguration(
     loggingOptions: msalClientOptions.loggingOptions,
   });
 
-  const msalConfig: msal.Configuration = {
+  const msalConfig: Configuration = {
     auth: {
       clientId,
       authority,
@@ -323,10 +332,10 @@ export function generateMsalConfiguration(
  */
 interface MsalClientState {
   /** The configuration for the MSAL client. */
-  msalConfig: msal.Configuration;
+  msalConfig: Configuration;
 
   /** The cached account information, or null if no account information is cached. */
-  cachedAccount: msal.AccountInfo | null;
+  cachedAccount: AccountInfo | null;
 
   /** Configured plugins */
   pluginConfiguration: PluginConfiguration;
@@ -362,10 +371,10 @@ export function createMsalClient(
     logger: createMsalClientOptions.logger ?? msalLogger,
   };
 
-  const publicApps: Map<string, msal.PublicClientApplication> = new Map();
+  const publicApps: Map<string, PublicClientApplication> = new Map();
   async function getPublicApp(
     options: GetTokenOptions = {},
-  ): Promise<msal.PublicClientApplication> {
+  ): Promise<PublicClientApplication> {
     const appKey = options.enableCae ? "CAE" : "default";
 
     let publicClientApp = publicApps.get(appKey);
@@ -385,7 +394,7 @@ export function createMsalClient(
 
     state.msalConfig.auth.clientCapabilities = options.enableCae ? ["cp1"] : undefined;
 
-    publicClientApp = new msal.PublicClientApplication({
+    publicClientApp = new PublicClientApplication({
       ...state.msalConfig,
       broker: { nativeBrokerPlugin: state.pluginConfiguration.broker.nativeBrokerPlugin },
       cache: { cachePlugin: await cachePlugin },
@@ -396,10 +405,10 @@ export function createMsalClient(
     return publicClientApp;
   }
 
-  const confidentialApps: Map<string, msal.ConfidentialClientApplication> = new Map();
+  const confidentialApps: Map<string, ConfidentialClientApplication> = new Map();
   async function getConfidentialApp(
     options: GetTokenOptions = {},
-  ): Promise<msal.ConfidentialClientApplication> {
+  ): Promise<ConfidentialClientApplication> {
     const appKey = options.enableCae ? "CAE" : "default";
 
     let confidentialClientApp = confidentialApps.get(appKey);
@@ -423,7 +432,7 @@ export function createMsalClient(
 
     state.msalConfig.auth.clientCapabilities = options.enableCae ? ["cp1"] : undefined;
 
-    confidentialClientApp = new msal.ConfidentialClientApplication({
+    confidentialClientApp = new ConfidentialClientApplication({
       ...state.msalConfig,
       broker: { nativeBrokerPlugin: state.pluginConfiguration.broker.nativeBrokerPlugin },
       cache: { cachePlugin: await cachePlugin },
@@ -435,10 +444,10 @@ export function createMsalClient(
   }
 
   async function getTokenSilent(
-    app: msal.ConfidentialClientApplication | msal.PublicClientApplication,
+    app: ConfidentialClientApplication | PublicClientApplication,
     scopes: string[],
     options: GetTokenOptions = {},
-  ): Promise<msal.AuthenticationResult> {
+  ): Promise<AuthenticationResult> {
     if (state.cachedAccount === null) {
       state.logger.getToken.info("No cached account found in local state.");
       throw new AuthenticationRequiredError({ scopes });
@@ -449,7 +458,7 @@ export function createMsalClient(
       state.cachedClaims = options.claims;
     }
 
-    const silentRequest: msal.SilentFlowRequest = {
+    const silentRequest: SilentFlowRequest = {
       account: state.cachedAccount,
       scopes,
       claims: state.cachedClaims,
@@ -498,12 +507,12 @@ export function createMsalClient(
    * @returns A promise that resolves to an AccessToken object containing the access token and its expiration timestamp.
    */
   async function withSilentAuthentication(
-    msalApp: msal.ConfidentialClientApplication | msal.PublicClientApplication,
+    msalApp: ConfidentialClientApplication | PublicClientApplication,
     scopes: Array<string>,
     options: GetTokenWithSilentAuthOptions,
-    onAuthenticationRequired: () => Promise<msal.AuthenticationResult | null>,
+    onAuthenticationRequired: () => Promise<AuthenticationResult | null>,
   ): Promise<AccessToken> {
-    let response: msal.AuthenticationResult | null = null;
+    let response: AuthenticationResult | null = null;
     try {
       response = await getTokenSilent(msalApp, scopes, options);
     } catch (e: any) {
@@ -647,7 +656,7 @@ export function createMsalClient(
     const msalApp = await getPublicApp(options);
 
     return withSilentAuthentication(msalApp, scopes, options, () => {
-      const requestOptions: msal.DeviceCodeRequest = {
+      const requestOptions: DeviceCodeRequest = {
         scopes,
         cancel: options?.abortSignal?.aborted ?? false,
         deviceCodeCallback,
@@ -676,7 +685,7 @@ export function createMsalClient(
     const msalApp = await getPublicApp(options);
 
     return withSilentAuthentication(msalApp, scopes, options, () => {
-      const requestOptions: msal.UsernamePasswordRequest = {
+      const requestOptions: UsernamePasswordRequest = {
         scopes,
         username,
         password,
@@ -704,7 +713,7 @@ export function createMsalClient(
   ): Promise<AccessToken> {
     state.logger.getToken.info(`Attempting to acquire token using authorization code`);
 
-    let msalApp: msal.ConfidentialClientApplication | msal.PublicClientApplication;
+    let msalApp: ConfidentialClientApplication | PublicClientApplication;
     if (clientSecret) {
       // If a client secret is provided, we need to use a confidential client application
       // See https://learn.microsoft.com/entra/identity-platform/v2-oauth2-auth-code-flow#request-an-access-token-with-a-client_secret
@@ -776,7 +785,7 @@ export function createMsalClient(
   function createBaseInteractiveRequest(
     scopes: string[],
     options: GetTokenInteractiveOptions,
-  ): msal.InteractiveRequest {
+  ): InteractiveRequest {
     return {
       openBrowser: async (url) => {
         const open = await import("open");
@@ -799,7 +808,7 @@ export function createMsalClient(
     scopes: string[],
     useDefaultBrokerAccount: boolean,
     options: GetTokenInteractiveOptions = {},
-  ): Promise<msal.AuthenticationResult> {
+  ): Promise<AuthenticationResult> {
     msalLogger.verbose("Authentication will resume through the broker");
 
     const app = await getPublicApp(options);
