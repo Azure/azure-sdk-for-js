@@ -5,24 +5,23 @@ import type { RestError } from "@azure/core-rest-pipeline";
 import { redirectPolicyName } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
 import { diag } from "@opentelemetry/api";
+import createClient from "../../../generated/liveMetricsClient.js";
 import type {
-  IsSubscribedOptionalParams,
-  IsSubscribedResponse,
-  PublishOptionalParams,
-  PublishResponse,
-  QuickpulseClientOptionalParams,
+  IsSubscribed200Response,
+  IsSubscribedParameters,
+  Publish200Response,
+  PublishParameters,
 } from "../../../generated/index.js";
-import { QuickpulseClient } from "../../../generated/index.js";
+import { isUnexpected } from "../../../generated/index.js";
 
-const applicationInsightsResource = "https://monitor.azure.com//.default";
+const applicationInsightsResource = "https://monitor.azure.com/.default";
 
 /**
  * Quickpulse sender class
  * @internal
  */
 export class QuickpulseSender {
-  private readonly quickpulseClient: QuickpulseClient;
-  private quickpulseClientOptions: QuickpulseClientOptionalParams;
+  private readonly quickpulseClient: ReturnType<typeof createClient>;
   private instrumentationKey: string;
   private endpointUrl: string;
 
@@ -34,23 +33,25 @@ export class QuickpulseSender {
   }) {
     // Build endpoint using provided configuration or default values
     this.endpointUrl = options.endpointUrl;
-    this.quickpulseClientOptions = {
-      endpoint: this.endpointUrl,
-    };
-
     this.instrumentationKey = options.instrumentationKey;
+    const credential =
+      options.credential ??
+      ({
+        getToken: async () => ({ token: "", expiresOnTimestamp: Date.now() + 60 * 60 * 1000 }),
+      } as TokenCredential);
 
-    if (options.credential) {
-      this.quickpulseClientOptions.credential = options.credential;
-      // Add credentialScopes
-      if (options.credentialScopes) {
-        this.quickpulseClientOptions.credentialScopes = options.credentialScopes;
-      } else {
-        // Default
-        this.quickpulseClientOptions.credentialScopes = [applicationInsightsResource];
-      }
-    }
-    this.quickpulseClient = new QuickpulseClient(this.quickpulseClientOptions);
+    const scopes = Array.isArray(options.credentialScopes)
+      ? options.credentialScopes
+      : options.credentialScopes
+        ? [options.credentialScopes]
+        : [applicationInsightsResource];
+
+    this.quickpulseClient = createClient(credential, {
+      endpointParam: this.endpointUrl,
+      credentials: {
+        scopes,
+      },
+    });
 
     // Handle redirects in HTTP Sender
     this.quickpulseClient.pipeline.removePolicy({ name: redirectPolicyName });
@@ -61,14 +62,15 @@ export class QuickpulseSender {
    * @internal
    */
   async isSubscribed(
-    optionalParams: IsSubscribedOptionalParams,
-  ): Promise<IsSubscribedResponse | undefined> {
+    optionalParams: IsSubscribedParameters,
+  ): Promise<IsSubscribed200Response | undefined> {
     try {
-      const response = await this.quickpulseClient.isSubscribed(
-        this.endpointUrl,
-        this.instrumentationKey,
-        optionalParams,
-      );
+      const response = await this.quickpulseClient
+        .path("/QuickPulseService.svc/ping")
+        .post(optionalParams);
+      if (isUnexpected(response)) {
+        throw response;
+      }
       return response;
     } catch (error: any) {
       const restError = error as RestError;
@@ -81,13 +83,14 @@ export class QuickpulseSender {
    * publish Quickpulse service
    * @internal
    */
-  async publish(optionalParams: PublishOptionalParams): Promise<PublishResponse | undefined> {
+  async publish(optionalParams: PublishParameters): Promise<Publish200Response | undefined> {
     try {
-      const response = await this.quickpulseClient.publish(
-        this.endpointUrl,
-        this.instrumentationKey,
-        optionalParams,
-      );
+      const response = await this.quickpulseClient
+        .path("/QuickPulseService.svc/post")
+        .post(optionalParams);
+      if (isUnexpected(response)) {
+        throw response;
+      }
       return response;
     } catch (error: any) {
       const restError = error as RestError;
@@ -103,5 +106,9 @@ export class QuickpulseSender {
         this.endpointUrl = "https://" + locUrl.host;
       }
     }
+  }
+
+  public getInstrumentationKey(): string {
+    return this.instrumentationKey;
   }
 }
