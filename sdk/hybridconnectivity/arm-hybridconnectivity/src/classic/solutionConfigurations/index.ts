@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
+import type { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
 import {
   syncNow,
   list,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/solutionConfigurations/operations.js";
-import {
+import type {
   SolutionConfigurationsSyncNowOptionalParams,
   SolutionConfigurationsListOptionalParams,
   SolutionConfigurationsDeleteOptionalParams,
@@ -18,13 +18,13 @@ import {
   SolutionConfigurationsCreateOrUpdateOptionalParams,
   SolutionConfigurationsGetOptionalParams,
 } from "../../api/solutionConfigurations/options.js";
-import {
+import type {
   OperationStatusResult,
   SolutionConfiguration,
   SolutionConfigurationUpdate,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SolutionConfigurations operations. */
 export interface SolutionConfigurationsOperations {

@@ -1,43 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPIContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { HybridConnectivityManagementAPIContext as Client } from "../index.js";
+import type {
   ServiceConfigurationResource,
-  serviceConfigurationResourceSerializer,
-  serviceConfigurationResourceDeserializer,
   ServiceConfigurationResourcePatch,
-  serviceConfigurationResourcePatchSerializer,
   _ServiceConfigurationList,
-  _serviceConfigurationListDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  serviceConfigurationResourceSerializer,
+  serviceConfigurationResourceDeserializer,
+  serviceConfigurationResourcePatchSerializer,
+  _serviceConfigurationListDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ServiceConfigurationsListByEndpointResourceOptionalParams,
   ServiceConfigurationsDeleteOptionalParams,
   ServiceConfigurationsUpdateOptionalParams,
   ServiceConfigurationsCreateOrupdateOptionalParams,
   ServiceConfigurationsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByEndpointResourceSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
-  options: ServiceConfigurationsListByEndpointResourceOptionalParams = {
-    requestOptions: {},
-  },
+  options: ServiceConfigurationsListByEndpointResourceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/serviceConfigurations{?api%2Dversion}",
@@ -52,10 +46,7 @@ export function _listByEndpointResourceSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -77,9 +68,7 @@ export function listByEndpointResource(
   context: Client,
   resourceUri: string,
   endpointName: string,
-  options: ServiceConfigurationsListByEndpointResourceOptionalParams = {
-    requestOptions: {},
-  },
+  options: ServiceConfigurationsListByEndpointResourceOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ServiceConfigurationResource> {
   return buildPagedAsyncIterator(
     context,
@@ -109,13 +98,7 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -175,10 +158,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: serviceConfigurationResourcePatchSerializer(serviceConfigurationResource),
   });
 }
@@ -222,9 +202,7 @@ export function _createOrupdateSend(
   endpointName: string,
   serviceConfigurationName: string,
   serviceConfigurationResource: ServiceConfigurationResource,
-  options: ServiceConfigurationsCreateOrupdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ServiceConfigurationsCreateOrupdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/serviceConfigurations/{+serviceConfigurationName}{?api%2Dversion}",
@@ -241,10 +219,7 @@ export function _createOrupdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: serviceConfigurationResourceSerializer(serviceConfigurationResource),
   });
 }
@@ -269,9 +244,7 @@ export async function createOrupdate(
   endpointName: string,
   serviceConfigurationName: string,
   serviceConfigurationResource: ServiceConfigurationResource,
-  options: ServiceConfigurationsCreateOrupdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ServiceConfigurationsCreateOrupdateOptionalParams = { requestOptions: {} },
 ): Promise<ServiceConfigurationResource> {
   const result = await _createOrupdateSend(
     context,
@@ -305,10 +278,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
