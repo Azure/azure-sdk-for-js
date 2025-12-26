@@ -18,9 +18,7 @@ export function _restoreFilesSend(
   backupVaultName: string,
   backupName: string,
   body: BackupRestoreFiles,
-  options: BackupsUnderBackupVaultRestoreFilesOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupsUnderBackupVaultRestoreFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}/backups/{backupName}/restoreFiles{?api%2Dversion}",
@@ -62,9 +60,7 @@ export function restoreFiles(
   backupVaultName: string,
   backupName: string,
   body: BackupRestoreFiles,
-  options: BackupsUnderBackupVaultRestoreFilesOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupsUnderBackupVaultRestoreFilesOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _restoreFilesDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,

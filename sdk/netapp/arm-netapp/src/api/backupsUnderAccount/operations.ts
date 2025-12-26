@@ -19,9 +19,7 @@ export function _migrateBackupsSend(
   resourceGroupName: string,
   accountName: string,
   body: BackupsMigrationRequest,
-  options: BackupsUnderAccountMigrateBackupsOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupsUnderAccountMigrateBackupsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/migrateBackups{?api%2Dversion}",
@@ -59,9 +57,7 @@ export function migrateBackups(
   resourceGroupName: string,
   accountName: string,
   body: BackupsMigrationRequest,
-  options: BackupsUnderAccountMigrateBackupsOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupsUnderAccountMigrateBackupsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _migrateBackupsDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
