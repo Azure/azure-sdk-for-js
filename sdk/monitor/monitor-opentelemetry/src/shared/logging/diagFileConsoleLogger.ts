@@ -202,7 +202,11 @@ export class DiagFileConsoleLogger implements DiagLogger {
       text.includes("unsupported otel_metrics_exporter value") ||
       (text.includes("otel_metrics_exporter value") && text.includes("supported values are"));
 
-    return text.includes("otel_metrics_exporter") && text.includes("azure_monitor") && matchesUnsupportedValue;
+    return (
+      text.includes("otel_metrics_exporter") &&
+      text.includes("azure_monitor") &&
+      matchesUnsupportedValue
+    );
   }
 
   private async _storeToDisk(args: any): Promise<void> {

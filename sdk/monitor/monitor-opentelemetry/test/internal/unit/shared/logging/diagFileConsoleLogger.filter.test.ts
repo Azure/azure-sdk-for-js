@@ -96,7 +96,7 @@ describe("DiagFileConsoleLogger filtering", () => {
 
   it("does not filter unsupported exporter warnings when azure_monitor is absent", () => {
     diag.error(
-      "unsupported otel_metrics_exporter value \"console\"; supported values are: [none, console, otlp]",
+      'unsupported otel_metrics_exporter value "console"; supported values are: [none, console, otlp]',
     );
 
     const flat = loggedMessages.flat().join(" ").toLowerCase();
