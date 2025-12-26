@@ -195,6 +195,15 @@ describe("Library/Config", () => {
       );
     });
 
+    it("microsoft.rate_limited without arg keeps default samplingRatio=1 in InternalConfig", () => {
+      vi.stubEnv("OTEL_TRACES_SAMPLER", "microsoft.rate_limited");
+
+      const config = new InternalConfig();
+
+      assert.strictEqual(config.tracesPerSecond, undefined, "Wrong tracesPerSecond");
+      assert.strictEqual(config.samplingRatio, 1, "Wrong samplingRatio");
+    });
+
     it("Partial configurations are supported", () => {
       const env = <{ [id: string]: string }>{};
 

@@ -13,6 +13,7 @@ import type {
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
 } from "../types.js";
+import type { Sampler } from "@opentelemetry/sdk-trace-base";
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { EnvConfig } from "./envConfig.js";
 import { JsonConfig } from "./jsonConfig.js";
@@ -47,6 +48,8 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   enablePerformanceCounters?: boolean;
   /** Metric export interval in milliseconds */
   public metricExportIntervalMillis: number;
+  /** Custom OpenTelemetry sampler (env-only) */
+  public sampler?: Sampler;
 
   private _resource: Resource = emptyResource();
 
@@ -139,6 +142,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       envConfig.samplingRatio !== undefined ? envConfig.samplingRatio : this.samplingRatio;
     this.tracesPerSecond =
       envConfig.tracesPerSecond !== undefined ? envConfig.tracesPerSecond : this.tracesPerSecond;
+    this.sampler = envConfig.sampler ?? this.sampler;
   }
 
   private _mergeJsonConfig(): void {
