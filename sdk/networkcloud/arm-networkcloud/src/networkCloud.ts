@@ -86,7 +86,7 @@ export class NetworkCloud extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-networkcloud/1.3.0`;
+    const packageDetails = `azsdk-js-arm-networkcloud/1.3.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
