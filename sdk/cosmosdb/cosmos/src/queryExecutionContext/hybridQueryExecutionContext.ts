@@ -75,8 +75,13 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       const globalStaticsQueryOptions: FeedOptions = { maxItemCount: this.pageSize };
       this.globalStatisticsAggregator = new GlobalStatisticsAggregator();
 
-      const globalStatisticsQuery =
-        this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.globalStatisticsQuery;
+      const globalStatisticsQuery: string | SqlQuerySpec =
+        typeof this.query === "string"
+          ? this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.globalStatisticsQuery
+          : {
+              query: this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.globalStatisticsQuery,
+              parameters: this.query?.parameters ?? [],
+            };
       const globalStatisticsQueryExecutionInfo: PartitionedQueryExecutionInfo = {
         partitionedQueryExecutionInfoVersion: 1,
         queryInfo: {

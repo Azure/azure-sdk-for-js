@@ -765,8 +765,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     if (rewrittenQuery) {
       sqlQuerySpec = JSON.parse(JSON.stringify(sqlQuerySpec));
       rewrittenQuery = filterCondition
-        ? rewrittenQuery.replace(formatPlaceHolder, filterCondition)
-        : rewrittenQuery.replace(formatPlaceHolder, "true");
+        ? rewrittenQuery.query
+          ? rewrittenQuery.query.replace(formatPlaceHolder, filterCondition)
+          : rewrittenQuery.replace(formatPlaceHolder, filterCondition)
+        : rewrittenQuery.query
+          ? rewrittenQuery.query.replace(formatPlaceHolder, "true")
+          : rewrittenQuery.replace(formatPlaceHolder, "true");
       sqlQuerySpec["query"] = rewrittenQuery;
     }
 
