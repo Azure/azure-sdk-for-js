@@ -73,7 +73,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
     if (this._shouldFilterResourceAttributeWarning(message, args)) {
       return;
     }
-    if (this._shouldFilterAzureMonitorExporterWarning(message, args)) {
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
       return;
     }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -85,7 +85,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
     if (this._shouldFilterResourceAttributeWarning(message, args)) {
       return;
     }
-    if (this._shouldFilterAzureMonitorExporterWarning(message, args)) {
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
       return;
     }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -183,35 +183,17 @@ export class DiagFileConsoleLogger implements DiagLogger {
     return false;
   }
 
-  private _shouldFilterAzureMonitorExporterWarning(message?: any, args?: any[]): boolean {
-    const stringsToInspect: string[] = [];
-    if (typeof message === "string") {
-      stringsToInspect.push(message.toLowerCase());
-    }
-    if (args && Array.isArray(args)) {
-      for (const arg of args) {
-        if (typeof arg === "string") {
-          stringsToInspect.push(arg.toLowerCase());
-        }
-      }
+  private _shouldFilterAzureMonitorExporterWarning(message?: any): boolean {
+    if (typeof message !== "string") {
+      return false;
     }
 
-    for (const text of stringsToInspect) {
-      const matchesUnsupportedValue =
-        text.includes("unsupported otel_metrics_exporter value") ||
-        (text.includes("otel_metrics_exporter value") && text.includes("supported values are"));
-      const matchesInvalidValue = text.includes("invalid") || text.includes("not a valid");
+    const text = message.toLowerCase();
+    const matchesUnsupportedValue =
+      text.includes("unsupported otel_metrics_exporter value") ||
+      (text.includes("otel_metrics_exporter value") && text.includes("supported values are"));
 
-      if (
-        text.includes("otel_metrics_exporter") &&
-        text.includes("azure_monitor") &&
-        (matchesUnsupportedValue || matchesInvalidValue)
-      ) {
-        return true;
-      }
-    }
-
-    return false;
+    return text.includes("otel_metrics_exporter") && text.includes("azure_monitor") && matchesUnsupportedValue;
   }
 
   private async _storeToDisk(args: any): Promise<void> {
