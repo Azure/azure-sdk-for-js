@@ -46,9 +46,14 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
     );
 
     if (!this.continuationToken) {
+      // For initial token creation, add ranges to rangeList first
+      rangeMappings.forEach((range) => {
+        this.rangeList.push(range);
+      });
+      // Then create token using rangeList so they're synchronized
       this.continuationToken = createCompositeQueryContinuationToken(
         this.collectionLink,
-        rangeMappings,
+        this.rangeList,
       );
     } else {
       this.updateExistingCompositeContinuationToken(rangeMappings);
