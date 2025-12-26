@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AbortSignalLike } from "@azure/abort-controller";
+import type { ProxySettings } from "@azure/core-rest-pipeline";
 
 /**
  * WebSocket ready state enumeration matching standard WebSocket values
@@ -25,6 +26,8 @@ export interface WebSocketFactoryOptions {
   compression?: boolean;
   /** Custom headers for connection (Node.js only) */
   headers?: Record<string, string>;
+  /** @internal - Proxy configuration (detected from environment variables) */
+  proxyOptions?: ProxySettings;
 }
 
 /**
