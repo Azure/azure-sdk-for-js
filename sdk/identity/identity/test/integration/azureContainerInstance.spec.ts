@@ -10,6 +10,17 @@ describe("Azure Container Instance Integration test", function () {
     const containerIp = requireEnvVar("IDENTITY_ACI_IP");
 
     const client = createDefaultHttpClient();
+
+    // LOGGG
+    const healthRequest = createPipelineRequest({
+      url: `http://${containerIp}/`,
+      method: "GET",
+    });
+    healthRequest.allowInsecureConnection = true;
+
+    const res = await client.sendRequest(healthRequest);
+    console.log(`STATUS: ${res.status} - ${res.bodyAsText}`);
+
     const request = createPipelineRequest({
       url: `http://${containerIp}/managed-identity/user-assigned`,
       method: "GET",

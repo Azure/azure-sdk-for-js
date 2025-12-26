@@ -1,7 +1,5 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
-# Licensed under the MIT License.
-
-# IMPORTANT: Do not invoke this file directly. Please instead run eng/New-TestResources.ps1 from the repository root.
+# Licensed under the MIT License.az acr login -n $($DeploymentOutputs['IDENTITY_ACR_NAME']) && \
 
 param (
   [Parameter()]
@@ -87,7 +85,26 @@ $loginServer = $DeploymentOutputs['IDENTITY_ACR_LOGIN_SERVER']
 $image = "$loginServer/identity-aks-test-image"
 docker build --no-cache --build-arg REGISTRY="mcr.microsoft.com/mirror/docker/library/" -t $image "$workingFolder/AzureKubernetes"
 docker push $image
+
 Write-Host "Deployed image to ACR"
+$uuid = [guid]::NewGuid().ToString()
+$vmScript = @"
+az acr login -n $($DeploymentOutputs['IDENTITY_ACR_NAME']) && \
+sudo docker run \
+-e IDENTITY_STORAGE_NAME=$($DeploymentOutputs['IDENTITY_STORAGE_NAME']) \
+-e IDENTITY_STORAGE_NAME_USER_ASSIGNED=$($DeploymentOutputs['IDENTITY_STORAGE_NAME_USER_ASSIGNED']) \
+-e IDENTITY_USER_ASSIGNED_IDENTITY=$($DeploymentOutputs['IDENTITY_USER_ASSIGNED_IDENTITY']) \
+-e IDENTITY_USER_ASSIGNED_IDENTITY_CLIENT_ID=$($DeploymentOutputs['IDENTITY_USER_ASSIGNED_IDENTITY_CLIENT_ID']) \
+-e IDENTITY_USER_ASSIGNED_IDENTITY_OBJECT_ID=$($DeploymentOutputs['IDENTITY_USER_ASSIGNED_IDENTITY_OBJECT_ID']) \
+-p 80:8080 -d \
+$image && \
+/usr/bin/echo $uuid
+"@
+$output = az vm run-command invoke -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_VM_NAME'] --command-id RunShellScript --scripts "$vmScript" | Out-String
+Write-Host $output
+if (-not $output.Contains($uuid)) {
+  throw "couldn't start container on VM"
+}
 
 Write-Host "Deploying Azure Container Instance"
 
@@ -165,3 +182,61 @@ Set-Content -Path "$workingFolder/kubeconfig.yaml" -Value $kubeConfig
 # Apply the config
 kubectl apply -f "$workingFolder/kubeconfig.yaml" --overwrite=true
 Write-Host "Applied kubeconfig.yaml"
+
+Write-Host ""
+Write-Host "=== LOGGS ==="
+
+# Container Instance logs and IMDS test
+az container logs -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME']
+
+Write-Host "Container Name: $($DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'])"
+Write-Host "Container IP: $aciIP"
+Write-Host ""
+
+Write-Host "--- Container State ---"
+az container show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'] `
+  --query "{name:name,provisioningState:provisioningState,state:instanceView.state,restartCount:containers[0].instanceView.restartCount,ip:ipAddress.ip,os:osType}" `
+  -o table
+
+Write-Host ""
+Write-Host "ACI Identity Assignment:"
+az container show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'] --query "identity" -o json
+
+Write-Host ""
+Write-Host "VM Identity Assignment:"
+az vm identity show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_VM_NAME'] -o json
+
+Write-Host ""
+Write-Host "Expected User-Assigned Identity:"
+Write-Host "  Client ID: $MIClientId"
+Write-Host "  Object ID: $MIObjectId"
+Write-Host "  Resource ID: $($DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY'])"
+
+Write-Host ""
+Write-Host "=== Identity Check (VM) ==="
+
+try {
+  $uamiId = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY']
+  Write-Host "User-Assigned Managed Identity Resource ID: $uamiId"
+  $vmIdentityJson = az vm identity show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_VM_NAME'] -o json
+  $vmIdentity = $vmIdentityJson | ConvertFrom-Json
+
+  $hasExpectedUami = $false
+  $clientIdMatches = $false
+  $principalIdMatches = $false
+
+  if ($vmIdentity -and $vmIdentity.userAssignedIdentities -and $uamiId) {
+    $vmUami = $vmIdentity.userAssignedIdentities.$uamiId
+    if ($null -ne $vmUami) {
+      $hasExpectedUami = $true
+      if ($MIClientId) { $clientIdMatches = ($vmUami.clientId -eq $MIClientId) }
+      if ($MIObjectId) { $principalIdMatches = ($vmUami.principalId -eq $MIObjectId) }
+    }
+  }
+
+  Write-Host "VM has expected UAMI attached: $hasExpectedUami"
+  Write-Host "VM UAMI clientId matches expected: $clientIdMatches"
+  Write-Host "VM UAMI principalId matches expected: $principalIdMatches"
+} catch {
+  Write-Host "VM identity check failed: $($_.Exception.Message)"
+}
