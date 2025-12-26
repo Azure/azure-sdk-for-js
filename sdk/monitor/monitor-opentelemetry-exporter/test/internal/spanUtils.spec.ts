@@ -124,7 +124,7 @@ function assertEnvelope(
   );
   // Not posibble to get specific time + duration in these tests
   if (envelope.data?.baseData) {
-    delete envelope.data.baseData.duration;
+    delete (envelope.data.baseData as any).duration;
   }
   assert.deepStrictEqual(envelope.data?.baseData, expectedBaseData as MonitorDomain);
 }
@@ -501,7 +501,7 @@ describe("spanUtils.ts", () => {
         const expectedProperties = {
           "az.namespace": "Microsoft.EventHub",
         };
-        const expectedBaseData: Partial<RequestData> = {
+        const expectedBaseData = {
           id: `${span.spanContext().spanId}`,
           name: "span",
           success: true,
@@ -510,7 +510,7 @@ describe("spanUtils.ts", () => {
           type: "InProc | Microsoft.EventHub",
           properties: expectedProperties,
           measurements: {},
-        };
+        } as any;
 
         const envelope = readableSpanToEnvelope(readableSpan, "ikey");
         assertEnvelope(
@@ -995,7 +995,7 @@ describe("spanUtils.ts", () => {
         const readableSpan = spanToReadableSpan(span);
 
         const envelope = readableSpanToEnvelope(readableSpan, "ikey");
-        assert.strictEqual(envelope.data!.baseData!.success, false);
+        assert.strictEqual((envelope.data!.baseData as any).success, false);
       });
       it("Request Envelope should not override user set SpanStatus", () => {
         const spanOptions: SpanOptions = {
@@ -1010,7 +1010,7 @@ describe("spanUtils.ts", () => {
         span.end();
         const readableSpan = spanToReadableSpan(span);
         const envelope = readableSpanToEnvelope(readableSpan, "ikey");
-        assert.strictEqual(envelope.data!.baseData!.success, true);
+        assert.strictEqual((envelope.data!.baseData as any).success, true);
       });
     });
 
@@ -1583,7 +1583,9 @@ describe("spanUtils.ts", () => {
 
     // Specifically verify that ATTR_ENDUSER_ID is not in properties
     assert.ok(
-      !envelope.data?.baseData?.properties?.[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID],
+      !(envelope.data?.baseData as any)?.properties?.[
+        experimentalOpenTelemetryValues.ATTR_ENDUSER_ID
+      ],
       "ATTR_ENDUSER_ID should not be included in properties",
     );
   });
@@ -1636,7 +1638,7 @@ describe("spanUtils.ts", () => {
 
     // Specifically verify that ATTR_ENDUSER_PSEUDO_ID is not in properties
     assert.ok(
-      !envelope.data?.baseData?.properties?.[
+      !(envelope.data?.baseData as any)?.properties?.[
         experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID
       ],
       "ATTR_ENDUSER_PSEUDO_ID should not be included in properties",

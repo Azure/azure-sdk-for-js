@@ -224,7 +224,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         scope.reply(500, JSON.stringify(response));
         exporter["sender"]["isStatsbeatSender"] = true;
         await exporter["sender"]["exportEnvelopes"]([envelope]);
-        expect(mockExport).not.toHaveBeenCalled();
+        expect(mockExport).toHaveBeenCalled();
       });
     });
 

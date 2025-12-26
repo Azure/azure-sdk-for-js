@@ -47,20 +47,22 @@ export const parseEventHubSpan = (
   ).replace(/\/$/g, ""); // remove trailing "/"
   const messageBusDestination = (span.attributes[MessageBusDestination] || "unknown") as string;
 
+  const dependencyData = baseData as RemoteDependencyData;
+
   switch (span.kind) {
     case SpanKind.CLIENT:
-      baseData.type = namespace;
-      baseData.target = `${peerAddress}/${messageBusDestination}`;
+      dependencyData.type = namespace;
+      dependencyData.target = `${peerAddress}/${messageBusDestination}`;
       break;
     case SpanKind.PRODUCER:
-      baseData.type = `Queue Message | ${namespace}`;
-      baseData.target = `${peerAddress}/${messageBusDestination}`;
+      dependencyData.type = `Queue Message | ${namespace}`;
+      dependencyData.target = `${peerAddress}/${messageBusDestination}`;
       break;
     case SpanKind.CONSUMER:
-      baseData.type = `Queue Message | ${namespace}`;
-      (baseData as any).source = `${peerAddress}/${messageBusDestination}`;
-      baseData.measurements = {
-        ...baseData.measurements,
+      dependencyData.type = `Queue Message | ${namespace}`;
+      (dependencyData as any).source = `${peerAddress}/${messageBusDestination}`;
+      dependencyData.measurements = {
+        ...dependencyData.measurements,
         [TIME_SINCE_ENQUEUED]: getTimeSinceEnqueued(span),
       };
       break;

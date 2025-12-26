@@ -33,12 +33,12 @@ import {
 import { experimentalOpenTelemetryValues, type Tags } from "../types.js";
 import { getInstance } from "../platform/index.js";
 import type { TelemetryItem as Envelope, MetricsData } from "../generated/index.js";
-import { KnownContextTagKeys } from "../generated/index.js";
 import type { Resource } from "@opentelemetry/resources";
 import type { Attributes, HrTime } from "@opentelemetry/api";
 import { hrTimeToNanoseconds } from "@opentelemetry/core";
 import type { AnyValue } from "@opentelemetry/api-logs";
 import { ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED } from "../Declarations/Constants.js";
+import { KnownContextTagKeys } from "../generated/index.js";
 import {
   getHttpHost,
   getHttpMethod,
@@ -252,12 +252,21 @@ export function createResourceMetricEnvelope(
           baseType: "MetricData",
           baseData: baseData,
         },
-        tags: tags,
+        tags: sanitizeTags(tags),
       };
       return envelope;
     }
   }
   return;
+}
+
+export function sanitizeTags(tags?: Tags): Record<string, string> | undefined {
+  if (!tags) {
+    return undefined;
+  }
+  return Object.fromEntries(
+    Object.entries(tags).filter(([, value]) => value !== undefined),
+  ) as Record<string, string>;
 }
 
 export function serializeAttribute(value: AnyValue): string {
