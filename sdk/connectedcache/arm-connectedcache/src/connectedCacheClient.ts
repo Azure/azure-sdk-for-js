@@ -1,35 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import {
-  getEnterpriseCustomerOperationsOperations,
-  EnterpriseCustomerOperationsOperations,
-} from "./classic/enterpriseCustomerOperations/index.js";
-import {
-  getCacheNodesOperationsOperations,
-  CacheNodesOperationsOperations,
-} from "./classic/cacheNodesOperations/index.js";
-import { getIspCustomersOperations, IspCustomersOperations } from "./classic/ispCustomers/index.js";
-import {
-  getIspCacheNodesOperationsOperations,
-  IspCacheNodesOperationsOperations,
-} from "./classic/ispCacheNodesOperations/index.js";
-import {
-  getEnterpriseMccCustomersOperations,
-  EnterpriseMccCustomersOperations,
-} from "./classic/enterpriseMccCustomers/index.js";
-import {
-  getEnterpriseMccCacheNodesOperationsOperations,
-  EnterpriseMccCacheNodesOperationsOperations,
-} from "./classic/enterpriseMccCacheNodesOperations/index.js";
-import {
-  createConnectedCache,
-  ConnectedCacheContext,
-  ConnectedCacheClientOptionalParams,
-} from "./api/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { ConnectedCacheContext, ConnectedCacheClientOptionalParams } from "./api/index.js";
+import { createConnectedCache } from "./api/index.js";
+import type { EnterpriseMccCacheNodesOperationsOperations } from "./classic/enterpriseMccCacheNodesOperations/index.js";
+import { _getEnterpriseMccCacheNodesOperationsOperations } from "./classic/enterpriseMccCacheNodesOperations/index.js";
+import type { EnterpriseMccCustomersOperations } from "./classic/enterpriseMccCustomers/index.js";
+import { _getEnterpriseMccCustomersOperations } from "./classic/enterpriseMccCustomers/index.js";
+import type { IspCacheNodesOperationsOperations } from "./classic/ispCacheNodesOperations/index.js";
+import { _getIspCacheNodesOperationsOperations } from "./classic/ispCacheNodesOperations/index.js";
+import type { IspCustomersOperations } from "./classic/ispCustomers/index.js";
+import { _getIspCustomersOperations } from "./classic/ispCustomers/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { ConnectedCacheClientOptionalParams } from "./api/connectedCacheContext.js";
 
@@ -48,41 +33,28 @@ export class ConnectedCacheClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createConnectedCache(credential, {
+    this._client = createConnectedCache(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.operations = getOperationsOperations(this._client);
-    this.enterpriseCustomerOperations = getEnterpriseCustomerOperationsOperations(
+    this.enterpriseMccCacheNodesOperations = _getEnterpriseMccCacheNodesOperationsOperations(
       this._client,
-      subscriptionId,
     );
-    this.cacheNodesOperations = getCacheNodesOperationsOperations(this._client, subscriptionId);
-    this.ispCustomers = getIspCustomersOperations(this._client, subscriptionId);
-    this.ispCacheNodesOperations = getIspCacheNodesOperationsOperations(
-      this._client,
-      subscriptionId,
-    );
-    this.enterpriseMccCustomers = getEnterpriseMccCustomersOperations(this._client, subscriptionId);
-    this.enterpriseMccCacheNodesOperations = getEnterpriseMccCacheNodesOperationsOperations(
-      this._client,
-      subscriptionId,
-    );
+    this.enterpriseMccCustomers = _getEnterpriseMccCustomersOperations(this._client);
+    this.ispCacheNodesOperations = _getIspCacheNodesOperationsOperations(this._client);
+    this.ispCustomers = _getIspCustomersOperations(this._client);
+    this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for Operations */
-  public readonly operations: OperationsOperations;
-  /** The operation groups for EnterpriseCustomerOperations */
-  public readonly enterpriseCustomerOperations: EnterpriseCustomerOperationsOperations;
-  /** The operation groups for CacheNodesOperations */
-  public readonly cacheNodesOperations: CacheNodesOperationsOperations;
-  /** The operation groups for IspCustomers */
-  public readonly ispCustomers: IspCustomersOperations;
-  /** The operation groups for IspCacheNodesOperations */
-  public readonly ispCacheNodesOperations: IspCacheNodesOperationsOperations;
-  /** The operation groups for EnterpriseMccCustomers */
-  public readonly enterpriseMccCustomers: EnterpriseMccCustomersOperations;
-  /** The operation groups for EnterpriseMccCacheNodesOperations */
+  /** The operation groups for enterpriseMccCacheNodesOperations */
   public readonly enterpriseMccCacheNodesOperations: EnterpriseMccCacheNodesOperationsOperations;
+  /** The operation groups for enterpriseMccCustomers */
+  public readonly enterpriseMccCustomers: EnterpriseMccCustomersOperations;
+  /** The operation groups for ispCacheNodesOperations */
+  public readonly ispCacheNodesOperations: IspCacheNodesOperationsOperations;
+  /** The operation groups for ispCustomers */
+  public readonly ispCustomers: IspCustomersOperations;
+  /** The operation groups for operations */
+  public readonly operations: OperationsOperations;
 }
