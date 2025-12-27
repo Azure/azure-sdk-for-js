@@ -77,17 +77,32 @@ export class NetAppManagementClient {
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  /** Microsoft NetApp Files Azure Resource Provider specification */
+  constructor(credential: TokenCredential, options?: NetAppManagementClientOptionalParams);
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: NetAppManagementClientOptionalParams = {},
+    options?: NetAppManagementClientOptionalParams,
+  );
+  /** Microsoft NetApp Files Azure Resource Provider specification */
+  constructor(
+    credential: TokenCredential,
+    subscriptionIdOrOptions?: string | NetAppManagementClientOptionalParams,
+    options?: NetAppManagementClientOptionalParams,
   ) {
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
+    }
+
+    options = options ?? {};
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createNetAppManagement(credential, subscriptionId, {
+    this._client = createNetAppManagement(credential, subscriptionId ?? "", {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

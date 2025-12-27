@@ -58,10 +58,7 @@ export function _revertSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: elasticVolumeRevertSerializer(body),
   });
 }
@@ -101,9 +98,7 @@ export function _listByElasticPoolSend(
   resourceGroupName: string,
   accountName: string,
   poolName: string,
-  options: ElasticVolumesListByElasticPoolOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticVolumesListByElasticPoolOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticCapacityPools/{poolName}/elasticVolumes{?api%2Dversion}",
@@ -120,10 +115,7 @@ export function _listByElasticPoolSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -146,9 +138,7 @@ export function listByElasticPool(
   resourceGroupName: string,
   accountName: string,
   poolName: string,
-  options: ElasticVolumesListByElasticPoolOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticVolumesListByElasticPoolOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ElasticVolume> {
   return buildPagedAsyncIterator(
     context,
@@ -244,10 +234,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: elasticVolumeUpdateSerializer(body),
   });
 }
@@ -308,10 +295,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: elasticVolumeSerializer(body),
   });
 }
@@ -380,10 +364,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
