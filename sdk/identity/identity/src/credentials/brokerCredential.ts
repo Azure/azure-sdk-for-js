@@ -11,8 +11,12 @@ import {
 import { credentialLogger, formatError } from "../util/logging.js";
 import { ensureScopes } from "../util/scopeUtils.js";
 import { tracingClient } from "../util/tracing.js";
-import type { MsalClient, MsalClientOptions } from "../msal/nodeFlows/msalClient.js";
-import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
+import {
+  createMsalClientContext,
+  getBrokeredToken,
+  type MsalClientContext,
+  type MsalClientOptions,
+} from "../msal/nodeFlows/msalClient.js";
 import { DeveloperSignOnClientId } from "../constants.js";
 import type { TokenCredentialOptions } from "../tokenCredentialOptions.js";
 import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions.js";
@@ -25,7 +29,7 @@ const logger = credentialLogger("BrokerCredential");
  * This credential uses the default account logged into the OS via a broker.
  */
 export class BrokerCredential implements TokenCredential {
-  private brokerMsalClient: MsalClient;
+  private brokerMsalContext: MsalClientContext;
   private brokerTenantId?: string;
   private brokerAdditionallyAllowedTenantIds: string[];
 
@@ -54,7 +58,7 @@ export class BrokerCredential implements TokenCredential {
       },
     };
 
-    this.brokerMsalClient = createMsalClient(
+    this.brokerMsalContext = createMsalClientContext(
       DeveloperSignOnClientId,
       this.brokerTenantId,
       msalClientOptions,
@@ -85,7 +89,7 @@ export class BrokerCredential implements TokenCredential {
 
         const arrayScopes = ensureScopes(scopes);
         try {
-          return this.brokerMsalClient.getBrokeredToken(arrayScopes, true, {
+          return getBrokeredToken(this.brokerMsalContext, arrayScopes, true, {
             ...newOptions,
             disableAutomaticAuthentication: true,
           });

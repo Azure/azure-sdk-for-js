@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import type { MsalClient } from "../msal/nodeFlows/msalClient.js";
-import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
+import {
+  createMsalClientContext,
+  getTokenByClientCertificate,
+  type MsalClientContext,
+} from "../msal/nodeFlows/msalClient.js";
 import { createHash, createPrivateKey } from "node:crypto";
 import {
   processMultiTenantRequest,
@@ -38,7 +41,7 @@ export class ClientCertificateCredential implements TokenCredential {
   private additionallyAllowedTenantIds: string[];
   private certificateConfiguration: ClientCertificateCredentialPEMConfiguration;
   private sendCertificateChain?: boolean;
-  private msalClient: MsalClient;
+  private msalContext: MsalClientContext;
 
   /**
    * Creates an instance of the ClientCertificateCredential with the details
@@ -126,7 +129,7 @@ export class ClientCertificateCredential implements TokenCredential {
         `${credentialName}: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`,
       );
     }
-    this.msalClient = createMsalClient(clientId, tenantId, {
+    this.msalContext = createMsalClientContext(clientId, tenantId, {
       ...options,
       logger,
     });
@@ -151,7 +154,7 @@ export class ClientCertificateCredential implements TokenCredential {
 
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       const certificate = await this.buildClientCertificate();
-      return this.msalClient.getTokenByClientCertificate(arrayScopes, certificate, newOptions);
+      return getTokenByClientCertificate(this.msalContext, arrayScopes, certificate, newOptions);
     });
   }
 
