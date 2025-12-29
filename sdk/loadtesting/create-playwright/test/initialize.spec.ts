@@ -213,6 +213,11 @@ describe("Generated Service Config Content Validation", () => {
     expect(generatedContent).toContain("createAzurePlaywrightConfig(config, {");
     expect(generatedContent).toContain("connectTimeout:");
     expect(generatedContent).toContain("connectTimeout: 3 * 60 * 1000");
+    expect(generatedContent).toContain("Enable Azure Playwright Service Reporting:");
+    expect(generatedContent).toContain("// reporter: [");
+    expect(generatedContent).toContain('//   ["html"],');
+    expect(generatedContent).toContain('//   ["@azure/playwright/reporter"],');
+    expect(generatedContent).toContain("// ],");
   });
 
   it("should generate JavaScript config with correct API calls and property names", () => {
@@ -229,6 +234,11 @@ describe("Generated Service Config Content Validation", () => {
     expect(generatedContent).toContain("createAzurePlaywrightConfig(config, {");
     expect(generatedContent).toContain("connectTimeout:");
     expect(generatedContent).toContain("connectTimeout: 3 * 60 * 1000");
+    expect(generatedContent).toContain("Enable Azure Playwright Service Reporting:");
+    expect(generatedContent).toContain("// reporter: [");
+    expect(generatedContent).toContain('//   ["html"],');
+    expect(generatedContent).toContain('//   ["@azure/playwright/reporter"],');
+    expect(generatedContent).toContain("// ],");
   });
 
   it("should ensure generated config matches the current API from @azure/playwright package", () => {
@@ -313,5 +323,35 @@ describe("Generated Service Config Content Validation", () => {
     expect(generatedContent).toContain("connectTimeout: 3 * 60 * 1000");
     expect(generatedContent).toContain("os: ServiceOS.LINUX");
     expect(generatedContent).toContain("credential: new DefaultAzureCredential()");
+  });
+
+  it("should include commented reporter configuration with proper documentation", () => {
+    const playwrightServiceInitialize = new PlaywrightServiceInitialize({
+      playwrightConfigFile: "playwright.config.ts",
+      projectLanguage: Languages.TypeScript,
+    });
+
+    const generatedContent = playwrightServiceInitialize["createAzurePlaywrightConfigContent"]();
+
+    // Check for reporter documentation comments
+    expect(generatedContent).toContain("Enable Azure Playwright Service Reporting:");
+    expect(generatedContent).toContain(
+      "Uncomment the reporter section below to upload test results and reports to Azure Playwright Service.",
+    );
+    expect(generatedContent).toContain(
+      "Note: The HTML reporter must be included alongside the Azure reporter.",
+    );
+    expect(generatedContent).toContain(
+      "This configuration will replace any existing reporter settings from your base config.",
+    );
+    expect(generatedContent).toContain(
+      "If you're already using other reporters, add them to this array.",
+    );
+
+    // Check for commented reporter configuration
+    expect(generatedContent).toContain("// reporter: [");
+    expect(generatedContent).toContain('//   ["html"],');
+    expect(generatedContent).toContain('//   ["@azure/playwright/reporter"],');
+    expect(generatedContent).toContain("// ],");
   });
 });

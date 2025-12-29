@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get the properties of a specified task.
  *
  * @summary Get the properties of a specified task.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/TasksGet.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/TasksGet.json
  */
 async function tasksGet(): Promise<void> {
   const subscriptionId =
