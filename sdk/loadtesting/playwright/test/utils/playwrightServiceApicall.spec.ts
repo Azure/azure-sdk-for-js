@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { PlaywrightServiceApiCall } from "../../src/utils/playwrightServiceApicall.js";
-import { Constants } from "../../src/common/constants.js";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { PlaywrightServiceClient } from "../../src/utils/PlaywrightServiceClient.js";
+import { Constants, InternalEnvironmentVariables } from "../../src/common/constants.js";
 import { ServiceErrorMessageConstants } from "../../src/common/messages.js";
 import { TestRunCreatePayload } from "../../src/common/types.js";
 
@@ -41,12 +41,14 @@ Object.defineProperty(globalThis, "crypto", {
   configurable: true,
 });
 
-describe("PlaywrightServiceApiCall", () => {
-  let apiCall: PlaywrightServiceApiCall;
+describe("PlaywrightServiceClient", () => {
+  let apiCall: PlaywrightServiceClient;
 
   beforeEach(() => {
     vi.clearAllMocks();
-    apiCall = new PlaywrightServiceApiCall();
+    // Clean up environment variables
+    delete process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS];
+    apiCall = new PlaywrightServiceClient();
     // Reset mocks to their default values for each test
     mockState.getAccessToken.mockReturnValue("mock-token");
     mockState.getTestRunApiUrl.mockReturnValue("https://example.com/test-run");
@@ -54,14 +56,18 @@ describe("PlaywrightServiceApiCall", () => {
     mockState.randomUUID.mockReturnValue("mock-uuid");
   });
 
-  describe("patchTestRunAPI", () => {
+  afterEach(() => {
+    delete process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS];
+  });
+
+  describe("createOrUpdateTestRun", () => {
     const mockPayload = {
       displayName: "test-run",
       config: { testConfig: "test-config" },
       ciConfig: { ciInfo: "test-ci-info" },
     } as TestRunCreatePayload;
 
-    it("should call the API with correct parameters and return response data on success", async () => {
+    it("should call the API with correct parameters and complete successfully", async () => {
       // Arrange
       const mockResponse = {
         status: 200,
@@ -70,9 +76,11 @@ describe("PlaywrightServiceApiCall", () => {
       mockState.callAPI.mockResolvedValue(mockResponse);
 
       // Act
-      const result = await apiCall.patchTestRunAPI(mockPayload);
+      const result = await apiCall.createOrUpdateTestRun(mockPayload);
 
       // Assert
+      expect(result).toBeUndefined();
+      expect(process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS]).toBe("true");
       expect(mockState.getTestRunApiUrl).toHaveBeenCalledTimes(1);
       expect(mockState.getAccessToken).toHaveBeenCalledTimes(1);
       expect(mockState.callAPI).toHaveBeenCalledWith(
@@ -83,30 +91,18 @@ describe("PlaywrightServiceApiCall", () => {
         "application/merge-patch+json",
         "mock-uuid",
       );
-      expect(result).toEqual({ id: "test-id", name: "test-name" });
     });
 
-    it("should exit with failure message when access token is not available", async () => {
+    it("should handle missing access token gracefully", async () => {
       // Arrange
       mockState.getAccessToken.mockReturnValue(undefined);
-      mockState.exitWithFailureMessage.mockImplementation(() => {
-        throw new Error("Exit due to missing token");
-      });
-
-      // Act & Assert
-      await expect(apiCall.patchTestRunAPI(mockPayload)).rejects.toThrow(
-        "Exit due to missing token",
-      );
-
-      // Verify API was not called
+      const result = await apiCall.createOrUpdateTestRun(mockPayload);
+      expect(result).toBeUndefined();
+      expect(process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS]).toBe("false");
       expect(mockState.callAPI).not.toHaveBeenCalled();
-      expect(mockState.exitWithFailureMessage).toHaveBeenCalledWith(
-        ServiceErrorMessageConstants.FAILED_TO_CREATE_TEST_RUN,
-        "PLAYWRIGHT_SERVICE_ACCESS_TOKEN environment variable is not set.",
-      );
     });
 
-    it("should call exitWithFailureMessage when API returns non-200 status", async () => {
+    it("should handle API non-200 status gracefully", async () => {
       // Arrange
       const errorMessage = "The displayName should be 1-200 characters long.";
       const mockResponse = {
@@ -121,27 +117,21 @@ describe("PlaywrightServiceApiCall", () => {
       mockState.callAPI.mockResolvedValue(mockResponse);
       mockState.extractErrorMessage.mockReturnValue(errorMessage);
 
-      // Mock exitWithFailureMessage to throw an error so we can verify it was called
-      mockState.exitWithFailureMessage.mockImplementation(() => {
-        throw new Error("Exit with failure message");
-      });
+      const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
 
-      // Act & Assert
-      await expect(apiCall.patchTestRunAPI(mockPayload)).rejects.toThrow(
-        "Exit with failure message",
-      );
+      // Act
+      const result = await apiCall.createOrUpdateTestRun(mockPayload);
 
-      // Verify extractErrorMessage was called with the response body
+      // Assert
+      expect(result).toBeUndefined();
+      expect(process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS]).toBe("false");
       expect(mockState.extractErrorMessage).toHaveBeenCalledWith(mockResponse.bodyAsText);
-
-      // Verify exitWithFailureMessage was called with the correct message and error details
-      expect(mockState.exitWithFailureMessage).toHaveBeenCalledWith(
-        ServiceErrorMessageConstants.FAILED_TO_CREATE_TEST_RUN,
-        errorMessage,
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        ServiceErrorMessageConstants.TEST_RUN_CREATION_FAILED.formatWithErrorDetails(errorMessage),
       );
     });
 
-    it("should return empty object when response body is empty", async () => {
+    it("should complete successfully when response body is empty", async () => {
       // Arrange
       const mockResponse = {
         status: 200,
@@ -150,10 +140,11 @@ describe("PlaywrightServiceApiCall", () => {
       mockState.callAPI.mockResolvedValue(mockResponse);
 
       // Act
-      const result = await apiCall.patchTestRunAPI(mockPayload);
+      const result = await apiCall.createOrUpdateTestRun(mockPayload);
 
       // Assert
-      expect(result).toEqual({});
+      expect(result).toBeUndefined();
+      expect(process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS]).toBe("true");
       expect(mockState.callAPI).toHaveBeenCalledTimes(1);
     });
   });

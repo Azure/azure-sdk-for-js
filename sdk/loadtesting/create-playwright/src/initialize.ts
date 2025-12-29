@@ -135,7 +135,7 @@ export default defineConfig(
     Enable Azure Playwright Service Reporting:
     Uncomment the reporter section below to upload test results and reports to Azure Playwright Service.
 
-    Note: The HTML reporter must be included alongside the Azure reporter.
+    Note: The HTML reporter must be included before the Azure reporter.
     This configuration will replace any existing reporter settings from your base config.
     If you're already using other reporters, add them to this array.
     */

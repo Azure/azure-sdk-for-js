@@ -49,7 +49,7 @@ export const ServiceErrorMessageConstants = {
     message:
       "Failed to create the test run in the Playwright workspaces. Please refer to https://aka.ms/pww/docs/troubleshooting for more information.",
     formatWithErrorDetails: (errorDetails: string): string =>
-      `Failed to create the test run in the Playwright workspaces. Error: ${errorDetails}. Please refer to https://aka.ms/pww/docs/troubleshooting for more information.`,
+      `Failed to create the test run in the Playwright workspaces. Error: ${errorDetails} Please refer to https://aka.ms/pww/docs/troubleshooting for more information.`,
   },
   INVALID_PARAM_WITH_SERVICE_CONFIG: {
     key: "InvalidParamWithServiceConfig",
@@ -67,7 +67,7 @@ export const ServiceErrorMessageConstants = {
     key: "FailedToGetWorkspaceDetails",
     message: "Failed to retrieve workspace details from the Playwright service.",
     formatWithErrorDetails: (errorDetails: string): string =>
-      `Failed to retrieve workspace details from the Playwright service. Error: ${errorDetails}. Please verify your service URL and authentication credentials.`,
+      `Failed to retrieve workspace details from the Playwright service. Error: ${errorDetails} Please verify your service URL and authentication credentials.`,
   },
   STORAGE_URI_NOT_FOUND: {
     key: "StorageUriNotFound",
@@ -85,12 +85,12 @@ export const ServiceErrorMessageConstants = {
   REPORTER_REQUIRES_ENTRA_AUTH: {
     key: "ReporterRequiresEntraAuth",
     message:
-      "The Azure Playwright Reporter can only be used with ENTRA_ID authentication. Please refer to https://aka.ms/pww/docs/authentication for more information.",
+      "Playwright Workspaces Reporter can only be used with ENTRA_ID authentication. Please refer to https://aka.ms/pww/docs/authentication for more information.",
   },
   HTML_REPORTER_REQUIRED: {
     key: "HtmlReporterRequired",
     message:
-      "The Azure Playwright Reporter requires the 'html' reporter to be configured in your Playwright configuration. Please add the HTML reporter to generate test reports that can be uploaded to Azure Storage. Example: reporter: [['html'], ['@azure/playwright/reporter']]",
+      "Playwright Workspaces Reporter requires the 'html' reporter to be configured in your Playwright configuration. Please add the 'html' reporter before playwright workspace reporter to generate test reports that can be uploaded to Azure Storage. Example: reporter: [['html'], ['@azure/playwright/reporter']]",
   },
   WORKSPACE_METADATA_FETCH_FAILED: {
     key: "WorkspaceMetadataFetchFailed",
@@ -149,5 +149,20 @@ export const ServiceErrorMessageConstants = {
     key: "FailedToGetWorkspaceMetadata",
     message: "Failed to get workspace metadata",
     formatWithError: (error: string): string => error,
+  },
+  TEST_RUN_CREATION_FAILED: {
+    key: "TestRunCreationFailed",
+    message: "Failed to create test run. Test execution will continue.",
+    formatWithErrorDetails: (errorDetails: string): string =>
+      `Failed to create test run. Error: ${errorDetails} Test execution will continue.`,
+  },
+  REPORTING_TEST_RUN_FAILED: {
+    key: "ReportingTestRunFailed",
+    message: "Test run creation failed during setup.",
+  },
+  REPORTER_REQUIRES_SERVICE_CONFIG: {
+    key: "ReporterRequiresServiceConfig",
+    message:
+      "Playwright Workspaces Reporter requires the use of service configuration via createAzurePlaywrightConfig.",
   },
 };

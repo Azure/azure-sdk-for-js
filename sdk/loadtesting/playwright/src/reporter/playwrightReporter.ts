@@ -5,9 +5,9 @@ import { PlaywrightReporterStorageManager } from "../utils/playwrightReporterSto
 import { getHtmlReporterOutputFolder, getPortalTestRunUrl } from "../utils/utils.js";
 import { coreLogger } from "../common/logger.js";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
-import { ServiceAuth } from "../common/constants.js";
+import { ServiceAuth, InternalEnvironmentVariables } from "../common/constants.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
-import { PlaywrightServiceApiCall } from "../utils/playwrightServiceApicall.js";
+import { PlaywrightServiceClient } from "../utils/PlaywrightServiceClient.js";
 import type { WorkspaceMetaData, UploadResult } from "../common/types.js";
 
 /**
@@ -30,6 +30,26 @@ export default class PlaywrightReporter implements Reporter {
 
     this.config = config;
 
+    // Check if using service config
+    const usingServiceConfig =
+      process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG] === "true";
+    coreLogger.info(`Using service config: ${usingServiceConfig}`);
+    if (!usingServiceConfig) {
+      console.error(ServiceErrorMessageConstants.REPORTER_REQUIRES_SERVICE_CONFIG.message);
+      this.isReportingEnabled = false;
+      return;
+    }
+
+    // Check if test run creation was successful
+    const testRunCreationSuccess =
+      process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS] === "true";
+    if (!testRunCreationSuccess) {
+      console.error(ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message);
+      console.error(ServiceErrorMessageConstants.REPORTING_TEST_RUN_FAILED.message);
+      this.isReportingEnabled = false;
+      return;
+    }
+
     // Check authentication
     const playwrightServiceConfig = PlaywrightServiceConfig.instance;
     coreLogger.info(`Current authentication type: ${playwrightServiceConfig.serviceAuthType}`);
@@ -43,7 +63,7 @@ export default class PlaywrightReporter implements Reporter {
 
     // Get workspace metadata for later use
     try {
-      const playwrightServiceApiClient = new PlaywrightServiceApiCall();
+      const playwrightServiceApiClient = new PlaywrightServiceClient();
       this.workspaceMetadata = await playwrightServiceApiClient.getWorkspaceMetadata();
 
       if (!this.workspaceMetadata?.storageUri) {
@@ -134,22 +154,39 @@ export default class PlaywrightReporter implements Reporter {
       return;
     }
 
-    const hasHtmlReporter = config.reporter.some((reporter) => {
-      if (typeof reporter === "string") {
-        return reporter === "html";
-      }
-      if (Array.isArray(reporter) && reporter.length > 0) {
-        return reporter[0] === "html";
-      }
-      return false;
+    let htmlReporterIndex = -1;
+    let azureReporterIndex = -1;
+
+    htmlReporterIndex = config.reporter.findIndex((reporter) => {
+      const reporterName = typeof reporter === "string" ? reporter : reporter?.[0];
+      return reporterName === "html";
     });
 
-    if (!hasHtmlReporter) {
+    azureReporterIndex = config.reporter.findIndex((reporter) => {
+      const reporterName = typeof reporter === "string" ? reporter : reporter?.[0];
+      return (
+        typeof reporterName === "string" &&
+        reporterName.includes("playwright") &&
+        reporterName.includes("reporter")
+      );
+    });
+
+    // Validate HTML reporter exists
+    if (htmlReporterIndex === -1) {
       console.error(ServiceErrorMessageConstants.HTML_REPORTER_REQUIRED.message);
       this.isReportingEnabled = false;
       return;
     }
 
-    coreLogger.info("HTML reporter validation passed - HTML reporter is configured");
+    // Validate HTML reporter comes before Azure reporter (if Azure reporter exists)
+    if (azureReporterIndex !== -1 && htmlReporterIndex > azureReporterIndex) {
+      console.error(ServiceErrorMessageConstants.HTML_REPORTER_REQUIRED.message);
+      this.isReportingEnabled = false;
+      return;
+    }
+
+    coreLogger.info(
+      "HTML reporter validation passed - HTML reporter is configured and properly ordered",
+    );
   }
 }

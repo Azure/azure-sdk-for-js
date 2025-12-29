@@ -5,28 +5,20 @@ import {
   getAccessToken,
   extractErrorMessage,
   getWorkspaceMetaDataApiUrl,
-  exitWithFailureMessage,
 } from "./utils.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { HttpService } from "../common/httpService.js";
-import { TestRunCreatePayload } from "../common/types.js";
-import { Constants } from "../common/constants.js";
+import { TestRunCreatePayload, WorkspaceMetaData } from "../common/types.js";
+import { Constants, InternalEnvironmentVariables } from "../common/constants.js";
 
-/**
- * Makes a PATCH call to the Playwright workspaces Test Run API to create or update a test run.
- *
- * @param payload - The request payload (displayName, config, ciConfig, etc.).
- * @returns The parsed JSON response from the API.
- * @throws If the API call fails (non-2xx response).
- */
-export class PlaywrightServiceApiCall {
+export class PlaywrightServiceClient {
   private httpService: HttpService;
 
   constructor(httpService?: HttpService) {
     this.httpService = httpService ?? new HttpService();
   }
 
-  async patchTestRunAPI(payload: TestRunCreatePayload): Promise<any> {
+  async createOrUpdateTestRun(payload: TestRunCreatePayload): Promise<void> {
     try {
       const baseUrl = getTestRunApiUrl();
       const token = getAccessToken();
@@ -51,22 +43,28 @@ export class PlaywrightServiceApiCall {
 
       if (response.status !== 200) {
         const errorMessage = extractErrorMessage(response?.bodyAsText ?? "");
-        exitWithFailureMessage(
-          ServiceErrorMessageConstants.FAILED_TO_CREATE_TEST_RUN,
-          errorMessage,
+        process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS] = "false";
+        console.error(
+          ServiceErrorMessageConstants.TEST_RUN_CREATION_FAILED.formatWithErrorDetails(
+            errorMessage || "Unknown error",
+          ),
         );
+        return;
       }
 
       console.log("Test run created successfully.");
-      return response.bodyAsText ? JSON.parse(response.bodyAsText) : {};
+      process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS] = "true";
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error occurred during test run creation";
-      exitWithFailureMessage(ServiceErrorMessageConstants.FAILED_TO_CREATE_TEST_RUN, errorMessage);
+      process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS] = "false";
+      console.error(
+        ServiceErrorMessageConstants.TEST_RUN_CREATION_FAILED.formatWithErrorDetails(errorMessage),
+      );
     }
   }
 
-  async getWorkspaceMetadata(): Promise<any> {
+  async getWorkspaceMetadata(): Promise<WorkspaceMetaData> {
     try {
       const baseUrl = getWorkspaceMetaDataApiUrl();
       const token = getAccessToken();
@@ -90,7 +88,9 @@ export class PlaywrightServiceApiCall {
       if (response.status !== 200) {
         const errorMessage = extractErrorMessage(response?.bodyAsText ?? "");
         throw new Error(
-          errorMessage || `HTTP ${response.status}: Failed to retrieve workspace details`,
+          ServiceErrorMessageConstants.FAILED_TO_GET_WORKSPACE_METADATA.formatWithError(
+            errorMessage || `HTTP ${response.status}: Failed to retrieve workspace details`,
+          ),
         );
       }
 
@@ -99,7 +99,7 @@ export class PlaywrightServiceApiCall {
       if (error instanceof Error) {
         throw error;
       }
-      throw new Error("Unknown error occurred while retrieving workspace metadata");
+      throw new Error(ServiceErrorMessageConstants.FAILED_TO_GET_WORKSPACE_METADATA.message);
     }
   }
 }
