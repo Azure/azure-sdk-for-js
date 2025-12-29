@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a FileSystemResource
  *
  * @summary get a FileSystemResource
- * x-ms-original-file: 2025-03-21-preview/FileSystems_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-21/FileSystems_Get_MaximumSet_Gen.json
  */
 async function fileSystemsGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function fileSystemsGetMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to get a FileSystemResource
  *
  * @summary get a FileSystemResource
- * x-ms-original-file: 2025-03-21-preview/FileSystems_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-03-21/FileSystems_Get_MinimumSet_Gen.json
  */
 async function fileSystemsGetMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
