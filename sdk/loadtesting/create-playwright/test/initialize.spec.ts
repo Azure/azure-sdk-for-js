@@ -213,7 +213,7 @@ describe("Generated Service Config Content Validation", () => {
     expect(generatedContent).toContain("createAzurePlaywrightConfig(config, {");
     expect(generatedContent).toContain("connectTimeout:");
     expect(generatedContent).toContain("connectTimeout: 3 * 60 * 1000");
-    expect(generatedContent).toContain("Enable Azure Playwright Service Reporting:");
+    expect(generatedContent).toContain("Enable Playwright Workspaces Reporter:");
     expect(generatedContent).toContain("// reporter: [");
     expect(generatedContent).toContain('//   ["html"],');
     expect(generatedContent).toContain('//   ["@azure/playwright/reporter"],');
@@ -234,7 +234,7 @@ describe("Generated Service Config Content Validation", () => {
     expect(generatedContent).toContain("createAzurePlaywrightConfig(config, {");
     expect(generatedContent).toContain("connectTimeout:");
     expect(generatedContent).toContain("connectTimeout: 3 * 60 * 1000");
-    expect(generatedContent).toContain("Enable Azure Playwright Service Reporting:");
+    expect(generatedContent).toContain("Enable Playwright Workspaces Reporter:");
     expect(generatedContent).toContain("// reporter: [");
     expect(generatedContent).toContain('//   ["html"],');
     expect(generatedContent).toContain('//   ["@azure/playwright/reporter"],');
@@ -334,12 +334,12 @@ describe("Generated Service Config Content Validation", () => {
     const generatedContent = playwrightServiceInitialize["createAzurePlaywrightConfigContent"]();
 
     // Check for reporter documentation comments
-    expect(generatedContent).toContain("Enable Azure Playwright Service Reporting:");
+    expect(generatedContent).toContain("Enable Playwright Workspaces Reporter:");
     expect(generatedContent).toContain(
-      "Uncomment the reporter section below to upload test results and reports to Azure Playwright Service.",
+      "Uncomment the reporter section below to upload test results and reports to Playwright Workspaces.",
     );
     expect(generatedContent).toContain(
-      "Note: The HTML reporter must be included before the Azure reporter.",
+      "Note: The HTML reporter must be included before Playwright Workspaces Reporter.",
     );
     expect(generatedContent).toContain(
       "This configuration will replace any existing reporter settings from your base config.",
