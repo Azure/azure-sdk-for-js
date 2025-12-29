@@ -202,9 +202,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
       return false;
     }
 
-    const matchesUnsupportedValue =
-      text.includes("unsupported otel_metrics_exporter value") ||
-      (text.includes("otel_metrics_exporter value") && text.includes("supported values are"));
+    const matchesUnsupportedValue = text.includes("unsupported otel_metrics_exporter value");
 
     return matchesUnsupportedValue && text.includes("azure_monitor");
   }
