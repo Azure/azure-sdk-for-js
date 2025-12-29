@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a FileSystemResource
  *
  * @summary delete a FileSystemResource
- * x-ms-original-file: 2025-03-21-preview/FileSystems_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-21/FileSystems_Delete_MaximumSet_Gen.json
  */
 async function fileSystemsDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function fileSystemsDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to delete a FileSystemResource
  *
  * @summary delete a FileSystemResource
- * x-ms-original-file: 2025-03-21-preview/FileSystems_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-03-21/FileSystems_Delete_MinimumSet_Gen.json
  */
 async function fileSystemsDeleteMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
