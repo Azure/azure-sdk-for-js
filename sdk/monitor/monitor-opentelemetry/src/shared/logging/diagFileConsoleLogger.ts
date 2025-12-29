@@ -198,15 +198,15 @@ export class DiagFileConsoleLogger implements DiagLogger {
     }
 
     const text = message.toLowerCase();
+    if (!text.includes("otel_metrics_exporter")) {
+      return false;
+    }
+
     const matchesUnsupportedValue =
       text.includes("unsupported otel_metrics_exporter value") ||
       (text.includes("otel_metrics_exporter value") && text.includes("supported values are"));
 
-    return (
-      text.includes("otel_metrics_exporter") &&
-      text.includes("azure_monitor") &&
-      matchesUnsupportedValue
-    );
+    return matchesUnsupportedValue && text.includes("azure_monitor");
   }
 
   private async _storeToDisk(args: any): Promise<void> {
