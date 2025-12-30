@@ -147,6 +147,23 @@ describe("PlaywrightServiceClient", () => {
       expect(process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS]).toBe("true");
       expect(mockState.callAPI).toHaveBeenCalledTimes(1);
     });
+
+    it("should handle unexpected exceptions gracefully", async () => {
+      // Arrange
+      const errorMessage = "Network connection failed";
+      mockState.callAPI.mockRejectedValue(new Error(errorMessage));
+      const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+
+      // Act
+      const result = await apiCall.createOrUpdateTestRun(mockPayload);
+
+      // Assert
+      expect(result).toBeUndefined();
+      expect(process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS]).toBe("false");
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        ServiceErrorMessageConstants.TEST_RUN_CREATION_FAILED.formatWithErrorDetails(errorMessage),
+      );
+    });
   });
 
   describe("getWorkspaceMetadata", () => {

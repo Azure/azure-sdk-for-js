@@ -154,15 +154,12 @@ export default class PlaywrightReporter implements Reporter {
       return;
     }
 
-    let htmlReporterIndex = -1;
-    let azureReporterIndex = -1;
-
-    htmlReporterIndex = config.reporter.findIndex((reporter) => {
+    const htmlReporterIndex = config.reporter.findIndex((reporter) => {
       const reporterName = typeof reporter === "string" ? reporter : reporter?.[0];
       return reporterName === "html";
     });
 
-    azureReporterIndex = config.reporter.findIndex((reporter) => {
+    const azureReporterIndex = config.reporter.findIndex((reporter) => {
       const reporterName = typeof reporter === "string" ? reporter : reporter?.[0];
       return (
         typeof reporterName === "string" &&

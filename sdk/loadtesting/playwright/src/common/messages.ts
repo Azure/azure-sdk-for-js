@@ -49,7 +49,7 @@ export const ServiceErrorMessageConstants = {
     message:
       "Failed to create the test run in the Playwright workspaces. Please refer to https://aka.ms/pww/docs/troubleshooting for more information.",
     formatWithErrorDetails: (errorDetails: string): string =>
-      `Failed to create the test run in the Playwright workspaces. Error: ${errorDetails} Please refer to https://aka.ms/pww/docs/troubleshooting for more information.`,
+      `Failed to create the test run in the Playwright workspaces. Error: ${errorDetails}. Please refer to https://aka.ms/pww/docs/troubleshooting for more information.`,
   },
   INVALID_PARAM_WITH_SERVICE_CONFIG: {
     key: "InvalidParamWithServiceConfig",
@@ -154,7 +154,7 @@ export const ServiceErrorMessageConstants = {
     key: "TestRunCreationFailed",
     message: "Failed to create test run. Test execution will continue.",
     formatWithErrorDetails: (errorDetails: string): string =>
-      `Failed to create test run. Error: ${errorDetails} Test execution will continue.`,
+      `Failed to create test run. Error: ${errorDetails}. Test execution will continue.`,
   },
   REPORTING_TEST_RUN_FAILED: {
     key: "ReportingTestRunFailed",
