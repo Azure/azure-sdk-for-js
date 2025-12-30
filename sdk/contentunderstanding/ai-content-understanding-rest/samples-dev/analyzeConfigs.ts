@@ -8,15 +8,21 @@
  * hyperlinks, formulas, and annotations using the prebuilt-documentSearch analyzer.
  *
  * The prebuilt-documentSearch analyzer has the following configurations enabled by default:
- * - EnableFormula: Extracts mathematical formulas from documents
- * - EnableLayout: Extracts layout information (tables, figures, etc.)
- * - EnableOcr: Performs OCR on documents
+ * - ReturnDetails: true - Returns detailed information about document elements
+ * - EnableOcr: true - Performs OCR on documents
+ * - EnableLayout: true - Extracts layout information (tables, figures, hyperlinks, annotations)
+ * - EnableFormula: true - Extracts mathematical formulas from documents
+ * - EnableFigureDescription: true - Generates descriptions for figures
+ * - EnableFigureAnalysis: true - Analyzes figures including charts
+ * - ChartFormat: "chartjs" - Chart figures are returned in Chart.js format
+ * - TableFormat: "html" - Tables are returned in HTML format
+ * - AnnotationFormat: "markdown" - Annotations are returned in markdown format
  *
  * These configs enable extraction of:
- * - Charts: Chart figures with Chart.js configuration
- * - Hyperlinks: URLs and links found in the document
- * - Formulas: Mathematical formulas in LaTeX format
- * - Annotations: PDF annotations, comments, and markup
+ * - Charts: Enabled by EnableFigureAnalysis - Chart figures with Chart.js configuration
+ * - Hyperlinks: Enabled by EnableLayout - URLs and links found in the document
+ * - Formulas: Enabled by EnableFormula - Mathematical formulas in LaTeX format
+ * - Annotations: Enabled by EnableLayout - PDF annotations, comments, and markup
  *
  * @azsdk-weight 81
  */

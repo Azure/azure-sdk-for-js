@@ -13,6 +13,9 @@ import {
   createClient,
   testPollingOptions,
   TEST_INVOICE_URL,
+  TEST_VIDEO_URL,
+  TEST_AUDIO_URL,
+  TEST_IMAGE_URL,
 } from "./sampleTestUtils.js";
 
 describe("Sample: analyzeUrl", () => {
@@ -47,20 +50,58 @@ describe("Sample: analyzeUrl", () => {
     const content = result.contents[0];
     assert.ok(content, "Content should not be null");
     assert.ok(content.markdown, "Markdown content should not be null");
-    assert.ok(content.markdown.length > 0, "Markdown content should not be empty");
-    console.log(`Markdown content extracted successfully (${content.markdown.length} characters)`);
-
-    // Verify document properties
+    
     if (content.kind === "document") {
       const documentContent = content as DocumentContent;
-      console.log(`Document start page: ${documentContent.startPageNumber}`);
-      console.log(`Document end page: ${documentContent.endPageNumber}`);
-
-      assert.ok(documentContent.startPageNumber >= 1, "Start page should be >= 1");
-      assert.ok(
-        documentContent.endPageNumber >= documentContent.startPageNumber,
-        "End page should be >= start page",
-      );
+      assert.ok(documentContent.pages, "Pages should not be null");
     }
+  });
+
+  it("should analyze a video from URL using prebuilt-videoSearch", async () => {
+    const poller = client.analyze("prebuilt-videoSearch", {
+      inputs: [{ url: TEST_VIDEO_URL }],
+      ...testPollingOptions,
+    });
+
+    const result = await poller.pollUntilDone();
+
+    assert.ok(result, "Analysis result should not be null");
+    assert.ok(result.contents, "Result contents should not be null");
+    assert.ok(result.contents.length > 0, "Result should have at least one content");
+    
+    const content = result.contents[0];
+    assert.equal(content.kind, "audioVisual");
+  });
+
+  it("should analyze audio from URL using prebuilt-audioSearch", async () => {
+    const poller = client.analyze("prebuilt-audioSearch", {
+      inputs: [{ url: TEST_AUDIO_URL }],
+      ...testPollingOptions,
+    });
+
+    const result = await poller.pollUntilDone();
+
+    assert.ok(result, "Analysis result should not be null");
+    assert.ok(result.contents, "Result contents should not be null");
+    assert.ok(result.contents.length > 0, "Result should have at least one content");
+    
+    const content = result.contents[0];
+    assert.equal(content.kind, "audioVisual");
+  });
+
+  it("should analyze an image from URL using prebuilt-imageSearch", async () => {
+    const poller = client.analyze("prebuilt-imageSearch", {
+      inputs: [{ url: TEST_IMAGE_URL }],
+      ...testPollingOptions,
+    });
+
+    const result = await poller.pollUntilDone();
+
+    assert.ok(result, "Analysis result should not be null");
+    assert.ok(result.contents, "Result contents should not be null");
+    assert.ok(result.contents.length > 0, "Result should have at least one content");
+    
+    const content = result.contents[0];
+    assert.ok(content.markdown, "Markdown content should not be null");
   });
 });

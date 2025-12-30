@@ -59,6 +59,15 @@ describe("Sample: getAnalyzer", () => {
     }
   });
 
+  it("should retrieve a prebuilt-invoice analyzer", async () => {
+    const invoiceAnalyzer = await client.getAnalyzer("prebuilt-invoice");
+
+    // Assertions
+    assert.ok(invoiceAnalyzer, "Prebuilt invoice analyzer should not be null");
+    assert.equal(invoiceAnalyzer.analyzerId, "prebuilt-invoice", "Analyzer ID should match");
+    console.log("Retrieved prebuilt-invoice analyzer");
+  });
+
   it("should retrieve a custom analyzer after creation", async () => {
     // First create a custom analyzer
     const fieldSchema: ContentFieldSchema = {

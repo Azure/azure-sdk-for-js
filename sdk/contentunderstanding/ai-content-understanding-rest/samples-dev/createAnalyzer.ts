@@ -100,7 +100,10 @@ export async function main(): Promise<void> {
     description: "Custom analyzer for extracting company information",
     config,
     fieldSchema,
-    models: { completion: "gpt-4.1" }, // Required when using field_schema
+    models: {
+      completion: "gpt-4.1",
+      embedding: "text-embedding-3-large",
+    },
   } as ContentAnalyzer;
 
   // Create the analyzer
@@ -121,6 +124,57 @@ export async function main(): Promise<void> {
       const method = fieldDef.method ?? "auto";
       const fieldType = fieldDef.type ?? "unknown";
       console.log(`    - ${fieldName}: ${fieldType} (${method})`);
+    }
+  }
+
+  // Analyze a document using the custom analyzer
+  console.log("\nAnalyzing document with custom analyzer...");
+  const documentUrl =
+    "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/document/invoice.pdf";
+  
+  const analyzePoller = client.analyze(analyzerId, {
+    inputs: [{ url: documentUrl }],
+  });
+  const analyzeResult = await analyzePoller.pollUntilDone();
+
+  if (analyzeResult.contents && analyzeResult.contents.length > 0) {
+    const content = analyzeResult.contents[0];
+    
+    // Extract custom fields
+    if (content.fields) {
+      // Extract field (literal text extraction)
+      const companyNameField = content.fields["company_name"];
+      if (companyNameField) {
+        const value = "valueString" in companyNameField ? companyNameField.valueString : null;
+        console.log(`Company Name (extract): ${value ?? "(not found)"}`);
+        console.log(`  Confidence: ${companyNameField.confidence?.toFixed(2) ?? "N/A"}`);
+        console.log(`  Source: ${companyNameField.source ?? "N/A"}`);
+      }
+
+      // Extract field (literal text extraction)
+      const totalAmountField = content.fields["total_amount"];
+      if (totalAmountField) {
+        const value = "valueNumber" in totalAmountField ? totalAmountField.valueNumber : null;
+        console.log(`Total Amount (extract): ${value?.toFixed(2) ?? "(not found)"}`);
+        console.log(`  Confidence: ${totalAmountField.confidence?.toFixed(2) ?? "N/A"}`);
+        console.log(`  Source: ${totalAmountField.source ?? "N/A"}`);
+      }
+
+      // Generate field (AI-generated value)
+      const summaryField = content.fields["document_summary"];
+      if (summaryField) {
+        const value = "valueString" in summaryField ? summaryField.valueString : null;
+        console.log(`Document Summary (generate): ${value ?? "(not found)"}`);
+        console.log(`  Confidence: ${summaryField.confidence?.toFixed(2) ?? "N/A"}`);
+      }
+
+      // Classify field (classification against predefined categories)
+      const documentTypeField = content.fields["document_type"];
+      if (documentTypeField) {
+        const value = "valueString" in documentTypeField ? documentTypeField.valueString : null;
+        console.log(`Document Type (classify): ${value ?? "(not found)"}`);
+        console.log(`  Confidence: ${documentTypeField.confidence?.toFixed(2) ?? "N/A"}`);
+      }
     }
   }
 
