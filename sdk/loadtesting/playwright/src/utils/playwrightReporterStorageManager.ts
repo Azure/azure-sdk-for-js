@@ -94,8 +94,6 @@ export class PlaywrightReporterStorageManager {
           );
 
           if (hasAuthorizationError) {
-            const storageAccountName =
-              getStorageAccountNameFromUri(workspaceDetails?.storageUri || "") || "unknown";
             return {
               success: false,
               errorMessage:
