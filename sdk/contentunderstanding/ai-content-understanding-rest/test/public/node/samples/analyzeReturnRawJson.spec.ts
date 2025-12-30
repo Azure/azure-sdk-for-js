@@ -2,13 +2,19 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for analyzeReturnRawJson.ts - Access the raw JSON response.
+ * @summary Sample test for analyzeReturnRawJson.ts - Return raw JSON from analysis.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { ContentUnderstandingClient } from "../../../../src/index.js";
+import type { ContentUnderstandingClient } from "../../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
-import { createRecorder, createClient, testPollingOptions, TEST_INVOICE_URL } from "./sampleTestUtils.js";
+import {
+  createRecorder,
+  createClient,
+  testPollingOptions,
+  getSampleFilePath,
+} from "./sampleTestUtils.js";
+import fs from "node:fs";
 
 describe("Sample: analyzeReturnRawJson", () => {
   let recorder: Recorder;
@@ -24,10 +30,11 @@ describe("Sample: analyzeReturnRawJson", () => {
   });
 
   it("should analyze and access operation ID for raw JSON retrieval", async () => {
-    const poller = client.analyze("prebuilt-documentSearch", {
-      inputs: [{ url: TEST_INVOICE_URL }],
-      ...testPollingOptions,
-    });
+    // Read the sample invoice file bytes
+    const filePath = getSampleFilePath("sample_invoice.pdf");
+    const fileBytes = fs.readFileSync(filePath);
+
+    const poller = client.analyzeBinary("prebuilt-documentSearch", "application/pdf", fileBytes);
 
     await poller.pollUntilDone();
 
@@ -42,11 +49,24 @@ describe("Sample: analyzeReturnRawJson", () => {
     const operationId = operationIdMatch[1];
     console.log(`Operation ID: ${operationId}`);
 
-    // Use getResult to retrieve the result status
-    const operationStatus = await client.getResult(operationId);
+    // Variable to capture raw JSON from onResponse callback
+    let rawJson: string | undefined;
+
+    // Use getResult to retrieve the result status and capture raw JSON
+    const operationStatus = await client.getResult(operationId, {
+      onResponse: (response) => {
+        rawJson = response.bodyAsText;
+      },
+    });
+
     assert.ok(operationStatus, "Operation status should not be null");
     assert.equal(operationStatus.status, "Succeeded", "Operation should have succeeded");
     console.log(`Operation status: ${operationStatus.status}`);
+
+    // Verify raw JSON was captured
+    assert.ok(rawJson, "Should have captured raw JSON");
+    const parsedRawJson = JSON.parse(rawJson!);
+    assert.equal(parsedRawJson.status, "Succeeded", "Parsed raw JSON should have correct status");
 
     if (operationStatus.result) {
       console.log(`Result contains ${operationStatus.result.contents?.length ?? 0} content(s)`);
