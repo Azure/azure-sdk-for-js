@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for configureDefaults.ts - Configure and retrieve default model deployments.
+ * @summary Sample test for updateDefaults.ts - Configure and retrieve default model deployments.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -10,7 +10,7 @@ import { ContentUnderstandingClient } from "../../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { createRecorder, createClient } from "./sampleTestUtils.js";
 
-describe("Sample: configureDefaults", () => {
+describe("Sample: updateDefaults", () => {
   let recorder: Recorder;
   let client: ContentUnderstandingClient;
 
@@ -34,7 +34,7 @@ describe("Sample: configureDefaults", () => {
 
     if (defaults.modelDeployments && Object.keys(defaults.modelDeployments).length > 0) {
       for (const [modelName, deploymentName] of Object.entries(defaults.modelDeployments)) {
-        console.log(`  ${modelName} -> ${deploymentName}`);
+        console.log(`  ${modelName}: ${deploymentName}`);
       }
     } else {
       console.log("  No model deployments configured yet.");

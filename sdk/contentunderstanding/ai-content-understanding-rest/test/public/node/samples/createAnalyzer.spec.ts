@@ -13,7 +13,12 @@ import {
   type ContentFieldSchema,
 } from "../../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
-import { createRecorder, createClient, testPollingOptions } from "./sampleTestUtils.js";
+import {
+  createRecorder,
+  createClient,
+  testPollingOptions,
+  TEST_INVOICE_URL,
+} from "./sampleTestUtils.js";
 
 describe("Sample: createAnalyzer", () => {
   let recorder: Recorder;
@@ -86,7 +91,10 @@ describe("Sample: createAnalyzer", () => {
       description: "Custom analyzer for extracting company information",
       config,
       fieldSchema,
-      models: { completion: "gpt-4.1" },
+      models: {
+        completion: "gpt-4.1",
+        embedding: "text-embedding-3-large",
+      },
     } as ContentAnalyzer;
 
     // Assertions: Verify input objects
@@ -119,5 +127,20 @@ describe("Sample: createAnalyzer", () => {
         console.log(`Field count verified: ${fieldCount} fields`);
       }
     }
+
+    // Analyze a document using the custom analyzer
+    const analyzePoller = client.analyze(testAnalyzerId, {
+      inputs: [{ url: TEST_INVOICE_URL }],
+      ...testPollingOptions,
+    });
+    const analyzeResult = await analyzePoller.pollUntilDone();
+
+    assert.ok(analyzeResult, "Analysis result should not be null");
+    assert.ok(analyzeResult.contents, "Result contents should not be null");
+    assert.ok(analyzeResult.contents.length > 0, "Result should have at least one content");
+    
+    const content = analyzeResult.contents[0];
+    assert.ok(content.fields, "Fields should not be null");
+    assert.ok(content.fields["company_name"], "company_name field should exist");
   });
 });

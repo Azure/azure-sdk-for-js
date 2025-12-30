@@ -24,9 +24,13 @@ export const SAMPLES_DEV_EXAMPLE_DATA_PATH = path.resolve(__dirname, "../../../.
 
 // Test URLs for samples
 export const TEST_INVOICE_URL =
-  "https://github.com/Azure-Samples/azure-ai-content-understanding-python/raw/refs/heads/main/data/invoice.pdf";
+  "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/document/invoice.pdf";
 export const TEST_VIDEO_URL =
-  "https://github.com/Azure-Samples/azure-ai-content-understanding-assets/raw/refs/heads/main/videos/sdk_samples/FlightSimulator.mp4";
+  "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/videos/sdk_samples/FlightSimulator.mp4";
+export const TEST_AUDIO_URL =
+  "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/audio/callCenterRecording.mp3";
+export const TEST_IMAGE_URL =
+  "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/image/pieChart.jpg";
 
 // Re-export utilities
 export { testPollingOptions, isLiveMode };

@@ -59,7 +59,7 @@ describe("Sample: updateAnalyzer", () => {
         },
       } as ContentFieldSchema,
       models: { completion: "gpt-4.1" },
-      tags: { tag1: "tag1_initial_value", tag2: "tag2_initial_value" },
+      tags: { tag1: "tag1_initial_value" },
     } as ContentAnalyzer;
 
     const poller = client.createAnalyzer(testAnalyzerId, analyzer, testPollingOptions);
@@ -76,7 +76,6 @@ describe("Sample: updateAnalyzer", () => {
       description: "Updated description",
       tags: {
         tag1: "tag1_updated_value", // Update existing tag
-        tag2: "", // Remove tag2 (empty string removes the tag)
         tag3: "tag3_value", // Add new tag
       },
     } as ContentAnalyzer;

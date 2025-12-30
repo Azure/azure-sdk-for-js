@@ -8,11 +8,12 @@
  * analyzer. The prebuilt-documentSearch analyzer transforms unstructured documents into structured,
  * machine-readable data optimized for RAG scenarios.
  *
- * Content Understanding supports multiple content types:
- * - Documents: Extract text, tables, figures, layout information, and structured markdown
- * - Images: Analyze standalone images to generate descriptions and extract visual features
- * - Audio: Transcribe audio content with speaker diarization and timing information
- * - Video: Analyze video content with visual frame extraction and audio transcription
+ * Content Understanding provides prebuilt RAG analyzers (the prebuilt-*Search analyzers) that return
+ * markdown and a one-paragraph Summary for each content item:
+ * - prebuilt-documentSearch: Extracts content from documents with layout preservation
+ * - prebuilt-audioSearch: Transcribes audio content with speaker diarization
+ * - prebuilt-videoSearch: Analyzes video content with visual frame extraction
+ * - prebuilt-imageSearch: Analyzes standalone images and returns a summary
  *
  * @azsdk-weight 90
  */
