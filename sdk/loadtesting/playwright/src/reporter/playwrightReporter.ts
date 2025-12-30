@@ -68,7 +68,6 @@ export default class PlaywrightReporter implements Reporter {
 
       if (!this.workspaceMetadata?.storageUri) {
         console.error(ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message);
-        console.error(ServiceErrorMessageConstants.STORAGE_URI_NOT_FOUND.message);
         this.isReportingEnabled = false;
         return;
       }

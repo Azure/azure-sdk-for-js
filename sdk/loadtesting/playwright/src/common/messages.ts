@@ -76,7 +76,9 @@ export const ServiceErrorMessageConstants = {
   STORAGE_AUTHORIZATION_FAILED: {
     key: "StorageAuthorizationFailed",
     message:
-      "This request is not authorized to perform this operation. Please make sure you have the Storage Blob Data Contributor role assigned to this storage account.",
+      "The user is not authorized to perform this operation. Please make sure you have the Storage Blob Data Contributor role assigned to the storage account. Refer to https://aka.ms/pww-reporting",
+    formatWithStorageAccount: (storageAccountName: string): string =>
+      `The user is not authorized to perform this operation. Please make sure you have the Storage Blob Data Contributor role assigned to the storage account - ${storageAccountName}. Refer to https://aka.ms/pww-reporting`,
   },
   UNABLE_TO_EXTRACT_WORKSPACE_ID: {
     key: "UnableToExtractWorkspaceId",
@@ -100,7 +102,7 @@ export const ServiceErrorMessageConstants = {
   WORKSPACE_REPORTING_DISABLED: {
     key: "WorkspaceReportingDisabled",
     message:
-      "Playwright Workspaces reporting: DISABLED. Please refer to https://aka.ms/pww-reporting for more information.",
+      "Playwright Workspaces reporting: DISABLED. Reporting is not enabled for the Playwright Workspace. To learn more about how to enable reporting and link a storage account, refer to https://aka.ms/pww-reporting ",
   },
   UPLOAD_FAILED_FILES: {
     key: "UploadFailedFiles",
