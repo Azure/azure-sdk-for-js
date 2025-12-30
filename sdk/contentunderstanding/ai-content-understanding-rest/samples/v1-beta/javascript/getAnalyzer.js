@@ -43,11 +43,34 @@ async function main() {
   console.log("Retrieving prebuilt-documentSearch analyzer...");
   const prebuiltAnalyzer = await client.getAnalyzer("prebuilt-documentSearch");
 
+  // Print a few properties from ContentAnalyzer
+  console.log(`Analyzer ID: ${prebuiltAnalyzer.analyzerId}`);
+  console.log(`Base Analyzer ID: ${prebuiltAnalyzer.baseAnalyzerId}`);
+  console.log(`Description: ${prebuiltAnalyzer.description}`);
+  console.log(`Enable OCR: ${prebuiltAnalyzer.config?.enableOcr}`);
+  console.log(`Enable Layout: ${prebuiltAnalyzer.config?.enableLayout}`);
+  console.log(
+    `Models: ${Object.entries(prebuiltAnalyzer.models || {})
+      .map(([k, v]) => `${k}=${v}`)
+      .join(", ")}`,
+  );
+
   // Display full analyzer JSON
   console.log("\n" + "=".repeat(80));
-  console.log("Prebuilt-documentSearch Analyzer:");
+  console.log("Prebuilt-documentSearch Analyzer (Raw JSON):");
   console.log("=".repeat(80));
   console.log(JSON.stringify(prebuiltAnalyzer, null, 2));
+  console.log("=".repeat(80));
+
+  // Get information about prebuilt-invoice analyzer
+  console.log("\nRetrieving prebuilt-invoice analyzer...");
+  const invoiceAnalyzer = await client.getAnalyzer("prebuilt-invoice");
+
+  // Display full analyzer JSON
+  console.log("\n" + "=".repeat(80));
+  console.log("Prebuilt-invoice Analyzer (Raw JSON):");
+  console.log("=".repeat(80));
+  console.log(JSON.stringify(invoiceAnalyzer, null, 2));
   console.log("=".repeat(80));
 
   // First, create a custom analyzer
@@ -89,7 +112,7 @@ async function main() {
 
   // Display full analyzer JSON
   console.log("\n" + "=".repeat(80));
-  console.log(`Custom Analyzer '${analyzerId}':`);
+  console.log(`Custom Analyzer '${analyzerId}' (Raw JSON):`);
   console.log("=".repeat(80));
   console.log(JSON.stringify(retrievedAnalyzer, null, 2));
   console.log("=".repeat(80));
