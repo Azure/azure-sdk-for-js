@@ -9,7 +9,7 @@
  *
  * The updateAnalyzer method allows you to modify certain properties of an existing analyzer:
  * - Description: Update the analyzer's description
- * - Tags: Add, update, or remove tags (set tag value to empty string to remove)
+ * - Tags: Add or update tags
  *
  * Note: Not all analyzer properties can be updated. Field schemas, models, and configuration
  * typically cannot be changed after creation. To change these, you may need to delete and
@@ -58,7 +58,7 @@ async function main() {
       },
     },
     models: { completion: "gpt-4.1" },
-    tags: { tag1: "tag1_initial_value", tag2: "tag2_initial_value" },
+    tags: { tag1: "tag1_initial_value" },
   };
 
   const poller = client.createAnalyzer(analyzerId, analyzer);
@@ -84,7 +84,6 @@ async function main() {
     description: "Updated description",
     tags: {
       tag1: "tag1_updated_value", // Update existing tag
-      tag2: "", // Remove tag2 (empty string removes the tag)
       tag3: "tag3_value", // Add new tag
     },
   };

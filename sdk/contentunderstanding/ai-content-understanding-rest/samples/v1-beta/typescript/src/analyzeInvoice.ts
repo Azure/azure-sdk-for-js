@@ -46,7 +46,7 @@ export async function main(): Promise<void> {
   const client = new ContentUnderstandingClient(endpoint, getCredential());
 
   const invoiceUrl =
-    "https://github.com/Azure-Samples/azure-ai-content-understanding-python/raw/refs/heads/main/data/invoice.pdf";
+    "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-dotnet/main/ContentUnderstanding.Common/data/invoice.pdf";
 
   console.log("Analyzing invoice with prebuilt-invoice analyzer...");
   console.log(`  URL: ${invoiceUrl}`);
@@ -70,6 +70,12 @@ export async function main(): Promise<void> {
     // Print document unit information
     console.log(`\nDocument unit: ${documentContent.unit ?? "unknown"}`);
     console.log(`Pages: ${documentContent.startPageNumber} to ${documentContent.endPageNumber}`);
+    
+    if (documentContent.pages && documentContent.pages.length > 0) {
+      const page = documentContent.pages[0];
+      const unit = documentContent.unit ?? "units";
+      console.log(`Page dimensions: ${page.width} x ${page.height} ${unit}`);
+    }
     console.log();
 
     if (!documentContent.fields) {

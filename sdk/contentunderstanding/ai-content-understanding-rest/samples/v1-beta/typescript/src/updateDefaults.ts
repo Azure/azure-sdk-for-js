@@ -5,12 +5,13 @@
  * @summary Configure and retrieve default model deployment settings.
  *
  * This sample demonstrates how to configure and retrieve default model deployment settings
- * for your Microsoft Foundry resource. This is a required one-time setup before using
- * prebuilt analyzers.
+ * for your Microsoft Foundry resource. This is a required one-time setup per Microsoft Foundry
+ * resource before using prebuilt or custom analyzers.
  *
- * Content Understanding prebuilt analyzers require specific GPT model deployments to function:
- * - GPT-4.1: Used by most prebuilt analyzers (e.g., prebuilt-invoice, prebuilt-receipt)
- * - GPT-4.1-mini: Used by RAG analyzers (e.g., prebuilt-documentSearch, prebuilt-audioSearch)
+ * Content Understanding prebuilt analyzers and custom analyzers require specific large language
+ * model deployments to function. Currently, Content Understanding uses OpenAI GPT models:
+ * - gpt-4.1: Used by most prebuilt analyzers (e.g., prebuilt-invoice, prebuilt-receipt)
+ * - gpt-4.1-mini: Used by RAG analyzers (e.g., prebuilt-documentSearch, prebuilt-audioSearch)
  * - text-embedding-3-large: Used for semantic search and embeddings
  */
 
@@ -76,7 +77,7 @@ export async function main(): Promise<void> {
   console.log("Model deployments configured successfully!");
   if (updatedDefaults.modelDeployments) {
     for (const [modelName, deploymentName] of Object.entries(updatedDefaults.modelDeployments)) {
-      console.log(`  ${modelName} -> ${deploymentName}`);
+      console.log(`  ${modelName}: ${deploymentName}`);
     }
   }
 
@@ -87,7 +88,7 @@ export async function main(): Promise<void> {
   console.log("\nCurrent model deployment mappings:");
   if (defaults.modelDeployments && Object.keys(defaults.modelDeployments).length > 0) {
     for (const [modelName, deploymentName] of Object.entries(defaults.modelDeployments)) {
-      console.log(`  ${modelName} -> ${deploymentName}`);
+      console.log(`  ${modelName}: ${deploymentName}`);
     }
   } else {
     console.log("  No model deployments configured yet.");

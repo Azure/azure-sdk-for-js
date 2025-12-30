@@ -7,10 +7,10 @@
  * This sample demonstrates how to create a classifier analyzer to categorize documents and
  * use it to analyze documents with and without automatic segmentation.
  *
- * Classifiers are a type of custom analyzer that categorize documents into predefined categories.
- * They're useful for:
- * - Document routing: Automatically route documents to the right processing pipeline
+ * Classifiers are a type of custom analyzer that create classification workflows to categorize
+ * documents into predefined custom categories. They are useful for:
  * - Content organization: Organize large document collections by type
+ * - Data routing: Route data to specific custom analyzers based on category
  * - Multi-document processing: Process files containing multiple document types by segmenting them
  */
 
@@ -136,7 +136,7 @@ export async function main(): Promise<void> {
         for (const segment of documentContent.segments) {
           console.log(`  Category: ${segment.category ?? "(unknown)"}`);
           console.log(`  Pages: ${segment.startPageNumber}-${segment.endPageNumber}`);
-          console.log();
+          console.log(`  Segment ID: ${segment.segmentId ?? "(not available)"}`);
         }
       } else {
         console.log("No segments found (document classified as a single unit).");

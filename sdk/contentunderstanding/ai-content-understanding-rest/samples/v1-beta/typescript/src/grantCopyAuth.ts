@@ -5,16 +5,21 @@
  * @summary Grant copy authorization and copy an analyzer between resources.
  *
  * This sample demonstrates how to grant copy authorization and copy an analyzer from a source
- * resource to a target resource (cross-resource copying). This is useful for copying analyzers
- * between different Azure resources or subscriptions.
+ * Microsoft Foundry resource to a target Microsoft Foundry resource (cross-resource copying).
+ * This is useful for copying analyzers between different Azure resources or subscriptions.
  *
  * The grantCopyAuthorization and copyAnalyzer APIs allow you to copy an analyzer between
  * different Azure resources:
  * - Cross-resource copy: Copies an analyzer from one Azure resource to another
  * - Authorization required: You must grant copy authorization before copying
- * - Use cases: Cross-subscription copying, resource migration, multi-region deployment
  *
- * Note: For same-resource copying (copying within the same Azure resource), use the
+ * When to use cross-resource copying:
+ * - Copy between subscriptions: Move analyzers between different Azure subscriptions
+ * - Multi-region deployment: Deploy the same analyzer to multiple regions
+ * - Resource migration: Migrate analyzers from one resource to another
+ * - Environment promotion: Promote analyzers from development to production across resources
+ *
+ * Note: For same-resource copying (copying within the same Microsoft Foundry resource), use the
  * copyAnalyzer sample instead.
  */
 
@@ -135,7 +140,9 @@ export async function main(): Promise<void> {
   console.log(`Source analyzer '${sourceAnalyzerId}' created successfully!`);
 
   // Step 2: Grant copy authorization on the source resource
-  // The source client grants authorization to copy the source analyzer TO the target resource
+  // The grantCopyAuthorization method must be called on the source resource (where the analyzer currently exists).
+  // This is because the source resource needs to explicitly grant permission for its analyzer to be copied.
+  // The method creates a time-limited authorization record that grants permission to a specific target resource.
   console.log(`\nStep 2: Granting copy authorization from source resource...`);
 
   const copyAuth = await sourceClient.grantCopyAuthorization(sourceAnalyzerId, targetResourceId, {
@@ -149,6 +156,9 @@ export async function main(): Promise<void> {
   console.log(`  Expires at: ${copyAuth.expiresAt}`);
 
   // Step 3: Copy the analyzer from source to target
+  // The copyAnalyzer method must be called on the target resource (where the analyzer will be copied to).
+  // This is because the target resource is the one receiving and creating the copy.
+  // When the target resource calls copyAnalyzer, the service validates that authorization was previously granted by the source resource.
   console.log(`\nStep 3: Copying analyzer from source to target...`);
 
   const copyPoller = targetClient.copyAnalyzer(targetAnalyzerId, sourceAnalyzerId, {
