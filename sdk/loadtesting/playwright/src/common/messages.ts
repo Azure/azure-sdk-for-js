@@ -67,7 +67,7 @@ export const ServiceErrorMessageConstants = {
     key: "FailedToGetWorkspaceDetails",
     message: "Failed to retrieve workspace details from the Playwright service.",
     formatWithErrorDetails: (errorDetails: string): string =>
-      `Failed to retrieve workspace details from the Playwright service. Error: ${errorDetails} Please verify your service URL and authentication credentials.`,
+      `Failed to retrieve workspace details from the Playwright service. Error: ${errorDetails}. Please verify your service URL and authentication credentials.`,
   },
   STORAGE_URI_NOT_FOUND: {
     key: "StorageUriNotFound",
