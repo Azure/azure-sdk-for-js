@@ -2,15 +2,15 @@
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-dell-storage in some common scenarios.
 
-| **File Name**                                                                   | **Description**                                                                                                                                |
-| ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| [fileSystemsCreateOrUpdateSample.ts][filesystemscreateorupdatesample]           | create a FileSystemResource x-ms-original-file: 2025-03-21-preview/FileSystems_CreateOrUpdate_MaximumSet_Gen.json                              |
-| [fileSystemsDeleteSample.ts][filesystemsdeletesample]                           | delete a FileSystemResource x-ms-original-file: 2025-03-21-preview/FileSystems_Delete_MaximumSet_Gen.json                                      |
-| [fileSystemsGetSample.ts][filesystemsgetsample]                                 | get a FileSystemResource x-ms-original-file: 2025-03-21-preview/FileSystems_Get_MaximumSet_Gen.json                                            |
-| [fileSystemsListByResourceGroupSample.ts][filesystemslistbyresourcegroupsample] | list FileSystemResource resources by resource group x-ms-original-file: 2025-03-21-preview/FileSystems_ListByResourceGroup_MaximumSet_Gen.json |
-| [fileSystemsListBySubscriptionSample.ts][filesystemslistbysubscriptionsample]   | list FileSystemResource resources by subscription ID x-ms-original-file: 2025-03-21-preview/FileSystems_ListBySubscription_MaximumSet_Gen.json |
-| [fileSystemsUpdateSample.ts][filesystemsupdatesample]                           | update a FileSystemResource x-ms-original-file: 2025-03-21-preview/FileSystems_Update_MaximumSet_Gen.json                                      |
-| [operationsListSample.ts][operationslistsample]                                 | list the operations for the provider x-ms-original-file: 2025-03-21-preview/Operations_List_MaximumSet_Gen.json                                |
+| **File Name**                                                                   | **Description**                                                                                                                        |
+| ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [fileSystemsCreateOrUpdateSample.ts][filesystemscreateorupdatesample]           | create a FileSystemResource x-ms-original-file: 2025-03-21/FileSystems_CreateOrUpdate_MaximumSet_Gen.json                              |
+| [fileSystemsDeleteSample.ts][filesystemsdeletesample]                           | delete a FileSystemResource x-ms-original-file: 2025-03-21/FileSystems_Delete_MaximumSet_Gen.json                                      |
+| [fileSystemsGetSample.ts][filesystemsgetsample]                                 | get a FileSystemResource x-ms-original-file: 2025-03-21/FileSystems_Get_MaximumSet_Gen.json                                            |
+| [fileSystemsListByResourceGroupSample.ts][filesystemslistbyresourcegroupsample] | list FileSystemResource resources by resource group x-ms-original-file: 2025-03-21/FileSystems_ListByResourceGroup_MaximumSet_Gen.json |
+| [fileSystemsListBySubscriptionSample.ts][filesystemslistbysubscriptionsample]   | list FileSystemResource resources by subscription ID x-ms-original-file: 2025-03-21/FileSystems_ListBySubscription_MaximumSet_Gen.json |
+| [fileSystemsUpdateSample.ts][filesystemsupdatesample]                           | update a FileSystemResource x-ms-original-file: 2025-03-21/FileSystems_Update_MaximumSet_Gen.json                                      |
+| [operationsListSample.ts][operationslistsample]                                 | list the operations for the provider x-ms-original-file: 2025-03-21/Operations_List_MaximumSet_Gen.json                                |
 
 ## Prerequisites
 
@@ -52,10 +52,10 @@ npm run build
 node dist/fileSystemsCreateOrUpdateSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env node dist/fileSystemsCreateOrUpdateSample.js
+node dist/fileSystemsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

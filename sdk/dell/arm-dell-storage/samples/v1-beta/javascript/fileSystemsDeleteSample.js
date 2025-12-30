@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a FileSystemResource
  *
  * @summary delete a FileSystemResource
- * x-ms-original-file: 2025-03-21-preview/FileSystems_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-21/FileSystems_Delete_MaximumSet_Gen.json
  */
 async function fileSystemsDeleteMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function fileSystemsDeleteMaximumSetGen() {
  * This sample demonstrates how to delete a FileSystemResource
  *
  * @summary delete a FileSystemResource
- * x-ms-original-file: 2025-03-21-preview/FileSystems_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-03-21/FileSystems_Delete_MinimumSet_Gen.json
  */
 async function fileSystemsDeleteMinimumSetGen() {
   const credential = new DefaultAzureCredential();
