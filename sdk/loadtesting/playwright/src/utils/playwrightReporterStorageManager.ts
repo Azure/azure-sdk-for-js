@@ -40,6 +40,7 @@ export class PlaywrightReporterStorageManager {
       }
 
       const blobServiceClient = new BlobServiceClient(workspaceDetails?.storageUri, credential);
+      coreLogger.info("blobServiceClient created successfully: ", blobServiceClient);
       const serviceUrlInfo = populateValuesFromServiceUrl();
       if (!serviceUrlInfo?.accountId) {
         coreLogger.error("Unable to extract workspace ID from service URL");
@@ -54,7 +55,10 @@ export class PlaywrightReporterStorageManager {
 
       const containerExists = await containerClient.exists();
       if (!containerExists) {
+        coreLogger.info(`Container ${containerName} does not exist. Creating new container.`);
         await containerClient.create();
+      } else {
+        coreLogger.info(`Container ${containerName} already exists.`);
       }
 
       const folderName = runId;
@@ -82,6 +86,24 @@ export class PlaywrightReporterStorageManager {
 
       const failedFiles = uploadResults.totalFiles - uploadResults.uploadedFiles.length;
       if (failedFiles > 0) {
+        if (uploadResults.failedFileDetails) {
+          const hasAuthorizationError = uploadResults.failedFileDetails.some(
+            (fileDetail) =>
+              fileDetail.error.includes("not authorized to perform this operation") ||
+              fileDetail.error.includes("AuthorizationFailure"),
+          );
+
+          if (hasAuthorizationError) {
+            return {
+              success: false,
+              errorMessage:
+                ServiceErrorMessageConstants.STORAGE_AUTHORIZATION_FAILED.formatWithStorageAccount(
+                  storageAccountName,
+                ),
+            };
+          }
+        }
+
         // Get list of failed file names by comparing total files with uploaded files
         const uploadedSet = new Set(uploadResults.uploadedFiles);
         const allFiles = collectAllFiles(outputFolder, outputFolder, folderName);
@@ -103,18 +125,6 @@ export class PlaywrightReporterStorageManager {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
       coreLogger.error(`Failed to upload HTML report: ${error}`);
-
-      if (
-        error instanceof Error &&
-        (error.message.includes("AuthorizationFailure") ||
-          error.message.includes("not authorized to perform this operation"))
-      ) {
-        return {
-          success: false,
-          errorMessage: ServiceErrorMessageConstants.STORAGE_AUTHORIZATION_FAILED.message,
-        };
-      }
-
       return { success: false, errorMessage };
     }
   }

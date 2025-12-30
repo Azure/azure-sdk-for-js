@@ -4,7 +4,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import type { FullConfig } from "@playwright/test";
 import PlaywrightReporter from "../../src/reporter/playwrightReporter.js";
-import { ServiceAuth } from "../../src/common/constants.js";
+import { ServiceAuth, InternalEnvironmentVariables } from "../../src/common/constants.js";
 import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig.js";
 import { state } from "../../src/common/state.js";
 import { ServiceErrorMessageConstants } from "../../src/common/messages.js";
@@ -20,14 +20,14 @@ vi.mock("../../src/utils/playwrightReporterStorageManager.js", () => {
   };
 });
 
-vi.mock("../../src/utils/playwrightServiceApicall.js", () => {
+vi.mock("../../src/utils/PlaywrightServiceClient.js", () => {
   const getWorkspaceMetadataMock = vi.fn();
   (globalThis as any).__getWorkspaceMetadataMock = getWorkspaceMetadataMock;
   class MockApiCall {
     getWorkspaceMetadata = getWorkspaceMetadataMock;
   }
   return {
-    PlaywrightServiceApiCall: MockApiCall,
+    PlaywrightServiceClient: MockApiCall,
   };
 });
 
@@ -55,8 +55,9 @@ describe("PlaywrightReporter", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     state.playwrightServiceConfig = null;
-    const config = PlaywrightServiceConfig.instance;
-    config.serviceAuthType = ServiceAuth.ENTRA_ID;
+    // Set env flags to pass reporter pre-checks
+    process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG] = "true";
+    process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS] = "true";
     (globalThis as any).__getHtmlReporterOutputFolderMock.mockReturnValue("playwright-report");
     (globalThis as any).__getPortalTestRunUrlMock.mockReturnValue("https://portal/link");
   });
@@ -64,6 +65,8 @@ describe("PlaywrightReporter", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     state.playwrightServiceConfig = null;
+    delete process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG];
+    delete process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS];
   });
 
   it("should disable reporting when access token auth is used", async () => {
@@ -84,6 +87,7 @@ describe("PlaywrightReporter", () => {
   });
 
   it("should disable reporting when HTML reporter is not configured", async () => {
+    PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
     const reporter = new PlaywrightReporter();
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
 
@@ -104,6 +108,7 @@ describe("PlaywrightReporter", () => {
   });
 
   it("should enable reporting and upload artifacts when configuration is valid", async () => {
+    PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
     const reporter = new PlaywrightReporter();
     const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => undefined);
 
@@ -140,6 +145,7 @@ describe("PlaywrightReporter", () => {
   });
 
   it("should disable reporting when workspace metadata lacks storage URI", async () => {
+    PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
     const reporter = new PlaywrightReporter();
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
     (globalThis as any).__getWorkspaceMetadataMock.mockResolvedValue({});
@@ -154,6 +160,7 @@ describe("PlaywrightReporter", () => {
   });
 
   it("should handle workspace metadata fetch failure gracefully", async () => {
+    PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
     const reporter = new PlaywrightReporter();
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
     (globalThis as any).__getWorkspaceMetadataMock.mockRejectedValue(new Error("fetch failed"));
@@ -165,6 +172,92 @@ describe("PlaywrightReporter", () => {
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       `${ServiceErrorMessageConstants.WORKSPACE_METADATA_FETCH_FAILED.message}Error: fetch failed `,
     );
+
+    await reporter.onEnd();
+    expect((globalThis as any).__uploadHtmlReportAfterTestsMock).not.toHaveBeenCalled();
+  });
+
+  it("should disable reporting when service config is not used", async () => {
+    const reporter = new PlaywrightReporter();
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+
+    // Set service config to false
+    process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG] = "false";
+    PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
+
+    const config = { reporter: [["html"]] } as unknown as FullConfig;
+    await reporter.onBegin(config);
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      ServiceErrorMessageConstants.REPORTER_REQUIRES_SERVICE_CONFIG.message,
+    );
+    expect((globalThis as any).__getWorkspaceMetadataMock).not.toHaveBeenCalled();
+
+    await reporter.onEnd();
+    expect((globalThis as any).__uploadHtmlReportAfterTestsMock).not.toHaveBeenCalled();
+  });
+
+  it("should disable reporting when service config environment variable is not set", async () => {
+    const reporter = new PlaywrightReporter();
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+
+    // Remove service config environment variable
+    delete process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG];
+    PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
+
+    const config = { reporter: [["html"]] } as unknown as FullConfig;
+    await reporter.onBegin(config);
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      ServiceErrorMessageConstants.REPORTER_REQUIRES_SERVICE_CONFIG.message,
+    );
+    expect((globalThis as any).__getWorkspaceMetadataMock).not.toHaveBeenCalled();
+
+    await reporter.onEnd();
+    expect((globalThis as any).__uploadHtmlReportAfterTestsMock).not.toHaveBeenCalled();
+  });
+
+  it("should disable reporting when test run creation failed", async () => {
+    const reporter = new PlaywrightReporter();
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+
+    // Set test run creation to failed
+    process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS] = "false";
+    PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
+
+    const config = { reporter: [["html"]] } as unknown as FullConfig;
+    await reporter.onBegin(config);
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message,
+    );
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      ServiceErrorMessageConstants.REPORTING_TEST_RUN_FAILED.message,
+    );
+    expect((globalThis as any).__getWorkspaceMetadataMock).not.toHaveBeenCalled();
+
+    await reporter.onEnd();
+    expect((globalThis as any).__uploadHtmlReportAfterTestsMock).not.toHaveBeenCalled();
+  });
+
+  it("should disable reporting when test run creation success environment variable is not set", async () => {
+    const reporter = new PlaywrightReporter();
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+
+    // Remove test run creation success environment variable
+    delete process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS];
+    PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
+
+    const config = { reporter: [["html"]] } as unknown as FullConfig;
+    await reporter.onBegin(config);
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      ServiceErrorMessageConstants.REPORTING_STATUS_FAILED.message,
+    );
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      ServiceErrorMessageConstants.REPORTING_TEST_RUN_FAILED.message,
+    );
+    expect((globalThis as any).__getWorkspaceMetadataMock).not.toHaveBeenCalled();
 
     await reporter.onEnd();
     expect((globalThis as any).__uploadHtmlReportAfterTestsMock).not.toHaveBeenCalled();
