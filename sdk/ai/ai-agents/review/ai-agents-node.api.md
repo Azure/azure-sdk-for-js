@@ -13,6 +13,20 @@ import { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface ActivityFunctionDefinition {
+    description?: string;
+    parameters: ActivityFunctionParameters;
+}
+
+// @public
+export interface ActivityFunctionParameters {
+    additionalProperties?: boolean;
+    properties: Record<string, FunctionArgument>;
+    required: string[];
+    type: "object";
+}
+
+// @public
 export interface Agent {
     createdAt: Date;
     description: string | null;
@@ -93,7 +107,7 @@ export interface AgentsNamedToolChoice {
 }
 
 // @public
-export type AgentsNamedToolChoiceType = "function" | "code_interpreter" | "file_search" | "bing_grounding" | "azure_ai_search" | "connected_agent";
+export type AgentsNamedToolChoiceType = "function" | "code_interpreter" | "file_search" | "bing_grounding" | "fabric_dataagent" | "sharepoint_grounding" | "azure_ai_search" | "bing_custom_search" | "connected_agent" | "deep_research" | "mcp";
 
 // @public
 export interface AgentsResponseFormat {
@@ -179,9 +193,37 @@ export interface AzureFunctionStorageQueue {
 }
 
 // @public
+export interface AzureFunctionToolCallDetails {
+    arguments?: string;
+    name?: string;
+    output?: string;
+}
+
+// @public
 export interface AzureFunctionToolDefinition extends ToolDefinition {
     azureFunction: AzureFunctionDefinition;
     type: "azure_function";
+}
+
+// @public
+export interface BingCustomSearchConfiguration {
+    connectionId: string;
+    count?: number;
+    freshness?: string;
+    instanceName: string;
+    market?: string;
+    setLang?: string;
+}
+
+// @public
+export interface BingCustomSearchToolDefinition extends ToolDefinition {
+    bingCustomSearch: BingCustomSearchToolParameters;
+    type: "bing_custom_search";
+}
+
+// @public
+export interface BingCustomSearchToolParameters {
+    searchConfigurations: BingCustomSearchConfiguration[];
 }
 
 // @public
@@ -202,6 +244,36 @@ export interface BingGroundingSearchToolParameters {
 export interface BingGroundingToolDefinition extends ToolDefinition {
     bingGrounding: BingGroundingSearchToolParameters;
     type: "bing_grounding";
+}
+
+// @public
+export interface BrowserAutomationToolCallDetails {
+    input: string;
+    output: string;
+    steps: BrowserAutomationToolCallStep[];
+}
+
+// @public
+export interface BrowserAutomationToolCallStep {
+    currentState: string;
+    lastStepResult: string;
+    nextStep: string;
+}
+
+// @public
+export interface BrowserAutomationToolConnectionParameters {
+    id: string;
+}
+
+// @public
+export interface BrowserAutomationToolDefinition extends ToolDefinition {
+    browserAutomation: BrowserAutomationToolParameters;
+    type: "browser_automation";
+}
+
+// @public
+export interface BrowserAutomationToolParameters {
+    connection: BrowserAutomationToolConnectionParameters;
 }
 
 // @public
@@ -275,6 +347,23 @@ export interface CreateThreadAndRunOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface DeepResearchBingGroundingConnection {
+    connectionId: string;
+}
+
+// @public
+export interface DeepResearchDetails {
+    bingGroundingConnections: DeepResearchBingGroundingConnection[];
+    model: string;
+}
+
+// @public
+export interface DeepResearchToolDefinition extends ToolDefinition {
+    deepResearch: DeepResearchDetails;
+    type: "deep_research";
+}
+
+// @public
 export interface DeleteAgentOptionalParams extends OperationOptions {
 }
 
@@ -286,6 +375,11 @@ export enum DoneEvent {
 // @public
 export enum ErrorEvent {
     Error = "error"
+}
+
+// @public
+export interface FabricDataAgentToolParameters {
+    connectionList?: ToolConnection[];
 }
 
 // @public
@@ -385,6 +479,12 @@ export interface FilesUploadFileOptionalParams extends OperationOptions, Polling
 }
 
 // @public
+export interface FunctionArgument {
+    description?: string;
+    type: string;
+}
+
+// @public
 export interface FunctionDefinition {
     description?: string;
     name: string;
@@ -425,7 +525,8 @@ export function isOutputOfType<T extends {
 // @public
 export enum KnownVersions {
     V1 = "v1",
-    V20250501 = "2025-05-01"
+    V20250501 = "2025-05-01",
+    V20250515Preview = "2025-05-15-preview"
 }
 
 // @public
@@ -438,6 +539,51 @@ export interface ListAgentsOptionalParams extends OperationOptions {
 
 // @public
 export type ListSortOrder = "asc" | "desc";
+
+// @public
+export interface MCPApprovalPerTool {
+    always?: MCPToolList;
+    never?: MCPToolList;
+}
+
+// @public
+export type MCPRequiredApproval = string | "never" | "always" | MCPApprovalPerTool;
+
+// @public
+export class MCPTool {
+    constructor(serverLabel: string, serverUrl: string, allowedTools?: string[]);
+    get allowedTools(): string[];
+    allowTool(toolName: string): void;
+    get definition(): MCPToolDefinition;
+    disallowTool(toolName: string): void;
+    get headers(): Record<string, string>;
+    static mergeResources(mcpTools: MCPTool[]): ToolResources;
+    get resources(): ToolResources;
+    get serverLabel(): string;
+    get serverUrl(): string;
+    setApprovalMode(requireApproval?: "always" | "never"): void;
+    updateHeaders(key: string, value: string): void;
+}
+
+// @public
+export interface MCPToolDefinition extends ToolDefinition {
+    allowedTools?: string[];
+    serverLabel: string;
+    serverUrl: string;
+    type: "mcp";
+}
+
+// @public
+export interface MCPToolList {
+    toolNames: string[];
+}
+
+// @public
+export interface MCPToolResource {
+    headers: Record<string, string>;
+    requireApproval?: MCPRequiredApproval;
+    serverLabel: string;
+}
 
 // @public
 export interface MessageAttachment {
@@ -459,6 +605,13 @@ export interface MessageContent {
 
 // @public
 export type MessageContentUnion = MessageTextContent | MessageImageFileContent | MessageContent;
+
+// @public
+export interface MessageDeletionStatus {
+    deleted: boolean;
+    id: string;
+    object: "thread.message.deleted";
+}
 
 // @public
 export interface MessageDelta {
@@ -627,6 +780,10 @@ export interface MessagesCreateMessageOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface MessagesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface MessagesGetMessageOptionalParams extends OperationOptions {
 }
 
@@ -642,6 +799,7 @@ export interface MessagesListMessagesOptionalParams extends OperationOptions {
 // @public
 export interface MessagesOperations {
     create: (threadId: string, role: MessageRole, content: MessageInputContent, options?: MessagesCreateMessageOptionalParams) => Promise<ThreadMessage>;
+    delete: (threadId: string, messageId: string, options?: MessagesDeleteOptionalParams) => Promise<MessageDeletionStatus>;
     get: (threadId: string, messageId: string, options?: MessagesGetMessageOptionalParams) => Promise<ThreadMessage>;
     list: (threadId: string, options?: MessagesListMessagesOptionalParams) => PagedAsyncIterableIterator<ThreadMessage>;
     update: (threadId: string, messageId: string, options?: MessagesUpdateMessageOptionalParams) => Promise<ThreadMessage>;
@@ -727,6 +885,12 @@ export interface MessageTextUrlCitationDetails {
 }
 
 // @public
+export interface MicrosoftFabricToolDefinition extends ToolDefinition {
+    fabricDataagent: FabricDataAgentToolParameters;
+    type: "fabric_dataagent";
+}
+
+// @public
 export interface OpenApiAnonymousAuthDetails extends OpenApiAuthDetails {
     type: "anonymous";
 }
@@ -775,6 +939,16 @@ export interface OpenApiManagedSecurityScheme {
 }
 
 // @public
+export class OpenApiTool {
+    constructor(openApiFunctionDefinition: OpenApiFunctionDefinition);
+    addDefinition(openApiFunctionDefinition: OpenApiFunctionDefinition): void;
+    static createDefinition(openapi: OpenApiFunctionDefinition): OpenApiToolDefinition;
+    get definitions(): OpenApiToolDefinition[];
+    removeDefinition(name: string): void;
+    get resources(): ToolResources;
+}
+
+// @public
 export interface OpenApiToolDefinition extends ToolDefinition {
     openapi: OpenApiFunctionDefinition;
     type: "openapi";
@@ -809,7 +983,7 @@ export interface RequiredAction {
 }
 
 // @public
-export type RequiredActionUnion = SubmitToolOutputsAction | RequiredAction;
+export type RequiredActionUnion = SubmitToolOutputsAction | SubmitToolApprovalAction | RequiredAction;
 
 // @public
 export interface RequiredFunctionToolCall extends RequiredToolCall {
@@ -824,13 +998,21 @@ export interface RequiredFunctionToolCallDetails {
 }
 
 // @public
+export interface RequiredMcpToolCall extends RequiredToolCall {
+    arguments: string;
+    name: string;
+    serverLabel: string;
+    type: "mcp";
+}
+
+// @public
 export interface RequiredToolCall {
     id: string;
     type: string;
 }
 
 // @public
-export type RequiredToolCallUnion = RequiredFunctionToolCall | RequiredToolCall;
+export type RequiredToolCallUnion = RequiredFunctionToolCall | RequiredMcpToolCall | RequiredToolCall;
 
 // @public
 export type ResponseFormat = "text" | "json_object";
@@ -916,6 +1098,8 @@ export interface RunsOperations {
 // @public
 export interface RunsSubmitToolOutputsToRunOptionalParams extends OperationOptions {
     stream?: boolean | null;
+    toolApprovals?: ToolApproval[];
+    toolOutputs?: ToolOutput[];
 }
 
 // @public
@@ -942,15 +1126,39 @@ export interface RunStep {
 }
 
 // @public
+export interface RunStepActivityDetails extends RunStepDetails {
+    activities: RunStepDetailsActivity[];
+    type: "activities";
+}
+
+// @public
 export interface RunStepAzureAISearchToolCall extends RunStepToolCall {
     azureAISearch: Record<string, string>;
     type: "azure_ai_search";
 }
 
 // @public
+export interface RunStepAzureFunctionToolCall extends RunStepToolCall {
+    azureFunction: AzureFunctionToolCallDetails;
+    type: "azure_function";
+}
+
+// @public
+export interface RunStepBingCustomSearchToolCall extends RunStepToolCall {
+    bingCustomSearch: Record<string, string>;
+    type: "bing_custom_search";
+}
+
+// @public
 export interface RunStepBingGroundingToolCall extends RunStepToolCall {
     bingGrounding: Record<string, string>;
     type: "bing_grounding";
+}
+
+// @public
+export interface RunStepBrowserAutomationToolCall extends RunStepToolCall {
+    browserAutomation: BrowserAutomationToolCallDetails;
+    type: "browser_automation";
 }
 
 // @public
@@ -998,8 +1206,54 @@ export interface RunStepCompletionUsage {
 }
 
 // @public
+export interface RunStepConnectedAgent {
+    agentId?: string;
+    arguments?: string;
+    name?: string;
+    output?: string;
+    runId?: string;
+    threadId?: string;
+}
+
+// @public
+export interface RunStepConnectedAgentToolCall extends RunStepToolCall {
+    connectedAgent: RunStepConnectedAgent;
+    type: "connected_agent";
+}
+
+// @public
+export interface RunStepDeepResearchToolCall extends RunStepToolCall {
+    deepResearch: RunStepDeepResearchToolCallDetails;
+    type: "deep_research";
+}
+
+// @public
+export interface RunStepDeepResearchToolCallDetails {
+    input: string;
+    output?: string;
+}
+
+// @public
 export interface RunStepDelta {
     stepDetails?: RunStepDeltaDetailUnion;
+}
+
+// @public
+export interface RunStepDeltaAzureAISearchToolCall extends RunStepDeltaToolCall {
+    azureAISearch: Record<string, string>;
+    type: "azure_ai_search";
+}
+
+// @public
+export interface RunStepDeltaAzureFunctionToolCall extends RunStepDeltaToolCall {
+    azureFunction: AzureFunctionToolCallDetails;
+    type: "azure_function";
+}
+
+// @public
+export interface RunStepDeltaBingGroundingToolCall extends RunStepDeltaToolCall {
+    bingGrounding: Record<string, string>;
+    type: "bing_grounding";
 }
 
 // @public
@@ -1048,12 +1302,30 @@ export interface RunStepDeltaCodeInterpreterToolCall extends RunStepDeltaToolCal
 }
 
 // @public
+export interface RunStepDeltaConnectedAgentToolCall extends RunStepDeltaToolCall {
+    connectedAgent: RunStepConnectedAgent;
+    type: "connected_agent";
+}
+
+// @public
+export interface RunStepDeltaCustomBingGroundingToolCall extends RunStepDeltaToolCall {
+    bingCustomSearch: Record<string, string>;
+    type: "bing_custom_search";
+}
+
+// @public
+export interface RunStepDeltaDeepResearchToolCall extends RunStepDeltaToolCall {
+    deepResearch: RunStepDeepResearchToolCallDetails;
+    type: "deep_research";
+}
+
+// @public
 export interface RunStepDeltaDetail {
     type: string;
 }
 
 // @public
-export type RunStepDeltaDetailUnion = RunStepDeltaMessageCreation | RunStepDeltaToolCallObject | RunStepDeltaDetail;
+export type RunStepDeltaDetailUnion = RunStepDeltaMessageCreation | RunStepDeltaToolCallObject | RunStepDeltaMCPObject | RunStepDeltaOpenAPIObject | RunStepDeltaDetail;
 
 // @public
 export interface RunStepDeltaFileSearchToolCall extends RunStepDeltaToolCall {
@@ -1075,6 +1347,19 @@ export interface RunStepDeltaFunctionToolCall extends RunStepDeltaToolCall {
 }
 
 // @public
+export interface RunStepDeltaMCPObject extends RunStepDeltaDetail {
+    toolCalls?: RunStepDeltaMcpToolCall[];
+    type: "mcp";
+}
+
+// @public
+export interface RunStepDeltaMcpToolCall extends RunStepDeltaToolCall {
+    arguments: string;
+    index: number;
+    type: "mcp";
+}
+
+// @public
 export interface RunStepDeltaMessageCreation extends RunStepDeltaDetail {
     messageCreation?: RunStepDeltaMessageCreationObject;
     type: "message_creation";
@@ -1083,6 +1368,30 @@ export interface RunStepDeltaMessageCreation extends RunStepDeltaDetail {
 // @public
 export interface RunStepDeltaMessageCreationObject {
     messageId?: string;
+}
+
+// @public
+export interface RunStepDeltaMicrosoftFabricToolCall extends RunStepDeltaToolCall {
+    microsoftFabric: Record<string, string>;
+    type: "fabric_dataagent";
+}
+
+// @public
+export interface RunStepDeltaOpenAPIObject extends RunStepDeltaDetail {
+    toolCalls?: RunStepDeltaOpenAPIToolCall[];
+    type: "openapi";
+}
+
+// @public
+export interface RunStepDeltaOpenAPIToolCall extends RunStepDeltaToolCall {
+    openAPI: Record<string, string>;
+    type: "openapi";
+}
+
+// @public
+export interface RunStepDeltaSharepointToolCall extends RunStepDeltaToolCall {
+    sharepointGrounding: Record<string, string>;
+    type: "sharepoint_grounding";
 }
 
 // @public
@@ -1099,7 +1408,7 @@ export interface RunStepDeltaToolCallObject extends RunStepDeltaDetail {
 }
 
 // @public
-export type RunStepDeltaToolCallUnion = RunStepDeltaFunctionToolCall | RunStepDeltaFileSearchToolCall | RunStepDeltaCodeInterpreterToolCall | RunStepDeltaToolCall;
+export type RunStepDeltaToolCallUnion = RunStepDeltaMcpToolCall | RunStepDeltaOpenAPIToolCall | RunStepDeltaConnectedAgentToolCall | RunStepDeltaFunctionToolCall | RunStepDeltaFileSearchToolCall | RunStepDeltaCodeInterpreterToolCall | RunStepDeltaBingGroundingToolCall | RunStepDeltaCustomBingGroundingToolCall | RunStepDeltaAzureFunctionToolCall | RunStepDeltaDeepResearchToolCall | RunStepDeltaAzureAISearchToolCall | RunStepDeltaMicrosoftFabricToolCall | RunStepDeltaSharepointToolCall | RunStepDeltaToolCall;
 
 // @public
 export interface RunStepDetails {
@@ -1107,7 +1416,15 @@ export interface RunStepDetails {
 }
 
 // @public
-export type RunStepDetailsUnion = RunStepMessageCreationDetails | RunStepToolCallDetails | RunStepDetails;
+export interface RunStepDetailsActivity {
+    id: string;
+    serverLabel: string;
+    tools: Record<string, ActivityFunctionDefinition>;
+    type: "mcp_list_tools";
+}
+
+// @public
+export type RunStepDetailsUnion = RunStepMessageCreationDetails | RunStepToolCallDetails | RunStepActivityDetails | RunStepDetails;
 
 // @public
 export interface RunStepError {
@@ -1152,6 +1469,15 @@ export interface RunStepFunctionToolCallDetails {
 }
 
 // @public
+export interface RunStepMcpToolCall extends RunStepToolCall {
+    arguments: string;
+    name: string;
+    output: string;
+    serverLabel?: string;
+    type: "mcp";
+}
+
+// @public
 export interface RunStepMessageCreationDetails extends RunStepDetails {
     messageCreation: RunStepMessageCreationReference;
     type: "message_creation";
@@ -1163,6 +1489,12 @@ export interface RunStepMessageCreationReference {
 }
 
 // @public
+export interface RunStepMicrosoftFabricToolCall extends RunStepToolCall {
+    microsoftFabric: Record<string, string>;
+    type: "fabric_dataagent";
+}
+
+// @public
 export interface RunStepOpenAPIToolCall extends RunStepToolCall {
     openAPI: Record<string, string>;
     type: "openapi";
@@ -1171,6 +1503,12 @@ export interface RunStepOpenAPIToolCall extends RunStepToolCall {
 // @public
 export interface RunStepsGetRunStepOptionalParams extends OperationOptions {
     include?: RunAdditionalFieldList[];
+}
+
+// @public
+export interface RunStepSharepointToolCall extends RunStepToolCall {
+    sharePoint: Record<string, string>;
+    type: "sharepoint_grounding";
 }
 
 // @public
@@ -1215,10 +1553,10 @@ export interface RunStepToolCallDetails extends RunStepDetails {
 }
 
 // @public
-export type RunStepToolCallUnion = RunStepCodeInterpreterToolCall | RunStepFileSearchToolCall | RunStepBingGroundingToolCall | RunStepAzureAISearchToolCall | RunStepFunctionToolCall | RunStepOpenAPIToolCall | RunStepToolCall;
+export type RunStepToolCallUnion = RunStepCodeInterpreterToolCall | RunStepFileSearchToolCall | RunStepBingGroundingToolCall | RunStepAzureAISearchToolCall | RunStepBrowserAutomationToolCall | RunStepMcpToolCall | RunStepSharepointToolCall | RunStepMicrosoftFabricToolCall | RunStepBingCustomSearchToolCall | RunStepAzureFunctionToolCall | RunStepFunctionToolCall | RunStepOpenAPIToolCall | RunStepDeepResearchToolCall | RunStepConnectedAgentToolCall | RunStepToolCall;
 
 // @public
-export type RunStepType = "message_creation" | "tool_calls";
+export type RunStepType = "message_creation" | "tool_calls" | "activities";
 
 // @public
 export enum RunStreamEvent {
@@ -1237,6 +1575,28 @@ export enum RunStreamEvent {
 // @public
 export interface RunsUpdateRunOptionalParams extends OperationOptions {
     metadata?: Record<string, string> | null;
+}
+
+// @public
+export interface SharepointGroundingToolParameters {
+    connectionList?: ToolConnection[];
+}
+
+// @public
+export interface SharepointToolDefinition extends ToolDefinition {
+    sharepointGrounding: SharepointGroundingToolParameters;
+    type: "sharepoint_grounding";
+}
+
+// @public
+export interface SubmitToolApprovalAction extends RequiredAction {
+    submitToolApproval: SubmitToolApprovalDetails;
+    type: "submit_tool_approval";
+}
+
+// @public
+export interface SubmitToolApprovalDetails {
+    toolCalls: RequiredToolCallUnion[];
 }
 
 // @public
@@ -1359,12 +1719,24 @@ export interface ThreadsUpdateThreadOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface ToolApproval {
+    approve: boolean;
+    headers?: Record<string, string>;
+    toolCallId: string;
+}
+
+// @public
+export interface ToolConnection {
+    connectionId: string;
+}
+
+// @public
 export interface ToolDefinition {
     type: string;
 }
 
 // @public
-export type ToolDefinitionUnion = CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | ConnectedAgentToolDefinition | AzureFunctionToolDefinition | ToolDefinition;
+export type ToolDefinitionUnion = CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | BingCustomSearchToolDefinition | ConnectedAgentToolDefinition | DeepResearchToolDefinition | MCPToolDefinition | AzureFunctionToolDefinition | BrowserAutomationToolDefinition | ToolDefinition;
 
 // @public
 export interface ToolOutput {
@@ -1377,6 +1749,7 @@ export interface ToolResources {
     azureAISearch?: AzureAISearchToolResource;
     codeInterpreter?: CodeInterpreterToolResource;
     fileSearch?: FileSearchToolResource;
+    mcp?: MCPToolResource[];
 }
 
 // @public
@@ -1402,6 +1775,14 @@ export class ToolSet {
         definition: FileSearchToolDefinition;
         resources: ToolResources;
     };
+    addMCPTool(options: {
+        serverLabel: string;
+        serverUrl: string;
+        allowedTools?: string[];
+    }): {
+        definition: MCPToolDefinition;
+        resources: ToolResources;
+    };
     addOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
         definition: OpenApiToolDefinition;
     };
@@ -1417,6 +1798,9 @@ export class ToolUtility {
     };
     static createBingGroundingTool(searchConfigurations: BingGroundingSearchConfiguration[]): {
         definition: BingGroundingToolDefinition;
+    };
+    static createBrowserAutomationTool(connectionId: string): {
+        definition: BrowserAutomationToolDefinition;
     };
     static createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
         definition: CodeInterpreterToolDefinition;
@@ -1435,6 +1819,11 @@ export class ToolUtility {
     static createFunctionTool(functionDefinition: FunctionDefinition): {
         definition: FunctionToolDefinition;
     };
+    static createMCPTool(options: {
+        serverLabel: string;
+        serverUrl: string;
+        allowedTools?: string[];
+    }): MCPTool;
     static createOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
         definition: OpenApiToolDefinition;
     };

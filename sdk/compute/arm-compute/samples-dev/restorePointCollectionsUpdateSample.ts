@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to The operation to update the restore point collection.
- *
- * @summary The operation to update the restore point collection.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/restorePointExamples/RestorePointCollection_Update_MaximumSet_Gen.json
- */
-
+import type {
+  RestorePointCollectionUpdate} from "@azure/arm-compute";
 import {
-  RestorePointCollectionUpdate,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to The operation to update the restore point collection.
+ *
+ * @summary The operation to update the restore point collection.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/restorePointExamples/RestorePointCollection_Update_MaximumSet_Gen.json
+ */
 async function restorePointCollectionUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -22,6 +22,7 @@ async function restorePointCollectionUpdateMaximumSetGen(): Promise<void> {
     process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const restorePointCollectionName = "aaaaaaaaaaaaaaaaaaaa";
   const parameters: RestorePointCollectionUpdate = {
+    instantAccess: true,
     source: {
       id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
     },
@@ -41,7 +42,7 @@ async function restorePointCollectionUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to The operation to update the restore point collection.
  *
  * @summary The operation to update the restore point collection.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/restorePointExamples/RestorePointCollection_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/restorePointExamples/RestorePointCollection_Update_MinimumSet_Gen.json
  */
 async function restorePointCollectionUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =

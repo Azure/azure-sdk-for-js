@@ -65,7 +65,7 @@ node communicationServicesCheckNameAvailabilitySample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env COMMUNICATION_SUBSCRIPTION_ID="<communication subscription id>" node communicationServicesCheckNameAvailabilitySample.js
+cross-env COMMUNICATION_SUBSCRIPTION_ID="<communication subscription id>" node communicationServicesCheckNameAvailabilitySample.js
 ```
 
 ## Next Steps

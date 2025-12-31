@@ -30,11 +30,21 @@ export interface ConnectionPolicy {
   /** Flag to enable/disable background refreshing of endpoints. Defaults to true.
    * Endpoint discovery using `enableEndpointsDiscovery` will still work for failed requests. */
   enableBackgroundEndpointRefreshing?: boolean;
-  /** Flag to enable/disable the Per Partition Level Failover (PPAF). Defaults to false
-   * If enablePartitionLevelFailover is set to true, by default enablePartitionLevelCircuitBreaker
-   * will also be set to true. This is done to improve the read availability and latency.*/
+  /**
+   * Flag to enable/disable Per Partition Level Failover (PPAF). Defaults to true.
+   * Automatically failovers to other available partitions when a partition becomes unavailable.
+   * When enabled, enablePartitionLevelCircuitBreaker will also be set to true.
+   * Note: Dynamic enablement requires both `enableEndpointDiscovery` and
+   * `enableBackgroundEndpointRefreshing` to be `true`. If endpoint discovery
+   * is disabled, this setting has no effect.
+   */
   enablePartitionLevelFailover?: boolean;
-  /** Flag to enable/disable the Per Partition Level Circuit Breaker (PPCB). Defaults to false */
+
+  /**
+   * Flag to enable/disable Per Partition Level Circuit Breaker (PPCB). Defaults to false.
+   * Note: Requires `enableEndpointDiscovery` to be `true`. If endpoint discovery
+   * is disabled, this setting has no effect.
+   */
   enablePartitionLevelCircuitBreaker?: boolean;
 }
 
@@ -54,6 +64,6 @@ export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
   useMultipleWriteLocations: true,
   endpointRefreshRateInMs: 300000,
   enableBackgroundEndpointRefreshing: true,
-  enablePartitionLevelFailover: false,
+  enablePartitionLevelFailover: true,
   enablePartitionLevelCircuitBreaker: false,
 });

@@ -554,7 +554,12 @@ export class BatchingReceiverLite {
       if (receiver.drain) {
         // If a drain is already in process and we cancel, the link state may be out of sync
         // with remote. Reset the link so that we will have fresh start.
-        receiver.close();
+        receiver.close().catch((closeErr) => {
+          logger.logError(
+            closeErr,
+            `${loggingPrefix} Error occurred while closing receiver during abort cleanup`,
+          );
+        });
       }
       rejectAfterCleanup(err);
     }, args.abortSignal);

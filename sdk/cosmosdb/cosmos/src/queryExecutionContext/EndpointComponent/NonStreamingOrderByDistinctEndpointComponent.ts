@@ -9,6 +9,8 @@ import type { NonStreamingOrderByResult } from "../nonStreamingOrderByResult.js"
 import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue.js";
 import { NonStreamingOrderByMap } from "../../utils/nonStreamingOrderByMap.js";
 import { OrderByComparator } from "../orderByComparator.js";
+import type { ParallelQueryResult } from "../parallelQueryResult.js";
+import { createParallelQueryResult } from "../parallelQueryResult.js";
 
 /**
  * @hidden
@@ -110,19 +112,45 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     if (this.executionContext.hasMoreResults()) {
       // Grab the next result
       const response = await this.executionContext.fetchMore(diagnosticNode);
-      if (response === undefined || response.result === undefined) {
+
+      if (!response) {
         this.isCompleted = true;
         if (this.aggregateMap.size() > 0) {
           await this.buildFinalResultArray();
+          const result = createParallelQueryResult(this.finalResultArray, new Map(), {}, undefined);
+
           return {
-            result: this.finalResultArray,
+            result,
+            headers: resHeaders,
+          };
+        }
+        return { result: undefined, headers: resHeaders };
+      }
+
+      if (
+        response.result === undefined ||
+        !Array.isArray(response.result.buffer) ||
+        response.result.buffer.length === 0
+      ) {
+        this.isCompleted = true;
+        if (this.aggregateMap.size() > 0) {
+          await this.buildFinalResultArray();
+          const result = createParallelQueryResult(this.finalResultArray, new Map(), {}, undefined);
+
+          return {
+            result,
             headers: response.headers,
           };
         }
         return { result: undefined, headers: response.headers };
       }
       resHeaders = response.headers;
-      for (const item of response.result) {
+
+      const parallelResult = response.result as ParallelQueryResult;
+      const dataToProcess: NonStreamingOrderByResult[] =
+        parallelResult.buffer as NonStreamingOrderByResult[];
+
+      for (const item of dataToProcess) {
         if (item) {
           const key = await hashObject(item?.payload);
           this.aggregateMap.set(key, item);
@@ -131,8 +159,15 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
 
       // return [] to signal that there are more results to fetch.
       if (this.executionContext.hasMoreResults()) {
+        const result = createParallelQueryResult(
+          [], // empty buffer
+          new Map(),
+          undefined,
+          undefined,
+        );
+
         return {
-          result: [],
+          result,
           headers: resHeaders,
         };
       }
@@ -142,14 +177,18 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     if (!this.executionContext.hasMoreResults() && !this.isCompleted) {
       this.isCompleted = true;
       await this.buildFinalResultArray();
+      const result = createParallelQueryResult(this.finalResultArray, new Map());
+
       return {
-        result: this.finalResultArray,
+        result,
         headers: resHeaders,
       };
     }
     // Signal that there are no more results.
+    const result = createParallelQueryResult([], new Map());
+
     return {
-      result: undefined,
+      result,
       headers: resHeaders,
     };
   }

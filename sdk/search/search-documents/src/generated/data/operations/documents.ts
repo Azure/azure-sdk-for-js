@@ -206,6 +206,9 @@ const searchGetOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SearchDocumentsResult,
     },
+    206: {
+      bodyMapper: Mappers.SearchDocumentsResult,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -244,7 +247,11 @@ const searchGetOperationSpec: coreClient.OperationSpec = {
     Parameters.semanticFields,
   ],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
-  headerParameters: [Parameters.accept],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.xMsQuerySourceAuthorization,
+    Parameters.xMsEnableElevatedRead,
+  ],
   serializer,
 };
 const searchPostOperationSpec: coreClient.OperationSpec = {
@@ -254,6 +261,9 @@ const searchPostOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SearchDocumentsResult,
     },
+    206: {
+      bodyMapper: Mappers.SearchDocumentsResult,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -261,7 +271,12 @@ const searchPostOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.searchRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.xMsQuerySourceAuthorization,
+    Parameters.xMsEnableElevatedRead,
+    Parameters.contentType,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -280,7 +295,11 @@ const getOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion, Parameters.selectedFields],
   urlParameters: [Parameters.endpoint, Parameters.indexName, Parameters.key],
-  headerParameters: [Parameters.accept],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.xMsQuerySourceAuthorization,
+    Parameters.xMsEnableElevatedRead,
+  ],
   serializer,
 };
 const suggestGetOperationSpec: coreClient.OperationSpec = {

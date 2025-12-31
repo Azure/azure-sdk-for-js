@@ -307,7 +307,7 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
         resourceTokens: resourceTokens,
         endpoint: endpoint,
         connectionPolicy: {
-          enableEndpointDiscovery: false,
+          enableEndpointDiscovery: true,
         },
       });
 

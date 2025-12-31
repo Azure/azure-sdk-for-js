@@ -1,15 +1,269 @@
 # Release History
 
-## 11.0.0-beta.3 (Unreleased)
+## 11.0.0-beta.4 (2025-09-24)
+Compared with version 10.0.0
 
 ### Features Added
+  - Added operation group JobPrivateEndpoints
+  - Added operation DistributedAvailabilityGroups.beginFailover
+  - Added operation DistributedAvailabilityGroups.beginFailoverAndWait
+  - Added operation DistributedAvailabilityGroups.beginSetRole
+  - Added operation DistributedAvailabilityGroups.beginSetRoleAndWait
+  - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailover
+  - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailoverAndWait
+  - Added operation LongTermRetentionBackups.beginChangeAccessTier
+  - Added operation LongTermRetentionBackups.beginChangeAccessTierAndWait
+  - Added operation LongTermRetentionBackups.beginChangeAccessTierByResourceGroup
+  - Added operation LongTermRetentionBackups.beginChangeAccessTierByResourceGroupAndWait
+  - Added operation LongTermRetentionBackups.beginLockTimeBasedImmutability
+  - Added operation LongTermRetentionBackups.beginLockTimeBasedImmutabilityAndWait
+  - Added operation LongTermRetentionBackups.beginLockTimeBasedImmutabilityByResourceGroup
+  - Added operation LongTermRetentionBackups.beginLockTimeBasedImmutabilityByResourceGroupAndWait
+  - Added operation LongTermRetentionBackups.beginRemoveLegalHoldImmutability
+  - Added operation LongTermRetentionBackups.beginRemoveLegalHoldImmutabilityAndWait
+  - Added operation LongTermRetentionBackups.beginRemoveLegalHoldImmutabilityByResourceGroup
+  - Added operation LongTermRetentionBackups.beginRemoveLegalHoldImmutabilityByResourceGroupAndWait
+  - Added operation LongTermRetentionBackups.beginRemoveTimeBasedImmutability
+  - Added operation LongTermRetentionBackups.beginRemoveTimeBasedImmutabilityAndWait
+  - Added operation LongTermRetentionBackups.beginRemoveTimeBasedImmutabilityByResourceGroup
+  - Added operation LongTermRetentionBackups.beginRemoveTimeBasedImmutabilityByResourceGroupAndWait
+  - Added operation LongTermRetentionBackups.beginSetLegalHoldImmutability
+  - Added operation LongTermRetentionBackups.beginSetLegalHoldImmutabilityAndWait
+  - Added operation LongTermRetentionBackups.beginSetLegalHoldImmutabilityByResourceGroup
+  - Added operation LongTermRetentionBackups.beginSetLegalHoldImmutabilityByResourceGroupAndWait
+  - Added operation ManagedInstances.beginRefreshStatus
+  - Added operation ManagedInstances.beginRefreshStatusAndWait
+  - Added operation ReplicationLinks.beginCreateOrUpdate
+  - Added operation ReplicationLinks.beginCreateOrUpdateAndWait
+  - Added operation ReplicationLinks.beginUpdate
+  - Added operation ReplicationLinks.beginUpdateAndWait
+  - Added Interface CertificateInfo
+  - Added Interface ChangeLongTermRetentionBackupAccessTierParameters
+  - Added Interface DistributedAvailabilityGroupDatabase
+  - Added Interface DistributedAvailabilityGroupSetRole
+  - Added Interface DistributedAvailabilityGroupsFailoverHeaders
+  - Added Interface DistributedAvailabilityGroupsFailoverOptionalParams
+  - Added Interface DistributedAvailabilityGroupsFailoverRequest
+  - Added Interface DistributedAvailabilityGroupsSetRoleOptionalParams
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverHeaders
+  - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams
+  - Added Interface JobPrivateEndpoint
+  - Added Interface JobPrivateEndpointListResult
+  - Added Interface JobPrivateEndpointsCreateOrUpdateOptionalParams
+  - Added Interface JobPrivateEndpointsDeleteOptionalParams
+  - Added Interface JobPrivateEndpointsGetOptionalParams
+  - Added Interface JobPrivateEndpointsListByAgentOptionalParams
+  - Added Interface LongTermRetentionBackupsChangeAccessTierByResourceGroupHeaders
+  - Added Interface LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams
+  - Added Interface LongTermRetentionBackupsChangeAccessTierHeaders
+  - Added Interface LongTermRetentionBackupsChangeAccessTierOptionalParams
+  - Added Interface LongTermRetentionBackupsCopyByResourceGroupHeaders
+  - Added Interface LongTermRetentionBackupsCopyHeaders
+  - Added Interface LongTermRetentionBackupsDeleteByResourceGroupHeaders
+  - Added Interface LongTermRetentionBackupsDeleteHeaders
+  - Added Interface LongTermRetentionBackupsLockTimeBasedImmutabilityByResourceGroupHeaders
+  - Added Interface LongTermRetentionBackupsLockTimeBasedImmutabilityByResourceGroupOptionalParams
+  - Added Interface LongTermRetentionBackupsLockTimeBasedImmutabilityHeaders
+  - Added Interface LongTermRetentionBackupsLockTimeBasedImmutabilityOptionalParams
+  - Added Interface LongTermRetentionBackupsRemoveLegalHoldImmutabilityByResourceGroupHeaders
+  - Added Interface LongTermRetentionBackupsRemoveLegalHoldImmutabilityByResourceGroupOptionalParams
+  - Added Interface LongTermRetentionBackupsRemoveLegalHoldImmutabilityHeaders
+  - Added Interface LongTermRetentionBackupsRemoveLegalHoldImmutabilityOptionalParams
+  - Added Interface LongTermRetentionBackupsRemoveTimeBasedImmutabilityByResourceGroupHeaders
+  - Added Interface LongTermRetentionBackupsRemoveTimeBasedImmutabilityByResourceGroupOptionalParams
+  - Added Interface LongTermRetentionBackupsRemoveTimeBasedImmutabilityHeaders
+  - Added Interface LongTermRetentionBackupsRemoveTimeBasedImmutabilityOptionalParams
+  - Added Interface LongTermRetentionBackupsSetLegalHoldImmutabilityByResourceGroupHeaders
+  - Added Interface LongTermRetentionBackupsSetLegalHoldImmutabilityByResourceGroupOptionalParams
+  - Added Interface LongTermRetentionBackupsSetLegalHoldImmutabilityHeaders
+  - Added Interface LongTermRetentionBackupsSetLegalHoldImmutabilityOptionalParams
+  - Added Interface LongTermRetentionBackupsUpdateByResourceGroupHeaders
+  - Added Interface LongTermRetentionBackupsUpdateHeaders
+  - Added Interface LongTermRetentionPoliciesCreateOrUpdateHeaders
+  - Added Interface ManagedInstancesRefreshStatusOptionalParams
+  - Added Interface PhaseDetails
+  - Added Interface QueryMetricIntervalAutoGenerated
+  - Added Interface RefreshExternalGovernanceStatusOperationResultMI
+  - Added Interface ReplicationLinksCreateOrUpdateOptionalParams
+  - Added Interface ReplicationLinksUpdateOptionalParams
+  - Added Interface ReplicationLinkUpdate
+  - Added Interface ServersCreateOrUpdateHeaders
+  - Added Interface ServersDeleteHeaders
+  - Added Interface ServersImportDatabaseHeaders
+  - Added Interface ServersRefreshStatusHeaders
+  - Added Interface ServersUpdateHeaders
+  - Interface Database has a new optional parameter encryptionProtectorAutoRotation
+  - Interface Database has a new optional parameter freeLimitExhaustionBehavior
+  - Interface Database has a new optional parameter useFreeLimit
+  - Interface DatabaseOperation has a new optional parameter operationPhaseDetails
+  - Interface DatabaseUpdate has a new optional parameter encryptionProtectorAutoRotation
+  - Interface DatabaseUpdate has a new optional parameter freeLimitExhaustionBehavior
+  - Interface DatabaseUpdate has a new optional parameter useFreeLimit
+  - Interface DistributedAvailabilityGroup has a new optional parameter databases
+  - Interface DistributedAvailabilityGroup has a new optional parameter distributedAvailabilityGroupName
+  - Interface DistributedAvailabilityGroup has a new optional parameter failoverMode
+  - Interface DistributedAvailabilityGroup has a new optional parameter instanceAvailabilityGroupName
+  - Interface DistributedAvailabilityGroup has a new optional parameter instanceLinkRole
+  - Interface DistributedAvailabilityGroup has a new optional parameter partnerAvailabilityGroupName
+  - Interface DistributedAvailabilityGroup has a new optional parameter partnerEndpoint
+  - Interface DistributedAvailabilityGroup has a new optional parameter partnerLinkRole
+  - Interface DistributedAvailabilityGroup has a new optional parameter seedingMode
+  - Interface ElasticPool has a new optional parameter availabilityZone
+  - Interface ElasticPool has a new optional parameter minCapacity
+  - Interface ElasticPool has a new optional parameter preferredEnclaveType
+  - Interface ElasticPoolUpdate has a new optional parameter availabilityZone
+  - Interface ElasticPoolUpdate has a new optional parameter minCapacity
+  - Interface ElasticPoolUpdate has a new optional parameter preferredEnclaveType
+  - Interface FailoverGroup has a new optional parameter secondaryType
+  - Interface FailoverGroupReadOnlyEndpoint has a new optional parameter targetServer
+  - Interface FailoverGroupUpdate has a new optional parameter partnerServers
+  - Interface FailoverGroupUpdate has a new optional parameter secondaryType
+  - Interface InstancePool has a new optional parameter dnsZone
+  - Interface InstancePool has a new optional parameter maintenanceConfigurationId
+  - Interface InstancePoolUpdate has a new optional parameter dnsZone
+  - Interface InstancePoolUpdate has a new optional parameter licenseType
+  - Interface InstancePoolUpdate has a new optional parameter maintenanceConfigurationId
+  - Interface InstancePoolUpdate has a new optional parameter sku
+  - Interface InstancePoolUpdate has a new optional parameter subnetId
+  - Interface InstancePoolUpdate has a new optional parameter vCores
+  - Interface LongTermRetentionBackup has a new optional parameter backupStorageAccessTier
+  - Interface LongTermRetentionBackup has a new optional parameter isBackupImmutable
+  - Interface LongTermRetentionBackup has a new optional parameter legalHoldImmutability
+  - Interface LongTermRetentionBackup has a new optional parameter timeBasedImmutability
+  - Interface LongTermRetentionBackup has a new optional parameter timeBasedImmutabilityMode
+  - Interface LongTermRetentionPolicy has a new optional parameter timeBasedImmutability
+  - Interface LongTermRetentionPolicy has a new optional parameter timeBasedImmutabilityMode
+  - Interface ManagedDatabase has a new optional parameter isLedgerOn
+  - Interface ManagedDatabaseUpdate has a new optional parameter isLedgerOn
+  - Interface ManagedInstance has a new optional parameter authenticationMetadata
+  - Interface ManagedInstance has a new optional parameter createTime
+  - Interface ManagedInstance has a new optional parameter databaseFormat
+  - Interface ManagedInstance has a new optional parameter externalGovernanceStatus
+  - Interface ManagedInstance has a new optional parameter hybridSecondaryUsage
+  - Interface ManagedInstance has a new optional parameter hybridSecondaryUsageDetected
+  - Interface ManagedInstance has a new optional parameter isGeneralPurposeV2
+  - Interface ManagedInstance has a new optional parameter pricingModel
+  - Interface ManagedInstance has a new optional parameter storageIOps
+  - Interface ManagedInstance has a new optional parameter storageThroughputMBps
+  - Interface ManagedInstance has a new optional parameter virtualClusterId
+  - Interface ManagedInstanceUpdate has a new optional parameter authenticationMetadata
+  - Interface ManagedInstanceUpdate has a new optional parameter createTime
+  - Interface ManagedInstanceUpdate has a new optional parameter databaseFormat
+  - Interface ManagedInstanceUpdate has a new optional parameter externalGovernanceStatus
+  - Interface ManagedInstanceUpdate has a new optional parameter hybridSecondaryUsage
+  - Interface ManagedInstanceUpdate has a new optional parameter hybridSecondaryUsageDetected
+  - Interface ManagedInstanceUpdate has a new optional parameter isGeneralPurposeV2
+  - Interface ManagedInstanceUpdate has a new optional parameter pricingModel
+  - Interface ManagedInstanceUpdate has a new optional parameter storageIOps
+  - Interface ManagedInstanceUpdate has a new optional parameter storageThroughputMBps
+  - Interface ManagedInstanceUpdate has a new optional parameter virtualClusterId
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface ReplicationLink has a new optional parameter partnerDatabaseId
+  - Interface Server has a new optional parameter createMode
+  - Interface Server has a new optional parameter isIPv6Enabled
+  - Interface Server has a new optional parameter retentionDays
+  - Interface ServerUpdate has a new optional parameter createMode
+  - Interface ServerUpdate has a new optional parameter isIPv6Enabled
+  - Interface ServerUpdate has a new optional parameter retentionDays
+  - Interface SqlVulnerabilityAssessmentScanRecord has a new optional parameter lastScanTime
+  - Added Type Alias AuthMetadataLookupModes
+  - Added Type Alias BackupStorageAccessTier
+  - Added Type Alias DistributedAvailabilityGroupsFailoverResponse
+  - Added Type Alias DistributedAvailabilityGroupsSetRoleResponse
+  - Added Type Alias FailoverGroupDatabasesSecondaryType
+  - Added Type Alias FailoverGroupsTryPlannedBeforeForcedFailoverResponse
+  - Added Type Alias FailoverModeType
+  - Added Type Alias FailoverType
+  - Added Type Alias FreeLimitExhaustionBehavior
+  - Added Type Alias FreemiumType
+  - Added Type Alias HybridSecondaryUsage
+  - Added Type Alias HybridSecondaryUsageDetected
+  - Added Type Alias InstanceRole
+  - Added Type Alias JobPrivateEndpointsCreateOrUpdateResponse
+  - Added Type Alias JobPrivateEndpointsGetResponse
+  - Added Type Alias JobPrivateEndpointsListByAgentNextResponse
+  - Added Type Alias JobPrivateEndpointsListByAgentResponse
+  - Added Type Alias LinkRole
+  - Added Type Alias LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse
+  - Added Type Alias LongTermRetentionBackupsChangeAccessTierResponse
+  - Added Type Alias LongTermRetentionBackupsLockTimeBasedImmutabilityByResourceGroupResponse
+  - Added Type Alias LongTermRetentionBackupsLockTimeBasedImmutabilityResponse
+  - Added Type Alias LongTermRetentionBackupsRemoveLegalHoldImmutabilityByResourceGroupResponse
+  - Added Type Alias LongTermRetentionBackupsRemoveLegalHoldImmutabilityResponse
+  - Added Type Alias LongTermRetentionBackupsRemoveTimeBasedImmutabilityByResourceGroupResponse
+  - Added Type Alias LongTermRetentionBackupsRemoveTimeBasedImmutabilityResponse
+  - Added Type Alias LongTermRetentionBackupsSetLegalHoldImmutabilityByResourceGroupResponse
+  - Added Type Alias LongTermRetentionBackupsSetLegalHoldImmutabilityResponse
+  - Added Type Alias ManagedInstanceDatabaseFormat
+  - Added Type Alias ManagedInstancesRefreshStatusResponse
+  - Added Type Alias ManagedInstancesStartResponse
+  - Added Type Alias ManagedInstancesStopResponse
+  - Added Type Alias MinimalTlsVersion
+  - Added Type Alias Phase
+  - Added Type Alias ReplicaConnectedState
+  - Added Type Alias ReplicaSynchronizationHealth
+  - Added Type Alias ReplicationLinksCreateOrUpdateResponse
+  - Added Type Alias ReplicationLinksUpdateResponse
+  - Added Type Alias ReplicationModeType
+  - Added Type Alias RoleChangeType
+  - Added Type Alias SeedingModeType
+  - Added Type Alias ServerCreateMode
+  - Added Type Alias SetLegalHoldImmutability
+  - Added Type Alias TimeBasedImmutability
+  - Added Type Alias TimeBasedImmutabilityMode
+  - Added Enum KnownAuthMetadataLookupModes
+  - Added Enum KnownBackupStorageAccessTier
+  - Added Enum KnownFailoverGroupDatabasesSecondaryType
+  - Added Enum KnownFailoverModeType
+  - Added Enum KnownFailoverType
+  - Added Enum KnownFreeLimitExhaustionBehavior
+  - Added Enum KnownFreemiumType
+  - Added Enum KnownHybridSecondaryUsage
+  - Added Enum KnownHybridSecondaryUsageDetected
+  - Added Enum KnownInstanceRole
+  - Added Enum KnownLinkRole
+  - Added Enum KnownManagedInstanceDatabaseFormat
+  - Added Enum KnownMinimalTlsVersion
+  - Added Enum KnownPhase
+  - Added Enum KnownReplicaConnectedState
+  - Added Enum KnownReplicaSynchronizationHealth
+  - Added Enum KnownReplicationModeType
+  - Added Enum KnownRoleChangeType
+  - Added Enum KnownSeedingModeType
+  - Added Enum KnownServerCreateMode
+  - Added Enum KnownSetLegalHoldImmutability
+  - Added Enum KnownTimeBasedImmutability
+  - Added Enum KnownTimeBasedImmutabilityMode
+  - Enum KnownStorageKeyType has a new value ManagedIdentity
 
 ### Breaking Changes
+  - Operation ManagedInstances.beginStartAndWait has a new signature
+  - Operation ManagedInstances.beginStopAndWait has a new signature
+  - Operation Servers.beginImportDatabase has a new signature
+  - Operation Servers.beginImportDatabaseAndWait has a new signature
+  - Interface DistributedAvailabilityGroup no longer has parameter lastHardenedLsn
+  - Interface DistributedAvailabilityGroup no longer has parameter linkState
+  - Interface DistributedAvailabilityGroup no longer has parameter primaryAvailabilityGroupName
+  - Interface DistributedAvailabilityGroup no longer has parameter secondaryAvailabilityGroupName
+  - Interface DistributedAvailabilityGroup no longer has parameter sourceEndpoint
+  - Interface DistributedAvailabilityGroup no longer has parameter sourceReplicaId
+  - Interface DistributedAvailabilityGroup no longer has parameter targetDatabase
+  - Interface DistributedAvailabilityGroup no longer has parameter targetReplicaId
+  - Parameter administratorLoginPassword of interface ImportNewDatabaseDefinition is now optional
+  - Removed Type Alias ManagedInstancePropertiesProvisioningState
+  - Removed Type Alias ReplicationMode
+  - Removed Enum KnownManagedInstancePropertiesProvisioningState
+  - Removed Enum KnownReplicationMode
 
-### Bugs Fixed
+## 11.0.0-beta.3 (2025-08-22)
 
 ### Other Changes
 
+  - Other fixes
+    
 ## 11.0.0-beta.2 (2024-08-20)
 Compared with version 10.0.0
     

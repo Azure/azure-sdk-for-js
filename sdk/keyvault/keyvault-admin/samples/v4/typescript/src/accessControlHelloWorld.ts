@@ -62,7 +62,7 @@ export async function main(): Promise<void> {
     globalScope,
     roleAssignmentName,
     roleDefinition.id,
-    clientObjectId
+    clientObjectId,
   );
   console.log(assignment);
 

@@ -150,7 +150,7 @@ node dist/activityRunsQueryByPipelineRunSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env DATAFACTORY_SUBSCRIPTION_ID="<datafactory subscription id>" DATAFACTORY_RESOURCE_GROUP="<datafactory resource group>" node dist/activityRunsQueryByPipelineRunSample.js
+cross-env DATAFACTORY_SUBSCRIPTION_ID="<datafactory subscription id>" DATAFACTORY_RESOURCE_GROUP="<datafactory resource group>" node dist/activityRunsQueryByPipelineRunSample.js
 ```
 
 ## Next Steps

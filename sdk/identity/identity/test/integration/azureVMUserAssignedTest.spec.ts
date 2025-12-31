@@ -16,11 +16,7 @@ describe("AzureVM UserAssigned Integration test", function () {
     assert.exists(accessToken.token);
   });
 
-  it("works with a user assigned objectId", async function (ctx) {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
-
+  it.skipIf(!isLiveMode())("works with a user assigned objectId", async function () {
     const userAssignedObjectId = process.env.IDENTITY_VM_USER_ASSIGNED_MI_OBJECT_ID;
     if (!userAssignedObjectId) {
       console.log("IDENTITY_VM_USER_ASSIGNED_MI_OBJECT_ID is not set");

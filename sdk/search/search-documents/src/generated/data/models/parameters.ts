@@ -412,6 +412,26 @@ export const semanticFields: OperationQueryParameter = {
   collectionFormat: "CSV",
 };
 
+export const xMsQuerySourceAuthorization: OperationParameter = {
+  parameterPath: ["options", "xMsQuerySourceAuthorization"],
+  mapper: {
+    serializedName: "x-ms-query-source-authorization",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const xMsEnableElevatedRead: OperationParameter = {
+  parameterPath: ["options", "xMsEnableElevatedRead"],
+  mapper: {
+    serializedName: "x-ms-enable-elevated-read",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {

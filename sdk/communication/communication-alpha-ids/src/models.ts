@@ -20,14 +20,12 @@ export interface ListAlphaIdsOptions extends AlphaIdsGetAlphaIdsOptionalParams {
 /**
  * Additional options for the GetDynamicAlphaIdCountries request.
  */
-export interface GetDynamicAlphaIdCountriesOptions
-  extends AlphaIdsGetDynamicAlphaIdCountriesOptionalParams {}
+export interface GetDynamicAlphaIdCountriesOptions extends AlphaIdsGetDynamicAlphaIdCountriesOptionalParams {}
 
 /**
  * Additional options for the GetPreRegisteredAlphaIdCountries request.
  */
-export interface GetPreRegisteredAlphaIdCountriesOptions
-  extends AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams {}
+export interface GetPreRegisteredAlphaIdCountriesOptions extends AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams {}
 
 /**
  * Additional options for the Upsert Alpha ID Configuration request.

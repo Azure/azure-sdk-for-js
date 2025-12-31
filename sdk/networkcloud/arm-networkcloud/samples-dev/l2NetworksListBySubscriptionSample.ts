@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get a list of layer 2 (L2) networks in the provided subscription.
- *
- * @summary Get a list of layer 2 (L2) networks in the provided subscription.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/L2Networks_ListBySubscription.json
- */
-
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Get a list of layer 2 (L2) networks in the provided subscription.
+ *
+ * @summary Get a list of layer 2 (L2) networks in the provided subscription.
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-09-01/examples/L2Networks_ListBySubscription.json
+ */
 async function listL2NetworksForSubscription(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||

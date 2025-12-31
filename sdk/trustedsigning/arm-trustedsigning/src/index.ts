@@ -1,26 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { CodeSigningClient, CodeSigningClientOptionalParams } from "./codeSigningClient.js";
+export { CodeSigningClient } from "./codeSigningClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
+  Operation,
+  OperationDisplay,
+  KnownOrigin,
+  Origin,
+  KnownActionType,
+  ActionType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  CodeSigningAccount,
+  CodeSigningAccountProperties,
+  AccountSku,
+  KnownSkuName,
+  SkuName,
+  KnownProvisioningState,
+  ProvisioningState,
+  TrackedResource,
   Resource,
   SystemData,
   KnownCreatedByType,
   CreatedByType,
-  ProxyResource,
+  CodeSigningAccountPatch,
+  CodeSigningAccountPatchProperties,
+  AccountSkuPatch,
+  CheckNameAvailability,
+  CheckNameAvailabilityResult,
+  KnownNameUnavailabilityReason,
+  NameUnavailabilityReason,
   CertificateProfile,
   CertificateProfileProperties,
   KnownProfileType,
   ProfileType,
-  KnownProvisioningState,
-  ProvisioningState,
   KnownCertificateProfileStatus,
   CertificateProfileStatus,
   Certificate,
@@ -29,42 +51,32 @@ export {
   Revocation,
   KnownRevocationStatus,
   RevocationStatus,
+  ProxyResource,
   RevokeCertificate,
-  TrackedResource,
-  CodeSigningAccount,
-  CodeSigningAccountProperties,
-  AccountSku,
-  KnownSkuName,
-  SkuName,
-  CodeSigningAccountPatch,
-  CodeSigningAccountPatchProperties,
-  CheckNameAvailability,
-  CheckNameAvailabilityResult,
-  KnownNameUnavailabilityReason,
-  NameUnavailabilityReason,
-  Operation,
-  OperationDisplay,
-  KnownOrigin,
-  Origin,
-  KnownActionType,
-  ActionType,
-  OperationsListOptionalParams,
-  CodeSigningAccountsGetOptionalParams,
-  CodeSigningAccountsCreateOptionalParams,
-  CodeSigningAccountsUpdateOptionalParams,
-  CodeSigningAccountsDeleteOptionalParams,
-  CodeSigningAccountsListByResourceGroupOptionalParams,
-  CodeSigningAccountsListBySubscriptionOptionalParams,
-  CodeSigningAccountsCheckNameAvailabilityOptionalParams,
-  CertificateProfilesGetOptionalParams,
-  CertificateProfilesCreateOptionalParams,
-  CertificateProfilesDeleteOptionalParams,
-  CertificateProfilesListByCodeSigningAccountOptionalParams,
-  CertificateProfilesRevokeCertificateOptionalParams,
+  KnownVersions,
 } from "./models/index.js";
+export { CodeSigningClientOptionalParams } from "./api/index.js";
+export {
+  CertificateProfilesRevokeCertificateOptionalParams,
+  CertificateProfilesListByCodeSigningAccountOptionalParams,
+  CertificateProfilesDeleteOptionalParams,
+  CertificateProfilesCreateOptionalParams,
+  CertificateProfilesGetOptionalParams,
+} from "./api/certificateProfiles/index.js";
+export {
+  CodeSigningAccountsCheckNameAvailabilityOptionalParams,
+  CodeSigningAccountsListBySubscriptionOptionalParams,
+  CodeSigningAccountsListByResourceGroupOptionalParams,
+  CodeSigningAccountsDeleteOptionalParams,
+  CodeSigningAccountsUpdateOptionalParams,
+  CodeSigningAccountsCreateOptionalParams,
+  CodeSigningAccountsGetOptionalParams,
+} from "./api/codeSigningAccounts/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
 export {
   CertificateProfilesOperations,
   CodeSigningAccountsOperations,
   OperationsOperations,
 } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, AzureSupportedClouds };

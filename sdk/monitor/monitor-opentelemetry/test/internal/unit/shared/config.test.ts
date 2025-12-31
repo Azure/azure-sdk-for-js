@@ -195,6 +195,15 @@ describe("Library/Config", () => {
       );
     });
 
+    it("microsoft.rate_limited without arg keeps default samplingRatio=1 in InternalConfig", () => {
+      vi.stubEnv("OTEL_TRACES_SAMPLER", "microsoft.rate_limited");
+
+      const config = new InternalConfig();
+
+      assert.strictEqual(config.tracesPerSecond, undefined, "Wrong tracesPerSecond");
+      assert.strictEqual(config.samplingRatio, 1, "Wrong samplingRatio");
+    });
+
     it("Partial configurations are supported", () => {
       const env = <{ [id: string]: string }>{};
 
@@ -261,8 +270,8 @@ describe("Library/Config", () => {
       const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
-      assert.ok(typeof config.azureMonitorExporterOptions?.connectionString === "string");
-      assert.ok(typeof config.samplingRatio === "number");
+      assert.equal(typeof config.azureMonitorExporterOptions?.connectionString, "string");
+      assert.equal(typeof config.samplingRatio, "number");
     });
 
     it("should accept zero sampling ratio", () => {
@@ -333,13 +342,13 @@ describe("OpenTelemetry Resource", () => {
       config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_NAME],
       "opentelemetry",
     );
-    assert.ok(
+    assert.isTrue(
       String(config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME]).startsWith(
         "unknown_service:",
       ),
       "Wrong SERVICE_NAME",
     );
-    assert.ok(
+    assert.isTrue(
       String(config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_VERSION]).length >
         0,
       "Wrong TELEMETRY_SDK_VERSION",
@@ -429,7 +438,7 @@ describe("OpenTelemetry Resource", () => {
   it("Azure VM resource attributes", () => {
     vi.spyOn(azureVmDetector, "detect").mockResolvedValue(resourceFromAttributes(testAttributes));
     const config = new InternalConfig();
-    assert.ok(config);
+    assert.isDefined(config);
 
     // Wait for the async VM resource detector to finish (ensure detect is called)
     setTimeout(() => {

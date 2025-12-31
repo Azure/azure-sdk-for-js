@@ -1,4 +1,418 @@
 # Release History
+
+## 9.0.0 (2025-11-25)
+
+### Features Added
+  - Added operation group AdministratorsMicrosoftEntra
+  - Added operation group AdvancedThreatProtectionSettings
+  - Added operation group BackupsAutomaticAndOnDemand
+  - Added operation group BackupsLongTermRetention
+  - Added operation group CapabilitiesByLocation
+  - Added operation group CapabilitiesByServer
+  - Added operation group CapturedLogs
+  - Added operation group PrivateDnsZoneSuffix
+  - Added operation group QuotaUsages
+  - Added operation group TuningOptionsOperations
+  - Added operation Migrations.cancel
+  - Added operation Migrations.checkNameAvailability
+  - Added operation NameAvailability.checkGlobally
+  - Added operation NameAvailability.checkWithLocation
+  - Added operation PrivateEndpointConnections.beginDelete
+  - Added operation PrivateEndpointConnections.beginDeleteAndWait
+  - Added operation PrivateEndpointConnections.beginUpdate
+  - Added operation PrivateEndpointConnections.beginUpdateAndWait
+  - Added operation Servers.beginCreateOrUpdate
+  - Added operation Servers.beginCreateOrUpdateAndWait
+  - Added operation Servers.listBySubscription
+  - Added operation VirtualNetworkSubnetUsage.list
+  - Added Interface AdminCredentialsForPatch
+  - Added Interface AdministratorMicrosoftEntra
+  - Added Interface AdministratorMicrosoftEntraAdd
+  - Added Interface AdministratorMicrosoftEntraList
+  - Added Interface AdministratorsMicrosoftEntraCreateOrUpdateHeaders
+  - Added Interface AdministratorsMicrosoftEntraCreateOrUpdateOptionalParams
+  - Added Interface AdministratorsMicrosoftEntraDeleteHeaders
+  - Added Interface AdministratorsMicrosoftEntraDeleteOptionalParams
+  - Added Interface AdministratorsMicrosoftEntraGetOptionalParams
+  - Added Interface AdministratorsMicrosoftEntraListByServerOptionalParams
+  - Added Interface AdvancedThreatProtectionSettingsGetOptionalParams
+  - Added Interface AdvancedThreatProtectionSettingsList
+  - Added Interface AdvancedThreatProtectionSettingsListByServerOptionalParams
+  - Added Interface AdvancedThreatProtectionSettingsModel
+  - Added Interface AuthConfigForPatch
+  - Added Interface BackupAutomaticAndOnDemand
+  - Added Interface BackupAutomaticAndOnDemandList
+  - Added Interface BackupForPatch
+  - Added Interface BackupsAutomaticAndOnDemandCreateHeaders
+  - Added Interface BackupsAutomaticAndOnDemandCreateOptionalParams
+  - Added Interface BackupsAutomaticAndOnDemandDeleteHeaders
+  - Added Interface BackupsAutomaticAndOnDemandDeleteOptionalParams
+  - Added Interface BackupsAutomaticAndOnDemandGetOptionalParams
+  - Added Interface BackupsAutomaticAndOnDemandListByServerOptionalParams
+  - Added Interface BackupsLongTermRetentionCheckPrerequisitesExceptionHeaders
+  - Added Interface BackupsLongTermRetentionCheckPrerequisitesHeaders
+  - Added Interface BackupsLongTermRetentionCheckPrerequisitesOptionalParams
+  - Added Interface BackupsLongTermRetentionGetOptionalParams
+  - Added Interface BackupsLongTermRetentionListByServerOptionalParams
+  - Added Interface BackupsLongTermRetentionOperation
+  - Added Interface BackupsLongTermRetentionRequest
+  - Added Interface BackupsLongTermRetentionResponse
+  - Added Interface BackupsLongTermRetentionStartExceptionHeaders
+  - Added Interface BackupsLongTermRetentionStartHeaders
+  - Added Interface BackupsLongTermRetentionStartOptionalParams
+  - Added Interface CapabilitiesByLocationListOptionalParams
+  - Added Interface CapabilitiesByServerListOptionalParams
+  - Added Interface Capability
+  - Added Interface CapabilityList
+  - Added Interface CapturedLog
+  - Added Interface CapturedLogList
+  - Added Interface CapturedLogsListByServerOptionalParams
+  - Added Interface Cluster
+  - Added Interface ConfigurationList
+  - Added Interface DatabaseList
+  - Added Interface DatabaseMigrationState
+  - Added Interface FirewallRuleList
+  - Added Interface HighAvailabilityForPatch
+  - Added Interface ImpactRecord
+  - Added Interface MaintenanceWindowForPatch
+  - Added Interface Migration
+  - Added Interface MigrationList
+  - Added Interface MigrationNameAvailability
+  - Added Interface MigrationsCancelOptionalParams
+  - Added Interface MigrationsCheckNameAvailabilityOptionalParams
+  - Added Interface MigrationSecretParametersForPatch
+  - Added Interface MigrationSubstateDetails
+  - Added Interface NameAvailabilityCheckGloballyOptionalParams
+  - Added Interface NameAvailabilityCheckWithLocationOptionalParams
+  - Added Interface NameAvailabilityModel
+  - Added Interface NameProperty
+  - Added Interface ObjectRecommendation
+  - Added Interface ObjectRecommendationDetails
+  - Added Interface ObjectRecommendationList
+  - Added Interface ObjectRecommendationPropertiesAnalyzedWorkload
+  - Added Interface ObjectRecommendationPropertiesImplementationDetails
+  - Added Interface OperationList
+  - Added Interface PrivateDnsZoneSuffixGetOptionalParams
+  - Added Interface PrivateEndpointConnectionList
+  - Added Interface PrivateEndpointConnectionsDeleteHeaders
+  - Added Interface PrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionsUpdateHeaders
+  - Added Interface PrivateEndpointConnectionsUpdateOptionalParams
+  - Added Interface PrivateLinkResourceList
+  - Added Interface QuotaUsage
+  - Added Interface QuotaUsageList
+  - Added Interface QuotaUsagesListOptionalParams
+  - Added Interface ServerEditionCapability
+  - Added Interface ServerForPatch
+  - Added Interface ServerList
+  - Added Interface ServersCreateOrUpdateHeaders
+  - Added Interface ServersCreateOrUpdateOptionalParams
+  - Added Interface ServersListBySubscriptionOptionalParams
+  - Added Interface SkuForPatch
+  - Added Interface Storage
+  - Added Interface SupportedFeature
+  - Added Interface TuningOptions
+  - Added Interface TuningOptionsGetOptionalParams
+  - Added Interface TuningOptionsList
+  - Added Interface TuningOptionsListByServerOptionalParams
+  - Added Interface TuningOptionsListRecommendationsOptionalParams
+  - Added Interface VirtualEndpoint
+  - Added Interface VirtualEndpointsList
+  - Added Interface VirtualNetworkSubnetUsageListOptionalParams
+  - Added Interface VirtualNetworkSubnetUsageModel
+  - Interface ConfigurationsPutHeaders has a new optional parameter azureAsyncOperation
+  - Interface ConfigurationsUpdateHeaders has a new optional parameter azureAsyncOperation
+  - Interface DatabasesCreateHeaders has a new optional parameter azureAsyncOperation
+  - Interface DatabasesDeleteHeaders has a new optional parameter azureAsyncOperation
+  - Interface FirewallRulesCreateOrUpdateHeaders has a new optional parameter azureAsyncOperation
+  - Interface FirewallRulesDeleteHeaders has a new optional parameter azureAsyncOperation
+  - Interface Server has a new optional parameter cluster
+  - Interface ServersDeleteHeaders has a new optional parameter azureAsyncOperation
+  - Interface ServerSkuCapability has a new optional parameter securityProfile
+  - Interface ServerSkuCapability has a new optional parameter supportedFeatures
+  - Interface ServersRestartHeaders has a new optional parameter azureAsyncOperation
+  - Interface ServersStartHeaders has a new optional parameter azureAsyncOperation
+  - Interface ServersStopHeaders has a new optional parameter azureAsyncOperation
+  - Interface ServersUpdateHeaders has a new optional parameter azureAsyncOperation
+  - Interface ServerThreatProtectionSettingsCreateOrUpdateHeaders has a new optional parameter azureAsyncOperation
+  - Interface ServerVersionCapability has a new optional parameter supportedFeatures
+  - Interface UserAssignedIdentity has a new optional parameter principalId
+  - Interface VirtualEndpointsCreateHeaders has a new optional parameter azureAsyncOperation
+  - Interface VirtualEndpointsDeleteHeaders has a new optional parameter azureAsyncOperation
+  - Interface VirtualEndpointsUpdateHeaders has a new optional parameter azureAsyncOperation
+  - Added Type Alias AdministratorsMicrosoftEntraCreateOrUpdateResponse
+  - Added Type Alias AdministratorsMicrosoftEntraDeleteResponse
+  - Added Type Alias AdministratorsMicrosoftEntraGetResponse
+  - Added Type Alias AdministratorsMicrosoftEntraListByServerNextResponse
+  - Added Type Alias AdministratorsMicrosoftEntraListByServerResponse
+  - Added Type Alias AdvancedThreatProtectionSettingsGetResponse
+  - Added Type Alias AdvancedThreatProtectionSettingsListByServerNextResponse
+  - Added Type Alias AdvancedThreatProtectionSettingsListByServerResponse
+  - Added Type Alias AzureManagedDiskPerformanceTier
+  - Added Type Alias BackupsAutomaticAndOnDemandCreateResponse
+  - Added Type Alias BackupsAutomaticAndOnDemandDeleteResponse
+  - Added Type Alias BackupsAutomaticAndOnDemandGetResponse
+  - Added Type Alias BackupsAutomaticAndOnDemandListByServerNextResponse
+  - Added Type Alias BackupsAutomaticAndOnDemandListByServerResponse
+  - Added Type Alias BackupsLongTermRetentionCheckPrerequisitesResponse
+  - Added Type Alias BackupsLongTermRetentionGetResponse
+  - Added Type Alias BackupsLongTermRetentionListByServerNextResponse
+  - Added Type Alias BackupsLongTermRetentionListByServerResponse
+  - Added Type Alias BackupsLongTermRetentionStartResponse
+  - Added Type Alias BackupType
+  - Added Type Alias Cancel
+  - Added Type Alias CapabilitiesByLocationListNextResponse
+  - Added Type Alias CapabilitiesByLocationListResponse
+  - Added Type Alias CapabilitiesByServerListNextResponse
+  - Added Type Alias CapabilitiesByServerListResponse
+  - Added Type Alias CapturedLogsListByServerNextResponse
+  - Added Type Alias CapturedLogsListByServerResponse
+  - Added Type Alias CreateModeForPatch
+  - Added Type Alias DatabasesDeleteResponse
+  - Added Type Alias DataEncryptionType
+  - Added Type Alias EncryptionKeyStatus
+  - Added Type Alias FastProvisioningSupport
+  - Added Type Alias FeatureStatus
+  - Added Type Alias FirewallRulesDeleteResponse
+  - Added Type Alias GeographicallyRedundantBackup
+  - Added Type Alias GeographicallyRedundantBackupSupport
+  - Added Type Alias HighAvailabilityState
+  - Added Type Alias LocationRestricted
+  - Added Type Alias LogicalReplicationOnSourceServer
+  - Added Type Alias MicrosoftEntraAuth
+  - Added Type Alias MigrateRolesAndPermissions
+  - Added Type Alias MigrationDatabaseState
+  - Added Type Alias MigrationsCancelResponse
+  - Added Type Alias MigrationsCheckNameAvailabilityResponse
+  - Added Type Alias MigrationSubstate
+  - Added Type Alias NameAvailabilityCheckGloballyResponse
+  - Added Type Alias NameAvailabilityCheckWithLocationResponse
+  - Added Type Alias OnlineStorageResizeSupport
+  - Added Type Alias OperationsListNextResponse
+  - Added Type Alias OverwriteDatabasesOnTargetServer
+  - Added Type Alias PasswordBasedAuth
+  - Added Type Alias PostgresMajorVersion
+  - Added Type Alias PrivateDnsZoneSuffixGetResponse
+  - Added Type Alias PrivateEndpointConnectionsDeleteResponse
+  - Added Type Alias PrivateEndpointConnectionsUpdateResponse
+  - Added Type Alias QuotaUsagesListNextResponse
+  - Added Type Alias QuotaUsagesListResponse
+  - Added Type Alias ReadReplicaPromoteOption
+  - Added Type Alias RecommendationTypeEnum
+  - Added Type Alias RecommendationTypeParameterEnum
+  - Added Type Alias ServersCreateOrUpdateResponse
+  - Added Type Alias ServersDeleteResponse
+  - Added Type Alias ServersListBySubscriptionNextResponse
+  - Added Type Alias ServersListBySubscriptionResponse
+  - Added Type Alias ServersRestartResponse
+  - Added Type Alias ServersStartResponse
+  - Added Type Alias ServersStopResponse
+  - Added Type Alias StartDataMigration
+  - Added Type Alias StorageAutoGrowthSupport
+  - Added Type Alias TriggerCutover
+  - Added Type Alias TuningOptionParameterEnum
+  - Added Type Alias TuningOptionsGetResponse
+  - Added Type Alias TuningOptionsListByServerNextResponse
+  - Added Type Alias TuningOptionsListByServerResponse
+  - Added Type Alias TuningOptionsListRecommendationsNextResponse
+  - Added Type Alias TuningOptionsListRecommendationsResponse
+  - Added Type Alias VirtualNetworkSubnetUsageListResponse
+  - Added Type Alias ZoneRedundantHighAvailabilityAndGeographicallyRedundantBackupSupport
+  - Added Type Alias ZoneRedundantHighAvailabilitySupport
+  - Added Enum KnownAzureManagedDiskPerformanceTier
+  - Added Enum KnownBackupType
+  - Added Enum KnownCancel
+  - Added Enum KnownCreateModeForPatch
+  - Added Enum KnownDataEncryptionType
+  - Added Enum KnownEncryptionKeyStatus
+  - Added Enum KnownFastProvisioningSupport
+  - Added Enum KnownFeatureStatus
+  - Added Enum KnownGeographicallyRedundantBackup
+  - Added Enum KnownGeographicallyRedundantBackupSupport
+  - Added Enum KnownHighAvailabilityState
+  - Added Enum KnownLocationRestricted
+  - Added Enum KnownLogicalReplicationOnSourceServer
+  - Added Enum KnownMicrosoftEntraAuth
+  - Added Enum KnownMigrateRolesAndPermissions
+  - Added Enum KnownMigrationDatabaseState
+  - Added Enum KnownMigrationSubstate
+  - Added Enum KnownOnlineStorageResizeSupport
+  - Added Enum KnownOverwriteDatabasesOnTargetServer
+  - Added Enum KnownPasswordBasedAuth
+  - Added Enum KnownPostgresMajorVersion
+  - Added Enum KnownReadReplicaPromoteOption
+  - Added Enum KnownRecommendationTypeEnum
+  - Added Enum KnownRecommendationTypeParameterEnum
+  - Added Enum KnownStartDataMigration
+  - Added Enum KnownStorageAutoGrowthSupport
+  - Added Enum KnownTriggerCutover
+  - Added Enum KnownTuningOptionParameterEnum
+  - Added Enum KnownZoneRedundantHighAvailabilityAndGeographicallyRedundantBackupSupport
+  - Added Enum KnownZoneRedundantHighAvailabilitySupport
+  - Enum KnownConfigurationDataType has a new value Set
+  - Enum KnownConfigurationDataType has a new value String
+  - Enum KnownIdentityType has a new value SystemAssignedUserAssigned
+  - Enum KnownServerState has a new value Inaccessible
+  - Enum KnownServerState has a new value Provisioning
+  - Enum KnownServerState has a new value Restarting
+  - Enum KnownSourceType has a new value ApsaraDBRDS
+  - Enum KnownSourceType has a new value CrunchyPostgreSQL
+  - Enum KnownSourceType has a new value DigitalOceanDroplets
+  - Enum KnownSourceType has a new value DigitalOceanPostgreSQL
+  - Enum KnownSourceType has a new value EDBOracleServer
+  - Enum KnownSourceType has a new value EDBPostgreSQL
+  - Enum KnownSourceType has a new value HerokuPostgreSQL
+  - Enum KnownSourceType has a new value HuaweiCompute
+  - Enum KnownSourceType has a new value HuaweiRDS
+  - Enum KnownSourceType has a new value PostgreSQLCosmosDB
+  - Enum KnownSourceType has a new value PostgreSQLFlexibleServer
+  - Enum KnownSourceType has a new value SupabasePostgreSQL
+  - Enum KnownStorageType has a new value UltraSSDLRS
+
+### Breaking Changes
+  - Removed operation group Administrators
+  - Removed operation group Backups
+  - Removed operation group CheckNameAvailability
+  - Removed operation group CheckNameAvailabilityWithLocation
+  - Removed operation group FlexibleServer
+  - Removed operation group GetPrivateDnsZoneSuffix
+  - Removed operation group LocationBasedCapabilities
+  - Removed operation group LogFiles
+  - Removed operation group LtrBackupOperations
+  - Removed operation group PrivateEndpointConnectionOperations
+  - Removed operation group ServerCapabilities
+  - Removed operation Migrations.delete
+  - Removed operation Servers.beginCreate
+  - Removed operation Servers.beginCreateAndWait
+  - Removed operation Servers.list
+  - Removed operation ServerThreatProtectionSettings.get
+  - Removed operation ServerThreatProtectionSettings.listByServer
+  - Removed operation VirtualNetworkSubnetUsage.execute
+  - Operation Databases.beginDeleteAndWait has a new signature
+  - Operation FirewallRules.beginDeleteAndWait has a new signature
+  - Operation Migrations.create has a new signature
+  - Operation Migrations.get has a new signature
+  - Operation Migrations.listByTargetServer has a new signature
+  - Operation Migrations.update has a new signature
+  - Operation Servers.beginDeleteAndWait has a new signature
+  - Operation Servers.beginRestartAndWait has a new signature
+  - Operation Servers.beginStartAndWait has a new signature
+  - Operation Servers.beginStopAndWait has a new signature
+  - Operation Servers.beginUpdate has a new signature
+  - Operation Servers.beginUpdateAndWait has a new signature
+  - Class PostgreSQLManagementFlexibleServerClient has a new signature
+  - Class PostgreSQLManagementFlexibleServerClient no longer has parameter administrators
+  - Class PostgreSQLManagementFlexibleServerClient no longer has parameter backups
+  - Class PostgreSQLManagementFlexibleServerClient no longer has parameter checkNameAvailability
+  - Class PostgreSQLManagementFlexibleServerClient no longer has parameter checkNameAvailabilityWithLocation
+  - Class PostgreSQLManagementFlexibleServerClient no longer has parameter flexibleServer
+  - Class PostgreSQLManagementFlexibleServerClient no longer has parameter getPrivateDnsZoneSuffix
+  - Class PostgreSQLManagementFlexibleServerClient no longer has parameter locationBasedCapabilities
+  - Class PostgreSQLManagementFlexibleServerClient no longer has parameter logFiles
+  - Class PostgreSQLManagementFlexibleServerClient no longer has parameter ltrBackupOperations
+  - Class PostgreSQLManagementFlexibleServerClient no longer has parameter privateEndpointConnectionOperations
+  - Class PostgreSQLManagementFlexibleServerClient no longer has parameter serverCapabilities
+  - Removed Interface ActiveDirectoryAdministrator
+  - Removed Interface ActiveDirectoryAdministratorAdd
+  - Removed Interface AdministratorsCreateOptionalParams
+  - Removed Interface AdministratorsDeleteOptionalParams
+  - Removed Interface AdministratorsGetOptionalParams
+  - Removed Interface AdministratorsListByServerOptionalParams
+  - Removed Interface BackupsCreateOptionalParams
+  - Removed Interface BackupsDeleteOptionalParams
+  - Removed Interface BackupsGetOptionalParams
+  - Removed Interface BackupsListByServerOptionalParams
+  - Removed Interface CheckMigrationNameAvailabilityOptionalParams
+  - Removed Interface CheckNameAvailabilityExecuteOptionalParams
+  - Removed Interface CheckNameAvailabilityWithLocationExecuteOptionalParams
+  - Removed Interface DbMigrationStatus
+  - Removed Interface FlexibleServerCapability
+  - Removed Interface FlexibleServerEditionCapability
+  - Removed Interface FlexibleServerStartLtrBackupOptionalParams
+  - Removed Interface FlexibleServerTriggerLtrPreBackupOptionalParams
+  - Removed Interface GetPrivateDnsZoneSuffixExecuteOptionalParams
+  - Removed Interface LocationBasedCapabilitiesExecuteOptionalParams
+  - Removed Interface LogFile
+  - Removed Interface LogFilesListByServerOptionalParams
+  - Removed Interface LtrBackupOperationsGetOptionalParams
+  - Removed Interface LtrBackupOperationsListByServerOptionalParams
+  - Removed Interface LtrBackupRequest
+  - Removed Interface LtrBackupResponse
+  - Removed Interface LtrServerBackupOperation
+  - Removed Interface MigrationNameAvailabilityResource
+  - Removed Interface MigrationResource
+  - Removed Interface MigrationsDeleteOptionalParams
+  - Removed Interface MigrationSubStateDetails
+  - Removed Interface PrivateEndpointConnectionDeleteOptionalParams
+  - Removed Interface PrivateEndpointConnectionUpdateOptionalParams
+  - Removed Interface ServerBackup
+  - Removed Interface ServerCapabilitiesListOptionalParams
+  - Removed Interface ServerForUpdate
+  - Removed Interface ServersCreateOptionalParams
+  - Removed Interface ServersListOptionalParams
+  - Removed Interface ServerThreatProtectionSettingsGetOptionalParams
+  - Removed Interface ServerThreatProtectionSettingsListByServerOptionalParams
+  - Removed Interface ServerThreatProtectionSettingsModel
+  - Removed Interface Storage_2
+  - Removed Interface VirtualEndpointResource
+  - Removed Interface VirtualNetworkSubnetUsageExecuteOptionalParams
+  - Type of parameter secretParameters of interface MigrationResourceForPatch is changed from MigrationSecretParameters to MigrationSecretParametersForPatch
+  - Removed Type Alias ActiveDirectoryAuthEnum
+  - Removed Type Alias ArmServerKeyType
+  - Removed Type Alias AzureManagedDiskPerformanceTiers
+  - Removed Type Alias CancelEnum
+  - Removed Type Alias CreateModeForUpdate
+  - Removed Type Alias FastProvisioningSupportedEnum
+  - Removed Type Alias GeoBackupSupportedEnum
+  - Removed Type Alias GeoRedundantBackupEnum
+  - Removed Type Alias HaMode
+  - Removed Type Alias KeyStatusEnum
+  - Removed Type Alias LogicalReplicationOnSourceDbEnum
+  - Removed Type Alias MigrateRolesEnum
+  - Removed Type Alias MigrationDbState
+  - Removed Type Alias MigrationSubState
+  - Removed Type Alias OnlineResizeSupportedEnum
+  - Removed Type Alias Origin
+  - Removed Type Alias OverwriteDbsInTargetEnum
+  - Removed Type Alias PasswordAuthEnum
+  - Removed Type Alias ReplicationPromoteOption
+  - Removed Type Alias RestrictedEnum
+  - Removed Type Alias ServerHAState
+  - Removed Type Alias ServerVersion
+  - Removed Type Alias StartDataMigrationEnum
+  - Removed Type Alias StorageAutoGrowthSupportedEnum
+  - Removed Type Alias TriggerCutoverEnum
+  - Removed Type Alias ZoneRedundantHaAndGeoBackupSupportedEnum
+  - Removed Type Alias ZoneRedundantHaSupportedEnum
+  - Removed Enum KnownActiveDirectoryAuthEnum
+  - Removed Enum KnownArmServerKeyType
+  - Removed Enum KnownAzureManagedDiskPerformanceTiers
+  - Removed Enum KnownCancelEnum
+  - Removed Enum KnownCreateModeForUpdate
+  - Removed Enum KnownFastProvisioningSupportedEnum
+  - Removed Enum KnownGeoBackupSupportedEnum
+  - Removed Enum KnownGeoRedundantBackupEnum
+  - Removed Enum KnownHaMode
+  - Removed Enum KnownKeyStatusEnum
+  - Removed Enum KnownLogicalReplicationOnSourceDbEnum
+  - Removed Enum KnownMigrateRolesEnum
+  - Removed Enum KnownMigrationDbState
+  - Removed Enum KnownMigrationSubState
+  - Removed Enum KnownOnlineResizeSupportedEnum
+  - Removed Enum KnownOrigin
+  - Removed Enum KnownOverwriteDbsInTargetEnum
+  - Removed Enum KnownPasswordAuthEnum
+  - Removed Enum KnownReplicationPromoteOption
+  - Removed Enum KnownRestrictedEnum
+  - Removed Enum KnownServerHAState
+  - Removed Enum KnownServerVersion
+  - Removed Enum KnownStartDataMigrationEnum
+  - Removed Enum KnownStorageAutoGrowthSupportedEnum
+  - Removed Enum KnownTriggerCutoverEnum
+  - Removed Enum KnownZoneRedundantHaAndGeoBackupSupportedEnum
+  - Removed Enum KnownZoneRedundantHaSupportedEnum
+  - Enum KnownHighAvailabilityMode no longer has value Disabled
+
     
 ## 8.1.0-beta.1 (2025-05-19)
 Compared with version 8.0.0

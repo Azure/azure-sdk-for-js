@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { IPv6FirewallRule, SqlManagementClient } from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Creates or updates an IPv6 firewall rule.
  *
  * @summary Creates or updates an IPv6 firewall rule.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-11-01-preview/examples/IPv6FirewallRuleCreate.json
  */
-
-import type { IPv6FirewallRule } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function createAnIPv6FirewallRuleMaxOrMin(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "firewallrulecrudtest-12";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "firewallrulecrudtest-12";
   const serverName = "firewallrulecrudtest-6285";
   const firewallRuleName = "firewallrulecrudtest-5370";
   const parameters: IPv6FirewallRule = {
@@ -42,8 +42,10 @@ async function createAnIPv6FirewallRuleMaxOrMin(): Promise<void> {
  */
 async function updateAnIPv6FirewallRuleMaxOrMin(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "firewallrulecrudtest-12";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "firewallrulecrudtest-12";
   const serverName = "firewallrulecrudtest-6285";
   const firewallRuleName = "firewallrulecrudtest-3927";
   const parameters: IPv6FirewallRule = {

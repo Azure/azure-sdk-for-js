@@ -82,7 +82,7 @@ node dist/hybridConnectionsCreateOrUpdateAuthorizationRuleSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env RELAY_SUBSCRIPTION_ID="<relay subscription id>" RELAY_RESOURCE_GROUP="<relay resource group>" node dist/hybridConnectionsCreateOrUpdateAuthorizationRuleSample.js
+cross-env RELAY_SUBSCRIPTION_ID="<relay subscription id>" RELAY_RESOURCE_GROUP="<relay resource group>" node dist/hybridConnectionsCreateOrUpdateAuthorizationRuleSample.js
 ```
 
 ## Next Steps

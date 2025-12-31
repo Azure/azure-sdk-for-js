@@ -1,21 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  RecommendedSensitivityLabelUpdateList,
+  SqlManagementClient,
+} from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Update recommended sensitivity labels states of a given database using an operations batch.
  *
  * @summary Update recommended sensitivity labels states of a given database using an operations batch.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedDatabaseSensitivityLabelsRecommendedUpdate.json
  */
-
-import type { RecommendedSensitivityLabelUpdateList } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function updateRecommendedSensitivityLabelsOfAGivenDatabaseUsingAnOperationsBatch(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "myRG";
   const managedInstanceName = "myManagedInstanceName";
   const databaseName = "myDatabase";
@@ -28,12 +30,13 @@ async function updateRecommendedSensitivityLabelsOfAGivenDatabaseUsingAnOperatio
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedDatabaseRecommendedSensitivityLabels.update(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
-    parameters,
-  );
+  const result =
+    await client.managedDatabaseRecommendedSensitivityLabels.update(
+      resourceGroupName,
+      managedInstanceName,
+      databaseName,
+      parameters,
+    );
   console.log(result);
 }
 

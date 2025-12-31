@@ -3,12 +3,12 @@
 /// <reference lib="esnext.asynciterable" />
 
 import type { TokenCredential } from "@azure/core-auth";
-import { logger } from "./log.js";
+import { logger } from "./logger.js";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
-import { DeletionRecoveryLevel, KnownDeletionRecoveryLevel } from "./generated/src/models/index.js";
-import type { KeyVaultClientOptionalParams } from "./generated/src/keyVaultClient.js";
-import { KeyVaultClient } from "./generated/src/keyVaultClient.js";
+import { DeletionRecoveryLevel, KnownDeletionRecoveryLevel } from "./models/models.js";
+import type { KeyVaultClientOptionalParams } from "./keyVaultClient.js";
+import { KeyVaultClient } from "./keyVaultClient.js";
 import { SDK_VERSION } from "./constants.js";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { DeleteKeyPoller } from "./lro/delete/poller.js";

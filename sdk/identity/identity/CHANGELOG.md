@@ -1,5 +1,37 @@
 # Release History
 
+## 4.14.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+- Renamed `enableAzureKubernetesTokenProxy` in `WorkloadIdentityCredentialOptions` to `enableAzureProxy`. [#36728](https://github.com/Azure/azure-sdk-for-js/pull/36728)
+
+### Bugs Fixed
+
+- Fixed an issue where `IdentityClient` does not pass response in expected format for MSAL in empty response situations with additional logging. [#36906](https://github.com/Azure/azure-sdk-for-js/pull/36906)
+
+### Other Changes
+
+- Refactored and cleaned up `MsalClientOptions` to eliminate nested property duplication, replaced `getIdentityClientAuthorityHost` with `getAuthorityHost`, and removed deprecated `isNode` in favor of `isNodeLike`. [#36731](https://github.com/Azure/azure-sdk-for-js/pull/36731)
+
+## 4.14.0-beta.1 (2025-11-06)
+
+### Features Added
+
+- Added Kubernetes token proxy support (identity binding mode) to `WorkloadIdentityCredential`. When enabled via the `enableAzureKubernetesTokenProxy ` option, the credential redirects token requests to an AKS-provided proxy to work around Entra ID's limit on federated identity credentials per managed identity. This feature is opt-in and only available when using `WorkloadIdentityCredential` directly (not supported by `DefaultAzureCredential` or `ManagedIdentityCredential`). [#36218](https://github.com/Azure/azure-sdk-for-js/pull/36218)
+
+## 4.13.0 (2025-10-07)
+
+### Features Added
+
+- When `AZURE_TOKEN_CREDENTIALS` is set to only `ManagedIdentityCredential`, `DefaultAzureCredential` does not issue a probe request and performs retries with exponential backoff. [#36047](https://github.com/Azure/azure-sdk-for-js/pull/36047)
+
+### Bugs Fixed
+
+- Fixed an issue where `ManagedIdentityCredential` will make an additional probe request in the `getToken` call. [#36047](https://github.com/Azure/azure-sdk-for-js/pull/36047)
+
 ## 4.12.0 (2025-09-09)
 
 ### Features Added

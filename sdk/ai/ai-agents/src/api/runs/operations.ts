@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AgentsContext as Client } from "../index.js";
-import type { ThreadRun, _AgentsPagedResultThreadRun, ToolOutput } from "../../models/models.js";
+import type { ThreadRun, _AgentsPagedResultThreadRun } from "../../models/models.js";
 import {
   toolResourcesSerializer,
   toolDefinitionUnionArraySerializer,
@@ -14,6 +14,7 @@ import {
   threadRunDeserializer,
   _agentsPagedResultThreadRunDeserializer,
   toolOutputArraySerializer,
+  toolApprovalArraySerializer,
 } from "../../models/models.js";
 import type {
   RunsCancelRunOptionalParams,
@@ -85,7 +86,6 @@ export function _submitToolOutputsToRunSend(
   context: Client,
   threadId: string,
   runId: string,
-  toolOutputs: ToolOutput[],
   options: RunsSubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -107,7 +107,12 @@ export function _submitToolOutputsToRunSend(
       ...options.requestOptions?.headers,
     },
     body: {
-      tool_outputs: toolOutputs.length > 0 ? toolOutputArraySerializer(toolOutputs) : undefined,
+      tool_outputs: options?.toolOutputs?.length
+        ? toolOutputArraySerializer(options?.toolOutputs)
+        : undefined,
+      tool_approvals: options?.toolApprovals?.length
+        ? toolApprovalArraySerializer(options?.toolApprovals)
+        : undefined,
       stream: options?.stream ?? false,
     },
   });
@@ -131,17 +136,10 @@ export function submitToolOutputsToRun(
   context: Client,
   threadId: string,
   runId: string,
-  toolOutputs: ToolOutput[],
   options: RunsSubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
 ): AgentRunResponse {
   async function executeSubmitToolOutputsToRun(): Promise<ThreadRun> {
-    const result = await _submitToolOutputsToRunSend(
-      context,
-      threadId,
-      runId,
-      toolOutputs,
-      options,
-    );
+    const result = await _submitToolOutputsToRunSend(context, threadId, runId, options);
 
     return _submitToolOutputsToRunDeserialize(result);
   }
@@ -151,7 +149,7 @@ export function submitToolOutputsToRun(
       return executeSubmitToolOutputsToRun().then(onFulfilled, onRejected).catch(onRejected);
     },
     async stream(): Promise<AgentEventMessageStream> {
-      return submitToolOutputsToRunStreaming(context, threadId, runId, toolOutputs, options);
+      return submitToolOutputsToRunStreaming(context, threadId, runId, options);
     },
   };
 }
@@ -317,11 +315,11 @@ export function _createRunSend(
   options: RunsCreateRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs{?api-version,include%5B%5D}",
+    "/threads/{threadId}/runs{?api-version,include[]}",
     {
       threadId: threadId,
       "api-version": context.apiVersion,
-      "include%5B%5D": !options?.include
+      "include[]": !options?.include
         ? options?.include
         : options?.include.map((p: any) => {
             return p;

@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Changes ServiceState property for a given service
- *
- * @summary Changes ServiceState property for a given service
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MaximumSet_Gen.json
- */
-
+import type {
+  OrchestrationServiceStateInput} from "@azure/arm-compute";
 import {
-  OrchestrationServiceStateInput,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Changes ServiceState property for a given service
+ *
+ * @summary Changes ServiceState property for a given service
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MaximumSet_Gen.json
+ */
 async function virtualMachineScaleSetOrchestrationServiceStateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -40,7 +40,7 @@ async function virtualMachineScaleSetOrchestrationServiceStateMaximumSetGen(): P
  * This sample demonstrates how to Changes ServiceState property for a given service
  *
  * @summary Changes ServiceState property for a given service
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetOrchestrationServiceStateMinimumSetGen(): Promise<void> {
   const subscriptionId =

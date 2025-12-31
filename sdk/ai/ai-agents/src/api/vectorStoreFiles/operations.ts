@@ -42,11 +42,11 @@ export function _deleteVectorStoreFileSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/vector_stores/{vectorStoreId}/files/{fileId}{?api%2Dversion}",
+    "/vector_stores/{vectorStoreId}/files/{fileId}{?api-version}",
     {
       vectorStoreId: vectorStoreId,
       fileId: fileId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,10 +149,10 @@ export function _createVectorStoreFileSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/vector_stores/{vectorStoreId}/files{?api%2Dversion}",
+    "/vector_stores/{vectorStoreId}/files{?api-version}",
     {
       vectorStoreId: vectorStoreId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

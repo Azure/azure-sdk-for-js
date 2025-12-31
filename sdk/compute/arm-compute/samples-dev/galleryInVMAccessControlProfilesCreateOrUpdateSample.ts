@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  GalleryInVMAccessControlProfile} from "@azure/arm-compute";
+import {
+  ComputeManagementClient,
+} from "@azure/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Create or update a gallery inVMAccessControlProfile.
  *
  * @summary Create or update a gallery inVMAccessControlProfile.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfile_Create.json
  */
-
-import {
-  GalleryInVMAccessControlProfile,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function createOrUpdateAGalleryInVMAccessControlProfile(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

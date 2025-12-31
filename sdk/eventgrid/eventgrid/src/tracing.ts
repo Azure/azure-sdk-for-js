@@ -10,5 +10,5 @@ import { createTracingClient } from "@azure/core-tracing";
 export const tracingClient = createTracingClient({
   namespace: "Microsoft.Messaging.EventGrid",
   packageName: "@azure/event-grid",
-  packageVersion: "5.12.1",
+  packageVersion: "5.12.2",
 });

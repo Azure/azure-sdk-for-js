@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  ManagedInstanceEncryptionProtector,
+  SqlManagementClient,
+} from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Updates an existing encryption protector.
  *
  * @summary Updates an existing encryption protector.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceEncryptionProtectorCreateOrUpdateKeyVault.json
  */
-
-import type { ManagedInstanceEncryptionProtector } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function updateTheEncryptionProtectorToKeyVault(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
   const managedInstanceName = "sqlcrudtest-4645";
   const encryptionProtectorName = "current";
   const parameters: ManagedInstanceEncryptionProtector = {
@@ -26,12 +29,13 @@ async function updateTheEncryptionProtectorToKeyVault(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstanceEncryptionProtectors.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    encryptionProtectorName,
-    parameters,
-  );
+  const result =
+    await client.managedInstanceEncryptionProtectors.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      managedInstanceName,
+      encryptionProtectorName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -43,8 +47,10 @@ async function updateTheEncryptionProtectorToKeyVault(): Promise<void> {
  */
 async function updateTheEncryptionProtectorToServiceManaged(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
   const managedInstanceName = "sqlcrudtest-4645";
   const encryptionProtectorName = "current";
   const parameters: ManagedInstanceEncryptionProtector = {
@@ -53,12 +59,13 @@ async function updateTheEncryptionProtectorToServiceManaged(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstanceEncryptionProtectors.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    encryptionProtectorName,
-    parameters,
-  );
+  const result =
+    await client.managedInstanceEncryptionProtectors.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      managedInstanceName,
+      encryptionProtectorName,
+      parameters,
+    );
   console.log(result);
 }
 

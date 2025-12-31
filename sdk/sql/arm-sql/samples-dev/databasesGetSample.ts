@@ -1,27 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  DatabasesGetOptionalParams,
+  SqlManagementClient,
+} from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Gets a database.
  *
  * @summary Gets a database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/GetVCoreDatabaseDefaultEnclave.json
  */
-
-import type { DatabasesGetOptionalParams } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function getsADatabaseConfiguredWithDefaultEnclaveType(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.databases.get(resourceGroupName, serverName, databaseName);
+  const result = await client.databases.get(
+    resourceGroupName,
+    serverName,
+    databaseName,
+  );
   console.log(result);
 }
 
@@ -33,13 +40,19 @@ async function getsADatabaseConfiguredWithDefaultEnclaveType(): Promise<void> {
  */
 async function getsADatabaseConfiguredWithVbsEnclaveType(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.databases.get(resourceGroupName, serverName, databaseName);
+  const result = await client.databases.get(
+    resourceGroupName,
+    serverName,
+    databaseName,
+  );
   console.log(result);
 }
 
@@ -51,13 +64,19 @@ async function getsADatabaseConfiguredWithVbsEnclaveType(): Promise<void> {
  */
 async function getsADatabaseWithAvailabilityZoneSpecified(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.databases.get(resourceGroupName, serverName, databaseName);
+  const result = await client.databases.get(
+    resourceGroupName,
+    serverName,
+    databaseName,
+  );
   console.log(result);
 }
 
@@ -69,15 +88,22 @@ async function getsADatabaseWithAvailabilityZoneSpecified(): Promise<void> {
  */
 async function getsADatabaseWithDatabaseLevelKeysExpanded(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const expand = "keys";
   const options: DatabasesGetOptionalParams = { expand };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.databases.get(resourceGroupName, serverName, databaseName, options);
+  const result = await client.databases.get(
+    resourceGroupName,
+    serverName,
+    databaseName,
+    options,
+  );
   console.log(result);
 }
 
@@ -89,13 +115,19 @@ async function getsADatabaseWithDatabaseLevelKeysExpanded(): Promise<void> {
  */
 async function getsADatabase(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.databases.get(resourceGroupName, serverName, databaseName);
+  const result = await client.databases.get(
+    resourceGroupName,
+    serverName,
+    databaseName,
+  );
   console.log(result);
 }
 

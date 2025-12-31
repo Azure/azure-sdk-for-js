@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ElasticPool, SqlManagementClient } from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Creates or updates an elastic pool.
  *
  * @summary Creates or updates an elastic pool.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateElasticPoolWithAvailabilityZone.json
  */
-
-import type { ElasticPool } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function createOrUpdateAnElasticPoolWithAvailabilityZone(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
   const serverName = "sqlcrudtest-8069";
   const elasticPoolName = "sqlcrudtest-8102";
   const parameters: ElasticPool = {
@@ -45,8 +45,10 @@ async function createOrUpdateAnElasticPoolWithAvailabilityZone(): Promise<void> 
  */
 async function createOrUpdateHyperscaleElasticPoolWithHighAvailabilityReplicaCountParameter(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
   const serverName = "sqlcrudtest-8069";
   const elasticPoolName = "sqlcrudtest-8102";
   const parameters: ElasticPool = {
@@ -73,8 +75,10 @@ async function createOrUpdateHyperscaleElasticPoolWithHighAvailabilityReplicaCou
  */
 async function createOrUpdateElasticPoolWithAllParameter(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
   const serverName = "sqlcrudtest-8069";
   const elasticPoolName = "sqlcrudtest-8102";
   const parameters: ElasticPool = {
@@ -101,8 +105,10 @@ async function createOrUpdateElasticPoolWithAllParameter(): Promise<void> {
  */
 async function createOrUpdateElasticPoolWithMaintenanceConfigurationParameter(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
   const serverName = "sqlcrudtest-8069";
   const elasticPoolName = "sqlcrudtest-8102";
   const parameters: ElasticPool = {
@@ -129,8 +135,10 @@ async function createOrUpdateElasticPoolWithMaintenanceConfigurationParameter():
  */
 async function createOrUpdateElasticPoolWithMinimumParameters(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
   const serverName = "sqlcrudtest-8069";
   const elasticPoolName = "sqlcrudtest-8102";
   const parameters: ElasticPool = { location: "Japan East" };
@@ -153,8 +161,10 @@ async function createOrUpdateElasticPoolWithMinimumParameters(): Promise<void> {
  */
 async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefault(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
   const serverName = "sqlcrudtest-8069";
   const elasticPoolName = "sqlcrudtest-8102";
   const parameters: ElasticPool = {
@@ -181,8 +191,10 @@ async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefau
  */
 async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
   const serverName = "sqlcrudtest-8069";
   const elasticPoolName = "sqlcrudtest-8102";
   const parameters: ElasticPool = {

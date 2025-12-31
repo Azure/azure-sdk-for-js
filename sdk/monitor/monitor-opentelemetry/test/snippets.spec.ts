@@ -67,6 +67,7 @@ describe("snippets", () => {
       resource: resource,
       logRecordProcessors: [],
       spanProcessors: [],
+      views: [],
     };
 
     useAzureMonitor(options);

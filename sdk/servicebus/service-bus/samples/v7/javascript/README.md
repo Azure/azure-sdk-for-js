@@ -66,7 +66,7 @@ node sendMessages.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env SERVICEBUS_FQDN="<servicebus fqdn>" QUEUE_NAME="<queue name>" node sendMessages.js
+cross-env SERVICEBUS_FQDN="<servicebus fqdn>" QUEUE_NAME="<queue name>" node sendMessages.js
 ```
 
 ## Next Steps

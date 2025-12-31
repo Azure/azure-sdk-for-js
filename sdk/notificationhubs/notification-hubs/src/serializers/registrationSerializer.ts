@@ -502,14 +502,14 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
 };
 
 function getHeadersOrUndefined(
-  value?: { Header: string; Value: string }[],
+  value?: { Header: string; Value: string }[] | { Header: string; Value: string },
 ): Record<string, string> | undefined {
   if (!isDefined(value)) {
     return undefined;
   }
 
   const headerObj: Record<string, string> = {};
-  for (const { Header, Value } of value) {
+  for (const { Header, Value } of Array.isArray(value) ? value : [value]) {
     headerObj[Header] = Value;
   }
 

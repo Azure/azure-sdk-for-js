@@ -73,7 +73,7 @@ node bestPracticesGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env AUTOMANAGE_SUBSCRIPTION_ID="<automanage subscription id>" node bestPracticesGetSample.js
+cross-env AUTOMANAGE_SUBSCRIPTION_ID="<automanage subscription id>" node bestPracticesGetSample.js
 ```
 
 ## Next Steps

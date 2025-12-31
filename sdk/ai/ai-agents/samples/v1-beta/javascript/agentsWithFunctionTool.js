@@ -140,14 +140,14 @@ async function main() {
     const run = response.parsedBody;
     console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
 
-    // Ensure we have a run with requires_action status and required_action object
-    if (run.status === "requires_action" && run.required_action) {
+    // Ensure we have a run with requires_action status and requiredAction object
+    if (run.status === "requires_action" && run.requiredAction) {
       console.log("Run requires action");
 
       // Check if the required_action is of type submit_tool_outputs and has the expected structure
-      if (isOutputOfType(run.required_action, "submit_tool_outputs")) {
-        const submitToolOutputsActionOutput = run.required_action;
-        const toolCalls = submitToolOutputsActionOutput.submit_tool_outputs.tool_calls;
+      if (isOutputOfType(run.requiredAction, "submit_tool_outputs")) {
+        const submitToolOutputsActionOutput = run.requiredAction;
+        const toolCalls = submitToolOutputsActionOutput.submitToolOutputs.toolCalls;
         const toolResponses = [];
 
         for (const toolCall of toolCalls) {

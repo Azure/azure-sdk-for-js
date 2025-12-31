@@ -796,6 +796,7 @@ const listBlobFlatSegmentOperationSpec: coreClient.OperationSpec = {
     Parameters.maxPageSize,
     Parameters.restype2,
     Parameters.include1,
+    Parameters.startFrom,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -827,6 +828,7 @@ const listBlobHierarchySegmentOperationSpec: coreClient.OperationSpec = {
     Parameters.maxPageSize,
     Parameters.restype2,
     Parameters.include1,
+    Parameters.startFrom,
     Parameters.delimiter,
   ],
   urlParameters: [Parameters.url],

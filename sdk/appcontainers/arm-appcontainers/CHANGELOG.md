@@ -1,5 +1,171 @@
 # Release History
 
+## 3.0.0 (2025-10-23)
+
+### Features Added
+  - Added operation group HttpRouteConfigOperations
+  - Added operation group LogicApps
+  - Added operation group MaintenanceConfigurations
+  - Added operation group ManagedEnvironmentPrivateEndpointConnections
+  - Added operation group ManagedEnvironmentPrivateLinkResources
+  - Added operation ConnectedEnvironmentsCertificates.beginCreateOrUpdate
+  - Added operation ConnectedEnvironmentsCertificates.beginCreateOrUpdateAndWait
+  - Added operation ConnectedEnvironmentsCertificates.beginDelete
+  - Added operation ConnectedEnvironmentsCertificates.beginDeleteAndWait
+  - Added operation ConnectedEnvironmentsCertificates.beginUpdate
+  - Added operation ConnectedEnvironmentsCertificates.beginUpdateAndWait
+  - Added operation ConnectedEnvironmentsDaprComponents.beginCreateOrUpdate
+  - Added operation ConnectedEnvironmentsDaprComponents.beginCreateOrUpdateAndWait
+  - Added operation ConnectedEnvironmentsDaprComponents.beginDelete
+  - Added operation ConnectedEnvironmentsDaprComponents.beginDeleteAndWait
+  - Added operation ConnectedEnvironmentsStorages.beginCreateOrUpdate
+  - Added operation ConnectedEnvironmentsStorages.beginCreateOrUpdateAndWait
+  - Added operation ConnectedEnvironmentsStorages.beginDelete
+  - Added operation ConnectedEnvironmentsStorages.beginDeleteAndWait
+  - Added Interface ConnectedEnvironmentPatchResource
+  - Added Interface ConnectedEnvironmentsCertificatesCreateOrUpdateHeaders
+  - Added Interface ConnectedEnvironmentsCertificatesDeleteHeaders
+  - Added Interface ConnectedEnvironmentsCertificatesUpdateHeaders
+  - Added Interface ConnectedEnvironmentsCreateOrUpdateHeaders
+  - Added Interface ConnectedEnvironmentsDaprComponentsCreateOrUpdateHeaders
+  - Added Interface ConnectedEnvironmentsDaprComponentsDeleteHeaders
+  - Added Interface ConnectedEnvironmentsStoragesCreateOrUpdateHeaders
+  - Added Interface ConnectedEnvironmentsStoragesDeleteHeaders
+  - Added Interface DaprAppHealth
+  - Added Interface ErrorEntity
+  - Added Interface HttpRoute
+  - Added Interface HttpRouteAction
+  - Added Interface HttpRouteConfig
+  - Added Interface HttpRouteConfigCollection
+  - Added Interface HttpRouteConfigCreateOrUpdateOptionalParams
+  - Added Interface HttpRouteConfigDeleteHeaders
+  - Added Interface HttpRouteConfigDeleteOptionalParams
+  - Added Interface HttpRouteConfigGetOptionalParams
+  - Added Interface HttpRouteConfigListOptionalParams
+  - Added Interface HttpRouteConfigProperties
+  - Added Interface HttpRouteConfigUpdateOptionalParams
+  - Added Interface HttpRouteMatch
+  - Added Interface HttpRouteProvisioningErrors
+  - Added Interface HttpRouteRule
+  - Added Interface HttpRouteTarget
+  - Added Interface IngressConfiguration
+  - Added Interface LogicApp
+  - Added Interface LogicAppsCreateOrUpdateOptionalParams
+  - Added Interface LogicAppsDeleteOptionalParams
+  - Added Interface LogicAppsGetOptionalParams
+  - Added Interface LogicAppsGetWorkflowOptionalParams
+  - Added Interface LogicAppsListWorkflowsConnectionsOptionalParams
+  - Added Interface LogicAppsListWorkflowsOptionalParams
+  - Added Interface MaintenanceConfigurationCollection
+  - Added Interface MaintenanceConfigurationResource
+  - Added Interface MaintenanceConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface MaintenanceConfigurationsDeleteOptionalParams
+  - Added Interface MaintenanceConfigurationsGetOptionalParams
+  - Added Interface MaintenanceConfigurationsListOptionalParams
+  - Added Interface ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  - Added Interface ManagedEnvironmentPrivateEndpointConnectionsDeleteHeaders
+  - Added Interface ManagedEnvironmentPrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface ManagedEnvironmentPrivateEndpointConnectionsGetOptionalParams
+  - Added Interface ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams
+  - Added Interface ManagedEnvironmentPrivateLinkResourcesListOptionalParams
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionListResult
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceListResult
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface ResourceTags
+  - Added Interface ScheduledEntry
+  - Added Interface SecretKeyVaultProperties
+  - Added Interface WorkflowEnvelope
+  - Added Interface WorkflowEnvelopeCollection
+  - Added Interface WorkflowEnvelopeProperties
+  - Added Interface WorkflowHealth
+  - Interface AzureFileProperties has a new optional parameter accountKeyVaultProperties
+  - Interface CertificateProperties has a new optional parameter deploymentErrors
+  - Interface ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ConnectedEnvironmentsCertificatesDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface ConnectedEnvironmentsCertificatesDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ConnectedEnvironmentsCertificatesUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface ConnectedEnvironmentsCertificatesUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ConnectedEnvironmentsDaprComponentsDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface ConnectedEnvironmentsDaprComponentsDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ConnectedEnvironmentsStoragesDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface ConnectedEnvironmentsStoragesDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ConnectedEnvironmentStorageProperties has a new optional parameter deploymentErrors
+  - Interface ConnectedEnvironmentStorageProperties has a new optional parameter provisioningState
+  - Interface ContainerApp has a new optional parameter kind
+  - Interface Dapr has a new optional parameter appHealth
+  - Interface Dapr has a new optional parameter maxConcurrency
+  - Interface DaprComponent has a new optional parameter deploymentErrors
+  - Interface DaprComponent has a new optional parameter provisioningState
+  - Interface ManagedEnvironment has a new optional parameter ingressConfiguration
+  - Interface ManagedEnvironment has a new optional parameter privateEndpointConnections
+  - Interface ManagedEnvironment has a new optional parameter publicNetworkAccess
+  - Added Type Alias ConnectedEnvironmentsCertificatesDeleteResponse
+  - Added Type Alias ConnectedEnvironmentsDaprComponentsDeleteResponse
+  - Added Type Alias ConnectedEnvironmentsStoragesDeleteResponse
+  - Added Type Alias ConnectedEnvironmentStorageProvisioningState
+  - Added Type Alias DaprComponentProvisioningState
+  - Added Type Alias HttpRouteConfigCreateOrUpdateResponse
+  - Added Type Alias HttpRouteConfigDeleteResponse
+  - Added Type Alias HttpRouteConfigGetResponse
+  - Added Type Alias HttpRouteConfigListNextResponse
+  - Added Type Alias HttpRouteConfigListResponse
+  - Added Type Alias HttpRouteConfigUpdateResponse
+  - Added Type Alias HttpRouteProvisioningState
+  - Added Type Alias Kind
+  - Added Type Alias LogicAppsCreateOrUpdateResponse
+  - Added Type Alias LogicAppsGetResponse
+  - Added Type Alias LogicAppsGetWorkflowResponse
+  - Added Type Alias LogicAppsListWorkflowsConnectionsResponse
+  - Added Type Alias LogicAppsListWorkflowsNextResponse
+  - Added Type Alias LogicAppsListWorkflowsResponse
+  - Added Type Alias MaintenanceConfigurationsCreateOrUpdateResponse
+  - Added Type Alias MaintenanceConfigurationsGetResponse
+  - Added Type Alias MaintenanceConfigurationsListNextResponse
+  - Added Type Alias MaintenanceConfigurationsListResponse
+  - Added Type Alias ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateResponse
+  - Added Type Alias ManagedEnvironmentPrivateEndpointConnectionsDeleteResponse
+  - Added Type Alias ManagedEnvironmentPrivateEndpointConnectionsGetResponse
+  - Added Type Alias ManagedEnvironmentPrivateEndpointConnectionsListNextResponse
+  - Added Type Alias ManagedEnvironmentPrivateEndpointConnectionsListResponse
+  - Added Type Alias ManagedEnvironmentPrivateLinkResourcesListNextResponse
+  - Added Type Alias ManagedEnvironmentPrivateLinkResourcesListResponse
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias WeekDay
+  - Added Type Alias WorkflowHealthState
+  - Added Type Alias WorkflowKind
+  - Added Type Alias WorkflowState
+  - Added Enum KnownConnectedEnvironmentStorageProvisioningState
+  - Added Enum KnownDaprComponentProvisioningState
+  - Added Enum KnownHttpRouteProvisioningState
+  - Added Enum KnownKind
+  - Added Enum KnownPrivateEndpointConnectionProvisioningState
+  - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownWorkflowKind
+  - Added Enum KnownWorkflowState
+  - Enum KnownBindingType has a new value Auto
+  - Enum KnownCertificateProvisioningState has a new value Deleting
+
+### Breaking Changes
+  - Removed operation ConnectedEnvironmentsCertificates.createOrUpdate
+  - Removed operation ConnectedEnvironmentsCertificates.delete
+  - Removed operation ConnectedEnvironmentsCertificates.update
+  - Removed operation ConnectedEnvironmentsDaprComponents.createOrUpdate
+  - Removed operation ConnectedEnvironmentsDaprComponents.delete
+  - Removed operation ConnectedEnvironmentsStorages.createOrUpdate
+  - Removed operation ConnectedEnvironmentsStorages.delete
+  - Operation ConnectedEnvironments.update has a new signature
+
 ## 3.0.0-beta.1 (2025-08-18)
 Compared with version 2.2.0
 

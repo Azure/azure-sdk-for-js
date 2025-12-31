@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ServerUpdate, SqlManagementClient } from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Updates a server.
  *
  * @summary Updates a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ServerUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/ServerUpdate.json
  */
-
-import type { ServerUpdate } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function updateAServer(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
   const serverName = "sqlcrudtest-4645";
   const parameters: ServerUpdate = {
     administratorLogin: "dummylogin",
@@ -24,10 +24,15 @@ async function updateAServer(): Promise<void> {
     isIPv6Enabled: "Enabled",
     publicNetworkAccess: "Disabled",
     restrictOutboundNetworkAccess: "Enabled",
+    retentionDays: 7,
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.servers.beginUpdateAndWait(resourceGroupName, serverName, parameters);
+  const result = await client.servers.beginUpdateAndWait(
+    resourceGroupName,
+    serverName,
+    parameters,
+  );
   console.log(result);
 }
 

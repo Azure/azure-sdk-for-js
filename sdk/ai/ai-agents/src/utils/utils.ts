@@ -21,8 +21,11 @@ import type {
   BingGroundingToolDefinition,
   BingGroundingSearchConfiguration,
   ConnectedAgentToolDefinition,
+  MCPToolDefinition,
+  BrowserAutomationToolDefinition,
 } from "../index.js";
-
+import { OpenApiTool } from "./OpenApiTool.js";
+import { MCPTool } from "./MCPTool.js";
 /**
  * Determines if the given output is of the specified type.
  *
@@ -238,14 +241,40 @@ export class ToolUtility {
     definition: OpenApiToolDefinition;
   } {
     return {
+      definition: OpenApiTool.createDefinition(openApiFunctionDefinition),
+    };
+  }
+
+  /**
+   * Creates an MCP tool with the provided configuration.
+   * @param options - Configuration options for the MCP tool
+   * @returns A new MCPTool instance
+   */
+  static createMCPTool(options: {
+    serverLabel: string;
+    serverUrl: string;
+    allowedTools?: string[];
+  }): MCPTool {
+    return new MCPTool(options.serverLabel, options.serverUrl, options.allowedTools);
+  }
+
+  /**
+   * Creates a Browser Automation tool
+   *
+   * @param connectionId - Connection ID to an Azure Playwright service, to be used by tool.
+   *
+   * @returns An object containing the definition for the browser automation tool.
+   */
+  static createBrowserAutomationTool(connectionId: string): {
+    definition: BrowserAutomationToolDefinition;
+  } {
+    return {
       definition: {
-        type: "openapi",
-        openapi: {
-          name: openApiFunctionDefinition.name,
-          spec: openApiFunctionDefinition.spec,
-          description: openApiFunctionDefinition.description,
-          auth: openApiFunctionDefinition.auth,
-          defaultParams: openApiFunctionDefinition.defaultParams,
+        type: "browser_automation",
+        browserAutomation: {
+          connection: {
+            id: connectionId,
+          },
         },
       },
     };
@@ -347,6 +376,21 @@ export class ToolSet {
   } {
     const tool = ToolUtility.createOpenApiTool(openApiFunctionDefinition);
     this.toolDefinitions.push(tool.definition);
+    return tool;
+  }
+
+  /**
+   * Adds a Model Context Protocol (MCP) tool to the tool set.
+   * @param options - The options for configuring the MCP tool.
+   * @returns An object containing the definition and resources for the MCP tool
+   */
+  addMCPTool(options: { serverLabel: string; serverUrl: string; allowedTools?: string[] }): {
+    definition: MCPToolDefinition;
+    resources: ToolResources;
+  } {
+    const tool = ToolUtility.createMCPTool(options);
+    this.toolDefinitions.push(tool.definition);
+    this.toolResources = { ...this.toolResources, ...tool.resources };
     return tool;
   }
 

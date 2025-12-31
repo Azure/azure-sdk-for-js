@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -35,7 +36,22 @@ export {
   KnownCreatedByType,
   CreatedByType,
   ApplicationUpdateParameters,
+  ApplicationUpdateParametersProperties,
   RuntimeResumeApplicationUpgradeParameters,
+  RuntimeUpdateApplicationUpgradeParameters,
+  KnownRuntimeUpgradeKind,
+  RuntimeUpgradeKind,
+  RuntimeApplicationHealthPolicy,
+  RuntimeServiceTypeHealthPolicy,
+  RuntimeRollingUpgradeUpdateMonitoringPolicy,
+  KnownRuntimeRollingUpgradeMode,
+  RuntimeRollingUpgradeMode,
+  KnownRuntimeFailureAction,
+  RuntimeFailureAction,
+  ApplicationFetchHealthRequest,
+  KnownHealthFilter,
+  HealthFilter,
+  RestartDeployedCodePackageRequest,
   ApplicationTypeResource,
   ApplicationTypeResourceProperties,
   ApplicationTypeUpdateParameters,
@@ -90,6 +106,9 @@ export {
   AveragePartitionLoadScalingTrigger,
   AverageServiceLoadScalingTrigger,
   ServiceUpdateParameters,
+  RestartReplicaRequest,
+  KnownRestartKind,
+  RestartKind,
   ManagedClusterCodeVersionResult,
   ManagedClusterVersionDetails,
   KnownOsType,
@@ -216,6 +235,9 @@ export {
 } from "./models/index.js";
 export { ServiceFabricManagedClustersManagementClientOptionalParams } from "./api/index.js";
 export {
+  ApplicationsRestartDeployedCodePackageOptionalParams,
+  ApplicationsFetchHealthOptionalParams,
+  ApplicationsUpdateUpgradeOptionalParams,
   ApplicationsStartRollbackOptionalParams,
   ApplicationsResumeUpgradeOptionalParams,
   ApplicationsReadUpgradeOptionalParams,
@@ -286,6 +308,7 @@ export { OperationResultsGetOptionalParams } from "./api/operationResults/index.
 export { OperationsListOptionalParams } from "./api/operations/index.js";
 export { OperationStatusGetOptionalParams } from "./api/operationStatus/index.js";
 export {
+  ServicesRestartReplicaOptionalParams,
   ServicesListByApplicationsOptionalParams,
   ServicesDeleteOptionalParams,
   ServicesUpdateOptionalParams,
@@ -310,3 +333,4 @@ export {
   ServicesOperations,
 } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, AzureSupportedClouds };

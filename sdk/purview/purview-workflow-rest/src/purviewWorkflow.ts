@@ -25,7 +25,7 @@ export default function createClient(
   { apiVersion = "2022-05-01-preview", ...options }: PurviewWorkflowClientOptions = {},
 ): PurviewWorkflowClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpoint}/workflow`;
-  const userAgentInfo = `azsdk-js-purview-workflow-rest/1.0.0-beta.3`;
+  const userAgentInfo = `azsdk-js-purview-workflow-rest/1.0.0-beta.4`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

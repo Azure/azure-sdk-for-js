@@ -4,38 +4,123 @@
 
 ```ts
 
-import type { CommonClientOptions } from '@azure/core-client';
-import type { OperationOptions } from '@azure/core-client';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { ErrorModel } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState as OperationState_2 } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export class ConfigurationClient {
-    constructor(endpointUrl: string, credential: TokenCredential, options?: ConfigurationClientOptions);
-    getConfigurationSetting(key: string, options?: GetConfigurationSettingOptions): Promise<ConfigurationSetting>;
-    getConfigurationSetting(setting: ConfigurationSetting, options?: GetConfigurationSettingOptions): Promise<ConfigurationSetting>;
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export interface FakedSharedModel {
+    createdAt: Date;
+    tag: string;
 }
 
 // @public
-export interface ConfigurationClientOptions extends CommonClientOptions {
+export enum KnownOperationState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    NotStarted = "NotStarted",
+    Running = "Running",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownVersions {
+    V20221201 = "2022-12-01"
+}
+
+// @public
+export type OperationState = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
+export interface ResourceOperationStatusWidgetSuiteWidgetSuiteError {
+    error?: ErrorModel;
+    id: string;
+    result?: WidgetSuite;
+    status: OperationState;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: WidgetAnalyticsClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public (undocumented)
-export interface ConfigurationSetting {
-    contentType?: string;
-    etag?: string;
-    isReadOnly?: boolean;
-    key?: string;
-    label?: string;
-    lastModified?: Date;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    value?: string;
+export class WidgetAnalyticsClient {
+    constructor(endpointParam: string, credential: TokenCredential, options?: WidgetAnalyticsClientOptionalParams);
+    customMethod(): string;
+    readonly pipeline: Pipeline;
+    readonly widgets: WidgetsOperations;
 }
 
 // @public
-export interface GetConfigurationSettingOptions extends OperationOptions {
-    onlyIfChanged?: boolean;
+export interface WidgetAnalyticsClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
+export interface WidgetsCreateOrUpdateWidgetOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface WidgetsDeleteWidgetOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface WidgetsGetWidgetOperationStatusOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WidgetsGetWidgetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WidgetsListWidgetsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WidgetsOperations {
+    createOrUpdateWidget: (widgetName: string, resource: WidgetSuite, options?: WidgetsCreateOrUpdateWidgetOptionalParams) => PollerLike<OperationState_2<WidgetSuite>, WidgetSuite>;
+    deleteWidget: (widgetName: string, options?: WidgetsDeleteWidgetOptionalParams) => PollerLike<OperationState_2<WidgetSuite>, WidgetSuite>;
+    getWidget: (widgetName: string, options?: WidgetsGetWidgetOptionalParams) => Promise<WidgetSuite>;
+    getWidgetOperationStatus: (widgetName: string, operationId: string, options?: WidgetsGetWidgetOperationStatusOptionalParams) => Promise<ResourceOperationStatusWidgetSuiteWidgetSuiteError>;
+    listWidgets: (options?: WidgetsListWidgetsOptionalParams) => PagedAsyncIterableIterator<WidgetSuite>;
+}
+
+// @public
+export interface WidgetSuite {
+    manufacturerId: string;
+    readonly name: string;
+    sharedModel?: FakedSharedModel;
 }
 
 // (No @packageDocumentation comment for this package)

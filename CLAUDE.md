@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Build and Testing Commands
 - Install dependencies: `pnpm install`
 - Build all packages: `pnpm build`
-- Build specific package: `pnpm build --filter=@azure/<package-name>...`
+- Build specific package: `pnpm turbo build --filter=@azure/<package-name>...`
 - Lint: `pnpm lint` (never turn off linting rules)
 - Format code: `pnpm format`
 - Run tests: `pnpm test`

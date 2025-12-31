@@ -8,6 +8,8 @@ import type {
   ThreadMessageOptions,
   TruncationObject,
   AgentsToolChoiceOption,
+  ToolOutput,
+  ToolApproval,
   ListSortOrder,
   RunAdditionalFieldList,
 } from "../../models/models.js";
@@ -19,6 +21,10 @@ export interface RunsCancelRunOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface RunsSubmitToolOutputsToRunOptionalParams extends OperationOptions {
+  /** A list of tools for which the outputs are being submitted */
+  toolOutputs?: ToolOutput[];
+  /** A list of tool approvals allowing data to be sent to tools. */
+  toolApprovals?: ToolApproval[];
   /** If true, returns a stream of events that happen during the Run as SSE, terminating at `[DONE]`. */
   stream?: boolean | null;
 }

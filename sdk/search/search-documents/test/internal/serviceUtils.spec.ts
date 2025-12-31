@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import { assert, describe, it } from "vitest";
 import type { SearchField as GeneratedSearchField } from "../../src/generated/service/models/index.js";
 import { KnownAnalyzerNames } from "../../src/index.js";
 import type { ComplexField, SearchField } from "../../src/serviceModels.js";
 import { convertFieldsToGenerated, convertFieldsToPublic } from "../../src/serviceUtils.js";
-import { describe, it, assert } from "vitest";
 
 describe("serviceUtils", () => {
   it("convert generated fields to public fields", () => {

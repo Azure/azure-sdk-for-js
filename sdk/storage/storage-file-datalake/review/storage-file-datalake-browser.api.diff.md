@@ -18,8 +18,8 @@ For the complete API surface, see the corresponding -node.api.md file.
  import type { TokenCredential } from '@azure/core-auth';
  import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
  import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
- import { UserDelegationKeyModel } from '@azure/storage-blob';
-@@ -96,54 +95,8 @@
+ import { UserDelegationKey } from '@azure/storage-common';
+@@ -97,54 +96,8 @@
      // (undocumented)
      startsOn?: Date;
  }
@@ -74,7 +74,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { AnonymousCredentialPolicy }
  
-@@ -249,9 +202,11 @@
+@@ -250,9 +203,11 @@
      contentType?: string;
      encryptionScope?: string;
      expiresOn?: Date;
@@ -86,7 +86,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      startsOn?: Date;
      version?: string;
  }
-@@ -298,8 +253,9 @@
+@@ -299,8 +254,9 @@
  }
  
  // @public
@@ -96,7 +96,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(url: string, pipeline: Pipeline);
      append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
      create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
-@@ -400,52 +356,13 @@
+@@ -401,53 +357,13 @@
  export interface DataLakeRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {
  }
  
@@ -124,6 +124,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    contentLanguage?: string;
 -    contentType?: string;
 -    correlationId?: string;
+-    delegatedUserObjectId?: string;
 -    directoryDepth?: number;
 -    encryptionScope?: string;
 -    expiresOn?: Date;
@@ -150,7 +151,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<DataLakeServiceGetPropertiesResponse>;
-@@ -497,28 +414,13 @@
+@@ -499,28 +415,13 @@
  }
  
  // @public
@@ -180,7 +181,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public (undocumented)
  export interface FileAppendOptions extends CommonOptions {
-@@ -582,8 +484,9 @@
+@@ -584,8 +485,9 @@
  export type FileFlushResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
  // @public
@@ -190,7 +191,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -847,8 +750,9 @@
+@@ -849,8 +751,9 @@
  }
  
  // @public
@@ -200,7 +201,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public (undocumented)
-@@ -995,24 +899,8 @@
+@@ -997,24 +900,8 @@
  
  // @public
  export type FileSystemRenameResponse = ContainerRenameResponse;
@@ -225,7 +226,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface FileSystemSetAccessPolicyHeaders {
      // (undocumented)
      clientRequestId?: string;
-@@ -1083,17 +971,8 @@
+@@ -1085,17 +972,8 @@
  // @public (undocumented)
  export type FileUploadResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
@@ -243,7 +244,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { HttpHeaders }
  
-@@ -1858,72 +1737,8 @@
+@@ -1867,74 +1745,8 @@
      // (undocumented)
      write: boolean;
  }
@@ -262,7 +263,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -
 -// @public
 -export class SASQueryParameters {
--    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string, encryptionScope?: string);
+-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string);
 -    constructor(version: string, signature: string, options?: SASQueryParametersOptions);
 -    readonly agentObjectId?: string;
 -    readonly cacheControl?: string;
@@ -271,6 +272,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    readonly contentLanguage?: string;
 -    readonly contentType?: string;
 -    readonly correlationId?: string;
+-    readonly delegatedUserObjectId?: string;
 -    readonly directoryDepth?: number;
 -    readonly encryptionScope?: string;
 -    readonly expiresOn?: Date;
@@ -297,6 +299,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    contentLanguage?: string;
 -    contentType?: string;
 -    correlationId?: string;
+-    delegatedUserObjectId?: string;
 -    directoryDepth?: number;
 -    encryptionScope?: string;
 -    expiresOn?: Date;
@@ -316,7 +319,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface ServiceGenerateAccountSasUrlOptions {
-@@ -2028,12 +1843,8 @@
+@@ -2039,12 +1851,8 @@
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }

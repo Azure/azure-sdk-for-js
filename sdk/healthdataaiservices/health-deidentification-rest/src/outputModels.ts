@@ -10,7 +10,7 @@ export interface DeidentificationJobOutput {
   /**
    * Operation to perform on the input documents.
    *
-   * Possible values: "Redact", "Surrogate", "Tag"
+   * Possible values: "Redact", "Surrogate", "Tag", "SurrogateOnly"
    */
   operation?: DeidentificationOperationTypeOutput;
   /** Storage location to perform the operation on. */
@@ -76,11 +76,13 @@ export interface TargetStorageLocationOutput {
 export interface DeidentificationJobCustomizationOptionsOutput {
   /**
    * Format of the redacted output. Only valid when Operation is Redact.
-   * Please refer to https://learn.microsoft.com/en-us/azure/healthcare-apis/deidentification/redaction-format for more details.
+   * Please refer to https://learn.microsoft.com/azure/healthcare-apis/deidentification/redaction-format for more details.
    */
   redactionFormat?: string;
   /** Locale in which the output surrogates are written. */
   surrogateLocale?: string;
+  /** Locale of the input text. Used for better PHI detection. Defaults to 'en-US'. */
+  inputLocale?: string;
 }
 
 /** Summary metrics of a job. */

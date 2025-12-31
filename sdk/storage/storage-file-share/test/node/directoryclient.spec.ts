@@ -115,11 +115,11 @@ describe("DirectoryClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
@@ -133,11 +133,11 @@ describe("DirectoryClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a url and a pipeline", async () => {
@@ -148,10 +148,10 @@ describe("DirectoryClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 });

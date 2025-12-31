@@ -19,7 +19,6 @@ export function createDefaultHttpClient(): HttpClient {
         ? wrapAbortSignalLike(request.abortSignal)
         : {};
       try {
-        // eslint-disable-next-line no-param-reassign
         request.abortSignal = abortSignal;
         return await client.sendRequest(request as TspPipelineRequest);
       } finally {

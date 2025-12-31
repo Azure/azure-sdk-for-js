@@ -5,7 +5,7 @@ import type {
   DeletedKeyItem,
   KeyRotationPolicy as GeneratedKeyRotationPolicy,
   KeyBundle,
-} from "../../src/generated/src/index.js";
+} from "../../src/models/models.js";
 import type {
   DeletedKey,
   KeyProperties,

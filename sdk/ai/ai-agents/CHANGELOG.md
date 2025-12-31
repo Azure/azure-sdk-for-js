@@ -1,5 +1,25 @@
 # Release History
 
+## 1.2.0-beta.2 (2025-09-26)
+
+### Features Added
+
+- Add `ToolUtility.createBrowserAutomationTool` to support browser automation tool in agent
+
+## 1.2.0-beta.1 (2025-09-18)
+
+### Features Added
+
+- Add `MCPTool.mergeResources` to support multiple MCP tools in one agent
+- Add `OpenApiTool` to easily call multiple open APIs in one agent
+- Add `messages.delete` to support delete message in thread
+- Add back the features removed in previous stable release:
+  - MCP tool
+  - Deep Research tool
+  - Sharepoint tool
+  - BingCustomSearch tool
+  - MicrosoftFabric tool
+
 ## 1.1.0 (2025-07-31)
 
 For stable version of the client library, the client library now uses version v1 of the AI Foundry [data plane REST APIs](https://learn.microsoft.com/rest/api/aifoundry/aiagents/operation-groups?view=rest-aifoundry-aiagents-v1).

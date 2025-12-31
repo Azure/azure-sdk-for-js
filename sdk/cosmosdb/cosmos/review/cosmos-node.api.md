@@ -82,8 +82,11 @@ export class ChangeFeedIterator<T> {
 export interface ChangeFeedIteratorOptions {
     changeFeedMode?: ChangeFeedMode;
     changeFeedStartFrom?: ChangeFeedStartFrom;
+    excludedLocations?: string[];
     maxItemCount?: number;
+    priorityLevel?: PriorityLevel;
     sessionToken?: string;
+    throughputBucket?: number;
 }
 
 // @public
@@ -179,6 +182,7 @@ export type ClientConfigDiagnostic = {
     diagnosticLevel?: CosmosDbDiagnosticLevel;
     pluginsConfigured: boolean;
     sDKVersion: string;
+    aadScopeOverride?: boolean;
 };
 
 // @public (undocumented)
@@ -634,6 +638,7 @@ export const Constants: {
     WriteRequestFailureCountThreshold: number;
     ConsecutiveFailureCountResetIntervalInMS: number;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
+    EnablePerPartitionFailover: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
     ThrottleRetryWaitTimeInMs: string;
@@ -927,6 +932,7 @@ export class DatabaseAccount {
     readonly databasesLink: string;
     // (undocumented)
     readonly enableMultipleWritableLocations: boolean;
+    readonly enablePerPartitionFailover: boolean;
     // @deprecated
     get MaxMediaStorageUsageInMB(): number;
     readonly maxMediaStorageUsageInMB: number;
@@ -1037,6 +1043,7 @@ export type DiagnosticDataValue = {
         url: string;
     }>;
     partitionKeyRangeFailoverInfo: string;
+    excludedLocations: string[];
 };
 
 // @public
@@ -2379,6 +2386,7 @@ export interface SharedOptions {
     bypassIntegratedCache?: boolean;
     consistencyLevel?: string;
     disableRUPerMinuteUsage?: boolean;
+    excludedLocations?: string[];
     initialHeaders?: CosmosHeaders;
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;
@@ -2769,6 +2777,7 @@ export interface VectorEmbedding {
 
 // @public
 export enum VectorEmbeddingDataType {
+    Float16 = "float16",
     Float32 = "float32",
     Int8 = "int8",
     UInt8 = "uint8"

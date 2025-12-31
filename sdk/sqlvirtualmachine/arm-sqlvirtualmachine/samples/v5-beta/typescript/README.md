@@ -69,7 +69,7 @@ node dist/availabilityGroupListenersCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env SQLVIRTUALMACHINE_SUBSCRIPTION_ID="<sqlvirtualmachine subscription id>" SQLVIRTUALMACHINE_RESOURCE_GROUP="<sqlvirtualmachine resource group>" node dist/availabilityGroupListenersCreateOrUpdateSample.js
+cross-env SQLVIRTUALMACHINE_SUBSCRIPTION_ID="<sqlvirtualmachine subscription id>" SQLVIRTUALMACHINE_RESOURCE_GROUP="<sqlvirtualmachine resource group>" node dist/availabilityGroupListenersCreateOrUpdateSample.js
 ```
 
 ## Next Steps

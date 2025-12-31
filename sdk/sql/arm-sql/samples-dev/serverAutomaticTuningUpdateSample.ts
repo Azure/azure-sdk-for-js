@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ServerAutomaticTuning, SqlManagementClient } from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Update automatic tuning options on server.
  *
  * @summary Update automatic tuning options on server.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerAutomaticTuningUpdateMax.json
  */
-
-import type { ServerAutomaticTuning } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function updatesServerAutomaticTuningSettingsWithAllProperties(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "c3aa9078-0000-0000-0000-e36f151182d7";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "default-sql-onebox";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "c3aa9078-0000-0000-0000-e36f151182d7";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "default-sql-onebox";
   const serverName = "testsvr11";
   const parameters: ServerAutomaticTuning = {
     desiredState: "Auto",
@@ -44,8 +44,10 @@ async function updatesServerAutomaticTuningSettingsWithAllProperties(): Promise<
  */
 async function updatesServerAutomaticTuningSettingsWithMinimalProperties(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "c3aa9078-0000-0000-0000-e36f151182d7";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "default-sql-onebox";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "c3aa9078-0000-0000-0000-e36f151182d7";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "default-sql-onebox";
   const serverName = "testsvr11";
   const parameters: ServerAutomaticTuning = { desiredState: "Auto" };
   const credential = new DefaultAzureCredential();

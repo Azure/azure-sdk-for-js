@@ -141,7 +141,7 @@ describe("Highlevel", () => {
       const uploadedData = fs.readFileSync(tempFileLarge);
 
       fs.unlinkSync(downloadedFile);
-      assert.ok(downloadedData.equals(uploadedData));
+      assert.isTrue(downloadedData.equals(uploadedData));
     },
   );
 
@@ -185,7 +185,7 @@ describe("Highlevel", () => {
     const uploadedData = await fs.readFileSync(tempFileSmall);
 
     fs.unlinkSync(downloadedFile);
-    assert.ok(downloadedData.equals(uploadedData));
+    assert.isTrue(downloadedData.equals(uploadedData));
   });
 
   it("uploadFile should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", async (ctx) => {
@@ -207,7 +207,7 @@ describe("Highlevel", () => {
     const uploadedData = await fs.readFileSync(tempFileSmall);
 
     fs.unlinkSync(downloadedFile);
-    assert.ok(downloadedData.equals(uploadedData));
+    assert.isTrue(downloadedData.equals(uploadedData));
   });
 
   it("uploadFile should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
@@ -253,13 +253,13 @@ describe("Highlevel", () => {
         blockSize: 4 * 1024 * 1024,
         concurrency: 20,
         onProgress: (ev) => {
-          assert.ok(ev.loadedBytes);
+          assert.isDefined(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
         },
       });
     } catch (err: any) {}
-    assert.ok(eventTriggered);
+    assert.isDefined(eventTriggered);
   });
 
   it("uploadFile should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async (ctx) => {
@@ -275,13 +275,13 @@ describe("Highlevel", () => {
         blockSize: 4 * 1024 * 1024,
         concurrency: 20,
         onProgress: (ev) => {
-          assert.ok(ev.loadedBytes);
+          assert.isDefined(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
         },
       });
     } catch (err: any) {}
-    assert.ok(eventTriggered);
+    assert.isDefined(eventTriggered);
   });
 
   it(
@@ -326,7 +326,7 @@ describe("Highlevel", () => {
 
     const downloadedBuffer = fs.readFileSync(downloadFilePath);
     const uploadedBuffer = fs.readFileSync(tempFileLarge);
-    assert.ok(uploadedBuffer.equals(downloadedBuffer));
+    assert.isTrue(uploadedBuffer.equals(downloadedBuffer));
 
     fs.unlinkSync(downloadFilePath);
   });
@@ -363,7 +363,7 @@ describe("Highlevel", () => {
 
       const downloadedBuffer = fs.readFileSync(downloadFilePath);
       const uploadedBuffer = fs.readFileSync(tempFileLarge);
-      assert.ok(uploadedBuffer.equals(downloadedBuffer));
+      assert.isTrue(uploadedBuffer.equals(downloadedBuffer));
 
       fs.unlinkSync(downloadFilePath);
     },
@@ -382,7 +382,7 @@ describe("Highlevel", () => {
 
     const downloadBuffer = Buffer.allocUnsafe(buf.byteLength);
     await streamToBuffer2(downloadResponse.readableStreamBody!, downloadBuffer);
-    assert.ok(buf.equals(downloadBuffer));
+    assert.isTrue(buf.equals(downloadBuffer));
   });
 
   it("uploadStream should work with tags", async (ctx) => {
@@ -434,11 +434,11 @@ describe("Highlevel", () => {
 
       await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20, {
         onProgress: (ev) => {
-          assert.ok(ev.loadedBytes);
+          assert.isDefined(ev.loadedBytes);
           eventTriggered = true;
         },
       });
-      assert.ok(eventTriggered);
+      assert.isDefined(eventTriggered);
     },
   );
 
@@ -498,7 +498,7 @@ describe("Highlevel", () => {
       });
 
       const localFileContent = fs.readFileSync(tempFileLarge);
-      assert.ok(localFileContent.equals(buf));
+      assert.isTrue(localFileContent.equals(buf));
     },
   );
 
@@ -511,7 +511,7 @@ describe("Highlevel", () => {
     } catch (err: any) {
       error = err;
     }
-    assert.ok(
+    assert.isTrue(
       error.message.includes("Unable to allocate the buffer of size:"),
       "Error is not thrown when the count(size provided in bytes) is too large.",
     );
@@ -535,7 +535,7 @@ describe("Highlevel", () => {
       });
 
       const localFileContent = fs.readFileSync(tempFileLarge);
-      assert.ok(localFileContent.equals(buf));
+      assert.isTrue(localFileContent.equals(buf));
     },
   );
 
@@ -620,7 +620,7 @@ describe("Highlevel", () => {
         },
       });
     } catch (err: any) {}
-    assert.ok(eventTriggered);
+    assert.isDefined(eventTriggered);
   });
 
   it("downloadToBuffer with CPK", async () => {
@@ -635,7 +635,7 @@ describe("Highlevel", () => {
     const downloadToBufferRes = await CPKblockBlobClient.downloadToBuffer(undefined, undefined, {
       customerProvidedKey: Test_CPK_INFO,
     });
-    assert.ok(downloadToBufferRes.equals(Buffer.from(content)));
+    assert.isTrue(downloadToBufferRes.equals(Buffer.from(content)));
 
     let exceptionCaught = false;
     try {
@@ -644,7 +644,7 @@ describe("Highlevel", () => {
       assert.equal(err.details.errorCode, "BlobUsesCustomerSpecifiedEncryption");
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("blobclient.download should success when internal stream unexpected ends at the stream end", async (ctx) => {
@@ -683,7 +683,7 @@ describe("Highlevel", () => {
     const uploadedData = await fs.readFileSync(tempFileSmall);
 
     fs.unlinkSync(downloadedFile);
-    assert.ok(downloadedData.equals(uploadedData));
+    assert.isTrue(downloadedData.equals(uploadedData));
   });
 
   it("blobclient.download should download full data successfully when internal stream unexpected ends", async (ctx) => {
@@ -723,7 +723,7 @@ describe("Highlevel", () => {
     const uploadedData = await fs.readFileSync(tempFileSmall);
 
     fs.unlinkSync(downloadedFile);
-    assert.ok(downloadedData.equals(uploadedData));
+    assert.isTrue(downloadedData.equals(uploadedData));
   });
 
   it("blobclient.download should download partial data when internal stream unexpected ends", async (ctx) => {
@@ -765,7 +765,7 @@ describe("Highlevel", () => {
     const uploadedData = await fs.readFileSync(tempFileSmall);
 
     fs.unlinkSync(downloadedFile);
-    assert.ok(downloadedData.slice(0, partialSize).equals(uploadedData.slice(0, partialSize)));
+    assert.isTrue(downloadedData.slice(0, partialSize).equals(uploadedData.slice(0, partialSize)));
   });
 
   it("blobclient.download should download data failed when exceeding max stream retry requests", async (ctx) => {
@@ -804,7 +804,7 @@ describe("Highlevel", () => {
       expectedError = true;
     }
 
-    assert.ok(expectedError);
+    assert.isDefined(expectedError);
     fs.unlinkSync(downloadedFile);
   });
 
@@ -892,7 +892,7 @@ describe("Highlevel", () => {
 
     const response = await blobClient.downloadToFile(downloadedFilePath, 0, undefined);
 
-    assert.ok(
+    assert.isTrue(
       response.contentLength === tempFileSmallLength,
       "response.contentLength doesn't match tempFileSmallLength",
     );
@@ -904,7 +904,7 @@ describe("Highlevel", () => {
 
     const localFileContent = fs.readFileSync(tempFileSmall);
     const downloadedFileContent = fs.readFileSync(downloadedFilePath);
-    assert.ok(localFileContent.equals(downloadedFileContent));
+    assert.isTrue(localFileContent.equals(downloadedFileContent));
 
     fs.unlinkSync(downloadedFilePath);
   });
@@ -957,21 +957,21 @@ describe("Highlevel", () => {
 
     await blockBlobClient.uploadData(arrayBuf);
     const res = await blockBlobClient.downloadToBuffer();
-    assert.ok(res.equals(Buffer.from(arrayBuf)));
+    assert.isTrue(res.equals(Buffer.from(arrayBuf)));
 
     const uint8ArrayPartial = new Uint8Array(arrayBuf, 1, 3);
     await blockBlobClient.uploadData(uint8ArrayPartial);
     const res1 = await blockBlobClient.downloadToBuffer();
-    assert.ok(res1.equals(Buffer.from(arrayBuf, 1, 3)));
+    assert.isTrue(res1.equals(Buffer.from(arrayBuf, 1, 3)));
 
     const uint16Array = new Uint16Array(arrayBuf, 4, 2);
     await blockBlobClient.uploadData(uint16Array);
     const res2 = await blockBlobClient.downloadToBuffer();
-    assert.ok(res2.equals(Buffer.from(arrayBuf, 4, 2 * 2)));
+    assert.isTrue(res2.equals(Buffer.from(arrayBuf, 4, 2 * 2)));
 
     const buf = Buffer.from(arrayBuf, 0, 5);
     await blockBlobClient.uploadData(buf);
     const res3 = await blockBlobClient.downloadToBuffer();
-    assert.ok(res3.equals(buf));
+    assert.isTrue(res3.equals(buf));
   });
 });

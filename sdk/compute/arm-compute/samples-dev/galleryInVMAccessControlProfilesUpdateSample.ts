@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  GalleryInVMAccessControlProfileUpdate} from "@azure/arm-compute";
+import {
+  ComputeManagementClient,
+} from "@azure/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Update a gallery inVMAccessControlProfile.
  *
  * @summary Update a gallery inVMAccessControlProfile.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfile_Update.json
  */
-
-import {
-  GalleryInVMAccessControlProfileUpdate,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function updateAGalleryInVMAccessControlProfile(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

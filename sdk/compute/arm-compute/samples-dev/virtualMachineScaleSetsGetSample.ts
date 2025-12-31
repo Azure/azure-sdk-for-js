@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Display information about a virtual machine scale set.
- *
- * @summary Display information about a virtual machine scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_WithDiskControllerType.json
- */
-
+import type {
+  VirtualMachineScaleSetsGetOptionalParams} from "@azure/arm-compute";
 import {
-  VirtualMachineScaleSetsGetOptionalParams,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Display information about a virtual machine scale set.
+ *
+ * @summary Display information about a virtual machine scale set.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_WithDiskControllerType.json
+ */
 async function getVMScaleSetVMWithDiskControllerType(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -37,7 +37,7 @@ async function getVMScaleSetVMWithDiskControllerType(): Promise<void> {
  * This sample demonstrates how to Display information about a virtual machine scale set.
  *
  * @summary Display information about a virtual machine scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get.json
  */
 async function getAVirtualMachineScaleSet(): Promise<void> {
   const subscriptionId =
@@ -58,7 +58,7 @@ async function getAVirtualMachineScaleSet(): Promise<void> {
  * This sample demonstrates how to Display information about a virtual machine scale set.
  *
  * @summary Display information about a virtual machine scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_AutoPlacedOnDedicatedHostGroup.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_AutoPlacedOnDedicatedHostGroup.json
  */
 async function getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement(): Promise<void> {
   const subscriptionId =
@@ -79,7 +79,7 @@ async function getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutom
  * This sample demonstrates how to Display information about a virtual machine scale set.
  *
  * @summary Display information about a virtual machine scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_WithUserData.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_WithUserData.json
  */
 async function getAVirtualMachineScaleSetWithUserData(): Promise<void> {
   const subscriptionId =

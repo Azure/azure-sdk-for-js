@@ -1,21 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
-import {
-  ExadbVmCluster,
-  ExadbVmClusterUpdate,
-  RemoveVirtualMachineFromExadbVmClusterDetails,
-} from "../../models/models.js";
-import {
-  ExadbVmClustersRemoveVmsOptionalParams,
-  ExadbVmClustersListByResourceGroupOptionalParams,
-  ExadbVmClustersDeleteOptionalParams,
-  ExadbVmClustersUpdateOptionalParams,
-  ExadbVmClustersGetOptionalParams,
-  ExadbVmClustersCreateOrUpdateOptionalParams,
-  ExadbVmClustersListBySubscriptionOptionalParams,
-} from "../../api/exadbVmClusters/options.js";
+import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
   removeVms,
   listByResourceGroup,
@@ -25,8 +11,22 @@ import {
   createOrUpdate,
   listBySubscription,
 } from "../../api/exadbVmClusters/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  ExadbVmClustersRemoveVmsOptionalParams,
+  ExadbVmClustersListByResourceGroupOptionalParams,
+  ExadbVmClustersDeleteOptionalParams,
+  ExadbVmClustersUpdateOptionalParams,
+  ExadbVmClustersGetOptionalParams,
+  ExadbVmClustersCreateOrUpdateOptionalParams,
+  ExadbVmClustersListBySubscriptionOptionalParams,
+} from "../../api/exadbVmClusters/options.js";
+import type {
+  ExadbVmCluster,
+  ExadbVmClusterUpdate,
+  RemoveVirtualMachineFromExadbVmClusterDetails,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ExadbVmClusters operations. */
 export interface ExadbVmClustersOperations {

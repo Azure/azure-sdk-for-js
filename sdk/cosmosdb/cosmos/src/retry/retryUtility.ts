@@ -82,7 +82,6 @@ export async function execute({
             requestContext.resourceType,
             requestContext.operationType,
             requestContext.connectionPolicy.enableEndpointDiscovery,
-            requestContext.connectionPolicy.enablePartitionLevelFailover,
             requestContext.globalPartitionEndpointManager,
           ),
         };
@@ -92,18 +91,23 @@ export async function execute({
         delete requestContext.headers["x-ms-session-token"];
       }
       if (retryContext && retryContext.retryLocationServerIndex) {
-        requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
-          localDiagnosticNode,
-          requestContext.resourceType,
-          requestContext.operationType,
-          retryContext.retryLocationServerIndex,
-        );
+        requestContext.endpoint =
+          await requestContext.globalEndpointManager.resolveServiceEndpointInternal({
+            diagnosticNode: localDiagnosticNode,
+            resourceType: requestContext.resourceType,
+            operationType: requestContext.operationType,
+            startServiceEndpointIndex: retryContext.retryLocationServerIndex,
+            excludedLocations: requestContext.options?.excludedLocations,
+          });
       } else {
-        requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
-          localDiagnosticNode,
-          requestContext.resourceType,
-          requestContext.operationType,
-        );
+        requestContext.endpoint =
+          await requestContext.globalEndpointManager.resolveServiceEndpointInternal({
+            diagnosticNode: localDiagnosticNode,
+            resourceType: requestContext.resourceType,
+            operationType: requestContext.operationType,
+            startServiceEndpointIndex: 0,
+            excludedLocations: requestContext.options?.excludedLocations,
+          });
       }
       const startTimeUTCInMs = getCurrentTimestampInMs();
       const correlatedActivityId =

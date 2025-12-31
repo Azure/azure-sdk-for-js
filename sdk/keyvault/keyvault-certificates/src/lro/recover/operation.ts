@@ -8,7 +8,7 @@ import type {
   KeyVaultCertificateWithPolicy,
   RecoverDeletedCertificateOptions,
 } from "../../certificatesModels.js";
-import type { KeyVaultClient } from "../../generated/src/keyVaultClient.js";
+import type { KeyVaultClient } from "../../keyVaultClient.js";
 import { tracingClient } from "../../tracing.js";
 import { getCertificateWithPolicyFromCertificateBundle } from "../../transformations.js";
 import type { KeyVaultCertificatePollOperationState } from "../keyVaultCertificatePoller.js";

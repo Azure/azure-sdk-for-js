@@ -12,13 +12,6 @@ Use the client library for the de-identification service to:
 
 **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library.**
 
-Use the client library for the de-identification service to:
-
-- Discover PHI in unstructured text
-- Replace PHI in unstructured text with placeholder values
-- Replace PHI in unstructured text with realistic surrogate values
-- Manage asynchronous jobs to de-identify documents in Azure Storage
-
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthdataaiservices/health-deidentification-rest)
@@ -90,6 +83,7 @@ Given an input text, the de-identification service can perform three main operat
 - `Tag` returns the category and location within the text of detected PHI entities.
 - `Redact` returns output text where detected PHI entities are replaced with placeholder text. For example `John` replaced with `[name]`.
 - `Surrogate` returns output text where detected PHI entities are replaced with realistic replacement values. For example, `My name is John Smith` could become `My name is Tom Jones`.
+- `SurrogateOnly` returns output text where user-defined PHI entities are replaced with realistic replacement values.
 
 ### String Encoding
 
@@ -212,7 +206,7 @@ Find a bug, or have feedback? Raise an issue with the [Health Deidentification][
 ## Troubleshooting
 
 - **Unable to Access Source or Target Storage**
-  - Ensure you create your deid service with a system assigned managed identity
+  - Ensure you create your de-identification service with a system assigned managed identity
   - Ensure your storage account has given permissions to that managed identity
 
 ### Logging

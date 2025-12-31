@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   CertificatesListByIotHubOptionalParams,
   CertificatesListByIotHubResponse,
   CertificatesGetOptionalParams,
@@ -19,7 +19,7 @@ import {
   CertificatesGenerateVerificationCodeResponse,
   CertificateVerificationDescription,
   CertificatesVerifyOptionalParams,
-  CertificatesVerifyResponse
+  CertificatesVerifyResponse,
 } from "../models/index.js";
 
 /** Interface representing a Certificates. */
@@ -33,7 +33,7 @@ export interface Certificates {
   listByIotHub(
     resourceGroupName: string,
     resourceName: string,
-    options?: CertificatesListByIotHubOptionalParams
+    options?: CertificatesListByIotHubOptionalParams,
   ): Promise<CertificatesListByIotHubResponse>;
   /**
    * Returns the certificate.
@@ -46,7 +46,7 @@ export interface Certificates {
     resourceGroupName: string,
     resourceName: string,
     certificateName: string,
-    options?: CertificatesGetOptionalParams
+    options?: CertificatesGetOptionalParams,
   ): Promise<CertificatesGetResponse>;
   /**
    * Adds new or replaces existing certificate.
@@ -61,7 +61,7 @@ export interface Certificates {
     resourceName: string,
     certificateName: string,
     certificateDescription: CertificateDescription,
-    options?: CertificatesCreateOrUpdateOptionalParams
+    options?: CertificatesCreateOrUpdateOptionalParams,
   ): Promise<CertificatesCreateOrUpdateResponse>;
   /**
    * Deletes an existing X509 certificate or does nothing if it does not exist.
@@ -76,7 +76,7 @@ export interface Certificates {
     resourceName: string,
     certificateName: string,
     ifMatch: string,
-    options?: CertificatesDeleteOptionalParams
+    options?: CertificatesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Generates verification code for proof of possession flow. The verification code will be used to
@@ -92,7 +92,7 @@ export interface Certificates {
     resourceName: string,
     certificateName: string,
     ifMatch: string,
-    options?: CertificatesGenerateVerificationCodeOptionalParams
+    options?: CertificatesGenerateVerificationCodeOptionalParams,
   ): Promise<CertificatesGenerateVerificationCodeResponse>;
   /**
    * Verifies the certificate's private key possession by providing the leaf cert issued by the verifying
@@ -110,6 +110,6 @@ export interface Certificates {
     certificateName: string,
     ifMatch: string,
     certificateVerificationBody: CertificateVerificationDescription,
-    options?: CertificatesVerifyOptionalParams
+    options?: CertificatesVerifyOptionalParams,
   ): Promise<CertificatesVerifyResponse>;
 }

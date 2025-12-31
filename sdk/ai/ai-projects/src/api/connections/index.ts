@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { list, getWithCredentials, get, getDefault } from "./operations.js";
+export { list, getWithCredentials, get } from "./operations.js";
 export {
   ConnectionsListOptionalParams,
   ConnectionsGetWithCredentialsOptionalParams,

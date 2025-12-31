@@ -7,7 +7,7 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 
-import { logger } from "./log.js";
+import { logger } from "./logger.js";
 import type { PollOperationState } from "@azure/core-lro";
 import { PollerLike } from "@azure/core-lro";
 
@@ -81,7 +81,7 @@ import {
 import type {
   CertificateIssuerSetParameters,
   CertificateIssuerUpdateParameters,
-} from "./generated/src/models/index.js";
+} from "./models/models.js";
 import {
   BackupCertificateResult,
   IssuerParameters,
@@ -94,9 +94,9 @@ import {
   JsonWebKeyCurveName as CertificateKeyCurveName,
   KnownDeletionRecoveryLevel as KnownDeletionRecoveryLevels,
   KeyUsageType,
-} from "./generated/src/models/index.js";
-import type { KeyVaultClientOptionalParams } from "./generated/src/keyVaultClient.js";
-import { KeyVaultClient } from "./generated/src/keyVaultClient.js";
+} from "./models/models.js";
+import type { KeyVaultClientOptionalParams } from "./keyVaultClient.js";
+import { KeyVaultClient } from "./keyVaultClient.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { CreateCertificatePoller } from "./lro/create/poller.js";

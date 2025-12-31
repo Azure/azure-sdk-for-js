@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update a OpenAI integration rule for a given monitor resource.
- *
- * @summary Create or update a OpenAI integration rule for a given monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2024-03-01/examples/OpenAI_CreateOrUpdate.json
- */
-
 import { MicrosoftElastic } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Create or update an OpenAI integration rule for a given Elastic monitor resource, enabling advanced AI-driven observability and monitoring.
+ *
+ * @summary Create or update an OpenAI integration rule for a given Elastic monitor resource, enabling advanced AI-driven observability and monitoring.
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2025-06-01/examples/OpenAI_CreateOrUpdate.json
+ */
 async function openAiCreateOrUpdate(): Promise<void> {
   const subscriptionId =
-    process.env["ELASTIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["ELASTIC_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["ELASTIC_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["ELASTIC_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const integrationName = "default";
   const credential = new DefaultAzureCredential();

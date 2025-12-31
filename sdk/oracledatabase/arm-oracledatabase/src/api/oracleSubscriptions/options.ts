@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface OracleSubscriptionsAddAzureSubscriptionsOptionalParams extends OperationOptions {
@@ -16,8 +16,7 @@ export interface OracleSubscriptionsListActivationLinksOptionalParams extends Op
 }
 
 /** Optional parameters. */
-export interface OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams
-  extends OperationOptions {
+export interface OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

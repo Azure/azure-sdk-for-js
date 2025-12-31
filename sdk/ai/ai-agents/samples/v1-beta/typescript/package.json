@@ -32,7 +32,7 @@
   "dependencies": {
     "@azure/ai-agents": "next",
     "dotenv": "latest",
-    "@azure/identity": "^4.3.0",
+    "@azure/identity": "4.11.1",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/instrumentation": "0.57.0",
     "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.7",

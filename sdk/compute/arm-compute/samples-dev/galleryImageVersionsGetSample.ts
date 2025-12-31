@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  GalleryImageVersionsGetOptionalParams} from "@azure/arm-compute";
+import {
+  ComputeManagementClient,
+} from "@azure/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Retrieves information about a gallery image version.
  *
  * @summary Retrieves information about a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Get_WithReplicationStatus.json
  */
-
-import {
-  GalleryImageVersionsGetOptionalParams,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function getAGalleryImageVersionWithReplicationStatus(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

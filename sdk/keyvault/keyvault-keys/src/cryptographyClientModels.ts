@@ -3,7 +3,7 @@
 
 import type { CryptographyOptions, KeyVaultKey } from "./keysModels.js";
 
-import type { JsonWebKey } from "./generated/src/models/index.js";
+import type { JsonWebKey } from "./models/models.js";
 import {
   JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm,
   JsonWebKeyCurveName as KeyCurveName,
@@ -13,7 +13,7 @@ import {
   JsonWebKeySignatureAlgorithm as SignatureAlgorithm,
   KnownJsonWebKeyType as KnownKeyTypes,
   KnownKeyEncryptionAlgorithm as KnownKeyExportEncryptionAlgorithm,
-} from "./generated/src/models/index.js";
+} from "./models/models.js";
 
 export {
   EncryptionAlgorithm,

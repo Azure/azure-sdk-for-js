@@ -213,7 +213,7 @@ node dist/accessControlListsCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID="<managednetworkfabric subscription id>" MANAGEDNETWORKFABRIC_RESOURCE_GROUP="<managednetworkfabric resource group>" node dist/accessControlListsCreateSample.js
+cross-env MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID="<managednetworkfabric subscription id>" MANAGEDNETWORKFABRIC_RESOURCE_GROUP="<managednetworkfabric resource group>" node dist/accessControlListsCreateSample.js
 ```
 
 ## Next Steps

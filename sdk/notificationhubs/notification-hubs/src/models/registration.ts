@@ -107,14 +107,12 @@ export function createAdmRegistrationDescription(
  * Represents the description of the Amazon Device Messaging (ADM) template registration.
  */
 export interface AdmTemplateRegistrationDescriptionCommon
-  extends AdmRegistrationDescriptionCommon,
-    TemplateRegistrationDescription {}
+  extends AdmRegistrationDescriptionCommon, TemplateRegistrationDescription {}
 
 /**
  * Represents the description of the Amazon Device Messaging (ADM) template registration.
  */
-export interface AdmTemplateRegistrationDescription
-  extends AdmTemplateRegistrationDescriptionCommon {
+export interface AdmTemplateRegistrationDescription extends AdmTemplateRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -173,8 +171,7 @@ export function createAppleRegistrationDescription(
  * Represents the description of the Apple template registration.
  */
 export interface AppleTemplateRegistrationDescriptionCommon
-  extends AppleRegistrationDescriptionCommon,
-    TemplateRegistrationDescription {
+  extends AppleRegistrationDescriptionCommon, TemplateRegistrationDescription {
   /**
    * The expiry date.
    */
@@ -194,8 +191,7 @@ export interface AppleTemplateRegistrationDescriptionCommon
 /**
  * Represents the description of the Apple template registration.
  */
-export interface AppleTemplateRegistrationDescription
-  extends AppleTemplateRegistrationDescriptionCommon {
+export interface AppleTemplateRegistrationDescription extends AppleTemplateRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -256,14 +252,12 @@ export function createBaiduRegistrationDescription(
  * Represents a Baidu template registration description.
  */
 export interface BaiduTemplateRegistrationDescriptionCommon
-  extends BaiduRegistrationDescriptionCommon,
-    TemplateRegistrationDescription {}
+  extends BaiduRegistrationDescriptionCommon, TemplateRegistrationDescription {}
 
 /**
  * Represents a Baidu template registration description.
  */
-export interface BaiduTemplateRegistrationDescription
-  extends BaiduTemplateRegistrationDescriptionCommon {
+export interface BaiduTemplateRegistrationDescription extends BaiduTemplateRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -332,14 +326,12 @@ export function createBrowserRegistrationDescription(
  * Represents a Browser Push remplate registration description.
  */
 export interface BrowserTemplateRegistrationDescriptionCommon
-  extends BrowserRegistrationDescriptionCommon,
-    TemplateRegistrationDescription {}
+  extends BrowserRegistrationDescriptionCommon, TemplateRegistrationDescription {}
 
 /**
  * Represents a Browser Push remplate registration description.
  */
-export interface BrowserTemplateRegistrationDescription
-  extends BrowserTemplateRegistrationDescriptionCommon {
+export interface BrowserTemplateRegistrationDescription extends BrowserTemplateRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -398,14 +390,12 @@ export function createFcmLegacyRegistrationDescription(
  * Represents Notification Hub template registration description for Firebase Legacy Cloud Messaging.
  */
 export interface GcmTemplateRegistrationDescriptionCommon
-  extends GcmRegistrationDescriptionCommon,
-    TemplateRegistrationDescription {}
+  extends GcmRegistrationDescriptionCommon, TemplateRegistrationDescription {}
 
 /**
  * Represents Notification Hub template registration description for Firebase Legacy Cloud Messaging.
  */
-export interface GcmTemplateRegistrationDescription
-  extends GcmTemplateRegistrationDescriptionCommon {
+export interface GcmTemplateRegistrationDescription extends GcmTemplateRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -464,14 +454,12 @@ export function createFcmV1RegistrationDescription(
  * Represents Notification Hub template registration description for Firebase V1 Cloud Messaging.
  */
 export interface FcmV1TemplateRegistrationDescriptionCommon
-  extends FcmV1RegistrationDescriptionCommon,
-    TemplateRegistrationDescription {}
+  extends FcmV1RegistrationDescriptionCommon, TemplateRegistrationDescription {}
 
 /**
  * Represents Notification Hub template registration description for Firebase V1 Cloud Messaging.
  */
-export interface FcmV1TemplateRegistrationDescription
-  extends FcmV1TemplateRegistrationDescriptionCommon {
+export interface FcmV1TemplateRegistrationDescription extends FcmV1TemplateRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -519,8 +507,7 @@ export interface MpnsRegistrationDescription extends MpnsRegistrationDescription
  * @deprecated Windows Phone is no longer supported.
  */
 export interface MpnsTemplateRegistrationDescription
-  extends MpnsRegistrationDescriptionCommon,
-    TemplateRegistrationDescription {
+  extends MpnsRegistrationDescriptionCommon, TemplateRegistrationDescription {
   /**
    * The WNS headers.
    */
@@ -537,8 +524,7 @@ export interface MpnsTemplateRegistrationDescription
  * @deprecated Windows Phone is no longer supported.
  */
 export interface MpnsTemplateRegistrationDescriptionCommon
-  extends MpnsRegistrationDescriptionCommon,
-    TemplateRegistrationDescription {
+  extends MpnsRegistrationDescriptionCommon, TemplateRegistrationDescription {
   /**
    * The WNS headers.
    */
@@ -549,8 +535,7 @@ export interface MpnsTemplateRegistrationDescriptionCommon
  * Represents a Windows Phone Notification Services template registration.
  * @deprecated Windows Phone is no longer supported.
  */
-export interface MpnsTemplateRegistrationDescription
-  extends MpnsTemplateRegistrationDescriptionCommon {
+export interface MpnsTemplateRegistrationDescription extends MpnsTemplateRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -595,8 +580,7 @@ export function createWindowsRegistrationDescription(
  * Represents a Windows Notification Services (WNS) template registration.
  */
 export interface WindowsTemplateRegistrationDescriptionCommon
-  extends WindowsRegistrationDescriptionCommon,
-    TemplateRegistrationDescription {
+  extends WindowsRegistrationDescriptionCommon, TemplateRegistrationDescription {
   /**
    * The WNS headers.
    */
@@ -606,8 +590,7 @@ export interface WindowsTemplateRegistrationDescriptionCommon
 /**
  * Represents a Windows Notification Services (WNS) template registration.
  */
-export interface WindowsTemplateRegistrationDescription
-  extends WindowsTemplateRegistrationDescriptionCommon {
+export interface WindowsTemplateRegistrationDescription extends WindowsTemplateRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -666,14 +649,12 @@ export function createXiaomiRegistrationDescription(
  * Represents a Xiaomi template registration.
  */
 export interface XiaomiTemplateRegistrationDescriptionCommon
-  extends XiaomiRegistrationDescriptionCommon,
-    TemplateRegistrationDescription {}
+  extends XiaomiRegistrationDescriptionCommon, TemplateRegistrationDescription {}
 
 /**
  * Represents a Windows Notification Services (WNS) template registration.
  */
-export interface XiaomiTemplateRegistrationDescription
-  extends XiaomiTemplateRegistrationDescriptionCommon {
+export interface XiaomiTemplateRegistrationDescription extends XiaomiTemplateRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */

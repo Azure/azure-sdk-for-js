@@ -25,6 +25,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [DatabaseManagement.ts][databasemanagement]                                                                                 | Demonstrates database create, read, delete and reading all databases.                                                 |
 | [Diagnostics.ts][diagnostics]                                                                                               | Demonstrates usage of CosmosDiagnostic Object.                                                                        |
 | [EntraAuth.ts][entraauth]                                                                                                   | Uses Entra Auth credentials to authenticate with the CosmosClient.                                                    |
+| [ExcludedLocations.ts][excludedlocations]                                                                                   | Demonstrates Cosmos DB operations with excluded regions/locations.                                                    |
 | [ExecuteBulkOperations.ts][executebulkoperations]                                                                           | Shows CRUD operations using executeBulkOperations API.                                                                |
 | [HierarchicalPartitioning.ts][hierarchicalpartitioning]                                                                     | Shows various operations on containers with Hierarchical Partitioning.                                                |
 | [IndexManagement.ts][indexmanagement]                                                                                       | Shows various ways to manage indexing items or changing container index policies.                                     |
@@ -79,7 +80,7 @@ node dist/AlterQueryThroughput.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env COSMOS_KEY="<cosmos key>" COSMOS_ENDPOINT="<cosmos endpoint>" COSMOS_DATABASE="<cosmos database>" COSMOS_CONTAINER="<cosmos container>" node dist/AlterQueryThroughput.js
+cross-env COSMOS_KEY="<cosmos key>" COSMOS_ENDPOINT="<cosmos endpoint>" COSMOS_DATABASE="<cosmos database>" COSMOS_CONTAINER="<cosmos container>" node dist/AlterQueryThroughput.js
 ```
 
 ## Next Steps
@@ -98,6 +99,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [databasemanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/DatabaseManagement.ts
 [diagnostics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/Diagnostics.ts
 [entraauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/EntraAuth.ts
+[excludedlocations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ExcludedLocations.ts
 [executebulkoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ExecuteBulkOperations.ts
 [hierarchicalpartitioning]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/HierarchicalPartitioning.ts
 [indexmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/IndexManagement.ts

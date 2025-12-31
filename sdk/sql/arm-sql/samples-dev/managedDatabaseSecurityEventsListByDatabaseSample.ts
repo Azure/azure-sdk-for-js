@@ -1,21 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  ManagedDatabaseSecurityEventsListByDatabaseOptionalParams,
+  SqlManagementClient,
+} from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Gets a list of security events.
  *
  * @summary Gets a list of security events.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedDatabaseSecurityEventsGetMax.json
  */
-
-import type { ManagedDatabaseSecurityEventsListByDatabaseOptionalParams } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function getTheManagedDatabaseSecurityEventsWithMaximalParameters(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
   const managedInstanceName = "testcl";
   const databaseName = "database1";
@@ -52,7 +54,8 @@ async function getTheManagedDatabaseSecurityEventsWithMaximalParameters(): Promi
  */
 async function getTheManagedDatabaseSecurityEventsWithMinimalParameters(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
   const managedInstanceName = "testcl";
   const databaseName = "database1";

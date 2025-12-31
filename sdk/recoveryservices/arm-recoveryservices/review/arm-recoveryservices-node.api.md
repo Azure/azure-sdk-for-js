@@ -4,11 +4,14 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AlertsState = string;
@@ -23,6 +26,13 @@ export interface AssociatedIdentity {
 export type AuthType = string;
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
 export interface AzureMonitorAlertSettings {
     // (undocumented)
     alertsForAllFailoverIssues?: AlertsState;
@@ -31,6 +41,9 @@ export interface AzureMonitorAlertSettings {
     // (undocumented)
     alertsForAllReplicationIssues?: AlertsState;
 }
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export type BackupStorageVersion = string;
@@ -110,12 +123,6 @@ export interface ClientDiscoveryForServiceSpecification {
 }
 
 // @public
-export interface ClientDiscoveryResponse {
-    nextLink?: string;
-    value?: ClientDiscoveryValueForSingleApi[];
-}
-
-// @public
 export interface ClientDiscoveryValueForSingleApi {
     display?: ClientDiscoveryDisplay;
     name?: string;
@@ -140,6 +147,11 @@ export interface CmkKeyVaultProperties {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -153,6 +165,53 @@ export interface CrossSubscriptionRestoreSettings {
 
 // @public
 export type CrossSubscriptionRestoreState = string;
+
+// @public
+export interface DeletedVault extends ProxyResource {
+    properties?: DeletedVaultProperties;
+}
+
+// @public
+export interface DeletedVaultProperties {
+    readonly purgeAt?: Date;
+    readonly vaultDeletionTime?: Date;
+    readonly vaultId?: string;
+}
+
+// @public
+export interface DeletedVaultsGetOperationStatusOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeletedVaultsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeletedVaultsListBySubscriptionIdOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeletedVaultsOperations {
+    get: (location: string, deletedVaultName: string, options?: DeletedVaultsGetOptionalParams) => Promise<DeletedVault>;
+    getOperationStatus: (location: string, deletedVaultName: string, operationId: string, options?: DeletedVaultsGetOperationStatusOptionalParams) => Promise<OperationResource>;
+    listBySubscriptionId: (location: string, options?: DeletedVaultsListBySubscriptionIdOptionalParams) => PagedAsyncIterableIterator<DeletedVault>;
+    undelete: (location: string, deletedVaultName: string, body: DeletedVaultUndeleteInput, options?: DeletedVaultsUndeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface DeletedVaultsUndeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DeletedVaultUndeleteInput {
+    properties: DeletedVaultUndeleteInputProperties;
+}
+
+// @public
+export interface DeletedVaultUndeleteInputProperties {
+    recoveryResourceGroupId: string;
+}
 
 // @public
 export interface DNSZone {
@@ -169,7 +228,7 @@ export type EnhancedSecurityState = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -197,30 +256,19 @@ export interface ErrorResponse {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export interface GetOperationResultOptionalParams extends coreClient.OperationOptions {
+export interface GetOperationResultOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GetOperationResultResponse = Vault;
-
-// @public
-export interface GetOperationStatusOptionalParams extends coreClient.OperationOptions {
+export interface GetOperationStatusOptionalParams extends OperationOptions {
 }
-
-// @public
-export type GetOperationStatusResponse = OperationResource;
 
 // @public
 export interface IdentityData {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ResourceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserIdentity>;
 }
 
 // @public
@@ -449,6 +497,12 @@ export enum KnownVaultUpgradeState {
 }
 
 // @public
+export enum KnownVersions {
+    V20250201 = "2025-02-01",
+    V20250801 = "2025-08-01"
+}
+
+// @public
 export interface MonitoringSettings {
     azureMonitorAlertSettings?: AzureMonitorAlertSettings;
     classicAlertSettings?: ClassicAlertSettings;
@@ -484,30 +538,31 @@ export interface OperationResource {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<ClientDiscoveryValueForSingleApi>;
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<ClientDiscoveryValueForSingleApi>;
 }
 
 // @public
-export type OperationsListNextResponse = ClientDiscoveryResponse;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListResponse = ClientDiscoveryResponse;
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface PatchTrackedResource extends Resource {
+    etag?: string;
     location?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -543,46 +598,29 @@ export interface PrivateEndpointConnectionVaultProperties {
 }
 
 // @public
-export interface PrivateLinkResource {
+export interface PrivateLinkResource extends ProxyResource {
+    properties?: PrivateLinkResourceProperties;
+}
+
+// @public
+export interface PrivateLinkResourceProperties {
     readonly groupId?: string;
-    readonly id?: string;
-    readonly name?: string;
     readonly requiredMembers?: string[];
     readonly requiredZoneNames?: string[];
-    readonly type?: string;
 }
 
 // @public
-export interface PrivateLinkResources {
-    nextLink?: string;
-    value?: PrivateLinkResource[];
+export interface PrivateLinkResourcesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesListOptionalParams extends OperationOptions {
 }
-
-// @public
-export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
-
-// @public
-export interface PrivateLinkResourcesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkResourcesListNextResponse = PrivateLinkResources;
-
-// @public
-export interface PrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkResourcesListResponse = PrivateLinkResources;
 
 // @public
 export interface PrivateLinkResourcesOperations {
-    get(resourceGroupName: string, vaultName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
-    list(resourceGroupName: string, vaultName: string, options?: PrivateLinkResourcesListOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+    get: (resourceGroupName: string, vaultName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkResource>;
+    list: (resourceGroupName: string, vaultName: string, options?: PrivateLinkResourcesListOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
 
 // @public
@@ -596,6 +634,10 @@ export interface PrivateLinkServiceConnectionState {
 export type ProvisioningState = string;
 
 // @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export type PublicNetworkAccess = string;
 
 // @public
@@ -605,70 +647,50 @@ export interface RawCertificateData {
 }
 
 // @public
-export interface RecoveryServices {
-    capabilities(location: string, input: ResourceCapabilities, options?: RecoveryServicesCapabilitiesOptionalParams): Promise<RecoveryServicesCapabilitiesResponse>;
-    checkNameAvailability(resourceGroupName: string, location: string, input: CheckNameAvailabilityParameters, options?: RecoveryServicesCheckNameAvailabilityOptionalParams): Promise<RecoveryServicesCheckNameAvailabilityResponse>;
+export interface RecoveryServicesCapabilitiesOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RecoveryServicesCapabilitiesOptionalParams extends coreClient.OperationOptions {
+export interface RecoveryServicesCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
-
-// @public
-export type RecoveryServicesCapabilitiesResponse = CapabilitiesResponse;
-
-// @public
-export interface RecoveryServicesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecoveryServicesCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
 
 // @public (undocumented)
-export class RecoveryServicesClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: RecoveryServicesClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    getOperationResult(resourceGroupName: string, vaultName: string, operationId: string, options?: GetOperationResultOptionalParams): Promise<GetOperationResultResponse>;
-    getOperationStatus(resourceGroupName: string, vaultName: string, operationId: string, options?: GetOperationStatusOptionalParams): Promise<GetOperationStatusResponse>;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    privateLinkResourcesOperations: PrivateLinkResourcesOperations;
-    // (undocumented)
-    recoveryServices: RecoveryServices;
-    // (undocumented)
-    registeredIdentities: RegisteredIdentities;
-    // (undocumented)
-    replicationUsages: ReplicationUsages;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    usages: Usages;
-    // (undocumented)
-    vaultCertificates: VaultCertificates;
-    // (undocumented)
-    vaultExtendedInfo: VaultExtendedInfo;
-    // (undocumented)
-    vaults: Vaults;
+export class RecoveryServicesClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: RecoveryServicesClientOptionalParams);
+    readonly deletedVaults: DeletedVaultsOperations;
+    getOperationResult(resourceGroupName: string, vaultName: string, operationId: string, options?: GetOperationResultOptionalParams): Promise<Vault | null>;
+    getOperationStatus(resourceGroupName: string, vaultName: string, operationId: string, options?: GetOperationStatusOptionalParams): Promise<OperationResource>;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly privateLinkResources: PrivateLinkResourcesOperations;
+    readonly recoveryServices: RecoveryServicesOperations;
+    readonly registeredIdentities: RegisteredIdentitiesOperations;
+    readonly replicationUsages: ReplicationUsagesOperations;
+    readonly usages: UsagesOperations;
+    readonly vaultCertificates: VaultCertificatesOperations;
+    readonly vaultExtendedInfo: VaultExtendedInfoOperations;
+    readonly vaults: VaultsOperations;
 }
 
 // @public
-export interface RecoveryServicesClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface RecoveryServicesClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface RegisteredIdentities {
-    delete(resourceGroupName: string, vaultName: string, identityName: string, options?: RegisteredIdentitiesDeleteOptionalParams): Promise<void>;
+export interface RecoveryServicesOperations {
+    capabilities: (location: string, input: ResourceCapabilities, options?: RecoveryServicesCapabilitiesOptionalParams) => Promise<CapabilitiesResponse>;
+    checkNameAvailability: (resourceGroupName: string, location: string, input: CheckNameAvailabilityParameters, options?: RecoveryServicesCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResult>;
 }
 
 // @public
-export interface RegisteredIdentitiesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface RegisteredIdentitiesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RegisteredIdentitiesOperations {
+    delete: (resourceGroupName: string, vaultName: string, identityName: string, options?: RegisteredIdentitiesDeleteOptionalParams) => Promise<void>;
 }
 
 // @public
@@ -682,27 +704,19 @@ export interface ReplicationUsage {
 }
 
 // @public
-export interface ReplicationUsageList {
-    value?: ReplicationUsage[];
+export interface ReplicationUsagesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ReplicationUsages {
-    list(resourceGroupName: string, vaultName: string, options?: ReplicationUsagesListOptionalParams): PagedAsyncIterableIterator<ReplicationUsage>;
+export interface ReplicationUsagesOperations {
+    list: (resourceGroupName: string, vaultName: string, options?: ReplicationUsagesListOptionalParams) => PagedAsyncIterableIterator<ReplicationUsage>;
 }
-
-// @public
-export interface ReplicationUsagesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationUsagesListResponse = ReplicationUsageList;
 
 // @public
 export interface Resource {
-    etag?: string;
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -738,7 +752,7 @@ export interface ResourceCertificateAndAcsDetails extends ResourceCertificateDet
 
 // @public
 export interface ResourceCertificateDetails {
-    authType: "AzureActiveDirectory" | "AccessControlService";
+    authType: string;
     certificate?: Uint8Array;
     friendlyName?: string;
     issuer?: string;
@@ -749,14 +763,24 @@ export interface ResourceCertificateDetails {
     validTo?: Date;
 }
 
-// @public (undocumented)
-export type ResourceCertificateDetailsUnion = ResourceCertificateDetails | ResourceCertificateAndAadDetails | ResourceCertificateAndAcsDetails;
+// @public
+export type ResourceCertificateDetailsUnion = ResourceCertificateAndAadDetails | ResourceCertificateAndAcsDetails | ResourceCertificateDetails;
 
 // @public
 export type ResourceIdentityType = string;
 
 // @public
 export type ResourceMoveState = string;
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: RecoveryServicesClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface RestoreSettings {
@@ -824,9 +848,7 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -846,16 +868,13 @@ export interface UpgradeDetails {
 }
 
 // @public
-export interface Usages {
-    listByVaults(resourceGroupName: string, vaultName: string, options?: UsagesListByVaultsOptionalParams): PagedAsyncIterableIterator<VaultUsage>;
+export interface UsagesListByVaultsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface UsagesListByVaultsOptionalParams extends coreClient.OperationOptions {
+export interface UsagesOperations {
+    listByVaults: (resourceGroupName: string, vaultName: string, options?: UsagesListByVaultsOptionalParams) => PagedAsyncIterableIterator<VaultUsage>;
 }
-
-// @public
-export type UsagesListByVaultsResponse = VaultUsageList;
 
 // @public
 export type UsagesUnit = string;
@@ -868,10 +887,10 @@ export interface UserIdentity {
 
 // @public
 export interface Vault extends TrackedResource {
+    etag?: string;
     identity?: IdentityData;
     properties?: VaultProperties;
     sku?: Sku;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -883,40 +902,16 @@ export interface VaultCertificateResponse {
 }
 
 // @public
-export interface VaultCertificates {
-    create(resourceGroupName: string, vaultName: string, certificateName: string, certificateRequest: CertificateRequest, options?: VaultCertificatesCreateOptionalParams): Promise<VaultCertificatesCreateResponse>;
+export interface VaultCertificatesCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface VaultCertificatesCreateOptionalParams extends coreClient.OperationOptions {
+export interface VaultCertificatesOperations {
+    create: (resourceGroupName: string, vaultName: string, certificateName: string, certificateRequest: CertificateRequest, options?: VaultCertificatesCreateOptionalParams) => Promise<VaultCertificateResponse>;
 }
-
-// @public
-export type VaultCertificatesCreateResponse = VaultCertificateResponse;
 
 // @public
 export interface VaultExtendedInfo {
-    createOrUpdate(resourceGroupName: string, vaultName: string, resourceExtendedInfoDetails: VaultExtendedInfoResource, options?: VaultExtendedInfoCreateOrUpdateOptionalParams): Promise<VaultExtendedInfoCreateOrUpdateResponse>;
-    get(resourceGroupName: string, vaultName: string, options?: VaultExtendedInfoGetOptionalParams): Promise<VaultExtendedInfoGetResponse>;
-    update(resourceGroupName: string, vaultName: string, resourceExtendedInfoDetails: VaultExtendedInfoResource, options?: VaultExtendedInfoUpdateOptionalParams): Promise<VaultExtendedInfoUpdateResponse>;
-}
-
-// @public
-export interface VaultExtendedInfoCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VaultExtendedInfoCreateOrUpdateResponse = VaultExtendedInfoResource;
-
-// @public
-export interface VaultExtendedInfoGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VaultExtendedInfoGetResponse = VaultExtendedInfoResource;
-
-// @public
-export interface VaultExtendedInfoResource extends Resource {
     algorithm?: string;
     encryptionKey?: string;
     encryptionKeyThumbprint?: string;
@@ -924,17 +919,28 @@ export interface VaultExtendedInfoResource extends Resource {
 }
 
 // @public
-export interface VaultExtendedInfoUpdateOptionalParams extends coreClient.OperationOptions {
+export interface VaultExtendedInfoCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VaultExtendedInfoUpdateResponse = VaultExtendedInfoResource;
+export interface VaultExtendedInfoGetOptionalParams extends OperationOptions {
+}
 
 // @public
-export interface VaultList {
-    readonly nextLink?: string;
-    // (undocumented)
-    value?: Vault[];
+export interface VaultExtendedInfoOperations {
+    createOrUpdate: (resourceGroupName: string, vaultName: string, resourceResourceExtendedInfoDetails: VaultExtendedInfoResource, options?: VaultExtendedInfoCreateOrUpdateOptionalParams) => Promise<VaultExtendedInfoResource>;
+    get: (resourceGroupName: string, vaultName: string, options?: VaultExtendedInfoGetOptionalParams) => Promise<VaultExtendedInfoResource>;
+    update: (resourceGroupName: string, vaultName: string, resourceResourceExtendedInfoDetails: VaultExtendedInfoResource, options?: VaultExtendedInfoUpdateOptionalParams) => Promise<VaultExtendedInfoResource>;
+}
+
+// @public
+export interface VaultExtendedInfoResource extends ProxyResource {
+    etag?: string;
+    properties?: VaultExtendedInfo;
+}
+
+// @public
+export interface VaultExtendedInfoUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -984,92 +990,48 @@ export interface VaultPropertiesRedundancySettings {
 }
 
 // @public
-export interface Vaults {
-    beginCreateOrUpdate(resourceGroupName: string, vaultName: string, vault: Vault, options?: VaultsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VaultsCreateOrUpdateResponse>, VaultsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, vaultName: string, vault: Vault, options?: VaultsCreateOrUpdateOptionalParams): Promise<VaultsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<VaultsDeleteResponse>, VaultsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams): Promise<VaultsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, vaultName: string, vault: PatchVault, options?: VaultsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VaultsUpdateResponse>, VaultsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, vaultName: string, vault: PatchVault, options?: VaultsUpdateOptionalParams): Promise<VaultsUpdateResponse>;
-    get(resourceGroupName: string, vaultName: string, options?: VaultsGetOptionalParams): Promise<VaultsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: VaultsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Vault>;
-    listBySubscriptionId(options?: VaultsListBySubscriptionIdOptionalParams): PagedAsyncIterableIterator<Vault>;
-}
-
-// @public
-export interface VaultsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VaultsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
     // (undocumented)
     xMsAuthorizationAuxiliary?: string;
 }
 
 // @public
-export type VaultsCreateOrUpdateResponse = Vault;
-
-// @public
-export interface VaultsDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface VaultsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VaultsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VaultsDeleteResponse = VaultsDeleteHeaders;
-
-// @public
-export interface VaultsGetOptionalParams extends coreClient.OperationOptions {
+export interface VaultsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VaultsGetResponse = Vault;
-
-// @public
-export interface VaultsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface VaultsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VaultsListByResourceGroupNextResponse = VaultList;
-
-// @public
-export interface VaultsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface VaultsListBySubscriptionIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VaultsListByResourceGroupResponse = VaultList;
-
-// @public
-export interface VaultsListBySubscriptionIdNextOptionalParams extends coreClient.OperationOptions {
+export interface VaultsOperations {
+    createOrUpdate: (resourceGroupName: string, vaultName: string, vault: Vault, options?: VaultsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Vault>, Vault>;
+    delete: (resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, vaultName: string, options?: VaultsGetOptionalParams) => Promise<Vault>;
+    listByResourceGroup: (resourceGroupName: string, options?: VaultsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Vault>;
+    listBySubscriptionId: (options?: VaultsListBySubscriptionIdOptionalParams) => PagedAsyncIterableIterator<Vault>;
+    update: (resourceGroupName: string, vaultName: string, vault: PatchVault, options?: VaultsUpdateOptionalParams) => PollerLike<OperationState<Vault>, Vault>;
 }
-
-// @public
-export type VaultsListBySubscriptionIdNextResponse = VaultList;
-
-// @public
-export interface VaultsListBySubscriptionIdOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VaultsListBySubscriptionIdResponse = VaultList;
 
 // @public
 export type VaultSubResourceType = string;
 
 // @public
-export interface VaultsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VaultsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
     // (undocumented)
     xMsAuthorizationAuxiliary?: string;
 }
-
-// @public
-export type VaultsUpdateResponse = Vault;
 
 // @public
 export type VaultUpgradeState = string;
@@ -1082,11 +1044,6 @@ export interface VaultUsage {
     nextResetTime?: Date;
     quotaPeriod?: string;
     unit?: UsagesUnit;
-}
-
-// @public
-export interface VaultUsageList {
-    value?: VaultUsage[];
 }
 
 // (No @packageDocumentation comment for this package)

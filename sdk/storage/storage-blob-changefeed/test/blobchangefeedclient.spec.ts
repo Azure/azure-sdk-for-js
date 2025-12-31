@@ -50,8 +50,8 @@ describe(
       let i = 0;
       for await (const event of changeFeedClient.listChanges()) {
         if (i++ === 0) {
-          assert.ok(event.eventType);
-          assert.ok(event.data.blobType);
+          assert.isDefined(event.eventType);
+          assert.isDefined(event.data.blobType);
         }
       }
     });
@@ -65,15 +65,15 @@ describe(
       const endRounded = new Date(Date.UTC(2020, 4, 8, 22, 0, 0));
       for await (const event of changeFeedClient.listChanges({ start, end })) {
         if (i++ === 0) {
-          assert.ok(event.eventType);
-          assert.ok(event.data.blobType);
-          assert.ok(event.eventTime >= startRounded);
+          assert.isDefined(event.eventType);
+          assert.isDefined(event.data.blobType);
+          assert.isTrue(event.eventTime >= startRounded);
         }
         lastEvent = event;
       }
 
       if (lastEvent) {
-        assert.ok(lastEvent.eventTime < endRounded);
+        assert.isTrue(lastEvent.eventTime < endRounded);
       }
     });
 
@@ -86,8 +86,8 @@ describe(
       }
       assert.equal(nextPage.value.events.length, maxPageSize);
       const event = nextPage.value.events[0];
-      assert.ok(event.eventType);
-      assert.ok(event.data.blobType);
+      assert.isDefined(event.eventType);
+      assert.isDefined(event.data.blobType);
 
       // continuationToken
       const iter1 = changeFeedClient
@@ -99,8 +99,8 @@ describe(
       }
       assert.equal(nextPage1.value.events.length, maxPageSize);
       const event1 = nextPage1.value.events[0];
-      assert.ok(event1.eventType);
-      assert.ok(event1.data.blobType);
+      assert.isDefined(event1.eventType);
+      assert.isDefined(event1.data.blobType);
       assert.notEqual(event1.id, event.id);
 
       // fetch between time range
@@ -115,8 +115,8 @@ describe(
       for await (const eventPage of iter2) {
         if (i++ === 0) {
           const firstEvent = eventPage.events[0];
-          assert.ok(firstEvent.eventType);
-          assert.ok(firstEvent.data.blobType);
+          assert.isDefined(firstEvent.eventType);
+          assert.isDefined(firstEvent.data.blobType);
           assert.notEqual(firstEvent.id, event.id);
         }
         lastEventPage = eventPage;
@@ -124,7 +124,7 @@ describe(
 
       if (lastEventPage) {
         const lastEvent = lastEventPage.events[lastEventPage.events.length - 1];
-        assert.ok(lastEvent.eventTime < endRounded);
+        assert.isTrue(lastEvent.eventTime < endRounded);
       }
     });
 
@@ -166,7 +166,7 @@ describe(
         httpClient: MockHttpClient,
       });
       const telemetryString = await fetchTelemetryString(client);
-      assert.ok(telemetryString.startsWith(`changefeed-js/${SDK_VERSION}`));
+      assert.isTrue(telemetryString.startsWith(`changefeed-js/${SDK_VERSION}`));
       const blobServiceClient: BlobServiceClient = (changeFeedClient as any).blobServiceClient;
       const userAgentPrefix = "test/1 a b";
       const client2 = new BlobChangeFeedClient(
@@ -178,7 +178,7 @@ describe(
         },
       );
       const telemetryString2 = await fetchTelemetryString(client2);
-      assert.ok(telemetryString2.startsWith(`${userAgentPrefix} changefeed-js/${SDK_VERSION}`));
+      assert.isTrue(telemetryString2.startsWith(`${userAgentPrefix} changefeed-js/${SDK_VERSION}`));
     });
 
     it("tracing", async () => {
@@ -216,7 +216,7 @@ describe(
       } catch (err: any) {
         exceptionCaught = true;
       }
-      assert.ok(exceptionCaught);
+      assert.isDefined(exceptionCaught);
     });
   },
 );
@@ -312,7 +312,7 @@ describe(
         "2022-02-17T13:08:42.4825913Z",
         changeFeedEvent.data.previousInfo?.softDeleteSnapshot,
       );
-      assert.ok(changeFeedEvent.data.previousInfo?.isBlobSoftDeleted === true);
+      assert.isTrue(changeFeedEvent.data.previousInfo?.isBlobSoftDeleted);
       assert.equal(
         "2024-02-17T16:11:52.0781797Z",
         changeFeedEvent.data.previousInfo?.newBlobVersion,
@@ -439,7 +439,7 @@ describe(
         "2022-02-17T13:08:42.4825913Z",
         changeFeedEvent.data.previousInfo?.softDeleteSnapshot,
       );
-      assert.ok(changeFeedEvent.data.previousInfo?.isBlobSoftDeleted === true);
+      assert.isTrue(changeFeedEvent.data.previousInfo?.isBlobSoftDeleted);
       assert.equal(
         "2024-02-17T16:11:52.0781797Z",
         changeFeedEvent.data.previousInfo?.newBlobVersion,
@@ -525,7 +525,7 @@ describe(
       );
 
       assert.equal("Hot", changeFeedEvent.data.longRunningOperationInfo?.destinationAccessTier);
-      assert.ok(changeFeedEvent.data.longRunningOperationInfo?.isAsync === true);
+      assert.isTrue(changeFeedEvent.data.longRunningOperationInfo?.isAsync);
       assert.equal("copyId", changeFeedEvent.data.longRunningOperationInfo?.copyId);
     });
 
@@ -569,7 +569,7 @@ describe(
         "2022-02-17T13:12:11.5726507Z",
         changeFeedEvent.data.previousInfo?.softDeleteSnapshot,
       );
-      assert.ok(changeFeedEvent.data.previousInfo?.isBlobSoftDeleted === true);
+      assert.isTrue(changeFeedEvent.data.previousInfo?.isBlobSoftDeleted);
       assert.equal(
         "2024-02-17T16:11:52.0781797Z",
         changeFeedEvent.data.previousInfo?.newBlobVersion,
@@ -655,7 +655,7 @@ describe(
       );
 
       assert.equal("Hot", changeFeedEvent.data.longRunningOperationInfo?.destinationAccessTier);
-      assert.ok(changeFeedEvent.data.longRunningOperationInfo?.isAsync === true);
+      assert.isTrue(changeFeedEvent.data.longRunningOperationInfo?.isAsync);
       assert.equal("copyId", changeFeedEvent.data.longRunningOperationInfo?.copyId);
 
       assert.equal("Value1_3", changeFeedEvent.data.updatedBlobTags?.oldTags["Tag1"]);

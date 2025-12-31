@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface SolutionTemplateVersionsBulkPublishSolutionOptionalParams
-  extends OperationOptions {
+export interface SolutionTemplateVersionsBulkPublishSolutionOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -17,8 +16,7 @@ export interface SolutionTemplateVersionsBulkDeploySolutionOptionalParams extend
 }
 
 /** Optional parameters. */
-export interface SolutionTemplateVersionsListBySolutionTemplateOptionalParams
-  extends OperationOptions {}
+export interface SolutionTemplateVersionsListBySolutionTemplateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface SolutionTemplateVersionsGetOptionalParams extends OperationOptions {}

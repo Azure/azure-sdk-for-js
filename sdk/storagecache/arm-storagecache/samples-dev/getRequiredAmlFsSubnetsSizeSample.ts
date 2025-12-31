@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get the number of available IP addresses needed for the AML file system information provided.
- *
- * @summary Get the number of available IP addresses needed for the AML file system information provided.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/getRequiredAmlFSSubnetsSize.json
- */
-
 import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Get the number of available IP addresses needed for the AML file system information provided.
+ *
+ * @summary Get the number of available IP addresses needed for the AML file system information provided.
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/getRequiredAmlFSSubnetsSize.json
+ */
 async function getRequiredAmlFilesystemSubnetsSize(): Promise<void> {
   const subscriptionId =
-    process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+    process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new StorageCacheManagementClient(credential, subscriptionId);
   const result = await client.getRequiredAmlFSSubnetsSize();

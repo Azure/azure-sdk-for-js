@@ -82,7 +82,11 @@ function _getRuns(context: AgentsContext) {
       runId: string,
       toolOutputs: ToolOutput[],
       options?: RunsSubmitToolOutputsToRunOptionalParams,
-    ) => submitToolOutputsToRun(context, threadId, runId, toolOutputs, options),
+    ) =>
+      submitToolOutputsToRun(context, threadId, runId, {
+        ...options,
+        toolOutputs: toolOutputs ?? options?.toolOutputs,
+      }),
     update: (threadId: string, runId: string, options?: RunsUpdateRunOptionalParams) =>
       updateRun(context, threadId, runId, options),
     get: (threadId: string, runId: string, options?: RunsGetRunOptionalParams) =>

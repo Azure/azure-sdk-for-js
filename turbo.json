@@ -6,8 +6,8 @@
     "teamSlug": "azsdkjs",
     "teamId": "azsdkjs",
     "enabled": true,
-    "apiUrl": "https://turborepo-remote-cache-app.orangefield-d237357a.westus3.azurecontainerapps.io",
-    "loginUrl": "https://turborepo-remote-cache-app.orangefield-d237357a.westus3.azurecontainerapps.io"
+    "apiUrl": "https://turborepo-remote-cache-vnet.whitesky-6b33c444.westus2.azurecontainerapps.io",
+    "loginUrl": "https://turborepo-remote-cache-vnet.whitesky-6b33c444.westus2.azurecontainerapps.io"
   },
   "tasks": {
     "build": {

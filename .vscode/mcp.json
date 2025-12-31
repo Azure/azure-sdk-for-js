@@ -8,5 +8,12 @@
         "-Run"
       ]
     },
+    "ESLint": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "@eslint/mcp@latest"
+      ]
+    },
   }
 }

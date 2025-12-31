@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { VirtualMachine} from "@azure/arm-networkcloud";
+import { NetworkCloud } from "@azure/arm-networkcloud";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Create a new virtual machine or update the properties of the existing virtual machine.
  *
  * @summary Create a new virtual machine or update the properties of the existing virtual machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/VirtualMachines_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-09-01/examples/VirtualMachines_Create.json
  */
-
-import { VirtualMachine, NetworkCloud } from "@azure/arm-networkcloud";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function createOrUpdateVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
@@ -32,6 +32,13 @@ async function createOrUpdateVirtualMachine(): Promise<void> {
       name: "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
       type: "CustomLocation",
     },
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/123e4567E89b12d3A456426655440000/resourceGroups/resourceGroupName/providers/MicrosoftManagedIdentity/userAssignedIdentities/userIdentity1":
+          {},
+      },
+    },
     location: "location",
     memorySizeGB: 8,
     networkAttachments: [
@@ -45,7 +52,7 @@ async function createOrUpdateVirtualMachine(): Promise<void> {
         networkAttachmentName: "netAttachName01",
       },
     ],
-    networkData: "bmV0d29ya0RhdGVTYW1wbGU=",
+    networkDataContent: "bmV0d29ya0RhdGVTYW1wbGU=",
     placementHints: [
       {
         hintType: "Affinity",
@@ -72,7 +79,7 @@ async function createOrUpdateVirtualMachine(): Promise<void> {
       ],
     },
     tags: { key1: "myvalue1", key2: "myvalue2" },
-    userData: "dXNlckRhdGVTYW1wbGU=",
+    userDataContent: "dXNlckRhdGVTYW1wbGU=",
     vmDeviceModel: "T2",
     vmImage: "myacr.azurecr.io/foobar:latest",
     vmImageRepositoryCredentials: {

@@ -8,8 +8,7 @@ export type OnYourDataContextProperty = "citations" | "intent" | "all_retrieved_
  * A specific representation of configurable options for Azure Search when using it as an Azure OpenAI chat
  * extension.
  */
-export interface AzureSearchChatExtensionConfiguration
-  extends AzureChatExtensionConfigurationParent {
+export interface AzureSearchChatExtensionConfiguration extends AzureChatExtensionConfigurationParent {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Azure Cognitive Search.
@@ -94,8 +93,7 @@ export interface AzureSearchIndexFieldMappingOptions {
  * A specific representation of configurable options for Elasticsearch when using it as an Azure OpenAI chat
  * extension.
  */
-export interface ElasticsearchChatExtensionConfiguration
-  extends AzureChatExtensionConfigurationParent {
+export interface ElasticsearchChatExtensionConfiguration extends AzureChatExtensionConfigurationParent {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Elasticsearch®.
@@ -169,8 +167,7 @@ export interface ElasticsearchIndexFieldMappingOptions {
 }
 
 /** The authentication options for Azure OpenAI On Your Data when using access token. */
-export interface OnYourDataAccessTokenAuthenticationOptions
-  extends OnYourDataAuthenticationOptionsParent {
+export interface OnYourDataAccessTokenAuthenticationOptions extends OnYourDataAuthenticationOptionsParent {
   /** The authentication type of access token. */
   type: "access_token";
   /** The access token to use for authentication. */
@@ -181,8 +178,7 @@ export interface OnYourDataAccessTokenAuthenticationOptions
  * A specific representation of configurable options for Azure Cosmos DB when using it as an Azure OpenAI chat
  * extension.
  */
-export interface AzureCosmosDBChatExtensionConfiguration
-  extends AzureChatExtensionConfigurationParent {
+export interface AzureCosmosDBChatExtensionConfiguration extends AzureChatExtensionConfigurationParent {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Azure Cosmos DB.
@@ -254,8 +250,7 @@ export interface AzureCosmosDBFieldMappingOptions {
 }
 
 /** The authentication options for Azure OpenAI On Your Data when using an API key. */
-export interface OnYourDataApiKeyAuthenticationOptions
-  extends OnYourDataAuthenticationOptionsParent {
+export interface OnYourDataApiKeyAuthenticationOptions extends OnYourDataAuthenticationOptionsParent {
   /** The authentication type of API key. */
   type: "api_key";
   /** The API key to use for authentication. */
@@ -269,8 +264,7 @@ export interface OnYourDataAuthenticationOptionsParent {
 }
 
 /** The authentication options for Azure OpenAI On Your Data when using a connection string. */
-export interface OnYourDataConnectionStringAuthenticationOptions
-  extends OnYourDataAuthenticationOptionsParent {
+export interface OnYourDataConnectionStringAuthenticationOptions extends OnYourDataAuthenticationOptionsParent {
   /** The authentication type of connection string. */
   type: "connection_string";
   /** The connection string to use for authentication. */
@@ -281,8 +275,7 @@ export interface OnYourDataConnectionStringAuthenticationOptions
  * The details of a a vectorization source, used by Azure OpenAI On Your Data when applying vector search, that is based
  * on an internal embeddings model deployment name in the same Azure OpenAI resource.
  */
-export interface OnYourDataDeploymentNameVectorizationSource
-  extends OnYourDataVectorizationSourceParent {
+export interface OnYourDataDeploymentNameVectorizationSource extends OnYourDataVectorizationSourceParent {
   /** The type of vectorization source to use. Always 'deployment_name' for this type. */
   type: "deployment_name";
   /** The embedding model deployment name within the same Azure OpenAI resource. This enables you to use vector search without Azure OpenAI api-key and without Azure OpenAI public network access. */
@@ -292,8 +285,7 @@ export interface OnYourDataDeploymentNameVectorizationSource
 }
 
 /** The authentication options for Azure OpenAI On Your Data when using an Elasticsearch encoded API key. */
-export interface OnYourDataEncodedApiKeyAuthenticationOptions
-  extends OnYourDataAuthenticationOptionsParent {
+export interface OnYourDataEncodedApiKeyAuthenticationOptions extends OnYourDataAuthenticationOptionsParent {
   /** The authentication type of Elasticsearch encoded API Key. */
   type: "encoded_api_key";
   /** The encoded API key to use for authentication. */
@@ -303,8 +295,7 @@ export interface OnYourDataEncodedApiKeyAuthenticationOptions
 /**
  * The authentication options for Azure OpenAI On Your Data when using a username and password.
  */
-export interface OnYourDataUsernameAndPasswordAuthenticationOptions
-  extends OnYourDataAuthenticationOptionsParent {
+export interface OnYourDataUsernameAndPasswordAuthenticationOptions extends OnYourDataAuthenticationOptionsParent {
   /** The discriminator type for username and password. */
   type: "username_and_password";
   /** The username. */
@@ -330,8 +321,7 @@ export interface OnYourDataEndpointVectorizationSource extends OnYourDataVectori
 }
 
 /** The authentication options for Azure OpenAI On Your Data when using an Elasticsearch key and key ID pair. */
-export interface OnYourDataKeyAndKeyIdAuthenticationOptions
-  extends OnYourDataAuthenticationOptionsParent {
+export interface OnYourDataKeyAndKeyIdAuthenticationOptions extends OnYourDataAuthenticationOptionsParent {
   /** The authentication type of Elasticsearch key and key ID pair. */
   type: "key_and_key_id";
   /** The key to use for authentication. */
@@ -352,15 +342,13 @@ export interface OnYourDataModelIdVectorizationSource extends OnYourDataVectoriz
 }
 
 /** The authentication options for Azure OpenAI On Your Data when using a system-assigned managed identity. */
-export interface OnYourDataSystemAssignedManagedIdentityAuthenticationOptions
-  extends OnYourDataAuthenticationOptionsParent {
+export interface OnYourDataSystemAssignedManagedIdentityAuthenticationOptions extends OnYourDataAuthenticationOptionsParent {
   /** The authentication type of system-assigned managed identity. */
   type: "system_assigned_managed_identity";
 }
 
 /** The authentication options for Azure OpenAI On Your Data when using a user-assigned managed identity. */
-export interface OnYourDataUserAssignedManagedIdentityAuthenticationOptions
-  extends OnYourDataAuthenticationOptionsParent {
+export interface OnYourDataUserAssignedManagedIdentityAuthenticationOptions extends OnYourDataAuthenticationOptionsParent {
   /** The authentication type of user-assigned managed identity. */
   type: "user_assigned_managed_identity";
   /** The resource ID of the user-assigned managed identity to use for authentication. */
@@ -541,8 +529,7 @@ export interface OnYourDataVectorSearchAuthenticationOptions {
 /**
  * The authentication options for Azure OpenAI On Your Data vector search when using an API key.
  */
-export interface OnYourDataVectorSearchApiKeyAuthenticationOptions
-  extends OnYourDataVectorSearchAuthenticationOptions {
+export interface OnYourDataVectorSearchApiKeyAuthenticationOptions extends OnYourDataVectorSearchAuthenticationOptions {
   /** The authentication type of API key. */
   type: "api_key";
 
@@ -553,8 +540,7 @@ export interface OnYourDataVectorSearchApiKeyAuthenticationOptions
 /**
  * The authentication options for Azure OpenAI On Your Data vector search when using access token.
  */
-export interface OnYourDataVectorSearchAccessTokenAuthenticationOptions
-  extends OnYourDataVectorSearchAuthenticationOptions {
+export interface OnYourDataVectorSearchAccessTokenAuthenticationOptions extends OnYourDataVectorSearchAuthenticationOptions {
   /** The authentication type of access token. */
   type: "access_token";
 
@@ -565,8 +551,7 @@ export interface OnYourDataVectorSearchAccessTokenAuthenticationOptions
 /**
  * Represents the integrated vectorizer defined within the search resource.
  */
-export interface OnYourDataIntegratedVectorizationSource
-  extends OnYourDataVectorizationSourceParent {
+export interface OnYourDataIntegratedVectorizationSource extends OnYourDataVectorizationSourceParent {
   /** The type discriminator. Always 'integrated'. */
   type: "integrated";
 }

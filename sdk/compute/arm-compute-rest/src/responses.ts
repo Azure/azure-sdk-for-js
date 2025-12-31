@@ -447,47 +447,40 @@ export interface VirtualMachineScaleSetsReimageAllDefaultResponse extends HttpRe
 }
 
 /** Manual platform update domain walk to update virtual machines in a service fabric virtual machine scale set. */
-export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk200Response
-  extends HttpResponse {
+export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk200Response extends HttpResponse {
   status: "200";
   body: RecoveryWalkResponseOutput;
 }
 
 /** Manual platform update domain walk to update virtual machines in a service fabric virtual machine scale set. */
-export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse
-  extends HttpResponse {
+export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Converts SinglePlacementGroup property to false for a existing virtual machine scale set. */
-export interface VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response
-  extends HttpResponse {
+export interface VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response extends HttpResponse {
   status: "200";
 }
 
 /** Converts SinglePlacementGroup property to false for a existing virtual machine scale set. */
-export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse
-  extends HttpResponse {
+export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Changes ServiceState property for a given service */
-export interface VirtualMachineScaleSetsSetOrchestrationServiceState200Response
-  extends HttpResponse {
+export interface VirtualMachineScaleSetsSetOrchestrationServiceState200Response extends HttpResponse {
   status: "200";
 }
 
 /** Changes ServiceState property for a given service */
-export interface VirtualMachineScaleSetsSetOrchestrationServiceState202Response
-  extends HttpResponse {
+export interface VirtualMachineScaleSetsSetOrchestrationServiceState202Response extends HttpResponse {
   status: "202";
 }
 
 /** Changes ServiceState property for a given service */
-export interface VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse
-  extends HttpResponse {
+export interface VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -505,8 +498,7 @@ export interface VirtualMachineScaleSetExtensionsCreateOrUpdate201Response exten
 }
 
 /** The operation to create or update an extension. */
-export interface VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -591,39 +583,33 @@ export interface VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse exte
 }
 
 /** Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected. */
-export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgrade200Response
-  extends HttpResponse {
+export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgrade200Response extends HttpResponse {
   status: "200";
 }
 
 /** Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected. */
-export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response
-  extends HttpResponse {
+export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response extends HttpResponse {
   status: "202";
 }
 
 /** Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected. */
-export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse
-  extends HttpResponse {
+export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected. */
-export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response
-  extends HttpResponse {
+export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response extends HttpResponse {
   status: "200";
 }
 
 /** Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected. */
-export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response
-  extends HttpResponse {
+export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response extends HttpResponse {
   status: "202";
 }
 
 /** Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected. */
-export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse
-  extends HttpResponse {
+export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -635,8 +621,7 @@ export interface VirtualMachineScaleSetRollingUpgradesGetLatest200Response exten
 }
 
 /** Gets the status of the latest virtual machine scale set rolling upgrade. */
-export interface VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse
-  extends HttpResponse {
+export interface VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -654,8 +639,7 @@ export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdate201Response ext
 }
 
 /** The operation to create or update the VMSS VM extension. */
-export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -905,15 +889,13 @@ export interface VirtualMachineScaleSetVMsRedeployDefaultResponse extends HttpRe
 }
 
 /** The operation to retrieve SAS URIs of boot diagnostic logs for a virtual machine in a VM scale set. */
-export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response
-  extends HttpResponse {
+export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response extends HttpResponse {
   status: "200";
   body: RetrieveBootDiagnosticsDataResultOutput;
 }
 
 /** The operation to retrieve SAS URIs of boot diagnostic logs for a virtual machine in a VM scale set. */
-export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse
-  extends HttpResponse {
+export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2365,15 +2347,13 @@ export interface CapacityReservationsGetDefaultResponse extends HttpResponse {
 }
 
 /** Lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations. */
-export interface CapacityReservationsListByCapacityReservationGroup200Response
-  extends HttpResponse {
+export interface CapacityReservationsListByCapacityReservationGroup200Response extends HttpResponse {
   status: "200";
   body: CapacityReservationListResultOutput;
 }
 
 /** Lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations. */
-export interface CapacityReservationsListByCapacityReservationGroupDefaultResponse
-  extends HttpResponse {
+export interface CapacityReservationsListByCapacityReservationGroupDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2512,8 +2492,7 @@ export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdate201Response ex
 }
 
 /** The operation to create or update the VMSS VM run command. */
-export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3467,15 +3446,13 @@ export interface GalleryApplicationVersionsDeleteDefaultResponse extends HttpRes
 }
 
 /** List gallery Application Versions in a gallery Application Definition. */
-export interface GalleryApplicationVersionsListByGalleryApplication200Response
-  extends HttpResponse {
+export interface GalleryApplicationVersionsListByGalleryApplication200Response extends HttpResponse {
   status: "200";
   body: GalleryApplicationVersionListOutput;
 }
 
 /** List gallery Application Versions in a gallery Application Definition. */
-export interface GalleryApplicationVersionsListByGalleryApplicationDefaultResponse
-  extends HttpResponse {
+export interface GalleryApplicationVersionsListByGalleryApplicationDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }

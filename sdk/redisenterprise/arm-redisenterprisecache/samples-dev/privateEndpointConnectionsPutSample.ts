@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates the state of the specified private endpoint connection associated with the Redis Enterprise cluster.
- *
- * @summary Updates the state of the specified private endpoint connection associated with the Redis Enterprise cluster.
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterprisePutPrivateEndpointConnection.json
- */
-
+import type {
+  PrivateEndpointConnection} from "@azure/arm-redisenterprisecache";
 import {
-  PrivateEndpointConnection,
   RedisEnterpriseManagementClient,
 } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Updates the state of the specified private endpoint connection associated with the Redis Enterprise cluster.
+ *
+ * @summary Updates the state of the specified private endpoint connection associated with the Redis Enterprise cluster.
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterprisePutPrivateEndpointConnection.json
+ */
 async function redisEnterprisePutPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||

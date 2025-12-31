@@ -3,6 +3,12 @@
 
 import { stringToUint8Array } from "@azure/core-util";
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -566,7 +572,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -840,6 +846,847 @@ export function fleetMemberArrayDeserializer(result: Array<FleetMember>): any[] 
   return result.map((item) => {
     return fleetMemberDeserializer(item);
   });
+}
+
+/** A fleet managed namespace. */
+export interface FleetManagedNamespace extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: FleetManagedNamespaceProperties;
+  /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  readonly eTag?: string;
+}
+
+export function fleetManagedNamespaceSerializer(item: FleetManagedNamespace): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : fleetManagedNamespacePropertiesSerializer(item["properties"]),
+  };
+}
+
+export function fleetManagedNamespaceDeserializer(item: any): FleetManagedNamespace {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : fleetManagedNamespacePropertiesDeserializer(item["properties"]),
+    eTag: item["eTag"],
+  };
+}
+
+/** The properties of a fleet managed namespace. */
+export interface FleetManagedNamespaceProperties {
+  /** The status of the last operation. */
+  readonly provisioningState?: FleetManagedNamespaceProvisioningState;
+  /** The namespace properties for the fleet managed namespace. */
+  managedNamespaceProperties?: ManagedNamespaceProperties;
+  /** Action if the managed namespace with the same name already exists. Default is Never. */
+  adoptionPolicy: AdoptionPolicy;
+  /** Delete options of a fleet managed namespace. Default is Keep. */
+  deletePolicy: DeletePolicy;
+  /** The profile of the propagation to create the namespace. */
+  propagationPolicy?: PropagationPolicy;
+  /** Status information of the last operation for fleet managed namespace. */
+  readonly status?: FleetManagedNamespaceStatus;
+  /** The Azure Portal FQDN of the Fleet hub. */
+  readonly portalFqdn?: string;
+}
+
+export function fleetManagedNamespacePropertiesSerializer(
+  item: FleetManagedNamespaceProperties,
+): any {
+  return {
+    managedNamespaceProperties: !item["managedNamespaceProperties"]
+      ? item["managedNamespaceProperties"]
+      : managedNamespacePropertiesSerializer(item["managedNamespaceProperties"]),
+    adoptionPolicy: item["adoptionPolicy"],
+    deletePolicy: item["deletePolicy"],
+    propagationPolicy: !item["propagationPolicy"]
+      ? item["propagationPolicy"]
+      : propagationPolicySerializer(item["propagationPolicy"]),
+  };
+}
+
+export function fleetManagedNamespacePropertiesDeserializer(
+  item: any,
+): FleetManagedNamespaceProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    managedNamespaceProperties: !item["managedNamespaceProperties"]
+      ? item["managedNamespaceProperties"]
+      : managedNamespacePropertiesDeserializer(item["managedNamespaceProperties"]),
+    adoptionPolicy: item["adoptionPolicy"],
+    deletePolicy: item["deletePolicy"],
+    propagationPolicy: !item["propagationPolicy"]
+      ? item["propagationPolicy"]
+      : propagationPolicyDeserializer(item["propagationPolicy"]),
+    status: !item["status"]
+      ? item["status"]
+      : fleetManagedNamespaceStatusDeserializer(item["status"]),
+    portalFqdn: item["portalFqdn"],
+  };
+}
+
+/** The provisioning state of the fleet managed namespace resource */
+export enum KnownFleetManagedNamespaceProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** The provisioning state of a fleet managed namespace being created. */
+  Creating = "Creating",
+  /** The provisioning state of a fleet managed namespace being updated. */
+  Updating = "Updating",
+  /** The provisioning state of a fleet managed namespace being deleted. */
+  Deleting = "Deleting",
+}
+
+/**
+ * The provisioning state of the fleet managed namespace resource \
+ * {@link KnownFleetManagedNamespaceProvisioningState} can be used interchangeably with FleetManagedNamespaceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Creating**: The provisioning state of a fleet managed namespace being created. \
+ * **Updating**: The provisioning state of a fleet managed namespace being updated. \
+ * **Deleting**: The provisioning state of a fleet managed namespace being deleted.
+ */
+export type FleetManagedNamespaceProvisioningState = string;
+
+/** The namespace properties for the fleet managed namespace. */
+export interface ManagedNamespaceProperties {
+  /** The labels for the fleet managed namespace. */
+  labels?: Record<string, string>;
+  /** The annotations for the fleet managed namespace. */
+  annotations?: Record<string, string>;
+  /** The default resource quota for the fleet managed namespace. */
+  defaultResourceQuota?: ResourceQuota;
+  /** The default network policy for the fleet managed namespace. */
+  defaultNetworkPolicy?: NetworkPolicy;
+}
+
+export function managedNamespacePropertiesSerializer(item: ManagedNamespaceProperties): any {
+  return {
+    labels: item["labels"],
+    annotations: item["annotations"],
+    defaultResourceQuota: !item["defaultResourceQuota"]
+      ? item["defaultResourceQuota"]
+      : resourceQuotaSerializer(item["defaultResourceQuota"]),
+    defaultNetworkPolicy: !item["defaultNetworkPolicy"]
+      ? item["defaultNetworkPolicy"]
+      : networkPolicySerializer(item["defaultNetworkPolicy"]),
+  };
+}
+
+export function managedNamespacePropertiesDeserializer(item: any): ManagedNamespaceProperties {
+  return {
+    labels: item["labels"],
+    annotations: item["annotations"],
+    defaultResourceQuota: !item["defaultResourceQuota"]
+      ? item["defaultResourceQuota"]
+      : resourceQuotaDeserializer(item["defaultResourceQuota"]),
+    defaultNetworkPolicy: !item["defaultNetworkPolicy"]
+      ? item["defaultNetworkPolicy"]
+      : networkPolicyDeserializer(item["defaultNetworkPolicy"]),
+  };
+}
+
+/** The resource quota for the managed namespace. */
+export interface ResourceQuota {
+  /** The CPU request for the managed namespace. See more at https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu */
+  cpuRequest?: string;
+  /** The CPU limit for the managed namespace. See more at https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu */
+  cpuLimit?: string;
+  /** The memory request for the managed namespace. See more at https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory */
+  memoryRequest?: string;
+  /** The memory limit for the managed namespace. See more at https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory */
+  memoryLimit?: string;
+}
+
+export function resourceQuotaSerializer(item: ResourceQuota): any {
+  return {
+    cpuRequest: item["cpuRequest"],
+    cpuLimit: item["cpuLimit"],
+    memoryRequest: item["memoryRequest"],
+    memoryLimit: item["memoryLimit"],
+  };
+}
+
+export function resourceQuotaDeserializer(item: any): ResourceQuota {
+  return {
+    cpuRequest: item["cpuRequest"],
+    cpuLimit: item["cpuLimit"],
+    memoryRequest: item["memoryRequest"],
+    memoryLimit: item["memoryLimit"],
+  };
+}
+
+/** The network policy for the managed namespace. */
+export interface NetworkPolicy {
+  /** The ingress policy for the managed namespace. */
+  ingress?: PolicyRule;
+  /** The egress policy for the managed namespace. */
+  egress?: PolicyRule;
+}
+
+export function networkPolicySerializer(item: NetworkPolicy): any {
+  return { ingress: item["ingress"], egress: item["egress"] };
+}
+
+export function networkPolicyDeserializer(item: any): NetworkPolicy {
+  return {
+    ingress: item["ingress"],
+    egress: item["egress"],
+  };
+}
+
+/** The possible values representing different network policy rules. */
+export enum KnownPolicyRule {
+  /** Allow all network traffic. */
+  AllowAll = "AllowAll",
+  /** Deny all network traffic. */
+  DenyAll = "DenyAll",
+  /** Allow traffic within the same namespace. */
+  AllowSameNamespace = "AllowSameNamespace",
+}
+
+/**
+ * The possible values representing different network policy rules. \
+ * {@link KnownPolicyRule} can be used interchangeably with PolicyRule,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AllowAll**: Allow all network traffic. \
+ * **DenyAll**: Deny all network traffic. \
+ * **AllowSameNamespace**: Allow traffic within the same namespace.
+ */
+export type PolicyRule = string;
+
+/** Action if the Namespace with the same name already exists. */
+export enum KnownAdoptionPolicy {
+  /** If the Namespace already exists, do not take over the existing Namespace to be managed by ARM. */
+  Never = "Never",
+  /** If there is an identical Namespace, take over the existing Namespace to be managed by ARM. */
+  IfIdentical = "IfIdentical",
+  /** Always take over the existing Namespace to be managed by ARM, even if it is not identical. */
+  Always = "Always",
+}
+
+/**
+ * Action if the Namespace with the same name already exists. \
+ * {@link KnownAdoptionPolicy} can be used interchangeably with AdoptionPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Never**: If the Namespace already exists, do not take over the existing Namespace to be managed by ARM. \
+ * **IfIdentical**: If there is an identical Namespace, take over the existing Namespace to be managed by ARM. \
+ * **Always**: Always take over the existing Namespace to be managed by ARM, even if it is not identical.
+ */
+export type AdoptionPolicy = string;
+
+/** Delete options for the ARM managed namespace. */
+export enum KnownDeletePolicy {
+  /** Delete the ARM resource but keep the Namespace. */
+  Keep = "Keep",
+  /** Delete both ARM resource and Namespace. */
+  Delete = "Delete",
+}
+
+/**
+ * Delete options for the ARM managed namespace. \
+ * {@link KnownDeletePolicy} can be used interchangeably with DeletePolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Keep**: Delete the ARM resource but keep the Namespace. \
+ * **Delete**: Delete both ARM resource and Namespace.
+ */
+export type DeletePolicy = string;
+
+/** The propagation to be used for provisioning the namespace among the fleet. */
+export interface PropagationPolicy {
+  /** The type of the policy to be used. Default is Placement. */
+  type: PropagationType;
+  /** The profile to be used for propagation via placement. */
+  placementProfile?: PlacementProfile;
+}
+
+export function propagationPolicySerializer(item: PropagationPolicy): any {
+  return {
+    type: item["type"],
+    placementProfile: !item["placementProfile"]
+      ? item["placementProfile"]
+      : placementProfileSerializer(item["placementProfile"]),
+  };
+}
+
+export function propagationPolicyDeserializer(item: any): PropagationPolicy {
+  return {
+    type: item["type"],
+    placementProfile: !item["placementProfile"]
+      ? item["placementProfile"]
+      : placementProfileDeserializer(item["placementProfile"]),
+  };
+}
+
+/** How the namespace will be provisioned among the fleet members. */
+export enum KnownPropagationType {
+  /** Using ClusterResourcePlacement. */
+  Placement = "Placement",
+}
+
+/**
+ * How the namespace will be provisioned among the fleet members. \
+ * {@link KnownPropagationType} can be used interchangeably with PropagationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Placement**: Using ClusterResourcePlacement.
+ */
+export type PropagationType = string;
+
+/** The configuration profile for default ClusterResourcePlacement for placement. */
+export interface PlacementProfile {
+  /** The default ClusterResourcePlacement policy configuration. */
+  defaultClusterResourcePlacement?: ClusterResourcePlacementSpec;
+}
+
+export function placementProfileSerializer(item: PlacementProfile): any {
+  return {
+    defaultClusterResourcePlacement: !item["defaultClusterResourcePlacement"]
+      ? item["defaultClusterResourcePlacement"]
+      : clusterResourcePlacementSpecSerializer(item["defaultClusterResourcePlacement"]),
+  };
+}
+
+export function placementProfileDeserializer(item: any): PlacementProfile {
+  return {
+    defaultClusterResourcePlacement: !item["defaultClusterResourcePlacement"]
+      ? item["defaultClusterResourcePlacement"]
+      : clusterResourcePlacementSpecDeserializer(item["defaultClusterResourcePlacement"]),
+  };
+}
+
+/** ClusterResourcePlacementSpec defines the desired state of ClusterResourcePlacement. */
+export interface ClusterResourcePlacementSpec {
+  /** Policy defines how to select member clusters to place the selected resources. If unspecified, all the joined member clusters are selected. */
+  policy?: PlacementPolicy;
+}
+
+export function clusterResourcePlacementSpecSerializer(item: ClusterResourcePlacementSpec): any {
+  return {
+    policy: !item["policy"] ? item["policy"] : placementPolicySerializer(item["policy"]),
+  };
+}
+
+export function clusterResourcePlacementSpecDeserializer(item: any): ClusterResourcePlacementSpec {
+  return {
+    policy: !item["policy"] ? item["policy"] : placementPolicyDeserializer(item["policy"]),
+  };
+}
+
+/** PlacementPolicy contains the rules to select target member clusters to place the selected resources. Note that only clusters that are both joined and satisfying the rules will be selected. You can only specify at most one of the two fields: ClusterNames and Affinity. If none is specified, all the joined clusters are selected. */
+export interface PlacementPolicy {
+  /** Type of placement. Can be "PickAll", "PickN" or "PickFixed". Default is PickAll. */
+  placementType?: PlacementType;
+  /** ClusterNames contains a list of names of MemberCluster to place the selected resources. Only valid if the placement type is "PickFixed" */
+  clusterNames?: string[];
+  /** Affinity contains cluster affinity scheduling rules. Defines which member clusters to place the selected resources. Only valid if the placement type is "PickAll" or "PickN". */
+  affinity?: Affinity;
+  /** If specified, the ClusterResourcePlacement's Tolerations. Tolerations cannot be updated or deleted. This field is beta-level and is for the taints and tolerations feature. */
+  tolerations?: Toleration[];
+}
+
+export function placementPolicySerializer(item: PlacementPolicy): any {
+  return {
+    placementType: item["placementType"],
+    clusterNames: !item["clusterNames"]
+      ? item["clusterNames"]
+      : item["clusterNames"].map((p: any) => {
+          return p;
+        }),
+    affinity: !item["affinity"] ? item["affinity"] : affinitySerializer(item["affinity"]),
+    tolerations: !item["tolerations"]
+      ? item["tolerations"]
+      : tolerationArraySerializer(item["tolerations"]),
+  };
+}
+
+export function placementPolicyDeserializer(item: any): PlacementPolicy {
+  return {
+    placementType: item["placementType"],
+    clusterNames: !item["clusterNames"]
+      ? item["clusterNames"]
+      : item["clusterNames"].map((p: any) => {
+          return p;
+        }),
+    affinity: !item["affinity"] ? item["affinity"] : affinityDeserializer(item["affinity"]),
+    tolerations: !item["tolerations"]
+      ? item["tolerations"]
+      : tolerationArrayDeserializer(item["tolerations"]),
+  };
+}
+
+/** PlacementType identifies the type of placement. */
+export enum KnownPlacementType {
+  /** PickAll picks all clusters that satisfy the rules. */
+  PickAll = "PickAll",
+  /** PickFixed picks a fixed set of clusters. */
+  PickFixed = "PickFixed",
+}
+
+/**
+ * PlacementType identifies the type of placement. \
+ * {@link KnownPlacementType} can be used interchangeably with PlacementType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PickAll**: PickAll picks all clusters that satisfy the rules. \
+ * **PickFixed**: PickFixed picks a fixed set of clusters.
+ */
+export type PlacementType = string;
+
+/** Affinity is a group of cluster affinity scheduling rules. More to be added. */
+export interface Affinity {
+  /** ClusterAffinity contains cluster affinity scheduling rules for the selected resources. */
+  clusterAffinity?: ClusterAffinity;
+}
+
+export function affinitySerializer(item: Affinity): any {
+  return {
+    clusterAffinity: !item["clusterAffinity"]
+      ? item["clusterAffinity"]
+      : clusterAffinitySerializer(item["clusterAffinity"]),
+  };
+}
+
+export function affinityDeserializer(item: any): Affinity {
+  return {
+    clusterAffinity: !item["clusterAffinity"]
+      ? item["clusterAffinity"]
+      : clusterAffinityDeserializer(item["clusterAffinity"]),
+  };
+}
+
+/** ClusterAffinity contains cluster affinity scheduling rules for the selected resources. */
+export interface ClusterAffinity {
+  /** If the affinity requirements specified by this field are not met at scheduling time, the resource will not be scheduled onto the cluster. If the affinity requirements specified by this field cease to be met at some point after the placement (e.g. due to an update), the system may or may not try to eventually remove the resource from the cluster. */
+  requiredDuringSchedulingIgnoredDuringExecution?: ClusterSelector;
+}
+
+export function clusterAffinitySerializer(item: ClusterAffinity): any {
+  return {
+    requiredDuringSchedulingIgnoredDuringExecution: !item[
+      "requiredDuringSchedulingIgnoredDuringExecution"
+    ]
+      ? item["requiredDuringSchedulingIgnoredDuringExecution"]
+      : clusterSelectorSerializer(item["requiredDuringSchedulingIgnoredDuringExecution"]),
+  };
+}
+
+export function clusterAffinityDeserializer(item: any): ClusterAffinity {
+  return {
+    requiredDuringSchedulingIgnoredDuringExecution: !item[
+      "requiredDuringSchedulingIgnoredDuringExecution"
+    ]
+      ? item["requiredDuringSchedulingIgnoredDuringExecution"]
+      : clusterSelectorDeserializer(item["requiredDuringSchedulingIgnoredDuringExecution"]),
+  };
+}
+
+/** ClusterSelector */
+export interface ClusterSelector {
+  /** ClusterSelectorTerms is a list of cluster selector terms. The terms are `ORed`. */
+  clusterSelectorTerms: ClusterSelectorTerm[];
+}
+
+export function clusterSelectorSerializer(item: ClusterSelector): any {
+  return {
+    clusterSelectorTerms: clusterSelectorTermArraySerializer(item["clusterSelectorTerms"]),
+  };
+}
+
+export function clusterSelectorDeserializer(item: any): ClusterSelector {
+  return {
+    clusterSelectorTerms: clusterSelectorTermArrayDeserializer(item["clusterSelectorTerms"]),
+  };
+}
+
+export function clusterSelectorTermArraySerializer(result: Array<ClusterSelectorTerm>): any[] {
+  return result.map((item) => {
+    return clusterSelectorTermSerializer(item);
+  });
+}
+
+export function clusterSelectorTermArrayDeserializer(result: Array<ClusterSelectorTerm>): any[] {
+  return result.map((item) => {
+    return clusterSelectorTermDeserializer(item);
+  });
+}
+
+/** ClusterSelectorTerm */
+export interface ClusterSelectorTerm {
+  /** LabelSelector is a label query over all the joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd. */
+  labelSelector?: LabelSelector;
+  /** PropertySelector is a property query over all joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd. At this moment, PropertySelector can only be used with `RequiredDuringSchedulingIgnoredDuringExecution` affinity terms. This field is beta-level; it is for the property-based scheduling feature and is only functional when a property provider is enabled in the deployment. */
+  propertySelector?: PropertySelector;
+}
+
+export function clusterSelectorTermSerializer(item: ClusterSelectorTerm): any {
+  return {
+    labelSelector: !item["labelSelector"]
+      ? item["labelSelector"]
+      : labelSelectorSerializer(item["labelSelector"]),
+    propertySelector: !item["propertySelector"]
+      ? item["propertySelector"]
+      : propertySelectorSerializer(item["propertySelector"]),
+  };
+}
+
+export function clusterSelectorTermDeserializer(item: any): ClusterSelectorTerm {
+  return {
+    labelSelector: !item["labelSelector"]
+      ? item["labelSelector"]
+      : labelSelectorDeserializer(item["labelSelector"]),
+    propertySelector: !item["propertySelector"]
+      ? item["propertySelector"]
+      : propertySelectorDeserializer(item["propertySelector"]),
+  };
+}
+
+/** A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects. */
+export interface LabelSelector {
+  /** matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed. */
+  matchLabels?: Record<string, string>;
+  /** matchExpressions is a list of label selector requirements. The requirements are ANDed. */
+  matchExpressions?: LabelSelectorRequirement[];
+}
+
+export function labelSelectorSerializer(item: LabelSelector): any {
+  return {
+    matchLabels: item["matchLabels"],
+    matchExpressions: !item["matchExpressions"]
+      ? item["matchExpressions"]
+      : labelSelectorRequirementArraySerializer(item["matchExpressions"]),
+  };
+}
+
+export function labelSelectorDeserializer(item: any): LabelSelector {
+  return {
+    matchLabels: item["matchLabels"],
+    matchExpressions: !item["matchExpressions"]
+      ? item["matchExpressions"]
+      : labelSelectorRequirementArrayDeserializer(item["matchExpressions"]),
+  };
+}
+
+export function labelSelectorRequirementArraySerializer(
+  result: Array<LabelSelectorRequirement>,
+): any[] {
+  return result.map((item) => {
+    return labelSelectorRequirementSerializer(item);
+  });
+}
+
+export function labelSelectorRequirementArrayDeserializer(
+  result: Array<LabelSelectorRequirement>,
+): any[] {
+  return result.map((item) => {
+    return labelSelectorRequirementDeserializer(item);
+  });
+}
+
+/** A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values. */
+export interface LabelSelectorRequirement {
+  /** key is the label key that the selector applies to. */
+  key: string;
+  /** operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist. */
+  operator: LabelSelectorOperator;
+  /** values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch. */
+  values?: string[];
+}
+
+export function labelSelectorRequirementSerializer(item: LabelSelectorRequirement): any {
+  return {
+    key: item["key"],
+    operator: item["operator"],
+    values: !item["values"]
+      ? item["values"]
+      : item["values"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function labelSelectorRequirementDeserializer(item: any): LabelSelectorRequirement {
+  return {
+    key: item["key"],
+    operator: item["operator"],
+    values: !item["values"]
+      ? item["values"]
+      : item["values"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** A label selector operator is the set of operators that can be used in a selector requirement. */
+export enum KnownLabelSelectorOperator {
+  /** Label Selector Operator In */
+  In = "In",
+  /** Label Selector Operator NotIn */
+  NotIn = "NotIn",
+  /** Label Selector Operator Exists */
+  Exists = "Exists",
+  /** Label Selector Operator DoesNotExist */
+  DoesNotExist = "DoesNotExist",
+}
+
+/**
+ * A label selector operator is the set of operators that can be used in a selector requirement. \
+ * {@link KnownLabelSelectorOperator} can be used interchangeably with LabelSelectorOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **In**: Label Selector Operator In \
+ * **NotIn**: Label Selector Operator NotIn \
+ * **Exists**: Label Selector Operator Exists \
+ * **DoesNotExist**: Label Selector Operator DoesNotExist
+ */
+export type LabelSelectorOperator = string;
+
+/** PropertySelector helps user specify property requirements when picking clusters for resource placement. */
+export interface PropertySelector {
+  /** MatchExpressions is an array of PropertySelectorRequirements. The requirements are AND'd. */
+  matchExpressions: PropertySelectorRequirement[];
+}
+
+export function propertySelectorSerializer(item: PropertySelector): any {
+  return {
+    matchExpressions: propertySelectorRequirementArraySerializer(item["matchExpressions"]),
+  };
+}
+
+export function propertySelectorDeserializer(item: any): PropertySelector {
+  return {
+    matchExpressions: propertySelectorRequirementArrayDeserializer(item["matchExpressions"]),
+  };
+}
+
+export function propertySelectorRequirementArraySerializer(
+  result: Array<PropertySelectorRequirement>,
+): any[] {
+  return result.map((item) => {
+    return propertySelectorRequirementSerializer(item);
+  });
+}
+
+export function propertySelectorRequirementArrayDeserializer(
+  result: Array<PropertySelectorRequirement>,
+): any[] {
+  return result.map((item) => {
+    return propertySelectorRequirementDeserializer(item);
+  });
+}
+
+/** PropertySelectorRequirement is a specific property requirement when picking clusters for resource placement. */
+export interface PropertySelectorRequirement {
+  /** Name is the name of the property; it should be a Kubernetes label name. */
+  name: string;
+  /** Operator specifies the relationship between a cluster's observed value of the specified property and the values given in the requirement. */
+  operator: PropertySelectorOperator;
+  /** Values are a list of values of the specified property which Fleet will compare against the observed values of individual member clusters in accordance with the given operator. At this moment, each value should be a Kubernetes quantity. For more information, see https://pkg.go.dev/k8s.io/apimachinery/pkg/api/resource#Quantity. If the operator is Gt (greater than), Ge (greater than or equal to), Lt (less than), or `Le` (less than or equal to), Eq (equal to), or Ne (ne), exactly one value must be specified in the list. */
+  values: string[];
+}
+
+export function propertySelectorRequirementSerializer(item: PropertySelectorRequirement): any {
+  return {
+    name: item["name"],
+    operator: item["operator"],
+    values: item["values"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function propertySelectorRequirementDeserializer(item: any): PropertySelectorRequirement {
+  return {
+    name: item["name"],
+    operator: item["operator"],
+    values: item["values"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** PropertySelectorOperator is the operator that can be used with PropertySelectorRequirements. */
+export enum KnownPropertySelectorOperator {
+  /** Gt dictates Fleet to select cluster if its observed value of a given property is greater than the value specified in the requirement. */
+  Gt = "Gt",
+  /** Ge dictates Fleet to select cluster if its observed value of a given property is greater than or equal to the value specified in the requirement. */
+  Ge = "Ge",
+  /** Eq dictates Fleet to select cluster if its observed value of a given property is equal to the values specified in the requirement. */
+  Eq = "Eq",
+  /** Ne dictates Fleet to select cluster if its observed value of a given property is not equal to the values specified in the requirement. */
+  Ne = "Ne",
+  /** Lt dictates Fleet to select cluster if its observed value of a given property is less than the value specified in the requirement. */
+  Lt = "Lt",
+  /** Le dictates Fleet to select cluster if its observed value of a given property is less than or equal to the value specified in the requirement. */
+  Le = "Le",
+}
+
+/**
+ * PropertySelectorOperator is the operator that can be used with PropertySelectorRequirements. \
+ * {@link KnownPropertySelectorOperator} can be used interchangeably with PropertySelectorOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Gt**: Gt dictates Fleet to select cluster if its observed value of a given property is greater than the value specified in the requirement. \
+ * **Ge**: Ge dictates Fleet to select cluster if its observed value of a given property is greater than or equal to the value specified in the requirement. \
+ * **Eq**: Eq dictates Fleet to select cluster if its observed value of a given property is equal to the values specified in the requirement. \
+ * **Ne**: Ne dictates Fleet to select cluster if its observed value of a given property is not equal to the values specified in the requirement. \
+ * **Lt**: Lt dictates Fleet to select cluster if its observed value of a given property is less than the value specified in the requirement. \
+ * **Le**: Le dictates Fleet to select cluster if its observed value of a given property is less than or equal to the value specified in the requirement.
+ */
+export type PropertySelectorOperator = string;
+
+export function tolerationArraySerializer(result: Array<Toleration>): any[] {
+  return result.map((item) => {
+    return tolerationSerializer(item);
+  });
+}
+
+export function tolerationArrayDeserializer(result: Array<Toleration>): any[] {
+  return result.map((item) => {
+    return tolerationDeserializer(item);
+  });
+}
+
+/** Toleration allows ClusterResourcePlacement to tolerate any taint that matches the triple <key,value,effect> using the matching operator <operator>. */
+export interface Toleration {
+  /** Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys. */
+  key?: string;
+  /** Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a ClusterResourcePlacement can tolerate all taints of a particular category. */
+  operator?: TolerationOperator;
+  /** Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string. */
+  value?: string;
+  /** Effect indicates the taint effect to match. Empty means match all taint effects. When specified, only allowed value is NoSchedule. */
+  effect?: TaintEffect;
+}
+
+export function tolerationSerializer(item: Toleration): any {
+  return {
+    key: item["key"],
+    operator: item["operator"],
+    value: item["value"],
+    effect: item["effect"],
+  };
+}
+
+export function tolerationDeserializer(item: any): Toleration {
+  return {
+    key: item["key"],
+    operator: item["operator"],
+    value: item["value"],
+    effect: item["effect"],
+  };
+}
+
+/** A toleration operator is the set of operators that can be used in a toleration. */
+export enum KnownTolerationOperator {
+  /** Toleration Operator Exists */
+  Exists = "Exists",
+  /** Toleration Operator Equal */
+  Equal = "Equal",
+}
+
+/**
+ * A toleration operator is the set of operators that can be used in a toleration. \
+ * {@link KnownTolerationOperator} can be used interchangeably with TolerationOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Exists**: Toleration Operator Exists \
+ * **Equal**: Toleration Operator Equal
+ */
+export type TolerationOperator = string;
+
+/** TaintEffect */
+export enum KnownTaintEffect {
+  /** Do not allow new pods to schedule onto the node unless they tolerate the taint, but allow all pods submitted to Kubelet without going through the scheduler to start, and allow all already-running pods to continue running. Enforced by the scheduler. */
+  NoSchedule = "NoSchedule",
+}
+
+/**
+ * TaintEffect \
+ * {@link KnownTaintEffect} can be used interchangeably with TaintEffect,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NoSchedule**: Do not allow new pods to schedule onto the node unless they tolerate the taint, but allow all pods submitted to Kubelet without going through the scheduler to start, and allow all already-running pods to continue running. Enforced by the scheduler.
+ */
+export type TaintEffect = string;
+
+/** Status information for the fleet managed namespace. */
+export interface FleetManagedNamespaceStatus {
+  /** The last operation ID for the fleet managed namespace */
+  readonly lastOperationId?: string;
+  /** The last operation error of the fleet managed namespace */
+  readonly lastOperationError?: ErrorDetail;
+}
+
+export function fleetManagedNamespaceStatusDeserializer(item: any): FleetManagedNamespaceStatus {
+  return {
+    lastOperationId: item["lastOperationId"],
+    lastOperationError: !item["lastOperationError"]
+      ? item["lastOperationError"]
+      : errorDetailDeserializer(item["lastOperationError"]),
+  };
+}
+
+/** The response of a FleetManagedNamespace list operation. */
+export interface _FleetManagedNamespaceListResult {
+  /** The FleetManagedNamespace items on this page */
+  value: FleetManagedNamespace[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _fleetManagedNamespaceListResultDeserializer(
+  item: any,
+): _FleetManagedNamespaceListResult {
+  return {
+    value: fleetManagedNamespaceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function fleetManagedNamespaceArraySerializer(result: Array<FleetManagedNamespace>): any[] {
+  return result.map((item) => {
+    return fleetManagedNamespaceSerializer(item);
+  });
+}
+
+export function fleetManagedNamespaceArrayDeserializer(
+  result: Array<FleetManagedNamespace>,
+): any[] {
+  return result.map((item) => {
+    return fleetManagedNamespaceDeserializer(item);
+  });
+}
+
+/** The properties of a fleet managed namespace that can be patched. */
+export interface FleetManagedNamespacePatch {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function fleetManagedNamespacePatchSerializer(item: FleetManagedNamespacePatch): any {
+  return { tags: item["tags"] };
 }
 
 /** A Gate controls the progression during a staged rollout, e.g. in an Update Run. */
@@ -2175,4 +3022,6 @@ export enum KnownVersions {
   V20250301 = "2025-03-01",
   /** Azure Kubernetes Fleet Manager api version 2025-04-01-preview. */
   V20250401Preview = "2025-04-01-preview",
+  /** Azure Kubernetes Fleet Manager api version 2025-08-01-preview. */
+  V20250801Preview = "2025-08-01-preview",
 }

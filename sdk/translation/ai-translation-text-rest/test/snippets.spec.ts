@@ -54,12 +54,10 @@ describe("snippets", () => {
       }
     }
     // @ts-preserve-whitespace
-    if (languages.dictionary) {
-      console.log("Dictionary languages:");
-      for (const [key, dictionaryLanguage] of Object.entries(languages.dictionary)) {
-        console.log(
-          `${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`,
-        );
+    if (languages.models) {
+      console.log("Available LLM Models:");
+      for (const model in languages.models) {
+        console.log(model);
       }
     }
   });
@@ -74,24 +72,23 @@ describe("snippets", () => {
     };
     const translationClient = TextTranslationClient(endpoint, credential);
     // @ts-preserve-whitespace
-    const inputText = [{ text: "This is a test." }];
-    const parameters = {
-      to: "cs",
-      from: "en",
+    const input = {
+      text: "This is a test.",
+      targets: [{ language: "cs" }],
+      language: "en",
     };
     const translateResponse = await translationClient.path("/translate").post({
-      body: inputText,
-      queryParameters: parameters,
+      body: { inputs: [input] },
     });
     // @ts-preserve-whitespace
     if (isUnexpected(translateResponse)) {
       throw translateResponse.body.error;
     }
     // @ts-preserve-whitespace
-    const translations = translateResponse.body;
+    const translations = translateResponse.body.value;
     for (const translation of translations) {
       console.log(
-        `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
+        `Text was translated to: '${translation?.translations[0]?.language}' and the result is: '${translation?.translations[0]?.text}'.`,
       );
     }
   });
@@ -113,7 +110,7 @@ describe("snippets", () => {
       toScript: "Latn",
     };
     const transliterateResponse = await translationClient.path("/transliterate").post({
-      body: inputText,
+      body: { inputs: inputText },
       queryParameters: parameters,
     });
     // @ts-preserve-whitespace
@@ -121,111 +118,10 @@ describe("snippets", () => {
       throw transliterateResponse.body.error;
     }
     // @ts-preserve-whitespace
-    const translations = transliterateResponse.body;
-    for (const transliteration of translations) {
+    const transliterations = transliterateResponse.body.value;
+    for (const transliteration of transliterations) {
       console.log(
         `Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`,
-      );
-    }
-  });
-
-  it("ReadmeSampleBreakSentence", async () => {
-    const endpoint = "https://api.cognitive.microsofttranslator.com";
-    const key = "YOUR_SUBSCRIPTION_KEY";
-    const region = "westus";
-    const credential: TranslatorCredential = {
-      key,
-      region,
-    };
-    const translationClient = TextTranslationClient(endpoint, credential);
-    // @ts-preserve-whitespace
-    const inputText = [{ text: "zhè shì gè cè shì。" }];
-    const parameters = {
-      language: "zh-Hans",
-      script: "Latn",
-    };
-    const breakSentenceResponse = await translationClient.path("/breaksentence").post({
-      body: inputText,
-      queryParameters: parameters,
-    });
-    // @ts-preserve-whitespace
-    if (isUnexpected(breakSentenceResponse)) {
-      throw breakSentenceResponse.body.error;
-    }
-    // @ts-preserve-whitespace
-    const breakSentences = breakSentenceResponse.body;
-    for (const breakSentence of breakSentences) {
-      console.log(`The detected sentece boundaries: '${breakSentence?.sentLen.join(", ")}'.`);
-    }
-  });
-
-  it("ReadmeSampleDictionaryLookup", async () => {
-    const endpoint = "https://api.cognitive.microsofttranslator.com";
-    const key = "YOUR_SUBSCRIPTION_KEY";
-    const region = "westus";
-    const credential: TranslatorCredential = {
-      key,
-      region,
-    };
-    const translationClient = TextTranslationClient(endpoint, credential);
-    // @ts-preserve-whitespace
-    const inputText = [{ text: "fly" }];
-    const parameters = {
-      to: "es",
-      from: "en",
-    };
-    const dictionaryResponse = await translationClient.path("/dictionary/lookup").post({
-      body: inputText,
-      queryParameters: parameters,
-    });
-    // @ts-preserve-whitespace
-    if (isUnexpected(dictionaryResponse)) {
-      throw dictionaryResponse.body.error;
-    }
-    // @ts-preserve-whitespace
-    const dictionaryEntries = dictionaryResponse.body;
-    for (const dictionaryEntry of dictionaryEntries) {
-      console.log(
-        `For the given input ${dictionaryEntry?.translations?.length} entries were found in the dictionary.`,
-      );
-      console.log(
-        `First entry: '${dictionaryEntry?.translations[0]?.displayTarget}', confidence: ${dictionaryEntry?.translations[0]?.confidence}.`,
-      );
-    }
-  });
-
-  it("ReadmeSampleDictionaryExamples", async () => {
-    const endpoint = "https://api.cognitive.microsofttranslator.com";
-    const key = "YOUR_SUBSCRIPTION_KEY";
-    const region = "westus";
-    const credential: TranslatorCredential = {
-      key,
-      region,
-    };
-    const translationClient = TextTranslationClient(endpoint, credential);
-    // @ts-preserve-whitespace
-    const inputText = [{ text: "fly", translation: "volar" }];
-    const parameters = {
-      to: "es",
-      from: "en",
-    };
-    const dictionaryResponse = await translationClient.path("/dictionary/examples").post({
-      body: inputText,
-      queryParameters: parameters,
-    });
-    // @ts-preserve-whitespace
-    if (isUnexpected(dictionaryResponse)) {
-      throw dictionaryResponse.body.error;
-    }
-    // @ts-preserve-whitespace
-    const dictionaryExamples = dictionaryResponse.body;
-    for (const dictionaryExample of dictionaryExamples) {
-      console.log(
-        `For the given input ${dictionaryExample?.examples?.length} examples were found in the dictionary.`,
-      );
-      const firstExample = dictionaryExample?.examples[0];
-      console.log(
-        `Example: '${firstExample.targetPrefix + firstExample.targetTerm + firstExample.targetSuffix}'.`,
       );
     }
   });

@@ -23,11 +23,9 @@ export class GlobalPartitionEndpointManager {
     string,
     PartitionKeyRangeFailoverInfo
   >;
-  private enablePartitionLevelFailover: boolean;
-  private enablePartitionLevelCircuitBreaker: boolean;
   private preferredLocations: string[];
   public preferredLocationsCount: number;
-  private circuitBreakerFailbackBackgroundRefresher: NodeJS.Timeout;
+  private circuitBreakerFailbackBackgroundRefresher?: NodeJS.Timeout;
 
   /**
    * @internal
@@ -41,15 +39,9 @@ export class GlobalPartitionEndpointManager {
       string,
       PartitionKeyRangeFailoverInfo
     >();
-
-    this.enablePartitionLevelFailover = options.connectionPolicy.enablePartitionLevelFailover;
-    this.enablePartitionLevelCircuitBreaker =
-      options.connectionPolicy.enablePartitionLevelCircuitBreaker ||
-      options.connectionPolicy.enablePartitionLevelFailover;
-
     this.preferredLocations = options.connectionPolicy.preferredLocations;
     this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
-    if (this.enablePartitionLevelCircuitBreaker) {
+    if (this.globalEndpointManager.lastKnownPPCBEnabled) {
       this.initiateCircuitBreakerFailbackLoop();
     }
   }
@@ -138,6 +130,7 @@ export class GlobalPartitionEndpointManager {
   public dispose(): void {
     if (this.circuitBreakerFailbackBackgroundRefresher) {
       clearTimeout(this.circuitBreakerFailbackBackgroundRefresher);
+      this.circuitBreakerFailbackBackgroundRefresher = undefined;
     }
   }
 
@@ -306,7 +299,7 @@ export class GlobalPartitionEndpointManager {
     requestContext: RequestContext,
   ): boolean {
     return (
-      this.enablePartitionLevelFailover &&
+      this.isPartitionLevelAutomaticFailoverEnabled() &&
       !isReadRequest(requestContext.operationType) &&
       !this.globalEndpointManager.canUseMultipleWriteLocations(
         requestContext.resourceType,
@@ -323,7 +316,8 @@ export class GlobalPartitionEndpointManager {
   private isRequestEligibleForPartitionLevelCircuitBreaker(
     requestContext: RequestContext,
   ): boolean {
-    if (!this.enablePartitionLevelCircuitBreaker) {
+    const enablePartitionLevelCircuitBreaker = this.isPartitionLevelCircuitBreakerEnabled();
+    if (!enablePartitionLevelCircuitBreaker) {
       return false;
     }
     if (isReadRequest(requestContext.operationType)) {
@@ -398,6 +392,8 @@ export class GlobalPartitionEndpointManager {
    * location for the partition key range.
    */
   private async openConnectionToUnhealthyEndpointsWithFailback(): Promise<void> {
+    // If partition level circuit breaker or failover is not enabled, dispose the timer.
+
     for (const pkRange of this.partitionKeyRangeToLocationForReadAndWrite.keys()) {
       const partitionFailover = this.partitionKeyRangeToLocationForReadAndWrite.get(pkRange);
       if (!partitionFailover) continue;
@@ -415,5 +411,37 @@ export class GlobalPartitionEndpointManager {
         this.partitionKeyRangeToLocationForReadAndWrite.delete(pkRange);
       }
     }
+  }
+
+  /**
+   * @internal
+   */
+  public changeCircuitBreakerFailbackLoop(isEnabled: boolean): void {
+    // Start or stop the circuit breaker failback loop based on PPAF/PPCB status
+    if (isEnabled) {
+      // Only start if not already running to prevent duplicate timers
+      if (!this.circuitBreakerFailbackBackgroundRefresher) {
+        this.initiateCircuitBreakerFailbackLoop();
+      }
+    } else {
+      // Only dispose if currently running
+      if (this.circuitBreakerFailbackBackgroundRefresher) {
+        this.dispose();
+      }
+    }
+  }
+  /**
+   * Gets a value indicating whether per-partition automatic failover is currently enabled.
+   * @internal
+   */
+  public isPartitionLevelAutomaticFailoverEnabled(): boolean {
+    return this.globalEndpointManager.lastKnownPPAFEnabled;
+  }
+  /**
+   * Gets a value indicating whether per-partition automatic failover is currently enabled.
+   * @internal
+   */
+  public isPartitionLevelCircuitBreakerEnabled(): boolean {
+    return this.globalEndpointManager.lastKnownPPCBEnabled;
   }
 }

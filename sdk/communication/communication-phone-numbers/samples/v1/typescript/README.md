@@ -67,7 +67,7 @@ node dist/getPurchasedPhoneNumber.ts
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" PHONE_NUMBER_TO_GET="<phone number to get>" AZURE_PHONE_NUMBER="<azure phone number>" node dist/getPurchasedPhoneNumber.js
+cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" PHONE_NUMBER_TO_GET="<phone number to get>" AZURE_PHONE_NUMBER="<azure phone number>" node dist/getPurchasedPhoneNumber.js
 ```
 
 ## Next Steps

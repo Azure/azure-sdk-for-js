@@ -18,13 +18,6 @@ import { SeverityNumber } from "@opentelemetry/api-logs";
 // Load the .env file if it exists
 import "dotenv/config";
 
-// Logger setup
-const loggerProvider = new LoggerProvider({
-  resource: resourceFromAttributes({
-    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-  }),
-});
-
 // Configure processor to send logs to the exporter
 const logExporter = new AzureMonitorLogExporter({
   connectionString:
@@ -32,7 +25,14 @@ const logExporter = new AzureMonitorLogExporter({
     process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] ||
     "InstrumentationKey=00000000-0000-0000-0000-000000000000;",
 });
-loggerProvider.addLogRecordProcessor(new SimpleLogRecordProcessor(logExporter));
+
+// Logger setup
+const loggerProvider = new LoggerProvider({
+  resource: resourceFromAttributes({
+    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+  }),
+  processors: [new SimpleLogRecordProcessor(logExporter)],
+});
 const logger = loggerProvider.getLogger("example-basic-logger-node");
 
 export async function main(): Promise<void> {

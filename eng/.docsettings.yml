@@ -10,7 +10,7 @@ omitted_paths:
   - sdk/**/swagger/*
   - sdk/**/test/**
   - sdk/*/arm-*
-  - sdk/*/perf-tests/*
+  - sdk/*/*perf-tests/*
   - sdk/appconfiguration/app-configuration/sample-react/README.md
   - sdk/applicationinsights/applicationinsights-query/README.md
   - sdk/batch/batch/README.md

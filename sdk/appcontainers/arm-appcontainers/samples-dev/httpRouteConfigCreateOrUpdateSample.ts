@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   HttpRouteConfig,
-  HttpRouteConfigCreateOrUpdateOptionalParams,
+  HttpRouteConfigCreateOrUpdateOptionalParams} from "@azure/arm-appcontainers";
+import {
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -13,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create or Update a Http Route Config.
  *
  * @summary Create or Update a Http Route Config.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/HttpRouteConfig_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/HttpRouteConfig_CreateOrUpdate.json
  */
 async function createOrUpdateHttpRoute(): Promise<void> {
   const subscriptionId =
@@ -42,7 +43,7 @@ async function createOrUpdateHttpRoute(): Promise<void> {
               match: { path: "/v1", caseSensitive: true },
             },
           ],
-          targets: [{ containerApp: "capp-1", revision: "rev-1", weight: 100 }],
+          targets: [{ containerApp: "capp-1", revision: "capp-1--0000001" }],
         },
       ],
     },
@@ -65,7 +66,7 @@ async function createOrUpdateHttpRoute(): Promise<void> {
  * This sample demonstrates how to Create or Update a Http Route Config.
  *
  * @summary Create or Update a Http Route Config.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/HttpRouteConfig_CreateOrUpdate_PathSepPrefix.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/HttpRouteConfig_CreateOrUpdate_PathSepPrefix.json
  */
 async function createOrUpdateHttpRoutePathSeparatedPrefixRule(): Promise<void> {
   const subscriptionId =
@@ -80,7 +81,7 @@ async function createOrUpdateHttpRoutePathSeparatedPrefixRule(): Promise<void> {
       customDomains: [
         {
           name: "example.com",
-          bindingType: "Disabled",
+          bindingType: "SniEnabled",
           certificateId:
             "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv/certificates/certificate-1",
         },
@@ -117,7 +118,7 @@ async function createOrUpdateHttpRoutePathSeparatedPrefixRule(): Promise<void> {
  * This sample demonstrates how to Create or Update a Http Route Config.
  *
  * @summary Create or Update a Http Route Config.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/HttpRouteConfig_CreateOrUpdatePrefix.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/HttpRouteConfig_CreateOrUpdatePrefix.json
  */
 async function createOrUpdateHttpRoutePrefixRule(): Promise<void> {
   const subscriptionId =
@@ -132,7 +133,7 @@ async function createOrUpdateHttpRoutePrefixRule(): Promise<void> {
       customDomains: [
         {
           name: "example.com",
-          bindingType: "Disabled",
+          bindingType: "SniEnabled",
           certificateId:
             "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv/certificates/certificate-1",
         },

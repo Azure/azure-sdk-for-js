@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ScriptActions } from "../operationsInterfaces/index.js";
+import type { ScriptActions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { HDInsightManagementClient } from "../hDInsightManagementClient.js";
-import {
+import type { HDInsightManagementClient } from "../hDInsightManagementClient.js";
+import type {
   RuntimeScriptActionDetail,
   ScriptActionsListByClusterNextOptionalParams,
   ScriptActionsListByClusterOptionalParams,
@@ -50,11 +50,7 @@ export class ScriptActionsImpl implements ScriptActions {
     clusterName: string,
     options?: ScriptActionsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<RuntimeScriptActionDetail> {
-    const iter = this.listByClusterPagingAll(
-      resourceGroupName,
-      clusterName,
-      options,
-    );
+    const iter = this.listByClusterPagingAll(resourceGroupName, clusterName, options);
     return {
       next() {
         return iter.next();
@@ -66,12 +62,7 @@ export class ScriptActionsImpl implements ScriptActions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByClusterPagingPage(
-          resourceGroupName,
-          clusterName,
-          options,
-          settings,
-        );
+        return this.listByClusterPagingPage(resourceGroupName, clusterName, options, settings);
       },
     };
   }
@@ -85,12 +76,8 @@ export class ScriptActionsImpl implements ScriptActions {
     let result: ScriptActionsListByClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByCluster(
-        resourceGroupName,
-        clusterName,
-        options,
-      );
-      let page = result.value || [];
+      result = await this._listByCluster(resourceGroupName, clusterName, options);
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -103,7 +90,7 @@ export class ScriptActionsImpl implements ScriptActions {
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -283,29 +270,28 @@ const getExecutionDetailOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getExecutionAsyncOperationStatusOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/executeScriptActions/azureasyncoperations/{operationId}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.AsyncOperationResult,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const getExecutionAsyncOperationStatusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/executeScriptActions/azureasyncoperations/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationResult,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.clusterName,
-      Parameters.operationId,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.operationId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listByClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",

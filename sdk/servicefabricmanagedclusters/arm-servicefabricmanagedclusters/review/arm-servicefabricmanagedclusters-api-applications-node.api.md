@@ -4,10 +4,10 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function $delete(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
@@ -19,6 +19,11 @@ export interface ApplicationsCreateOrUpdateOptionalParams extends OperationOptio
 
 // @public
 export interface ApplicationsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ApplicationsFetchHealthOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -36,6 +41,11 @@ export interface ApplicationsReadUpgradeOptionalParams extends OperationOptions 
 }
 
 // @public
+export interface ApplicationsRestartDeployedCodePackageOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ApplicationsResumeUpgradeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -47,10 +57,19 @@ export interface ApplicationsStartRollbackOptionalParams extends OperationOption
 
 // @public
 export interface ApplicationsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ApplicationsUpdateUpgradeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
 export function createOrUpdate(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResource, options?: ApplicationsCreateOrUpdateOptionalParams): PollerLike<OperationState<ApplicationResource>, ApplicationResource>;
+
+// @public
+export function fetchHealth(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationFetchHealthRequest, options?: ApplicationsFetchHealthOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export function get(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsGetOptionalParams): Promise<ApplicationResource>;
@@ -62,13 +81,19 @@ export function list(context: ServiceFabricManagedClustersManagementContext, res
 export function readUpgrade(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsReadUpgradeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
+export function restartDeployedCodePackage(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, parameters: RestartDeployedCodePackageRequest, options?: ApplicationsRestartDeployedCodePackageOptionalParams): PollerLike<OperationState<void>, void>;
+
+// @public
 export function resumeUpgrade(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, parameters: RuntimeResumeApplicationUpgradeParameters, options?: ApplicationsResumeUpgradeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export function startRollback(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsStartRollbackOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function update(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationUpdateParameters, options?: ApplicationsUpdateOptionalParams): Promise<ApplicationResource>;
+export function update(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationUpdateParameters, options?: ApplicationsUpdateOptionalParams): PollerLike<OperationState<ApplicationResource>, ApplicationResource>;
+
+// @public
+export function updateUpgrade(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, parameters: RuntimeUpdateApplicationUpgradeParameters, options?: ApplicationsUpdateUpgradeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // (No @packageDocumentation comment for this package)
 

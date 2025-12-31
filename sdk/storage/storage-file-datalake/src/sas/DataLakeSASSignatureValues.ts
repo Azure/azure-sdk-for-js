@@ -2,10 +2,8 @@
 // Licensed under the MIT License.
 
 import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential.js";
-import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential.js";
 import { DataLakeSASPermissions } from "./DataLakeSASPermissions.js";
 import { FileSystemSASPermissions } from "./FileSystemSASPermissions.js";
-import type { UserDelegationKey } from "../models.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
 import type { SASProtocol } from "./SASQueryParameters.js";
@@ -13,6 +11,7 @@ import { SASQueryParameters } from "./SASQueryParameters.js";
 import { SERVICE_VERSION } from "../utils/constants.js";
 import { truncatedISO8061Date } from "../utils/utils.common.js";
 import { DirectorySASPermissions } from "./DirectorySASPermissions.js";
+import { UserDelegationKey, UserDelegationKeyCredential } from "@azure/storage-common";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -110,6 +109,13 @@ export interface DataLakeSASSignatureValues {
    * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
+
+  /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */
+  delegatedUserObjectId?: string;
 
   /**
    * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
@@ -1192,7 +1198,7 @@ function generateBlobSASQueryParametersUDK20250705(
     dataLakeSASSignatureValues.agentObjectId,
     dataLakeSASSignatureValues.correlationId,
     undefined, // SignedKeyDelegatedUserTenantId, will be added in a future release.
-    undefined, // SignedDelegatedUserObjectId, will be added in future release.
+    dataLakeSASSignatureValues.delegatedUserObjectId, // SignedDelegatedUserObjectId, will be added in future release.
     dataLakeSASSignatureValues.ipRange ? ipRangeToString(dataLakeSASSignatureValues.ipRange) : "",
     dataLakeSASSignatureValues.protocol ? dataLakeSASSignatureValues.protocol : "",
     version,
@@ -1232,6 +1238,7 @@ function generateBlobSASQueryParametersUDK20250705(
       dataLakeSASSignatureValues.agentObjectId,
       dataLakeSASSignatureValues.correlationId,
       dataLakeSASSignatureValues.encryptionScope,
+      dataLakeSASSignatureValues.delegatedUserObjectId,
     ),
     stringToSign: stringToSign,
   };

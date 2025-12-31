@@ -33,8 +33,8 @@ export class IndexDocumentsBatch<TModel> {
   }
 
   /**
-   * Update a set of documents in the index.
-   * For more details about how merging works, see https://learn.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
+   * Update a set of documents in the index. For more details about how merging works, see
+   * https://learn.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
    * @param documents - The updated documents.
    */
   public merge(documents: TModel[]): void {
@@ -49,8 +49,9 @@ export class IndexDocumentsBatch<TModel> {
   }
 
   /**
-   * Update a set of documents in the index or uploads them if they don't exist.
-   * For more details about how merging works, see https://learn.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
+   * Update a set of documents in the index or uploads them if they don't exist. For more details
+   * about how merging works, see
+   * https://learn.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
    * @param documents - The new/updated documents.
    */
   public mergeOrUpload(documents: TModel[]): void {

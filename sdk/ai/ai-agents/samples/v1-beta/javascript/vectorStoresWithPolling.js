@@ -24,10 +24,6 @@ async function main() {
     pollingOptions: {
       intervalInMs: 2000,
     },
-    // (Optional) Define an onResponse callback to monitor the progress of polling
-    onResponse: (response) => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
   });
   console.log(
     `Created vector store with status ${vectorStore1.status}, vector store ID: ${vectorStore1.id}`,
@@ -42,9 +38,9 @@ async function main() {
     pollingOptions: {
       intervalInMs: 2000,
     },
-    onResponse: (response) => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
+  });
+  vectorStorePoller.onProgress((state) => {
+    console.log(`Polling vector store creation, current status: ${state.status}`);
   });
   const vectorStore2 = await vectorStorePoller.pollUntilDone({
     abortSignal: abortController.signal,

@@ -87,7 +87,7 @@ node dist/chatTranscriptsGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env SUPPORT_SUBSCRIPTION_ID="<support subscription id>" node dist/chatTranscriptsGetSample.js
+cross-env SUPPORT_SUBSCRIPTION_ID="<support subscription id>" node dist/chatTranscriptsGetSample.js
 ```
 
 ## Next Steps

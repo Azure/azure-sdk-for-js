@@ -41,7 +41,7 @@ node azureBareMetalInstancesGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID="<baremetalinfrastructure subscription id>" BAREMETALINFRASTRUCTURE_RESOURCE_GROUP="<baremetalinfrastructure resource group>" node azureBareMetalInstancesGetSample.js
+cross-env BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID="<baremetalinfrastructure subscription id>" BAREMETALINFRASTRUCTURE_RESOURCE_GROUP="<baremetalinfrastructure resource group>" node azureBareMetalInstancesGetSample.js
 ```
 
 ## Next Steps

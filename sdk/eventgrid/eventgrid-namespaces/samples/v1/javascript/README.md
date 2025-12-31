@@ -51,7 +51,7 @@ node namespaceActivities.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env EVENT_GRID_NAMESPACES_ENDPOINT="<event grid namespaces endpoint>" EVENT_GRID_NAMESPACES_KEY="<event grid namespaces key>" EVENT_SUBSCRIPTION_NAME="<event subscription name>" TOPIC_NAME="<topic name>" node namespaceActivities.js
+cross-env EVENT_GRID_NAMESPACES_ENDPOINT="<event grid namespaces endpoint>" EVENT_GRID_NAMESPACES_KEY="<event grid namespaces key>" EVENT_SUBSCRIPTION_NAME="<event subscription name>" TOPIC_NAME="<topic name>" node namespaceActivities.js
 ```
 
 ## Next Steps

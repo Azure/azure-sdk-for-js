@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  ManagedInstanceAzureADOnlyAuthentication,
+  SqlManagementClient,
+} from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Sets Server Active Directory only authentication property or updates an existing server Active Directory only authentication property.
  *
  * @summary Sets Server Active Directory only authentication property or updates an existing server Active Directory only authentication property.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceAzureADOnlyAuthCreateOrUpdate.json
  */
-
-import type { ManagedInstanceAzureADOnlyAuthentication } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function createsOrUpdatesAzureActiveDirectoryOnlyAuthenticationObject(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const managedInstanceName = "managedInstance";
   const authenticationName = "Default";
   const parameters: ManagedInstanceAzureADOnlyAuthentication = {
@@ -24,12 +27,13 @@ async function createsOrUpdatesAzureActiveDirectoryOnlyAuthenticationObject(): P
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstanceAzureADOnlyAuthentications.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    authenticationName,
-    parameters,
-  );
+  const result =
+    await client.managedInstanceAzureADOnlyAuthentications.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      managedInstanceName,
+      authenticationName,
+      parameters,
+    );
   console.log(result);
 }
 

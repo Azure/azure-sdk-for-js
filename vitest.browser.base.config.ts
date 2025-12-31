@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { defineConfig } from "vitest/config";
+import { playwright } from '@vitest/browser-playwright'
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 import { AzureSDKReporter, makeAliases } from "./vitest.shared.config.js";
 
@@ -28,17 +29,19 @@ export default defineConfig({
       "test-dist/stress/**/*.js",
     ],
     browser: {
+      api: 43315,
       instances: [
         {
           browser: "chromium",
-          launch: {
-            args: ["--disable-web-security"],
-          },
         },
       ],
       enabled: true,
       headless: true,
-      provider: "playwright",
+      provider: playwright({
+        launchOptions: {
+          args: ["--disable-web-security"],
+        }
+      }),
     },
     fakeTimers: {
       toFake: ["setTimeout", "Date"],
@@ -53,7 +56,7 @@ export default defineConfig({
         "dist-test/browser/**/snippets.spec.js",
       ],
       provider: "istanbul",
-      reporter: ["text", "json", "html"],
+      reporter: ["text", "cobertura", "html"],
       reportsDirectory: "coverage-browser",
     },
   },

@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createRecordedDeidentificationClient,
-  createRecorder,
-  getTestEnvironment,
-} from "./utils/recordedClient.js";
+import { createRecordedDeidentificationClient, createRecorder } from "./utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { DeidentificationClient } from "../../src/clientDefinitions.js";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -15,7 +11,7 @@ import type {
   DeidentificationDocumentDetailsOutput,
 } from "../../src/outputModels.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { ErrorResponse } from "@azure-rest/core-client";
 import { getLongRunningPoller } from "../../src/pollingHelper.js";
 import { paginate } from "../../src/paginateHelper.js";
@@ -27,25 +23,18 @@ const testPollingOptions = {
 
 const TEST_TIMEOUT_MS: number = 200000;
 const NUMBER_OF_DOCUMENTS = 3;
-
-const generateJobName = (testName?: string): string => {
-  let jobName = "js-sdk-job-" + Date.now();
-  if (isPlaybackMode() || isRecordMode()) {
-    jobName = `js-job-recorded-${testName}`;
-  }
-  return jobName;
-};
-
 const OUTPUT_FOLDER = "_output";
+const INPUT_PREFIX = "example_patient_1";
+let jobName: string;
 
 describe("Batch", () => {
   let recorder: Recorder;
   let client: DeidentificationClient;
   let storageAccountLocation: string;
-  const environment = getTestEnvironment();
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
+    jobName = recorder.variable("jobName", "js-sdk-job-" + Date.now());
     storageAccountLocation = env["HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION"] as string;
     const credential = createTestCredential();
     client = await createRecordedDeidentificationClient(recorder, credential);
@@ -59,14 +48,11 @@ describe("Batch", () => {
   it(
     "CreateJob returns expected",
     async function () {
-      const jobName = generateJobName(`001-${environment}`);
-      const inputPrefix = "example_patient_1";
-
       const job: DeidentificationJob = {
         operation: "Surrogate",
         sourceLocation: {
           location: storageAccountLocation,
-          prefix: inputPrefix,
+          prefix: INPUT_PREFIX,
           extensions: ["*"],
         },
         targetLocation: {
@@ -79,7 +65,7 @@ describe("Batch", () => {
       const jobOutput = await client.path("/jobs/{name}", jobName).put({ body: job });
 
       if (isUnexpected(jobOutput)) {
-        console.log(jobOutput["body"]);
+        console.log(JSON.stringify(jobOutput.body));
         throw new Error("Unexpected job result");
       }
 
@@ -96,7 +82,7 @@ describe("Batch", () => {
       );
       assert.isUndefined(jobOutput.body.summary, "Job should not have summary");
       assert.equal(
-        inputPrefix,
+        INPUT_PREFIX,
         jobOutput.body.sourceLocation.prefix,
         "Job sourceLocation prefix should match",
       );
@@ -120,14 +106,11 @@ describe("Batch", () => {
   it(
     "CreateThenList returns expected",
     async function () {
-      const jobName = generateJobName(`002-${environment}`);
-      const inputPrefix = "example_patient_1";
-
       const job: DeidentificationJob = {
         operation: "Surrogate",
         sourceLocation: {
           location: storageAccountLocation,
-          prefix: inputPrefix,
+          prefix: INPUT_PREFIX,
           extensions: ["*"],
         },
         targetLocation: {
@@ -163,7 +146,7 @@ describe("Batch", () => {
       );
       assert.isUndefined(foundJob!.summary, "Job should not have summary");
       assert.equal(
-        inputPrefix,
+        INPUT_PREFIX,
         foundJob!.sourceLocation.prefix,
         "Job sourceLocation prefix should match",
       );
@@ -187,14 +170,11 @@ describe("Batch", () => {
   it(
     "JobE2E wait until success",
     async function () {
-      const jobName = generateJobName(`003-${environment}`);
-      const inputPrefix = "example_patient_1";
-
       const job: DeidentificationJob = {
         operation: "Surrogate",
         sourceLocation: {
           location: storageAccountLocation,
-          prefix: inputPrefix,
+          prefix: INPUT_PREFIX,
           extensions: ["*"],
         },
         targetLocation: {
@@ -275,14 +255,11 @@ describe("Batch", () => {
   it(
     "JobE2E cancel job then delete it deletes job",
     async function () {
-      const jobName = generateJobName(`004-${environment}`);
-      const inputPrefix = "example_patient_1";
-
       const job: DeidentificationJob = {
         operation: "Surrogate",
         sourceLocation: {
           location: storageAccountLocation,
-          prefix: inputPrefix,
+          prefix: INPUT_PREFIX,
           extensions: ["*"],
         },
         targetLocation: {
@@ -315,15 +292,13 @@ describe("Batch", () => {
   it(
     "JobE2E cannot access storage create job returns 404",
     async function () {
-      const jobName = generateJobName(`005-${environment}`);
-      const inputPrefix = "example_patient_1";
       const badStorageAccountLocation = "FAKE_STORAGE_ACCOUNT";
 
       const job: DeidentificationJob = {
         operation: "Surrogate",
         sourceLocation: {
           location: badStorageAccountLocation,
-          prefix: inputPrefix,
+          prefix: INPUT_PREFIX,
           extensions: ["*"],
         },
         targetLocation: { location: badStorageAccountLocation, prefix: OUTPUT_FOLDER },

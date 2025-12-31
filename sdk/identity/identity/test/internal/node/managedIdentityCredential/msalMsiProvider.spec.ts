@@ -9,13 +9,14 @@ import { AuthError, ManagedIdentityApplication } from "@azure/msal-node";
 import { ManagedIdentityCredential } from "@azure/identity";
 import { tokenExchangeMsi } from "$internal/credentials/managedIdentityCredential/tokenExchangeMsi.js";
 import { imdsMsi } from "$internal/credentials/managedIdentityCredential/imdsMsi.js";
-import { RestError } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, RestError } from "@azure/core-rest-pipeline";
+import { IdentityClient } from "$internal/client/identityClient.js";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "$internal/errors.js";
 import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { describe, it, assert, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
-import type { IdentityClient } from "$internal/client/identityClient.js";
 import { serviceFabricErrorMessage } from "$internal/credentials/managedIdentityCredential/utils.js";
 import { logger } from "@azure/identity";
+import type { InternalManagedIdentityCredentialOptions } from "$internal/credentials/managedIdentityCredential/options.js";
 
 describe("ManagedIdentityCredential (MSAL)", function () {
   let acquireTokenStub: MockInstance<
@@ -204,7 +205,7 @@ describe("ManagedIdentityCredential (MSAL)", function () {
       });
 
       describe("when using IMDS", function () {
-        it("probes the IMDS endpoint", async function () {
+        it("should not probe the IMDS endpoint by default", async function () {
           vi.spyOn(
             ManagedIdentityApplication.prototype,
             "getManagedIdentitySource",
@@ -213,7 +214,33 @@ describe("ManagedIdentityCredential (MSAL)", function () {
 
           const credential = new ManagedIdentityCredential();
           await credential.getToken("scope");
-          expect(imdsIsAvailableStub).toHaveBeenCalledOnce();
+          expect(imdsIsAvailableStub).not.toHaveBeenCalledOnce();
+        });
+
+        it("skips IMDS probing when sendProbeRequest is false", async function () {
+          vi.spyOn(
+            ManagedIdentityApplication.prototype,
+            "getManagedIdentitySource",
+          ).mockReturnValue("DefaultToImds");
+          acquireTokenStub.mockResolvedValue(validAuthenticationResult as AuthenticationResult);
+
+          const options: InternalManagedIdentityCredentialOptions = { sendProbeRequest: false };
+          const credential = new ManagedIdentityCredential(options);
+          await credential.getToken("scope");
+          expect(imdsIsAvailableStub).not.toHaveBeenCalled();
+        });
+
+        it("probes IMDS when sendProbeRequest is true", async function () {
+          vi.spyOn(
+            ManagedIdentityApplication.prototype,
+            "getManagedIdentitySource",
+          ).mockReturnValue("DefaultToImds");
+          acquireTokenStub.mockResolvedValue(validAuthenticationResult as AuthenticationResult);
+
+          const options: InternalManagedIdentityCredentialOptions = { sendProbeRequest: true };
+          const credential = new ManagedIdentityCredential(options);
+          await credential.getToken("scope");
+          expect(imdsIsAvailableStub).toHaveBeenCalled();
         });
       });
     });
@@ -224,6 +251,74 @@ describe("ManagedIdentityCredential (MSAL)", function () {
     });
 
     describe("error handling", function () {
+      it("can handle empty body response for server errors", async function () {
+        vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
+          "Imds",
+        );
+
+        acquireTokenStub.mockRestore();
+
+        const sendGetSpy = vi.spyOn(IdentityClient.prototype, "sendGetRequestAsync");
+        // Stub the response from this.sendRequest(request) inside sendGetRequestAsync.
+        const sendRequestSpy = vi
+          .spyOn(IdentityClient.prototype, "sendRequest")
+          .mockImplementation(async (request: any) => {
+            return {
+              request,
+              status: 567,
+              bodyAsText: undefined,
+              headers: createHttpHeaders(),
+            } as any;
+          });
+
+        const credential = new ManagedIdentityCredential();
+        try {
+          await credential.getToken("scope");
+        } catch (e: any) {
+          assert.isTrue(
+            e instanceof CredentialUnavailableError,
+            `Expected CredentialUnavailableError, got: ${e}`,
+          );
+          assert.match(e.message, /A server error occured/);
+        }
+        expect(sendGetSpy).toHaveBeenCalled();
+        expect(sendRequestSpy).toHaveBeenCalled();
+      });
+
+      it("can handle empty body response for client errors", async function () {
+        vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
+          "Imds",
+        );
+
+        acquireTokenStub.mockRestore();
+
+        const sendGetSpy = vi.spyOn(IdentityClient.prototype, "sendGetRequestAsync");
+        // Stub the response from this.sendRequest(request) inside sendGetRequestAsync.
+        const sendRequestSpy = vi
+          .spyOn(IdentityClient.prototype, "sendRequest")
+          .mockImplementation(async (request: any) => {
+            return {
+              request,
+              status: 432,
+              bodyAsText: undefined,
+              headers: createHttpHeaders(),
+            } as any;
+          });
+
+        const credential = new ManagedIdentityCredential();
+        try {
+          await credential.getToken("scope");
+        } catch (e: any) {
+          assert.isTrue(
+            e instanceof CredentialUnavailableError,
+            `Expected CredentialUnavailableError, got: ${e}`,
+          );
+          assert.match(e.message, /A client error occured/);
+        }
+        expect(sendGetSpy).toHaveBeenCalled();
+        expect(sendRequestSpy).toHaveBeenCalled();
+      });
+
       it("rethrows AuthenticationRequiredError", async function () {
         acquireTokenStub.mockRejectedValue(new AuthenticationRequiredError({ scopes: ["scope"] }));
         const credential = new ManagedIdentityCredential();

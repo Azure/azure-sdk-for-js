@@ -23,3 +23,4 @@ export * from "./policies/StorageSharedKeyCredentialPolicy.js";
 export * from "./policies/StorageSharedKeyCredentialPolicyV2.js";
 export * from "./StorageRetryPolicyFactory.js";
 export * from "./policies/StorageRequestFailureDetailsParserPolicy.js";
+export * from "./credentials/UserDelegationKeyCredential.js";

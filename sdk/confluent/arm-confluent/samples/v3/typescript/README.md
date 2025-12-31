@@ -79,7 +79,7 @@ node dist/accessCreateRoleBindingSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env CONFLUENT_SUBSCRIPTION_ID="<confluent subscription id>" CONFLUENT_RESOURCE_GROUP="<confluent resource group>" node dist/accessCreateRoleBindingSample.js
+cross-env CONFLUENT_SUBSCRIPTION_ID="<confluent subscription id>" CONFLUENT_RESOURCE_GROUP="<confluent resource group>" node dist/accessCreateRoleBindingSample.js
 ```
 
 ## Next Steps

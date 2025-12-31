@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Live Web Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎤 Voice Live Web Assistant</h1>
+            <p>Real-time conversational AI with the Azure Voice Live SDK</p>
+        </header>
+
+        <main>
+            <!-- Configuration Section -->
+            <section class="config-section">
+                <h2>Configuration</h2>
+                <div class="config-grid">
+                    <div class="config-item">
+                        <label for="endpoint">Endpoint:</label>
+                        <input type="text" id="endpoint" value="wss://api.voicelive.com/v1" 
+                               placeholder="Voice Live service endpoint">
+                    </div>
+                    <div class="config-item">
+                        <label for="apiKey">API Key:</label>
+                        <input type="password" id="apiKey" placeholder="Your Voice Live API key">
+                    </div>
+                    <div class="config-item">
+                        <label>Authentication Method:</label>
+                        <div class="auth-method-selector">
+                            <label class="radio-label">
+                                <input type="radio" name="authMethod" value="apikey" checked>
+                                API Key (Simple)
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="authMethod" value="token">
+                                Azure Token Credential (Production)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="config-item">
+                        <label for="voice">Voice:</label>
+                        <select id="voice">
+                            <optgroup label="OpenAI Voices">
+                                <option value="alloy">Alloy</option>
+                                <option value="echo">Echo</option>
+                                <option value="fable">Fable</option>
+                                <option value="onyx">Onyx</option>
+                                <option value="nova">Nova</option>
+                                <option value="shimmer">Shimmer</option>
+                            </optgroup>
+                            <optgroup label="Azure Voices">
+                                <option value="en-US-AvaNeural" selected>Ava (Neural)</option>
+                                <option value="en-US-JennyNeural">Jenny (Neural)</option>
+                                <option value="en-US-GuyNeural">Guy (Neural)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="config-item">
+                        <label for="instructions">Instructions:</label>
+                        <textarea id="instructions" rows="3" 
+                                  placeholder="You are a helpful AI assistant...">You are a helpful AI assistant. Respond naturally and conversationally. Keep your responses concise but engaging.</textarea>
+                    </div>
+                    <div class="config-item">
+                        <label>
+                            <input type="checkbox" id="debugMode" checked>
+                            Enable Debug Mode (Verbose SDK Logging)
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Control Section -->
+            <section class="control-section">
+                <div class="status-display">
+                    <div class="status-item">
+                        <span class="status-label">Connection:</span>
+                        <span id="connectionStatus" class="status-value disconnected">Disconnected</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Assistant:</span>
+                        <span id="assistantStatus" class="status-value">Idle</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Audio:</span>
+                        <span id="audioStatus" class="status-value">Not Active</span>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button id="connectBtn" class="primary-btn">Connect</button>
+                    <button id="startBtn" class="secondary-btn" disabled>Start Conversation</button>
+                    <button id="stopBtn" class="danger-btn" disabled>Stop</button>
+                </div>
+
+                <div class="audio-level">
+                    <span>Microphone Level:</span>
+                    <div class="level-meter">
+                        <div id="levelBar" class="level-bar"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conversation Section -->
+            <section class="conversation-section">
+                <h2>Conversation</h2>
+                <div id="conversationHistory" class="conversation-history">
+                    <div class="message system">
+                        <span class="timestamp">[System]</span>
+                        <span class="content">Ready to start conversation. Click "Connect" then "Start Conversation" to begin.</span>
+                    </div>
+                </div>
+                <div class="conversation-controls">
+                    <button id="clearHistory" class="secondary-btn">Clear History</button>
+                    <button id="showEvents" class="secondary-btn">Show Events</button>
+                </div>
+            </section>
+
+            <!-- Events Section (Initially Hidden) -->
+            <section id="eventsSection" class="events-section hidden">
+                <h2>Real-time Events <span class="event-count">(0)</span></h2>
+                <div id="eventHistory" class="event-history"></div>
+                <div class="event-controls">
+                    <button id="clearEvents" class="secondary-btn">Clear Events</button>
+                    <label>
+                        <input type="checkbox" id="filterEvents" checked>
+                        Filter Important Events Only
+                    </label>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Powered by Azure Voice Live SDK for TypeScript</p>
+        </footer>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Error</h3>
+            <p id="errorMessage"></p>
+            <button id="closeError" class="primary-btn">Close</button>
+        </div>
+    </div>
+
+    <script type="module" src="src/main.ts"></script>
+    
+    <!-- Development utilities (only loads in dev mode) -->
+    <script>
+        if (window.location.hostname === 'localhost') {
+            const script = document.createElement('script');
+            script.src = 'dev-utils.js';
+            document.head.appendChild(script);
+        }
+    </script>
+</body>
+</html>
