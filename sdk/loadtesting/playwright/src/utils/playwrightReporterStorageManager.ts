@@ -40,7 +40,7 @@ export class PlaywrightReporterStorageManager {
       }
 
       const blobServiceClient = new BlobServiceClient(workspaceDetails?.storageUri, credential);
-      coreLogger.info("blobServiceClient created successfully: ", blobServiceClient);
+      coreLogger.info("blobServiceClient created successfully.");
       const serviceUrlInfo = populateValuesFromServiceUrl();
       if (!serviceUrlInfo?.accountId) {
         coreLogger.error("Unable to extract workspace ID from service URL");
