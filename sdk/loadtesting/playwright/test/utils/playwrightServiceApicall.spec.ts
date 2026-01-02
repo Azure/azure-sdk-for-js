@@ -16,7 +16,6 @@ const mockState = {
   getWorkspaceMetaDataApiUrl: vi.fn().mockReturnValue("https://example.com/workspace"),
   randomUUID: vi.fn().mockReturnValue("mock-uuid"),
   extractErrorMessage: vi.fn(),
-  validateMptPAT: vi.fn(),
 };
 
 // Mock modules using only inline function definitions to avoid hoisting issues
@@ -84,7 +83,6 @@ describe("PlaywrightServiceClient", () => {
       expect(process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS]).toBe("true");
       expect(mockState.getTestRunApiUrl).toHaveBeenCalledTimes(1);
       expect(mockState.getAccessToken).toHaveBeenCalledTimes(1);
-      expect(mockState.validateMptPAT).toHaveBeenCalledTimes(1);
       expect(mockState.callAPI).toHaveBeenCalledWith(
         "PATCH",
         "https://example.com/test-run?api-version=" + Constants.LatestAPIVersion,
@@ -102,7 +100,6 @@ describe("PlaywrightServiceClient", () => {
       expect(result).toBeUndefined();
       expect(process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS]).toBe("false");
       expect(mockState.callAPI).not.toHaveBeenCalled();
-      expect(mockState.validateMptPAT).not.toHaveBeenCalled();
     });
 
     it("should handle API non-200 status gracefully", async () => {
@@ -132,7 +129,6 @@ describe("PlaywrightServiceClient", () => {
       expect(consoleErrorSpy).toHaveBeenCalledWith(
         ServiceErrorMessageConstants.TEST_RUN_CREATION_FAILED.formatWithErrorDetails(errorMessage),
       );
-      expect(mockState.validateMptPAT).toHaveBeenCalledTimes(1);
     });
 
     it("should complete successfully when response body is empty", async () => {
@@ -150,7 +146,6 @@ describe("PlaywrightServiceClient", () => {
       expect(result).toBeUndefined();
       expect(process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS]).toBe("true");
       expect(mockState.callAPI).toHaveBeenCalledTimes(1);
-      expect(mockState.validateMptPAT).toHaveBeenCalledTimes(1);
     });
 
     it("should handle unexpected exceptions gracefully", async () => {
