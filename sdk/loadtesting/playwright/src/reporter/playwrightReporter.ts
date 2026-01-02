@@ -52,7 +52,6 @@ export default class PlaywrightReporter implements Reporter {
         this.isReportingEnabled = false;
         return;
       }
-
     } catch (error) {
       coreLogger.error(`Failed to get Playwright version: ${error}`);
       console.error(ServiceErrorMessageConstants.PLAYWRIGHT_VERSION_TOO_OLD_FOR_REPORTING.message);
