@@ -176,6 +176,6 @@ export const ServiceErrorMessageConstants = {
   REPORTER_REQUIRES_SERVICE_CONFIG: {
     key: "ReporterRequiresServiceConfig",
     message:
-      "Playwright Workspaces Reporter requires the use of service configuration via createAzurePlaywrightConfig. Please refer to https://aka.ms/pww-reporting for more information.",
+      "Playwright Workspaces Reporter requires the use of service configuration via createAzurePlaywrightConfig. For more information, see https://aka.ms/pww-reporting.",
   },
 };
