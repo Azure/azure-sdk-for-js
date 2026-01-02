@@ -19,7 +19,7 @@ export const ServiceErrorMessageConstants = {
   PLAYWRIGHT_VERSION_TOO_OLD_FOR_REPORTING: {
     key: "PlaywrightVersionTooOldForReporting",
     message:
-      "To use the Playwright Workspaces reporting feature, you need to have the latest version of Playwright (>= 1.57) installed. Update Playwright package to the latest version and try again.",
+      "To use the Playwright Workspaces reporting feature, you need Playwright version 1.57 or later installed. Update the Playwright package to a supported version and try again.",
   },
   MULTIPLE_SETUP_FILE_PLAYWRIGHT_VERSION_ERROR: {
     key: "MultipleSetupFilePlaywrightVersionError",
