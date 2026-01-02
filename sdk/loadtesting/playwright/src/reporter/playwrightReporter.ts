@@ -2,12 +2,17 @@
 // Licensed under the MIT License.
 import type { FullConfig, Reporter } from "@playwright/test/reporter";
 import { PlaywrightReporterStorageManager } from "../utils/playwrightReporterStorageManager.js";
-import { getHtmlReporterOutputFolder, getPortalTestRunUrl } from "../utils/utils.js";
+import {
+  getHtmlReporterOutputFolder,
+  getPortalTestRunUrl,
+  getVersionInfo,
+} from "../utils/utils.js";
 import { coreLogger } from "../common/logger.js";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
 import { ServiceAuth, InternalEnvironmentVariables } from "../common/constants.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { PlaywrightServiceClient } from "../utils/PlaywrightServiceClient.js";
+import { getPlaywrightVersion } from "../utils/getPlaywrightVersion.js";
 import type { WorkspaceMetaData, UploadResult } from "../common/types.js";
 
 /**
@@ -29,6 +34,32 @@ export default class PlaywrightReporter implements Reporter {
     coreLogger.info(`Reporter configuration: ${JSON.stringify(config.reporter, null, 2)}`);
 
     this.config = config;
+
+    // Check Playwright version for reporting feature compatibility
+    try {
+      const playwrightVersion = getPlaywrightVersion();
+      const playwrightVersionInfo = getVersionInfo(playwrightVersion);
+
+      // Check if version is < 1.57
+      const isReportingSupportedVersion =
+        playwrightVersionInfo.major > 1 ||
+        (playwrightVersionInfo.major === 1 && playwrightVersionInfo.minor >= 57);
+
+      if (!isReportingSupportedVersion) {
+        console.error(
+          ServiceErrorMessageConstants.PLAYWRIGHT_VERSION_TOO_OLD_FOR_REPORTING.message,
+        );
+        this.isReportingEnabled = false;
+        return;
+      }
+
+      coreLogger.info(`Playwright version validation passed: ${playwrightVersion}`);
+    } catch (error) {
+      coreLogger.error(`Failed to get Playwright version: ${error}`);
+      console.error(ServiceErrorMessageConstants.PLAYWRIGHT_VERSION_TOO_OLD_FOR_REPORTING.message);
+      this.isReportingEnabled = false;
+      return;
+    }
 
     // Check if using service config
     const usingServiceConfig =
