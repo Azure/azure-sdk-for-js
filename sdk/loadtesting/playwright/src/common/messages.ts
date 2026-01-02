@@ -29,7 +29,7 @@ export const ServiceErrorMessageConstants = {
   NO_AUTH_ERROR_PAT_TOKEN: {
     key: "NoAuthErrorPatToken",
     message:
-      "Please set PLAYWRIGHT_SERVICE_ACCESS_TOKEN env variable when using ACCESS_TOKEN authentication Please refer to https://aka.ms/pww/docs/authentication for more information.",
+      "Please set PLAYWRIGHT_SERVICE_ACCESS_TOKEN env variable when using ACCESS_TOKEN authentication. Please refer to https://aka.ms/pww/docs/authentication for more information.",
   },
   NO_AUTH_ERROR_ENTRA_TOKEN: {
     key: "NoAuthErrorEntraToken",
