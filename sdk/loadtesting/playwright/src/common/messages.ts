@@ -103,7 +103,7 @@ export const ServiceErrorMessageConstants = {
   HTML_REPORTER_REQUIRED: {
     key: "HtmlReporterRequired",
     message:
-      "Playwright Workspaces Reporter requires the 'html' reporter to be configured in your Playwright configuration. Please add the 'html' reporter before playwright workspace reporter to generate test reports that can be uploaded to Azure Storage. Example: reporter: [['html'], ['@azure/playwright/reporter']].Please refer to https://aka.ms/pww-reporting for more information.",
+      "Playwright Workspaces Reporter requires the 'html' reporter to be configured in your Playwright configuration. Please add the 'html' reporter before playwright workspace reporter to generate test reports that can be uploaded to Azure Storage. Example: reporter: [['html'], ['@azure/playwright/reporter']]. Please refer to https://aka.ms/pww-reporting for more information.",
   },
   WORKSPACE_METADATA_FETCH_FAILED: {
     key: "WorkspaceMetadataFetchFailed",
