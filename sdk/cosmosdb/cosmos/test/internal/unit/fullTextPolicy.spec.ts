@@ -38,17 +38,18 @@ describe("FullTextPolicy multi-language support", { timeout: 10000 }, () => {
         // Serialize to JSON
         const serialized = JSON.stringify(fullTextPolicy);
 
-        // Verify serialization contains expected values
-        assert(serialized.includes(`"defaultLanguage":"${language}"`));
-        assert(serialized.includes(`"language":"${language}"`));
+        // Verify serialization is valid JSON
+        assert.isNotEmpty(serialized);
 
         // Deserialize back
         const deserialized: FullTextPolicy = JSON.parse(serialized);
 
-        // Verify deserialization
+        // Verify deserialization preserves all values
         assert.strictEqual(deserialized.defaultLanguage, language);
         assert.strictEqual(deserialized.fullTextPaths.length, 2);
+        assert.strictEqual(deserialized.fullTextPaths[0].path, "/text1");
         assert.strictEqual(deserialized.fullTextPaths[0].language, language);
+        assert.strictEqual(deserialized.fullTextPaths[1].path, "/text2");
         assert.strictEqual(deserialized.fullTextPaths[1].language, language);
       });
     });
@@ -65,14 +66,13 @@ describe("FullTextPolicy multi-language support", { timeout: 10000 }, () => {
         // Serialize to JSON
         const serialized = JSON.stringify(fullTextPath);
 
-        // Verify serialization contains expected values
-        assert(serialized.includes(`"language":"${language}"`));
-        assert(serialized.includes(`"path":"/testPath"`));
+        // Verify serialization is valid JSON
+        assert.isNotEmpty(serialized);
 
         // Deserialize back
         const deserialized: FullTextPath = JSON.parse(serialized);
 
-        // Verify deserialization
+        // Verify deserialization preserves all values
         assert.strictEqual(deserialized.path, "/testPath");
         assert.strictEqual(deserialized.language, language);
       });

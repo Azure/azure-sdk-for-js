@@ -743,9 +743,14 @@ describe("Full text search feature", async () => {
       { code: "pt-PT", name: "Portuguese (Portugal)" },
     ];
 
+    // Helper function to generate a safe container name from language code
+    const getContainerName = (languageCode: string): string => {
+      return `fts-lang-${languageCode.replace(/[^a-z0-9]/gi, "").toLowerCase()}`;
+    };
+
     supportedLanguages.forEach(({ code, name }) => {
       it(`should create container with FullTextPolicy using ${name} (${code})`, async () => {
-        const containerName = `fts-lang-${code.replace("-", "").toLowerCase()}`;
+        const containerName = getContainerName(code);
         const fullTextPath = "/searchableText";
 
         const languageSpecificFullTextPolicy = {
