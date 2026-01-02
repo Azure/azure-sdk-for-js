@@ -725,4 +725,187 @@ describe("Full text search feature", async () => {
     assert(result.resources.length === 2);
     await database.container(containerName).delete();
   });
+
+  /**
+   * Tests for FullTextPolicy multi-language support.
+   * GA Languages: en-US, fr-FR, de-DE, es-ES
+   * Preview Languages: it-IT, pt-BR, pt-PT
+   */
+  describe("FullTextPolicy multi-language support", () => {
+    // All supported languages for FullTextPolicy
+    const supportedLanguages = [
+      { code: "en-US", name: "English (United States)" },
+      { code: "fr-FR", name: "French (France)" },
+      { code: "de-DE", name: "German (Germany)" },
+      { code: "es-ES", name: "Spanish (Spain)" },
+      { code: "it-IT", name: "Italian (Italy)" },
+      { code: "pt-BR", name: "Portuguese (Brazil)" },
+      { code: "pt-PT", name: "Portuguese (Portugal)" },
+    ];
+
+    supportedLanguages.forEach(({ code, name }) => {
+      it(`should create container with FullTextPolicy using ${name} (${code})`, async () => {
+        const containerName = `fts-lang-${code.replace("-", "").toLowerCase()}`;
+        const fullTextPath = "/searchableText";
+
+        const languageSpecificFullTextPolicy = {
+          defaultLanguage: code,
+          fullTextPaths: [{ path: fullTextPath, language: code }],
+        };
+
+        const languageSpecificIndexingPolicy: IndexingPolicy = {
+          includedPaths: [{ path: "/*" }],
+          excludedPaths: [{ path: '/"_etag"/?' }],
+          fullTextIndexes: [{ path: fullTextPath }],
+        };
+
+        const { resource: containerdef } = await database.containers.createIfNotExists({
+          id: containerName,
+          fullTextPolicy: languageSpecificFullTextPolicy,
+          indexingPolicy: languageSpecificIndexingPolicy,
+          throughput: 1000,
+        });
+
+        // Verify container was created successfully
+        assert(containerdef !== undefined, `Container creation failed for ${code}`);
+        assert(
+          containerdef.indexingPolicy !== undefined,
+          `IndexingPolicy is undefined for ${code}`,
+        );
+        assert(
+          containerdef.fullTextPolicy !== undefined,
+          `FullTextPolicy is undefined for ${code}`,
+        );
+
+        // Verify FullTextPolicy properties
+        assert.strictEqual(
+          containerdef.fullTextPolicy.defaultLanguage,
+          code,
+          `DefaultLanguage mismatch for ${code}`,
+        );
+        assert.strictEqual(
+          containerdef.fullTextPolicy.fullTextPaths.length,
+          1,
+          `FullTextPaths length mismatch for ${code}`,
+        );
+        assert.strictEqual(
+          containerdef.fullTextPolicy.fullTextPaths[0].path,
+          fullTextPath,
+          `FullTextPath path mismatch for ${code}`,
+        );
+        assert.strictEqual(
+          containerdef.fullTextPolicy.fullTextPaths[0].language,
+          code,
+          `FullTextPath language mismatch for ${code}`,
+        );
+
+        // Verify FullTextIndexes
+        assert(containerdef.indexingPolicy.fullTextIndexes !== undefined);
+        assert.strictEqual(containerdef.indexingPolicy.fullTextIndexes.length, 1);
+        assert.strictEqual(containerdef.indexingPolicy.fullTextIndexes[0].path, fullTextPath);
+
+        // Clean up
+        await database.container(containerName).delete();
+      });
+    });
+
+    it("should create container with FullTextPolicy using multiple paths with different languages", async () => {
+      const containerName = "fts-multi-lang-paths";
+
+      const multiLanguageFullTextPolicy = {
+        defaultLanguage: "en-US",
+        fullTextPaths: [
+          { path: "/englishText", language: "en-US" },
+          { path: "/frenchText", language: "fr-FR" },
+          { path: "/germanText", language: "de-DE" },
+          { path: "/spanishText", language: "es-ES" },
+        ],
+      };
+
+      const multiLanguageIndexingPolicy: IndexingPolicy = {
+        includedPaths: [{ path: "/*" }],
+        excludedPaths: [{ path: '/"_etag"/?' }],
+        fullTextIndexes: [
+          { path: "/englishText" },
+          { path: "/frenchText" },
+          { path: "/germanText" },
+          { path: "/spanishText" },
+        ],
+      };
+
+      const { resource: containerdef } = await database.containers.createIfNotExists({
+        id: containerName,
+        fullTextPolicy: multiLanguageFullTextPolicy,
+        indexingPolicy: multiLanguageIndexingPolicy,
+        throughput: 1000,
+      });
+
+      // Verify container was created successfully
+      assert(containerdef !== undefined);
+      assert(containerdef.fullTextPolicy !== undefined);
+      assert.strictEqual(containerdef.fullTextPolicy.defaultLanguage, "en-US");
+      assert.strictEqual(containerdef.fullTextPolicy.fullTextPaths.length, 4);
+
+      // Verify each path has the correct language
+      assert.strictEqual(containerdef.fullTextPolicy.fullTextPaths[0].path, "/englishText");
+      assert.strictEqual(containerdef.fullTextPolicy.fullTextPaths[0].language, "en-US");
+      assert.strictEqual(containerdef.fullTextPolicy.fullTextPaths[1].path, "/frenchText");
+      assert.strictEqual(containerdef.fullTextPolicy.fullTextPaths[1].language, "fr-FR");
+      assert.strictEqual(containerdef.fullTextPolicy.fullTextPaths[2].path, "/germanText");
+      assert.strictEqual(containerdef.fullTextPolicy.fullTextPaths[2].language, "de-DE");
+      assert.strictEqual(containerdef.fullTextPolicy.fullTextPaths[3].path, "/spanishText");
+      assert.strictEqual(containerdef.fullTextPolicy.fullTextPaths[3].language, "es-ES");
+
+      // Verify FullTextIndexes
+      assert(containerdef.indexingPolicy.fullTextIndexes !== undefined);
+      assert.strictEqual(containerdef.indexingPolicy.fullTextIndexes.length, 4);
+
+      // Clean up
+      await database.container(containerName).delete();
+    });
+
+    it("should create container with FullTextPolicy using preview languages", async () => {
+      const containerName = "fts-preview-langs";
+
+      const previewLanguageFullTextPolicy = {
+        defaultLanguage: "it-IT",
+        fullTextPaths: [
+          { path: "/italianText", language: "it-IT" },
+          { path: "/portugueseBrText", language: "pt-BR" },
+          { path: "/portuguesePtText", language: "pt-PT" },
+        ],
+      };
+
+      const previewLanguageIndexingPolicy: IndexingPolicy = {
+        includedPaths: [{ path: "/*" }],
+        excludedPaths: [{ path: '/"_etag"/?' }],
+        fullTextIndexes: [
+          { path: "/italianText" },
+          { path: "/portugueseBrText" },
+          { path: "/portuguesePtText" },
+        ],
+      };
+
+      const { resource: containerdef } = await database.containers.createIfNotExists({
+        id: containerName,
+        fullTextPolicy: previewLanguageFullTextPolicy,
+        indexingPolicy: previewLanguageIndexingPolicy,
+        throughput: 1000,
+      });
+
+      // Verify container was created successfully
+      assert(containerdef !== undefined);
+      assert(containerdef.fullTextPolicy !== undefined);
+      assert.strictEqual(containerdef.fullTextPolicy.defaultLanguage, "it-IT");
+      assert.strictEqual(containerdef.fullTextPolicy.fullTextPaths.length, 3);
+
+      // Verify each path has the correct language
+      assert.strictEqual(containerdef.fullTextPolicy.fullTextPaths[0].language, "it-IT");
+      assert.strictEqual(containerdef.fullTextPolicy.fullTextPaths[1].language, "pt-BR");
+      assert.strictEqual(containerdef.fullTextPolicy.fullTextPaths[2].language, "pt-PT");
+
+      // Clean up
+      await database.container(containerName).delete();
+    });
+  });
 });
