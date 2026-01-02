@@ -215,7 +215,7 @@ describe("Generated Service Config Content Validation", () => {
     expect(generatedContent).toContain("connectTimeout: 3 * 60 * 1000");
     expect(generatedContent).toContain("Enable Playwright Workspaces Reporter:");
     expect(generatedContent).toContain("// reporter: [");
-    expect(generatedContent).toContain('//   ["html" , { open: "never" }],');
+    expect(generatedContent).toContain('//   ["html", { open: "never" }],');
     expect(generatedContent).toContain('//   ["@azure/playwright/reporter"],');
     expect(generatedContent).toContain("// ],");
   });
@@ -236,7 +236,7 @@ describe("Generated Service Config Content Validation", () => {
     expect(generatedContent).toContain("connectTimeout: 3 * 60 * 1000");
     expect(generatedContent).toContain("Enable Playwright Workspaces Reporter:");
     expect(generatedContent).toContain("// reporter: [");
-    expect(generatedContent).toContain('//   ["html" , { open: "never" }],');
+    expect(generatedContent).toContain('//   ["html", { open: "never" }],');
     expect(generatedContent).toContain('//   ["@azure/playwright/reporter"],');
     expect(generatedContent).toContain("// ],");
   });
@@ -350,7 +350,7 @@ describe("Generated Service Config Content Validation", () => {
 
     // Check for commented reporter configuration
     expect(generatedContent).toContain("// reporter: [");
-    expect(generatedContent).toContain('//   ["html" , { open: "never" }],');
+    expect(generatedContent).toContain('//   ["html", { open: "never" }],');
     expect(generatedContent).toContain('//   ["@azure/playwright/reporter"],');
     expect(generatedContent).toContain("// ],");
   });

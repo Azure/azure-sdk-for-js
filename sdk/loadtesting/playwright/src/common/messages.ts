@@ -34,12 +34,12 @@ export const ServiceErrorMessageConstants = {
   NO_AUTH_ERROR_PAT_TOKEN: {
     key: "NoAuthErrorPatToken",
     message:
-      "Please set PLAYWRIGHT_SERVICE_ACCESS_TOKEN env variable when using ACCESS_TOKEN authentication. Please refer to https://aka.ms/pww/docs/authentication for more information.",
+      "Please set PLAYWRIGHT_SERVICE_ACCESS_TOKEN env variable when using ACCESS_TOKEN authentication. For more information, see https://aka.ms/pww/docs/authentication",
   },
   NO_AUTH_ERROR_ENTRA_TOKEN: {
     key: "NoAuthErrorEntraToken",
     message:
-      "Could not authenticate with the service. Please refer to https://aka.ms/pww/docs/authentication for more information.",
+      "Could not authenticate with the service. For more information, see https://aka.ms/pww/docs/authentication",
   },
   INVALID_MPT_PAT_ERROR: {
     key: "InvalidMptPatError",
@@ -58,9 +58,9 @@ export const ServiceErrorMessageConstants = {
   FAILED_TO_CREATE_TEST_RUN: {
     key: "FailedToCreateTestRun",
     message:
-      "Failed to create the test run in the Playwright workspaces. Please refer to https://aka.ms/pww/docs/troubleshooting for more information.",
+      "Failed to create the test run in the Playwright workspaces. For more information, see https://aka.ms/pww/docs/troubleshooting",
     formatWithErrorDetails: (errorDetails: string): string =>
-      `Failed to create the test run in the Playwright workspaces. Error: ${errorDetails}. Please refer to https://aka.ms/pww/docs/troubleshooting for more information.`,
+      `Failed to create the test run in the Playwright workspaces. Error: ${errorDetails}. For more information, see https://aka.ms/pww/docs/troubleshooting`,
   },
   INVALID_PARAM_WITH_SERVICE_CONFIG: {
     key: "InvalidParamWithServiceConfig",
@@ -87,9 +87,9 @@ export const ServiceErrorMessageConstants = {
   STORAGE_AUTHORIZATION_FAILED: {
     key: "StorageAuthorizationFailed",
     message:
-      "The user is not authorized to perform this operation. Please make sure you have the Storage Blob Data Contributor role assigned to the storage account. Please refer to https://aka.ms/pww-reporting for more information.",
+      "The user is not authorized to perform this operation. Please make sure you have the Storage Blob Data Contributor role assigned to the storage account. For more information, see https://aka.ms/pww-reporting",
     formatWithStorageAccount: (storageAccountName: string): string =>
-      `The user is not authorized to perform this operation. Please make sure you have the Storage Blob Data Contributor role assigned to the storage account - ${storageAccountName}. Please refer to https://aka.ms/pww-reporting for more information.`,
+      `The user is not authorized to perform this operation. Please make sure you have the Storage Blob Data Contributor role assigned to the storage account - ${storageAccountName}. For more information, see https://aka.ms/pww-reporting`,
   },
   UNABLE_TO_EXTRACT_WORKSPACE_ID: {
     key: "UnableToExtractWorkspaceId",
@@ -98,12 +98,12 @@ export const ServiceErrorMessageConstants = {
   REPORTER_REQUIRES_ENTRA_AUTH: {
     key: "ReporterRequiresEntraAuth",
     message:
-      "Playwright Workspaces Reporter can only be used with ENTRA_ID authentication. Please refer to https://aka.ms/pww/docs/authentication for more information.",
+      "Playwright Workspaces Reporter can only be used with ENTRA_ID authentication. For more information, see https://aka.ms/pww/docs/authentication",
   },
   HTML_REPORTER_REQUIRED: {
     key: "HtmlReporterRequired",
     message:
-      "Playwright Workspaces Reporter requires the 'html' reporter to be configured in your Playwright configuration. Please add the 'html' reporter before playwright workspace reporter to generate test reports that can be uploaded to Azure Storage. Example: reporter: [['html'], ['@azure/playwright/reporter']]. Please refer to https://aka.ms/pww-reporting for more information.",
+      "Playwright Workspaces Reporter requires the 'html' reporter to be configured in your Playwright configuration. Please add the 'html' reporter before playwright workspace reporter to generate test reports that can be uploaded to Azure Storage. Example: reporter: [['html'], ['@azure/playwright/reporter']]. For more information, see https://aka.ms/pww-reporting",
   },
   WORKSPACE_METADATA_FETCH_FAILED: {
     key: "WorkspaceMetadataFetchFailed",
@@ -113,7 +113,7 @@ export const ServiceErrorMessageConstants = {
   WORKSPACE_REPORTING_DISABLED: {
     key: "WorkspaceReportingDisabled",
     message:
-      "Playwright Workspaces reporting: DISABLED. Reporting is not enabled for the Playwright Workspace. To learn more about how to enable reporting and link a storage account, please refer to https://aka.ms/pww-reporting for more information.",
+      "Playwright Workspaces reporting: DISABLED. Reporting is not enabled for the Playwright Workspace. To learn more about how to enable reporting and link a storage account, For more information, see https://aka.ms/pww-reporting",
   },
   UPLOAD_FAILED_FILES: {
     key: "UploadFailedFiles",
@@ -125,7 +125,7 @@ export const ServiceErrorMessageConstants = {
     key: "PlaywrightTestReportNotFound",
     message: "Playwright test report not found",
     formatWithFolder: (folderName: string): string =>
-      `Playwright test report not found: ${folderName}. Please refer to https://aka.ms/pww-reporting for more information.`,
+      `Playwright test report not found: ${folderName}. For more information, see https://aka.ms/pww-reporting`,
   },
   REPORTING_ENABLED: {
     key: "ReportingEnabled",

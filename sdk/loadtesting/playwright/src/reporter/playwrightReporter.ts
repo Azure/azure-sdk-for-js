@@ -53,7 +53,6 @@ export default class PlaywrightReporter implements Reporter {
         return;
       }
 
-      coreLogger.info(`Playwright version validation passed: ${playwrightVersion}`);
     } catch (error) {
       coreLogger.error(`Failed to get Playwright version: ${error}`);
       console.error(ServiceErrorMessageConstants.PLAYWRIGHT_VERSION_TOO_OLD_FOR_REPORTING.message);
