@@ -105,12 +105,7 @@ export class ContentUnderstandingClient {
     targetAzureResourceId: string,
     options: GrantCopyAuthorizationOptionalParams = { requestOptions: {} },
   ): Promise<CopyAuthorization> {
-    return grantCopyAuthorization(
-      this._client,
-      analyzerId,
-      targetAzureResourceId,
-      options,
-    );
+    return grantCopyAuthorization(this._client, analyzerId, targetAzureResourceId, options);
   }
 
   /** Get a file associated with the result of an analysis operation. */
@@ -195,13 +190,7 @@ export class ContentUnderstandingClient {
     binaryInput: Uint8Array,
     options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
   ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
-    return analyzeBinary(
-      this._client,
-      analyzerId,
-      contentType,
-      binaryInput,
-      options,
-    );
+    return analyzeBinary(this._client, analyzerId, contentType, binaryInput, options);
   }
 
   /** Extract content and fields from input. */

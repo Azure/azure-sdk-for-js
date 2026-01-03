@@ -19,6 +19,7 @@ import {
   copyAuthorizationDeserializer,
   _PagedContentAnalyzer,
   _pagedContentAnalyzerDeserializer,
+  recordMergePatchUpdateSerializer,
 } from "../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -70,11 +71,12 @@ export function _updateDefaultsSend(
     .patch({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/merge-patch+json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        modelDeployments: !options?.modelDeployments
+          ? options?.modelDeployments
+          : recordMergePatchUpdateSerializer(options?.modelDeployments),
       },
-      body: { modelDeployments: {} },
     });
 }
 
@@ -148,12 +150,7 @@ export async function updateAnalyzer(
   resource: ContentAnalyzer,
   options: UpdateAnalyzerOptionalParams = { requestOptions: {} },
 ): Promise<ContentAnalyzer> {
-  const result = await _updateAnalyzerSend(
-    context,
-    analyzerId,
-    resource,
-    options,
-  );
+  const result = await _updateAnalyzerSend(context, analyzerId, resource, options);
   return _updateAnalyzerDeserialize(result);
 }
 
@@ -237,10 +234,7 @@ export function _grantCopyAuthorizationSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: {
-        targetAzureResourceId: targetAzureResourceId,
-        targetRegion: options?.targetRegion,
-      },
+      body: { targetAzureResourceId: targetAzureResourceId, targetRegion: options?.targetRegion },
     });
 }
 
@@ -314,12 +308,7 @@ export async function getResultFile(
   path: string,
   options: GetResultFileOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const streamableMethod = _getResultFileSend(
-    context,
-    operationId,
-    path,
-    options,
-  );
+  const streamableMethod = _getResultFileSend(context, operationId, path, options);
   const result = await getBinaryResponse(streamableMethod);
   return _getResultFileDeserialize(result);
 }
@@ -343,10 +332,7 @@ export function _getResultSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
     });
 }
 
@@ -392,10 +378,7 @@ export function _getOperationStatusSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
     });
 }
 
@@ -417,12 +400,7 @@ export async function getOperationStatus(
   operationId: string,
   options: GetOperationStatusOptionalParams = { requestOptions: {} },
 ): Promise<ContentAnalyzerOperationStatus> {
-  const result = await _getOperationStatusSend(
-    context,
-    analyzerId,
-    operationId,
-    options,
-  );
+  const result = await _getOperationStatusSend(context, analyzerId, operationId, options);
   return _getOperationStatusDeserialize(result);
 }
 
@@ -443,10 +421,7 @@ export function _getDefaultsSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
     });
 }
 
@@ -535,14 +510,10 @@ export function _deleteResultSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({ ...operationOptionsToRequestParameters(options) });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _deleteResultDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _deleteResultDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -589,9 +560,7 @@ export function _deleteAnalyzerSend(
     });
 }
 
-export async function _deleteAnalyzerDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _deleteAnalyzerDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -651,14 +620,7 @@ export async function _createAnalyzerDeserialize(
     throw createRestError(result);
   }
 
-  if (result?.body?.result === undefined) {
-    throw createRestError(
-      `Expected a result in the response at position "result.body.result"`,
-      result,
-    );
-  }
-
-  return contentAnalyzerDeserializer(result.body.result);
+  return contentAnalyzerDeserializer(result.body);
 }
 
 /** Create a new analyzer asynchronously. */
@@ -668,18 +630,12 @@ export function createAnalyzer(
   resource: ContentAnalyzer,
   options: CreateAnalyzerOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer> {
-  return getLongRunningPoller(
-    context,
-    _createAnalyzerDeserialize,
-    ["201", "200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _createAnalyzerSend(context, analyzerId, resource, options),
-      resourceLocationConfig: "original-uri",
-    },
-  ) as PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer>;
+  return getLongRunningPoller(context, _createAnalyzerDeserialize, ["201", "200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _createAnalyzerSend(context, analyzerId, resource, options),
+    resourceLocationConfig: "original-uri",
+  }) as PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer>;
 }
 
 export function _copyAnalyzerSend(
@@ -722,7 +678,7 @@ export function _copyAnalyzerSend(
 export async function _copyAnalyzerDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ContentAnalyzer> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["201", "200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -744,18 +700,12 @@ export function copyAnalyzer(
   sourceAnalyzerId: string,
   options: CopyAnalyzerOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer> {
-  return getLongRunningPoller(
-    context,
-    _copyAnalyzerDeserialize,
-    ["202", "200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _copyAnalyzerSend(context, analyzerId, sourceAnalyzerId, options),
-      resourceLocationConfig: "operation-location",
-    },
-  ) as PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer>;
+  return getLongRunningPoller(context, _copyAnalyzerDeserialize, ["201", "200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _copyAnalyzerSend(context, analyzerId, sourceAnalyzerId, options),
+    resourceLocationConfig: "operation-location",
+  }) as PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer>;
 }
 
 export function _analyzeBinarySend(
@@ -820,24 +770,13 @@ export function analyzeBinary(
   binaryInput: Uint8Array,
   options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
-  return getLongRunningPoller(
-    context,
-    _analyzeBinaryDeserialize,
-    ["202", "200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _analyzeBinarySend(
-          context,
-          analyzerId,
-          contentType,
-          binaryInput,
-          options,
-        ),
-      resourceLocationConfig: "operation-location",
-    },
-  ) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
+  return getLongRunningPoller(context, _analyzeBinaryDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _analyzeBinarySend(context, analyzerId, contentType, binaryInput, options),
+    resourceLocationConfig: "operation-location",
+  }) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
 }
 
 export function _analyzeSend(
@@ -870,17 +809,13 @@ export function _analyzeSend(
         ...options.requestOptions?.headers,
       },
       body: {
-        inputs: !options?.inputs
-          ? options?.inputs
-          : analyzeInputArraySerializer(options?.inputs),
+        inputs: !options?.inputs ? options?.inputs : analyzeInputArraySerializer(options?.inputs),
         modelDeployments: options?.modelDeployments,
       },
     });
 }
 
-export async function _analyzeDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AnalyzeResult> {
+export async function _analyzeDeserialize(result: PathUncheckedResponse): Promise<AnalyzeResult> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -902,15 +837,10 @@ export function analyze(
   analyzerId: string,
   options: AnalyzeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
-  return getLongRunningPoller(
-    context,
-    _analyzeDeserialize,
-    ["202", "200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () => _analyzeSend(context, analyzerId, options),
-      resourceLocationConfig: "operation-location",
-    },
-  ) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
+  return getLongRunningPoller(context, _analyzeDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _analyzeSend(context, analyzerId, options),
+    resourceLocationConfig: "operation-location",
+  }) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
 }

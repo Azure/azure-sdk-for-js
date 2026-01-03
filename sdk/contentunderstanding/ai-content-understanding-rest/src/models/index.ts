@@ -73,5 +73,6 @@ export {
   ContentAnalyzerOperationStatus,
   ContentUnderstandingDefaults,
   CopyAuthorization,
+  RecordMergePatchUpdate,
   KnownVersions,
 } from "./models.js";

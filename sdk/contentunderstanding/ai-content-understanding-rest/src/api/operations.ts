@@ -1,33 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContentUnderstandingContext as Client } from "./index.js";
-import {
-  analyzeInputArraySerializer,
+import type { ContentUnderstandingContext as Client } from "./index.js";
+import type {
   AnalyzeResult,
-  analyzeResultDeserializer,
   ContentAnalyzerAnalyzeOperationStatus,
-  contentAnalyzerAnalyzeOperationStatusDeserializer,
   ContentAnalyzer,
-  contentAnalyzerSerializer,
-  contentAnalyzerDeserializer,
   ContentAnalyzerOperationStatus,
-  contentAnalyzerOperationStatusDeserializer,
   ContentUnderstandingDefaults,
-  contentUnderstandingDefaultsDeserializer,
   CopyAuthorization,
-  copyAuthorizationDeserializer,
   _PagedContentAnalyzer,
-  _pagedContentAnalyzerDeserializer,
 } from "../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../static-helpers/pagingHelpers.js";
+  analyzeInputArraySerializer,
+  analyzeResultDeserializer,
+  contentAnalyzerAnalyzeOperationStatusDeserializer,
+  contentAnalyzerSerializer,
+  contentAnalyzerDeserializer,
+  contentAnalyzerOperationStatusDeserializer,
+  contentUnderstandingDefaultsDeserializer,
+  copyAuthorizationDeserializer,
+  recordMergePatchUpdateSerializer,
+  _pagedContentAnalyzerDeserializer,
+} from "../models/models.js";
+import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../static-helpers/pollingHelpers.js";
 import { getBinaryResponse } from "../static-helpers/serialization/get-binary-response.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import {
+import type {
   UpdateDefaultsOptionalParams,
   UpdateAnalyzerOptionalParams,
   ListAnalyzersOptionalParams,
@@ -44,13 +45,9 @@ import {
   AnalyzeBinaryOptionalParams,
   AnalyzeOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _updateDefaultsSend(
   context: Client,
@@ -70,11 +67,12 @@ export function _updateDefaultsSend(
     .patch({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/merge-patch+json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        modelDeployments: !options?.modelDeployments
+          ? options?.modelDeployments
+          : recordMergePatchUpdateSerializer(options?.modelDeployments),
       },
-      body: { modelDeployments: {} },
     });
 }
 
@@ -114,20 +112,18 @@ export function _updateAnalyzerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/merge-patch+json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: contentAnalyzerSerializer(resource),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/merge-patch+json",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: contentAnalyzerSerializer(resource),
+  });
 }
 
 export async function _updateAnalyzerDeserialize(
@@ -148,12 +144,7 @@ export async function updateAnalyzer(
   resource: ContentAnalyzer,
   options: UpdateAnalyzerOptionalParams = { requestOptions: {} },
 ): Promise<ContentAnalyzer> {
-  const result = await _updateAnalyzerSend(
-    context,
-    analyzerId,
-    resource,
-    options,
-  );
+  const result = await _updateAnalyzerSend(context, analyzerId, resource, options);
   return _updateAnalyzerDeserialize(result);
 }
 
@@ -170,18 +161,16 @@ export function _listAnalyzersSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listAnalyzersDeserialize(
@@ -237,10 +226,7 @@ export function _grantCopyAuthorizationSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: {
-        targetAzureResourceId: targetAzureResourceId,
-        targetRegion: options?.targetRegion,
-      },
+      body: { targetAzureResourceId: targetAzureResourceId, targetRegion: options?.targetRegion },
     });
 }
 
@@ -277,7 +263,7 @@ export function _getResultFileSend(
   path: string,
   options: GetResultFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path = expandUrlTemplate(
+  const urlPath = expandUrlTemplate(
     "/analyzerResults/{operationId}/files/{+path}{?api%2Dversion}",
     {
       operationId: operationId,
@@ -288,12 +274,10 @@ export function _getResultFileSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "*/*", ...options.requestOptions?.headers },
-    });
+  return context.path(urlPath).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "*/*", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getResultFileDeserialize(
@@ -314,12 +298,7 @@ export async function getResultFile(
   path: string,
   options: GetResultFileOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const streamableMethod = _getResultFileSend(
-    context,
-    operationId,
-    path,
-    options,
-  );
+  const streamableMethod = _getResultFileSend(context, operationId, path, options);
   const result = await getBinaryResponse(streamableMethod);
   return _getResultFileDeserialize(result);
 }
@@ -343,10 +322,7 @@ export function _getResultSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
     });
 }
 
@@ -392,10 +368,7 @@ export function _getOperationStatusSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
     });
 }
 
@@ -417,12 +390,7 @@ export async function getOperationStatus(
   operationId: string,
   options: GetOperationStatusOptionalParams = { requestOptions: {} },
 ): Promise<ContentAnalyzerOperationStatus> {
-  const result = await _getOperationStatusSend(
-    context,
-    analyzerId,
-    operationId,
-    options,
-  );
+  const result = await _getOperationStatusSend(context, analyzerId, operationId, options);
   return _getOperationStatusDeserialize(result);
 }
 
@@ -443,10 +411,7 @@ export function _getDefaultsSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
     });
 }
 
@@ -485,18 +450,16 @@ export function _getAnalyzerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getAnalyzerDeserialize(
@@ -535,14 +498,10 @@ export function _deleteResultSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({ ...operationOptionsToRequestParameters(options) });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _deleteResultDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _deleteResultDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -589,9 +548,7 @@ export function _deleteAnalyzerSend(
     });
 }
 
-export async function _deleteAnalyzerDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _deleteAnalyzerDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -627,20 +584,18 @@ export function _createAnalyzerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: contentAnalyzerSerializer(resource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: contentAnalyzerSerializer(resource),
+  });
 }
 
 export async function _createAnalyzerDeserialize(
@@ -651,14 +606,7 @@ export async function _createAnalyzerDeserialize(
     throw createRestError(result);
   }
 
-  if (result?.body?.result === undefined) {
-    throw createRestError(
-      `Expected a result in the response at position "result.body.result"`,
-      result,
-    );
-  }
-
-  return contentAnalyzerDeserializer(result.body.result);
+  return contentAnalyzerDeserializer(result.body);
 }
 
 /** Create a new analyzer asynchronously. */
@@ -668,18 +616,12 @@ export function createAnalyzer(
   resource: ContentAnalyzer,
   options: CreateAnalyzerOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer> {
-  return getLongRunningPoller(
-    context,
-    _createAnalyzerDeserialize,
-    ["201", "200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _createAnalyzerSend(context, analyzerId, resource, options),
-      resourceLocationConfig: "original-uri",
-    },
-  ) as PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer>;
+  return getLongRunningPoller(context, _createAnalyzerDeserialize, ["201", "200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _createAnalyzerSend(context, analyzerId, resource, options),
+    resourceLocationConfig: "original-uri",
+  }) as PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer>;
 }
 
 export function _copyAnalyzerSend(
@@ -699,30 +641,28 @@ export function _copyAnalyzerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        sourceAzureResourceId: options?.sourceAzureResourceId,
-        sourceRegion: options?.sourceRegion,
-        sourceAnalyzerId: sourceAnalyzerId,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      sourceAzureResourceId: options?.sourceAzureResourceId,
+      sourceRegion: options?.sourceRegion,
+      sourceAnalyzerId: sourceAnalyzerId,
+    },
+  });
 }
 
 export async function _copyAnalyzerDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ContentAnalyzer> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["201", "200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -744,18 +684,12 @@ export function copyAnalyzer(
   sourceAnalyzerId: string,
   options: CopyAnalyzerOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer> {
-  return getLongRunningPoller(
-    context,
-    _copyAnalyzerDeserialize,
-    ["202", "200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _copyAnalyzerSend(context, analyzerId, sourceAnalyzerId, options),
-      resourceLocationConfig: "operation-location",
-    },
-  ) as PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer>;
+  return getLongRunningPoller(context, _copyAnalyzerDeserialize, ["201", "200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _copyAnalyzerSend(context, analyzerId, sourceAnalyzerId, options),
+    resourceLocationConfig: "operation-location",
+  }) as PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer>;
 }
 
 export function _analyzeBinarySend(
@@ -778,20 +712,18 @@ export function _analyzeBinarySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: contentType,
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: binaryInput,
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: contentType,
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: binaryInput,
+  });
 }
 
 export async function _analyzeBinaryDeserialize(
@@ -820,24 +752,13 @@ export function analyzeBinary(
   binaryInput: Uint8Array,
   options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
-  return getLongRunningPoller(
-    context,
-    _analyzeBinaryDeserialize,
-    ["202", "200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _analyzeBinarySend(
-          context,
-          analyzerId,
-          contentType,
-          binaryInput,
-          options,
-        ),
-      resourceLocationConfig: "operation-location",
-    },
-  ) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
+  return getLongRunningPoller(context, _analyzeBinaryDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _analyzeBinarySend(context, analyzerId, contentType, binaryInput, options),
+    resourceLocationConfig: "operation-location",
+  }) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
 }
 
 export function _analyzeSend(
@@ -870,17 +791,13 @@ export function _analyzeSend(
         ...options.requestOptions?.headers,
       },
       body: {
-        inputs: !options?.inputs
-          ? options?.inputs
-          : analyzeInputArraySerializer(options?.inputs),
+        inputs: !options?.inputs ? options?.inputs : analyzeInputArraySerializer(options?.inputs),
         modelDeployments: options?.modelDeployments,
       },
     });
 }
 
-export async function _analyzeDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AnalyzeResult> {
+export async function _analyzeDeserialize(result: PathUncheckedResponse): Promise<AnalyzeResult> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -902,15 +819,10 @@ export function analyze(
   analyzerId: string,
   options: AnalyzeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
-  return getLongRunningPoller(
-    context,
-    _analyzeDeserialize,
-    ["202", "200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () => _analyzeSend(context, analyzerId, options),
-      resourceLocationConfig: "operation-location",
-    },
-  ) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
+  return getLongRunningPoller(context, _analyzeDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _analyzeSend(context, analyzerId, options),
+    resourceLocationConfig: "operation-location",
+  }) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
 }

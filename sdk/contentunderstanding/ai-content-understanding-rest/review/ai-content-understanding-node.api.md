@@ -5,15 +5,15 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
+import type { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState as OperationState_2 } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
+import type { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AnalyzeBinaryOptionalParams extends OperationOptions {
@@ -597,6 +597,11 @@ export interface PageSettings {
 export type ProcessingLocation = "geography" | "dataZone" | "global";
 
 // @public
+export interface RecordMergePatchUpdate {
+    additionalProperties?: Record<string, string>;
+}
+
+// @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ContentUnderstandingClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
 
 // @public (undocumented)
@@ -617,8 +622,8 @@ export interface StringField extends ContentField {
 
 // @public
 export interface SupportedModels {
-    completion: string[];
-    embedding: string[];
+    completion?: string[];
+    embedding?: string[];
 }
 
 // @public
@@ -657,7 +662,7 @@ export interface UpdateAnalyzerOptionalParams extends OperationOptions {
 
 // @public
 export interface UpdateDefaultsOptionalParams extends OperationOptions {
-    modelDeployments?: Record<string, string>;
+    modelDeployments?: RecordMergePatchUpdate;
 }
 
 // @public

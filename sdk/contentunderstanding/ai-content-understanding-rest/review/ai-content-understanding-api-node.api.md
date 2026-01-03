@@ -4,14 +4,14 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
+import type { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState as OperationState_2 } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { OperationState as OperationState_2 } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export function analyze(context: ContentUnderstandingContext, analyzerId: string, options?: AnalyzeOptionalParams): PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult>;
@@ -154,7 +154,7 @@ export function updateDefaults(context: ContentUnderstandingContext, options?: U
 
 // @public
 export interface UpdateDefaultsOptionalParams extends OperationOptions {
-    modelDeployments?: Record<string, string>;
+    modelDeployments?: RecordMergePatchUpdate;
 }
 
 // (No @packageDocumentation comment for this package)
