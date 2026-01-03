@@ -469,6 +469,11 @@ export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" |
 export type ProcessingLocation = "geography" | "dataZone" | "global";
 
 // @public
+export interface RecordMergePatchUpdate {
+    additionalProperties?: Record<string, string>;
+}
+
+// @public
 export type SemanticRole = "pageHeader" | "pageFooter" | "pageNumber" | "title" | "sectionHeading" | "footnote" | "formulaBlock";
 
 // @public

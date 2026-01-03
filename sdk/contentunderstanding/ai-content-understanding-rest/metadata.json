@@ -1,6 +1,6 @@
 {
   "apiVersion": "2025-11-01",
-  "emitterVersion": "0.46.1",
+  "emitterVersion": "0.47.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "ContentUnderstanding",
     "CrossLanguageDefinitionId": {
@@ -63,6 +63,8 @@
       "@azure-rest/ai-content-understanding!GrantCopyAuthorizationRequest1:interface": "ClientCustomizations.grantCopyAuthorization.Request.anonymous",
       "@azure-rest/ai-content-understanding!CopyAuthorization:interface": "ContentUnderstanding.CopyAuthorization",
       "@azure-rest/ai-content-understanding!PagedContentAnalyzer:interface": "Azure.Core.Foundations.CustomPage",
+      "@azure-rest/ai-content-understanding!RecordMergePatchUpdate:interface": "TypeSpec.RecordMergePatchUpdate",
+      "@azure-rest/ai-content-understanding!UpdateDefaultsRequest:interface": "ClientCustomizations.updateDefaults.Request.anonymous",
       "@azure-rest/ai-content-understanding!KnownProcessingLocation:enum": "ContentUnderstanding.ProcessingLocation",
       "@azure-rest/ai-content-understanding!KnownOperationState:enum": "Azure.Core.Foundations.OperationState",
       "@azure-rest/ai-content-understanding!KnownMediaContentKind:enum": "ContentUnderstanding.MediaContentKind",
