@@ -1699,6 +1699,7 @@ sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 /.github/copilot-instructions.md         @timovv @praveenkuttappan @maririos
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
+/eng/tools/js-sdk-release-tools @MaryGao
 /eng/emitter-package-lock.json @qiaozha @MaryGao @JialinHuang803
 /eng/emitter-package.json @qiaozha @MaryGao @JialinHuang803
 
