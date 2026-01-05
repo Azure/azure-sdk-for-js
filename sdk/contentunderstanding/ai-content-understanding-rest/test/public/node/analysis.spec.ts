@@ -44,7 +44,7 @@ describe("ContentUnderstandingClient - Analysis", () => {
     const pdfBytes = fs.readFileSync(filePath);
 
     // Use the analyzeBinary method from the SDK
-    const poller = client.analyzeBinary(testAnalyzerId, "application/pdf", pdfBytes);
+    const poller = client.analyzeBinary(testAnalyzerId, pdfBytes, "application/pdf");
 
     await poller.pollUntilDone();
     // Poller may not return the full AnalyzeResult directly. Extract the operationId from the operation-location

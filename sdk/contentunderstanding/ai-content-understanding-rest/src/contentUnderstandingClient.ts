@@ -191,8 +191,8 @@ export class ContentUnderstandingClient {
   /** Extract content and fields from input. */
   analyzeBinary(
     analyzerId: string,
-    contentType: string,
     binaryInput: Uint8Array,
+    contentType: string = "application/octet-stream",
     options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
   ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
     return analyzeBinary(
