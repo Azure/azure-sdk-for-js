@@ -50,7 +50,7 @@ describe("Sample: analyzeUrl", () => {
     const content = result.contents[0];
     assert.ok(content, "Content should not be null");
     assert.ok(content.markdown, "Markdown content should not be null");
-    
+
     if (content.kind === "document") {
       const documentContent = content as DocumentContent;
       assert.ok(documentContent.pages, "Pages should not be null");
@@ -68,7 +68,7 @@ describe("Sample: analyzeUrl", () => {
     assert.ok(result, "Analysis result should not be null");
     assert.ok(result.contents, "Result contents should not be null");
     assert.ok(result.contents.length > 0, "Result should have at least one content");
-    
+
     const content = result.contents[0];
     assert.equal(content.kind, "audioVisual");
   });
@@ -84,7 +84,7 @@ describe("Sample: analyzeUrl", () => {
     assert.ok(result, "Analysis result should not be null");
     assert.ok(result.contents, "Result contents should not be null");
     assert.ok(result.contents.length > 0, "Result should have at least one content");
-    
+
     const content = result.contents[0];
     assert.equal(content.kind, "audioVisual");
   });
@@ -100,7 +100,7 @@ describe("Sample: analyzeUrl", () => {
     assert.ok(result, "Analysis result should not be null");
     assert.ok(result.contents, "Result contents should not be null");
     assert.ok(result.contents.length > 0, "Result should have at least one content");
-    
+
     const content = result.contents[0];
     assert.ok(content.markdown, "Markdown content should not be null");
   });
