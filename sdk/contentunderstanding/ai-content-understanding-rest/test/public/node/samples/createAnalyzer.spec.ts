@@ -138,7 +138,7 @@ describe("Sample: createAnalyzer", () => {
     assert.ok(analyzeResult, "Analysis result should not be null");
     assert.ok(analyzeResult.contents, "Result contents should not be null");
     assert.ok(analyzeResult.contents.length > 0, "Result should have at least one content");
-    
+
     const content = analyzeResult.contents[0];
     assert.ok(content.fields, "Fields should not be null");
     assert.ok(content.fields["company_name"], "company_name field should exist");
