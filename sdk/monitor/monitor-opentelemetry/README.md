@@ -42,6 +42,42 @@ useAzureMonitor(options);
 - Connection String can be set via `APPLICATIONINSIGHTS_CONNECTION_STRING`.
 - Sampler can be set via the OpenTelemetry env vars `OTEL_TRACES_SAMPLER` and `OTEL_TRACES_SAMPLER_ARG` (takes precedence over the `samplingRatio` option). Supported sampler values: `microsoft.rate_limited`, `microsoft.fixed_percentage`, `always_on`, `always_off`, `trace_id_ratio`, `parentbased_always_on`, `parentbased_always_off`, `parentbased_trace_id_ratio`. For `microsoft.rate_limited`, the arg is spans per second; for `trace_id_ratio`/parentbased, the arg is a probability in [0,1]. When the arg is omitted, defaults apply (rate limit disabled; probability defaults to 1). See the upstream OpenTelemetry environment variable spec for full context: https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/.
 
+### ESM Support
+
+> _Note:_ ESM support requires Node.js 18.19.0 or later. For more details on ESM support in OpenTelemetry, see the [OpenTelemetry ESM Support documentation](https://github.com/open-telemetry/opentelemetry-js/blob/main/doc/esm-support.md).
+
+For ECMAScript Module (ESM) applications, OpenTelemetry instrumentation requires the loader hooks to be registered **before** any instrumented modules (like `http`) are loaded. This is a fundamental requirement of ESM - modules cannot be instrumented after they are loaded.
+
+Use the `--import` flag to ensure the loader is registered at the very start of the Node.js process. Replace `<your-app-entry-point>` with the path to your application's main file (e.g., `./dist/index.js`, `./src/index.mjs`, `./server.js`, etc.):
+
+```bash
+node --import @azure/monitor-opentelemetry/loader <your-app-entry-point>
+```
+
+For example, in your `package.json`:
+
+```json
+{
+  "scripts": {
+    "start": "node --import @azure/monitor-opentelemetry/loader ./dist/index.js"
+  }
+}
+```
+
+Then in your application entry file, call `useAzureMonitor()` to configure the SDK:
+
+```ts snippet:ReadmeSampleESMUsage
+import { useAzureMonitor } from "@azure/monitor-opentelemetry";
+
+useAzureMonitor({
+  azureMonitorExporterOptions: {
+    connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING,
+  },
+});
+```
+
+For CommonJS applications, no additional flags are needed - the loader is automatically registered when the package is imported.
+
 ## Configuration
 
 ```ts snippet:ReadmeSampleConfiguration
