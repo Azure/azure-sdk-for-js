@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetClient } from "./containerServiceFleetClient.js";
+import type { ContainerServiceFleetClient } from "./containerServiceFleetClient.js";
 import { _generateUpdateRunDeserialize } from "./api/autoUpgradeProfileOperations/operations.js";
 import {
   _$deleteDeserialize,
@@ -20,6 +20,11 @@ import {
 } from "./api/updateRuns/operations.js";
 import { _updateDeserialize } from "./api/gates/operations.js";
 import {
+  _updateDeserialize as _updateDeserializeFleetManagedNamespaces,
+  _$deleteDeserialize as _$deleteDeserializeFleetManagedNamespaces,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeFleetManagedNamespaces,
+} from "./api/fleetManagedNamespaces/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializeFleetMembers,
   _updateAsyncDeserialize,
   _createDeserialize,
@@ -30,14 +35,10 @@ import {
   _createDeserialize as _createDeserializeFleets,
 } from "./api/fleets/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -97,7 +98,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 }
 
 interface DeserializationHelper {
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
@@ -105,12 +106,12 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/autoUpgradeProfiles/{autoUpgradeProfileName}/generateUpdateRun":
     {
       deserializer: _generateUpdateRunDeserialize,
-      expectedStatuses: ["202", "200"],
+      expectedStatuses: ["202", "200", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/autoUpgradeProfiles/{autoUpgradeProfileName}":
     {
       deserializer: _$deleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
+      expectedStatuses: ["202", "204", "200", "201"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/autoUpgradeProfiles/{autoUpgradeProfileName}":
     {
@@ -120,7 +121,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateStrategies/{updateStrategyName}":
     {
       deserializer: _$deleteDeserializeFleetUpdateStrategies,
-      expectedStatuses: ["200", "202", "204"],
+      expectedStatuses: ["200", "202", "204", "201"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateStrategies/{updateStrategyName}":
     {
@@ -128,15 +129,18 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["200", "201", "202"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}/skip":
-    { deserializer: _skipDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _skipDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}/stop":
-    { deserializer: _stopDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _stopDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}/start":
-    { deserializer: _startDeserialize, expectedStatuses: ["202", "200"] },
+    {
+      deserializer: _startDeserialize,
+      expectedStatuses: ["202", "200", "201"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}":
     {
       deserializer: _$deleteDeserializeUpdateRuns,
-      expectedStatuses: ["200", "202", "204"],
+      expectedStatuses: ["200", "202", "204", "201"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}":
     {
@@ -144,14 +148,35 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["200", "201", "202"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/gates/{gateName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
+    {
+      deserializer: _updateDeserialize,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/managedNamespaces/{managedNamespaceName}":
+    {
+      deserializer: _updateDeserializeFleetManagedNamespaces,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/managedNamespaces/{managedNamespaceName}":
+    {
+      deserializer: _$deleteDeserializeFleetManagedNamespaces,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/managedNamespaces/{managedNamespaceName}":
+    {
+      deserializer: _createOrUpdateDeserializeFleetManagedNamespaces,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}":
     {
       deserializer: _$deleteDeserializeFleetMembers,
-      expectedStatuses: ["200", "202", "204"],
+      expectedStatuses: ["200", "202", "204", "201"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}":
-    { deserializer: _updateAsyncDeserialize, expectedStatuses: ["200", "202"] },
+    {
+      deserializer: _updateAsyncDeserialize,
+      expectedStatuses: ["200", "202", "201"],
+    },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}":
     {
       deserializer: _createDeserialize,
@@ -160,12 +185,12 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}":
     {
       deserializer: _$deleteDeserializeFleets,
-      expectedStatuses: ["200", "202", "204"],
+      expectedStatuses: ["200", "202", "204", "201"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}":
     {
       deserializer: _updateAsyncDeserializeFleets,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}":
     {

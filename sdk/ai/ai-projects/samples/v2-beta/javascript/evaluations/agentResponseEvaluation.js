@@ -25,7 +25,6 @@ async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = await project.getOpenAIClient();
 
-  // [START agent_response_evaluation]
   // Create agent
   console.log("Creating agent...");
   const agent = await project.agents.createVersion(agentName, {
@@ -98,7 +97,6 @@ async function main() {
     },
   });
   console.log(`Evaluation run created (id: ${responseEvalRun.id})`);
-  // [END agent_response_evaluation]
 
   // Poll for completion
   while (!["completed", "failed"].includes(responseEvalRun.status)) {

@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates a task run with the specified parameters.
  *
  * @summary Updates a task run with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/TaskRunsUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/TaskRunsUpdate.json
  */
 async function taskRunsUpdate(): Promise<void> {
   const subscriptionId =

@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Creates a task for a container registry with the specified parameters.
  *
  * @summary Creates a task for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/TasksCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/TasksCreate.json
  */
 async function tasksCreate() {
   const subscriptionId =
@@ -79,7 +79,7 @@ async function tasksCreate() {
  * This sample demonstrates how to Creates a task for a container registry with the specified parameters.
  *
  * @summary Creates a task for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/TasksCreate_QuickTask.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/TasksCreate_QuickTask.json
  */
 async function tasksCreateQuickTask() {
   const subscriptionId =
@@ -110,7 +110,7 @@ async function tasksCreateQuickTask() {
  * This sample demonstrates how to Creates a task for a container registry with the specified parameters.
  *
  * @summary Creates a task for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/ManagedIdentity/TasksCreate_WithSystemAndUserIdentities.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/ManagedIdentity/TasksCreate_WithSystemAndUserIdentities.json
  */
 async function tasksCreateWithSystemAndUserIdentities() {
   const subscriptionId =
@@ -186,7 +186,7 @@ async function tasksCreateWithSystemAndUserIdentities() {
  * This sample demonstrates how to Creates a task for a container registry with the specified parameters.
  *
  * @summary Creates a task for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/ManagedIdentity/TasksCreate_WithUserIdentities.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/ManagedIdentity/TasksCreate_WithUserIdentities.json
  */
 async function tasksCreateWithUserIdentities() {
   const subscriptionId =
@@ -264,7 +264,7 @@ async function tasksCreateWithUserIdentities() {
  * This sample demonstrates how to Creates a task for a container registry with the specified parameters.
  *
  * @summary Creates a task for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/ManagedIdentity/TasksCreate_WithSystemIdentity.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/ManagedIdentity/TasksCreate_WithSystemIdentity.json
  */
 async function tasksCreateWithUserIdentitiesWithSystemIdentity() {
   const subscriptionId =

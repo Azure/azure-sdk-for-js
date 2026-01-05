@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets the detailed information for a given task run.
  *
  * @summary Gets the detailed information for a given task run.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/TaskRunsGet.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/TaskRunsGet.json
  */
 async function taskRunsGet() {
   const subscriptionId =
