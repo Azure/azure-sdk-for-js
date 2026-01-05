@@ -1225,11 +1225,10 @@ export function audioVisualContentDeserializer(item: any): AudioVisualContent {
       : item["cameraShotTimesMs"].map((p: any) => {
           return p;
         }),
-    keyFrameTimesMs: !item["KeyFrameTimesMs"]
-      ? item["KeyFrameTimesMs"]
-      : item["KeyFrameTimesMs"].map((p: any) => {
-          return p;
-        }),
+    keyFrameTimesMs: (() => {
+      const val = item["keyFrameTimesMs"] ?? item["KeyFrameTimesMs"];
+      return !val ? val : val.map((p: any) => p);
+    })(),
     transcriptPhrases: !item["transcriptPhrases"]
       ? item["transcriptPhrases"]
       : transcriptPhraseArrayDeserializer(item["transcriptPhrases"]),
