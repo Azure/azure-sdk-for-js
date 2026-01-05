@@ -4,7 +4,7 @@
 
 ```ts
 
-import { ErrorModel } from '@azure-rest/core-client';
+import type { ErrorModel } from '@azure-rest/core-client';
 
 // @public
 export interface AnalyzeInput {
@@ -31,6 +31,7 @@ export type AnnotationFormat = "none" | "markdown";
 // @public
 export interface ArrayField extends ContentField {
     fieldType: "array";
+    value?: ContentFieldUnion[];
     valueArray?: ContentFieldUnion[];
 }
 
@@ -59,6 +60,7 @@ export interface AudioVisualContentSegment {
 // @public
 export interface BooleanField extends ContentField {
     fieldType: "boolean";
+    value?: boolean;
     valueBoolean?: boolean;
 }
 
@@ -138,6 +140,7 @@ export interface ContentField {
     source?: string;
     spans?: ContentSpan[];
     type: ContentFieldType;
+    value?: any;
 }
 
 // @public
@@ -189,6 +192,7 @@ export interface CopyAuthorization {
 // @public
 export interface DateField extends ContentField {
     fieldType: "date";
+    value?: string;
     valueDate?: string;
 }
 
@@ -397,12 +401,14 @@ export type GenerationMethod = "generate" | "extract" | "classify";
 // @public
 export interface IntegerField extends ContentField {
     fieldType: "integer";
+    value?: number;
     valueInteger?: number;
 }
 
 // @public
 export interface JsonField extends ContentField {
     fieldType: "json";
+    value?: any;
     valueJson?: any;
 }
 
@@ -453,12 +459,14 @@ export type MediaContentUnion = DocumentContent | AudioVisualContent | MediaCont
 // @public
 export interface NumberField extends ContentField {
     fieldType: "number";
+    value?: number;
     valueNumber?: number;
 }
 
 // @public
 export interface ObjectField extends ContentField {
     fieldType: "object";
+    value?: Record<string, ContentFieldUnion>;
     valueObject?: Record<string, ContentFieldUnion>;
 }
 
@@ -479,6 +487,7 @@ export type SemanticRole = "pageHeader" | "pageFooter" | "pageNumber" | "title" 
 // @public
 export interface StringField extends ContentField {
     fieldType: "string";
+    value?: string;
     valueString?: string;
 }
 
@@ -494,6 +503,7 @@ export type TableFormat = "html" | "markdown";
 // @public
 export interface TimeField extends ContentField {
     fieldType: "time";
+    value?: string;
     valueTime?: string;
 }
 

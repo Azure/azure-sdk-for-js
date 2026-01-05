@@ -4,15 +4,15 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
+import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
-import { ErrorModel } from '@azure-rest/core-client';
+import type { ErrorModel } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState as OperationState_2 } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState as OperationState_2 } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -59,6 +59,7 @@ export type AnnotationFormat = "none" | "markdown";
 // @public
 export interface ArrayField extends ContentField {
     fieldType: "array";
+    value?: ContentFieldUnion[];
     valueArray?: ContentFieldUnion[];
 }
 
@@ -87,6 +88,7 @@ export interface AudioVisualContentSegment {
 // @public
 export interface BooleanField extends ContentField {
     fieldType: "boolean";
+    value?: boolean;
     valueBoolean?: boolean;
 }
 
@@ -166,6 +168,7 @@ export interface ContentField {
     source?: string;
     spans?: ContentSpan[];
     type: ContentFieldType;
+    value?: any;
 }
 
 // @public
@@ -264,6 +267,7 @@ export interface CreateAnalyzerOptionalParams extends OperationOptions {
 // @public
 export interface DateField extends ContentField {
     fieldType: "date";
+    value?: string;
     valueDate?: string;
 }
 
@@ -508,12 +512,14 @@ export interface GrantCopyAuthorizationOptionalParams extends OperationOptions {
 // @public
 export interface IntegerField extends ContentField {
     fieldType: "integer";
+    value?: number;
     valueInteger?: number;
 }
 
 // @public
 export interface JsonField extends ContentField {
     fieldType: "json";
+    value?: any;
     valueJson?: any;
 }
 
@@ -569,12 +575,14 @@ export type MediaContentUnion = DocumentContent | AudioVisualContent | MediaCont
 // @public
 export interface NumberField extends ContentField {
     fieldType: "number";
+    value?: number;
     valueNumber?: number;
 }
 
 // @public
 export interface ObjectField extends ContentField {
     fieldType: "object";
+    value?: Record<string, ContentFieldUnion>;
     valueObject?: Record<string, ContentFieldUnion>;
 }
 
@@ -617,6 +625,7 @@ export type SemanticRole = "pageHeader" | "pageFooter" | "pageNumber" | "title" 
 // @public
 export interface StringField extends ContentField {
     fieldType: "string";
+    value?: string;
     valueString?: string;
 }
 
@@ -632,6 +641,7 @@ export type TableFormat = "html" | "markdown";
 // @public
 export interface TimeField extends ContentField {
     fieldType: "time";
+    value?: string;
     valueTime?: string;
 }
 

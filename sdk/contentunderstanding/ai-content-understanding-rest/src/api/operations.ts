@@ -692,7 +692,7 @@ export function _analyzeBinarySend(
     {
       analyzerId: analyzerId,
       "api%2Dversion": context.apiVersion,
-      stringEncoding: options?.stringEncoding,
+      stringEncoding: options?.stringEncoding ?? "utf16",
       processingLocation: options?.processingLocation,
       range: options?.inputRange,
     },
@@ -759,7 +759,7 @@ export function _analyzeSend(
     {
       analyzerId: analyzerId,
       "api%2Dversion": context.apiVersion,
-      stringEncoding: options?.stringEncoding,
+      stringEncoding: options?.stringEncoding ?? "utf16",
       processingLocation: options?.processingLocation,
     },
     {
