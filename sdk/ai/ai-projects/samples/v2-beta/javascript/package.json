@@ -29,7 +29,8 @@
     "@azure/ai-projects": "next",
     "dotenv": "latest",
     "@azure/identity": "^4.13.0",
-    "openai": "^6.1.0"
+    "openai": "^6.1.0",
+    "@azure/arm-cognitiveservices": "7.6.0"
   },
   "devDependencies": {
     "cross-env": "latest"

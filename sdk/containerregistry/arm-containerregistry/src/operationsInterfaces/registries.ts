@@ -37,11 +37,11 @@ import type {
   RegenerateCredentialParameters,
   RegistriesRegenerateCredentialOptionalParams,
   RegistriesRegenerateCredentialResponse,
+  RegistriesGetBuildSourceUploadUrlOptionalParams,
+  RegistriesGetBuildSourceUploadUrlResponse,
   RunRequestUnion,
   RegistriesScheduleRunOptionalParams,
   RegistriesScheduleRunResponse,
-  RegistriesGetBuildSourceUploadUrlOptionalParams,
-  RegistriesGetBuildSourceUploadUrlResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -274,36 +274,8 @@ export interface Registries {
     options?: RegistriesRegenerateCredentialOptionalParams,
   ): Promise<RegistriesRegenerateCredentialResponse>;
   /**
-   * Schedules a new run based on the request parameters and add it to the run queue.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param runRequest The parameters of a run that needs to scheduled.
-   * @param options The options parameters.
-   */
-  beginScheduleRun(
-    resourceGroupName: string,
-    registryName: string,
-    runRequest: RunRequestUnion,
-    options?: RegistriesScheduleRunOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<RegistriesScheduleRunResponse>, RegistriesScheduleRunResponse>
-  >;
-  /**
-   * Schedules a new run based on the request parameters and add it to the run queue.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param runRequest The parameters of a run that needs to scheduled.
-   * @param options The options parameters.
-   */
-  beginScheduleRunAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    runRequest: RunRequestUnion,
-    options?: RegistriesScheduleRunOptionalParams,
-  ): Promise<RegistriesScheduleRunResponse>;
-  /**
    * Get the upload location for the user to be able to upload the source.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -312,4 +284,17 @@ export interface Registries {
     registryName: string,
     options?: RegistriesGetBuildSourceUploadUrlOptionalParams,
   ): Promise<RegistriesGetBuildSourceUploadUrlResponse>;
+  /**
+   * Schedules a new run based on the request parameters and add it to the run queue.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param runRequest The request body
+   * @param options The options parameters.
+   */
+  scheduleRun(
+    resourceGroupName: string,
+    registryName: string,
+    runRequest: RunRequestUnion,
+    options?: RegistriesScheduleRunOptionalParams,
+  ): Promise<RegistriesScheduleRunResponse>;
 }
