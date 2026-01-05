@@ -23,10 +23,10 @@ import type {
   TaskRunsGetResponse,
   TaskRunsCreateOptionalParams,
   TaskRunsCreateResponse,
-  TaskRunsDeleteOptionalParams,
   TaskRunUpdateParameters,
   TaskRunsUpdateOptionalParams,
   TaskRunsUpdateResponse,
+  TaskRunsDeleteOptionalParams,
   TaskRunsGetDetailsOptionalParams,
   TaskRunsGetDetailsResponse,
   TaskRunsListNextResponse,
@@ -47,8 +47,8 @@ export class TaskRunsImpl implements TaskRuns {
 
   /**
    * Lists all the task runs for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param options The options parameters.
    */
   public list(
@@ -108,9 +108,26 @@ export class TaskRunsImpl implements TaskRuns {
   }
 
   /**
+   * Lists all the task runs for a specified container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: TaskRunsListOptionalParams,
+  ): Promise<TaskRunsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
    * Gets the detailed information for a given task run.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param options The options parameters.
    */
@@ -128,8 +145,8 @@ export class TaskRunsImpl implements TaskRuns {
 
   /**
    * Creates a task run for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param taskRun The parameters of a run that needs to scheduled.
    * @param options The options parameters.
@@ -189,6 +206,7 @@ export class TaskRunsImpl implements TaskRuns {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -196,8 +214,8 @@ export class TaskRunsImpl implements TaskRuns {
 
   /**
    * Creates a task run for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param taskRun The parameters of a run that needs to scheduled.
    * @param options The options parameters.
@@ -220,89 +238,9 @@ export class TaskRunsImpl implements TaskRuns {
   }
 
   /**
-   * Deletes a specified task run resource.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskRunName The name of the task run.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    registryName: string,
-    taskRunName: string,
-    options?: TaskRunsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, taskRunName, options },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes a specified task run resource.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskRunName The name of the task run.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    taskRunName: string,
-    options?: TaskRunsDeleteOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDelete(resourceGroupName, registryName, taskRunName, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
    * Updates a task run with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param updateParameters The parameters for updating a task run.
    * @param options The options parameters.
@@ -368,6 +306,7 @@ export class TaskRunsImpl implements TaskRuns {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -375,8 +314,8 @@ export class TaskRunsImpl implements TaskRuns {
 
   /**
    * Updates a task run with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param updateParameters The parameters for updating a task run.
    * @param options The options parameters.
@@ -399,9 +338,28 @@ export class TaskRunsImpl implements TaskRuns {
   }
 
   /**
+   * Deletes a specified task run resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
+   * @param taskRunName The name of the task run.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    options?: TaskRunsDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, taskRunName, options },
+      deleteOperationSpec,
+    );
+  }
+
+  /**
    * Gets the detailed information for a given task run that includes all secrets.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param options The options parameters.
    */
@@ -418,26 +376,9 @@ export class TaskRunsImpl implements TaskRuns {
   }
 
   /**
-   * Lists all the task runs for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    registryName: string,
-    options?: TaskRunsListOptionalParams,
-  ): Promise<TaskRunsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -456,6 +397,27 @@ export class TaskRunsImpl implements TaskRuns {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TaskRunListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
   httpMethod: "GET",
@@ -464,15 +426,15 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TaskRun,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
     Parameters.taskRunName,
   ],
   headerParameters: [Parameters.accept],
@@ -495,7 +457,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TaskRun,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.taskRun,
@@ -503,35 +465,12 @@ const createOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
     Parameters.taskRunName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskRunName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -551,7 +490,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TaskRun,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.updateParameters1,
@@ -559,12 +498,33 @@ const updateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
     Parameters.taskRunName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.taskRunName,
+  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const getDetailsOperationSpec: coreClient.OperationSpec = {
@@ -575,37 +535,16 @@ const getDetailsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TaskRun,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
     Parameters.taskRunName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TaskRunListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.registryName,
-    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -618,15 +557,15 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TaskRunListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
