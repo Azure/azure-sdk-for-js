@@ -209,7 +209,7 @@ export interface ContentSpan {
 export class ContentUnderstandingClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: ContentUnderstandingClientOptionalParams);
     analyze(analyzerId: string, options?: AnalyzeOptionalParams): PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult>;
-    analyzeBinary(analyzerId: string, contentType: string, binaryInput: Uint8Array, options?: AnalyzeBinaryOptionalParams): PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult>;
+    analyzeBinary(analyzerId: string, binaryInput: Uint8Array, contentType?: string, options?: AnalyzeBinaryOptionalParams): PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult>;
     copyAnalyzer(analyzerId: string, sourceAnalyzerId: string, options?: CopyAnalyzerOptionalParams): PollerLike<OperationState_2<ContentAnalyzer>, ContentAnalyzer>;
     createAnalyzer(analyzerId: string, resource: ContentAnalyzer, options?: CreateAnalyzerOptionalParams): PollerLike<OperationState_2<ContentAnalyzer>, ContentAnalyzer>;
     deleteAnalyzer(analyzerId: string, options?: DeleteAnalyzerOptionalParams): Promise<void>;
