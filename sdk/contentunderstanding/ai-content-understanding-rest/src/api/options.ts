@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AnalyzeInput, ProcessingLocation, RecordMergePatchUpdate } from "../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface UpdateDefaultsOptionalParams extends OperationOptions {
