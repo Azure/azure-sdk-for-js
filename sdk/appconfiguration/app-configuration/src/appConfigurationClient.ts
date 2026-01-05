@@ -447,6 +447,62 @@ export class AppConfigurationClient {
     return getPagedAsyncIterator(pagedResult);
   }
 
+  checkConfigurationSettings(
+    options: ListConfigurationSettingsOptions = {},
+  ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
+    const pageEtags = options.pageEtags ? [...options.pageEtags] : undefined;
+    delete options.pageEtags;
+    const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
+      {
+        firstPageLink: undefined,
+        getPage: async (pageLink: string | undefined) => {
+          const etag = pageEtags?.shift();
+          try {
+            const response = await this.checkConfigurationSettingsRequest(
+              { ...options, etag },
+              pageLink,
+            );
+            const currentResponse: ListConfigurationSettingPage = {
+              ...response,
+              items: [],
+              continuationToken: response.nextLink
+                ? extractAfterTokenFromNextLink(response.nextLink)
+                : undefined,
+              _response: response._response,
+            };
+            return {
+              page: currentResponse,
+              nextPageLink: currentResponse.continuationToken,
+            };
+          } catch (error) {
+            const err = error as RestError;
+
+            const link = err.response?.headers?.get("link");
+            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+
+            if (err.statusCode === 304) {
+              err.message = `Status 304: No updates for this page`;
+              logger.info(
+                `[listConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
+              );
+              return {
+                page: {
+                  items: [],
+                  etag,
+                  _response: { ...err.response, status: 304 },
+                } as unknown as ListConfigurationSettingPage,
+                nextPageLink: continuationToken,
+              };
+            }
+
+            throw err;
+          }
+        },
+        toElements: (page) => page.items,
+      };
+    return getPagedAsyncIterator(pagedResult);
+  }
+
   /**
    * Lists settings from the Azure App Configuration service for snapshots based on name, optionally
    * filtered by key names, labels and accept datetime.
@@ -567,6 +623,28 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         const response = await this.client.getKeyValues({
+          ...updatedOptions,
+          ...formatAcceptDateTime(options),
+          ...formatConfigurationSettingsFiltersAndSelect(options),
+          ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfChanged: true }),
+          after: pageLink,
+        });
+
+        return response as GetKeyValuesResponse &
+          HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
+      },
+    );
+  }
+
+  private async checkConfigurationSettingsRequest(
+    options: SendConfigurationSettingsOptions & PageSettings = {},
+    pageLink: string | undefined,
+  ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
+    return tracingClient.withSpan(
+      "AppConfigurationClient.checkConfigurationSettings",
+      options,
+      async (updatedOptions) => {
+        const response = await this.client.checkKeyValues({
           ...updatedOptions,
           ...formatAcceptDateTime(options),
           ...formatConfigurationSettingsFiltersAndSelect(options),
