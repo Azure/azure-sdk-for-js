@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.2 (2026-01-05)
 
 ### Features Added
 - Added Model Context Protocol (MCP) support for integrating external tools and services
