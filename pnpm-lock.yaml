@@ -7978,13 +7978,13 @@ importers:
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../abort-controller
+    devDependencies:
       '@azure/core-client':
         specifier: ^1.10.0
         version: link:../core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.22.0
         version: link:../core-rest-pipeline
-    devDependencies:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
