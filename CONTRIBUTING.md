@@ -80,12 +80,12 @@ If you prefer to setup your own environment instead, make sure you have these pr
 To build all packages:
 
 4. Install and link all dependencies (`pnpm install`)
-5. Build the code base (`pnpm build`)
+5. Build the code base (`pnpm build --token 1`), with remote build cache enabled.
 
 You rarely need to build all packages though, as it takes over one hour to finish. Instead, you can build selected packages impacted by your changes. To build specific package(s), use the `--filter=@azure/package-name...` command-line option:
 
 6. Install and link all dependencies (`pnpm install`)
-7. Build the package, for example, `pnpm turbo build --filter=@azure/service-bus...`. Alternatively when under the package directory, `npx turbo build`
+7. Build the package, for example, `pnpm turbo build --filter=@azure/service-bus... --token 1`. Alternatively when under the package directory, `npx turbo build --token 1`
 
 ## Development Workflows
 
@@ -119,7 +119,7 @@ On the other hand, if you know your library does not work with the existing vers
 
 Run `pnpm build` from repo root directory to build any projects that have been modified since the last build.
 
-Run `pnpm turbo build --filter=<packagename>...` to build a single project, and all local projects that it depends on. You can pass `--filter` multiple times to build multiple projects. Keep in mind that pnpm refers to packages by their full names, so packages will be named something like `@azure/<servicename>`.  To ensure that it builds all of its dependencies, you must use the `...` suffix. For example, to build the `@azure/communication-chat` package, you would run `pnpm turbo build --filter=@azure/communication-chat...`.  Alternatively, you can run `npx turbo build` to build current package's dependencies then the package itself.
+Run `pnpm turbo build --filter=<packagename>... --token 1` to build a single project, and all local projects that it depends on. You can pass `--filter` multiple times to build multiple projects. Keep in mind that pnpm refers to packages by their full names, so packages will be named something like `@azure/<servicename>`.  To ensure that it builds all of its dependencies, you must use the `...` suffix. For example, to build the `@azure/communication-chat` package, you would run `pnpm turbo build --filter=@azure/communication-chat... --token 1`.  Alternatively, you can run `npx turbo build --token 1` to build current package's dependencies then the package itself.
 
 ### Testing
 
@@ -192,20 +192,20 @@ If you're having problems and want to restore your repo to a clean state without
 
 Generally speaking, the following commands are roughly equivalent:
 
-| NPM command                          | pnpm command                                  | Where to run      | pnpm command effect                                              |
-|--------------------------------------|-----------------------------------------------|-------------------|------------------------------------------------------------------|
-| `npm install`                        | `pnpm install`                                | Anywhere in repo  | Install dependencies for all projects in the pnpm workspace      |
-| `npm install --save[-dev] <package>` | `pnpm add -p <package> [-D]`                  | Package directory | Add or update a dependency in the current project                |
-| `npm build`                          | `pnpm build`                                  | Repo root         | Build all projects in the pnpm workspace                         |
-|                                      | `pnpm turbo build --filter=<package>...`      | Anywhere in repo  | Build named project and any projects it depends on               |
-|                                      | `pnpm turbo build`                            | Package directory | Build the current project                                        |
-| `npm test`                           | `pnpm test`                                   | Repo root         | Run dev tests in all projects in the pnpm workspace              |
-|                                      | `pnpm test --filter=<packagename>...`         | Repo root         | Run dev tests in named project and any projects it depends on    |
-|                                      | `pnpm test`                                   | Package directory | Run dev tests in the current project only                        |
-| `npm run <scriptname>`               | `pnpm <scriptname>`                           | Repo root         | Run named script in all projects in the pnpm workspace           |
-|                                      | `pnpm <scriptname> --filter=<packagename>...` | Repo root         | Run named script in named project and any projects it depends on |
-|                                      | `pnpm <scriptname>`                           | Package directory | Run named script in the current project only                     |
-| `npx <command>`                      | `npx <command>`                               | Anywhere          | Run named command provided by installed dependency package       |
+| NPM command                          | pnpm command                                       | Where to run      | pnpm command effect                                              |
+|--------------------------------------|----------------------------------------------------|-------------------|------------------------------------------------------------------|
+| `npm install`                        | `pnpm install`                                     | Anywhere in repo  | Install dependencies for all projects in the pnpm workspace      |
+| `npm install --save[-dev] <package>` | `pnpm add -p <package> [-D]`                       | Package directory | Add or update a dependency in the current project                |
+| `npm build`                          | `pnpm build --token 1`                             | Repo root         | Build all projects in the pnpm workspace                         |
+|                                      | `pnpm turbo build --filter=<package>... --token 1` | Anywhere in repo  | Build named project and any projects it depends on               |
+|                                      | `pnpm turbo build --token 1`                       | Package directory | Build the current project                                        |
+| `npm test`                           | `pnpm test`                                        | Repo root         | Run dev tests in all projects in the pnpm workspace              |
+|                                      | `pnpm test --filter=<packagename>...`              | Repo root         | Run dev tests in named project and any projects it depends on    |
+|                                      | `pnpm test`                                        | Package directory | Run dev tests in the current project only                        |
+| `npm run <scriptname>`               | `pnpm <scriptname>`                                | Repo root         | Run named script in all projects in the pnpm workspace           |
+|                                      | `pnpm <scriptname> --filter=<packagename>...`      | Repo root         | Run named script in named project and any projects it depends on |
+|                                      | `pnpm <scriptname>`                                | Package directory | Run named script in the current project only                     |
+| `npx <command>`                      | `npx <command>`                                    | Anywhere          | Run named command provided by installed dependency package       |
 
 Similarly other monorepo commands (`clean`, `test`, `test:node`, `format`, `lint`, etc.) also work with selections via `--filter` or `-F` option. It is supported to pass `--filter` or `-F` option multiple times.
 
