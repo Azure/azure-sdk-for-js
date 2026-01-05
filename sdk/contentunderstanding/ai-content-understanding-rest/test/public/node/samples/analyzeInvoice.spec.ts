@@ -9,7 +9,6 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import {
   ContentUnderstandingClient,
   type DocumentContent,
-  type ContentFieldUnion,
   type ArrayField,
 } from "../../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
@@ -57,27 +56,17 @@ describe("Sample: analyzeInvoice", () => {
       if (documentContent.fields) {
         console.log(`Total fields extracted: ${Object.keys(documentContent.fields).length}`);
 
-        // Helper to get field value
-        const getFieldValue = (field: ContentFieldUnion | undefined): string | undefined => {
-          if (!field) return undefined;
-          if ("valueString" in field) return field.valueString;
-          if ("valueDate" in field) return field.valueDate;
-          if ("valueNumber" in field) return String(field.valueNumber);
-          if ("valueInteger" in field) return String(field.valueInteger);
-          return undefined;
-        };
-
         // Check for common invoice fields
         const customerNameField = documentContent.fields["CustomerName"];
         const invoiceDateField = documentContent.fields["InvoiceDate"];
 
         if (customerNameField) {
-          const customerName = getFieldValue(customerNameField);
+          const customerName = customerNameField.value;
           console.log(`Customer Name: ${customerName ?? "(not found)"}`);
         }
 
         if (invoiceDateField) {
-          const invoiceDate = getFieldValue(invoiceDateField);
+          const invoiceDate = invoiceDateField.value;
           console.log(`Invoice Date: ${invoiceDate ?? "(not found)"}`);
         }
 

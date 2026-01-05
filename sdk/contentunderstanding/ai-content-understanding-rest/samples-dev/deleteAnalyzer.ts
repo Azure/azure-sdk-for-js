@@ -51,7 +51,7 @@ export async function main(): Promise<void> {
     description: "Simple analyzer for deletion example",
     config: { returnDetails: true } as ContentAnalyzerConfig,
     models: { completion: "gpt-4.1" },
-  } as ContentAnalyzer;
+  } as unknown as ContentAnalyzer;
 
   const poller = client.createAnalyzer(analyzerId, analyzer);
   await poller.pollUntilDone();

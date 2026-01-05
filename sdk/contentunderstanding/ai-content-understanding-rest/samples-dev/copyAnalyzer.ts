@@ -86,7 +86,7 @@ export async function main(): Promise<void> {
     fieldSchema,
     models: { completion: "gpt-4.1" },
     tags: { modelType: "in_development" },
-  } as ContentAnalyzer;
+  } as unknown as ContentAnalyzer;
 
   const createPoller = client.createAnalyzer(sourceAnalyzerId, analyzer);
   await createPoller.pollUntilDone();
@@ -118,7 +118,7 @@ export async function main(): Promise<void> {
   const updatedAnalyzer: ContentAnalyzer = {
     baseAnalyzerId: targetAnalyzer.baseAnalyzerId,
     tags: { modelType: "model_in_production" },
-  } as ContentAnalyzer;
+  } as unknown as ContentAnalyzer;
 
   console.log("Updating target analyzer with production tag...");
   await client.updateAnalyzer(targetAnalyzerId, updatedAnalyzer);
