@@ -13,7 +13,7 @@
 - Full build: `pnpm build` — builds all packages via Turborepo (avoid).
 - Tests: use the Azure SDK MCP tool `azsdk_package_run_tests`.
 - Lint/format: use the Azure SDK MCP tool `azsdk_package_run_check`, specifying lint or format.
-- Filter examples: `pnpm turbo build --filter sdk/web-pubsub/web-pubsub...`.
+- Filter examples: `pnpm turbo build --filter sdk/web-pubsub/web-pubsub... --token 1`.
 
 ## Coding Style & Naming Conventions
 - TypeScript; 2-space indent; semicolons; printWidth 100; double quotes (see `.prettierrc.json`).
