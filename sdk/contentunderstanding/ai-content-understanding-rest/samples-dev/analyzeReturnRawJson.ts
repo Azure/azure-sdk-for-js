@@ -116,7 +116,7 @@ export async function main(): Promise<void> {
   // Get the full operation status which includes the complete result
   await client.getResult(operationId, {
     onResponse: (response) => {
-      rawJson = response.bodyAsText;
+      rawJson = response.bodyAsText ?? undefined;
     },
   });
 

@@ -84,7 +84,7 @@ export async function main(): Promise<void> {
     description: "Custom classifier for financial document categorization",
     config,
     models: { completion: "gpt-4.1" },
-  } as ContentAnalyzer;
+  } as unknown as ContentAnalyzer;
 
   // Create the classifier
   const poller = client.createAnalyzer(analyzerId, classifier);

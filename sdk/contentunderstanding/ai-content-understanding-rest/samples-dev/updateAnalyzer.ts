@@ -67,7 +67,7 @@ export async function main(): Promise<void> {
     } as ContentFieldSchema,
     models: { completion: "gpt-4.1" },
     tags: { tag1: "tag1_initial_value" },
-  } as ContentAnalyzer;
+  } as unknown as ContentAnalyzer;
 
   const poller = client.createAnalyzer(analyzerId, analyzer);
   await poller.pollUntilDone();
@@ -94,7 +94,7 @@ export async function main(): Promise<void> {
       tag1: "tag1_updated_value", // Update existing tag
       tag3: "tag3_value", // Add new tag
     },
-  } as ContentAnalyzer;
+  } as unknown as ContentAnalyzer;
 
   // Update the analyzer
   console.log(`\nUpdating analyzer '${analyzerId}'...`);
