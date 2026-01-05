@@ -1,13 +1,14 @@
 # Release History
 
-## 1.0.0 (2025-12-30)
+## 1.0.0 (2026-01-05)
 
 ### Features Added
 
-- Updated versioning for general availability.
+- General availability release of @azure/arm-dell-storage package
+- Stable API for Dell Storage management operations
 
-## 1.0.0-beta.1 (2025-12-29)
+## 1.0.0-beta.1 (2025-07-18)
 
 ### Features Added
 
-This is the first stable version with the package of @azure/arm-dell-storage
+- Initial release of the @azure/arm-dell-storage package
