@@ -11,8 +11,6 @@
 - Improved error handling for authentication scenarios.
 - Changed test run creation failures from fatal to non-fatal errors.
 
-### Other Changes
-
 ## 1.0.0 (2025-08-28)
 
 This release marks the general availability of the `@azure/playwright` package.
