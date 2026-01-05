@@ -36,7 +36,7 @@
       "@azure/arm-dell-storage!KnownResourceEncryptionType:enum": "LiftrBase.ResourceEncryptionType",
       "@azure/arm-dell-storage!KnownEncryptionIdentityType:enum": "LiftrBase.EncryptionIdentityType",
       "@azure/arm-dell-storage!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
-      "@azure/arm-dell-storage!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-dell-storage!KnownCreatedByType:enum": "Azure.ResourceManager.CommonTypes.CreatedByType",
       "@azure/arm-dell-storage!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-dell-storage!KnownVersions:enum": "Dell.Storage.Versions",
       "@azure/arm-dell-storage!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
