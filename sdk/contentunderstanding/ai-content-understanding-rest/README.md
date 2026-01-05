@@ -516,7 +516,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [deploy_models_docs]: https://learn.microsoft.com/azure/ai-studio/how-to/deploy-models-openai
 [prebuilt_analyzers_docs]: https://learn.microsoft.com/azure/ai-services/content-understanding/concepts/prebuilt-analyzers
 [samples_directory]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding-rest/samples
-[sample_configure_defaults]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding-rest/samples-dev/configureDefaults.ts
+[sample_configure_defaults]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding-rest/samples-dev/updateDefaults.ts
 [client_options]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-client-rest/README.md
 [accessing_response]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-client-rest/README.md
 [long_running_operations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/README.md
