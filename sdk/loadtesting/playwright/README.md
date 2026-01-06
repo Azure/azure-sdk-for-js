@@ -172,8 +172,8 @@ export default defineConfig(
   }),
   {
     reporter: [
-      ["html" , { open: "never" }],, // HTML reporter must come first
-      ["@azure/playwright/reporter"]// Azure reporter uploads HTML report
+      ["html", { open: "never" }], // HTML reporter must come first
+      ["@azure/playwright/reporter"], // Azure reporter uploads HTML report
     ],
   }
 );
