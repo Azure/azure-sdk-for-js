@@ -24,7 +24,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
-import { writeFileSync, unlinkSync } from "fs";
+import { writeFile, unlink } from "node:fs/promises";
 import { tmpdir } from "os";
 import { join } from "path";
 import "dotenv/config";
@@ -90,7 +90,7 @@ export async function main(): Promise<void> {
   // Write data to a temporary JSONL file
   const tempFilePath = join(tmpdir(), `sentiment-eval-data-${Date.now()}.jsonl`);
   const jsonlContent = evalData.map((item) => JSON.stringify(item)).join("\n");
-  writeFileSync(tempFilePath, jsonlContent);
+  await writeFile(tempFilePath, jsonlContent);
 
   console.log("\nUploading dataset...");
   const dataset = await project.datasets.uploadFile(
@@ -98,7 +98,7 @@ export async function main(): Promise<void> {
     Date.now().toString(),
     tempFilePath,
   );
-  unlinkSync(tempFilePath);
+  await unlink(tempFilePath);
   console.log(
     `Dataset created (id: ${dataset.id}, name: ${dataset.name}, version: ${dataset.version})`,
   );

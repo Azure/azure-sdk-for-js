@@ -11,7 +11,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
-import * as fs from "fs";
+import * as fs from "node:fs/promises";
 import * as path from "path";
 import { fileURLToPath } from "url";
 import "dotenv/config";
@@ -21,13 +21,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 
-function imageToBase64(imagePath: string): string {
-  if (!fs.existsSync(imagePath)) {
-    throw new Error(`File not found at: ${imagePath}`);
-  }
-
+async function imageToBase64(imagePath: string): Promise<string> {
   try {
-    const fileData = fs.readFileSync(imagePath);
+    const fileData = await fs.readFile(imagePath);
     return fileData.toString("base64");
   } catch (err) {
     throw new Error(`Error reading file '${imagePath}': ${err}`);
@@ -53,7 +49,7 @@ export async function main(): Promise<void> {
           {
             type: "input_image",
             detail: "auto",
-            image_url: `data:image/png;base64,${imageToBase64(imageFilePath)}`,
+            image_url: `data:image/png;base64,${await imageToBase64(imageFilePath)}`,
           },
         ],
       },

@@ -25,6 +25,7 @@ import { AIProjectClient } from "@azure/ai-projects";
 import { Client } from "@modelcontextprotocol/sdk/client";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import * as fs from "fs";
+import { writeFile } from "node:fs/promises";
 import * as path from "path";
 import { fileURLToPath } from "url";
 import "dotenv/config";
@@ -97,7 +98,7 @@ export async function main(): Promise<void> {
         console.log("\nDownloading generated image...");
         const filename = "puppy.png";
         const filePath = path.resolve(__dirname, filename);
-        fs.writeFileSync(filePath, Buffer.from(imageContent.data as string, "base64"));
+        await writeFile(filePath, Buffer.from(imageContent.data as string, "base64"));
         console.log(`Image saved to: ${filePath}`);
       }
     }

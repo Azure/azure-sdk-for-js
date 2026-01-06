@@ -14,7 +14,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
-import * as fs from "fs";
+import * as fs from "node:fs/promises";
 import * as path from "path";
 import { fileURLToPath } from "url";
 import "dotenv/config";
@@ -70,7 +70,7 @@ export async function main(): Promise<void> {
 
     // Decode base64 and save to file
     const imageBuffer = Buffer.from(imageData[0].result, "base64");
-    fs.writeFileSync(filePath, imageBuffer);
+    await fs.writeFile(filePath, imageBuffer);
 
     console.log(`Image downloaded and saved to: ${path.resolve(filePath)}`);
   } else {

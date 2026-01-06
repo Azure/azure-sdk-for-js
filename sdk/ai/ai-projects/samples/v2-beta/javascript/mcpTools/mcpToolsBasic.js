@@ -27,6 +27,7 @@ const {
   StreamableHTTPClientTransport,
 } = require("@modelcontextprotocol/sdk/client/streamableHttp.js");
 const fs = require("fs");
+const { writeFile } = require("node:fs/promises");
 const path = require("path");
 const { fileURLToPath } = require("url");
 require("dotenv/config");
@@ -99,7 +100,7 @@ async function main() {
         console.log("\nDownloading generated image...");
         const filename = "puppy.png";
         const filePath = path.resolve(__dirname, filename);
-        fs.writeFileSync(filePath, Buffer.from(imageContent.data, "base64"));
+        await writeFile(filePath, Buffer.from(imageContent.data, "base64"));
         console.log(`Image saved to: ${filePath}`);
       }
     }

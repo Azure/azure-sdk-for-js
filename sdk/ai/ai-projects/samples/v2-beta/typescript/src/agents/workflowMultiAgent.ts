@@ -147,7 +147,7 @@ trigger:
   // Process the streaming response
   for await (const event of stream) {
     console.log("Event received:", JSON.stringify(event, null, 2));
-    if ((event.type === "response.output_item.added" || event.type === "response.output_item.done")) {
+    if (event.type === "response.output_item.added" || event.type === "response.output_item.done") {
       const item = event.item;
       console.log(`\n ${JSON.stringify(item, null, 2)} added:`);
     }

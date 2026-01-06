@@ -11,7 +11,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
-const fs = require("fs");
+const fs = require("node:fs/promises");
 const path = require("path");
 const { fileURLToPath } = require("url");
 require("dotenv/config");
@@ -21,13 +21,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 
-function imageToBase64(imagePath) {
-  if (!fs.existsSync(imagePath)) {
-    throw new Error(`File not found at: ${imagePath}`);
-  }
-
+async function imageToBase64(imagePath) {
   try {
-    const fileData = fs.readFileSync(imagePath);
+    const fileData = await fs.readFile(imagePath);
     return fileData.toString("base64");
   } catch (err) {
     throw new Error(`Error reading file '${imagePath}': ${err}`);
@@ -53,7 +49,7 @@ async function main() {
           {
             type: "input_image",
             detail: "auto",
-            image_url: `data:image/png;base64,${imageToBase64(imageFilePath)}`,
+            image_url: `data:image/png;base64,${await imageToBase64(imageFilePath)}`,
           },
         ],
       },
