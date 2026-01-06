@@ -40,7 +40,7 @@ async function main() {
   const client = new ContentUnderstandingClient(endpoint, getCredential());
 
   const invoiceUrl =
-    "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-dotnet/main/ContentUnderstanding.Common/data/invoice.pdf";
+    "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/document/invoice.pdf";
 
   console.log("Analyzing invoice with prebuilt-invoice analyzer...");
   console.log(`  URL: ${invoiceUrl}`);
@@ -81,17 +81,8 @@ async function main() {
     const customerNameField = documentContent.fields["CustomerName"];
     const invoiceDateField = documentContent.fields["InvoiceDate"];
 
-    const getFieldValue = (field) => {
-      if (!field) return undefined;
-      if ("valueString" in field) return field.valueString;
-      if ("valueDate" in field) return field.valueDate;
-      if ("valueNumber" in field) return String(field.valueNumber);
-      if ("valueInteger" in field) return String(field.valueInteger);
-      return undefined;
-    };
-
-    const customerName = getFieldValue(customerNameField);
-    const invoiceDate = getFieldValue(invoiceDateField);
+    const customerName = customerNameField?.value;
+    const invoiceDate = invoiceDateField?.value;
 
     console.log(`Customer Name: ${customerName ?? "(None)"}`);
     if (customerNameField) {
@@ -120,8 +111,8 @@ async function main() {
         const amountField = objField.valueObject["Amount"];
         const currencyField = objField.valueObject["CurrencyCode"];
 
-        const amount = getFieldValue(amountField);
-        const currency = getFieldValue(currencyField);
+        const amount = amountField?.value;
+        const currency = currencyField?.value;
 
         console.log(`\nTotal Amount: ${amount} ${currency}`);
         if (totalAmountField.confidence !== undefined) {
@@ -145,8 +136,8 @@ async function main() {
               const unitPriceField = itemObj.valueObject["UnitPrice"];
               const amountField = itemObj.valueObject["Amount"];
 
-              const description = getFieldValue(descriptionField) ?? "(no description)";
-              const quantity = getFieldValue(quantityField) ?? "N/A";
+              const description = descriptionField?.value ?? "(no description)";
+              const quantity = quantityField?.value ?? "N/A";
 
               // Display price information - prefer UnitPrice if available, otherwise Amount
               let priceInfo = "";
@@ -156,13 +147,13 @@ async function main() {
                   const unitPriceAmount = unitPriceObj.valueObject["Amount"];
                   const unitPriceCurrency = unitPriceObj.valueObject["CurrencyCode"];
                   if (unitPriceAmount) {
-                    const amt = getFieldValue(unitPriceAmount);
-                    const curr = getFieldValue(unitPriceCurrency) ?? "";
+                    const amt = unitPriceAmount.value;
+                    const curr = unitPriceCurrency?.value ?? "";
                     priceInfo = `Unit Price: ${amt} ${curr}`.trim();
                   }
                 }
               } else if (amountField) {
-                const amt = getFieldValue(amountField);
+                const amt = amountField.value;
                 if (amt !== undefined) {
                   priceInfo = `Amount: ${amt}`;
                 }

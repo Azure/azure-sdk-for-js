@@ -113,7 +113,7 @@ async function main() {
   const fileBytes = fs.readFileSync(filePath);
   console.log(`\nAnalyzing document with classifier '${analyzerId}'...`);
 
-  const analyzePoller = client.analyzeBinary(analyzerId, "application/pdf", fileBytes);
+  const analyzePoller = client.analyzeBinary(analyzerId, fileBytes, "application/pdf");
   const analyzeResult = await analyzePoller.pollUntilDone();
 
   // Display classification results

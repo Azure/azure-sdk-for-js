@@ -102,7 +102,7 @@ export async function main(): Promise<void> {
       completion: "gpt-4.1",
       embedding: "text-embedding-3-large",
     },
-  } as ContentAnalyzer;
+  } as unknown as ContentAnalyzer;
 
   // Create the analyzer
   const poller = client.createAnalyzer(analyzerId, analyzer);
