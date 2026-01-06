@@ -44,7 +44,6 @@ export async function main(): Promise<void> {
   const stream = openAIClient.responses.stream(
     {
       conversation: conversation.id,
-      input: "",
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },

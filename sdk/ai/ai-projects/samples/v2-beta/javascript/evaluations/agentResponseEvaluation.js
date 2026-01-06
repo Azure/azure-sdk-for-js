@@ -52,7 +52,6 @@ async function main() {
   const response = await openAIClient.responses.create(
     {
       conversation: conversation.id,
-      input: "",
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },

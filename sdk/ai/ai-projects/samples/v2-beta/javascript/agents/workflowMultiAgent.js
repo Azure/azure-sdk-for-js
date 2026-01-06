@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to create a multi-agent workflow using a synchronous client
- * with a student agent answering the question first and then a teacher agent checking the answer.
+ * This sample demonstrates how to create a multi-agent workflow with a student agent answering the question first and then a teacher agent checking the answer.
  *
  * @summary This sample demonstrates how to create a multi-agent workflow with a student agent
  * and teacher agent, process streaming responses with workflow action events.
