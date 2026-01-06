@@ -22,6 +22,7 @@ const applicationInsightsResource = "https://monitor.azure.com/.default";
  */
 export class QuickpulseSender {
   private readonly quickpulseClient: ReturnType<typeof createClient>;
+  private readonly quickpulseClientOptions: { credential: TokenCredential; credentialScopes: string[] };
   private instrumentationKey: string;
   private endpointUrl: string;
 
@@ -46,10 +47,12 @@ export class QuickpulseSender {
         ? [options.credentialScopes]
         : [applicationInsightsResource];
 
-    this.quickpulseClient = createClient(credential, {
+    this.quickpulseClientOptions = { credential, credentialScopes: scopes };
+
+    this.quickpulseClient = createClient(this.quickpulseClientOptions.credential, {
       endpointParam: this.endpointUrl,
       credentials: {
-        scopes,
+        scopes: this.quickpulseClientOptions.credentialScopes,
       },
     });
 
