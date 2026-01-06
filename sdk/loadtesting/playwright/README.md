@@ -75,7 +75,7 @@ Installing the service package will create a service config file named `playwrig
 The service configuration serves to:
 
 - Direct and authenticate Playwright to the Playwright Workspaces.
-- Add Playwright workspaces reporting to your config.
+- Add Playwright Workspaces reporting to your config.
 - Override timeouts for service operations, if needed.
 
 > Make sure your project uses @playwright/test version 1.47 or above.
