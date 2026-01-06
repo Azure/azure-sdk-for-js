@@ -34,13 +34,7 @@ describe("Sample: deleteResult", () => {
 
     // Get the operation ID
 
-    const operationLocation = (poller as any).operationState?.config?.operationLocation;
-    let operationId: string | undefined;
-
-    if (operationLocation) {
-      const match = operationLocation.match(/analyzerResults\/([^?]+)/);
-      operationId = match?.[1];
-    }
+    const operationId = poller.operationId;
 
     assert.ok(operationId, "Should have operation ID");
     console.log(`Operation ID: ${operationId}`);

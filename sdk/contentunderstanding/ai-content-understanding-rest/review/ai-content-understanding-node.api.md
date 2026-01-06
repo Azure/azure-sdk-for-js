@@ -53,6 +53,11 @@ export interface AnalyzeResult {
     warnings?: ErrorModel[];
 }
 
+// @public (undocumented)
+export interface AnalyzeResultPoller extends PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult> {
+    operationId?: string;
+}
+
 // @public
 export type AnnotationFormat = "none" | "markdown";
 
@@ -208,8 +213,8 @@ export interface ContentSpan {
 // @public (undocumented)
 export class ContentUnderstandingClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: ContentUnderstandingClientOptionalParams);
-    analyze(analyzerId: string, options?: AnalyzeOptionalParams): PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult>;
-    analyzeBinary(analyzerId: string, binaryInput: Uint8Array, contentType?: string, options?: AnalyzeBinaryOptionalParams): PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult>;
+    analyze(analyzerId: string, options?: AnalyzeOptionalParams): AnalyzeResultPoller;
+    analyzeBinary(analyzerId: string, binaryInput: Uint8Array, contentType?: string, options?: AnalyzeBinaryOptionalParams): AnalyzeResultPoller;
     copyAnalyzer(analyzerId: string, sourceAnalyzerId: string, options?: CopyAnalyzerOptionalParams): PollerLike<OperationState_2<ContentAnalyzer>, ContentAnalyzer>;
     createAnalyzer(analyzerId: string, resource: ContentAnalyzer, options?: CreateAnalyzerOptionalParams): PollerLike<OperationState_2<ContentAnalyzer>, ContentAnalyzer>;
     deleteAnalyzer(analyzerId: string, options?: DeleteAnalyzerOptionalParams): Promise<void>;

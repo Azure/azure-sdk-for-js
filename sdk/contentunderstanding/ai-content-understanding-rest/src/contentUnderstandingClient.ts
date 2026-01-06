@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createContentUnderstanding,
+import type {
   ContentUnderstandingContext,
   ContentUnderstandingClientOptionalParams,
 } from "./api/index.js";
+import { createContentUnderstanding } from "./api/index.js";
 import {
   updateDefaults,
   updateAnalyzer,
@@ -20,10 +20,13 @@ import {
   deleteAnalyzer,
   createAnalyzer,
   copyAnalyzer,
-  analyzeBinary,
-  analyze,
+  _analyzeSend,
+  _analyzeDeserialize,
+  _analyzeBinarySend,
+  _analyzeBinaryDeserialize,
 } from "./api/operations.js";
-import {
+import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
+import type {
   UpdateDefaultsOptionalParams,
   UpdateAnalyzerOptionalParams,
   ListAnalyzersOptionalParams,
@@ -40,7 +43,7 @@ import {
   AnalyzeBinaryOptionalParams,
   AnalyzeOptionalParams,
 } from "./api/options.js";
-import {
+import type {
   AnalyzeResult,
   ContentAnalyzerAnalyzeOperationStatus,
   ContentAnalyzer,
@@ -48,12 +51,20 @@ import {
   ContentUnderstandingDefaults,
   CopyAuthorization,
 } from "./models/models.js";
-import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { PollerLike, OperationState } from "@azure/core-lro";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
+
+export interface AnalyzeResultPoller extends PollerLike<
+  OperationState<AnalyzeResult>,
+  AnalyzeResult
+> {
+  /** The operation ID */
+  operationId?: string;
+}
 
 export class ContentUnderstandingClient {
   private _client: ContentUnderstandingContext;
@@ -105,12 +116,7 @@ export class ContentUnderstandingClient {
     targetAzureResourceId: string,
     options: GrantCopyAuthorizationOptionalParams = { requestOptions: {} },
   ): Promise<CopyAuthorization> {
-    return grantCopyAuthorization(
-      this._client,
-      analyzerId,
-      targetAzureResourceId,
-      options,
-    );
+    return grantCopyAuthorization(this._client, analyzerId, targetAzureResourceId, options);
   }
 
   /** Get a file associated with the result of an analysis operation. */
@@ -194,21 +200,82 @@ export class ContentUnderstandingClient {
     binaryInput: Uint8Array,
     contentType: string = "application/octet-stream",
     options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
-  ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
-    return analyzeBinary(
+  ): AnalyzeResultPoller {
+    let operationId: string | undefined;
+    const getInitialResponse = async () => {
+      const res = await _analyzeBinarySend(
+        this._client,
+        analyzerId,
+        contentType,
+        binaryInput,
+        options,
+      );
+      const operationLocation = res.headers["operation-location"];
+      if (operationLocation) {
+        const lastSegment = operationLocation
+          .split("?")[0]
+          .split("/")
+          .filter((x) => x)
+          .pop();
+        operationId = lastSegment;
+      }
+      return res;
+    };
+
+    const poller = getLongRunningPoller(
       this._client,
-      analyzerId,
-      contentType,
-      binaryInput,
-      options,
-    );
+      _analyzeBinaryDeserialize,
+      ["202", "200", "201"],
+      {
+        updateIntervalInMs: options?.updateIntervalInMs,
+        abortSignal: options?.abortSignal,
+        getInitialResponse,
+        resourceLocationConfig: "operation-location",
+      },
+    ) as AnalyzeResultPoller;
+
+    Object.defineProperty(poller, "operationId", {
+      get: () => operationId,
+      enumerable: true,
+      configurable: true,
+    });
+
+    return poller;
   }
 
   /** Extract content and fields from input. */
   analyze(
     analyzerId: string,
     options: AnalyzeOptionalParams = { requestOptions: {} },
-  ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
-    return analyze(this._client, analyzerId, options);
+  ): AnalyzeResultPoller {
+    let operationId: string | undefined;
+    const getInitialResponse = async () => {
+      const res = await _analyzeSend(this._client, analyzerId, options);
+      const operationLocation = res.headers["operation-location"];
+      if (operationLocation) {
+        const lastSegment = operationLocation
+          .split("?")[0]
+          .split("/")
+          .filter((x) => x)
+          .pop();
+        operationId = lastSegment;
+      }
+      return res;
+    };
+
+    const poller = getLongRunningPoller(this._client, _analyzeDeserialize, ["202", "200", "201"], {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse,
+      resourceLocationConfig: "operation-location",
+    }) as AnalyzeResultPoller;
+
+    Object.defineProperty(poller, "operationId", {
+      get: () => operationId,
+      enumerable: true,
+      configurable: true,
+    });
+
+    return poller;
   }
 }
