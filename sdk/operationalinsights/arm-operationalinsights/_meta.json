@@ -1,5 +1,5 @@
 {
-  "commit": "4ec8aa514db7bc663d173ff5186f31bd60c33e36",
+  "commit": "3c506ed6527d74b2261d34d955cfa64119eb2369",
   "readme": "specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/readme.md",
   "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=C:\\Users\\v-ziweichen.FAREAST\\Documents\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\operationalinsights\\resource-manager\\Microsoft.OperationalInsights\\OperationalInsights\\readme.md --use=@autorest/typescript@6.0.54 --generate-sample=true",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
