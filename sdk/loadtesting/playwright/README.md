@@ -46,7 +46,7 @@ Follow these steps to run your existing Playwright test suite with the service.
      | **Resource group** | Select an existing resource group. Or select **Create new**, and then enter a unique name for the new resource group. |
      | **Name** | Enter a unique name to identify your workspace.<br/>The name can only consist of alphanumerical characters, and have a length between 3 and 64 characters. |
      | **Location** | Select a geographic location to host your workspace.<br/>This location also determines where the test execution results are stored. |
-     | **Reporting** | Toggle is set to “Enabled” by default to enable users to save and view their test run reports from Playwright Workspace. If you want turn off reporting, toggle the setting to "Disabled". |
+     | **Reporting** | Toggle is set to “Enabled” by default to enable users to save and view their test run reports from Playwright Workspace. If you want to turn off reporting, toggle the setting to "Disabled". |
      | **Storage account** | New storage account is created and selected by default to store the Playwright Workspaces reporting artifacts. To select an existing storage account, select from the dropdown or click on "Create new" to create a new storage account of your choice. |
 
      > [!NOTE]
