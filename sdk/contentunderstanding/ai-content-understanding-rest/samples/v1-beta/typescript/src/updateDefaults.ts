@@ -72,7 +72,9 @@ export async function main(): Promise<void> {
   };
 
   console.log("Configuring model deployments...");
-  const updatedDefaults = await client.updateDefaults({ modelDeployments });
+  const updatedDefaults = await client.updateDefaults({
+    modelDeployments: { additionalProperties: modelDeployments },
+  });
 
   console.log("Model deployments configured successfully!");
   if (updatedDefaults.modelDeployments) {

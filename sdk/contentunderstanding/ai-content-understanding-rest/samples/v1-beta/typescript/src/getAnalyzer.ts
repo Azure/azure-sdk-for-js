@@ -106,7 +106,7 @@ export async function main(): Promise<void> {
     config: { returnDetails: true } as ContentAnalyzerConfig,
     fieldSchema,
     models: { completion: "gpt-4.1" },
-  } as ContentAnalyzer;
+  } as unknown as ContentAnalyzer;
 
   const poller = client.createAnalyzer(analyzerId, customAnalyzer);
   await poller.pollUntilDone();

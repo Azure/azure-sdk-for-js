@@ -87,7 +87,7 @@ async function main() {
   console.log("  Using protocol method to access raw JSON response");
   console.log("  Analyzing...");
 
-  const poller = client.analyzeBinary(analyzerId, "application/pdf", fileBytes);
+  const poller = client.analyzeBinary(analyzerId, fileBytes, "application/pdf");
   await poller.pollUntilDone();
   console.log("  Analysis completed successfully");
 
@@ -95,18 +95,10 @@ async function main() {
   console.log("\nStep 4: Getting raw JSON response...");
 
   // Get the operation ID from the poller to retrieve the full result
-  // The poller's operationState contains internal configuration we can use
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const operationLocation = poller.operationState?.config?.operationLocation;
-  if (!operationLocation) {
-    throw new Error("Could not retrieve operation location from poller");
+  const operationId = poller.operationId;
+  if (!operationId) {
+    throw new Error("Could not retrieve operation ID from poller");
   }
-
-  const operationIdMatch = operationLocation.match(/analyzerResults\/([^?]+)/);
-  if (!operationIdMatch) {
-    throw new Error("Could not extract operation ID from operation location");
-  }
-  const operationId = operationIdMatch[1];
 
   // Variable to capture raw JSON from onResponse callback
   let rawJson;
@@ -114,7 +106,7 @@ async function main() {
   // Get the full operation status which includes the complete result
   await client.getResult(operationId, {
     onResponse: (response) => {
-      rawJson = response.bodyAsText;
+      rawJson = response.bodyAsText ?? undefined;
     },
   });
 

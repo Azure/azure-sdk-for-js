@@ -133,7 +133,7 @@ export async function main(): Promise<void> {
     fieldSchema,
     models: { completion: "gpt-4.1" },
     tags: { source: "true" },
-  } as ContentAnalyzer;
+  } as unknown as ContentAnalyzer;
 
   const createPoller = sourceClient.createAnalyzer(sourceAnalyzerId, analyzer);
   await createPoller.pollUntilDone();
@@ -150,7 +150,7 @@ export async function main(): Promise<void> {
   });
 
   console.log("Copy authorization granted!");
-  console.log(`  Analyzer ID: ${copyAuth.analyzerId}`);
+  console.log(`  Analyzer source: ${copyAuth.source}`);
   console.log(`  Target resource: ${copyAuth.targetAzureResourceId}`);
   console.log(`  Target region: ${targetRegion}`);
   console.log(`  Expires at: ${copyAuth.expiresAt}`);

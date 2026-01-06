@@ -74,7 +74,7 @@ async function main() {
   console.log("Note: prebuilt-documentSearch has formulas, layout, and OCR enabled by default.");
 
   // Analyze with prebuilt-documentSearch which has formulas, layout, and OCR enabled
-  const poller = client.analyzeBinary("prebuilt-documentSearch", "application/pdf", pdfBytes);
+  const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, "application/pdf");
   const result = await poller.pollUntilDone();
 
   if (!result.contents || result.contents.length === 0) {
