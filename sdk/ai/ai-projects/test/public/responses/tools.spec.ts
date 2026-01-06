@@ -899,6 +899,7 @@ describe("tools - basic", () => {
 
     // The response should contain OpenAPI tool results or indicate tool usage
     assert.isNotNull(response.output);
+    console.log(`Response output: ${response.output}`);
     console.log(`Response output items: ${response.output.length}`);
   }, 60000);
 });
