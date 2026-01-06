@@ -27,12 +27,10 @@ describe("AnalyzeResultPoller operationId", () => {
     client = new ContentUnderstandingClient(endpoint, credential);
 
     // Mock the RLC client pathUnchecked to handle poll requests
-    const mockGet = vi
-      .fn()
-      .mockResolvedValue({
-        status: "200",
-        body: { result: { status: "Succeeded", contents: [] } },
-      });
+    const mockGet = vi.fn().mockResolvedValue({
+      status: "200",
+      body: { result: { status: "Succeeded", contents: [] } },
+    });
     const mockPathUnchecked = vi.fn().mockReturnValue({ get: mockGet });
     (client as any)._client = {
       pathUnchecked: mockPathUnchecked,
