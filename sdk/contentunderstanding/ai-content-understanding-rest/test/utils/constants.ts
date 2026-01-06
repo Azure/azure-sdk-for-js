@@ -11,6 +11,6 @@ export const EnvVarKeys = {
   TEST_MODE: "TEST_MODE",
 } as const;
 
-export const ENDPOINT = "https://endpoint/";
-export const KEY = "api_key";
+export const ENDPOINT = "https://sanitized.services.ai.azure.com/";
+export const KEY = "Sanitized";
 export const TESTING_CONTAINER_SAS_URL = "Sanitized";
