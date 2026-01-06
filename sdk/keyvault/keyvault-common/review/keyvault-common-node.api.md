@@ -4,16 +4,13 @@
 
 ```ts
 
+import { AdditionalPolicyConfig } from '@azure-rest/core-client';
 import type { HttpClient } from '@azure/core-rest-pipeline';
 import type { PipelineOptions } from '@azure/core-rest-pipeline';
 import type { PipelinePolicy } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
-// @public
-export interface AdditionalPolicyConfig {
-    policy: PipelinePolicy;
-    position: "perCall" | "perRetry";
-}
+export { AdditionalPolicyConfig }
 
 // @public
 export interface CommonClientOptions extends PipelineOptions {

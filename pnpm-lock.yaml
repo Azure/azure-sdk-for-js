@@ -16739,6 +16739,9 @@ importers:
 
   sdk/keyvault/keyvault-common:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.3
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.0.0
         version: link:../../core/abort-controller

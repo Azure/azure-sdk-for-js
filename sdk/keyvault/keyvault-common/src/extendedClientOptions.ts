@@ -1,24 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HttpClient, PipelineOptions, PipelinePolicy } from "@azure/core-rest-pipeline";
-
-/**
- * Used to configure additional policies added to the pipeline at construction.
- */
-export interface AdditionalPolicyConfig {
-  /**
-   * A policy to be added.
-   */
-  policy: PipelinePolicy;
-  /**
-   * Determines if this policy be applied before or after retry logic.
-   * Only use `perRetry` if you need to modify the request again
-   * each time the operation is retried due to retryable service
-   * issues.
-   */
-  position: "perCall" | "perRetry";
-}
+import type { HttpClient, PipelineOptions } from "@azure/core-rest-pipeline";
+import type { AdditionalPolicyConfig } from "@azure-rest/core-client";
 
 /**
  * The common set of options that high level clients are expected to expose.
