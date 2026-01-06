@@ -2806,7 +2806,6 @@ export const RuleDefinition: coreClient.CompositeMapper = {
       },
       destinationTable: {
         serializedName: "destinationTable",
-        readOnly: true,
         type: {
           name: "String",
         },

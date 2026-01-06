@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type * as coreClient from "@azure-rest/core-client";
-import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import type { ExtendedCommonClientOptions } from "@azure/keyvault-common";
 
 import type { DeletionRecoveryLevel } from "./models/models.js";
 import { JsonWebKeyOperation as KeyOperation, JsonWebKeyType as KeyType } from "./models/models.js";

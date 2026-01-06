@@ -140,7 +140,7 @@ export default defineConfig(
     If you're already using other reporters, add them to this array.
     */
     // reporter: [
-    //   ["html"],
+    //   ["html", { open: "never" }],
     //   ["@azure/playwright/reporter"],
     // ],
   }
