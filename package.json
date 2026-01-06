@@ -35,11 +35,6 @@
     "pnpm": ">=10.24.0"
   },
   "pnpm": {
-    "overrides": {
-      "@azure-rest/ai-content-understanding": "link:sdk/contentunderstanding/ai-content-understanding-rest"
-    }
-  },
-  "dependencies": {
-    "@azure-rest/ai-content-understanding": "link:sdk/contentunderstanding/ai-content-understanding-rest"
+    "overrides": {}
   }
 }
