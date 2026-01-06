@@ -14,6 +14,7 @@ import type {
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
 } from "../types.js";
+import { APPLICATION_ID_RESOURCE_KEY } from "../types.js";
 import type { Sampler } from "@opentelemetry/sdk-trace-base";
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { EnvConfig } from "./envConfig.js";
@@ -260,7 +261,9 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
    * Populate microsoft.applicationId resource attribute from connection string when missing.
    */
   private _ensureApplicationIdResourceAttribute(): void {
-    if (this._resource.attributes["microsoft.applicationId"]) {
+    const applicationIdAttribute = this._resource.attributes[APPLICATION_ID_RESOURCE_KEY];
+
+    if (applicationIdAttribute) {
       return;
     }
 
@@ -272,7 +275,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
 
     if (applicationId) {
       this._resource = this._resource.merge(
-        resourceFromAttributes({ "microsoft.applicationId": applicationId }),
+        resourceFromAttributes({ [APPLICATION_ID_RESOURCE_KEY]: applicationId }),
       );
     }
   }
