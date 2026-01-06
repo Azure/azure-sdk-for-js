@@ -39,14 +39,8 @@ describe("Sample: analyzeReturnRawJson", () => {
     await poller.pollUntilDone();
 
     // Get the operation ID from the poller to retrieve the full result
-
-    const operationLocation = (poller as any).operationState?.config?.operationLocation;
-    assert.ok(operationLocation, "Should have operation location from poller");
-
-    const operationIdMatch = operationLocation.match(/analyzerResults\/([^?]+)/);
-    assert.ok(operationIdMatch, "Should be able to extract operation ID");
-
-    const operationId = operationIdMatch[1];
+    const operationId = poller.operationId;
+    assert.ok(operationId, "Should have operation ID from poller");
     console.log(`Operation ID: ${operationId}`);
 
     // Variable to capture raw JSON from onResponse callback

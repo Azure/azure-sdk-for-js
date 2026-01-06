@@ -47,10 +47,8 @@ describe("ContentUnderstandingClient - Analysis", () => {
     const poller = client.analyzeBinary(testAnalyzerId, pdfBytes, "application/pdf");
 
     await poller.pollUntilDone();
-    // Poller may not return the full AnalyzeResult directly. Extract the operationId from the operation-location
-    const operationLocation = (poller.operationState as any).config.operationLocation as string;
-    const url = new URL(operationLocation);
-    const operationId = url.pathname.split("/").pop()!.split("?")[0]!;
+    const operationId = poller.operationId!;
+    assert.ok(operationId, "Poller should have operationId");
 
     const operationStatus = await client.getResult(operationId);
     const analyzeResult = operationStatus.result!;
@@ -70,9 +68,7 @@ describe("ContentUnderstandingClient - Analysis", () => {
     });
 
     await poller.pollUntilDone();
-    const operationLocation = (poller.operationState as any).config.operationLocation as string;
-    const url = new URL(operationLocation);
-    const operationId = url.pathname.split("/").pop()!.split("?")[0]!;
+    const operationId = poller.operationId!;
 
     const operationStatus = await client.getResult(operationId);
     const analyzeResult = operationStatus.result!;
@@ -91,9 +87,7 @@ describe("ContentUnderstandingClient - Analysis", () => {
     });
 
     await poller.pollUntilDone();
-    const operationLocation = (poller.operationState as any).config.operationLocation as string;
-    const url = new URL(operationLocation);
-    const operationId = url.pathname.split("/").pop()!.split("?")[0]!;
+    const operationId = poller.operationId!;
 
     const operationStatus = await client.getResult(operationId);
     const analyzeResult = operationStatus.result!;
@@ -120,9 +114,7 @@ describe("ContentUnderstandingClient - Analysis", () => {
       });
       await poller.pollUntilDone();
       // If the poller completes without throwing, try to fetch the result to see the error
-      const operationLocation = (poller.operationState as any).config.operationLocation as string;
-      const url = new URL(operationLocation);
-      const operationId = url.pathname.split("/").pop()!.split("?")[0]!;
+      const operationId = poller.operationId!;
 
       const operationStatus = await client.getResult(operationId);
       if (operationStatus.status === "Failed") {

@@ -61,14 +61,7 @@ export async function main(): Promise<void> {
   // Get the operation ID from the poller state
   // We need to wait for at least one poll to get the operation location
   const result = await poller.pollUntilDone();
-  const operationLocation = (poller as any).operationState?.config?.operationLocation;
-  let operationId: string | undefined;
-
-  if (operationLocation) {
-    // Extract operation ID from the operation location URL
-    const match = operationLocation.match(/analyzerResults\/([^?]+)/);
-    operationId = match?.[1];
-  }
+  const operationId = poller.operationId;
 
   if (!operationId) {
     console.error("Error: Could not extract operation ID from response");
