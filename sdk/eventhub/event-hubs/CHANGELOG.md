@@ -1,14 +1,18 @@
 # Release History
 
-## 6.0.2 (Unreleased)
+## 6.0.2 (2026-01-07)
 
 ### Features Added
 
-### Breaking Changes
+- Added React Native ESM dialect support for React Native environments. [#36281](https://github.com/Azure/azure-sdk-for-js/pull/36281)
 
 ### Bugs Fixed
 
+- Fixed dangling promises in the library to prevent `UnhandledPromiseRejection` errors that could crash applications. [#36250](https://github.com/Azure/azure-sdk-for-js/pull/36250)
+
 ### Other Changes
+
+- Updated documentation to reflect Node.js 20+ minimum requirement. [#36214](https://github.com/Azure/azure-sdk-for-js/pull/36214)
 
 ## 6.0.0 (2025-04-08)
 
