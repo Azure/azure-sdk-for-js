@@ -2,8 +2,8 @@
   "extends": "../../../tsconfig.test.node.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/batch": ["./src/index.ts"],
-      "@azure/batch/*": ["./src/*"],
+      "@azure-rest/batch": ["./src/index.ts"],
+      "@azure-rest/batch/*": ["./src/*"],
       "$internal/*": ["./src/*"]
     }
   }

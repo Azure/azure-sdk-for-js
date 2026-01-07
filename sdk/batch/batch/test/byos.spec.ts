@@ -5,9 +5,8 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { afterAll, beforeAll, describe, it, beforeEach, afterEach, expect } from "vitest";
 import { getExistingBatchAccount } from "./utils/arm-resources/batch-account.js";
-import type { BatchClient } from "../src/clientDefinitions.js";
-import { createRecorder, createBatchClientV2 } from "./utils/recordedClient.js";
-import { isUnexpected } from "../src/isUnexpected.js";
+import type { BatchClient } from "../src/index.js";
+import { createRecorder, createBatchClient } from "./utils/recordedClient.js";
 import {
   createKeyInKeyVaultAndGetUrl,
   createKeyVaultForByosBatchAccount,
@@ -97,14 +96,15 @@ describe("BYOS Account", () => {
     await deleteVmAccessProfileVersion(GALLERY_NAME, VM_ACCESS_PROFILE_NAME);
     console.log("deleted in-VM access control profile:", VM_ACCESS_PROFILE_NAME);
 
-    await wait(10000); // wait for a few seconds to ensure the gallery version is fully deleted
+    wait(10000); // wait for 10 seconds to ensure the previous resource is fully deleted
+
     await deleteComputeGallery(GALLERY_NAME);
     console.log("deleted compute gallery:", GALLERY_NAME);
   });
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    batchClient = createBatchClientV2({
+    batchClient = createBatchClient({
       recorder,
       accountEndpoint,
     });
@@ -131,102 +131,81 @@ describe("BYOS Account", () => {
   });
 
   it("should list supported images", async () => {
-    const res = await batchClient.path("/supportedimages").get();
-
-    if (isUnexpected(res)) {
-      throw new Error(`Failed to list supported images: ${res.body?.message}`);
+    const images = [];
+    for await (const image of batchClient.listSupportedImages()) {
+      images.push(image);
     }
-    expect(res.body.value?.length).toBeGreaterThan(0);
+    expect(images.length).toBeGreaterThan(0);
   });
 
   it("should create a pool with CMK disk encryption", async () => {
     const poolId = recorder.variable("BYOS_POOL_ID", getResourceName("byospool"));
-    const res = await batchClient.path("/pools").post({
-      body: {
-        id: poolId,
-        vmSize: "STANDARD_D2_V3",
-        virtualMachineConfiguration: {
-          imageReference: {
-            publisher: "MicrosoftWindowsServer",
-            offer: "WindowsServer",
-            sku: "2022-Datacenter-smalldisk",
-            version: "latest",
-          },
-          nodeAgentSKUId: "batch.node.windows amd64",
-          osDisk: {
-            managedDisk: {
-              diskEncryptionSet: {
-                id: desResourceId,
-              },
+    await batchClient.createPool({
+      id: poolId,
+      vmSize: "STANDARD_D2_V3",
+      virtualMachineConfiguration: {
+        imageReference: {
+          publisher: "MicrosoftWindowsServer",
+          offer: "WindowsServer",
+          sku: "2022-Datacenter-smalldisk",
+          version: "latest",
+        },
+        nodeAgentSkuId: "batch.node.windows amd64",
+        osDisk: {
+          managedDisk: {
+            diskEncryptionSet: {
+              id: desResourceId,
             },
           },
         },
       },
-      contentType: "application/json; odata=minimalmetadata",
     });
-    if (isUnexpected(res)) {
-      throw new Error(`Failed to create pool: ${res.body?.message}`);
-    }
 
-    const poolRes = await batchClient.path("/pools/{poolId}", poolId).get();
-    if (isUnexpected(poolRes)) {
-      throw new Error(`Failed to get pool: ${poolRes.body?.message}`);
-    }
+    const pool = await batchClient.getPool(poolId);
 
-    expect(poolRes.body.id).toEqual(poolId);
-    expect(
-      poolRes.body.virtualMachineConfiguration?.osDisk?.managedDisk?.diskEncryptionSet?.id,
-    ).toEqual(desResourceId);
+    expect(pool.id).toEqual(poolId);
+    expect(pool.virtualMachineConfiguration?.osDisk?.managedDisk?.diskEncryptionSet?.id).toEqual(
+      desResourceId,
+    );
   });
 
   it('should create a pool with IMDS Metadata Security Protocol set to "InVmAccessControlProfileVersion"', async () => {
     const poolId = recorder.variable("BYOS_POOL_ID_MSP", getResourceName("byospoolmsp"));
-    const res = await batchClient.path("/pools").post({
-      body: {
-        id: poolId,
-        vmSize: "STANDARD_D2_V3",
-        virtualMachineConfiguration: {
-          imageReference: {
-            publisher: "MicrosoftWindowsServer",
-            offer: "WindowsServer",
-            sku: "2022-Datacenter-smalldisk",
-            version: "latest",
-          },
-          nodeAgentSKUId: "batch.node.windows amd64",
-          securityProfile: {
-            proxyAgentSettings: {
-              enabled: true,
-              imds: {
-                inVMAccessControlProfileReferenceId: vmAccessProfileVersionResourceId,
-              },
-              wireServer: {
-                mode: "Audit",
-              },
+    await batchClient.createPool({
+      id: poolId,
+      vmSize: "STANDARD_D2_V3",
+      virtualMachineConfiguration: {
+        imageReference: {
+          publisher: "MicrosoftWindowsServer",
+          offer: "WindowsServer",
+          sku: "2022-Datacenter-smalldisk",
+          version: "latest",
+        },
+        nodeAgentSkuId: "batch.node.windows amd64",
+        securityProfile: {
+          proxyAgentSettings: {
+            enabled: true,
+            imds: {
+              inVmAccessControlProfileReferenceId: vmAccessProfileVersionResourceId,
+            },
+            wireServer: {
+              mode: "Audit",
             },
           },
         },
       },
-      contentType: "application/json; odata=minimalmetadata",
     });
 
-    if (isUnexpected(res)) {
-      throw new Error(`Failed to create pool: ${res.body?.message}`);
-    }
+    const pool = await batchClient.getPool(poolId);
 
-    const poolRes = await batchClient.path("/pools/{poolId}", poolId).get();
-    if (isUnexpected(poolRes)) {
-      throw new Error(`Failed to get pool: ${poolRes.body?.message}`);
-    }
-
-    expect(poolRes.body.id).toEqual(poolId);
+    expect(pool.id).toEqual(poolId);
     expect(
-      poolRes.body.virtualMachineConfiguration?.securityProfile?.proxyAgentSettings?.imds
-        ?.inVMAccessControlProfileReferenceId,
+      pool.virtualMachineConfiguration?.securityProfile?.proxyAgentSettings?.imds
+        ?.inVmAccessControlProfileReferenceId,
     ).toEqual(vmAccessProfileVersionResourceId);
 
     expect(
-      poolRes.body.virtualMachineConfiguration?.securityProfile?.proxyAgentSettings?.wireServer
-        ?.mode,
+      pool.virtualMachineConfiguration?.securityProfile?.proxyAgentSettings?.wireServer?.mode,
     ).toEqual("Audit");
   });
 });

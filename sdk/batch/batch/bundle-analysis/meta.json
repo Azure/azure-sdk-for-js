@@ -1,0 +1,2680 @@
+{
+  "inputs": {
+    "../../core/ts-http-runtime/dist/browser/logger/log.common.js": {
+      "bytes": 654,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/logger/log.js": {
+      "bytes": 154,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/logger/log.common.js",
+          "kind": "import-statement",
+          "original": "./log.common.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/logger/debug.js": {
+      "bytes": 6276,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/logger/log.js",
+          "kind": "import-statement",
+          "original": "./log.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/logger/logger.js": {
+      "bytes": 4310,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/logger/debug.js",
+          "kind": "import-statement",
+          "original": "./debug.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/logger/internal.js": {
+      "bytes": 163,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/logger/logger.js",
+          "kind": "import-statement",
+          "original": "./logger.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/logger/dist/browser/index.js": {
+      "bytes": 1249,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/logger/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/logger"
+        }
+      ],
+      "format": "esm"
+    },
+    "dist/browser/logger.js": {
+      "bytes": 212,
+      "imports": [
+        {
+          "path": "../../core/logger/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/logger"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/abort-controller/AbortError.js": {
+      "bytes": 1013,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/httpHeaders.js": {
+      "bytes": 2857,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/auth/schemes.js": {
+      "bytes": 121,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/auth/oauth2Flows.js": {
+      "bytes": 125,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/uuidUtils.common.js": {
+      "bytes": 1142,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/uuidUtils.js": {
+      "bytes": 536,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/uuidUtils.common.js",
+          "kind": "import-statement",
+          "original": "./uuidUtils.common.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/pipelineRequest.js": {
+      "bytes": 2011,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/httpHeaders.js",
+          "kind": "import-statement",
+          "original": "./httpHeaders.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/uuidUtils.js",
+          "kind": "import-statement",
+          "original": "./util/uuidUtils.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/pipeline.js": {
+      "bytes": 10415,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/object.js": {
+      "bytes": 475,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/error.js": {
+      "bytes": 494,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/object.js",
+          "kind": "import-statement",
+          "original": "./object.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/inspect.common.js": {
+      "bytes": 149,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/inspect.js": {
+      "bytes": 156,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/inspect.common.js",
+          "kind": "import-statement",
+          "original": "./inspect.common.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/sanitizer.js": {
+      "bytes": 4996,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/object.js",
+          "kind": "import-statement",
+          "original": "./object.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/restError.js": {
+      "bytes": 3228,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/error.js",
+          "kind": "import-statement",
+          "original": "./util/error.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/inspect.js",
+          "kind": "import-statement",
+          "original": "./util/inspect.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/sanitizer.js",
+          "kind": "import-statement",
+          "original": "./util/sanitizer.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/bytesEncoding.common.js": {
+      "bytes": 3462,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/bytesEncoding.js": {
+      "bytes": 168,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/bytesEncoding.common.js",
+          "kind": "import-statement",
+          "original": "./bytesEncoding.common.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/typeGuards.js": {
+      "bytes": 768,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/arrayBuffer.js": {
+      "bytes": 740,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/fetchHttpClient.js": {
+      "bytes": 9942,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/abort-controller/AbortError.js",
+          "kind": "import-statement",
+          "original": "./abort-controller/AbortError.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/restError.js",
+          "kind": "import-statement",
+          "original": "./restError.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/httpHeaders.js",
+          "kind": "import-statement",
+          "original": "./httpHeaders.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/typeGuards.js",
+          "kind": "import-statement",
+          "original": "./util/typeGuards.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/arrayBuffer.js",
+          "kind": "import-statement",
+          "original": "./util/arrayBuffer.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/defaultHttpClient.js": {
+      "bytes": 343,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/fetchHttpClient.js",
+          "kind": "import-statement",
+          "original": "./fetchHttpClient.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/log.js": {
+      "bytes": 224,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/logger/logger.js",
+          "kind": "import-statement",
+          "original": "./logger/logger.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/logPolicy.js": {
+      "bytes": 1193,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/log.js",
+          "kind": "import-statement",
+          "original": "../log.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/sanitizer.js",
+          "kind": "import-statement",
+          "original": "../util/sanitizer.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/redirectPolicy.js": {
+      "bytes": 1993,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/userAgentPlatform.js": {
+      "bytes": 2036,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/constants.js": {
+      "bytes": 193,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/userAgent.js": {
+      "bytes": 941,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/userAgentPlatform.js",
+          "kind": "import-statement",
+          "original": "./userAgentPlatform.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/constants.js",
+          "kind": "import-statement",
+          "original": "../constants.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/userAgentPolicy.js": {
+      "bytes": 956,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/userAgent.js",
+          "kind": "import-statement",
+          "original": "../util/userAgent.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/decompressResponsePolicy.js": {
+      "bytes": 548,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/random.js": {
+      "bytes": 924,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/delay.js": {
+      "bytes": 1037,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/random.js",
+          "kind": "import-statement",
+          "original": "./random.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/helpers.js": {
+      "bytes": 2174,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/abort-controller/AbortError.js",
+          "kind": "import-statement",
+          "original": "../abort-controller/AbortError.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/retryStrategies/throttlingRetryStrategy.js": {
+      "bytes": 3079,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/helpers.js",
+          "kind": "import-statement",
+          "original": "../util/helpers.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/retryStrategies/exponentialRetryStrategy.js": {
+      "bytes": 2741,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/delay.js",
+          "kind": "import-statement",
+          "original": "../util/delay.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/retryStrategies/throttlingRetryStrategy.js",
+          "kind": "import-statement",
+          "original": "./throttlingRetryStrategy.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/retryPolicy.js": {
+      "bytes": 5310,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/helpers.js",
+          "kind": "import-statement",
+          "original": "../util/helpers.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/abort-controller/AbortError.js",
+          "kind": "import-statement",
+          "original": "../abort-controller/AbortError.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/logger/logger.js",
+          "kind": "import-statement",
+          "original": "../logger/logger.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/constants.js",
+          "kind": "import-statement",
+          "original": "../constants.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/defaultRetryPolicy.js": {
+      "bytes": 1154,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/retryStrategies/exponentialRetryStrategy.js",
+          "kind": "import-statement",
+          "original": "../retryStrategies/exponentialRetryStrategy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/retryStrategies/throttlingRetryStrategy.js",
+          "kind": "import-statement",
+          "original": "../retryStrategies/throttlingRetryStrategy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/retryPolicy.js",
+          "kind": "import-statement",
+          "original": "./retryPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/constants.js",
+          "kind": "import-statement",
+          "original": "../constants.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/checkEnvironment.js": {
+      "bytes": 1927,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/formDataPolicy.js": {
+      "bytes": 3943,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/bytesEncoding.js",
+          "kind": "import-statement",
+          "original": "../util/bytesEncoding.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/checkEnvironment.js",
+          "kind": "import-statement",
+          "original": "../util/checkEnvironment.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/httpHeaders.js",
+          "kind": "import-statement",
+          "original": "../httpHeaders.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/proxyPolicy.common.js": {
+      "bytes": 736,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/proxyPolicy.js": {
+      "bytes": 164,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/proxyPolicy.common.js",
+          "kind": "import-statement",
+          "original": "./proxyPolicy.common.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/agentPolicy.js": {
+      "bytes": 597,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/tlsPolicy.js": {
+      "bytes": 666,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/concat.common.js": {
+      "bytes": 1834,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/typeGuards.js",
+          "kind": "import-statement",
+          "original": "./typeGuards.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/concat.js": {
+      "bytes": 154,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/concat.common.js",
+          "kind": "import-statement",
+          "original": "./concat.common.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/multipartPolicy.js": {
+      "bytes": 4132,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/bytesEncoding.js",
+          "kind": "import-statement",
+          "original": "../util/bytesEncoding.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/typeGuards.js",
+          "kind": "import-statement",
+          "original": "../util/typeGuards.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/uuidUtils.js",
+          "kind": "import-statement",
+          "original": "../util/uuidUtils.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/concat.js",
+          "kind": "import-statement",
+          "original": "../util/concat.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/createPipelineFromOptions.js": {
+      "bytes": 2366,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/logPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/logPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/pipeline.js",
+          "kind": "import-statement",
+          "original": "./pipeline.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/redirectPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/redirectPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/userAgentPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/userAgentPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/decompressResponsePolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/decompressResponsePolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/defaultRetryPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/defaultRetryPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/formDataPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/formDataPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/checkEnvironment.js",
+          "kind": "import-statement",
+          "original": "./util/checkEnvironment.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/proxyPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/proxyPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/agentPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/agentPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/tlsPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/tlsPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/multipartPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/multipartPolicy.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/client/apiVersionPolicy.js": {
+      "bytes": 991,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/auth/credentials.js": {
+      "bytes": 813,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/auth/checkInsecureConnection.js": {
+      "bytes": 2019,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/log.js",
+          "kind": "import-statement",
+          "original": "../../log.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/auth/apiKeyAuthenticationPolicy.js": {
+      "bytes": 1284,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/auth/checkInsecureConnection.js",
+          "kind": "import-statement",
+          "original": "./checkInsecureConnection.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/auth/basicAuthenticationPolicy.js": {
+      "bytes": 1408,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/bytesEncoding.js",
+          "kind": "import-statement",
+          "original": "../../util/bytesEncoding.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/auth/checkInsecureConnection.js",
+          "kind": "import-statement",
+          "original": "./checkInsecureConnection.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/auth/bearerAuthenticationPolicy.js": {
+      "bytes": 1284,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/auth/checkInsecureConnection.js",
+          "kind": "import-statement",
+          "original": "./checkInsecureConnection.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/auth/oauth2AuthenticationPolicy.js": {
+      "bytes": 1276,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/auth/checkInsecureConnection.js",
+          "kind": "import-statement",
+          "original": "./checkInsecureConnection.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/client/clientHelpers.js": {
+      "bytes": 2079,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/defaultHttpClient.js",
+          "kind": "import-statement",
+          "original": "../defaultHttpClient.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/createPipelineFromOptions.js",
+          "kind": "import-statement",
+          "original": "../createPipelineFromOptions.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/client/apiVersionPolicy.js",
+          "kind": "import-statement",
+          "original": "./apiVersionPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/auth/credentials.js",
+          "kind": "import-statement",
+          "original": "../auth/credentials.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/auth/apiKeyAuthenticationPolicy.js",
+          "kind": "import-statement",
+          "original": "../policies/auth/apiKeyAuthenticationPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/auth/basicAuthenticationPolicy.js",
+          "kind": "import-statement",
+          "original": "../policies/auth/basicAuthenticationPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/auth/bearerAuthenticationPolicy.js",
+          "kind": "import-statement",
+          "original": "../policies/auth/bearerAuthenticationPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/auth/oauth2AuthenticationPolicy.js",
+          "kind": "import-statement",
+          "original": "../policies/auth/oauth2AuthenticationPolicy.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/client/multipart.js": {
+      "bytes": 4456,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/restError.js",
+          "kind": "import-statement",
+          "original": "../restError.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/httpHeaders.js",
+          "kind": "import-statement",
+          "original": "../httpHeaders.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/bytesEncoding.js",
+          "kind": "import-statement",
+          "original": "../util/bytesEncoding.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/typeGuards.js",
+          "kind": "import-statement",
+          "original": "../util/typeGuards.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/client/sendRequest.js": {
+      "bytes": 6532,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/restError.js",
+          "kind": "import-statement",
+          "original": "../restError.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/httpHeaders.js",
+          "kind": "import-statement",
+          "original": "../httpHeaders.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/pipelineRequest.js",
+          "kind": "import-statement",
+          "original": "../pipelineRequest.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/client/clientHelpers.js",
+          "kind": "import-statement",
+          "original": "./clientHelpers.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/typeGuards.js",
+          "kind": "import-statement",
+          "original": "../util/typeGuards.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/client/multipart.js",
+          "kind": "import-statement",
+          "original": "./multipart.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/client/urlHelpers.js": {
+      "bytes": 6238,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/client/getClient.js": {
+      "bytes": 4458,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/client/clientHelpers.js",
+          "kind": "import-statement",
+          "original": "./clientHelpers.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/client/sendRequest.js",
+          "kind": "import-statement",
+          "original": "./sendRequest.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/client/urlHelpers.js",
+          "kind": "import-statement",
+          "original": "./urlHelpers.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/checkEnvironment.js",
+          "kind": "import-statement",
+          "original": "../util/checkEnvironment.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/client/operationOptionHelpers.js": {
+      "bytes": 921,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/client/restError.js": {
+      "bytes": 1150,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/restError.js",
+          "kind": "import-statement",
+          "original": "../restError.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/httpHeaders.js",
+          "kind": "import-statement",
+          "original": "../httpHeaders.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/index.js": {
+      "bytes": 925,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/abort-controller/AbortError.js",
+          "kind": "import-statement",
+          "original": "./abort-controller/AbortError.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/logger/logger.js",
+          "kind": "import-statement",
+          "original": "./logger/logger.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/httpHeaders.js",
+          "kind": "import-statement",
+          "original": "./httpHeaders.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/auth/schemes.js",
+          "kind": "import-statement",
+          "original": "./auth/schemes.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/auth/oauth2Flows.js",
+          "kind": "import-statement",
+          "original": "./auth/oauth2Flows.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/pipelineRequest.js",
+          "kind": "import-statement",
+          "original": "./pipelineRequest.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/pipeline.js",
+          "kind": "import-statement",
+          "original": "./pipeline.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/restError.js",
+          "kind": "import-statement",
+          "original": "./restError.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/bytesEncoding.js",
+          "kind": "import-statement",
+          "original": "./util/bytesEncoding.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/defaultHttpClient.js",
+          "kind": "import-statement",
+          "original": "./defaultHttpClient.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/client/getClient.js",
+          "kind": "import-statement",
+          "original": "./client/getClient.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/client/operationOptionHelpers.js",
+          "kind": "import-statement",
+          "original": "./client/operationOptionHelpers.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/client/restError.js",
+          "kind": "import-statement",
+          "original": "./client/restError.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-client-rest/dist/browser/restError.js": {
+      "bytes": 451,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/pipeline.js": {
+      "bytes": 374,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/log.js": {
+      "bytes": 222,
+      "imports": [
+        {
+          "path": "../../core/logger/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/logger"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/exponentialRetryPolicy.js": {
+      "bytes": 903,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/retryStrategies/exponentialRetryStrategy.js",
+          "kind": "import-statement",
+          "original": "../retryStrategies/exponentialRetryStrategy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/retryPolicy.js",
+          "kind": "import-statement",
+          "original": "./retryPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/constants.js",
+          "kind": "import-statement",
+          "original": "../constants.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/systemErrorRetryPolicy.js": {
+      "bytes": 1088,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/retryStrategies/exponentialRetryStrategy.js",
+          "kind": "import-statement",
+          "original": "../retryStrategies/exponentialRetryStrategy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/retryPolicy.js",
+          "kind": "import-statement",
+          "original": "./retryPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/constants.js",
+          "kind": "import-statement",
+          "original": "../constants.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/throttlingRetryPolicy.js": {
+      "bytes": 1186,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/retryStrategies/throttlingRetryStrategy.js",
+          "kind": "import-statement",
+          "original": "../retryStrategies/throttlingRetryStrategy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/retryPolicy.js",
+          "kind": "import-statement",
+          "original": "./retryPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/constants.js",
+          "kind": "import-statement",
+          "original": "../constants.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/policies/internal.js": {
+      "bytes": 1218,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/agentPolicy.js",
+          "kind": "import-statement",
+          "original": "./agentPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/decompressResponsePolicy.js",
+          "kind": "import-statement",
+          "original": "./decompressResponsePolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/defaultRetryPolicy.js",
+          "kind": "import-statement",
+          "original": "./defaultRetryPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/exponentialRetryPolicy.js",
+          "kind": "import-statement",
+          "original": "./exponentialRetryPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/retryPolicy.js",
+          "kind": "import-statement",
+          "original": "./retryPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/systemErrorRetryPolicy.js",
+          "kind": "import-statement",
+          "original": "./systemErrorRetryPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/throttlingRetryPolicy.js",
+          "kind": "import-statement",
+          "original": "./throttlingRetryPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/formDataPolicy.js",
+          "kind": "import-statement",
+          "original": "./formDataPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/logPolicy.js",
+          "kind": "import-statement",
+          "original": "./logPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/multipartPolicy.js",
+          "kind": "import-statement",
+          "original": "./multipartPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/proxyPolicy.js",
+          "kind": "import-statement",
+          "original": "./proxyPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/redirectPolicy.js",
+          "kind": "import-statement",
+          "original": "./redirectPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/tlsPolicy.js",
+          "kind": "import-statement",
+          "original": "./tlsPolicy.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/userAgentPolicy.js",
+          "kind": "import-statement",
+          "original": "./userAgentPolicy.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/logPolicy.js": {
+      "bytes": 632,
+      "imports": [
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/log.js",
+          "kind": "import-statement",
+          "original": "../log.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/policies"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/redirectPolicy.js": {
+      "bytes": 680,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/policies"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/util/userAgentPlatform.js": {
+      "bytes": 2036,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/constants.js": {
+      "bytes": 194,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/util/userAgent.js": {
+      "bytes": 944,
+      "imports": [
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/util/userAgentPlatform.js",
+          "kind": "import-statement",
+          "original": "./userAgentPlatform.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/constants.js",
+          "kind": "import-statement",
+          "original": "../constants.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/userAgentPolicy.js": {
+      "bytes": 956,
+      "imports": [
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/util/userAgent.js",
+          "kind": "import-statement",
+          "original": "../util/userAgent.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/sha256.common.js": {
+      "bytes": 1897,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/bytesEncoding.js",
+          "kind": "import-statement",
+          "original": "./bytesEncoding.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/sha256.js": {
+      "bytes": 154,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/sha256.common.js",
+          "kind": "import-statement",
+          "original": "./sha256.common.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/ts-http-runtime/dist/browser/util/internal.js": {
+      "bytes": 652,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/delay.js",
+          "kind": "import-statement",
+          "original": "./delay.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/random.js",
+          "kind": "import-statement",
+          "original": "./random.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/object.js",
+          "kind": "import-statement",
+          "original": "./object.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/error.js",
+          "kind": "import-statement",
+          "original": "./error.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/sha256.js",
+          "kind": "import-statement",
+          "original": "./sha256.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/uuidUtils.js",
+          "kind": "import-statement",
+          "original": "./uuidUtils.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/checkEnvironment.js",
+          "kind": "import-statement",
+          "original": "./checkEnvironment.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/bytesEncoding.js",
+          "kind": "import-statement",
+          "original": "./bytesEncoding.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/sanitizer.js",
+          "kind": "import-statement",
+          "original": "./sanitizer.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-util/dist/browser/aborterUtils.js": {
+      "bytes": 713,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/abort-controller/dist/browser/AbortError.js": {
+      "bytes": 1002,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/abort-controller/dist/browser/index.js": {
+      "bytes": 154,
+      "imports": [
+        {
+          "path": "../../core/abort-controller/dist/browser/AbortError.js",
+          "kind": "import-statement",
+          "original": "./AbortError.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-util/dist/browser/createAbortablePromise.js": {
+      "bytes": 1408,
+      "imports": [
+        {
+          "path": "../../core/abort-controller/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/abort-controller"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-util/dist/browser/delay.js": {
+      "bytes": 1831,
+      "imports": [
+        {
+          "path": "../../core/core-util/dist/browser/createAbortablePromise.js",
+          "kind": "import-statement",
+          "original": "./createAbortablePromise.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/util"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-util/dist/browser/error.js": {
+      "bytes": 918,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/util"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-util/dist/browser/typeGuards.js": {
+      "bytes": 1157,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/core-util/dist/browser/index.js": {
+      "bytes": 4550,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/util"
+        },
+        {
+          "path": "../../core/core-util/dist/browser/aborterUtils.js",
+          "kind": "import-statement",
+          "original": "./aborterUtils.js"
+        },
+        {
+          "path": "../../core/core-util/dist/browser/createAbortablePromise.js",
+          "kind": "import-statement",
+          "original": "./createAbortablePromise.js"
+        },
+        {
+          "path": "../../core/core-util/dist/browser/delay.js",
+          "kind": "import-statement",
+          "original": "./delay.js"
+        },
+        {
+          "path": "../../core/core-util/dist/browser/error.js",
+          "kind": "import-statement",
+          "original": "./error.js"
+        },
+        {
+          "path": "../../core/core-util/dist/browser/typeGuards.js",
+          "kind": "import-statement",
+          "original": "./typeGuards.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/util/file.js": {
+      "bytes": 4848,
+      "imports": [
+        {
+          "path": "../../core/core-util/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/core-util"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/multipartPolicy.js": {
+      "bytes": 1004,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/policies"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/util/file.js",
+          "kind": "import-statement",
+          "original": "../util/file.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/decompressResponsePolicy.js": {
+      "bytes": 716,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/policies"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/defaultRetryPolicy.js": {
+      "bytes": 818,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/policies"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/formDataPolicy.js": {
+      "bytes": 522,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/policies"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/proxyPolicy.js": {
+      "bytes": 1362,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/policies"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/setClientRequestIdPolicy.js": {
+      "bytes": 919,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/agentPolicy.js": {
+      "bytes": 462,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/policies"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/tlsPolicy.js": {
+      "bytes": 510,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/policies"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-tracing/dist/browser/tracingContext.js": {
+      "bytes": 1534,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/core-tracing/dist/browser/state.js": {
+      "bytes": 356,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/core-tracing/dist/browser/instrumenter.js": {
+      "bytes": 1775,
+      "imports": [
+        {
+          "path": "../../core/core-tracing/dist/browser/tracingContext.js",
+          "kind": "import-statement",
+          "original": "./tracingContext.js"
+        },
+        {
+          "path": "../../core/core-tracing/dist/browser/state.js",
+          "kind": "import-statement",
+          "original": "./state.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-tracing/dist/browser/tracingClient.js": {
+      "bytes": 3061,
+      "imports": [
+        {
+          "path": "../../core/core-tracing/dist/browser/instrumenter.js",
+          "kind": "import-statement",
+          "original": "./instrumenter.js"
+        },
+        {
+          "path": "../../core/core-tracing/dist/browser/tracingContext.js",
+          "kind": "import-statement",
+          "original": "./tracingContext.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-tracing/dist/browser/index.js": {
+      "bytes": 219,
+      "imports": [
+        {
+          "path": "../../core/core-tracing/dist/browser/instrumenter.js",
+          "kind": "import-statement",
+          "original": "./instrumenter.js"
+        },
+        {
+          "path": "../../core/core-tracing/dist/browser/tracingClient.js",
+          "kind": "import-statement",
+          "original": "./tracingClient.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/restError.js": {
+      "bytes": 525,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/tracingPolicy.js": {
+      "bytes": 4977,
+      "imports": [
+        {
+          "path": "../../core/core-tracing/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/core-tracing"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/constants.js",
+          "kind": "import-statement",
+          "original": "../constants.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/util/userAgent.js",
+          "kind": "import-statement",
+          "original": "../util/userAgent.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/log.js",
+          "kind": "import-statement",
+          "original": "../log.js"
+        },
+        {
+          "path": "../../core/core-util/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/core-util"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/restError.js",
+          "kind": "import-statement",
+          "original": "../restError.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/util/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/util"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/util/wrapAbortSignal.js": {
+      "bytes": 1264,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/wrapAbortSignalLikePolicy.js": {
+      "bytes": 1111,
+      "imports": [
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/util/wrapAbortSignal.js",
+          "kind": "import-statement",
+          "original": "../util/wrapAbortSignal.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/createPipelineFromOptions.js": {
+      "bytes": 2878,
+      "imports": [
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/logPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/logPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/pipeline.js",
+          "kind": "import-statement",
+          "original": "./pipeline.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/redirectPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/redirectPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/userAgentPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/userAgentPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/multipartPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/multipartPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/decompressResponsePolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/decompressResponsePolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/defaultRetryPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/defaultRetryPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/formDataPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/formDataPolicy.js"
+        },
+        {
+          "path": "../../core/core-util/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/core-util"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/proxyPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/proxyPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/setClientRequestIdPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/setClientRequestIdPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/agentPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/agentPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/tlsPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/tlsPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/tracingPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/tracingPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/wrapAbortSignalLikePolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/wrapAbortSignalLikePolicy.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/defaultHttpClient.js": {
+      "bytes": 1070,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/util/wrapAbortSignal.js",
+          "kind": "import-statement",
+          "original": "./util/wrapAbortSignal.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/httpHeaders.js": {
+      "bytes": 437,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/pipelineRequest.js": {
+      "bytes": 831,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/exponentialRetryPolicy.js": {
+      "bytes": 710,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/policies"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/systemErrorRetryPolicy.js": {
+      "bytes": 780,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/policies"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/throttlingRetryPolicy.js": {
+      "bytes": 988,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/policies"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/retryPolicy.js": {
+      "bytes": 934,
+      "imports": [
+        {
+          "path": "../../core/logger/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/logger"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/constants.js",
+          "kind": "import-statement",
+          "original": "../constants.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/policies/internal.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime/internal/policies"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/util/tokenCycler.js": {
+      "bytes": 6627,
+      "imports": [
+        {
+          "path": "../../core/core-util/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/core-util"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/bearerTokenAuthenticationPolicy.js": {
+      "bytes": 10709,
+      "imports": [
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/util/tokenCycler.js",
+          "kind": "import-statement",
+          "original": "../util/tokenCycler.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/log.js",
+          "kind": "import-statement",
+          "original": "../log.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/restError.js",
+          "kind": "import-statement",
+          "original": "../restError.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/ndJsonPolicy.js": {
+      "bytes": 869,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/policies/auxiliaryAuthenticationHeaderPolicy.js": {
+      "bytes": 3110,
+      "imports": [
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/util/tokenCycler.js",
+          "kind": "import-statement",
+          "original": "../util/tokenCycler.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/log.js",
+          "kind": "import-statement",
+          "original": "../log.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-rest-pipeline/dist/browser/index.js": {
+      "bytes": 2315,
+      "imports": [
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/pipeline.js",
+          "kind": "import-statement",
+          "original": "./pipeline.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/createPipelineFromOptions.js",
+          "kind": "import-statement",
+          "original": "./createPipelineFromOptions.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/defaultHttpClient.js",
+          "kind": "import-statement",
+          "original": "./defaultHttpClient.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/httpHeaders.js",
+          "kind": "import-statement",
+          "original": "./httpHeaders.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/pipelineRequest.js",
+          "kind": "import-statement",
+          "original": "./pipelineRequest.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/restError.js",
+          "kind": "import-statement",
+          "original": "./restError.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/decompressResponsePolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/decompressResponsePolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/exponentialRetryPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/exponentialRetryPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/setClientRequestIdPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/setClientRequestIdPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/logPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/logPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/multipartPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/multipartPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/proxyPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/proxyPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/redirectPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/redirectPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/systemErrorRetryPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/systemErrorRetryPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/throttlingRetryPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/throttlingRetryPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/retryPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/retryPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/tracingPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/tracingPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/defaultRetryPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/defaultRetryPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/userAgentPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/userAgentPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/tlsPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/tlsPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/formDataPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/formDataPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/bearerTokenAuthenticationPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/bearerTokenAuthenticationPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/ndJsonPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/ndJsonPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/auxiliaryAuthenticationHeaderPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/auxiliaryAuthenticationHeaderPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/policies/agentPolicy.js",
+          "kind": "import-statement",
+          "original": "./policies/agentPolicy.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/util/file.js",
+          "kind": "import-statement",
+          "original": "./util/file.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-auth/dist/browser/azureKeyCredential.js": {
+      "bytes": 978,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/core-auth/dist/browser/keyCredential.js": {
+      "bytes": 460,
+      "imports": [
+        {
+          "path": "../../core/core-util/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/core-util"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-auth/dist/browser/azureNamedKeyCredential.js": {
+      "bytes": 1922,
+      "imports": [
+        {
+          "path": "../../core/core-util/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/core-util"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-auth/dist/browser/azureSASCredential.js": {
+      "bytes": 1634,
+      "imports": [
+        {
+          "path": "../../core/core-util/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/core-util"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-auth/dist/browser/tokenCredential.js": {
+      "bytes": 1303,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/core-auth/dist/browser/index.js": {
+      "bytes": 382,
+      "imports": [
+        {
+          "path": "../../core/core-auth/dist/browser/azureKeyCredential.js",
+          "kind": "import-statement",
+          "original": "./azureKeyCredential.js"
+        },
+        {
+          "path": "../../core/core-auth/dist/browser/keyCredential.js",
+          "kind": "import-statement",
+          "original": "./keyCredential.js"
+        },
+        {
+          "path": "../../core/core-auth/dist/browser/azureNamedKeyCredential.js",
+          "kind": "import-statement",
+          "original": "./azureNamedKeyCredential.js"
+        },
+        {
+          "path": "../../core/core-auth/dist/browser/azureSASCredential.js",
+          "kind": "import-statement",
+          "original": "./azureSASCredential.js"
+        },
+        {
+          "path": "../../core/core-auth/dist/browser/tokenCredential.js",
+          "kind": "import-statement",
+          "original": "./tokenCredential.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-client-rest/dist/browser/apiVersionPolicy.js": {
+      "bytes": 991,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/core-client-rest/dist/browser/keyCredentialAuthenticationPolicy.js": {
+      "bytes": 617,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/core-client-rest/dist/browser/clientHelpers.js": {
+      "bytes": 2009,
+      "imports": [
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/core-rest-pipeline"
+        },
+        {
+          "path": "../../core/core-auth/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/core-auth"
+        },
+        {
+          "path": "../../core/core-client-rest/dist/browser/apiVersionPolicy.js",
+          "kind": "import-statement",
+          "original": "./apiVersionPolicy.js"
+        },
+        {
+          "path": "../../core/core-client-rest/dist/browser/keyCredentialAuthenticationPolicy.js",
+          "kind": "import-statement",
+          "original": "./keyCredentialAuthenticationPolicy.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-client-rest/dist/browser/operationOptionHelpers.js": {
+      "bytes": 608,
+      "imports": [
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-client-rest/dist/browser/getClient.js": {
+      "bytes": 2826,
+      "imports": [
+        {
+          "path": "../../core/core-auth/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/core-auth"
+        },
+        {
+          "path": "../../core/core-client-rest/dist/browser/clientHelpers.js",
+          "kind": "import-statement",
+          "original": "./clientHelpers.js"
+        },
+        {
+          "path": "../../core/ts-http-runtime/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@typespec/ts-http-runtime"
+        }
+      ],
+      "format": "esm"
+    },
+    "../../core/core-client-rest/dist/browser/common.js": {
+      "bytes": 120,
+      "imports": [],
+      "format": "esm"
+    },
+    "../../core/core-client-rest/dist/browser/index.js": {
+      "bytes": 451,
+      "imports": [
+        {
+          "path": "../../core/core-client-rest/dist/browser/restError.js",
+          "kind": "import-statement",
+          "original": "./restError.js"
+        },
+        {
+          "path": "../../core/core-client-rest/dist/browser/clientHelpers.js",
+          "kind": "import-statement",
+          "original": "./clientHelpers.js"
+        },
+        {
+          "path": "../../core/core-client-rest/dist/browser/operationOptionHelpers.js",
+          "kind": "import-statement",
+          "original": "./operationOptionHelpers.js"
+        },
+        {
+          "path": "../../core/core-client-rest/dist/browser/getClient.js",
+          "kind": "import-statement",
+          "original": "./getClient.js"
+        },
+        {
+          "path": "../../core/core-client-rest/dist/browser/common.js",
+          "kind": "import-statement",
+          "original": "./common.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "dist/browser/credentials/batchSharedKeyCredentials.js": {
+      "bytes": 368,
+      "imports": [],
+      "format": "esm"
+    },
+    "dist/browser/api/batchContext.js": {
+      "bytes": 2619,
+      "imports": [
+        {
+          "path": "dist/browser/logger.js",
+          "kind": "import-statement",
+          "original": "../logger.js"
+        },
+        {
+          "path": "../../core/core-client-rest/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure-rest/core-client"
+        },
+        {
+          "path": "../../core/core-auth/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/core-auth"
+        },
+        {
+          "path": "dist/browser/credentials/batchSharedKeyCredentials.js",
+          "kind": "import-statement",
+          "original": "../credentials/batchSharedKeyCredentials.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "dist/browser/models/models.js": {
+      "bytes": 120919,
+      "imports": [],
+      "format": "esm"
+    },
+    "dist/browser/static-helpers/pagingHelpers.js": {
+      "bytes": 4270,
+      "imports": [
+        {
+          "path": "../../core/core-client-rest/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure-rest/core-client"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/core-rest-pipeline"
+        }
+      ],
+      "format": "esm"
+    },
+    "dist/browser/static-helpers/serialization/get-binary-response.js": {
+      "bytes": 692,
+      "imports": [],
+      "format": "esm"
+    },
+    "dist/browser/static-helpers/urlTemplate.js": {
+      "bytes": 6791,
+      "imports": [],
+      "format": "esm"
+    },
+    "dist/browser/static-helpers/fileProperties.js": {
+      "bytes": 1217,
+      "imports": [],
+      "format": "esm"
+    },
+    "dist/browser/api/operations.js": {
+      "bytes": 172517,
+      "imports": [
+        {
+          "path": "dist/browser/models/models.js",
+          "kind": "import-statement",
+          "original": "../models/models.js"
+        },
+        {
+          "path": "dist/browser/static-helpers/pagingHelpers.js",
+          "kind": "import-statement",
+          "original": "../static-helpers/pagingHelpers.js"
+        },
+        {
+          "path": "dist/browser/static-helpers/serialization/get-binary-response.js",
+          "kind": "import-statement",
+          "original": "../static-helpers/serialization/get-binary-response.js"
+        },
+        {
+          "path": "dist/browser/static-helpers/urlTemplate.js",
+          "kind": "import-statement",
+          "original": "../static-helpers/urlTemplate.js"
+        },
+        {
+          "path": "../../core/core-client-rest/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure-rest/core-client"
+        },
+        {
+          "path": "dist/browser/static-helpers/fileProperties.js",
+          "kind": "import-statement",
+          "original": "../static-helpers/fileProperties.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "dist/browser/api/index.js": {
+      "bytes": 1364,
+      "imports": [
+        {
+          "path": "dist/browser/api/batchContext.js",
+          "kind": "import-statement",
+          "original": "./batchContext.js"
+        },
+        {
+          "path": "dist/browser/api/operations.js",
+          "kind": "import-statement",
+          "original": "./operations.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "dist/browser/static-helpers/batchPoller.js": {
+      "bytes": 5779,
+      "imports": [],
+      "format": "esm"
+    },
+    "dist/browser/api/lroPoller.js": {
+      "bytes": 11494,
+      "imports": [
+        {
+          "path": "dist/browser/api/operations.js",
+          "kind": "import-statement",
+          "original": "./operations.js"
+        },
+        {
+          "path": "../../core/core-rest-pipeline/dist/browser/index.js",
+          "kind": "import-statement",
+          "original": "@azure/core-rest-pipeline"
+        },
+        {
+          "path": "dist/browser/static-helpers/batchPoller.js",
+          "kind": "import-statement",
+          "original": "../static-helpers/batchPoller.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "dist/browser/batchClient.js": {
+      "bytes": 31850,
+      "imports": [
+        {
+          "path": "dist/browser/api/index.js",
+          "kind": "import-statement",
+          "original": "./api/index.js"
+        },
+        {
+          "path": "dist/browser/api/lroPoller.js",
+          "kind": "import-statement",
+          "original": "./api/lroPoller.js"
+        },
+        {
+          "path": "dist/browser/api/operations.js",
+          "kind": "import-statement",
+          "original": "./api/operations.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "dist/browser/models/index.js": {
+      "bytes": 154,
+      "imports": [
+        {
+          "path": "dist/browser/models/models.js",
+          "kind": "import-statement",
+          "original": "./models.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "dist/browser/index.js": {
+      "bytes": 208,
+      "imports": [
+        {
+          "path": "dist/browser/batchClient.js",
+          "kind": "import-statement",
+          "original": "./batchClient.js"
+        },
+        {
+          "path": "dist/browser/models/index.js",
+          "kind": "import-statement",
+          "original": "./models/index.js"
+        }
+      ],
+      "format": "esm"
+    }
+  },
+  "outputs": {
+    "bundle-analysis/bundle.min.js": {
+      "imports": [],
+      "exports": [
+        "BatchClient",
+        "KnownVersions"
+      ],
+      "entryPoint": "dist/browser/index.js",
+      "inputs": {
+        "../../core/ts-http-runtime/dist/browser/logger/log.common.js": {
+          "bytesInOutput": 238
+        },
+        "../../core/ts-http-runtime/dist/browser/logger/log.js": {
+          "bytesInOutput": 0
+        },
+        "../../core/ts-http-runtime/dist/browser/logger/debug.js": {
+          "bytesInOutput": 1414
+        },
+        "../../core/ts-http-runtime/dist/browser/logger/logger.js": {
+          "bytesInOutput": 1215
+        },
+        "../../core/ts-http-runtime/dist/browser/logger/internal.js": {
+          "bytesInOutput": 0
+        },
+        "../../core/logger/dist/browser/index.js": {
+          "bytesInOutput": 127
+        },
+        "dist/browser/logger.js": {
+          "bytesInOutput": 18
+        },
+        "../../core/ts-http-runtime/dist/browser/abort-controller/AbortError.js": {
+          "bytesInOutput": 75
+        },
+        "../../core/ts-http-runtime/dist/browser/index.js": {
+          "bytesInOutput": 0
+        },
+        "../../core/ts-http-runtime/dist/browser/httpHeaders.js": {
+          "bytesInOutput": 717
+        },
+        "../../core/ts-http-runtime/dist/browser/util/uuidUtils.common.js": {
+          "bytesInOutput": 179
+        },
+        "../../core/ts-http-runtime/dist/browser/util/uuidUtils.js": {
+          "bytesInOutput": 138
+        },
+        "../../core/ts-http-runtime/dist/browser/pipelineRequest.js": {
+          "bytesInOutput": 1011
+        },
+        "../../core/ts-http-runtime/dist/browser/pipeline.js": {
+          "bytesInOutput": 2545
+        },
+        "../../core/ts-http-runtime/dist/browser/util/object.js": {
+          "bytesInOutput": 115
+        },
+        "../../core/ts-http-runtime/dist/browser/util/error.js": {
+          "bytesInOutput": 103
+        },
+        "../../core/ts-http-runtime/dist/browser/util/inspect.common.js": {
+          "bytesInOutput": 16
+        },
+        "../../core/ts-http-runtime/dist/browser/util/inspect.js": {
+          "bytesInOutput": 0
+        },
+        "../../core/ts-http-runtime/dist/browser/util/sanitizer.js": {
+          "bytesInOutput": 2015
+        },
+        "../../core/ts-http-runtime/dist/browser/restError.js": {
+          "bytesInOutput": 802
+        },
+        "../../core/ts-http-runtime/dist/browser/util/bytesEncoding.common.js": {
+          "bytesInOutput": 968
+        },
+        "../../core/ts-http-runtime/dist/browser/util/bytesEncoding.js": {
+          "bytesInOutput": 0
+        },
+        "../../core/ts-http-runtime/dist/browser/util/typeGuards.js": {
+          "bytesInOutput": 330
+        },
+        "../../core/ts-http-runtime/dist/browser/util/arrayBuffer.js": {
+          "bytesInOutput": 254
+        },
+        "../../core/ts-http-runtime/dist/browser/fetchHttpClient.js": {
+          "bytesInOutput": 2944
+        },
+        "../../core/ts-http-runtime/dist/browser/defaultHttpClient.js": {
+          "bytesInOutput": 26
+        },
+        "../../core/ts-http-runtime/dist/browser/log.js": {
+          "bytesInOutput": 29
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/logPolicy.js": {
+          "bytesInOutput": 401
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/redirectPolicy.js": {
+          "bytesInOutput": 563
+        },
+        "../../core/ts-http-runtime/dist/browser/util/userAgentPlatform.js": {
+          "bytesInOutput": 870
+        },
+        "../../core/ts-http-runtime/dist/browser/constants.js": {
+          "bytesInOutput": 15
+        },
+        "../../core/ts-http-runtime/dist/browser/util/userAgent.js": {
+          "bytesInOutput": 229
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/userAgentPolicy.js": {
+          "bytesInOutput": 176
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/decompressResponsePolicy.js": {
+          "bytesInOutput": 98
+        },
+        "../../core/ts-http-runtime/dist/browser/util/random.js": {
+          "bytesInOutput": 91
+        },
+        "../../core/ts-http-runtime/dist/browser/util/delay.js": {
+          "bytesInOutput": 125
+        },
+        "../../core/ts-http-runtime/dist/browser/util/helpers.js": {
+          "bytesInOutput": 491
+        },
+        "../../core/ts-http-runtime/dist/browser/retryStrategies/throttlingRetryStrategy.js": {
+          "bytesInOutput": 512
+        },
+        "../../core/ts-http-runtime/dist/browser/retryStrategies/exponentialRetryStrategy.js": {
+          "bytesInOutput": 651
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/retryPolicy.js": {
+          "bytesInOutput": 1638
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/defaultRetryPolicy.js": {
+          "bytesInOutput": 131
+        },
+        "../../core/ts-http-runtime/dist/browser/util/checkEnvironment.js": {
+          "bytesInOutput": 559
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/formDataPolicy.js": {
+          "bytesInOutput": 1314
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/proxyPolicy.common.js": {
+          "bytesInOutput": 95
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/proxyPolicy.js": {
+          "bytesInOutput": 0
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/agentPolicy.js": {
+          "bytesInOutput": 104
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/tlsPolicy.js": {
+          "bytesInOutput": 114
+        },
+        "../../core/ts-http-runtime/dist/browser/util/concat.common.js": {
+          "bytesInOutput": 471
+        },
+        "../../core/ts-http-runtime/dist/browser/util/concat.js": {
+          "bytesInOutput": 0
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/multipartPolicy.js": {
+          "bytesInOutput": 1587
+        },
+        "../../core/ts-http-runtime/dist/browser/createPipelineFromOptions.js": {
+          "bytesInOutput": 449
+        },
+        "../../core/ts-http-runtime/dist/browser/client/apiVersionPolicy.js": {
+          "bytesInOutput": 259
+        },
+        "../../core/ts-http-runtime/dist/browser/auth/credentials.js": {
+          "bytesInOutput": 167
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/auth/checkInsecureConnection.js": {
+          "bytesInOutput": 582
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/auth/apiKeyAuthenticationPolicy.js": {
+          "bytesInOutput": 332
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/auth/basicAuthenticationPolicy.js": {
+          "bytesInOutput": 324
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/auth/bearerAuthenticationPolicy.js": {
+          "bytesInOutput": 318
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/auth/oauth2AuthenticationPolicy.js": {
+          "bytesInOutput": 315
+        },
+        "../../core/ts-http-runtime/dist/browser/client/clientHelpers.js": {
+          "bytesInOutput": 481
+        },
+        "../../core/ts-http-runtime/dist/browser/client/multipart.js": {
+          "bytesInOutput": 1408
+        },
+        "../../core/ts-http-runtime/dist/browser/client/sendRequest.js": {
+          "bytesInOutput": 2222
+        },
+        "../../core/ts-http-runtime/dist/browser/client/urlHelpers.js": {
+          "bytesInOutput": 2135
+        },
+        "../../core/ts-http-runtime/dist/browser/client/getClient.js": {
+          "bytesInOutput": 1418
+        },
+        "../../core/ts-http-runtime/dist/browser/client/operationOptionHelpers.js": {
+          "bytesInOutput": 370
+        },
+        "../../core/ts-http-runtime/dist/browser/client/restError.js": {
+          "bytesInOutput": 389
+        },
+        "../../core/core-client-rest/dist/browser/restError.js": {
+          "bytesInOutput": 56
+        },
+        "../../core/core-client-rest/dist/browser/index.js": {
+          "bytesInOutput": 0
+        },
+        "../../core/core-rest-pipeline/dist/browser/pipeline.js": {
+          "bytesInOutput": 26
+        },
+        "../../core/core-rest-pipeline/dist/browser/index.js": {
+          "bytesInOutput": 0
+        },
+        "../../core/core-rest-pipeline/dist/browser/log.js": {
+          "bytesInOutput": 30
+        },
+        "../../core/ts-http-runtime/dist/browser/policies/internal.js": {
+          "bytesInOutput": 0
+        },
+        "../../core/core-rest-pipeline/dist/browser/policies/logPolicy.js": {
+          "bytesInOutput": 50
+        },
+        "../../core/core-rest-pipeline/dist/browser/policies/redirectPolicy.js": {
+          "bytesInOutput": 31
+        },
+        "../../core/core-rest-pipeline/dist/browser/util/userAgentPlatform.js": {
+          "bytesInOutput": 870
+        },
+        "../../core/core-rest-pipeline/dist/browser/constants.js": {
+          "bytesInOutput": 16
+        },
+        "../../core/core-rest-pipeline/dist/browser/util/userAgent.js": {
+          "bytesInOutput": 232
+        },
+        "../../core/core-rest-pipeline/dist/browser/policies/userAgentPolicy.js": {
+          "bytesInOutput": 176
+        },
+        "../../core/ts-http-runtime/dist/browser/util/internal.js": {
+          "bytesInOutput": 0
+        },
+        "../../core/ts-http-runtime/dist/browser/util/sha256.js": {
+          "bytesInOutput": 0
+        },
+        "../../core/core-util/dist/browser/index.js": {
+          "bytesInOutput": 36
+        },
+        "../../core/abort-controller/dist/browser/AbortError.js": {
+          "bytesInOutput": 76
+        },
+        "../../core/abort-controller/dist/browser/index.js": {
+          "bytesInOutput": 0
+        },
+        "../../core/core-util/dist/browser/createAbortablePromise.js": {
+          "bytesInOutput": 343
+        },
+        "../../core/core-util/dist/browser/delay.js": {
+          "bytesInOutput": 202
+        },
+        "../../core/core-util/dist/browser/error.js": {
+          "bytesInOutput": 171
+        },
+        "../../core/core-util/dist/browser/typeGuards.js": {
+          "bytesInOutput": 204
+        },
+        "../../core/core-rest-pipeline/dist/browser/util/file.js": {
+          "bytesInOutput": 113
+        },
+        "../../core/core-rest-pipeline/dist/browser/policies/multipartPolicy.js": {
+          "bytesInOutput": 188
+        },
+        "../../core/core-rest-pipeline/dist/browser/policies/decompressResponsePolicy.js": {
+          "bytesInOutput": 26
+        },
+        "../../core/core-rest-pipeline/dist/browser/policies/defaultRetryPolicy.js": {
+          "bytesInOutput": 31
+        },
+        "../../core/core-rest-pipeline/dist/browser/policies/formDataPolicy.js": {
+          "bytesInOutput": 26
+        },
+        "../../core/core-rest-pipeline/dist/browser/policies/proxyPolicy.js": {
+          "bytesInOutput": 32
+        },
+        "../../core/core-rest-pipeline/dist/browser/policies/setClientRequestIdPolicy.js": {
+          "bytesInOutput": 173
+        },
+        "../../core/core-rest-pipeline/dist/browser/policies/agentPolicy.js": {
+          "bytesInOutput": 28
+        },
+        "../../core/core-rest-pipeline/dist/browser/policies/tlsPolicy.js": {
+          "bytesInOutput": 28
+        },
+        "../../core/core-tracing/dist/browser/tracingContext.js": {
+          "bytesInOutput": 537
+        },
+        "../../core/core-tracing/dist/browser/state.js": {
+          "bytesInOutput": 43
+        },
+        "../../core/core-tracing/dist/browser/instrumenter.js": {
+          "bytesInOutput": 450
+        },
+        "../../core/core-tracing/dist/browser/index.js": {
+          "bytesInOutput": 0
+        },
+        "../../core/core-tracing/dist/browser/tracingClient.js": {
+          "bytesInOutput": 956
+        },
+        "../../core/core-rest-pipeline/dist/browser/restError.js": {
+          "bytesInOutput": 36
+        },
+        "../../core/core-rest-pipeline/dist/browser/policies/tracingPolicy.js": {
+          "bytesInOutput": 1647
+        },
+        "../../core/core-rest-pipeline/dist/browser/util/wrapAbortSignal.js": {
+          "bytesInOutput": 318
+        },
+        "../../core/core-rest-pipeline/dist/browser/policies/wrapAbortSignalLikePolicy.js": {
+          "bytesInOutput": 221
+        },
+        "../../core/core-rest-pipeline/dist/browser/createPipelineFromOptions.js": {
+          "bytesInOutput": 615
+        },
+        "../../core/core-rest-pipeline/dist/browser/policies/retryPolicy.js": {
+          "bytesInOutput": 43
+        },
+        "../../core/core-rest-pipeline/dist/browser/util/tokenCycler.js": {
+          "bytesInOutput": 1029
+        },
+        "../../core/core-rest-pipeline/dist/browser/policies/bearerTokenAuthenticationPolicy.js": {
+          "bytesInOutput": 2522
+        },
+        "../../core/core-auth/dist/browser/index.js": {
+          "bytesInOutput": 0
+        },
+        "../../core/core-auth/dist/browser/keyCredential.js": {
+          "bytesInOutput": 60
+        },
+        "../../core/core-auth/dist/browser/tokenCredential.js": {
+          "bytesInOutput": 109
+        },
+        "../../core/core-client-rest/dist/browser/apiVersionPolicy.js": {
+          "bytesInOutput": 259
+        },
+        "../../core/core-client-rest/dist/browser/keyCredentialAuthenticationPolicy.js": {
+          "bytesInOutput": 135
+        },
+        "../../core/core-client-rest/dist/browser/clientHelpers.js": {
+          "bytesInOutput": 459
+        },
+        "../../core/core-client-rest/dist/browser/operationOptionHelpers.js": {
+          "bytesInOutput": 27
+        },
+        "../../core/core-client-rest/dist/browser/getClient.js": {
+          "bytesInOutput": 598
+        },
+        "dist/browser/credentials/batchSharedKeyCredentials.js": {
+          "bytesInOutput": 106
+        },
+        "dist/browser/api/batchContext.js": {
+          "bytesInOutput": 834
+        },
+        "dist/browser/api/index.js": {
+          "bytesInOutput": 0
+        },
+        "dist/browser/models/models.js": {
+          "bytesInOutput": 56864
+        },
+        "dist/browser/static-helpers/pagingHelpers.js": {
+          "bytesInOutput": 1370
+        },
+        "dist/browser/static-helpers/serialization/get-binary-response.js": {
+          "bytesInOutput": 164
+        },
+        "dist/browser/static-helpers/urlTemplate.js": {
+          "bytesInOutput": 2304
+        },
+        "dist/browser/static-helpers/fileProperties.js": {
+          "bytesInOutput": 624
+        },
+        "dist/browser/api/operations.js": {
+          "bytesInOutput": 70879
+        },
+        "dist/browser/static-helpers/batchPoller.js": {
+          "bytesInOutput": 1788
+        },
+        "dist/browser/api/lroPoller.js": {
+          "bytesInOutput": 4583
+        },
+        "dist/browser/batchClient.js": {
+          "bytesInOutput": 6198
+        },
+        "dist/browser/index.js": {
+          "bytesInOutput": 0
+        },
+        "dist/browser/models/index.js": {
+          "bytesInOutput": 0
+        }
+      },
+      "bytes": 195672
+    }
+  }
+}

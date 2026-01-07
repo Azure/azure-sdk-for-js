@@ -1,107 +1,176 @@
 {
   "name": "@azure/batch",
-  "author": "Microsoft Corporation",
-  "description": "BatchServiceClient Library with typescript type definitions for node.js and browser.",
-  "version": "12.0.0",
-  "dependencies": {
-    "@azure/ms-rest-azure-js": "^2.1.0",
-    "@azure/ms-rest-js": "^2.2.0",
-    "jssha": "^3.2.0",
-    "tslib": "^2.7.0",
-    "url-parse": "^1.5.3"
+  "version": "13.0.0-beta.1",
+  "description": "Batch Service Rest Level Client",
+  "engines": {
+    "node": ">=20.0.0"
   },
+  "sideEffects": false,
+  "autoPublish": false,
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts",
+      "./api": "./src/api/index.ts",
+      "./models": "./src/models/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false,
+    "project": "../../../tsconfig.src.build.json"
+  },
+  "type": "module",
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "keywords": [
     "node",
     "azure",
+    "cloud",
     "typescript",
     "browser",
     "isomorphic"
   ],
+  "author": "Microsoft Corporation",
   "license": "MIT",
-  "main": "./dist/batch.js",
-  "module": "./dist-esm/index.js",
-  "types": "./types/src/index.d.ts",
-  "devDependencies": {
-    "@rollup/plugin-commonjs": "^28.0.0",
-    "@rollup/plugin-node-resolve": "^15.3.0",
-    "@types/chai": "^4.2.21",
-    "@types/chai-as-promised": "^8.0.0",
-    "@types/mocha": "^10.0.0",
-    "@types/node": "^20.0.0",
-    "@types/url-parse": "^1.4.3",
-    "@types/uuid": "^10.0.0",
-    "buffer": "^6.0.0",
-    "nyc": "^17.0.0",
-    "chai": "^5.1.1",
-    "chai-as-promised": "^8.0.0",
-    "cross-env": "^7.0.3",
-    "dotenv": "^16.0.0",
-    "eslint": "^9.9.0",
-    "karma": "^6.3.4",
-    "karma-chrome-launcher": "^3.1.0",
-    "karma-coverage": "^2.0.3",
-    "karma-env-preprocessor": "^0.1.1",
-    "karma-firefox-launcher": "^2.1.1",
-    "karma-json-preprocessor": "^0.3.3",
-    "karma-json-to-file-reporter": "^1.0.1",
-    "karma-junit-reporter": "^2.0.1",
-    "karma-mocha": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
-    "mocha": "^11.0.2",
-    "moment": "^2.29.1",
-    "puppeteer": "^24.0.0",
-    "rimraf": "^6.0.1",
-    "rollup": "^4.0.0",
-    "rollup-plugin-sourcemaps": "^0.6.3",
-    "source-map-support": "^0.5.19",
-    "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "~5.8.2",
-    "uglify-js": "^3.6.0",
-    "uuid": "^10.0.0"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/batch/batch",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
   "files": [
     "dist/",
-    "dist-esm/src/",
-    "types/src/",
+    "!dist/**/*.d.*ts.map",
     "README.md",
     "LICENSE"
   ],
-  "scripts": {
-    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
-    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:nodebrowser": "rollup -c 2>&1",
-    "build:samples": "echo Skipped.",
-    "build:test": "tsc -p . && rollup -c 2>&1",
-    "build:types": "downlevel-dts types/latest types/3.1",
-    "build": "npm run clean && tsc -p . && npm run build:nodebrowser",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
-    "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}/*.spec.js\"",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json src test",
-    "pack": "npm pack 2>&1",
-    "prepack": "npm install && npm run build",
-    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run build:test && npm run unit-test && npm run integration-test",
-    "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\"  mocha",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  "sdk-type": "client",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "sideEffects": false,
-  "autoPublish": true
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/batchContext.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/abort-controller": "workspace:^",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-lro": "workspace:^",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-util": "^1.12.0",
+    "@azure/logger": "^1.2.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/arm-authorization": "workspace:^",
+    "@azure/arm-batch": "workspace:^",
+    "@azure/arm-compute": "workspace:^",
+    "@azure/arm-keyvault": "workspace:^",
+    "@azure/arm-resources": "catalog:arm",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@azure/keyvault-keys": "workspace:^",
+    "@types/node": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
+    "dotenv": "catalog:testing",
+    "esbuild": "^0.27.2",
+    "eslint": "catalog:",
+    "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "tshy": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
+  },
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "pnpm pack 2>&1",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
+    "build:samples": "echo skipped",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "execute:samples": "echo skipped",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "generate:client": "echo skipped",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test": "npm run test:node && npm run test:browser",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
+    }
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
 }
