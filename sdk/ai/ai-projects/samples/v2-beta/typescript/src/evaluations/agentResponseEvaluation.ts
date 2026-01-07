@@ -52,7 +52,6 @@ export async function main(): Promise<void> {
   const response = await openAIClient.responses.create(
     {
       conversation: conversation.id,
-      input: "",
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },

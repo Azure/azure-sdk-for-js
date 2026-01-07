@@ -884,7 +884,7 @@ console.log("Get an existing Dataset version `1`:");
 const datasetVersion1 = await project.datasets.get(datasetName, VERSION1);
 console.log("Dataset version 1:", JSON.stringify(datasetVersion1, null, 2));
 console.log(`Listing all versions of the Dataset named '${datasetName}':`);
-const datasetVersions = await project.datasets.listVersions(datasetName);
+const datasetVersions = project.datasets.listVersions(datasetName);
 for await (const version of datasetVersions) {
   console.log("List versions:", version);
 }

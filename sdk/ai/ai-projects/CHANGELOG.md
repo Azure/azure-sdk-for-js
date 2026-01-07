@@ -1,5 +1,11 @@
 # Release History
 
+## 2.0.0-beta.3 (2026-01-07)
+
+### Bugs Fixed
+
+- fix response json schema deserializer 
+
 ## 2.0.0-beta.2 (2025-12-02)
 
 ### Breaking changes

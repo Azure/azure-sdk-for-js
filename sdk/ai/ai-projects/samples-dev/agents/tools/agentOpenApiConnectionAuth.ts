@@ -20,7 +20,7 @@ import {
   OpenApiFunctionDefinition,
   OpenApiProjectConnectionAuthDetails,
 } from "@azure/ai-projects";
-import * as fs from "fs";
+import * as fs from "node:fs/promises";
 import * as path from "path";
 import "dotenv/config";
 
@@ -30,13 +30,9 @@ const tripAdvisorProjectConnectionId =
   process.env["TRIPADVISOR_PROJECT_CONNECTION_ID"] || "<tripadvisor project connection id>";
 const tripAdvisorSpecPath = path.resolve(__dirname, "../assets", "tripadvisor_openapi.json");
 
-function loadOpenApiSpec(specPath: string): unknown {
-  if (!fs.existsSync(specPath)) {
-    throw new Error(`OpenAPI specification not found at: ${specPath}`);
-  }
-
+async function loadOpenApiSpec(specPath: string): Promise<unknown> {
   try {
-    const data = fs.readFileSync(specPath, "utf-8");
+    const data = await fs.readFile(specPath, "utf-8");
     return JSON.parse(data);
   } catch (error) {
     throw new Error(`Failed to read or parse OpenAPI specification at ${specPath}: ${error}`);
@@ -67,7 +63,7 @@ function createTripAdvisorTool(spec: unknown): OpenApiAgentTool {
 
 export async function main(): Promise<void> {
   console.log("Loading TripAdvisor OpenAPI specification from assets directory...");
-  const tripAdvisorSpec = loadOpenApiSpec(tripAdvisorSpecPath);
+  const tripAdvisorSpec = await loadOpenApiSpec(tripAdvisorSpecPath);
 
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = await project.getOpenAIClient();

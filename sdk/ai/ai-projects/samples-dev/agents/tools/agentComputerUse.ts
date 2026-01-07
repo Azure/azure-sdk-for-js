@@ -37,7 +37,7 @@ export async function main(): Promise<void> {
   let currentState = SearchState.INITIAL;
 
   // Load screenshot assets
-  const screenshots = loadScreenshotAssets();
+  const screenshots = await loadScreenshotAssets();
   console.log("Successfully loaded screenshot assets");
 
   // Create AI Project client
