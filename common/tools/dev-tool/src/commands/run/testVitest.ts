@@ -64,7 +64,9 @@ export default leafCommand(commandInfo, async (options) => {
   }
 
   const updatedArgs = options["--"]?.map((opt) =>
-    opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
+    (opt.includes("**") || opt.includes(" ")) && !opt.startsWith("'") && !opt.startsWith('"')
+      ? `"${opt}"`
+      : opt,
   );
 
   let args = "";
