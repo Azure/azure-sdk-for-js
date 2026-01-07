@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
+import path from "node:path";
 import concurrently from "concurrently";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { runTestsWithProxyTool } from "../../util/testUtils";
@@ -87,7 +88,16 @@ export default leafCommand(commandInfo, async (options) => {
       ? startRelayServer()
       : undefined;
 
+  const oldPath = process.env.PATH;
   try {
+    // prepend local node_module/.bin to PATH so that vitest can be found in sub-process
+    const binPath = path.resolve(path.join(process.cwd(), "node_modules/.bin"));
+    const included = (process.env.PATH?.split(path.delimiter) ?? []).includes(binPath);
+    if (!included) {
+      log.debug(`Adding ${binPath} to process.env.PATH`);
+      process.env.PATH = binPath + path.delimiter + process.env.PATH;
+    }
+
     if (options["test-proxy"]) {
       if (options["test-proxy-debug"]) process.env["Logging__LogLevel__Default"] = "Debug";
 
@@ -99,5 +109,10 @@ export default leafCommand(commandInfo, async (options) => {
     return true;
   } finally {
     stopRelayServer?.();
+    if (typeof oldPath === "undefined") {
+      delete process.env.PATH;
+    } else {
+      process.env.PATH = oldPath;
+    }
   }
 });
