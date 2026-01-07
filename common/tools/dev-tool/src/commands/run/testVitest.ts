@@ -90,7 +90,7 @@ export default leafCommand(commandInfo, async (options) => {
 
   const oldPath = process.env.PATH;
   try {
-    // pre-pend local node_module/.bin to PATH so that vitest can be found in sub-process
+    // prepend local node_module/.bin to PATH so that vitest can be found in sub-process
     const binPath = path.resolve(path.join(process.cwd(), "node_modules/.bin"));
     const included = (process.env.PATH?.split(path.delimiter) ?? []).includes(binPath);
     if (!included) {
@@ -109,6 +109,10 @@ export default leafCommand(commandInfo, async (options) => {
     return true;
   } finally {
     stopRelayServer?.();
-    process.env.PATH = oldPath;
+    if (typeof oldPath === "undefined") {
+      delete process.env.PATH;
+    } else {
+      process.env.PATH = oldPath;
+    }
   }
 });
