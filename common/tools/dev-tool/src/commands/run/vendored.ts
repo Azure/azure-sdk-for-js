@@ -53,8 +53,7 @@ function makeCommandExecutor(
 export const commandInfo = makeCommandInfo("vendored", "run dev-tool's dependency commands");
 
 export default async (...args: string[]): Promise<boolean> => {
-  // I'm not 100% sure what underscore-prefixed commands do, but the only one we have now is _mocha.
-  const commands = (await readdir(DOT_BIN_PATH)).filter((cmd) => !cmd.startsWith("_"));
+  const commands = await readdir(DOT_BIN_PATH);
 
   const executor = subCommand(
     commandInfo,

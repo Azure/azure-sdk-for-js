@@ -33,7 +33,6 @@ async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = await project.getOpenAIClient();
 
-  // [START evaluation_compare_insight]
   // Create a sample evaluation with two eval runs to compare
   const dataSourceConfig = {
     type: "custom",
@@ -172,7 +171,6 @@ async function main() {
   console.log("\nCleaning up...");
   await openAIClient.evals.delete(evalObject.id);
   console.log("Evaluation deleted");
-  // [END evaluation_compare_insight]
 }
 
 main().catch((err) => {

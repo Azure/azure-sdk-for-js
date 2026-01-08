@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a ProvisionedNetwork
  *
  * @summary get a ProvisionedNetwork
- * x-ms-original-file: 2024-09-01/ProvisionedNetworks_Get.json
+ * x-ms-original-file: 2025-09-01/ProvisionedNetworks_Get.json
  */
 async function provisionedNetworksGet() {
   const credential = new DefaultAzureCredential();

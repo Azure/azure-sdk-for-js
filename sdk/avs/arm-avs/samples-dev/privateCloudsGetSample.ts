@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to get a PrivateCloud
  *
  * @summary get a PrivateCloud
- * x-ms-original-file: 2024-09-01/PrivateClouds_Get.json
+ * x-ms-original-file: 2025-09-01/PrivateClouds_Get.json
  */
-
-import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function privateCloudsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -23,7 +22,7 @@ async function privateCloudsGet(): Promise<void> {
  * This sample demonstrates how to get a PrivateCloud
  *
  * @summary get a PrivateCloud
- * x-ms-original-file: 2024-09-01/PrivateClouds_Get_Stretched.json
+ * x-ms-original-file: 2025-09-01/PrivateClouds_Get_Stretched.json
  */
 async function privateCloudsGetStretched(): Promise<void> {
   const credential = new DefaultAzureCredential();

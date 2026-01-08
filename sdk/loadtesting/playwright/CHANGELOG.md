@@ -1,14 +1,15 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.0 (2026-01-06)
 
 ### Features Added
 
-### Breaking Changes
+- Added Azure Playwright Reporter that uploads Playwright HTML test reports to Azure Storage after test execution completes.
 
 ### Bugs Fixed
 
-### Other Changes
+- Improved error handling for authentication scenarios.
+- Changed test run creation failures from fatal to non-fatal errors.
 
 ## 1.0.0 (2025-08-28)
 

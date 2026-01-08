@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Host
  *
  * @summary get a Host
- * x-ms-original-file: 2024-09-01/Hosts_Get.json
+ * x-ms-original-file: 2025-09-01/Hosts_Get.json
  */
 async function hostsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets a link to download the run logs.
  *
  * @summary Gets a link to download the run logs.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/RunsGetLogSasUrl.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/RunsGetLogSasUrl.json
  */
 async function runsGetLogSasUrl() {
   const subscriptionId =
