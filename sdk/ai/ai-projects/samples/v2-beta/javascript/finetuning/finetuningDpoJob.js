@@ -2,22 +2,24 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to obtain an OpenAI client and perform Supervised Fine-Tuning (SFT) operations using open-source models.
- * Supported open-source models with SFT: Ministral-3b
+ * This sample demonstrates how to obtain an OpenAI client and perform Direct Preference Optimization (DPO) fine-tuning operations.
+ * Supported OpenAI models: GPT-4o, GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, and GPT-4o-mini.
  *
- * @summary Using an OpenAI client, this sample demonstrates how to create and cancel sft fine-tuning jobs.
+ * @summary Using an OpenAI client, this sample demonstrates how to create and cancel dpo fine-tuning jobs.
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
+const { fileURLToPath } = require("url");
 const fs = require("fs");
 const path = require("path");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
-const modelName = process.env["MODEL_DEPLOYMENT_NAME"] || "Ministral-3B";
-const trainingFilePath = path.join(__dirname, "data", "sft_training_set.jsonl");
-const validationFilePath = path.join(__dirname, "data", "sft_validation_set.jsonl");
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const modelName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+const trainingFilePath = path.join(__dirname, "data", "dpo_training_set.jsonl");
+const validationFilePath = path.join(__dirname, "data", "dpo_validation_set.jsonl");
 
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
@@ -42,19 +44,19 @@ async function main() {
   await openAIClient.files.waitForProcessing(validationFile.id);
   console.log("Files processed.");
 
-  // 3) Create a supervised fine-tuning job
+  // 3) Create a DPO fine-tuning job
   // Recommended approach to set trainingType. Omitting this field may lead to unsupported behavior.
   const fineTuningJob = await openAIClient.fineTuning.jobs.create(
     {},
     {
       body: {
-        trainingType: "GlobalStandard",
+        trainingType: "Standard",
         training_file: trainingFile.id,
         validation_file: validationFile.id,
         model: modelName,
         method: {
-          type: "supervised",
-          supervised: {
+          type: "dpo",
+          dpo: {
             hyperparameters: {
               n_epochs: 3,
               batch_size: 1,
