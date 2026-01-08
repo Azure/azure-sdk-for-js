@@ -57,7 +57,11 @@ This section describes how to run the SDK tests. If you want to run the tests of
 To select a subset of test files and/or test cases:
 
 ```shell
+# *Nix
 pnpm run test:node -- test/myTest.spec.ts -t "should handle basic operations"
+
+# Windows PowerShell 
+pnpm run test:node -- -- test/myTest.spec.ts -t "should handle basic operations"
 ```
 
 If you have no concepts of `recording`, `playback` or [TEST_MODE](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#test_mode) we'll highly recommand you to read this [doc](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#key-concepts). We'll touch upon these concepts in below content.
