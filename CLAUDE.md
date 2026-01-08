@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Build and Testing Commands
 - Install dependencies: `pnpm install`
 - Build all packages: `pnpm build`
-- **Build specific package**: `pnpm turbo build --filter=@azure/<package-name>... --token 1` (the trailing `...` is critical - it builds the package AND all its dependencies; `--token 1` enables remote cache read)
+- **Build specific package**: `pnpm turbo build --filter=@azure/{package name}... --token 1` (the trailing `...` is critical - it builds the package AND all its dependencies; `--token 1` enables remote cache read)
 - **Important**: Due to workspace linking, running `npm run clean && npm run build` under a package directory will NOT work if dependencies aren't built. Always use the turbo command above with the trailing `...`
 - Lint: `pnpm lint` (never turn off linting rules)
 - Format code: `pnpm format`
