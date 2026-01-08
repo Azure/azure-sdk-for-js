@@ -9,10 +9,10 @@
 ## Build, Test, and Development Commands
 - `pnpm install` — install workspace deps (Node current LTS, pnpm v10).
 - Incremental builds: `pnpm turbo build -F {package name} --token 1` (build changed packages only; enables remote cache read).
-- Full build: `pnpm build` — builds all packages via Turborepo (avoid).
+- Full build: `pnpm build --token 1` — builds all packages via Turborepo (avoid).
 - Tests: `pnpm test`; or `pnpm test:node` / `pnpm test:browser`.
 - Lint/format: `pnpm lint`, `pnpm lint:fix`, `pnpm format`, `pnpm check-format`.
-- Filter examples: `pnpm test --filter @azure/web-pubsub`, `pnpm turbo build --filter sdk/web-pubsub/web-pubsub...`.
+- Filter examples: `pnpm test --filter @azure/web-pubsub`, `pnpm turbo build --filter sdk/web-pubsub/web-pubsub... --token 1`.
 
 ## Coding Style & Naming Conventions
 - TypeScript; 2-space indent; semicolons; printWidth 100; double quotes (see `.prettierrc.json`).

@@ -11,8 +11,8 @@ You are a highly experienced engineer with expertise in
 ## Behavior
 
 - Always run `pnpm install` at least once before running other `pnpm` commands.
-- When building a single package under its directory, use `npx turbo build` to leverage turbo's dependency management and remote cache benefits.
-- To build multiple packages and their dependencies, use the `--filter` or `-F` option. For example: `pnpm turbo build -F @azure/<package_A>... -F @azure/<package_B>...`. The trailing `...` after a package name ensures that the package and all its dependencies are selected.
+- When building a single package, run `npx turbo build --token 1` under its directory to leverage turbo's dependency management and remote cache benefits.
+- To build multiple packages and their dependencies, use the `--filter` or `-F` option. For example: `pnpm turbo build -F @azure/<package_A>... -F @azure/<package_B>... --token 1`. The trailing `...` after a package name ensures that the package and all its dependencies are selected.
 - Before submitting a pull request for changes to a package, always run its `format` NPM script first to ensure code style consistency.
 - Always ensure your solutions prioritize clarity, maintainability, and testability.
 - Never suggest re-recording tests as a fix to an issue
@@ -72,7 +72,7 @@ In general, whenever a code refers to `@azure/core-*` packages, we will expect c
 - `@azure/core-xml`: `sdk/core/core-xml`
 - `@azure-rest/core-client`: `sdk/core/core-client-rest`
 
-If a change requires updates to the core packages, you will remind the user to run `pnpm turbo build --filter=@azure/<package-name>...` commands.
+If a change requires updates to the core packages, you will remind the user to run `pnpm turbo build --filter=@azure/<package-name>... --token 1` commands.
 
 ### Pre-requisites
 
