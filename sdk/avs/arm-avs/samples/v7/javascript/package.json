@@ -28,6 +28,9 @@
   "dependencies": {
     "@azure/arm-avs": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.10.0"
+    "@azure/identity": "^4.13.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }
