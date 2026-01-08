@@ -8,7 +8,7 @@
 
 ## Build, Test, and Development Commands
 - `pnpm install` — install workspace deps (Node current LTS, pnpm v10).
-- Incremental builds: `pnpm turbo build -F {package name} --token 1` (build changed packages only; enables remote cache read).
+- **Building packages**: Due to workspace linking, `npm run clean && npm run build` under a package directory may fail if dependencies aren't built. Always use: `pnpm turbo build --filter={package name}... --token 1` (the trailing `...` builds the package and all its dependencies; `--token 1` enables remote cache read).
 - Full build: `pnpm build` — builds all packages via Turborepo (avoid).
 - Tests: `pnpm test`; or `pnpm test:node` / `pnpm test:browser`.
 - Lint/format: `pnpm lint`, `pnpm lint:fix`, `pnpm format`, `pnpm check-format`.
