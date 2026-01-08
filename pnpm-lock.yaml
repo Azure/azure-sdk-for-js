@@ -22715,7 +22715,7 @@ importers:
         specifier: 'catalog:'
         version: 9.39.2
       openai:
-        specifier: ^6.1.0
+        specifier: ^6.15.0
         version: 6.15.0(ws@8.18.3)(zod@3.25.76)
       playwright:
         specifier: catalog:testing
