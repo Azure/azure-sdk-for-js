@@ -34,7 +34,7 @@ import { experimentalOpenTelemetryValues, type Tags } from "../types.js";
 import { getInstance } from "../platform/index.js";
 import type { TelemetryItem as Envelope, MetricsData } from "../generated/index.js";
 import { KnownContextTagKeys } from "../generated/index.js";
-import { resourceFromAttributes, type Resource } from "@opentelemetry/resources";
+import { type Resource } from "@opentelemetry/resources";
 import type { Attributes, HrTime } from "@opentelemetry/api";
 import { hrTimeToNanoseconds } from "@opentelemetry/core";
 import type { AnyValue } from "@opentelemetry/api-logs";
@@ -55,16 +55,6 @@ import {
 
 export function hrTimeToDate(hrTime: HrTime): Date {
   return new Date(hrTimeToNanoseconds(hrTime) / 1000000);
-}
-
-export function ensureApplicationIdResource(resource: Resource, applicationId?: string): Resource {
-  if (!applicationId || resource.attributes[APPLICATION_ID_RESOURCE_KEY]) {
-    return resource;
-  }
-
-  return resource.merge(
-    resourceFromAttributes({ [APPLICATION_ID_RESOURCE_KEY]: applicationId }),
-  );
 }
 
 export function createTagsFromResource(resource: Resource): Tags {
@@ -230,11 +220,16 @@ export function createResourceMetricEnvelope(
   instrumentationKey: string,
   applicationId?: string,
 ): Envelope | undefined {
-  const resourceWithApplicationId = ensureApplicationIdResource(resource, applicationId);
-  if (resourceWithApplicationId && resourceWithApplicationId.attributes) {
-    const tags = createTagsFromResource(resourceWithApplicationId);
+  const attributes = resource.attributes;
+  if (attributes) {
+    const tags = createTagsFromResource(resource);
     const resourceAttributes: { [propertyName: string]: string } = {};
-    for (const key of Object.keys(resourceWithApplicationId.attributes)) {
+
+    if (applicationId && !attributes[APPLICATION_ID_RESOURCE_KEY]) {
+      resourceAttributes[APPLICATION_ID_RESOURCE_KEY] = applicationId;
+    }
+
+    for (const key of Object.keys(attributes)) {
       // Avoid duplication ignoring fields already mapped.
       if (
         !(
@@ -244,7 +239,7 @@ export function createResourceMetricEnvelope(
           key === ATTR_TELEMETRY_SDK_NAME
         )
       ) {
-        resourceAttributes[key] = resourceWithApplicationId.attributes[key] as string;
+        resourceAttributes[key] = attributes[key] as string;
       }
     }
     // Only send event when resource attributes are available

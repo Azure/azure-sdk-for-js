@@ -8,7 +8,6 @@ import type { Tags } from "../../src/types.js";
 import {
   createResourceMetricEnvelope,
   createTagsFromResource,
-  ensureApplicationIdResource,
   serializeAttribute,
 } from "../../src/utils/common.js";
 import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js";
@@ -133,27 +132,6 @@ describe("commonUtils.ts", () => {
           envelope?.data?.baseData?.properties?.[APPLICATION_ID_RESOURCE_KEY],
           "my-app-id",
         );
-      });
-    });
-
-    describe("#ensureApplicationIdResource", () => {
-      it("adds applicationId when missing", () => {
-        const resource = resourceFromAttributes({ "service.name": "svc" });
-
-        const merged = ensureApplicationIdResource(resource, "my-app-id");
-
-        assert.strictEqual(merged.attributes[APPLICATION_ID_RESOURCE_KEY], "my-app-id");
-      });
-
-      it("does not overwrite existing applicationId", () => {
-        const resource = resourceFromAttributes({
-          [APPLICATION_ID_RESOURCE_KEY]: "existing-app-id",
-          "service.name": "svc",
-        });
-
-        const merged = ensureApplicationIdResource(resource, "ignored-app-id");
-
-        assert.strictEqual(merged.attributes[APPLICATION_ID_RESOURCE_KEY], "existing-app-id");
       });
     });
   });
