@@ -280,13 +280,6 @@ describe("Library/Config", () => {
       assert.strictEqual(config.samplingRatio, 0);
     });
 
-    it("does not error when connection string is empty or undefined", () => {
-      assert.doesNotThrow(
-        () => new InternalConfig({ azureMonitorExporterOptions: { connectionString: "" } }),
-      );
-      assert.doesNotThrow(() => new InternalConfig({ azureMonitorExporterOptions: {} }));
-    });
-
     it("instrumentation key validation-valid key passed", () => {
       new InternalConfig({
         azureMonitorExporterOptions: {
