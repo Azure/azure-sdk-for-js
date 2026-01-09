@@ -68,7 +68,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface StorageSharedKeyCredentialPolicyOptions {
-@@ -157,25 +142,10 @@
+@@ -162,25 +142,10 @@
      // (undocumented)
      accountName: string;
  }
