@@ -19,9 +19,7 @@ import type {
 } from "../models/index.js";
 
 /** Class containing FirewallPolicyRuleCollectionGroupDrafts operations. */
-export class FirewallPolicyRuleCollectionGroupDraftsImpl
-  implements FirewallPolicyRuleCollectionGroupDrafts
-{
+export class FirewallPolicyRuleCollectionGroupDraftsImpl implements FirewallPolicyRuleCollectionGroupDrafts {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -146,7 +144,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters25,
+  requestBody: Parameters.parameters27,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Create or update Cognitive Services account connection under the specified account.
  *
  * @summary Create or update Cognitive Services account connection under the specified account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/AccountConnection/create.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/AccountConnection/create.json
  */
 async function createAccountConnection() {
   const subscriptionId =

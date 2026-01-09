@@ -31,9 +31,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkSecurityPerimeterAssociations operations. */
-export class NetworkSecurityPerimeterAssociationsImpl
-  implements NetworkSecurityPerimeterAssociations
-{
+export class NetworkSecurityPerimeterAssociationsImpl implements NetworkSecurityPerimeterAssociations {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -448,7 +446,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters49,
+  requestBody: Parameters.parameters51,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -518,7 +516,7 @@ const reconcileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters48,
+  requestBody: Parameters.parameters50,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

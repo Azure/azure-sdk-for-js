@@ -1,16 +1,13 @@
 # Release History
 
-## 12.29.0 (Unreleased)
+## 12.29.0-beta.1 (2025-11-24)
 
 ### Features Added
 
+- Added support for service version 2026-02-06.
+- Added support for Principal-Bound Identity User Delegation SAS
+- Added support for the StartFrom parameter on DataLakeFileSystemClient.listPaths()
 - Enhanced `readableStreamBody` type to include `.destroy()` method, making stream cancellation more type-safe without requiring type casting.
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 12.28.1 (2025-10-16)
 

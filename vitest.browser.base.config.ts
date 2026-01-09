@@ -29,6 +29,7 @@ export default defineConfig({
       "test-dist/stress/**/*.js",
     ],
     browser: {
+      api: 43315,
       instances: [
         {
           browser: "chromium",

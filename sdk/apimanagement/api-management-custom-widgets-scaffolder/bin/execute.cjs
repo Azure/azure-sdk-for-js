@@ -127,7 +127,7 @@ const promptWidgetConfig = async (partial) => {
         },
         {
             name: "technology",
-            type: "list",
+            type: "select",
             message: fieldIdToName.technology,
             choices: [
                 { name: "React", value: "react" },

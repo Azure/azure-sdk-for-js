@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list WorkloadNetworkVMGroup resources by WorkloadNetwork
  *
  * @summary list WorkloadNetworkVMGroup resources by WorkloadNetwork
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_ListVMGroups.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_ListVMGroups.json
  */
 async function workloadNetworksListVMGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();

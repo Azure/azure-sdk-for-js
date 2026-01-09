@@ -18,7 +18,7 @@ import {
   FileSystemListPathsOptionalParams,
   FileSystemListPathsResponse,
   FileSystemListBlobHierarchySegmentOptionalParams,
-  FileSystemListBlobHierarchySegmentResponse
+  FileSystemListBlobHierarchySegmentResponse,
 } from "../models/index.js";
 
 /** Interface representing a FileSystemOperations. */
@@ -29,23 +29,23 @@ export interface FileSystemOperations {
    * @param options The options parameters.
    */
   create(
-    options?: FileSystemCreateOptionalParams
+    options?: FileSystemCreateOptionalParams,
   ): Promise<FileSystemCreateResponse>;
   /**
    * Set properties for the FileSystem.  This operation supports conditional HTTP requests.  For more
    * information, see [Specifying Conditional Headers for Blob Service
-   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param options The options parameters.
    */
   setProperties(
-    options?: FileSystemSetPropertiesOptionalParams
+    options?: FileSystemSetPropertiesOptionalParams,
   ): Promise<FileSystemSetPropertiesResponse>;
   /**
    * All system and user-defined filesystem properties are specified in the response headers.
    * @param options The options parameters.
    */
   getProperties(
-    options?: FileSystemGetPropertiesOptionalParams
+    options?: FileSystemGetPropertiesOptionalParams,
   ): Promise<FileSystemGetPropertiesResponse>;
   /**
    * Marks the FileSystem for deletion.  When a FileSystem is deleted, a FileSystem with the same
@@ -56,11 +56,11 @@ export interface FileSystemOperations {
    * filesystem, will fail with status code 404 (Not Found) while the filesystem is being deleted. This
    * operation supports conditional HTTP requests.  For more information, see [Specifying Conditional
    * Headers for Blob Service
-   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param options The options parameters.
    */
   delete(
-    options?: FileSystemDeleteOptionalParams
+    options?: FileSystemDeleteOptionalParams,
   ): Promise<FileSystemDeleteResponse>;
   /**
    * List FileSystem paths and their properties.
@@ -69,13 +69,13 @@ export interface FileSystemOperations {
    */
   listPaths(
     recursive: boolean,
-    options?: FileSystemListPathsOptionalParams
+    options?: FileSystemListPathsOptionalParams,
   ): Promise<FileSystemListPathsResponse>;
   /**
    * The List Blobs operation returns a list of the blobs under the specified container
    * @param options The options parameters.
    */
   listBlobHierarchySegment(
-    options?: FileSystemListBlobHierarchySegmentOptionalParams
+    options?: FileSystemListBlobHierarchySegmentOptionalParams,
   ): Promise<FileSystemListBlobHierarchySegmentResponse>;
 }

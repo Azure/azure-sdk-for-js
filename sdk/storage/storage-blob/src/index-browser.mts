@@ -67,4 +67,5 @@ export {
   storageBrowserPolicy,
   storageRetryPolicy,
   storageCorrectContentLengthPolicy,
+  UserDelegationKey,
 } from "@azure/storage-common";

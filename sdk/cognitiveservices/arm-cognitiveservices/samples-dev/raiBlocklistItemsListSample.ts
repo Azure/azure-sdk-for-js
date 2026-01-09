@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the blocklist items associated with the custom blocklist.
  *
  * @summary Gets the blocklist items associated with the custom blocklist.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListBlocklistItems.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListBlocklistItems.json
  */
 async function listBlocklistItems(): Promise<void> {
   const subscriptionId =

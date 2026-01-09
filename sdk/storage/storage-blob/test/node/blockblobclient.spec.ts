@@ -16,6 +16,7 @@ import {
   getStorageAccessTokenWithDefaultCredential,
   getTokenBSUWithDefaultCredential,
   getUniqueName,
+  parseJwt,
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils/index.js";
@@ -33,7 +34,7 @@ import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { streamToBuffer3 } from "../../src/utils/utils.js";
 import crypto from "node:crypto";
-import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants.js";
+import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES, SERVICE_VERSION } from "../../src/utils/constants.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
@@ -524,6 +525,70 @@ describe("syncUploadFromURL", () => {
       sourceAuthorization: {
         scheme: "Bearer",
         value: accessToken!.token,
+      },
+    });
+
+    // Validate source and destination blob content match.
+    const downloadRes = await newBlockBlobClient.download();
+    assert.equal(await bodyToString(downloadRes, body.length), body);
+    assert.equal(downloadRes.contentLength!, body.length);
+  });
+
+  it("syncUploadFromURL - source delegation sas with bear token and destination account key", async (ctx) => {
+    if (!isLiveMode()) {
+      // The token is sanitized in recording, we cannot get the object id from it.
+      ctx.skip();
+    }
+
+    let blobServiceClientWithToken: BlobServiceClient;
+    try {
+      blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
+      ctx.skip();
+    }
+
+    const credential = createTestCredential();
+    const token = (await credential.getToken("https://storage.azure.com/.default"))?.token;
+    const jwtObj = parseJwt(token!);
+
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
+
+    const sharedKeyCredential = containerClient.credential as StorageSharedKeyCredential;
+
+    const accountName = sharedKeyCredential.accountName;
+
+    const body = "HelloWorld";
+    await blockBlobClient.upload(body, body.length);
+
+    const delegationSAS = generateBlobSASQueryParameters(
+      {
+        containerName: containerClient.containerName,
+        blobName: blockBlobClient.name,
+        expiresOn: tmr,
+        permissions: BlobSASPermissions.parse("racwd"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        version: SERVICE_VERSION,
+        delegatedUserObjectId: jwtObj.oid,
+      },
+      userDelegationKey,
+      accountName,
+    );
+
+    const newBlockBlobClient = containerClient.getBlockBlobClient(
+      recorder.variable("newblockblob", getUniqueName("newblockblob")),
+    );
+
+    await newBlockBlobClient.syncUploadFromURL(`${blockBlobClient.url}?${delegationSAS}`, {
+      sourceAuthorization: {
+        scheme: "Bearer",
+        value: token!,
       },
     });
 

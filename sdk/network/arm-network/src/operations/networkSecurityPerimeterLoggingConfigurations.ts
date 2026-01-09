@@ -26,9 +26,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkSecurityPerimeterLoggingConfigurations operations. */
-export class NetworkSecurityPerimeterLoggingConfigurationsImpl
-  implements NetworkSecurityPerimeterLoggingConfigurations
-{
+export class NetworkSecurityPerimeterLoggingConfigurationsImpl implements NetworkSecurityPerimeterLoggingConfigurations {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -268,7 +266,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters51,
+  requestBody: Parameters.parameters53,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

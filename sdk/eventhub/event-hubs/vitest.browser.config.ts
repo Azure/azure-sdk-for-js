@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { defineConfig, mergeConfig } from "vitest/config";
-import viteConfig from "../../../vitest.shared.config.js";
+import viteConfig from "../../../vitest.browser.base.config.ts";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 import inject from "@rollup/plugin-inject";
 import { fileURLToPath } from "node:url";

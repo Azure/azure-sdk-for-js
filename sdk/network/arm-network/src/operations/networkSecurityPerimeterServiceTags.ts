@@ -21,9 +21,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkSecurityPerimeterServiceTags operations. */
-export class NetworkSecurityPerimeterServiceTagsImpl
-  implements NetworkSecurityPerimeterServiceTags
-{
+export class NetworkSecurityPerimeterServiceTagsImpl implements NetworkSecurityPerimeterServiceTags {
   private readonly client: NetworkManagementClient;
 
   /**

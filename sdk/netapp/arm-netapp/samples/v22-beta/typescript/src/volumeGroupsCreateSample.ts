@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a volume group along with specified volumes
  *
  * @summary create a volume group along with specified volumes
- * x-ms-original-file: 2025-07-01-preview/VolumeGroups_Create_Oracle.json
+ * x-ms-original-file: 2025-09-01-preview/VolumeGroups_Create_Oracle.json
  */
 async function volumeGroupsCreateOracle(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -465,7 +465,7 @@ async function volumeGroupsCreateOracle(): Promise<void> {
  * This sample demonstrates how to create a volume group along with specified volumes
  *
  * @summary create a volume group along with specified volumes
- * x-ms-original-file: 2025-07-01-preview/VolumeGroups_Create_SapHana.json
+ * x-ms-original-file: 2025-09-01-preview/VolumeGroups_Create_SapHana.json
  */
 async function volumeGroupsCreateSapHana(): Promise<void> {
   const credential = new DefaultAzureCredential();

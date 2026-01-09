@@ -64,7 +64,7 @@ export function _changeKeyVaultSend(
 }
 
 export async function _changeKeyVaultDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -81,7 +81,7 @@ export function changeKeyVault(
   accountName: string,
   options: AccountsChangeKeyVaultOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _changeKeyVaultDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _changeKeyVaultDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _changeKeyVaultSend(context, resourceGroupName, accountName, options),
@@ -121,7 +121,7 @@ export function _getChangeKeyVaultInformationSend(
 export async function _getChangeKeyVaultInformationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<GetKeyVaultStatusResponse> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -140,13 +140,18 @@ export function getChangeKeyVaultInformation(
     requestOptions: {},
   },
 ): PollerLike<OperationState<GetKeyVaultStatusResponse>, GetKeyVaultStatusResponse> {
-  return getLongRunningPoller(context, _getChangeKeyVaultInformationDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _getChangeKeyVaultInformationSend(context, resourceGroupName, accountName, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<GetKeyVaultStatusResponse>, GetKeyVaultStatusResponse>;
+  return getLongRunningPoller(
+    context,
+    _getChangeKeyVaultInformationDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _getChangeKeyVaultInformationSend(context, resourceGroupName, accountName, options),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<GetKeyVaultStatusResponse>, GetKeyVaultStatusResponse>;
 }
 
 export function _transitionToCmkSend(
@@ -177,7 +182,7 @@ export function _transitionToCmkSend(
 }
 
 export async function _transitionToCmkDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -194,7 +199,7 @@ export function transitionToCmk(
   accountName: string,
   options: AccountsTransitionToCmkOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _transitionToCmkDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _transitionToCmkDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -225,7 +230,7 @@ export function _renewCredentialsSend(
 }
 
 export async function _renewCredentialsDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -242,7 +247,7 @@ export function renewCredentials(
   accountName: string,
   options: AccountsRenewCredentialsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _renewCredentialsDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _renewCredentialsDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -374,7 +379,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
+  const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -396,7 +401,7 @@ export function $delete(
   accountName: string,
   options: AccountsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, accountName, options),
@@ -435,7 +440,7 @@ export function _updateSend(
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<NetAppAccount> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -453,7 +458,7 @@ export function update(
   body: NetAppAccountPatch,
   options: AccountsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<NetAppAccount>, NetAppAccount> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, resourceGroupName, accountName, body, options),

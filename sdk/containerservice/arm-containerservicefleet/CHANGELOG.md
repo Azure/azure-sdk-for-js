@@ -1,5 +1,101 @@
 # Release History
 
+## 2.1.0-beta.2 (2025-12-03)
+Compared with version 2.0.0
+
+### Features Added
+  - Added operation group FleetManagedNamespacesOperations
+  - Added operation group GatesOperations
+  - Added Interface Affinity
+  - Added Interface ClusterAffinity
+  - Added Interface ClusterResourcePlacementSpec
+  - Added Interface ClusterSelector
+  - Added Interface ClusterSelectorTerm
+  - Added Interface FleetManagedNamespace
+  - Added Interface FleetManagedNamespacePatch
+  - Added Interface FleetManagedNamespaceProperties
+  - Added Interface FleetManagedNamespacesCreateOrUpdateOptionalParams
+  - Added Interface FleetManagedNamespacesDeleteOptionalParams
+  - Added Interface FleetManagedNamespacesGetOptionalParams
+  - Added Interface FleetManagedNamespacesListByFleetOptionalParams
+  - Added Interface FleetManagedNamespaceStatus
+  - Added Interface FleetManagedNamespacesUpdateOptionalParams
+  - Added Interface Gate
+  - Added Interface GateConfiguration
+  - Added Interface GatePatch
+  - Added Interface GatePatchProperties
+  - Added Interface GateProperties
+  - Added Interface GatesGetOptionalParams
+  - Added Interface GatesListByFleetOptionalParams
+  - Added Interface GatesUpdateOptionalParams
+  - Added Interface GateTarget
+  - Added Interface LabelSelector
+  - Added Interface LabelSelectorRequirement
+  - Added Interface ManagedNamespaceProperties
+  - Added Interface NetworkPolicy
+  - Added Interface PlacementPolicy
+  - Added Interface PlacementProfile
+  - Added Interface PropagationPolicy
+  - Added Interface PropertySelector
+  - Added Interface PropertySelectorRequirement
+  - Added Interface ResourceQuota
+  - Added Interface Toleration
+  - Added Interface UpdateRunGateStatus
+  - Added Interface UpdateRunGateTargetProperties
+  - Interface AutoUpgradeProfileProperties has a new optional parameter longTermSupport
+  - Interface AutoUpgradeProfileProperties has a new optional parameter targetKubernetesVersion
+  - Interface ContainerServiceFleetClientOptionalParams has a new optional parameter cloudSetting
+  - Interface FleetMemberProperties has a new optional parameter labels
+  - Interface FleetMemberUpdateProperties has a new optional parameter labels
+  - Interface UpdateGroup has a new optional parameter afterGates
+  - Interface UpdateGroup has a new optional parameter beforeGates
+  - Interface UpdateGroupStatus has a new optional parameter afterGates
+  - Interface UpdateGroupStatus has a new optional parameter beforeGates
+  - Interface UpdateStage has a new optional parameter afterGates
+  - Interface UpdateStage has a new optional parameter beforeGates
+  - Interface UpdateStageStatus has a new optional parameter afterGates
+  - Interface UpdateStageStatus has a new optional parameter beforeGates
+  - Added Type Alias AdoptionPolicy
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias DeletePolicy
+  - Added Type Alias FleetManagedNamespaceProvisioningState
+  - Added Type Alias GateProvisioningState
+  - Added Type Alias GateState
+  - Added Type Alias GateType
+  - Added Type Alias LabelSelectorOperator
+  - Added Type Alias PlacementType
+  - Added Type Alias PolicyRule
+  - Added Type Alias PropagationType
+  - Added Type Alias PropertySelectorOperator
+  - Added Type Alias TaintEffect
+  - Added Type Alias Timing
+  - Added Type Alias TolerationOperator
+  - Added Enum AzureClouds
+  - Added Enum KnownAdoptionPolicy
+  - Added Enum KnownDeletePolicy
+  - Added Enum KnownFleetManagedNamespaceProvisioningState
+  - Added Enum KnownGateProvisioningState
+  - Added Enum KnownGateState
+  - Added Enum KnownGateType
+  - Added Enum KnownLabelSelectorOperator
+  - Added Enum KnownPlacementType
+  - Added Enum KnownPolicyRule
+  - Added Enum KnownPropagationType
+  - Added Enum KnownPropertySelectorOperator
+  - Added Enum KnownTaintEffect
+  - Added Enum KnownTiming
+  - Added Enum KnownTolerationOperator
+  - Enum KnownUpdateState has a new value Pending
+  - Enum KnownUpgradeChannel has a new value TargetKubernetesVersion
+  - Enum KnownVersions has a new value V20220902Preview
+  - Enum KnownVersions has a new value V20230315Preview
+  - Enum KnownVersions has a new value V20230615Preview
+  - Enum KnownVersions has a new value V20230815Preview
+  - Enum KnownVersions has a new value V20240202Preview
+  - Enum KnownVersions has a new value V20240502Preview
+  - Enum KnownVersions has a new value V20250401Preview
+  - Enum KnownVersions has a new value V20250801Preview
+
 ## 2.1.0-beta.1 (2025-08-26)
 Compared with version 2.0.0
 

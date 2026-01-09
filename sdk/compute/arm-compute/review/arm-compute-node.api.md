@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AccessControlRules {
@@ -66,6 +66,7 @@ export type ActionType = string;
 
 // @public
 export interface AdditionalCapabilities {
+    enableFips1403Encryption?: boolean;
     hibernationEnabled?: boolean;
     ultraSSDEnabled?: boolean;
 }
@@ -1382,8 +1383,8 @@ export interface DataDisk {
     createOption: DiskCreateOptionTypes;
     deleteOption?: DiskDeleteOptionTypes;
     detachOption?: DiskDetachOptionTypes;
-    readonly diskIopsReadWrite?: number;
-    readonly diskMBpsReadWrite?: number;
+    diskIopsReadWrite?: number;
+    diskMBpsReadWrite?: number;
     diskSizeGB?: number;
     image?: VirtualHardDisk;
     lun: number;
@@ -2211,6 +2212,7 @@ export type DiskRestorePointGrantAccessResponse = AccessUri;
 export interface DiskRestorePointInstanceView {
     id?: string;
     replicationStatus?: DiskRestorePointReplicationStatus;
+    snapshotAccessState?: SnapshotAccessState;
 }
 
 // @public
@@ -5801,6 +5803,7 @@ export interface RestorePoint extends ProxyResource {
     consistencyMode?: ConsistencyModeTypes;
     excludeDisks?: ApiEntityReference[];
     readonly instanceView?: RestorePointInstanceView;
+    instantAccessDurationMinutes?: number;
     readonly provisioningState?: string;
     sourceMetadata?: RestorePointSourceMetadata;
     sourceRestorePoint?: ApiEntityReference;
@@ -5809,6 +5812,7 @@ export interface RestorePoint extends ProxyResource {
 
 // @public
 export interface RestorePointCollection extends TrackedResource {
+    instantAccess?: boolean;
     readonly provisioningState?: string;
     readonly restorePointCollectionId?: string;
     readonly restorePoints?: RestorePoint[];
@@ -5905,6 +5909,7 @@ export type RestorePointCollectionsUpdateResponse = RestorePointCollection;
 
 // @public
 export interface RestorePointCollectionUpdate extends UpdateResource {
+    instantAccess?: boolean;
     readonly provisioningState?: string;
     readonly restorePointCollectionId?: string;
     readonly restorePoints?: RestorePoint[];

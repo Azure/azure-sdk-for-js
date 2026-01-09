@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to moves volume to another pool
  *
  * @summary moves volume to another pool
- * x-ms-original-file: 2025-07-01-preview/Volumes_PoolChange.json
+ * x-ms-original-file: 2025-09-01-preview/Volumes_PoolChange.json
  */
 async function volumesAuthorizeReplication(): Promise<void> {
   const credential = new DefaultAzureCredential();

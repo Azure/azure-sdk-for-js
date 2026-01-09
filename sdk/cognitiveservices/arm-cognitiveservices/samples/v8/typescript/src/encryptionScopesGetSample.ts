@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specified EncryptionScope associated with the Cognitive Services account.
  *
  * @summary Gets the specified EncryptionScope associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/GetEncryptionScope.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/GetEncryptionScope.json
  */
 async function getEncryptionScope(): Promise<void> {
   const subscriptionId =

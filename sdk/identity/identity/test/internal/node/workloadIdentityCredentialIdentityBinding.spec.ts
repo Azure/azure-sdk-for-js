@@ -37,6 +37,22 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
   });
 
   describe("Certificate Validation & Processing", function () {
+    let tempDir: string | undefined;
+    let tempCaFile: string | undefined;
+
+    afterEach(async function () {
+      if (tempDir) {
+        try {
+          await fs.rm(tempDir, { recursive: true, force: true });
+        } catch (error) {
+          // Ignore cleanup errors to prevent test suite failures
+        } finally {
+          tempDir = undefined;
+          tempCaFile = undefined;
+        }
+      }
+    });
+
     it("should throw error for invalid CA certificate data", async function () {
       vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", "https://test-proxy.example.com");
       vi.stubEnv("AZURE_KUBERNETES_CA_DATA", "invalid-certificate-data");
@@ -46,14 +62,14 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           tenantId,
           clientId,
           tokenFilePath,
-          enableAzureKubernetesTokenProxy: true,
+          enableAzureProxy: true,
         });
       }, /no valid PEM certificates found/);
     });
     it("should validate CA file changes and cache invalidation", async function () {
       const invalidCaContent = "invalid-certificate-data";
-      const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cert-test-"));
-      const tempCaFile = path.join(tempDir, "ca.pem");
+      tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cert-test-"));
+      tempCaFile = path.join(tempDir, "ca.pem");
       // Copy valid certificate initially
       await fs.copyFile(TEST_CERT_PATH, tempCaFile);
 
@@ -64,7 +80,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         tenantId,
         clientId,
         tokenFilePath,
-        enableAzureKubernetesTokenProxy: true,
+        enableAzureProxy: true,
       });
 
       // First call should succeed with valid certificate
@@ -100,13 +116,11 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
 
       // Should be a new object reference since cache was invalidated
       assert.equal(tlsSettings3.ca, getTestCertificateContent());
-      await fs.unlink(tempCaFile);
-      await fs.rmdir(tempDir);
     });
 
     it("should handle empty CA file during rotation", async function () {
-      const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cert-test-"));
-      const tempCaFile = path.join(tempDir, "ca.pem");
+      tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cert-test-"));
+      tempCaFile = path.join(tempDir, "ca.pem");
 
       await fs.copyFile(TEST_CERT_PATH, tempCaFile);
 
@@ -117,7 +131,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         tenantId,
         clientId,
         tokenFilePath,
-        enableAzureKubernetesTokenProxy: true,
+        enableAzureProxy: true,
       });
 
       // First call should succeed and cache the TLS settings
@@ -140,12 +154,9 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           tenantId,
           clientId,
           tokenFilePath,
-          enableAzureKubernetesTokenProxy: true,
+          enableAzureProxy: true,
         });
       }, /CA certificate file is empty/);
-
-      await fs.unlink(tempCaFile);
-      await fs.rmdir(tempDir);
     });
   });
 
@@ -254,7 +265,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           tenantId,
           clientId,
           tokenFilePath,
-          enableAzureKubernetesTokenProxy: true,
+          enableAzureProxy: true,
         });
 
         const proxyClient = (credential as any).createAksProxyClient(testCase.proxyUrl);
@@ -305,7 +316,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         tenantId,
         clientId,
         tokenFilePath,
-        enableAzureKubernetesTokenProxy: true,
+        enableAzureProxy: true,
       });
       const proxyClient = (credential as any).createAksProxyClient(proxyUrl);
 
@@ -545,7 +556,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
               clientId,
               tenantId,
               tokenFilePath,
-              enableAzureKubernetesTokenProxy: true,
+              enableAzureProxy: true,
             });
           }, testCase.expectErrorMessage);
           return;
@@ -554,7 +565,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           clientId,
           tenantId,
           tokenFilePath,
-          enableAzureKubernetesTokenProxy: true,
+          enableAzureProxy: true,
         });
 
         const clientAssertionCredential = credential["client"];
@@ -699,7 +710,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           vi.stubEnv("AZURE_KUBERNETES_CA_DATA", caData);
 
           const credential = new WorkloadIdentityCredential({
-            enableAzureKubernetesTokenProxy: true,
+            enableAzureProxy: true,
           });
           const token = await credential.getToken("https://vault.azure.net/.default");
 
@@ -763,7 +774,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           vi.stubEnv("AZURE_KUBERNETES_CA_FILE", caFile);
 
           const credential = new WorkloadIdentityCredential({
-            enableAzureKubernetesTokenProxy: true,
+            enableAzureProxy: true,
           });
           const token = await credential.getToken("https://vault.azure.net/.default");
 
@@ -828,7 +839,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           vi.stubEnv("AZURE_KUBERNETES_CA_FILE", caFile);
           vi.stubEnv("AZURE_KUBERNETES_SNI_NAME", sniName);
           const credential = new WorkloadIdentityCredential({
-            enableAzureKubernetesTokenProxy: true,
+            enableAzureProxy: true,
           });
           const token = await credential.getToken("https://vault.azure.net/.default");
           assert.isDefined(token);

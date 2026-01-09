@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all available code versions for Service Fabric cluster resources by environment.
  *
  * @summary gets all available code versions for Service Fabric cluster resources by environment.
- * x-ms-original-file: 2025-06-01-preview/ManagedClusterVersionListByEnvironment.json
+ * x-ms-original-file: 2025-10-01-preview/ManagedClusterVersionListByEnvironment.json
  */
 async function listClusterVersionsByEnvironment() {
   const credential = new DefaultAzureCredential();

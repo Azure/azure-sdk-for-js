@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch a snapshot policy
  *
  * @summary patch a snapshot policy
- * x-ms-original-file: 2025-07-01-preview/SnapshotPolicies_Update.json
+ * x-ms-original-file: 2025-09-01-preview/SnapshotPolicies_Update.json
  */
 async function snapshotPoliciesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -37,6 +37,9 @@ stages:
                       PackageName: '@azure/template'
                       ServiceDirectory: template
                       TestPipeline: ${{ parameters.TestPipeline }}
+                  - script: >
+                      ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz && npm install `ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
+                    displayName: Validating package can be installed
                   - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
                     parameters:
                       PackageName: ${{artifact.name}}

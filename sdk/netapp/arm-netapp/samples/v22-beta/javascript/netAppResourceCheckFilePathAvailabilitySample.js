@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to check if a file path is available.
  *
  * @summary check if a file path is available.
- * x-ms-original-file: 2025-07-01-preview/CheckFilePathAvailability.json
+ * x-ms-original-file: 2025-09-01-preview/CheckFilePathAvailability.json
  */
 async function checkFilePathAvailability() {
   const credential = new DefaultAzureCredential();

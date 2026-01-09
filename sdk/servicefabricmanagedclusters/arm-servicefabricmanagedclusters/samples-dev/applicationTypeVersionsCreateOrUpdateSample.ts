@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a Service Fabric managed application type version resource with the specified name.
  *
  * @summary create or update a Service Fabric managed application type version resource with the specified name.
- * x-ms-original-file: 2025-06-01-preview/ApplicationTypeVersionPutOperation_example.json
+ * x-ms-original-file: 2025-10-01-preview/ApplicationTypeVersionPutOperation_example.json
  */
 async function putAnApplicationTypeVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

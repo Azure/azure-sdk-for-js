@@ -1,16 +1,11 @@
 # Release History
 
-## 12.2.0 (Unreleased)
+## 12.2.0-beta.1 (2025-11-24)
 
 ### Features Added
 
+- Added support for UserDelegationKeyCredential.
 - Added `NodeJSReadableStream` interface that extends `NodeJS.ReadableStream` with a `destroy()` method, enabling type-safe stream cancellation across storage packages.
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 12.1.1 (2025-10-16)
 

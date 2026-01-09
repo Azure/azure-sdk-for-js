@@ -567,3 +567,73 @@ describe("FileServiceClient Premium", () => {
     assert.isDefined(getRes.quota);
   });
 });
+
+describe("FileServiceClient SMB", () => {
+  let recorder: Recorder;
+  let serviceClient: ShareServiceClient;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    try {
+      serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
+    } catch (error: any) {
+      console.log(error);
+      ctx.skip();
+    }
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  it("Set&Get Encryption in Transit", async function () {
+    await serviceClient.setProperties({
+      protocol: {
+        smb: {
+          encryptionInTransit: {
+            required: true,
+          },
+        },
+      },
+    });
+    const properties = await serviceClient.getProperties();
+    assert.deepEqual(properties.protocol?.smb?.encryptionInTransit?.required, true);
+  });
+});
+
+describe("FileServiceClient NFS", () => {
+  let recorder: Recorder;
+  let serviceClient: ShareServiceClient;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    try {
+      serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
+    } catch (error: any) {
+      console.log(error);
+      ctx.skip();
+    }
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  it("Set&Get Encryption in Transit", async function () {
+    await serviceClient.setProperties({
+      protocol: {
+        nfs: {
+          encryptionInTransit: {
+            required: true,
+          },
+        },
+      },
+    });
+    const properties = await serviceClient.getProperties();
+    assert.deepEqual(properties.protocol?.nfs?.encryptionInTransit?.required, true);
+  });
+});

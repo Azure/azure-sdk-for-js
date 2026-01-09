@@ -621,6 +621,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     options: GetDocumentOptions<TModel, TFields> = {},
   ): Promise<NarrowedModel<TModel, TFields>> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocument", options);
+
     try {
       const result = await this.client.documents.get(key, {
         ...updatedOptions,

@@ -37,7 +37,7 @@ export {
   StorageRetryPolicyFactory,
   StorageSharedKeyCredentialPolicy,
   StorageBrowserPolicyFactory,
-  NodeJSReadableStream,
+  UserDelegationKey,
 } from "@azure/storage-common";
 
 export { SasIPRange } from "./SasIPRange.js";

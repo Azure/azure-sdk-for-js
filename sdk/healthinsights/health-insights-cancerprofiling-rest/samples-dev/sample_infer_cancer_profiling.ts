@@ -206,7 +206,7 @@ export async function main(): Promise<void> {
     throw cancerProfilingResult;
   }
   const resultBody = cancerProfilingResult.body;
-  await printResults(resultBody);
+  printResults(resultBody);
 }
 
 main().catch((err) => {

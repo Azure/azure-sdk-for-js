@@ -8,9 +8,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all backups Under a Backup Vault
  *
  * @summary list all backups Under a Backup Vault
- * x-ms-original-file: 2025-07-01-preview/BackupsUnderBackupVault_List.json
+ * x-ms-original-file: 2025-09-01-preview/Backups_ListByVault.json
  */
-async function backupsList() {
+async function backupsListByVault() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetAppManagementClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function backupsList() {
 }
 
 async function main() {
-  await backupsList();
+  await backupsListByVault();
 }
 
 main().catch(console.error);

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about an available Service Fabric cluster code version by environment.
  *
  * @summary gets information about an available Service Fabric cluster code version by environment.
- * x-ms-original-file: 2025-06-01-preview/ManagedClusterVersionGetByEnvironment_example.json
+ * x-ms-original-file: 2025-10-01-preview/ManagedClusterVersionGetByEnvironment_example.json
  */
 async function getClusterVersionByEnvironment(): Promise<void> {
   const credential = new DefaultAzureCredential();

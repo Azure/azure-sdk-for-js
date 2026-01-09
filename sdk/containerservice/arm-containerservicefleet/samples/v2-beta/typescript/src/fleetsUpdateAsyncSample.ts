@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to update a Fleet
  *
  * @summary update a Fleet
- * x-ms-original-file: 2025-04-01-preview/Fleets_PatchTags.json
+ * x-ms-original-file: 2025-08-01-preview/Fleets_PatchTags.json
  */
-
-import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function updateAFleet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -28,7 +27,7 @@ async function updateAFleet(): Promise<void> {
  * This sample demonstrates how to update a Fleet
  *
  * @summary update a Fleet
- * x-ms-original-file: 2025-04-01-preview/Fleets_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-08-01-preview/Fleets_Update_MaximumSet_Gen.json
  */
 async function updateAFleetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

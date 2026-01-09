@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the NetApp account
  *
  * @summary get the NetApp account
- * x-ms-original-file: 2025-07-01-preview/Accounts_Get.json
+ * x-ms-original-file: 2025-09-01-preview/Accounts_Get.json
  */
 async function accountsGet() {
   const credential = new DefaultAzureCredential();

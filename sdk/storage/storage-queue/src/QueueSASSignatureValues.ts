@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 import { QueueSASPermissions } from "./QueueSASPermissions.js";
-import type { StorageSharedKeyCredential } from "@azure/storage-common";
+import {
+  StorageSharedKeyCredential,
+  UserDelegationKey,
+  UserDelegationKeyCredential,
+} from "@azure/storage-common";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
 import type { SASProtocol } from "./SASQueryParameters.js";
@@ -60,6 +64,13 @@ export interface QueueSASSignatureValues {
    * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
+
+  /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user who is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */
+  delegatedUserObjectId?: string;
 }
 
 /**
@@ -79,13 +90,67 @@ export interface QueueSASSignatureValues {
  */
 export function generateQueueSASQueryParameters(
   queueSASSignatureValues: QueueSASSignatureValues,
+  userDelegationKey: UserDelegationKey,
+  accountName: string,
+): SASQueryParameters;
+
+export function generateQueueSASQueryParameters(
+  queueSASSignatureValues: QueueSASSignatureValues,
   sharedKeyCredential: StorageSharedKeyCredential,
+): SASQueryParameters;
+
+export function generateQueueSASQueryParameters(
+  queueSASSignatureValues: QueueSASSignatureValues,
+  sharedKeyCredentialOrUserDelegationKey: StorageSharedKeyCredential | UserDelegationKey,
+  accountName?: string,
 ): SASQueryParameters {
-  return generateQueueSASQueryParametersInternal(queueSASSignatureValues, sharedKeyCredential)
-    .sasQueryParameters;
+  return generateQueueSASQueryParametersInternal(
+    queueSASSignatureValues,
+    sharedKeyCredentialOrUserDelegationKey,
+    accountName,
+  ).sasQueryParameters;
 }
 
 export function generateQueueSASQueryParametersInternal(
+  queueSASSignatureValues: QueueSASSignatureValues,
+  sharedKeyCredentialOrUserDelegationKey: StorageSharedKeyCredential | UserDelegationKey,
+  accountName?: string,
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
+  const version = queueSASSignatureValues.version
+    ? queueSASSignatureValues.version
+    : SERVICE_VERSION;
+
+  const sharedKeyCredential =
+    sharedKeyCredentialOrUserDelegationKey instanceof StorageSharedKeyCredential
+      ? sharedKeyCredentialOrUserDelegationKey
+      : undefined;
+  let userDelegationKeyCredential: UserDelegationKeyCredential | undefined;
+
+  if (sharedKeyCredential === undefined && accountName !== undefined) {
+    userDelegationKeyCredential = new UserDelegationKeyCredential(
+      accountName,
+      sharedKeyCredentialOrUserDelegationKey as UserDelegationKey,
+    );
+  }
+
+  if (sharedKeyCredential !== undefined) {
+    return generateQueueSASQueryParametersDefault(queueSASSignatureValues, sharedKeyCredential!);
+  } else {
+    if (version >= "2025-07-05") {
+      return generateQueueSASQueryParametersUDK20250705(
+        queueSASSignatureValues,
+        userDelegationKeyCredential!,
+        accountName!,
+      );
+    } else {
+      throw new RangeError(
+        "'version' must be >= '2025-07-05' when generating user delegation SAS using user delegation key.",
+      );
+    }
+  }
+}
+
+function generateQueueSASQueryParametersDefault(
   queueSASSignatureValues: QueueSASSignatureValues,
   sharedKeyCredential: StorageSharedKeyCredential,
 ): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
@@ -140,6 +205,79 @@ export function generateQueueSASQueryParametersInternal(
       queueSASSignatureValues.expiresOn,
       queueSASSignatureValues.ipRange,
       queueSASSignatureValues.identifier,
+    ),
+    stringToSign: stringToSign,
+  };
+}
+
+function generateQueueSASQueryParametersUDK20250705(
+  queueSASSignatureValues: QueueSASSignatureValues,
+  userDelegationKeyCredential: UserDelegationKeyCredential,
+  accountName: string,
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
+  if (!(queueSASSignatureValues.permissions && queueSASSignatureValues.expiresOn)) {
+    throw new RangeError(
+      "Must provide 'permissions' and 'expiresOn' for Queue SAS generation when generating user delegation SAS.",
+    );
+  }
+
+  const version = queueSASSignatureValues.version
+    ? queueSASSignatureValues.version
+    : SERVICE_VERSION;
+  let verifiedPermissions: string | undefined;
+
+  // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  if (queueSASSignatureValues.permissions) {
+    verifiedPermissions = QueueSASPermissions.parse(
+      queueSASSignatureValues.permissions.toString(),
+    ).toString();
+  }
+  const resource: string = "q";
+
+  // Signature is generated on the un-url-encoded values.
+  const stringToSign = [
+    verifiedPermissions ? verifiedPermissions : "",
+    queueSASSignatureValues.startsOn
+      ? truncatedISO8061Date(queueSASSignatureValues.startsOn, false)
+      : "",
+    queueSASSignatureValues.expiresOn
+      ? truncatedISO8061Date(queueSASSignatureValues.expiresOn, false)
+      : "",
+    getCanonicalName(accountName, queueSASSignatureValues.queueName),
+    userDelegationKeyCredential.userDelegationKey.signedObjectId,
+    userDelegationKeyCredential.userDelegationKey.signedTenantId,
+    userDelegationKeyCredential.userDelegationKey.signedStartsOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
+      : "",
+    userDelegationKeyCredential.userDelegationKey.signedExpiresOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
+      : "",
+    userDelegationKeyCredential.userDelegationKey.signedService,
+    userDelegationKeyCredential.userDelegationKey.signedVersion,
+    undefined, // shared key delegation signed tenant id.
+    queueSASSignatureValues.delegatedUserObjectId,
+    queueSASSignatureValues.ipRange ? ipRangeToString(queueSASSignatureValues.ipRange) : "",
+    queueSASSignatureValues.protocol ? queueSASSignatureValues.protocol : "",
+    version,
+  ].join("\n");
+
+  const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+
+  return {
+    sasQueryParameters: new SASQueryParameters(
+      version,
+      signature,
+      verifiedPermissions,
+      undefined,
+      undefined,
+      queueSASSignatureValues.protocol,
+      queueSASSignatureValues.startsOn,
+      queueSASSignatureValues.expiresOn,
+      queueSASSignatureValues.ipRange,
+      queueSASSignatureValues.identifier,
+      resource,
+      userDelegationKeyCredential.userDelegationKey,
+      queueSASSignatureValues.delegatedUserObjectId,
     ),
     stringToSign: stringToSign,
   };

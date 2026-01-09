@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the details of a volume bucket.
  *
  * @summary updates the details of a volume bucket.
- * x-ms-original-file: 2025-07-01-preview/Buckets_Update.json
+ * x-ms-original-file: 2025-09-01-preview/Buckets_Update.json
  */
 async function bucketsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

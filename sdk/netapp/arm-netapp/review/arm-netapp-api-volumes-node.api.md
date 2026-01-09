@@ -161,6 +161,7 @@ export interface VolumesListQuotaReportOptionalParams extends OperationOptions {
 
 // @public
 export interface VolumesListReplicationsOptionalParams extends OperationOptions {
+    body?: ListReplicationsRequest;
 }
 
 // @public

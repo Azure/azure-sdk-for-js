@@ -237,7 +237,7 @@ const getConnectOptions = async (
   }
 
   if (!token) {
-    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
+    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR_PAT_TOKEN.message);
   }
 
   return {

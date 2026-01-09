@@ -46,6 +46,12 @@ import type {
   PublicIPAddressesUpdateTagsResponse,
   PublicIPAddressesDdosProtectionStatusOptionalParams,
   PublicIPAddressesDdosProtectionStatusResponse,
+  ReserveCloudServicePublicIpAddressRequest,
+  PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams,
+  PublicIPAddressesReserveCloudServicePublicIpAddressResponse,
+  DisassociateCloudServicePublicIpRequest,
+  PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams,
+  PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse,
   PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
   PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse,
   PublicIPAddressesListCloudServicePublicIPAddressesNextResponse,
@@ -973,6 +979,202 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   }
 
   /**
+   * Reserves the specified Cloud Service Public IP by switching its allocation method to Static. If
+   * rollback is requested, reverts the allocation method to Dynamic.
+   * @param resourceGroupName The name of the resource group.
+   * @param publicIpAddressName The name of the public IP address.
+   * @param parameters Parameter that define which Public IP Address should be associated in place of
+   *                   given Public IP Address.
+   * @param options The options parameters.
+   */
+  async beginReserveCloudServicePublicIpAddress(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    parameters: ReserveCloudServicePublicIpAddressRequest,
+    options?: PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PublicIPAddressesReserveCloudServicePublicIpAddressResponse>,
+      PublicIPAddressesReserveCloudServicePublicIpAddressResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<PublicIPAddressesReserveCloudServicePublicIpAddressResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, publicIpAddressName, parameters, options },
+      spec: reserveCloudServicePublicIpAddressOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      PublicIPAddressesReserveCloudServicePublicIpAddressResponse,
+      OperationState<PublicIPAddressesReserveCloudServicePublicIpAddressResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Reserves the specified Cloud Service Public IP by switching its allocation method to Static. If
+   * rollback is requested, reverts the allocation method to Dynamic.
+   * @param resourceGroupName The name of the resource group.
+   * @param publicIpAddressName The name of the public IP address.
+   * @param parameters Parameter that define which Public IP Address should be associated in place of
+   *                   given Public IP Address.
+   * @param options The options parameters.
+   */
+  async beginReserveCloudServicePublicIpAddressAndWait(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    parameters: ReserveCloudServicePublicIpAddressRequest,
+    options?: PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams,
+  ): Promise<PublicIPAddressesReserveCloudServicePublicIpAddressResponse> {
+    const poller = await this.beginReserveCloudServicePublicIpAddress(
+      resourceGroupName,
+      publicIpAddressName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Disassociates the Cloud Service reserved Public IP and associates the specified Standalone Public IP
+   * to the same Cloud Service frontend.
+   * @param resourceGroupName The name of the resource group.
+   * @param publicIpAddressName The name of the public IP address.
+   * @param parameters Parameter that define which Public IP Address should be associated in place of
+   *                   given Public IP Address.
+   * @param options The options parameters.
+   */
+  async beginDisassociateCloudServiceReservedPublicIp(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    parameters: DisassociateCloudServicePublicIpRequest,
+    options?: PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse>,
+      PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, publicIpAddressName, parameters, options },
+      spec: disassociateCloudServiceReservedPublicIpOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse,
+      OperationState<PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Disassociates the Cloud Service reserved Public IP and associates the specified Standalone Public IP
+   * to the same Cloud Service frontend.
+   * @param resourceGroupName The name of the resource group.
+   * @param publicIpAddressName The name of the public IP address.
+   * @param parameters Parameter that define which Public IP Address should be associated in place of
+   *                   given Public IP Address.
+   * @param options The options parameters.
+   */
+  async beginDisassociateCloudServiceReservedPublicIpAndWait(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    parameters: DisassociateCloudServicePublicIpRequest,
+    options?: PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams,
+  ): Promise<PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse> {
+    const poller = await this.beginDisassociateCloudServiceReservedPublicIp(
+      resourceGroupName,
+      publicIpAddressName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Gets information about all public IP addresses on a virtual machine scale set level.
    * @param resourceGroupName The name of the resource group.
    * @param virtualMachineScaleSetName The name of the virtual machine scale set.
@@ -1421,6 +1623,70 @@ const ddosProtectionStatusOperationSpec: coreClient.OperationSpec = {
     Parameters.publicIpAddressName,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const reserveCloudServicePublicIpAddressOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/reserveCloudServicePublicIpAddress",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PublicIPAddress,
+    },
+    201: {
+      bodyMapper: Mappers.PublicIPAddress,
+    },
+    202: {
+      bodyMapper: Mappers.PublicIPAddress,
+    },
+    204: {
+      bodyMapper: Mappers.PublicIPAddress,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters11,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.publicIpAddressName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const disassociateCloudServiceReservedPublicIpOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/disassociateCloudServiceReservedPublicIp",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PublicIPAddress,
+    },
+    201: {
+      bodyMapper: Mappers.PublicIPAddress,
+    },
+    202: {
+      bodyMapper: Mappers.PublicIPAddress,
+    },
+    204: {
+      bodyMapper: Mappers.PublicIPAddress,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters12,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.publicIpAddressName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listVirtualMachineScaleSetPublicIPAddressesOperationSpec: coreClient.OperationSpec = {

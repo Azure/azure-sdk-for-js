@@ -3,6 +3,7 @@
   "compilerOptions": {
     "paths": {
       "@azure/ai-projects": ["./dist/esm"]
-    }
+    },
+    "lib": ["ES2022", "DOM"]
   }
 }

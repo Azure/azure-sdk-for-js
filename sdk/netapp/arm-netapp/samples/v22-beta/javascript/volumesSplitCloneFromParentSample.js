@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to split operation to convert clone volume to an independent volume.
  *
  * @summary split operation to convert clone volume to an independent volume.
- * x-ms-original-file: 2025-07-01-preview/Volumes_SplitClone.json
+ * x-ms-original-file: 2025-09-01-preview/Volumes_SplitClone.json
  */
 async function volumesSplitClone() {
   const credential = new DefaultAzureCredential();

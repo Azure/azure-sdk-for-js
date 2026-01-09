@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to affects existing volumes that are encrypted with Key Vault/Managed HSM, and new volumes. Supports HSM to Key Vault, Key Vault to HSM, HSM to HSM and Key Vault to Key Vault.
  *
  * @summary affects existing volumes that are encrypted with Key Vault/Managed HSM, and new volumes. Supports HSM to Key Vault, Key Vault to HSM, HSM to HSM and Key Vault to Key Vault.
- * x-ms-original-file: 2025-07-01-preview/Accounts_ChangeKeyVault.json
+ * x-ms-original-file: 2025-09-01-preview/Accounts_ChangeKeyVault.json
  */
 async function accountsChangeKeyVault() {
   const credential = new DefaultAzureCredential();

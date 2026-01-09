@@ -971,12 +971,6 @@ export const AgentPoolUpgradeSettings: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      minSurge: {
-        serializedName: "minSurge",
-        type: {
-          name: "String",
-        },
-      },
       maxUnavailable: {
         serializedName: "maxUnavailable",
         type: {
@@ -3658,6 +3652,13 @@ export const ManagedClusterIngressProfile: coreClient.CompositeMapper = {
           className: "ManagedClusterIngressProfileWebAppRouting",
         },
       },
+      applicationLoadBalancer: {
+        serializedName: "applicationLoadBalancer",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterIngressProfileApplicationLoadBalancer",
+        },
+      },
     },
   },
 };
@@ -3709,6 +3710,13 @@ export const ManagedClusterIngressProfileWebAppRouting: coreClient.CompositeMapp
           className: "ManagedClusterIngressProfileNginx",
         },
       },
+      defaultDomain: {
+        serializedName: "defaultDomain",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterIngressDefaultDomainProfile",
+        },
+      },
       identity: {
         serializedName: "identity",
         type: {
@@ -3729,6 +3737,50 @@ export const ManagedClusterIngressProfileNginx: coreClient.CompositeMapper = {
         serializedName: "defaultIngressControllerType",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedClusterIngressDefaultDomainProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterIngressDefaultDomainProfile",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      domainName: {
+        serializedName: "domainName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedClusterIngressProfileApplicationLoadBalancer: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterIngressProfileApplicationLoadBalancer",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "UserAssignedIdentity",
         },
       },
     },
@@ -5473,7 +5525,7 @@ export const MachineProperties: coreClient.CompositeMapper = {
         serializedName: "security",
         type: {
           name: "Composite",
-          className: "AgentPoolSecurityProfile",
+          className: "MachineSecurityProfile",
         },
       },
       priority: {
@@ -5485,7 +5537,6 @@ export const MachineProperties: coreClient.CompositeMapper = {
       },
       nodeImageVersion: {
         serializedName: "nodeImageVersion",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -5795,6 +5846,39 @@ export const MachineKubernetesProfile: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AgentPoolArtifactStreamingProfile",
+        },
+      },
+    },
+  },
+};
+
+export const MachineSecurityProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MachineSecurityProfile",
+    modelProperties: {
+      sshAccess: {
+        serializedName: "sshAccess",
+        type: {
+          name: "String",
+        },
+      },
+      enableVtpm: {
+        serializedName: "enableVTPM",
+        type: {
+          name: "Boolean",
+        },
+      },
+      enableSecureBoot: {
+        serializedName: "enableSecureBoot",
+        type: {
+          name: "Boolean",
+        },
+      },
+      enableEncryptionAtHost: {
+        serializedName: "enableEncryptionAtHost",
+        type: {
+          name: "Boolean",
         },
       },
     },

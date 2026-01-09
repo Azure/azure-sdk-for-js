@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to revert a volume to the snapshot specified in the body
  *
  * @summary revert a volume to the snapshot specified in the body
- * x-ms-original-file: 2025-07-01-preview/Volumes_Revert.json
+ * x-ms-original-file: 2025-09-01-preview/Volumes_Revert.json
  */
 async function volumesRevert() {
   const credential = new DefaultAzureCredential();

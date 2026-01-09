@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
+const { DefaultAzureCredential } = require("@azure/identity");
+
 /**
  * This sample demonstrates how to get a FleetUpdateStrategy
  *
  * @summary get a FleetUpdateStrategy
- * x-ms-original-file: 2025-04-01-preview/FleetUpdateStrategies_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-08-01-preview/FleetUpdateStrategies_Get_MaximumSet_Gen.json
  */
-
-const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
-const { DefaultAzureCredential } = require("@azure/identity");
-
 async function getAFleetUpdateStrategyResourceGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -23,7 +22,7 @@ async function getAFleetUpdateStrategyResourceGeneratedByMaximumSetRule() {
  * This sample demonstrates how to get a FleetUpdateStrategy
  *
  * @summary get a FleetUpdateStrategy
- * x-ms-original-file: 2025-04-01-preview/UpdateStrategies_Get.json
+ * x-ms-original-file: 2025-08-01-preview/UpdateStrategies_Get.json
  */
 async function getAFleetUpdateStrategyResource() {
   const credential = new DefaultAzureCredential();

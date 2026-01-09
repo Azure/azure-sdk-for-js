@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { UserDelegationKey } from "@azure/storage-common";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
 import { truncatedISO8061Date } from "./utils/utils.common.js";
@@ -77,6 +78,13 @@ export class SASQueryParameters {
   public readonly identifier?: string;
 
   /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user who is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */
+  public readonly delegatedUserObjectId?: string;
+
+  /**
    * Optional. The storage share or file path (only for {@link FileSASSignatureValues}).
    */
   public readonly resource?: string;
@@ -110,6 +118,42 @@ export class SASQueryParameters {
    * Value for content-type header in Blob/File Service SAS.
    */
   public readonly contentType?: string;
+
+  /**
+   * The Azure Active Directory object ID in GUID format.
+   * Property of user delegation key.
+   */
+  private readonly signedOid?: string;
+
+  /**
+   * The Azure Active Directory tenant ID in GUID format.
+   * Property of user delegation key.
+   */
+  private readonly signedTenantId?: string;
+
+  /**
+   * The date-time the key is active.
+   * Property of user delegation key.
+   */
+  private readonly signedStartsOn?: Date;
+
+  /**
+   * The date-time the key expires.
+   * Property of user delegation key.
+   */
+  private readonly signedExpiresOn?: Date;
+
+  /**
+   * Abbreviation of the Azure Storage service that accepts the user delegation key.
+   * Property of user delegation key.
+   */
+  private readonly signedService?: string;
+
+  /**
+   * The service version that created the user delegation key.
+   * Property of user delegation key.
+   */
+  private readonly signedVersion?: string;
 
   /**
    * Inner value of getter ipRange.
@@ -168,6 +212,8 @@ export class SASQueryParameters {
     contentEncoding?: string,
     contentLanguage?: string,
     contentType?: string,
+    userDelegationKey?: UserDelegationKey,
+    delegatedUserObjectId?: string,
   ) {
     this.version = version;
     this.services = services;
@@ -185,6 +231,16 @@ export class SASQueryParameters {
     this.contentEncoding = contentEncoding;
     this.contentLanguage = contentLanguage;
     this.contentType = contentType;
+
+    if (userDelegationKey) {
+      this.signedOid = userDelegationKey.signedObjectId;
+      this.signedTenantId = userDelegationKey.signedTenantId;
+      this.signedStartsOn = userDelegationKey.signedStartsOn;
+      this.signedExpiresOn = userDelegationKey.signedExpiresOn;
+      this.signedService = userDelegationKey.signedService;
+      this.signedVersion = userDelegationKey.signedVersion;
+      this.delegatedUserObjectId = delegatedUserObjectId;
+    }
   }
 
   /**
@@ -209,6 +265,13 @@ export class SASQueryParameters {
       "rsce",
       "rscl",
       "rsct",
+      "skoid", // Signed object ID
+      "sktid", // Signed tenant ID
+      "skt", // Signed key start time
+      "ske", // Signed key expiry time
+      "sks", // Signed key service
+      "skv", // Signed key version
+      "sduoid", // Signed key user delegation object ID
     ];
     const queries: string[] = [];
 
@@ -273,6 +336,35 @@ export class SASQueryParameters {
           break;
         case "rsct":
           this.tryAppendQueryParameter(queries, param, this.contentType);
+          break;
+        case "skoid":
+          this.tryAppendQueryParameter(queries, param, this.signedOid);
+          break;
+        case "sktid": // Signed tenant ID
+          this.tryAppendQueryParameter(queries, param, this.signedTenantId);
+          break;
+        case "skt": // Signed key start time
+          this.tryAppendQueryParameter(
+            queries,
+            param,
+            this.signedStartsOn ? truncatedISO8061Date(this.signedStartsOn, false) : undefined,
+          );
+          break;
+        case "ske": // Signed key expiry time
+          this.tryAppendQueryParameter(
+            queries,
+            param,
+            this.signedExpiresOn ? truncatedISO8061Date(this.signedExpiresOn, false) : undefined,
+          );
+          break;
+        case "sks": // Signed key service
+          this.tryAppendQueryParameter(queries, param, this.signedService);
+          break;
+        case "skv": // Signed key version
+          this.tryAppendQueryParameter(queries, param, this.signedVersion);
+          break;
+        case "sduoid": // Signed key user delegation object ID
+          this.tryAppendQueryParameter(queries, param, this.delegatedUserObjectId);
           break;
       }
     }

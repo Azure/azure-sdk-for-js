@@ -6,7 +6,7 @@ import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 import type { AzureMonitorOpenTelemetryOptions } from "../../../src/index.js";
 import { useAzureMonitor, shutdownAzureMonitor, _getSdkInstance } from "../../../src/index.js";
-import type { MeterProvider } from "@opentelemetry/sdk-metrics";
+import type { MeterProvider, ViewOptions } from "@opentelemetry/sdk-metrics";
 import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
 import type { StatsbeatEnvironmentConfig } from "../../../src/types.js";
@@ -153,6 +153,21 @@ describe("Main functions", () => {
     useAzureMonitor(config);
     logs.getLogger("testLogger").emit({ body: "testLog" });
     expect(spyonEmit).toHaveBeenCalled();
+  });
+
+  it("should add custom metric views", () => {
+    const customView: ViewOptions = { meterName: "custom-meter" };
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      views: [customView],
+    };
+    useAzureMonitor(config);
+    // eslint-disable-next-line no-underscore-dangle
+    const meterConfig = (_getSdkInstance() as any)?._meterProviderConfig;
+    expect(meterConfig).toBeDefined();
+    expect(meterConfig?.views).toContain(customView);
   });
 
   it("should set statsbeat features", () => {

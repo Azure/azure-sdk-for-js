@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a snapshot Policy
  *
  * @summary get a snapshot Policy
- * x-ms-original-file: 2025-07-01-preview/SnapshotPolicies_Get.json
+ * x-ms-original-file: 2025-09-01-preview/SnapshotPolicies_Get.json
  */
 async function snapshotPoliciesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

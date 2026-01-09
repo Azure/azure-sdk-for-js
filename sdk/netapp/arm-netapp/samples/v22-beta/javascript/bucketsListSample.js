@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to describes all buckets belonging to a volume. Buckets allow additional services, such as AI services, connect to the volume data contained in those buckets.
  *
  * @summary describes all buckets belonging to a volume. Buckets allow additional services, such as AI services, connect to the volume data contained in those buckets.
- * x-ms-original-file: 2025-07-01-preview/Buckets_List.json
+ * x-ms-original-file: 2025-09-01-preview/Buckets_List.json
  */
 async function bucketsList() {
   const credential = new DefaultAzureCredential();

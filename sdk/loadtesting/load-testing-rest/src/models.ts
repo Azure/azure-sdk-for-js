@@ -315,8 +315,7 @@ export interface TargetResourceConfigurationsParent {
 }
 
 /** Configurations for a Function App using Flex Consumption Plan. */
-export interface FunctionFlexConsumptionTargetResourceConfigurations
-  extends TargetResourceConfigurationsParent {
+export interface FunctionFlexConsumptionTargetResourceConfigurations extends TargetResourceConfigurationsParent {
   /**
    * The kind value to use when providing configuration.
    * This should typically be not changed from its value.
@@ -663,8 +662,7 @@ export interface TestRunStartedNotificationEventFilter extends TestsNotification
 }
 
 /** The notification event filter when the event type is TriggerCompleted. */
-export interface TriggerCompletedNotificationEventFilter
-  extends TestsNotificationEventFilterParent {
+export interface TriggerCompletedNotificationEventFilter extends TestsNotificationEventFilterParent {
   /** Event type for trigger ended event. */
   kind: "TriggerCompleted";
 }

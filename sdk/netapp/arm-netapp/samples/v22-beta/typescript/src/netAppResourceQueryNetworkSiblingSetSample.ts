@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get details of the specified network sibling set.
  *
  * @summary get details of the specified network sibling set.
- * x-ms-original-file: 2025-07-01-preview/NetworkSiblingSet_Query.json
+ * x-ms-original-file: 2025-09-01-preview/NetworkSiblingSet_Query.json
  */
 async function networkSiblingSetQuery(): Promise<void> {
   const credential = new DefaultAzureCredential();

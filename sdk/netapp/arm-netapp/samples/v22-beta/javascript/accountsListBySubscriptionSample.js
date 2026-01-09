@@ -8,9 +8,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list and describe all NetApp accounts in the subscription.
  *
  * @summary list and describe all NetApp accounts in the subscription.
- * x-ms-original-file: 2025-07-01-preview/Accounts_ListBySubscription.json
+ * x-ms-original-file: 2025-09-01-preview/Accounts_ListBySubscription.json
  */
-async function accountsList() {
+async function accountsListBySubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetAppManagementClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function accountsList() {
 }
 
 async function main() {
-  await accountsList();
+  await accountsListBySubscription();
 }
 
 main().catch(console.error);

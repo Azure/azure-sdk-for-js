@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-queue",
   "sdk-type": "client",
-  "version": "12.28.1",
+  "version": "12.29.0-beta.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - Queue",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -98,7 +98,7 @@
     "@azure/core-util": "^1.11.0",
     "@azure/core-xml": "^1.4.3",
     "@azure/logger": "^1.1.4",
-    "@azure/storage-common": "^12.1.1",
+    "@azure/storage-common": "^12.2.0-beta.1",
     "tslib": "^2.8.1"
   },
   "devDependencies": {

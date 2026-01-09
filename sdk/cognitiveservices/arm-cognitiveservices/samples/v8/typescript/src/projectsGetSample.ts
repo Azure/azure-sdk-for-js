@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns a Cognitive Services project specified by the parameters.
  *
  * @summary Returns a Cognitive Services project specified by the parameters.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/GetProject.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/GetProject.json
  */
 async function getProject(): Promise<void> {
   const subscriptionId =

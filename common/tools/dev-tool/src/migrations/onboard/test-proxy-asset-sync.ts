@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { readFile, pathExists } from "fs-extra";
+import { readFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import { createMigration } from "../../util/migrations";
 import { runMigrationScript } from "../../util/testProxyUtils";
@@ -59,7 +60,7 @@ export default createMigration(
       const assetsJsonPath = path.join(ctx.project.path, "assets.json");
 
       // If the `assets.json` file exists, this package is already migrated.
-      if (await pathExists(assetsJsonPath)) return false;
+      if (existsSync(assetsJsonPath)) return false;
 
       // If the package doesn't have a dependency on `@azure-tools/test-recorder`, it doesn't use the recorder.
       const allDependencies = {
@@ -70,7 +71,7 @@ export default createMigration(
       if (!allDependencies["@azure-tools/test-recorder"]) return false;
 
       // Finally, if there is no "recordings" folder, there are no recordings to migrate.
-      return pathExists(path.join(ctx.project.path, "recordings"));
+      return existsSync(path.join(ctx.project.path, "recordings"));
     },
 
     async checkPreconditions(ctx) {

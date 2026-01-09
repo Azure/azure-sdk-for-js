@@ -215,6 +215,82 @@ describe("DataLakeFileSystemClient", () => {
     }
   });
 
+  it("listPaths with startFrom", async () => {
+    const fileClients = [];
+    const dirBase = recorder.variable(`dir`, getUniqueName(`dir`));
+    const fileBase = recorder.variable(`file`, getUniqueName(`file`));
+
+    const dirName0 = dirBase + "0";
+    const dir0 = fileSystemClient.getDirectoryClient(dirName0);
+    await dir0.create();
+
+    let startFrom = "";
+    const expectedNames = [];
+
+    for (let i = 0; i < 3; i++) {
+      const fileClient = dir0.getFileClient(fileBase + i);
+      if (i === 1) {
+        startFrom = fileClient.name;
+      }
+
+      if (i >= 1) {
+        expectedNames.push(fileClient.name);
+      }
+      await fileClient.create();
+      fileClients.push(fileClient);
+    }
+
+    const dirName1 = dirBase + "1";
+    const dir1 = fileSystemClient.getDirectoryClient(dirName1);
+    await dir1.create();
+    expectedNames.push(dirName1);
+
+    for (let i = 0; i < 3; i++) {
+      const fileClient = dir1.getFileClient(fileBase + i);
+      await fileClient.create();
+      fileClients.push(fileClient);
+      expectedNames.push(fileClient.name);
+    }
+
+    const result = (
+      await fileSystemClient
+        .listPaths({
+          startFrom: dirName0,
+        })
+        .byPage()
+        .next()
+    ).value as FileSystemListPathsResponse;
+
+    assert.deepStrictEqual(result.continuation, undefined);
+    assert.deepStrictEqual(result.pathItems!.length, 2);
+    assert.deepStrictEqual(result.pathItems![0].name!, dirName0);
+
+    const result1 = (
+      await fileSystemClient
+        .listPaths({
+          startFrom: startFrom,
+          recursive: true,
+        })
+        .byPage()
+        .next()
+    ).value as FileSystemListPathsResponse;
+    assert.deepStrictEqual(result1.continuation, undefined);
+    assert.deepStrictEqual(result1.pathItems!.length, 6);
+    const paths = [];
+
+    for (const path of result1.pathItems!) {
+      paths.push(path.name);
+    }
+    assert.deepStrictEqual(paths, expectedNames);
+
+    for (const file of fileClients) {
+      await file.delete();
+    }
+
+    await dir0.delete();
+    await dir1.delete();
+  });
+
   it("listPaths - Encryption Scope", async function (ctx) {
     let encryptionScopeName;
     try {

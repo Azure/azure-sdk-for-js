@@ -76,7 +76,7 @@ describe("multipartPolicy", function () {
         },
       });
 
-      assert.ok(request.headers.has("content-type"), "content-type header expected");
+      assert.isTrue(request.headers.has("content-type"), "content-type header expected");
       assert.match(
         request.headers.get("content-type")!,
         /multipart\/mixed; boundary=[0-9a-zA-Z'()+,-./:=?]+/,
@@ -133,7 +133,7 @@ describe("multipartPolicy", function () {
         },
       });
 
-      assert.ok(request.headers.has("content-type"), "content-type header expected");
+      assert.isTrue(request.headers.has("content-type"), "content-type header expected");
       assert.match(
         request.headers.get("content-type")!,
         /multipart\/alternative; boundary=[0-9a-zA-Z'()+,-./:=?]+/,

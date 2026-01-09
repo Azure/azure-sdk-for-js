@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to break the replication connection on the destination volume
  *
  * @summary break the replication connection on the destination volume
- * x-ms-original-file: 2025-07-01-preview/Volumes_BreakReplication.json
+ * x-ms-original-file: 2025-09-01-preview/Volumes_BreakReplication.json
  */
 async function volumesBreakReplication() {
   const credential = new DefaultAzureCredential();

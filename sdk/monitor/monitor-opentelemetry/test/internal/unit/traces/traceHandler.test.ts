@@ -4,21 +4,36 @@
 import { TraceHandler } from "../../../../src/traces/index.js";
 import { MetricHandler } from "../../../../src/metrics/index.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
+import { ApplicationInsightsSampler } from "../../../../src/traces/sampler.js";
 import {
   HttpInstrumentation,
   type HttpInstrumentationConfig,
 } from "@opentelemetry/instrumentation-http";
 import type { ReadableSpan, SpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { AlwaysOnSampler } from "@opentelemetry/sdk-trace-base";
 import type { Span } from "@opentelemetry/api";
 import { metrics, trace } from "@opentelemetry/api";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import type { MockInstance } from "vitest";
-import { expect, afterEach, assert, beforeAll, describe, it, afterAll, vi } from "vitest";
+import {
+  expect,
+  afterEach,
+  assert,
+  beforeAll,
+  beforeEach,
+  describe,
+  it,
+  afterAll,
+  vi,
+} from "vitest";
 import type Http from "node:http";
 import { ExportResultCode } from "@opentelemetry/core";
 import type { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
+import type { Instrumentation } from "@opentelemetry/instrumentation";
+import { RateLimitedSampler } from "@azure/monitor-opentelemetry-exporter";
 
 describe("Library/TraceHandler", () => {
+  const connectionString = "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
   let http: typeof Http | null = null;
   /* eslint-disable-next-line no-underscore-dangle */
   let _config: InternalConfig;
@@ -28,14 +43,16 @@ describe("Library/TraceHandler", () => {
   const mockHttpServerPort = 8085;
   let tracerProvider: NodeTracerProvider;
   let exportSpy: MockInstance<AzureMonitorTraceExporter["export"]>;
+  let activeInstrumentations: Instrumentation[] = [];
+
+  beforeEach(() => {
+    _config = new InternalConfig();
+    _config.azureMonitorExporterOptions = {
+      connectionString,
+    };
+  });
 
   beforeAll(async () => {
-    _config = new InternalConfig();
-    if (_config.azureMonitorExporterOptions) {
-      _config.azureMonitorExporterOptions.connectionString =
-        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
-    }
-
     await new Promise((resolve) => {
       if (!http) {
         // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
@@ -71,10 +88,74 @@ describe("Library/TraceHandler", () => {
   });
 
   afterEach(async () => {
-    await metricHandler.shutdown();
-    await handler.shutdown();
+    activeInstrumentations.forEach((instrumentation) => instrumentation.disable());
+    activeInstrumentations = [];
+    if (metricHandler) {
+      await metricHandler.shutdown();
+    }
+    if (handler) {
+      await handler.shutdown();
+    }
     metrics.disable();
     vi.restoreAllMocks();
+  });
+
+  describe("sampler selection", () => {
+    beforeEach(() => {
+      _config.instrumentationOptions = {
+        http: { enabled: false },
+        azureSdk: { enabled: false },
+        mongoDb: { enabled: false },
+        mySql: { enabled: false },
+        postgreSql: { enabled: false },
+        redis: { enabled: false },
+        redis4: { enabled: false },
+      };
+    });
+
+    it("prefers sampler provided by env/config", () => {
+      const customSampler = new AlwaysOnSampler();
+      _config.sampler = customSampler;
+      _config.tracesPerSecond = 10;
+      _config.samplingRatio = 0.25;
+
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+
+      expect(handler.getSampler()).toBe(customSampler);
+    });
+
+    it("falls back to rate-limited sampler when tracesPerSecond is set", () => {
+      _config.tracesPerSecond = 7;
+      _config.samplingRatio = 0.5;
+
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+
+      expect(handler.getSampler()).toBeInstanceOf(RateLimitedSampler);
+    });
+
+    it("uses ApplicationInsightsSampler when tracesPerSecond is 0", () => {
+      _config.tracesPerSecond = 0;
+      _config.samplingRatio = 0.3;
+
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+
+      expect(handler.getSampler()).toBeInstanceOf(ApplicationInsightsSampler);
+      expect(handler.getSampler().toString()).toBe("ApplicationInsightsSampler{0.3}");
+    });
+
+    it("uses ApplicationInsightsSampler when no sampler or rate limit is provided", () => {
+      _config.tracesPerSecond = undefined;
+      _config.samplingRatio = 0.2;
+
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+
+      expect(handler.getSampler()).toBeInstanceOf(ApplicationInsightsSampler);
+      expect(handler.getSampler().toString()).toBe("ApplicationInsightsSampler{0.2}");
+    });
   });
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -82,6 +163,10 @@ describe("Library/TraceHandler", () => {
     _config.instrumentationOptions.http = httpConfig;
     metricHandler = new MetricHandler(_config);
     handler = new TraceHandler(_config, metricHandler);
+    handler.getInstrumentations().forEach((instrumentation) => {
+      instrumentation.enable();
+      activeInstrumentations.push(instrumentation);
+    });
 
     // Because the instrumentation is registered globally, its config is not updated
     // when the handler is created. We need to mock the getConfig method to return
@@ -158,6 +243,9 @@ describe("Library/TraceHandler", () => {
         ],
       });
       trace.setGlobalTracerProvider(tracerProvider);
+      activeInstrumentations.forEach((instrumentation) => {
+        instrumentation.setTracerProvider(tracerProvider);
+      });
       await makeHttpRequest();
       await tracerProvider.forceFlush();
       expect(exportSpy).toHaveBeenCalledOnce();

@@ -75,6 +75,7 @@
     "Idrg",
     "Kubernetes",
     "Localizable",
+    "logprobs",
     "Lucene",
     "mgmt",
     "MPNS",
@@ -176,14 +177,74 @@
     "uefi",
     "Uefi",
     "Reimage",
-    "Milli"
+    "Milli",
+    "Turborepo",
+    "Apim",
+    "Kurtzeborn"
   ],
   "allowCompoundWords": true,
   "overrides": [
     {
+      "filename": "documentation/how-to-use.md",
+      "words": [
+        "jstest"
+      ]
+    },
+    {
+      "filename": "documentation/next-generation-quickstart.md",
+      "words": [
+        "virtualmachinex",
+        "subnetnamex",
+        "interfacex",
+        "networknamex",
+        "jstest"
+      ]
+    },
+    {
+      "filename": "documentation/Quickstart-on-how-to-write-tests.md",
+      "words": [
+        "azuread",
+        "glossaryspects",
+        "utilsrecordedclientts",
+        "monitorspects",
+        "dpgrlc"
+      ]
+    },
+    {
+      "filename": "documentation/RLC-Swagger-quickstart.md",
+      "words": [
+        "azurerestagrifoodfarming"
+      ]
+    },
+    {
+      "filename": "documentation/steps-after-generations.md",
+      "words": [
+        "azureagrifoodfarming",
+        "azurerestagrifoodfarming",
+        "dpgrlc"
+      ]
+    },
+    {
       "filename": "eng/tools/rush-runner.js",
       "words": [
         "Jsons"
+      ]
+    },
+    {
+      "filename": "sdk/ai/ai-projects/review/**/*.md",
+      "words": [
+        "Agentic"
+      ]
+    },
+    {
+      "filename": "sdk/ai/ai-voicelive/**/*.md",
+      "words": [
+        "Viseme",
+        "logprobs",
+        "Alaw",
+        "Ulaw",
+        "Webrtc",
+        "webrtc"
       ]
     },
     {
@@ -467,6 +528,7 @@
         "Sorani",
         "Vectorizable",
         "adlsgen",
+        "agentic",
         "bangla",
         "beider",
         "haase",
@@ -495,6 +557,7 @@
         "Sorani",
         "Vectorizable",
         "adlsgen",
+        "agentic",
         "bangla",
         "beider",
         "haase",

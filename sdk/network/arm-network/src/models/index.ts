@@ -414,6 +414,8 @@ export interface ApplicationGatewayClientAuthConfiguration {
   verifyClientCertIssuerDN?: boolean;
   /** Verify client certificate revocation status. */
   verifyClientRevocation?: ApplicationGatewayClientRevocationOptions;
+  /** Verify client Authentication mode. */
+  verifyClientAuthMode?: ApplicationGatewayClientAuthVerificationModes;
 }
 
 /** Rewrite rule of an application gateway. */
@@ -598,6 +600,8 @@ export interface ApplicationGatewayOnDemandProbe {
   timeout?: number;
   /** Whether the host header should be picked from the backend http settings. Default value is false. */
   pickHostNameFromBackendHttpSettings?: boolean;
+  /** Whether to send Proxy Protocol header along with the Health Probe over TCP or TLS protocol. Default value is false. */
+  enableProbeProxyProtocolHeader?: boolean;
   /** Criterion for classifying a healthy probe response. */
   match?: ApplicationGatewayProbeHealthResponseMatch;
   /** Reference to backend pool of application gateway to which probe request will be sent. */
@@ -1261,6 +1265,14 @@ export interface CustomIpPrefixListResult {
   value?: CustomIpPrefix[];
   /** The URL to get the next set of results. */
   nextLink?: string;
+}
+
+/** Ddos Custom Policy traffic detection rule. */
+export interface TrafficDetectionRule {
+  /** The traffic type (one of Tcp, Udp, TcpSyn) that the detection rule will be applied upon. */
+  trafficType?: DdosTrafficType;
+  /** The customized packets per second threshold. */
+  packetsPerSecond?: number;
 }
 
 /** A DDoS protection plan in a resource group. */
@@ -4020,6 +4032,8 @@ export interface FlowLogInformation {
   storageId: string;
   /** Optional field to filter network traffic logs based on SrcIP, SrcPort, DstIP, DstPort, Protocol, Encryption, Direction and Action. If not specified, all network traffic will be logged. */
   enabledFilteringCriteria?: string;
+  /** Optional field to filter network traffic logs based on flow states. Value of this field could be any comma separated combination string of letters B,C,E or D. B represents Begin, when a flow is created. C represents Continue for an ongoing flow generated at every five-minute interval. E represents End, when a flow is terminated. D represents Deny, when a flow is denied. If not specified, all network traffic will be logged. */
+  recordTypes?: string;
   /** Flag to enable/disable flow logging. */
   enabled: boolean;
   /** Parameters that define the retention policy for flow log. */
@@ -4972,6 +4986,18 @@ export interface PublicIpDdosProtectionStatusResult {
   isWorkloadProtected?: IsWorkloadProtected;
   /**  DDoS protection plan Resource Id of a if IP address is protected through a plan. */
   ddosProtectionPlanId?: string;
+}
+
+/** The request for ReserveCloudServicePublicIpAddressOperation. */
+export interface ReserveCloudServicePublicIpAddressRequest {
+  /** When true, reverts from Static to Dynamic allocation (undo reservation). */
+  isRollback: IsRollback;
+}
+
+/** The request for DisassociateCloudServicePublicIpOperation. */
+export interface DisassociateCloudServicePublicIpRequest {
+  /** ARM ID of the Standalone Public IP to associate. This is of the form : /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName} */
+  publicIpArmId: string;
 }
 
 /** SKU of a public IP prefix. */
@@ -5950,6 +5976,16 @@ export interface VirtualNetworkGatewayConnectionTunnelProperties {
   tunnelIpAddress?: string;
   /** Tunnel BGP peering address */
   bgpPeeringAddress?: string;
+}
+
+/** Certificate Authentication information for a certificate based authentication connection. */
+export interface CertificateAuthentication {
+  /** Keyvault secret ID for outbound authentication certificate. */
+  outboundAuthCertificate?: string;
+  /** Inbound authentication certificate subject name. */
+  inboundAuthCertificateSubjectName?: string;
+  /** Inbound authentication certificate public keys. */
+  inboundAuthCertificateChain?: string[];
 }
 
 /** Response for the ListVirtualNetworkGatewayConnections API service call. */
@@ -7349,6 +7385,8 @@ export interface ApplicationGatewayProbe extends SubResource {
   minServers?: number;
   /** Criterion for classifying a healthy probe response. */
   match?: ApplicationGatewayProbeHealthResponseMatch;
+  /** Whether to send Proxy Protocol header along with the Health Probe over TCP or TLS protocol. Default value is false. */
+  enableProbeProxyProtocolHeader?: boolean;
   /**
    * The provisioning state of the probe resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -7778,7 +7816,7 @@ export interface Subnet extends SubResource {
   applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
   /** Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty. */
   sharingScope?: SharingScope;
-  /** Set this property to false to disable default outbound connectivity for all VMs in the subnet. This property can only be set at the time of subnet creation and cannot be updated for an existing subnet. */
+  /** Set this property to false to disable default outbound connectivity for all VMs in the subnet. */
   defaultOutboundAccess?: boolean;
   /** A list of IPAM Pools for allocating IP address prefixes. */
   ipamPoolPrefixAllocations?: IpamPoolPrefixAllocation[];
@@ -8105,6 +8143,8 @@ export interface ApplicationGatewayBackendSettings extends SubResource {
   hostName?: string;
   /** Whether to pick server name indication from the host name of the backend server for Tls protocol. Default value is false. */
   pickHostNameFromBackendAddress?: boolean;
+  /** Whether to send Proxy Protocol header to backend servers over TCP or TLS protocols. Default value is false. */
+  enableL4ClientIpPreservation?: boolean;
   /**
    * The provisioning state of the backend HTTP settings resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -8313,6 +8353,8 @@ export interface ApplicationGatewayRequestRoutingRule extends SubResource {
   redirectConfiguration?: SubResource;
   /** Load Distribution Policy resource of the application gateway. */
   loadDistributionPolicy?: SubResource;
+  /** Entra JWT validation configuration resource of the application gateway. */
+  entraJWTValidationConfig?: SubResource;
   /**
    * The provisioning state of the request routing rule resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -8531,6 +8573,30 @@ export interface ApplicationGatewayLoadDistributionPolicy extends SubResource {
   readonly provisioningState?: ProvisioningState;
 }
 
+/** Entra JWT Validation Configuration of an application gateway. */
+export interface ApplicationGatewayEntraJWTValidationConfig extends SubResource {
+  /** Name of the entra jwt validation configuration that is unique within an application gateway. */
+  name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Unauthorized request action. */
+  unAuthorizedRequestAction?: ApplicationGatewayUnAuthorizedRequestAction;
+  /** The Tenant ID of the Microsoft Entra ID application. */
+  tenantId?: string;
+  /** The Client ID of the Microsoft Entra ID application. */
+  clientId?: string;
+  /** List of acceptable audience claims that can be present in the token (aud claim). A maximum of 5 audiences are permitted. */
+  audiences?: string[];
+  /**
+   * The provisioning state of the entra jwt validation configuration resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
 /** PrivateLink Resource of an application gateway. */
 export interface ApplicationGatewayPrivateLinkResource extends SubResource {
   /** Name of the private link resource that is unique within an Application Gateway. */
@@ -8690,6 +8756,31 @@ export interface BastionHostIPConfiguration extends SubResource {
   readonly provisioningState?: ProvisioningState;
   /** Private IP allocation method. */
   privateIPAllocationMethod?: IPAllocationMethod;
+}
+
+/** A DDoS detection rule resource. */
+export interface DdosDetectionRule extends SubResource {
+  /** The name of the DDoS detection rule. */
+  name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * The resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The provisioning state of the DDoS detection rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The detection mode for the DDoS detection rule. */
+  detectionMode?: DdosDetectionMode;
+  /** The traffic detection rule details. */
+  trafficDetectionRule?: TrafficDetectionRule;
 }
 
 /** Endpoint service. */
@@ -10226,6 +10317,8 @@ export interface PrivateEndpoint extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /** Specifies the IP version type for the private IPs of the private endpoint. If not defined, this defaults to IPv4. */
+  ipVersionType?: PrivateEndpointIPVersionType;
   /** A grouping of information about the connection to the remote resource. */
   privateLinkServiceConnections?: PrivateLinkServiceConnection[];
   /** A grouping of information about the connection to the remote resource. Used when the network admin does not have access to approve connections to the remote resource. */
@@ -10255,6 +10348,8 @@ export interface PrivateLinkService extends Resource {
   ipConfigurations?: PrivateLinkServiceIpConfiguration[];
   /** The destination IP address of the private link service. */
   destinationIPAddress?: string;
+  /** The access mode of the private link service. */
+  accessMode?: AccessMode;
   /**
    * An array of references to the network interfaces created for this private link service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -10395,6 +10490,8 @@ export interface FlowLog extends Resource {
   storageId?: string;
   /** Optional field to filter network traffic logs based on SrcIP, SrcPort, DstIP, DstPort, Protocol, Encryption, Direction and Action. If not specified, all network traffic will be logged. */
   enabledFilteringCriteria?: string;
+  /** Optional field to filter network traffic logs based on flow states. Value of this field could be any comma separated combination string of letters B,C,E or D. B represents Begin, when a flow is created. C represents Continue for an ongoing flow generated at every five-minute interval. E represents End, when a flow is terminated. D represents Deny, when a flow is denied. If not specified, all network traffic will be logged. */
+  recordTypes?: string;
   /** Flag to enable/disable flow logging. */
   enabled?: boolean;
   /** Parameters that define the retention policy for flow log. */
@@ -10733,6 +10830,8 @@ export interface ApplicationGateway extends Resource {
   forceFirewallPolicyAssociation?: boolean;
   /** Load distribution policies of the application gateway resource. */
   loadDistributionPolicies?: ApplicationGatewayLoadDistributionPolicy[];
+  /** Entra JWT validation configurations for the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  entraJWTValidationConfigs?: ApplicationGatewayEntraJWTValidationConfig[];
   /** Global Configuration. */
   globalConfiguration?: ApplicationGatewayGlobalConfiguration;
   /**
@@ -10958,6 +11057,10 @@ export interface DdosCustomPolicy extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /** The list of DDoS detection rules associated with the custom policy. */
+  detectionRules?: DdosDetectionRule[];
+  /** The list of frontend IP configurations associated with the custom policy. */
+  frontEndIpConfiguration?: SubResource[];
 }
 
 /** Differentiated Services Code Point configuration for any given network interface */
@@ -11400,6 +11503,8 @@ export interface LoadBalancer extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /** Indicates the scope of the load balancer: external (Public) or internal (Private). */
+  scope?: LoadBalancerScope;
 }
 
 /** The Managed Network resource */
@@ -12000,6 +12105,10 @@ export interface VirtualNetworkGatewayConnection extends Resource {
   expressRouteGatewayBypass?: boolean;
   /** Bypass the ExpressRoute gateway when accessing private-links. ExpressRoute FastPath (expressRouteGatewayBypass) must be enabled. */
   enablePrivateLinkFastPath?: boolean;
+  /** Gateway connection authentication type. */
+  authenticationType?: ConnectionAuthenticationType;
+  /** Certificate Authentication information for a certificate based authentication connection. */
+  certificateAuthentication?: CertificateAuthentication;
 }
 
 /** VirtualRouter Resource. */
@@ -12608,6 +12717,8 @@ export interface NetworkManagerRoutingConfiguration extends ChildResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceGuid?: string;
+  /** Route table usage mode defines which route table will be used by the configuration. If not defined, this will default to 'ManagedOnly'. */
+  routeTableUsageMode?: RouteTableUsageMode;
 }
 
 /** Defines the routing rule collection. */
@@ -13361,6 +13472,42 @@ export interface PublicIPAddressesDeleteHeaders {
 export interface PublicIPAddressesDdosProtectionStatusHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
   location?: string;
+}
+
+/** Defines headers for PublicIPAddresses_reserveCloudServicePublicIpAddress operation. */
+export interface PublicIPAddressesReserveCloudServicePublicIpAddressHeaders {
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for PublicIPAddresses_disassociateCloudServiceReservedPublicIp operation. */
+export interface PublicIPAddressesDisassociateCloudServiceReservedPublicIpHeaders {
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
 }
 
 /** Defines headers for DdosCustomPolicies_delete operation. */
@@ -14138,6 +14285,27 @@ export enum KnownExtendedLocationTypes {
  */
 export type ExtendedLocationTypes = string;
 
+/** Known values of {@link PrivateEndpointIPVersionType} that the service accepts. */
+export enum KnownPrivateEndpointIPVersionType {
+  /** Indicates that the Private IPs of the private endpoint will be IPv4 only. */
+  IPv4 = "IPv4",
+  /** Indicates that the Private IPs of the private endpoint will be IPv6 only. */
+  IPv6 = "IPv6",
+  /** Indicates that the Private IPs of the private endpoint can be both IPv4 and IPv6. */
+  DualStack = "DualStack",
+}
+
+/**
+ * Defines values for PrivateEndpointIPVersionType. \
+ * {@link KnownPrivateEndpointIPVersionType} can be used interchangeably with PrivateEndpointIPVersionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPv4**: Indicates that the Private IPs of the private endpoint will be IPv4 only. \
+ * **IPv6**: Indicates that the Private IPs of the private endpoint will be IPv6 only. \
+ * **DualStack**: Indicates that the Private IPs of the private endpoint can be both IPv4 and IPv6.
+ */
+export type PrivateEndpointIPVersionType = string;
+
 /** Known values of {@link NetworkInterfaceNicType} that the service accepts. */
 export enum KnownNetworkInterfaceNicType {
   /** Standard */
@@ -14155,6 +14323,24 @@ export enum KnownNetworkInterfaceNicType {
  * **Elastic**
  */
 export type NetworkInterfaceNicType = string;
+
+/** Known values of {@link AccessMode} that the service accepts. */
+export enum KnownAccessMode {
+  /** Allows unrestricted access to the private link service. */
+  Default = "Default",
+  /** Limits access to subscriptions which are inside visibility list only. */
+  Restricted = "Restricted",
+}
+
+/**
+ * Defines values for AccessMode. \
+ * {@link KnownAccessMode} can be used interchangeably with AccessMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: Allows unrestricted access to the private link service. \
+ * **Restricted**: Limits access to subscriptions which are inside visibility list only.
+ */
+export type AccessMode = string;
 
 /** Known values of {@link NetworkInterfaceMigrationPhase} that the service accepts. */
 export enum KnownNetworkInterfaceMigrationPhase {
@@ -14639,6 +14825,24 @@ export enum KnownApplicationGatewayClientRevocationOptions {
  */
 export type ApplicationGatewayClientRevocationOptions = string;
 
+/** Known values of {@link ApplicationGatewayClientAuthVerificationModes} that the service accepts. */
+export enum KnownApplicationGatewayClientAuthVerificationModes {
+  /** Strict */
+  Strict = "Strict",
+  /** Passthrough */
+  Passthrough = "Passthrough",
+}
+
+/**
+ * Defines values for ApplicationGatewayClientAuthVerificationModes. \
+ * {@link KnownApplicationGatewayClientAuthVerificationModes} can be used interchangeably with ApplicationGatewayClientAuthVerificationModes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Strict** \
+ * **Passthrough**
+ */
+export type ApplicationGatewayClientAuthVerificationModes = string;
+
 /** Known values of {@link ApplicationGatewayRequestRoutingRuleType} that the service accepts. */
 export enum KnownApplicationGatewayRequestRoutingRuleType {
   /** Basic */
@@ -14720,6 +14924,24 @@ export enum KnownApplicationGatewayLoadDistributionAlgorithm {
  */
 export type ApplicationGatewayLoadDistributionAlgorithm = string;
 
+/** Known values of {@link ApplicationGatewayUnAuthorizedRequestAction} that the service accepts. */
+export enum KnownApplicationGatewayUnAuthorizedRequestAction {
+  /** Deny */
+  Deny = "Deny",
+  /** Allow */
+  Allow = "Allow",
+}
+
+/**
+ * Defines values for ApplicationGatewayUnAuthorizedRequestAction. \
+ * {@link KnownApplicationGatewayUnAuthorizedRequestAction} can be used interchangeably with ApplicationGatewayUnAuthorizedRequestAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Deny** \
+ * **Allow**
+ */
+export type ApplicationGatewayUnAuthorizedRequestAction = string;
+
 /** Known values of {@link ApplicationGatewayBackendHealthServerHealth} that the service accepts. */
 export enum KnownApplicationGatewayBackendHealthServerHealth {
   /** Unknown */
@@ -14794,8 +15016,6 @@ export type ApplicationGatewayWafRuleActionTypes = string;
 
 /** Known values of {@link ApplicationGatewayWafRuleSensitivityTypes} that the service accepts. */
 export enum KnownApplicationGatewayWafRuleSensitivityTypes {
-  /** None */
-  None = "None",
   /** Low */
   Low = "Low",
   /** Medium */
@@ -14809,7 +15029,6 @@ export enum KnownApplicationGatewayWafRuleSensitivityTypes {
  * {@link KnownApplicationGatewayWafRuleSensitivityTypes} can be used interchangeably with ApplicationGatewayWafRuleSensitivityTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
  * **Low** \
  * **Medium** \
  * **High**
@@ -15235,6 +15454,42 @@ export enum KnownCustomIpPrefixType {
  * **Child**
  */
 export type CustomIpPrefixType = string;
+
+/** Known values of {@link DdosDetectionMode} that the service accepts. */
+export enum KnownDdosDetectionMode {
+  /** TrafficThreshold */
+  TrafficThreshold = "TrafficThreshold",
+}
+
+/**
+ * Defines values for DdosDetectionMode. \
+ * {@link KnownDdosDetectionMode} can be used interchangeably with DdosDetectionMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TrafficThreshold**
+ */
+export type DdosDetectionMode = string;
+
+/** Known values of {@link DdosTrafficType} that the service accepts. */
+export enum KnownDdosTrafficType {
+  /** Tcp */
+  Tcp = "Tcp",
+  /** Udp */
+  Udp = "Udp",
+  /** TcpSyn */
+  TcpSyn = "TcpSyn",
+}
+
+/**
+ * Defines values for DdosTrafficType. \
+ * {@link KnownDdosTrafficType} can be used interchangeably with DdosTrafficType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Tcp** \
+ * **Udp** \
+ * **TcpSyn**
+ */
+export type DdosTrafficType = string;
 
 /** Known values of {@link ProtocolType} that the service accepts. */
 export enum KnownProtocolType {
@@ -15959,6 +16214,24 @@ export enum KnownLoadBalancerOutboundRuleProtocol {
  */
 export type LoadBalancerOutboundRuleProtocol = string;
 
+/** Known values of {@link LoadBalancerScope} that the service accepts. */
+export enum KnownLoadBalancerScope {
+  /** Public */
+  Public = "Public",
+  /** Private */
+  Private = "Private",
+}
+
+/**
+ * Defines values for LoadBalancerScope. \
+ * {@link KnownLoadBalancerScope} can be used interchangeably with LoadBalancerScope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Public** \
+ * **Private**
+ */
+export type LoadBalancerScope = string;
+
 /** Known values of {@link EffectiveRouteSource} that the service accepts. */
 export enum KnownEffectiveRouteSource {
   /** Unknown */
@@ -16277,11 +16550,29 @@ export enum KnownScopeConnectionState {
  */
 export type ScopeConnectionState = string;
 
+/** Known values of {@link RouteTableUsageMode} that the service accepts. */
+export enum KnownRouteTableUsageMode {
+  /** Only route tables managed by the routing configuration will be used. */
+  ManagedOnly = "ManagedOnly",
+  /** Use existing user-defined route tables already associated with resources. */
+  UseExisting = "UseExisting",
+}
+
+/**
+ * Defines values for RouteTableUsageMode. \
+ * {@link KnownRouteTableUsageMode} can be used interchangeably with RouteTableUsageMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ManagedOnly**: Only route tables managed by the routing configuration will be used. \
+ * **UseExisting**: Use existing user-defined route tables already associated with resources.
+ */
+export type RouteTableUsageMode = string;
+
 /** Known values of {@link DisableBgpRoutePropagation} that the service accepts. */
 export enum KnownDisableBgpRoutePropagation {
-  /** False */
+  /** BGP route propagation is enabled. */
   False = "False",
-  /** True */
+  /** BGP route propagation is disabled. */
   True = "True",
 }
 
@@ -16290,16 +16581,16 @@ export enum KnownDisableBgpRoutePropagation {
  * {@link KnownDisableBgpRoutePropagation} can be used interchangeably with DisableBgpRoutePropagation,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **False** \
- * **True**
+ * **False**: BGP route propagation is enabled. \
+ * **True**: BGP route propagation is disabled.
  */
 export type DisableBgpRoutePropagation = string;
 
 /** Known values of {@link RoutingRuleDestinationType} that the service accepts. */
 export enum KnownRoutingRuleDestinationType {
-  /** AddressPrefix */
+  /** Destination specified as an IP address prefix (CIDR). */
   AddressPrefix = "AddressPrefix",
-  /** ServiceTag */
+  /** Destination specified as an Azure service tag. */
   ServiceTag = "ServiceTag",
 }
 
@@ -16308,22 +16599,22 @@ export enum KnownRoutingRuleDestinationType {
  * {@link KnownRoutingRuleDestinationType} can be used interchangeably with RoutingRuleDestinationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AddressPrefix** \
- * **ServiceTag**
+ * **AddressPrefix**: Destination specified as an IP address prefix (CIDR). \
+ * **ServiceTag**: Destination specified as an Azure service tag.
  */
 export type RoutingRuleDestinationType = string;
 
 /** Known values of {@link RoutingRuleNextHopType} that the service accepts. */
 export enum KnownRoutingRuleNextHopType {
-  /** Internet */
+  /** Forward traffic to the Internet. */
   Internet = "Internet",
-  /** NoNextHop */
+  /** No next hop will be used. */
   NoNextHop = "NoNextHop",
-  /** VirtualAppliance */
+  /** Forward traffic to a specified virtual appliance IP address. */
   VirtualAppliance = "VirtualAppliance",
-  /** VirtualNetworkGateway */
+  /** Forward traffic to the virtual network gateway. */
   VirtualNetworkGateway = "VirtualNetworkGateway",
-  /** VnetLocal */
+  /** Keep traffic within the local virtual network */
   VnetLocal = "VnetLocal",
 }
 
@@ -16332,11 +16623,11 @@ export enum KnownRoutingRuleNextHopType {
  * {@link KnownRoutingRuleNextHopType} can be used interchangeably with RoutingRuleNextHopType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Internet** \
- * **NoNextHop** \
- * **VirtualAppliance** \
- * **VirtualNetworkGateway** \
- * **VnetLocal**
+ * **Internet**: Forward traffic to the Internet. \
+ * **NoNextHop**: No next hop will be used. \
+ * **VirtualAppliance**: Forward traffic to a specified virtual appliance IP address. \
+ * **VirtualNetworkGateway**: Forward traffic to the virtual network gateway. \
+ * **VnetLocal**: Keep traffic within the local virtual network
  */
 export type RoutingRuleNextHopType = string;
 
@@ -17278,6 +17569,24 @@ export enum KnownIsWorkloadProtected {
  * **True**
  */
 export type IsWorkloadProtected = string;
+
+/** Known values of {@link IsRollback} that the service accepts. */
+export enum KnownIsRollback {
+  /** True */
+  True = "true",
+  /** False */
+  False = "false",
+}
+
+/**
+ * Defines values for IsRollback. \
+ * {@link KnownIsRollback} can be used interchangeably with IsRollback,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **true** \
+ * **false**
+ */
+export type IsRollback = string;
 
 /** Known values of {@link PublicIPPrefixSkuName} that the service accepts. */
 export enum KnownPublicIPPrefixSkuName {
@@ -18350,6 +18659,24 @@ export enum KnownFailoverTestStatusForSingleTest {
  */
 export type FailoverTestStatusForSingleTest = string;
 
+/** Known values of {@link ConnectionAuthenticationType} that the service accepts. */
+export enum KnownConnectionAuthenticationType {
+  /** Pre-shared key authentication method for VPN gateway connections. */
+  PSK = "PSK",
+  /** Certificate-based authentication method for VPN gateway connections. */
+  Certificate = "Certificate",
+}
+
+/**
+ * Defines values for ConnectionAuthenticationType. \
+ * {@link KnownConnectionAuthenticationType} can be used interchangeably with ConnectionAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PSK**: Pre-shared key authentication method for VPN gateway connections. \
+ * **Certificate**: Certificate-based authentication method for VPN gateway connections.
+ */
+export type ConnectionAuthenticationType = string;
+
 /** Known values of {@link VirtualNetworkGatewayMigrationType} that the service accepts. */
 export enum KnownVirtualNetworkGatewayMigrationType {
   /** Indicates that it is a migration process from basic IP CSES to standard IP VMSS. */
@@ -19213,8 +19540,6 @@ export type ActionType = string;
 
 /** Known values of {@link SensitivityType} that the service accepts. */
 export enum KnownSensitivityType {
-  /** None */
-  None = "None",
   /** Low */
   Low = "Low",
   /** Medium */
@@ -19228,7 +19553,6 @@ export enum KnownSensitivityType {
  * {@link KnownSensitivityType} can be used interchangeably with SensitivityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
  * **Low** \
  * **Medium** \
  * **High**
@@ -20498,6 +20822,30 @@ export interface PublicIPAddressesDdosProtectionStatusOptionalParams
 
 /** Contains response data for the ddosProtectionStatus operation. */
 export type PublicIPAddressesDdosProtectionStatusResponse = PublicIpDdosProtectionStatusResult;
+
+/** Optional parameters. */
+export interface PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the reserveCloudServicePublicIpAddress operation. */
+export type PublicIPAddressesReserveCloudServicePublicIpAddressResponse = PublicIPAddress;
+
+/** Optional parameters. */
+export interface PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the disassociateCloudServiceReservedPublicIp operation. */
+export type PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse = PublicIPAddress;
 
 /** Optional parameters. */
 export interface PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams

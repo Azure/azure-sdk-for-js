@@ -47,6 +47,10 @@ export function getFileGenericCredential(): FileStorageSharedKeyCredential {
   return new FileStorageSharedKeyCredential(accountName, accountKey);
 }
 
+export function parseJwt(token: string): any {
+  return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
+}
+
 export function getGenericCredential(accountType: string): StorageSharedKeyCredential {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;

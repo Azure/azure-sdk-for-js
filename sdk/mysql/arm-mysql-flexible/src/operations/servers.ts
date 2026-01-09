@@ -349,6 +349,7 @@ export class ServersImpl implements Servers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri",
     });
     await poller.poll();
     return poller;

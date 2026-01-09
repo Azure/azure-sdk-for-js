@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to migrate the backups under volume to backup vault
  *
  * @summary migrate the backups under volume to backup vault
- * x-ms-original-file: 2025-07-01-preview/BackupsUnderVolume_Migrate.json
+ * x-ms-original-file: 2025-09-01-preview/BackupsUnderVolume_Migrate.json
  */
 async function backupsUnderVolumeMigrate(): Promise<void> {
   const credential = new DefaultAzureCredential();

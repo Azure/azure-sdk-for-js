@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch a Backup under the Backup Vault
  *
  * @summary patch a Backup under the Backup Vault
- * x-ms-original-file: 2025-07-01-preview/BackupsUnderBackupVault_Update.json
+ * x-ms-original-file: 2025-09-01-preview/BackupsUnderBackupVault_Update.json
  */
 async function backupsUnderBackupVaultUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

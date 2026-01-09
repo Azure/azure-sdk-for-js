@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { BlobSASPermissions } from "./BlobSASPermissions.js";
-import type { UserDelegationKey } from "../BlobServiceClient.js";
 import { ContainerSASPermissions } from "./ContainerSASPermissions.js";
-import { StorageSharedKeyCredential } from "@azure/storage-common";
-import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential.js";
+import { StorageSharedKeyCredential, UserDelegationKey } from "@azure/storage-common";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
 import type { SASProtocol } from "./SASQueryParameters.js";
 import { SASQueryParameters } from "./SASQueryParameters.js";
 import { SERVICE_VERSION } from "../utils/constants.js";
 import { truncatedISO8061Date } from "../utils/utils.common.js";
+import { UserDelegationKeyCredential } from "@azure/storage-common";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -77,6 +76,13 @@ export interface BlobSASSignatureValues {
    * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
+
+  /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */
+  delegatedUserObjectId?: string;
 
   /**
    * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
@@ -1160,7 +1166,7 @@ function generateBlobSASQueryParametersUDK20250705(
     undefined, // agentObjectId
     blobSASSignatureValues.correlationId,
     undefined, // SignedKeyDelegatedUserTenantId, will be added in a future release.
-    undefined, // SignedDelegatedUserObjectId, will be added in future release.
+    blobSASSignatureValues.delegatedUserObjectId,
     blobSASSignatureValues.ipRange ? ipRangeToString(blobSASSignatureValues.ipRange) : "",
     blobSASSignatureValues.protocol ? blobSASSignatureValues.protocol : "",
     blobSASSignatureValues.version,
@@ -1197,6 +1203,7 @@ function generateBlobSASQueryParametersUDK20250705(
       blobSASSignatureValues.preauthorizedAgentObjectId,
       blobSASSignatureValues.correlationId,
       blobSASSignatureValues.encryptionScope,
+      blobSASSignatureValues.delegatedUserObjectId,
     ),
     stringToSign: stringToSign,
   };

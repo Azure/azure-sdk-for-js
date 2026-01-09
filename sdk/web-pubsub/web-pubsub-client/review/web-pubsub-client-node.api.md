@@ -41,6 +41,10 @@ export type DownstreamMessageType =
 */
 "ack"
 /**
+* Type for PongMessage
+*/
+| "pong"
+/**
 * Type for ConnectedMessage
 */
 | "connected"
@@ -134,6 +138,16 @@ export interface OnStoppedArgs {
 }
 
 // @public
+export interface PingMessage extends WebPubSubMessageBase {
+    readonly kind: "ping";
+}
+
+// @public
+export interface PongMessage extends WebPubSubMessageBase {
+    readonly kind: "pong";
+}
+
+// @public
 export type RetryMode = "Exponential" | "Fixed";
 
 // @public
@@ -224,7 +238,11 @@ export type UpstreamMessageType =
 /**
 * Type for SequenceAckMessage
 */
-| "sequenceAck";
+| "sequenceAck"
+/**
+* Type for PingMessage
+*/
+| "ping";
 
 // @public
 export class WebPubSubClient {
@@ -259,6 +277,8 @@ export interface WebPubSubClientCredential {
 export interface WebPubSubClientOptions {
     autoReconnect?: boolean;
     autoRejoinGroups?: boolean;
+    keepAliveIntervalInMs?: number;
+    keepAliveTimeoutInMs?: number;
     messageRetryOptions?: WebPubSubRetryOptions;
     protocol?: WebPubSubClientProtocol;
     reconnectRetryOptions?: WebPubSubRetryOptions;
@@ -298,7 +318,7 @@ export const WebPubSubJsonProtocol: () => WebPubSubClientProtocol;
 export const WebPubSubJsonReliableProtocol: () => WebPubSubClientProtocol;
 
 // @public
-export type WebPubSubMessage = GroupDataMessage | ServerDataMessage | JoinGroupMessage | LeaveGroupMessage | ConnectedMessage | DisconnectedMessage | SendToGroupMessage | SendEventMessage | SequenceAckMessage | AckMessage;
+export type WebPubSubMessage = GroupDataMessage | ServerDataMessage | JoinGroupMessage | LeaveGroupMessage | ConnectedMessage | DisconnectedMessage | SendToGroupMessage | SendEventMessage | SequenceAckMessage | PingMessage | AckMessage | PongMessage;
 
 // @public
 export interface WebPubSubMessageBase {

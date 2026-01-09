@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update the specified Backup Vault in the NetApp account
  *
  * @summary create or update the specified Backup Vault in the NetApp account
- * x-ms-original-file: 2025-07-01-preview/BackupVaults_Create.json
+ * x-ms-original-file: 2025-09-01-preview/BackupVaults_Create.json
  */
 async function backupVaultCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

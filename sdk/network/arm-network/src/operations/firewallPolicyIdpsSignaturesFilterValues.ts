@@ -16,9 +16,7 @@ import type {
 } from "../models/index.js";
 
 /** Class containing FirewallPolicyIdpsSignaturesFilterValues operations. */
-export class FirewallPolicyIdpsSignaturesFilterValuesImpl
-  implements FirewallPolicyIdpsSignaturesFilterValues
-{
+export class FirewallPolicyIdpsSignaturesFilterValuesImpl implements FirewallPolicyIdpsSignaturesFilterValues {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -62,7 +60,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters23,
+  requestBody: Parameters.parameters25,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

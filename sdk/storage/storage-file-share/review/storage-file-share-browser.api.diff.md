@@ -17,8 +17,6 @@ For the complete API surface, see the corresponding -node.api.md file.
 -import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 +import type { HttpHeadersLike } from '@azure/core-http-compat';
  import type { KeepAliveOptions } from '@azure/core-http-compat';
--import { NodeJSReadableStream } from '@azure/storage-common';
-+import type { NodeJSReadableStream } from '@azure/storage-common';
  import type { OperationTracingOptions } from '@azure/core-tracing';
  import type { PagedAsyncIterableIterator } from '@azure/core-paging';
  import type { ProxySettings } from '@azure/core-rest-pipeline';
@@ -39,6 +37,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  import type { TokenCredential } from '@azure/core-auth';
  import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
  import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
+ import { UserDelegationKey } from '@azure/storage-common';
 -import { WebResourceLike as WebResource } from '@azure/core-http-compat';
 +import type { WebResourceLike } from '@azure/core-http-compat';
  
@@ -252,7 +251,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -945,36 +863,8 @@
+@@ -945,37 +863,8 @@
      fileItems: FileItem[];
  }
  
@@ -273,6 +272,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    contentEncoding?: string;
 -    contentLanguage?: string;
 -    contentType?: string;
+-    delegatedUserObjectId?: string;
 -    expiresOn?: Date;
 -    filePath?: string;
 -    identifier?: string;
@@ -289,7 +289,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      cors?: CorsRule[];
      hourMetrics?: Metrics;
      minuteMetrics?: Metrics;
-@@ -1141,24 +1031,15 @@
+@@ -1142,27 +1031,15 @@
  
  // @public
  export interface FileUploadStreamOptions extends CommonOptions {
@@ -304,7 +304,10 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
 -export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 -
--// @public
+-// @public (undocumented)
+-export function generateFileSASQueryParameters(fileSASSignatureValues: FileSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
+-
+-// @public (undocumented)
 -export function generateFileSASQueryParameters(fileSASSignatureValues: FileSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 -
 -// @public
@@ -315,7 +318,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      // (undocumented)
      accessRightList?: ShareFileHandleAccessRights[];
      clientIp: string;
-@@ -1177,18 +1058,12 @@
+@@ -1181,18 +1058,12 @@
      scheme: string;
      value: string;
  }
@@ -336,7 +339,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -1303,14 +1178,8 @@
+@@ -1307,14 +1178,8 @@
  
  // @public
  export const logger: AzureLogger;
@@ -351,7 +354,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface Metrics {
      enabled: boolean;
      includeAPIs?: boolean;
-@@ -1324,25 +1193,15 @@
+@@ -1328,23 +1193,15 @@
  // @public
  export function newPipeline(credential?: Credential_2 | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
  
@@ -368,8 +371,6 @@ For the complete API surface, see the corresponding -node.api.md file.
 -// @public
  export type NfsFileType = string;
  
--export { NodeJSReadableStream }
--
  // @public
  export type OwnerCopyMode = "source" | "override";
  
@@ -379,7 +380,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export function parseOctalFileMode(input?: string): NfsFileMode | undefined;
  
  // @public
-@@ -1372,15 +1231,8 @@
+@@ -1374,15 +1231,8 @@
      shareTokenIntent?: ShareTokenIntent;
  }
  
@@ -395,9 +396,9 @@ For the complete API surface, see the corresponding -node.api.md file.
      count?: number;
      offset: number;
  }
-@@ -1397,15 +1249,8 @@
+@@ -1399,15 +1249,8 @@
      blobBody?: Promise<Blob>;
-     readableStreamBody?: NodeJSReadableStream;
+     readableStreamBody?: NodeJS.ReadableStream;
  };
  
 -export { RequestPolicy as IHttpClient }
@@ -411,7 +412,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface ResponseLike {
      _response: HttpResponse;
  }
-@@ -1440,36 +1285,8 @@
+@@ -1442,37 +1285,8 @@
      start: string;
  }
  
@@ -423,12 +424,13 @@ For the complete API surface, see the corresponding -node.api.md file.
 -
 -// @public
 -export class SASQueryParameters {
--    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string);
+-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, delegatedUserObjectId?: string);
 -    readonly cacheControl?: string;
 -    readonly contentDisposition?: string;
 -    readonly contentEncoding?: string;
 -    readonly contentLanguage?: string;
 -    readonly contentType?: string;
+-    readonly delegatedUserObjectId?: string;
 -    readonly expiresOn?: Date;
 -    readonly identifier?: string;
 -    get ipRange(): SasIPRange | undefined;
@@ -448,7 +450,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      httpClient?: RequestPolicy;
      requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
  }
-@@ -1625,8 +1442,9 @@
+@@ -1649,8 +1463,9 @@
      };
      paidBurstingEnabled?: boolean;
      paidBurstingMaxBandwidthMibps?: number;
@@ -458,7 +460,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      quota?: number;
      rootSquash?: ShareRootSquash;
      shareProvisionedBandwidthMibps?: number;
-@@ -1779,16 +1597,16 @@
+@@ -1805,16 +1620,16 @@
          destinationFileClient: ShareFileClient;
          fileRenameResponse: FileRenameResponse;
      }>;
@@ -477,7 +479,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
      uploadSeekableBlob(blobFactory: (offset: number, size: number) => Blob, size: number, options?: FileParallelUploadOptions): Promise<void>;
      uploadStream(stream: Readable, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
-@@ -1807,8 +1625,9 @@
+@@ -1833,8 +1648,9 @@
  }
  
  // @public
@@ -487,7 +489,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -2033,33 +1852,16 @@
+@@ -2069,14 +1885,8 @@
      rootSquash?: ShareRootSquash;
  }
  
@@ -499,9 +501,10 @@ For the complete API surface, see the corresponding -node.api.md file.
 -
 -// @public
  export interface ShareProtocolSettings {
+     nfs?: ShareNfsSettings;
      smb?: ShareSmbSettings;
  }
- 
+@@ -2084,19 +1894,8 @@
  // @public
  export type ShareRootSquash = "NoRootSquash" | "RootSquash" | "AllSquash";
  
@@ -521,7 +524,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(url: string, credential?: Credential_2 | TokenCredential, options?: ShareClientOptions);
      constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
      createShare(shareName: string, options?: ShareCreateOptions): Promise<{
-@@ -2067,8 +1869,9 @@
+@@ -2104,8 +1903,9 @@
          shareClient: ShareClient;
      }>;
      deleteShare(shareName: string, options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse>;
@@ -531,7 +534,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
      getShareClient(shareName: string): ShareClient;
-@@ -2205,16 +2008,8 @@
+@@ -2249,16 +2049,8 @@
  
  export { StorageBrowserPolicyFactory }
  
@@ -548,7 +551,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      audience?: string;
      httpClient?: RequestPolicy;
      keepAliveOptions?: KeepAliveOptions;
-@@ -2230,12 +2025,8 @@
+@@ -2274,12 +2066,8 @@
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }
@@ -561,10 +564,10 @@ For the complete API surface, see the corresponding -node.api.md file.
  export type TimeNowType = "now";
  
  // @public
-@@ -2246,10 +2037,8 @@
- 
- // @public
- export function toSymbolicFileMode(input?: NfsFileMode): string | undefined;
+@@ -2303,10 +2091,8 @@
+     signedVersion: string;
+     value: string;
+ }
  
 -export { WebResource }
 -

@@ -33,6 +33,7 @@ import {
   breakReplicationRequestSerializer,
   reestablishReplicationRequestSerializer,
   replicationStatusDeserializer,
+  listReplicationsRequestSerializer,
   _listReplicationsDeserializer,
   authorizeRequestSerializer,
   peerClusterForVolumeMigrationRequestSerializer,
@@ -114,7 +115,7 @@ export function _listQuotaReportSend(
 export async function _listQuotaReportDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ListQuotaReportResponse> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -133,7 +134,7 @@ export function listQuotaReport(
   volumeName: string,
   options: VolumesListQuotaReportOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ListQuotaReportResponse>, ListQuotaReportResponse> {
-  return getLongRunningPoller(context, _listQuotaReportDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _listQuotaReportDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -168,7 +169,7 @@ export function _revertRelocationSend(
 }
 
 export async function _revertRelocationDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -187,7 +188,7 @@ export function revertRelocation(
   volumeName: string,
   options: VolumesRevertRelocationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _revertRelocationDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _revertRelocationDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -222,7 +223,7 @@ export function _finalizeRelocationSend(
 }
 
 export async function _finalizeRelocationDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -241,7 +242,7 @@ export function finalizeRelocation(
   volumeName: string,
   options: VolumesFinalizeRelocationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _finalizeRelocationDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _finalizeRelocationDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -287,7 +288,7 @@ export function _relocateSend(
 }
 
 export async function _relocateDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -306,7 +307,7 @@ export function relocate(
   volumeName: string,
   options: VolumesRelocateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _relocateDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _relocateDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -346,7 +347,7 @@ export function _poolChangeSend(
 }
 
 export async function _poolChangeDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -366,7 +367,7 @@ export function poolChange(
   body: PoolChangeRequest,
   options: VolumesPoolChangeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _poolChangeDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _poolChangeDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -405,7 +406,7 @@ export function _performReplicationTransferSend(
 export async function _performReplicationTransferDeserialize(
   result: PathUncheckedResponse,
 ): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -426,20 +427,25 @@ export function performReplicationTransfer(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _performReplicationTransferDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _performReplicationTransferSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _performReplicationTransferDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _performReplicationTransferSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _finalizeExternalReplicationSend(
@@ -472,7 +478,7 @@ export function _finalizeExternalReplicationSend(
 export async function _finalizeExternalReplicationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -493,20 +499,25 @@ export function finalizeExternalReplication(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _finalizeExternalReplicationDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _finalizeExternalReplicationSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _finalizeExternalReplicationDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _finalizeExternalReplicationSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _authorizeExternalReplicationSend(
@@ -545,7 +556,7 @@ export function _authorizeExternalReplicationSend(
 export async function _authorizeExternalReplicationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SvmPeerCommandResponse> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -566,20 +577,25 @@ export function authorizeExternalReplication(
     requestOptions: {},
   },
 ): PollerLike<OperationState<SvmPeerCommandResponse>, SvmPeerCommandResponse> {
-  return getLongRunningPoller(context, _authorizeExternalReplicationDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _authorizeExternalReplicationSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<SvmPeerCommandResponse>, SvmPeerCommandResponse>;
+  return getLongRunningPoller(
+    context,
+    _authorizeExternalReplicationDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _authorizeExternalReplicationSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<SvmPeerCommandResponse>, SvmPeerCommandResponse>;
 }
 
 export function _peerExternalClusterSend(
@@ -619,7 +635,7 @@ export function _peerExternalClusterSend(
 export async function _peerExternalClusterDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ClusterPeerCommandResponse> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -639,7 +655,7 @@ export function peerExternalCluster(
   body: PeerClusterForVolumeMigrationRequest,
   options: VolumesPeerExternalClusterOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ClusterPeerCommandResponse>, ClusterPeerCommandResponse> {
-  return getLongRunningPoller(context, _peerExternalClusterDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _peerExternalClusterDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -686,7 +702,7 @@ export function _reInitializeReplicationSend(
 export async function _reInitializeReplicationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -707,7 +723,7 @@ export function reInitializeReplication(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _reInitializeReplicationDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _reInitializeReplicationDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -756,7 +772,7 @@ export function _authorizeReplicationSend(
 export async function _authorizeReplicationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -776,7 +792,7 @@ export function authorizeReplication(
   body: AuthorizeRequest,
   options: VolumesAuthorizeReplicationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _authorizeReplicationDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _authorizeReplicationDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -819,7 +835,7 @@ export function _deleteReplicationSend(
 }
 
 export async function _deleteReplicationDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -838,7 +854,7 @@ export function deleteReplication(
   volumeName: string,
   options: VolumesDeleteReplicationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _deleteReplicationDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _deleteReplicationDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -880,7 +896,7 @@ export function _resyncReplicationSend(
 }
 
 export async function _resyncReplicationDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -899,7 +915,7 @@ export function resyncReplication(
   volumeName: string,
   options: VolumesResyncReplicationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _resyncReplicationDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _resyncReplicationDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -939,10 +955,12 @@ export function _listReplicationsSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
     headers: {
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
+    body: !options["body"] ? options["body"] : listReplicationsRequestSerializer(options["body"]),
   });
 }
 
@@ -1075,7 +1093,7 @@ export function _reestablishReplicationSend(
 export async function _reestablishReplicationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -1095,7 +1113,7 @@ export function reestablishReplication(
   body: ReestablishReplicationRequest,
   options: VolumesReestablishReplicationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _reestablishReplicationDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _reestablishReplicationDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -1142,7 +1160,7 @@ export function _breakReplicationSend(
 }
 
 export async function _breakReplicationDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -1161,7 +1179,7 @@ export function breakReplication(
   volumeName: string,
   options: VolumesBreakReplicationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _breakReplicationDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _breakReplicationDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -1209,7 +1227,7 @@ export function _listGetGroupIdListForLdapUserSend(
 export async function _listGetGroupIdListForLdapUserDeserialize(
   result: PathUncheckedResponse,
 ): Promise<GetGroupIdListForLdapUserResponse> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -1234,21 +1252,26 @@ export function listGetGroupIdListForLdapUser(
   OperationState<GetGroupIdListForLdapUserResponse>,
   GetGroupIdListForLdapUserResponse
 > {
-  return getLongRunningPoller(context, _listGetGroupIdListForLdapUserDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _listGetGroupIdListForLdapUserSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        body,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<
+  return getLongRunningPoller(
+    context,
+    _listGetGroupIdListForLdapUserDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _listGetGroupIdListForLdapUserSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<
     OperationState<GetGroupIdListForLdapUserResponse>,
     GetGroupIdListForLdapUserResponse
   >;
@@ -1284,7 +1307,7 @@ export function _breakFileLocksSend(
 }
 
 export async function _breakFileLocksDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -1303,7 +1326,7 @@ export function breakFileLocks(
   volumeName: string,
   options: VolumesBreakFileLocksOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _breakFileLocksDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _breakFileLocksDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -1346,7 +1369,7 @@ export function _splitCloneFromParentSend(
 export async function _splitCloneFromParentDeserialize(
   result: PathUncheckedResponse,
 ): Promise<Volume> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -1365,7 +1388,7 @@ export function splitCloneFromParent(
   volumeName: string,
   options: VolumesSplitCloneFromParentOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Volume>, Volume> {
-  return getLongRunningPoller(context, _splitCloneFromParentDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _splitCloneFromParentDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -1407,7 +1430,7 @@ export function _resetCifsPasswordSend(
 }
 
 export async function _resetCifsPasswordDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -1426,7 +1449,7 @@ export function resetCifsPassword(
   volumeName: string,
   options: VolumesResetCifsPasswordOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _resetCifsPasswordDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _resetCifsPasswordDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -1473,7 +1496,7 @@ export function _revertSend(
 }
 
 export async function _revertDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -1493,7 +1516,7 @@ export function revert(
   body: VolumeRevert,
   options: VolumesRevertOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _revertDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _revertDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -1538,7 +1561,7 @@ export function _populateAvailabilityZoneSend(
 export async function _populateAvailabilityZoneDeserialize(
   result: PathUncheckedResponse,
 ): Promise<Volume> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -1559,20 +1582,25 @@ export function populateAvailabilityZone(
     requestOptions: {},
   },
 ): PollerLike<OperationState<Volume>, Volume> {
-  return getLongRunningPoller(context, _populateAvailabilityZoneDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _populateAvailabilityZoneSend(
-        context,
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<Volume>, Volume>;
+  return getLongRunningPoller(
+    context,
+    _populateAvailabilityZoneDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _populateAvailabilityZoneSend(
+          context,
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<Volume>, Volume>;
 }
 
 export function _listSend(
@@ -1659,7 +1687,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
+  const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -1683,7 +1711,7 @@ export function $delete(
   volumeName: string,
   options: VolumesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -1727,7 +1755,7 @@ export function _updateSend(
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Volume> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -1747,7 +1775,7 @@ export function update(
   body: VolumePatch,
   options: VolumesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Volume>, Volume> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

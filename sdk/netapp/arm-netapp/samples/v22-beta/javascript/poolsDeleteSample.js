@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete the specified capacity pool
  *
  * @summary delete the specified capacity pool
- * x-ms-original-file: 2025-07-01-preview/Pools_Delete.json
+ * x-ms-original-file: 2025-09-01-preview/Pools_Delete.json
  */
 async function poolsDelete() {
   const credential = new DefaultAzureCredential();

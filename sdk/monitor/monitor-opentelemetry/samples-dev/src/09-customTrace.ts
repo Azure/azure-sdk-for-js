@@ -40,7 +40,7 @@ export class CustomTraceExample {
     }
   }
 
-  private static async generateTraces(trace: any, context: any): Promise<void> {
+  private static generateTraces(trace: any, context: any): void {
     // Get Tracer and create Span
     const tracer = trace.getTracer("testTracer");
     // Create a span. A span must be closed.

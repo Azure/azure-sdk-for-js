@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all application type version resources created or in the process of being created in the Service Fabric managed application type name resource.
  *
  * @summary gets all application type version resources created or in the process of being created in the Service Fabric managed application type name resource.
- * x-ms-original-file: 2025-06-01-preview/ApplicationTypeVersionListOperation_example.json
+ * x-ms-original-file: 2025-10-01-preview/ApplicationTypeVersionListOperation_example.json
  */
 async function getAListOfApplicationTypeVersionResources(): Promise<void> {
   const credential = new DefaultAzureCredential();

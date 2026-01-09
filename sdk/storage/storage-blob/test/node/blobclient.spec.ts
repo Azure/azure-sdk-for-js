@@ -8,6 +8,7 @@ import { isNodeLike } from "@azure/core-util";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 
 import type { StorageSharedKeyCredential } from "@azure/storage-common";
+import { SERVICE_VERSION } from "../../src/utils/constants.js";
 
 import type {
   BlobImmutabilityPolicyMode,
@@ -20,6 +21,7 @@ import {
   BlobSASPermissions,
   generateBlobSASQueryParameters,
   newPipeline,
+  SASProtocol,
 } from "../../src/index.js";
 import {
   base64encode,
@@ -34,6 +36,7 @@ import {
   getStorageAccessTokenWithDefaultCredential,
   getTokenBSUWithDefaultCredential,
   getUniqueName,
+  parseJwt,
   recorderEnvSetup,
 } from "../utils/index.js";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
@@ -42,6 +45,7 @@ import { streamToBuffer3 } from "../../src/utils/utils.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 import { ShareClient, ShareServiceClient } from "@azure/storage-file-share";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("BlobClient Node.js only", () => {
   let containerName: string;
@@ -329,6 +333,68 @@ describe("BlobClient Node.js only", () => {
     const accessToken = await getStorageAccessTokenWithDefaultCredential();
 
     const result = await newBlobClient.syncCopyFromURL(blobClient.url, {
+      sourceAuthorization: {
+        scheme: "Bearer",
+        value: accessToken!.token,
+      },
+    });
+    assert.isDefined(result.copyId);
+
+    const properties1 = await blobClient.getProperties();
+    const properties2 = await newBlobClient.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+  });
+
+  it("syncCopyFromURL - source delegation sas with bearer token and destination account key", async (ctx) => {
+    if (!isLiveMode()) {
+      // The token is sanitized in recording, we cannot get the object id from it.
+      ctx.skip();
+    }
+
+    let blobServiceClientWithToken: BlobServiceClient;
+    try {
+      blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
+      ctx.skip();
+    }
+
+    const credential = createTestCredential();
+    const token = (await credential.getToken("https://storage.azure.com/.default"))?.token;
+    const jwtObj = parseJwt(token!);
+
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
+    const sharedKeyCredential = containerClient.credential as StorageSharedKeyCredential;
+
+    const accountName = sharedKeyCredential.accountName;
+
+    const delegationSAS = generateBlobSASQueryParameters(
+      {
+        containerName: containerClient.containerName,
+        blobName: blobClient.name,
+        expiresOn: tmr,
+        permissions: BlobSASPermissions.parse("racwd"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        version: SERVICE_VERSION,
+        delegatedUserObjectId: jwtObj.oid,
+      },
+      userDelegationKey,
+      accountName,
+    );
+
+    const newBlobName = recorder.variable("copiedblob", getUniqueName("copiedblob"));
+    const newBlobClient = containerClient.getBlobClient(newBlobName);
+
+    const accessToken = await getStorageAccessTokenWithDefaultCredential();
+
+    const result = await newBlobClient.syncCopyFromURL(`${blobClient.url}?${delegationSAS}`, {
       sourceAuthorization: {
         scheme: "Bearer",
         value: accessToken!.token,

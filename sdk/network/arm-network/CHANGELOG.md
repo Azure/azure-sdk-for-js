@@ -1,5 +1,69 @@
 # Release History
 
+## 35.0.0 (2025-11-19)
+
+### Features Added
+  - Added operation PublicIPAddresses.beginDisassociateCloudServiceReservedPublicIp
+  - Added operation PublicIPAddresses.beginDisassociateCloudServiceReservedPublicIpAndWait
+  - Added operation PublicIPAddresses.beginReserveCloudServicePublicIpAddress
+  - Added operation PublicIPAddresses.beginReserveCloudServicePublicIpAddressAndWait
+  - Added Interface ApplicationGatewayEntraJWTValidationConfig
+  - Added Interface DdosDetectionRule
+  - Added Interface DisassociateCloudServicePublicIpRequest
+  - Added Interface PublicIPAddressesDisassociateCloudServiceReservedPublicIpHeaders
+  - Added Interface PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams
+  - Added Interface PublicIPAddressesReserveCloudServicePublicIpAddressHeaders
+  - Added Interface PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams
+  - Added Interface ReserveCloudServicePublicIpAddressRequest
+  - Added Interface TrafficDetectionRule
+  - Interface ApplicationGateway has a new optional parameter entraJWTValidationConfigs
+  - Interface ApplicationGatewayClientAuthConfiguration has a new optional parameter verifyClientAuthMode
+  - Interface ApplicationGatewayRequestRoutingRule has a new optional parameter entraJWTValidationConfig
+  - Interface DdosCustomPolicy has a new optional parameter detectionRules
+  - Interface DdosCustomPolicy has a new optional parameter frontEndIpConfiguration
+  - Interface FlowLog has a new optional parameter recordTypes
+  - Interface FlowLogInformation has a new optional parameter recordTypes
+  - Interface PrivateEndpoint has a new optional parameter ipVersionType
+  - Added Type Alias ApplicationGatewayClientAuthVerificationModes
+  - Added Type Alias ApplicationGatewayUnAuthorizedRequestAction
+  - Added Type Alias DdosDetectionMode
+  - Added Type Alias DdosTrafficType
+  - Added Type Alias IsRollback
+  - Added Type Alias PrivateEndpointIPVersionType
+  - Added Type Alias PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse
+  - Added Type Alias PublicIPAddressesReserveCloudServicePublicIpAddressResponse
+  - Added Enum KnownApplicationGatewayClientAuthVerificationModes
+  - Added Enum KnownApplicationGatewayUnAuthorizedRequestAction
+  - Added Enum KnownDdosDetectionMode
+  - Added Enum KnownDdosTrafficType
+  - Added Enum KnownIsRollback
+  - Added Enum KnownPrivateEndpointIPVersionType
+
+### Breaking Changes
+  - Enum KnownApplicationGatewayWafRuleSensitivityTypes no longer has value None
+  - Enum KnownSensitivityType no longer has value None
+
+## 34.2.0 (2025-11-12)
+
+### Features Added
+  - Added Interface CertificateAuthentication
+  - Interface ApplicationGatewayBackendSettings has a new optional parameter enableL4ClientIpPreservation
+  - Interface ApplicationGatewayOnDemandProbe has a new optional parameter enableProbeProxyProtocolHeader
+  - Interface ApplicationGatewayProbe has a new optional parameter enableProbeProxyProtocolHeader
+  - Interface LoadBalancer has a new optional parameter scope
+  - Interface NetworkManagerRoutingConfiguration has a new optional parameter routeTableUsageMode
+  - Interface PrivateLinkService has a new optional parameter accessMode
+  - Interface VirtualNetworkGatewayConnection has a new optional parameter authenticationType
+  - Interface VirtualNetworkGatewayConnection has a new optional parameter certificateAuthentication
+  - Added Type Alias AccessMode
+  - Added Type Alias ConnectionAuthenticationType
+  - Added Type Alias LoadBalancerScope
+  - Added Type Alias RouteTableUsageMode
+  - Added Enum KnownAccessMode
+  - Added Enum KnownConnectionAuthenticationType
+  - Added Enum KnownLoadBalancerScope
+  - Added Enum KnownRouteTableUsageMode
+
 ## 34.1.0 (2025-10-16)
 
 ### Features Added

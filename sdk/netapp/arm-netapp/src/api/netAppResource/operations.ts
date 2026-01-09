@@ -70,7 +70,7 @@ export function _updateNetworkSiblingSetSend(
 export async function _updateNetworkSiblingSetDeserialize(
   result: PathUncheckedResponse,
 ): Promise<NetworkSiblingSet> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -89,7 +89,7 @@ export function updateNetworkSiblingSet(
     requestOptions: {},
   },
 ): PollerLike<OperationState<NetworkSiblingSet>, NetworkSiblingSet> {
-  return getLongRunningPoller(context, _updateNetworkSiblingSetDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _updateNetworkSiblingSetDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateNetworkSiblingSetSend(context, location, body, options),

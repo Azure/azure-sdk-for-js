@@ -1462,8 +1462,7 @@ export interface SqlServerDatabaseScanRuleset extends ScanRulesetParent {
 }
 
 /** Azure SQL db managed instance scan ruleset properties. */
-export interface AzureSqlDatabaseManagedInstanceScanRulesetProperties
-  extends ScanRulesetProperties {}
+export interface AzureSqlDatabaseManagedInstanceScanRulesetProperties extends ScanRulesetProperties {}
 
 /** Azure SQL db managed instance scan ruleset. */
 export interface AzureSqlDatabaseManagedInstanceScanRuleset extends ScanRulesetParent {
@@ -1684,8 +1683,7 @@ export interface ExpandingResourceScanPropertiesResourceTypes {
 }
 
 /** Azure subscription credential scan properties. */
-export interface AzureSubscriptionCredentialScanProperties
-  extends ExpandingResourceScanProperties {}
+export interface AzureSubscriptionCredentialScanProperties extends ExpandingResourceScanProperties {}
 
 /** Azure subscription credential scan. */
 export interface AzureSubscriptionCredentialScan extends ScanParent {
@@ -1705,8 +1703,7 @@ export interface AzureSubscriptionMsiScan extends ScanParent {
 }
 
 /** Azure resource group credential scan properties. */
-export interface AzureResourceGroupCredentialScanProperties
-  extends ExpandingResourceScanProperties {}
+export interface AzureResourceGroupCredentialScanProperties extends ExpandingResourceScanProperties {}
 
 /** Azure resource group credential scan. */
 export interface AzureResourceGroupCredentialScan extends ScanParent {
@@ -1726,8 +1723,7 @@ export interface AzureResourceGroupMsiScan extends ScanParent {
 }
 
 /** Azure synapse workspace credential scan properties. */
-export interface AzureSynapseWorkspaceCredentialScanProperties
-  extends ExpandingResourceScanProperties {}
+export interface AzureSynapseWorkspaceCredentialScanProperties extends ExpandingResourceScanProperties {}
 
 /** Azure synapse workspace credential scan. */
 export interface AzureSynapseWorkspaceCredentialScan extends ScanParent {
@@ -1944,8 +1940,7 @@ export interface AzureSqlCredentialScanProperties extends AzureSqlScanProperties
 }
 
 /** Azure SQL database credential scan properties. */
-export interface AzureSqlDatabaseCredentialScanProperties
-  extends AzureSqlCredentialScanProperties {}
+export interface AzureSqlDatabaseCredentialScanProperties extends AzureSqlCredentialScanProperties {}
 
 /** Azure SQL database credential scan. */
 export interface AzureSqlDatabaseCredentialScan extends ScanParent {
@@ -2007,8 +2002,7 @@ export interface AzurePostgreSqlCredentialScan extends ScanParent {
 }
 
 /** SQL server database credential scan properties. */
-export interface SqlServerDatabaseCredentialScanProperties
-  extends AzureSqlCredentialScanProperties {}
+export interface SqlServerDatabaseCredentialScanProperties extends AzureSqlCredentialScanProperties {}
 
 /** SQL server database credential scan. */
 export interface SqlServerDatabaseCredentialScan extends ScanParent {
@@ -2018,8 +2012,7 @@ export interface SqlServerDatabaseCredentialScan extends ScanParent {
 }
 
 /** Azure SQL database managed instance credential scan properties. */
-export interface AzureSqlDatabaseManagedInstanceCredentialScanProperties
-  extends AzureSqlCredentialScanProperties {}
+export interface AzureSqlDatabaseManagedInstanceCredentialScanProperties extends AzureSqlCredentialScanProperties {}
 
 /** Azure SQL database managed instance credential scan. */
 export interface AzureSqlDatabaseManagedInstanceCredentialScan extends ScanParent {
@@ -2039,8 +2032,7 @@ export interface AzureSqlDatabaseManagedInstanceMsiScan extends ScanParent {
 }
 
 /** Azure SQL data warehouse credential scan properties. */
-export interface AzureSqlDataWarehouseCredentialScanProperties
-  extends AzureSqlCredentialScanProperties {}
+export interface AzureSqlDataWarehouseCredentialScanProperties extends AzureSqlCredentialScanProperties {}
 
 /** Azure SQL data warehouse credential scan. */
 export interface AzureSqlDataWarehouseCredentialScan extends ScanParent {

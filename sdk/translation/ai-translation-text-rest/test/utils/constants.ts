@@ -7,16 +7,14 @@ export const EnvVarKeys = {
   COGNITIVE_ACCOUNT_NAME: "COGNITIVE_ACCOUNT_NAME",
   RESOURCE_ID: "TRANSLATOR_RESOURCE_ID",
   ENDPOINT: "TEXT_TRANSLATION_ENDPOINT",
-  CUSTOM_ENDPOINT: "TEXT_TRANSLATION_CUSTOM_ENDPOINT",
   KEY: "TEXT_TRANSLATION_API_KEY",
   DISABLE_LOCAL_AUTH: "DISABLE_LOCAL_AUTH",
   REGION: "TRANSLATOR_REGION",
   TEST_MODE: "TEST_MODE",
 } as const;
 
-export const ENDPOINT = "https://endpoint/";
+export const ENDPOINT = "https://endpoint";
 export const KEY = "api_key";
 export const DISABLE_LOCAL_AUTH = false;
 export const REGION = "region";
-export const CUSTOM_ENDPOINT = "https://custom_endpoint/";
 export const RESOURCE_ID = "resource_id";

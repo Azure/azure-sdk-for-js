@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import fs from "fs-extra";
+import { readdir, stat } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import { createPrinter } from "./printer";
 import { SampleConfiguration } from "./samples/configuration";
@@ -133,7 +134,7 @@ async function isAzureSDKPackage(fileName: string): Promise<boolean> {
 }
 
 async function findAzSDKPackageJson(directory: string): Promise<[string, PackageJson]> {
-  const files = await fs.readdir(directory);
+  const files = await readdir(directory);
 
   if (files.includes("pnpm-workspace.yaml")) {
     throw new Error("Reached monorepo root, but no matching Azure SDK package was found.");
@@ -168,11 +169,11 @@ async function findAzSDKPackageJson(directory: string): Promise<[string, Package
 export async function resolveProject(
   workingDirectory: string = process.cwd(),
 ): Promise<ProjectInfo> {
-  if (!fs.existsSync(workingDirectory)) {
+  if (!existsSync(workingDirectory)) {
     throw new Error(`No such file or directory: ${workingDirectory}`);
   }
 
-  const directory = await fs.stat(workingDirectory);
+  const directory = await stat(workingDirectory);
 
   if (!directory.isDirectory()) {
     throw new Error(`${workingDirectory} is not a directory`);
@@ -201,7 +202,7 @@ export async function resolveProject(
  * @returns an absolute path to the root of the monorepo
  */
 export async function resolveRoot(start: string = process.cwd()): Promise<string> {
-  if (await fs.pathExists(path.join(start, "pnpm-workspace.yaml"))) {
+  if (existsSync(path.join(start, "pnpm-workspace.yaml"))) {
     return start;
   } else {
     const nextPath = path.resolve(start, "..");
