@@ -280,54 +280,6 @@ describe("Library/Config", () => {
       assert.strictEqual(config.samplingRatio, 0);
     });
 
-    it("sets microsoft.applicationId from connection string when missing", () => {
-      vi.stubEnv(
-        "APPLICATIONINSIGHTS_CONNECTION_STRING",
-        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;ApplicationId=my-app-id",
-      );
-
-      const config = new InternalConfig();
-
-      assert.strictEqual(config.resource.attributes["microsoft.applicationId"], "my-app-id");
-    });
-
-    it("sets microsoft.applicationId when provided via azureMonitorExporterOptions and resource lacks it", () => {
-      const config = new InternalConfig({
-        azureMonitorExporterOptions: {
-          connectionString:
-            "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;ApplicationId=from-options",
-        },
-      });
-
-      assert.strictEqual(config.resource.attributes["microsoft.applicationId"], "from-options");
-    });
-
-    it("does not overwrite existing microsoft.applicationId on resource", () => {
-      const customResource = resourceFromAttributes({
-        "microsoft.applicationId": "custom-app-id",
-      });
-
-      const config = new InternalConfig({
-        resource: customResource,
-        azureMonitorExporterOptions: {
-          connectionString:
-            "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;ApplicationId=from-conn",
-        },
-      });
-
-      assert.strictEqual(config.resource.attributes["microsoft.applicationId"], "custom-app-id");
-    });
-
-    it("gracefully handles connection strings without ApplicationId", () => {
-      const config = new InternalConfig({
-        azureMonitorExporterOptions: {
-          connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
-        },
-      });
-
-      assert.strictEqual(config.resource.attributes["microsoft.applicationId"], undefined);
-    });
-
     it("does not error when connection string is empty or undefined", () => {
       assert.doesNotThrow(
         () => new InternalConfig({ azureMonitorExporterOptions: { connectionString: "" } }),

@@ -61,6 +61,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
       const resourceMetricEnvelope = createResourceMetricEnvelope(
         spans[0].resource,
         this.instrumentationKey,
+        this.applicationId,
       );
       if (resourceMetricEnvelope && this.shouldCreateResourceMetric) {
         envelopes.push(resourceMetricEnvelope);

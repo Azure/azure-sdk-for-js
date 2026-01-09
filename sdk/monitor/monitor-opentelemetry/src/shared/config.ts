@@ -2,19 +2,12 @@
 // Licensed under the MIT License.
 
 import type { ResourceDetectionConfig, Resource } from "@opentelemetry/resources";
-import {
-  defaultResource,
-  detectResources,
-  emptyResource,
-  envDetector,
-  resourceFromAttributes,
-} from "@opentelemetry/resources";
+import { defaultResource, detectResources, emptyResource, envDetector } from "@opentelemetry/resources";
 import type {
   BrowserSdkLoaderOptions,
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
 } from "../types.js";
-import { APPLICATION_ID_RESOURCE_KEY } from "../types.js";
 import type { Sampler } from "@opentelemetry/sdk-trace-base";
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { EnvConfig } from "./envConfig.js";
@@ -25,7 +18,6 @@ import {
   azureFunctionsDetector,
   azureVmDetector,
 } from "@opentelemetry/resource-detector-azure";
-import { ConnectionStringParser } from "../utils/connectionStringParser.js";
 
 /**
  * Azure Monitor OpenTelemetry Client Configuration
@@ -137,9 +129,6 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     this._mergeJsonConfig();
     // ENV configuration will take precedence over other configurations
     this._mergeEnvConfig();
-
-    // Ensure microsoft.applicationId is present if a connection string provides it
-    this._ensureApplicationIdResourceAttribute();
   }
 
   private _mergeEnvConfig(): void {
@@ -257,26 +246,4 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     return defaultInterval;
   }
 
-  /**
-   * Populate microsoft.applicationId resource attribute from connection string when missing.
-   */
-  private _ensureApplicationIdResourceAttribute(): void {
-    const applicationIdAttribute = this._resource.attributes[APPLICATION_ID_RESOURCE_KEY];
-
-    if (applicationIdAttribute) {
-      return;
-    }
-
-    const connectionString =
-      this.azureMonitorExporterOptions?.connectionString ||
-      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"];
-    const parsed = ConnectionStringParser.parse(connectionString);
-    const applicationId = parsed.applicationid;
-
-    if (applicationId) {
-      this._resource = this._resource.merge(
-        resourceFromAttributes({ [APPLICATION_ID_RESOURCE_KEY]: applicationId }),
-      );
-    }
-  }
 }
