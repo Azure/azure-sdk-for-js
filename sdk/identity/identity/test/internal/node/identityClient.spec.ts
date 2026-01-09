@@ -245,7 +245,11 @@ describe("IdentityClient", function () {
 
     // Verify that abort controllers for noCorrelationId were cleaned up
     const controllers = abortControllersMap.get("noCorrelationId");
-    assert.equal(controllers, undefined, "Abort controllers should be cleaned up after GET request");
+    assert.equal(
+      controllers,
+      undefined,
+      "Abort controllers should be cleaned up after GET request",
+    );
 
     // Make a POST request with correlation ID
     await client.sendPostRequestAsync("https://test.com", {
