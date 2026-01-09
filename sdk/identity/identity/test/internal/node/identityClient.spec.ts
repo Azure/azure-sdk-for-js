@@ -217,4 +217,81 @@ describe("IdentityClient", function () {
     }, response);
     isExpectedError("unknown_error")(error);
   });
+
+  it("cleans up abort controllers after successful request completion", async () => {
+    const mockHttpClient: HttpClient = createDefaultHttpClient();
+    vi.spyOn(mockHttpClient, "sendRequest").mockImplementation(async (request) => {
+      return {
+        request,
+        status: 200,
+        bodyAsText: JSON.stringify({ test: "response" }),
+        headers: createHttpHeaders(),
+      };
+    });
+
+    const client = new IdentityClient({
+      authorityHost: "https://authority",
+      httpClient: mockHttpClient,
+    });
+
+    // Access the private abortControllers map via type assertion for testing
+    const abortControllersMap = (client as any).abortControllers as Map<
+      string,
+      AbortController[] | undefined
+    >;
+
+    // Make a GET request
+    await client.sendGetRequestAsync("https://test.com");
+
+    // Verify that abort controllers for noCorrelationId were cleaned up
+    const controllers = abortControllersMap.get("noCorrelationId");
+    assert.equal(controllers, undefined, "Abort controllers should be cleaned up after GET request");
+
+    // Make a POST request with correlation ID
+    await client.sendPostRequestAsync("https://test.com", {
+      body: "client-request-id=test-correlation-id",
+    });
+
+    // Verify that abort controllers for the correlation ID were cleaned up
+    const postControllers = abortControllersMap.get("test-correlation-id");
+    assert.equal(
+      postControllers,
+      undefined,
+      "Abort controllers should be cleaned up after POST request",
+    );
+  });
+
+  it("cleans up abort controllers even when request fails", async () => {
+    const mockHttpClient: HttpClient = createDefaultHttpClient();
+    vi.spyOn(mockHttpClient, "sendRequest").mockImplementation(async (request) => {
+      return {
+        request,
+        status: 500,
+        bodyAsText: JSON.stringify({ error: "server_error" }),
+        headers: createHttpHeaders(),
+      };
+    });
+
+    const client = new IdentityClient({
+      authorityHost: "https://authority",
+      httpClient: mockHttpClient,
+    });
+
+    // Access the private abortControllers map via type assertion for testing
+    const abortControllersMap = (client as any).abortControllers as Map<
+      string,
+      AbortController[] | undefined
+    >;
+
+    // Make a GET request that will fail
+    await client.sendGetRequestAsync("https://test.com");
+
+    // Verify that abort controllers were cleaned up even on failure
+    const controllers = abortControllersMap.get("noCorrelationId");
+    assert.equal(
+      controllers,
+      undefined,
+      "Abort controllers should be cleaned up even when request fails",
+    );
+  });
 });
