@@ -1,14 +1,10 @@
 {
-  "name": "@azure-samples/arm-dell-storage-ts-beta",
+  "name": "@azure-samples/arm-dell-storage-js",
   "private": true,
   "version": "1.0.0",
-  "description": "@azure/arm-dell-storage client library samples for TypeScript (Beta)",
+  "description": "@azure/arm-dell-storage client library samples for JavaScript",
   "engines": {
     "node": ">=20.0.0"
-  },
-  "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/"
   },
   "repository": {
     "type": "git",
@@ -30,14 +26,11 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dell/arm-dell-storage",
   "dependencies": {
-    "@azure/arm-dell-storage": "next",
+    "@azure/arm-dell-storage": "latest",
     "dotenv": "latest",
     "@azure/identity": "^4.13.0"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
-    "cross-env": "latest",
-    "rimraf": "latest",
-    "typescript": "~5.9.3"
+    "cross-env": "latest"
   }
 }

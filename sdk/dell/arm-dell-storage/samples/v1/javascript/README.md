@@ -1,4 +1,4 @@
-# @azure/arm-dell-storage client library samples for JavaScript (Beta)
+# @azure/arm-dell-storage client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-dell-storage in some common scenarios.
 
@@ -50,13 +50,13 @@ node fileSystemsCreateOrUpdateSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[filesystemscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dell/arm-dell-storage/samples/v1-beta/javascript/fileSystemsCreateOrUpdateSample.js
-[filesystemsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dell/arm-dell-storage/samples/v1-beta/javascript/fileSystemsDeleteSample.js
-[filesystemsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dell/arm-dell-storage/samples/v1-beta/javascript/fileSystemsGetSample.js
-[filesystemslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dell/arm-dell-storage/samples/v1-beta/javascript/fileSystemsListByResourceGroupSample.js
-[filesystemslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dell/arm-dell-storage/samples/v1-beta/javascript/fileSystemsListBySubscriptionSample.js
-[filesystemsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dell/arm-dell-storage/samples/v1-beta/javascript/fileSystemsUpdateSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dell/arm-dell-storage/samples/v1-beta/javascript/operationsListSample.js
+[filesystemscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dell/arm-dell-storage/samples/v1/javascript/fileSystemsCreateOrUpdateSample.js
+[filesystemsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dell/arm-dell-storage/samples/v1/javascript/fileSystemsDeleteSample.js
+[filesystemsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dell/arm-dell-storage/samples/v1/javascript/fileSystemsGetSample.js
+[filesystemslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dell/arm-dell-storage/samples/v1/javascript/fileSystemsListByResourceGroupSample.js
+[filesystemslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dell/arm-dell-storage/samples/v1/javascript/fileSystemsListBySubscriptionSample.js
+[filesystemsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dell/arm-dell-storage/samples/v1/javascript/fileSystemsUpdateSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dell/arm-dell-storage/samples/v1/javascript/operationsListSample.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-dell-storage?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dell/arm-dell-storage/README.md
