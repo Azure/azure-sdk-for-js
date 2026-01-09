@@ -57,10 +57,12 @@ This section describes how to run the SDK tests. If you want to run the tests of
 To select a subset of test files and/or test cases:
 
 ```shell
-# *Nix
 pnpm run test:node -- test/myTest.spec.ts -t "should handle basic operations"
+```
 
-# Windows PowerShell 
+Some shells (e.g. PowerShell) process command-line options differently and require double `--`:
+
+```shell
 pnpm run test:node -- -- test/myTest.spec.ts -t "should handle basic operations"
 ```
 
