@@ -11,6 +11,8 @@ import type { TelemetryItem as Envelope } from "../generated/index.js";
 import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../utils/spanUtils.js";
 import { createResourceMetricEnvelope, shouldCreateResourceMetric } from "../utils/common.js";
 import { HttpSender } from "../platform/index.js";
+import { ConnectionStringParser } from "../utils/connectionStringParser.js";
+import { ENV_CONNECTION_STRING } from "../Declarations/Constants.js";
 
 /**
  * Azure Monitor OpenTelemetry Trace Exporter.
@@ -22,6 +24,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
   private isShutdown = false;
   private readonly sender: HttpSender;
   private shouldCreateResourceMetric: boolean = shouldCreateResourceMetric();
+  private readonly applicationId: string | undefined;
 
   /**
    * Initializes a new instance of the AzureMonitorTraceExporter class.
@@ -29,6 +32,13 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    */
   constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
+
+    const connectionString = options.connectionString || process.env[ENV_CONNECTION_STRING];
+    if (connectionString) {
+      const parsedConnectionString = ConnectionStringParser.parse(connectionString);
+      this.applicationId = parsedConnectionString.applicationid;
+    }
+
     this.sender = new HttpSender({
       endpointUrl: this.endpointUrl,
       instrumentationKey: this.instrumentationKey,

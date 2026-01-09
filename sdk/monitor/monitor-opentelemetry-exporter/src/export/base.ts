@@ -30,10 +30,6 @@ export abstract class AzureMonitorBaseExporter {
    * Instrumentation key to be used for exported envelopes
    */
   protected aadAudience: string | undefined;
-  /**
-   * Application Id provided via connection string
-   */
-  protected applicationId: string | undefined;
 
   /**
    * Flag to determine if the Exporter is a Statsbeat Exporter
@@ -62,7 +58,6 @@ export abstract class AzureMonitorBaseExporter {
         parsedConnectionString.instrumentationkey || this.instrumentationKey;
       this.endpointUrl = parsedConnectionString.ingestionendpoint?.trim() || this.endpointUrl;
       this.aadAudience = parsedConnectionString.aadaudience;
-      this.applicationId = parsedConnectionString.applicationid;
     }
 
     // Instrumentation key is required
