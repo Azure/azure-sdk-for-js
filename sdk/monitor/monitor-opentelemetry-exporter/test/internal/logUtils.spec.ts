@@ -134,7 +134,9 @@ describe("logUtils.ts", () => {
       assert.isDefined(envelope);
       assert.isUndefined(envelope?.tags?.[APPLICATION_ID_RESOURCE_KEY]);
       assert.isUndefined(
-        (envelope?.data?.baseData as Partial<MonitorDomain>)?.properties?.[APPLICATION_ID_RESOURCE_KEY],
+        (envelope?.data?.baseData as Partial<MonitorDomain>)?.properties?.[
+          APPLICATION_ID_RESOURCE_KEY
+        ],
       );
     });
 
