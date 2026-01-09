@@ -66,7 +66,7 @@ Some shells (e.g. PowerShell) process command-line options differently and requi
 pnpm run test:node -- -- test/myTest.spec.ts -t "should handle basic operations"
 ```
 
-If you have no concepts of `recording`, `playback` or [TEST_MODE](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#test_mode) we'll highly recommand you to read this [doc](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#key-concepts). We'll touch upon these concepts in below content.
+If you have no concepts of `recording`, `playback` or [TEST_MODE](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#test_mode) we'll highly recommend you to read this [doc](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#key-concepts). We'll touch upon these concepts in below content.
 
 ## Code structure
 
@@ -103,7 +103,7 @@ If this is your first time generating an SDK, you can enable the config `generat
   });
 ```
 
-This only contains basics for testing, we comment out some lines **except** licence header. If you want to update to your own utility and test cases. The overall structure will be similar to below:
+This only contains basics for testing, we comment out some lines **except** license header. If you want to update to your own utility and test cases. The overall structure will be similar to below:
 
 _Note: the structure of the `test` folder has slight differences between high-level, rest-level and Modular clients. In HLC, we only have one file under the `test` folder which contains all contents. But in RLC and Modular, we separate the sample test and utils._
 
