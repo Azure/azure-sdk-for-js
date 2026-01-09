@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createHmac } from "node:crypto";
+import { computeSha256Hmac } from "@azure/core-util";
 
 export async function hmac(key: string, message: string): Promise<string> {
-  return createHmac("sha256", Buffer.from(key, "base64")).update(message).digest("base64");
+  return computeSha256Hmac(key, message, "base64");
 }
