@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a PrivateCloud
  *
  * @summary get a PrivateCloud
- * x-ms-original-file: 2024-09-01/PrivateClouds_Get.json
+ * x-ms-original-file: 2025-09-01/PrivateClouds_Get.json
  */
 async function privateCloudsGet() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function privateCloudsGet() {
  * This sample demonstrates how to get a PrivateCloud
  *
  * @summary get a PrivateCloud
- * x-ms-original-file: 2024-09-01/PrivateClouds_Get_Stretched.json
+ * x-ms-original-file: 2025-09-01/PrivateClouds_Get_Stretched.json
  */
 async function privateCloudsGetStretched() {
   const credential = new DefaultAzureCredential();

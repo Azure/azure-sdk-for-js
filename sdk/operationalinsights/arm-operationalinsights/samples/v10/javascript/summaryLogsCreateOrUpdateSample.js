@@ -22,6 +22,7 @@ async function summaryLogsUpsert() {
       binDelay: 10,
       binSize: 180,
       binStartTime: new Date("2020-02-03T04:05:06Z"),
+      destinationTable: "MyDestinationTable_CL",
       query: "MyTable_CL",
     },
     ruleType: "User",

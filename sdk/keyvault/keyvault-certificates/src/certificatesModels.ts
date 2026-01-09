@@ -3,7 +3,7 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type * as coreClient from "@azure-rest/core-client";
-import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import type { ExtendedCommonClientOptions } from "@azure/keyvault-common";
 import type { CancelOnProgress, PollOperationState } from "@azure/core-lro";
 import type {
   DeletionRecoveryLevel,

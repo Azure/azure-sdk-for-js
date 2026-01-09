@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-projects",
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.3",
   "description": "Azure AI Projects client library.",
   "engines": {
     "node": ">=20.0.0"
@@ -90,6 +90,8 @@
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "@modelcontextprotocol/sdk": "^1.25.1",
+    "zod": "^4.2.1",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",

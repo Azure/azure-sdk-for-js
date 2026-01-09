@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a WorkloadNetworkDnsZone
  *
  * @summary update a WorkloadNetworkDnsZone
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_UpdateDnsZone.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_UpdateDnsZone.json
  */
 async function workloadNetworksUpdateDnsZone(): Promise<void> {
   const credential = new DefaultAzureCredential();

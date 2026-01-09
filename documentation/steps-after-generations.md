@@ -138,7 +138,7 @@ After you have finished the generation and added your own tests or samples, you 
 cd ${PROJECT_ROOT} && pnpm format
 ```
 
-Also, we'll recommand you to run `lint` command to analyze your code and quickly find any problems.
+Also, we'll recommend you to run `lint` command to analyze your code and quickly find any problems.
 
 ```shell
 cd ${PROJECT_ROOT} && pnpm lint

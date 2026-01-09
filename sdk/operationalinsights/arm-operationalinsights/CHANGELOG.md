@@ -1,5 +1,10 @@
 # Release History
 
+## 10.1.0 (2026-01-05)
+
+### Features Added
+  - Compared with 10.0.0, changed RuleDefinition.destinationTable from readonly to writable to align with the service specification
+
 ## 10.0.0 (2025-12-15)
 
 ### Features Added
