@@ -109,6 +109,18 @@ Prioritize TypeScript-specific practices over general rules when conflicts occur
 
 When possible, refer to the Azure SDK for JS Design Guidelines for specific examples and best practices. Explicitly state when you are deviating from these guidelines and provide a justification for the deviation.
 
+## Local SDK Generation and Package Lifecycle (TypeSpec)
+
+### AUTHORITATIVE REFERENCE
+For all TypeSpec-based SDK workflows (generation, building, validation, testing, versioning, and release preparation), follow #file:../eng/common/instructions/azsdk-tools/local-sdk-workflow.instructions.md
+
+### DEFAULT BEHAVIORS
+- **Repository:** Use the current workspace as the local SDK repository unless the user specifies a different path.
+- **Configuration:** Identify `tsp-location.yaml` from files open in the editor. If unclear, ask the user.
+
+### REQUIRED CONFIRMATIONS
+Ask the user for clarification if repository path or configuration file is ambiguous.
+
 ## SDK release
 
 For detailed workflow instructions, see [SDK Release](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/common/instructions/copilot/sdk-release.instructions.md).
