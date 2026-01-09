@@ -208,7 +208,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     this.abortControllers.set(correlationId, controllers);
     const existingOnAbort = controller.signal.onabort;
     controller.signal.onabort = (...params) => {
-      this.abortControllers.set(correlationId, undefined);
+      this.abortControllers.delete(correlationId);
       if (existingOnAbort) {
         existingOnAbort.apply(controller.signal, params);
       }
@@ -221,7 +221,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
    * This should be called after a request completes to prevent memory leaks.
    */
   private cleanupAbortControllers(correlationId: string): void {
-    this.abortControllers.set(correlationId, undefined);
+    this.abortControllers.delete(correlationId);
   }
 
   abortRequests(correlationId?: string): void {
@@ -237,7 +237,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     for (const controller of controllers) {
       controller.abort();
     }
-    this.abortControllers.set(key, undefined);
+    this.abortControllers.delete(key);
   }
 
   getCorrelationId(options?: NetworkRequestOptions): string {

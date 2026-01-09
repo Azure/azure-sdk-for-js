@@ -244,11 +244,10 @@ describe("IdentityClient", function () {
     await client.sendGetRequestAsync("https://test.com");
 
     // Verify that abort controllers for noCorrelationId were cleaned up
-    const controllers = abortControllersMap.get("noCorrelationId");
     assert.equal(
-      controllers,
-      undefined,
-      "Abort controllers should be cleaned up after GET request",
+      abortControllersMap.has("noCorrelationId"),
+      false,
+      "Abort controllers key should be deleted after GET request",
     );
 
     // Make a POST request with correlation ID
@@ -257,11 +256,10 @@ describe("IdentityClient", function () {
     });
 
     // Verify that abort controllers for the correlation ID were cleaned up
-    const postControllers = abortControllersMap.get("test-correlation-id");
     assert.equal(
-      postControllers,
-      undefined,
-      "Abort controllers should be cleaned up after POST request",
+      abortControllersMap.has("test-correlation-id"),
+      false,
+      "Abort controllers key should be deleted after POST request",
     );
   });
 
@@ -291,11 +289,10 @@ describe("IdentityClient", function () {
     await client.sendGetRequestAsync("https://test.com");
 
     // Verify that abort controllers were cleaned up even on failure
-    const controllers = abortControllersMap.get("noCorrelationId");
     assert.equal(
-      controllers,
-      undefined,
-      "Abort controllers should be cleaned up even when request fails",
+      abortControllersMap.has("noCorrelationId"),
+      false,
+      "Abort controllers key should be deleted even when request fails",
     );
   });
 });
