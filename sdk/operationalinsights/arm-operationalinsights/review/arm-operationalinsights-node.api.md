@@ -1412,7 +1412,7 @@ export interface RuleDefinition {
     binDelay?: number;
     binSize?: number;
     binStartTime?: Date;
-    readonly destinationTable?: string;
+    destinationTable?: string;
     query?: string;
     timeSelector?: TimeSelectorEnum;
 }
