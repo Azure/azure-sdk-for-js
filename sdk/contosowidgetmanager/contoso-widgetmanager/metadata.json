@@ -1,0 +1,24 @@
+{
+  "apiVersion": "2022-12-01",
+  "emitterVersion": "0.47.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Azure.Contoso.WidgetManager",
+    "CrossLanguageDefinitionId": {
+      "@azure/contoso-widgetmanager!WidgetSuite:interface": "Azure.Contoso.WidgetManager.WidgetSuite",
+      "@azure/contoso-widgetmanager!FakedSharedModel:interface": "FakedSharedModel",
+      "@azure/contoso-widgetmanager!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
+      "@azure/contoso-widgetmanager!Error:interface": "Azure.Core.Foundations.Error",
+      "@azure/contoso-widgetmanager!InnerError:interface": "Azure.Core.Foundations.InnerError",
+      "@azure/contoso-widgetmanager!ResourceOperationStatusWidgetSuiteWidgetSuiteError:interface": "Azure.Core.ResourceOperationStatus",
+      "@azure/contoso-widgetmanager!OperationStatusError:interface": "Azure.Core.Foundations.OperationStatus",
+      "@azure/contoso-widgetmanager!PagedWidgetSuite:interface": "Azure.Core.Foundations.CustomPage",
+      "@azure/contoso-widgetmanager!KnownOperationState:enum": "Azure.Core.Foundations.OperationState",
+      "@azure/contoso-widgetmanager!KnownVersions:enum": "Azure.Contoso.WidgetManager.Versions",
+      "@azure/contoso-widgetmanager!WidgetsOperations#listWidgets:member": "Azure.Contoso.WidgetManager.Widgets.listWidgets",
+      "@azure/contoso-widgetmanager!WidgetsOperations#deleteWidget:member": "Azure.Contoso.WidgetManager.Widgets.deleteWidget",
+      "@azure/contoso-widgetmanager!WidgetsOperations#createOrUpdateWidget:member": "Azure.Contoso.WidgetManager.Widgets.createOrUpdateWidget",
+      "@azure/contoso-widgetmanager!WidgetsOperations#getWidgetOperationStatus:member": "Azure.Contoso.WidgetManager.Widgets.getWidgetOperationStatus",
+      "@azure/contoso-widgetmanager!WidgetsOperations#getWidget:member": "Azure.Contoso.WidgetManager.Widgets.getWidget"
+    }
+  }
+}
