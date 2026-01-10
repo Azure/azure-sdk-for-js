@@ -23,7 +23,8 @@ const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project en
 const chatModelDeployment =
   process.env["MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME"] || "<chat model deployment name>";
 const embeddingModelDeployment =
-  process.env["MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model deployment name>";
+  process.env["MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME"] ||
+  "<embedding model deployment name>";
 
 const memoryStoreName = "my_memory_store";
 // You can also use {{$userId}} to take the oid of the request authentication header.
