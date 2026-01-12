@@ -120,8 +120,8 @@ importers:
         specifier: npm:typescript@latest
         version: typescript@5.9.3
       '@_ts/min':
-        specifier: npm:typescript@~4.2.4
-        version: typescript@4.2.4
+        specifier: npm:typescript@~5.4.2
+        version: typescript@5.4.5
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
@@ -38222,9 +38222,9 @@ packages:
       eslint: ^8.57.0 || ^9.0.0
       typescript: '>=4.8.4 <6.0.0'
 
-  typescript@4.2.4:
-    resolution: {integrity: sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==}
-    engines: {node: '>=4.2.0'}
+  typescript@5.4.5:
+    resolution: {integrity: sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==}
+    engines: {node: '>=14.17'}
     hasBin: true
 
   typescript@5.6.1-rc:
@@ -44387,7 +44387,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  typescript@4.2.4: {}
+  typescript@5.4.5: {}
 
   typescript@5.6.1-rc: {}
 
