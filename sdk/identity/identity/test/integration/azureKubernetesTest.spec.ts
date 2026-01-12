@@ -9,7 +9,7 @@ describe("Azure Kubernetes Integration test", function () {
   let podName: string;
   const port = requireEnvVar("IDENTITY_FUNCTIONS_CUSTOMHANDLER_PORT");
 
-  beforeEach.skipIf(!isLiveMode())(async function () {
+  beforeEach(async function () {
     podName = requireEnvVar("IDENTITY_AKS_POD_NAME");
     const pods = runCommand("kubectl", `get pods -o jsonpath='{.items[0].metadata.name}'`);
     assert.include(pods, podName);
