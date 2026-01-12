@@ -22,7 +22,6 @@ extends:
         SKIP_SP_LIVE_TESTS: "true"
         
       ${{ if endsWith(variables['Build.DefinitionName'], 'weekly') }}:
-        PersistOidcToken: true
         MatrixConfigs:
           - Name: Identity_msi_live_test_base
             Path: sdk/identity/identity/managed-identity-matrix.json
