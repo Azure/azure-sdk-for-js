@@ -730,8 +730,10 @@ describe("Full text search feature", async () => {
    * Tests for FullTextPolicy multi-language support.
    * GA Languages: en-US, fr-FR, de-DE, es-ES
    * Preview Languages: it-IT, pt-BR, pt-PT
+   *
+   * Skipped until emulator supports it.
    */
-  describe("FullTextPolicy multi-language support", () => {
+  describe.skip("FullTextPolicy multi-language support", () => {
     // All supported languages for FullTextPolicy
     const supportedLanguages = [
       { code: "en-US", name: "English (United States)" },
