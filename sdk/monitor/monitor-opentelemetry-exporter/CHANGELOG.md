@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Populate the `microsoft.applicationId` resource attribute from the Application Insights connection string when it is not already provided.
+
 ### Bugs Fixed
 
 ### Breaking Changes
