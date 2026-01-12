@@ -268,8 +268,8 @@ describe("IdentityClient", function () {
     vi.spyOn(mockHttpClient, "sendRequest").mockImplementation(async (request) => {
       return {
         request,
-        status: 500,
-        bodyAsText: JSON.stringify({ error: "server_error" }),
+        status: 400,
+        bodyAsText: JSON.stringify({ error: "bad_request" }),
         headers: createHttpHeaders(),
       };
     });
@@ -285,7 +285,8 @@ describe("IdentityClient", function () {
       AbortController[] | undefined
     >;
 
-    // Make a GET request that will fail
+    // Make a GET request that will return an error status
+    // Note: sendGetRequestAsync returns the response regardless of status code
     await client.sendGetRequestAsync("https://test.com");
 
     // Verify that abort controllers were cleaned up even on failure
