@@ -144,11 +144,12 @@ export interface AppliancesOperations {
     listClusterUserCredential: (resourceGroupName: string, resourceName: string, options?: AppliancesListClusterUserCredentialOptionalParams) => Promise<ApplianceListCredentialResults>;
     listKeys: (resourceGroupName: string, resourceName: string, options?: AppliancesListKeysOptionalParams) => Promise<ApplianceListKeysResults>;
     listOperations: (options?: AppliancesListOperationsOptionalParams) => PagedAsyncIterableIterator<ApplianceOperation>;
-    update: (resourceGroupName: string, resourceName: string, parameters: PatchableAppliance, options?: AppliancesUpdateOptionalParams) => Promise<Appliance>;
+    update: (resourceGroupName: string, resourceName: string, options?: AppliancesUpdateOptionalParams) => Promise<Appliance>;
 }
 
 // @public
 export interface AppliancesUpdateOptionalParams extends OperationOptions {
+    tags?: Record<string, string>;
 }
 
 // @public

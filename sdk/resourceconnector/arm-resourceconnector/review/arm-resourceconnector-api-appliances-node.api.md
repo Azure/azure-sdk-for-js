@@ -57,6 +57,7 @@ export interface AppliancesListOperationsOptionalParams extends OperationOptions
 
 // @public
 export interface AppliancesUpdateOptionalParams extends OperationOptions {
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -87,7 +88,7 @@ export function listKeys(context: ResourceConnectorManagementContext, resourceGr
 export function listOperations(context: ResourceConnectorManagementContext, options?: AppliancesListOperationsOptionalParams): PagedAsyncIterableIterator<ApplianceOperation>;
 
 // @public
-export function update(context: ResourceConnectorManagementContext, resourceGroupName: string, resourceName: string, parameters: PatchableAppliance, options?: AppliancesUpdateOptionalParams): Promise<Appliance>;
+export function update(context: ResourceConnectorManagementContext, resourceGroupName: string, resourceName: string, options?: AppliancesUpdateOptionalParams): Promise<Appliance>;
 
 // (No @packageDocumentation comment for this package)
 

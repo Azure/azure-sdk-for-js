@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.1 (2026-01-09)
+## 2.0.0-beta.1 (2026-01-12)
 Compared with version 1.0.0
 
 ### Features Added
@@ -46,9 +46,7 @@ Compared with version 1.0.0
   - Removed operation Appliances.beginCreateOrUpdateAndWait
   - Removed operation Appliances.beginDelete
   - Removed operation Appliances.beginDeleteAndWait
-  - Operation Appliances.update has a new signature
   - Removed Interface ApplianceOperationsList
-  - Interface AppliancesUpdateOptionalParams no longer has parameter tags
   - Enum KnownProvider no longer has value KubeVirt
   - Enum KnownProvider no longer has value OpenStack
 

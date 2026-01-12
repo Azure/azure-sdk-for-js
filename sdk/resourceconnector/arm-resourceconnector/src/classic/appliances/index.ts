@@ -30,7 +30,6 @@ import type {
 } from "../../api/appliances/options.js";
 import type {
   Appliance,
-  PatchableAppliance,
   ApplianceListCredentialResults,
   ApplianceListKeysResults,
   UpgradeGraph,
@@ -93,7 +92,6 @@ export interface AppliancesOperations {
   update: (
     resourceGroupName: string,
     resourceName: string,
-    parameters: PatchableAppliance,
     options?: AppliancesUpdateOptionalParams,
   ) => Promise<Appliance>;
   /** Creates or updates an Appliance in the specified Subscription and Resource Group. */
@@ -147,9 +145,8 @@ function _getAppliances(context: ResourceConnectorManagementContext) {
     update: (
       resourceGroupName: string,
       resourceName: string,
-      parameters: PatchableAppliance,
       options?: AppliancesUpdateOptionalParams,
-    ) => update(context, resourceGroupName, resourceName, parameters, options),
+    ) => update(context, resourceGroupName, resourceName, options),
     createOrUpdate: (
       resourceGroupName: string,
       resourceName: string,

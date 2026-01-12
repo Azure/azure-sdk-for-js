@@ -34,7 +34,10 @@ export interface AppliancesDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AppliancesUpdateOptionalParams extends OperationOptions {}
+export interface AppliancesUpdateOptionalParams extends OperationOptions {
+  /** Resource tags */
+  tags?: Record<string, string>;
+}
 
 /** Optional parameters. */
 export interface AppliancesCreateOrUpdateOptionalParams extends OperationOptions {

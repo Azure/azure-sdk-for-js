@@ -4,7 +4,6 @@
 import type { ResourceConnectorManagementContext as Client } from "../index.js";
 import type {
   Appliance,
-  PatchableAppliance,
   _ApplianceListResult,
   ApplianceListCredentialResults,
   ApplianceListKeysResults,
@@ -17,7 +16,6 @@ import {
   applianceSerializer,
   applianceDeserializer,
   errorResponseDeserializer,
-  patchableApplianceSerializer,
   _applianceListResultDeserializer,
   applianceListCredentialResultsDeserializer,
   applianceListKeysResultsDeserializer,
@@ -446,7 +444,6 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   resourceName: string,
-  parameters: PatchableAppliance,
   options: AppliancesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -465,7 +462,7 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: patchableApplianceSerializer(parameters),
+    body: { tags: options?.tags },
   });
 }
 
@@ -485,10 +482,9 @@ export async function update(
   context: Client,
   resourceGroupName: string,
   resourceName: string,
-  parameters: PatchableAppliance,
   options: AppliancesUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Appliance> {
-  const result = await _updateSend(context, resourceGroupName, resourceName, parameters, options);
+  const result = await _updateSend(context, resourceGroupName, resourceName, options);
   return _updateDeserialize(result);
 }
 
