@@ -19,9 +19,8 @@ import * as path from "path";
 import { fileURLToPath } from "url";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName =
-  process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["AZURE_AI_NEW_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
   // Create AI Project client

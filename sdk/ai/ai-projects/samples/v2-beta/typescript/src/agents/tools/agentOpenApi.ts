@@ -18,9 +18,13 @@ import {
   OpenApiFunctionDefinition,
   OpenApiAnonymousAuthDetails,
 } from "@azure/ai-projects";
+import { fileURLToPath } from "node:url";
 import * as fs from "node:fs/promises";
 import * as path from "path";
 import "dotenv/config";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";

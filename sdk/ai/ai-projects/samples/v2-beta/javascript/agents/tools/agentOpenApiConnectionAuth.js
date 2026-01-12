@@ -13,9 +13,13 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
+const { fileURLToPath } = require("node:url");
 const fs = require("node:fs/promises");
 const path = require("path");
 require("dotenv/config");
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
