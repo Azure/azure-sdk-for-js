@@ -28,7 +28,7 @@ import azureSdkCustomized from "./azure-sdk-customized.js";
  * effectively bypasses the type checker, allowing the config to be passed to functions
  * that may expect slightly different type signatures without causing compilation errors.
  */
-function asConfigArg<T>(config: T) {
+function bypassTypeCheck<T>(config: T) {
   return config as never;
 }
 
@@ -42,19 +42,19 @@ function recommended(plugin: FlatConfig.Plugin, options: { typeChecked: boolean 
       ? typescriptEslint.configs.recommendedTypeChecked
       : typescriptEslint.configs.recommended),
     typescriptEslint.configs.eslintRecommended,
-    asConfigArg(eslintConfigPrettier),
+    bypassTypeCheck(eslintConfigPrettier),
     {
       plugins: {
-        "@azure/azure-sdk": asConfigArg(plugin),
-        promise: asConfigArg(promise),
+        "@azure/azure-sdk": bypassTypeCheck(plugin),
+        promise: bypassTypeCheck(promise),
       },
     },
 
-    asConfigArg(promise.configs["flat/recommended"]),
+    bypassTypeCheck(promise.configs["flat/recommended"]),
 
     // azure sdk customized
     eslintCustomized,
-    ...azureSdkCustomized(typescriptEslint.parser).map(asConfigArg),
+    ...azureSdkCustomized(typescriptEslint.parser).map(bypassTypeCheck),
   );
 }
 
@@ -76,10 +76,10 @@ export default (plugin: FlatConfig.Plugin) => ({
     eslint.configs.recommended,
     ...typescriptEslint.configs.recommended,
     typescriptEslint.configs.eslintRecommended,
-    asConfigArg(eslintConfigPrettier),
+    bypassTypeCheck(eslintConfigPrettier),
     {
       plugins: {
-        "@azure/azure-sdk": asConfigArg(plugin),
+        "@azure/azure-sdk": bypassTypeCheck(plugin),
       },
     },
     {
