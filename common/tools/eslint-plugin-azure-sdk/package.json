@@ -82,7 +82,7 @@
     "@eslint/eslintrc": "^3.2.0",
     "@typescript-eslint/eslint-plugin": "~8.46.4",
     "@typescript-eslint/parser": "~8.46.4",
-    "eslint": "^9.9.0",
+    "eslint": "^9.22.0",
     "eslint-plugin-n": "^17.15.0",
     "eslint-plugin-no-only-tests": "^3.3.0",
     "eslint-plugin-promise": "^7.2.1",

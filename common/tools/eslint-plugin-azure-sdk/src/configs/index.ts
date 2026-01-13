@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import eslint from "@eslint/js";
+import { defineConfig } from "eslint/config";
 import typescriptEslint from "typescript-eslint";
 import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
@@ -10,8 +11,29 @@ import promise from "eslint-plugin-promise";
 import eslintCustomized from "./eslint-customized.js";
 import azureSdkCustomized from "./azure-sdk-customized.js";
 
+// Type assertion helper to work around type incompatibilities between
+// typescript-eslint's FlatConfig types and ESLint core's defineConfig types
+// See: https://github.com/typescript-eslint/typescript-eslint/issues/10899
+/**
+ * Wraps a configuration object to be used as a config argument.
+ *
+ * @typeParam T - The type of the configuration object
+ * @param config - The configuration object to wrap
+ * @returns The configuration cast as `never`
+ *
+ * @remarks
+ * The cast to `never` is used as a workaround for type incompatibilities between
+ * different versions of ESLint config types or between flat config and legacy config formats.
+ * Since `never` is the bottom type in TypeScript (assignable to any type), casting to `never`
+ * effectively bypasses the type checker, allowing the config to be passed to functions
+ * that may expect slightly different type signatures without causing compilation errors.
+ */
+function asConfigArg<T>(config: T) {
+  return config as never;
+}
+
 function recommended(plugin: FlatConfig.Plugin, options: { typeChecked: boolean }) {
-  return typescriptEslint.config(
+  return defineConfig(
     {
       ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs,ts,cts,mts}"],
     },
@@ -20,26 +42,26 @@ function recommended(plugin: FlatConfig.Plugin, options: { typeChecked: boolean 
       ? typescriptEslint.configs.recommendedTypeChecked
       : typescriptEslint.configs.recommended),
     typescriptEslint.configs.eslintRecommended,
-    eslintConfigPrettier,
+    asConfigArg(eslintConfigPrettier),
     {
       plugins: {
-        "@azure/azure-sdk": plugin,
-        promise,
+        "@azure/azure-sdk": asConfigArg(plugin),
+        promise: asConfigArg(promise),
       },
     },
 
-    promise.configs["flat/recommended"],
+    asConfigArg(promise.configs["flat/recommended"]),
 
     // azure sdk customized
     eslintCustomized,
-    ...azureSdkCustomized(typescriptEslint.parser),
+    ...azureSdkCustomized(typescriptEslint.parser).map(asConfigArg),
   );
 }
 
 export default (plugin: FlatConfig.Plugin) => ({
   recommended: recommended(plugin, { typeChecked: false }),
   recommendedTypeChecked: recommended(plugin, { typeChecked: true }),
-  internal: typescriptEslint.config(
+  internal: defineConfig(
     {
       ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs,ts,cts,mts}"],
     },
@@ -54,10 +76,10 @@ export default (plugin: FlatConfig.Plugin) => ({
     eslint.configs.recommended,
     ...typescriptEslint.configs.recommended,
     typescriptEslint.configs.eslintRecommended,
-    eslintConfigPrettier,
+    asConfigArg(eslintConfigPrettier),
     {
       plugins: {
-        "@azure/azure-sdk": plugin,
+        "@azure/azure-sdk": asConfigArg(plugin),
       },
     },
     {
