@@ -128,7 +128,7 @@
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
-    "openai": "^6.1.0",
+    "openai": "^6.16.0",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",

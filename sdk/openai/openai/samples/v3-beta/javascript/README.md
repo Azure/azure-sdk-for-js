@@ -65,35 +65,35 @@ npm install
 node audioTranscription.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env AUDIO_FILE_PATH="<audio file path>" node audioTranscription.js
+npx cross-env AUDIO_FILE_PATH="<audio file path>" node audioTranscription.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[audiotranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/audioTranscription.js
-[audiotranslation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/audioTranslation.js
-[batch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/batch.js
-[chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/chatCompletions.js
-[chatcompletionswithstructuredoutput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/chatCompletionsWithStructuredOutput.js
-[codeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/codeInterpreter.js
-[completions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/completions.js
-[embeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/embeddings.js
-[images]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/images.js
-[onyourdata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/onYourData.js
-[responsesstream]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/responsesStream.js
-[responsesstreamingtools]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/responsesStreamingTools.js
-[streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/streamChatCompletions.js
-[streamchatcompletionswithcontentfilter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/streamChatCompletionsWithContentFilter.js
-[streamcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/streamCompletions.js
-[texttospeech]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/textToSpeech.js
-[toolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/toolCall.js
-[websocket]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/websocket.js
-[ws]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/ws.js
+[audiotranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/audioTranscription.js
+[audiotranslation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/audioTranslation.js
+[batch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/batch.js
+[chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/chatCompletions.js
+[chatcompletionswithstructuredoutput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/chatCompletionsWithStructuredOutput.js
+[codeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/codeInterpreter.js
+[completions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/completions.js
+[embeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/embeddings.js
+[images]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/images.js
+[onyourdata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/onYourData.js
+[responsesstream]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/responsesStream.js
+[responsesstreamingtools]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/responsesStreamingTools.js
+[streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/streamChatCompletions.js
+[streamchatcompletionswithcontentfilter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/streamChatCompletionsWithContentFilter.js
+[streamcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/streamCompletions.js
+[texttospeech]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/textToSpeech.js
+[toolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/toolCall.js
+[websocket]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/websocket.js
+[ws]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/javascript/ws.js
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/README.md
