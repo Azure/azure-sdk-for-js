@@ -4,7 +4,8 @@ import { isLiveMode } from "@azure-tools/test-recorder";
 import { ManagedIdentityCredential } from "@azure/identity";
 import { describe, it, assert } from "vitest";
 
-describe("AzureVM UserAssigned Integration test", function () {
+// TODO: Re-enable these tests when we create VM resource
+describe.skip("AzureVM UserAssigned Integration test", function () {
   it.skipIf(!isLiveMode())("works with a user assigned clientId", async function () {
     const userAssignedClientId = process.env.IDENTITY_VM_USER_ASSIGNED_MI_CLIENT_ID;
     if (!userAssignedClientId) {
