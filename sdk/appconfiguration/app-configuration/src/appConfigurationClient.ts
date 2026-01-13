@@ -9,6 +9,7 @@ import {
   type AddConfigurationSettingParam,
   type AddConfigurationSettingResponse,
   type AppConfigurationClientOptions,
+  type CheckConfigurationSettingsOptions,
   type ConfigurationSetting,
   type ConfigurationSettingId,
   type CreateSnapshotOptions,
@@ -450,8 +451,9 @@ export class AppConfigurationClient {
   }
 
   /**
-   * Check settings from the Azure App Configuration service, optionally
-   * filtered by key names, labels and accept datetime.
+   * Checks settings from the Azure App Configuration service using
+   * a HEAD request, returning only headers without the response body.
+   * This is useful for efficiently checking if settings have changed by comparing ETags.
    *
    * Example code:
    * ```ts snippet:CheckConfigurationSettings
@@ -473,7 +475,7 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   checkConfigurationSettings(
-    options: ListConfigurationSettingsOptions = {},
+    options: CheckConfigurationSettingsOptions = {},
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pageEtags = options.pageEtags ? [...options.pageEtags] : undefined;
     delete options.pageEtags;
@@ -491,6 +493,7 @@ export class AppConfigurationClient {
             const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
             const currentResponse: ListConfigurationSettingPage = {
               ...response,
+              etag: response?._response?.headers?.get("etag") ?? undefined,
               items: [],
               continuationToken: continuationToken,
               _response: response._response,

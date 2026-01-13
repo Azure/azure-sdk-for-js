@@ -1182,7 +1182,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("returns empty items with valid response structure", async () => {
-      let pageIterator = client
+      const pageIterator = client
         .checkConfigurationSettings({ keyFilter: keys.checkConfigSettingA })
         .byPage();
 
@@ -1190,7 +1190,7 @@ describe("AppConfigurationClient", () => {
       assert.isFalse(firstPage.done);
       assert.isDefined(firstPage.value);
       assert.equal(firstPage.value.items.length, 0, "items should be empty for HEAD request");
-      assert.isDefined(firstPage.value._response.headers.get("etag"), "etag should be present");
+      assert.isDefined(firstPage.value.etag, "etag should be present");
       assert.equal(firstPage.value._response.status, 200);
       assert.isDefined(firstPage.value._response.headers.get("x-ms-date"));
     });
@@ -1201,7 +1201,7 @@ describe("AppConfigurationClient", () => {
         .checkConfigurationSettings({ keyFilter: keys.checkConfigSettingA })
         .byPage();
       const firstPage1 = await pageIterator1.next();
-      const etag = firstPage1.value._response.headers.get("etag");
+      const etag = firstPage1.value.etag;
 
       assert.isDefined(etag);
       const etags: string[] = [etag!];
@@ -1225,7 +1225,7 @@ describe("AppConfigurationClient", () => {
         .checkConfigurationSettings({ keyFilter: keys.checkConfigSettingA })
         .byPage();
       const firstPage1 = await pageIterator1.next();
-      const etag = firstPage1.value._response.headers.get("etag");
+      const etag = firstPage1.value.etag;
 
       assert.isDefined(etag);
       const etags: string[] = [etag!];
@@ -1245,11 +1245,7 @@ describe("AppConfigurationClient", () => {
       assert.isFalse(firstPage2.done);
       assert.equal(firstPage2.value.items.length, 0);
       assert.equal(firstPage2.value._response.status, 200, "should return 200 with changes");
-      assert.notEqual(
-        firstPage2.value._response.headers.get("etag"),
-        etag,
-        "etag should be different",
-      );
+      assert.notEqual(firstPage2.value.etag, etag, "etag should be different");
     });
   });
 
