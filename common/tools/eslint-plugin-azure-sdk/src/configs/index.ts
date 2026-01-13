@@ -42,7 +42,7 @@ function recommended(plugin: FlatConfig.Plugin, options: { typeChecked: boolean 
       ? typescriptEslint.configs.recommendedTypeChecked
       : typescriptEslint.configs.recommended),
     typescriptEslint.configs.eslintRecommended,
-    bypassTypeCheck(eslintConfigPrettier),
+    eslintConfigPrettier,
     {
       plugins: {
         "@azure/azure-sdk": bypassTypeCheck(plugin),
@@ -76,7 +76,7 @@ export default (plugin: FlatConfig.Plugin) => ({
     eslint.configs.recommended,
     ...typescriptEslint.configs.recommended,
     typescriptEslint.configs.eslintRecommended,
-    bypassTypeCheck(eslintConfigPrettier),
+    eslintConfigPrettier,
     {
       plugins: {
         "@azure/azure-sdk": bypassTypeCheck(plugin),
