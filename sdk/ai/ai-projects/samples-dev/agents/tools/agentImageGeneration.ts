@@ -11,7 +11,6 @@
  * image data from the response, decode and save the generated image to a local file, and clean
  * up created resources.
  *
- * @azsdk-weight 100
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -22,13 +21,13 @@ import { fileURLToPath } from "url";
 import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName =
-  process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const imageDeploymentName = process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME"] || "gpt-image-1";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = await project.getOpenAIClient({});
 
   console.log("Creating agent with image generation tool...");
 
@@ -54,7 +53,10 @@ export async function main(): Promise<void> {
       input: "Generate an image of Microsoft logo.",
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: {
+        agent: { name: agent.name, type: "agent_reference" },
+      },
+      headers: { "x-ms-oai-image-generation-deployment": imageDeploymentName },
     },
   );
   console.log(`Response created: ${response.id}`);
