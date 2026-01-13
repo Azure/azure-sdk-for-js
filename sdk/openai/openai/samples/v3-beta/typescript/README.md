@@ -77,35 +77,35 @@ npm run build
 node dist/audioTranscription.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env AUDIO_FILE_PATH="<audio file path>" node dist/audioTranscription.js
+npx cross-env AUDIO_FILE_PATH="<audio file path>" node dist/audioTranscription.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[audiotranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/audioTranscription.ts
-[audiotranslation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/audioTranslation.ts
-[batch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/batch.ts
-[chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/chatCompletions.ts
-[chatcompletionswithstructuredoutput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/chatCompletionsWithStructuredOutput.ts
-[codeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/codeInterpreter.ts
-[completions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/completions.ts
-[embeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/embeddings.ts
-[images]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/images.ts
-[onyourdata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/onYourData.ts
-[responsesstream]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/responsesStream.ts
-[responsesstreamingtools]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/responsesStreamingTools.ts
-[streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/streamChatCompletions.ts
-[streamchatcompletionswithcontentfilter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/streamChatCompletionsWithContentFilter.ts
-[streamcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/streamCompletions.ts
-[texttospeech]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/textToSpeech.ts
-[toolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/toolCall.ts
-[websocket]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/websocket.ts
-[ws]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/ws.ts
+[audiotranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/audioTranscription.ts
+[audiotranslation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/audioTranslation.ts
+[batch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/batch.ts
+[chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/chatCompletions.ts
+[chatcompletionswithstructuredoutput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/chatCompletionsWithStructuredOutput.ts
+[codeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/codeInterpreter.ts
+[completions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/completions.ts
+[embeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/embeddings.ts
+[images]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/images.ts
+[onyourdata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/onYourData.ts
+[responsesstream]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/responsesStream.ts
+[responsesstreamingtools]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/responsesStreamingTools.ts
+[streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/streamChatCompletions.ts
+[streamchatcompletionswithcontentfilter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/streamChatCompletionsWithContentFilter.ts
+[streamcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/streamCompletions.ts
+[texttospeech]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/textToSpeech.ts
+[toolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/toolCall.ts
+[websocket]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/websocket.ts
+[ws]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v3-beta/typescript/src/ws.ts
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/README.md

@@ -982,8 +982,8 @@ importers:
         specifier: ^12.26.0
         version: 12.29.1
       openai:
-        specifier: ^6.1.0
-        version: 6.15.0(ws@8.18.3)(zod@4.3.5)
+        specifier: ^6.16.0
+        version: 6.16.0(ws@8.18.3)(zod@4.3.5)
       tslib:
         specifier: ^2.6.2
         version: 2.8.1
@@ -22715,8 +22715,8 @@ importers:
         specifier: 'catalog:'
         version: 9.39.2
       openai:
-        specifier: ^6.1.0
-        version: 6.15.0(ws@8.18.3)(zod@3.25.76)
+        specifier: ^6.16.0
+        version: 6.16.0(ws@8.18.3)(zod@3.25.76)
       playwright:
         specifier: catalog:testing
         version: 1.57.0
@@ -37311,8 +37311,8 @@ packages:
     resolution: {integrity: sha512-smsWv2LzFjP03xmvFoJ331ss6h+jixfA4UUV/Bsiyuu4YJPfN+FIQGOIiv4w9/+MoHkfkJ22UIaQWRVFRfH6Vw==}
     engines: {node: '>=20'}
 
-  openai@6.15.0:
-    resolution: {integrity: sha512-F1Lvs5BoVvmZtzkUEVyh8mDQPPFolq4F+xdsx/DO8Hee8YF3IGAlZqUIsF+DVGhqf4aU0a3bTghsxB6OIsRy1g==}
+  openai@6.16.0:
+    resolution: {integrity: sha512-fZ1uBqjFUjXzbGc35fFtYKEOxd20kd9fDpFeqWtsOZWiubY8CZ1NAlXHW3iathaFvqmNtCWMIsosCuyeI7Joxg==}
     hasBin: true
     peerDependencies:
       ws: ^8.18.0
@@ -43389,12 +43389,12 @@ snapshots:
       powershell-utils: 0.1.0
       wsl-utils: 0.3.1
 
-  openai@6.15.0(ws@8.18.3)(zod@3.25.76):
+  openai@6.16.0(ws@8.18.3)(zod@3.25.76):
     optionalDependencies:
       ws: 8.18.3
       zod: 3.25.76
 
-  openai@6.15.0(ws@8.18.3)(zod@4.3.5):
+  openai@6.16.0(ws@8.18.3)(zod@4.3.5):
     optionalDependencies:
       ws: 8.18.3
       zod: 4.3.5
