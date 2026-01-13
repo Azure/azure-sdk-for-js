@@ -52,7 +52,6 @@ import type {
   ConfigurationSnapshot,
   GetLabelsResponse,
   AppConfigurationGetLabelsHeaders,
-  KeyValueListResult,
 } from "./generated/src/models/index.js";
 import type { InternalClientPipelineOptions } from "@azure/core-client";
 import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
