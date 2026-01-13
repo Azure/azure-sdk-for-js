@@ -144,7 +144,6 @@ async function main() {
   });
 
   console.log("Copy authorization granted!");
-  console.log(`  Analyzer source: ${copyAuth.source}`);
   console.log(`  Target resource: ${copyAuth.targetAzureResourceId}`);
   console.log(`  Target region: ${targetRegion}`);
   console.log(`  Expires at: ${copyAuth.expiresAt}`);
