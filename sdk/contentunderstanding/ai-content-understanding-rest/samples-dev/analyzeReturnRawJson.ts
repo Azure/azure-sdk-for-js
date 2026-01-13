@@ -30,7 +30,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { ContentUnderstandingClient } from "@azure-rest/ai-content-understanding";
 
 function getCredential(): DefaultAzureCredential | AzureKeyCredential {
-  const key = process.env["AZURE_CONTENT_UNDERSTANDING_KEY"];
+  const key = process.env["CONTENTUNDERSTANDING_KEY"];
   if (key) {
     return new AzureKeyCredential(key);
   }
@@ -40,9 +40,9 @@ function getCredential(): DefaultAzureCredential | AzureKeyCredential {
 export async function main(): Promise<void> {
   console.log("== Analyze Return Raw JSON Sample ==");
 
-  const endpoint = process.env["AZURE_CONTENT_UNDERSTANDING_ENDPOINT"];
+  const endpoint = process.env["CONTENTUNDERSTANDING_ENDPOINT"];
   if (!endpoint) {
-    throw new Error("AZURE_CONTENT_UNDERSTANDING_ENDPOINT is required.");
+    throw new Error("CONTENTUNDERSTANDING_ENDPOINT is required.");
   }
 
   // Step 1: Create the client

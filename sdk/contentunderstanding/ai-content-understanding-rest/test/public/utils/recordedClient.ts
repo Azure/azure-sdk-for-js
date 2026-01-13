@@ -11,8 +11,8 @@ const key = process.env[EnvVarKeys.KEY];
 
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: {
-    AZURE_CONTENT_UNDERSTANDING_ENDPOINT: MOCKS.ENDPOINT,
-    ...(key ? { AZURE_CONTENT_UNDERSTANDING_KEY: MOCKS.KEY } : {}),
+    CONTENTUNDERSTANDING_ENDPOINT: MOCKS.ENDPOINT,
+    ...(key ? { CONTENTUNDERSTANDING_KEY: MOCKS.KEY } : {}),
   },
   removeCentralSanitizers: [
     "AZSDK4001", // envSetupForPlayback handles endpoint sanitization

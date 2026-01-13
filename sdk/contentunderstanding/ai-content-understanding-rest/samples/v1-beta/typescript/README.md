@@ -64,7 +64,7 @@ node dist/updateDefaults.js
 Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AZURE_CONTENT_UNDERSTANDING_KEY="<azure content understanding key>" AZURE_CONTENT_UNDERSTANDING_ENDPOINT="<azure content understanding endpoint>" GPT_4_1_DEPLOYMENT="<gpt 4 1 deployment>" GPT_4_1_MINI_DEPLOYMENT="<gpt 4 1 mini deployment>" TEXT_EMBEDDING_3_LARGE_DEPLOYMENT="<text embedding 3 large deployment>" node dist/updateDefaults.js
+npx cross-env CONTENTUNDERSTANDING_KEY="<contentunderstanding key>" CONTENTUNDERSTANDING_ENDPOINT="<contentunderstanding endpoint>" GPT_4_1_DEPLOYMENT="<gpt 4 1 deployment>" GPT_4_1_MINI_DEPLOYMENT="<gpt 4 1 mini deployment>" TEXT_EMBEDDING_3_LARGE_DEPLOYMENT="<text embedding 3 large deployment>" node dist/updateDefaults.js
 ```
 
 ## Next Steps

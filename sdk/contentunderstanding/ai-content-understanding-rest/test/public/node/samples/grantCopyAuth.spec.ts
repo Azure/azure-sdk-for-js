@@ -35,11 +35,11 @@ describe("Sample: grantCopyAuth", () => {
     console.log("grantCopyAuthorization method is available");
 
     // Note: Full cross-resource copy testing requires:
-    // - AZURE_CONTENT_UNDERSTANDING_SOURCE_RESOURCE_ID
-    // - AZURE_CONTENT_UNDERSTANDING_SOURCE_REGION
-    // - AZURE_CONTENT_UNDERSTANDING_TARGET_ENDPOINT
-    // - AZURE_CONTENT_UNDERSTANDING_TARGET_RESOURCE_ID
-    // - AZURE_CONTENT_UNDERSTANDING_TARGET_REGION
+    // - CONTENTUNDERSTANDING_SOURCE_RESOURCE_ID
+    // - CONTENTUNDERSTANDING_SOURCE_REGION
+    // - CONTENTUNDERSTANDING_TARGET_ENDPOINT
+    // - CONTENTUNDERSTANDING_TARGET_RESOURCE_ID
+    // - CONTENTUNDERSTANDING_TARGET_REGION
 
     console.log("Note: Full cross-resource copy requires additional environment configuration");
   });

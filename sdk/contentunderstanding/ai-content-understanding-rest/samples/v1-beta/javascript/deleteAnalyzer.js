@@ -20,7 +20,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AzureKeyCredential } = require("@azure/core-auth");
 const { ContentUnderstandingClient } = require("@azure-rest/ai-content-understanding");
 function getCredential() {
-  const key = process.env["AZURE_CONTENT_UNDERSTANDING_KEY"];
+  const key = process.env["CONTENTUNDERSTANDING_KEY"];
   if (key) {
     return new AzureKeyCredential(key);
   }
@@ -30,9 +30,9 @@ function getCredential() {
 async function main() {
   console.log("== Delete Analyzer Sample ==");
 
-  const endpoint = process.env["AZURE_CONTENT_UNDERSTANDING_ENDPOINT"];
+  const endpoint = process.env["CONTENTUNDERSTANDING_ENDPOINT"];
   if (!endpoint) {
-    throw new Error("AZURE_CONTENT_UNDERSTANDING_ENDPOINT is required.");
+    throw new Error("CONTENTUNDERSTANDING_ENDPOINT is required.");
   }
 
   const client = new ContentUnderstandingClient(endpoint, getCredential());

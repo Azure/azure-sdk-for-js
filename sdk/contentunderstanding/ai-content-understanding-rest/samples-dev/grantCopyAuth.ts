@@ -47,12 +47,12 @@ export async function main(): Promise<void> {
 
   // Check for required environment variables
   const requiredVars = [
-    "AZURE_CONTENT_UNDERSTANDING_ENDPOINT",
-    "AZURE_CONTENT_UNDERSTANDING_SOURCE_RESOURCE_ID",
-    "AZURE_CONTENT_UNDERSTANDING_SOURCE_REGION",
-    "AZURE_CONTENT_UNDERSTANDING_TARGET_ENDPOINT",
-    "AZURE_CONTENT_UNDERSTANDING_TARGET_RESOURCE_ID",
-    "AZURE_CONTENT_UNDERSTANDING_TARGET_REGION",
+    "CONTENTUNDERSTANDING_ENDPOINT",
+    "CONTENTUNDERSTANDING_SOURCE_RESOURCE_ID",
+    "CONTENTUNDERSTANDING_SOURCE_REGION",
+    "CONTENTUNDERSTANDING_TARGET_ENDPOINT",
+    "CONTENTUNDERSTANDING_TARGET_RESOURCE_ID",
+    "CONTENTUNDERSTANDING_TARGET_REGION",
   ];
 
   const missingVars = requiredVars.filter((v) => !process.env[v]);
@@ -70,20 +70,20 @@ export async function main(): Promise<void> {
   }
 
   // Get source configuration
-  const sourceEndpoint = process.env["AZURE_CONTENT_UNDERSTANDING_ENDPOINT"]!;
-  const sourceKey = process.env["AZURE_CONTENT_UNDERSTANDING_KEY"];
+  const sourceEndpoint = process.env["CONTENTUNDERSTANDING_ENDPOINT"]!;
+  const sourceKey = process.env["CONTENTUNDERSTANDING_KEY"];
   const sourceCredential = getCredential(sourceKey);
 
-  const sourceResourceId = process.env["AZURE_CONTENT_UNDERSTANDING_SOURCE_RESOURCE_ID"]!;
-  const sourceRegion = process.env["AZURE_CONTENT_UNDERSTANDING_SOURCE_REGION"]!;
+  const sourceResourceId = process.env["CONTENTUNDERSTANDING_SOURCE_RESOURCE_ID"]!;
+  const sourceRegion = process.env["CONTENTUNDERSTANDING_SOURCE_REGION"]!;
 
   // Get target configuration
-  const targetEndpoint = process.env["AZURE_CONTENT_UNDERSTANDING_TARGET_ENDPOINT"]!;
-  const targetKey = process.env["AZURE_CONTENT_UNDERSTANDING_TARGET_KEY"];
+  const targetEndpoint = process.env["CONTENTUNDERSTANDING_TARGET_ENDPOINT"]!;
+  const targetKey = process.env["CONTENTUNDERSTANDING_TARGET_KEY"];
   const targetCredential = getCredential(targetKey);
 
-  const targetResourceId = process.env["AZURE_CONTENT_UNDERSTANDING_TARGET_RESOURCE_ID"]!;
-  const targetRegion = process.env["AZURE_CONTENT_UNDERSTANDING_TARGET_REGION"]!;
+  const targetResourceId = process.env["CONTENTUNDERSTANDING_TARGET_RESOURCE_ID"]!;
+  const targetRegion = process.env["CONTENTUNDERSTANDING_TARGET_REGION"]!;
 
   console.log("Configuration:");
   console.log(`  Source endpoint: ${sourceEndpoint}`);
