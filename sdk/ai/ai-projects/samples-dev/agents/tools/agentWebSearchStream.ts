@@ -87,10 +87,6 @@ export async function main(): Promise<void> {
     }
   }
 
-  console.log("\n" + "=".repeat(60));
-  console.log("Demonstrating follow-up query with streaming...");
-  console.log("=".repeat(60));
-
   // Clean up resources
   console.log("\n" + "=".repeat(60));
   console.log("Cleaning up resources...");
