@@ -44,12 +44,15 @@ import type {
   AppConfigurationGetKeyValuesHeaders,
   AppConfigurationGetRevisionsHeaders,
   AppConfigurationGetSnapshotsHeaders,
+  AppConfigurationCheckKeyValuesHeaders,
   GetKeyValuesResponse,
   GetRevisionsResponse,
   GetSnapshotsResponse,
+  CheckKeyValuesResponse,
   ConfigurationSnapshot,
   GetLabelsResponse,
   AppConfigurationGetLabelsHeaders,
+  KeyValueListResult,
 } from "./generated/src/models/index.js";
 import type { InternalClientPipelineOptions } from "@azure/core-client";
 import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
@@ -447,6 +450,29 @@ export class AppConfigurationClient {
     return getPagedAsyncIterator(pagedResult);
   }
 
+  /**
+   * Check settings from the Azure App Configuration service, optionally
+   * filtered by key names, labels and accept datetime.
+   *
+   * Example code:
+   * ```ts snippet:CheckConfigurationSettings
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * // The endpoint for your App Configuration resource
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
+   * const pageIterator = client.checkConfigurationSettings({ labelFilter: "MyLabel" }).byPage();
+   *
+   * for await (const page of pageIterator) {
+   *   console.log(`Received a response code of ${page._response.status}`);
+   * }
+   *
+   * ```
+   * @param options - Optional parameters for the request.
+   */
   checkConfigurationSettings(
     options: ListConfigurationSettingsOptions = {},
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
@@ -462,12 +488,12 @@ export class AppConfigurationClient {
               { ...options, etag },
               pageLink,
             );
+            const link = response?._response?.headers?.get("link");
+            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
             const currentResponse: ListConfigurationSettingPage = {
               ...response,
               items: [],
-              continuationToken: response.nextLink
-                ? extractAfterTokenFromNextLink(response.nextLink)
-                : undefined,
+              continuationToken: continuationToken,
               _response: response._response,
             };
             return {
@@ -483,7 +509,7 @@ export class AppConfigurationClient {
             if (err.statusCode === 304) {
               err.message = `Status 304: No updates for this page`;
               logger.info(
-                `[listConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
+                `[checkConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
               );
               return {
                 page: {
@@ -639,7 +665,7 @@ export class AppConfigurationClient {
   private async checkConfigurationSettingsRequest(
     options: SendConfigurationSettingsOptions & PageSettings = {},
     pageLink: string | undefined,
-  ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
+  ): Promise<CheckKeyValuesResponse & HttpResponseField<AppConfigurationCheckKeyValuesHeaders>> {
     return tracingClient.withSpan(
       "AppConfigurationClient.checkConfigurationSettings",
       options,
@@ -652,8 +678,8 @@ export class AppConfigurationClient {
           after: pageLink,
         });
 
-        return response as GetKeyValuesResponse &
-          HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
+        return response as CheckKeyValuesResponse &
+          HttpResponseField<AppConfigurationCheckKeyValuesHeaders>;
       },
     );
   }

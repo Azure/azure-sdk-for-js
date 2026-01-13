@@ -31,7 +31,6 @@ export class AppConfigurationClient {
     archiveSnapshot(name: string, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
     beginCreateSnapshot(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<SimplePollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>>;
     beginCreateSnapshotAndWait(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<CreateSnapshotResponse>;
-    // (undocumented)
     checkConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
