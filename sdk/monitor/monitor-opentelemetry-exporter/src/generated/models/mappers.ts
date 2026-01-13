@@ -424,7 +424,7 @@ export const AvailabilityData: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+          value: { type: { name: "String" } },
         },
       },
       measurements: {
@@ -459,7 +459,7 @@ export const TelemetryEventData: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+          value: { type: { name: "String" } },
         },
       },
       measurements: {
@@ -513,7 +513,7 @@ export const TelemetryExceptionData: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+          value: { type: { name: "String" } },
         },
       },
       measurements: {
@@ -554,7 +554,7 @@ export const MessageData: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+          value: { type: { name: "String" } },
         },
       },
       measurements: {
@@ -592,7 +592,7 @@ export const MetricsData: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+          value: { type: { name: "String" } },
         },
       },
     },
@@ -618,7 +618,7 @@ export const PageViewData: coreClient.CompositeMapper = {
       },
       name: {
         constraints: {
-          MaxLength: 1024,
+          MaxLength: 512,
         },
         serializedName: "name",
         required: true,
@@ -654,7 +654,7 @@ export const PageViewData: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+          value: { type: { name: "String" } },
         },
       },
       measurements: {
@@ -687,7 +687,7 @@ export const PageViewPerfData: coreClient.CompositeMapper = {
       },
       name: {
         constraints: {
-          MaxLength: 1024,
+          MaxLength: 512,
         },
         serializedName: "name",
         required: true,
@@ -744,7 +744,7 @@ export const PageViewPerfData: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+          value: { type: { name: "String" } },
         },
       },
       measurements: {
@@ -838,7 +838,7 @@ export const RemoteDependencyData: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+          value: { type: { name: "String" } },
         },
       },
       measurements: {
@@ -925,7 +925,7 @@ export const RequestData: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+          value: { type: { name: "String" } },
         },
       },
       measurements: {
