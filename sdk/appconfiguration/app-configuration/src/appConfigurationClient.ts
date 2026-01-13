@@ -451,27 +451,9 @@ export class AppConfigurationClient {
   }
 
   /**
-   * Checks settings from the Azure App Configuration service using
-   * a HEAD request, returning only headers without the response body.
+   * Checks settings from the Azure App Configuration service using a HEAD request, returning only headers without the response body.
    * This is useful for efficiently checking if settings have changed by comparing ETags.
    *
-   * Example code:
-   * ```ts snippet:CheckConfigurationSettings
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { AppConfigurationClient } from "@azure/app-configuration";
-   *
-   * // The endpoint for your App Configuration resource
-   * const endpoint = "https://example.azconfig.io";
-   * const credential = new DefaultAzureCredential();
-   * const client = new AppConfigurationClient(endpoint, credential);
-   *
-   * const pageIterator = client.checkConfigurationSettings({ labelFilter: "MyLabel" }).byPage();
-   *
-   * for await (const page of pageIterator) {
-   *   console.log(`Received a response code of ${page._response.status}`);
-   * }
-   *
-   * ```
    * @param options - Optional parameters for the request.
    */
   checkConfigurationSettings(
