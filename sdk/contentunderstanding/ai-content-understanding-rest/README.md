@@ -98,7 +98,7 @@ To configure model deployments using code, see the [Configure Defaults sample][s
 import { ContentUnderstandingClient } from "@azure-rest/ai-content-understanding";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const endpoint = process.env["AZURE_CONTENT_UNDERSTANDING_ENDPOINT"]!;
+const endpoint = process.env["CONTENTUNDERSTANDING_ENDPOINT"]!;
 const client = new ContentUnderstandingClient(endpoint, new DefaultAzureCredential());
 
 // Map your deployed models to the models required by prebuilt analyzers
@@ -159,8 +159,8 @@ You can also authenticate using an API key from your Microsoft Foundry resource:
 import { ContentUnderstandingClient } from "@azure-rest/ai-content-understanding";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-const endpoint = process.env["AZURE_CONTENT_UNDERSTANDING_ENDPOINT"]!;
-const apiKey = process.env["AZURE_CONTENT_UNDERSTANDING_KEY"]!;
+const endpoint = process.env["CONTENTUNDERSTANDING_ENDPOINT"]!;
+const apiKey = process.env["CONTENTUNDERSTANDING_KEY"]!;
 const client = new ContentUnderstandingClient(endpoint, new AzureKeyCredential(apiKey));
 ```
 
@@ -258,7 +258,7 @@ Use the `prebuilt-documentSearch` analyzer to extract markdown content from docu
 import { ContentUnderstandingClient } from "@azure-rest/ai-content-understanding";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const endpoint = process.env["AZURE_CONTENT_UNDERSTANDING_ENDPOINT"]!;
+const endpoint = process.env["CONTENTUNDERSTANDING_ENDPOINT"]!;
 const client = new ContentUnderstandingClient(endpoint, new DefaultAzureCredential());
 
 const documentUrl = "https://example.com/sample_invoice.pdf";
@@ -294,7 +294,7 @@ import {
 } from "@azure-rest/ai-content-understanding";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const endpoint = process.env["AZURE_CONTENT_UNDERSTANDING_ENDPOINT"]!;
+const endpoint = process.env["CONTENTUNDERSTANDING_ENDPOINT"]!;
 const client = new ContentUnderstandingClient(endpoint, new DefaultAzureCredential());
 
 const invoiceUrl = "https://example.com/invoice.pdf";
@@ -393,8 +393,8 @@ pnpm test
    ```
 
 2. Edit `test/.env` and fill in your actual values:
-   - `AZURE_CONTENT_UNDERSTANDING_ENDPOINT`: Your Microsoft Foundry resource endpoint
-   - `AZURE_CONTENT_UNDERSTANDING_KEY`: Your API key (optional if using DefaultAzureCredential)
+   - `CONTENTUNDERSTANDING_ENDPOINT`: Your Microsoft Foundry resource endpoint
+   - `CONTENTUNDERSTANDING_KEY`: Your API key (optional if using DefaultAzureCredential)
    - Model deployment names (required for prebuilt analyzers)
 
 ### Run tests in record mode
@@ -441,8 +441,8 @@ You can set credentials in multiple ways:
 3. **Shell export**: Export credentials directly in your shell:
 
    ```bash
-   export AZURE_CONTENT_UNDERSTANDING_ENDPOINT="https://<your-resource>.services.ai.azure.com/"
-   export AZURE_CONTENT_UNDERSTANDING_KEY="<your_key_here>"
+   export CONTENTUNDERSTANDING_ENDPOINT="https://<your-resource>.services.ai.azure.com/"
+   export CONTENTUNDERSTANDING_KEY="<your_key_here>"
    TEST_MODE=record pnpm test:node
    ```
 
@@ -459,7 +459,7 @@ DEBUG ENV KEY DEFINED: true
 
 ### Troubleshooting tests
 
-- **"key must be a non-empty string"**: The test process couldn't find your `AZURE_CONTENT_UNDERSTANDING_KEY`. Ensure `test/.env` or package-root `.env` is present and contains the key (or export it in your shell) before running tests.
+- **"key must be a non-empty string"**: The test process couldn't find your `CONTENTUNDERSTANDING_KEY`. Ensure `test/.env` or package-root `.env` is present and contains the key (or export it in your shell) before running tests.
 - **"Invalid request" LRO errors**: Ensure your service/region supports the analyzer used by the tests and that network access is available for URL-based inputs.
 
 ### Running Samples Locally
