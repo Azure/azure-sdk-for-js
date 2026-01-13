@@ -16,7 +16,7 @@ import { AIProjectClient } from "@azure/ai-projects";
 import { CognitiveServicesManagementClient, type Deployment } from "@azure/arm-cognitiveservices";
 import type { JobCreateParams } from "openai/resources/fine-tuning/jobs";
 import type OpenAI from "openai";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 import * as fs from "fs";
 import * as path from "path";
 import "dotenv/config";

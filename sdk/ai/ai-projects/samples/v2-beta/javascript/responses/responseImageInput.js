@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 const fs = require("node:fs/promises");
 const path = require("path");
-const { fileURLToPath } = require("url");
+const { fileURLToPath } = require("node:url");
 require("dotenv/config");
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

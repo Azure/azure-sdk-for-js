@@ -29,7 +29,7 @@ const {
 const fs = require("fs");
 const { writeFile } = require("node:fs/promises");
 const path = require("path");
-const { fileURLToPath } = require("url");
+const { fileURLToPath } = require("node:url");
 require("dotenv/config");
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

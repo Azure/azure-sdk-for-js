@@ -8,7 +8,7 @@
 
 const fs = require("node:fs/promises");
 const path = require("path");
-const { fileURLToPath } = require("url");
+const { fileURLToPath } = require("node:url");
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

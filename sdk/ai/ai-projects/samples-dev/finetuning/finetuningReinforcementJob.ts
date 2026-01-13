@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import type { JobCreateParams } from "openai/resources/fine-tuning/jobs";
 import type { ScoreModelGrader } from "openai/resources/graders/grader-models";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 import * as fs from "fs";
 import * as path from "path";
 import "dotenv/config";

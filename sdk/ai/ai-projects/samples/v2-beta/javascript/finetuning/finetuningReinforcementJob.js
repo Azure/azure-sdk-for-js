@@ -10,7 +10,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
-const { fileURLToPath } = require("url");
+const { fileURLToPath } = require("node:url");
 const fs = require("fs");
 const path = require("path");
 require("dotenv/config");
