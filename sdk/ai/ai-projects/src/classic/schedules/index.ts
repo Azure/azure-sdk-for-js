@@ -18,16 +18,16 @@ import {
   SchedulesGetOptionalParams,
   SchedulesDeleteOptionalParams,
 } from "../../api/schedules/options.js";
-import { Schedule, ScheduleRun, PagedScheduleRun } from "../../models/models.js";
+import { Schedule, ScheduleRun } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Schedules operations. */
 export interface SchedulesOperations {
   /** List all schedule runs. */
   listRuns: (
-    scheduleId: string,
+    id: string,
     options?: SchedulesListRunsOptionalParams,
-  ) => Promise<PagedScheduleRun>;
+  ) => PagedAsyncIterableIterator<ScheduleRun>;
   /** Get a schedule run by id. */
   getRun: (
     scheduleId: string,
@@ -45,13 +45,18 @@ export interface SchedulesOperations {
   /** Get a schedule by id. */
   get: (id: string, options?: SchedulesGetOptionalParams) => Promise<Schedule>;
   /** Delete a schedule. */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (id: string, options?: SchedulesDeleteOptionalParams) => Promise<void>;
 }
 
 function _getSchedules(context: AIProjectContext) {
   return {
-    listRuns: (scheduleId: string, options?: SchedulesListRunsOptionalParams) =>
-      listRuns(context, scheduleId, options),
+    listRuns: (id: string, options?: SchedulesListRunsOptionalParams) =>
+      listRuns(context, id, options),
     getRun: (scheduleId: string, runId: string, options?: SchedulesGetRunOptionalParams) =>
       getRun(context, scheduleId, runId, options),
     createOrUpdate: (

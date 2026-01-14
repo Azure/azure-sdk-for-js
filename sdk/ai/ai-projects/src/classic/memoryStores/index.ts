@@ -26,14 +26,15 @@ import {
 } from "../../api/memoryStores/options.js";
 import {
   MemoryStoreDefinitionUnion,
-  MemoryStore,
+  MemoryStoreObject,
   DeleteMemoryStoreResponse,
   MemoryStoreSearchResponse,
   MemoryStoreUpdateResponse,
+  MemoryStoreUpdateCompletedResult,
   MemoryStoreDeleteScopeResponse,
 } from "../../models/models.js";
-import { MemoryStoreUpdateMemoriesPoller } from "../../api/memoryStores/memoryStoreUpdateMemoriesPoller.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a MemoryStores operations. */
 export interface MemoryStoresOperations {
@@ -54,7 +55,10 @@ export interface MemoryStoresOperations {
     name: string,
     scope: string,
     options?: MemoryStoresUpdateMemoriesOptionalParams,
-  ) => MemoryStoreUpdateMemoriesPoller;
+  ) => PollerLike<
+    OperationState<MemoryStoreUpdateCompletedResult>,
+    MemoryStoreUpdateCompletedResult
+  >;
   /** Search for relevant memories from a memory store based on conversation context. */
   searchMemories: (
     name: string,
@@ -62,27 +66,30 @@ export interface MemoryStoresOperations {
     options?: MemoryStoresSearchMemoriesOptionalParams,
   ) => Promise<MemoryStoreSearchResponse>;
   /** Delete a memory store. */
-  delete: (
+  deleteMemoryStore: (
     name: string,
     options?: MemoryStoresDeleteMemoryStoreOptionalParams,
   ) => Promise<DeleteMemoryStoreResponse>;
   /** List all memory stores. */
-  list: (
+  listMemoryStores: (
     options?: MemoryStoresListMemoryStoresOptionalParams,
-  ) => PagedAsyncIterableIterator<MemoryStore>;
+  ) => PagedAsyncIterableIterator<MemoryStoreObject>;
   /** Retrieve a memory store. */
-  get: (name: string, options?: MemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStore>;
+  getMemoryStore: (
+    name: string,
+    options?: MemoryStoresGetMemoryStoreOptionalParams,
+  ) => Promise<MemoryStoreObject>;
   /** Update a memory store. */
-  update: (
+  updateMemoryStore: (
     name: string,
     options?: MemoryStoresUpdateMemoryStoreOptionalParams,
-  ) => Promise<MemoryStore>;
+  ) => Promise<MemoryStoreObject>;
   /** Create a memory store. */
-  create: (
+  createMemoryStore: (
     name: string,
     definition: MemoryStoreDefinitionUnion,
     options?: MemoryStoresCreateMemoryStoreOptionalParams,
-  ) => Promise<MemoryStore>;
+  ) => Promise<MemoryStoreObject>;
 }
 
 function _getMemoryStores(context: AIProjectContext) {
@@ -104,15 +111,15 @@ function _getMemoryStores(context: AIProjectContext) {
       scope: string,
       options?: MemoryStoresSearchMemoriesOptionalParams,
     ) => searchMemories(context, name, scope, options),
-    delete: (name: string, options?: MemoryStoresDeleteMemoryStoreOptionalParams) =>
+    deleteMemoryStore: (name: string, options?: MemoryStoresDeleteMemoryStoreOptionalParams) =>
       deleteMemoryStore(context, name, options),
-    list: (options?: MemoryStoresListMemoryStoresOptionalParams) =>
+    listMemoryStores: (options?: MemoryStoresListMemoryStoresOptionalParams) =>
       listMemoryStores(context, options),
-    get: (name: string, options?: MemoryStoresGetMemoryStoreOptionalParams) =>
+    getMemoryStore: (name: string, options?: MemoryStoresGetMemoryStoreOptionalParams) =>
       getMemoryStore(context, name, options),
-    update: (name: string, options?: MemoryStoresUpdateMemoryStoreOptionalParams) =>
+    updateMemoryStore: (name: string, options?: MemoryStoresUpdateMemoryStoreOptionalParams) =>
       updateMemoryStore(context, name, options),
-    create: (
+    createMemoryStore: (
       name: string,
       definition: MemoryStoreDefinitionUnion,
       options?: MemoryStoresCreateMemoryStoreOptionalParams,

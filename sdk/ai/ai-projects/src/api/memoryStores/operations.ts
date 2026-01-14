@@ -7,17 +7,19 @@ import {
   apiErrorResponseDeserializer,
   memoryStoreDefinitionUnionSerializer,
   MemoryStoreDefinitionUnion,
-  MemoryStore,
+  MemoryStoreObject,
   memoryStoreObjectDeserializer,
-  _AgentsPagedResultMemoryStore,
+  _AgentsPagedResultMemoryStoreObject,
   _agentsPagedResultMemoryStoreObjectDeserializer,
   DeleteMemoryStoreResponse,
   deleteMemoryStoreResponseDeserializer,
-  itemParamUnionArraySerializer,
+  itemUnionArraySerializer,
   MemoryStoreSearchResponse,
   memoryStoreSearchResponseDeserializer,
   MemoryStoreUpdateResponse,
   memoryStoreUpdateResponseDeserializer,
+  MemoryStoreUpdateCompletedResult,
+  memoryStoreUpdateCompletedResultDeserializer,
   MemoryStoreDeleteScopeResponse,
   memoryStoreDeleteScopeResponseDeserializer,
 } from "../../models/models.js";
@@ -25,11 +27,8 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  createMemoryStoreUpdateMemoriesPoller,
-  MemoryStoreUpdateMemoriesPoller,
-} from "./memoryStoreUpdateMemoriesPoller.js";
 import {
   MemoryStoresDeleteScopeOptionalParams,
   MemoryStoresGetUpdateResultOptionalParams,
@@ -47,6 +46,7 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _deleteScopeSend(
   context: Client,
@@ -64,15 +64,14 @@ export function _deleteScopeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: { scope: scope },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: { scope: scope },
+    });
 }
 
 export async function _deleteScopeDeserialize(
@@ -116,13 +115,12 @@ export function _getUpdateResultSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getUpdateResultDeserialize(
@@ -165,21 +163,39 @@ export function _updateMemoriesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      scope: scope,
-      conversation_id: options?.conversationId,
-      items: !options?.items ? options?.items : itemParamUnionArraySerializer(options?.items),
-      previous_update_id: options?.previousUpdateId,
-      update_delay: options?.updateDelay,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        scope: scope,
+        items: !options?.items ? options?.items : itemUnionArraySerializer(options?.items),
+        previous_update_id: options?.previous_update_id,
+        update_delay: options?.update_delay,
+      },
+    });
+}
+
+export async function _updateMemoriesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<MemoryStoreUpdateCompletedResult> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  if (result?.body?.result === undefined) {
+    throw createRestError(
+      `Expected a result in the response at position "result.body.result"`,
+      result,
+    );
+  }
+
+  return memoryStoreUpdateCompletedResultDeserializer(result.body.result);
 }
 
 /** Update memory store with conversation memories. */
@@ -188,16 +204,15 @@ export function updateMemories(
   name: string,
   scope: string,
   options: MemoryStoresUpdateMemoriesOptionalParams = { requestOptions: {} },
-): MemoryStoreUpdateMemoriesPoller {
-  return createMemoryStoreUpdateMemoriesPoller(
-    context,
-    ["202", "200"],
-    () => _updateMemoriesSend(context, name, scope, options),
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-    },
-  );
+): PollerLike<OperationState<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult> {
+  return getLongRunningPoller(context, _updateMemoriesDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
+  }) as PollerLike<
+    OperationState<MemoryStoreUpdateCompletedResult>,
+    MemoryStoreUpdateCompletedResult
+  >;
 }
 
 export function _searchMemoriesSend(
@@ -216,23 +231,21 @@ export function _searchMemoriesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      scope: scope,
-      conversation_id: options?.conversationId,
-      items: !options?.items ? options?.items : itemParamUnionArraySerializer(options?.items),
-      previous_search_id: options?.previousSearchId,
-      options: !options?.options
-        ? options?.options
-        : memorySearchOptionsSerializer(options?.options),
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        scope: scope,
+        items: !options?.items ? options?.items : itemUnionArraySerializer(options?.items),
+        previous_search_id: options?.previous_search_id,
+        options: !options?.options
+          ? options?.options
+          : memorySearchOptionsSerializer(options?.options),
+      },
+    });
 }
 
 export async function _searchMemoriesDeserialize(
@@ -274,13 +287,12 @@ export function _deleteMemoryStoreSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteMemoryStoreDeserialize(
@@ -323,18 +335,17 @@ export function _listMemoryStoresSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listMemoryStoresDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultMemoryStore> {
+): Promise<_AgentsPagedResultMemoryStoreObject> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -349,7 +360,7 @@ export async function _listMemoryStoresDeserialize(
 export function listMemoryStores(
   context: Client,
   options: MemoryStoresListMemoryStoresOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MemoryStore> {
+): PagedAsyncIterableIterator<MemoryStoreObject> {
   return buildPagedAsyncIterator(
     context,
     () => _listMemoryStoresSend(context, options),
@@ -374,18 +385,17 @@ export function _getMemoryStoreSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMemoryStoreDeserialize(
   result: PathUncheckedResponse,
-): Promise<MemoryStore> {
+): Promise<MemoryStoreObject> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -401,7 +411,7 @@ export async function getMemoryStore(
   context: Client,
   name: string,
   options: MemoryStoresGetMemoryStoreOptionalParams = { requestOptions: {} },
-): Promise<MemoryStore> {
+): Promise<MemoryStoreObject> {
   const result = await _getMemoryStoreSend(context, name, options);
   return _getMemoryStoreDeserialize(result);
 }
@@ -421,20 +431,19 @@ export function _updateMemoryStoreSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: { description: options?.description, metadata: options?.metadata },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: { description: options?.description, metadata: options?.metadata },
+    });
 }
 
 export async function _updateMemoryStoreDeserialize(
   result: PathUncheckedResponse,
-): Promise<MemoryStore> {
+): Promise<MemoryStoreObject> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -450,7 +459,7 @@ export async function updateMemoryStore(
   context: Client,
   name: string,
   options: MemoryStoresUpdateMemoryStoreOptionalParams = { requestOptions: {} },
-): Promise<MemoryStore> {
+): Promise<MemoryStoreObject> {
   const result = await _updateMemoryStoreSend(context, name, options);
   return _updateMemoryStoreDeserialize(result);
 }
@@ -470,25 +479,24 @@ export function _createMemoryStoreSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      name: name,
-      description: options?.description,
-      metadata: options?.metadata,
-      definition: memoryStoreDefinitionUnionSerializer(definition),
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        name: name,
+        description: options?.description,
+        metadata: options?.metadata,
+        definition: memoryStoreDefinitionUnionSerializer(definition),
+      },
+    });
 }
 
 export async function _createMemoryStoreDeserialize(
   result: PathUncheckedResponse,
-): Promise<MemoryStore> {
+): Promise<MemoryStoreObject> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -505,7 +513,7 @@ export async function createMemoryStore(
   name: string,
   definition: MemoryStoreDefinitionUnion,
   options: MemoryStoresCreateMemoryStoreOptionalParams = { requestOptions: {} },
-): Promise<MemoryStore> {
+): Promise<MemoryStoreObject> {
   const result = await _createMemoryStoreSend(context, name, definition, options);
   return _createMemoryStoreDeserialize(result);
 }

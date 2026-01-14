@@ -38,6 +38,7 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 import { ContainerClient } from "@azure/storage-blob";
+
 export function _getCredentialsSend(
   context: Client,
   name: string,
@@ -55,13 +56,12 @@ export function _getCredentialsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCredentialsDeserialize(
@@ -89,8 +89,8 @@ export async function getCredentials(
 export function _pendingUploadSend(
   context: Client,
   name: string,
-  version: string,
   pendingUploadRequest: PendingUploadRequest,
+  version: string,
   options: DatasetsPendingUploadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -104,15 +104,14 @@ export function _pendingUploadSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: pendingUploadRequestSerializer(pendingUploadRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: pendingUploadRequestSerializer(pendingUploadRequest),
+    });
 }
 
 export async function _pendingUploadDeserialize(
@@ -130,19 +129,19 @@ export async function _pendingUploadDeserialize(
 export async function pendingUpload(
   context: Client,
   name: string,
-  version: string,
   pendingUploadRequest: PendingUploadRequest,
+  version: string,
   options: DatasetsPendingUploadOptionalParams = { requestOptions: {} },
 ): Promise<PendingUploadResponse> {
-  const result = await _pendingUploadSend(context, name, version, pendingUploadRequest, options);
+  const result = await _pendingUploadSend(context, name, pendingUploadRequest, version, options);
   return _pendingUploadDeserialize(result);
 }
 
 export function _createOrUpdateSend(
   context: Client,
   name: string,
-  version: string,
   datasetVersion: DatasetVersionUnion,
+  version: string,
   options: DatasetsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -156,15 +155,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/merge-patch+json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: datasetVersionUnionSerializer(datasetVersion),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/merge-patch+json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: datasetVersionUnionSerializer(datasetVersion),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -182,11 +180,11 @@ export async function _createOrUpdateDeserialize(
 export async function createOrUpdate(
   context: Client,
   name: string,
-  version: string,
   datasetVersion: DatasetVersionUnion,
+  version: string,
   options: DatasetsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<DatasetVersionUnion> {
-  const result = await _createOrUpdateSend(context, name, version, datasetVersion, options);
+  const result = await _createOrUpdateSend(context, name, datasetVersion, version, options);
   return _createOrUpdateDeserialize(result);
 }
 
@@ -220,6 +218,11 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete the specific version of the DatasetVersion. The service returns 204 No Content if the DatasetVersion was deleted successfully or if the DatasetVersion does not exist. */
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
 export async function $delete(
   context: Client,
   name: string,
@@ -247,13 +250,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<DatasetVersionUnion> {
@@ -289,13 +291,12 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -338,13 +339,12 @@ export function _listVersionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listVersionsDeserialize(
@@ -469,7 +469,7 @@ export async function uploadFile(
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
   await blockBlobClient.uploadStream(fs.createReadStream(filePath));
 
-  const datasetVersion = await createOrUpdate(context, name, outputVersion, {
+  const datasetVersion = await createOrUpdate(context, name, version, {
     name: name,
     version: outputVersion,
     type: "uri_file",
@@ -553,7 +553,7 @@ export async function uploadFolder(
   }
 
   // Create dataset version that references this folder
-  const datasetVersion = await createOrUpdate(context, name, outputVersion, {
+  const datasetVersion = await createOrUpdate(context, name, version, {
     name: name,
     version: outputVersion,
     type: "uri_folder",

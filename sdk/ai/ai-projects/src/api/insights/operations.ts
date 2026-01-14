@@ -44,16 +44,18 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listDeserialize(result: PathUncheckedResponse): Promise<_PagedInsight> {
@@ -95,16 +97,18 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Insight> {
@@ -140,25 +144,27 @@ export function _generateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.repeatabilityRequestId !== undefined
-        ? { "Repeatability-Request-ID": options?.repeatabilityRequestId }
-        : {}),
-      ...(options?.repeatabilityFirstSent !== undefined
-        ? {
-            "Repeatability-First-Sent": !options?.repeatabilityFirstSent
-              ? options?.repeatabilityFirstSent
-              : options?.repeatabilityFirstSent.toUTCString(),
-          }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: insightSerializer(insight),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.repeatabilityRequestId !== undefined
+          ? { "Repeatability-Request-ID": options?.repeatabilityRequestId }
+          : {}),
+        ...(options?.repeatabilityFirstSent !== undefined
+          ? {
+              "Repeatability-First-Sent": !options?.repeatabilityFirstSent
+                ? options?.repeatabilityFirstSent
+                : options?.repeatabilityFirstSent.toUTCString(),
+            }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: insightSerializer(insight),
+    });
 }
 
 export async function _generateDeserialize(result: PathUncheckedResponse): Promise<Insight> {
