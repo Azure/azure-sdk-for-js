@@ -18,9 +18,7 @@ import type {
   ServiceGetUserDelegationKeyHeaders,
   UserDelegationKeyModel,
 } from "./generatedModels.js";
-import type {
-  ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel,
-} from "./generated/src/index.js";
+import type { ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel } from "./generated/src/index.js";
 import type { Service } from "./generated/src/operationsInterfaces/index.js";
 import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
