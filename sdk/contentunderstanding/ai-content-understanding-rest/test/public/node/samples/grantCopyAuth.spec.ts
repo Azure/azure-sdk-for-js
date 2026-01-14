@@ -11,6 +11,7 @@ import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { createRecorder } from "./sampleTestUtils.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { isLiveMode } from "../../../utils/injectables.js";
 
 import type {
   ContentAnalyzer,
@@ -141,7 +142,11 @@ describe("Sample: grantCopyAuth", () => {
       // Verify the copy
       const targetInfo = await targetClient.getAnalyzer(targetAnalyzerId);
       assert.equal(targetInfo.description, analyzer.description);
-      assert.ok(targetInfo.tags?.source === "true");
+      if (isLiveMode()) {
+        assert.ok(targetInfo.tags?.source === "true");
+      } else {
+        assert.strictEqual(targetInfo.tags?.source, "Sanitized");
+      }
     } finally {
       // Clean up
       try {
