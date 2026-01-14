@@ -16,11 +16,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 const fs = require("node:fs/promises");
 const path = require("path");
-const { fileURLToPath } = require("node:url");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const imageModelDeploymentName = process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME"] || "<image model deployment name>";
 
 async function main() {
   // Create AI Project client
@@ -52,6 +52,7 @@ async function main() {
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },
+      headers: { "x-ms-oai-image-generation-deployment": imageModelDeploymentName }
     },
   );
   console.log(`Response created: ${response.id}`);
@@ -62,8 +63,6 @@ async function main() {
   if (imageData && imageData.length > 0 && imageData[0].result) {
     console.log("Downloading generated image...");
 
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
     const filename = "microsoft.png";
     const filePath = path.join(__dirname, filename);
 
