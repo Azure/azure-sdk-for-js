@@ -4,7 +4,7 @@
 # ------------------------------------
 ARG NODE_VERSION=22
 
-# Optional registry prefix. Leave blank to use default Docker.
+# Optional registry prefix. Leave blank to use Docker Hub.
 ARG REGISTRY=""
 
 FROM ${REGISTRY}node:${NODE_VERSION}-alpine as builder
