@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Get the object replication policy of the storage account by policy ID.
  *
  * @summary Get the object replication policy of the storage account by policy ID.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountGetObjectReplicationPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountGetObjectReplicationPolicy.json
  */
 async function storageAccountGetObjectReplicationPolicies() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

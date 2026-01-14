@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi, afterEach } from "vitest";
+import { describe, it, assert, vi, afterEach, beforeEach } from "vitest";
 import { setPlatformSpecificData } from "../../src/util/userAgentPlatform.js";
 import process from "node:process";
+import os from "node:os";
 
 describe("userAgentPlatform", () => {
   vi.mock("node:process", async () => {
@@ -16,6 +17,22 @@ describe("userAgentPlatform", () => {
     };
   });
 
+  vi.mock("node:os", async () => {
+    const actual = await vi.importActual("node:os");
+    return {
+      default: {
+        ...(actual as any).default,
+        versions: {},
+      },
+    };
+  });
+
+  beforeEach(() => {
+    (vi.mocked(os) as any).type = () => "Linux";
+    (vi.mocked(os) as any).release = () => "6.13.8";
+    (vi.mocked(os) as any).arch = () => "x64";
+  });
+
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -26,10 +43,9 @@ describe("userAgentPlatform", () => {
 
     await setPlatformSpecificData(map);
 
-    assert.ok(map.has("OS"));
-    assert.notOk(map.has("Node"));
-    assert.notOk(map.has("Deno"));
-    assert.notOk(map.has("Bun"));
+    assert.isFalse(map.has("Node"));
+    assert.isFalse(map.has("Deno"));
+    assert.isFalse(map.has("Bun"));
   });
 
   it("should handle a Node.js process.versions with Bun", async () => {
@@ -38,11 +54,10 @@ describe("userAgentPlatform", () => {
 
     await setPlatformSpecificData(map);
 
-    assert.ok(map.has("OS"));
-    assert.ok(map.has("Bun"));
-    assert.equal(map.get("Bun"), "1.0.0");
-    assert.notOk(map.has("Node"));
-    assert.notOk(map.has("Deno"));
+    assert.isTrue(map.has("Bun"));
+    assert.equal(map.get("Bun"), "1.0.0 (Linux 6.13.8; x64)");
+    assert.isFalse(map.has("Node"));
+    assert.isFalse(map.has("Deno"));
   });
 
   it("should handle a Node.js process.versions with Deno", async () => {
@@ -51,11 +66,10 @@ describe("userAgentPlatform", () => {
 
     await setPlatformSpecificData(map);
 
-    assert.ok(map.has("OS"));
-    assert.ok(map.has("Deno"));
-    assert.equal(map.get("Deno"), "2.0.0");
-    assert.notOk(map.has("Node"));
-    assert.notOk(map.has("Bun"));
+    assert.isTrue(map.has("Deno"));
+    assert.equal(map.get("Deno"), "2.0.0 (Linux 6.13.8; x64)");
+    assert.isFalse(map.has("Node"));
+    assert.isFalse(map.has("Bun"));
   });
 
   it("should handle a Node.js process.versions", async () => {
@@ -64,10 +78,9 @@ describe("userAgentPlatform", () => {
 
     await setPlatformSpecificData(map);
 
-    assert.ok(map.has("OS"));
-    assert.ok(map.has("Node"));
-    assert.equal(map.get("Node"), "20.0.0");
-    assert.notOk(map.has("Deno"));
-    assert.notOk(map.has("Bun"));
+    assert.isTrue(map.has("Node"));
+    assert.equal(map.get("Node"), "20.0.0 (Linux 6.13.8; x64)");
+    assert.isFalse(map.has("Deno"));
+    assert.isFalse(map.has("Bun"));
   });
 });

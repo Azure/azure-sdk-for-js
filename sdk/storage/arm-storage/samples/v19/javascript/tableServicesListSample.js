@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to List all table services for the storage account.
  *
  * @summary List all table services for the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/TableServicesList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/TableServicesList.json
  */
 async function tableServicesList() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

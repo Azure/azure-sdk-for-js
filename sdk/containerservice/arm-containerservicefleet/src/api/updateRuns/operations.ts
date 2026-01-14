@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetContext as Client } from "../index.js";
+import type { ContainerServiceFleetContext as Client } from "../index.js";
+import type { UpdateRun, _UpdateRunListResult, SkipProperties } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  UpdateRun,
   updateRunSerializer,
   updateRunDeserializer,
-  _UpdateRunListResult,
   _updateRunListResultDeserializer,
-  SkipProperties,
   skipPropertiesSerializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   UpdateRunsSkipOptionalParams,
   UpdateRunsStopOptionalParams,
   UpdateRunsStartOptionalParams,
@@ -27,13 +23,9 @@ import {
   UpdateRunsCreateOrUpdateOptionalParams,
   UpdateRunsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _skipSend(
   context: Client,
@@ -69,7 +61,7 @@ export function _skipSend(
 }
 
 export async function _skipDeserialize(result: PathUncheckedResponse): Promise<UpdateRun> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -88,7 +80,7 @@ export function skip(
   body: SkipProperties,
   options: UpdateRunsSkipOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<UpdateRun>, UpdateRun> {
-  return getLongRunningPoller(context, _skipDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _skipDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -128,7 +120,7 @@ export function _stopSend(
 }
 
 export async function _stopDeserialize(result: PathUncheckedResponse): Promise<UpdateRun> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -146,7 +138,7 @@ export function stop(
   updateRunName: string,
   options: UpdateRunsStopOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<UpdateRun>, UpdateRun> {
-  return getLongRunningPoller(context, _stopDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _stopDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -186,7 +178,7 @@ export function _startSend(
 }
 
 export async function _startDeserialize(result: PathUncheckedResponse): Promise<UpdateRun> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -204,7 +196,7 @@ export function start(
   updateRunName: string,
   options: UpdateRunsStartOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<UpdateRun>, UpdateRun> {
-  return getLongRunningPoller(context, _startDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _startDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -293,14 +285,13 @@ export function _$deleteSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
-      accept: "application/json",
       ...options.requestOptions?.headers,
     },
   });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "202", "204"];
+  const expectedStatuses = ["200", "202", "204", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -323,7 +314,7 @@ export function $delete(
   updateRunName: string,
   options: UpdateRunsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

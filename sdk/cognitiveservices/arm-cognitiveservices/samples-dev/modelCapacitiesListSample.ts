@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to List ModelCapacities.
  *
  * @summary List ModelCapacities.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListModelCapacities.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListModelCapacities.json
  */
 async function listModelCapacities(): Promise<void> {
   const subscriptionId =

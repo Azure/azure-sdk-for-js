@@ -26,9 +26,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DatabaseAdvancedThreatProtectionSettings operations. */
-export class DatabaseAdvancedThreatProtectionSettingsImpl
-  implements DatabaseAdvancedThreatProtectionSettings
-{
+export class DatabaseAdvancedThreatProtectionSettingsImpl implements DatabaseAdvancedThreatProtectionSettings {
   private readonly client: SqlManagementClient;
 
   /**

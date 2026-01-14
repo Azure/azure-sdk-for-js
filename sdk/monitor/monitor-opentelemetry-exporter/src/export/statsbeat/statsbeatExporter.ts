@@ -8,7 +8,6 @@ import type { AzureMonitorExporterOptions } from "../../config.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import { resourceMetricsToEnvelope } from "../../utils/metricUtils.js";
 import { AzureMonitorBaseExporter } from "../base.js";
-import { HttpSender } from "../../platform/index.js";
 
 /**
  * Azure Monitor Statsbeat Exporter
@@ -21,7 +20,8 @@ export class AzureMonitorStatsbeatExporter
    * Flag to determine if the Exporter is shutdown.
    */
   private _isShutdown = false;
-  private _sender: HttpSender;
+  private _sender: any;
+  private _senderOptions: any;
 
   /**
    * Initializes a new instance of the AzureMonitorStatsbeatExporter class.
@@ -29,13 +29,25 @@ export class AzureMonitorStatsbeatExporter
    */
   constructor(options: AzureMonitorExporterOptions) {
     super(options, true);
-    this._sender = new HttpSender({
+    // Store sender options for lazy initialization to avoid circular dependency
+    this._senderOptions = {
       endpointUrl: this.endpointUrl,
       instrumentationKey: this.instrumentationKey,
       trackStatsbeat: this.trackStatsbeat,
       exporterOptions: options,
       isStatsbeatSender: true,
-    });
+    };
+  }
+
+  /**
+   * Lazily initialize the sender to avoid circular dependency
+   */
+  private async _getSender(): Promise<any> {
+    if (!this._sender) {
+      const { HttpSender } = await import("../../platform/nodejs/httpSender.js");
+      this._sender = new HttpSender(this._senderOptions);
+    }
+    return this._sender;
   }
 
   /**
@@ -79,7 +91,8 @@ export class AzureMonitorStatsbeatExporter
 
     // Supress tracing until OpenTelemetry Metrics SDK support it
     context.with(suppressTracing(context.active()), async () => {
-      resultCallback(await this._sender.exportEnvelopes(filteredEnvelopes));
+      const sender = await this._getSender();
+      resultCallback(await sender.exportEnvelopes(filteredEnvelopes));
     });
   }
 
@@ -88,7 +101,9 @@ export class AzureMonitorStatsbeatExporter
    */
   public async shutdown(): Promise<void> {
     this._isShutdown = true;
-    return this._sender.shutdown();
+    if (this._sender) {
+      return this._sender.shutdown();
+    }
   }
 
   /**

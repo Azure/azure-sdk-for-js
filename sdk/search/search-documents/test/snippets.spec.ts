@@ -377,7 +377,7 @@ describe("snippets", () => {
   it("ReadmeSampleKnowledgeRetrievalClient", async () => {
     const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
       "<endpoint>",
-      "<agentName>",
+      "<knowledgeBaseName>",
       new AzureKeyCredential("<apiKey>"),
     );
   });

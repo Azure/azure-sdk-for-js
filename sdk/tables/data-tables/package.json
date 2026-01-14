@@ -1,6 +1,6 @@
 {
   "name": "@azure/data-tables",
-  "version": "13.3.1",
+  "version": "13.3.3",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -65,7 +65,7 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",

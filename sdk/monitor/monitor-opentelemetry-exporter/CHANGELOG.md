@@ -1,5 +1,30 @@
 # Release History
 
+### 1.0.0-beta.37 ()
+
+### Features Added
+
+- Populate the `microsoft.applicationId` resource attribute from the Application Insights connection string when it is not already provided.
+
+### Bugs Fixed
+
+### Breaking Changes
+
+### Other Changes
+
+- Detect AKS when the `KUBERNETES_SERVICE_HOST` environment variable is defined.
+- Statsbeat exports now report success on failed sends to prevent PeriodicExportingMetricReader errors from surfacing to customers.
+
+## 1.0.0-beta.36 (2025-11-10)
+
+### Bugs Fixed
+
+- Fixed dynamic import of the exporter package.
+
+- Add support for multiuser permissions in unix.
+
+- Add support for log message serialization for complex objects.
+
 ## 1.0.0-beta.35 (2025-09-16)
 
 ### Other Changes

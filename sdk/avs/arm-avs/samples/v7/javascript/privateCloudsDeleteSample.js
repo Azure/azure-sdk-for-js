@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a PrivateCloud
  *
  * @summary delete a PrivateCloud
- * x-ms-original-file: 2024-09-01/PrivateClouds_Delete.json
+ * x-ms-original-file: 2025-09-01/PrivateClouds_Delete.json
  */
 async function privateCloudsDelete() {
   const credential = new DefaultAzureCredential();

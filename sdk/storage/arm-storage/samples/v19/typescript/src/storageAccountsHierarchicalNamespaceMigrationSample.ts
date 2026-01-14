@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Live Migration of storage account to enable Hns
  *
  * @summary Live Migration of storage account to enable Hns
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountHierarchicalNamespaceMigration.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountHierarchicalNamespaceMigration.json
  */
 async function storageAccountHierarchicalNamespaceMigration(): Promise<void> {
   const subscriptionId =

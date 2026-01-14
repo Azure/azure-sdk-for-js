@@ -229,7 +229,7 @@ describe("NodeHttpClient", function () {
     yieldHttpsResponse(createResponse(200, "body"));
     const response = await promise;
     assert.equal(response.bodyAsText, undefined);
-    assert.ok(response.readableStreamBody);
+    assert.isDefined(response.readableStreamBody);
   });
 
   it("should stream response body on any status code", async function () {
@@ -242,7 +242,7 @@ describe("NodeHttpClient", function () {
     yieldHttpsResponse(createResponse(201, "body"));
     const response = await promise;
     assert.equal(response.bodyAsText, undefined);
-    assert.ok(response.readableStreamBody);
+    assert.isDefined(response.readableStreamBody);
   });
 
   it("should not stream response body on non-matching status code", async function () {

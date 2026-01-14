@@ -6,18 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { IotHub } from "../operationsInterfaces/index.js";
+import type { IotHub } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { IotHubClient } from "../iotHubClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import type { IotHubClient } from "../iotHubClient.js";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import { FailoverInput, IotHubManualFailoverOptionalParams } from "../models/index.js";
+import type { FailoverInput, IotHubManualFailoverOptionalParams } from "../models/index.js";
 
 /** Class containing IotHub operations. */
 export class IotHubImpl implements IotHub {
@@ -45,25 +42,23 @@ export class IotHubImpl implements IotHub {
     iotHubName: string,
     resourceGroupName: string,
     failoverInput: FailoverInput,
-    options?: IotHubManualFailoverOptionalParams
+    options?: IotHubManualFailoverOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -72,8 +67,8 @@ export class IotHubImpl implements IotHub {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -81,19 +76,19 @@ export class IotHubImpl implements IotHub {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { iotHubName, resourceGroupName, failoverInput, options },
-      spec: manualFailoverOperationSpec
+      spec: manualFailoverOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -113,13 +108,13 @@ export class IotHubImpl implements IotHub {
     iotHubName: string,
     resourceGroupName: string,
     failoverInput: FailoverInput,
-    options?: IotHubManualFailoverOptionalParams
+    options?: IotHubManualFailoverOptionalParams,
   ): Promise<void> {
     const poller = await this.beginManualFailover(
       iotHubName,
       resourceGroupName,
       failoverInput,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -128,8 +123,7 @@ export class IotHubImpl implements IotHub {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const manualFailoverOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{iotHubName}/failover",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{iotHubName}/failover",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -137,8 +131,8 @@ const manualFailoverOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   requestBody: Parameters.failoverInput,
   queryParameters: [Parameters.apiVersion],
@@ -146,9 +140,9 @@ const manualFailoverOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.iotHubName
+    Parameters.iotHubName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

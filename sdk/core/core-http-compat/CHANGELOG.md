@@ -1,5 +1,17 @@
 # Release History
 
+## 2.3.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Move runtime dependencies "@azure/core-rest-pipeline" and "@azure/core-client" to `peerDependencies` and rely on the consumers of `core-http-compat` to install them.
+
 ## 2.3.1 (2025-09-11)
 
 ### Other Changes

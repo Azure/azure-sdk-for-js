@@ -22,8 +22,8 @@ export const tokenExchangeMsi = {
     const env = process.env;
     const result = Boolean(
       (clientId || env.AZURE_CLIENT_ID) &&
-        env.AZURE_TENANT_ID &&
-        process.env.AZURE_FEDERATED_TOKEN_FILE,
+      env.AZURE_TENANT_ID &&
+      process.env.AZURE_FEDERATED_TOKEN_FILE,
     );
     if (!result) {
       logger.info(

@@ -99,8 +99,8 @@ describe("LogHandler", () => {
         expect(exportStub).toHaveBeenCalledOnce();
         const lgs = exportStub.mock.calls[0][0][0];
         const spanContext = trace.getSpanContext(context.active());
-        assert.ok(isValidTraceId(lgs.spanContext!.traceId), "Valid trace Id");
-        assert.ok(isValidSpanId(lgs.spanContext!.spanId), "Valid span Id");
+        assert.isTrue(isValidTraceId(lgs.spanContext!.traceId), "Valid trace Id");
+        assert.isTrue(isValidSpanId(lgs.spanContext!.spanId), "Valid span Id");
         assert.deepStrictEqual(lgs.spanContext!.traceId, spanContext?.traceId);
         assert.deepStrictEqual(lgs.spanContext!.spanId, spanContext?.spanId);
       });
@@ -168,7 +168,7 @@ describe("LogHandler", () => {
         enabled: true,
       };
       const logHandler = new LogHandler(config, metricHandler);
-      assert.ok(logHandler.getInstrumentations().length > 0, "Log instrumentations not added");
+      assert.isTrue(logHandler.getInstrumentations().length > 0, "Log instrumentations not added");
       assert.strictEqual(
         logHandler.getInstrumentations()[0].instrumentationName,
         "@opentelemetry/instrumentation-bunyan",
@@ -184,7 +184,7 @@ describe("LogHandler", () => {
         enabled: true,
       };
       const logHandler = new LogHandler(config, metricHandler);
-      assert.ok(logHandler.getInstrumentations().length > 0, "Log instrumentations not added");
+      assert.isTrue(logHandler.getInstrumentations().length > 0, "Log instrumentations not added");
       assert.strictEqual(
         logHandler.getInstrumentations()[0].instrumentationName,
         "@opentelemetry/instrumentation-winston",

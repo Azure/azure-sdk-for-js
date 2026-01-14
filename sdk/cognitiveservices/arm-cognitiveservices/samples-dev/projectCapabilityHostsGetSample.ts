@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get project capabilityHost.
  *
  * @summary Get project capabilityHost.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ProjectCapabilityHost/get.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ProjectCapabilityHost/get.json
  */
 async function getProjectCapabilityHost(): Promise<void> {
   const subscriptionId =

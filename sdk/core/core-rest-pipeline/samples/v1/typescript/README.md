@@ -49,7 +49,7 @@ node dist/node-sample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env node dist/node-sample.js
+node dist/node-sample.js
 ```
 
 ## Next Steps

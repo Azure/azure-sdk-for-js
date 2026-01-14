@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and (de)serializers.
+ * Disable this rule for deserializer functions which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Describes the result of the request to list Service Fabric resource provider operations. */
 export interface _OperationListResult {
   /** The OperationResult items on this page */
@@ -680,10 +685,29 @@ export type CreatedByType = string;
 export interface ApplicationUpdateParameters {
   /** Application update parameters */
   tags?: Record<string, string>;
+  /** Application update parameters properties. */
+  properties?: ApplicationUpdateParametersProperties;
 }
 
 export function applicationUpdateParametersSerializer(item: ApplicationUpdateParameters): any {
-  return { tags: item["tags"] };
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : applicationUpdateParametersPropertiesSerializer(item["properties"]),
+  };
+}
+
+/** Properties for application update request. */
+export interface ApplicationUpdateParametersProperties {
+  /** List of application parameters with overridden values from their default values specified in the application manifest. */
+  parameters?: Record<string, string>;
+}
+
+export function applicationUpdateParametersPropertiesSerializer(
+  item: ApplicationUpdateParametersProperties,
+): any {
+  return { parameters: item["parameters"] };
 }
 
 /** The list of application resources. */
@@ -929,6 +953,86 @@ export enum KnownRuntimeFailureAction {
  * **Manual**: Indicates that a manual repair will need to be performed by the administrator if the upgrade fails. Service Fabric will not proceed to the next upgrade domain automatically.
  */
 export type RuntimeFailureAction = string;
+
+/** Parameters for fetching the health of an application. */
+export interface ApplicationFetchHealthRequest {
+  /** Allows filtering of the health events returned in the response based on health state. */
+  eventsHealthStateFilter?: HealthFilter;
+  /** Allows filtering of the deployed applications health state objects returned in the result of application health query based on their health state. */
+  deployedApplicationsHealthStateFilter?: HealthFilter;
+  /** Allows filtering of the services health state objects returned in the result of services health query based on their health state. */
+  servicesHealthStateFilter?: HealthFilter;
+  /** Indicates whether the health statistics should be returned as part of the query result. False by default. The statistics show the number of children entities in health state Ok, Warning, and Error. */
+  excludeHealthStatistics?: boolean;
+  /** Request timeout for the health query in seconds. The default value is 60 seconds. */
+  timeout?: number;
+}
+
+export function applicationFetchHealthRequestSerializer(item: ApplicationFetchHealthRequest): any {
+  return {
+    eventsHealthStateFilter: item["eventsHealthStateFilter"],
+    deployedApplicationsHealthStateFilter: item["deployedApplicationsHealthStateFilter"],
+    servicesHealthStateFilter: item["servicesHealthStateFilter"],
+    excludeHealthStatistics: item["excludeHealthStatistics"],
+    timeout: item["timeout"],
+  };
+}
+
+/** Enum for filtering health events. */
+export enum KnownHealthFilter {
+  /** Default value. Matches any health state. */
+  Default = "Default",
+  /** Filter that doesn't match any health state. Used to return no results on a given collection of health entities. */
+  None = "None",
+  /** Filter for health state Ok. */
+  Ok = "Ok",
+  /** Filter for health state Warning. */
+  Warning = "Warning",
+  /** Filter for health state Error. */
+  Error = "Error",
+  /** Filter that matches input with any health state. */
+  All = "All",
+}
+
+/**
+ * Enum for filtering health events. \
+ * {@link KnownHealthFilter} can be used interchangeably with HealthFilter,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: Default value. Matches any health state. \
+ * **None**: Filter that doesn't match any health state. Used to return no results on a given collection of health entities. \
+ * **Ok**: Filter for health state Ok. \
+ * **Warning**: Filter for health state Warning. \
+ * **Error**: Filter for health state Error. \
+ * **All**: Filter that matches input with any health state.
+ */
+export type HealthFilter = string;
+
+/** Parameters for restarting a deployed code package. */
+export interface RestartDeployedCodePackageRequest {
+  /** The name of the node where the code package needs to be restarted. Use '*' to restart on all nodes where the code package is running. */
+  nodeName: string;
+  /** The name of the service manifest as specified in the code package. */
+  serviceManifestName: string;
+  /** The name of the code package as specified in the service manifest. */
+  codePackageName: string;
+  /** The instance ID for currently running entry point. For a code package setup entry point (if specified) runs first and after it finishes main entry point is started. Each time entry point executable is run, its instance ID will change. If 0 is passed in as the code package instance ID, the API will restart the code package with whatever instance ID it is currently running. If an instance ID other than 0 is passed in, the API will restart the code package only if the current Instance ID matches the passed in instance ID. Note, passing in the exact instance ID (not 0) in the API is safer, because if ensures at most one restart of the code package. */
+  codePackageInstanceId: string;
+  /** The activation id of a deployed service package. If ServicePackageActivationMode specified at the time of creating the service is 'SharedProcess' (or if it is not specified, in which case it defaults to 'SharedProcess'), then value of ServicePackageActivationId is always an empty string. */
+  servicePackageActivationId?: string;
+}
+
+export function restartDeployedCodePackageRequestSerializer(
+  item: RestartDeployedCodePackageRequest,
+): any {
+  return {
+    nodeName: item["nodeName"],
+    serviceManifestName: item["serviceManifestName"],
+    codePackageName: item["codePackageName"],
+    codePackageInstanceId: item["codePackageInstanceId"],
+    servicePackageActivationId: item["servicePackageActivationId"],
+  };
+}
 
 /** The application type name resource */
 export interface ApplicationTypeResource extends ProxyResource {
@@ -2442,6 +2546,47 @@ export function serviceResourceArrayDeserializer(result: Array<ServiceResource>)
     return serviceResourceDeserializer(item);
   });
 }
+
+/** Request to restart a replica. */
+export interface RestartReplicaRequest {
+  /** The ID of the partition. */
+  partitionId: string;
+  /** The IDs of the replicas to be restarted. */
+  replicaIds: number[];
+  /** The kind of restart to perform. */
+  restartKind: RestartKind;
+  /** If true, the restart operation will be forced. Use this option with care, as it may cause data loss. */
+  forceRestart?: boolean;
+  /** The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds. */
+  timeout?: number;
+}
+
+export function restartReplicaRequestSerializer(item: RestartReplicaRequest): any {
+  return {
+    partitionId: item["partitionId"],
+    replicaIds: item["replicaIds"].map((p: any) => {
+      return p;
+    }),
+    restartKind: item["restartKind"],
+    forceRestart: item["forceRestart"],
+    timeout: item["timeout"],
+  };
+}
+
+/** The kind of restart to perform. */
+export enum KnownRestartKind {
+  /** Restart all listed replicas at the same time. */
+  Simultaneous = "Simultaneous",
+}
+
+/**
+ * The kind of restart to perform. \
+ * {@link KnownRestartKind} can be used interchangeably with RestartKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Simultaneous**: Restart all listed replicas at the same time.
+ */
+export type RestartKind = string;
 
 /** The result of the Service Fabric runtime versions */
 export interface ManagedClusterCodeVersionResult {
@@ -5639,6 +5784,8 @@ export enum KnownVersions {
   V20250301Preview = "2025-03-01-preview",
   /** 2025-06-01-preview */
   V20250601Preview = "2025-06-01-preview",
+  /** 2025-10-01-preview */
+  V20251001Preview = "2025-10-01-preview",
 }
 
 export function managedClusterCodeVersionResultArrayDeserializer(

@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   SshGenerateKeyPairInputParameters,
-  SshPublicKeysGenerateKeyPairOptionalParams,
+  SshPublicKeysGenerateKeyPairOptionalParams} from "@azure/arm-compute";
+import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";

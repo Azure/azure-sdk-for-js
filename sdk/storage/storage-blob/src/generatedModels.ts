@@ -407,6 +407,7 @@ export {
   Logging,
   Metrics,
   ModifiedAccessConditions as ModifiedAccessConditionsModel,
+  BlobModifiedAccessConditions,
   PublicAccessType,
   SequenceNumberActionType,
   RehydratePriority,

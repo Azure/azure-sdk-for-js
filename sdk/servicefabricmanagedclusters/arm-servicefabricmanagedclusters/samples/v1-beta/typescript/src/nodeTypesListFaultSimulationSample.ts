@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the list of recent fault simulations for the node type.
  *
  * @summary gets the list of recent fault simulations for the node type.
- * x-ms-original-file: 2025-06-01-preview/faultSimulation/NodeTypeListFaultSimulation_example.json
+ * x-ms-original-file: 2025-10-01-preview/faultSimulation/NodeTypeListFaultSimulation_example.json
  */
 async function listNodeTypeFaultSimulation(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -33,6 +33,15 @@ export interface AddRemoveIncrementalNamedPartitionScalingMechanism extends Scal
 }
 
 // @public
+export interface ApplicationFetchHealthRequest {
+    deployedApplicationsHealthStateFilter?: HealthFilter;
+    eventsHealthStateFilter?: HealthFilter;
+    excludeHealthStatistics?: boolean;
+    servicesHealthStateFilter?: HealthFilter;
+    timeout?: number;
+}
+
+// @public
 export interface ApplicationHealthPolicy {
     considerWarningAsError: boolean;
     defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicy;
@@ -68,6 +77,11 @@ export interface ApplicationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface ApplicationsFetchHealthOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ApplicationsGetOptionalParams extends OperationOptions {
 }
 
@@ -79,17 +93,24 @@ export interface ApplicationsListOptionalParams extends OperationOptions {
 export interface ApplicationsOperations {
     createOrUpdate: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResource, options?: ApplicationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ApplicationResource>, ApplicationResource>;
     delete: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    fetchHealth: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationFetchHealthRequest, options?: ApplicationsFetchHealthOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsGetOptionalParams) => Promise<ApplicationResource>;
     list: (resourceGroupName: string, clusterName: string, options?: ApplicationsListOptionalParams) => PagedAsyncIterableIterator<ApplicationResource>;
     readUpgrade: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsReadUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
+    restartDeployedCodePackage: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: RestartDeployedCodePackageRequest, options?: ApplicationsRestartDeployedCodePackageOptionalParams) => PollerLike<OperationState<void>, void>;
     resumeUpgrade: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: RuntimeResumeApplicationUpgradeParameters, options?: ApplicationsResumeUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
     startRollback: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsStartRollbackOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationUpdateParameters, options?: ApplicationsUpdateOptionalParams) => Promise<ApplicationResource>;
+    update: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationUpdateParameters, options?: ApplicationsUpdateOptionalParams) => PollerLike<OperationState<ApplicationResource>, ApplicationResource>;
     updateUpgrade: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: RuntimeUpdateApplicationUpgradeParameters, options?: ApplicationsUpdateUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
 export interface ApplicationsReadUpgradeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ApplicationsRestartDeployedCodePackageOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -105,6 +126,7 @@ export interface ApplicationsStartRollbackOptionalParams extends OperationOption
 
 // @public
 export interface ApplicationsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -215,7 +237,13 @@ export interface ApplicationTypeVersionUpdateParameters {
 
 // @public
 export interface ApplicationUpdateParameters {
+    properties?: ApplicationUpdateParametersProperties;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface ApplicationUpdateParametersProperties {
+    parameters?: Record<string, string>;
 }
 
 // @public
@@ -439,6 +467,9 @@ export interface FrontendConfiguration {
 }
 
 // @public
+export type HealthFilter = string;
+
+// @public
 export type IPAddressType = string;
 
 // @public
@@ -554,6 +585,16 @@ export enum KnownFaultSimulationStatus {
 }
 
 // @public
+export enum KnownHealthFilter {
+    All = "All",
+    Default = "Default",
+    Error = "Error",
+    None = "None",
+    Ok = "Ok",
+    Warning = "Warning"
+}
+
+// @public
 export enum KnownIPAddressType {
     IPv4 = "IPv4",
     IPv6 = "IPv6"
@@ -658,6 +699,11 @@ export enum KnownProtocol {
 export enum KnownPublicIPAddressVersion {
     IPv4 = "IPv4",
     IPv6 = "IPv6"
+}
+
+// @public
+export enum KnownRestartKind {
+    Simultaneous = "Simultaneous"
 }
 
 // @public
@@ -770,7 +816,8 @@ export enum KnownUpdateType {
 export enum KnownVersions {
     V20241101Preview = "2024-11-01-preview",
     V20250301Preview = "2025-03-01-preview",
-    V20250601Preview = "2025-06-01-preview"
+    V20250601Preview = "2025-06-01-preview",
+    V20251001Preview = "2025-10-01-preview"
 }
 
 // @public
@@ -941,7 +988,7 @@ export interface ManagedClustersOperations {
     listFaultSimulation: (resourceGroupName: string, clusterName: string, options?: ManagedClustersListFaultSimulationOptionalParams) => PagedAsyncIterableIterator<FaultSimulation>;
     startFaultSimulation: (resourceGroupName: string, clusterName: string, parameters: FaultSimulationContentWrapper, options?: ManagedClustersStartFaultSimulationOptionalParams) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
     stopFaultSimulation: (resourceGroupName: string, clusterName: string, parameters: FaultSimulationIdContent, options?: ManagedClustersStopFaultSimulationOptionalParams) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
-    update: (resourceGroupName: string, clusterName: string, parameters: ManagedClusterUpdateParameters, options?: ManagedClustersUpdateOptionalParams) => Promise<ManagedCluster>;
+    update: (resourceGroupName: string, clusterName: string, parameters: ManagedClusterUpdateParameters, options?: ManagedClustersUpdateOptionalParams) => PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
 }
 
 // @public
@@ -956,6 +1003,7 @@ export interface ManagedClustersStopFaultSimulationOptionalParams extends Operat
 
 // @public
 export interface ManagedClustersUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1415,6 +1463,27 @@ export interface ResourceAzStatus {
 }
 
 // @public
+export interface RestartDeployedCodePackageRequest {
+    codePackageInstanceId: string;
+    codePackageName: string;
+    nodeName: string;
+    serviceManifestName: string;
+    servicePackageActivationId?: string;
+}
+
+// @public
+export type RestartKind = string;
+
+// @public
+export interface RestartReplicaRequest {
+    forceRestart?: boolean;
+    partitionId: string;
+    replicaIds: number[];
+    restartKind: RestartKind;
+    timeout?: number;
+}
+
+// @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ServiceFabricManagedClustersManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
@@ -1681,7 +1750,13 @@ export interface ServicesOperations {
     delete: (resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesGetOptionalParams) => Promise<ServiceResource>;
     listByApplications: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ServicesListByApplicationsOptionalParams) => PagedAsyncIterableIterator<ServiceResource>;
+    restartReplica: (resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: RestartReplicaRequest, options?: ServicesRestartReplicaOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: ServiceUpdateParameters, options?: ServicesUpdateOptionalParams) => Promise<ServiceResource>;
+}
+
+// @public
+export interface ServicesRestartReplicaOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public

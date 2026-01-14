@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets the existing immutability policy along with the corresponding ETag in response headers and body.
  *
  * @summary Gets the existing immutability policy along with the corresponding ETag in response headers and body.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/BlobContainersGetImmutabilityPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/BlobContainersGetImmutabilityPolicy.json
  */
 async function getImmutabilityPolicy() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

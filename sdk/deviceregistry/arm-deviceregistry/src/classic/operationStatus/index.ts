@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
-import { operationStatusGet } from "../../api/operationStatus/index.js";
-import { OperationStatusGetOptionalParams } from "../../api/options.js";
-import { OperationStatusResult } from "../../models/models.js";
+import type { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
+import { get } from "../../api/operationStatus/operations.js";
+import type { OperationStatusGetOptionalParams } from "../../api/operationStatus/options.js";
+import type { OperationStatusResult } from "../../models/models.js";
 
 /** Interface representing a OperationStatus operations. */
 export interface OperationStatusOperations {
@@ -19,7 +19,7 @@ export interface OperationStatusOperations {
 function _getOperationStatus(context: DeviceRegistryManagementContext) {
   return {
     get: (location: string, operationId: string, options?: OperationStatusGetOptionalParams) =>
-      operationStatusGet(context, location, operationId, options),
+      get(context, location, operationId, options),
   };
 }
 

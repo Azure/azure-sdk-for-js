@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to stops a fault simulation on the cluster.
  *
  * @summary stops a fault simulation on the cluster.
- * x-ms-original-file: 2025-06-01-preview/faultSimulation/ManagedClusterStopFaultSimulation_example.json
+ * x-ms-original-file: 2025-10-01-preview/faultSimulation/ManagedClusterStopFaultSimulation_example.json
  */
 async function stopManagedClusterFaultSimulation(): Promise<void> {
   const credential = new DefaultAzureCredential();

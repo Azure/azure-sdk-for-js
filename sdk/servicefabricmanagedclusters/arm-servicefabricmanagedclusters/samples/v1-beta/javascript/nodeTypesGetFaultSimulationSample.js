@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a fault simulation by the simulationId.
  *
  * @summary gets a fault simulation by the simulationId.
- * x-ms-original-file: 2025-06-01-preview/faultSimulation/NodeTypeGetFaultSimulation_example.json
+ * x-ms-original-file: 2025-10-01-preview/faultSimulation/NodeTypeGetFaultSimulation_example.json
  */
 async function getNodeTypeFaultSimulation() {
   const credential = new DefaultAzureCredential();

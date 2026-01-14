@@ -1,5 +1,14 @@
 # Release History
 
+## 12.30.0-beta.1 (2025-11-24)
+
+### Features Added
+
+- Added support for service version 2026-02-06.
+- Added support for User Delegation SAS.
+- Added support for Principal-Bound Identity User Delegation SAS.
+- Added support for the ShareServiceProperties.Protocol.SMB.EncryptionInTransit parameter on ShareServiceClient.setProperties().
+
 ## 12.29.1 (2025-10-16)
 
 ### Features Added

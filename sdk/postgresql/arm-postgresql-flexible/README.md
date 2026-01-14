@@ -2,11 +2,11 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure PostgreSQLManagementFlexibleServer client.
 
-The Microsoft Azure management API provides create, read, update, and delete functionality for Azure PostgreSQL resources including servers, databases, firewall rules, VNET rules, security alert policies, log files and configurations with new business model.
+The Azure Database for PostgreSQL management API provides create, read, update, and delete functionality for Azure PostgreSQL resources including servers, databases, firewall rules, network configuration, security alert policies, log files and configurations with new business model.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/postgresql/arm-postgresql-flexible) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-postgresql-flexible) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-postgresql-flexible?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-postgresql-flexible) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

@@ -2391,6 +2391,18 @@ export interface SourceModifiedAccessConditions {
 }
 
 /** Parameter group */
+export interface BlobModifiedAccessConditions {
+  /** Specify this header value to operate only on a blob if it has been modified since the specified date/time. */
+  ifModifiedSince?: Date;
+  /** Specify this header value to operate only on a blob if it has not been modified since the specified date/time. */
+  ifUnmodifiedSince?: Date;
+  /** Specify an ETag value to operate only on blobs with a matching value. */
+  ifMatch?: string;
+  /** Specify an ETag value to operate only on blobs without a matching value. */
+  ifNoneMatch?: string;
+}
+
+/** Parameter group */
 export interface SequenceNumberAccessConditions {
   /** Specify this header value to operate only on a blob if it has a sequence number less than or equal to the specified. */
   ifSequenceNumberLessThanOrEqualTo?: number;
@@ -3299,6 +3311,8 @@ export interface ContainerListBlobFlatSegmentOptionalParams
   maxPageSize?: number;
   /** Include this parameter to specify one or more datasets to include in the response. */
   include?: ListBlobsIncludeItem[];
+  /** Specifies the relative path to list paths from. For non-recursive list, only one entity level is supported; For recursive list, multiple entity levels are supported. (Inclusive) */
+  startFrom?: string;
 }
 
 /** Contains response data for the listBlobFlatSegment operation. */
@@ -3320,6 +3334,8 @@ export interface ContainerListBlobHierarchySegmentOptionalParams
   maxPageSize?: number;
   /** Include this parameter to specify one or more datasets to include in the response. */
   include?: ListBlobsIncludeItem[];
+  /** Specifies the relative path to list paths from. For non-recursive list, only one entity level is supported; For recursive list, multiple entity levels are supported. (Inclusive) */
+  startFrom?: string;
 }
 
 /** Contains response data for the listBlobHierarchySegment operation. */
@@ -3809,6 +3825,8 @@ export interface BlobGetTagsOptionalParams extends coreClient.OperationOptions {
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
+  /** Parameter group */
+  blobModifiedAccessConditions?: BlobModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -3828,6 +3846,8 @@ export interface BlobSetTagsOptionalParams extends coreClient.OperationOptions {
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
+  /** Parameter group */
+  blobModifiedAccessConditions?: BlobModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */

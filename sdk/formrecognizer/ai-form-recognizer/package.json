@@ -88,7 +88,7 @@
     "@azure/identity": "catalog:internal",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",

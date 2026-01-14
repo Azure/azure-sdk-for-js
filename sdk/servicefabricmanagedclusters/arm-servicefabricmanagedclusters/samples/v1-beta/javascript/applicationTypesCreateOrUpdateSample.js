@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a Service Fabric managed application type name resource with the specified name.
  *
  * @summary create or update a Service Fabric managed application type name resource with the specified name.
- * x-ms-original-file: 2025-06-01-preview/ApplicationTypeNamePutOperation_example.json
+ * x-ms-original-file: 2025-10-01-preview/ApplicationTypeNamePutOperation_example.json
  */
 async function putAnApplicationType() {
   const credential = new DefaultAzureCredential();

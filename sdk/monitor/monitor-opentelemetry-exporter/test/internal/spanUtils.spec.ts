@@ -64,6 +64,7 @@ import { DependencyTypes } from "../../src/utils/constants/applicationinsights.j
 import { hrTimeToDate } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
 import { spanToReadableSpan } from "../utils/spanToReadableSpan.js";
+import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js";
 
 const context = getInstance();
 
@@ -91,15 +92,15 @@ function assertEnvelope(
   expectedTime?: Date,
 ): void {
   assert.strictEqual(Context.sdkVersion, packageJson.version);
-  assert.ok(envelope);
+  assert.isDefined(envelope);
   assert.strictEqual(envelope.name, name);
   assert.strictEqual(envelope.sampleRate, sampleRate);
   assert.deepStrictEqual(envelope.data?.baseType, baseType);
 
   assert.strictEqual(envelope.instrumentationKey, "ikey");
-  assert.ok(envelope.time);
-  assert.ok(envelope.version);
-  assert.ok(envelope.data);
+  assert.isDefined(envelope.time);
+  assert.isDefined(envelope.version);
+  assert.isDefined(envelope.data);
 
   if (expectedTime) {
     assert.deepStrictEqual(envelope.time, expectedTime);
@@ -133,6 +134,30 @@ const emptyMeasurements: Measurements = {};
 
 describe("spanUtils.ts", () => {
   describe("#readableSpanToEnvelope", () => {
+    it("does not attach applicationId to span envelopes", () => {
+      const tracerWithAppId = new BasicTracerProvider({
+        resource: resourceFromAttributes({
+          [SEMRESATTRS_SERVICE_INSTANCE_ID]: "instance-id",
+          [SEMRESATTRS_SERVICE_NAME]: "svc",
+          [SEMRESATTRS_SERVICE_NAMESPACE]: "ns",
+          [APPLICATION_ID_RESOURCE_KEY]: "app-from-resource",
+        }),
+      }).getTracer("appIdTracer");
+
+      const span = tracerWithAppId.startSpan("span-with-app-id", { kind: SpanKind.CLIENT });
+      span.end();
+      const readableSpan = spanToReadableSpan(span);
+
+      const envelope = readableSpanToEnvelope(readableSpan, "ikey");
+
+      assert.isUndefined(envelope.tags?.[APPLICATION_ID_RESOURCE_KEY]);
+      assert.isUndefined(
+        (envelope.data?.baseData as Partial<RequestData | RemoteDependencyData>)?.properties?.[
+          APPLICATION_ID_RESOURCE_KEY
+        ],
+      );
+    });
+
     describe("GRPC", () => {
       it("should create a Request Envelope for Server Spans", () => {
         const spanOptions: SpanOptions = {
@@ -1472,7 +1497,7 @@ describe("spanUtils.ts", () => {
 
     const expectedTags: Tags = {};
     expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-    assert.ok(envelopes.length === 1);
+    assert.equal(envelopes.length, 1);
   });
   it("should create message envelope for span events", () => {
     const spanOptions: SpanOptions = {

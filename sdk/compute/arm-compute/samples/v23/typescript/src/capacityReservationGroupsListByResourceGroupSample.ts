@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  CapacityReservationGroupsListByResourceGroupOptionalParams} from "@azure/arm-compute";
 import {
-  CapacityReservationGroupsListByResourceGroupOptionalParams,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes a Logic App extension resource
  *
  * @summary Deletes a Logic App extension resource
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/LogicApps_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/LogicApps_Delete.json
  */
 async function createLogicAppExtension(): Promise<void> {
   const subscriptionId =

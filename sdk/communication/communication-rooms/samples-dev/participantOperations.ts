@@ -70,7 +70,7 @@ export async function main(): Promise<void> {
   console.log(`Successfully added participant to room with id: ${roomId}.`);
   console.log("Printing participants in room...");
 
-  let participantsInRoom = await roomsClient.listParticipants(roomId);
+  let participantsInRoom = roomsClient.listParticipants(roomId);
   await printParticipants(participantsInRoom);
 
   await pause(500);
@@ -90,7 +90,7 @@ export async function main(): Promise<void> {
   console.log(`Successfully updated participant in room with id: ${roomId}.`);
   console.log("Printing updated participants in room...");
 
-  participantsInRoom = await roomsClient.listParticipants(roomId);
+  participantsInRoom = roomsClient.listParticipants(roomId);
   await printParticipants(participantsInRoom);
 
   await pause(500);
@@ -105,7 +105,7 @@ export async function main(): Promise<void> {
   await roomsClient.removeParticipants(roomId, removeParticipantsList);
   console.log(`Successfully removed participant from room with id: ${roomId}.`);
 
-  participantsInRoom = await roomsClient.listParticipants(roomId);
+  participantsInRoom = roomsClient.listParticipants(roomId);
   await printParticipants(participantsInRoom);
 
   await pause(500);

@@ -4,12 +4,10 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface StandbyContainerGroupPoolsListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface StandbyContainerGroupPoolsListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StandbyContainerGroupPoolsListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface StandbyContainerGroupPoolsListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface StandbyContainerGroupPoolsUpdateOptionalParams extends OperationOptions {}

@@ -49,11 +49,6 @@ async function main(repoRoot, artifactName) {
     return;
   }
 
-  if (targetPackage.versionPolicyName == "management") {
-    console.log(`Skipping update samples for management package ${artifactName}`);
-    return;
-  }
-
   const samplesDevPath = path.join(targetPackage.projectFolder, "samples-dev");
   if (!fs.existsSync(samplesDevPath)) {
     console.log(

@@ -184,6 +184,10 @@ export class CosmosClient {
         optionsOrConnectionString,
         globalEndpointManager,
       );
+
+      globalEndpointManager.onEnablePartitionLevelFailoverConfigChanged = (isEnabled: boolean) => {
+        this.globalPartitionEndpointManager?.changeCircuitBreakerFailbackLoop(isEnabled);
+      };
     }
 
     this.clientContext = new ClientContext(

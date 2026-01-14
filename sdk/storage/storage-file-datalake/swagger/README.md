@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/688a906172823628e75b19ea8964d998cb7560fd/specification/storage/data-plane/Azure.Storage.Files.DataLake/preview/2023-05-03/DataLakeStorage.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/a6c22d8cf0834799a169a13767458a88efa58260/specification/storage/data-plane/Azure.Storage.Files.DataLake/stable/2026-02-06/DataLakeStorage.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -20,8 +20,8 @@ disable-async-iterators: true
 core-http-compat-mode: true
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "6.0.0"
-package-version: 12.28.1
+  "@autorest/typescript": "6.0.42"
+package-version: 12.29.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -348,15 +348,6 @@ directive:
       ];
 ```
 
-### Update service version from "2023-05-03" to "2025-11-05"
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2025-11-05" ];
-```
-
 ### Add AuthenticationErrorDetail.
 
 ```yaml
@@ -365,4 +356,19 @@ directive:
     where: $.definitions.StorageError
     transform: >
       $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
+```
+
+### Remove structured body parameters.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{filesystem}/{path}?action=append]["patch"]
+    transform: >
+      $["parameters"] = $["parameters"].filter(function(param) { return (false == param['$ref'].endsWith("#/parameters/StructuredBodyPut")) && (false == param['$ref'].endsWith("#/parameters/StructuredContentLength"))};
+      
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{filesystem}/{path}?action=append]["patch"]["responses"]["202"]["headers"]    
+    transform: >
+      delete $["x-ms-structured-body"];
 ```

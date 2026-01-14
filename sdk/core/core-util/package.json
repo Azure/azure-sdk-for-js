@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-util",
-  "version": "1.13.1",
+  "version": "1.13.2",
   "description": "Core library for shared utility methods",
   "sdk-type": "client",
   "type": "module",
@@ -77,7 +77,7 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "eslint": "catalog:",

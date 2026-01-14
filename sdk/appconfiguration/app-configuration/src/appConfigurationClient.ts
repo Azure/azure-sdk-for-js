@@ -56,7 +56,9 @@ import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging
 import { getPagedAsyncIterator } from "@azure/core-paging";
 import type { PipelinePolicy, RestError } from "@azure/core-rest-pipeline";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy.js";
+import { audienceErrorHandlingPolicy } from "./internal/audienceErrorHandlingPolicy.js";
+import { SyncTokens, syncTokenPolicy } from "./internal/syncTokenPolicy.js";
+import { queryParamPolicy } from "./internal/queryParamPolicy.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type {
@@ -195,7 +197,15 @@ export class AppConfigurationClient {
       options?.apiVersion ?? appConfigurationApiVersion,
       internalClientPipelineOptions,
     );
+    this.client.pipeline.addPolicy(
+      audienceErrorHandlingPolicy(appConfigOptions?.audience !== undefined),
+      {
+        phase: "Sign",
+        beforePolicies: [authPolicy.name],
+      },
+    );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
+    this.client.pipeline.addPolicy(queryParamPolicy());
     this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
   }
 

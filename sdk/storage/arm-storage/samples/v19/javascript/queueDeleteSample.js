@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Deletes the queue with the specified queue name, under the specified account if it exists.
  *
  * @summary Deletes the queue with the specified queue name, under the specified account if it exists.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/QueueOperationDelete.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/QueueOperationDelete.json
  */
 async function queueOperationDelete() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

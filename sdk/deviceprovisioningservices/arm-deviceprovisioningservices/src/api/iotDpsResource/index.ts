@@ -1,0 +1,41 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  checkProvisioningServiceNameAvailability,
+  listPrivateEndpointConnections,
+  deletePrivateEndpointConnection,
+  createOrUpdatePrivateEndpointConnection,
+  getPrivateEndpointConnection,
+  listPrivateLinkResources,
+  getPrivateLinkResources,
+  listKeysForKeyName,
+  listKeys,
+  listValidSkus,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+  getOperationResult,
+} from "./operations.js";
+export {
+  IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams,
+  IotDpsResourceListPrivateEndpointConnectionsOptionalParams,
+  IotDpsResourceDeletePrivateEndpointConnectionOptionalParams,
+  IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams,
+  IotDpsResourceGetPrivateEndpointConnectionOptionalParams,
+  IotDpsResourceListPrivateLinkResourcesOptionalParams,
+  IotDpsResourceGetPrivateLinkResourcesOptionalParams,
+  IotDpsResourceListKeysForKeyNameOptionalParams,
+  IotDpsResourceListKeysOptionalParams,
+  IotDpsResourceListValidSkusOptionalParams,
+  IotDpsResourceListBySubscriptionOptionalParams,
+  IotDpsResourceListByResourceGroupOptionalParams,
+  IotDpsResourceDeleteOptionalParams,
+  IotDpsResourceUpdateOptionalParams,
+  IotDpsResourceCreateOrUpdateOptionalParams,
+  IotDpsResourceGetOptionalParams,
+  IotDpsResourceGetOperationResultOptionalParams,
+} from "./options.js";

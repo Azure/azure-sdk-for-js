@@ -8,9 +8,10 @@
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/preview/2025-04-01-preview/examples/ProjectConnection/create.json
  */
 
-import {
+import type {
   ConnectionPropertiesV2BasicResource,
-  ProjectConnectionsCreateOptionalParams,
+  ProjectConnectionsCreateOptionalParams} from "@azure/arm-cognitiveservices";
+import {
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";

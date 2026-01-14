@@ -16,6 +16,7 @@ export {
   StorageRetryPolicy,
   StorageRetryPolicyFactory,
   StorageBrowserPolicyFactory,
+  UserDelegationKey,
 } from "@azure/storage-common";
 
 export { SasIPRange } from "./SasIPRange.js";

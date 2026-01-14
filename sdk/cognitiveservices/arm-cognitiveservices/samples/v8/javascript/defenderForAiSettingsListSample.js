@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Lists the Defender for AI settings.
  *
  * @summary Lists the Defender for AI settings.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListDefenderForAISetting.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListDefenderForAISetting.json
  */
 async function listDefenderForAiSetting() {
   const subscriptionId =

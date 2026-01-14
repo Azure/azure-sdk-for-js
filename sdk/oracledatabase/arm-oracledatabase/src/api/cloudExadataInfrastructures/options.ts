@@ -4,22 +4,19 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface CloudExadataInfrastructuresConfigureExascaleOptionalParams
-  extends OperationOptions {
+export interface CloudExadataInfrastructuresConfigureExascaleOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface CloudExadataInfrastructuresAddStorageCapacityOptionalParams
-  extends OperationOptions {
+export interface CloudExadataInfrastructuresAddStorageCapacityOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface CloudExadataInfrastructuresListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface CloudExadataInfrastructuresListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface CloudExadataInfrastructuresDeleteOptionalParams extends OperationOptions {
@@ -43,5 +40,4 @@ export interface CloudExadataInfrastructuresCreateOrUpdateOptionalParams extends
 }
 
 /** Optional parameters. */
-export interface CloudExadataInfrastructuresListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface CloudExadataInfrastructuresListBySubscriptionOptionalParams extends OperationOptions {}

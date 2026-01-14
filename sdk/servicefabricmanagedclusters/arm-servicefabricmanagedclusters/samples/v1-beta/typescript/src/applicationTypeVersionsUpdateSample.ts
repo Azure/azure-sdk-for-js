@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the tags of an application type version resource of a given managed cluster.
  *
  * @summary updates the tags of an application type version resource of a given managed cluster.
- * x-ms-original-file: 2025-06-01-preview/ApplicationTypeVersionPatchOperation_example.json
+ * x-ms-original-file: 2025-10-01-preview/ApplicationTypeVersionPatchOperation_example.json
  */
 async function patchAnApplicationTypeVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DashboardManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { DashboardManagementContext as Client } from "../index.js";
+import type {
   ManagedDashboard,
-  managedDashboardSerializer,
-  managedDashboardDeserializer,
   ManagedDashboardUpdateParameters,
-  managedDashboardUpdateParametersSerializer,
   _ManagedDashboardListResponse,
-  _managedDashboardListResponseDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  managedDashboardSerializer,
+  managedDashboardDeserializer,
+  managedDashboardUpdateParametersSerializer,
+  _managedDashboardListResponseDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ManagedDashboardsListBySubscriptionOptionalParams,
   ManagedDashboardsListOptionalParams,
   ManagedDashboardsDeleteOptionalParams,
@@ -26,13 +26,9 @@ import {
   ManagedDashboardsCreateOptionalParams,
   ManagedDashboardsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,
@@ -159,13 +155,7 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {

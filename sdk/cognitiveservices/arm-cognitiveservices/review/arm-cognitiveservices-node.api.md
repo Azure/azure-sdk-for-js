@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AADAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
@@ -39,7 +39,6 @@ export interface Account extends AzureEntityResource {
     location?: string;
     properties?: AccountProperties;
     sku?: Sku;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -52,6 +51,7 @@ export interface AccountCapabilityHosts {
     beginDelete(resourceGroupName: string, accountName: string, capabilityHostName: string, options?: AccountCapabilityHostsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AccountCapabilityHostsDeleteResponse>, AccountCapabilityHostsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, capabilityHostName: string, options?: AccountCapabilityHostsDeleteOptionalParams): Promise<AccountCapabilityHostsDeleteResponse>;
     get(resourceGroupName: string, accountName: string, capabilityHostName: string, options?: AccountCapabilityHostsGetOptionalParams): Promise<AccountCapabilityHostsGetResponse>;
+    list(resourceGroupName: string, accountName: string, options?: AccountCapabilityHostsListOptionalParams): PagedAsyncIterableIterator<CapabilityHost>;
 }
 
 // @public
@@ -91,6 +91,20 @@ export interface AccountCapabilityHostsGetOptionalParams extends coreClient.Oper
 
 // @public
 export type AccountCapabilityHostsGetResponse = CapabilityHost;
+
+// @public
+export interface AccountCapabilityHostsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccountCapabilityHostsListNextResponse = CapabilityHostResourceArmPaginatedResult;
+
+// @public
+export interface AccountCapabilityHostsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccountCapabilityHostsListResponse = CapabilityHostResourceArmPaginatedResult;
 
 // @public
 export interface AccountConnections {
@@ -170,6 +184,8 @@ export interface AccountModel extends DeploymentModel {
     isDefaultVersion?: boolean;
     lifecycleStatus?: ModelLifecycleStatus;
     maxCapacity?: number;
+    modelCatalogAssetId?: string;
+    replacementConfig?: ReplacementConfig;
     skus?: ModelSku[];
     readonly systemData?: SystemData;
 }
@@ -222,6 +238,7 @@ export interface AccountProperties {
     restrictOutboundNetworkAccess?: boolean;
     readonly scheduledPurgeDate?: string;
     readonly skuChangeInfo?: SkuChangeInfo;
+    storedCompletionsDisabled?: boolean;
     userOwnedStorage?: UserOwnedStorage[];
 }
 
@@ -468,6 +485,12 @@ export interface CapabilityHostProperties extends ResourceBase {
 export type CapabilityHostProvisioningState = string;
 
 // @public
+export interface CapabilityHostResourceArmPaginatedResult {
+    nextLink?: string;
+    value?: CapabilityHost[];
+}
+
+// @public
 export interface CapacityConfig {
     allowedValues?: number[];
     default?: number;
@@ -554,6 +577,8 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     // (undocumented)
     projects: Projects;
     // (undocumented)
+    quotaTiers: QuotaTiers;
+    // (undocumented)
     raiBlocklistItems: RaiBlocklistItems;
     // (undocumented)
     raiBlocklists: RaiBlocklists;
@@ -561,6 +586,8 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     raiContentFilters: RaiContentFilters;
     // (undocumented)
     raiPolicies: RaiPolicies;
+    // (undocumented)
+    raiTopics: RaiTopics;
     // (undocumented)
     resourceSkus: ResourceSkus;
     // (undocumented)
@@ -598,7 +625,6 @@ export interface CommitmentPlan extends ProxyResource {
     location?: string;
     properties?: CommitmentPlanProperties;
     sku?: Sku;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -608,7 +634,6 @@ export interface CommitmentPlan extends ProxyResource {
 export interface CommitmentPlanAccountAssociation extends ProxyResource {
     accountId?: string;
     readonly etag?: string;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1013,10 +1038,14 @@ export interface CustomKeysConnectionProperties extends ConnectionPropertiesV2 {
 }
 
 // @public
+export interface CustomTopicConfig extends RaiTopicConfig {
+    source?: RaiPolicyContentSource;
+}
+
+// @public
 export interface DefenderForAISetting extends ProxyResource {
     readonly etag?: string;
     state?: DefenderForAISettingState;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1114,7 +1143,6 @@ export interface Deployment extends ProxyResource {
     readonly etag?: string;
     properties?: DeploymentProperties;
     sku?: Sku;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1263,6 +1291,9 @@ export interface DeploymentsUpdateOptionalParams extends coreClient.OperationOpt
 export type DeploymentsUpdateResponse = Deployment;
 
 // @public
+export type DeprecationStatus = string;
+
+// @public
 export interface DomainAvailability {
     isSubdomainAvailable?: boolean;
     kind?: string;
@@ -1281,7 +1312,6 @@ export interface Encryption {
 export interface EncryptionScope extends ProxyResource {
     readonly etag?: string;
     properties?: EncryptionScopeProperties;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1492,6 +1522,7 @@ export enum KnownConnectionCategory {
     AzurePostgresDb = "AzurePostgresDb",
     AzureSqlDb = "AzureSqlDb",
     AzureSqlMi = "AzureSqlMi",
+    AzureStorageAccount = "AzureStorageAccount",
     AzureSynapseAnalytics = "AzureSynapseAnalytics",
     AzureTableStorage = "AzureTableStorage",
     BingLLMSearch = "BingLLMSearch",
@@ -1639,6 +1670,12 @@ export enum KnownDeploymentScaleType {
 }
 
 // @public
+export enum KnownDeprecationStatus {
+    Planned = "Planned",
+    Tentative = "Tentative"
+}
+
+// @public
 export enum KnownEncryptionScopeProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
@@ -1688,6 +1725,7 @@ export enum KnownModelLifecycleStatus {
     Deprecated = "Deprecated",
     Deprecating = "Deprecating",
     GenerallyAvailable = "GenerallyAvailable",
+    Legacy = "Legacy",
     Preview = "Preview",
     Stable = "Stable"
 }
@@ -1801,6 +1839,12 @@ export enum KnownSkuTier {
 }
 
 // @public
+export enum KnownTierUpgradePolicy {
+    NoAutoUpgrade = "NoAutoUpgrade",
+    OnceUpgradeIsAvailable = "OnceUpgradeIsAvailable"
+}
+
+// @public
 export enum KnownUnitType {
     Bytes = "Bytes",
     BytesPerSecond = "BytesPerSecond",
@@ -1809,6 +1853,12 @@ export enum KnownUnitType {
     Milliseconds = "Milliseconds",
     Percent = "Percent",
     Seconds = "Seconds"
+}
+
+// @public
+export enum KnownUpgradeAvailabilityStatus {
+    Available = "Available",
+    NotAvailable = "NotAvailable"
 }
 
 // @public
@@ -1902,6 +1952,7 @@ export interface ModelCapacityListResultValueItem extends ProxyResource {
 
 // @public
 export interface ModelDeprecationInfo {
+    deprecationStatus?: DeprecationStatus;
     fineTune?: string;
     inference?: string;
 }
@@ -2172,7 +2223,6 @@ export interface PrivateEndpoint {
 export interface PrivateEndpointConnection extends AzureEntityResource {
     location?: string;
     properties?: PrivateEndpointConnectionProperties;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -2275,19 +2325,39 @@ export interface Project extends AzureEntityResource {
     identity?: Identity;
     location?: string;
     properties?: ProjectProperties;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
 }
 
 // @public
+export interface ProjectCapabilityHost extends ProxyResource {
+    properties: ProjectCapabilityHostProperties;
+}
+
+// @public (undocumented)
+export interface ProjectCapabilityHostProperties {
+    aiServicesConnections?: string[];
+    readonly provisioningState?: CapabilityHostProvisioningState;
+    storageConnections?: string[];
+    threadStorageConnections?: string[];
+    vectorStoreConnections?: string[];
+}
+
+// @public
+export interface ProjectCapabilityHostResourceArmPaginatedResult {
+    nextLink?: string;
+    value?: ProjectCapabilityHost[];
+}
+
+// @public
 export interface ProjectCapabilityHosts {
-    beginCreateOrUpdate(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, capabilityHost: CapabilityHost, options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProjectCapabilityHostsCreateOrUpdateResponse>, ProjectCapabilityHostsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, capabilityHost: CapabilityHost, options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams): Promise<ProjectCapabilityHostsCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, capabilityHost: ProjectCapabilityHost, options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProjectCapabilityHostsCreateOrUpdateResponse>, ProjectCapabilityHostsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, capabilityHost: ProjectCapabilityHost, options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams): Promise<ProjectCapabilityHostsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, options?: ProjectCapabilityHostsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ProjectCapabilityHostsDeleteResponse>, ProjectCapabilityHostsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, options?: ProjectCapabilityHostsDeleteOptionalParams): Promise<ProjectCapabilityHostsDeleteResponse>;
     get(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, options?: ProjectCapabilityHostsGetOptionalParams): Promise<ProjectCapabilityHostsGetResponse>;
+    list(resourceGroupName: string, accountName: string, projectName: string, options?: ProjectCapabilityHostsListOptionalParams): PagedAsyncIterableIterator<ProjectCapabilityHost>;
 }
 
 // @public
@@ -2303,7 +2373,7 @@ export interface ProjectCapabilityHostsCreateOrUpdateOptionalParams extends core
 }
 
 // @public
-export type ProjectCapabilityHostsCreateOrUpdateResponse = CapabilityHost;
+export type ProjectCapabilityHostsCreateOrUpdateResponse = ProjectCapabilityHost;
 
 // @public
 export interface ProjectCapabilityHostsDeleteHeaders {
@@ -2326,7 +2396,21 @@ export interface ProjectCapabilityHostsGetOptionalParams extends coreClient.Oper
 }
 
 // @public
-export type ProjectCapabilityHostsGetResponse = CapabilityHost;
+export type ProjectCapabilityHostsGetResponse = ProjectCapabilityHost;
+
+// @public
+export interface ProjectCapabilityHostsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectCapabilityHostsListNextResponse = ProjectCapabilityHostResourceArmPaginatedResult;
+
+// @public
+export interface ProjectCapabilityHostsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectCapabilityHostsListResponse = ProjectCapabilityHostResourceArmPaginatedResult;
 
 // @public
 export interface ProjectConnections {
@@ -2491,13 +2575,82 @@ export interface QuotaLimit {
 }
 
 // @public
+export interface QuotaTier extends ProxyResource {
+    properties?: QuotaTierProperties;
+}
+
+// @public
+export interface QuotaTierListResult {
+    nextLink?: string;
+    readonly value?: QuotaTier[];
+}
+
+// @public
+export interface QuotaTierProperties {
+    readonly assignmentDate?: Date;
+    readonly currentTierName?: string;
+    readonly tierUpgradeEligibilityInfo?: QuotaTierUpgradeEligibilityInfo;
+    tierUpgradePolicy?: TierUpgradePolicy;
+}
+
+// @public
+export interface QuotaTiers {
+    createOrUpdate(defaultParam: string, tier: QuotaTier, options?: QuotaTiersCreateOrUpdateOptionalParams): Promise<QuotaTiersCreateOrUpdateResponse>;
+    get(defaultParam: string, options?: QuotaTiersGetOptionalParams): Promise<QuotaTiersGetResponse>;
+    listBySubscription(options?: QuotaTiersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<QuotaTier>;
+    update(defaultParam: string, tier: QuotaTier, options?: QuotaTiersUpdateOptionalParams): Promise<QuotaTiersUpdateResponse>;
+}
+
+// @public
+export interface QuotaTiersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QuotaTiersCreateOrUpdateResponse = QuotaTier;
+
+// @public
+export interface QuotaTiersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QuotaTiersGetResponse = QuotaTier;
+
+// @public
+export interface QuotaTiersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QuotaTiersListBySubscriptionNextResponse = QuotaTierListResult;
+
+// @public
+export interface QuotaTiersListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QuotaTiersListBySubscriptionResponse = QuotaTierListResult;
+
+// @public
+export interface QuotaTiersUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QuotaTiersUpdateResponse = QuotaTier;
+
+// @public
+export interface QuotaTierUpgradeEligibilityInfo {
+    nextTierName?: string;
+    upgradeApplicableDate?: Date;
+    upgradeAvailabilityStatus?: UpgradeAvailabilityStatus;
+    upgradeUnavailabilityReason?: string;
+}
+
+// @public
 export type QuotaUsageStatus = string;
 
 // @public
 export interface RaiBlocklist extends ProxyResource {
     readonly etag?: string;
     properties?: RaiBlocklistProperties;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -2513,7 +2666,6 @@ export interface RaiBlocklistConfig {
 export interface RaiBlocklistItem extends ProxyResource {
     readonly etag?: string;
     properties?: RaiBlocklistItemProperties;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -2773,7 +2925,6 @@ export type RaiPoliciesListResponse = RaiPolicyListResult;
 export interface RaiPolicy extends ProxyResource {
     readonly etag?: string;
     properties?: RaiPolicyProperties;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -2805,12 +2956,98 @@ export interface RaiPolicyProperties {
     basePolicyName?: string;
     contentFilters?: RaiPolicyContentFilter[];
     customBlocklists?: CustomBlocklistConfig[];
+    customTopics?: CustomTopicConfig[];
     mode?: RaiPolicyMode;
     readonly type?: RaiPolicyType;
 }
 
 // @public
 export type RaiPolicyType = string;
+
+// @public
+export interface RaiTopic extends ProxyResource {
+    readonly etag?: string;
+    properties?: RaiTopicProperties;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface RaiTopicConfig {
+    blocking?: boolean;
+    topicName?: string;
+}
+
+// @public
+export interface RaiTopicProperties {
+    createdAt?: Date;
+    description?: string;
+    failedReason?: string;
+    lastModifiedAt?: Date;
+    sampleBlobUrl?: string;
+    status?: string;
+    topicId?: string;
+    topicName?: string;
+}
+
+// @public
+export interface RaiTopicResult {
+    nextLink?: string;
+    value?: RaiTopic[];
+}
+
+// @public
+export interface RaiTopics {
+    beginDelete(resourceGroupName: string, accountName: string, raiTopicName: string, options?: RaiTopicsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<RaiTopicsDeleteResponse>, RaiTopicsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, raiTopicName: string, options?: RaiTopicsDeleteOptionalParams): Promise<RaiTopicsDeleteResponse>;
+    createOrUpdate(resourceGroupName: string, accountName: string, raiTopicName: string, raiTopic: RaiTopic, options?: RaiTopicsCreateOrUpdateOptionalParams): Promise<RaiTopicsCreateOrUpdateResponse>;
+    get(resourceGroupName: string, accountName: string, raiTopicName: string, options?: RaiTopicsGetOptionalParams): Promise<RaiTopicsGetResponse>;
+    list(resourceGroupName: string, accountName: string, options?: RaiTopicsListOptionalParams): PagedAsyncIterableIterator<RaiTopic>;
+}
+
+// @public
+export interface RaiTopicsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiTopicsCreateOrUpdateResponse = RaiTopic;
+
+// @public
+export interface RaiTopicsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface RaiTopicsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RaiTopicsDeleteResponse = RaiTopicsDeleteHeaders;
+
+// @public
+export interface RaiTopicsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiTopicsGetResponse = RaiTopic;
+
+// @public
+export interface RaiTopicsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiTopicsListNextResponse = RaiTopicResult;
+
+// @public
+export interface RaiTopicsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiTopicsListResponse = RaiTopicResult;
 
 // @public
 export interface RegenerateKeyParameters {
@@ -2822,6 +3059,14 @@ export interface RegionSetting {
     customsubdomain?: string;
     name?: string;
     value?: number;
+}
+
+// @public
+export interface ReplacementConfig {
+    autoUpgradeStartDate?: Date;
+    targetModelName?: string;
+    targetModelVersion?: string;
+    upgradeOnExpiryLeadTimeDays?: number;
 }
 
 // @public (undocumented)
@@ -2836,6 +3081,7 @@ export interface RequestMatchPattern {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -2999,7 +3245,13 @@ export interface ThrottlingRule {
 }
 
 // @public
+export type TierUpgradePolicy = string;
+
+// @public
 export type UnitType = string;
+
+// @public
+export type UpgradeAvailabilityStatus = string;
 
 // @public
 export interface Usage {

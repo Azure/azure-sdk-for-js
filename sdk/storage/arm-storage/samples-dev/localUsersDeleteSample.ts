@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes the local user associated with the specified storage account.
  *
  * @summary Deletes the local user associated with the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/LocalUserDelete.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/LocalUserDelete.json
  */
 async function deleteLocalUser(): Promise<void> {
   const subscriptionId =

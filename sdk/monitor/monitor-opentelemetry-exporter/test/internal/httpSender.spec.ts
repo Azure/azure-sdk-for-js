@@ -54,7 +54,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      assert.ok(sender);
+      assert.isDefined(sender);
     });
   });
 
@@ -91,9 +91,9 @@ describe("HttpSender", () => {
 
       try {
         await sender.send([envelope, envelope]);
-        assert.ok(false);
+        assert.fail("Unexpected execution path");
       } catch (error: any) {
-        assert.ok(error);
+        assert.isDefined(error);
       }
     });
 
@@ -503,7 +503,7 @@ describe("HttpSender", () => {
           credential: new TestTokenCredential(),
         },
       });
-      assert.ok(
+      assert.isDefined(
         sender["appInsightsClient"].pipeline.getOrderedPolicies().find((policy: PipelinePolicy) => {
           return policy.name === "bearerTokenAuthenticationPolicy";
         }),
@@ -537,7 +537,7 @@ describe("HttpSender", () => {
           },
         },
       });
-      assert.ok(
+      assert.isDefined(
         sender["appInsightsClient"].pipeline.getOrderedPolicies().find((policy: PipelinePolicy) => {
           return policy.name === "proxyPolicy";
         }),

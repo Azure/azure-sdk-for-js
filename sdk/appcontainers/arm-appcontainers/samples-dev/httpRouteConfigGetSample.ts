@@ -6,10 +6,10 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get the specified Managed Http Route Config.
+ * This sample demonstrates how to Get the specified Http Route Config.
  *
- * @summary Get the specified Managed Http Route Config.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/HttpRouteConfig_Get.json
+ * @summary Get the specified Http Route Config.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/HttpRouteConfig_Get.json
  */
 async function getHttpRoute(): Promise<void> {
   const subscriptionId =

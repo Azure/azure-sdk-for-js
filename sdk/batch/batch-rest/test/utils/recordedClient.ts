@@ -2,20 +2,19 @@
 // Licensed under the MIT License.
 
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
-import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { ClientOptions } from "@azure-rest/core-client";
 import type { BatchClient } from "../../src/index.js";
 import BatchServiceClient from "../../src/index.js";
 import {
-  fakeTestPasswordPlaceholder1,
+  fakeTestPasswordPlaceholder2,
   fakeAzureBatchAccount,
   fakeAzureBatchEndpoint,
 } from "./fakeTestSecrets.js";
 
 import { isNodeLike } from "@azure/core-util";
-import { NoOpCredential } from "@azure-tools/test-credential";
+import { createTestCredential, NoOpCredential } from "@azure-tools/test-credential";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
-import { EnvTokenCredential } from "./envTokenCredential.js";
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: {
@@ -32,11 +31,11 @@ const recorderEnvSetup: RecorderStartOptions = {
     bodyKeySanitizers: [
       {
         jsonPath: "$.userAccounts[0].password",
-        value: fakeTestPasswordPlaceholder1,
+        value: fakeTestPasswordPlaceholder2,
       },
       {
         jsonPath: "$.password",
-        value: fakeTestPasswordPlaceholder1,
+        value: fakeTestPasswordPlaceholder2,
       },
     ],
     generalSanitizers: [
@@ -63,20 +62,23 @@ export async function createRecorder(ctx: TestInfo): Promise<Recorder> {
   return recorder;
 }
 
-export function createBatchClient(recorder?: Recorder, options: ClientOptions = {}): BatchClient {
+export function createBatchClientV2(params: {
+  recorder?: Recorder;
+  accountEndpoint: string;
+  accountName?: string;
+  accountKey?: string;
+  options?: ClientOptions;
+}): BatchClient {
+  const { recorder, accountEndpoint, accountName, accountKey, options } = params;
   const credential = isPlaybackMode()
     ? new NoOpCredential()
-    : isNodeLike
-      ? new AzureNamedKeyCredential(env.AZURE_BATCH_ACCOUNT!, env.AZURE_BATCH_ACCESS_KEY!)
-      : new EnvTokenCredential();
-
-  if (!isPlaybackMode() && !env.AZURE_BATCH_ENDPOINT) {
-    throw Error("AZURE_BATCH_ENDPOINT env variable should be set in live mode");
-  }
+    : isNodeLike && accountKey && accountName
+      ? new AzureNamedKeyCredential(accountName, accountKey)
+      : createTestCredential();
 
   return BatchServiceClient(
-    env.AZURE_BATCH_ENDPOINT! || "https://dummy.eastus.batch.azure.com",
+    accountEndpoint,
     credential,
-    recorder ? recorder.configureClientOptions({ ...options }) : options,
+    recorder?.configureClientOptions({ ...options }),
   );
 }

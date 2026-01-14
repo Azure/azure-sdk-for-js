@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { Cluster} from "@azure/arm-networkcloud";
+import { NetworkCloud } from "@azure/arm-networkcloud";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Create a new cluster or update the properties of the cluster if it exists.
  *
  * @summary Create a new cluster or update the properties of the cluster if it exists.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-09-01/examples/Clusters_Create.json
  */
-
-import { Cluster, NetworkCloud } from "@azure/arm-networkcloud";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function createOrUpdateCluster(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
@@ -75,12 +75,6 @@ async function createOrUpdateCluster(): Promise<void> {
       },
     },
     clusterLocation: "Foo Street, 3rd Floor, row 9",
-    clusterServicePrincipal: {
-      applicationId: "12345678-1234-1234-1234-123456789012",
-      password: "{password}",
-      principalId: "00000008-0004-0004-0004-000000000012",
-      tenantId: "80000000-4000-4000-4000-120000000000",
-    },
     clusterType: "SingleRack",
     clusterVersion: "1.0.0",
     commandOutputSettings: {
@@ -91,6 +85,18 @@ async function createOrUpdateCluster(): Promise<void> {
       },
       containerUrl:
         "https://myaccount.blob.core.windows.net/mycontainer?restype=container",
+      overrides: [
+        {
+          associatedIdentity: {
+            identityType: "UserAssignedIdentity",
+            userAssignedIdentityResourceId:
+              "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/userIdentity2",
+          },
+          commandOutputType: "StorageRunReadCommands",
+          containerUrl:
+            "https://myaccount.blob.core.windows.net/myContainer2?restype=container",
+        },
+      ],
     },
     computeDeploymentThreshold: {
       type: "PercentSuccess",

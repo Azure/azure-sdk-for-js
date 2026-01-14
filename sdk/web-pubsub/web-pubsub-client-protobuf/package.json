@@ -64,7 +64,7 @@
     "@azure/identity": "catalog:internal",
     "@azure/web-pubsub": "^1.1.0",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cpy-cli": "^6.0.0",
     "cross-env": "catalog:",

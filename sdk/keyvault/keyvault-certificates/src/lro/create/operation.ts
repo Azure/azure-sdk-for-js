@@ -32,8 +32,7 @@ export type CreateCertificateState =
 /**
  * An interface representing the state of a create certificate's poll operation
  */
-export interface CreateCertificatePollOperationState
-  extends KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy> {
+export interface CreateCertificatePollOperationState extends KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy> {
   /**
    * The policy of the certificate.
    */

@@ -141,6 +141,7 @@ export interface FeatureFlagValue {
             name: string;
             parameters?: Record<string, unknown>;
         }[];
+        requirementType?: "All" | "Any";
     };
     description?: string;
     displayName?: string;

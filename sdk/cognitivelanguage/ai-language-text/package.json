@@ -102,7 +102,7 @@
     "@azure/storage-blob": "^12.26.0",
     "@types/node": "catalog:",
     "@types/unzipper": "~0.10.10",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "chai-exclude": "catalog:testing",
     "cross-env": "catalog:",

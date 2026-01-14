@@ -1,35 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createDashboardManagement,
+import type {
   DashboardManagementContext,
   DashboardManagementClientOptionalParams,
 } from "./api/index.js";
-import { GrafanaOperations, _getGrafanaOperations } from "./classic/grafana/index.js";
-import {
-  IntegrationFabricsOperations,
-  _getIntegrationFabricsOperations,
-} from "./classic/integrationFabrics/index.js";
-import {
-  ManagedDashboardsOperations,
-  _getManagedDashboardsOperations,
-} from "./classic/managedDashboards/index.js";
-import {
-  ManagedPrivateEndpointsOperations,
-  _getManagedPrivateEndpointsOperations,
-} from "./classic/managedPrivateEndpoints/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import {
-  PrivateEndpointConnectionsOperations,
-  _getPrivateEndpointConnectionsOperations,
-} from "./classic/privateEndpointConnections/index.js";
-import {
-  PrivateLinkResourcesOperations,
-  _getPrivateLinkResourcesOperations,
-} from "./classic/privateLinkResources/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import { createDashboardManagement } from "./api/index.js";
+import type { GrafanaOperations } from "./classic/grafana/index.js";
+import { _getGrafanaOperations } from "./classic/grafana/index.js";
+import type { IntegrationFabricsOperations } from "./classic/integrationFabrics/index.js";
+import { _getIntegrationFabricsOperations } from "./classic/integrationFabrics/index.js";
+import type { ManagedDashboardsOperations } from "./classic/managedDashboards/index.js";
+import { _getManagedDashboardsOperations } from "./classic/managedDashboards/index.js";
+import type { ManagedPrivateEndpointsOperations } from "./classic/managedPrivateEndpoints/index.js";
+import { _getManagedPrivateEndpointsOperations } from "./classic/managedPrivateEndpoints/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
+import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
+import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
+import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { DashboardManagementClientOptionalParams } from "./api/dashboardManagementContext.js";
 

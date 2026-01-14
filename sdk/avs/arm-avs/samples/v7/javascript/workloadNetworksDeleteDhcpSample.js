@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a WorkloadNetworkDhcp
  *
  * @summary delete a WorkloadNetworkDhcp
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_DeleteDhcp.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_DeleteDhcp.json
  */
 async function workloadNetworksDeleteDhcp() {
   const credential = new DefaultAzureCredential();

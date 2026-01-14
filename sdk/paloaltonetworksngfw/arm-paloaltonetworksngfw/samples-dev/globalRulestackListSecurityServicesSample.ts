@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  GlobalRulestackListSecurityServicesOptionalParams} from "@azure/arm-paloaltonetworksngfw";
+import {
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to List the security services for rulestack
  *
  * @summary List the security services for rulestack
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listSecurityServices_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_listSecurityServices_MaximumSet_Gen.json
  */
-
-import type { GlobalRulestackListSecurityServicesOptionalParams } from "@azure/arm-paloaltonetworksngfw";
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function globalRulestackListSecurityServicesMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const skip = "a6a321";
@@ -36,14 +38,17 @@ async function globalRulestackListSecurityServicesMaximumSetGen(): Promise<void>
  * This sample demonstrates how to List the security services for rulestack
  *
  * @summary List the security services for rulestack
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listSecurityServices_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_listSecurityServices_MinimumSet_Gen.json
  */
 async function globalRulestackListSecurityServicesMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const typeParam = "globalRulestacks";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
-  const result = await client.globalRulestack.listSecurityServices(globalRulestackName, typeParam);
+  const result = await client.globalRulestack.listSecurityServices(
+    globalRulestackName,
+    typeParam,
+  );
   console.log(result);
 }
 

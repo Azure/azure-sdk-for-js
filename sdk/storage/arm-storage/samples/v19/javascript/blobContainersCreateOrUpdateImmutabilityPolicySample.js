@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
  *
  * @summary Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/BlobContainersPutImmutabilityPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/BlobContainersPutImmutabilityPolicy.json
  */
 async function createOrUpdateImmutabilityPolicy() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -36,7 +36,7 @@ async function createOrUpdateImmutabilityPolicy() {
  * This sample demonstrates how to Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
  *
  * @summary Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/BlobContainersPutImmutabilityPolicyAllowProtectedAppendWritesAll.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/BlobContainersPutImmutabilityPolicyAllowProtectedAppendWritesAll.json
  */
 async function createOrUpdateImmutabilityPolicyWithAllowProtectedAppendWritesAll() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

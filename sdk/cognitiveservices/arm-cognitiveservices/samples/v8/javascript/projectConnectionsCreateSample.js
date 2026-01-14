@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Create or update Cognitive Services project connection under the specified project.
  *
  * @summary Create or update Cognitive Services project connection under the specified project.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ProjectConnection/create.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ProjectConnection/create.json
  */
 async function createProjectConnection() {
   const subscriptionId =

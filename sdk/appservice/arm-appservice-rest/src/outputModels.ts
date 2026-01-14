@@ -2133,8 +2133,7 @@ export interface PrivateLinkConnectionStateOutput {
 }
 
 /** Private Endpoint Connection Approval ARM resource. */
-export interface PrivateLinkConnectionApprovalRequestResourceOutput
-  extends ProxyOnlyResourceOutput {
+export interface PrivateLinkConnectionApprovalRequestResourceOutput extends ProxyOnlyResourceOutput {
   /** Core resource properties */
   properties?: PrivateLinkConnectionApprovalRequestOutput;
 }
@@ -4413,8 +4412,7 @@ export interface StaticSiteUserProvidedFunctionAppsCollectionOutput {
 }
 
 /** Static Site User Provided Function App ARM resource. */
-export interface StaticSiteUserProvidedFunctionAppARMResourceOutput
-  extends ProxyOnlyResourceOutput {
+export interface StaticSiteUserProvidedFunctionAppARMResourceOutput extends ProxyOnlyResourceOutput {
   /** StaticSiteUserProvidedFunctionAppARMResource resource specific properties */
   properties?: StaticSiteUserProvidedFunctionAppARMResourcePropertiesOutput;
 }
@@ -4517,8 +4515,7 @@ export interface StaticSiteCustomDomainOverviewARMResourcePropertiesOutput {
 }
 
 /** Static Site Custom Domain Request Properties ARM resource. */
-export interface StaticSiteCustomDomainRequestPropertiesARMResourceOutput
-  extends ProxyOnlyResourceOutput {
+export interface StaticSiteCustomDomainRequestPropertiesARMResourceOutput extends ProxyOnlyResourceOutput {
   /** StaticSiteCustomDomainRequestPropertiesARMResource resource specific properties */
   properties?: StaticSiteCustomDomainRequestPropertiesARMResourcePropertiesOutput;
 }

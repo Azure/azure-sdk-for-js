@@ -66,7 +66,7 @@ describe("DataLakePathClient", () => {
       }
     }
 
-    assert.ok(foundFile, "The file should have been created.");
+    assert.isTrue(foundFile, "The file should have been created.");
   });
 
   it("DataLakeDirectoryClient create directory path with directory dots", async () => {
@@ -83,7 +83,7 @@ describe("DataLakePathClient", () => {
       }
     }
 
-    assert.ok(foundSubDir, "The directory should have been created.");
+    assert.isTrue(foundSubDir, "The directory should have been created.");
   });
 
   it("DataLakeFileClient create file path with directory dots under a dir", async () => {
@@ -104,7 +104,7 @@ describe("DataLakePathClient", () => {
       }
     }
 
-    assert.ok(foundFile, "The file should have been created.");
+    assert.isTrue(foundFile, "The file should have been created.");
 
     const fileUnderRootDirBaseName = recorder.variable("filename1", getUniqueName("filename1"));
     const fileUnderRootDir = "./adir/../../anotherdir/.././" + fileUnderRootDirBaseName;
@@ -119,7 +119,7 @@ describe("DataLakePathClient", () => {
       }
     }
 
-    assert.ok(foundFile, "The file should have been created.");
+    assert.isTrue(foundFile, "The file should have been created.");
   });
 
   it("DataLakeDirectoryClient create directory path with directory dots under a dir", async () => {
@@ -140,7 +140,7 @@ describe("DataLakePathClient", () => {
       }
     }
 
-    assert.ok(foundSubDir, "The directory should have been created.");
+    assert.isTrue(foundSubDir, "The directory should have been created.");
 
     const dirUnderRootDirBaseName = recorder.variable("subdirname1", getUniqueName("subdirname1"));
     const dirUnderRootDir = "./adir/../../anotherdir/.././" + dirUnderRootDirBaseName;
@@ -155,7 +155,7 @@ describe("DataLakePathClient", () => {
       }
     }
 
-    assert.ok(foundSubDir, "The directory should have been created.");
+    assert.isTrue(foundSubDir, "The directory should have been created.");
   });
 
   it("DataLakeFileClient create with meta data", async () => {
@@ -258,7 +258,7 @@ describe("DataLakePathClient", () => {
     assert.equal(result.expiresOn?.getTime(), recordedExpiresOn.getTime());
 
     await delay(delta);
-    assert.ok(!(await testFileClient.exists()));
+    assert.isFalse(await testFileClient.exists());
   });
 
   it("DataLakeFileClient create with all parameters", async () => {
@@ -338,7 +338,7 @@ describe("DataLakePathClient", () => {
     const testFileClient = fileSystemClient.getFileClient(testFileName);
 
     await testFileClient.createIfNotExists();
-    assert.ok(await testFileClient.exists());
+    assert.isTrue(await testFileClient.exists());
   });
 
   it("DataLakeFileClient createIfNotExists with meta data", async () => {
@@ -444,7 +444,7 @@ describe("DataLakePathClient", () => {
     assert.equal(result.expiresOn?.getTime(), recordedExpiresOn.getTime());
 
     await delay(delta);
-    assert.ok(!(await testFileClient.exists()));
+    assert.isFalse(await testFileClient.exists());
   });
 
   it("DataLakeFileClient createIfNotExist with encryption context", async () => {
@@ -461,7 +461,7 @@ describe("DataLakePathClient", () => {
     const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
     const testdirClient = fileSystemClient.getDirectoryClient(testDirName);
     await testdirClient.create();
-    assert.ok(await testdirClient.exists());
+    assert.isTrue(await testdirClient.exists());
   });
 
   it("DataLakeDirectoryClient create with  encryption context", async () => {
@@ -625,7 +625,7 @@ describe("DataLakePathClient", () => {
       await testDirClient.create({ expiresOn: timeToExpireInMs });
       assert.fail("Creating directory with expiry should fail.");
     } catch (error) {
-      assert.ok((error as any).message.includes("Set Expiry is not supported for a directory"));
+      assert.include((error as any).message, "Set Expiry is not supported for a directory");
     }
   });
 
@@ -641,7 +641,7 @@ describe("DataLakePathClient", () => {
       await testDirClient.create({ expiresOn });
       assert.fail("Creating directory with expiry should fail.");
     } catch (error) {
-      assert.ok((error as any).message.includes("Set Expiry is not supported for a directory"));
+      assert.include((error as any).message, "Set Expiry is not supported for a directory");
     }
   });
 
@@ -649,7 +649,7 @@ describe("DataLakePathClient", () => {
     const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
     const testdirClient = fileSystemClient.getDirectoryClient(testDirName);
     await testdirClient.createIfNotExists();
-    assert.ok(await testdirClient.exists());
+    assert.isTrue(await testdirClient.exists());
   });
 
   it("DataLakeDirectoryClient createIfNotExists with meta data", async () => {
@@ -742,7 +742,7 @@ describe("DataLakePathClient", () => {
       await testDirClient.createIfNotExists({ expiresOn: timeToExpireInMs });
       assert.fail("Creating directory with expiry should fail.");
     } catch (error) {
-      assert.ok((error as any).message.includes("Set Expiry is not supported for a directory"));
+      assert.include((error as any).message, "Set Expiry is not supported for a directory");
     }
   });
 
@@ -758,7 +758,7 @@ describe("DataLakePathClient", () => {
       await testDirClient.createIfNotExists({ expiresOn: expiresOn });
       assert.fail("Creating directory with expiry should fail.");
     } catch (error) {
-      assert.ok((error as any).message.includes("Set Expiry is not supported for a directory"));
+      assert.include((error as any).message, "Set Expiry is not supported for a directory");
     }
   });
 
@@ -825,16 +825,16 @@ describe("DataLakePathClient", () => {
     const result1 = await fileClient.read(0, 1, {
       rangeGetContentCrc64: true,
     });
-    assert.ok(result1.clientRequestId);
-    // assert.ok(result1.contentCrc64!);
+    assert.isDefined(result1.clientRequestId);
+    // assert.isDefined(result1.contentCrc64!);
     assert.deepStrictEqual(await bodyToString(result1, 1), content[0]);
-    assert.ok(result1.clientRequestId);
+    assert.isDefined(result1.clientRequestId);
 
     const result2 = await fileClient.read(1, 1, {
       rangeGetContentMD5: true,
     });
-    assert.ok(result2.clientRequestId);
-    // assert.ok(result2.contentMD5!);
+    assert.isDefined(result2.clientRequestId);
+    // assert.isDefined(result2.contentMD5!);
 
     let exceptionCaught = false;
     try {
@@ -845,7 +845,7 @@ describe("DataLakePathClient", () => {
     } catch (err: any) {
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("setMetadata with new metadata set", async () => {
@@ -876,14 +876,14 @@ describe("DataLakePathClient", () => {
     await fileClient.setHttpHeaders({});
     const result = await fileClient.getProperties();
 
-    assert.ok(result.lastModified);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.ok(!result.cacheControl);
-    assert.ok(!result.contentType);
-    assert.ok(!result.contentMD5);
-    assert.ok(!result.contentEncoding);
-    assert.ok(!result.contentLanguage);
-    assert.ok(!result.contentDisposition);
+    assert.isUndefined(result.cacheControl);
+    assert.isUndefined(result.contentType);
+    assert.isUndefined(result.contentMD5);
+    assert.isUndefined(result.contentEncoding);
+    assert.isUndefined(result.contentLanguage);
+    assert.isUndefined(result.contentDisposition);
   });
 
   it("setHttpHeaders with all parameters set", async () => {
@@ -897,9 +897,9 @@ describe("DataLakePathClient", () => {
     };
     await fileClient.setHttpHeaders(headers);
     const result = await fileClient.getProperties();
-    assert.ok(result.date);
+    assert.isDefined(result.date);
 
-    assert.ok(result.lastModified);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
     assert.deepStrictEqual(result.cacheControl, headers.cacheControl);
     assert.deepStrictEqual(result.contentType, headers.contentType);
@@ -961,13 +961,16 @@ describe("DataLakePathClient", () => {
       });
     } catch (err) {
       gotError = true;
-      assert.ok(
+      assert.isTrue(
         (err as any).message.startsWith(
           "There is currently a lease on the resource and no lease ID was specified in the request.",
         ),
       );
     }
-    assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
+    assert.isTrue(
+      gotError,
+      "Should throw out an exception to write to a leased file without lease id",
+    );
 
     await tempFileClient.append(body, body.length, body.length, {
       conditions: {
@@ -1022,13 +1025,16 @@ describe("DataLakePathClient", () => {
       });
     } catch (err) {
       gotError = true;
-      assert.ok(
+      assert.isTrue(
         (err as any).message.startsWith(
           "There is currently a lease on the resource and no lease ID was specified in the request.",
         ),
       );
     }
-    assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
+    assert.isTrue(
+      gotError,
+      "Should throw out an exception to write to a leased file without lease id",
+    );
 
     await tempFileClient.delete(false, {
       conditions: {
@@ -1089,13 +1095,16 @@ describe("DataLakePathClient", () => {
       await tempFileClient.delete();
     } catch (err) {
       gotError = true;
-      assert.ok(
+      assert.isTrue(
         (err as any).message.startsWith(
           "There is currently a lease on the resource and no lease ID was specified in the request.",
         ),
       );
     }
-    assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
+    assert.isTrue(
+      gotError,
+      "Should throw out an exception to write to a leased file without lease id",
+    );
 
     const properties = await tempFileClient.getProperties();
     assert.equal(properties.contentLength, body.length * 2);
@@ -1144,13 +1153,16 @@ describe("DataLakePathClient", () => {
       await tempFileClient.delete();
     } catch (err) {
       gotError = true;
-      assert.ok(
+      assert.isTrue(
         (err as any).message.startsWith(
           "There is currently a lease on the resource and no lease ID was specified in the request.",
         ),
       );
     }
-    assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
+    assert.isTrue(
+      gotError,
+      "Should throw out an exception to write to a leased file without lease id",
+    );
 
     const properties = await tempFileClient.getProperties();
     assert.equal(properties.contentLength, body.length * 2);
@@ -1328,7 +1340,7 @@ describe("DataLakePathClient", () => {
 
   it("exists returns true on an existing file", async () => {
     const result = await fileClient.exists();
-    assert.ok(result, "exists() should return true for an existing file");
+    assert.isTrue(result, "exists() should return true for an existing file");
   });
 
   it("exists returns false on non-existing file or directory", async () => {
@@ -1336,29 +1348,33 @@ describe("DataLakePathClient", () => {
       recorder.variable("newFile", getUniqueName("newFile")),
     );
     const result = await newFileClient.exists();
-    assert.ok(result === false, "exists() should return false for a non-existing file");
+    assert.strictEqual(result, false, "exists() should return false for a non-existing file");
 
     const newDirectoryClient = fileSystemClient.getDirectoryClient(
       recorder.variable("newDirectory", getUniqueName("newDirectory")),
     );
     const dirResult = await newDirectoryClient.exists();
-    assert.ok(dirResult === false, "exists() should return false for a non-existing directory");
+    assert.strictEqual(
+      dirResult,
+      false,
+      "exists() should return false for a non-existing directory",
+    );
   });
 
   it("DataLakeDirectoryClient-createIfNotExists", async () => {
     const directoryName = recorder.variable("dir", getUniqueName("dir"));
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
     const res = await directoryClient.createIfNotExists();
-    assert.ok(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const res2 = await directoryClient.createIfNotExists();
-    assert.ok(!res2.succeeded);
+    assert.isFalse(res2.succeeded);
     assert.equal(res2.errorCode, "PathAlreadyExists");
   });
 
   it("DataLakeFileClient-createIfNotExists", async () => {
     const res = await fileClient.createIfNotExists();
-    assert.ok(!res.succeeded);
+    assert.isFalse(res.succeeded);
     assert.equal(res.errorCode, "PathAlreadyExists");
   });
 
@@ -1366,12 +1382,12 @@ describe("DataLakePathClient", () => {
     const directoryName = recorder.variable("dir", getUniqueName("dir"));
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
     const res = await directoryClient.deleteIfExists();
-    assert.ok(!res.succeeded);
+    assert.isFalse(res.succeeded);
     assert.equal(res.errorCode, "PathNotFound");
 
     await directoryClient.create();
     const res2 = await directoryClient.deleteIfExists();
-    assert.ok(res2.succeeded);
+    assert.isTrue(res2.succeeded);
   });
 
   it("DataLakePathClient-deleteIfExists when parent not exists", async () => {
@@ -1379,7 +1395,7 @@ describe("DataLakePathClient", () => {
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
     const newFileClient = directoryClient.getFileClient(fileName);
     const res2 = await newFileClient.deleteIfExists();
-    assert.ok(!res2.succeeded);
+    assert.isFalse(res2.succeeded);
     assert.deepStrictEqual(res2.errorCode, "PathNotFound");
   });
 
@@ -1409,7 +1425,7 @@ describe("DataLakePathClient", () => {
     assert.equal(getRes.expiresOn?.getTime(), recordedExpiresOn.getTime());
 
     await delay(delta);
-    assert.ok(!(await fileClient.exists()));
+    assert.isFalse(await fileClient.exists());
   });
 
   it("set expiry - RelativeToNow", async () => {
@@ -1417,7 +1433,7 @@ describe("DataLakePathClient", () => {
     await fileClient.setExpiry("RelativeToNow", { timeToExpireInMs: delta });
 
     await delay(delta);
-    assert.ok(!(await fileClient.exists()));
+    assert.isFalse(await fileClient.exists());
   });
 
   it("set expiry - RelativeToCreation", async () => {
@@ -1513,7 +1529,7 @@ describe("DataLakePathClient with CPK", () => {
       assert.equal((err as any).statusCode, 409);
     }
 
-    assert.ok(gotError, "Should got an error");
+    assert.isTrue(gotError, "Should got an error");
   });
 
   it("file getProperties with CPK on a file without CPK", async () => {
@@ -1530,7 +1546,7 @@ describe("DataLakePathClient with CPK", () => {
       assert.equal((err as any).statusCode, 409);
     }
 
-    assert.ok(gotError, "Should got an error");
+    assert.isTrue(gotError, "Should got an error");
   });
 
   it("file exists with CPK", async () => {
@@ -1538,7 +1554,7 @@ describe("DataLakePathClient with CPK", () => {
       customerProvidedKey: Test_CPK_INFO,
     });
 
-    assert.ok(
+    assert.isTrue(
       await fileClient.exists({
         customerProvidedKey: Test_CPK_INFO,
       }),
@@ -1548,7 +1564,7 @@ describe("DataLakePathClient with CPK", () => {
   it("file exists with CPK on a file without CPK", async () => {
     await fileClient.create();
 
-    assert.ok(
+    assert.isTrue(
       await fileClient.exists({
         customerProvidedKey: Test_CPK_INFO,
       }),
@@ -1560,7 +1576,7 @@ describe("DataLakePathClient with CPK", () => {
       customerProvidedKey: Test_CPK_INFO,
     });
 
-    assert.ok(await fileClient.exists());
+    assert.isTrue(await fileClient.exists());
   });
 
   it("file append with cpk to a file without CPK", async () => {
@@ -1577,7 +1593,7 @@ describe("DataLakePathClient with CPK", () => {
       assert.equal((err as any).statusCode, 409);
     }
 
-    assert.ok(gotError, "Should got an error");
+    assert.isTrue(gotError, "Should got an error");
   });
 
   it("file append without cpk to a file with CPK", async () => {
@@ -1593,7 +1609,7 @@ describe("DataLakePathClient with CPK", () => {
       assert.equal((err as any).statusCode, 409);
     }
 
-    assert.ok(gotError, "Should got an error");
+    assert.isTrue(gotError, "Should got an error");
   });
 
   it("file flush with cpk to a file without CPK", async () => {
@@ -1609,7 +1625,7 @@ describe("DataLakePathClient with CPK", () => {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
-    assert.ok(gotError, "Should got an error");
+    assert.isTrue(gotError, "Should got an error");
   });
 
   it("file flush without cpk to a file with CPK", async () => {
@@ -1627,7 +1643,7 @@ describe("DataLakePathClient with CPK", () => {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
-    assert.ok(gotError, "Should got an error");
+    assert.isTrue(gotError, "Should got an error");
   });
 
   it("file read without cpk to a file with CPK", async () => {
@@ -1648,7 +1664,7 @@ describe("DataLakePathClient with CPK", () => {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
-    assert.ok(gotError, "Should got an error");
+    assert.isTrue(gotError, "Should got an error");
   });
 
   it("file read with cpk to a file without CPK", async () => {
@@ -1666,7 +1682,7 @@ describe("DataLakePathClient with CPK", () => {
       assert.equal((err as any).statusCode, 409);
     }
 
-    assert.ok(gotError, "Should got an error");
+    assert.isTrue(gotError, "Should got an error");
   });
 
   it("file setMetadata with CPK", async () => {
@@ -1699,7 +1715,7 @@ describe("DataLakePathClient with CPK", () => {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
-    assert.ok(gotError, "Should got an error");
+    assert.isTrue(gotError, "Should got an error");
   });
 
   it("file setMetadata with cpk to a file without CPK", async () => {
@@ -1717,7 +1733,7 @@ describe("DataLakePathClient with CPK", () => {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
-    assert.ok(gotError, "Should got an error");
+    assert.isTrue(gotError, "Should got an error");
   });
 
   it("directory create and getProperties with CPK", async () => {
@@ -1741,7 +1757,7 @@ describe("DataLakePathClient with CPK", () => {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
-    assert.ok(gotError, "Should got an error");
+    assert.isTrue(gotError, "Should got an error");
   });
 
   it("directory getProperties without CPK on a directory with CPK", async () => {
@@ -1756,14 +1772,14 @@ describe("DataLakePathClient with CPK", () => {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
-    assert.ok(gotError, "Should got an error");
+    assert.isTrue(gotError, "Should got an error");
   });
 
   it("directory exists with CPK", async () => {
     await dirClient.create({
       customerProvidedKey: Test_CPK_INFO,
     });
-    assert.ok(
+    assert.isTrue(
       await dirClient.exists({
         customerProvidedKey: Test_CPK_INFO,
       }),
@@ -1772,7 +1788,7 @@ describe("DataLakePathClient with CPK", () => {
 
   it("directory exists with CPK on a directory without CPK", async () => {
     await dirClient.create();
-    assert.ok(
+    assert.isTrue(
       await dirClient.exists({
         customerProvidedKey: Test_CPK_INFO,
       }),
@@ -1784,7 +1800,7 @@ describe("DataLakePathClient with CPK", () => {
       customerProvidedKey: Test_CPK_INFO,
     });
 
-    assert.ok(await dirClient.exists());
+    assert.isTrue(await dirClient.exists());
   });
 
   it("directory setMetadata with CPK", async () => {
@@ -1820,7 +1836,7 @@ describe("DataLakePathClient with CPK", () => {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
-    assert.ok(gotError, "Should got an error");
+    assert.isTrue(gotError, "Should got an error");
   });
 
   it("directory setMetadata with cpk to a directory without CPK", async () => {
@@ -1838,7 +1854,7 @@ describe("DataLakePathClient with CPK", () => {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
-    assert.ok(gotError, "Should got an error");
+    assert.isTrue(gotError, "Should got an error");
   });
 });
 

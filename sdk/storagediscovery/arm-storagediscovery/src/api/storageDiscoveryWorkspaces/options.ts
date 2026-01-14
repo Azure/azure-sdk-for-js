@@ -4,12 +4,10 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface StorageDiscoveryWorkspacesListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface StorageDiscoveryWorkspacesListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StorageDiscoveryWorkspacesListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface StorageDiscoveryWorkspacesListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface StorageDiscoveryWorkspacesDeleteOptionalParams extends OperationOptions {}
