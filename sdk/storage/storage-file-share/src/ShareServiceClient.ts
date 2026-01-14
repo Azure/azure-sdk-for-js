@@ -16,9 +16,11 @@ import type {
   ServiceGetPropertiesHeaders,
   ServiceGetUserDelegationKeyResponse,
   ServiceGetUserDelegationKeyHeaders,
-  ServiceGetUserDelegationKeyResponseModel,
   UserDelegationKeyModel,
 } from "./generatedModels.js";
+import type {
+  ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel,
+} from "./generated/src/index.js";
 import type { Service } from "./generated/src/operationsInterfaces/index.js";
 import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
@@ -894,10 +896,10 @@ export class ShareServiceClient extends StorageClient {
         );
 
         const userDelegationKey = {
-          signedObjectId: response.signedOid,
-          signedTenantId: response.signedTid,
-          signedStartsOn: new Date(response.signedStart),
-          signedExpiresOn: new Date(response.signedExpiry),
+          signedObjectId: response.signedObjectId,
+          signedTenantId: response.signedTenantId,
+          signedStartsOn: new Date(response.signedStartsOn),
+          signedExpiresOn: new Date(response.signedExpiresOn),
           signedService: response.signedService,
           signedVersion: response.signedVersion,
           value: response.value,

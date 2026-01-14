@@ -20,7 +20,6 @@ import type {
   ServiceGetStatisticsHeaders,
   QueueServiceStatistics,
   ServiceGetUserDelegationKeyResponse,
-  ServiceGetUserDelegationKeyResponseModel,
   ServiceGetUserDelegationKeyHeaders,
   UserDelegationKeyModel,
 } from "./generatedModels.js";
@@ -52,6 +51,9 @@ import { AccountSASServices } from "./AccountSASServices.js";
 import type { SASProtocol } from "./SASQueryParameters.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
+import type {
+  ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel,
+} from "./generated/src/index.js";
 
 /**
  * Options to configure {@link QueueServiceClient.getProperties} operation
@@ -829,10 +831,10 @@ export class QueueServiceClient extends StorageClient {
         );
 
         const userDelegationKey = {
-          signedObjectId: response.signedOid,
-          signedTenantId: response.signedTid,
-          signedStartsOn: new Date(response.signedStart),
-          signedExpiresOn: new Date(response.signedExpiry),
+          signedObjectId: response.signedObjectId,
+          signedTenantId: response.signedTenantId,
+          signedStartsOn: new Date(response.signedStartsOn),
+          signedExpiresOn: new Date(response.signedExpiresOn),
           signedService: response.signedService,
           signedVersion: response.signedVersion,
           value: response.value,
