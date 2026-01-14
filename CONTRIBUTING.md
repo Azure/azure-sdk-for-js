@@ -356,7 +356,7 @@ Code snippets in README files and TSDoc comments are automatically verified and 
 
 #### How it works
 
-All code snippets are authored as unit tests in a file named `test/snippets.spec.ts` within each package. These snippets are then extracted, transpiled to JavaScript if needed, and inserted into README files and TSDoc comments. For full details, see the [design document](design/readme-snippets.md).
+All code snippets are authored as unit tests in a file named `test/snippets.spec.ts` within each package. These snippets are then extracted, transpiled to JavaScript if needed, and inserted into README files and TSDoc comments. For full details, see the [design document](https://github.com/Azure/azure-sdk-for-js/blob/main/design/readme-snippets.md).
 
 To create a code snippet in a README file or TSDoc comment, use a named code fence:
 
