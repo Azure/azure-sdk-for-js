@@ -55,18 +55,14 @@ describe("Sample: grantCopyAuth", () => {
     }
 
     // Create clients
-    const sourceCredential = sourceKey
-      ? new AzureKeyCredential(sourceKey)
-      : createTestCredential();
+    const sourceCredential = sourceKey ? new AzureKeyCredential(sourceKey) : createTestCredential();
     sourceClient = new ContentUnderstandingClient(
       sourceEndpoint,
       sourceCredential,
       recorder.configureClientOptions({}),
     );
 
-    const targetCredential = targetKey
-      ? new AzureKeyCredential(targetKey)
-      : createTestCredential();
+    const targetCredential = targetKey ? new AzureKeyCredential(targetKey) : createTestCredential();
     targetClient = new ContentUnderstandingClient(
       targetEndpoint,
       targetCredential,

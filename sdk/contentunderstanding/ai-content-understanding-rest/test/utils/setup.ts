@@ -14,10 +14,7 @@ dotenv.config({ path: path.join(__dirname, "..", ".env") });
 dotenv.config(); // loads from process.cwd()/.env
 
 // DEBUG: indicate presence of key/endpoint (do NOT print secret values)
-console.log(
-  "DEBUG ENV ENDPOINT DEFINED:",
-  Boolean(process.env.CONTENTUNDERSTANDING_ENDPOINT),
-);
+console.log("DEBUG ENV ENDPOINT DEFINED:", Boolean(process.env.CONTENTUNDERSTANDING_ENDPOINT));
 console.log("DEBUG ENV KEY DEFINED:", Boolean(process.env.CONTENTUNDERSTANDING_KEY));
 
 declare module "vitest" {
