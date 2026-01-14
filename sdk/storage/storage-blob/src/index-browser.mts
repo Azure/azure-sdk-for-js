@@ -22,7 +22,28 @@ export {
   HttpAuthorization,
   ModificationConditions,
   MatchConditions,
+  ObjectReplicationPolicy,
+  ObjectReplicationRule,
+  ObjectReplicationStatus,
+  AppendBlobRequestConditions,
+  BlobRequestConditions,
+  Metadata,
+  ModifiedAccessConditions,
+  PollerLikeWithCancellation,
+  BlobDownloadResponseParsed,
+  BlobQueryArrowField,
+  BlobQueryArrowFieldType,
+  PageBlobRequestConditions,
+  getBlobServiceAccountAudience,
 } from "./models.js";
+export {
+  BlobBeginCopyFromUrlPollState,
+  CopyPollerBlobClient,
+} from "./pollers/BlobStartCopyFromUrlPoller.js";
+export * from "./sas/AccountSASPermissions.js";
+export * from "./sas/BlobSASPermissions.js";
+export * from "./sas/ContainerSASPermissions.js";
+export * from "./sas/SASQueryParameters.js";
 export {
   Pipeline,
   PipelineLike,
@@ -41,7 +62,7 @@ export {
   StorageOAuthScopes,
   ServiceClientOptions,
 } from "./Pipeline.js";
-export { CommonOptions } from "./StorageClient.js";
+export * from "./StorageClient.js";
 export * from "./generatedModels.js";
 export { RestError };
 export {

@@ -6,19 +6,22 @@
  * @azsdk-weight 70
  */
 
-import { ShareServiceClient, StorageSharedKeyCredential } from "@azure/storage-file-share";
+import { DefaultAzureCredential } from "@azure/identity";
+import { ShareServiceClient } from "@azure/storage-file-share";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
 export async function main(): Promise<void> {
-  // Enter your storage account name, shared key, share name, and directory name.
+  // Enter your storage account name, share name, and directory name.
   // Please ensure your directory is mounted
   //   https://learn.microsoft.com/azure/storage/files/storage-how-to-use-files-windows
   //   https://learn.microsoft.com/azure/storage/files/storage-how-to-use-files-linux
   //   https://learn.microsoft.com/azure/storage/files/storage-how-to-use-files-mac
-  const account = process.env.ACCOUNT_NAME || "";
-  const accountKey = process.env.ACCOUNT_KEY || "";
+  const accountName = process.env.ACCOUNT_NAME;
+  if (!accountName) {
+    throw new Error("ACCOUNT_NAME environment variable is not set.");
+  }
   const shareName = process.env.SHARE_NAME || "";
   const dirName = process.env.DIR_NAME || "";
 
@@ -29,13 +32,9 @@ export async function main(): Promise<void> {
     return;
   }
 
-  // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-
   const serviceClient = new ShareServiceClient(
-    `https://${account}.file.core.windows.net`,
-    sharedKeyCredential,
+    `https://${accountName}.file.core.windows.net`,
+    new DefaultAzureCredential(),
   );
 
   const shareClient = serviceClient.getShareClient(shareName);

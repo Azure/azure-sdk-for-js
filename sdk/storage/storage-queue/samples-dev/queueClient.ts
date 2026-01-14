@@ -6,46 +6,23 @@
  * @azsdk-weight 80
  */
 
-import { QueueServiceClient, StorageSharedKeyCredential } from "@azure/storage-queue";
+import { QueueServiceClient } from "@azure/storage-queue";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
-export async function main(): Promise<void> {
-  // Enter your storage account name and shared key
-  const account = process.env.ACCOUNT_NAME || "";
-  const accountKey = process.env.ACCOUNT_KEY || "";
-
-  // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-
-  // ONLY AVAILABLE IN NODE.JS RUNTIME
-  // If you are using the browser, you can use the InteractiveBrowserCredential provided via @azure/identity or any other feasible implementation of TokenCredential.
-  // DefaultAzureCredential will first look for Azure Active Directory (AAD)
-  // client secret credentials in the following environment variables:
-  //
-  // - AZURE_TENANT_ID: The ID of your AAD tenant
-  // - AZURE_CLIENT_ID: The ID of your AAD app registration (client)
-  // - AZURE_CLIENT_SECRET: The client secret for your AAD app registration
-  //
-  // If those environment variables aren't found and your application is deployed
-  // to an Azure VM or App Service instance, the managed service identity endpoint
-  // will be used as a fallback authentication source.
-  // Only available in Node.js runtime
-  // const defaultAzureCredential = new DefaultAzureCredential();
-
-  // You can find more TokenCredential implementations in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library
-  // to use client secrets, certificates, or managed identities for authentication.
-
-  // Use AnonymousCredential when url already includes a SAS signature
-  // const anonymousCredential = new AnonymousCredential();
+async function main(): Promise<void> {
+  // Enter your storage account name
+  const accountName = process.env.ACCOUNT_NAME;
+  if (!accountName) {
+    throw new Error("ACCOUNT_NAME environment variable is not set.");
+  }
 
   // List queues
   const queueServiceClient = new QueueServiceClient(
-    // When using AnonymousCredential, following url should include a valid SAS or support public access
-    `https://${account}.queue.core.windows.net`,
-    sharedKeyCredential,
+    `https://${accountName}.queue.core.windows.net`,
+    new DefaultAzureCredential(),
   );
 
   console.log(`Queues`);

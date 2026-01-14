@@ -1,0 +1,332 @@
+
+> @azure/storage-file-datalake@12.29.0-beta.1 test:node
+> dev-tool run build-test --no-browser-test && dev-tool run test:vitest --testNamePattern breakLease|renewLease|create with absolute expiry|createIfNotExists with absolute expiry|set expiry - Absolute|set expiry - RelativeToNow
+
+[build-test] Typechecking succeeded using tsconfig.test.node.json
+[test-info] ===TEST_MODE="record"===
+[test-proxy] Image tag obtained from the powershell script => 1.0.0-dev.20251209.1
+
+[test-proxy] Test proxy executable already exists at /home/dealmaha/.cache/azsdk-dev-tool/1.0.0-dev.20251209.1/Azure.Sdk.Tools.TestProxy, not downloading it.
+[vitest] 
+[vitest] [1m[46m RUN [49m[22m [36mv4.0.15 [39m[90m/home/dealmaha/azure-sdk-for-js/sdk/storage/storage-file-datalake[39m
+[vitest] 
+[vitest]  [32m✓[39m test/internal/transforms.spec.ts[2m > [22mtransforms[2m > [22mtoBlobEndpointUrl[32m 1[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/transforms.spec.ts[2m > [22mtransforms[2m > [22mtoDfsEndpointUrl[32m 0[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/transforms.spec.ts[2m > [22mtransforms[2m > [22mtoContainerPublicAccessType[32m 0[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/transforms.spec.ts[2m > [22mtransforms[2m > [22mtoPublicAccessType[32m 0[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/transforms.spec.ts[2m > [22mtransforms[2m > [22mtoProperties[32m 0[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/transforms.spec.ts[2m > [22mtransforms[2m > [22mtoRolePermissions[32m 1[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/transforms.spec.ts[2m > [22mtransforms[2m > [22mtoPermissions[32m 1[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/transforms.spec.ts[2m > [22mtransforms[2m > [22mtoAccessControlItem[32m 1[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/transforms.spec.ts[2m > [22mtransforms[2m > [22mtoAcl[32m 0[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/transforms.spec.ts[2m > [22mtransforms[2m > [22mtoAccessControlItemString[32m 0[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/transforms.spec.ts[2m > [22mtransforms[2m > [22mtoAclString[32m 0[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/transforms.spec.ts[2m > [22mtransforms[2m > [22mtoRolePermissionsString[32m 0[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/transforms.spec.ts[2m > [22mtransforms[2m > [22mtoPermissionsString[32m 0[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/utils.spec.ts[2m > [22mUtility Helpers[2m > [22msanitizeURL redacts SAS token[32m 1[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/utils.spec.ts[2m > [22mUtility Helpers[2m > [22msanitizeHeaders redacts SAS token[32m 1[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/utils.spec.ts[2m > [22mUtility Helpers[2m > [22mextractConnectionStringParts parses sas connection string with queue and file endpoints[32m 0[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/utils.spec.ts[2m > [22mUtility Helpers[2m > [22mextractConnectionStringParts parses sas connection string with queue endpoint[32m 0[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeDirectoryClient paginated delete
+[vitest]  [2m[90m↓[39m[22m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeFileClient delete without paginated
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeFileClient create with owner[33m 2495[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mgenerateAccountSASQueryParameters should work[33m 1520[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mgenerateAccountSASQueryParameters with encryptionscope should work[33m 324[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mgenerateAccountSASQueryParameters should not work with invalid permission[32m 148[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mgenerateAccountSASQueryParameters should not work with invalid service[32m 137[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mgenerateAccountSASQueryParameters should not work with invalid resource type[32m 142[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mgenerateDataLakeSASQueryParameters should work for filesystem[33m 466[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mgenerateDataLakeSASQueryParameters with encryptionscope should work for filesystem[33m 502[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeFileClient create with group[33m 1172[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mgenerateDataLakeSASQueryParameters should work for file with previous API version[33m 621[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mgenerateDataLakeSASQueryParameters should work for file[33m 570[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mgenerateDataLakeSASQueryParameters with encryptionscope should work for file[33m 530[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeFileClient create with acl[33m 1331[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mgenerateDataLakeSASQueryParameters should work for file with special namings[33m 535[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeFileClient createIfNotExists with owner[33m 975[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/aborter.spec.ts[2m > [22mAborter[2m > [22mShould abort after aborter timeout[33m 6563[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeFileClient createIfNotExists with group[33m 1053[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/specialnaming.spec.ts[2m > [22mSpecial Naming Tests[2m > [22mShould work with special container and blob names with spaces[33m 7358[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/leaseclient.spec.ts[2m > [22mLeaseClient from FileSystem[2m > [22macquireLease[33m 7553[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/node/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mDataLakeServiceClient default audience should work[33m 7668[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22msetMetadata[33m 7817[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeFileClient createIfNotExists with acl[33m 941[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeFileClient create file path with directory dots[33m 8920[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeDirectoryClient create with owner[33m 1197[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload and read with cpk[33m 8214[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeDirectoryClient create with group[33m 1040[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeDirectoryClient create with acl[33m 1031[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/aborter.spec.ts[2m > [22mAborter[2m > [22mShould not abort after calling abort()[33m 5012[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient Node.js only[2m > [22mDataLakeFileSystemClient default audience should work[33m 12247[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeDirectoryClient createIfNotExists with owner[33m 881[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/specialnaming.spec.ts[2m > [22mSpecial Naming Tests[2m > [22mShould work with special container and blob names with spaces in URL string[33m 5384[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeDirectoryClient createIfNotExists with group[33m 943[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22msetMetadata with tracing[33m 5304[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/leaseclient.spec.ts[2m > [22mLeaseClient from FileSystem[2m > [22macquireLease without specifying a lease id[33m 5659[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeDirectoryClient createIfNotExists with acl[33m 897[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload large data with cpk[33m 5372[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient create directory path with directory dots[33m 5851[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22msetAccessControl[33m 968[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22msetAccessControl with all parameters[33m 927[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/aborter.spec.ts[2m > [22mAborter[2m > [22mShould abort when calling abort() before request finishes[33m 5048[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22msetPermissions[33m 940[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mSetProperties and GetProperties[33m 17689[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22msetPermissions with all parameters[33m 978[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/leaseclient.spec.ts[2m > [22mLeaseClient from FileSystem[2m > [22mreleaseLease[33m 5365[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/node/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mDataLakeServiceClient customized audience should work[33m 10952[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mmove[33m 995[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22muploadFile with CPK[33m 5168[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mmove should encode source[33m 1310[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeFileClient create file path with directory dots under a dir[33m 6227[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mmove cross file system[33m 1332[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/aborter.spec.ts[2m > [22mAborter[2m > [22mShould not abort when calling abort() after request finishes[33m 5164[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mListFileSystems with default parameters[33m 5578[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/public/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mListFileSystems - returns file system encryption scope info[32m 21[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/public/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mListFileSystems - PagedAsyncIterableIterator returns file system encryption scope info[32m 17[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mmove should not encode / in the source[33m 1345[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/specialnaming.spec.ts[2m > [22mSpecial Naming Tests[2m > [22mShould work with special container and blob names uppercase[33m 5610[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mmove with destination path encoded[33m 1104[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mgetProperties[33m 5435[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/specialnaming.spec.ts[2m > [22mSpecial Naming Tests[2m > [22mShould work with special container and blob names uppercase in URL string[33m 5932[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mcreate with default parameters[33m 5822[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mmove with destination path not encoded[33m 1021[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mreadToFile with CPK[33m 5416[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mmove with shared key to authenticate source, SAS to authenticate destination[33m 1002[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mmove with SAS to authenticate source, SAS to authenticate destination[33m 938[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient create directory path with directory dots under a dir[33m 6819[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mquick query should work[33m 1216[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient Node.js only[2m > [22mDataLakeFileSystemClient customized audience should work[33m 16066[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mListFileSystems with default parameters - null prefix shouldn't throw error[33m 5625[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mquick query should work with arrow output configuration[33m 1157[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mcreate with all parameters configured[33m 5671[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/specialnaming.spec.ts[2m > [22mSpecial Naming Tests[2m > [22mShould work with special blob names Chinese characters[33m 6257[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mquery should work with Parquet input configuration[33m 1430[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload should work for large data[33m 5627[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mquick query with CPK[33m 1273[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeFileClient create with meta data[33m 6413[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mVerify PagedAsyncIterableIterator for ListFileSystems[33m 6512[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mcreate with encryption scope[33m 5570[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mgenerateDataLakeSASQueryParameters should work for fileSystem with access policy[33m 30651[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/specialnaming.spec.ts[2m > [22mSpecial Naming Tests[2m > [22mShould work with special blob names Chinese characters in URL string[33m 5756[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload should work for small data[33m 5548[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/node/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mDataLakeServiceClient bearer token challenge should work[33m 18677[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/node/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mcan be created from AccountConnString[32m 292[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeFileClient default audience should work[33m 5857[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeFileClient create with permission and umark[33m 6146[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mcreate with encryption scope - preventEncryptionScopeOverride : false[33m 5374[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mVerify PagedAsyncIterableIterator(generator .next() syntax) for ListFileSystems[33m 6055[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload can abort for single-shot upload[33m 5154[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeFileClient create with headers[33m 5866[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mcreateIfNotExists[33m 5313[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mgetUserDelegationKey should work[33m 4946[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/public/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mrenameFileSystem should work[32m 16[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/public/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mrenameFileSystem should work with source lease[32m 13[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/specialnaming.spec.ts[2m > [22mSpecial Naming Tests[2m > [22mShould work with special blob name characters[33m 5330[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload can abort for parallel upload[33m 4907[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeFileClient customized audience should work[33m 10466[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient Node.js only[2m > [22mDataLakeFileSystemClient bearer token challenge should work[33m 21452[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/specialnaming.spec.ts[2m > [22mSpecial Naming Tests[2m > [22mShould work with special blob name characters in URL string[33m 5404[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload can update progress with single-shot upload[33m 5465[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/specialnaming.spec.ts[2m > [22mSpecial Naming Tests[2m > [22mShould work with special blob name Russian URI encoded[33m 5186[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeFileClient create with leaseId[33m 6261[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/node/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mSetProperties and GetProperties with CORS[33m 16087[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/leaseclient.spec.ts[2m > [22mLeaseClient from FileSystem[2m > [22mrenewLease[33m 36063[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient Node.js only[2m > [22mgetAccessPolicy[33m 4977[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mdeleteIfExists[33m 5490[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mdelete[33m 5092[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload can update progress with parallel upload[33m 4994[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/specialnaming.spec.ts[2m > [22mSpecial Naming Tests[2m > [22mShould work with special blob name Russian[33m 5165[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeFileClient create with relative expiry[33m 5785[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/node/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mListFileSystems with all parameters configured[33m 5778[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/leaseclient.spec.ts[2m > [22mLeaseClient from FileSystem[2m > [22mchangeLease[33m 5896[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload empty data should succeed[33m 5107[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mlistPaths with default parameters[33m 5969[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeFileClient bearer token challenge should work[33m 15142[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient Node.js only[2m > [22msetAccessPolicy[33m 5349[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/node/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mVerify PagedAsyncIterableIterator(byPage()) for ListFileSystems[33m 6195[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mgenerateDataLakeSASQueryParameters should work for file with access policy[33m 30711[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/specialnaming.spec.ts[2m > [22mSpecial Naming Tests[2m > [22mShould work with special blob name Russian in URL string[33m 5295[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/specialnaming.spec.ts[2m > [22mSpecial Naming Tests[2m > [22mShould work with special blob name Arabic URI encoded[33m 5349[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload to an existing file will overwrite[33m 6187[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeDirectoryClient default audience should work[33m 5311[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient Node.js only[2m > [22msetAccessPolicy with OAuth[33m 5304[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mlistPaths with startFrom[33m 7405[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient Node.js only[2m > [22msetAccessPolicy should work when expiry and start undefined[33m 5163[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/leaseclient.spec.ts[2m > [22mLeaseClient from FileSystem[2m > [22mbreakLease[33m 10504[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/node/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mVerify PagedAsyncIterableIterator(byPage() - continuationToken) for ListFileSystems[33m 5887[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mGenerateUserDelegationSAS should work for filesystem with all configurations[33m 5681[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/specialnaming.spec.ts[2m > [22mSpecial Naming Tests[2m > [22mShould work with special blob name Arabic[33m 5381[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload by specifying a ModifiedAccessConditions check to avoid overwrite[33m 5574[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mlistPaths - Encryption Scope[33m 5153[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/leaseclient.spec.ts[2m > [22mLeaseClient from File[2m > [22macquireLease[33m 6535[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mGenerateUserDelegationSAS should work for filesystem with all configurations[33m 5115[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/specialnaming.spec.ts[2m > [22mSpecial Naming Tests[2m > [22mShould work with special blob name Arabic in URL string[33m 5416[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeDirectoryClient customized audience should work[33m 10605[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mlistPaths - Encryption context[33m 5823[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mGenerateUserDelegationSAS should work for filesystem with minimum parameters[33m 5541[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mGenerateUserDelegationSAS with skuoid should work for filesystem[32m 16[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/leaseclient.spec.ts[2m > [22mLeaseClient from File[2m > [22mreleaseLease[33m 5628[2mms[22m[39m
+[vitest]  [31m×[39m test/public/serviceclient.spec.ts[2m > [22mDataLakeServiceClient[2m > [22mundelete and list deleted file system should work[33m 36877[2mms[22m[39m
+[vitest] [31m   → The specified container is being deleted.
+[vitest] RequestId:904408be-901e-0002-37fd-7f3f65000000
+[vitest] Time:2026-01-07T17:44:25.5187766Z[39m
+[vitest]  [32m✓[39m test/internal/specialnaming.spec.ts[2m > [22mSpecial Naming Tests[2m > [22mShould work with special blob name Japanese URI encoded[33m 5366[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload to a leased file without specifying LeaseAccessConditions should fail[33m 6153[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient Node.js only[2m > [22mcan be created with a url and a credential[33m 9844[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mlistPaths - PagedAsyncIterableIterator with Encryption Scope[33m 5091[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mGenerateUserDelegationSAS should work for file[33m 5397[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mGenerateUserDelegationSAS with skuoid should work for file[32m 14[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeFileClient create with absolute expiry[33m 30858[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/specialnaming.spec.ts[2m > [22mSpecial Naming Tests[2m > [22mShould work with special blob name Japanese[33m 5288[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient Node.js only[2m > [22mcan be created with a url and a credential and an option bag[33m 9833[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload to a leased file should succeed when LeaseAccessConditions is specified[33m 5951[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload specifying both LeaseAccessConditions and ModifiedAccessConditions works as expected[33m 5617[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mlistPaths - ExpiryTime, NeverExpire[33m 5519[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mGenerateUserDelegationSAS should work for file for 2019-12-12[33m 5302[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeFileClient create with all parameters[33m 5631[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/specialnaming.spec.ts[2m > [22mSpecial Naming Tests[2m > [22mShould work with special blob name Japanese in URL string[33m 5596[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient Node.js only[2m > [22mcan be created with a url and a TokenCredential[33m 4931[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient Node.js only[2m > [22mDataLakeDirectoryClient bearer token challenge should work[33m 14832[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mGenerateUserDelegationSAS should work for file for 2020-12-06[33m 5414[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mconstruct SASQueryParameters with a option bag[32m 12[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mDataLakeServiceClient.generateAccountSasUrl() should work with all parameters set[32m 216[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mDataLakeServiceClient.generateAccountSasUrl() should work with default parameters[33m 363[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mDataLakeServiceClient.generateAccountSasUrl() with encryptionscope should work[33m 354[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient setAccessControlRecursive Node.js only[2m > [22msetAccessControlRecursive should work[33m 6251[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mDataLakeFileSystemClient.generateSasUrl() should work[33m 399[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mDataLakeFileSystemClient.generateSasUrl() with encryptionscope should work[33m 940[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload should work when data size = FILE_MAX_SINGLE_UPLOAD_THRESHOLD[33m 5729[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mlistPaths - ExpiryTime, Absolute[33m 5629[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload should fail when number of chunks > BLOCK_BLOB_MAX_BLOCKS[33m 4727[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mDataLakeDirectoryClient.generateSasUrl() with encryptionscope should work[33m 379[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mDataLakeFileClient.generateSasUrl() with encryptionscope should work[33m 368[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mShared Access Signature (SAS) generation Node.js only[2m > [22mlistPaths with invalid SAS should fail[32m 135[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mlistPaths - ExpiryTime, RelativeToNow[33m 5480[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mSAS generation Node.js only for directory SAS[2m > [22mgenerateDataLakeSASQueryParameters for directory should work for permissions m, e, o, p[33m 883[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mSAS generation Node.js only for directory SAS[2m > [22mgenerateDataLakeSASQueryParameters for root directory should work[33m 629[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient Node.js only[2m > [22mcan be created with a url and a pipeline[33m 9298[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mSAS generation Node.js only for directory SAS[2m > [22mgenerateDataLakeSASQueryParameters could calculate directory depth[33m 803[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeFileClient createIfNotExists with default parameters[33m 5601[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mSAS generation Node.js only for directory SAS[2m > [22mgenerateDataLakeSASQueryParameters for file should work for permissions m, e, o, p[33m 808[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeFileClient createIfNotExists with meta data[33m 5303[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mSAS generation Node.js only for directory SAS[2m > [22mgenerateDataLakeSASQueryParameters for filesystem should work for permissions m, e, o, p[33m 709[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22muploadStream should work[33m 4447[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient setAccessControlRecursive Node.js only[2m > [22msetAccessControlRecursive should work with options - maxBatches[33m 6082[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mSAS generation Node.js only for directory SAS[2m > [22mDataLakeDirectoryClient.generateSasUrl() should work[33m 606[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mSAS generation Node.js only for directory SAS[2m > [22mDataLakeFileClient.generateSasUrl() should work[33m 601[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mlistPaths - ExpiryTime, RelativeToCreation[33m 5181[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22muploadStream can abort[33m 4516[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient setAccessControlRecursive Node.js only[2m > [22msetAccessControlRecursive should work with options - batchSize[33m 6062[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mlistPaths with default parameters - null path shouldn't throw error[33m 5342[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22muploadStream can update progress event[33m 4526[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeFileClient createIfNotExists with permission and umark[33m 5058[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeFileClient createIfNotExists with headers[33m 5362[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient setAccessControlRecursive Node.js only[2m > [22msetAccessControlRecursive should work with aborter & resume, [33m 5672[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/leaseclient.spec.ts[2m > [22mLeaseClient from File[2m > [22mrenewLease[33m 35891[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22muploadStream with empty data should succeed[33m 5001[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mlistPaths with all parameters configured[33m 5082[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/leaseclient.spec.ts[2m > [22mLeaseClient from File[2m > [22mchangeLease[33m 4991[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mVerify PagedAsyncIterableIterator for listPaths[33m 5627[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient setAccessControlRecursive Node.js only[2m > [22mupdateAccessControlRecursive should work[33m 5992[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeFileClient createIfNotExists with leaseId[33m 5046[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22muploadStream should success for tiny buffers[33m 5380[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeFileClient createIfNotExists with relative expiry[33m 4927[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22muploadFile should work for large data[33m 4107[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mVerify PagedAsyncIterableIterator(generator .next() syntax) for listPaths[33m 5167[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22muploadFile should success for small data[33m 4138[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient setAccessControlRecursive Node.js only[2m > [22mremoveAccessControlRecursive should work[33m 6153[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/pathclient.spec.ts[2m > [22mDataLakePathClient setAccessControlRecursive Node.js only[2m > [22msetAccessControlRecursive should work with progress failures[33m 4412[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mVerify PagedAsyncIterableIterator(byPage()) for listPaths[33m 5297[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mVerify PagedAsyncIterableIterator(byPage() - continuationToken) for listPaths
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mverify fileSystemName passed to the client[33m 3926[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22muploadFile can abort for single-shot upload[33m 4996[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/leaseclient.spec.ts[2m > [22mLeaseClient from File[2m > [22mbreakLease[33m 15228[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mSAS generation Node.js only for directory SAS[2m > [22mgenerateDataLakeSASQueryParameters should work for directory with access policy[33m 30710[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mSAS generation Node.js only for delegation SAS[2m > [22mGenerateUserDelegationSAS for directory should work for permissions m, e, o, p[33m 4638[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22muploadFile should abort for parallel upload[33m 3983[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mexists returns true on an existing file system[33m 4111[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22muploadFile should update progress with single-shot upload[33m 4146[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/leaseclient.spec.ts[2m > [22mLeaseClient from Directory[2m > [22macquireLease[33m 4660[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/leaseclient.spec.ts[2m > [22mLeaseClient from Directory[2m > [22mreleaseLease[33m 4500[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mSAS generation Node.js only for delegation SAS[2m > [22mGenerateUserDelegationSAS should work with agentObjectId, preauthorizedAgentObjectId[33m 6494[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22muploadFile should update progress with parallel upload[33m 4096[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient[2m > [22mexists returns false on non-existing file system[33m 4292[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/sas.spec.ts[2m > [22mSAS generation Node.js only for delegation SAS[2m > [22mGenerateUserDelegationSAS should work with correlationId[33m 4668[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/sas.spec.ts[2m > [22mGenerate user delegation SAS against file system Node.js only[2m > [22mgenerateUserDelegationSasUrl should work with all configurations
+[vitest]  [2m[90m↓[39m[22m test/internal/node/sas.spec.ts[2m > [22mGenerate user delegation SAS against file system Node.js only[2m > [22mgenerateUserDelegationSasUrl should work with 2020-12-06
+[vitest]  [2m[90m↓[39m[22m test/internal/node/sas.spec.ts[2m > [22mGenerate user delegation SAS against file system Node.js only[2m > [22mgenerateUserDelegationSasUrl should work with minimum parameters
+[vitest]  [2m[90m↓[39m[22m test/internal/node/sas.spec.ts[2m > [22mGenerate user delegation SAS against file system Node.js only[2m > [22mgenerateUserDelegationSasUrl should work with agentObjectId, preauthorizedAgentObjectId
+[vitest]  [2m[90m↓[39m[22m test/internal/node/sas.spec.ts[2m > [22mGenerate user delegation SAS against file system Node.js only[2m > [22mgenerateUserDelegationSasUrl should work with correlationId
+[vitest]  [2m[90m↓[39m[22m test/internal/node/sas.spec.ts[2m > [22mGenerate user delegation SAS against path Node.js only[2m > [22mgenerateUserDelegationSasUrl should work for file
+[vitest]  [2m[90m↓[39m[22m test/internal/node/sas.spec.ts[2m > [22mGenerate user delegation SAS against path Node.js only[2m > [22mgenerateUserDelegationSasUrl should work for 2019-12-12
+[vitest]  [2m[90m↓[39m[22m test/internal/node/sas.spec.ts[2m > [22mGenerate user delegation SAS against path Node.js only[2m > [22mgenerateUserDelegationSasUrl should for directory for permissions m, e, o, p
+[vitest]  [2m[90m↓[39m[22m test/internal/node/sas.spec.ts[2m > [22mGenerate user delegation SAS against path Node.js only[2m > [22mgenerateUserDelegationSasUrl should for directory with version 2020-12-06
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient with soft delete[2m > [22mlistDeletedPaths with default parameters[33m 5945[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22muploadFile with empty data should succeed[33m 4226[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22muploadFile with chunkSize = FILE_UPLOAD_MAX_CHUNK_SIZE should succeed
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload with chunkSize = FILE_UPLOAD_MAX_CHUNK_SIZE should succeed
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeFileClient createIfNotExists with absolute expiry[33m 29942[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeFileClient createIfNotExist with encryption context[33m 4874[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mupload ArrayBuffer and ArrayBufferView should succeed[33m 5951[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient with soft delete[2m > [22mlistDeletedPaths and listPaths with recreating file after deletion[33m 5264[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient with soft delete[2m > [22mlistDeletedPaths with recreating and deletion again[33m 6082[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mreadToBuffer should work[33m 4022[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient create with default parameters[33m 5355[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient with soft delete[2m > [22mlistDeletedPaths with default parameters - empty path shouldn't throw error[33m 5240[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mreadToBuffer should work - without passing the buffer[33m 4128[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient create with  encryption context[33m 4558[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mreadToBuffer should throw error if the count is too large[33m 3626[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient with soft delete[2m > [22mlistDeletedPaths with all parameters configured and byPage with continuationToken[33m 4931[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient create with meta data[33m 4334[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mreadToBuffer should success when reading a range inside file[33m 4902[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient with soft delete[2m > [22mVerify PagedAsyncIterableIterator for listDeletedPaths[33m 5292[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient create with permission and umark[33m 4577[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mreadToBuffer can abort[33m 3858[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/leaseclient.spec.ts[2m > [22mLeaseClient from Directory[2m > [22mrenewLease[33m 35037[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mreadToBuffer should update progress event[33m 4276[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient with soft delete[2m > [22mVerify PagedAsyncIterableIterator(generator .next() syntax) for listDeletedPaths[33m 4235[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient create with headers[33m 4323[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient with soft delete[2m > [22mVerify PagedAsyncIterableIterator(byPage()) for listDeletedPaths[33m 5767[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient with soft delete[2m > [22mVerify PagedAsyncIterableIterator(byPage() - continuationToken) for listDeletedPaths
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mreadToFile should work[33m 4069[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/leaseclient.spec.ts[2m > [22mLeaseClient from Directory[2m > [22mchangeLease[33m 4976[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient create with leaseId[33m 5044[2mms[22m[39m
+[vitest]  [2m[90m↓[39m[22m test/internal/node/highlevel.node.spec.ts[2m > [22mHighlevel Node.js only[2m > [22mreadToFile should fail when saving to directory[33m 3999[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient create with all parameters[33m 4945[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient create with relative expiry[33m 4583[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient with soft delete[2m > [22mUndelete file and directory[33m 5479[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient create with absolute expiry[33m 4163[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient with soft delete[2m > [22mUndelete file and directory - with directory dots[33m 5124[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient with soft delete[2m > [22mUndelete file and directory - recreate and delete path and undelete the path with first deletionid[33m 4392[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient createIfNotExists with default parameters[33m 4442[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient with soft delete[2m > [22mUndelete file and directory - recreate and delete path and undelete the path twice[33m 5113[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient createIfNotExists with meta data[33m 4680[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient createIfNotExists with permission and umark[33m 4445[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient with soft delete[2m > [22mUndelete file and directory with deleteIfExists[33m 5080[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient createIfNotExists with headers[33m 4234[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mDataLakeFileSystemClient with soft delete[2m > [22mUndelete file and directory special char[33m 5713[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/leaseclient.spec.ts[2m > [22mLeaseClient from Directory[2m > [22mbreakLease[33m 34742[2mms[22m[39m
+[vitest]  [32m✓[39m test/public/filesystemclient.spec.ts[2m > [22mVersion error test[2m > [22mInvalid service version[33m 3505[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient createIfNotExists with leaseId[33m 4437[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient createIfNotExists with relative expiry[33m 4233[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mDataLakeDirectoryClient createIfNotExists with absolute expiry[33m 4099[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mread with with default parameters[33m 4378[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mread a file with encryption context set[33m 4994[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mread a file with permissions set[33m 4789[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mread should not have aborted error after read finishes[33m 4088[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mread all parameters set[33m 4674[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22msetMetadata with new metadata set[33m 4460[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22msetMetadata with cleaning up metadata[33m 4762[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22msetHttpHeaders with default parameters[33m 4487[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22msetHttpHeaders with all parameters set[33m 4304[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mdelete[33m 4098[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mread with default parameters and tracing[33m 4322[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mverify fileName and fileSystemName passed to the client[33m 3863[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mappend with acquire lease[33m 4878[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mappend with auto-renew lease[33m 19845[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mappend with release lease[33m 4750[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mflush with acquire lease[33m 4990[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mflush with auto-renew lease[33m 19904[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mflush with release lease[33m 8299[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mappend with flush should work[33m 7919[2mms[22m[39m
+[vitest]  [32m✓[39m test/internal/pathclient.spec.ts[2m > [22mDataLakePathClient[2m > [22mappend & flush should work[33m 7094[2mms[22m[39m

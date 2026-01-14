@@ -1,0 +1,339 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { Recorder } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { createQueueServiceClient } from "../public/utils/clients.js";
+import { getUniqueName } from "../public/utils/utils.js";
+import type { QueueClient } from "../../src/index.js";
+
+describe("QueueClient message methods", () => {
+  let queueName: string;
+  let queueClient: QueueClient;
+  const messageContent = "Hello World";
+
+  let recorder: Recorder;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    const queueServiceClient = await createQueueServiceClient("TokenCredential", { recorder });
+    queueName = getUniqueName("queue", { recorder });
+    queueClient = queueServiceClient.getQueueClient(queueName);
+    await queueClient.create();
+  });
+
+  afterEach(async () => {
+    await queueClient.delete();
+    await recorder.stop();
+  });
+
+  it("enqueue, peek, dequeue and clear message with default parameters", async () => {
+    const eResult = await queueClient.sendMessage(messageContent);
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
+    assert.isDefined(eResult.requestId);
+    assert.isDefined(eResult.clientRequestId);
+    assert.isDefined(eResult.nextVisibleOn);
+    assert.isDefined(eResult.version);
+
+    await queueClient.sendMessage(messageContent);
+
+    const pResult = await queueClient.peekMessages();
+    assert.isDefined(pResult.date);
+    assert.isDefined(pResult.requestId);
+    assert.isDefined(eResult.clientRequestId);
+    assert.isDefined(pResult.version);
+    assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
+
+    const dqResult = await queueClient.receiveMessages();
+    assert.isDefined(dqResult.date);
+    assert.isDefined(dqResult.requestId);
+    assert.isDefined(eResult.clientRequestId);
+    assert.isDefined(dqResult.version);
+    assert.deepStrictEqual(dqResult.receivedMessageItems.length, 1);
+    assert.isDefined(dqResult.receivedMessageItems[0].popReceipt);
+    assert.deepStrictEqual(dqResult.receivedMessageItems[0].messageText, messageContent);
+    assert.deepStrictEqual(dqResult.receivedMessageItems[0].messageId, eResult.messageId);
+
+    const cResult = await queueClient.clearMessages();
+    assert.isDefined(cResult.date);
+    assert.isDefined(cResult.requestId);
+    assert.isDefined(eResult.clientRequestId);
+    assert.isDefined(cResult.version);
+
+    // check all messages are cleared
+    const pResult2 = await queueClient.peekMessages();
+    assert.isDefined(pResult2.date);
+    assert.deepStrictEqual(pResult2.peekedMessageItems.length, 0);
+  });
+
+  it("enqueue, peek, dequeue and clear message with all parameters", async () => {
+    const eResult = await queueClient.sendMessage(messageContent, {
+      messageTimeToLive: 40,
+      visibilityTimeout: 0,
+    });
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
+    assert.isDefined(eResult.requestId);
+    assert.isDefined(eResult.nextVisibleOn);
+    assert.isDefined(eResult.version);
+
+    const eResult2 = await queueClient.sendMessage(messageContent, {
+      messageTimeToLive: 40,
+      visibilityTimeout: 0,
+    });
+    await queueClient.sendMessage(messageContent, {
+      messageTimeToLive: 10,
+      visibilityTimeout: 5,
+    });
+    await queueClient.sendMessage(messageContent, {
+      messageTimeToLive: 20,
+      visibilityTimeout: 19,
+    });
+
+    const pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
+    assert.isDefined(pResult.date);
+    assert.isDefined(pResult.requestId);
+    assert.isDefined(pResult.version);
+    assert.deepStrictEqual(pResult.peekedMessageItems.length, 2);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].dequeueCount, 0);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].expiresOn, eResult.expiresOn);
+
+    assert.deepStrictEqual(pResult.peekedMessageItems[1].messageText, messageContent);
+    assert.deepStrictEqual(pResult.peekedMessageItems[1].dequeueCount, 0);
+    assert.deepStrictEqual(pResult.peekedMessageItems[1].messageId, eResult2.messageId);
+    assert.deepStrictEqual(pResult.peekedMessageItems[1].insertedOn, eResult2.insertedOn);
+    assert.deepStrictEqual(pResult.peekedMessageItems[1].expiresOn, eResult2.expiresOn);
+
+    const dResult = await queueClient.receiveMessages({
+      visibilityTimeout: 10,
+      numberOfMessages: 2,
+    });
+    assert.isDefined(dResult.date);
+    assert.isDefined(dResult.requestId);
+    assert.isDefined(dResult.version);
+    assert.deepStrictEqual(dResult.receivedMessageItems.length, 2);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, messageContent);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].dequeueCount, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageId, eResult.messageId);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].expiresOn, eResult.expiresOn);
+    assert.isDefined(dResult.receivedMessageItems[0].popReceipt);
+    assert.isDefined(dResult.receivedMessageItems[0].nextVisibleOn);
+
+    assert.deepStrictEqual(pResult.peekedMessageItems[1].messageText, messageContent);
+
+    // check no message is visible
+    const pResult2 = await queueClient.peekMessages();
+    assert.isDefined(pResult2.date);
+    assert.deepStrictEqual(pResult2.peekedMessageItems.length, 0);
+  });
+
+  it("enqueue, peek, dequeue empty message, and peek, dequeue with numberOfMessages > count(messages)", async () => {
+    const eResult = await queueClient.sendMessage("", {
+      messageTimeToLive: 40,
+      visibilityTimeout: 0,
+    });
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
+    assert.isDefined(eResult.requestId);
+    assert.isDefined(eResult.nextVisibleOn);
+    assert.isDefined(eResult.version);
+
+    const pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
+    assert.isDefined(pResult.date);
+    assert.isDefined(pResult.requestId);
+    assert.isDefined(pResult.version);
+    assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, "");
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].dequeueCount, 0);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].expiresOn, eResult.expiresOn);
+
+    const dResult = await queueClient.receiveMessages({
+      visibilityTimeout: 10,
+      numberOfMessages: 2,
+    });
+    assert.isDefined(dResult.date);
+    assert.isDefined(dResult.requestId);
+    assert.isDefined(dResult.version);
+    assert.deepStrictEqual(dResult.receivedMessageItems.length, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, "");
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].dequeueCount, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageId, eResult.messageId);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].expiresOn, eResult.expiresOn);
+    assert.isDefined(dResult.receivedMessageItems[0].popReceipt);
+    assert.isDefined(dResult.receivedMessageItems[0].nextVisibleOn);
+  });
+
+  it("enqueue, peek, dequeue special characters", async () => {
+    const specialMessage =
+      "!@#$%^&*()_+`-=[]|};'\":,./?><`~漢字㒈保ᨍ揫^p[뷁)׷񬓔7񈺝l鮍򧽶ͺ簣ڞ츊䈗㝯綞߫⯹?ÎᦡC왶żsmt㖩닡򈸱𕩣ОլFZ򃀮9tC榅ٻ컦驿Ϳ[𱿛봻烌󱰷򙥱Ռ򽒏򘤰δŊϜ췮㐦9ͽƙp퐂ʩ由巩KFÓ֮򨾭⨿󊻅aBm󶴂旨Ϣ񓙠򻐪񇧱򆋸ջ֨ipn򒷐ꝷՆ򆊙斡賆𒚑m˞𻆕󛿓򐞺Ӯ򡗺򴜍<񐸩԰Bu)򁉂񖨞á<џɏ嗂�⨣1PJ㬵┡ḸI򰱂ˮaࢸ۳i灛ȯɨb𹺪򕕱뿶uٔ䎴񷯆Φ륽󬃨س_NƵ¦\u00E9";
+
+    const eResult = await queueClient.sendMessage(specialMessage, {
+      messageTimeToLive: 40,
+      visibilityTimeout: 0,
+    });
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
+    assert.isDefined(eResult.requestId);
+    assert.isDefined(eResult.nextVisibleOn);
+    assert.isDefined(eResult.version);
+
+    const pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
+    assert.isDefined(pResult.date);
+    assert.isDefined(pResult.requestId);
+    assert.isDefined(pResult.version);
+    assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, specialMessage);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].dequeueCount, 0);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].expiresOn, eResult.expiresOn);
+
+    const dResult = await queueClient.receiveMessages({
+      visibilityTimeout: 10,
+      numberOfMessages: 2,
+    });
+    assert.isDefined(dResult.date);
+    assert.isDefined(dResult.requestId);
+    assert.isDefined(dResult.version);
+    assert.deepStrictEqual(dResult.receivedMessageItems.length, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, specialMessage);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].dequeueCount, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageId, eResult.messageId);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].expiresOn, eResult.expiresOn);
+    assert.isDefined(dResult.receivedMessageItems[0].popReceipt);
+    assert.isDefined(dResult.receivedMessageItems[0].nextVisibleOn);
+  });
+
+  it("enqueue, peek, dequeue with 64KB characters size which is computed after encoding", async () => {
+    const newMessageContent = new Array(64 * 1024 + 1).join("a");
+
+    const eResult = await queueClient.sendMessage(newMessageContent, {
+      messageTimeToLive: 40,
+      visibilityTimeout: 0,
+    });
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
+    assert.isDefined(eResult.requestId);
+    assert.isDefined(eResult.nextVisibleOn);
+    assert.isDefined(eResult.version);
+
+    const pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
+    assert.isDefined(pResult.date);
+    assert.isDefined(pResult.requestId);
+    assert.isDefined(pResult.version);
+    assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, newMessageContent);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].dequeueCount, 0);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].expiresOn, eResult.expiresOn);
+
+    const dResult = await queueClient.receiveMessages({
+      visibilityTimeout: 10,
+      numberOfMessages: 2,
+    });
+    assert.isDefined(dResult.date);
+    assert.isDefined(dResult.requestId);
+    assert.isDefined(dResult.version);
+    assert.deepStrictEqual(dResult.receivedMessageItems.length, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, newMessageContent);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].dequeueCount, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageId, eResult.messageId);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].expiresOn, eResult.expiresOn);
+    assert.isDefined(dResult.receivedMessageItems[0].popReceipt);
+    assert.isDefined(dResult.receivedMessageItems[0].nextVisibleOn);
+  });
+
+  it("enqueue, peek and dequeue negative", async () => {
+    const eResult = await queueClient.sendMessage(messageContent, {
+      messageTimeToLive: 40,
+    });
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
+    assert.isDefined(eResult.requestId);
+    assert.isDefined(eResult.nextVisibleOn);
+    assert.isDefined(eResult.version);
+
+    let error;
+    try {
+      await queueClient.sendMessage(messageContent, {
+        messageTimeToLive: 30,
+        visibilityTimeout: 30,
+      });
+    } catch (err: any) {
+      error = err;
+    }
+    assert.isDefined(error);
+
+    let errorPeek;
+    try {
+      await queueClient.peekMessages({ numberOfMessages: 100 });
+    } catch (err: any) {
+      errorPeek = err;
+    }
+    assert.isDefined(errorPeek);
+
+    const pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
+    assert.isDefined(pResult.date);
+    assert.isDefined(pResult.requestId);
+    assert.isDefined(pResult.version);
+    assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].dequeueCount, 0);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].expiresOn, eResult.expiresOn);
+
+    // Note visibility time could be larger then message time to live for dequeue.
+    await queueClient.receiveMessages({
+      visibilityTimeout: 40,
+      numberOfMessages: 2,
+    });
+  });
+
+  it("enqueue negative with 65537B(64KB+1B) characters size which is computed after encoding", async () => {
+    const newMessageContent = new Array(64 * 1024 + 2).join("a");
+
+    let error;
+    try {
+      await queueClient.sendMessage(newMessageContent, {});
+    } catch (err: any) {
+      error = err;
+    }
+    assert.isDefined(error);
+    assert.include(
+      error.message,
+      "The request body is too large and exceeds the maximum permissible limit.",
+    );
+  });
+});

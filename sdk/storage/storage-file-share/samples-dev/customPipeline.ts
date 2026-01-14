@@ -6,26 +6,20 @@
  * @azsdk-weight 0
  */
 
-import {
-  newPipeline,
-  ShareServiceClient,
-  StorageSharedKeyCredential,
-} from "@azure/storage-file-share";
+import { newPipeline, ShareServiceClient } from "@azure/storage-file-share";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
 export async function main(): Promise<void> {
-  // Enter your storage account name and shared key
-  const account = process.env.ACCOUNT_NAME || "";
-  const accountKey = process.env.ACCOUNT_KEY || "";
+  // Enter your storage account name
+  const accountName = process.env.ACCOUNT_NAME;
+  if (!accountName) {
+    throw new Error("ACCOUNT_NAME environment variable is not set.");
+  }
 
-  // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-
-  // Use sharedKeyCredential or anonymousCredential to create a pipeline
-  const pipeline = newPipeline(sharedKeyCredential, {
+  const pipeline = newPipeline(new DefaultAzureCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     retryOptions: { maxTries: 4 }, // Retry options
     userAgentOptions: { userAgentPrefix: "AdvancedSample V1.0.0" }, // Customized telemetry string
@@ -33,7 +27,7 @@ export async function main(): Promise<void> {
 
   // List shares
   const serviceClient = new ShareServiceClient(
-    `https://${account}.file.core.windows.net`,
+    `https://${accountName}.file.core.windows.net`,
     pipeline,
   );
 

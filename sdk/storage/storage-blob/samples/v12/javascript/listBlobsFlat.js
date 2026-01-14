@@ -5,25 +5,23 @@
  * @summary list blobs in a container, showing options for paging, resuming paging, etc.
  */
 
-const { ContainerClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+const { ContainerClient } = require("@azure/storage-blob");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
-  // Enter your storage account name and shared key
-  const account = process.env.ACCOUNT_NAME || "";
-  const accountKey = process.env.ACCOUNT_KEY || "";
-
-  // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-
+  // Enter your storage account name
+  const accountName = process.env.ACCOUNT_NAME;
+  if (!accountName) {
+    throw new Error("ACCOUNT_NAME environment variable is not set.");
+  }
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = new ContainerClient(
-    `https://${account}.blob.core.windows.net/${containerName}`,
-    sharedKeyCredential
+    `https://${accountName}.blob.core.windows.net/${containerName}`,
+    new DefaultAzureCredential(),
   );
 
   const createContainerResponse = await containerClient.create();
@@ -73,7 +71,7 @@ async function main() {
 
   if (!continuationToken) {
     throw new Error(
-      "Expected a continuation token from the blob service, but one was not returned."
+      "Expected a continuation token from the blob service, but one was not returned.",
     );
   }
 

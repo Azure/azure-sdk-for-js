@@ -385,8 +385,6 @@ export interface BlobChangeLeaseOptions extends CommonOptions {
     conditions?: ModifiedAccessConditions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
-//
 // @public
 export class BlobClient extends StorageClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
@@ -3174,6 +3172,21 @@ export enum StorageBlobAudience {
 export { StorageBrowserPolicy }
 
 export { StorageBrowserPolicyFactory }
+
+// @public
+export abstract class StorageClient {
+    protected constructor(url: string, pipeline: PipelineLike);
+    // (undocumented)
+    readonly accountName: string;
+    readonly credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
+    // (undocumented)
+    protected readonly isHttps: boolean;
+    // @internal
+    protected readonly pipeline: PipelineLike;
+    // Warning: (ae-forgotten-export) The symbol "StorageClient_2" needs to be exported by the entry point index.d.ts
+    protected readonly storageClientContext: StorageClient_2;
+    readonly url: string;
+}
 
 // @public
 export const StorageOAuthScopes: string | string[];

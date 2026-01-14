@@ -3,7 +3,7 @@
 
 import { RestError } from "@azure/core-rest-pipeline";
 
-export { PollOperationState, PollerLike } from "@azure/core-lro";
+export type { PollOperationState, PollerLike } from "@azure/core-lro";
 export * from "./BlobServiceClient.js";
 export * from "./Clients.js";
 export * from "./ContainerClient.js";
@@ -77,7 +77,7 @@ export {
   UserDelegationKey,
 } from "@azure/storage-common";
 export * from "./sas/SASQueryParameters.js";
-export { CommonOptions } from "./StorageClient.js";
+export * from "./StorageClient.js";
 export * from "./generatedModels.js";
 export {
   AppendBlobRequestConditions,

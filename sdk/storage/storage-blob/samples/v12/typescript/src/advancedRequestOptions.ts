@@ -7,7 +7,8 @@
 
 import fs from "node:fs";
 
-import { AnonymousCredential, BlobServiceClient, newPipeline } from "@azure/storage-blob";
+import { BlobServiceClient, newPipeline } from "@azure/storage-blob";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
@@ -21,10 +22,9 @@ setLogLevel("info");
 async function main(): Promise<void> {
   // Fill in following settings before running this sample
   const account = process.env.ACCOUNT_NAME || "<account name>";
-  const accountSas = process.env.ACCOUNT_SAS || "";
   const localFilePath = "README.md";
 
-  const pipeline = newPipeline(new AnonymousCredential(), {
+  const pipeline = newPipeline(new DefaultAzureCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     retryOptions: { maxTries: 4 }, // Retry options
     userAgentOptions: { userAgentPrefix: "AdvancedSample V1.0.0" }, // Customized telemetry string
@@ -35,8 +35,8 @@ async function main(): Promise<void> {
   });
 
   const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net?${accountSas}`,
-    pipeline
+    `https://${account}.blob.core.windows.net`,
+    pipeline,
   );
 
   // Create a container
@@ -46,7 +46,7 @@ async function main(): Promise<void> {
     await containerClient.create();
   } catch (err: any) {
     console.log(
-      `Creating a container failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `Creating a container failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`,
     );
   }
 
@@ -65,7 +65,7 @@ async function main(): Promise<void> {
     console.log("Successfully uploaded file:", blockBlobClient.name);
   } catch (err: any) {
     console.log(
-      `uploadFile failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `uploadFile failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`,
     );
   }
 
@@ -79,7 +79,7 @@ async function main(): Promise<void> {
     console.log("uploadStream succeeds");
   } catch (err: any) {
     console.log(
-      `uploadStream failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `uploadStream failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`,
     );
   }
 
@@ -108,7 +108,7 @@ async function main(): Promise<void> {
     console.log("downloadToBuffer succeeds");
   } catch (err: any) {
     console.log(
-      `downloadToBuffer failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `downloadToBuffer failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`,
     );
   }
 
@@ -121,7 +121,7 @@ async function main(): Promise<void> {
   } catch (err: any) {
     // BlobArchived	Conflict (409)	This operation is not permitted on an archived blob.
     console.log(
-      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`,
     );
     console.log(`error message - ${err.details.message}\n`);
   }

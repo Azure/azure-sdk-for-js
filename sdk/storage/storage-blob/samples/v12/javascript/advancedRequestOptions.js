@@ -5,14 +5,13 @@
  * @summary use advanced HTTP pipeline and request options for several methods
  */
 
-const fs = require("fs");
+const fs = require("node:fs");
 
-const { AbortController } = require("@azure/abort-controller");
-const { AnonymousCredential, BlobServiceClient, newPipeline } = require("@azure/storage-blob");
+const { BlobServiceClient, newPipeline } = require("@azure/storage-blob");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
-
+require("dotenv/config");
 // Enabling logging may help uncover useful information about failures.
 // In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
 // Alternatively, logging can be enabled at runtime by calling `setLogLevel("info");`
@@ -23,13 +22,12 @@ setLogLevel("info");
 async function main() {
   // Fill in following settings before running this sample
   const account = process.env.ACCOUNT_NAME || "<account name>";
-  const accountSas = process.env.ACCOUNT_SAS || "";
   const localFilePath = "README.md";
 
-  const pipeline = newPipeline(new AnonymousCredential(), {
+  const pipeline = newPipeline(new DefaultAzureCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
-    retryOptions: { maxTries: 4 },
-    userAgentOptions: { userAgentPrefix: "AdvancedSample V1.0.0" },
+    retryOptions: { maxTries: 4 }, // Retry options
+    userAgentOptions: { userAgentPrefix: "AdvancedSample V1.0.0" }, // Customized telemetry string
     keepAliveOptions: {
       // Keep alive is enabled by default, disable keep alive by setting false
       enable: false,
@@ -37,8 +35,8 @@ async function main() {
   });
 
   const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net?${accountSas}`,
-    pipeline
+    `https://${account}.blob.core.windows.net`,
+    pipeline,
   );
 
   // Create a container
@@ -48,7 +46,7 @@ async function main() {
     await containerClient.create();
   } catch (err) {
     console.log(
-      `Creating a container failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `Creating a container failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`,
     );
   }
 
@@ -60,14 +58,14 @@ async function main() {
   // BlockBlobClient.uploadFile() is only available in Node.js
   try {
     await blockBlobClient.uploadFile(localFilePath, {
-      blockSize: 4 * 1024 * 1024,
-      concurrency: 20,
+      blockSize: 4 * 1024 * 1024, // 4MB block size
+      concurrency: 20, // 20 concurrency
       onProgress: (ev) => console.log(ev),
     });
     console.log("Successfully uploaded file:", blockBlobClient.name);
   } catch (err) {
     console.log(
-      `uploadFile failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `uploadFile failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`,
     );
   }
 
@@ -75,13 +73,13 @@ async function main() {
   // BlockBlobClient.uploadStream() is only available in Node.js
   try {
     await blockBlobClient.uploadStream(fs.createReadStream(localFilePath), 4 * 1024 * 1024, 20, {
-      abortSignal: AbortSignal.timeout(30 * 60 * 1000),
+      abortSignal: AbortSignal.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
       onProgress: (ev) => console.log(ev),
     });
     console.log("uploadStream succeeds");
   } catch (err) {
     console.log(
-      `uploadStream failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `uploadStream failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`,
     );
   }
 
@@ -102,15 +100,15 @@ async function main() {
   const buffer = Buffer.alloc(fileSize);
   try {
     await blockBlobClient.downloadToBuffer(buffer, 0, undefined, {
-      abortSignal: AbortSignal.timeout(30 * 60 * 1000),
-      blockSize: 4 * 1024 * 1024,
-      concurrency: 20,
+      abortSignal: AbortSignal.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+      blockSize: 4 * 1024 * 1024, // 4MB block size
+      concurrency: 20, // 20 concurrency
       onProgress: (ev) => console.log(ev),
     });
     console.log("downloadToBuffer succeeds");
   } catch (err) {
     console.log(
-      `downloadToBuffer failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `downloadToBuffer failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`,
     );
   }
 
@@ -123,7 +121,7 @@ async function main() {
   } catch (err) {
     // BlobArchived	Conflict (409)	This operation is not permitted on an archived blob.
     console.log(
-      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`,
     );
     console.log(`error message - ${err.details.message}\n`);
   }

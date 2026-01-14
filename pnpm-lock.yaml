@@ -29102,6 +29102,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-storage':
+        specifier: workspace:^
+        version: link:../arm-storage
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -29190,12 +29193,18 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
       '@azure-tools/test-recorder':
         specifier: workspace:^
         version: link:../../test-utils/recorder
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-storage':
+        specifier: workspace:^
+        version: link:../arm-storage
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -29421,6 +29430,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-storage':
+        specifier: workspace:^
+        version: link:../arm-storage
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -29564,6 +29576,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-storage':
+        specifier: workspace:^
+        version: link:../arm-storage
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -29765,6 +29780,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-storage':
+        specifier: workspace:^
+        version: link:../arm-storage
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -41348,7 +41366,7 @@ snapshots:
       magicast: 0.5.1
       obug: 2.1.1
       tinyrainbow: 3.0.3
-      vitest: 4.0.16(@opentelemetry/api@1.9.0)(@types/node@20.19.27)(@vitest/browser-playwright@4.0.16)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.27)(typescript@5.9.3))(terser@5.39.0)(tsx@4.21.0)(yaml@2.8.2)
+      vitest: 4.0.16(@opentelemetry/api@1.9.0)(@types/node@20.19.27)(@vitest/browser-playwright@4.0.16)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.27)(typescript@5.8.3))(terser@5.39.0)(tsx@4.21.0)(yaml@2.8.2)
     transitivePeerDependencies:
       - supports-color
 
