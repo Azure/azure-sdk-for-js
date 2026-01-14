@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -298,9 +298,10 @@
+@@ -299,9 +299,10 @@
  }
  
  // @public
@@ -19,7 +19,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
      create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
      create(options?: FileCreateOptions): Promise<FileCreateResponse>;
-@@ -325,9 +326,9 @@
+@@ -326,9 +327,9 @@
  // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
  //
  // @public
@@ -30,7 +30,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      create(options?: FileSystemCreateOptions): Promise<FileSystemCreateResponse>;
      createIfNotExists(options?: FileSystemCreateOptions): Promise<FileSystemCreateIfNotExistsResponse>;
      delete(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteResponse>;
-@@ -370,9 +371,9 @@
+@@ -371,9 +372,9 @@
  }
  
  // @public
@@ -41,7 +41,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
      createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
      delete(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteResponse>;
-@@ -441,9 +442,9 @@
+@@ -443,9 +444,9 @@
  }
  
  // @public
@@ -52,7 +52,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): DataLakeServiceClient;
      generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
-@@ -1083,12 +1084,12 @@
+@@ -1085,12 +1086,12 @@
  // @public (undocumented)
  export type FileUploadResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
@@ -67,7 +67,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: DataLakeSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
  
-@@ -1199,9 +1200,9 @@
+@@ -1202,9 +1203,9 @@
  // @public (undocumented)
  export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_3, "ifTags">;
  
