@@ -23,7 +23,8 @@ import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
-const imageModelDeploymentName = process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME"] || "<image model deployment name>";
+const imageModelDeploymentName =
+  process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME"] || "<image model deployment name>";
 
 export async function main(): Promise<void> {
   // Create AI Project client
@@ -55,7 +56,7 @@ export async function main(): Promise<void> {
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },
-      headers: { "x-ms-oai-image-generation-deployment": imageModelDeploymentName } 
+      headers: { "x-ms-oai-image-generation-deployment": imageModelDeploymentName },
     },
   );
   console.log(`Response created: ${response.id}`);
