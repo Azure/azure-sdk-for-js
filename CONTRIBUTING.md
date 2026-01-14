@@ -397,16 +397,6 @@ This will:
 3. Transpile TypeScript to JavaScript (for `js` code fences)
 4. Update all matching code fences in README files and TSDoc comments
 
-#### Migration
-
-If you're migrating an existing package to use named snippets, you can attempt an automatic migration:
-
-```bash
-npx dev-tool run update-snippets --migrate
-```
-
-Note: This is a best-effort migration and may require manual corrections.
-
 ### Using MCP Servers in VS Code
 
 This repository configures MCP servers to be used with GitHub Copilot in VS Code. They are listed in `.vscode/mcp.json`. For example, to use the ESLint MCP server, follow [the instructions at ESLint documentation site](https://eslint.org/docs/latest/use/mcp#using-the-eslint-mcp-server-with-github-copilot).
