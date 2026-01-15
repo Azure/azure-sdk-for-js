@@ -177,7 +177,7 @@ export function expandUrlTemplate(
   context: Record<string, any>,
   option?: UrlTemplateOptions,
 ): string {
-  const result = template.replace(/\{([^{}]+)\}|([^{}]+)/g, (_, expr, text) => {
+  const r = template.replace(/\{([^{}]+)\}|([^{}]+)/g, (_, expr, text) => {
     if (!expr) {
       return encodeReservedComponent(text);
     }
@@ -208,7 +208,7 @@ export function expandUrlTemplate(
     return result.join("");
   });
 
-  return normalizeUnreserved(result);
+  return normalizeUnreserved(r);
 }
 
 /**
@@ -219,7 +219,7 @@ function normalizeUnreserved(uri: string): string {
   return uri.replace(/%([0-9A-Fa-f]{2})/g, (match, hex) => {
     const char = String.fromCharCode(parseInt(hex, 16));
     // Decode only if it's unreserved
-    if (/[\-.~]/.test(char)) {
+    if (/[-.~]/.test(char)) {
       return char;
     }
     return match; // leave other encodings intact

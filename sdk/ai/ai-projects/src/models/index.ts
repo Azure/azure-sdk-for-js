@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 export {
-  AgentObject,
-  AgentVersionObject,
+  Agent,
+  AgentVersion,
   AgentDefinition,
   AgentDefinitionUnion,
   AgentKind,
@@ -112,7 +112,7 @@ export {
   MemoryStoreKind,
   MemoryStoreDefaultDefinition,
   MemoryStoreDefaultOptions,
-  MemoryStoreObject,
+  MemoryStore,
   DeleteMemoryStoreResponse,
   Item,
   ItemUnion,
@@ -248,7 +248,7 @@ export {
   ApiKeyCredentials,
   EntraIDCredentials,
   CustomCredential,
-  SASCredentials,
+  SASTokenCredentials,
   NoAuthenticationCredentials,
   AgenticIdentityCredentials,
   DatasetVersion,
@@ -259,7 +259,7 @@ export {
   PendingUploadRequest,
   PendingUploadResponse,
   BlobReference,
-  BlobReferenceSasCredential,
+  SasCredential,
   DatasetCredential,
   Index,
   IndexUnion,
@@ -365,9 +365,8 @@ export {
   Verbosity,
   AgentId,
   AgentReference,
-  CreateResponseStreamingResponse,
   PageOrder,
   ContainerLogKind,
   PendingUploadType,
-  KnownVersions,
+  KnownApiVersions,
 } from "./models.js";
