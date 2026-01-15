@@ -19,8 +19,8 @@ const path = require("path");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
-const imageModelDeploymentName = process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME"] || "<image model deployment name>";
+const imageDeploymentName = process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME"] || "gpt-image-1";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
   // Create AI Project client
@@ -51,8 +51,10 @@ async function main() {
       input: "Generate an image of Microsoft logo.",
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
-      headers: { "x-ms-oai-image-generation-deployment": imageModelDeploymentName }
+      body: {
+        agent: { name: agent.name, type: "agent_reference" },
+      },
+      headers: { "x-ms-oai-image-generation-deployment": imageDeploymentName },
     },
   );
   console.log(`Response created: ${response.id}`);

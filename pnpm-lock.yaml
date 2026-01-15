@@ -250,8 +250,8 @@ importers:
   common/tools/eslint-plugin-azure-sdk:
     dependencies:
       '@eslint/compat':
-        specifier: ^2.0.0
-        version: 2.0.0(eslint@9.39.2)
+        specifier: ^2.0.1
+        version: 2.0.1(eslint@9.39.2)
       '@eslint/eslintrc':
         specifier: ^3.2.0
         version: 3.3.3
@@ -280,8 +280,8 @@ importers:
         specifier: ^7.2.1
         version: 7.2.1(eslint@9.39.2)
       eslint-plugin-tsdoc:
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: ^0.5.0
+        version: 0.5.0(eslint@9.39.2)(typescript@5.8.3)
       glob:
         specifier: ^13.0.0
         version: 13.0.0
@@ -982,8 +982,8 @@ importers:
         specifier: ^12.26.0
         version: 12.29.1
       openai:
-        specifier: ^6.1.0
-        version: 6.15.0(ws@8.18.3)(zod@4.3.5)
+        specifier: ^6.16.0
+        version: 6.16.0(ws@8.18.3)(zod@4.3.5)
       tslib:
         specifier: ^2.6.2
         version: 2.8.1
@@ -7990,13 +7990,13 @@ importers:
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../abort-controller
+    devDependencies:
       '@azure/core-client':
         specifier: ^1.10.0
         version: link:../core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.22.0
         version: link:../core-rest-pipeline
-    devDependencies:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -22715,8 +22715,8 @@ importers:
         specifier: 'catalog:'
         version: 9.39.2
       openai:
-        specifier: ^6.1.0
-        version: 6.15.0(ws@8.18.3)(zod@3.25.76)
+        specifier: ^6.16.0
+        version: 6.16.0(ws@8.18.3)(zod@3.25.76)
       playwright:
         specifier: catalog:testing
         version: 1.57.0
@@ -34135,8 +34135,8 @@ packages:
     resolution: {integrity: sha512-EriSTlt5OC9/7SXkRSCAhfSxxoSUgBm33OH+IkwbdpgoqsSsUg7y3uh+IICI/Qg4BBWr3U2i39RpmycbxMq4ew==}
     engines: {node: ^12.0.0 || ^14.0.0 || >=16.0.0}
 
-  '@eslint/compat@2.0.0':
-    resolution: {integrity: sha512-T9AfE1G1uv4wwq94ozgTGio5EUQBqAVe1X9qsQtSNVEYW6j3hvtZVm8Smr4qL1qDPFg+lOB2cL5RxTRMzq4CTA==}
+  '@eslint/compat@2.0.1':
+    resolution: {integrity: sha512-yl/JsgplclzuvGFNqwNYV4XNPhP3l62ZOP9w/47atNAdmDtIFCx6X7CSk/SlWUuBGkT4Et/5+UD+WyvX2iiIWA==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
     peerDependencies:
       eslint: ^8.40 || 9
@@ -34156,8 +34156,8 @@ packages:
     resolution: {integrity: sha512-yL/sLrpmtDaFEiUj1osRP4TI2MDz1AddJL+jZ7KSqvBuliN4xqYY54IfdN8qD8Toa6g1iloph1fxQNkjOxrrpQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@eslint/core@1.0.0':
-    resolution: {integrity: sha512-PRfWP+8FOldvbApr6xL7mNCw4cJcSTq4GA7tYbgq15mRb0kWKO/wEB2jr+uwjFH3sZvEZneZyCUGTxsv4Sahyw==}
+  '@eslint/core@1.0.1':
+    resolution: {integrity: sha512-r18fEAj9uCk+VjzGt2thsbOmychS+4kxI14spVNibUO2vqKX7obOG+ymZljAwuPZl+S3clPGwCwTDtrdqTiY6Q==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
   '@eslint/eslintrc@3.3.3':
@@ -34507,14 +34507,8 @@ packages:
   '@microsoft/feature-management@2.2.0':
     resolution: {integrity: sha512-R21l0GM9+eyw+qFOtSsB8REhC02MmE4xw5UGPBOpPil3cTDltVYTe11MmhFkqLFrDs9tLNBpvCouYrQoU4Uwrg==}
 
-  '@microsoft/tsdoc-config@0.17.1':
-    resolution: {integrity: sha512-UtjIFe0C6oYgTnad4q1QP4qXwLhe6tIpNTRStJ2RZEPIkqQPREAwE5spzVxsdn9UaEMUqhh0AqSx3X4nWAKXWw==}
-
   '@microsoft/tsdoc-config@0.18.0':
     resolution: {integrity: sha512-8N/vClYyfOH+l4fLkkr9+myAoR6M7akc8ntBJ4DJdWH2b09uVfr71+LTMpNyG19fNqWDg8KEDZhx5wxuqHyGjw==}
-
-  '@microsoft/tsdoc@0.15.1':
-    resolution: {integrity: sha512-4aErSrCR/On/e5G2hDP0wjooqDdauzEbIq8hIkIe5pXV0rtWJZvdCEKL0ykZxex+IxIwBp0eGeV48hQN07dXtw==}
 
   '@microsoft/tsdoc@0.16.0':
     resolution: {integrity: sha512-xgAyonlVVS+q7Vc7qLW0UrJU7rSFcETRWsqdXZtjzRU8dF+6CkozTK4V4y1LwOX7j8r/vHphjDeMeGI4tNGeGA==}
@@ -36223,8 +36217,8 @@ packages:
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
 
-  eslint-plugin-tsdoc@0.4.0:
-    resolution: {integrity: sha512-MT/8b4aKLdDClnS8mP3R/JNjg29i0Oyqd/0ym6NnQf+gfKbJJ4ZcSh2Bs1H0YiUMTBwww5JwXGTWot/RwyJ7aQ==}
+  eslint-plugin-tsdoc@0.5.0:
+    resolution: {integrity: sha512-ush8ehCwub2rgE16OIgQPFyj/o0k3T8kL++9IrAI4knsmupNo8gvfO2ERgDHWWgTC5MglbwLVRswU93HyXqNpw==}
 
   eslint-scope@8.4.0:
     resolution: {integrity: sha512-sNXOfKCn74rt8RICKMvJS7XKV/Xk9kA7DyJr8mJik3S7Cwgy3qlkkmyS2uQB3jiJg6VNdZd/pDBJu0nvG2NlTg==}
@@ -37317,8 +37311,8 @@ packages:
     resolution: {integrity: sha512-smsWv2LzFjP03xmvFoJ331ss6h+jixfA4UUV/Bsiyuu4YJPfN+FIQGOIiv4w9/+MoHkfkJ22UIaQWRVFRfH6Vw==}
     engines: {node: '>=20'}
 
-  openai@6.15.0:
-    resolution: {integrity: sha512-F1Lvs5BoVvmZtzkUEVyh8mDQPPFolq4F+xdsx/DO8Hee8YF3IGAlZqUIsF+DVGhqf4aU0a3bTghsxB6OIsRy1g==}
+  openai@6.16.0:
+    resolution: {integrity: sha512-fZ1uBqjFUjXzbGc35fFtYKEOxd20kd9fDpFeqWtsOZWiubY8CZ1NAlXHW3iathaFvqmNtCWMIsosCuyeI7Joxg==}
     hasBin: true
     peerDependencies:
       ws: ^8.18.0
@@ -39719,9 +39713,9 @@ snapshots:
 
   '@eslint-community/regexpp@4.12.2': {}
 
-  '@eslint/compat@2.0.0(eslint@9.39.2)':
+  '@eslint/compat@2.0.1(eslint@9.39.2)':
     dependencies:
-      '@eslint/core': 1.0.0
+      '@eslint/core': 1.0.1
     optionalDependencies:
       eslint: 9.39.2
 
@@ -39741,7 +39735,7 @@ snapshots:
     dependencies:
       '@types/json-schema': 7.0.15
 
-  '@eslint/core@1.0.0':
+  '@eslint/core@1.0.1':
     dependencies:
       '@types/json-schema': 7.0.15
 
@@ -40104,21 +40098,12 @@ snapshots:
 
   '@microsoft/feature-management@2.2.0': {}
 
-  '@microsoft/tsdoc-config@0.17.1':
-    dependencies:
-      '@microsoft/tsdoc': 0.15.1
-      ajv: 8.12.0
-      jju: 1.4.0
-      resolve: 1.22.11
-
   '@microsoft/tsdoc-config@0.18.0':
     dependencies:
       '@microsoft/tsdoc': 0.16.0
       ajv: 8.12.0
       jju: 1.4.0
       resolve: 1.22.11
-
-  '@microsoft/tsdoc@0.15.1': {}
 
   '@microsoft/tsdoc@0.16.0': {}
 
@@ -42173,10 +42158,15 @@ snapshots:
       '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.2)
       eslint: 9.39.2
 
-  eslint-plugin-tsdoc@0.4.0:
+  eslint-plugin-tsdoc@0.5.0(eslint@9.39.2)(typescript@5.8.3):
     dependencies:
-      '@microsoft/tsdoc': 0.15.1
-      '@microsoft/tsdoc-config': 0.17.1
+      '@microsoft/tsdoc': 0.16.0
+      '@microsoft/tsdoc-config': 0.18.0
+      '@typescript-eslint/utils': 8.46.4(eslint@9.39.2)(typescript@5.8.3)
+    transitivePeerDependencies:
+      - eslint
+      - supports-color
+      - typescript
 
   eslint-scope@8.4.0:
     dependencies:
@@ -43399,12 +43389,12 @@ snapshots:
       powershell-utils: 0.1.0
       wsl-utils: 0.3.1
 
-  openai@6.15.0(ws@8.18.3)(zod@3.25.76):
+  openai@6.16.0(ws@8.18.3)(zod@3.25.76):
     optionalDependencies:
       ws: 8.18.3
       zod: 3.25.76
 
-  openai@6.15.0(ws@8.18.3)(zod@4.3.5):
+  openai@6.16.0(ws@8.18.3)(zod@4.3.5):
     optionalDependencies:
       ws: 8.18.3
       zod: 4.3.5

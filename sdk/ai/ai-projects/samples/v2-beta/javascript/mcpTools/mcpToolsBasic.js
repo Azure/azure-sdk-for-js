@@ -35,7 +35,7 @@ require("dotenv/config");
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const imageGenDeploymentName = process.env["IMAGE_GEN_DEPLOYMENT_NAME"] || "";
+const imageGenDeploymentName = process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME"] || "";
 
 async function main() {
   const credential = new DefaultAzureCredential();

@@ -69,7 +69,6 @@ async function main() {
   // Create a streaming response with file search capabilities
   const stream = openAIClient.responses.stream(
     {
-      model: deploymentName,
       conversation: conversation.id,
       input: [
         {
@@ -79,7 +78,6 @@ async function main() {
           type: "message",
         },
       ],
-      tools: [{ type: "file_search", vector_store_ids: [vectorStore.id] }],
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },
@@ -109,7 +107,6 @@ async function main() {
   // Demonstrate a follow-up query in the same conversation
   const followUpStream = openAIClient.responses.stream(
     {
-      model: deploymentName,
       conversation: conversation.id,
       input: [
         {
@@ -118,7 +115,6 @@ async function main() {
           type: "message",
         },
       ],
-      tools: [{ type: "file_search", vector_store_ids: [vectorStore.id] }],
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },
