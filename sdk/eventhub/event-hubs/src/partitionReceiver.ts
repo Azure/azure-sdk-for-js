@@ -291,7 +291,7 @@ function delay(
   waitTimeInMs: number,
   options?: {
     abortSignal?: AbortSignalLike;
-    cleanupBeforeAbort?: () => Promise<void>;
+    cleanupBeforeAbort?: () => void;
     abortErrorMsg?: string;
   },
 ): Promise<void> {
@@ -309,7 +309,7 @@ export function checkOnInterval(
   check: () => boolean,
   options?: {
     abortSignal?: AbortSignalLike;
-    cleanupBeforeAbort?: () => Promise<void>;
+    cleanupBeforeAbort?: () => void;
     abortErrorMsg?: string;
   },
 ): Promise<void> {
@@ -340,7 +340,7 @@ export function waitForEvents(
   queue: unknown[],
   options: {
     abortSignal?: AbortSignalLike;
-    cleanupBeforeAbort?: () => Promise<void>;
+    cleanupBeforeAbort?: () => void;
     receivedAfterWait?: () => void;
     receivedAlready?: () => void;
     receivedNone?: () => void;
@@ -368,13 +368,15 @@ export function waitForEvents(
   const updatedOptions = {
     abortSignal: aborter.signal,
     abortErrorMsg: StandardAbortMessage,
-    cleanupBeforeAbort: async (): Promise<void> => {
+    cleanupBeforeAbort: () => {
       if (clientAbortSignal?.aborted && !cleanupBeforeAbortCalled) {
-        cleanupBeforeAbortCalled = true;
         // Fire-and-forget cleanup with error handling to prevent unhandled rejections
-        await cleanupBeforeAbort?.().catch((err) => {
+        // The cleanupBeforeAbort function may return a Promise that could reject
+        // Using Promise.resolve() is necessary because the type declares void but actual impl returns Promise
+        Promise.resolve(cleanupBeforeAbort?.()).catch((err) => {
           azureLogger.verbose("error during cleanup after abort:", err);
         });
+        cleanupBeforeAbortCalled = true;
       }
     },
   };
