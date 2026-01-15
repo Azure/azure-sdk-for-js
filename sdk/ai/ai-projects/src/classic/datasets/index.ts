@@ -99,13 +99,13 @@ function _getDatasets(
       version: string,
       pendingUploadRequest: PendingUploadRequest,
       options?: DatasetsPendingUploadOptionalParams,
-    ) => pendingUpload(context, name, pendingUploadRequest, version, options),
+    ) => pendingUpload(context, name, version, pendingUploadRequest, options),
     createOrUpdate: (
       name: string,
       version: string,
       datasetVersion: DatasetVersionUnion,
       options?: DatasetsCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, name, datasetVersion, version, options),
+    ) => createOrUpdate(context, name, version, datasetVersion, options),
     delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) =>
       $delete(context, name, version, options),
     get: (name: string, version: string, options?: DatasetsGetOptionalParams) =>

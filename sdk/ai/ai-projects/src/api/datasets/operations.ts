@@ -38,7 +38,6 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 import { ContainerClient } from "@azure/storage-blob";
-
 export function _getCredentialsSend(
   context: Client,
   name: string,
@@ -58,7 +57,10 @@ export function _getCredentialsSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -87,8 +89,8 @@ export async function getCredentials(
 export function _pendingUploadSend(
   context: Client,
   name: string,
-  pendingUploadRequest: PendingUploadRequest,
   version: string,
+  pendingUploadRequest: PendingUploadRequest,
   options: DatasetsPendingUploadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -105,7 +107,10 @@ export function _pendingUploadSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: pendingUploadRequestSerializer(pendingUploadRequest),
   });
 }
@@ -125,19 +130,19 @@ export async function _pendingUploadDeserialize(
 export async function pendingUpload(
   context: Client,
   name: string,
-  pendingUploadRequest: PendingUploadRequest,
   version: string,
+  pendingUploadRequest: PendingUploadRequest,
   options: DatasetsPendingUploadOptionalParams = { requestOptions: {} },
 ): Promise<PendingUploadResponse> {
-  const result = await _pendingUploadSend(context, name, pendingUploadRequest, version, options);
+  const result = await _pendingUploadSend(context, name, version, pendingUploadRequest, options);
   return _pendingUploadDeserialize(result);
 }
 
 export function _createOrUpdateSend(
   context: Client,
   name: string,
-  datasetVersion: DatasetVersionUnion,
   version: string,
+  datasetVersion: DatasetVersionUnion,
   options: DatasetsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -154,7 +159,10 @@ export function _createOrUpdateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/merge-patch+json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: datasetVersionUnionSerializer(datasetVersion),
   });
 }
@@ -174,11 +182,11 @@ export async function _createOrUpdateDeserialize(
 export async function createOrUpdate(
   context: Client,
   name: string,
-  datasetVersion: DatasetVersionUnion,
   version: string,
+  datasetVersion: DatasetVersionUnion,
   options: DatasetsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<DatasetVersionUnion> {
-  const result = await _createOrUpdateSend(context, name, datasetVersion, version, options);
+  const result = await _createOrUpdateSend(context, name, version, datasetVersion, options);
   return _createOrUpdateDeserialize(result);
 }
 
@@ -241,7 +249,10 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -280,7 +291,10 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -326,7 +340,10 @@ export function _listVersionsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -452,7 +469,7 @@ export async function uploadFile(
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
   await blockBlobClient.uploadStream(fs.createReadStream(filePath));
 
-  const datasetVersion = await createOrUpdate(context, name, version, {
+  const datasetVersion = await createOrUpdate(context, name, outputVersion, {
     name: name,
     version: outputVersion,
     type: "uri_file",
@@ -536,7 +553,7 @@ export async function uploadFolder(
   }
 
   // Create dataset version that references this folder
-  const datasetVersion = await createOrUpdate(context, name, version, {
+  const datasetVersion = await createOrUpdate(context, name, outputVersion, {
     name: name,
     version: outputVersion,
     type: "uri_folder",
