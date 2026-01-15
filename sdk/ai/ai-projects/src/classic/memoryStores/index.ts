@@ -26,7 +26,7 @@ import {
 } from "../../api/memoryStores/options.js";
 import {
   MemoryStoreDefinitionUnion,
-  MemoryStoreObject,
+  MemoryStore,
   DeleteMemoryStoreResponse,
   MemoryStoreSearchResponse,
   MemoryStoreUpdateResponse,
@@ -66,30 +66,27 @@ export interface MemoryStoresOperations {
     options?: MemoryStoresSearchMemoriesOptionalParams,
   ) => Promise<MemoryStoreSearchResponse>;
   /** Delete a memory store. */
-  deleteMemoryStore: (
+  delete: (
     name: string,
     options?: MemoryStoresDeleteMemoryStoreOptionalParams,
   ) => Promise<DeleteMemoryStoreResponse>;
   /** List all memory stores. */
-  listMemoryStores: (
+  list: (
     options?: MemoryStoresListMemoryStoresOptionalParams,
-  ) => PagedAsyncIterableIterator<MemoryStoreObject>;
+  ) => PagedAsyncIterableIterator<MemoryStore>;
   /** Retrieve a memory store. */
-  getMemoryStore: (
-    name: string,
-    options?: MemoryStoresGetMemoryStoreOptionalParams,
-  ) => Promise<MemoryStoreObject>;
+  get: (name: string, options?: MemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStore>;
   /** Update a memory store. */
-  updateMemoryStore: (
+  update: (
     name: string,
     options?: MemoryStoresUpdateMemoryStoreOptionalParams,
-  ) => Promise<MemoryStoreObject>;
+  ) => Promise<MemoryStore>;
   /** Create a memory store. */
-  createMemoryStore: (
+  create: (
     name: string,
     definition: MemoryStoreDefinitionUnion,
     options?: MemoryStoresCreateMemoryStoreOptionalParams,
-  ) => Promise<MemoryStoreObject>;
+  ) => Promise<MemoryStore>;
 }
 
 function _getMemoryStores(context: AIProjectContext) {
@@ -111,15 +108,15 @@ function _getMemoryStores(context: AIProjectContext) {
       scope: string,
       options?: MemoryStoresSearchMemoriesOptionalParams,
     ) => searchMemories(context, name, scope, options),
-    deleteMemoryStore: (name: string, options?: MemoryStoresDeleteMemoryStoreOptionalParams) =>
+    delete: (name: string, options?: MemoryStoresDeleteMemoryStoreOptionalParams) =>
       deleteMemoryStore(context, name, options),
-    listMemoryStores: (options?: MemoryStoresListMemoryStoresOptionalParams) =>
+    list: (options?: MemoryStoresListMemoryStoresOptionalParams) =>
       listMemoryStores(context, options),
-    getMemoryStore: (name: string, options?: MemoryStoresGetMemoryStoreOptionalParams) =>
+    get: (name: string, options?: MemoryStoresGetMemoryStoreOptionalParams) =>
       getMemoryStore(context, name, options),
-    updateMemoryStore: (name: string, options?: MemoryStoresUpdateMemoryStoreOptionalParams) =>
+    update: (name: string, options?: MemoryStoresUpdateMemoryStoreOptionalParams) =>
       updateMemoryStore(context, name, options),
-    createMemoryStore: (
+    create: (
       name: string,
       definition: MemoryStoreDefinitionUnion,
       options?: MemoryStoresCreateMemoryStoreOptionalParams,
