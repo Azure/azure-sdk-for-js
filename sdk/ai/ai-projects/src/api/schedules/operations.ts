@@ -10,8 +10,8 @@ import {
   _pagedScheduleDeserializer,
   ScheduleRun,
   scheduleRunDeserializer,
-  _PagedScheduleRun,
-  _pagedScheduleRunDeserializer,
+  PagedScheduleRun,
+  pagedScheduleRunDeserializer,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -35,13 +35,13 @@ import {
 
 export function _listRunsSend(
   context: Client,
-  id: string,
+  scheduleId: string,
   options: SchedulesListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/schedules/{id}/runs{?api-version}",
+    "/schedules/{scheduleId}/runs{?api-version}",
     {
-      id: id,
+      scheduleId: scheduleId,
       "api-version": context.apiVersion,
     },
     {
@@ -62,13 +62,13 @@ export function _listRunsSend(
 
 export async function _listRunsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PagedScheduleRun> {
+): Promise<PagedScheduleRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return _pagedScheduleRunDeserializer(result.body);
+  return pagedScheduleRunDeserializer(result.body);
 }
 
 /** List all schedule runs. */
@@ -105,7 +105,10 @@ export function _getRunSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -148,7 +151,10 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: scheduleSerializer(schedule),
   });
 }

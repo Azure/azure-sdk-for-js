@@ -25,7 +25,7 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 export interface SchedulesOperations {
   /** List all schedule runs. */
   listRuns: (
-    id: string,
+    scheduleId: string,
     options?: SchedulesListRunsOptionalParams,
   ) => PagedAsyncIterableIterator<ScheduleRun>;
   /** Get a schedule run by id. */
@@ -50,8 +50,8 @@ export interface SchedulesOperations {
 
 function _getSchedules(context: AIProjectContext) {
   return {
-    listRuns: (id: string, options?: SchedulesListRunsOptionalParams) =>
-      listRuns(context, id, options),
+    listRuns: (scheduleId: string, options?: SchedulesListRunsOptionalParams) =>
+      listRuns(context, scheduleId, options),
     getRun: (scheduleId: string, runId: string, options?: SchedulesGetRunOptionalParams) =>
       getRun(context, scheduleId, runId, options),
     createOrUpdate: (
