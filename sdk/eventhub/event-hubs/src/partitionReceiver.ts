@@ -214,7 +214,10 @@ export function createReceiver(
           `already has ${queue.length} events and wants to receive ${eventsToRetrieveCount} more events`,
         );
         if (abortSignal?.aborted) {
-          cleanupBeforeAbort();
+          // Fire-and-forget cleanup with error handling to prevent unhandled rejections
+          cleanupBeforeAbort().catch((err) => {
+            logger.verbose(`error during cleanup after abort: ${logObj(err)}`);
+          });
           return Promise.reject(new AbortError(StandardAbortMessage));
         }
         return obj.isClosed || ctx.wasConnectionCloseCalled || eventsToRetrieveCount === 0
