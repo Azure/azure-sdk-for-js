@@ -368,17 +368,14 @@ export function waitForEvents(
   const updatedOptions = {
     abortSignal: aborter.signal,
     abortErrorMsg: StandardAbortMessage,
-    cleanupBeforeAbort: (): Promise<void> => {
+    cleanupBeforeAbort: async (): Promise<void> => {
       if (clientAbortSignal?.aborted && !cleanupBeforeAbortCalled) {
         cleanupBeforeAbortCalled = true;
         // Fire-and-forget cleanup with error handling to prevent unhandled rejections
-        return (
-          cleanupBeforeAbort?.().catch((err) => {
-            azureLogger.verbose("error during cleanup after abort:", err);
-          }) ?? Promise.resolve()
-        );
+        await cleanupBeforeAbort?.().catch((err) => {
+          azureLogger.verbose("error during cleanup after abort:", err);
+        });
       }
-      return Promise.resolve();
     },
   };
   return Promise.race([
