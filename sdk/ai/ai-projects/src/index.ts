@@ -378,7 +378,7 @@ export {
   PendingUploadType,
   KnownApiVersions,
 } from "./models/index.js";
-export { AIProjectClientOptionalParams } from "./api/index.js";
+export { AIProjectClientOptionalParams, DatasetUploadOptions } from "./api/index.js";
 export {
   AgentsStreamAgentContainerLogsOptionalParams,
   AgentsListAgentVersionsOptionalParams,
@@ -457,6 +457,10 @@ export {
   MemoryStoresCreateMemoryStoreOptionalParams,
 } from "./api/memoryStores/index.js";
 export {
+  MemoryStoreUpdateMemoriesPoller,
+  MemoryStoreUpdateOperationState,
+} from "./api/memoryStores/memoryStoreUpdateMemoriesPoller.js";
+export {
   RedTeamsCreateOptionalParams,
   RedTeamsListOptionalParams,
   RedTeamsGetOptionalParams,
@@ -482,5 +486,6 @@ export {
   MemoryStoresOperations,
   RedTeamsOperations,
   SchedulesOperations,
+  TelemetryOperations,
 } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
