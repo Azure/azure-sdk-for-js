@@ -74,12 +74,12 @@ export async function _listRunsDeserialize(
 /** List all schedule runs. */
 export function listRuns(
   context: Client,
-  id: string,
+  scheduleId: string,
   options: SchedulesListRunsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ScheduleRun> {
   return buildPagedAsyncIterator(
     context,
-    () => _listRunsSend(context, id, options),
+    () => _listRunsSend(context, scheduleId, options),
     _listRunsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
