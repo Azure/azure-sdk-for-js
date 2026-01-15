@@ -370,7 +370,12 @@ export function waitForEvents(
     abortErrorMsg: StandardAbortMessage,
     cleanupBeforeAbort: () => {
       if (clientAbortSignal?.aborted && !cleanupBeforeAbortCalled) {
-        cleanupBeforeAbort?.();
+        // Fire-and-forget cleanup with error handling to prevent unhandled rejections
+        // The cleanupBeforeAbort function may return a Promise that could reject
+        Promise.resolve(cleanupBeforeAbort?.()).catch(() => {
+          // Errors during cleanup are expected in some scenarios (e.g., close timeout)
+          // and are logged elsewhere, so we silently swallow them here
+        });
         cleanupBeforeAbortCalled = true;
       }
     },
