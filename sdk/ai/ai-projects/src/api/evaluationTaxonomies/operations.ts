@@ -44,14 +44,12 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: evaluationTaxonomySerializer(body),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: evaluationTaxonomySerializer(body),
+  });
 }
 
 export async function _updateDeserialize(
@@ -92,14 +90,12 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: evaluationTaxonomySerializer(body),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: evaluationTaxonomySerializer(body),
+  });
 }
 
 export async function _createDeserialize(
@@ -139,17 +135,15 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -162,11 +156,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete an evaluation taxonomy by name. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   name: string,
@@ -191,18 +180,16 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listDeserialize(
@@ -245,18 +232,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<EvaluationTaxonomy> {

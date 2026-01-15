@@ -28,11 +28,6 @@ export interface EvaluationTaxonomiesOperations {
     options?: EvaluationTaxonomiesCreateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
   /** Delete an evaluation taxonomy by name. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (name: string, options?: EvaluationTaxonomiesDeleteOptionalParams) => Promise<void>;
   /** List evaluation taxonomies */
   list: (
