@@ -108,7 +108,7 @@ describe("PlaywrightReporter", () => {
 
     await reporter.onBegin(config);
 
-    expect((globalThis as any).__getWorkspaceMetadataMock).toHaveBeenCalled();
+    expect((globalThis as any).__getWorkspaceMetadataMock).not.toHaveBeenCalled();
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       ServiceErrorMessageConstants.HTML_REPORTER_REQUIRED.message,
     );

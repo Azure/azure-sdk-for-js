@@ -90,6 +90,12 @@ export default class PlaywrightReporter implements Reporter {
     }
     coreLogger.info("Authentication validation passed - using ENTRA_ID");
 
+    // Validate HTML reporter configuration
+    this.validateHtmlReporterConfiguration(config);
+    if (!this.isReportingEnabled) {
+      return;
+    }
+
     // Get workspace metadata for later use
     try {
       const playwrightServiceApiClient = new PlaywrightServiceClient();
@@ -102,11 +108,7 @@ export default class PlaywrightReporter implements Reporter {
       }
 
       this.isReportingEnabled = true;
-
-      this.validateHtmlReporterConfiguration(config);
-      if (this.isReportingEnabled) {
-        console.log(ServiceErrorMessageConstants.REPORTING_ENABLED.message);
-      }
+      console.log(ServiceErrorMessageConstants.REPORTING_ENABLED.message);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
       console.error(
@@ -213,5 +215,6 @@ export default class PlaywrightReporter implements Reporter {
     coreLogger.info(
       "HTML reporter validation passed - HTML reporter is configured and properly ordered",
     );
+    this.isReportingEnabled = true;
   }
 }
