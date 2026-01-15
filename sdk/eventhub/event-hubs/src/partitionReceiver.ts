@@ -372,9 +372,9 @@ export function waitForEvents(
       if (clientAbortSignal?.aborted && !cleanupBeforeAbortCalled) {
         // Fire-and-forget cleanup with error handling to prevent unhandled rejections
         // The cleanupBeforeAbort function may return a Promise that could reject
-        Promise.resolve(cleanupBeforeAbort?.()).catch(() => {
-          // Errors during cleanup are expected in some scenarios (e.g., close timeout)
-          // and are logged elsewhere, so we silently swallow them here
+        // Using Promise.resolve() is necessary because the type declares void but actual impl returns Promise
+        Promise.resolve(cleanupBeforeAbort?.()).catch((err) => {
+          azureLogger.verbose("error during cleanup after abort:", err);
         });
         cleanupBeforeAbortCalled = true;
       }
