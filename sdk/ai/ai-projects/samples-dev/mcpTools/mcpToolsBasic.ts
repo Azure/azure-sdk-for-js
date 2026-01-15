@@ -28,7 +28,7 @@ import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/
 import * as fs from "fs";
 import { writeFile } from "node:fs/promises";
 import * as path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 import "dotenv/config";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

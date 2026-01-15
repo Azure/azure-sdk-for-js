@@ -29,10 +29,7 @@ const {
 const fs = require("fs");
 const { writeFile } = require("node:fs/promises");
 const path = require("path");
-const { fileURLToPath } = require("url");
 require("dotenv/config");
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const imageGenDeploymentName = process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME"] || "";
