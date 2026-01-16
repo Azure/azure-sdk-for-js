@@ -93,6 +93,7 @@ export function agentVersionObjectDeserializer(item: any): AgentVersion {
  * Contains the agent kind and optional RAI configuration.
  */
 export interface AgentDefinition {
+  /** The kind of agent. */
   kind: AgentKind;
   /** Configuration for Responsible AI (RAI) content filtering and safety features. */
   rai_config?: RaiConfig;
@@ -187,6 +188,7 @@ export function raiConfigDeserializer(item: any): RaiConfig {
 
 /** The workflow agent definition. */
 export interface WorkflowAgentDefinition extends AgentDefinition {
+  /** The kind of agent definition. */
   kind: "workflow";
   /** The CSDL YAML definition of the workflow. */
   workflow?: string;
@@ -296,6 +298,7 @@ export function toolUnionArrayDeserializer(result: Array<ToolUnion>): any[] {
 
 /** A tool that can be used to generate a response. */
 export interface Tool {
+  /** The type of tool. */
   type: ToolType;
 }
 
@@ -559,6 +562,7 @@ export interface CodeInterpreterContainerAuto {
   type: "auto";
   /** An optional list of uploaded files to make available to your code. */
   file_ids?: string[];
+  /** The memory limit for the container. */
   memory_limit?: ContainerMemoryLimit;
 }
 
@@ -889,7 +893,9 @@ export type ComputerEnvironment = "windows" | "mac" | "linux" | "browser";
 export interface WebSearchTool extends Tool {
   /** The type of the web search tool. One of `web_search` or `web_search_2025_08_26`. */
   type: "web_search";
+  /** Filters to apply to the web search. */
   filters?: WebSearchToolFilters;
+  /** The approximate location of the user. */
   user_location?: WebSearchApproximateLocation;
   /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
   search_context_size?: "low" | "medium" | "high";
@@ -919,6 +925,7 @@ export function webSearchToolDeserializer(item: any): WebSearchTool {
 
 /** model interface WebSearchToolFilters */
 export interface WebSearchToolFilters {
+  /** List of allowed domains to restrict the search results to. */
   allowed_domains?: string[];
 }
 
@@ -1021,8 +1028,11 @@ export interface MCPTool extends Tool {
   authorization?: string;
   /** Optional description of the MCP server, used to provide more context. */
   server_description?: string;
+  /** Optional headers to include in requests to the MCP server. */
   headers?: Record<string, string>;
+  /** Specifies which tools are allowed to be used from the MCP server. */
   allowed_tools?: string[] | MCPToolFilter;
+  /** Specifies which tools require approval before being used from the MCP server. */
   require_approval?: MCPToolRequireApproval | "always" | "never";
   /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
   project_connection_id?: string;
@@ -1124,7 +1134,9 @@ export function _mcpToolRequireApprovalDeserializer(item: any): _MCPToolRequireA
 
 /** model interface MCPToolRequireApproval */
 export interface MCPToolRequireApproval {
+  /** A filter specifying which tools always require approval. */
   always?: MCPToolFilter;
+  /** A filter specifying which tools never require approval. */
   never?: MCPToolFilter;
 }
 
@@ -1146,6 +1158,7 @@ export function mcpToolRequireApprovalDeserializer(item: any): MCPToolRequireApp
 export interface ImageGenTool extends Tool {
   /** The type of the image generation tool. Always `image_generation`. */
   type: "image_generation";
+  /** The model to use for image generation. One of `gpt-image-1` or `gpt-image-1-mini`. */
   model?: "gpt-image-1" | "gpt-image-1-mini";
   /**
    * The quality of the generated image. One of `low`, `medium`, `high`,
@@ -1171,6 +1184,7 @@ export interface ImageGenTool extends Tool {
    *   `opaque`, or `auto`. Default: `auto`.
    */
   background?: "transparent" | "opaque" | "auto";
+  /** Control how much effort the model will exert to match the style and features, especially facial features, of input images. This parameter is only supported for `gpt-image-1`. Unsupported for `gpt-image-1-mini`. Supports `high` and `low`. Defaults to `low`. */
   input_fidelity?: InputFidelity;
   /**
    * Optional mask for inpainting. Contains `image_url`
@@ -1222,7 +1236,9 @@ export type InputFidelity = "high" | "low";
 
 /** model interface ImageGenToolInputImageMask */
 export interface ImageGenToolInputImageMask {
+  /** URL of the image mask. */
   image_url?: string;
+  /** File ID of the image mask. */
   file_id?: string;
 }
 
@@ -1303,6 +1319,7 @@ export function customToolParamDeserializer(item: any): CustomToolParam {
 
 /** The input format for the custom tool. Default is unconstrained text. */
 export interface CustomToolParamFormat {
+  /** The type of the custom tool parameter format. */
   type: CustomToolParamFormatType;
 }
 
@@ -1396,6 +1413,7 @@ export type GrammarSyntax1 = "lark" | "regex";
 export interface WebSearchPreviewTool extends Tool {
   /** The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`. */
   type: "web_search_preview";
+  /** The approximate location of the user. */
   user_location?: ApproximateLocation;
   /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
   search_context_size?: SearchContextSize;
@@ -1436,9 +1454,13 @@ export function webSearchPreviewToolDeserializer(item: any): WebSearchPreviewToo
 export interface ApproximateLocation {
   /** The type of location approximation. Always `approximate`. */
   type: "approximate";
+  /** The country of the location. */
   country?: string;
+  /** The region of the location. */
   region?: string;
+  /** The city of the location. */
   city?: string;
+  /** The timezone of the location. */
   timezone?: string;
 }
 
@@ -2605,6 +2627,7 @@ export type AgentProtocol = "activity_protocol" | "responses";
 
 /** The image-based deployment definition for a hosted agent. */
 export interface ImageBasedHostedAgentDefinition extends HostedAgentDefinition {
+  /** The kind of agent, which is always 'hosted'. */
   kind: "hosted";
   /** The image for the hosted agent. */
   image: string;
@@ -2648,6 +2671,7 @@ export function imageBasedHostedAgentDefinitionDeserializer(
 
 /** The container app agent definition. */
 export interface ContainerAppAgentDefinition extends AgentDefinition {
+  /** The kind of agent, which is always 'container_app'. */
   kind: "container_app";
   /** The protocols that the agent supports for ingress communication of the containers. */
   container_protocol_versions: ProtocolVersionRecord[];
@@ -2685,6 +2709,7 @@ export function containerAppAgentDefinitionDeserializer(item: any): ContainerApp
 
 /** The prompt agent definition */
 export interface PromptAgentDefinition extends AgentDefinition {
+  /** The kind of agent, which is always 'prompt'. */
   kind: "prompt";
   /** The model deployment to use for this agent. */
   model: string;
@@ -2704,6 +2729,7 @@ export interface PromptAgentDefinition extends AgentDefinition {
    * We generally recommend altering this or `temperature` but not both.
    */
   top_p?: number;
+  /** **gpt-5 and o-series models only** Configuration options for reasoning models. */
   reasoning?: Reasoning;
   /**
    * An array of tools the model may call while generating a response. You
@@ -2760,8 +2786,11 @@ export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinit
  * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
  */
 export interface Reasoning {
+  /** Constrains effort on reasoning. */
   effort?: ReasoningEffort;
+  /** The level of detail for the reasoning summary. */
   summary?: "auto" | "concise" | "detailed";
+  /** Whether to generate a reasoning summary. */
   generate_summary?: "auto" | "concise" | "detailed";
 }
 
@@ -2827,6 +2856,7 @@ export function _promptAgentDefinitionTextDeserializer(item: any): _PromptAgentD
  * is preferred for models that support it.
  */
 export interface TextResponseFormatConfiguration {
+  /** The type of response format being defined. */
   type: TextResponseFormatConfigurationType;
 }
 
@@ -2915,7 +2945,9 @@ export interface TextResponseFormatJsonSchema extends TextResponseFormatConfigur
    *   underscores and dashes, with a maximum length of 64.
    */
   name: string;
+  /** The JSON Schema describing the response format. */
   schema: ResponseFormatJsonSchemaSchema;
+  /** Whether to enforce strict validation. */
   strict?: boolean;
 }
 
@@ -3059,6 +3091,7 @@ export function structuredInputDefinitionDeserializer(item: any): StructuredInpu
 
 /** Error response for API failures. */
 export interface ApiErrorResponse {
+  /** The error object containing details about the error. */
   error: ErrorModel;
 }
 
@@ -3386,6 +3419,7 @@ export function deleteMemoryStoreResponseDeserializer(item: any): DeleteMemorySt
 
 /** Content item used to generate a response. */
 export interface Item {
+  /** The type of the content item. */
   type: ItemType;
 }
 
@@ -3550,6 +3584,7 @@ export interface InputMessage extends Item {
    *   `incomplete`. Populated when items are returned via API.
    */
   status?: "in_progress" | "completed" | "incomplete";
+  /** The content of the message input. */
   content: InputContentUnion[];
 }
 
@@ -3570,6 +3605,7 @@ export function inputContentUnionArraySerializer(result: Array<InputContentUnion
 
 /** model interface InputContent */
 export interface InputContent {
+  /** The type of the input item. */
   type: InputContentType;
 }
 
@@ -3619,7 +3655,9 @@ export function inputContentInputTextContentSerializer(item: InputContentInputTe
 export interface InputContentInputImageContent extends InputContent {
   /** The type of the input item. Always `input_image`. */
   type: "input_image";
+  /** The URL of the image to be sent to the model. */
   image_url?: string;
+  /** The ID of the image file to be sent to the model. */
   file_id?: string;
   /** The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`. */
   detail: ImageDetail;
@@ -3641,6 +3679,7 @@ export type ImageDetail = "low" | "high" | "auto";
 export interface InputContentInputFileContent extends InputContent {
   /** The type of the input item. Always `input_file`. */
   type: "input_file";
+  /** The ID of the file to be sent to the model. */
   file_id?: string;
   /** The name of the file to be sent to the model. */
   filename?: string;
@@ -3662,13 +3701,17 @@ export function inputContentInputFileContentSerializer(item: InputContentInputFi
 
 /** The output of a computer tool call. */
 export interface ComputerCallOutputItemParam extends Item {
+  /** The unique ID of the computer tool call generated by the model. */
   id?: string;
   /** The ID of the computer tool call that produced the output. */
   call_id: string;
   /** The type of the computer tool call output. Always `computer_call_output`. */
   type: "computer_call_output";
+  /** The screenshot image output of the computer tool call. */
   output: ComputerScreenshotImage;
+  /** Acknowledged safety checks for the computer call. */
   acknowledged_safety_checks?: ComputerCallSafetyCheckParam[];
+  /** The status of item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API. */
   status?: FunctionCallItemStatus;
 }
 
@@ -3714,7 +3757,9 @@ export function computerCallSafetyCheckParamArraySerializer(
 export interface ComputerCallSafetyCheckParam {
   /** The ID of the pending safety check. */
   id: string;
+  /** The code representing the safety check result. */
   code?: string;
+  /** A human-readable message providing additional details about the safety check. */
   message?: string;
 }
 
@@ -3727,6 +3772,7 @@ export type FunctionCallItemStatus = "in_progress" | "completed" | "incomplete";
 
 /** The output of a function tool call. */
 export interface FunctionCallOutputItemParam extends Item {
+  /** The unique ID of the function tool call output item. */
   id?: string;
   /** The unique ID of the function tool call generated by the model. */
   call_id: string;
@@ -3736,6 +3782,7 @@ export interface FunctionCallOutputItemParam extends Item {
   output:
     | string
     | (InputTextContentParam | InputImageContentParamAutoParam | InputFileContentParam)[];
+  /** The status of item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API. */
   status?: FunctionCallItemStatus;
 }
 
@@ -3796,8 +3843,11 @@ export function inputTextContentParamSerializer(item: InputTextContentParam): an
 export interface InputImageContentParamAutoParam {
   /** The type of the input item. Always `input_image`. */
   type: "input_image";
+  /** The URL of the image to be sent to the model. */
   image_url?: string;
+  /** The ID of the image file to be sent to the model. */
   file_id?: string;
+  /** The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`. */
   detail?: DetailEnum;
 }
 
@@ -3819,9 +3869,13 @@ export type DetailEnum = "low" | "high" | "auto";
 export interface InputFileContentParam {
   /** The type of the input item. Always `input_file`. */
   type: "input_file";
+  /** The ID of the file to be sent to the model. */
   file_id?: string;
+  /** The name of the file to be sent to the model. */
   filename?: string;
+  /** The content of the file to be sent to the model. */
   file_data?: string;
+  /** The URL of the file to be sent to the model. */
   file_url?: string;
 }
 
@@ -3837,9 +3891,11 @@ export function inputFileContentParamSerializer(item: InputFileContentParam): an
 
 /** A compaction item generated by the [`v1/responses/compact` API](https://platform.openai.com/docs/api-reference/responses/compact). */
 export interface CompactionSummaryItemParam extends Item {
+  /** The unique ID of the compaction item. */
   id?: string;
   /** The type of the item. Always `compaction`. */
   type: "compaction";
+  /** The encrypted content of the compaction summary. */
   encrypted_content: string;
 }
 
@@ -3849,6 +3905,7 @@ export function compactionSummaryItemParamSerializer(item: CompactionSummaryItem
 
 /** A tool representing a request to execute one or more shell commands. */
 export interface FunctionShellCallItemParam extends Item {
+  /** The unique ID of the shell tool call item. */
   id?: string;
   /** The unique ID of the shell tool call generated by the model. */
   call_id: string;
@@ -3856,6 +3913,7 @@ export interface FunctionShellCallItemParam extends Item {
   type: "shell_call";
   /** The shell commands and limits that describe how to run the tool call. */
   action: FunctionShellActionParam;
+  /** The status of item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API. */
   status?: FunctionShellCallItemStatus;
 }
 
@@ -3873,7 +3931,9 @@ export function functionShellCallItemParamSerializer(item: FunctionShellCallItem
 export interface FunctionShellActionParam {
   /** Ordered shell commands for the execution environment to run. */
   commands: string[];
+  /** The maximum execution time for the shell commands, in milliseconds. Defaults to 10000 (10 seconds). */
   timeout_ms?: number;
+  /** The maximum length of combined stdout and stderr output to capture, in characters. Defaults to 1000. */
   max_output_length?: number;
 }
 
@@ -3892,6 +3952,7 @@ export type FunctionShellCallItemStatus = "in_progress" | "completed" | "incompl
 
 /** The streamed output items emitted by a shell tool call. */
 export interface FunctionShellCallOutputItemParam extends Item {
+  /** The unique ID of the shell tool call output item. */
   id?: string;
   /** The unique ID of the shell tool call generated by the model. */
   call_id: string;
@@ -3899,6 +3960,7 @@ export interface FunctionShellCallOutputItemParam extends Item {
   type: "shell_call_output";
   /** Captured chunks of stdout and stderr output, along with their associated outcomes. */
   output: FunctionShellCallOutputContentParam[];
+  /** The maximum length of combined stdout and stderr output to capture, in characters. */
   max_output_length?: number;
 }
 
@@ -3944,6 +4006,7 @@ export function functionShellCallOutputContentParamSerializer(
 
 /** The exit or timeout outcome associated with this shell call. */
 export interface FunctionShellCallOutputOutcomeParam {
+  /** The outcome type. One of `timeout` or `exit`. */
   type: FunctionShellCallOutputOutcomeParamType;
 }
 
@@ -4011,6 +4074,7 @@ export function functionShellCallOutputExitOutcomeParamSerializer(
 export interface ApplyPatchToolCallItemParam extends Item {
   /** The type of the item. Always `apply_patch_call`. */
   type: "apply_patch_call";
+  /** The unique identifier for the item. */
   id?: string;
   /** The unique ID of the apply patch tool call generated by the model. */
   call_id: string;
@@ -4035,6 +4099,7 @@ export type ApplyPatchCallStatusParam = "in_progress" | "completed";
 
 /** One of the create_file, delete_file, or update_file operations supplied to the apply_patch tool. */
 export interface ApplyPatchOperationParam {
+  /** The operation type. One of `create_file`, `delete_file`, or `update_file`. */
   type: ApplyPatchOperationParamType;
 }
 
@@ -4124,11 +4189,13 @@ export function applyPatchUpdateFileOperationParamSerializer(
 export interface ApplyPatchToolCallOutputItemParam extends Item {
   /** The type of the item. Always `apply_patch_call_output`. */
   type: "apply_patch_call_output";
+  /** The unique identifier for the item. */
   id?: string;
   /** The unique ID of the apply patch tool call generated by the model. */
   call_id: string;
   /** The status of the apply patch tool call output. One of `completed` or `failed`. */
   status: ApplyPatchCallOutputStatusParam;
+  /** The output message from the apply patch tool call. */
   output?: string;
 }
 
@@ -4151,11 +4218,13 @@ export type ApplyPatchCallOutputStatusParam = "completed" | "failed";
 export interface MCPApprovalResponse extends Item {
   /** The type of the item. Always `mcp_approval_response`. */
   type: "mcp_approval_response";
+  /** The unique ID of the approval response item. */
   id?: string;
   /** The ID of the approval request being answered. */
   approval_request_id: string;
   /** Whether the request was approved. */
   approve: boolean;
+  /** An optional reason for the approval or rejection. */
   reason?: string;
 }
 
@@ -4206,6 +4275,7 @@ export function outputMessageContentUnionArraySerializer(
 
 /** model interface OutputMessageContent */
 export interface OutputMessageContent {
+  /** The type of the output message content. */
   type: OutputMessageContentType;
 }
 
@@ -4247,6 +4317,7 @@ export interface OutputMessageContentOutputTextContent extends OutputMessageCont
   text: string;
   /** The annotations of the text output. */
   annotations: AnnotationUnion[];
+  /** The log probabilities of the text output tokens. */
   logprobs?: LogProb[];
 }
 
@@ -4269,6 +4340,7 @@ export function annotationUnionArraySerializer(result: Array<AnnotationUnion>): 
 
 /** model interface Annotation */
 export interface Annotation {
+  /** The type of the annotation. */
   type: AnnotationType;
 }
 
@@ -4404,9 +4476,13 @@ export function logProbArraySerializer(result: Array<LogProb>): any[] {
 
 /** The log probability of a token. */
 export interface LogProb {
+  /** The token string. */
   token: string;
+  /** The log probability of the token. */
   logprob: number;
+  /** The byte representation of the token. */
   bytes: number[];
+  /** The top log probabilities of the token. */
   top_logprobs: TopLogProb[];
 }
 
@@ -4429,8 +4505,11 @@ export function topLogProbArraySerializer(result: Array<TopLogProb>): any[] {
 
 /** The top log probability of a token. */
 export interface TopLogProb {
+  /** The token string. */
   token: string;
+  /** The log probability of the token. */
   logprob: number;
+  /** The byte representation of the token. */
   bytes: number[];
 }
 
@@ -4474,6 +4553,7 @@ export interface ItemFileSearchToolCall extends Item {
   status: "in_progress" | "searching" | "completed" | "incomplete" | "failed";
   /** The queries used to search for files. */
   queries: string[];
+  /** The results of the file search tool call. */
   results?: FileSearchToolCallResults[];
 }
 
@@ -4567,6 +4647,7 @@ export interface ItemComputerToolCall extends Item {
   id: string;
   /** An identifier used when responding to the tool call with output. */
   call_id: string;
+  /** The action describing the computer operation to perform. */
   action: ComputerActionUnion;
   /** The pending safety checks for the computer call. */
   pending_safety_checks: ComputerCallSafetyCheckParam[];
@@ -4592,6 +4673,7 @@ export function itemComputerToolCallSerializer(item: ItemComputerToolCall): any 
 
 /** model interface ComputerAction */
 export interface ComputerAction {
+  /** The type of computer action to perform. */
   type: ComputerActionType;
 }
 
@@ -4909,7 +4991,9 @@ export function webSearchActionSearchSourcesArraySerializer(
 
 /** model interface WebSearchActionSearchSources */
 export interface WebSearchActionSearchSources {
+  /** The source type. Always `url`. */
   type: "url";
+  /** The URL of the search source. */
   url: string;
 }
 
@@ -4987,6 +5071,7 @@ export interface ItemReasoningItem extends Item {
   type: "reasoning";
   /** The unique identifier of the reasoning content. */
   id: string;
+  /** Encrypted reasoning content. */
   encrypted_content?: string;
   /** Reasoning summary content. */
   summary: Summary[];
@@ -5056,6 +5141,7 @@ export interface ItemImageGenToolCall extends Item {
   id: string;
   /** The status of the image generation call. */
   status: "in_progress" | "completed" | "generating" | "failed";
+  /** The result of the generated image. */
   result?: string;
 }
 
@@ -5073,7 +5159,9 @@ export interface ItemCodeInterpreterToolCall extends Item {
   status: "in_progress" | "completed" | "incomplete" | "interpreting" | "failed";
   /** The ID of the container used to run the code. */
   container_id: string;
+  /** The code to be executed by the code interpreter. */
   code?: string;
+  /** The outputs from the code interpreter. */
   outputs?: (CodeInterpreterOutputLogs | CodeInterpreterOutputImage)[];
 }
 
@@ -5141,6 +5229,7 @@ export interface ItemLocalShellToolCall extends Item {
   id: string;
   /** The unique ID of the local shell tool call generated by the model. */
   call_id: string;
+  /** The action describing the local shell command to run. */
   action: LocalShellExecAction;
   /** The status of the local shell call. */
   status: "in_progress" | "completed" | "incomplete";
@@ -5162,10 +5251,13 @@ export interface LocalShellExecAction {
   type: "exec";
   /** The command to run. */
   command: string[];
+  /** The timeout for the command in milliseconds. */
   timeout_ms?: number;
+  /** The working directory to run the command in. */
   working_directory?: string;
   /** Environment variables to set for the command. */
   env: Record<string, string>;
+  /** The user to run the command as. */
   user?: string;
 }
 
@@ -5190,6 +5282,7 @@ export interface ItemLocalShellToolCallOutput extends Item {
   id: string;
   /** A JSON string of the output of the local shell tool call. */
   output: string;
+  /** The status of the local shell tool call. One of `in_progress`, `completed`, or `incomplete`. */
   status?: "in_progress" | "completed" | "incomplete";
 }
 
@@ -5207,6 +5300,7 @@ export interface ItemMcpListTools extends Item {
   server_label: string;
   /** The tools available on the server. */
   tools: MCPListToolsTool[];
+  /** An error message, if any occurred while fetching the tool list. */
   error?: string;
 }
 
@@ -5299,10 +5393,13 @@ export interface ItemMcpToolCall extends Item {
   name: string;
   /** A JSON string of the arguments passed to the tool. */
   arguments: string;
+  /** The output from the tool call. */
   output?: string;
+  /** An error message, if any occurred during the tool call. */
   error?: string;
   /** The status of the tool call. One of `in_progress`, `completed`, `incomplete`, `calling`, or `failed`. */
   status?: MCPToolCallStatus;
+  /** The ID of the approval request associated with this tool call, if any. */
   approval_request_id?: string;
 }
 
@@ -5366,6 +5463,7 @@ export function functionAndCustomToolCallOutputUnionArraySerializer(
 
 /** model interface FunctionAndCustomToolCallOutput */
 export interface FunctionAndCustomToolCallOutput {
+  /** The type of the function and custom tool call output. */
   type: FunctionAndCustomToolCallOutputType;
 }
 
@@ -5427,7 +5525,9 @@ export function functionAndCustomToolCallOutputInputTextContentSerializer(
 export interface FunctionAndCustomToolCallOutputInputImageContent extends FunctionAndCustomToolCallOutput {
   /** The type of the input item. Always `input_image`. */
   type: "input_image";
+  /** The URL of the image to be sent to the model. */
   image_url?: string;
+  /** The ID of the image file to be sent to the model. */
   file_id?: string;
   /** The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`. */
   detail: ImageDetail;
@@ -5448,6 +5548,7 @@ export function functionAndCustomToolCallOutputInputImageContentSerializer(
 export interface FunctionAndCustomToolCallOutputInputFileContent extends FunctionAndCustomToolCallOutput {
   /** The type of the input item. Always `input_file`. */
   type: "input_file";
+  /** The ID of the file to be sent to the model. */
   file_id?: string;
   /** The name of the file to be sent to the model. */
   filename?: string;
@@ -5495,6 +5596,7 @@ export function itemCustomToolCallSerializer(item: ItemCustomToolCall): any {
 
 /** model interface MemorySearchToolCallItemParam */
 export interface MemorySearchToolCallItemParam extends Item {
+  /** The type of the memory search tool call. Always `memory_search_call`. */
   type: "memory_search_call";
   /** The results returned from the memory search. */
   results?: MemorySearchItem[];
@@ -5656,6 +5758,7 @@ export function chatSummaryMemoryItemDeserializer(item: any): ChatSummaryMemoryI
 
 /** model interface OutputContent */
 export interface OutputContent {
+  /** The type of the output content. */
   type: OutputContentType;
 }
 
@@ -5734,6 +5837,7 @@ export function memoryStoreOperationUsageDeserializer(item: any): MemoryStoreOpe
 
 /** model interface ResponseUsageInputTokensDetails */
 export interface ResponseUsageInputTokensDetails {
+  /** The number of cached tokens. */
   cached_tokens: number;
 }
 
@@ -5747,6 +5851,7 @@ export function responseUsageInputTokensDetailsDeserializer(
 
 /** model interface ResponseUsageOutputTokensDetails */
 export interface ResponseUsageOutputTokensDetails {
+  /** The number of reasoning tokens. */
   reasoning_tokens: number;
 }
 
@@ -6869,6 +6974,7 @@ export function targetConfigUnionDeserializer(item: any): TargetConfigUnion {
 
 /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
 export interface AzureOpenAIModelConfiguration extends TargetConfig {
+  /** Type of the model configuration. */
   type: "AzureOpenAIModel";
   /** Deployment name for AOAI model. Example: gpt-4o if in AIServices or connection based `connection_name/deployment_name` (e.g. `my-aoai-connection/gpt-4o`). */
   modelDeploymentName: string;
@@ -7015,6 +7121,7 @@ export type EvaluationRuleActionType = "continuousEvaluation" | "humanEvaluation
 
 /** Evaluation rule action for continuous evaluation. */
 export interface ContinuousEvaluationRuleAction extends EvaluationRuleAction {
+  /** Type of the evaluation action. */
   type: "continuousEvaluation";
   /** Eval Id to add continuous evaluation runs to. */
   evalId: string;
@@ -7044,6 +7151,7 @@ export function continuousEvaluationRuleActionDeserializer(
 
 /** Evaluation rule action for human evaluation. */
 export interface HumanEvaluationRuleAction extends EvaluationRuleAction {
+  /** Type of the evaluation action. */
   type: "humanEvaluation";
   /** Human evaluation template Id. */
   templateId: string;
@@ -7684,6 +7792,7 @@ export type EvaluatorMetricDirection = "increase" | "decrease" | "neutral";
 
 /** Code-based evaluator definition using python code */
 export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
+  /** The type of evaluator definition */
   type: "code";
   /** Inline code text for the evaluator */
   code_text: string;
@@ -7713,6 +7822,7 @@ export function codeBasedEvaluatorDefinitionDeserializer(item: any): CodeBasedEv
 
 /** Prompt-based evaluator */
 export interface PromptBasedEvaluatorDefinition extends EvaluatorDefinition {
+  /** The type of evaluator definition */
   type: "prompt";
   /** The prompt text used for evaluation */
   prompt_text: string;
@@ -8137,6 +8247,7 @@ export type TreatmentEffectType =
 export interface EvaluationRunClusterInsightResult extends InsightResult {
   /** The type of insights result. */
   type: "EvaluationRunClusterInsight";
+  /** Cluster insights from the evaluation run analysis. */
   clusterInsight: ClusterInsightResult;
 }
 
@@ -8388,6 +8499,7 @@ export function chartCoordinateDeserializer(item: any): ChartCoordinate {
 export interface AgentClusterInsightResult extends InsightResult {
   /** The type of insights result. */
   type: "AgentClusterInsight";
+  /** Cluster insights from the agent analysis. */
   clusterInsight: ClusterInsightResult;
 }
 
@@ -8541,6 +8653,7 @@ export type TriggerType = "Cron" | "Recurrence" | "OneTime";
 
 /** Cron based trigger. */
 export interface CronTrigger extends Trigger {
+  /** Type of the trigger. */
   type: "Cron";
   /** Cron expression that defines the schedule frequency. */
   expression: string;
@@ -8678,6 +8791,7 @@ export type RecurrenceType = "Hourly" | "Daily" | "Weekly" | "Monthly";
 
 /** Hourly recurrence schedule. */
 export interface HourlyRecurrenceSchedule extends RecurrenceSchedule {
+  /** Hourly recurrence type. */
   type: "Hourly";
 }
 
@@ -8781,6 +8895,7 @@ export function monthlyRecurrenceScheduleDeserializer(item: any): MonthlyRecurre
 
 /** One-time trigger. */
 export interface OneTimeTrigger extends Trigger {
+  /** Type of the trigger. */
   type: "OneTime";
   /** Date and time for the one-time trigger in ISO 8601 format. */
   triggerAt: string;
@@ -8858,6 +8973,7 @@ export type ScheduleTaskType = "Evaluation" | "Insight";
 
 /** Evaluation task for the schedule. */
 export interface EvaluationScheduleTask extends ScheduleTask {
+  /** Type of the task, which is always 'Evaluation'. */
   type: "Evaluation";
   /** Identifier of the evaluation group. */
   evalId: string;
@@ -8900,6 +9016,7 @@ export function _evaluationScheduleTaskEvalRunDeserializer(
 
 /** Insight task for the schedule. */
 export interface InsightScheduleTask extends ScheduleTask {
+  /** Type of the task, which is always 'Insight'. */
   type: "Insight";
   /** The insight payload. */
   insight: Insight;
@@ -9026,6 +9143,7 @@ export function toolUnionArrayDeserializer_1(result: Array<ToolUnion>): any[] {
 
 /** model interface AgentId */
 export interface AgentId {
+  /** The type of agent identifier. */
   type: "agent_id";
   /** The name of the agent. */
   name: string;
@@ -9043,6 +9161,7 @@ export function agentIdDeserializer(item: any): AgentId {
 
 /** model interface AgentReference */
 export interface AgentReference {
+  /** The type of agent reference. */
   type: "agent_reference";
   /** The name of the agent. */
   name: string;
