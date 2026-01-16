@@ -37,7 +37,7 @@ const { QueueServiceClient } = require("@azure/storage-queue");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // Enter your storage account name and shared key
