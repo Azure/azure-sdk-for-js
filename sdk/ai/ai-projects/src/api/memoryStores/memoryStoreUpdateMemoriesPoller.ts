@@ -198,7 +198,10 @@ export function createMemoryStoreUpdateMemoriesPoller(
   }
   let initialResponse: PathUncheckedResponse | undefined;
 
-  const poller = createHttpPoller<MemoryStoreUpdateCompletedResult, MemoryStoreUpdateOperationState>(
+  const poller = createHttpPoller<
+    MemoryStoreUpdateCompletedResult,
+    MemoryStoreUpdateOperationState
+  >(
     buildRunningOperation(
       client,
       expectedStatuses,

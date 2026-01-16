@@ -35,7 +35,6 @@ const calendarEventSchema = {
     },
   },
   required: ["name", "date", "participants"],
-  additionalProperties: false,
 };
 
 export async function main(): Promise<void> {

@@ -40,7 +40,6 @@ export async function main(): Promise<void> {
       participants: { type: "array", items: { type: "string" } },
     },
     required: ["name", "date", "participants"],
-    additionalProperties: false,
   };
 
   const agent = await project.agents.createVersion("my-agent-structured-output", {
@@ -50,7 +49,7 @@ export async function main(): Promise<void> {
       format: {
         type: "json_schema",
         name: "CalendarEvent",
-        schema: calendarEventSchema,
+        schema: { additionalProperties: calendarEventSchema },
       },
     },
     instructions: `
