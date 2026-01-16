@@ -615,7 +615,6 @@ export {
   ServiceGetPropertiesHeaders,
   ListSharesResponse as ListSharesResponseModel,
   RetentionPolicy,
-  ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel,
   ServiceGetUserDelegationKeyHeaders,
   ServiceListSharesSegmentHeaders,
   ServiceSetPropertiesHeaders,

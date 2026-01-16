@@ -4,12 +4,13 @@
 import { execSync } from "child_process";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { requireEnvVar } from "../authTestUtils.js";
 
-describe("Azure Kubernetes Integration test", function () {
+describe.skipIf(!isLiveMode())("Azure Kubernetes Integration test", function () {
   let podName: string;
   const port = requireEnvVar("IDENTITY_FUNCTIONS_CUSTOMHANDLER_PORT");
 
-  beforeEach.skipIf(!isLiveMode())(async function () {
+  beforeEach(async function () {
     podName = requireEnvVar("IDENTITY_AKS_POD_NAME");
     const pods = runCommand("kubectl", `get pods -o jsonpath='{.items[0].metadata.name}'`);
     assert.include(pods, podName);
@@ -66,12 +67,4 @@ function runCommand(command: string, args: string = ""): any {
     console.error("Exit code:", error.status);
     console.error("stderr:", error.stderr.toString());
   }
-}
-
-function requireEnvVar(name: string): string {
-  const value = process.env[name];
-  if (!value) {
-    throw new Error(`Required env var ${name} is not set`);
-  }
-  return value;
 }

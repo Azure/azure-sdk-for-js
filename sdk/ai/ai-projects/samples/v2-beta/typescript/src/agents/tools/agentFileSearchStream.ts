@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import * as fs from "fs";
 import * as path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -69,7 +69,6 @@ export async function main(): Promise<void> {
   // Create a streaming response with file search capabilities
   const stream = openAIClient.responses.stream(
     {
-      model: deploymentName,
       conversation: conversation.id,
       input: [
         {
@@ -79,7 +78,6 @@ export async function main(): Promise<void> {
           type: "message",
         },
       ],
-      tools: [{ type: "file_search", vector_store_ids: [vectorStore.id] }],
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },
@@ -109,7 +107,6 @@ export async function main(): Promise<void> {
   // Demonstrate a follow-up query in the same conversation
   const followUpStream = openAIClient.responses.stream(
     {
-      model: deploymentName,
       conversation: conversation.id,
       input: [
         {
@@ -118,7 +115,6 @@ export async function main(): Promise<void> {
           type: "message",
         },
       ],
-      tools: [{ type: "file_search", vector_store_ids: [vectorStore.id] }],
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },

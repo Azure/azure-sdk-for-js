@@ -34,13 +34,14 @@
   "dependencies": {
     "@azure/openai": "next",
     "dotenv": "latest",
-    "openai": "^6.1.0",
-    "@azure/identity": "^4.10.2",
+    "openai": "^6.16.0",
+    "@azure/identity": "^4.13.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "typescript": "~5.8.2",
-    "rimraf": "latest"
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~5.9.3"
   }
 }

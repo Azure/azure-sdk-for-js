@@ -24,10 +24,10 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.17.4",
-    "cspell": "^9.3.1",
-    "prettier-plugin-packagejson": "^2.5.19",
-    "rimraf": "^6.1.0",
-    "turbo": "^2.6.1"
+    "cspell": "^9.6.0",
+    "prettier-plugin-packagejson": "^2.5.21",
+    "rimraf": "^6.1.2",
+    "turbo": "^2.7.4"
   },
   "packageManager": "pnpm@10.24.0",
   "engines": {

@@ -8,19 +8,22 @@
  *
  * @summary This sample demonstrates how to create an agent with file search capabilities,
  * upload documents to a vector store, and stream responses that include file search results.
+ *
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { AIProjectClient } = require("@azure/ai-projects");
-const fs = require("fs");
-const path = require("path");
-require("dotenv/config");
+import { DefaultAzureCredential } from "@azure/identity";
+import { AIProjectClient } from "@azure/ai-projects";
+import * as fs from "fs";
+import * as path from "path";
+import { fileURLToPath } from "node:url";
+import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const assetFilePath = path.resolve(__dirname, "assets", "product_info.md");
 
-async function main() {
+export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = await project.getOpenAIClient();
@@ -67,7 +70,6 @@ async function main() {
   // Create a streaming response with file search capabilities
   const stream = openAIClient.responses.stream(
     {
-      model: deploymentName,
       conversation: conversation.id,
       input: [
         {
@@ -77,7 +79,6 @@ async function main() {
           type: "message",
         },
       ],
-      tools: [{ type: "file_search", vector_store_ids: [vectorStore.id] }],
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },
@@ -107,7 +108,6 @@ async function main() {
   // Demonstrate a follow-up query in the same conversation
   const followUpStream = openAIClient.responses.stream(
     {
-      model: deploymentName,
       conversation: conversation.id,
       input: [
         {
@@ -116,7 +116,6 @@ async function main() {
           type: "message",
         },
       ],
-      tools: [{ type: "file_search", vector_store_ids: [vectorStore.id] }],
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },
@@ -162,5 +161,3 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
-module.exports = { main };

@@ -36,6 +36,7 @@ import { TraceFlags } from "@opentelemetry/api";
 import { hrTimeToDate, serializeAttribute } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
 import { resourceFromAttributes } from "@opentelemetry/resources";
+import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js";
 
 const context = getInstance();
 
@@ -113,6 +114,32 @@ describe("logUtils.ts", () => {
   };
 
   describe("#logToEnvelope", () => {
+    it("does not attach applicationId to log envelopes", () => {
+      const logRecordWithAppId: any = {
+        ...testLogRecord,
+        resource: resourceFromAttributes({
+          [SEMRESATTRS_SERVICE_INSTANCE_ID]: "instance-id",
+          [SEMRESATTRS_SERVICE_NAME]: "svc",
+          [SEMRESATTRS_SERVICE_NAMESPACE]: "ns",
+          [APPLICATION_ID_RESOURCE_KEY]: "app-from-resource",
+        }),
+        attributes: {
+          ...testLogRecord.attributes,
+          "extra.attribute": "foo",
+        },
+      };
+
+      const envelope = logToEnvelope(logRecordWithAppId as ReadableLogRecord, "ikey");
+
+      assert.isDefined(envelope);
+      assert.isUndefined(envelope?.tags?.[APPLICATION_ID_RESOURCE_KEY]);
+      assert.isUndefined(
+        (envelope?.data?.baseData as Partial<MonitorDomain>)?.properties?.[
+          APPLICATION_ID_RESOURCE_KEY
+        ],
+      );
+    });
+
     it("should create a Message Envelope for Logs", () => {
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       testLogRecord.body = "Test message";

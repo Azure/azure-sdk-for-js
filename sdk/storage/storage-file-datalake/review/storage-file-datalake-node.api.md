@@ -18,6 +18,7 @@ import * as coreHttpCompat from '@azure/core-http-compat';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
 import { Credential as Credential_2 } from '@azure/storage-blob';
 import { CredentialPolicy } from '@azure/storage-blob';
+import { CredentialPolicyCreator } from '@azure/storage-blob';
 import { ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse } from '@azure/storage-blob';
 import { BlobServiceProperties as DataLakeServiceProperties } from '@azure/storage-blob';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
@@ -276,6 +277,8 @@ export interface CpkInfo {
 export { Credential_2 as Credential }
 
 export { CredentialPolicy }
+
+export { CredentialPolicyCreator }
 
 // @public
 export class DataLakeAclChangeFailedError extends Error {
