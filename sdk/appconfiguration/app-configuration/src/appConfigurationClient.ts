@@ -483,11 +483,11 @@ export class AppConfigurationClient {
               { ...options, etag },
               pageLink,
             );
-            const link = response?._response?.headers?.get("link");
+            const link = response._response?.headers?.get("link");
             const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
             const currentResponse: ListConfigurationSettingPage = {
               ...response,
-              etag: response?._response?.headers?.get("etag") ?? undefined,
+              etag: response._response?.headers?.get("etag"),
               items: [],
               continuationToken: continuationToken,
               _response: response._response,
