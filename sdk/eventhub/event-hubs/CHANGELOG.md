@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed additional dangling promises in close operations that could cause `UnhandledPromiseRejection` errors. [#37044](https://github.com/Azure/azure-sdk-for-js/pull/37044)
+
 ### Other Changes
 
 ## 6.0.2 (2026-01-07)
