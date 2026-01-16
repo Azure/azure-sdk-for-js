@@ -775,7 +775,7 @@ importers:
         version: 4.13.0
       '@azure/monitor-opentelemetry':
         specifier: ^1.11.1
-        version: link:../../monitor/monitor-opentelemetry
+        version: 1.15.0
       '@azure/monitor-opentelemetry-exporter':
         specifier: ^1.0.0-beta.31
         version: link:../../monitor/monitor-opentelemetry-exporter
@@ -1011,7 +1011,7 @@ importers:
         version: 4.13.0
       '@azure/monitor-opentelemetry':
         specifier: ^1.14.2
-        version: link:../../monitor/monitor-opentelemetry
+        version: 1.15.0
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: 1.0.0-beta.7
         version: 1.0.0-beta.7
@@ -21117,7 +21117,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/monitor-opentelemetry':
         specifier: ^1.14.2
-        version: link:../monitor-opentelemetry
+        version: 1.15.0
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
@@ -33575,6 +33575,14 @@ packages:
     resolution: {integrity: sha512-PB9GlnfojcQ4nf9WXdQvWeAk7gm8P74o+Z5IHz5YLK/W+3vrNrmVVVuFpGOvCPrLjag50UinaZsMBtPtxoiobg==}
     engines: {node: '>=14.0.0'}
 
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.37':
+    resolution: {integrity: sha512-jBK6476yFoJ4eye5ZmLX/LF7kSd5bBpRtY+A0vTj8aKrgfcYiR+NojGzTILVPFRtaREWORys0WeiFc8vsFyysg==}
+    engines: {node: '>=20.0.0'}
+
+  '@azure/monitor-opentelemetry@1.15.0':
+    resolution: {integrity: sha512-y+RWV2k1SY4Jwd6N4OUdOsfqhqAMYgluxje5cXegScsEQO2SSZxqG2KUCALfQfUz9fsnSz29ZoB+BHsARz1wXQ==}
+    engines: {node: '>=20.0.0'}
+
   '@azure/msal-browser@4.27.0':
     resolution: {integrity: sha512-bZ8Pta6YAbdd0o0PEaL1/geBsPrLEnyY/RDWqvF1PP9RUH8EMLvUMGoZFYS6jSlUan6KZ9IMTLCnwpWWpQRK/w==}
     engines: {node: '>=0.8.0'}
@@ -33609,6 +33617,10 @@ packages:
 
   '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0-beta.7':
     resolution: {integrity: sha512-boG33EDRcbw0Jo2cRgB6bccSirKOzYdYFMdcSsnOajLCLfJ8WIve3vxUMi7YZKxM8txZX/0cwzUU6crXmYxXZg==}
+    engines: {node: '>=18.0.0'}
+
+  '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0-beta.9':
+    resolution: {integrity: sha512-gNCFokEoQQEkhu2T8i1i+1iW2o9wODn2slu5tpqJmjV1W7qf9dxVv6GNXW1P1WC8wMga8BCc2t/oMhOK3iwRQg==}
     engines: {node: '>=18.0.0'}
 
   '@azure/schema-registry@1.3.0':
@@ -39019,6 +39031,56 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.37':
+    dependencies:
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-rest-pipeline': 1.22.2
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.205.0
+      '@opentelemetry/core': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-logs': 0.205.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-metrics': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.38.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/monitor-opentelemetry@1.15.0':
+    dependencies:
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-rest-pipeline': 1.22.2
+      '@azure/logger': 1.3.0
+      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.37
+      '@azure/opentelemetry-instrumentation-azure-sdk': 1.0.0-beta.9
+      '@microsoft/applicationinsights-web-snippet': 1.2.3
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.208.0
+      '@opentelemetry/core': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation': 0.208.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-bunyan': 0.54.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-http': 0.208.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-mongodb': 0.61.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-mysql': 0.54.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-pg': 0.61.2(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-redis': 0.57.2(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-winston': 0.53.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resource-detector-azure': 0.7.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-logs': 0.208.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-metrics': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-node': 0.208.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-node': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.38.0
+      '@opentelemetry/winston-transport': 0.19.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/msal-browser@4.27.0':
     dependencies:
       '@azure/msal-common': 15.13.3
@@ -39066,6 +39128,18 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.53.0(@opentelemetry/api@1.9.0)
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0-beta.9':
+    dependencies:
+      '@azure/core-tracing': 1.3.1
+      '@azure/logger': 1.3.0
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/core': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-web': 2.2.0(@opentelemetry/api@1.9.0)
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -41270,7 +41344,7 @@ snapshots:
       magicast: 0.5.1
       obug: 2.1.1
       tinyrainbow: 3.0.3
-      vitest: 4.0.16(@opentelemetry/api@1.9.0)(@types/node@20.19.27)(@vitest/browser-playwright@4.0.16)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.27)(typescript@5.9.3))(terser@5.39.0)(tsx@4.21.0)(yaml@2.8.2)
+      vitest: 4.0.16(@opentelemetry/api@1.9.0)(@types/node@20.19.27)(@vitest/browser-playwright@4.0.16)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.27)(typescript@5.8.3))(terser@5.39.0)(tsx@4.21.0)(yaml@2.8.2)
     transitivePeerDependencies:
       - supports-color
 

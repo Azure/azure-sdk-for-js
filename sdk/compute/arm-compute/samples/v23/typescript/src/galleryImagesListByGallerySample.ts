@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to List gallery image definitions in a gallery.
  *
  * @summary List gallery image definitions in a gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImage_ListByGallery.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryImage_ListByGallery.json
  */
 async function listGalleryImagesInAGallery(): Promise<void> {
   const subscriptionId =
