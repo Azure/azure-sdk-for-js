@@ -33,12 +33,12 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share",
   "dependencies": {
     "@azure/storage-file-share": "latest",
-    "dotenv": "latest",
-    "@azure/abort-controller": "^2.1.2"
+    "dotenv": "latest"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "typescript": "~5.8.2",
-    "rimraf": "latest"
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~5.9.3"
   }
 }

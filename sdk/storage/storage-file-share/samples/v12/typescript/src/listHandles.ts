@@ -23,7 +23,7 @@ export async function main(): Promise<void> {
 
   if (shareName === "" || dirName === "") {
     console.warn(
-      "Share/directory information not provided, but it is required to run this sample. Exiting."
+      "Share/directory information not provided, but it is required to run this sample. Exiting.",
     );
     return;
   }
@@ -34,7 +34,7 @@ export async function main(): Promise<void> {
 
   const serviceClient = new ShareServiceClient(
     `https://${account}.file.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   const shareClient = serviceClient.getShareClient(shareName);

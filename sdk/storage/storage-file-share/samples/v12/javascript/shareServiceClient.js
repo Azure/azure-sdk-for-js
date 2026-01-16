@@ -8,7 +8,7 @@
 const { ShareServiceClient, StorageSharedKeyCredential } = require("@azure/storage-file-share");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // Enter your storage account name and shared key
@@ -26,7 +26,7 @@ async function main() {
   const serviceClient = new ShareServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS
     `https://${account}.file.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   console.log("Shares:");
@@ -90,7 +90,7 @@ async function streamToBuffer(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
     readableStream.on("data", (data) => {
-      chunks.push(Buffer.isBuffer(data) ? data : Buffer.from(data));
+      chunks.push(typeof data === "string" ? Buffer.from(data) : data);
     });
     readableStream.on("end", () => {
       resolve(Buffer.concat(chunks));
