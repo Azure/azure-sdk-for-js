@@ -306,6 +306,31 @@ describe("logUtils.ts", () => {
       );
     });
 
+    it("should not truncate custom properties at 13-bit limit", () => {
+      // Create a property value that exceeds the old 13-bit (8192 character) limit
+      const longPropertyValue = "a".repeat(MaxPropertyLengths.THIRTEEN_BIT + 1000);
+      testLogRecord.body = "Test message";
+      testLogRecord.severityLevel = "Information";
+      testLogRecord.attributes = {
+        "custom.longProperty": longPropertyValue,
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+      // Verify the property value is NOT truncated
+      assert.strictEqual(
+        (envelope?.data?.baseData as MessageData)?.properties?.["custom.longProperty"],
+        longPropertyValue,
+        "Custom properties should not be truncated at 13-bit limit",
+      );
+      assert.strictEqual(
+        (envelope?.data?.baseData as MessageData)?.properties?.["custom.longProperty"]?.length,
+        MaxPropertyLengths.THIRTEEN_BIT + 1000,
+        "Custom property length should exceed the old 13-bit limit",
+      );
+    });
+
     it("should truncate properties of a Message Envelope", () => {
       const data: MessageData = {
         message: "a".repeat(MaxPropertyLengths.FIFTEEN_BIT + 1),
