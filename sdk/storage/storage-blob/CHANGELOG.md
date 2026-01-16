@@ -1,5 +1,11 @@
 # Release History
 
+## 12.30.0 (2026-01-16)
+
+### Features Added
+
+- Includes all features released in 12.30.0-beta.1.
+
 ## 12.30.0-beta.1 (2025-11-24)
 
 ### Features Added

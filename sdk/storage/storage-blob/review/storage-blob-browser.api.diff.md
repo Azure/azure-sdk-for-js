@@ -7,7 +7,14 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -20,24 +20,25 @@
+@@ -14,31 +14,31 @@
+ import * as coreHttpCompat from '@azure/core-http-compat';
+ import * as coreRestPipeline from '@azure/core-rest-pipeline';
+ import { Credential as Credential_2 } from '@azure/storage-common';
+ import { CredentialPolicy } from '@azure/storage-common';
+-import { CredentialPolicyCreator } from '@azure/storage-common';
+ import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
+ import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
  import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
  import type { KeepAliveOptions } from '@azure/core-http-compat';
  import type { OperationTracingOptions } from '@azure/core-tracing';
@@ -36,7 +43,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
  import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
  import { UserDelegationKey } from '@azure/storage-common';
-@@ -92,40 +93,8 @@
+@@ -93,40 +93,8 @@
      update?: boolean;
      write?: boolean;
  }
@@ -77,7 +84,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { AnonymousCredentialPolicy }
  
-@@ -384,10 +353,8 @@
+@@ -385,10 +353,8 @@
      abortSignal?: AbortSignalLike;
      conditions?: ModifiedAccessConditions;
  }
@@ -88,7 +95,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export class BlobClient extends StorageClient {
      constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
      constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-@@ -1095,32 +1062,8 @@
+@@ -1096,32 +1062,8 @@
      write?: boolean;
  }
  
@@ -121,7 +128,18 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
      constructor(url: string, pipeline: PipelineLike);
      createContainer(containerName: string, options?: ContainerCreateOptions): Promise<{
-@@ -2192,17 +2135,8 @@
+@@ -2141,10 +2083,8 @@
+ export { Credential_2 as Credential }
+ 
+ export { CredentialPolicy }
+ 
+-export { CredentialPolicyCreator }
+-
+ // @public
+ export type DeleteSnapshotsOptionType = "include" | "only";
+ 
+ // @public
+@@ -2195,17 +2135,8 @@
      where: string;
  }
  
@@ -139,7 +157,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      lastSyncOn: Date;
      status: GeoReplicationStatusType;
  }
-@@ -2795,10 +2729,8 @@
+@@ -2798,10 +2729,8 @@
  export interface PipelineOptions {
      httpClient?: RequestPolicy;
  }
@@ -150,7 +168,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface PollerLikeWithCancellation<TState extends PollOperationState<TResult>, TResult> {
      cancelOperation(options?: {
          abortSignal?: AbortSignalLike;
-@@ -2815,10 +2747,8 @@
+@@ -2818,10 +2747,8 @@
      stopPolling(): void;
      toString(): string;
  }
@@ -161,7 +179,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export enum PremiumPageBlobTier {
      P10 = "P10",
      P15 = "P15",
-@@ -3164,19 +3094,32 @@
+@@ -3167,19 +3094,32 @@
      errorDocument404Path?: string;
      indexDocument?: string;
  }
@@ -200,7 +218,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface StoragePipelineOptions {
-@@ -3191,16 +3134,14 @@
+@@ -3194,16 +3134,14 @@
  export { StorageRetryOptions }
  
  export { StorageRetryPolicy }
