@@ -14,9 +14,10 @@ async function cachesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetAppManagementClient(credential, subscriptionId);
-  await client.caches.update("myRG", "account1", "pool1", "cache1", {
+  const result = await client.caches.update("myRG", "account1", "pool1", "cache1", {
     properties: { size: 214748364800 },
   });
+  console.log(result);
 }
 
 async function main(): Promise<void> {

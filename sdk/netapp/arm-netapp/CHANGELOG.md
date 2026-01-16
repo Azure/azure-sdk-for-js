@@ -1,6 +1,6 @@
 # Release History
 
-## 22.1.0-beta.1 (2025-11-27)
+## 22.1.0-beta.1 (2025-12-02)
 Compared with version 22.0.0
 
 ### Features Added
@@ -44,6 +44,7 @@ Compared with version 22.0.0
   - Added Interface Cache
   - Added Interface CacheMountTargetProperties
   - Added Interface CacheProperties
+  - Added Interface CachePropertiesExportPolicy
   - Added Interface CachesCreateOrUpdateOptionalParams
   - Added Interface CachesDeleteOptionalParams
   - Added Interface CachesGetOptionalParams

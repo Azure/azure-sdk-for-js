@@ -26,9 +26,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkSecurityPerimeterLoggingConfigurations operations. */
-export class NetworkSecurityPerimeterLoggingConfigurationsImpl
-  implements NetworkSecurityPerimeterLoggingConfigurations
-{
+export class NetworkSecurityPerimeterLoggingConfigurationsImpl implements NetworkSecurityPerimeterLoggingConfigurations {
   private readonly client: NetworkManagementClient;
 
   /**

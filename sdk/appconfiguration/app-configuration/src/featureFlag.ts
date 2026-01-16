@@ -111,18 +111,20 @@ export function parseFeatureFlag(
     ...setting,
     value: {
       id: jsonFeatureFlagValue.id,
-      enabled: jsonFeatureFlagValue.enabled,
+      enabled: jsonFeatureFlagValue.enabled ?? false,
       description: jsonFeatureFlagValue.description,
       displayName: jsonFeatureFlagValue.display_name,
-      conditions: { clientFilters: jsonFeatureFlagValue.conditions.client_filters },
+      conditions: jsonFeatureFlagValue.conditions
+        ? {
+            clientFilters: jsonFeatureFlagValue.conditions.client_filters,
+            requirementType: jsonFeatureFlagValue.conditions.requirement_type,
+          }
+        : { clientFilters: [] },
     },
     key,
     contentType: featureFlagContentType,
   };
 
-  if (jsonFeatureFlagValue.conditions.requirement_type) {
-    featureflag.value.conditions.requirementType = jsonFeatureFlagValue.conditions.requirement_type;
-  }
   return featureflag;
 }
 

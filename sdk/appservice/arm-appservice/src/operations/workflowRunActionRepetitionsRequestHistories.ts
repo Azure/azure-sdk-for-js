@@ -23,9 +23,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkflowRunActionRepetitionsRequestHistories operations. */
-export class WorkflowRunActionRepetitionsRequestHistoriesImpl
-  implements WorkflowRunActionRepetitionsRequestHistories
-{
+export class WorkflowRunActionRepetitionsRequestHistoriesImpl implements WorkflowRunActionRepetitionsRequestHistories {
   private readonly client: WebSiteManagementClient;
 
   /**

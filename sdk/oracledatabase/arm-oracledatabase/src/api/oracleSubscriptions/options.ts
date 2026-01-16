@@ -16,8 +16,7 @@ export interface OracleSubscriptionsListActivationLinksOptionalParams extends Op
 }
 
 /** Optional parameters. */
-export interface OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams
-  extends OperationOptions {
+export interface OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

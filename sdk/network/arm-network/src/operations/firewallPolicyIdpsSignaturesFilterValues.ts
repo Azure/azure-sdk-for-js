@@ -16,9 +16,7 @@ import type {
 } from "../models/index.js";
 
 /** Class containing FirewallPolicyIdpsSignaturesFilterValues operations. */
-export class FirewallPolicyIdpsSignaturesFilterValuesImpl
-  implements FirewallPolicyIdpsSignaturesFilterValues
-{
+export class FirewallPolicyIdpsSignaturesFilterValuesImpl implements FirewallPolicyIdpsSignaturesFilterValues {
   private readonly client: NetworkManagementClient;
 
   /**

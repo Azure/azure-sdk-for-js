@@ -4,30 +4,25 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams
-  extends OperationOptions {}
+export interface IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface IotDpsResourceListPrivateEndpointConnectionsOptionalParams
-  extends OperationOptions {}
+export interface IotDpsResourceListPrivateEndpointConnectionsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface IotDpsResourceDeletePrivateEndpointConnectionOptionalParams
-  extends OperationOptions {
+export interface IotDpsResourceDeletePrivateEndpointConnectionOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams
-  extends OperationOptions {
+export interface IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface IotDpsResourceGetPrivateEndpointConnectionOptionalParams
-  extends OperationOptions {}
+export interface IotDpsResourceGetPrivateEndpointConnectionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface IotDpsResourceListPrivateLinkResourcesOptionalParams extends OperationOptions {}

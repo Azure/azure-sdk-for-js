@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/avs/arm-avs)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-avs)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-avs?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-avs)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/avs/arm-avs/samples)
 
 ## Getting started

@@ -18,9 +18,8 @@ export class CloudRoleExample {
     const { useAzureMonitor } = await import("@azure/monitor-opentelemetry");
     const { resourceFromAttributes } = await import("@opentelemetry/resources");
     const { ATTR_SERVICE_NAME } = await import("@opentelemetry/semantic-conventions");
-    const semanticConventionsIncubating = await import(
-      "@opentelemetry/semantic-conventions/incubating"
-    );
+    const semanticConventionsIncubating =
+      await import("@opentelemetry/semantic-conventions/incubating");
     const { ATTR_SERVICE_NAMESPACE, ATTR_SERVICE_INSTANCE_ID } = semanticConventionsIncubating;
 
     try {

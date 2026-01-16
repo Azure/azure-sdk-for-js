@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to run Prompt Agent operations
- * using MCP (Model Context Protocol) tools and a synchronous client.
+ * This sample demonstrates how to run Prompt Agent operations using MCP (Model Context Protocol) tools.
  *
  * @summary This sample demonstrates how to create an agent with MCP tool capabilities,
  * send requests that trigger MCP approval workflows, handle approval requests, and clean up resources.

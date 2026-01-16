@@ -4948,8 +4948,7 @@ export enum KnownRefreshableStatusType {
 export type RefreshableStatusType = string;
 
 /** Autonomous Database Cross Region Disaster Recovery resource model. */
-export interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties
-  extends AutonomousDatabaseBaseProperties {
+export interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties extends AutonomousDatabaseBaseProperties {
   /** Database type to be created. */
   dataBaseType: "CrossRegionDisasterRecovery";
   /** The source of the database. */
@@ -5161,8 +5160,7 @@ export function autonomousDatabaseCrossRegionDisasterRecoveryPropertiesDeseriali
 }
 
 /** Autonomous Database From Backup Timestamp resource model. */
-export interface AutonomousDatabaseFromBackupTimestampProperties
-  extends AutonomousDatabaseBaseProperties {
+export interface AutonomousDatabaseFromBackupTimestampProperties extends AutonomousDatabaseBaseProperties {
   /** Database type to be created. */
   dataBaseType: "CloneFromBackupTimestamp";
   /** The source of the database. */

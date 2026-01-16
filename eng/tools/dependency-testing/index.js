@@ -411,7 +411,7 @@ async function getPackageFromPnpm(normalizedRoot, packageName) {
     const listPackagesCommandExec = new Promise(async (res, rej) => {
       const pnpmProcess = crossSpawn(
         "pnpm",
-        ["list", "--recursive", "--json", "--depth=1", "--only-projects"],
+        ["list", "--recursive", "--json", "--depth=-1"],
         {
           stdout: "inherit",
           cwd: normalizedRoot,
@@ -422,7 +422,7 @@ async function getPackageFromPnpm(normalizedRoot, packageName) {
       pnpmProcess.stdout.on("data", (data) => (stdOut = stdOut + data.toString()));
       pnpmProcess.stderr.on("data", (data) => (stdErr = stdErr + data.toString()));
       pnpmProcess.on("close", (code) => {
-        console.log(`pnpm list --recursive --json --depth=1 process exit code: ${code}`);
+        console.log(`pnpm list --recursive --json --depth=-1 process exit code: ${code}`);
         if (code !== 0) {
           rej(`Process exits with code ${code}`);
           return;

@@ -10,7 +10,6 @@ export * from "./clientDefinitions.js";
 export * from "./isUnexpected.js";
 export * from "./models.js";
 export * from "./outputModels.js";
-export * from "./serializeHelper.js";
 export { TranslatorCredential, TranslatorTokenCredential } from "./authenticationCustomized.js";
 
 // eslint-disable-next-line @azure/azure-sdk/ts-modules-only-named

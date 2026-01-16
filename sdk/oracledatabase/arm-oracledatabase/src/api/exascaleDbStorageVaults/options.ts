@@ -7,8 +7,7 @@ import type { OperationOptions } from "@azure-rest/core-client";
 export interface ExascaleDbStorageVaultsListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ExascaleDbStorageVaultsListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface ExascaleDbStorageVaultsListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface ExascaleDbStorageVaultsDeleteOptionalParams extends OperationOptions {

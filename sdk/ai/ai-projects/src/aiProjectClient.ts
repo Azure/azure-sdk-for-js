@@ -24,10 +24,12 @@ import {
   MemoryStoresOperations,
   _getMemoryStoresOperations,
 } from "./classic/memoryStores/index.js";
+import { TelemetryOperations, _getTelemetryOperations } from "./classic/telemetry/index.js";
 import { RedTeamsOperations, _getRedTeamsOperations } from "./classic/redTeams/index.js";
 import { SchedulesOperations, _getSchedulesOperations } from "./classic/schedules/index.js";
 import { TokenCredential } from "@azure/core-auth";
 import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
+import { getCustomFetch } from "./getCustomFetch.js";
 
 export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
@@ -47,6 +49,7 @@ export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * @property {ConnectionsOperations} connections - The operation groups for connections
  * @property {MemoryStoresOperations} memoryStores - The operation groups for memoryStores
  * @property {AgentsOperations} agents - The operation groups for agents
+ * @property {TelemetryOperations} telemetry - The operation groups for telemetry
  * @property {getEndpointUrl} getEndpointUrl - gets the endpoint of the client
  * @property {getOpenAIClient} getOpenAIClient - gets the OpenAI client
  */
@@ -74,7 +77,7 @@ export class AIProjectClient {
       userAgentOptions: { userAgentPrefix },
       credentials: {
         ...options.credentials,
-        scopes: ["https://cognitiveservices.azure.com/.default"],
+        scopes: ["https://ai.azure.com/.default"],
       },
     });
     this._azureScopeClient = createAIProject(endpoint, credential, {
@@ -94,6 +97,7 @@ export class AIProjectClient {
     this.connections = _getConnectionsOperations(this._azureScopeClient);
     this.memoryStores = _getMemoryStoresOperations(this._cognitiveScopeClient);
     this.agents = _getAgentsOperations(this._azureScopeClient);
+    this.telemetry = _getTelemetryOperations(this.connections);
   }
 
   /** The operation groups for schedules */
@@ -120,6 +124,8 @@ export class AIProjectClient {
   public readonly memoryStores: MemoryStoresOperations;
   /** The operation groups for agents */
   public readonly agents: AgentsOperations;
+  /** The operation groups for telemetry */
+  public readonly telemetry: TelemetryOperations;
   /**
    * gets the OpenAI client
    * @returns the OpenAI client
@@ -127,12 +133,20 @@ export class AIProjectClient {
   public async getOpenAIClient(): Promise<OpenAI> {
     const scope = "https://ai.azure.com/.default";
     const azureADTokenProvider = await getBearerTokenProvider(this._credential, scope);
+    let customFetch: NonNullable<ConstructorParameters<typeof OpenAI>[0]>["fetch"];
+
+    if (
+      this._options.additionalPolicies?.find((policy) => policy.policy.name === "recording policy")
+    ) {
+      customFetch = getCustomFetch(this._azureScopeClient.pipeline, this._options.httpClient);
+    }
 
     const openAIOptions: ConstructorParameters<typeof OpenAI>[0] = {
       apiKey: azureADTokenProvider,
       baseURL: `${this._endpoint}/openai`,
       defaultQuery: { "api-version": this._options?.apiVersion || "2025-11-15-preview" },
       dangerouslyAllowBrowser: true,
+      fetch: customFetch,
     };
 
     const openaiClient = new OpenAI(openAIOptions);

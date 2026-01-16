@@ -33,9 +33,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GalleryInVMAccessControlProfileVersions operations. */
-export class GalleryInVMAccessControlProfileVersionsImpl
-  implements GalleryInVMAccessControlProfileVersions
-{
+export class GalleryInVMAccessControlProfileVersionsImpl implements GalleryInVMAccessControlProfileVersions {
   private readonly client: ComputeManagementClient;
 
   /**

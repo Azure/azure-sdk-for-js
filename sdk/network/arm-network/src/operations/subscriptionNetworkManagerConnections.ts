@@ -26,9 +26,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SubscriptionNetworkManagerConnections operations. */
-export class SubscriptionNetworkManagerConnectionsImpl
-  implements SubscriptionNetworkManagerConnections
-{
+export class SubscriptionNetworkManagerConnectionsImpl implements SubscriptionNetworkManagerConnections {
   private readonly client: NetworkManagementClient;
 
   /**

@@ -127,7 +127,7 @@ export default function createClient(
     options = {};
   }
 
-  options.apiVersion = options.apiVersion ?? "3.0";
+  options.apiVersion = options.apiVersion ?? "2025-10-01-preview";
 
   if (!endpoint) {
     serviceEndpoint = DEFAULT_ENPOINT;
@@ -139,7 +139,7 @@ export default function createClient(
 
   const baseUrl = options.baseUrl ?? `${serviceEndpoint}`;
 
-  const userAgentInfo = `azsdk-js-ai-translation-text-rest/1.0.3`;
+  const userAgentInfo = `azsdk-js-ai-translation-text-rest/2.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

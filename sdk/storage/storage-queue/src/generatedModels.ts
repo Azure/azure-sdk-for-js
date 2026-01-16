@@ -52,7 +52,6 @@ export {
   RetentionPolicy,
   ServiceGetPropertiesHeaders,
   ServiceGetStatisticsHeaders,
-  ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel,
   ServiceGetUserDelegationKeyHeaders,
   ServiceListQueuesSegmentHeaders,
   ServiceSetPropertiesHeaders,

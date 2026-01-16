@@ -30,7 +30,7 @@
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/arm-resources": "^5.0.0",
+    "@azure/arm-resources": "catalog:arm",
     "@azure/dev-tool": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@azure/logger": "^1.1.4",

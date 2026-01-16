@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a WorkloadNetworkDnsService
  *
  * @summary delete a WorkloadNetworkDnsService
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_DeleteDnsService.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_DeleteDnsService.json
  */
 async function workloadNetworksDeleteDnsService(): Promise<void> {
   const credential = new DefaultAzureCredential();

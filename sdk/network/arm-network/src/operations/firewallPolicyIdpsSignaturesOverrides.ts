@@ -22,9 +22,7 @@ import type {
 } from "../models/index.js";
 
 /** Class containing FirewallPolicyIdpsSignaturesOverrides operations. */
-export class FirewallPolicyIdpsSignaturesOverridesImpl
-  implements FirewallPolicyIdpsSignaturesOverrides
-{
+export class FirewallPolicyIdpsSignaturesOverridesImpl implements FirewallPolicyIdpsSignaturesOverrides {
   private readonly client: NetworkManagementClient;
 
   /**

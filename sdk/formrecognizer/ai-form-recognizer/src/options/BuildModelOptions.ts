@@ -57,7 +57,8 @@ export interface CommonModelCreationOptions {
  * Options for the model creation operation.
  */
 export interface CreateDocumentModelOptions
-  extends OperationOptions,
+  extends
+    OperationOptions,
     CommonModelCreationOptions,
     PollerOptions<DocumentModelOperationState> {}
 

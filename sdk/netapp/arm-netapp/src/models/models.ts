@@ -4349,8 +4349,8 @@ export interface CacheProperties {
   /** Maximum storage quota allowed for a file system in bytes. Valid values are in the range 50GiB to 1PiB. Values expressed in bytes as multiples of 1GiB. */
   size: number;
   /** Set of export policy rules */
-  exportPolicy?: ExportPolicyRule[];
-  /** Set of protocol types, default NFSv3, CIFS for SMB protocol */
+  exportPolicy?: CachePropertiesExportPolicy;
+  /** Set of supported protocol types, which include NFSv3, NFSv4 and SMB protocol */
   protocolTypes?: ProtocolTypes[];
   /** Azure lifecycle management */
   readonly provisioningState?: CacheProvisioningState;
@@ -4400,7 +4400,7 @@ export function cachePropertiesSerializer(item: CacheProperties): any {
     size: item["size"],
     exportPolicy: !item["exportPolicy"]
       ? item["exportPolicy"]
-      : exportPolicyRuleArraySerializer(item["exportPolicy"]),
+      : cachePropertiesExportPolicySerializer(item["exportPolicy"]),
     protocolTypes: !item["protocolTypes"]
       ? item["protocolTypes"]
       : item["protocolTypes"].map((p: any) => {
@@ -4430,7 +4430,7 @@ export function cachePropertiesDeserializer(item: any): CacheProperties {
     size: item["size"],
     exportPolicy: !item["exportPolicy"]
       ? item["exportPolicy"]
-      : exportPolicyRuleArrayDeserializer(item["exportPolicy"]),
+      : cachePropertiesExportPolicyDeserializer(item["exportPolicy"]),
     protocolTypes: !item["protocolTypes"]
       ? item["protocolTypes"]
       : item["protocolTypes"].map((p: any) => {
@@ -4465,7 +4465,25 @@ export function cachePropertiesDeserializer(item: any): CacheProperties {
   };
 }
 
-/** Export policy rule */
+/** Set of export policy rules */
+export interface CachePropertiesExportPolicy {
+  /** Export policy rule */
+  rules?: ExportPolicyRule[];
+}
+
+export function cachePropertiesExportPolicySerializer(item: CachePropertiesExportPolicy): any {
+  return {
+    rules: !item["rules"] ? item["rules"] : exportPolicyRuleArraySerializer(item["rules"]),
+  };
+}
+
+export function cachePropertiesExportPolicyDeserializer(item: any): CachePropertiesExportPolicy {
+  return {
+    rules: !item["rules"] ? item["rules"] : exportPolicyRuleArrayDeserializer(item["rules"]),
+  };
+}
+
+/** Set of supported protocol types, which include NFSv3, NFSv4 and SMB protocol */
 export enum KnownProtocolTypes {
   /** NFSv3 protocol type */
   NFSv3 = "NFSv3",
@@ -4476,7 +4494,7 @@ export enum KnownProtocolTypes {
 }
 
 /**
- * Export policy rule \
+ * Set of supported protocol types, which include NFSv3, NFSv4 and SMB protocol \
  * {@link KnownProtocolTypes} can be used interchangeably with ProtocolTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -4777,8 +4795,8 @@ export interface CacheUpdateProperties {
   /** Maximum storage quota allowed for a file system in bytes. Valid values are in the range 50GiB to 1PiB. Values expressed in bytes as multiples of 1GiB. */
   size?: number;
   /** Set of export policy rules */
-  exportPolicy?: ExportPolicyRule[];
-  /** Set of protocol types, default NFSv3, CIFS for SMB protocol */
+  exportPolicy?: CachePropertiesExportPolicy;
+  /** Set of supported protocol types, which include NFSv3, NFSv4 and SMB protocol */
   protocolTypes?: ProtocolTypes[];
   /** SMB information for the cache */
   smbSettings?: SmbSettings;
@@ -4797,7 +4815,7 @@ export function cacheUpdatePropertiesSerializer(item: CacheUpdateProperties): an
     size: item["size"],
     exportPolicy: !item["exportPolicy"]
       ? item["exportPolicy"]
-      : exportPolicyRuleArraySerializer(item["exportPolicy"]),
+      : cachePropertiesExportPolicySerializer(item["exportPolicy"]),
     protocolTypes: !item["protocolTypes"]
       ? item["protocolTypes"]
       : item["protocolTypes"].map((p: any) => {

@@ -122,6 +122,7 @@
       "@azure/arm-netapp!BucketGenerateCredentials:interface": "Microsoft.NetApp.BucketGenerateCredentials",
       "@azure/arm-netapp!Cache:interface": "Microsoft.NetApp.Cache",
       "@azure/arm-netapp!CacheProperties:interface": "Microsoft.NetApp.CacheProperties",
+      "@azure/arm-netapp!CachePropertiesExportPolicy:interface": "Microsoft.NetApp.CachePropertiesExportPolicy",
       "@azure/arm-netapp!CacheMountTargetProperties:interface": "Microsoft.NetApp.CacheMountTargetProperties",
       "@azure/arm-netapp!SmbSettings:interface": "Microsoft.NetApp.SmbSettings",
       "@azure/arm-netapp!OriginClusterInformation:interface": "Microsoft.NetApp.OriginClusterInformation",

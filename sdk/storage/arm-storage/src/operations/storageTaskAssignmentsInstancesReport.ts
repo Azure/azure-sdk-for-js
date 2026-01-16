@@ -21,9 +21,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing StorageTaskAssignmentsInstancesReport operations. */
-export class StorageTaskAssignmentsInstancesReportImpl
-  implements StorageTaskAssignmentsInstancesReport
-{
+export class StorageTaskAssignmentsInstancesReportImpl implements StorageTaskAssignmentsInstancesReport {
   private readonly client: StorageManagementClient;
 
   /**

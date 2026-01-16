@@ -8601,8 +8601,7 @@ export interface ParquetFormat extends DatasetStorageFormat {
 }
 
 /** Azure Table Storage linked service properties. */
-export interface AzureTableStorageLinkedServiceTypeProperties
-  extends AzureStorageLinkedServiceTypeProperties {
+export interface AzureTableStorageLinkedServiceTypeProperties extends AzureStorageLinkedServiceTypeProperties {
   /** Table service endpoint of the Azure Table Storage resource. It is mutually exclusive with connectionString, sasUri property. */
   serviceEndpoint?: any;
   /** The credential reference containing authentication information. */
@@ -8610,8 +8609,7 @@ export interface AzureTableStorageLinkedServiceTypeProperties
 }
 
 /** Azure SQL Data Warehouse linked service properties. */
-export interface AzureSqlDWLinkedServiceTypeProperties
-  extends SqlServerBaseLinkedServiceTypeProperties {
+export interface AzureSqlDWLinkedServiceTypeProperties extends SqlServerBaseLinkedServiceTypeProperties {
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString?: any;
   /** The type used for authentication. Type: string. */
@@ -8639,8 +8637,7 @@ export interface AzureSqlDWLinkedServiceTypeProperties
 }
 
 /** SQL Server linked service properties. */
-export interface SqlServerLinkedServiceTypeProperties
-  extends SqlServerBaseLinkedServiceTypeProperties {
+export interface SqlServerLinkedServiceTypeProperties extends SqlServerBaseLinkedServiceTypeProperties {
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString?: any;
   /** The type used for authentication. Type: string. */
@@ -8658,8 +8655,7 @@ export interface SqlServerLinkedServiceTypeProperties
 }
 
 /** SQL Server linked service properties. */
-export interface AmazonRdsForSqlServerLinkedServiceTypeProperties
-  extends SqlServerBaseLinkedServiceTypeProperties {
+export interface AmazonRdsForSqlServerLinkedServiceTypeProperties extends SqlServerBaseLinkedServiceTypeProperties {
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString?: any;
   /** The type used for authentication. Type: string. */
@@ -8675,8 +8671,7 @@ export interface AmazonRdsForSqlServerLinkedServiceTypeProperties
 }
 
 /** Azure SQL Database linked service properties. */
-export interface AzureSqlDatabaseLinkedServiceTypeProperties
-  extends SqlServerBaseLinkedServiceTypeProperties {
+export interface AzureSqlDatabaseLinkedServiceTypeProperties extends SqlServerBaseLinkedServiceTypeProperties {
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString?: any;
   /** The type used for authentication. Type: string. */
@@ -8706,8 +8701,7 @@ export interface AzureSqlDatabaseLinkedServiceTypeProperties
 }
 
 /** Azure SQL Managed Instance linked service properties. */
-export interface AzureSqlMILinkedServiceTypeProperties
-  extends SqlServerBaseLinkedServiceTypeProperties {
+export interface AzureSqlMILinkedServiceTypeProperties extends SqlServerBaseLinkedServiceTypeProperties {
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString?: any;
   /** The type used for authentication. Type: string. */

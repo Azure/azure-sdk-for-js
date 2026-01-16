@@ -619,8 +619,7 @@ export function appConfigurationSnapshotEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AppConfiguration.SnapshotCreated event. */
-export interface AppConfigurationSnapshotCreatedEventData
-  extends AppConfigurationSnapshotEventData {}
+export interface AppConfigurationSnapshotCreatedEventData extends AppConfigurationSnapshotEventData {}
 
 export function appConfigurationSnapshotCreatedEventDataDeserializer(
   item: any,
@@ -633,8 +632,7 @@ export function appConfigurationSnapshotCreatedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AppConfiguration.SnapshotModified event. */
-export interface AppConfigurationSnapshotModifiedEventData
-  extends AppConfigurationSnapshotEventData {}
+export interface AppConfigurationSnapshotModifiedEventData extends AppConfigurationSnapshotEventData {}
 
 export function appConfigurationSnapshotModifiedEventDataDeserializer(
   item: any,
@@ -1555,8 +1553,7 @@ export function acsChatMessageEventInThreadBaseDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatAzureBotCommandReceivedInThread event. */
-export interface AcsChatAzureBotCommandReceivedInThreadEventData
-  extends AcsChatMessageEventInThreadBase {
+export interface AcsChatAzureBotCommandReceivedInThreadEventData extends AcsChatMessageEventInThreadBase {
   /** The body of the chat message */
   messageBody: string;
   /** The chat message metadata */
@@ -1583,8 +1580,7 @@ export function acsChatAzureBotCommandReceivedInThreadEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatTypingIndicatorReceivedInThread event. */
-export interface AcsChatTypingIndicatorReceivedInThreadEventData
-  extends AcsChatMessageEventInThreadBase {
+export interface AcsChatTypingIndicatorReceivedInThreadEventData extends AcsChatMessageEventInThreadBase {
   /** The body of the chat message */
   messageBody: string;
   /** The chat message metadata */
@@ -2019,8 +2015,7 @@ export function acsChatParticipantAddedToThreadWithUserEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser event. */
-export interface AcsChatParticipantRemovedFromThreadWithUserEventData
-  extends AcsChatThreadEventBase {
+export interface AcsChatParticipantRemovedFromThreadWithUserEventData extends AcsChatThreadEventBase {
   /** The time at which the user was removed to the thread */
   time: Date;
   /** The communication identifier of the user who removed the user */
@@ -3922,8 +3917,7 @@ export function containerRegistryChartPushedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerRegistry.ChartDeleted event. */
-export interface ContainerRegistryChartDeletedEventData
-  extends ContainerRegistryArtifactEventData {}
+export interface ContainerRegistryChartDeletedEventData extends ContainerRegistryArtifactEventData {}
 
 export function containerRegistryChartDeletedEventDataDeserializer(
   item: any,
@@ -3978,8 +3972,7 @@ export function containerServiceClusterSupportEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.ClusterSupportEnded event */
-export interface ContainerServiceClusterSupportEndedEventData
-  extends ContainerServiceClusterSupportEventData {}
+export interface ContainerServiceClusterSupportEndedEventData extends ContainerServiceClusterSupportEventData {}
 
 export function containerServiceClusterSupportEndedEventDataDeserializer(
   item: any,
@@ -3990,8 +3983,7 @@ export function containerServiceClusterSupportEndedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.ClusterSupportEnding event */
-export interface ContainerServiceClusterSupportEndingEventData
-  extends ContainerServiceClusterSupportEventData {}
+export interface ContainerServiceClusterSupportEndingEventData extends ContainerServiceClusterSupportEventData {}
 
 export function containerServiceClusterSupportEndingEventDataDeserializer(
   item: any,
@@ -4016,8 +4008,7 @@ export function containerServiceNodePoolRollingEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.NodePoolRollingStarted event */
-export interface ContainerServiceNodePoolRollingStartedEventData
-  extends ContainerServiceNodePoolRollingEventData {}
+export interface ContainerServiceNodePoolRollingStartedEventData extends ContainerServiceNodePoolRollingEventData {}
 
 export function containerServiceNodePoolRollingStartedEventDataDeserializer(
   item: any,
@@ -4028,8 +4019,7 @@ export function containerServiceNodePoolRollingStartedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.NodePoolRollingSucceeded event */
-export interface ContainerServiceNodePoolRollingSucceededEventData
-  extends ContainerServiceNodePoolRollingEventData {}
+export interface ContainerServiceNodePoolRollingSucceededEventData extends ContainerServiceNodePoolRollingEventData {}
 
 export function containerServiceNodePoolRollingSucceededEventDataDeserializer(
   item: any,
@@ -4040,8 +4030,7 @@ export function containerServiceNodePoolRollingSucceededEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.NodePoolRollingFailed event */
-export interface ContainerServiceNodePoolRollingFailedEventData
-  extends ContainerServiceNodePoolRollingEventData {}
+export interface ContainerServiceNodePoolRollingFailedEventData extends ContainerServiceNodePoolRollingEventData {}
 
 export function containerServiceNodePoolRollingFailedEventDataDeserializer(
   item: any,
@@ -7766,8 +7755,7 @@ export function eventGridMqttClientSessionConnectedEventDataDeserializer(
 }
 
 /** Event data for Microsoft.EventGrid.MQTTClientSessionDisconnected event. */
-export interface EventGridMqttClientSessionDisconnectedEventData
-  extends EventGridMqttClientEventData {
+export interface EventGridMqttClientSessionDisconnectedEventData extends EventGridMqttClientEventData {
   /**
    * Unique identifier for the MQTT client's session. This case-sensitive string can
    * be up to 128 characters long, and supports UTF-8 characters.
@@ -7917,8 +7905,7 @@ export function resourceNotificationsOperationalDetailsDeserializer(
  * Microsoft.ResourceNotifications.HealthResources.AvailabilityStatusChanged
  * event.
  */
-export interface ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData
-  extends ResourceNotificationsResourceUpdatedEventData {}
+export interface ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData extends ResourceNotificationsResourceUpdatedEventData {}
 
 export function resourceNotificationsHealthResourcesAvailabilityStatusChangedEventDataDeserializer(
   item: any,
@@ -7936,8 +7923,7 @@ export function resourceNotificationsHealthResourcesAvailabilityStatusChangedEve
  * Schema of the Data property of an EventGridEvent for a
  * Microsoft.ResourceNotifications.HealthResources.ResourceAnnotated event.
  */
-export interface ResourceNotificationsHealthResourcesAnnotatedEventData
-  extends ResourceNotificationsResourceUpdatedEventData {}
+export interface ResourceNotificationsHealthResourcesAnnotatedEventData extends ResourceNotificationsResourceUpdatedEventData {}
 
 export function resourceNotificationsHealthResourcesAnnotatedEventDataDeserializer(
   item: any,
@@ -8000,8 +7986,7 @@ export function resourceNotificationsResourceDeletedEventDataDeserializer(
  * Schema of the Data property of an EventGridEvent for a
  * Microsoft.ResourceNotifications.Resources.CreatedOrUpdated event.
  */
-export interface ResourceNotificationsResourceManagementCreatedOrUpdatedEventData
-  extends ResourceNotificationsResourceUpdatedEventData {}
+export interface ResourceNotificationsResourceManagementCreatedOrUpdatedEventData extends ResourceNotificationsResourceUpdatedEventData {}
 
 export function resourceNotificationsResourceManagementCreatedOrUpdatedEventDataDeserializer(
   item: any,
@@ -8019,8 +8004,7 @@ export function resourceNotificationsResourceManagementCreatedOrUpdatedEventData
  * Schema of the Data property of an EventGridEvent for a
  * Microsoft.ResourceNotifications.Resources.Deleted event.
  */
-export interface ResourceNotificationsResourceManagementDeletedEventData
-  extends ResourceNotificationsResourceDeletedEventData {}
+export interface ResourceNotificationsResourceManagementDeletedEventData extends ResourceNotificationsResourceDeletedEventData {}
 
 export function resourceNotificationsResourceManagementDeletedEventDataDeserializer(
   item: any,
@@ -8034,8 +8018,7 @@ export function resourceNotificationsResourceManagementDeletedEventDataDeseriali
 }
 
 /** Schema of the Data property of an event grid event for a Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted preview event.Schema of the Data property of an event grid event for a Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted preview event. */
-export interface ResourceNotificationsContainerServiceEventResourcesScheduledEventData
-  extends ResourceNotificationsResourceUpdatedEventData {}
+export interface ResourceNotificationsContainerServiceEventResourcesScheduledEventData extends ResourceNotificationsResourceUpdatedEventData {}
 
 export function resourceNotificationsContainerServiceEventResourcesScheduledEventDataDeserializer(
   item: any,
@@ -8050,8 +8033,7 @@ export function resourceNotificationsContainerServiceEventResourcesScheduledEven
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.AKSResources.FleetGateCreated event. */
-export interface ResourceNotificationsAksResourcesFleetGateCreatedEventData
-  extends ResourceNotificationsResourceUpdatedEventData {}
+export interface ResourceNotificationsAksResourcesFleetGateCreatedEventData extends ResourceNotificationsResourceUpdatedEventData {}
 
 export function resourceNotificationsAksResourcesFleetGateCreatedEventDataDeserializer(
   item: any,
@@ -8066,8 +8048,7 @@ export function resourceNotificationsAksResourcesFleetGateCreatedEventDataDeseri
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.AKSResources.FleetGateUpdated event. */
-export interface ResourceNotificationsAksResourcesFleetGateUpdatedEventData
-  extends ResourceNotificationsResourceUpdatedEventData {}
+export interface ResourceNotificationsAksResourcesFleetGateUpdatedEventData extends ResourceNotificationsResourceUpdatedEventData {}
 
 export function resourceNotificationsAksResourcesFleetGateUpdatedEventDataDeserializer(
   item: any,

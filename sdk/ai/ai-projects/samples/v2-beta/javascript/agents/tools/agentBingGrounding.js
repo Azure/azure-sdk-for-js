@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to create an AI agent with Bing grounding capabilities
- * using the `bing_grounding` tool type and synchronous Azure AI Projects client. The agent can search
+ * using the "bing_grounding" tool type and synchronous Azure AI Projects client. The agent can search
  * the web for current information and provide grounded responses with URL citations.
  *
  * @summary This sample demonstrates how to create an agent with Bing grounding tool capabilities,
@@ -15,7 +15,7 @@ const { AIProjectClient } = require("@azure/ai-projects");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["AZURE_AI_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 const bingProjectConnectionId =
   process.env["BING_PROJECT_CONNECTION_ID"] || "<bing project connection id>";
 

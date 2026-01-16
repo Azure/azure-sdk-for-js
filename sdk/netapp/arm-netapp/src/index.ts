@@ -199,6 +199,7 @@ export {
   BucketGenerateCredentials,
   Cache,
   CacheProperties,
+  CachePropertiesExportPolicy,
   KnownProtocolTypes,
   ProtocolTypes,
   KnownCacheProvisioningState,

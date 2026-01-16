@@ -2,7 +2,7 @@
   "name": "@azure/monitor-opentelemetry",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "1.14.2",
+  "version": "1.15.0",
   "description": "Azure Monitor OpenTelemetry (Node.js)",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -74,7 +74,7 @@
     "@azure/core-client": "^1.10.1",
     "@azure/core-rest-pipeline": "^1.22.2",
     "@azure/logger": "^1.3.0",
-    "@azure/monitor-opentelemetry-exporter": "^1.0.0-beta.36",
+    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.37",
     "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.9",
     "@microsoft/applicationinsights-web-snippet": "^1.2.3",
     "@opentelemetry/api": "^1.9.0",
@@ -114,7 +114,8 @@
     "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
-      ".": "./src/index.ts"
+      ".": "./src/index.ts",
+      "./loader": "./src/loader.ts"
     },
     "dialects": [
       "esm",
@@ -132,6 +133,16 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./loader": {
+      "import": {
+        "types": "./dist/esm/loader.d.ts",
+        "default": "./dist/esm/loader.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/loader.d.ts",
+        "default": "./dist/commonjs/loader.js"
       }
     }
   }
