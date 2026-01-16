@@ -1609,7 +1609,8 @@ describe("spanUtils.ts", () => {
       "Custom properties on span events should not be truncated at 13-bit limit",
     );
     assert.strictEqual(
-      (envelopes[0].data?.baseData as MessageData)?.properties?.["custom.longEventProperty"]?.length,
+      (envelopes[0].data?.baseData as MessageData)?.properties?.["custom.longEventProperty"]
+        ?.length,
       MaxPropertyLengths.THIRTEEN_BIT + 500,
       "Custom property length on span events should exceed the old 13-bit limit",
     );
