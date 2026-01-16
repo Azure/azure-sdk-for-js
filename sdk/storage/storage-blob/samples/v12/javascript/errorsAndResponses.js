@@ -7,10 +7,10 @@
 
 const { BlobServiceClient } = require("@azure/storage-blob");
 
-const { streamToBuffer } = require("./utils/stream");
+const { streamToBuffer } = require("./utils/stream.js");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // Create Blob Service Client from Account connection string or SAS connection string
@@ -28,7 +28,7 @@ async function main() {
   let createContainerResponse = await containerClient.create();
   console.log(`Created container ${containerName} successfully,`);
   console.log(
-    `requestId - ${createContainerResponse.requestId}, statusCode - ${createContainerResponse._response.status}\n`
+    `requestId - ${createContainerResponse.requestId}, statusCode - ${createContainerResponse._response.status}\n`,
   );
 
   try {
@@ -37,7 +37,7 @@ async function main() {
     createContainerResponse = await containerClient.create();
   } catch (err) {
     console.log(
-      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`,
     );
   }
 
@@ -53,7 +53,7 @@ async function main() {
   } catch (err) {
     console.log(`getProperties() failed as expected,`);
     console.log(
-      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`,
     );
 
     // Create a new block blob
@@ -61,7 +61,7 @@ async function main() {
     const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content));
     console.log(`Uploaded block blob ${blobName} successfully,`);
     console.log(
-      `requestId - ${uploadBlobResponse.requestId}, statusCode - ${uploadBlobResponse._response.status}\n`
+      `requestId - ${uploadBlobResponse.requestId}, statusCode - ${uploadBlobResponse._response.status}\n`,
     );
   }
 
@@ -70,10 +70,10 @@ async function main() {
   blockBlobClient = containerClient.getBlockBlobClient(blobName);
   const blobProperties = await blockBlobClient.getProperties();
   console.log(
-    `getProperties() on blob - ${blobName}, blobType = ${blobProperties.blobType}, accessTier = ${blobProperties.accessTier} `
+    `getProperties() on blob - ${blobName}, blobType = ${blobProperties.blobType}, accessTier = ${blobProperties.accessTier} `,
   );
   console.log(
-    `requestId - ${blobProperties.requestId}, statusCode - ${blobProperties._response.status}\n`
+    `requestId - ${blobProperties.requestId}, statusCode - ${blobProperties._response.status}\n`,
   );
 
   try {
@@ -84,7 +84,7 @@ async function main() {
   } catch (err) {
     console.log(`download() failed as expected,`);
     console.log(
-      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`,
     );
 
     // Download blob content
@@ -92,12 +92,10 @@ async function main() {
     blockBlobClient = containerClient.getBlockBlobClient(blobName);
     const downloadBlockBlobResponse = await blockBlobClient.download();
     console.log(
-      `Downloaded blob content - ${(
-        await streamToBuffer(downloadBlockBlobResponse.readableStreamBody)
-      ).toString()},`
+      `Downloaded blob content - ${(await streamToBuffer(downloadBlockBlobResponse.readableStreamBody)).toString()},`,
     );
     console.log(
-      `requestId - ${downloadBlockBlobResponse.requestId}, statusCode - ${downloadBlockBlobResponse._response.status}\n`
+      `requestId - ${downloadBlockBlobResponse.requestId}, statusCode - ${downloadBlockBlobResponse._response.status}\n`,
     );
   }
 
@@ -111,7 +109,7 @@ async function main() {
   } catch (err) {
     // BlobArchived	Conflict (409)	This operation is not permitted on an archived blob.
     console.log(
-      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`,
     );
     console.log(`error message - ${err.details.message}\n`);
   }
@@ -125,7 +123,7 @@ async function main() {
   } catch (err) {
     console.log(`Deleting a non-existing container fails as expected`);
     console.log(
-      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`,
     );
     console.log(`error message - \n${err.details.message}\n`);
 
@@ -134,7 +132,7 @@ async function main() {
     const deleteContainerResponse = await containerClient.delete();
     console.log("Deleted container successfully -");
     console.log(
-      `requestId - ${deleteContainerResponse.requestId}, statusCode - ${deleteContainerResponse._response.status}\n`
+      `requestId - ${deleteContainerResponse.requestId}, statusCode - ${deleteContainerResponse._response.status}\n`,
     );
   }
 }
