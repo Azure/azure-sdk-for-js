@@ -5,6 +5,7 @@ import { QueueClient, QueueServiceClient } from "../../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { getStorageConnectionString } from "../../utils/injectables.js";
 import { getUniqueName } from "../utils/utils.js";
+import { createServer } from "node:net";
 
 function getConnectionString(mode?: "local"): string {
   const connStr = getStorageConnectionString();
@@ -14,7 +15,34 @@ function getConnectionString(mode?: "local"): string {
   return connStr;
 }
 
-describe.skip("Emulator Tests", () => {
+/**
+ * Check if the Azurite Queue emulator is running by attempting to connect to its port.
+ * Azurite Queue service runs on port 10001 by default.
+ */
+async function isEmulatorRunning(): Promise<boolean> {
+  const AZURITE_QUEUE_PORT = 10001;
+  return new Promise((resolve) => {
+    const server = createServer();
+    server.once("error", (err: NodeJS.ErrnoException) => {
+      if (err.code === "EADDRINUSE") {
+        // Port is in use, meaning the emulator is likely running
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+    server.once("listening", () => {
+      // Port is free, meaning the emulator is not running
+      server.close();
+      resolve(false);
+    });
+    server.listen(AZURITE_QUEUE_PORT, "127.0.0.1");
+  });
+}
+
+const emulatorRunning = await isEmulatorRunning();
+
+describe.runIf(emulatorRunning)("Emulator Tests", () => {
   let queueServiceClient: QueueServiceClient;
   let queueName: string;
   let queueClient: QueueClient;

@@ -98,7 +98,7 @@
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
-    "@azure/arm-storage": "workspace:^",
+    "@azure/arm-storage": "catalog:arm",
     "@azure-tools/test-perf": "^1.0.0",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",

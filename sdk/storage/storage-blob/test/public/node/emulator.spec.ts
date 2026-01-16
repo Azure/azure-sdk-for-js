@@ -12,6 +12,7 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { getStorageConnectionString } from "../../utils/injectables.js";
 import { getUniqueName } from "../utils/utils.js";
 import { bodyToString } from "./utils/utils.js";
+import { createServer } from "node:net";
 
 function getConnectionString(mode?: "local"): string {
   const connStr = getStorageConnectionString();
@@ -21,9 +22,34 @@ function getConnectionString(mode?: "local"): string {
   return connStr;
 }
 
-// Expected environment variable to run this test-suite
-// STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true
-describe.skip("Emulator Tests", () => {
+/**
+ * Check if the Azurite Blob emulator is running by attempting to connect to its port.
+ * Azurite Blob service runs on port 10000 by default.
+ */
+async function isEmulatorRunning(): Promise<boolean> {
+  const AZURITE_BLOB_PORT = 10000;
+  return new Promise((resolve) => {
+    const server = createServer();
+    server.once("error", (err: NodeJS.ErrnoException) => {
+      if (err.code === "EADDRINUSE") {
+        // Port is in use, meaning the emulator is likely running
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+    server.once("listening", () => {
+      // Port is free, meaning the emulator is not running
+      server.close();
+      resolve(false);
+    });
+    server.listen(AZURITE_BLOB_PORT, "127.0.0.1");
+  });
+}
+
+const emulatorRunning = await isEmulatorRunning();
+
+describe.runIf(emulatorRunning)("Emulator Tests", () => {
   let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let blobName: string;

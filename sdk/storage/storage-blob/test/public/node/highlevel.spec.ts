@@ -24,7 +24,7 @@ import {
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../utils/constants.js";
 import { getCustomerProvidedKey } from "../../utils/injectables.js";
 import { isRestError, type TransferProgressEvent } from "@azure/core-rest-pipeline";
-import { buffer as bufferUtil } from "node:stream/consumers";
+import { buffer as toBuffer } from "node:stream/consumers";
 import { readFile, mkdir, unlink } from "node:fs/promises";
 
 interface RetriableReadableStreamOptions {
@@ -389,12 +389,12 @@ describe("Highlevel", () => {
     await blockBlobClient.uploadStream(bufferStream, 4 * 1024 * 1024, 20);
     const { readableStreamBody } = await blockBlobClient.download(0);
     assert.isDefined(readableStreamBody);
-    const downloadedBuffer = await bufferUtil(readableStreamBody);
+    const downloadedBuffer = await toBuffer(readableStreamBody);
     assert.isTrue(buf.equals(downloadedBuffer));
     const { readableStreamBody: responseStream } = await blockBlobClient.download(0);
     assert.isDefined(responseStream);
 
-    const downloadBuffer = await bufferUtil(responseStream);
+    const downloadBuffer = await toBuffer(responseStream);
     assert.isTrue(buf.equals(downloadBuffer));
   });
 

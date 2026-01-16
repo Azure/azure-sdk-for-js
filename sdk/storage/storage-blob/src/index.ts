@@ -77,7 +77,7 @@ export {
   UserDelegationKey,
 } from "@azure/storage-common";
 export * from "./sas/SASQueryParameters.js";
-export * from "./StorageClient.js";
+export { CommonOptions } from "./StorageClient.js";
 export * from "./generatedModels.js";
 export {
   AppendBlobRequestConditions,

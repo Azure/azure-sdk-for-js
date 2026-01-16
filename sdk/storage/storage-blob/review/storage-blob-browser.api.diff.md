@@ -77,7 +77,18 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { AnonymousCredentialPolicy }
  
-@@ -1093,32 +1062,8 @@
+@@ -384,10 +353,8 @@
+     abortSignal?: AbortSignalLike;
+     conditions?: ModifiedAccessConditions;
+ }
+ 
+-// Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
+-//
+ // @public
+ export class BlobClient extends StorageClient {
+     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
+     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+@@ -1095,32 +1062,8 @@
      write?: boolean;
  }
  
@@ -110,7 +121,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
      constructor(url: string, pipeline: PipelineLike);
      createContainer(containerName: string, options?: ContainerCreateOptions): Promise<{
-@@ -2190,17 +2135,8 @@
+@@ -2192,17 +2135,8 @@
      where: string;
  }
  
@@ -128,7 +139,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      lastSyncOn: Date;
      status: GeoReplicationStatusType;
  }
-@@ -2793,10 +2729,8 @@
+@@ -2795,10 +2729,8 @@
  export interface PipelineOptions {
      httpClient?: RequestPolicy;
  }
@@ -139,7 +150,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface PollerLikeWithCancellation<TState extends PollOperationState<TResult>, TResult> {
      cancelOperation(options?: {
          abortSignal?: AbortSignalLike;
-@@ -2813,10 +2747,8 @@
+@@ -2815,10 +2747,8 @@
      stopPolling(): void;
      toString(): string;
  }
@@ -150,7 +161,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export enum PremiumPageBlobTier {
      P10 = "P10",
      P15 = "P15",
-@@ -3162,16 +3094,12 @@
+@@ -3164,19 +3094,32 @@
      errorDocument404Path?: string;
      indexDocument?: string;
  }
@@ -168,19 +179,28 @@ For the complete API surface, see the corresponding -node.api.md file.
  export { StorageBrowserPolicyFactory }
  
  // @public
- export abstract class StorageClient {
-@@ -3187,8 +3115,10 @@
-     protected readonly storageClientContext: StorageClient_2;
-     readonly url: string;
- }
- 
++export abstract class StorageClient {
++    protected constructor(url: string, pipeline: PipelineLike);
++    // (undocumented)
++    readonly accountName: string;
++    readonly credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
++    // (undocumented)
++    protected readonly isHttps: boolean;
++    // @internal
++    protected readonly pipeline: PipelineLike;
++    // Warning: (ae-forgotten-export) The symbol "StorageClient_2" needs to be exported by the entry point index.d.ts
++    protected readonly storageClientContext: StorageClient_2;
++    readonly url: string;
++}
++
 +export { storageCorrectContentLengthPolicy }
 +
- // @public
++// @public
  export const StorageOAuthScopes: string | string[];
  
  // @public
-@@ -3204,16 +3134,14 @@
+ export interface StoragePipelineOptions {
+@@ -3191,16 +3134,14 @@
  export { StorageRetryOptions }
  
  export { StorageRetryPolicy }

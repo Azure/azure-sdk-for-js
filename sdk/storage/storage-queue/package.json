@@ -102,7 +102,7 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@azure/arm-storage": "workspace:^",
+    "@azure/arm-storage": "catalog:arm",
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",

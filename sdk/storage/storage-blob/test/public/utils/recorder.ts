@@ -8,7 +8,6 @@ import type {
   HeaderSanitizer,
 } from "@azure-tools/test-recorder";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import type { StorageClient } from "../../../src/index.js";
 import {
   getStorageConnectionString,
   getDfsStorageConnectionString,
@@ -44,6 +43,24 @@ import {
 } from "../../utils/injectables.js";
 import * as MOCKS from "../../utils/constants.js";
 
+// Block ID sanitizer: the blockid is base64(UUID+paddedIndex)
+// UUID = 36 chars, index = 12 chars, total = 48 chars → 64 base64 chars
+// Replace first 48 base64 chars (UUID part), keep last 16 chars (index part)
+const BLOCK_ID_SANITIZER: FindReplaceSanitizer = {
+  regex: true,
+  target: "blockid=(?<uuid>[A-Za-z0-9+/=]{48})(?<index>[A-Za-z0-9+/=]{16})",
+  groupForReplace: "uuid",
+  value: "c2FuaXRpemVkLWJsb2NrLWlkLXByZWZpeC1zYW5pdGl6ZWQ=",
+};
+
+// Block ID sanitizer for XML body in commitBlockList requests
+const BLOCK_ID_BODY_SANITIZER: FindReplaceSanitizer = {
+  regex: true,
+  target: "<Latest>(?<uuid>[A-Za-z0-9+/=]{48})(?<index>[A-Za-z0-9+/=]{16})</Latest>",
+  groupForReplace: "uuid",
+  value: "c2FuaXRpemVkLWJsb2NrLWlkLXByZWZpeC1zYW5pdGl6ZWQ=",
+};
+
 const dynamicConnectionStringSanitizers = (
   [
     [getStorageConnectionString(), MOCKS.STORAGE_CONNECTION_STRING],
@@ -72,6 +89,7 @@ const dynamicConnectionStringSanitizers = (
   .filter(([target]) => Boolean(target))
   .map(([actualConnString, fakeConnString]) => ({ actualConnString, fakeConnString }));
 
+// Sanitizers for SAS parameters and block IDs in URIs - applied in both record and playback
 export const sasUriSanitizers: FindReplaceSanitizer[] = [
   {
     regex: true,
@@ -85,6 +103,7 @@ export const sasUriSanitizers: FindReplaceSanitizer[] = [
   { regex: true, target: "skoid=[^&#]+", value: "skoid=sanitizedskoid" },
   { regex: true, target: "ses=[^&#]+", value: "ses=sanitizedses" },
   { regex: true, target: "st=[^&#]+", value: "st=sanitizedspr" },
+  BLOCK_ID_SANITIZER,
 ];
 
 const headerSanitizers: HeaderSanitizer[] = [
@@ -101,6 +120,13 @@ const headerSanitizers: HeaderSanitizer[] = [
     key: "x-ms-copy-source",
   })),
 ];
+
+// Sanitizers that must be applied in both record and playback modes for request matching
+const matchingSanitizers = {
+  uriSanitizers: sasUriSanitizers,
+  headerSanitizers,
+  bodySanitizers: [BLOCK_ID_BODY_SANITIZER],
+};
 
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: {},
@@ -136,34 +162,25 @@ export const recorderOptions: RecorderStartOptions = {
     connectionStringSanitizers: dynamicConnectionStringSanitizers,
     headerSanitizers,
     bodySanitizers: [
-      {
-        target: getEncryptionScope1(),
-        value: MOCKS.ENCRYPTION_SCOPE_1,
-      },
-      {
-        target: getEncryptionScope2(),
-        value: MOCKS.ENCRYPTION_SCOPE_2,
-      },
+      { target: getEncryptionScope1(), value: MOCKS.ENCRYPTION_SCOPE_1 },
+      { target: getEncryptionScope2(), value: MOCKS.ENCRYPTION_SCOPE_2 },
     ],
   },
   removeCentralSanitizers: ["AZSDK2008", "AZSDK4001", "AZSDK2011"],
 };
 
-export async function ensureClientRecording<
-  ClientT extends Omit<StorageClient, "isHttps" | "credential">,
->(recorder: Recorder | undefined, client: ClientT): Promise<void> {
+export async function ensureClientRecording(
+  recorder: Recorder | undefined,
+  client: { url: string; accountName: string },
+): Promise<void> {
   if (!recorder) return;
   // Only call start/addSanitizers once per recording session
   if (!recorder.recordingId) {
     await recorder.start(recorderOptions);
-    // Ensure both URI and header sanitizers that are required for matching (not just redaction)
-    // are applied in BOTH record & playback phases. Otherwise, during playback the request
-    // will contain raw values (e.g. real SAS expiry) while the recording has sanitized
-    // placeholders (e.g. se=SanitizedExpiry) causing match failures.
-    await recorder.addSanitizers(
-      { uriSanitizers: sasUriSanitizers, headerSanitizers: headerSanitizers },
-      ["record", "playback"],
-    );
+    // Ensure sanitizers required for request matching are applied in BOTH record & playback.
+    // Otherwise, during playback the request will contain raw values while the recording
+    // has sanitized placeholders, causing match failures.
+    await recorder.addSanitizers(matchingSanitizers, ["record", "playback"]);
   }
   const options = recorder.configureClientOptions({});
 
