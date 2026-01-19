@@ -1674,7 +1674,7 @@ sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 /sdk/*/arm-*/tsconfig*.json @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-for-js-core
 
 /.scripts/ @mikeharder
-/.scripts/automation_generate.sh @MaryGao @lirenhe
+/.scripts/automation_generate.sh @MaryGao @lirenhe @qiaozha @JialinHuang803
 /.scripts/automation_init.sh @MaryGao @lirenhe
 /vitest.*.config.ts @jeremymeng @deyaaeldeen
 /vitest.workspace.ts @jeremymeng @deyaaeldeen
