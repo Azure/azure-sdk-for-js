@@ -5,6 +5,7 @@
 import OpenAI from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
 import { createAIProject, AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
+import { SDK_VERSION } from "./constants.js";
 import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
 import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
 import { DatasetsOperations, _getDatasetsOperations } from "./classic/datasets/index.js";
@@ -32,6 +33,15 @@ import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
 import { getCustomFetch } from "./getCustomFetch.js";
 
 export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
+
+/**
+ * Patches the user agent string to include the SDK identifier.
+ * @returns The patched user agent string in the format "AIProjectClient/JS-{VERSION}"
+ * @internal
+ */
+function _patchUserAgent(): string {
+  return `AIProjectClient/JS-${SDK_VERSION}`;
+}
 
 /**
  * The main client for the AIProjectClient service. It provides access to the various operations available in the service.
@@ -141,10 +151,13 @@ export class AIProjectClient {
       customFetch = getCustomFetch(this._azureScopeClient.pipeline, this._options.httpClient);
     }
 
+    const userAgent = _patchUserAgent();
+
     const openAIOptions: ConstructorParameters<typeof OpenAI>[0] = {
       apiKey: azureADTokenProvider,
       baseURL: `${this._endpoint}/openai`,
       defaultQuery: { "api-version": this._options?.apiVersion || "2025-11-15-preview" },
+      defaultHeaders: { "User-Agent": userAgent },
       dangerouslyAllowBrowser: true,
       fetch: customFetch,
     };
