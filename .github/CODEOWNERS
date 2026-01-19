@@ -1675,7 +1675,7 @@ sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 
 /.scripts/ @mikeharder
 /.scripts/automation_generate.sh @MaryGao @lirenhe @qiaozha @JialinHuang803
-/.scripts/automation_init.sh @MaryGao @lirenhe
+/.scripts/automation_init.sh @MaryGao @lirenhe @qiaozha @JialinHuang803
 /vitest.*.config.ts @jeremymeng @deyaaeldeen
 /vitest.workspace.ts @jeremymeng @deyaaeldeen
 
