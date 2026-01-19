@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a FileSystemResource
  *
  * @summary create a FileSystemResource
- * x-ms-original-file: 2025-03-21-preview/FileSystems_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-21/FileSystems_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function fileSystemsCreateOrUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -52,7 +52,7 @@ async function fileSystemsCreateOrUpdateMaximumSetGen() {
  * This sample demonstrates how to create a FileSystemResource
  *
  * @summary create a FileSystemResource
- * x-ms-original-file: 2025-03-21-preview/FileSystems_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-03-21/FileSystems_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function fileSystemsCreateOrUpdateMinimumSetGen() {
   const credential = new DefaultAzureCredential();
