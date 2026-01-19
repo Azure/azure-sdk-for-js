@@ -4,4 +4,4 @@
 
 ### Features Added
 
-This is the first stable version with the package of @azure/arm-dell-storage
+This is the first stable version of the @azure/arm-dell-storage package
