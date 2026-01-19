@@ -13,7 +13,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
-const fs = require("fs");
+const fs = require("node:fs/promises");
 const path = require("path");
 require("dotenv/config");
 
@@ -21,13 +21,9 @@ const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project en
 const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 const weatherSpecPath = path.resolve(__dirname, "../assets", "weather_openapi.json");
 
-function loadOpenApiSpec(specPath) {
-  if (!fs.existsSync(specPath)) {
-    throw new Error(`OpenAPI specification not found at: ${specPath}`);
-  }
-
+async function loadOpenApiSpec(specPath) {
   try {
-    const data = fs.readFileSync(specPath, "utf-8");
+    const data = await fs.readFile(specPath, "utf-8");
     return JSON.parse(data);
   } catch (error) {
     throw new Error(`Failed to read or parse OpenAPI specification at ${specPath}: ${error}`);
@@ -51,7 +47,7 @@ function createWeatherTool(spec) {
 
 async function main() {
   console.log("Loading OpenAPI specifications from assets directory...");
-  const weatherSpec = loadOpenApiSpec(weatherSpecPath);
+  const weatherSpec = await loadOpenApiSpec(weatherSpecPath);
 
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = await project.getOpenAIClient();

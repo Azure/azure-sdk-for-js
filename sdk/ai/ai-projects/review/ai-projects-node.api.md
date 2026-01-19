@@ -2181,7 +2181,7 @@ export interface RedTeamsOperations {
 
 // @public
 export interface ResponseFormatJsonSchemaSchema {
-    additionalProperties?: Record<string, any>;
+    additionalProperties?: boolean;
 }
 
 // @public

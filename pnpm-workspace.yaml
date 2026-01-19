@@ -20,7 +20,7 @@ packages:
 catalog:
   '@types/node': ^20.19.25
   autorest: latest
-  cross-env: ^7.0.3
+  cross-env: ^10.1.0
   eslint: ^9.39.1
   prettier: ^3.6.2
   rimraf: ^6.1.0

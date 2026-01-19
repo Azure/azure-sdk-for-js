@@ -2753,7 +2753,7 @@ export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextF
  */
 export interface ResponseFormatJsonSchemaSchema {
   /** Additional properties */
-  additionalProperties?: Record<string, any>;
+  additionalProperties?: boolean;
 }
 
 export function responseFormatJsonSchemaSchemaSerializer(
@@ -2766,7 +2766,7 @@ export function responseFormatJsonSchemaSchemaDeserializer(
   item: any,
 ): ResponseFormatJsonSchemaSchema {
   return {
-    additionalProperties: serializeRecord(item, []),
+    ...serializeRecord(item, []),
   };
 }
 

@@ -149,10 +149,10 @@
 # ServiceOwners: @shankarsama @rajeshka
 
 # PRLabel: %Event Hubs
-/sdk/eventhub/ @axisc @sjkwak @hmlam
+/sdk/eventhub/ @j7nw4r @axisc @sjkwak @hmlam
 
 # ServiceLabel: %Event Hubs
-# ServiceOwners: @axisc @sjkwak @hmlam
+# ServiceOwners: @j7nw4r @axisc @sjkwak @hmlam
 
 # ServiceLabel: %Cognitive - Health Insights
 # PRLabel: %Cognitive - Health Insights
@@ -181,10 +181,10 @@
 # AzureSdkOwners: @maorleger
 
 # PRLabel: %Service Bus
-/sdk/servicebus/ @skarri-microsoft @EldertGrootenboer
+/sdk/servicebus/ @j7nw4r @skarri-microsoft @EldertGrootenboer
 
 # ServiceLabel: %Service Bus
-# ServiceOwners: @skarri-microsoft @EldertGrootenboer
+# ServiceOwners: @j7nw4r @skarri-microsoft @EldertGrootenboer
 
 # PRLabel: %Storage
 # ServiceLabel: %Storage

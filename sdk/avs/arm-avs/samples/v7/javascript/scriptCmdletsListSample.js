@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list ScriptCmdlet resources by ScriptPackage
  *
  * @summary list ScriptCmdlet resources by ScriptPackage
- * x-ms-original-file: 2024-09-01/ScriptCmdlets_List.json
+ * x-ms-original-file: 2025-09-01/ScriptCmdlets_List.json
  */
 async function scriptCmdletsList() {
   const credential = new DefaultAzureCredential();
