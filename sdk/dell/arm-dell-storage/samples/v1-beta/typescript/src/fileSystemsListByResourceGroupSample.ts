@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list FileSystemResource resources by resource group
  *
  * @summary list FileSystemResource resources by resource group
- * x-ms-original-file: 2025-03-21-preview/FileSystems_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-21/FileSystems_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function fileSystemsListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function fileSystemsListByResourceGroupMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to list FileSystemResource resources by resource group
  *
  * @summary list FileSystemResource resources by resource group
- * x-ms-original-file: 2025-03-21-preview/FileSystems_ListByResourceGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-03-21/FileSystems_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function fileSystemsListByResourceGroupMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
