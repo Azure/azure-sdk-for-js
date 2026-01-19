@@ -1,5 +1,11 @@
 # Release History
 
+### 1.15.1 (2026-01-16)
+
+### Other Changes
+
+- Updated to using exporter version 1.0.0-beta.38.
+
 ### 1.15.0 (2026-01-15)
 
 ### Features Added
