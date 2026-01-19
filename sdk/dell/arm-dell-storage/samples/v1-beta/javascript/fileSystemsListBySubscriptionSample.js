@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list FileSystemResource resources by subscription ID
  *
  * @summary list FileSystemResource resources by subscription ID
- * x-ms-original-file: 2025-03-21-preview/FileSystems_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-21/FileSystems_ListBySubscription_MaximumSet_Gen.json
  */
 async function fileSystemsListBySubscriptionMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function fileSystemsListBySubscriptionMaximumSetGen() {
  * This sample demonstrates how to list FileSystemResource resources by subscription ID
  *
  * @summary list FileSystemResource resources by subscription ID
- * x-ms-original-file: 2025-03-21-preview/FileSystems_ListBySubscription_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-03-21/FileSystems_ListBySubscription_MinimumSet_Gen.json
  */
 async function fileSystemsListBySubscriptionMinimumSetGen() {
   const credential = new DefaultAzureCredential();
