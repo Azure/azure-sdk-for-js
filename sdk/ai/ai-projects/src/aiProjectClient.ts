@@ -35,12 +35,12 @@ import { getCustomFetch } from "./getCustomFetch.js";
 export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
 /**
- * Patches the user agent string to include the SDK identifier.
- * @returns The patched user agent string in the format "AIProjectClient/JS-{VERSION}"
+ * Generates the user agent string for the OpenAI client.
+ * @returns The user agent string in the format "azsdk-js-{package-name}/{version}"
  * @internal
  */
-function _patchUserAgent(): string {
-  return `AIProjectClient/JS-${SDK_VERSION}`;
+function _getUserAgentString(): string {
+  return `azsdk-js-ai-projects/${SDK_VERSION}`;
 }
 
 /**
@@ -151,7 +151,7 @@ export class AIProjectClient {
       customFetch = getCustomFetch(this._azureScopeClient.pipeline, this._options.httpClient);
     }
 
-    const userAgent = _patchUserAgent();
+    const userAgent = _getUserAgentString();
 
     const openAIOptions: ConstructorParameters<typeof OpenAI>[0] = {
       apiKey: azureADTokenProvider,
