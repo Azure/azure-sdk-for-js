@@ -106,7 +106,7 @@ export function parseMultipartResponse(
     // Split headers and body
     // According to MIME spec, headers are separated from body by a blank line (CRLF CRLF)
     // If the part starts with CRLF, there are no headers
-    let headers: RawHttpHeaders = {};
+    const headers: RawHttpHeaders = {};
     let bodyContent: string;
 
     if (partContent.startsWith("\r\n")) {
