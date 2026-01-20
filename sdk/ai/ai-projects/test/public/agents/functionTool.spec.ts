@@ -165,82 +165,85 @@ describe("agents - function tool - execution flow", () => {
     console.log("Agent deleted");
   });
 
-  it.skipIf(!isLiveMode())("should handle function call in conversation context", async function () {
-    // Create agent with function tools
-    const agent = await agents.createVersion(agentName, {
-      kind: "prompt",
-      model: "gpt-5-mini",
-      instructions: agentInstructions,
-      tools: [funcTool],
-    });
-    assert.isNotNull(agent);
-    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+  it.skipIf(!isLiveMode())(
+    "should handle function call in conversation context",
+    async function () {
+      // Create agent with function tools
+      const agent = await agents.createVersion(agentName, {
+        kind: "prompt",
+        model: "gpt-5-mini",
+        instructions: agentInstructions,
+        tools: [funcTool],
+      });
+      assert.isNotNull(agent);
+      console.log(
+        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
+      );
 
-    // Create conversation with initial user message
-    const conversation = await openAIClient.conversations.create({
-      items: [
-        { type: "message", role: "user", content: "What is my horoscope? I am a Taurus." },
-      ],
-    });
-    assert.isNotNull(conversation);
-    assert.isNotNull(conversation.id);
-    console.log(`Created conversation (id: ${conversation.id})`);
+      // Create conversation with initial user message
+      const conversation = await openAIClient.conversations.create({
+        items: [{ type: "message", role: "user", content: "What is my horoscope? I am a Taurus." }],
+      });
+      assert.isNotNull(conversation);
+      assert.isNotNull(conversation.id);
+      console.log(`Created conversation (id: ${conversation.id})`);
 
-    // Generate response using the agent
-    const response = await openAIClient.responses.create(
-      {
-        conversation: conversation.id,
-      },
-      {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
-      },
-    );
-    assert.isNotNull(response);
-    console.log(`Response output: ${response.output_text}`);
+      // Generate response using the agent
+      const response = await openAIClient.responses.create(
+        {
+          conversation: conversation.id,
+        },
+        {
+          body: { agent: { name: agent.name, type: "agent_reference" } },
+        },
+      );
+      assert.isNotNull(response);
+      console.log(`Response output: ${response.output_text}`);
 
-    // Process function calls
-    const inputList: Array<{
-      type: "function_call_output";
-      call_id: string;
-      output: string;
-    }> = [];
+      // Process function calls
+      const inputList: Array<{
+        type: "function_call_output";
+        call_id: string;
+        output: string;
+      }> = [];
 
-    for (const item of response.output) {
-      if (item.type === "function_call") {
-        assert.equal(item.name, "get_horoscope");
-        const args = JSON.parse(item.arguments);
-        const horoscope = getHoroscope(args.sign);
-        inputList.push({
-          type: "function_call_output",
-          call_id: item.call_id,
-          output: JSON.stringify({ horoscope }),
-        });
+      for (const item of response.output) {
+        if (item.type === "function_call") {
+          assert.equal(item.name, "get_horoscope");
+          const args = JSON.parse(item.arguments);
+          const horoscope = getHoroscope(args.sign);
+          inputList.push({
+            type: "function_call_output",
+            call_id: item.call_id,
+            output: JSON.stringify({ horoscope }),
+          });
+        }
       }
-    }
 
-    assert.isNotEmpty(inputList, "Expected at least one function call");
-    console.log(`Processed ${inputList.length} function call(s)`);
+      assert.isNotEmpty(inputList, "Expected at least one function call");
+      console.log(`Processed ${inputList.length} function call(s)`);
 
-    // Submit function results if there were function calls
-    const finalResponse = await openAIClient.responses.create(
-      {
-        conversation: conversation.id,
-        input: inputList,
-      },
-      {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
-      },
-    );
+      // Submit function results if there were function calls
+      const finalResponse = await openAIClient.responses.create(
+        {
+          conversation: conversation.id,
+          input: inputList,
+        },
+        {
+          body: { agent: { name: agent.name, type: "agent_reference" } },
+        },
+      );
 
-    assert.isNotNull(finalResponse);
-    assert.isNotNull(finalResponse.output_text);
-    console.log(`Final output: ${finalResponse.output_text}`);
+      assert.isNotNull(finalResponse);
+      assert.isNotNull(finalResponse.output_text);
+      console.log(`Final output: ${finalResponse.output_text}`);
 
-    // Clean up
-    await openAIClient.conversations.delete(conversation.id);
-    console.log("Conversation deleted");
+      // Clean up
+      await openAIClient.conversations.delete(conversation.id);
+      console.log("Conversation deleted");
 
-    await agents.deleteVersion(agent.name, agent.version);
-    console.log("Agent deleted");
-  });
+      await agents.deleteVersion(agent.name, agent.version);
+      console.log("Agent deleted");
+    },
+  );
 });

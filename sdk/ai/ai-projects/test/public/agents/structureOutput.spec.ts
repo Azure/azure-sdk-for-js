@@ -85,59 +85,56 @@ describe("agents - structured output - execution flow", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())(
-    "should return structured output with direct input",
-    async function () {
-      // Create agent with structured output configuration
-      const agent = await agents.createVersion(agentName, {
-        kind: "prompt",
-        model: "gpt-5-mini",
-        instructions: agentInstructions,
-        text: {
-          format: {
-            type: "json_schema",
-            name: "CalendarEvent",
-            schema: calendarEventSchema,
+  it.skipIf(!isLiveMode())("should return structured output with direct input", async function () {
+    // Create agent with structured output configuration
+    const agent = await agents.createVersion(agentName, {
+      kind: "prompt",
+      model: "gpt-5-mini",
+      instructions: agentInstructions,
+      text: {
+        format: {
+          type: "json_schema",
+          name: "CalendarEvent",
+          schema: calendarEventSchema,
+        },
+      },
+    });
+    assert.isNotNull(agent);
+    assert.isNotNull(agent.id);
+    assert.isNotNull(agent.name);
+    assert.isNotNull(agent.version);
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+
+    // Generate response with direct input
+    const response = await openAIClient.responses.create(
+      {
+        input: [
+          {
+            type: "message",
+            role: "user",
+            content: "Alice and Bob are going to a science fair this Friday, November 7, 2025.",
           },
-        },
-      });
-      assert.isNotNull(agent);
-      assert.isNotNull(agent.id);
-      assert.isNotNull(agent.name);
-      assert.isNotNull(agent.version);
-      console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+        ],
+      },
+      {
+        body: { agent: { name: agent.name, type: "agent_reference" } },
+      },
+    );
+    assert.isNotNull(response);
+    assert.isNotNull(response.output_text);
+    console.log(`Response output: ${response.output_text}`);
 
-      // Generate response with direct input
-      const response = await openAIClient.responses.create(
-        {
-          input: [
-            {
-              type: "message",
-              role: "user",
-              content: "Alice and Bob are going to a science fair this Friday, November 7, 2025.",
-            },
-          ],
-        },
-        {
-          body: { agent: { name: agent.name, type: "agent_reference" } },
-        },
-      );
-      assert.isNotNull(response);
-      assert.isNotNull(response.output_text);
-      console.log(`Response output: ${response.output_text}`);
+    // Validate structured output
+    const parsedOutput = JSON.parse(response.output_text);
+    assert.isNotNull(parsedOutput.name);
+    assert.isNotNull(parsedOutput.date);
+    assert.isArray(parsedOutput.participants);
+    console.log(`Parsed event: ${parsedOutput.name} on ${parsedOutput.date}`);
 
-      // Validate structured output
-      const parsedOutput = JSON.parse(response.output_text);
-      assert.isNotNull(parsedOutput.name);
-      assert.isNotNull(parsedOutput.date);
-      assert.isArray(parsedOutput.participants);
-      console.log(`Parsed event: ${parsedOutput.name} on ${parsedOutput.date}`);
-
-      // Clean up
-      await agents.deleteVersion(agent.name, agent.version);
-      console.log("Agent deleted");
-    },
-  );
+    // Clean up
+    await agents.deleteVersion(agent.name, agent.version);
+    console.log("Agent deleted");
+  });
 
   it.skipIf(!isLiveMode())(
     "should return structured output in conversation context",
@@ -156,7 +153,9 @@ describe("agents - structured output - execution flow", () => {
         },
       });
       assert.isNotNull(agent);
-      console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+      console.log(
+        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
+      );
 
       // Create conversation with initial user message
       const conversation = await openAIClient.conversations.create({
