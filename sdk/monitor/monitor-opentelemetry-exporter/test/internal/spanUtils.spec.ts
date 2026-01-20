@@ -1560,6 +1560,61 @@ describe("spanUtils.ts", () => {
       expectedBaseData,
     );
   });
+  it("should not truncate custom properties at 13-bit limit for spans", () => {
+    // Create a property value that exceeds the old 13-bit (8192 character) limit
+    const longPropertyValue = "a".repeat(MaxPropertyLengths.THIRTEEN_BIT + 1000);
+    const spanOptions: SpanOptions = {
+      kind: SpanKind.SERVER,
+    };
+    const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
+    span.setAttributes({
+      "custom.longProperty": longPropertyValue,
+    });
+    span.setStatus({
+      code: SpanStatusCode.OK,
+    });
+    span.end();
+    const readableSpan = spanToReadableSpan(span);
+    const envelope = readableSpanToEnvelope(readableSpan, "ikey");
+
+    // Verify the property value is NOT truncated
+    assert.strictEqual(
+      envelope.data?.baseData?.properties?.["custom.longProperty"],
+      longPropertyValue,
+      "Custom properties should not be truncated at 13-bit limit",
+    );
+    assert.strictEqual(
+      envelope.data?.baseData?.properties?.["custom.longProperty"]?.length,
+      MaxPropertyLengths.THIRTEEN_BIT + 1000,
+      "Custom property length should exceed the old 13-bit limit",
+    );
+  });
+  it("should not truncate custom properties at 13-bit limit for span events", () => {
+    // Create a property value that exceeds the old 13-bit (8192 character) limit
+    const longPropertyValue = "b".repeat(MaxPropertyLengths.THIRTEEN_BIT + 500);
+    const spanOptions: SpanOptions = {
+      kind: SpanKind.SERVER,
+    };
+    const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
+    span.addEvent("test-event", {
+      "custom.longEventProperty": longPropertyValue,
+    });
+    span.end();
+    const envelopes = spanEventsToEnvelopes(spanToReadableSpan(span), "ikey");
+
+    // Verify the property value is NOT truncated
+    assert.strictEqual(
+      (envelopes[0].data?.baseData as MessageData)?.properties?.["custom.longEventProperty"],
+      longPropertyValue,
+      "Custom properties on span events should not be truncated at 13-bit limit",
+    );
+    assert.strictEqual(
+      (envelopes[0].data?.baseData as MessageData)?.properties?.["custom.longEventProperty"]
+        ?.length,
+      MaxPropertyLengths.THIRTEEN_BIT + 500,
+      "Custom property length on span events should exceed the old 13-bit limit",
+    );
+  });
   it("should ensure ATTR_ENDUSER_ID is not included in properties", () => {
     const spanOptions: SpanOptions = {
       kind: SpanKind.SERVER,

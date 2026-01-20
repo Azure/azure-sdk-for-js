@@ -1089,7 +1089,7 @@ describe("BlobClient", () => {
   });
 
   it("exists with condition", async () => {
-    const proposedLeaseId = getUniqueName("proposedLeaseId", { recorder });
+    const proposedLeaseId = "ca761232-ed42-11ce-bacd-00aa0057b223";
     const leaseResp = await blobClient.getBlobLeaseClient(proposedLeaseId).acquireLease(30);
     assert.isDefined(leaseResp.leaseId);
 
@@ -1097,9 +1097,9 @@ describe("BlobClient", () => {
 
     let exceptionCaught = false;
     try {
-      let guid = "ca761232ed4211cebacd00aa0057b223";
+      let guid = "ca761232-ed42-11ce-bacd-00aa0057b224";
       if (guid === leaseResp.leaseId) {
-        guid = "ca761232ed4211cebacd00aa0057b224";
+        guid = "ca761232-ed42-11ce-bacd-00aa0057b225";
       }
 
       await blobClient.exists({ conditions: { leaseId: guid } });
