@@ -131,6 +131,7 @@ export class PlaywrightReporterStorageManager {
   private async modifyTraceIndexHtml(outputFolder: string): Promise<void> {
     coreLogger.info(`Starting trace modification for folder: ${outputFolder}`);
     const indexPath = join(outputFolder, "trace/index.html");
+    const localIndexPath = join(outputFolder, "trace/index.local.html");
 
     if (!existsSync(indexPath)) {
       coreLogger.error(`trace/index.html not found at path: ${indexPath}`);
@@ -139,6 +140,10 @@ export class PlaywrightReporterStorageManager {
     coreLogger.info(`Found trace/index.html at: ${indexPath}`);
 
     try {
+      const originalHtml = readFileSync(indexPath, "utf-8");
+      writeFileSync(localIndexPath, originalHtml, "utf-8");
+      coreLogger.info(`Backed up original trace viewer to: ${localIndexPath}`);
+
       const redirectTraceviewerScript = `<!DOCTYPE html>
 <html>
 <head>
@@ -147,21 +152,66 @@ export class PlaywrightReporterStorageManager {
 </head>
 <body>
   <script>
-    const url = new URL(location.href);
-    const traceParam = url.searchParams.get('trace');
-    const trace = new URL(traceParam);
+    (function() {
+      function shouldRedirect() {
+        try {
+          const currentUrl = new URL(location.href);
+          const traceParam = currentUrl.searchParams.get('trace');
+          if (!traceParam) return false;
 
-    // Copy all query parameters from the current URL to the trace URL
-    // This includes SAS tokens (sv, sr, sig, etc.) that are on the main URL
-    for (const [key, value] of url.searchParams.entries()) {
-      if (key !== 'trace') {
-        trace.searchParams.set(key, value);
+          // Check if current URL (the index.html itself) has SAS tokens - indicates Azure Portal access
+          const currentHasSas = currentUrl.searchParams.has('sig') || currentUrl.searchParams.has('sv');
+          
+          // Check if we're on localhost or file protocol
+          const isLocalHost = currentUrl.protocol === 'file:' || currentUrl.hostname === 'localhost' || currentUrl.hostname === '127.0.0.1';
+
+          // Redirect to public trace viewer if:
+          // 1. Current page is accessed with SAS tokens (Azure Portal scenario)
+          // 2. Not running on localhost/file protocol
+          return currentHasSas && !isLocalHost;
+        } catch (e) {
+          console.error('Trace redirect detection failed', e);
+          return false;
+        }
       }
-    }
 
-    const publicTraceViewer = new URL('https://trace.playwright.dev/');
-    publicTraceViewer.searchParams.set('trace', trace.toString());
-    location.href = publicTraceViewer.toString();
+      if (shouldRedirect()) {
+        const url = new URL(location.href);
+        const traceParam = url.searchParams.get('trace');
+        const trace = new URL(traceParam, url);
+
+        // Copy all query parameters from the current URL to the trace URL (preserve SAS tokens)
+        for (const [key, value] of url.searchParams.entries()) {
+          if (key !== 'trace') {
+            trace.searchParams.set(key, value);
+          }
+        }
+
+        const publicTraceViewer = new URL('https://trace.playwright.dev/');
+        publicTraceViewer.searchParams.set('trace', trace.toString());
+
+        // Preserve any non-trace parameters for potential debugging/forwarding
+        for (const [key, value] of url.searchParams.entries()) {
+          if (key !== 'trace') {
+            publicTraceViewer.searchParams.set(key, value);
+          }
+        }
+
+        location.replace(publicTraceViewer.toString());
+      } else {
+        // Use the local copy of the Playwright trace viewer when running locally
+        // Preserve all query parameters including the trace parameter
+        const currentUrl = new URL(location.href);
+        const localViewerUrl = new URL('index.local.html', currentUrl);
+        
+        // Copy all query parameters to the local viewer URL
+        for (const [key, value] of currentUrl.searchParams.entries()) {
+          localViewerUrl.searchParams.set(key, value);
+        }
+        
+        location.replace(localViewerUrl.toString());
+      }
+    })();
   </script>
 </body>
 </html>
