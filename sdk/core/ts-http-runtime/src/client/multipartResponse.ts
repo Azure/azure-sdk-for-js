@@ -34,10 +34,11 @@ export interface MultipartResponseBody {
  * @returns The boundary string, or undefined if not found
  */
 export function getBoundaryFromContentType(contentType: string): string | undefined {
-  const boundaryMatch = contentType.match(/boundary=([^;]+)/i);
+  // Match boundary with or without quotes: boundary="value" or boundary=value
+  const boundaryMatch = contentType.match(/boundary=(?:"([^"]+)"|'([^']+)'|([^\s;,]+))/i);
   if (boundaryMatch) {
-    // Remove quotes if present
-    return boundaryMatch[1].replace(/^["']|["']$/g, "").trim();
+    // Return the matched value from one of the three capture groups
+    return (boundaryMatch[1] || boundaryMatch[2] || boundaryMatch[3]).trim();
   }
   return undefined;
 }
