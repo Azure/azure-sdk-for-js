@@ -152,6 +152,23 @@ export class PlaywrightReporterStorageManager {
 </head>
 <body>
   <script>
+    /**
+     * Trace Viewer Redirect Logic
+     * 
+     * This script handles two scenarios:
+     * 1. Azure Portal Access (with SAS tokens): Redirects to public Playwright trace viewer at https://trace.playwright.dev/
+     *    - Preserves SAS tokens on the trace URL to allow the public viewer to access the trace file from Azure Storage
+     * 2. Local Development: Uses the local copy of the trace viewer (index.local.html)
+     *    - Preserves all query parameters including the trace parameter
+     * 
+     * The script detects the scenario by checking:
+     * - Presence of SAS tokens (sig, sv parameters) indicates Azure Portal access
+     * - localhost/file protocol indicates local development
+     * 
+     * Authentication token preservation:
+     * - For Azure Portal: SAS tokens are added to the trace URL (not the viewer URL) so the viewer can fetch the trace
+     * - For local dev: All parameters are forwarded to the local viewer
+     */
     (function() {
       function shouldRedirect() {
         try {
@@ -162,8 +179,24 @@ export class PlaywrightReporterStorageManager {
           // Check if current URL (the index.html itself) has SAS tokens - indicates Azure Portal access
           const currentHasSas = currentUrl.searchParams.has('sig') || currentUrl.searchParams.has('sv');
           
-          // Check if we're on localhost or file protocol
-          const isLocalHost = currentUrl.protocol === 'file:' || currentUrl.hostname === 'localhost' || currentUrl.hostname === '127.0.0.1';
+          // Check if we're on localhost or file protocol (cover common local dev scenarios)
+          const hostname = currentUrl.hostname;
+          const protocol = currentUrl.protocol;
+          const isLoopbackV4 =
+            hostname === 'localhost' ||
+            hostname === '127.0.0.1' ||
+            hostname.startsWith('127.');
+          const isLoopbackV6 =
+            hostname === '::1' ||
+            hostname === '[::1]';
+          const isCustomLocalName =
+            hostname.endsWith('.localhost') ||
+            hostname.endsWith('.local');
+          const isLocalHost =
+            protocol === 'file:' ||
+            isLoopbackV4 ||
+            isLoopbackV6 ||
+            isCustomLocalName;
 
           // Redirect to public trace viewer if:
           // 1. Current page is accessed with SAS tokens (Azure Portal scenario)
@@ -189,13 +222,6 @@ export class PlaywrightReporterStorageManager {
 
         const publicTraceViewer = new URL('https://trace.playwright.dev/');
         publicTraceViewer.searchParams.set('trace', trace.toString());
-
-        // Preserve any non-trace parameters for potential debugging/forwarding
-        for (const [key, value] of url.searchParams.entries()) {
-          if (key !== 'trace') {
-            publicTraceViewer.searchParams.set(key, value);
-          }
-        }
 
         location.replace(publicTraceViewer.toString());
       } else {
