@@ -640,4 +640,89 @@ describe("sendRequest", () => {
     });
     assert.isTrue(called);
   });
+
+  describe("Multipart response parsing", () => {
+    it("should parse multipart/mixed response", async () => {
+      const boundary = "test-boundary";
+      const responseBody =
+        `--${boundary}\r\n` +
+        "Content-Type: text/plain\r\n" +
+        "\r\n" +
+        "Hello World\r\n" +
+        `--${boundary}--`;
+
+      const mockPipeline: Pipeline = createEmptyPipeline();
+      mockPipeline.sendRequest = async (_client) => {
+        return {
+          headers: createHttpHeaders({ "content-type": `multipart/mixed; boundary=${boundary}` }),
+          bodyAsText: responseBody,
+        } as PipelineResponse;
+      };
+
+      const response = await sendRequest("GET", mockBaseUrl, mockPipeline);
+      assert.isDefined(response.body);
+      assert.property(response.body, "parts");
+      const multipartBody = response.body as any;
+      assert.equal(multipartBody.parts.length, 1);
+      assert.equal(multipartBody.parts[0].headers["Content-Type"], "text/plain");
+    });
+
+    it("should parse multipart response with multiple parts", async () => {
+      const boundary = "batch-boundary";
+      const responseBody =
+        `--${boundary}\r\n` +
+        "Content-Type: application/json\r\n" +
+        "\r\n" +
+        '{"status":"ok"}\r\n' +
+        `--${boundary}\r\n` +
+        "Content-Type: text/plain\r\n" +
+        "\r\n" +
+        "Success\r\n" +
+        `--${boundary}--`;
+
+      const mockPipeline: Pipeline = createEmptyPipeline();
+      mockPipeline.sendRequest = async (_client) => {
+        return {
+          headers: createHttpHeaders({ "content-type": `multipart/mixed; boundary=${boundary}` }),
+          bodyAsText: responseBody,
+        } as PipelineResponse;
+      };
+
+      const response = await sendRequest("GET", mockBaseUrl, mockPipeline);
+      const multipartBody = response.body as any;
+      assert.equal(multipartBody.parts.length, 2);
+      assert.equal(multipartBody.parts[0].headers["Content-Type"], "application/json");
+      assert.equal(multipartBody.parts[1].headers["Content-Type"], "text/plain");
+    });
+
+    it("should return raw body when multipart response has no boundary", async () => {
+      const responseBody = "--no-boundary\r\nContent\r\n--no-boundary--";
+
+      const mockPipeline: Pipeline = createEmptyPipeline();
+      mockPipeline.sendRequest = async (_client) => {
+        return {
+          headers: createHttpHeaders({ "content-type": "multipart/mixed" }),
+          bodyAsText: responseBody,
+        } as PipelineResponse;
+      };
+
+      const response = await sendRequest("GET", mockBaseUrl, mockPipeline);
+      assert.equal(response.body, responseBody);
+    });
+
+    it("should handle empty multipart response", async () => {
+      const boundary = "empty-boundary";
+
+      const mockPipeline: Pipeline = createEmptyPipeline();
+      mockPipeline.sendRequest = async (_client) => {
+        return {
+          headers: createHttpHeaders({ "content-type": `multipart/mixed; boundary=${boundary}` }),
+          bodyAsText: "",
+        } as PipelineResponse;
+      };
+
+      const response = await sendRequest("GET", mockBaseUrl, mockPipeline);
+      assert.equal(response.body, undefined);
+    });
+  });
 });

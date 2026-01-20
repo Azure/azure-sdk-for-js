@@ -15,6 +15,7 @@ import type { PipelineOptions } from "../createPipelineFromOptions.js";
 import type { LogPolicyOptions } from "../policies/logPolicy.js";
 import type { AuthScheme } from "../auth/schemes.js";
 import type { ClientCredential } from "../auth/credentials.js";
+import type { MultipartResponseBody } from "./multipartResponse.js";
 
 /**
  * Shape of the default request parameters, this may be overridden by the specific
@@ -102,7 +103,7 @@ export interface FullOperationResponse extends PipelineResponse {
   /**
    * The response body as parsed JSON.
    */
-  parsedBody?: RequestBodyType;
+  parsedBody?: RequestBodyType | MultipartResponseBody;
 
   /**
    * The request that generated the response.
