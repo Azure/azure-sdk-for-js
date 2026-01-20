@@ -114,10 +114,7 @@ describe("multipart response parsing", () => {
 
       assert.equal(result.parts.length, 1);
       assert.equal(result.parts[0].headers["content-type"], "application/octet-stream");
-      assert.equal(
-        result.parts[0].headers["content-disposition"],
-        "attachment; filename=test.bin",
-      );
+      assert.equal(result.parts[0].headers["content-disposition"], "attachment; filename=test.bin");
       assert.equal(result.parts[0].headers["content-id"], "123");
       assert.equal(uint8ArrayToString(result.parts[0].body, "utf-8"), "binary data");
     });
@@ -132,8 +129,7 @@ describe("multipart response parsing", () => {
     });
 
     it("should handle Unix-style line endings (\\n)", () => {
-      const body =
-        "--boundary\n" + "Content-Type: text/plain\n\n" + "Hello\n" + "--boundary--";
+      const body = "--boundary\n" + "Content-Type: text/plain\n\n" + "Hello\n" + "--boundary--";
 
       const result = parseMultipartResponse(body, "boundary");
 
@@ -143,8 +139,7 @@ describe("multipart response parsing", () => {
     });
 
     it("should handle mixed line endings", () => {
-      const body =
-        "--boundary\r\n" + "Content-Type: text/plain\n\n" + "Hello\r\n" + "--boundary--";
+      const body = "--boundary\r\n" + "Content-Type: text/plain\n\n" + "Hello\r\n" + "--boundary--";
 
       const result = parseMultipartResponse(body, "boundary");
 

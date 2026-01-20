@@ -90,18 +90,18 @@ export function parseMultipartResponse(
     const headerBodySeparatorAlt = section.indexOf("\n\n");
 
     let headersText: string;
-    let bodyText: string;
+    let partBody: string;
 
     if (headerBodySeparator !== -1) {
       headersText = section.substring(0, headerBodySeparator);
-      bodyText = section.substring(headerBodySeparator + 4); // skip \r\n\r\n
+      partBody = section.substring(headerBodySeparator + 4); // skip \r\n\r\n
     } else if (headerBodySeparatorAlt !== -1) {
       headersText = section.substring(0, headerBodySeparatorAlt);
-      bodyText = section.substring(headerBodySeparatorAlt + 2); // skip \n\n
+      partBody = section.substring(headerBodySeparatorAlt + 2); // skip \n\n
     } else {
       // No body, just headers
       headersText = section;
-      bodyText = "";
+      partBody = "";
     }
 
     // Parse headers
@@ -118,7 +118,7 @@ export function parseMultipartResponse(
     }
 
     // Remove trailing \r\n from body if present
-    let cleanBody = bodyText;
+    let cleanBody = partBody;
     if (cleanBody.endsWith("\r\n")) {
       cleanBody = cleanBody.substring(0, cleanBody.length - 2);
     } else if (cleanBody.endsWith("\n")) {
