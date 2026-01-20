@@ -1,5 +1,135 @@
 # Release History
 
+## 10.0.0-beta.1 (2026-01-20)
+Compared with version 9.0.0
+
+### Features Added
+  - Added operation group TuningOptionsOperations
+  - Added operation AdministratorsMicrosoftEntraOperations.createOrUpdate
+  - Added operation AdministratorsMicrosoftEntraOperations.delete
+  - Added operation BackupsAutomaticAndOnDemandOperations.create
+  - Added operation BackupsAutomaticAndOnDemandOperations.delete
+  - Added operation BackupsLongTermRetentionOperations.start
+  - Added operation ConfigurationsOperations.put
+  - Added operation ConfigurationsOperations.update
+  - Added operation DatabasesOperations.create
+  - Added operation DatabasesOperations.delete
+  - Added operation FirewallRulesOperations.createOrUpdate
+  - Added operation FirewallRulesOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.update
+  - Added operation ServersOperations.createOrUpdate
+  - Added operation ServersOperations.delete
+  - Added operation ServersOperations.migrateNetworkMode
+  - Added operation ServersOperations.restart
+  - Added operation ServersOperations.start
+  - Added operation ServersOperations.stop
+  - Added operation ServersOperations.update
+  - Added operation ServerThreatProtectionSettingsOperations.createOrUpdate
+  - Added operation VirtualEndpointsOperations.create
+  - Added operation VirtualEndpointsOperations.delete
+  - Added operation VirtualEndpointsOperations.update
+  - Added Interface AdministratorMicrosoftEntraProperties
+  - Added Interface AdministratorMicrosoftEntraPropertiesForAdd
+  - Added Interface AdvancedThreatProtectionSettingsProperties
+  - Added Interface BackupAutomaticAndOnDemandProperties
+  - Added Interface BackupsLongTermRetentionResponseProperties
+  - Added Interface CapturedLogProperties
+  - Added Interface ConfigurationProperties
+  - Added Interface DatabaseProperties
+  - Added Interface FirewallRuleProperties
+  - Added Interface LtrBackupOperationResponseProperties
+  - Added Interface MigrateNetworkStatus
+  - Added Interface MigrationProperties
+  - Added Interface MigrationPropertiesForPatch
+  - Added Interface ObjectRecommendationProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface ServerProperties
+  - Added Interface ServerPropertiesForPatch
+  - Added Interface ServersMigrateNetworkModeOptionalParams
+  - Added Interface VirtualEndpointResourceProperties
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias NetworkMigrationState
+  - Added Type Alias PostgreSqlFlexibleServerHighAvailabilityMode
+  - Added Enum AzureClouds
+  - Added Enum KnownNetworkMigrationState
+  - Added Enum KnownPostgreSqlFlexibleServerHighAvailabilityMode
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Removed operation AdministratorsMicrosoftEntra.beginCreateOrUpdate
+  - Removed operation AdministratorsMicrosoftEntra.beginCreateOrUpdateAndWait
+  - Removed operation AdministratorsMicrosoftEntra.beginDelete
+  - Removed operation AdministratorsMicrosoftEntra.beginDeleteAndWait
+  - Removed operation BackupsAutomaticAndOnDemand.beginCreate
+  - Removed operation BackupsAutomaticAndOnDemand.beginCreateAndWait
+  - Removed operation BackupsAutomaticAndOnDemand.beginDelete
+  - Removed operation BackupsAutomaticAndOnDemand.beginDeleteAndWait
+  - Removed operation BackupsLongTermRetention.beginStart
+  - Removed operation BackupsLongTermRetention.beginStartAndWait
+  - Removed operation Configurations.beginPut
+  - Removed operation Configurations.beginPutAndWait
+  - Removed operation Configurations.beginUpdate
+  - Removed operation Configurations.beginUpdateAndWait
+  - Removed operation Databases.beginCreate
+  - Removed operation Databases.beginCreateAndWait
+  - Removed operation Databases.beginDelete
+  - Removed operation Databases.beginDeleteAndWait
+  - Removed operation FirewallRules.beginCreateOrUpdate
+  - Removed operation FirewallRules.beginCreateOrUpdateAndWait
+  - Removed operation FirewallRules.beginDelete
+  - Removed operation FirewallRules.beginDeleteAndWait
+  - Removed operation PrivateEndpointConnections.beginDelete
+  - Removed operation PrivateEndpointConnections.beginDeleteAndWait
+  - Removed operation PrivateEndpointConnections.beginUpdate
+  - Removed operation PrivateEndpointConnections.beginUpdateAndWait
+  - Removed operation Servers.beginCreateOrUpdate
+  - Removed operation Servers.beginCreateOrUpdateAndWait
+  - Removed operation Servers.beginDelete
+  - Removed operation Servers.beginDeleteAndWait
+  - Removed operation Servers.beginRestart
+  - Removed operation Servers.beginRestartAndWait
+  - Removed operation Servers.beginStart
+  - Removed operation Servers.beginStartAndWait
+  - Removed operation Servers.beginStop
+  - Removed operation Servers.beginStopAndWait
+  - Removed operation Servers.beginUpdate
+  - Removed operation Servers.beginUpdateAndWait
+  - Removed operation ServerThreatProtectionSettings.beginCreateOrUpdate
+  - Removed operation ServerThreatProtectionSettings.beginCreateOrUpdateAndWait
+  - Removed operation VirtualEndpoints.beginCreate
+  - Removed operation VirtualEndpoints.beginCreateAndWait
+  - Removed operation VirtualEndpoints.beginDelete
+  - Removed operation VirtualEndpoints.beginDeleteAndWait
+  - Removed operation VirtualEndpoints.beginUpdate
+  - Removed operation VirtualEndpoints.beginUpdateAndWait
+  - Operation PrivateDnsZoneSuffix.get has a new signature
+  - Removed Interface AdministratorMicrosoftEntraList
+  - Removed Interface AdvancedThreatProtectionSettingsList
+  - Removed Interface BackupAutomaticAndOnDemandList
+  - Removed Interface CapabilityList
+  - Removed Interface CapturedLogList
+  - Removed Interface ConfigurationList
+  - Removed Interface DatabaseList
+  - Removed Interface FirewallRuleList
+  - Removed Interface LtrServerBackupOperationList
+  - Removed Interface MigrationList
+  - Removed Interface ObjectRecommendationList
+  - Removed Interface OperationList
+  - Removed Interface PrivateEndpointConnectionList
+  - Removed Interface PrivateLinkResourceList
+  - Removed Interface QuotaUsageList
+  - Removed Interface ServerList
+  - Removed Interface TuningOptionsList
+  - Removed Interface TuningOptionsOperationsOperations
+  - Removed Interface VirtualEndpointsList
+  - Removed Type Alias MigrationDetailsLevel
+  - Removed Enum KnownMigrationDetailsLevel
+
 ## 9.0.0 (2025-11-25)
 
 ### Features Added
