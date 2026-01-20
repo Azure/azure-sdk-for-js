@@ -3,7 +3,7 @@
 
 # IMPORTANT: Do not invoke this file directly. Please instead run eng/New-TestResources.ps1 from the repository root.
 
-param (
+param(
   [Parameter()]
   [hashtable] $DeploymentOutputs,
 
@@ -72,25 +72,26 @@ if ($CI) {
 # Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
 # Write-Host "Deployed function app"
 
-# TODO: The deployment step runs into 504 Gateway Timeout error
-# Write-Host "Deplying Identity Web App"
-# Push-Location "$webappRoot/AzureWebApps"
-# npm install
-# npm run build
-# az webapp up --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --plan $DeploymentOutputs['IDENTITY_WEBAPP_PLAN'] --runtime NODE:18-lts
-# Pop-Location
-# Write-Host "Deployed Identity Web App"
+Write-Host "##[group]Deploying Identity Web App"
+Push-Location "$webappRoot/AzureWebApps"
+npm install
+npm run build
+az webapp up --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --plan $DeploymentOutputs['IDENTITY_WEBAPP_PLAN'] --runtime NODE:22-lts
+Pop-Location
+Write-Host "Deployed Identity Web App"
+Write-Host "##[endgroup]"
 
-Write-Host "Deploying Identity Docker image to ACR"
+Write-Host "##[group]Deploying Identity Docker image to ACR"
 az acr login -n $DeploymentOutputs['IDENTITY_ACR_NAME']
 $loginServer = $DeploymentOutputs['IDENTITY_ACR_LOGIN_SERVER']
 $image = "$loginServer/identity-aks-test-image"
-docker build --no-cache --build-arg REGISTRY="mcr.microsoft.com/mirror/docker/library/" -t $image "$workingFolder/AzureKubernetes"
+docker build --no-cache -t $image "$workingFolder/AzureKubernetes"
 docker push $image
+
 Write-Host "Deployed image to ACR"
+Write-Host "##[endgroup]"
 
-Write-Host "Deploying Azure Container Instance"
-
+Write-Host "##[group]Deploying Azure Container Instance"
 az container create -g $identityResourceGroup -n $($DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME']) --image $image `
   --acr-identity $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY'] `
   --assign-identity $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY'] `
@@ -107,8 +108,9 @@ $aciIP = az container show -g $identityResourceGroup -n $DeploymentOutputs['IDEN
 Write-Host "##vso[task.setvariable variable=IDENTITY_ACI_IP;]$aciIP"
 
 Write-Host "Deployed Azure Container Instance"
+Write-Host "##[endgroup]"
 
-Write-Host "Configuring kubernetes to use our image"
+Write-Host "##[group]Deploying to AKS Cluster"
 az aks update -n $DeploymentOutputs['IDENTITY_AKS_CLUSTER_NAME'] -g $identityResourceGroup --attach-acr $DeploymentOutputs['IDENTITY_ACR_NAME']
 
 # Get the aks cluster credentials
@@ -165,3 +167,4 @@ Set-Content -Path "$workingFolder/kubeconfig.yaml" -Value $kubeConfig
 # Apply the config
 kubectl apply -f "$workingFolder/kubeconfig.yaml" --overwrite=true
 Write-Host "Applied kubeconfig.yaml"
+Write-Host "##[endgroup]"

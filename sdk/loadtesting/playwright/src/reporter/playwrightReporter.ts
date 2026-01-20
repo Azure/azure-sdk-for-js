@@ -90,6 +90,11 @@ export default class PlaywrightReporter implements Reporter {
     }
     coreLogger.info("Authentication validation passed - using ENTRA_ID");
 
+    // Validate HTML reporter configuration
+    if (!this.validateHtmlReporterConfiguration(config)) {
+      return;
+    }
+
     // Get workspace metadata for later use
     try {
       const playwrightServiceApiClient = new PlaywrightServiceClient();
@@ -97,22 +102,16 @@ export default class PlaywrightReporter implements Reporter {
 
       if (!this.workspaceMetadata?.storageUri) {
         console.error(ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message);
-        this.isReportingEnabled = false;
         return;
       }
 
       this.isReportingEnabled = true;
-
-      this.validateHtmlReporterConfiguration(config);
-      if (this.isReportingEnabled) {
-        console.log(ServiceErrorMessageConstants.REPORTING_ENABLED.message);
-      }
+      console.log(ServiceErrorMessageConstants.REPORTING_ENABLED.message);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
       console.error(
         `${ServiceErrorMessageConstants.WORKSPACE_METADATA_FETCH_FAILED.message}Error: ${errorMessage} `,
       );
-      this.isReportingEnabled = false;
     }
   }
 
@@ -175,11 +174,10 @@ export default class PlaywrightReporter implements Reporter {
     }
   }
 
-  private validateHtmlReporterConfiguration(config: FullConfig): void {
+  private validateHtmlReporterConfiguration(config: FullConfig): boolean {
     if (!config.reporter || !Array.isArray(config.reporter)) {
       console.error(ServiceErrorMessageConstants.HTML_REPORTER_REQUIRED.message);
-      this.isReportingEnabled = false;
-      return;
+      return false;
     }
 
     const htmlReporterIndex = config.reporter.findIndex((reporter) => {
@@ -199,19 +197,18 @@ export default class PlaywrightReporter implements Reporter {
     // Validate HTML reporter exists
     if (htmlReporterIndex === -1) {
       console.error(ServiceErrorMessageConstants.HTML_REPORTER_REQUIRED.message);
-      this.isReportingEnabled = false;
-      return;
+      return false;
     }
 
     // Validate HTML reporter comes before Azure reporter (if Azure reporter exists)
     if (azureReporterIndex !== -1 && htmlReporterIndex > azureReporterIndex) {
       console.error(ServiceErrorMessageConstants.HTML_REPORTER_REQUIRED.message);
-      this.isReportingEnabled = false;
-      return;
+      return false;
     }
 
     coreLogger.info(
       "HTML reporter validation passed - HTML reporter is configured and properly ordered",
     );
+    return true;
   }
 }

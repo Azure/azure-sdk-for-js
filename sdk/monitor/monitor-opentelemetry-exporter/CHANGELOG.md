@@ -1,14 +1,16 @@
 # Release History
 
-### 1.0.0-beta.37 ()
+### 1.0.0-beta.38 (2026-01-16)
+
+### Features Added
+
+- Remove limit on custom properties field on both logs and spans.
+
+### 1.0.0-beta.37 (2026-01-15)
 
 ### Features Added
 
 - Populate the `microsoft.applicationId` resource attribute from the Application Insights connection string when it is not already provided.
-
-### Bugs Fixed
-
-### Breaking Changes
 
 ### Other Changes
 

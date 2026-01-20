@@ -33,7 +33,7 @@ param adminUserName string = 'azureuser'
 param principalUserType string = 'User'
 
 // https://learn.microsoft.com/azure/role-based-access-control/built-in-roles
-var blobOwner = subscriptionResourceId('Microsoft.Authorization/roleDefinitions','b7e6dc6d-f1e8-4753-8033-0f276bb0955b') // Storage Blob Data Owner
+var blobContributor = subscriptionResourceId('Microsoft.Authorization/roleDefinitions','ba92f5b4-2d11-453d-a403-e96b0029c9fe') // Storage Blob Data Contributor
 var serviceOwner = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '17d1049b-9a84-46fb-8f53-869881c3d3ab')
 var acrPull = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d') // ACR Pull
 var websiteContributor = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'de139f84-1756-47ae-9be6-808fbbe84772') // Website Contributor
@@ -48,27 +48,27 @@ resource userAssignedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@
 
 resource blobRoleWeb 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   scope: storageAccount
-  name: guid(resourceGroup().id, blobOwner)
+  name: guid(resourceGroup().id, blobContributor)
   properties: {
     principalId: web.identity.principalId
-    roleDefinitionId: blobOwner
+    roleDefinitionId: blobContributor
     principalType: 'ServicePrincipal'
   }
 }
 
 resource blobRoleFunc 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   scope: storageAccount
-  name: guid(resourceGroup().id, blobOwner, 'azureFunction')
+  name: guid(resourceGroup().id, blobContributor, 'azureFunction')
   properties: {
     principalId: azureFunction.identity.principalId
-    roleDefinitionId: blobOwner
+    roleDefinitionId: blobContributor
     principalType: 'ServicePrincipal'
   }
 }
 
 resource blobRoleCluster 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   scope: storageAccount
-  name: guid(resourceGroup().id, blobOwner, 'kubernetes')
+  name: guid(resourceGroup().id, blobContributor, 'kubernetes')
   properties: {
     principalId: kubernetesCluster.identity.principalId
     roleDefinitionId: serviceOwner
@@ -78,7 +78,7 @@ resource blobRoleCluster 'Microsoft.Authorization/roleAssignments@2022-04-01' = 
 
 resource blobRole2 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   scope: storageAccountUserAssigned
-  name: guid(resourceGroup().id, blobOwner, userAssignedIdentity.id)
+  name: guid(resourceGroup().id, blobContributor, userAssignedIdentity.id)
   properties: {
     principalId: userAssignedIdentity.properties.principalId
     roleDefinitionId: serviceOwner
@@ -305,7 +305,7 @@ resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-0
       {
         name: 'agentpool'
         count: 1
-        vmSize: 'Standard_D2s_v5'
+        vmSize: 'Standard_D2s_v3'
         osDiskSizeGB: 128
         osDiskType: 'Managed'
         kubeletDiskType: 'OS'
