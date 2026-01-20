@@ -208,7 +208,9 @@ function getResponseBody(response: PipelineResponse): RequestBodyType | undefine
   if (isMultipartContentType(contentType)) {
     const boundary = getBoundaryFromContentType(contentType);
     if (boundary && bodyToParse) {
-      return parseMultipartResponse(bodyToParse, boundary) as any;
+      // Note: MultipartResponseBody is not part of RequestBodyType, but similar to JSON.parse() returning arbitrary objects,
+      // we return a structured multipart response. The actual HttpResponse.body type is 'unknown' which accommodates this.
+      return parseMultipartResponse(bodyToParse, boundary) as unknown as RequestBodyType;
     }
     // If no boundary or body, return raw
     return bodyToParse ? String(bodyToParse) : undefined;

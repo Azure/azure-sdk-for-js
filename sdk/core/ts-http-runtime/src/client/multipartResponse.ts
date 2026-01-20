@@ -53,6 +53,19 @@ export function isMultipartContentType(contentType: string): boolean {
 
 /**
  * Parses a multipart response body into its constituent parts
+ * 
+ * **Note**: This function is designed for parsing multipart responses where the body content
+ * is text-based (such as Azure Blob Storage batch responses containing HTTP sub-responses).
+ * The function accepts the body as either a string or Uint8Array and converts it to a string
+ * for parsing the multipart structure (boundaries and headers). The body sections are then
+ * stored as Uint8Array.
+ * 
+ * **Limitation**: When the input is a string (from `response.bodyAsText`), any binary content
+ * that was in the original response has already been decoded to a string by the HTTP client.
+ * Re-encoding with UTF-8 may not perfectly restore the original binary data. For multipart
+ * responses with true binary content, the HTTP client would need to provide access to the
+ * raw response bytes rather than just `bodyAsText`.
+ * 
  * @param body - The raw response body as string or Uint8Array
  * @param boundary - The boundary string from the Content-Type header
  * @returns The parsed multipart body with individual parts
