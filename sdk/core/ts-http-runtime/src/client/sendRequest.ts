@@ -18,6 +18,11 @@ import { isReadableStream } from "../util/typeGuards.js";
 import type { HttpResponse, RequestParameters } from "./common.js";
 import type { PartDescriptor } from "./multipart.js";
 import { buildMultipartBody } from "./multipart.js";
+import {
+  getBoundaryFromContentType,
+  isMultipartContentType,
+  parseMultipartResponse,
+} from "./multipartResponse.js";
 
 /**
  * Helper function to send request used by the client
@@ -198,6 +203,16 @@ function getResponseBody(response: PipelineResponse): RequestBodyType | undefine
   const contentType = response.headers.get("content-type") ?? "";
   const firstType = contentType.split(";")[0];
   const bodyToParse = response.bodyAsText ?? "";
+
+  // Handle multipart responses
+  if (isMultipartContentType(contentType)) {
+    const boundary = getBoundaryFromContentType(contentType);
+    if (boundary && bodyToParse) {
+      return parseMultipartResponse(bodyToParse, boundary) as any;
+    }
+    // If no boundary or body, return raw
+    return bodyToParse ? String(bodyToParse) : undefined;
+  }
 
   if (firstType === "text/plain") {
     return String(bodyToParse);
