@@ -1,6 +1,6 @@
 {
   "name": "@azure/template",
-  "version": "1.0.13-beta.2",
+  "version": "1.0.13-beta.3",
   "description": "A generated SDK for WidgetAnalyticsClient.",
   "engines": {
     "node": ">=20.0.0"

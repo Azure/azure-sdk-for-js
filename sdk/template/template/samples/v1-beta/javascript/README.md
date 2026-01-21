@@ -34,10 +34,10 @@ npm install
 node getWidget.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env WIDGET_ANALYTICS_ENDPOINT="<widget analytics endpoint>" node getWidget.js
+npx cross-env WIDGET_ANALYTICS_ENDPOINT="<widget analytics endpoint>" node getWidget.js
 ```
 
 ## Next Steps
