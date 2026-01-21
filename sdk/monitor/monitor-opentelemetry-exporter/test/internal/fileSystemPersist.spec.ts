@@ -346,9 +346,8 @@ describe("FileSystemPersist", () => {
         };
       });
 
-      const { confirmDirExists } = await import(
-        "../../src/platform/nodejs/persist/fileSystemHelpers.js"
-      );
+      const { confirmDirExists } =
+        await import("../../src/platform/nodejs/persist/fileSystemHelpers.js");
 
       await confirmDirExists(directory);
     });
@@ -366,9 +365,8 @@ describe("FileSystemPersist", () => {
         };
       });
 
-      const { confirmDirExists } = await import(
-        "../../src/platform/nodejs/persist/fileSystemHelpers.js"
-      );
+      const { confirmDirExists } =
+        await import("../../src/platform/nodejs/persist/fileSystemHelpers.js");
 
       await confirmDirExists(directory);
     });
@@ -386,9 +384,8 @@ describe("FileSystemPersist", () => {
         };
       });
 
-      const { confirmDirExists } = await import(
-        "../../src/platform/nodejs/persist/fileSystemHelpers.js"
-      );
+      const { confirmDirExists } =
+        await import("../../src/platform/nodejs/persist/fileSystemHelpers.js");
 
       await expect(confirmDirExists(directory)).rejects.toThrow("owned by uid 9999");
     });
