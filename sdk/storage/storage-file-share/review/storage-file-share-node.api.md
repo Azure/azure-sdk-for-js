@@ -1968,6 +1968,16 @@ export type ShareGetStatisticsResponse = ShareGetStatisticsResponseModel & {
 // @public
 export type ShareGetStatisticsResponseModel = WithResponse<ShareGetStatisticsHeaders & ShareStats, ShareGetStatisticsHeaders, ShareStats>;
 
+// @public (undocumented)
+export interface ShareGetUserDelegationKeyParameters {
+    // (undocumented)
+    delegatedUserTenantId: string;
+    // (undocumented)
+    expiresOn: Date;
+    // (undocumented)
+    startsOn: Date;
+}
+
 // @public
 export interface ShareItem {
     // (undocumented)
@@ -2130,6 +2140,8 @@ export class ShareServiceClient extends StorageClient {
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getShareClient(shareName: string): ShareClient;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
+    // (undocumented)
+    getUserDelegationKey(parameters: ShareGetUserDelegationKeyParameters, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listShares(options?: ServiceListSharesOptions): PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse>;
     setProperties(properties: FileServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
     undeleteShare(deletedShareName: string, deletedShareVersion: string, options?: ServiceUndeleteShareOptions): Promise<ShareClient>;
@@ -2315,8 +2327,14 @@ export { UserDelegationKey }
 
 // @public
 export interface UserDelegationKeyModel {
+<<<<<<< HEAD
     signedExpiresOn: Date;
     signedObjectId: string;
+=======
+    signedDelegatedUserTid?: string;
+    signedExpiry: Date;
+    signedOid: string;
+>>>>>>> 367b8bcce1 (STG101)
     signedService: string;
     signedStartsOn: Date;
     signedTenantId: string;

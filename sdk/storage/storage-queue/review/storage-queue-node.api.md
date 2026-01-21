@@ -483,6 +483,16 @@ export interface QueueGetPropertiesOptions extends CommonOptions {
 // @public
 export type QueueGetPropertiesResponse = WithResponse<QueueGetPropertiesHeaders, QueueGetPropertiesHeaders>;
 
+// @public (undocumented)
+export interface QueueGetUserDelegationKeyParameters {
+    // (undocumented)
+    delegatedUserTenantId: string;
+    // (undocumented)
+    expiresOn: Date;
+    // (undocumented)
+    startsOn: Date;
+}
+
 // @public
 export interface QueueItem {
     metadata?: {
@@ -561,6 +571,8 @@ export class QueueServiceClient extends StorageClient {
     getQueueClient(queueName: string): QueueClient;
     getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
+    // (undocumented)
+    getUserDelegationKey(parameters: QueueGetUserDelegationKeyParameters, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listQueues(options?: ServiceListQueuesOptions): PagedAsyncIterableIterator<QueueItem, ServiceListQueuesSegmentResponse>;
     setProperties(properties: QueueServiceProperties, options?: ServiceGetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
 }
@@ -839,8 +851,14 @@ export { UserDelegationKey }
 
 // @public
 export interface UserDelegationKeyModel {
+<<<<<<< HEAD
     signedExpiresOn: Date;
     signedObjectId: string;
+=======
+    signedDelegatedUserTid?: string;
+    signedExpiry: Date;
+    signedOid: string;
+>>>>>>> 367b8bcce1 (STG101)
     signedService: string;
     signedStartsOn: Date;
     signedTenantId: string;

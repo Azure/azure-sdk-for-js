@@ -2,6 +2,7 @@ import {
   RequestBodyType as HttpRequestBody,
 } from "@azure/core-rest-pipeline";
 import { StructuredMessageEncoding } from "./StructuredMessageEncoding.js";
+import { isArrayBuffer } from "node:util/types";
 
 async function pump(
   reader: ReadableStreamDefaultReader, 
@@ -78,14 +79,25 @@ export async function structuredMessageEncoding(
     }
 
     if (((typeof source) === 'string')
-      || (source instanceof ArrayBuffer)
-      || (ArrayBuffer.isView(source))) {
+      || (source instanceof ArrayBuffer)) {
         
       const encoding = await BrowserStream(new Blob([source]), content_length);
 
       return {
         body: encoding.content,
         encoded_content_length: encoding.encodedContentLength
+      }
+    }
+
+    if (ArrayBuffer.isView(source)) {
+      let encoding = undefined;
+      if (isArrayBuffer(source.buffer)) {
+        encoding = await BrowserStream(new Blob([source.buffer.slice(source.byteOffset, source.byteOffset + source.byteLength)]), content_length);       
+
+        return {
+          body: encoding.content,
+          encoded_content_length: encoding.encodedContentLength
+        }
       }
     }
 

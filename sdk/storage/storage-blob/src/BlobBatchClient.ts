@@ -21,6 +21,7 @@ import type { PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
 import { newPipeline, isPipelineLike, getCoreClientOptions } from "./Pipeline.js";
 import type { WithResponse } from "./utils/utils.common.js";
 import { assertResponse, getURLPath } from "./utils/utils.common.js";
+import { SERVICE_VERSION } from "./utils/constants.js";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.
@@ -101,7 +102,7 @@ export class BlobBatchClient {
       pipeline = newPipeline(credentialOrPipeline, options);
     }
 
-    const storageClientContext = new StorageContextClient(url, getCoreClientOptions(pipeline));
+    const storageClientContext = new StorageContextClient(url, SERVICE_VERSION, getCoreClientOptions(pipeline));
 
     const path = getURLPath(url);
     if (path && path !== "/") {

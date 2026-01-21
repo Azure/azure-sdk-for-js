@@ -166,6 +166,8 @@ export interface KeyInfo {
   start?: string;
   /** The date-time the key expires in ISO 8601 UTC time */
   expiry: string;
+  /** The delegated user tenant id in Azure AD */
+  delegatedUserTid?: string;
 }
 
 /** A user delegation key */
@@ -182,6 +184,8 @@ export interface UserDelegationKey {
   signedService: string;
   /** The service version that created the key */
   signedVersion: string;
+  /** The delegated user tenant id in Azure AD. Return if DelegatedUserTid is specified. */
+  signedDelegatedUserTid?: string;
   /** The key as a base64 string */
   value: string;
 }
@@ -2056,6 +2060,20 @@ export enum KnownStorageErrorCode {
   FeatureVersionMismatch = "FeatureVersionMismatch",
   /** ShareSnapshotNotFound */
   ShareSnapshotNotFound = "ShareSnapshotNotFound",
+  /** FileShareProvisionedIopsInvalid */
+  FileShareProvisionedIopsInvalid = "FileShareProvisionedIopsInvalid",
+  /** FileShareProvisionedBandwidthInvalid */
+  FileShareProvisionedBandwidthInvalid = "FileShareProvisionedBandwidthInvalid",
+  /** FileShareProvisionedStorageInvalid */
+  FileShareProvisionedStorageInvalid = "FileShareProvisionedStorageInvalid",
+  /** TotalSharesProvisionedCapacityExceedsAccountLimit */
+  TotalSharesProvisionedCapacityExceedsAccountLimit = "TotalSharesProvisionedCapacityExceedsAccountLimit",
+  /** TotalSharesProvisionedIopsExceedsAccountLimit */
+  TotalSharesProvisionedIopsExceedsAccountLimit = "TotalSharesProvisionedIopsExceedsAccountLimit",
+  /** TotalSharesProvisionedBandwidthExceedsAccountLimit */
+  TotalSharesProvisionedBandwidthExceedsAccountLimit = "TotalSharesProvisionedBandwidthExceedsAccountLimit",
+  /** TotalSharesCountExceedsAccountLimit */
+  TotalSharesCountExceedsAccountLimit = "TotalSharesCountExceedsAccountLimit",
 }
 
 /**
@@ -2132,7 +2150,14 @@ export enum KnownStorageErrorCode {
  * **AuthorizationServiceMismatch** \
  * **AuthorizationResourceTypeMismatch** \
  * **FeatureVersionMismatch** \
- * **ShareSnapshotNotFound**
+ * **ShareSnapshotNotFound** \
+ * **FileShareProvisionedIopsInvalid** \
+ * **FileShareProvisionedBandwidthInvalid** \
+ * **FileShareProvisionedStorageInvalid** \
+ * **TotalSharesProvisionedCapacityExceedsAccountLimit** \
+ * **TotalSharesProvisionedIopsExceedsAccountLimit** \
+ * **TotalSharesProvisionedBandwidthExceedsAccountLimit** \
+ * **TotalSharesCountExceedsAccountLimit**
  */
 export type StorageErrorCode = string;
 /** Defines values for ListSharesIncludeType. */
@@ -3030,12 +3055,12 @@ export interface FileUploadRangeOptionalParams
   fileRequestIntent?: ShareTokenIntent;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
-  /** Required if the request body is a structured message. Specifies the message schema version and properties. */
-  structuredBodyType?: string;
   /** Initial data. */
   body?: coreRestPipeline.RequestBodyType;
   /** An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. When the Content-MD5 header is specified, the File service compares the hash of the content that has arrived with the header value that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request). */
   contentMD5?: Uint8Array;
+  /** Required if the request body is a structured message. Specifies the message schema version and properties. */
+  structuredBodyType?: string;
   /** If the file last write time should be preserved or overwritten */
   fileLastWrittenMode?: FileLastWrittenMode;
   /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */

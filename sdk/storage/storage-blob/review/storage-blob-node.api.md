@@ -157,6 +157,7 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
     sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
+    sourceCustomerProvidedKey?: CpkInfo;
     sourceShareTokenIntent?: FileShareTokenIntent;
 }
 
@@ -529,7 +530,8 @@ export type BlobDeleteImmutabilityPolicyResponse = WithResponse<BlobDeleteImmuta
 // @public
 export interface BlobDeleteOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: BlobRequestConditions;
+    // Warning: (ae-forgotten-export) The symbol "AccessTierModifiedConditions" needs to be exported by the entry point index.d.ts
+    conditions?: BlobRequestConditions & AccessTierModifiedConditions;
     customerProvidedKey?: CpkInfo;
     deleteSnapshots?: DeleteSnapshotsOptionType;
 }
@@ -787,6 +789,16 @@ export interface BlobGetTagsOptions extends CommonOptions {
 export type BlobGetTagsResponse = WithResponse<{
     tags: Tags;
 } & BlobGetTagsHeaders, BlobGetTagsHeaders, BlobTags>;
+
+// @public (undocumented)
+export interface BlobGetUserDelegationKeyParameters {
+    // (undocumented)
+    delegatedUserTenantId: string;
+    // (undocumented)
+    expiresOn: Date;
+    // (undocumented)
+    startsOn: Date;
+}
 
 // @public
 export interface BlobHierarchyListSegment {
@@ -1139,6 +1151,10 @@ export interface BlobSASSignatureValues {
     permissions?: BlobSASPermissions | ContainerSASPermissions;
     preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
+    // (undocumented)
+    requestHeaders?: Record<string, string>;
+    // (undocumented)
+    requestQueryParameters?: Record<string, string>;
     snapshotTime?: string;
     startsOn?: Date;
     version?: string;
@@ -1164,6 +1180,8 @@ export class BlobServiceClient extends StorageClient {
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
+    // (undocumented)
+    getUserDelegationKey(parameters: BlobGetUserDelegationKeyParameters, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listContainers(options?: ServiceListContainersOptions): PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse>;
     setProperties(properties: BlobServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
     undeleteContainer(deletedContainerName: string, deletedContainerVersion: string, options?: ServiceUndeleteContainerOptions): Promise<{
@@ -1553,6 +1571,7 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
     sourceAuthorization?: HttpAuthorization;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
+    sourceCustomerProvidedKey?: CpkInfo;
     sourceShareTokenIntent?: FileShareTokenIntent;
 }
 
@@ -1603,6 +1622,7 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
     sourceAuthorization?: HttpAuthorization;
     sourceConditions?: ModifiedAccessConditions;
     sourceContentMD5?: Uint8Array;
+    sourceCustomerProvidedKey?: CpkInfo;
     sourceShareTokenIntent?: FileShareTokenIntent;
     tags?: Tags;
     tier?: BlockBlobTier | string;
@@ -2736,6 +2756,7 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
     sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
+    sourceCustomerProvidedKey?: CpkInfo;
     sourceShareTokenIntent?: FileShareTokenIntent;
 }
 
@@ -3196,7 +3217,7 @@ export interface SignedIdentifierModel {
 }
 
 // @public
-export type SkuName = "Standard_LRS" | "Standard_GRS" | "Standard_RAGRS" | "Standard_ZRS" | "Premium_LRS";
+export type SkuName = "Standard_LRS" | "Standard_GRS" | "Standard_RAGRS" | "Standard_ZRS" | "Premium_LRS" | "Standard_GZRS" | "Premium_ZRS" | "Standard_RAGZRS";
 
 // @public
 export interface StaticWebsite {
@@ -3256,6 +3277,7 @@ export { UserDelegationKey }
 
 // @public
 export interface UserDelegationKeyModel {
+    signedDelegatedUserTid?: string;
     signedExpiresOn: string;
     signedObjectId: string;
     signedService: string;

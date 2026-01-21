@@ -637,6 +637,13 @@ export const KeyInfo: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      delegatedUserTid: {
+        serializedName: "DelegatedUserTid",
+        xmlName: "DelegatedUserTid",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -691,6 +698,13 @@ export const UserDelegationKey: coreClient.CompositeMapper = {
         serializedName: "SignedVersion",
         required: true,
         xmlName: "SignedVersion",
+        type: {
+          name: "String",
+        },
+      },
+      signedDelegatedUserTid: {
+        serializedName: "SignedDelegatedUserTid",
+        xmlName: "SignedDelegatedUserTid",
         type: {
           name: "String",
         },
@@ -2365,6 +2379,9 @@ export const ServiceGetAccountInfoHeaders: coreClient.CompositeMapper = {
             "Standard_RAGRS",
             "Standard_ZRS",
             "Premium_LRS",
+            "Standard_GZRS",
+            "Premium_ZRS",
+            "Standard_RAGZRS",
           ],
         },
       },
@@ -3869,6 +3886,9 @@ export const ContainerGetAccountInfoHeaders: coreClient.CompositeMapper = {
             "Standard_RAGRS",
             "Standard_ZRS",
             "Premium_LRS",
+            "Standard_GZRS",
+            "Premium_ZRS",
+            "Standard_RAGZRS",
           ],
         },
       },
@@ -6129,6 +6149,9 @@ export const BlobGetAccountInfoHeaders: coreClient.CompositeMapper = {
             "Standard_RAGRS",
             "Standard_ZRS",
             "Premium_LRS",
+            "Standard_GZRS",
+            "Premium_ZRS",
+            "Standard_RAGZRS",
           ],
         },
       },

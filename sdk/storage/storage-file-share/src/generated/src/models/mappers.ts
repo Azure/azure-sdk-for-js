@@ -704,6 +704,13 @@ export const KeyInfo: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      delegatedUserTid: {
+        serializedName: "DelegatedUserTid",
+        xmlName: "DelegatedUserTid",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -758,6 +765,13 @@ export const UserDelegationKey: coreClient.CompositeMapper = {
         serializedName: "SignedVersion",
         required: true,
         xmlName: "SignedVersion",
+        type: {
+          name: "String",
+        },
+      },
+      signedDelegatedUserTid: {
+        serializedName: "SignedDelegatedUserTid",
+        xmlName: "SignedDelegatedUserTid",
         type: {
           name: "String",
         },
@@ -4453,15 +4467,15 @@ export const FileDownloadHeaders: coreClient.CompositeMapper = {
         serializedName: "x-ms-structured-body",
         xmlName: "x-ms-structured-body",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       structuredContentLength: {
         serializedName: "x-ms-structured-content-length",
         xmlName: "x-ms-structured-content-length",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       fileMode: {
         serializedName: "x-ms-mode",
@@ -5464,8 +5478,8 @@ export const FileUploadRangeHeaders: coreClient.CompositeMapper = {
         serializedName: "x-ms-structured-body",
         xmlName: "x-ms-structured-body",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errorCode: {
         serializedName: "x-ms-error-code",

@@ -146,6 +146,8 @@ export interface DataLakeSASSignatureValues {
    * Optional. The content-type header for the SAS.
    */
   contentType?: string;
+  requestHeaders?: Record<string, string>;
+  requestQueryParameters?: Record<string, string>;
 }
 
 /**

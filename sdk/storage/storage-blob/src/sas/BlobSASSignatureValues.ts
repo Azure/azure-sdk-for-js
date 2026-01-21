@@ -127,6 +127,8 @@ export interface BlobSASSignatureValues {
    * correlate SAS generation with storage resource access. This is only used for User Delegation SAS.
    */
   correlationId?: string;
+  requestHeaders?: Record<string, string>;
+  requestQueryParameters?: Record<string, string>;
 }
 
 /**

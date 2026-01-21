@@ -155,6 +155,8 @@ export interface KeyInfo {
   startsOn: string;
   /** The date-time the key expires in ISO 8601 UTC time */
   expiresOn: string;
+  /** The delegated user tenant id in Azure AD */
+  delegatedUserTid?: string;
 }
 
 /** A user delegation key */
@@ -171,6 +173,8 @@ export interface UserDelegationKey {
   signedService: string;
   /** The service version that created the key */
   signedVersion: string;
+  /** The delegated user tenant id in Azure AD. Return if DelegatedUserTid is specified. */
+  signedDelegatedUserTid?: string;
   /** The key as a base64 string */
   value: string;
 }
@@ -2425,6 +2429,16 @@ export interface SequenceNumberAccessConditions {
 }
 
 /** Parameter group */
+export interface SourceCpkInfo {
+  /** Optional. Specifies the source encryption key to use to encrypt the source data provided in the request. */
+  sourceEncryptionKey?: string;
+  /** The SHA-256 hash of the provided source encryption key. Must be provided if the x-ms-source-encryption-key header is provided. */
+  sourceEncryptionKeySha256?: string;
+  /** The algorithm used to produce the source encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-source-encryption-key is provided. */
+  sourceEncryptionAlgorithm?: EncryptionAlgorithmType;
+}
+
+/** Parameter group */
 export interface AppendPositionAccessConditions {
   /** Optional conditional header. The max length in bytes permitted for the append blob. If the Append Block operation would cause the blob to exceed that limit or if the blob size is already greater than the value specified in this header, the request will fail with MaxBlobSizeConditionNotMet error (HTTP status code 412 - Precondition Failed). */
   maxSize?: number;
@@ -2612,8 +2626,8 @@ export enum KnownStorageErrorCode {
   FeatureVersionMismatch = "FeatureVersionMismatch",
   /** IncrementalCopyBlobMismatch */
   IncrementalCopyBlobMismatch = "IncrementalCopyBlobMismatch",
-  /** IncrementalCopyOfEarlierVersionSnapshotNotAllowed */
-  IncrementalCopyOfEarlierVersionSnapshotNotAllowed = "IncrementalCopyOfEarlierVersionSnapshotNotAllowed",
+  /** IncrementalCopyOfEarlierSnapshotNotAllowed */
+  IncrementalCopyOfEarlierSnapshotNotAllowed = "IncrementalCopyOfEarlierSnapshotNotAllowed",
   /** IncrementalCopySourceMustBeSnapshot */
   IncrementalCopySourceMustBeSnapshot = "IncrementalCopySourceMustBeSnapshot",
   /** InfiniteLeaseDurationRequired */
@@ -2785,7 +2799,7 @@ export enum KnownStorageErrorCode {
  * **CopyIdMismatch** \
  * **FeatureVersionMismatch** \
  * **IncrementalCopyBlobMismatch** \
- * **IncrementalCopyOfEarlierVersionSnapshotNotAllowed** \
+ * **IncrementalCopyOfEarlierSnapshotNotAllowed** \
  * **IncrementalCopySourceMustBeSnapshot** \
  * **InfiniteLeaseDurationRequired** \
  * **InvalidBlobOrBlock** \
@@ -2862,7 +2876,10 @@ export type SkuName =
   | "Standard_GRS"
   | "Standard_RAGRS"
   | "Standard_ZRS"
-  | "Premium_LRS";
+  | "Premium_LRS"
+  | "Standard_GZRS"
+  | "Premium_ZRS"
+  | "Standard_RAGZRS";
 /** Defines values for AccountKind. */
 export type AccountKind =
   | "Storage"
@@ -3451,6 +3468,10 @@ export interface BlobDeleteOptionalParams extends coreClient.OperationOptions {
   deleteSnapshots?: DeleteSnapshotsOptionType;
   /** Optional.  Only possible value is 'permanent', which specifies to permanently delete a blob if blob soft delete is enabled. */
   blobDeleteType?: string;
+  /** Specify this header value to operate only on a blob if the access-tier has been modified since the specified date/time. */
+  accessTierIfModifiedSince?: Date;
+  /** Specify this header value to operate only on a blob if the access-tier has not been modified since the specified date/time. */
+  accessTierIfUnmodifiedSince?: Date;
 }
 
 /** Contains response data for the delete operation. */
@@ -3984,6 +4005,8 @@ export interface PageBlobUploadPagesFromURLOptionalParams
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
   /** Parameter group */
   sequenceNumberAccessConditions?: SequenceNumberAccessConditions;
+  /** Parameter group */
+  sourceCpkInfo?: SourceCpkInfo;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -4185,6 +4208,8 @@ export interface AppendBlobAppendBlockFromUrlOptionalParams
   /** Parameter group */
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
   /** Parameter group */
+  sourceCpkInfo?: SourceCpkInfo;
+  /** Parameter group */
   appendPositionAccessConditions?: AppendPositionAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
@@ -4283,6 +4308,8 @@ export interface BlockBlobPutBlobFromUrlOptionalParams
   blobHttpHeaders?: BlobHttpHeaders;
   /** Parameter group */
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
+  /** Parameter group */
+  sourceCpkInfo?: SourceCpkInfo;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -4347,6 +4374,8 @@ export interface BlockBlobStageBlockFromURLOptionalParams
   cpkInfo?: CpkInfo;
   /** Parameter group */
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
+  /** Parameter group */
+  sourceCpkInfo?: SourceCpkInfo;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -4429,8 +4458,6 @@ export type BlockBlobGetBlockListResponse = BlockBlobGetBlockListHeaders &
 /** Optional parameters. */
 export interface StorageClientOptionalParams
   extends coreHttpCompat.ExtendedServiceClientOptions {
-  /** Specifies the version of the operation to use for this request. */
-  version?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }
