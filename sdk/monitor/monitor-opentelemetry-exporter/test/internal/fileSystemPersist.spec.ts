@@ -161,7 +161,9 @@ describe("FileSystemPersist", () => {
       expect(laterPersister).toBeDefined();
 
       const origFiles = await readdirAsync(tempDir);
-      const files = origFiles.filter((f) => path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX));
+      const files = origFiles.filter((f) =>
+        path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
+      );
       expect(files.length).toBeGreaterThan(0);
       expect(files.some((f) => f.startsWith(`${timestamp}-`))).toBe(true);
 
@@ -184,7 +186,9 @@ describe("FileSystemPersist", () => {
       expect(second).toBe(false);
 
       const origFiles = await readdirAsync(tempDir);
-      const files = origFiles.filter((f) => path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX));
+      const files = origFiles.filter((f) =>
+        path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
+      );
       expect(files.length).toBe(1);
       const payload = await readFileAsync(path.join(tempDir, files[0]));
       expect(JSON.parse(payload.toString()).map((e: any) => e.name)).toEqual(["collision"]);
@@ -333,7 +337,10 @@ describe("FileSystemPersist", () => {
       (process as any).getuid = () => 4242;
       vi.doMock("node:fs/promises", async () => {
         const actual = await vi.importActual<typeof fsPromises>("node:fs/promises");
-        return { ...actual, lstat: vi.fn().mockResolvedValue(<any>{ isDirectory: () => true, uid: 4242 }) };
+        return {
+          ...actual,
+          lstat: vi.fn().mockResolvedValue(<any>{ isDirectory: () => true, uid: 4242 }),
+        };
       });
 
       const { confirmDirExists } = await import(
@@ -347,7 +354,10 @@ describe("FileSystemPersist", () => {
       (process as any).getuid = () => 4242;
       vi.doMock("node:fs/promises", async () => {
         const actual = await vi.importActual<typeof fsPromises>("node:fs/promises");
-        return { ...actual, lstat: vi.fn().mockResolvedValue(<any>{ isDirectory: () => true, uid: 0 }) };
+        return {
+          ...actual,
+          lstat: vi.fn().mockResolvedValue(<any>{ isDirectory: () => true, uid: 0 }),
+        };
       });
 
       const { confirmDirExists } = await import(
