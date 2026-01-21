@@ -306,6 +306,7 @@ export function generateMsalConfiguration(
       ),
     },
     system: {
+      disableInternalRetries: true,
       networkClient: httpClient,
       loggerOptions: {
         loggerCallback: defaultLoggerCallback(msalClientOptions.logger ?? msalLogger),

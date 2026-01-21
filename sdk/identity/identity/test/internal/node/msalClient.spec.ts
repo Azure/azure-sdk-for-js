@@ -134,6 +134,14 @@ describe("MsalClient", function () {
         const config = msalClient.generateMsalConfiguration(clientId, tenantId, {});
         assert.instanceOf(config.system!.networkClient, IdentityClient);
       });
+
+      it("sets disableInternalRetries to true", function () {
+        const clientId = "client-id";
+        const tenantId = "tenant-id";
+
+        const config = msalClient.generateMsalConfiguration(clientId, tenantId, {});
+        assert.isTrue(config.system!.disableInternalRetries);
+      });
     });
 
     describe("with invalid data", function () {
