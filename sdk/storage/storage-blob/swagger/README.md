@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b6472ffd34d5d4a155101b41b4eb1f356abff600/specification/storage/data-plane/Microsoft.BlobStorage/stable/2026-02-06/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/be46becafeb29aa993898709e35759d3643b2809/specification/storage/data-plane/Microsoft.BlobStorage/stable/2026-04-06/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -1472,56 +1472,4 @@ directive:
     where: $.definitions.StorageError
     transform: >
       $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
-```
-
-### Remove structured body parameters.
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{containerName}/{blob}]["get"]
-    transform: >
-      $["parameters"] = $["parameters"].filter(function(param) { return false == param['$ref'].endsWith("#/parameters/StructuredBodyGet")});
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{containerName}/{blob}"]["get"]["responses"]["200"]["headers"]
-    transform: >
-      delete $["x-ms-structured-body"];
-      delete $["x-ms-structured-content-length"];
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{containerName}/{blob}"]["get"]["responses"]["200"]["headers"]
-    transform: >
-      delete $["x-ms-structured-body"];
-      delete $["x-ms-structured-content-length"];
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{containerName}/{blob}?BlockBlob"]["put"]
-    transform: >
-      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/StructuredBodyPut") && false == param['$ref'].endsWith("#/parameters/StructuredContentLength"))});
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{containerName}/{blob}?BlockBlob"]["put"]["responses"]["201"]["headers"]    
-    transform: >
-      delete $["x-ms-structured-body"];
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=block"]["put"]
-    transform: >
-      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/StructuredBodyPut") && false == param['$ref'].endsWith("#/parameters/StructuredContentLength"))});
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=block"]["put"]["responses"]["201"]["headers"]    
-    transform: >
-      delete $["x-ms-structured-body"];
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=page&update"]["put"]
-    transform: >
-      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/StructuredBodyPut") && false == param['$ref'].endsWith("#/parameters/StructuredContentLength"))});
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=page&update"]["put"]["responses"]["201"]["headers"]    
-    transform: >
-      delete $["x-ms-structured-body"];
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=appendblock"]["put"]
-    transform: >
-      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/StructuredBodyPut") && false == param['$ref'].endsWith("#/parameters/StructuredContentLength"))});
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=appendblock"]["put"]["responses"]["201"]["headers"]    
-    transform: >
-      delete $["x-ms-structured-body"];
 ```

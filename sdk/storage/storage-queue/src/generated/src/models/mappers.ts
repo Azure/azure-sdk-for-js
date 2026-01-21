@@ -327,6 +327,13 @@ export const KeyInfo: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      delegatedUserTid: {
+        serializedName: "DelegatedUserTid",
+        xmlName: "DelegatedUserTid",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -381,6 +388,13 @@ export const UserDelegationKey: coreClient.CompositeMapper = {
         serializedName: "SignedVersion",
         required: true,
         xmlName: "SignedVersion",
+        type: {
+          name: "String",
+        },
+      },
+      signedDelegatedUserTid: {
+        serializedName: "SignedDelegatedUserTid",
+        xmlName: "SignedDelegatedUserTid",
         type: {
           name: "String",
         },

@@ -255,6 +255,10 @@ export interface CommonGenerateSasUrlOptions {
     identifier?: string;
     ipRange?: SasIPRange;
     protocol?: SASProtocol;
+    // (undocumented)
+    requestHeaders?: Record<string, string>;
+    // (undocumented)
+    requestQueryParameters?: Record<string, string>;
     startsOn?: Date;
     version?: string;
 }
@@ -367,6 +371,16 @@ export class DataLakeFileSystemClient extends StorageClient {
 }
 
 // @public (undocumented)
+export interface DataLakeGetUserDelegationKeyParameters {
+    // (undocumented)
+    delegatedUserTenantId: string;
+    // (undocumented)
+    expiresOn: Date;
+    // (undocumented)
+    startsOn: Date;
+}
+
+// @public (undocumented)
 export class DataLakeLeaseClient {
     constructor(client: BlobLeaseClient);
     // (undocumented)
@@ -452,6 +466,10 @@ export interface DataLakeSASSignatureValues {
     permissions?: DataLakeSASPermissions | DirectorySASPermissions | FileSystemSASPermissions;
     preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
+    // (undocumented)
+    requestHeaders?: Record<string, string>;
+    // (undocumented)
+    requestQueryParameters?: Record<string, string>;
     snapshotTime?: string;
     startsOn?: Date;
     version?: string;
@@ -466,7 +484,11 @@ export class DataLakeServiceClient extends StorageClient {
     generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<DataLakeServiceGetPropertiesResponse>;
-    getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
+    getUserDelegationKey(startsOn: Date, expiresOn: Date, options: ServiceGetUserDelegationKeyOptions | undefined): Promise<ServiceGetUserDelegationKeyResponse>;
+    // (undocumented)
+    getUserDelegationKey(parameters: Date, options: ServiceGetUserDelegationKeyOptions | undefined): Promise<ServiceGetUserDelegationKeyResponse>;
+    // (undocumented)
+    isDataLakeGetUserDelegationKeyParameters(parameter: unknown): parameter is DataLakeGetUserDelegationKeyParameters;
     listFileSystems(options?: ServiceListFileSystemsOptions): PagedAsyncIterableIterator<FileSystemItem, ServiceListFileSystemsSegmentResponse>;
     setProperties(properties: DataLakeServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
     undeleteFileSystem(deletedFileSystemName: string, deleteFileSystemVersion: string, options?: ServiceUndeleteFileSystemOptions): Promise<{

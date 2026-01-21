@@ -480,10 +480,7 @@ const downloadOperationSpec: coreClient.OperationSpec = {
     Parameters.allowTrailingDot,
     Parameters.range,
     Parameters.rangeGetContentMD5,
-<<<<<<< HEAD
-=======
-    Parameters.structuredBodyType
->>>>>>> 259011ff37 ([Storage]Content validation)
+    Parameters.structuredBodyType,
   ],
   isXML: true,
   serializer: xmlSerializer,
@@ -728,21 +725,15 @@ const uploadRangeOperationSpec: coreClient.OperationSpec = {
     Parameters.fileRequestIntent,
     Parameters.leaseId,
     Parameters.allowTrailingDot,
-    Parameters.structuredBodyType,
     Parameters.contentType2,
     Parameters.accept3,
     Parameters.contentMD5,
+    Parameters.structuredBodyType,
     Parameters.range1,
     Parameters.fileRangeWrite,
-<<<<<<< HEAD
     Parameters.contentLength1,
     Parameters.fileLastWrittenMode,
-=======
-    Parameters.contentLength,
-    Parameters.contentMD5,
-    Parameters.fileLastWrittenMode,
-    Parameters.structuredContentLength
->>>>>>> 259011ff37 ([Storage]Content validation)
+    Parameters.structuredContentLength,
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",

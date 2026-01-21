@@ -54,6 +54,7 @@ import type { SasIPRange } from "./SasIPRange.js";
 import { appendToURLQuery } from "./utils/utils.common.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
+import { isDate } from "node:util/types";
 
 /**
  * Options to configure Share - List Shares Segment operations.
@@ -229,6 +230,22 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    */
   abortSignal?: AbortSignalLike;
+}
+
+export interface ShareGetUserDelegationKeyParameters {
+    startsOn: Date;
+    expiresOn: Date;
+    delegatedUserTenantId: string;
+}
+
+function isShareGetUserDelegationKeyParameters(parameter: unknown): parameter is ShareGetUserDelegationKeyParameters {
+  if (!parameter || typeof parameter !== "object") {
+    return false;
+  }
+
+  const castParameter = parameter as ShareGetUserDelegationKeyParameters;
+
+  return isDate(castParameter.expiresOn);
 }
 
 /**
@@ -870,11 +887,32 @@ export class ShareServiceClient extends StorageClient {
   public async getUserDelegationKey(
     startsOn: Date,
     expiresOn: Date,
+    options?: ServiceGetUserDelegationKeyOptions,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
+
+  public async getUserDelegationKey(
+    parameters: ShareGetUserDelegationKeyParameters,
+    options?: ServiceGetUserDelegationKeyOptions,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
+  
+  public async getUserDelegationKey(
+    startsOnOrParam: Date | ShareGetUserDelegationKeyParameters,
+    expiresOnOrOption: Date | ServiceGetUserDelegationKeyOptions | undefined,
     options: ServiceGetUserDelegationKeyOptions = {},
-  ): Promise<ServiceGetUserDelegationKeyResponse> {
+  ): Promise<ServiceGetUserDelegationKeyResponse> {    
+    let startsOn = startsOnOrParam as Date;
+    let expiresOn = expiresOnOrOption as Date;
+    let userDelegationTid = undefined;
+    let getUserDelegationKeyOptions = options as ServiceGetUserDelegationKeyOptions;
+    if (isShareGetUserDelegationKeyParameters(startsOnOrParam)){
+      startsOn = startsOnOrParam.startsOn;
+      expiresOn = startsOnOrParam.expiresOn;
+      userDelegationTid = startsOnOrParam.delegatedUserTenantId;
+      getUserDelegationKeyOptions = expiresOnOrOption as ServiceGetUserDelegationKeyOptions;
+    }
     return tracingClient.withSpan(
       "ShareServiceClient-getUserDelegationKey",
-      options,
+      getUserDelegationKeyOptions,
       async (updatedOptions) => {
         const response = assertResponse<
           ServiceGetUserDelegationKeyResponseModel,
@@ -885,6 +923,7 @@ export class ShareServiceClient extends StorageClient {
             {
               start: truncatedISO8061Date(startsOn, false),
               expiry: truncatedISO8061Date(expiresOn, false),
+              delegatedUserTid: userDelegationTid,
             },
             {
               abortSignal: options.abortSignal,
@@ -900,6 +939,7 @@ export class ShareServiceClient extends StorageClient {
           signedExpiresOn: new Date(response.signedExpiresOn),
           signedService: response.signedService,
           signedVersion: response.signedVersion,
+          signedDelegatedUserTid: response.signedDelegatedUserTid,
           value: response.value,
         };
 

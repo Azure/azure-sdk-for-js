@@ -29,11 +29,19 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
    * Initializes a new instance of the StorageClient class.
    * @param url The URL of the service account, queue or message that is the target of the desired
    *            operation.
+   * @param version Specifies the version of the operation to use for this request.
    * @param options The parameter options
    */
-  constructor(url: string, options?: StorageClientOptionalParams) {
+  constructor(
+    url: string,
+    version: string,
+    options?: StorageClientOptionalParams,
+  ) {
     if (url === undefined) {
       throw new Error("'url' cannot be null");
+    }
+    if (version === undefined) {
+      throw new Error("'version' cannot be null");
     }
 
     // Initializing default values for options
@@ -61,9 +69,7 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
     super(optionsWithDefaults);
     // Parameter assignments
     this.url = url;
-
-    // Assigning values to Constant parameters
-    this.version = options.version || "2026-02-06";
+    this.version = version;
     this.service = new ServiceImpl(this);
     this.queue = new QueueImpl(this);
     this.messages = new MessagesImpl(this);

@@ -102,9 +102,9 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2026-02-06",
-    isConstant: true,
     serializedName: "x-ms-version",
+    required: true,
+    xmlName: "x-ms-version",
     type: {
       name: "String",
     },
@@ -858,6 +858,28 @@ export const blobDeleteType: OperationQueryParameter = {
     xmlName: "deletetype",
     type: {
       name: "String",
+    },
+  },
+};
+
+export const accessTierIfModifiedSince: OperationParameter = {
+  parameterPath: ["options", "accessTierIfModifiedSince"],
+  mapper: {
+    serializedName: "x-ms-access-tier-if-modified-since",
+    xmlName: "x-ms-access-tier-if-modified-since",
+    type: {
+      name: "DateTimeRfc1123",
+    },
+  },
+};
+
+export const accessTierIfUnmodifiedSince: OperationParameter = {
+  parameterPath: ["options", "accessTierIfUnmodifiedSince"],
+  mapper: {
+    serializedName: "x-ms-access-tier-if-unmodified-since",
+    xmlName: "x-ms-access-tier-if-unmodified-since",
+    type: {
+      name: "DateTimeRfc1123",
     },
   },
 };
@@ -1640,6 +1662,39 @@ export const range1: OperationParameter = {
     serializedName: "x-ms-range",
     required: true,
     xmlName: "x-ms-range",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const sourceEncryptionKey: OperationParameter = {
+  parameterPath: ["options", "sourceCpkInfo", "sourceEncryptionKey"],
+  mapper: {
+    serializedName: "x-ms-source-encryption-key",
+    xmlName: "x-ms-source-encryption-key",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const sourceEncryptionKeySha256: OperationParameter = {
+  parameterPath: ["options", "sourceCpkInfo", "sourceEncryptionKeySha256"],
+  mapper: {
+    serializedName: "x-ms-source-encryption-key-sha256",
+    xmlName: "x-ms-source-encryption-key-sha256",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const sourceEncryptionAlgorithm: OperationParameter = {
+  parameterPath: ["options", "sourceCpkInfo", "sourceEncryptionAlgorithm"],
+  mapper: {
+    serializedName: "x-ms-source-encryption-algorithm",
+    xmlName: "x-ms-source-encryption-algorithm",
     type: {
       name: "String",
     },

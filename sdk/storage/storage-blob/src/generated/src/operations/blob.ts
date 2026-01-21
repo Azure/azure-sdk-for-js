@@ -535,6 +535,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.ifNoneMatch,
     Parameters.ifTags,
     Parameters.deleteSnapshots,
+    Parameters.accessTierIfModifiedSince,
+    Parameters.accessTierIfUnmodifiedSince,
   ],
   isXML: true,
   serializer: xmlSerializer,

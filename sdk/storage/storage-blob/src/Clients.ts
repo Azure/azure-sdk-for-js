@@ -143,6 +143,7 @@ import type {
   PollerLikeWithCancellation,
   BlobClientOptions,
   BlobClientConfig,
+  AccessTierModifiedConditions,
 } from "./models.js";
 import { ensureCpkIfSpecified, toAccessTier, StorageChecksumAlgorithm } from "./models.js";
 import type {
@@ -354,7 +355,7 @@ export interface BlobDeleteOptions extends CommonOptions {
   /**
    * Conditions to meet when deleting blobs.
    */
-  conditions?: BlobRequestConditions;
+  conditions?: BlobRequestConditions & AccessTierModifiedConditions;
   /**
    * Specifies options to delete blobs that have associated snapshots.
    * - `include`: Delete the base blob and all of its snapshots.
@@ -2674,6 +2675,10 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
    * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
    */
   sourceAuthorization?: HttpAuthorization;
+  /**
+   * Customer Provided Key Info for source.
+   */
+  sourceCustomerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -3278,6 +3283,10 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
    * Valid value is backup
    */
   sourceShareTokenIntent?: FileShareTokenIntent;
+  /**
+   * Customer Provided Key Info for source.
+   */
+  sourceCustomerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -3518,6 +3527,10 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
    * Valid value is backup
    */
   sourceShareTokenIntent?: FileShareTokenIntent;
+  /**
+   * Customer Provided Key Info for source.
+   */
+  sourceCustomerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -4155,6 +4168,11 @@ export class BlockBlobClient extends BlobClient {
             copySourceTags: options.copySourceTags,
             fileRequestIntent: options.sourceShareTokenIntent,
             tracingOptions: updatedOptions.tracingOptions,
+            sourceCpkInfo: {
+              sourceEncryptionKey: options.sourceCustomerProvidedKey?.encryptionKey,
+              sourceEncryptionAlgorithm: options.sourceCustomerProvidedKey?.encryptionAlgorithm,
+              sourceEncryptionKeySha256: options.sourceCustomerProvidedKey?.encryptionKeySha256,
+            } 
           }),
         );
       },
@@ -5077,6 +5095,10 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
    * Valid value is backup
    */
   sourceShareTokenIntent?: FileShareTokenIntent;
+  /**
+   * Customer Provided Key Info for source.
+   */
+  sourceCustomerProvidedKey?: CpkInfo;
 }
 
 /**

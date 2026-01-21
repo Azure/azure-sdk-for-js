@@ -180,6 +180,8 @@ export interface CommonGenerateSasUrlOptions {
    * Optional. The content-type header for the SAS.
    */
   contentType?: string;
+  requestHeaders?: Record<string, string>;
+  requestQueryParameters?: Record<string, string>;
 }
 
 /** ***********************************************************/
@@ -188,6 +190,12 @@ export interface CommonGenerateSasUrlOptions {
 
 export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
+}
+
+export interface DataLakeGetUserDelegationKeyParameters {
+    startsOn: Date;
+    expiresOn: Date;
+    delegatedUserTenantId: string;
 }
 
 // TODO: Leverage interface definitions from blob package directly, or duplicate create a copy here which will not have generation benefits

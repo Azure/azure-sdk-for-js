@@ -6,6 +6,7 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
 import type {
+  BlobGetUserDelegationKeyParameters,
   ServiceGetPropertiesOptions,
   ServiceSetPropertiesOptions,
   ServiceSetPropertiesResponse,
@@ -25,6 +26,7 @@ import type {
   FileSystemUndeleteResponse,
   DataLakeClientOptions,
   DataLakeClientConfig,
+  DataLakeGetUserDelegationKeyParameters,
 } from "./models.js";
 import { StorageClient } from "./StorageClient.js";
 import {
@@ -45,6 +47,7 @@ import {
 } from "./sas/AccountSASSignatureValues.js";
 import { AccountSASServices } from "./sas/AccountSASServices.js";
 import type { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index.js";
+import { isDate } from "util/types";
 
 /**
  * DataLakeServiceClient allows you to manipulate Azure
@@ -181,6 +184,18 @@ export class DataLakeServiceClient extends StorageClient {
     );
   }
 
+  
+
+isDataLakeGetUserDelegationKeyParameters(parameter: unknown): parameter is DataLakeGetUserDelegationKeyParameters {
+  if (!parameter || typeof parameter !== "object") {
+    return false;
+  }
+
+  const castParameter = parameter as DataLakeGetUserDelegationKeyParameters;
+
+  return isDate(castParameter.expiresOn);
+}
+
   /**
    * ONLY AVAILABLE WHEN USING BEARER TOKEN AUTHENTICATION (TokenCredential).
    *
@@ -231,15 +246,47 @@ export class DataLakeServiceClient extends StorageClient {
   public async getUserDelegationKey(
     startsOn: Date,
     expiresOn: Date,
+    options: ServiceGetUserDelegationKeyOptions | undefined,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
+  public async getUserDelegationKey(
+    parameters: Date,
+    options: ServiceGetUserDelegationKeyOptions | undefined,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
+
+  public async getUserDelegationKey(
+    startsOnOrParam: Date | DataLakeGetUserDelegationKeyParameters,
+    expiresOnOrOption: Date | ServiceGetUserDelegationKeyOptions | undefined,
     options: ServiceGetUserDelegationKeyOptions = {},
   ): Promise<ServiceGetUserDelegationKeyResponse> {
-    return tracingClient.withSpan(
-      "DataLakeServiceClient-getUserDelegationKey",
-      options,
-      async (updatedOptions) => {
-        return this.blobServiceClient.getUserDelegationKey(startsOn, expiresOn, updatedOptions);
-      },
-    );
+    let calledWithParameters = false;
+    let getUserDelegationKeyOptions = options as ServiceGetUserDelegationKeyOptions;
+    if (this.isDataLakeGetUserDelegationKeyParameters(startsOnOrParam)){
+      calledWithParameters = true;
+      getUserDelegationKeyOptions = expiresOnOrOption as ServiceGetUserDelegationKeyOptions;
+    }
+    if (calledWithParameters) {
+      return tracingClient.withSpan(
+        "DataLakeServiceClient-getUserDelegationKey",
+        getUserDelegationKeyOptions,
+        async (updatedOptions) => {
+          return this.blobServiceClient.getUserDelegationKey(
+            startsOnOrParam as BlobGetUserDelegationKeyParameters, 
+            updatedOptions);
+        },
+      );
+    }
+    else {
+      return tracingClient.withSpan(
+        "DataLakeServiceClient-getUserDelegationKey",
+        getUserDelegationKeyOptions,
+        async (updatedOptions) => {
+          return this.blobServiceClient.getUserDelegationKey(
+            startsOnOrParam as Date,
+            expiresOnOrOption as Date,
+            updatedOptions);
+        },
+      );
+    }
   }
 
   /**

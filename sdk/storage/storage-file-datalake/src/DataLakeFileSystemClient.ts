@@ -41,6 +41,8 @@ import type {
   FileSystemUndeletePathOption,
   ListDeletedPathsSegmentOptions,
   PathUndeleteHeaders,
+  DataLakeClientOptions,
+  DataLakeClientConfig,
 } from "./models.js";
 import { StorageClient } from "./StorageClient.js";
 import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms.js";

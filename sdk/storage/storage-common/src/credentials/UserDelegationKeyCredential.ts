@@ -31,6 +31,10 @@ export interface UserDelegationKey {
    * The service version that created the key.
    */
   signedVersion: string;
+  /** 
+   * The delegated user tenant id in Azure AD. Return if DelegatedUserTid is specified. 
+   */
+  signedDelegatedUserTid: string | undefined;
   /**
    * The key as a base64 string.
    */

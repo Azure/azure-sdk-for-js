@@ -10,6 +10,7 @@ import type { OperationTracingOptions } from "@azure/core-tracing";
 import type { AnonymousCredential } from "@azure/storage-common";
 import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import type { TokenCredential } from "@azure/core-auth";
+import { SERVICE_VERSION } from "./utils/constants.js";
 
 /**
  * An interface for options common to every remote operation.
@@ -92,5 +93,5 @@ export function getStorageClientContext(url: string, pipeline: Pipeline): Storag
   } else if (pipelineOptions.retryOptions.tryTimeoutInMs === undefined) {
     (pipelineOptions.retryOptions as any).tryTimeoutInMs = 30 * 1000;
   }
-  return new StorageContextClient(url, getCoreClientOptions(pipeline));
+  return new StorageContextClient(url, SERVICE_VERSION, getCoreClientOptions(pipeline));
 }

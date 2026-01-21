@@ -42,6 +42,21 @@ export interface ModifiedAccessConditions
 export interface BlobRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {}
 
 /**
+ * standard HTTP conditional headers, tags condition and lease condition
+ */
+export interface AccessTierModifiedConditions {
+  /** 
+   * Specify this header value to operate only on a blob if the access-tier has been modified since the specified date/time. 
+   * */
+  accessTierIfModifiedSince?: Date;
+  
+  /** 
+   * Specify this header value to operate only on a blob if the access-tier has not been modified since the specified date/time.
+   */
+  accessTierIfUnmodifiedSince?: Date;
+}
+
+/**
  * Conditions to add to the creation of this page blob.
  */
 export interface PageBlobRequestConditions
