@@ -165,7 +165,7 @@ export enum KnownResourceEncryptionType {
 
 // @public
 export enum KnownVersions {
-    V2Preview = "2025-03-21-preview"
+    V20250321 = "2025-03-21"
 }
 
 // @public
