@@ -1,4 +1,4 @@
 directory: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/ResourceConnector
-commit: 5f0a209aeda4a3be0b93270f3a69149ef6629701
+commit: 6b5aee4920a1a242b3e15de80c90e7b17eba7229
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 

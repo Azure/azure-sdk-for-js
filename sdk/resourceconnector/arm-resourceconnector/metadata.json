@@ -1,6 +1,6 @@
 {
   "apiVersion": "2025-03-01-preview",
-  "emitterVersion": "0.47.1",
+  "emitterVersion": "0.48.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ResourceConnector",
     "CrossLanguageDefinitionId": {
