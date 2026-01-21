@@ -11369,6 +11369,12 @@ export const GalleryArtifactPublishingProfileBase: coreClient.CompositeMapper = 
           },
         },
       },
+      storageAccountStrategy: {
+        serializedName: "storageAccountStrategy",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -11863,6 +11869,7 @@ export const ExecutedValidation: coreClient.CompositeMapper = {
       },
       status: {
         serializedName: "status",
+        readOnly: true,
         type: {
           name: "String",
         },
@@ -12203,6 +12210,215 @@ export const GalleryResourceProfileVersionPropertiesBase: coreClient.CompositeMa
         type: {
           name: "Composite",
           className: "ReplicationStatus",
+        },
+      },
+    },
+  },
+};
+
+export const GalleryScriptList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryScriptList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GalleryScript",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GalleryScriptProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryScriptProperties",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String",
+        },
+      },
+      eula: {
+        serializedName: "eula",
+        type: {
+          name: "String",
+        },
+      },
+      privacyStatementUri: {
+        serializedName: "privacyStatementUri",
+        type: {
+          name: "String",
+        },
+      },
+      releaseNoteUri: {
+        serializedName: "releaseNoteUri",
+        type: {
+          name: "String",
+        },
+      },
+      endOfLifeDate: {
+        serializedName: "endOfLifeDate",
+        type: {
+          name: "DateTime",
+        },
+      },
+      supportedOSType: {
+        serializedName: "supportedOSType",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Windows", "Linux"],
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GalleryScriptVersionList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryScriptVersionList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GalleryScriptVersion",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GalleryScriptVersionProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryScriptVersionProperties",
+    modelProperties: {
+      publishingProfile: {
+        serializedName: "publishingProfile",
+        type: {
+          name: "Composite",
+          className: "GalleryScriptVersionPublishingProfile",
+        },
+      },
+      safetyProfile: {
+        serializedName: "safetyProfile",
+        type: {
+          name: "Composite",
+          className: "GalleryScriptVersionSafetyProfile",
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      replicationStatus: {
+        serializedName: "replicationStatus",
+        type: {
+          name: "Composite",
+          className: "ReplicationStatus",
+        },
+      },
+    },
+  },
+};
+
+export const ScriptSource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScriptSource",
+    modelProperties: {
+      scriptLink: {
+        serializedName: "scriptLink",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GalleryScriptParameter",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const GenericGalleryParameter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GenericGalleryParameter",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      required: {
+        serializedName: "required",
+        type: {
+          name: "Boolean",
+        },
+      },
+      defaultValue: {
+        serializedName: "defaultValue",
+        type: {
+          name: "String",
+        },
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String",
         },
       },
     },
@@ -16186,6 +16402,98 @@ export const GalleryInVMAccessControlProfileVersionUpdate: coreClient.CompositeM
   },
 };
 
+export const GalleryScriptUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryScriptUpdate",
+    modelProperties: {
+      ...UpdateResourceDefinition.type.modelProperties,
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String",
+        },
+      },
+      eula: {
+        serializedName: "properties.eula",
+        type: {
+          name: "String",
+        },
+      },
+      privacyStatementUri: {
+        serializedName: "properties.privacyStatementUri",
+        type: {
+          name: "String",
+        },
+      },
+      releaseNoteUri: {
+        serializedName: "properties.releaseNoteUri",
+        type: {
+          name: "String",
+        },
+      },
+      endOfLifeDate: {
+        serializedName: "properties.endOfLifeDate",
+        type: {
+          name: "DateTime",
+        },
+      },
+      supportedOSType: {
+        serializedName: "properties.supportedOSType",
+        type: {
+          name: "Enum",
+          allowedValues: ["Windows", "Linux"],
+        },
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GalleryScriptVersionUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryScriptVersionUpdate",
+    modelProperties: {
+      ...UpdateResourceDefinition.type.modelProperties,
+      publishingProfile: {
+        serializedName: "properties.publishingProfile",
+        type: {
+          name: "Composite",
+          className: "GalleryScriptVersionPublishingProfile",
+        },
+      },
+      safetyProfile: {
+        serializedName: "properties.safetyProfile",
+        type: {
+          name: "Composite",
+          className: "GalleryScriptVersionSafetyProfile",
+        },
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      replicationStatus: {
+        serializedName: "properties.replicationStatus",
+        type: {
+          name: "Composite",
+          className: "ReplicationStatus",
+        },
+      },
+    },
+  },
+};
+
 export const GalleryApplicationVersionPublishingProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -16248,6 +16556,23 @@ export const GalleryImageVersionPublishingProfile: coreClient.CompositeMapper = 
     className: "GalleryImageVersionPublishingProfile",
     modelProperties: {
       ...GalleryArtifactPublishingProfileBase.type.modelProperties,
+    },
+  },
+};
+
+export const GalleryScriptVersionPublishingProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryScriptVersionPublishingProfile",
+    modelProperties: {
+      ...GalleryArtifactPublishingProfileBase.type.modelProperties,
+      source: {
+        serializedName: "source",
+        type: {
+          name: "Composite",
+          className: "ScriptSource",
+        },
+      },
     },
   },
 };
@@ -16328,6 +16653,16 @@ export const GalleryImageVersionSafetyProfile: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+    },
+  },
+};
+
+export const GalleryScriptVersionSafetyProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryScriptVersionSafetyProfile",
+    modelProperties: {
+      ...GalleryArtifactSafetyProfileBase.type.modelProperties,
     },
   },
 };
@@ -16460,6 +16795,45 @@ export const GalleryInVMAccessControlProfileVersionProperties: coreClient.Compos
         type: {
           name: "Composite",
           className: "AccessControlRules",
+        },
+      },
+    },
+  },
+};
+
+export const GalleryScriptParameter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryScriptParameter",
+    modelProperties: {
+      ...GenericGalleryParameter.type.modelProperties,
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String",
+        },
+      },
+      minValue: {
+        serializedName: "minValue",
+        type: {
+          name: "String",
+        },
+      },
+      maxValue: {
+        serializedName: "maxValue",
+        type: {
+          name: "String",
+        },
+      },
+      enumValues: {
+        serializedName: "enumValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
         },
       },
     },
@@ -19085,6 +19459,40 @@ export const GalleryInVMAccessControlProfileVersion: coreClient.CompositeMapper 
         type: {
           name: "Composite",
           className: "AccessControlRules",
+        },
+      },
+    },
+  },
+};
+
+export const GalleryScript: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryScript",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "GalleryScriptProperties",
+        },
+      },
+    },
+  },
+};
+
+export const GalleryScriptVersion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryScriptVersion",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "GalleryScriptVersionProperties",
         },
       },
     },
@@ -22134,6 +22542,150 @@ export const GalleryInVMAccessControlProfileVersionsDeleteHeaders: coreClient.Co
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GalleryScriptsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryScriptsCreateOrUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const GalleryScriptsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryScriptsUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const GalleryScriptsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryScriptsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const GalleryScriptVersionsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryScriptVersionsCreateOrUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const GalleryScriptVersionsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryScriptVersionsUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const GalleryScriptVersionsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryScriptVersionsDeleteHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
