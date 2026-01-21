@@ -339,7 +339,12 @@ describe("FileSystemPersist", () => {
         const actual = await vi.importActual<typeof fsPromises>("node:fs/promises");
         return {
           ...actual,
-          lstat: vi.fn().mockResolvedValue(<any>{ isDirectory: () => true, uid: 4242 }),
+          lstat: vi.fn().mockResolvedValue(
+            <any>{
+              isDirectory: () => true,
+              uid: 4242,
+            },
+          ),
         };
       });
 
@@ -356,7 +361,12 @@ describe("FileSystemPersist", () => {
         const actual = await vi.importActual<typeof fsPromises>("node:fs/promises");
         return {
           ...actual,
-          lstat: vi.fn().mockResolvedValue(<any>{ isDirectory: () => true, uid: 0 }),
+          lstat: vi.fn().mockResolvedValue(
+            <any>{
+              isDirectory: () => true,
+              uid: 0,
+            },
+          ),
         };
       });
 
@@ -373,7 +383,12 @@ describe("FileSystemPersist", () => {
         const actual = await vi.importActual<typeof fsPromises>("node:fs/promises");
         return {
           ...actual,
-          lstat: vi.fn().mockResolvedValue(<any>{ isDirectory: () => true, uid: 9999 }),
+          lstat: vi.fn().mockResolvedValue(
+            <any>{
+              isDirectory: () => true,
+              uid: 9999,
+            },
+          ),
         };
       });
 
