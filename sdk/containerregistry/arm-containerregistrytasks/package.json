@@ -1,0 +1,273 @@
+{
+  "name": "@azure/arm-containerregistrytasks",
+  "version": "1.0.0-beta.1",
+  "description": "A generated SDK for ContainerRegistryTasksManagementClient.",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "sideEffects": false,
+  "autoPublish": false,
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts",
+      "./api": "./src/api/index.ts",
+      "./api/registries": "./src/api/registries/index.ts",
+      "./api/tasks": "./src/api/tasks/index.ts",
+      "./api/taskRuns": "./src/api/taskRuns/index.ts",
+      "./api/runs": "./src/api/runs/index.ts",
+      "./api/agentPools": "./src/api/agentPools/index.ts",
+      "./models": "./src/models/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false,
+    "project": "../../../tsconfig.src.build.json"
+  },
+  "type": "module",
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "sdk-type": "mgmt",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerregistry/arm-containerregistrytasks/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/containerRegistryTasksManagementContext.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/core-util": "^1.12.0",
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/logger": "^1.2.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "tshy": "catalog:",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
+  },
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "pnpm pack 2>&1",
+    "lint": "echo skipped",
+    "lint:fix": "echo skipped",
+    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "generate:client": "echo skipped",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test": "npm run test:node && npm run test:browser",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "//sampleConfiguration": {
+    "productName": "@azure/arm-containerregistrytasks",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-containerregistrytasks?view=azure-node-preview"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/registries": {
+      "browser": {
+        "types": "./dist/browser/api/registries/index.d.ts",
+        "default": "./dist/browser/api/registries/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/registries/index.d.ts",
+        "default": "./dist/react-native/api/registries/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/registries/index.d.ts",
+        "default": "./dist/esm/api/registries/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/registries/index.d.ts",
+        "default": "./dist/commonjs/api/registries/index.js"
+      }
+    },
+    "./api/tasks": {
+      "browser": {
+        "types": "./dist/browser/api/tasks/index.d.ts",
+        "default": "./dist/browser/api/tasks/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/tasks/index.d.ts",
+        "default": "./dist/react-native/api/tasks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/tasks/index.d.ts",
+        "default": "./dist/esm/api/tasks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/tasks/index.d.ts",
+        "default": "./dist/commonjs/api/tasks/index.js"
+      }
+    },
+    "./api/taskRuns": {
+      "browser": {
+        "types": "./dist/browser/api/taskRuns/index.d.ts",
+        "default": "./dist/browser/api/taskRuns/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/taskRuns/index.d.ts",
+        "default": "./dist/react-native/api/taskRuns/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/taskRuns/index.d.ts",
+        "default": "./dist/esm/api/taskRuns/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/taskRuns/index.d.ts",
+        "default": "./dist/commonjs/api/taskRuns/index.js"
+      }
+    },
+    "./api/runs": {
+      "browser": {
+        "types": "./dist/browser/api/runs/index.d.ts",
+        "default": "./dist/browser/api/runs/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/runs/index.d.ts",
+        "default": "./dist/react-native/api/runs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/runs/index.d.ts",
+        "default": "./dist/esm/api/runs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/runs/index.d.ts",
+        "default": "./dist/commonjs/api/runs/index.js"
+      }
+    },
+    "./api/agentPools": {
+      "browser": {
+        "types": "./dist/browser/api/agentPools/index.d.ts",
+        "default": "./dist/browser/api/agentPools/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/agentPools/index.d.ts",
+        "default": "./dist/react-native/api/agentPools/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/agentPools/index.d.ts",
+        "default": "./dist/esm/api/agentPools/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/agentPools/index.d.ts",
+        "default": "./dist/commonjs/api/agentPools/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
+    }
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
+}

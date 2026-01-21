@@ -1644,6 +1644,9 @@ sdk/compute/arm-computerecommender/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt
 sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt
+sdk/containerregistry/arm-containerregistrytasks/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
