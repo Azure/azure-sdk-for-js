@@ -6,6 +6,7 @@ import { describe, it, assert, expect, beforeEach, vi, afterEach } from "vitest"
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import type * as fsPromises from "node:fs/promises";
 import {
   FileSystemPersist,
   getStorageDirectory,
@@ -331,9 +332,7 @@ describe("FileSystemPersist", () => {
     it("does not warn when directory is owned by current user", async () => {
       (process as any).getuid = () => 4242;
       vi.doMock("node:fs/promises", async () => {
-        const actual = await vi.importActual<typeof import("node:fs/promises")>(
-          "node:fs/promises",
-        );
+        const actual = await vi.importActual<typeof fsPromises>("node:fs/promises");
         return { ...actual, lstat: vi.fn().mockResolvedValue(<any>{ isDirectory: () => true, uid: 4242 }) };
       });
 
@@ -347,9 +346,7 @@ describe("FileSystemPersist", () => {
     it("does not warn when directory is owned by admin (uid 0)", async () => {
       (process as any).getuid = () => 4242;
       vi.doMock("node:fs/promises", async () => {
-        const actual = await vi.importActual<typeof import("node:fs/promises")>(
-          "node:fs/promises",
-        );
+        const actual = await vi.importActual<typeof fsPromises>("node:fs/promises");
         return { ...actual, lstat: vi.fn().mockResolvedValue(<any>{ isDirectory: () => true, uid: 0 }) };
       });
 
@@ -363,9 +360,7 @@ describe("FileSystemPersist", () => {
     it("throws when directory is owned by another user", async () => {
       (process as any).getuid = () => 4242;
       vi.doMock("node:fs/promises", async () => {
-        const actual = await vi.importActual<typeof import("node:fs/promises")>(
-          "node:fs/promises",
-        );
+        const actual = await vi.importActual<typeof fsPromises>("node:fs/promises");
         return {
           ...actual,
           lstat: vi.fn().mockResolvedValue(<any>{ isDirectory: () => true, uid: 9999 }),
