@@ -82,13 +82,15 @@ export class ConnectionStringParser {
   }
 
   public static validateInstrumentationKey(iKey: string): boolean {
-    if (iKey.startsWith("InstrumentationKey=")) {
-      const startIndex = iKey.indexOf("InstrumentationKey=") + "InstrumentationKey=".length;
-      const endIndex = iKey.indexOf(";", startIndex);
-      iKey = iKey.substring(startIndex, endIndex);
+    let instrumentationKey = iKey;
+    if (instrumentationKey.startsWith("InstrumentationKey=")) {
+      const startIndex = instrumentationKey.indexOf("InstrumentationKey=") +
+        "InstrumentationKey=".length;
+      const endIndex = instrumentationKey.indexOf(";", startIndex);
+      instrumentationKey = instrumentationKey.substring(startIndex, endIndex);
     }
     const UUID_Regex = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
     const regexp = new RegExp(UUID_Regex);
-    return regexp.test(iKey);
+    return regexp.test(instrumentationKey);
   }
 }

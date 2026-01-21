@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import {
-  createAzureMonitorExporter,
-  AzureMonitorExporterContext,
-  AzureMonitorExporterClientOptionalParams,
+  createApplicationInsights,
+  ApplicationInsightsContext,
+  ApplicationInsightsClientOptionalParams,
 } from "./api/index.js";
 import { track } from "./api/operations.js";
 import { TrackOptionalParams } from "./api/options.js";
@@ -12,23 +12,23 @@ import { TelemetryItem, TrackResponse } from "./models/models.js";
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { AzureMonitorExporterClientOptionalParams } from "./api/azureMonitorExporterContext.js";
+export { ApplicationInsightsClientOptionalParams } from "./api/applicationInsightsContext.js";
 
-export class AzureMonitorExporterClient {
-  private _client: AzureMonitorExporterContext;
+export class ApplicationInsightsClient {
+  private _client: ApplicationInsightsContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
   /** OpenTelemetry Exporter for Azure Monitor */
   constructor(
     credential: any | TokenCredential,
-    options: AzureMonitorExporterClientOptionalParams = {},
+    options: ApplicationInsightsClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createAzureMonitorExporter(credential, {
+    this._client = createApplicationInsights(credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

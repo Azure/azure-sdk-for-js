@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 export {
-  createAzureMonitorExporter,
-  AzureMonitorExporterContext,
-  AzureMonitorExporterClientOptionalParams,
-} from "./azureMonitorExporterContext.js";
+  createApplicationInsights,
+  ApplicationInsightsContext,
+  ApplicationInsightsClientOptionalParams,
+} from "./applicationInsightsContext.js";
 export { track } from "./operations.js";
 export { TrackOptionalParams } from "./options.js";

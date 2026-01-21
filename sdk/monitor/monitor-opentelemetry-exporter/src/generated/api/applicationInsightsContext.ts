@@ -7,13 +7,15 @@ import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
 /** OpenTelemetry Exporter for Azure Monitor */
-export interface AzureMonitorExporterContext extends Client {
+export interface ApplicationInsightsContext extends Client {
   /** The service API version. */
   apiVersion: Versions;
+  /** Application Insights' Breeze endpoint. */
+  host?: string;
 }
 
 /** Optional parameters for the client. */
-export interface AzureMonitorExporterClientOptionalParams extends ClientOptions {
+export interface ApplicationInsightsClientOptionalParams extends ClientOptions {
   /** Application Insights' Breeze endpoint. */
   host?: string;
   /** The service API version. */
@@ -21,10 +23,10 @@ export interface AzureMonitorExporterClientOptionalParams extends ClientOptions 
 }
 
 /** OpenTelemetry Exporter for Azure Monitor */
-export function createAzureMonitorExporter(
+export function createApplicationInsights(
   credential: any | TokenCredential,
-  options: AzureMonitorExporterClientOptionalParams = {},
-): AzureMonitorExporterContext {
+  options: ApplicationInsightsClientOptionalParams = {},
+): ApplicationInsightsContext {
   const host = options.host ?? "https://dc.services.visualstudio.com";
   const apiVersion = options.apiVersion ?? "v2.1";
   const endpointUrl = options.endpoint ?? `${host}/${apiVersion}`;
@@ -41,5 +43,5 @@ export function createAzureMonitorExporter(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  return { ...clientContext, apiVersion } as AzureMonitorExporterContext;
+  return { ...clientContext, apiVersion, host } as ApplicationInsightsContext;
 }

@@ -1,6 +1,6 @@
 {
   "apiVersion": "v2.1",
-  "emitterVersion": "0.47.0",
+  "emitterVersion": "0.48.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "AzureMonitorExporter",
     "CrossLanguageDefinitionId": {
@@ -24,7 +24,7 @@
       "@azure/monitor-opentelemetry-exporter!KnownDataPointType:enum": "AzureMonitorExporter.DataPointType",
       "@azure/monitor-opentelemetry-exporter!KnownSeverityLevel:enum": "AzureMonitorExporter.SeverityLevel",
       "@azure/monitor-opentelemetry-exporter!KnownContextTagKeys:enum": "AzureMonitorExporter.ContextTagKeys",
-      "@azure/monitor-opentelemetry-exporter!AzureMonitorExporterClient#track:member(1)": "AzureMonitorExporter.track"
+      "@azure/monitor-opentelemetry-exporter!ApplicationInsightsClient#track:member(1)": "AzureMonitorExporter.track"
     }
   }
 }

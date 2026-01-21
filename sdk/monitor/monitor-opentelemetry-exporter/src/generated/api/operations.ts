@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureMonitorExporterContext as Client } from "./index.js";
+import { ApplicationInsightsContext as Client } from "./index.js";
 import {
   TelemetryItem,
   TrackResponse,

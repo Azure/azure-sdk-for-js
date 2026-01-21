@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { AzureMonitorExporterClient } from "./azureMonitorExporterClient.js";
+export { ApplicationInsightsClient } from "./applicationInsightsClient.js";
 export {
   TelemetryItem,
   MonitorBase,
@@ -27,4 +27,4 @@ export {
   KnownContextTagKeys,
   ContextTagKeys,
 } from "./models/index.js";
-export { AzureMonitorExporterClientOptionalParams, TrackOptionalParams } from "./api/index.js";
+export { ApplicationInsightsClientOptionalParams, TrackOptionalParams } from "./api/index.js";
