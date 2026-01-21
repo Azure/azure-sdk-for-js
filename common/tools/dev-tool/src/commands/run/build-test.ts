@@ -7,7 +7,7 @@ import { stat } from "node:fs/promises";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
 import { resolveProject } from "../../util/resolveProject";
-import { type Config, resolveConfig } from "../../util/resolveTsConfig";
+import { type ResolvedConfigResult, resolveConfig } from "../../util/resolveTsConfig";
 import { spawnSync } from "node:child_process";
 
 const log = createPrinter("build-test");
@@ -126,7 +126,7 @@ export default leafCommand(commandInfo, async (options) => {
     }
 
     log.info(`Building for browser testing...`);
-    const esmMap = overrides.has("esm") ? overrides.get("esm")!.map : new Map<string, string>();
+    const esmMap = overrides.get("esm")?.map ?? new Map<string, string>();
     return compileForEnvironment("browser", browserConfig, importMap, esmMap);
   }
 
@@ -134,7 +134,7 @@ export default leafCommand(commandInfo, async (options) => {
 });
 
 async function runTypeScript(tsConfig: string): Promise<boolean> {
-  const res = spawnSync(`tsc -p ${tsConfig}`, [], {
+  const res = spawnSync(`tsc -b ${tsConfig}`, [], {
     stdio: "inherit",
     shell: true,
     cwd: process.cwd(),
@@ -155,8 +155,8 @@ async function compileForEnvironment(
   overrideMap: Map<string, string>,
 ): Promise<boolean> {
   const tsconfigPath = path.join(process.cwd(), tsConfig);
-  const tsConfigJSON = await resolveConfig(tsconfigPath);
-  const outputPath = tsConfigJSON.compilerOptions.outDir;
+  const resolvedConfig = await resolveConfig(tsconfigPath);
+  const outputPath = resolvedConfig.config.compilerOptions.outDir;
   if (!existsSync(tsconfigPath)) {
     log.error(`TypeScript config ${tsConfig} does not exist`);
     return false;
@@ -171,11 +171,9 @@ async function compileForEnvironment(
     mkdirSync(browserTestPath, { recursive: true });
   }
 
-  // Check if the TypeScript config uses package name imports or "internal" paths
-  // TODO: use hasPackageOrInternalPaths once all tests are migrated to import from package name
-  const shouldSkipOverrides = false; //hasPackageOrInternalPaths(tsConfigJSON);
+  const shouldSkipOverrides = !configIncludesSrc(resolvedConfig);
   if (shouldSkipOverrides) {
-    log.info("Detected package name or internal path mappings, skipping file overrides");
+    log.info("Detected no src entries in tsconfig; skipping file overrides");
   }
 
   // Create import map
@@ -205,21 +203,23 @@ async function compileForEnvironment(
   return true;
 }
 
-export function hasPackageOrInternalPaths(tsConfig: Config): boolean {
-  const paths = tsConfig?.compilerOptions?.paths;
-  if (!paths || typeof paths !== "object") {
-    return false;
+export function configIncludesSrc(resolvedConfig: ResolvedConfigResult): boolean {
+  const configs = [resolvedConfig.config, ...resolvedConfig.references.map((ref) => ref.config)];
+
+  for (const tsConfig of configs) {
+    const { include, files } = tsConfig;
+
+    if (include === undefined && files === undefined) {
+      return true;
+    }
+
+    const entries = [...(include ?? []), ...(files ?? [])];
+    if (entries.some((entry) => /(^|[\\/])src([\\/]|$)/.test(entry))) {
+      return true;
+    }
   }
 
-  const pathKeys = Object.keys(paths);
-
-  // Check for package name imports (e.g., @azure/identity, @azure/identity/*)
-  const hasPackageImports = pathKeys.some((key) => key.startsWith("@") && key.includes("/"));
-
-  // Check for internal path imports (e.g., internal/*)
-  const hasInternalImports = pathKeys.some((key) => key.startsWith("internal/"));
-
-  return hasPackageImports || hasInternalImports;
+  return false;
 }
 
 function copyOverrides(type: string, rootDir: string, filePath: string): void {
