@@ -389,6 +389,28 @@ describe("FileSystemPersist", () => {
 
       await expect(confirmDirExists(directory)).rejects.toThrow("owned by uid 9999");
     });
+
+    it("skips ownership check on Windows (process.getuid undefined)", async () => {
+      // Simulate Windows environment where getuid is not available
+      delete (process as any).getuid;
+
+      vi.doMock("node:fs/promises", async () => {
+        const actual = await vi.importActual<typeof fsPromises>("node:fs/promises");
+        return {
+          ...actual,
+          lstat: vi.fn().mockResolvedValue(<any>{
+            isDirectory: () => true,
+            uid: 9999, // Would trigger error on Unix, but should be ignored on Windows
+          }),
+        };
+      });
+
+      const { confirmDirExists } =
+        await import("../../src/platform/nodejs/persist/fileSystemHelpers.js");
+
+      // Should not throw even though uid doesn't match - ownership check is skipped on Windows
+      await expect(confirmDirExists(directory)).resolves.not.toThrow();
+    });
   });
 
   describe("#getStorageDirectory", () => {
