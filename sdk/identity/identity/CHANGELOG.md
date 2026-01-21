@@ -14,6 +14,7 @@
 
 ### Other Changes
 
+- Disabled MSAL's internal retry logic for Node.js credentials (ClientSecretCredential, ClientCertificateCredential, etc.) by setting `disableInternalRetries: true`, ensuring Azure SDK's retry policy is used consistently across all credential types.
 - Refactored and cleaned up `MsalClientOptions` to eliminate nested property duplication, replaced `getIdentityClientAuthorityHost` with `getAuthorityHost`, and removed deprecated `isNode` in favor of `isNodeLike`. [#36731](https://github.com/Azure/azure-sdk-for-js/pull/36731)
 
 ## 4.14.0-beta.1 (2025-11-06)
