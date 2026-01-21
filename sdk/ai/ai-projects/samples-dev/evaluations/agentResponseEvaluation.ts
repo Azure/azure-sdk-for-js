@@ -26,7 +26,6 @@ export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = await project.getOpenAIClient();
 
-  // [START agent_response_evaluation]
   // Create agent
   console.log("Creating agent...");
   const agent = await project.agents.createVersion(agentName, {
@@ -54,7 +53,6 @@ export async function main(): Promise<void> {
   const response = await openAIClient.responses.create(
     {
       conversation: conversation.id,
-      input: "",
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },
@@ -99,7 +97,6 @@ export async function main(): Promise<void> {
     } as any,
   });
   console.log(`Evaluation run created (id: ${responseEvalRun.id})`);
-  // [END agent_response_evaluation]
 
   // Poll for completion
   while (!["completed", "failed"].includes(responseEvalRun.status)) {

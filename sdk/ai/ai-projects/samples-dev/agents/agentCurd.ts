@@ -40,7 +40,7 @@ async function main(): Promise<void> {
     retrievedAgent1.name,
   );
   // Retrieve Agent by name (latest version)
-  const latestAgent1 = await project.agents.get("bg-crud-agent1");
+  const latestAgent1 = await project.agents.get(agent1.name);
   console.log(
     "Retrieved latest agent id:",
     latestAgent1.id,

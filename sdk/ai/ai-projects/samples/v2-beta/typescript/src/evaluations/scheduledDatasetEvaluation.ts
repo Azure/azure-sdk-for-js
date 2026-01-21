@@ -27,7 +27,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import { tmpdir } from "os";
 import * as path from "path";
-import * as fs from "fs";
+import * as fs from "node:fs/promises";
 import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -48,10 +48,14 @@ export async function main(): Promise<void> {
       },
     ];
     const dataFilePath = path.join(tmpdir(), "sample_data_evaluation.jsonl");
-    fs.writeFileSync(dataFilePath, evalData.map(item => JSON.stringify(item)).join("\n"));
+    await fs.writeFile(dataFilePath, evalData.map((item) => JSON.stringify(item)).join("\n"));
     // Upload a single file and create a new Dataset to reference the file
     console.log("Upload a single file and create a new Dataset to reference the file.");
-    const dataset = await project.datasets.uploadFile("eval-data-schedule-dataset", datasetVersion, dataFilePath);
+    const dataset = await project.datasets.uploadFile(
+      "eval-data-schedule-dataset",
+      datasetVersion,
+      dataFilePath,
+    );
     console.log(JSON.stringify(dataset, null, 2));
 
     // Define data source configuration with custom schema

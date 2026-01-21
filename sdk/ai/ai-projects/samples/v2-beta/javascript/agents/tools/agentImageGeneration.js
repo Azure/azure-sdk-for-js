@@ -14,13 +14,13 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
-const fs = require("fs");
+const fs = require("node:fs/promises");
 const path = require("path");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName =
-  process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const imageDeploymentName = process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME"] || "gpt-image-1";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
   // Create AI Project client
@@ -51,7 +51,10 @@ async function main() {
       input: "Generate an image of Microsoft logo.",
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: {
+        agent: { name: agent.name, type: "agent_reference" },
+      },
+      headers: { "x-ms-oai-image-generation-deployment": imageDeploymentName },
     },
   );
   console.log(`Response created: ${response.id}`);
@@ -67,7 +70,7 @@ async function main() {
 
     // Decode base64 and save to file
     const imageBuffer = Buffer.from(imageData[0].result, "base64");
-    fs.writeFileSync(filePath, imageBuffer);
+    await fs.writeFile(filePath, imageBuffer);
 
     console.log(`Image downloaded and saved to: ${path.resolve(filePath)}`);
   } else {

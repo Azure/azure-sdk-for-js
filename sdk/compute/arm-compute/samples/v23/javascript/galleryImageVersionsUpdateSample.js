@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Update a gallery image version.
  *
  * @summary Update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Update_RestoreSoftDeleted.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryImageVersion_Update_RestoreSoftDeleted.json
  */
 async function restoreASoftDeletedGalleryImageVersion() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -37,7 +37,7 @@ async function restoreASoftDeletedGalleryImageVersion() {
  * This sample demonstrates how to Update a gallery image version.
  *
  * @summary Update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryImageVersion_Update.json
  */
 async function updateASimpleGalleryImageVersionManagedImageAsSource() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -78,7 +78,7 @@ async function updateASimpleGalleryImageVersionManagedImageAsSource() {
  * This sample demonstrates how to Update a gallery image version.
  *
  * @summary Update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Update_WithoutSourceId.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryImageVersion_Update_WithoutSourceId.json
  */
 async function updateASimpleGalleryImageVersionWithoutSourceId() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

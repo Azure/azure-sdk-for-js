@@ -27,7 +27,6 @@ export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
-  // [START evaluators_catalog]
   // Create a prompt-based custom evaluator
   console.log("Creating Prompt based custom evaluator version (object style)");
   const promptEvaluator = await project.evaluators.createVersion(
@@ -183,7 +182,6 @@ export async function main(): Promise<void> {
   }
 
   console.log("\nSample completed successfully");
-  // [END evaluators_catalog]
 }
 
 main().catch((err) => {

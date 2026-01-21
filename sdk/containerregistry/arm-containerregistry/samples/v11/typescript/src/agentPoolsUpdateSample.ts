@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates an agent pool with the specified parameters.
  *
  * @summary Updates an agent pool with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/AgentPoolsUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/AgentPoolsUpdate.json
  */
 async function agentPoolsUpdate(): Promise<void> {
   const subscriptionId =

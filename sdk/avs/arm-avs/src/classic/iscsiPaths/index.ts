@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { IscsiPath } from "../../models/models.js";
-import {
-  IscsiPathsDeleteOptionalParams,
-  IscsiPathsCreateOrUpdateOptionalParams,
-  IscsiPathsGetOptionalParams,
-  IscsiPathsListByPrivateCloudOptionalParams,
-} from "../../api/iscsiPaths/options.js";
+import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import {
   $delete,
   createOrUpdate,
   get,
   listByPrivateCloud,
 } from "../../api/iscsiPaths/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  IscsiPathsDeleteOptionalParams,
+  IscsiPathsCreateOrUpdateOptionalParams,
+  IscsiPathsGetOptionalParams,
+  IscsiPathsListByPrivateCloudOptionalParams,
+} from "../../api/iscsiPaths/options.js";
+import type { IscsiPath } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a IscsiPaths operations. */
 export interface IscsiPathsOperations {

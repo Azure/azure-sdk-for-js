@@ -1,22 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
-  GenerateResponse,
-  generateResponseDeserializer,
-} from "../../models/models.js";
+import type { ContainerServiceFleetContext as Client } from "../index.js";
+import type { GenerateResponse } from "../../models/models.js";
+import { errorResponseDeserializer, generateResponseDeserializer } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _generateUpdateRunSend(
   context: Client,
@@ -52,7 +45,7 @@ export function _generateUpdateRunSend(
 export async function _generateUpdateRunDeserialize(
   result: PathUncheckedResponse,
 ): Promise<GenerateResponse> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -72,7 +65,7 @@ export function generateUpdateRun(
     requestOptions: {},
   },
 ): PollerLike<OperationState<GenerateResponse>, GenerateResponse> {
-  return getLongRunningPoller(context, _generateUpdateRunDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _generateUpdateRunDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

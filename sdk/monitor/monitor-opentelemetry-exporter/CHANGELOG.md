@@ -1,16 +1,21 @@
 # Release History
 
-### 1.0.0-beta.37 ()
+### 1.0.0-beta.38 (2026-01-16)
 
 ### Features Added
 
-### Bugs Fixed
+- Remove limit on custom properties field on both logs and spans.
 
-### Breaking Changes
+### 1.0.0-beta.37 (2026-01-15)
+
+### Features Added
+
+- Populate the `microsoft.applicationId` resource attribute from the Application Insights connection string when it is not already provided.
 
 ### Other Changes
 
 - Detect AKS when the `KUBERNETES_SERVICE_HOST` environment variable is defined.
+- Statsbeat exports now report success on failed sends to prevent PeriodicExportingMetricReader errors from surfacing to customers.
 
 ## 1.0.0-beta.36 (2025-11-10)
 

@@ -109,6 +109,12 @@ export const ENV_AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const ENV_AZURE_MONITOR_DISTRO_VERSION = "AZURE_MONITOR_DISTRO_VERSION";
 
 /**
+ * Resource attribute used for Application Insights correlation when specified.
+ * @internal
+ */
+export const APPLICATION_ID_RESOURCE_KEY = "microsoft.applicationId";
+
+/**
  * Enables the preview version of customer-facing SDK Stats.
  * @internal
  */
@@ -121,6 +127,12 @@ export const ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW =
  */
 export const ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL =
   "APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL";
+
+/**
+ * Enable verbose statsbeat logging and surfacing failures.
+ * @internal
+ */
+export const ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING = "APPLICATIONINSIGHTS_SDK_STATS_LOGGING";
 
 /**
  * QuickPulse metric counter names.

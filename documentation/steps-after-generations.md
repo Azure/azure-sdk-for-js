@@ -12,6 +12,10 @@ pnpm install
 pnpm build --filter=<your-package-name>...
 ```
 
+# Customizing the generated code
+
+If the generated code does not fit your needs, you can use the JavaScript customization workflow to make edits. This should only be done in coordination with the JavaScript architects. For more information, see the [Modular (DPG) Customization Guide](https://aka.ms/azsdk/js/customization).
+
 # Generate CHANGELOG.md
 
 Install `js-sdk-release-tools`
@@ -134,7 +138,7 @@ After you have finished the generation and added your own tests or samples, you 
 cd ${PROJECT_ROOT} && pnpm format
 ```
 
-Also, we'll recommand you to run `lint` command to analyze your code and quickly find any problems.
+Also, we'll recommend you to run `lint` command to analyze your code and quickly find any problems.
 
 ```shell
 cd ${PROJECT_ROOT} && pnpm lint

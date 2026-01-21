@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete a gallery Application.
  *
  * @summary Delete a gallery Application.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryApplication_Delete.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryApplication_Delete.json
  */
 async function deleteAGalleryApplication(): Promise<void> {
   const subscriptionId =

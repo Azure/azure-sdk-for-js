@@ -538,14 +538,6 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           MaxPropertyLengths.FIFTEEN_BIT,
         );
       }
-      if (baseData.properties) {
-        for (const key of Object.keys(baseData.properties)) {
-          baseData.properties[key] = baseData.properties[key].substring(
-            0,
-            MaxPropertyLengths.THIRTEEN_BIT,
-          );
-        }
-      }
       const env: Envelope = {
         name: name,
         time: time,
