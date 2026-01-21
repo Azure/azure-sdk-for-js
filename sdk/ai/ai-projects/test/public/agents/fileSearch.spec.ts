@@ -93,76 +93,71 @@ describe("agents - file search - execution flow", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())(
-    "should execute File Search query and return result",
-    async function () {
-      // Create vector store for file search
-      const vectorStore = await openAIClient.vectorStores.create({
-        name: "TestProductInfoStore",
-      });
-      assert.isNotNull(vectorStore);
-      console.log(`Vector store created (id: ${vectorStore.id})`);
+  it.skipIf(!isLiveMode())("should execute File Search query and return result", async function () {
+    // Create vector store for file search
+    const vectorStore = await openAIClient.vectorStores.create({
+      name: "TestProductInfoStore",
+    });
+    assert.isNotNull(vectorStore);
+    console.log(`Vector store created (id: ${vectorStore.id})`);
 
-      // Upload file to vector store
-      const dataUrl = new URL("./data/product_info.md", import.meta.url);
-      const file = await openAIClient.vectorStores.files.uploadAndPoll(
-        vectorStore.id,
-        fs.createReadStream(dataUrl),
-      );
-      assert.isNotNull(file);
-      console.log(`File uploaded to vector store (id: ${file.id})`);
+    // Upload file to vector store
+    const dataUrl = new URL("./data/product_info.md", import.meta.url);
+    const file = await openAIClient.vectorStores.files.uploadAndPoll(
+      vectorStore.id,
+      fs.createReadStream(dataUrl),
+    );
+    assert.isNotNull(file);
+    console.log(`File uploaded to vector store (id: ${file.id})`);
 
-      // Create agent with file search tool
-      const agent = await agents.createVersion(agentName, {
-        kind: "prompt",
-        model: "gpt-5-mini",
-        instructions: agentInstructions,
-        tools: [
+    // Create agent with file search tool
+    const agent = await agents.createVersion(agentName, {
+      kind: "prompt",
+      model: "gpt-5-mini",
+      instructions: agentInstructions,
+      tools: [
+        {
+          type: "file_search",
+          vector_store_ids: [vectorStore.id],
+        },
+      ],
+    });
+    assert.isNotNull(agent);
+    assert.isNotNull(agent.id);
+    assert.isNotNull(agent.name);
+    assert.isNotNull(agent.version);
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+
+    // Send a query that should trigger File Search
+    const response = await openAIClient.responses.create(
+      {
+        input: [
           {
-            type: "file_search",
-            vector_store_ids: [vectorStore.id],
+            type: "message",
+            role: "user",
+            content: "Tell me about Contoso products",
           },
         ],
-      });
-      assert.isNotNull(agent);
-      assert.isNotNull(agent.id);
-      assert.isNotNull(agent.name);
-      assert.isNotNull(agent.version);
-      console.log(
-        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
-      );
-
-      // Send a query that should trigger File Search
-      const response = await openAIClient.responses.create(
-        {
-          input: [
-            {
-              type: "message",
-              role: "user",
-              content: "Tell me about Contoso products",
-            },
-          ],
+      },
+      {
+        body: {
+          agent: { name: agent.name, type: "agent_reference" },
+          tool_choice: "required",
         },
-        {
-          body: {
-            agent: { name: agent.name, type: "agent_reference" },
-            tool_choice: "required",
-          },
-        },
-      );
+      },
+    );
 
-      assert.isNotNull(response);
-      assert.isNotNull(response.output_text);
-      console.log(`Response output: ${response.output_text}`);
+    assert.isNotNull(response);
+    assert.isNotNull(response.output_text);
+    console.log(`Response output: ${response.output_text}`);
 
-      // Clean up
-      await agents.deleteVersion(agent.name, agent.version);
-      console.log("Agent deleted");
+    // Clean up
+    await agents.deleteVersion(agent.name, agent.version);
+    console.log("Agent deleted");
 
-      await openAIClient.vectorStores.delete(vectorStore.id);
-      console.log("Vector store deleted");
-    },
-  );
+    await openAIClient.vectorStores.delete(vectorStore.id);
+    console.log("Vector store deleted");
+  });
 
   it.skipIf(!isLiveMode())(
     "should handle File Search query with streaming response",
