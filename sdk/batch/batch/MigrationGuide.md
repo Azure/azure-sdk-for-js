@@ -4,8 +4,6 @@
 
 This guide is intended to assist customers in migrating to version 13.x of the `@azure/batch` package from version 12.x. It will focus on side-by-side comparisons of similar operations between the two versions.
 
-Familiarity with the V12 client library is assumed. For those new to the Azure Batch JavaScript client library, please refer to the latest [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/batch/README.md) and [samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/batch/samples) of `@azure/batch` instead of this guide.
-
 ## Table of Contents
 
 - [Migration Benefits](#migration-benefits)
