@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to create an AI agent with Bing Custom Search capabilities
- * using the BingCustomSearchAgentTool and synchronous Azure AI Projects client. The agent can search
+ * using the BingCustomSearchPreviewTool and synchronous Azure AI Projects client. The agent can search
  * custom search instances and provide responses with relevant results.
  *
  * @summary This sample demonstrates how to create an agent with Bing Custom Search tool capabilities,
