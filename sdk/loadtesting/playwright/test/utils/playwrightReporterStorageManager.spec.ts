@@ -191,6 +191,195 @@ describe("PlaywrightReporterStorageManager", () => {
     fs.rmSync(tmpRoot, { recursive: true, force: true });
   });
 
+  it("modifyTraceIndexHtml creates backup file index.local.html", async () => {
+    const mgr = new PlaywrightReporterStorageManager();
+    const tmpRoot = join(process.cwd(), `tmp-playwright-${Date.now()}`);
+    const traceDir = join(tmpRoot, "trace");
+    fs.mkdirSync(traceDir, { recursive: true });
+    const indexPath = join(traceDir, "index.html");
+    const localIndexPath = join(traceDir, "index.local.html");
+    const originalContent = "<html><body>Original Trace Viewer</body></html>";
+    fs.writeFileSync(indexPath, originalContent);
+
+    await (mgr as any).modifyTraceIndexHtml(tmpRoot);
+
+    // Verify backup file was created
+    expect(fs.existsSync(localIndexPath)).toBe(true);
+
+    // Verify backup contains original content
+    const backupContent = fs.readFileSync(localIndexPath, "utf-8");
+    expect(backupContent).toBe(originalContent);
+
+    // Verify index.html was modified
+    const modifiedContent = fs.readFileSync(indexPath, "utf-8");
+    expect(modifiedContent).not.toBe(originalContent);
+    expect(modifiedContent).toContain("Redirecting to Trace Viewer");
+
+    fs.rmSync(tmpRoot, { recursive: true, force: true });
+  });
+
+  it("redirect script includes JSDoc documentation", async () => {
+    const mgr = new PlaywrightReporterStorageManager();
+    const tmpRoot = join(process.cwd(), `tmp-playwright-${Date.now()}`);
+    const traceDir = join(tmpRoot, "trace");
+    fs.mkdirSync(traceDir, { recursive: true });
+    const indexPath = join(traceDir, "index.html");
+    fs.writeFileSync(indexPath, "<html>old</html>");
+
+    await (mgr as any).modifyTraceIndexHtml(tmpRoot);
+
+    const content = fs.readFileSync(indexPath, "utf-8");
+
+    // Verify JSDoc documentation is present
+    expect(content).toContain("Trace Viewer Redirect Logic");
+    expect(content).toContain("This script handles two scenarios:");
+    expect(content).toContain("Azure Portal Access");
+    expect(content).toContain("Local Development");
+    expect(content).toContain("Authentication token preservation:");
+
+    fs.rmSync(tmpRoot, { recursive: true, force: true });
+  });
+
+  it("redirect script detects Azure Portal scenario with SAS tokens", async () => {
+    const mgr = new PlaywrightReporterStorageManager();
+    const tmpRoot = join(process.cwd(), `tmp-playwright-${Date.now()}`);
+    const traceDir = join(tmpRoot, "trace");
+    fs.mkdirSync(traceDir, { recursive: true });
+    const indexPath = join(traceDir, "index.html");
+    fs.writeFileSync(indexPath, "<html>old</html>");
+
+    await (mgr as any).modifyTraceIndexHtml(tmpRoot);
+
+    const content = fs.readFileSync(indexPath, "utf-8");
+
+    // Verify SAS token detection logic
+    expect(content).toContain("currentUrl.searchParams.has('sig')");
+    expect(content).toContain("currentUrl.searchParams.has('sv')");
+    expect(content).toContain("currentHasSas");
+
+    // Verify redirect to public trace viewer
+    expect(content).toContain("https://trace.playwright.dev/");
+    expect(content).toContain("location.replace(publicTraceViewer.toString())");
+
+    fs.rmSync(tmpRoot, { recursive: true, force: true });
+  });
+
+  it("redirect script handles localhost detection comprehensively", async () => {
+    const mgr = new PlaywrightReporterStorageManager();
+    const tmpRoot = join(process.cwd(), `tmp-playwright-${Date.now()}`);
+    const traceDir = join(tmpRoot, "trace");
+    fs.mkdirSync(traceDir, { recursive: true });
+    const indexPath = join(traceDir, "index.html");
+    fs.writeFileSync(indexPath, "<html>old</html>");
+
+    await (mgr as any).modifyTraceIndexHtml(tmpRoot);
+
+    const content = fs.readFileSync(indexPath, "utf-8");
+
+    // Verify comprehensive localhost detection
+    expect(content).toContain("isLoopbackV4");
+    expect(content).toContain("hostname === 'localhost'");
+    expect(content).toContain("hostname === '127.0.0.1'");
+    expect(content).toContain("hostname.startsWith('127.')");
+
+    // Verify IPv6 localhost detection
+    expect(content).toContain("isLoopbackV6");
+    expect(content).toContain("hostname === '::1'");
+    expect(content).toContain("hostname === '[::1]'");
+
+    // Verify custom local domain detection
+    expect(content).toContain("isCustomLocalName");
+    expect(content).toContain("hostname.endsWith('.localhost')");
+    expect(content).toContain("hostname.endsWith('.local')");
+
+    // Verify file protocol detection
+    expect(content).toContain("protocol === 'file:'");
+
+    fs.rmSync(tmpRoot, { recursive: true, force: true });
+  });
+
+  it("redirect script redirects to local viewer for localhost", async () => {
+    const mgr = new PlaywrightReporterStorageManager();
+    const tmpRoot = join(process.cwd(), `tmp-playwright-${Date.now()}`);
+    const traceDir = join(tmpRoot, "trace");
+    fs.mkdirSync(traceDir, { recursive: true });
+    const indexPath = join(traceDir, "index.html");
+    fs.writeFileSync(indexPath, "<html>old</html>");
+
+    await (mgr as any).modifyTraceIndexHtml(tmpRoot);
+
+    const content = fs.readFileSync(indexPath, "utf-8");
+
+    // Verify local viewer redirect logic
+    expect(content).toContain("index.local.html");
+    expect(content).toContain("localViewerUrl");
+    expect(content).toContain("location.replace(localViewerUrl.toString())");
+
+    fs.rmSync(tmpRoot, { recursive: true, force: true });
+  });
+
+  it("redirect script preserves query parameters correctly", async () => {
+    const mgr = new PlaywrightReporterStorageManager();
+    const tmpRoot = join(process.cwd(), `tmp-playwright-${Date.now()}`);
+    const traceDir = join(tmpRoot, "trace");
+    fs.mkdirSync(traceDir, { recursive: true });
+    const indexPath = join(traceDir, "index.html");
+    fs.writeFileSync(indexPath, "<html>old</html>");
+
+    await (mgr as any).modifyTraceIndexHtml(tmpRoot);
+
+    const content = fs.readFileSync(indexPath, "utf-8");
+
+    // Verify SAS tokens are added to trace URL (for Azure Portal scenario)
+    expect(content).toContain("trace.searchParams.set(key, value)");
+
+    // Verify query parameters are copied to local viewer URL (for local scenario)
+    expect(content).toContain("localViewerUrl.searchParams.set(key, value)");
+
+    // Verify that parameters are NOT duplicated on publicTraceViewer URL
+    // (Should only be on trace URL, not viewer URL)
+    const publicViewerSection = content.substring(
+      content.indexOf("const publicTraceViewer"),
+      content.indexOf("location.replace(publicTraceViewer"),
+    );
+
+    // Count occurrences of searchParams.set in the public viewer section
+    const setCallsInPublicViewer = (
+      publicViewerSection.match(/publicTraceViewer\.searchParams\.set/g) || []
+    ).length;
+
+    // Should only set 'trace' parameter, not duplicate other parameters
+    expect(setCallsInPublicViewer).toBe(1);
+    expect(publicViewerSection).toContain(
+      "publicTraceViewer.searchParams.set('trace', trace.toString())",
+    );
+
+    fs.rmSync(tmpRoot, { recursive: true, force: true });
+  });
+
+  it("redirect script handles missing trace parameter gracefully", async () => {
+    const mgr = new PlaywrightReporterStorageManager();
+    const tmpRoot = join(process.cwd(), `tmp-playwright-${Date.now()}`);
+    const traceDir = join(tmpRoot, "trace");
+    fs.mkdirSync(traceDir, { recursive: true });
+    const indexPath = join(traceDir, "index.html");
+    fs.writeFileSync(indexPath, "<html>old</html>");
+
+    await (mgr as any).modifyTraceIndexHtml(tmpRoot);
+
+    const content = fs.readFileSync(indexPath, "utf-8");
+
+    // Verify check for missing trace parameter
+    expect(content).toContain("if (!traceParam) return false");
+
+    // Verify error handling
+    expect(content).toContain("try {");
+    expect(content).toContain("catch (e)");
+    expect(content).toContain("console.error");
+
+    fs.rmSync(tmpRoot, { recursive: true, force: true });
+  });
+
   it("uploadHtmlReportFolder uses upload strategies for small/medium/large files", async () => {
     const mgr = new PlaywrightReporterStorageManager();
     PlaywrightServiceConfig.instance.credential = { token: "mock" } as any;

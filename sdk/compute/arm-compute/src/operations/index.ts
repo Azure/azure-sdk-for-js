@@ -49,6 +49,8 @@ export * from "./galleryImages.js";
 export * from "./galleryImageVersions.js";
 export * from "./galleryInVMAccessControlProfiles.js";
 export * from "./galleryInVMAccessControlProfileVersions.js";
+export * from "./galleryScripts.js";
+export * from "./galleryScriptVersions.js";
 export * from "./gallerySharingProfile.js";
 export * from "./softDeletedResource.js";
 export * from "./cloudServiceRoleInstances.js";

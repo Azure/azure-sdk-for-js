@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-dell-storage",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "description": "A generated SDK for StorageClient.",
   "engines": {
     "node": ">=20.0.0"

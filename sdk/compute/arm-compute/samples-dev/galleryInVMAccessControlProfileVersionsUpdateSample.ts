@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update a gallery inVMAccessControlProfile version.
  *
  * @summary Update a gallery inVMAccessControlProfile version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_Update.json
  */
 async function updateAGalleryInVMAccessControlProfileVersion(): Promise<void> {
   const subscriptionId =
