@@ -6,7 +6,7 @@ import {
   QueueClient,
   QueueServiceClient,
   StorageSharedKeyCredential,
-} from "../../../src/index.js";
+} from "@azure/storage-queue";
 import type { TokenCredential } from "@azure/core-auth";
 import {
   getAccountKey,
@@ -23,7 +23,7 @@ import {
   createQueueServiceClient as createQueueServiceClientWithSecureAuth,
   pickQueueUrl,
 } from "../clients.js";
-import { ensureClientRecording } from "../../utils/recorder.js";
+import { ensureClientRecording } from "../recorder.js";
 
 function pickSas(kind: TestAccountKind): string | undefined {
   switch (kind) {

@@ -5,8 +5,8 @@ import buffer from "node:buffer";
 import fs from "node:fs";
 import path from "node:path";
 
-import type { RetriableReadableStreamOptions } from "../../../src/utils/RetriableReadableStream.js";
-import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../../src/index.js";
+import type { RetriableReadableStreamOptions } from "$internal/utils/RetriableReadableStream.js";
+import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "@azure/storage-file-share";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 import { createShareServiceClient } from "../../utils/node/clients.js";

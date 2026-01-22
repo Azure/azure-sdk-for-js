@@ -7,7 +7,7 @@ import type {
   BlobServiceClient,
   ContainerClient,
   BlobClient,
-} from "../../../src/index.js";
+} from "@azure/storage-blob";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createBlobServiceClient } from "../../utils/clients.js";

@@ -5,10 +5,11 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
-import { AnonymousCredential } from '@azure/storage-blob';
-import { AnonymousCredentialPolicy } from '@azure/storage-blob';
+import { AnonymousCredential } from '@azure/storage-common';
+import { AnonymousCredential as AnonymousCredential_2 } from '@azure/storage-blob';
+import { AnonymousCredentialPolicy } from '@azure/storage-common';
 import { AzureLogger } from '@azure/logger';
-import { BaseRequestPolicy } from '@azure/storage-blob';
+import { BaseRequestPolicy } from '@azure/storage-common';
 import type { BlobLeaseClient } from '@azure/storage-blob';
 import type { BlobQueryArrowConfiguration } from '@azure/storage-blob';
 import type { ContainerRenameResponse } from '@azure/storage-blob';
@@ -16,9 +17,9 @@ import type { ContainerUndeleteResponse } from '@azure/storage-blob';
 import * as coreClient from '@azure/core-client';
 import * as coreHttpCompat from '@azure/core-http-compat';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
-import { Credential as Credential_2 } from '@azure/storage-blob';
-import { CredentialPolicy } from '@azure/storage-blob';
-import { CredentialPolicyCreator } from '@azure/storage-blob';
+import { Credential as Credential_2 } from '@azure/storage-common';
+import { CredentialPolicy } from '@azure/storage-common';
+import { CredentialPolicyCreator } from '@azure/storage-common';
 import { ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse } from '@azure/storage-blob';
 import { BlobServiceProperties as DataLakeServiceProperties } from '@azure/storage-blob';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
@@ -48,14 +49,15 @@ import { ServiceListContainersSegmentResponse } from '@azure/storage-blob';
 import type { ServiceRenameContainerOptions } from '@azure/storage-blob';
 import type { ServiceSetPropertiesOptions } from '@azure/storage-blob';
 import type { ServiceSetPropertiesResponse } from '@azure/storage-blob';
-import { StorageBrowserPolicy } from '@azure/storage-blob';
-import { StorageBrowserPolicyFactory } from '@azure/storage-blob';
-import { StorageRetryOptions } from '@azure/storage-blob';
-import { StorageRetryPolicy } from '@azure/storage-blob';
-import { StorageRetryPolicyFactory } from '@azure/storage-blob';
-import { StorageRetryPolicyType } from '@azure/storage-blob';
-import { StorageSharedKeyCredential } from '@azure/storage-blob';
-import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
+import { StorageBrowserPolicy } from '@azure/storage-common';
+import { StorageBrowserPolicyFactory } from '@azure/storage-common';
+import { StorageRetryOptions } from '@azure/storage-common';
+import type { StorageRetryOptions as StorageRetryOptions_2 } from '@azure/storage-blob';
+import { StorageRetryPolicy } from '@azure/storage-common';
+import { StorageRetryPolicyFactory } from '@azure/storage-common';
+import { StorageRetryPolicyType } from '@azure/storage-common';
+import { StorageSharedKeyCredential } from '@azure/storage-common';
+import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
 import type { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
@@ -303,7 +305,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
 
 // @public
 export class DataLakeFileClient extends DataLakePathClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential_2 | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
@@ -330,7 +332,7 @@ export class DataLakeFileClient extends DataLakePathClient {
 //
 // @public
 export class DataLakeFileSystemClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential_2 | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     create(options?: FileSystemCreateOptions): Promise<FileSystemCreateResponse>;
     createIfNotExists(options?: FileSystemCreateOptions): Promise<FileSystemCreateIfNotExistsResponse>;
@@ -375,7 +377,7 @@ export class DataLakeLeaseClient {
 
 // @public
 export class DataLakePathClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential_2 | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
@@ -447,7 +449,7 @@ export interface DataLakeSASSignatureValues {
 
 // @public
 export class DataLakeServiceClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential_2 | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): DataLakeServiceClient;
     generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
@@ -1206,7 +1208,7 @@ export interface Metadata {
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_3, "ifTags">;
 
 // @public
-export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential_2 | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public (undocumented)
 export interface Path {
@@ -2031,7 +2033,7 @@ export interface StoragePipelineOptions {
     httpClient?: RequestPolicy;
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxySettings;
-    retryOptions?: StorageRetryOptions;
+    retryOptions?: StorageRetryOptions_2;
     userAgentOptions?: UserAgentPolicyOptions;
 }
 

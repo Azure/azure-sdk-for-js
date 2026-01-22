@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import type { ShareItem, ShareRootSquash, ShareServiceClient } from "../../src/index.js";
+import type { ShareItem, ShareRootSquash, ShareServiceClient } from "@azure/storage-file-share";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createShareServiceClient } from "../utils/clients.js";

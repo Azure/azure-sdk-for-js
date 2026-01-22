@@ -8,8 +8,8 @@ import type {
   BlobClient,
   BlockBlobClient,
   BlockBlobUploadResponse,
-} from "../../src/index.js";
-import { BlobBatch } from "../../src/index.js";
+} from "@azure/storage-blob";
+import { BlobBatch } from "@azure/storage-blob";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createBlobServiceClient } from "../utils/clients.js";
 import { getUniqueName } from "../utils/testHelpers.js";

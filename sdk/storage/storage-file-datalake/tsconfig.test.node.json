@@ -1,10 +1,10 @@
 {
-  "extends": "../../../tsconfig.test.node.base.json",
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.test.node.public.json" },
+    { "path": "./tsconfig.test.node.internal.json" }
+  ],
   "compilerOptions": {
-    "paths": {
-      "@azure/storage-file-datalake": ["./src/index.ts"],
-      "@azure/storage-file-datalake/*": ["./src/*"],
-      "$internal/*": ["./src/*"]
-    }
+    "composite": true
   }
 }

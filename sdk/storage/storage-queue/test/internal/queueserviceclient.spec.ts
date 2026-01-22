@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { QueueServiceClient } from "../../src/QueueServiceClient.js";
+import { QueueServiceClient } from "@azure/storage-queue";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

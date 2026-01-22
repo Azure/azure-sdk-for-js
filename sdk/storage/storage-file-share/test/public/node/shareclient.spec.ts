@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import type { ShareServiceClient, SignedIdentifier } from "../../../src/index.js";
-import type { ShareClient } from "../../../src/index.js";
+import type { ShareServiceClient, SignedIdentifier } from "@azure/storage-file-share";
+import type { ShareClient } from "@azure/storage-file-share";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createShareServiceClient, createShareClient } from "../../utils/node/clients.js";
 import { getUniqueName } from "../../utils/testHelpers.js";

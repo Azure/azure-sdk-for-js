@@ -5,7 +5,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createQueueServiceClient } from "../utils/clients.js";
 import { getUniqueName } from "../utils/testHelpers.js";
-import type { QueueClient } from "../../src/index.js";
+import type { QueueClient } from "@azure/storage-queue";
 
 describe("QueueClient message methods", () => {
   let queueName: string;

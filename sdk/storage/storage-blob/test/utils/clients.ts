@@ -14,7 +14,7 @@ import {
   newPipeline,
   type Pipeline,
   type StoragePipelineOptions,
-} from "../../src/index.js";
+} from "@azure/storage-blob";
 import {
   getAccountBlobUrl,
   getDfsAccountBlobUrl,

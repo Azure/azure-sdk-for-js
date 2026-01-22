@@ -3,7 +3,7 @@
 
 import { inject } from "vitest";
 import { EnvVarKeys } from "./constants.js";
-import type { CpkInfo } from "../../src/index.js";
+import type { CpkInfo } from "@azure/storage-blob";
 
 export function isLiveMode(): boolean {
   return inject(EnvVarKeys.TEST_MODE) === "live";

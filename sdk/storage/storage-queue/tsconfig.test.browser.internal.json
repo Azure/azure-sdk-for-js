@@ -1,0 +1,12 @@
+{
+  "extends": "../../../tsconfig.browser.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/storage-queue": ["./dist/browser/index.d.ts"],
+      "@azure/storage-queue/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
+    }
+  },
+  "include": ["./test/internal/**/*.ts", "./test/utils/**/*.ts"],
+  "exclude": ["./src", "./test/**/node", "./test/snippets.spec.ts"]
+}

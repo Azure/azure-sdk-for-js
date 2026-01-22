@@ -7,7 +7,7 @@ import {
   BlobServiceClient,
   BlockBlobClient,
   PageBlobClient,
-} from "../../../src/index.js";
+} from "@azure/storage-blob";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { getStorageConnectionString } from "../../utils/injectables.js";
 import { getUniqueName } from "../../utils/testHelpers.js";

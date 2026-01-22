@@ -1,0 +1,11 @@
+{
+  "extends": "../../../tsconfig.browser.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/storage-file-datalake": ["./dist/browser/index.d.ts"],
+      "@azure/storage-file-datalake/*": ["./dist/browser/*"]
+    }
+  },
+  "include": ["./test/public/**/*.ts", "./test/utils/**/*.ts"],
+  "exclude": ["./src", "./test/**/node", "./test/snippets.spec.ts"]
+}

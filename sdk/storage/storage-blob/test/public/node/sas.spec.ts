@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageSharedKeyCredential, Tags, UserDelegationKey } from "../../../src/index.js";
+import type { StorageSharedKeyCredential, Tags, UserDelegationKey } from "@azure/storage-blob";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -18,7 +18,7 @@ import {
   SASProtocol,
   BlobBatch,
   AnonymousCredential,
-} from "../../../src/index.js";
+} from "@azure/storage-blob";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createBlobServiceClient } from "../../utils/node/clients.js";

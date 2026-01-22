@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ShareItem, ShareServiceClient, SignedIdentifier } from "../../src/index.js";
-import { getFileServiceAccountAudience, ShareClient } from "../../src/index.js";
+import type { ShareItem, ShareServiceClient, SignedIdentifier } from "@azure/storage-file-share";
+import { getFileServiceAccountAudience, ShareClient } from "@azure/storage-file-share";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

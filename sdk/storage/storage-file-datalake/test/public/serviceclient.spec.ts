@@ -7,8 +7,8 @@ import type {
   DataLakeServiceProperties,
   FileSystemItem,
   ServiceListFileSystemsSegmentResponse,
-} from "../../src/index.js";
-import type { DataLakeServiceClient } from "../../src/index.js";
+} from "@azure/storage-file-datalake";
+import type { DataLakeServiceClient } from "@azure/storage-file-datalake";
 import { createDataLakeServiceClient } from "../utils/clients.js";
 import { getUniqueName } from "../utils/testHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

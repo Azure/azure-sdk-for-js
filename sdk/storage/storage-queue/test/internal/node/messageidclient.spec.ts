@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { newPipeline } from "../../../src/index.js";
+import { newPipeline } from "@azure/storage-queue";
 import { Recorder } from "@azure-tools/test-recorder";
-import { QueueClient } from "../../../src/QueueClient.js";
+import { QueueClient } from "@azure/storage-queue";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createQueueClient, createQueueServiceClient } from "../../utils/node/clients.js";
 import { getUniqueName } from "../../utils/testHelpers.js";

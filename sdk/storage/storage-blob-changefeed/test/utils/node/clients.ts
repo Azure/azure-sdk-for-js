@@ -6,7 +6,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import type { StoragePipelineOptions, Pipeline } from "@azure/storage-blob";
 import { StorageSharedKeyCredential, newPipeline } from "@azure/storage-blob";
 import type { TokenCredential } from "@azure/core-auth";
-import { BlobChangeFeedClient } from "../../../src/index.js";
+import { BlobChangeFeedClient } from "@azure/storage-blob-changefeed";
 import {
   getAccountBlobUrl,
   getAccountName,

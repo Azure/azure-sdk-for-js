@@ -7,8 +7,8 @@ import type {
   BlockBlobClient,
   ContainerListBlobHierarchySegmentResponse,
   Tags,
-} from "../../src/index.js";
-import { BlockBlobTier, ContainerClient, getBlobServiceAccountAudience } from "../../src/index.js";
+} from "@azure/storage-blob";
+import { BlockBlobTier, ContainerClient, getBlobServiceAccountAudience } from "@azure/storage-blob";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { StorageSharedKeyCredential } from "../../../src/index.js";
+import type { StorageSharedKeyCredential } from "@azure/storage-queue";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -13,8 +13,8 @@ import {
   QueueServiceClient,
   newPipeline,
   StorageOAuthScopes,
-} from "../../../src/index.js";
-import { SASProtocol } from "../../../src/SASQueryParameters.js";
+} from "@azure/storage-queue";
+import { SASProtocol } from "@azure/storage-queue";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { UserDelegationKeyCredential } from "@azure/storage-common";

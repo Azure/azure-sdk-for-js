@@ -16,8 +16,8 @@ import {
   type ContainerClient,
   SASProtocol,
   generateBlobSASQueryParameters,
-} from "../../../src/index.js";
-import type { BlobClient, BlobServiceClient } from "../../../src/index.js";
+} from "@azure/storage-blob";
+import type { BlobClient, BlobServiceClient } from "@azure/storage-blob";
 import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
@@ -220,7 +220,8 @@ describe("BlobClient", () => {
       const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
       tmr.setDate(tmr.getDate() + 1);
       const userDelegationKey = await tokenBlobServiceClient.getUserDelegationKey(now, tmr);
-      const sharedKeyCredential = containerClient.credential as StorageSharedKeyCredential;
+      const sharedKeyCredential =
+        containerClient.credential as unknown as StorageSharedKeyCredential;
 
       const accountName = sharedKeyCredential.accountName;
 

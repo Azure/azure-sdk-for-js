@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { QueueClient, QueueServiceClient } from "../../../src/index.js";
+import { QueueClient, QueueServiceClient } from "@azure/storage-queue";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { getStorageConnectionString } from "../../utils/injectables.js";
 import { getUniqueName } from "../../utils/testHelpers.js";

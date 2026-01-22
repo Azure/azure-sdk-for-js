@@ -7,14 +7,14 @@ import { configureStorageClient } from "../../utils/recorder.js";
 import { getUniqueName } from "../../utils/testHelpers.js";
 import { createDataLakeServiceClient } from "../../utils/node/clients.js";
 import { SimpleTokenCredential } from "../../utils/simpleToken.js";
-import type { DataLakeServiceClient } from "../../../src/index.js";
+import type { DataLakeServiceClient } from "@azure/storage-file-datalake";
 import {
   DataLakeFileSystemClient,
   FileSystemSASPermissions,
   newPipeline,
-} from "../../../src/index.js";
-import type { PublicAccessType } from "../../../src/models.js";
-import { getDataLakeServiceAccountAudience } from "../../../src/models.js";
+} from "@azure/storage-file-datalake";
+import type { PublicAccessType } from "@azure/storage-file-datalake";
+import { getDataLakeServiceAccountAudience } from "@azure/storage-file-datalake";
 import { assertClientUsesTokenCredential } from "../../utils/assert.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

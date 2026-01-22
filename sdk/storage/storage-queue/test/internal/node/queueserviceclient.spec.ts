@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { newPipeline } from "../../../src/index.js";
+import { newPipeline } from "@azure/storage-queue";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../../utils/assert.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerClient, BlobClient, BlobServiceClient } from "../../../src/index.js";
-import { type PageBlobClient, PremiumPageBlobTier } from "../../../src/index.js";
+import type { ContainerClient, BlobClient, BlobServiceClient } from "@azure/storage-blob";
+import { type PageBlobClient, PremiumPageBlobTier } from "@azure/storage-blob";
 import { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createBlobServiceClient, createPageBlobClient } from "../../utils/clients.js";

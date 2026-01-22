@@ -10,7 +10,7 @@ import {
   newPipeline,
   type Pipeline,
   type StoragePipelineOptions,
-} from "../../src/index.js";
+} from "@azure/storage-queue";
 import { getAccountQueueUrl } from "./injectables.js";
 
 import { ensureClientRecording } from "./recorder.js";

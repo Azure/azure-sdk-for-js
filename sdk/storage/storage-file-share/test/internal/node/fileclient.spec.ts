@@ -9,18 +9,18 @@ import type {
   ShareClient,
   ShareDirectoryClient,
   ShareServiceClient,
-} from "../../../src/index.js";
-import { ShareFileClient } from "../../../src/index.js";
-import { FileSystemAttributes } from "../../../src/FileSystemAttributes.js";
-import type { DirectoryCreateResponse } from "../../../src/generatedModels.js";
-import { FILE_MAX_SIZE_BYTES } from "../../../src/utils/constants.js";
+} from "@azure/storage-file-share";
+import { ShareFileClient } from "@azure/storage-file-share";
+import { FileSystemAttributes } from "@azure/storage-file-share";
+import type { DirectoryCreateResponse } from "$internal/generatedModels.js";
+import { FILE_MAX_SIZE_BYTES } from "$internal/utils/constants.js";
 import {
   parseOctalFileMode,
   parseSymbolicFileMode,
   toOctalFileMode,
   toSymbolicFileMode,
-} from "../../../src/index.js";
-import { truncatedISO8061Date } from "../../../src/utils/utils.common.js";
+} from "@azure/storage-file-share";
+import { truncatedISO8061Date } from "$internal/utils/utils.common.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type { OperationOptions } from "@azure/core-client";

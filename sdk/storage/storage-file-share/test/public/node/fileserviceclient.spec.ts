@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ShareItem } from "../../../src/index.js";
-import { type ShareServiceClient, newPipeline } from "../../../src/index.js";
+import type { ShareItem } from "@azure/storage-file-share";
+import { type ShareServiceClient, newPipeline } from "@azure/storage-file-share";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createShareServiceClient, getSharedKeyCredential } from "../../utils/node/clients.js";

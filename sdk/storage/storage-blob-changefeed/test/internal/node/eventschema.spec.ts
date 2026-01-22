@@ -4,7 +4,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { text } from "node:stream/consumers";
-import { rawEventToBlobChangeFeedEvent } from "../../../src/utils/utils.common.js";
+import { rawEventToBlobChangeFeedEvent } from "$internal/utils/utils.common.js";
 import { describe, it, assert } from "vitest";
 
 describe("Change feed event schema test", async () => {

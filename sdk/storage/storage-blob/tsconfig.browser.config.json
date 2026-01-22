@@ -1,10 +1,13 @@
 {
   "extends": "../../../tsconfig.browser.base.json",
+  "references": [
+    { "path": "./tsconfig.test.browser.public.json" },
+    { "path": "./tsconfig.test.browser.internal.json" }
+  ],
+  "files": [],
+  "include": [],
   "compilerOptions": {
-    "paths": {
-      "@azure/storage-blob": ["./dist/browser/index.d.ts"],
-      "@azure/storage-blob/*": ["./dist/browser/*"],
-      "$internal/*": ["./dist/browser/*"]
-    }
+    "noEmit": true,
+    "types": []
   }
 }

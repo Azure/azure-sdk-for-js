@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BlobServiceClient, ContainerClient } from "../../src/index.js";
-import { BlockBlobClient } from "../../src/index.js";
+import type { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
+import { BlockBlobClient } from "@azure/storage-blob";
 import { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { appendToURLPath, EscapePath, getUniqueName } from "../utils/testHelpers.js";

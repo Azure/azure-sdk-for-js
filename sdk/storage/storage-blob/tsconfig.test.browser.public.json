@@ -1,0 +1,11 @@
+{
+  "extends": "../../../tsconfig.browser.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/storage-blob": ["./dist/browser/index.d.ts"],
+      "@azure/storage-blob/*": ["./dist/browser/*"]
+    }
+  },
+  "include": ["./test/public/**/*.ts", "./test/utils/**/*.ts"],
+  "exclude": ["./src", "./test/**/node", "./test/stress", "./test/snippets.spec.ts"]
+}

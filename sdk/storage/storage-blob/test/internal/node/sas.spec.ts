@@ -27,7 +27,7 @@ import {
   SASProtocol,
   type StorageSharedKeyCredential,
   type UserDelegationKey,
-} from "../../../src/index.js";
+} from "@azure/storage-blob";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createBlobServiceClient } from "../../utils/node/clients.js";
 import { getUniqueName } from "../../utils/testHelpers.js";

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { QueueClient } from "../../src/QueueClient.js";
+import type { QueueClient } from "@azure/storage-queue";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createQueueServiceClient } from "../utils/clients.js";

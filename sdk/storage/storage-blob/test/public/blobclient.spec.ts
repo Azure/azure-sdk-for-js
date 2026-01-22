@@ -8,8 +8,8 @@ import type {
   ContainerClient,
   RehydratePriority,
   BlobImmutabilityPolicyMode,
-} from "../../src/index.js";
-import { BlobClient, BlockBlobTier } from "../../src/index.js";
+} from "@azure/storage-blob";
+import { BlobClient, BlockBlobTier } from "@azure/storage-blob";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";

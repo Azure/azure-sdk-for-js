@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BlobGetPropertiesResponse } from "../../src/index.js";
+import type { BlobGetPropertiesResponse } from "@azure/storage-blob";
 import { isTokenCredential } from "@azure/core-auth";
 import { assert } from "vitest";
 
-export function assertClientUsesTokenCredential(client: Record<string, any>): void {
-  const credential = (client as { credential: unknown })["credential"];
-  assert.isTrue(isTokenCredential(credential));
+export function assertClientUsesTokenCredential(client: { credential: unknown }): void {
+  assert.isTrue(isTokenCredential(client.credential));
 }
 
 export function assertSrcReplicationProps(

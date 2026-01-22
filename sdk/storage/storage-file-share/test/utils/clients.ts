@@ -12,8 +12,7 @@ import {
   newPipeline,
   type Pipeline,
   type ShareClientOptions,
-  type StorageSharedKeyCredential,
-} from "../../src/index.js";
+} from "@azure/storage-file-share";
 import {
   getAccountFileUrl,
   getSoftDeleteAccountFileUrl,
@@ -59,7 +58,7 @@ export interface CreateShareServiceClientOptions {
   account?: TestAccountKind;
   options?: ShareClientOptions;
   pipeline?: Pipeline;
-  credential?: TokenCredential | AnonymousCredential | StorageSharedKeyCredential;
+  credential?: TokenCredential | AnonymousCredential;
 }
 
 export async function createShareServiceClient(
@@ -69,7 +68,7 @@ export async function createShareServiceClient(
 export async function createShareServiceClient(
   mode: "Custom",
   inputs: Omit<CreateShareServiceClientOptions, "credential"> & {
-    credential: TokenCredential | AnonymousCredential | StorageSharedKeyCredential | undefined;
+    credential: TokenCredential | AnonymousCredential | undefined;
   },
 ): Promise<ShareServiceClient>;
 export async function createShareServiceClient(
@@ -123,7 +122,7 @@ export interface CreateShareClientOptions {
   account?: TestAccountKind;
   options?: ShareClientOptions;
   pipeline?: Pipeline;
-  credential?: TokenCredential | AnonymousCredential | StorageSharedKeyCredential;
+  credential?: TokenCredential | AnonymousCredential;
 }
 
 export async function createShareClient(
@@ -133,7 +132,7 @@ export async function createShareClient(
 export async function createShareClient(
   mode: "Custom",
   inputs: Omit<CreateShareClientOptions, "credential"> & {
-    credential: TokenCredential | AnonymousCredential | StorageSharedKeyCredential | undefined;
+    credential: TokenCredential | AnonymousCredential | undefined;
   },
 ): Promise<ShareClient>;
 export async function createShareClient(
@@ -180,7 +179,7 @@ export interface CreateShareDirectoryClientOptions {
   account?: TestAccountKind;
   options?: ShareClientOptions;
   pipeline?: Pipeline;
-  credential?: TokenCredential | AnonymousCredential | StorageSharedKeyCredential;
+  credential?: TokenCredential | AnonymousCredential;
 }
 
 export async function createShareDirectoryClient(
@@ -190,7 +189,7 @@ export async function createShareDirectoryClient(
 export async function createShareDirectoryClient(
   mode: "Custom",
   inputs: Omit<CreateShareDirectoryClientOptions, "credential"> & {
-    credential: TokenCredential | AnonymousCredential | StorageSharedKeyCredential | undefined;
+    credential: TokenCredential | AnonymousCredential | undefined;
   },
 ): Promise<ShareDirectoryClient>;
 export async function createShareDirectoryClient(
@@ -246,7 +245,7 @@ export interface CreateShareFileClientOptions {
   account?: TestAccountKind;
   options?: ShareClientOptions;
   pipeline?: Pipeline;
-  credential?: TokenCredential | AnonymousCredential | StorageSharedKeyCredential;
+  credential?: TokenCredential | AnonymousCredential;
 }
 
 export async function createShareFileClient(
@@ -256,7 +255,7 @@ export async function createShareFileClient(
 export async function createShareFileClient(
   mode: "Custom",
   inputs: Omit<CreateShareFileClientOptions, "credential"> & {
-    credential: TokenCredential | AnonymousCredential | StorageSharedKeyCredential | undefined;
+    credential: TokenCredential | AnonymousCredential | undefined;
   },
 ): Promise<ShareFileClient>;
 export async function createShareFileClient(

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { Pipeline, PipelineRequest, SendRequest } from "@azure/core-rest-pipeline";
-import type { ContainerClient, BlobServiceClient } from "../../src/index.js";
-import { RestError } from "../../src/index.js";
+import type { ContainerClient, BlobServiceClient } from "@azure/storage-blob";
+import { RestError } from "@azure/storage-blob";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createBlobServiceClient } from "../utils/clients.js";

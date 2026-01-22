@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import type { ShareClient, ShareServiceClient } from "../../src/index.js";
+import type { ShareClient, ShareServiceClient } from "@azure/storage-file-share";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createShareServiceClient } from "../utils/clients.js";
 import { getUniqueName } from "../utils/testHelpers.js";

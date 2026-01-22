@@ -1,0 +1,15 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/storage-blob-changefeed": ["./src/index.ts"]
+    }
+  },
+  "include": ["./test/public/**/*.ts", "./test/utils/**/*.ts", "./src"],
+  "exclude": [
+    "./src/utils/utils.browser.ts",
+    "./**/*-browser.mts",
+    "./**/*-react-native.mts",
+    "./test/**/browser"
+  ]
+}

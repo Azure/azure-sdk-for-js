@@ -5,8 +5,8 @@ import { delay, Recorder } from "@azure-tools/test-recorder";
 import type {
   DataLakeServiceProperties,
   ServiceListFileSystemsSegmentResponse,
-} from "../../../src/index.js";
-import { DataLakeServiceClient, getDataLakeServiceAccountAudience } from "../../../src/index.js";
+} from "@azure/storage-file-datalake";
+import { DataLakeServiceClient, getDataLakeServiceAccountAudience } from "@azure/storage-file-datalake";
 import { configureStorageClient } from "../../utils/recorder.js";
 import { createDataLakeServiceClient } from "../../utils/node/clients.js";
 import { getDfsStorageConnectionString } from "../../utils/injectables.js";

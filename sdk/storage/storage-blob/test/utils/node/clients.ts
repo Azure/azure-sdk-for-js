@@ -12,7 +12,7 @@ import {
   newPipeline,
   type Pipeline,
   StorageSharedKeyCredential,
-} from "../../../src/index.js";
+} from "@azure/storage-blob";
 import {
   ShareServiceClient,
   StorageSharedKeyCredential as FileStorageSharedKeyCredential,
@@ -85,7 +85,7 @@ import {
   pickBlobUrl,
   type CreateContainerClientOptions,
 } from "../clients.js";
-import { ensureClientRecording } from "../../utils/recorder.js";
+import { ensureClientRecording } from "../recorder.js";
 import type { TokenCredential } from "@azure/core-auth";
 
 function pickFileUrl(kind: TestAccountKind): string {

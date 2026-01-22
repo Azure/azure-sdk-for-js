@@ -3,7 +3,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { TokenCredential } from "@azure/core-auth";
-import type { StoragePipelineOptions } from "../../src/index.js";
+import type { StoragePipelineOptions } from "@azure/storage-file-datalake";
 import {
   DataLakeServiceClient,
   DataLakeFileSystemClient,
@@ -11,7 +11,7 @@ import {
   DataLakeFileClient,
   newPipeline,
   type Pipeline,
-} from "../../src/index.js";
+} from "@azure/storage-file-datalake";
 import type { AnonymousCredential } from "@azure/storage-blob";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ensureClientRecording } from "./recorder.js";

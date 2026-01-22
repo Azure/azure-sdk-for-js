@@ -9,7 +9,7 @@ import type {
   BlobClient,
   BlockBlobClient,
   BlockBlobUploadResponse,
-} from "../../../src/index.js";
+} from "@azure/storage-blob";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createBlobServiceClient } from "../../utils/node/clients.js";
 import { getUniqueName, setURLParameter } from "../../utils/testHelpers.js";

@@ -7,7 +7,7 @@ import type {
   BlobChangeFeedClient,
   BlobChangeFeedEvent,
   BlobChangeFeedEventPage,
-} from "../../../src/index.js";
+} from "@azure/storage-blob-changefeed";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;

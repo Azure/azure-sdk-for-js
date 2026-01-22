@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataLakeFileSystemClient, DataLakeServiceClient } from "../../src/index.js";
+import type { DataLakeFileSystemClient, DataLakeServiceClient } from "@azure/storage-file-datalake";
 import { createDataLakeServiceClient } from "../utils/clients.js";
 import { getUniqueName } from "../utils/testHelpers.js";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";

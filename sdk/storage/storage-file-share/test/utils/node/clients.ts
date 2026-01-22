@@ -15,7 +15,7 @@ import {
   ShareClient,
   ShareServiceClient,
   type ShareClientOptions,
-} from "../../../src/index.js";
+} from "@azure/storage-file-share";
 import {
   getAccountKey,
   getAccountName,

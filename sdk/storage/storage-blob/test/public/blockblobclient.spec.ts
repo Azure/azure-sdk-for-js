@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BlobClient, ContainerClient, BlobServiceClient } from "../../src/index.js";
-import { type BlockBlobClient, getBlobServiceAccountAudience } from "../../src/index.js";
+import type {
+  BlockBlobClient,
+  BlobClient,
+  ContainerClient,
+  BlobServiceClient,
+} from "@azure/storage-blob";
+import { getBlobServiceAccountAudience } from "@azure/storage-blob";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";

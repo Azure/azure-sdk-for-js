@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { QueueServiceClient } from "../../src/index.js";
-import { QueueClient } from "../../src/index.js";
+import type { QueueServiceClient } from "@azure/storage-queue";
+import { QueueClient } from "@azure/storage-queue";
 import type {
   Pipeline,
   PipelinePolicy,

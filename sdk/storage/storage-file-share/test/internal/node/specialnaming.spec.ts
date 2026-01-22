@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ShareClient } from "../../../src/index.js";
-import { ShareDirectoryClient, ShareFileClient } from "../../../src/index.js";
-import { appendToURLPath } from "../../../src/utils/utils.common.js";
+import type { ShareClient } from "@azure/storage-file-share";
+import { ShareDirectoryClient, ShareFileClient } from "@azure/storage-file-share";
+import { appendToURLPath } from "$internal/utils/utils.common.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createShareServiceClient } from "../../utils/node/clients.js";

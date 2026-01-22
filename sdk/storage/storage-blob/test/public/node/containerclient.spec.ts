@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PublicAccessType, BlobServiceClient } from "../../../src/index.js";
-import { type ContainerClient, ContainerSASPermissions } from "../../../src/index.js";
+import type { PublicAccessType, BlobServiceClient } from "@azure/storage-blob";
+import { type ContainerClient, ContainerSASPermissions } from "@azure/storage-blob";
 import { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createBlobServiceClient, createContainerClient } from "../../utils/node/clients.js";

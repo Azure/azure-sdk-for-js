@@ -6,7 +6,7 @@ import type { TestProject } from "vitest/node";
 import { EnvVarKeys } from "./constants.js";
 import * as MOCKS from "./constants.js";
 import { type StorageAccount, StorageManagementClient } from "@azure/arm-storage";
-import type { CpkInfo } from "../../src/index.js";
+import type { CpkInfo } from "@azure/storage-file-datalake";
 import { randomBytes, createHash } from "node:crypto";
 
 function createCustomerProvidedKey(): CpkInfo {

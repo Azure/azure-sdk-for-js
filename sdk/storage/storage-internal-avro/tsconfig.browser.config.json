@@ -6,5 +6,7 @@
       "@azure/storage-internal-avro/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
     }
-  }
+  },
+  "include": ["./test/**/*.ts"],
+  "exclude": ["./src", "./test/**/node", "./test/snippets.spec.ts"]
 }

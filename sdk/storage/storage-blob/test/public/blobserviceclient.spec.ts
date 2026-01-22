@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BlobServiceClient, getBlobServiceAccountAudience } from "../../src/index.js";
+import { BlobServiceClient, getBlobServiceAccountAudience } from "@azure/storage-blob";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
-import type { Tags } from "../../src/index.js";
+import type { Tags } from "@azure/storage-blob";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createBlobServiceClient } from "../utils/clients.js";
 import { getUniqueName } from "../utils/testHelpers.js";

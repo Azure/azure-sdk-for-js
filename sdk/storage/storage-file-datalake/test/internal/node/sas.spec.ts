@@ -8,7 +8,7 @@ import type {
   StorageSharedKeyCredential,
   UserDelegationKey,
   FileSystemListPathsResponse,
-} from "../../../src/index.js";
+} from "@azure/storage-file-datalake";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -23,10 +23,10 @@ import {
   generateDataLakeSASQueryParameters,
   newPipeline,
   SASQueryParameters,
-} from "../../../src/index.js";
-import { DataLakeFileClient } from "../../../src/index.js";
-import { DirectorySASPermissions } from "../../../src/sas/DirectorySASPermissions.js";
-import { SASProtocol } from "../../../src/sas/SASQueryParameters.js";
+} from "@azure/storage-file-datalake";
+import { DataLakeFileClient } from "@azure/storage-file-datalake";
+import { DirectorySASPermissions } from "@azure/storage-file-datalake";
+import { SASProtocol } from "@azure/storage-file-datalake";
 import { configureStorageClient, startRecording } from "../../utils/recorder.js";
 import { getUniqueName } from "../../utils/testHelpers.js";
 import {

@@ -11,7 +11,7 @@ import type {
   BlobClient,
   BlockBlobClient,
   BlobServiceClient,
-} from "../../../src/index.js";
+} from "@azure/storage-blob";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 import { createBlobServiceClient } from "../../utils/node/clients.js";
 import { getUniqueName } from "../../utils/testHelpers.js";

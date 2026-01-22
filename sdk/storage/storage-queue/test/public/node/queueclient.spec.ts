@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import type { QueueServiceClient, QueueClient } from "../../../src/index.js";
-import { getQueueServiceAccountAudience, newPipeline } from "../../../src/index.js";
+import type { QueueServiceClient, QueueClient } from "@azure/storage-queue";
+import { getQueueServiceAccountAudience, newPipeline } from "@azure/storage-queue";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../../utils/assert.js";
 import { createTestCredential } from "@azure-tools/test-credential";

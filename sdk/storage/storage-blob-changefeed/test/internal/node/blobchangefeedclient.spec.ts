@@ -3,9 +3,9 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { createBlobChangeFeedClient } from "../../utils/node/clients.js";
-import { BlobChangeFeedClient } from "../../../src/index.js";
+import { BlobChangeFeedClient } from "@azure/storage-blob-changefeed";
 import type { RequestPolicy } from "@azure/storage-blob";
-import { SDK_VERSION } from "../../../src/utils/constants.js";
+import { SDK_VERSION } from "$internal/utils/constants.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { toHttpHeadersLike } from "@azure/core-http-compat";

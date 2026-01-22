@@ -10,13 +10,13 @@ import {
   ShareClient,
   ShareFileClient,
   ShareServiceClient,
-} from "../../../src/index.js";
+} from "@azure/storage-file-share";
 import { AnonymousCredential, UserDelegationKeyCredential } from "@azure/storage-common";
 import type { StorageSharedKeyCredential } from "@azure/storage-common";
-import { FileSASPermissions } from "../../../src/FileSASPermissions.js";
-import { generateFileSASQueryParameters } from "../../../src/FileSASSignatureValues.js";
-import { newPipeline } from "../../../src/Pipeline.js";
-import { ShareSASPermissions } from "../../../src/ShareSASPermissions.js";
+import { FileSASPermissions } from "@azure/storage-file-share";
+import { generateFileSASQueryParameters } from "@azure/storage-file-share";
+import { newPipeline } from "@azure/storage-file-share";
+import { ShareSASPermissions } from "@azure/storage-file-share";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createTestCredential } from "@azure-tools/test-credential";

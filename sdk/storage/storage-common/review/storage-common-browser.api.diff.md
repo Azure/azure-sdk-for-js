@@ -63,22 +63,27 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface StorageSharedKeyCredentialPolicyOptions {
-@@ -157,25 +142,10 @@
-     // (undocumented)
-     accountName: string;
+@@ -159,23 +144,26 @@
  }
  
--// @public
--export interface UserDelegationKey {
--    signedExpiresOn: Date;
--    signedObjectId: string;
--    signedService: string;
--    signedStartsOn: Date;
--    signedTenantId: string;
--    signedVersion: string;
--    value: string;
--}
--
+ // @public
+ export interface UserDelegationKey {
++    // (undocumented)
+     signedExpiresOn: Date;
++    // (undocumented)
+     signedObjectId: string;
++    // (undocumented)
+     signedService: string;
++    // (undocumented)
+     signedStartsOn: Date;
++    // (undocumented)
+     signedTenantId: string;
++    // (undocumented)
+     signedVersion: string;
++    // (undocumented)
+     value: string;
+ }
+ 
 -// @public
 +// @public (undocumented)
  export class UserDelegationKeyCredential {

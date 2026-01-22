@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ShareClient } from "../../../src/index.js";
+import type { ShareClient } from "@azure/storage-file-share";
 import {
   newPipeline,
   type ShareDirectoryClient,
   getFileServiceAccountAudience,
-} from "../../../src/index.js";
+} from "@azure/storage-file-share";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

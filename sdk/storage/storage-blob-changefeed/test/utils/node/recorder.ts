@@ -8,7 +8,7 @@ import type {
   HeaderSanitizer,
 } from "@azure-tools/test-recorder";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import type { BlobChangeFeedClient } from "../../../src/index.js";
+import type { BlobChangeFeedClient } from "@azure/storage-blob-changefeed";
 import {
   getStorageConnectionString,
   getAccountBlobUrl,

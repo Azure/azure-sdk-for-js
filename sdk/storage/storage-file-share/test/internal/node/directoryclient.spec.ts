@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FilePosixProperties, ShareClient } from "../../../src/index.js";
-import { ShareDirectoryClient, FileSystemAttributes } from "../../../src/index.js";
+import type { FilePosixProperties, ShareClient } from "@azure/storage-file-share";
+import { ShareDirectoryClient, FileSystemAttributes } from "@azure/storage-file-share";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import type { DirectoryCreateResponse } from "../../../src/generatedModels.js";
-import { truncatedISO8061Date } from "../../../src/utils/utils.common.js";
+import type { DirectoryCreateResponse } from "$internal/generatedModels.js";
+import { truncatedISO8061Date } from "$internal/utils/utils.common.js";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";

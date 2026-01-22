@@ -11,14 +11,14 @@ import type {
   DataLakeServiceClient,
   PathAccessControlItem,
   PathPermissions,
-} from "../../../src/index.js";
+} from "@azure/storage-file-datalake";
 import {
   DataLakeFileClient,
   DataLakePathClient,
   DataLakeSASPermissions,
   getDataLakeServiceAccountAudience,
-} from "../../../src/index.js";
-import { toAcl, toRemoveAcl } from "../../../src/transforms.js";
+} from "@azure/storage-file-datalake";
+import { toAcl, toRemoveAcl } from "$internal/transforms.js";
 import { configureStorageClient } from "../../utils/recorder.js";
 import { getUniqueName } from "../../utils/testHelpers.js";
 import { bodyToString } from "../../utils/node/testHelpers.js";
