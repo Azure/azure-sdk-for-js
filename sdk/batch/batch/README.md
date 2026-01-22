@@ -52,7 +52,7 @@ For more information about how to create an Azure AD Application check out [this
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node_EntraID
-import { BatchClient } from "@azure-rest/batch";
+import { BatchClient } from "@azure/batch";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new BatchClient("<endpoint>", new DefaultAzureCredential());
@@ -62,12 +62,12 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { BatchClient } from "@azure-rest/batch";
+import { BatchClient } from "@azure/batch";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>"
- });
+  clientId: "<YOUR_CLIENT_ID>",
+});
 const client = new BatchClient("<endpoint>", credential);
 ```
 
@@ -79,7 +79,7 @@ Noted that Share Key authentication is only supported in Node.js and Node-like e
 
 ```ts snippet:ReadmeSampleCreateClient_Node_SharedKey
 import { AzureNamedKeyCredential } from "@azure/core-auth";
-import { BatchClient } from "@azure-rest/batch";
+import { BatchClient } from "@azure/batch";
 
 const credential = new AzureNamedKeyCredential("<account name>", "<account key>");
 const client = new BatchClient("<endpoint>", credential);
