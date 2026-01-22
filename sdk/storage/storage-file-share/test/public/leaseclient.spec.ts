@@ -9,8 +9,8 @@ import type {
   ShareServiceClient,
 } from "../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { createShareServiceClient } from "./utils/clients.js";
-import { getUniqueName } from "./utils/utils.js";
+import { createShareServiceClient } from "../utils/clients.js";
+import { getUniqueName } from "../utils/testHelpers.js";
 
 // for file
 describe("LeaseClient", () => {

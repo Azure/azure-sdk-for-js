@@ -21,14 +21,14 @@ import {
 } from "../../../src/index.js";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { createBlobServiceClient } from "./utils/clients.js";
-import { ensureClientRecording } from "../utils/recorder.js";
-import { getUniqueName } from "../utils/utils.js";
-import { parseJwt } from "./utils/utils.js";
+import { createBlobServiceClient } from "../../utils/node/clients.js";
+import { ensureClientRecording } from "../../utils/recorder.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
+import { parseJwt } from "../../utils/node/testHelpers.js";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { getAccountKey, getAccountName, getEncryptionScope1 } from "../../utils/injectables.js";
-import { SERVICE_VERSION, STORAGE_SCOPE } from "../utils/constants.js";
+import { SERVICE_VERSION, STORAGE_SCOPE } from "../../utils/constants.js";
 
 describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;

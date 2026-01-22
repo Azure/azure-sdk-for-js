@@ -22,28 +22,9 @@ export {
   HttpAuthorization,
   ModificationConditions,
   MatchConditions,
-  ObjectReplicationPolicy,
-  ObjectReplicationRule,
-  ObjectReplicationStatus,
-  AppendBlobRequestConditions,
-  BlobRequestConditions,
-  Metadata,
-  ModifiedAccessConditions,
-  PollerLikeWithCancellation,
-  BlobDownloadResponseParsed,
-  BlobQueryArrowField,
-  BlobQueryArrowFieldType,
-  PageBlobRequestConditions,
+  StorageBlobAudience,
   getBlobServiceAccountAudience,
 } from "./models.js";
-export {
-  BlobBeginCopyFromUrlPollState,
-  CopyPollerBlobClient,
-} from "./pollers/BlobStartCopyFromUrlPoller.js";
-export * from "./sas/AccountSASPermissions.js";
-export * from "./sas/BlobSASPermissions.js";
-export * from "./sas/ContainerSASPermissions.js";
-export * from "./sas/SASQueryParameters.js";
 export {
   Pipeline,
   PipelineLike,

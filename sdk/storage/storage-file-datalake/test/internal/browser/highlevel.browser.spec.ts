@@ -3,9 +3,9 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../../src/index.js";
-import { createDataLakeServiceClient } from "../../public/utils/clients.js";
-import { getUniqueName } from "../../public/utils/utils.js";
-import { getBrowserFile, arrayBufferEqual } from "../../public/browser/utils/utils.js";
+import { createDataLakeServiceClient } from "../../utils/clients.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
+import { getBrowserFile, arrayBufferEqual } from "../../utils/browser/testHelpers.js";
 import { MB } from "../../../src/utils/constants.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 import { isLiveMode } from "../../utils/injectables.js";

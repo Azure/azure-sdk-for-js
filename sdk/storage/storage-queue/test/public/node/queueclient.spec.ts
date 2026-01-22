@@ -8,9 +8,9 @@ import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../../utils/assert.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { createQueueClient, createQueueServiceClient } from "./utils/clients.js";
-import { getUniqueName } from "../utils/utils.js";
-import { SimpleTokenCredential } from "../utils/simpleToken.js";
+import { createQueueClient, createQueueServiceClient } from "../../utils/node/clients.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
+import { SimpleTokenCredential } from "../../utils/simpleToken.js";
 import {
   getAccountKey,
   getStorageConnectionString,

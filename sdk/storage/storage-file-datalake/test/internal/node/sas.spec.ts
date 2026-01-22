@@ -27,13 +27,13 @@ import {
 import { DataLakeFileClient } from "../../../src/index.js";
 import { DirectorySASPermissions } from "../../../src/sas/DirectorySASPermissions.js";
 import { SASProtocol } from "../../../src/sas/SASQueryParameters.js";
-import { configureStorageClient, startRecording } from "../../public/utils/recorder.js";
-import { getUniqueName } from "../../public/utils/utils.js";
+import { configureStorageClient, startRecording } from "../../utils/recorder.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
 import {
   createDataLakeServiceClient,
   getDataLakeServiceClientWithDefaultCredential,
   getSignatureFromSasUrl,
-} from "../../public/node/utils/clients.js";
+} from "../../utils/node/clients.js";
 import { getEncryptionScope1, getDfsAccountName, isLiveMode } from "../../utils/injectables.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createTestCredential } from "@azure-tools/test-credential";

@@ -11,8 +11,9 @@ import type {
   BlockBlobUploadResponse,
 } from "../../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { createBlobServiceClient } from "./utils/clients.js";
-import { bodyToString, getUniqueName } from "../utils/utils.js";
+import { createBlobServiceClient } from "../../utils/node/clients.js";
+import { getUniqueName, setURLParameter } from "../../utils/testHelpers.js";
+import { bodyToString } from "../../utils/node/testHelpers.js";
 
 describe("Blob versioning", () => {
   let blobServiceClient: BlobServiceClient;
@@ -64,5 +65,31 @@ describe("Blob versioning", () => {
     const downloadedFileContent = await fs.readFile(downloadedFilePath);
     assert.isTrue(downloadedFileContent.equals(Buffer.from(content)));
     await fs.unlink(downloadedFilePath);
+  });
+
+  it("promote a version: as the copy source", async () => {
+    const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
+    await blobVersionClient.getProperties();
+
+    const versionURL = setURLParameter(blobClient.url, "versionid", uploadRes.versionId);
+    const copyRes = await (await blobClient.beginCopyFromURL(versionURL)).pollUntilDone();
+    assert.isDefined(copyRes.copyId);
+
+    const listRes = (
+      await containerClient
+        .listBlobsFlat({
+          includeVersions: true,
+        })
+        .byPage()
+        .next()
+    ).value;
+
+    const blobItemsLength = listRes.segment.blobItems!.length;
+    assert.equal(blobItemsLength, 3);
+    assert.equal(listRes.segment.blobItems![blobItemsLength - 1].versionId, copyRes.versionId);
+    assert.isTrue(listRes.segment.blobItems![blobItemsLength - 1].isCurrentVersion);
+
+    const downloadRes = await blobClient.download();
+    assert.deepStrictEqual(await bodyToString(downloadRes, content.length), content);
   });
 });

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { DataLakeFileSystemClient, DataLakeServiceClient } from "../../src/index.js";
-import { createDataLakeServiceClient } from "./utils/clients.js";
-import { getUniqueName } from "./utils/utils.js";
+import { createDataLakeServiceClient } from "../utils/clients.js";
+import { getUniqueName } from "../utils/testHelpers.js";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

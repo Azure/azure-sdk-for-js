@@ -5,8 +5,8 @@ import { Recorder } from "@azure-tools/test-recorder";
 import type { ShareServiceClient, SignedIdentifier } from "../../../src/index.js";
 import type { ShareClient } from "../../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { createShareServiceClient, createShareClient } from "./utils/clients.js";
-import { getUniqueName } from "../utils/utils.js";
+import { createShareServiceClient, createShareClient } from "../../utils/node/clients.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
 import { getAccountKey, getStorageConnectionStringWithSas } from "../../utils/injectables.js";
 
 describe("ShareClient Node.js only", () => {

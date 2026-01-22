@@ -8,8 +8,8 @@ import type {
   DataLakeFileSystemClient,
   DataLakeServiceClient,
 } from "../../src/index.js";
-import { createDataLakeServiceClient } from "./utils/clients.js";
-import { getUniqueName } from "./utils/utils.js";
+import { createDataLakeServiceClient } from "../utils/clients.js";
+import { getUniqueName } from "../utils/testHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("LeaseClient from FileSystem", () => {

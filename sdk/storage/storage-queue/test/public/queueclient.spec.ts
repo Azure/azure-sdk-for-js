@@ -15,8 +15,8 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type { OperationOptions } from "@azure/core-client";
-import { createQueueServiceClient } from "./utils/clients.js";
-import { getUniqueName } from "./utils/utils.js";
+import { createQueueServiceClient } from "../utils/clients.js";
+import { getUniqueName } from "../utils/testHelpers.js";
 
 expect.extend({ toSupportTracing });
 
@@ -261,7 +261,7 @@ describe("QueueClient", () => {
   it("Invalid service version", async () => {
     const injector = XMSVersioninjectorPolicy(`3025-01-01`);
 
-    const pipeline: Pipeline = (queueClient as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = queueClient["storageClientContext"].pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
     try {
       await queueClient.create();

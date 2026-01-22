@@ -4,8 +4,8 @@ import { delay, Recorder } from "@azure-tools/test-recorder";
 import type { ShareItem, ShareRootSquash, ShareServiceClient } from "../../src/index.js";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { createShareServiceClient } from "./utils/clients.js";
-import { getUniqueName } from "./utils/utils.js";
+import { createShareServiceClient } from "../utils/clients.js";
+import { getUniqueName } from "../utils/testHelpers.js";
 import { getStorageConnectionStringWithSas } from "../utils/injectables.js";
 
 describe("FileServiceClient", () => {

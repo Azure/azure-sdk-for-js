@@ -4,8 +4,8 @@
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { ShareClient, ShareServiceClient } from "../../src/index.js";
 import { RestError } from "../../src/index.js";
-import { createShareServiceClient } from "./utils/clients.js";
-import { getUniqueName } from "./utils/utils.js";
+import { createShareServiceClient } from "../utils/clients.js";
+import { getUniqueName } from "../utils/testHelpers.js";
 import { injectorPolicy, injectorPolicyName } from "../utils/InjectorPolicy.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -26,7 +26,7 @@ describe("RetryPolicy", () => {
   });
 
   afterEach(async () => {
-    const pipeline: Pipeline = (shareClient as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = shareClient["storageClientContext"].pipeline;
     pipeline.removePolicy({ name: injectorPolicyName });
     await shareClient.delete();
     await recorder.stop();
@@ -45,7 +45,7 @@ describe("RetryPolicy", () => {
       return;
     });
 
-    const pipeline: Pipeline = (shareClient as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = shareClient["storageClientContext"].pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     const metadata = {
@@ -73,7 +73,7 @@ describe("RetryPolicy", () => {
       return;
     });
 
-    const pipeline: Pipeline = (shareClient as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = shareClient["storageClientContext"].pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     const metadata = {
@@ -108,7 +108,7 @@ describe("RetryPolicy", () => {
       options: { retryOptions: { maxTries: 3 } },
     });
     const shareClient_internal = shareServiceClient_internal.getShareClient(shareName);
-    const pipeline: Pipeline = (shareClient_internal as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = shareClient_internal["storageClientContext"].pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     let hasError = false;
@@ -134,7 +134,7 @@ describe("RetryPolicy", () => {
       }
       return;
     });
-    const pipeline: Pipeline = (shareClient as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = shareClient["storageClientContext"].pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     const metadata = {

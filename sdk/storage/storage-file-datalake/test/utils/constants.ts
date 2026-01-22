@@ -48,3 +48,6 @@ export const CUSTOMER_PROVIDED_KEY = {
 };
 export const ACL_ID_FOR_TEST = "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=";
 export const STREAM_DEBUG = "";
+
+export const STORAGE_SCOPE = "https://storage.azure.com/.default";
+export const SERVICE_VERSION = "2025-11-05";

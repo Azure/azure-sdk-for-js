@@ -9,8 +9,8 @@ import type {
   ServiceListFileSystemsSegmentResponse,
 } from "../../src/index.js";
 import type { DataLakeServiceClient } from "../../src/index.js";
-import { createDataLakeServiceClient } from "./utils/clients.js";
-import { getUniqueName } from "./utils/utils.js";
+import { createDataLakeServiceClient } from "../utils/clients.js";
+import { getUniqueName } from "../utils/testHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { getEncryptionScope1 } from "../utils/injectables.js";
 

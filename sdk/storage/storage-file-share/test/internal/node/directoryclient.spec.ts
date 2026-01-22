@@ -10,8 +10,8 @@ import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type { OperationOptions } from "@azure/core-client";
-import { createShareServiceClient } from "../../public/node/utils/clients.js";
-import { getUniqueName } from "../../public/utils/utils.js";
+import { createShareServiceClient } from "../../utils/node/clients.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
 import { getAccountKey, getPremiumFileAccountKey } from "../../utils/injectables.js";
 
 expect.extend({ toSupportTracing });

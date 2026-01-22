@@ -5,10 +5,11 @@ import type { PublicAccessType, BlobServiceClient } from "../../../src/index.js"
 import { type ContainerClient, ContainerSASPermissions } from "../../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { createBlobServiceClient } from "./utils/clients.js";
-import { getUniqueName } from "../utils/utils.js";
-import { createContainerClient } from "./utils/clients.js";
+import { createBlobServiceClient, createContainerClient } from "../../utils/node/clients.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
+import { bodyToString } from "../../utils/node/testHelpers.js";
 import { getStorageConnectionString } from "../../utils/injectables.js";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 describe("ContainerClient Node.js only", () => {
   let containerName: string;
@@ -161,6 +162,42 @@ describe("ContainerClient Node.js only", () => {
         error.message,
         "Error message is different than expected.",
       );
+    }
+  });
+
+  it("uploadBlockBlob and deleteBlob", async () => {
+    const body = getUniqueName("randomstring", { recorder });
+    const options = {
+      blobCacheControl: "blobCacheControl",
+      blobContentDisposition: "blobContentDisposition",
+      blobContentEncoding: "blobContentEncoding",
+      blobContentLanguage: "blobContentLanguage",
+      blobContentType: "blobContentType",
+      metadata: {
+        keya: "vala",
+        keyb: "valb",
+      },
+    };
+    const blobName = getUniqueName("blob", { recorder });
+    const { blockBlobClient } = await containerClient.uploadBlockBlob(blobName, body, body.length, {
+      blobHTTPHeaders: options,
+      metadata: options.metadata,
+    });
+    const result = await blockBlobClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, body.length), body);
+    assert.deepStrictEqual(result.cacheControl, options.blobCacheControl);
+
+    await containerClient.deleteBlob(blobName);
+    try {
+      await blockBlobClient.getProperties();
+      assert.fail(
+        "Expecting an error in getting properties from a deleted block blob but didn't get one.",
+      );
+    } catch (error: any) {
+      if (!isRestError(error)) {
+        throw error;
+      }
+      assert.equal(error.statusCode, 404);
     }
   });
 });

@@ -24,9 +24,9 @@ import { truncatedISO8061Date } from "../../../src/utils/utils.common.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type { OperationOptions } from "@azure/core-client";
-import { createShareServiceClient } from "../../public/node/utils/clients.js";
-import { bodyToString, compareBodyWithUint8Array } from "../../public/node/utils/utils.js";
-import { getUniqueName } from "../../public/utils/utils.js";
+import { createShareServiceClient } from "../../utils/node/clients.js";
+import { bodyToString, compareBodyWithUint8Array } from "../../utils/node/testHelpers.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
 import { getAccountKey } from "../../utils/injectables.js";
 
 expect.extend({ toSupportTracing });

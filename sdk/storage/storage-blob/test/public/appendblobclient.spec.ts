@@ -9,9 +9,9 @@ import {
   type AppendBlobClient,
 } from "../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { createAppendBlobClient, createBlobServiceClient } from "./utils/clients.js";
-import { bodyToString, getUniqueName } from "./utils/utils.js";
-import { SimpleTokenCredential } from "./utils/simpleToken.js";
+import { createAppendBlobClient, createBlobServiceClient } from "../utils/clients.js";
+import { getUniqueName } from "../utils/testHelpers.js";
+import { SimpleTokenCredential } from "../utils/simpleToken.js";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { createTestCredential } from "@azure-tools/test-credential";
 
@@ -78,67 +78,6 @@ describe("AppendBlobClient", () => {
     });
     const exist = await appendBlobClientWithOAuthToken.exists();
     assert.equal(exist, true);
-  });
-
-  it("appendBlock", async () => {
-    await appendBlobClient.create();
-
-    const content = "Hello World!";
-    await appendBlobClient.appendBlock(content, content.length);
-
-    const downloadResponse = await appendBlobClient.download(0);
-    assert.equal(await bodyToString(downloadResponse, content.length), content);
-    assert.equal(downloadResponse.contentLength!, content.length);
-  });
-
-  it("appendBlock with progress report", async () => {
-    await appendBlobClient.create();
-
-    const content = "Hello World!";
-    await appendBlobClient.appendBlock(content, content.length, {
-      onProgress: () => {
-        /* empty */
-      },
-    });
-
-    const downloadResponse = await appendBlobClient.download(0);
-    assert.equal(await bodyToString(downloadResponse, content.length), content);
-    assert.equal(downloadResponse.contentLength!, content.length);
-  });
-
-  it("appendBlockFromURL", async () => {
-    await appendBlobClient.create();
-
-    const content = "Hello World!";
-    const blockBlobName = getUniqueName("blockblob", { recorder });
-    const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
-    await blockBlobClient.upload(content, content.length);
-
-    await appendBlobClient.appendBlock(content, content.length);
-    await appendBlobClient.appendBlockFromURL(blockBlobClient.url, 0, content.length);
-
-    const downloadResponse = await appendBlobClient.download(0);
-    assert.equal(await bodyToString(downloadResponse, content.length * 2), content + content);
-    assert.equal(downloadResponse.contentLength, content.length * 2);
-  });
-
-  it("appendBlockFromURL - destination bearer token", async () => {
-    await appendBlobClient.create();
-
-    const content = "Hello World!";
-    const blockBlobName = getUniqueName("blockblob", { recorder });
-    const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
-    await blockBlobClient.upload(content, content.length);
-
-    const tokenBlobServiceClient = await createBlobServiceClient("TokenCredential", { recorder });
-    const tokenAppendBlobClient = tokenBlobServiceClient
-      .getContainerClient(containerName)
-      .getAppendBlobClient(blobName);
-    await tokenAppendBlobClient.appendBlockFromURL(blockBlobClient.url, 0, content.length);
-
-    const downloadResponse = await appendBlobClient.download(0);
-    assert.equal(await bodyToString(downloadResponse, content.length), content);
-    assert.equal(downloadResponse.contentLength!, content.length);
   });
 
   it("create with parameters configured", async () => {

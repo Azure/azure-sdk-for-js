@@ -6,8 +6,8 @@ import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import type { Tags } from "../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { createBlobServiceClient } from "./utils/clients.js";
-import { getUniqueName } from "./utils/utils.js";
+import { createBlobServiceClient } from "../utils/clients.js";
+import { getUniqueName } from "../utils/testHelpers.js";
 import { getAccountName } from "../utils/injectables.js";
 
 describe("BlobServiceClient", () => {
@@ -646,52 +646,5 @@ describe("BlobServiceClient", () => {
       found,
       "Deleted container not found in listContainers with includeDeleted option",
     );
-  });
-
-  // TODO: need feature to record test
-  it.skip("rename container", async function () {
-    const blobServiceClient = await createBlobServiceClient("TokenCredential", { recorder });
-    const containerName = getUniqueName("container", { recorder });
-    const containerClient = blobServiceClient.getContainerClient(containerName);
-    await containerClient.create();
-
-    const newContainerName = getUniqueName("newcontainer", { recorder });
-    // const renameRes = await blobServiceClient.renameContainer(containerName, newContainerName);
-    // @ts-expect-error private member
-    const renameRes = await blobServiceClient["renameContainer"](containerName, newContainerName);
-
-    const newContainerClient = blobServiceClient.getContainerClient(newContainerName);
-    assert.deepStrictEqual(renameRes.containerClient, newContainerClient);
-    await newContainerClient.getProperties();
-
-    // clean up
-    await newContainerClient.delete();
-  });
-
-  // need feature to record test
-  it.skip("rename container should work with source lease", async function () {
-    const blobServiceClient = await createBlobServiceClient("TokenCredential", { recorder });
-
-    const containerName = getUniqueName("container", { recorder });
-    const containerClient = blobServiceClient.getContainerClient(containerName);
-    await containerClient.create();
-
-    const leaseClient = containerClient.getBlobLeaseClient();
-    await leaseClient.acquireLease(-1);
-
-    const newContainerName = getUniqueName("newcontainer", { recorder });
-
-    // const renameRes = await blobServiceClient.renameContainer(containerName, newContainerName, {
-    // @ts-expect-error private member
-    const renameRes = await blobServiceClient["renameContainer"](containerName, newContainerName, {
-      sourceCondition: { leaseId: leaseClient.leaseId },
-    });
-
-    const newContainerClient = blobServiceClient.getContainerClient(newContainerName);
-    assert.deepStrictEqual(renameRes.containerClient, newContainerClient);
-    await newContainerClient.getProperties();
-
-    // clean up
-    await newContainerClient.delete();
   });
 });

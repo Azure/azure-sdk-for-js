@@ -8,7 +8,7 @@ import {
   createRandomLocalFile,
   readStreamToLocalFileWithLogs,
   parseJwt,
-} from "./utils/utils.js";
+} from "../../utils/node/testHelpers.js";
 import { delay, isLiveMode, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import {
   BlobSASPermissions,
@@ -21,8 +21,8 @@ import type { BlobClient, BlobServiceClient } from "../../../src/index.js";
 import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
-import { createBlobClient, createBlobServiceClient } from "./utils/clients.js";
-import { getUniqueName, shouldRunObjectReplicationTests } from "../utils/utils.js";
+import { createBlobClient, createBlobServiceClient } from "../../utils/node/clients.js";
+import { getUniqueName, shouldRunObjectReplicationTests } from "../../utils/testHelpers.js";
 import {
   getAccountKey,
   getAccountSas,
@@ -32,11 +32,11 @@ import {
   getStorageConnectionString,
   getStorageConnectionStringWithSas,
 } from "../../utils/injectables.js";
-import { assertDestReplicationProps, assertSrcReplicationProps } from "../utils/assert.js";
+import { assertDestReplicationProps, assertSrcReplicationProps } from "../../utils/assert.js";
 import { buffer } from "node:stream/consumers";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { SERVICE_VERSION, STORAGE_SCOPE } from "../utils/constants.js";
+import { SERVICE_VERSION, STORAGE_SCOPE } from "../../utils/constants.js";
 
 expect.extend({ toSupportTracing });
 
@@ -68,6 +68,62 @@ describe("BlobClient", () => {
   afterEach(async () => {
     await containerClient.delete();
     await recorder.stop();
+  });
+
+  it("download with with default parameters", async () => {
+    const result = await blobClient.download();
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    assert.exists(result.createdOn);
+  });
+
+  it("download with progress report", async () => {
+    let downloadedBytes = 0;
+    const result = await blobClient.download(0, undefined, {
+      onProgress: (data) => {
+        downloadedBytes = data.loadedBytes;
+      },
+    });
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    assert.equal(downloadedBytes, content.length);
+  });
+
+  it("download should not have aborted error after download finishes", async () => {
+    const aborter = new AbortController();
+    const result = await blobClient.download(0, undefined, { abortSignal: aborter.signal });
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    aborter.abort();
+  });
+
+  it("download all parameters set", async () => {
+    // For browser scenario, please ensure CORS settings exposed headers: content-md5,x-ms-content-crc64
+    // So JS can get contentCrc64 and contentMD5.
+    const result1 = await blobClient.download(0, 1, {
+      rangeGetContentCrc64: true,
+    });
+    assert.isDefined(result1.clientRequestId);
+    // assert.ok(result1.contentCrc64!);
+    assert.deepStrictEqual(await bodyToString(result1, 1), content[0]);
+    assert.isDefined(result1.clientRequestId);
+
+    const result2 = await blobClient.download(1, 1, {
+      rangeGetContentMD5: true,
+    });
+    assert.isDefined(result2.clientRequestId);
+    // assert.ok(result2.contentMD5!);
+
+    let exceptionCaught = false;
+    try {
+      await blobClient.download(2, 1, {
+        rangeGetContentMD5: true,
+        rangeGetContentCrc64: true,
+      });
+    } catch (err: any) {
+      if (!isRestError(err)) {
+        throw err;
+      }
+      exceptionCaught = true;
+    }
+    assert.isTrue(exceptionCaught);
   });
 
   it.runIf(getStorageConnectionString())(

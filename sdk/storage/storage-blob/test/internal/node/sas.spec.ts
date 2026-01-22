@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
-import { getSignatureFromSasUrl } from "../../public/node/utils/utils.js";
+import { getSignatureFromSasUrl } from "../../utils/node/testHelpers.js";
 import { UserDelegationKeyCredential } from "@azure/storage-common";
 import {
   getAccountKey,
@@ -29,10 +29,10 @@ import {
   type UserDelegationKey,
 } from "../../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { createBlobServiceClient } from "../../public/node/utils/clients.js";
-import { getUniqueName } from "../../public/utils/utils.js";
-import { ensureClientRecording } from "../../public/utils/recorder.js";
-import { SERVICE_VERSION } from "../../public/utils/constants.js";
+import { createBlobServiceClient } from "../../utils/node/clients.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
+import { ensureClientRecording } from "../../utils/recorder.js";
+import { SERVICE_VERSION } from "../../utils/constants.js";
 
 describe.runIf(getAccountKey())(
   "Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPolicy",

@@ -3,10 +3,10 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 import { Recorder } from "@azure-tools/test-recorder";
-import { configureStorageClient } from "../../public/utils/recorder.js";
-import { getUniqueName } from "../../public/utils/utils.js";
-import { createDataLakeServiceClient } from "../../public/utils/clients.js";
-import { SimpleTokenCredential } from "../../public/utils/simpleToken.js";
+import { configureStorageClient } from "../../utils/recorder.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
+import { createDataLakeServiceClient } from "../../utils/node/clients.js";
+import { SimpleTokenCredential } from "../../utils/simpleToken.js";
 import type { DataLakeServiceClient } from "../../../src/index.js";
 import {
   DataLakeFileSystemClient,

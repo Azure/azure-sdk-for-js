@@ -19,15 +19,15 @@ import {
   getDataLakeServiceAccountAudience,
 } from "../../../src/index.js";
 import { toAcl, toRemoveAcl } from "../../../src/transforms.js";
-import { configureStorageClient } from "../../public/utils/recorder.js";
-import { getUniqueName } from "../../public/utils/utils.js";
-import { bodyToString } from "../../public/node/utils/utils.js";
+import { configureStorageClient } from "../../utils/recorder.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
+import { bodyToString } from "../../utils/node/testHelpers.js";
 import {
   createDataLakeServiceClient,
   getDataLakeServiceClientWithDefaultCredential,
   getDataLakeFileSystemClientWithSASCredential,
-} from "../../public/node/utils/clients.js";
-import { SimpleTokenCredential } from "../../public/utils/simpleToken.js";
+} from "../../utils/node/clients.js";
+import { SimpleTokenCredential } from "../../utils/simpleToken.js";
 import { getTestCpkInfo } from "../../utils/injectables.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

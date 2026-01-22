@@ -7,11 +7,11 @@ import type {
   ServiceListFileSystemsSegmentResponse,
 } from "../../../src/index.js";
 import { DataLakeServiceClient, getDataLakeServiceAccountAudience } from "../../../src/index.js";
-import { configureStorageClient } from "../utils/recorder.js";
-import { createDataLakeServiceClient } from "../utils/clients.js";
+import { configureStorageClient } from "../../utils/recorder.js";
+import { createDataLakeServiceClient } from "../../utils/node/clients.js";
 import { getDfsStorageConnectionString } from "../../utils/injectables.js";
-import { getUniqueName } from "../utils/utils.js";
-import { SimpleTokenCredential } from "../utils/simpleToken.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
+import { SimpleTokenCredential } from "../../utils/simpleToken.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

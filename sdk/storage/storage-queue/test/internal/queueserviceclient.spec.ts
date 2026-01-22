@@ -5,11 +5,11 @@ import { QueueServiceClient } from "../../src/QueueServiceClient.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { createQueueServiceClient } from "../public/utils/clients.js";
-import { getUniqueName } from "../public/utils/utils.js";
+import { createQueueServiceClient } from "../utils/clients.js";
+import { getUniqueName } from "../utils/testHelpers.js";
 import { getSecondaryAccountQueueUrl } from "../utils/injectables.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { ensureClientRecording } from "../public/utils/recorder.js";
+import { ensureClientRecording } from "../utils/recorder.js";
 
 describe("QueueServiceClient", () => {
   let recorder: Recorder;

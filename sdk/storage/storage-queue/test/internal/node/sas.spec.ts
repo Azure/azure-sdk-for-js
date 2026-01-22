@@ -18,10 +18,10 @@ import { SASProtocol } from "../../../src/SASQueryParameters.js";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { UserDelegationKeyCredential } from "@azure/storage-common";
-import { createQueueServiceClient } from "../../public/node/utils/clients.js";
-import { getUniqueName } from "../../public/utils/utils.js";
-import { getSignatureFromSasUrl } from "../../public/node/utils/utils.js";
-import { ensureClientRecording } from "../../public/utils/recorder.js";
+import { createQueueServiceClient } from "../../utils/node/clients.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
+import { getSignatureFromSasUrl } from "../../utils/node/testHelpers.js";
+import { ensureClientRecording } from "../../utils/recorder.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { getAccountKey } from "../../utils/injectables.js";
 

@@ -3,8 +3,8 @@
 import type { QueueClient } from "../../src/QueueClient.js";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { createQueueServiceClient } from "../public/utils/clients.js";
-import { getUniqueName } from "../public/utils/utils.js";
+import { createQueueServiceClient } from "../utils/clients.js";
+import { getUniqueName } from "../utils/testHelpers.js";
 
 describe("Aborter", () => {
   let queueName: string;

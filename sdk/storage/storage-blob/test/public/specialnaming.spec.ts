@@ -5,8 +5,8 @@ import type { BlobServiceClient, ContainerClient } from "../../src/index.js";
 import { BlockBlobClient } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { appendToURLPath, EscapePath, getUniqueName } from "./utils/utils.js";
-import { createBlobServiceClient } from "./utils/clients.js";
+import { appendToURLPath, EscapePath, getUniqueName } from "../utils/testHelpers.js";
+import { createBlobServiceClient } from "../utils/clients.js";
 
 describe("Special Naming Tests", () => {
   let containerName: string;

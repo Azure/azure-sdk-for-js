@@ -6,9 +6,9 @@ import type { ContainerClient, BlobServiceClient } from "../../src/index.js";
 import { RestError } from "../../src/index.js";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { createBlobServiceClient } from "./utils/clients.js";
-import { getUniqueName } from "./utils/utils.js";
-import { injectorPolicy, injectorPolicyName } from "./utils/injectorPolicy.js";
+import { createBlobServiceClient } from "../utils/clients.js";
+import { getUniqueName } from "../utils/testHelpers.js";
+import { injectorPolicy, injectorPolicyName } from "../utils/InjectorPolicy.js";
 
 describe("RetryPolicy", () => {
   let blobServiceClient: BlobServiceClient;
@@ -26,7 +26,7 @@ describe("RetryPolicy", () => {
   });
 
   afterEach(async () => {
-    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = containerClient["storageClientContext"].pipeline;
     pipeline.removePolicy({ name: injectorPolicyName });
     await containerClient.delete();
     await recorder.stop();
@@ -45,7 +45,7 @@ describe("RetryPolicy", () => {
       return;
     });
 
-    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = containerClient["storageClientContext"].pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     const metadata = {
@@ -73,7 +73,7 @@ describe("RetryPolicy", () => {
       return;
     });
 
-    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = containerClient["storageClientContext"].pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     const metadata = {
@@ -108,7 +108,7 @@ describe("RetryPolicy", () => {
       options: { retryOptions: { maxTries: 3 } },
     });
     containerClient = blobServiceClient.getContainerClient(containerName);
-    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = containerClient["storageClientContext"].pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     let hasError = false;
@@ -152,7 +152,7 @@ describe("RetryPolicy", () => {
     });
     containerClient = blobServiceClient.getContainerClient(containerName);
 
-    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = containerClient["storageClientContext"].pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     if (isPlaybackMode()) {
@@ -196,7 +196,7 @@ describe("RetryPolicy", () => {
       }
       return;
     });
-    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = containerClient["storageClientContext"].pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     const metadata = {

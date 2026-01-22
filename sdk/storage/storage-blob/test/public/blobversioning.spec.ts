@@ -11,8 +11,8 @@ import type {
 } from "../../src/index.js";
 import { BlobBatch } from "../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { createBlobServiceClient } from "./utils/clients.js";
-import { bodyToString, getUniqueName, setURLParameter } from "./utils/utils.js";
+import { createBlobServiceClient } from "../utils/clients.js";
+import { getUniqueName } from "../utils/testHelpers.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { isRestError } from "@azure/core-rest-pipeline";
 
@@ -73,17 +73,6 @@ describe("Blob versioning", () => {
     assert.equal(result.segment.blobItems![0].versionId, uploadRes.versionId);
     assert.equal(result.segment.blobItems![1].versionId, uploadRes2.versionId);
     assert.isDefined(result.segment.blobItems![1].isCurrentVersion);
-  });
-
-  it("download a blob version", async () => {
-    const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
-    const downloadRes = await blobVersionClient.download();
-    assert.deepStrictEqual(await bodyToString(downloadRes, content.length), content);
-    assert.deepStrictEqual(downloadRes.versionId, uploadRes.versionId);
-
-    const downloadRes2 = await blobClient.withVersion(uploadRes2.versionId!).download();
-    assert.deepStrictEqual(await bodyToString(downloadRes2), "");
-    assert.deepStrictEqual(downloadRes2.versionId, uploadRes2.versionId);
   });
 
   it("get properties of a blob version", async () => {
@@ -282,32 +271,6 @@ describe("Blob versioning", () => {
 
     const versionExists = await blobClient.withVersion(uploadRes.versionId!).exists();
     assert.isDefined(versionExists);
-  });
-
-  it("promote a version: as the copy source", async () => {
-    const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
-    await blobVersionClient.getProperties();
-
-    const versionURL = setURLParameter(blobClient.url, "versionid", uploadRes.versionId);
-    const copyRes = await (await blobClient.beginCopyFromURL(versionURL)).pollUntilDone();
-    assert.isDefined(copyRes.copyId);
-
-    const listRes = (
-      await containerClient
-        .listBlobsFlat({
-          includeVersions: true,
-        })
-        .byPage()
-        .next()
-    ).value;
-
-    const blobItemsLength = listRes.segment.blobItems!.length;
-    assert.equal(blobItemsLength, 3);
-    assert.equal(listRes.segment.blobItems![blobItemsLength - 1].versionId, copyRes.versionId);
-    assert.isTrue(listRes.segment.blobItems![blobItemsLength - 1].isCurrentVersion);
-
-    const downloadRes = await blobClient.download();
-    assert.deepStrictEqual(await bodyToString(downloadRes, content.length), content);
   });
 
   it("blob create return versionId", async () => {

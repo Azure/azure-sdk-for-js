@@ -5,8 +5,8 @@ import { newPipeline } from "../../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { QueueClient } from "../../../src/QueueClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { createQueueClient, createQueueServiceClient } from "../../public/node/utils/clients.js";
-import { getUniqueName } from "../../public/utils/utils.js";
+import { createQueueClient, createQueueServiceClient } from "../../utils/node/clients.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
 import { getAccountKey, getStorageConnectionString } from "../../utils/injectables.js";
 
 describe("QueueClient messageId methods, Node.js only", () => {

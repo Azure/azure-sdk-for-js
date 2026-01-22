@@ -75,7 +75,7 @@ export async function ensureClientRecording(
   }
   const options = recorder.configureClientOptions({});
 
-  const pipeline: Pipeline = (client as any).blobServiceClient.storageClientContext.pipeline;
+  const pipeline: Pipeline = client["blobServiceClient"]["storageClientContext"].pipeline;
   for (const { policy } of options.additionalPolicies ?? []) {
     pipeline.addPolicy(policy, { afterPhase: "Sign", afterPolicies: ["injectorPolicy"] });
   }

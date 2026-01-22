@@ -6,13 +6,13 @@ import fs from "node:fs";
 import path from "node:path";
 import buffer from "node:buffer";
 import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../../src/index.js";
-import { createDataLakeServiceClient } from "../../public/utils/clients.js";
-import { getUniqueName } from "../../public/utils/utils.js";
+import { createDataLakeServiceClient } from "../../utils/node/clients.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
 import {
   bodyToString,
   createRandomLocalFile,
   readStreamToLocalFileWithLogs,
-} from "../../public/node/utils/utils.js";
+} from "../../utils/node/testHelpers.js";
 import {
   MB,
   FILE_MAX_SINGLE_UPLOAD_THRESHOLD,

@@ -4,7 +4,7 @@
 import { QueueClient, QueueServiceClient } from "../../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { getStorageConnectionString } from "../../utils/injectables.js";
-import { getUniqueName } from "../utils/utils.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
 import { createServer } from "node:net";
 
 function getConnectionString(mode?: "local"): string {

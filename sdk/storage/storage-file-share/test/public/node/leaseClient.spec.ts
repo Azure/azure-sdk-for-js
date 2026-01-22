@@ -8,9 +8,9 @@ import type {
   SignedIdentifier,
 } from "../../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { createShareServiceClient } from "./utils/clients.js";
-import { bodyToString } from "./utils/utils.js";
-import { getUniqueName } from "../utils/utils.js";
+import { createShareServiceClient } from "../../utils/node/clients.js";
+import { bodyToString } from "../../utils/node/testHelpers.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
 import { getAccountKey } from "../../utils/injectables.js";
 
 // for file

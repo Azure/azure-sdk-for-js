@@ -13,8 +13,8 @@ import {
   DataLakeFileClient,
   DataLakeDirectoryClient,
 } from "../../src/index.js";
-import { createDataLakeServiceClient } from "./utils/clients.js";
-import { getUniqueName } from "./utils/utils.js";
+import { createDataLakeServiceClient } from "../utils/clients.js";
+import { getUniqueName } from "../utils/testHelpers.js";
 import { getEncryptionScope1 } from "../utils/injectables.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";

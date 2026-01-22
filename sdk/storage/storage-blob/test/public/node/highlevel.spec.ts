@@ -13,15 +13,15 @@ import type {
   BlobServiceClient,
 } from "../../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
-import { createBlobServiceClient } from "./utils/clients.js";
-import { getUniqueName } from "../utils/utils.js";
+import { createBlobServiceClient } from "../../utils/node/clients.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
 import {
   bodyToString,
   createRandomLocalFile,
   createRandomLocalFileWithTotalSize,
   readStreamToLocalFileWithLogs,
-} from "./utils/utils.js";
-import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../utils/constants.js";
+} from "../../utils/node/testHelpers.js";
+import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../utils/constants.js";
 import { getCustomerProvidedKey } from "../../utils/injectables.js";
 import { isRestError, type TransferProgressEvent } from "@azure/core-rest-pipeline";
 import { buffer as toBuffer } from "node:stream/consumers";

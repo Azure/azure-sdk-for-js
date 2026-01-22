@@ -13,10 +13,10 @@ import {
   createShareServiceClient,
   createShareDirectoryClient,
   getSharedKeyCredential,
-} from "./utils/clients.js";
-import { getUniqueName } from "../utils/utils.js";
+} from "../../utils/node/clients.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
 import { getAccountKey, getAccountName } from "../../utils/injectables.js";
-import { SimpleTokenCredential } from "../utils/simpleToken.js";
+import { SimpleTokenCredential } from "../../utils/simpleToken.js";
 
 describe("DirectoryClient Node.js only", () => {
   let shareName: string;

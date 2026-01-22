@@ -9,14 +9,14 @@ import type {
   Tags,
 } from "../../src/index.js";
 import { BlockBlobTier, ContainerClient, getBlobServiceAccountAudience } from "../../src/index.js";
-import { assertClientUsesTokenCredential } from "./utils/assert.js";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
-import { createBlobServiceClient } from "./utils/clients.js";
-import { base64encode, bodyToString, getUniqueName, isSuperSet } from "./utils/utils.js";
-import { createContainerClient } from "./utils/clients.js";
-import { SimpleTokenCredential } from "./utils/simpleToken.js";
+import { createBlobServiceClient } from "../utils/clients.js";
+import { base64encode, getUniqueName, isSuperSet } from "../utils/testHelpers.js";
+import { createContainerClient } from "../utils/clients.js";
+import { SimpleTokenCredential } from "../utils/simpleToken.js";
 import type {
   Pipeline,
   PipelinePolicy,
@@ -1032,42 +1032,6 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("uploadBlockBlob and deleteBlob", async () => {
-    const body = getUniqueName("randomstring", { recorder });
-    const options = {
-      blobCacheControl: "blobCacheControl",
-      blobContentDisposition: "blobContentDisposition",
-      blobContentEncoding: "blobContentEncoding",
-      blobContentLanguage: "blobContentLanguage",
-      blobContentType: "blobContentType",
-      metadata: {
-        keya: "vala",
-        keyb: "valb",
-      },
-    };
-    const blobName = getUniqueName("blob", { recorder });
-    const { blockBlobClient } = await containerClient.uploadBlockBlob(blobName, body, body.length, {
-      blobHTTPHeaders: options,
-      metadata: options.metadata,
-    });
-    const result = await blockBlobClient.download(0);
-    assert.deepStrictEqual(await bodyToString(result, body.length), body);
-    assert.deepStrictEqual(result.cacheControl, options.blobCacheControl);
-
-    await containerClient.deleteBlob(blobName);
-    try {
-      await blockBlobClient.getProperties();
-      assert.fail(
-        "Expecting an error in getting properties from a deleted block blob but didn't get one.",
-      );
-    } catch (error: any) {
-      if (!isRestError(error)) {
-        throw error;
-      }
-      assert.equal(error.statusCode, 404);
-    }
-  });
-
   it("uploadBlockBlob and deleteBlob with tracing", async () => {
     const body = getUniqueName("randomstring", { recorder });
     const blobHeaders: BlobHTTPHeaders = {
@@ -1315,7 +1279,7 @@ describe("Version error test", () => {
   it("Invalid service version", async () => {
     const injector = XMSVersioninjectorPolicy(`3025-01-01`);
 
-    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = containerClient["storageClientContext"].pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
     try {
       await containerClient.create();

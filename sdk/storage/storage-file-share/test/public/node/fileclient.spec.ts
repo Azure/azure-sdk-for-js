@@ -23,17 +23,17 @@ import {
   readStreamToLocalFileWithLogs,
   createRandomLocalFile,
   bodyToString,
-} from "./utils/utils.js";
+} from "../../utils/node/testHelpers.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import {
   createShareServiceClient,
   createShareFileClient,
   getSharedKeyCredential,
-} from "./utils/clients.js";
-import { getUniqueName } from "../utils/utils.js";
+} from "../../utils/node/clients.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
 import { getAccountKey, getAccountName } from "../../utils/injectables.js";
-import { SimpleTokenCredential } from "../utils/simpleToken.js";
+import { SimpleTokenCredential } from "../../utils/simpleToken.js";
 
 describe.runIf(getAccountKey())("FileClient Node.js only", () => {
   let shareName: string;

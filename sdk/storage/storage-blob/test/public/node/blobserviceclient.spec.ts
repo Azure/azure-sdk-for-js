@@ -3,10 +3,10 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { createBlobServiceClient } from "./utils/clients.js";
+import { createBlobServiceClient } from "../../utils/node/clients.js";
 import { getStorageConnectionStringWithSas } from "../../utils/injectables.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { SimpleTokenCredential } from "../utils/simpleToken.js";
+import { SimpleTokenCredential } from "../../utils/simpleToken.js";
 import { isRestError } from "@azure/core-rest-pipeline";
 
 describe("BlobServiceClient", () => {

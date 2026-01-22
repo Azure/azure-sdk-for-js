@@ -9,12 +9,12 @@ import type { RetriableReadableStreamOptions } from "../../../src/utils/Retriabl
 import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../../src/index.js";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
-import { createShareServiceClient } from "../../public/node/utils/clients.js";
-import { getUniqueName } from "../../public/utils/utils.js";
+import { createShareServiceClient } from "../../utils/node/clients.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
 import {
   createRandomLocalFile,
   readStreamToLocalFileWithLogs,
-} from "../../public/node/utils/utils.js";
+} from "../../utils/node/testHelpers.js";
 import { getAccountKey } from "../../utils/injectables.js";
 
 describe.runIf(getAccountKey())("Highlevel Node.js only", () => {

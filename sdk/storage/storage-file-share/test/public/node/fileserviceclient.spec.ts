@@ -4,8 +4,8 @@ import type { ShareItem } from "../../../src/index.js";
 import { type ShareServiceClient, newPipeline } from "../../../src/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { createShareServiceClient, getSharedKeyCredential } from "./utils/clients.js";
-import { getUniqueName } from "../utils/utils.js";
+import { createShareServiceClient, getSharedKeyCredential } from "../../utils/node/clients.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
 import { getAccountKey, getStorageConnectionStringWithSas } from "../../utils/injectables.js";
 
 describe("FileServiceClient Node.js only", () => {
