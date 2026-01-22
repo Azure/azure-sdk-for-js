@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable no-useless-escape */
 
 // ---------------------
 // interfaces

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+/* eslint-disable @azure/azure-sdk/ts-naming-options */
 
 import type { BatchContext, BatchClientOptionalParams } from "./api/index.js";
 import { createBatch } from "./api/index.js";

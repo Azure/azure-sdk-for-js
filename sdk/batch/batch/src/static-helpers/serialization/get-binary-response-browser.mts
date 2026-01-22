@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { HttpResponse, StreamableMethod } from "@azure-rest/core-client";
 
 /**
