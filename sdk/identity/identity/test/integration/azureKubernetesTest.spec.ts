@@ -6,7 +6,7 @@ import { isLiveMode } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { requireEnvVar } from "../authTestUtils.js";
 
-describe.skipIF(!isLiveMode())("Azure Kubernetes Integration test", function () {
+describe.skipIf(!isLiveMode())("Azure Kubernetes Integration test", function () {
   let podName: string;
   const port = requireEnvVar("IDENTITY_FUNCTIONS_CUSTOMHANDLER_PORT");
 
