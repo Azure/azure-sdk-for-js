@@ -55,7 +55,6 @@ function normalizeConfigPath(configPath: string) {
 function normalizeConfigPaths(configPath: string, resolvedConfig: RawConfig): Config {
   const outDir = resolvedConfig.compilerOptions.outDir;
   const { include, exclude, files, compilerOptions, references, ...rest } = resolvedConfig;
-  void references;
   const normalized: Config = {
     ...(rest as Config),
     compilerOptions: {
@@ -90,7 +89,7 @@ export async function resolveConfig(configPath: string): Promise<ResolvedConfigR
     const configDir = path.dirname(absolutePath);
     const rawConfig = JSON.parse(stripJsonComments(await fs.readFile(absolutePath, "utf8")));
 
-    let resolvedConfig = {} as RawConfig;
+    let resolvedConfig = { compilerOptions: {} } as RawConfig;
     const { extends: parents, ...rest } = rawConfig;
     if (parents) {
       const baseConfigs = Array.isArray(parents) ? parents : [parents];
