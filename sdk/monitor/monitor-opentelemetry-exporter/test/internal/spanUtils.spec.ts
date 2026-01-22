@@ -1578,13 +1578,14 @@ describe("spanUtils.ts", () => {
     const envelope = readableSpanToEnvelope(readableSpan, "ikey");
 
     // Verify the property value is NOT truncated
+    const baseData = envelope.data?.baseData as RequestData | undefined;
     assert.strictEqual(
-      envelope.data?.baseData?.properties?.["custom.longProperty"],
+      baseData?.properties?.["custom.longProperty"],
       longPropertyValue,
       "Custom properties should not be truncated at 13-bit limit",
     );
     assert.strictEqual(
-      envelope.data?.baseData?.properties?.["custom.longProperty"]?.length,
+      baseData?.properties?.["custom.longProperty"]?.length,
       MaxPropertyLengths.THIRTEEN_BIT + 1000,
       "Custom property length should exceed the old 13-bit limit",
     );

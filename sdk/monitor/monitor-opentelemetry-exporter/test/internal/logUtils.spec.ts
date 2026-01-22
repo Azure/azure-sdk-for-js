@@ -144,11 +144,8 @@ describe("logUtils.ts", () => {
 
       assert.isDefined(envelope);
       assert.isUndefined(envelope?.tags?.[APPLICATION_ID_RESOURCE_KEY]);
-      assert.isUndefined(
-        (envelope?.data?.baseData as Partial<MonitorDomain>)?.properties?.[
-          APPLICATION_ID_RESOURCE_KEY
-        ],
-      );
+      const baseData = envelope?.data?.baseData as Partial<MessageData> | undefined;
+      assert.isUndefined(baseData?.properties?.[APPLICATION_ID_RESOURCE_KEY]);
     });
 
     it("should create a Message Envelope for Logs", () => {
