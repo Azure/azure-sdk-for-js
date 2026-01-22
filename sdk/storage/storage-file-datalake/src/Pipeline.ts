@@ -35,10 +35,10 @@ import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log.js";
-import type { StorageRetryOptions } from "@azure/storage-blob";
-import { StorageRetryPolicyFactory } from "@azure/storage-blob";
+import type { StorageRetryOptions } from "@azure/storage-common";
+import { StorageRetryPolicyFactory } from "@azure/storage-common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
-import { AnonymousCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-common";
 import {
   StorageOAuthScopes,
   StorageDataLakeLoggingAllowedHeaderNames,
