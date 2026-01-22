@@ -45,7 +45,14 @@
   - Added Type Alias SuppressionListsListByDomainNextResponse
   - Added Type Alias SuppressionListsListByDomainResponse
   - Added Enum KnownPublicNetworkAccess
+    
+    
+## 4.1.1 (2025-08-22)
 
+### Other Changes
+
+  - Other fixes
+    
     
 ## 4.1.0 (2024-03-08)
     
@@ -232,7 +239,7 @@
     
 ## 3.0.1 (2022-04-11)
 
-**features**
+### Features Added
 
   - Bug fix
 
