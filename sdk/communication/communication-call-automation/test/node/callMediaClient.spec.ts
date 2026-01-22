@@ -671,7 +671,10 @@ describe("CallMedia Unit Tests", async function () {
     assert.isDefined(data.recognizeOptions.dtmfOptions);
     assert.equal(data.recognizeOptions.dtmfOptions.interToneTimeoutInSeconds, 3);
     assert.equal(data.recognizeOptions.dtmfOptions.maxTonesToCollect, 10);
-    assert.deepEqual(data.recognizeOptions.dtmfOptions.stopTones, [DtmfTone.Pound, DtmfTone.Asterisk]);
+    assert.deepEqual(data.recognizeOptions.dtmfOptions.stopTones, [
+      DtmfTone.Pound,
+      DtmfTone.Asterisk,
+    ]);
 
     // Validate base recognize options
     assert.equal(data.recognizeOptions.interruptPrompt, true);
@@ -888,7 +891,10 @@ describe("CallMedia Unit Tests", async function () {
     assert.isDefined(data.recognizeOptions.dtmfOptions);
     assert.equal(data.recognizeOptions.dtmfOptions.interToneTimeoutInSeconds, 3);
     assert.equal(data.recognizeOptions.dtmfOptions.maxTonesToCollect, 10);
-    assert.deepEqual(data.recognizeOptions.dtmfOptions.stopTones, [DtmfTone.Pound, DtmfTone.Asterisk]);
+    assert.deepEqual(data.recognizeOptions.dtmfOptions.stopTones, [
+      DtmfTone.Pound,
+      DtmfTone.Asterisk,
+    ]);
 
     // Validate Speech options
     assert.isDefined(data.recognizeOptions.speechOptions);
