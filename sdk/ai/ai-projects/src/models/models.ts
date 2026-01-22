@@ -2102,8 +2102,8 @@ export interface MCPTool extends Tool {
   /** Optional description of the MCP server, used to provide more context. */
   server_description?: string;
   headers?: Record<string, string>;
-  allowed_tools?: (string[] | MCPToolFilter);
-  require_approval?: (MCPToolRequireApproval | "always" | "never");
+  allowed_tools?: string[] | MCPToolFilter;
+  require_approval?: MCPToolRequireApproval | "always" | "never";
   /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
   project_connection_id?: string;
 }
