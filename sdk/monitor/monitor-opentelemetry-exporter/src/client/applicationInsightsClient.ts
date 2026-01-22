@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceClientOptions } from "@azure/core-client";
+import * as coreClient from "@azure/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 import {
   ApplicationInsightsClient as GeneratedApplicationInsightsClient,
@@ -9,7 +9,7 @@ import {
 } from "../generated/index.js";
 
 /** Mirrors the historical optional params surface for the public API. */
-export interface ApplicationInsightsClientOptionalParams extends ServiceClientOptions {
+export interface ApplicationInsightsClientOptionalParams extends coreClient.ServiceClientOptions {
   /** Application Insights Breeze endpoint override. */
   endpoint?: string;
   /** Host portion used to build the Breeze endpoint. */
@@ -31,9 +31,9 @@ export class ApplicationInsightsClient extends GeneratedApplicationInsightsClien
           : [credentialScopes]
         : undefined;
 
-    const clientOptions: GeneratedApplicationInsightsClientOptionalParams & { endpoint?: string } =
-      {
-        ...(rest as GeneratedApplicationInsightsClientOptionalParams),
+    const clientOptions: GeneratedApplicationInsightsClientOptionalParams &
+      coreClient.ServiceClientOptions & { endpoint?: string } = {
+        ...(rest as GeneratedApplicationInsightsClientOptionalParams & coreClient.ServiceClientOptions),
         host: host ?? endpoint ?? (rest as { baseUri?: string }).baseUri,
       };
 
