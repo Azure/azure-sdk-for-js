@@ -84,8 +84,8 @@ export class ConnectionStringParser {
   public static validateInstrumentationKey(iKey: string): boolean {
     let instrumentationKey = iKey;
     if (instrumentationKey.startsWith("InstrumentationKey=")) {
-      const startIndex = instrumentationKey.indexOf("InstrumentationKey=") +
-        "InstrumentationKey=".length;
+      const startIndex =
+        instrumentationKey.indexOf("InstrumentationKey=") + "InstrumentationKey=".length;
       const endIndex = instrumentationKey.indexOf(";", startIndex);
       instrumentationKey = instrumentationKey.substring(startIndex, endIndex);
     }

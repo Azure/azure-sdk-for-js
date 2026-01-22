@@ -33,9 +33,10 @@ export class ApplicationInsightsClient extends GeneratedApplicationInsightsClien
 
     const clientOptions: GeneratedApplicationInsightsClientOptionalParams &
       coreClient.ServiceClientOptions & { endpoint?: string } = {
-        ...(rest as GeneratedApplicationInsightsClientOptionalParams & coreClient.ServiceClientOptions),
-        host: host ?? endpoint ?? (rest as { baseUri?: string }).baseUri,
-      };
+      ...(rest as GeneratedApplicationInsightsClientOptionalParams &
+        coreClient.ServiceClientOptions),
+      host: host ?? endpoint ?? (rest as { baseUri?: string }).baseUri,
+    };
 
     const resolvedEndpoint = endpoint ?? (rest as { baseUri?: string }).baseUri;
     if (resolvedEndpoint) {
