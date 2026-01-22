@@ -5,12 +5,12 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
-import type { AnonymousCredential } from '@azure/storage-blob';
+import type { AnonymousCredential } from '@azure/storage-common';
 import type { CommonOptions } from '@azure/storage-blob';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/storage-blob';
 import type { StoragePipelineOptions } from '@azure/storage-blob';
-import type { StorageSharedKeyCredential } from '@azure/storage-blob';
+import type { StorageSharedKeyCredential } from '@azure/storage-common';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
