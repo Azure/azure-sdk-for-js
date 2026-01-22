@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createRecorder, createRecordedClient } from "./utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { PlanetaryComputerProClient } from "../../src/index.js";
