@@ -9,6 +9,7 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { AppConfigurationManagementClient } from "./appConfigurationManagementClient.js";
+export { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   ConfigurationStore,

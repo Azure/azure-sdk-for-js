@@ -9,6 +9,8 @@ import type {
   KeyValuesGetOptionalParams,
 } from "../../api/keyValues/options.js";
 import type { KeyValue } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a KeyValues operations. */
@@ -25,6 +27,20 @@ export interface KeyValuesOperations {
     keyValueName: string,
     options?: KeyValuesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    configStoreName: string,
+    keyValueName: string,
+    options?: KeyValuesDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    configStoreName: string,
+    keyValueName: string,
+    options?: KeyValuesDeleteOptionalParams,
+  ) => Promise<void>;
   /** Creates a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -50,6 +66,24 @@ function _getKeyValues(context: AppConfigurationManagementContext) {
       keyValueName: string,
       options?: KeyValuesDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, configStoreName, keyValueName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      configStoreName: string,
+      keyValueName: string,
+      options?: KeyValuesDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, configStoreName, keyValueName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      configStoreName: string,
+      keyValueName: string,
+      options?: KeyValuesDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, configStoreName, keyValueName, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       configStoreName: string,

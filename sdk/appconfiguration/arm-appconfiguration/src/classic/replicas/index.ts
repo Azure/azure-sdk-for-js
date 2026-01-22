@@ -11,6 +11,8 @@ import type {
 } from "../../api/replicas/options.js";
 import type { Replica } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Replicas operations. */
@@ -33,6 +35,20 @@ export interface ReplicasOperations {
     replicaName: string,
     options?: ReplicasDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    configStoreName: string,
+    replicaName: string,
+    options?: ReplicasDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    configStoreName: string,
+    replicaName: string,
+    options?: ReplicasDeleteOptionalParams,
+  ) => Promise<void>;
   /** Creates a replica with the specified parameters. */
   create: (
     resourceGroupName: string,
@@ -41,6 +57,22 @@ export interface ReplicasOperations {
     replicaCreationParameters: Replica,
     options?: ReplicasCreateOptionalParams,
   ) => PollerLike<OperationState<Replica>, Replica>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    configStoreName: string,
+    replicaName: string,
+    replicaCreationParameters: Replica,
+    options?: ReplicasCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Replica>, Replica>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    configStoreName: string,
+    replicaName: string,
+    replicaCreationParameters: Replica,
+    options?: ReplicasCreateOptionalParams,
+  ) => Promise<Replica>;
   /** Gets the properties of the specified replica. */
   get: (
     resourceGroupName: string,
@@ -63,6 +95,24 @@ function _getReplicas(context: AppConfigurationManagementContext) {
       replicaName: string,
       options?: ReplicasDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, configStoreName, replicaName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      configStoreName: string,
+      replicaName: string,
+      options?: ReplicasDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, configStoreName, replicaName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      configStoreName: string,
+      replicaName: string,
+      options?: ReplicasDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, configStoreName, replicaName, options);
+    },
     create: (
       resourceGroupName: string,
       configStoreName: string,
@@ -78,6 +128,40 @@ function _getReplicas(context: AppConfigurationManagementContext) {
         replicaCreationParameters,
         options,
       ),
+    beginCreate: async (
+      resourceGroupName: string,
+      configStoreName: string,
+      replicaName: string,
+      replicaCreationParameters: Replica,
+      options?: ReplicasCreateOptionalParams,
+    ) => {
+      const poller = create(
+        context,
+        resourceGroupName,
+        configStoreName,
+        replicaName,
+        replicaCreationParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      configStoreName: string,
+      replicaName: string,
+      replicaCreationParameters: Replica,
+      options?: ReplicasCreateOptionalParams,
+    ) => {
+      return await create(
+        context,
+        resourceGroupName,
+        configStoreName,
+        replicaName,
+        replicaCreationParameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       configStoreName: string,

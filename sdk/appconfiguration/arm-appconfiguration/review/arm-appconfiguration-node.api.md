@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
@@ -167,6 +168,22 @@ export interface ConfigurationStoresListOptionalParams extends OperationOptions 
 
 // @public
 export interface ConfigurationStoresOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, configStoreName: string, configStoreCreationParameters: ConfigurationStore, options?: ConfigurationStoresCreateOptionalParams) => Promise<SimplePollerLike<OperationState<ConfigurationStore>, ConfigurationStore>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, configStoreName: string, configStoreCreationParameters: ConfigurationStore, options?: ConfigurationStoresCreateOptionalParams) => Promise<ConfigurationStore>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, configStoreName: string, options?: ConfigurationStoresDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, configStoreName: string, options?: ConfigurationStoresDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPurgeDeleted: (location: string, configStoreName: string, options?: ConfigurationStoresPurgeDeletedOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPurgeDeletedAndWait: (location: string, configStoreName: string, options?: ConfigurationStoresPurgeDeletedOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, configStoreName: string, configStoreUpdateParameters: ConfigurationStoreUpdateParameters, options?: ConfigurationStoresUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ConfigurationStore>, ConfigurationStore>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, configStoreName: string, configStoreUpdateParameters: ConfigurationStoreUpdateParameters, options?: ConfigurationStoresUpdateOptionalParams) => Promise<ConfigurationStore>;
     create: (resourceGroupName: string, configStoreName: string, configStoreCreationParameters: ConfigurationStore, options?: ConfigurationStoresCreateOptionalParams) => PollerLike<OperationState<ConfigurationStore>, ConfigurationStore>;
     delete: (resourceGroupName: string, configStoreName: string, options?: ConfigurationStoresDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, configStoreName: string, options?: ConfigurationStoresGetOptionalParams) => Promise<ConfigurationStore>;
@@ -322,6 +339,10 @@ export interface KeyValuesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface KeyValuesOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, configStoreName: string, keyValueName: string, options?: KeyValuesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, configStoreName: string, keyValueName: string, options?: KeyValuesDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, configStoreName: string, keyValueName: string, keyValueParameters: KeyValue, options?: KeyValuesCreateOrUpdateOptionalParams) => Promise<KeyValue>;
     delete: (resourceGroupName: string, configStoreName: string, keyValueName: string, options?: KeyValuesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, configStoreName: string, keyValueName: string, options?: KeyValuesGetOptionalParams) => Promise<KeyValue>;
@@ -571,6 +592,14 @@ export interface PrivateEndpointConnectionsListByConfigurationStoreOptionalParam
 
 // @public
 export interface PrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, configStoreName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, configStoreName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, configStoreName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, configStoreName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, configStoreName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
     delete: (resourceGroupName: string, configStoreName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, configStoreName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
@@ -667,6 +696,14 @@ export interface ReplicasListByConfigurationStoreOptionalParams extends Operatio
 
 // @public
 export interface ReplicasOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, configStoreName: string, replicaName: string, replicaCreationParameters: Replica, options?: ReplicasCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Replica>, Replica>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, configStoreName: string, replicaName: string, replicaCreationParameters: Replica, options?: ReplicasCreateOptionalParams) => Promise<Replica>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, configStoreName: string, replicaName: string, options?: ReplicasDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, configStoreName: string, replicaName: string, options?: ReplicasDeleteOptionalParams) => Promise<void>;
     create: (resourceGroupName: string, configStoreName: string, replicaName: string, replicaCreationParameters: Replica, options?: ReplicasCreateOptionalParams) => PollerLike<OperationState<Replica>, Replica>;
     delete: (resourceGroupName: string, configStoreName: string, replicaName: string, options?: ReplicasDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, configStoreName: string, replicaName: string, options?: ReplicasGetOptionalParams) => Promise<Replica>;
@@ -703,6 +740,28 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 export interface ServiceSpecification {
     logSpecifications?: LogSpecification[];
     metricSpecifications?: MetricSpecification[];
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -751,6 +810,10 @@ export interface SnapshotsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface SnapshotsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, configStoreName: string, snapshotName: string, body: Snapshot, options?: SnapshotsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Snapshot>, Snapshot>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, configStoreName: string, snapshotName: string, body: Snapshot, options?: SnapshotsCreateOptionalParams) => Promise<Snapshot>;
     create: (resourceGroupName: string, configStoreName: string, snapshotName: string, body: Snapshot, options?: SnapshotsCreateOptionalParams) => PollerLike<OperationState<Snapshot>, Snapshot>;
     get: (resourceGroupName: string, configStoreName: string, snapshotName: string, options?: SnapshotsGetOptionalParams) => Promise<Snapshot>;
 }

@@ -36,6 +36,8 @@ import type {
   DeletedConfigurationStore,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ConfigurationStores operations. */
@@ -50,6 +52,18 @@ export interface ConfigurationStoresOperations {
     configStoreName: string,
     options?: ConfigurationStoresPurgeDeletedOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use purgeDeleted instead */
+  beginPurgeDeleted: (
+    location: string,
+    configStoreName: string,
+    options?: ConfigurationStoresPurgeDeletedOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use purgeDeleted instead */
+  beginPurgeDeletedAndWait: (
+    location: string,
+    configStoreName: string,
+    options?: ConfigurationStoresPurgeDeletedOptionalParams,
+  ) => Promise<void>;
   /** Gets a deleted Azure app configuration store. */
   getDeleted: (
     location: string,
@@ -89,6 +103,18 @@ export interface ConfigurationStoresOperations {
     configStoreName: string,
     options?: ConfigurationStoresDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    configStoreName: string,
+    options?: ConfigurationStoresDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    configStoreName: string,
+    options?: ConfigurationStoresDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates a configuration store with the specified parameters. */
   update: (
     resourceGroupName: string,
@@ -96,6 +122,20 @@ export interface ConfigurationStoresOperations {
     configStoreUpdateParameters: ConfigurationStoreUpdateParameters,
     options?: ConfigurationStoresUpdateOptionalParams,
   ) => PollerLike<OperationState<ConfigurationStore>, ConfigurationStore>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    configStoreName: string,
+    configStoreUpdateParameters: ConfigurationStoreUpdateParameters,
+    options?: ConfigurationStoresUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<ConfigurationStore>, ConfigurationStore>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    configStoreName: string,
+    configStoreUpdateParameters: ConfigurationStoreUpdateParameters,
+    options?: ConfigurationStoresUpdateOptionalParams,
+  ) => Promise<ConfigurationStore>;
   /** Creates a configuration store with the specified parameters. */
   create: (
     resourceGroupName: string,
@@ -103,6 +143,20 @@ export interface ConfigurationStoresOperations {
     configStoreCreationParameters: ConfigurationStore,
     options?: ConfigurationStoresCreateOptionalParams,
   ) => PollerLike<OperationState<ConfigurationStore>, ConfigurationStore>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    configStoreName: string,
+    configStoreCreationParameters: ConfigurationStore,
+    options?: ConfigurationStoresCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<ConfigurationStore>, ConfigurationStore>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    configStoreName: string,
+    configStoreCreationParameters: ConfigurationStore,
+    options?: ConfigurationStoresCreateOptionalParams,
+  ) => Promise<ConfigurationStore>;
   /** Gets the properties of the specified configuration store. */
   get: (
     resourceGroupName: string,
@@ -120,6 +174,22 @@ function _getConfigurationStores(context: AppConfigurationManagementContext) {
       configStoreName: string,
       options?: ConfigurationStoresPurgeDeletedOptionalParams,
     ) => purgeDeleted(context, location, configStoreName, options),
+    beginPurgeDeleted: async (
+      location: string,
+      configStoreName: string,
+      options?: ConfigurationStoresPurgeDeletedOptionalParams,
+    ) => {
+      const poller = purgeDeleted(context, location, configStoreName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginPurgeDeletedAndWait: async (
+      location: string,
+      configStoreName: string,
+      options?: ConfigurationStoresPurgeDeletedOptionalParams,
+    ) => {
+      return await purgeDeleted(context, location, configStoreName, options);
+    },
     getDeleted: (
       location: string,
       configStoreName: string,
@@ -147,12 +217,58 @@ function _getConfigurationStores(context: AppConfigurationManagementContext) {
       configStoreName: string,
       options?: ConfigurationStoresDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, configStoreName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      configStoreName: string,
+      options?: ConfigurationStoresDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, configStoreName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      configStoreName: string,
+      options?: ConfigurationStoresDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, configStoreName, options);
+    },
     update: (
       resourceGroupName: string,
       configStoreName: string,
       configStoreUpdateParameters: ConfigurationStoreUpdateParameters,
       options?: ConfigurationStoresUpdateOptionalParams,
     ) => update(context, resourceGroupName, configStoreName, configStoreUpdateParameters, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      configStoreName: string,
+      configStoreUpdateParameters: ConfigurationStoreUpdateParameters,
+      options?: ConfigurationStoresUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        configStoreName,
+        configStoreUpdateParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      configStoreName: string,
+      configStoreUpdateParameters: ConfigurationStoreUpdateParameters,
+      options?: ConfigurationStoresUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        configStoreName,
+        configStoreUpdateParameters,
+        options,
+      );
+    },
     create: (
       resourceGroupName: string,
       configStoreName: string,
@@ -160,6 +276,36 @@ function _getConfigurationStores(context: AppConfigurationManagementContext) {
       options?: ConfigurationStoresCreateOptionalParams,
     ) =>
       create(context, resourceGroupName, configStoreName, configStoreCreationParameters, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      configStoreName: string,
+      configStoreCreationParameters: ConfigurationStore,
+      options?: ConfigurationStoresCreateOptionalParams,
+    ) => {
+      const poller = create(
+        context,
+        resourceGroupName,
+        configStoreName,
+        configStoreCreationParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      configStoreName: string,
+      configStoreCreationParameters: ConfigurationStore,
+      options?: ConfigurationStoresCreateOptionalParams,
+    ) => {
+      return await create(
+        context,
+        resourceGroupName,
+        configStoreName,
+        configStoreCreationParameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       configStoreName: string,
