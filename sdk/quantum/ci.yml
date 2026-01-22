@@ -30,6 +30,4 @@ extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: quantum
-    Artifacts:
-      - name: azure-quantum-jobs
-        safeName: quantumjobs
+    Artifacts: []
