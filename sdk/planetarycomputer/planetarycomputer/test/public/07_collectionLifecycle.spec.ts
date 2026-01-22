@@ -199,6 +199,7 @@ describe("Collection Lifecycle Operations", () => {
       type: "text/plain",
       roles: ["metadata"],
       title: "Test Asset",
+      description: "A test asset for collection lifecycle testing",
     };
 
     const fileContent = Buffer.from("Test asset content");
@@ -234,6 +235,7 @@ describe("Collection Lifecycle Operations", () => {
       type: "text/plain",
       roles: ["metadata"],
       title: "Test Asset - Updated",
+      description: "An updated test asset for collection lifecycle testing",
     };
 
     const fileContent = Buffer.from("Test asset content - updated");
@@ -274,6 +276,7 @@ describe("Collection Lifecycle Operations", () => {
       type: "text/plain",
       roles: ["metadata"],
       title: "Test Asset To Be Deleted",
+      description: "A test asset that will be deleted",
     };
 
     const fileContent = Buffer.from("Test asset content for deletion");
