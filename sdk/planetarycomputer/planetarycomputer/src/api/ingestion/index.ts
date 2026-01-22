@@ -1,0 +1,43 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  listManagedIdentities,
+  listSources,
+  getSource,
+  deleteSource,
+  replaceSource,
+  createSource,
+  update,
+  list,
+  get,
+  $delete,
+  create,
+  listRuns,
+  getRun,
+  createRun,
+  listOperations,
+  getOperation,
+  cancelAllOperations,
+  cancelOperation,
+} from "./operations.js";
+export {
+  IngestionListManagedIdentitiesOptionalParams,
+  IngestionListSourcesOptionalParams,
+  IngestionGetSourceOptionalParams,
+  IngestionDeleteSourceOptionalParams,
+  IngestionReplaceSourceOptionalParams,
+  IngestionCreateSourceOptionalParams,
+  IngestionUpdateOptionalParams,
+  IngestionListOptionalParams,
+  IngestionGetOptionalParams,
+  IngestionDeleteOptionalParams,
+  IngestionCreateOptionalParams,
+  IngestionListRunsOptionalParams,
+  IngestionGetRunOptionalParams,
+  IngestionCreateRunOptionalParams,
+  IngestionListOperationsOptionalParams,
+  IngestionGetOperationOptionalParams,
+  IngestionCancelAllOperationsOptionalParams,
+  IngestionCancelOperationOptionalParams,
+} from "./options.js";
