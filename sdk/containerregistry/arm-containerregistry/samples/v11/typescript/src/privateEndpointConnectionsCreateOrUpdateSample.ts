@@ -18,11 +18,7 @@ async function privateEndpointConnectionCreateOrUpdate(): Promise<void> {
     "myResourceGroup",
     "myRegistry",
     "myConnection",
-    {
-      properties: {
-        privateLinkServiceConnectionState: { status: "Approved", description: "Auto-Approved" },
-      },
-    },
+    { privateLinkServiceConnectionState: { status: "Approved", description: "Auto-Approved" } },
   );
   console.log(result);
 }

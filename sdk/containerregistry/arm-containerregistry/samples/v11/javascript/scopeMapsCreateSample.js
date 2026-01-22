@@ -15,10 +15,8 @@ async function scopeMapCreate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.scopeMaps.create("myResourceGroup", "myRegistry", "myScopeMap", {
-    properties: {
-      description: "Developer Scopes",
-      actions: ["repositories/myrepository/contentWrite", "repositories/myrepository/delete"],
-    },
+    description: "Developer Scopes",
+    actions: ["repositories/myrepository/contentWrite", "repositories/myrepository/delete"],
   });
   console.log(result);
 }

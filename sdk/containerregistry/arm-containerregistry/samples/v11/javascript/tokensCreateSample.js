@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to creates a token for a container registry with the specified parameters.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary creates a token for a container registry with the specified parameters.
  * x-ms-original-file: 2025-11-01/TokenCreate.json
  */
-async function tokenCreate(): Promise<void> {
+async function tokenCreate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
@@ -31,7 +31,7 @@ async function tokenCreate(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await tokenCreate();
 }
 

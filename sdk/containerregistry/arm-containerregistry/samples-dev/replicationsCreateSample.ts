@@ -40,7 +40,8 @@ async function replicationCreateZoneRedundant(): Promise<void> {
     {
       location: "eastus",
       tags: { key: "value" },
-      properties: { regionEndpointEnabled: true, zoneRedundancy: "Enabled" },
+      regionEndpointEnabled: true,
+      zoneRedundancy: "Enabled",
     },
   );
   console.log(result);

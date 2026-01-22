@@ -19,23 +19,21 @@ async function connectedRegistryCreate() {
     "myRegistry",
     "myConnectedRegistry",
     {
-      properties: {
-        mode: "ReadWrite",
-        parent: {
-          syncProperties: {
-            tokenId:
-              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tokens/syncToken",
-            schedule: "0 9 * * *",
-            messageTtl: "P2D",
-            syncWindow: "PT3H",
-          },
+      mode: "ReadWrite",
+      parent: {
+        syncProperties: {
+          tokenId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tokens/syncToken",
+          schedule: "0 9 * * *",
+          messageTtl: "P2D",
+          syncWindow: "PT3H",
         },
-        clientTokenIds: [
-          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tokens/client1Token",
-        ],
-        notificationsList: ["hello-world:*:*", "sample/repo/*:1.0:*"],
-        garbageCollection: { enabled: true, schedule: "0 5 * * *" },
       },
+      clientTokenIds: [
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tokens/client1Token",
+      ],
+      notificationsList: ["hello-world:*:*", "sample/repo/*:1.0:*"],
+      garbageCollection: { enabled: true, schedule: "0 5 * * *" },
     },
   );
   console.log(result);

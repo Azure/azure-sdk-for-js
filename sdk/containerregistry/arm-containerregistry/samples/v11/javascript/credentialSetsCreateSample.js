@@ -19,16 +19,14 @@ async function credentialSetCreate() {
     "myRegistry",
     "myCredentialSet",
     {
-      properties: {
-        loginServer: "docker.io",
-        authCredentials: [
-          {
-            name: "Credential1",
-            usernameSecretIdentifier: "https://myvault.vault.azure.net/secrets/username",
-            passwordSecretIdentifier: "https://myvault.vault.azure.net/secrets/password",
-          },
-        ],
-      },
+      loginServer: "docker.io",
+      authCredentials: [
+        {
+          name: "Credential1",
+          usernameSecretIdentifier: "https://myvault.vault.azure.net/secrets/username",
+          passwordSecretIdentifier: "https://myvault.vault.azure.net/secrets/password",
+        },
+      ],
       identity: { type: "SystemAssigned" },
     },
   );

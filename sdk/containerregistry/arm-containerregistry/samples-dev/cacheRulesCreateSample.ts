@@ -15,12 +15,10 @@ async function cacheRuleCreate(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.cacheRules.create("myResourceGroup", "myRegistry", "myCacheRule", {
-    properties: {
-      sourceRepository: "docker.io/library/hello-world",
-      targetRepository: "cached-docker-hub/hello-world",
-      credentialSetResourceId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/credentialSets/myCredentialSet",
-    },
+    sourceRepository: "docker.io/library/hello-world",
+    targetRepository: "cached-docker-hub/hello-world",
+    credentialSetResourceId:
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/credentialSets/myCredentialSet",
   });
   console.log(result);
 }

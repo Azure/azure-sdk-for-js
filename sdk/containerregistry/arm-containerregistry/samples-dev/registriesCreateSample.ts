@@ -18,7 +18,7 @@ async function registryCreate(): Promise<void> {
     location: "westus",
     tags: { key: "value" },
     sku: { name: "Standard" },
-    properties: { adminUserEnabled: true },
+    adminUserEnabled: true,
   });
   console.log(result);
 }
@@ -37,7 +37,7 @@ async function registryCreateAbac(): Promise<void> {
     location: "westus",
     tags: { key: "value" },
     sku: { name: "Standard" },
-    properties: { roleAssignmentMode: "AbacRepositoryPermissions" },
+    roleAssignmentMode: "AbacRepositoryPermissions",
   });
   console.log(result);
 }
@@ -56,7 +56,7 @@ async function registryCreateZoneRedundant(): Promise<void> {
     location: "westus",
     tags: { key: "value" },
     sku: { name: "Standard" },
-    properties: { zoneRedundancy: "Enabled" },
+    zoneRedundancy: "Enabled",
   });
   console.log(result);
 }

@@ -44,7 +44,11 @@ export type AzureADAuthenticationAsArmPolicyStatus = string;
 
 // @public
 export interface CacheRule extends ProxyResource {
-    properties?: CacheRuleProperties;
+    readonly creationDate?: Date;
+    credentialSetResourceId?: string;
+    readonly provisioningState?: ProvisioningState;
+    sourceRepository?: string;
+    targetRepository?: string;
 }
 
 // @public
@@ -77,7 +81,19 @@ export type CertificateType = string;
 
 // @public
 export interface ConnectedRegistry extends ProxyResource {
-    properties?: ConnectedRegistryProperties;
+    readonly activation?: ActivationProperties;
+    clientTokenIds?: string[];
+    readonly connectionState?: ConnectionState;
+    garbageCollection?: GarbageCollectionProperties;
+    readonly lastActivityTime?: Date;
+    logging?: LoggingProperties;
+    loginServer?: LoginServerProperties;
+    mode?: ConnectedRegistryMode;
+    notificationsList?: string[];
+    parent?: ParentProperties;
+    readonly provisioningState?: ProvisioningState;
+    readonly statusDetails?: StatusDetailProperties[];
+    readonly version?: string;
 }
 
 // @public
@@ -145,8 +161,11 @@ export type CredentialName = string;
 
 // @public
 export interface CredentialSet extends ProxyResource {
+    authCredentials?: AuthCredential[];
+    readonly creationDate?: Date;
     identity?: IdentityProperties;
-    properties?: CredentialSetProperties;
+    loginServer?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -634,7 +653,9 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends ProxyResource {
-    properties?: PrivateEndpointConnectionProperties;
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -685,9 +706,25 @@ export interface RegenerateCredentialParameters {
 
 // @public
 export interface Registry extends TrackedResource {
+    adminUserEnabled?: boolean;
+    anonymousPullEnabled?: boolean;
+    readonly creationDate?: Date;
+    dataEndpointEnabled?: boolean;
+    readonly dataEndpointHostNames?: string[];
+    encryption?: EncryptionProperty;
     identity?: IdentityProperties;
-    properties?: RegistryProperties;
+    readonly loginServer?: string;
+    networkRuleBypassAllowedForTasks?: boolean;
+    networkRuleBypassOptions?: NetworkRuleBypassOptions;
+    networkRuleSet?: NetworkRuleSet;
+    policies?: Policies;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    roleAssignmentMode?: RoleAssignmentMode;
     sku: Sku;
+    readonly status?: Status;
+    zoneRedundancy?: ZoneRedundancy;
 }
 
 // @public
@@ -785,7 +822,10 @@ export type RegistryUsageUnit = string;
 
 // @public
 export interface Replication extends TrackedResource {
-    properties?: ReplicationProperties;
+    readonly provisioningState?: ProvisioningState;
+    regionEndpointEnabled?: boolean;
+    readonly status?: Status;
+    zoneRedundancy?: ZoneRedundancy;
 }
 
 // @public
@@ -840,7 +880,11 @@ export type RoleAssignmentMode = string;
 
 // @public
 export interface ScopeMap extends ProxyResource {
-    properties?: ScopeMapProperties;
+    actions?: string[];
+    readonly creationDate?: Date;
+    description?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly typePropertiesType?: string;
 }
 
 // @public
@@ -955,7 +999,11 @@ export type TlsStatus = string;
 
 // @public
 export interface Token extends ProxyResource {
-    properties?: TokenProperties;
+    readonly creationDate?: Date;
+    credentials?: TokenCredentialsProperties;
+    readonly provisioningState?: ProvisioningState;
+    scopeMapId?: string;
+    status?: TokenStatus;
 }
 
 // @public
@@ -1038,7 +1086,10 @@ export interface UserIdentityProperties {
 
 // @public
 export interface Webhook extends TrackedResource {
-    properties?: WebhookProperties;
+    actions?: WebhookAction[];
+    readonly provisioningState?: ProvisioningState;
+    scope?: string;
+    status?: WebhookStatus;
 }
 
 // @public

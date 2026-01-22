@@ -251,21 +251,65 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 
 /** An object that represents a container registry. */
 export interface Registry extends TrackedResource {
-  /** The properties of the container registry. */
-  properties?: RegistryProperties;
   /** The SKU of the container registry. */
   sku: Sku;
   /** The identity of the container registry. */
   identity?: IdentityProperties;
+  /** The URL that can be used to log into the container registry. */
+  readonly loginServer?: string;
+  /** The creation date of the container registry in ISO8601 format. */
+  readonly creationDate?: Date;
+  /** The provisioning state of the container registry at the time the operation was called. */
+  readonly provisioningState?: ProvisioningState;
+  /** The status of the container registry at the time the operation was called. */
+  readonly status?: Status;
+  /** The value that indicates whether the admin user is enabled. */
+  adminUserEnabled?: boolean;
+  /** The network rule set for a container registry. */
+  networkRuleSet?: NetworkRuleSet;
+  /** The policies for a container registry. */
+  policies?: Policies;
+  /** The encryption settings of container registry. */
+  encryption?: EncryptionProperty;
+  /** Enable a single data endpoint per region for serving data. */
+  dataEndpointEnabled?: boolean;
+  /** List of host names that will serve data when dataEndpointEnabled is true. */
+  readonly dataEndpointHostNames?: string[];
+  /** List of private endpoint connections for a container registry. */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Whether or not public network access is allowed for the container registry. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** Whether to allow trusted Azure services to access a network restricted registry. */
+  networkRuleBypassOptions?: NetworkRuleBypassOptions;
+  /** Whether or not Tasks allowed to bypass the network rules for this container registry. */
+  networkRuleBypassAllowedForTasks?: boolean;
+  /** Whether or not zone redundancy is enabled for this container registry */
+  zoneRedundancy?: ZoneRedundancy;
+  /** Enables registry-wide pull from unauthenticated clients. */
+  anonymousPullEnabled?: boolean;
+  /** Determines registry role assignment mode. */
+  roleAssignmentMode?: RoleAssignmentMode;
 }
 
 export function registrySerializer(item: Registry): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : registryPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "adminUserEnabled",
+      "networkRuleSet",
+      "policies",
+      "encryption",
+      "dataEndpointEnabled",
+      "publicNetworkAccess",
+      "networkRuleBypassOptions",
+      "networkRuleBypassAllowedForTasks",
+      "zoneRedundancy",
+      "anonymousPullEnabled",
+      "roleAssignmentMode",
+    ])
+      ? undefined
+      : _registryPropertiesSerializer(item),
     sku: skuSerializer(item["sku"]),
     identity: !item["identity"] ? item["identity"] : identityPropertiesSerializer(item["identity"]),
   };
@@ -283,9 +327,9 @@ export function registryDeserializer(item: any): Registry {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : registryPropertiesDeserializer(item["properties"]),
+      : _registryPropertiesDeserializer(item["properties"])),
     sku: skuDeserializer(item["sku"]),
     identity: !item["identity"]
       ? item["identity"]
@@ -827,15 +871,19 @@ export function privateEndpointConnectionArrayDeserializer(
 
 /** An object that represents a private endpoint connection for a container registry. */
 export interface PrivateEndpointConnection extends ProxyResource {
-  /** The properties of a private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
+  /** The resource of private endpoint. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /** The provisioning state of private endpoint connection resource. */
+  readonly provisioningState?: ProvisioningState;
 }
 
 export function privateEndpointConnectionSerializer(item: PrivateEndpointConnection): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : privateEndpointConnectionPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["privateEndpoint", "privateLinkServiceConnectionState"])
+      ? undefined
+      : _privateEndpointConnectionPropertiesSerializer(item),
   };
 }
 
@@ -847,9 +895,9 @@ export function privateEndpointConnectionDeserializer(item: any): PrivateEndpoin
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : privateEndpointConnectionPropertiesDeserializer(item["properties"]),
+      : _privateEndpointConnectionPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -1848,15 +1896,30 @@ export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkRe
 
 /** An object that represents a cache rule for a container registry. */
 export interface CacheRule extends ProxyResource {
-  /** The properties of the cache rule. */
-  properties?: CacheRuleProperties;
+  /** The ARM resource ID of the credential store which is associated with the cache rule. */
+  credentialSetResourceId?: string;
+  /** Source repository pulled from upstream. */
+  sourceRepository?: string;
+  /**
+   * Target repository specified in docker pull command.
+   * Eg: docker pull myregistry.azurecr.io/{targetRepository}:{tag}
+   */
+  targetRepository?: string;
+  /** The creation date of the cache rule. */
+  readonly creationDate?: Date;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
 }
 
 export function cacheRuleSerializer(item: CacheRule): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : cacheRulePropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "credentialSetResourceId",
+      "sourceRepository",
+      "targetRepository",
+    ])
+      ? undefined
+      : _cacheRulePropertiesSerializer(item),
   };
 }
 
@@ -1868,9 +1931,9 @@ export function cacheRuleDeserializer(item: any): CacheRule {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : cacheRulePropertiesDeserializer(item["properties"]),
+      : _cacheRulePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -1962,17 +2025,26 @@ export function cacheRuleArrayDeserializer(result: Array<CacheRule>): any[] {
 
 /** An object that represents a credential set resource for a container registry. */
 export interface CredentialSet extends ProxyResource {
-  /** The properties of the credential set. */
-  properties?: CredentialSetProperties;
   /** Identities associated with the resource. This is used to access the KeyVault secrets. */
   identity?: IdentityProperties;
+  /** The credentials are stored for this upstream or login server. */
+  loginServer?: string;
+  /**
+   * List of authentication credentials stored for an upstream.
+   * Usually consists of a primary and an optional secondary credential.
+   */
+  authCredentials?: AuthCredential[];
+  /** The creation date of credential store resource. */
+  readonly creationDate?: Date;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
 }
 
 export function credentialSetSerializer(item: CredentialSet): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : credentialSetPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["loginServer", "authCredentials"])
+      ? undefined
+      : _credentialSetPropertiesSerializer(item),
     identity: !item["identity"] ? item["identity"] : identityPropertiesSerializer(item["identity"]),
   };
 }
@@ -1985,9 +2057,9 @@ export function credentialSetDeserializer(item: any): CredentialSet {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : credentialSetPropertiesDeserializer(item["properties"]),
+      : _credentialSetPropertiesDeserializer(item["properties"])),
     identity: !item["identity"]
       ? item["identity"]
       : identityPropertiesDeserializer(item["identity"]),
@@ -2189,15 +2261,47 @@ export function credentialSetArrayDeserializer(result: Array<CredentialSet>): an
 
 /** An object that represents a connected registry for a container registry. */
 export interface ConnectedRegistry extends ProxyResource {
-  /** The properties of the connected registry. */
-  properties?: ConnectedRegistryProperties;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** The mode of the connected registry resource that indicates the permissions of the registry. */
+  mode?: ConnectedRegistryMode;
+  /** The current version of ACR runtime on the connected registry. */
+  readonly version?: string;
+  /** The current connection state of the connected registry. */
+  readonly connectionState?: ConnectionState;
+  /** The last activity time of the connected registry. */
+  readonly lastActivityTime?: Date;
+  /** The activation properties of the connected registry. */
+  readonly activation?: ActivationProperties;
+  /** The parent of the connected registry. */
+  parent?: ParentProperties;
+  /** The list of the ACR token resource IDs used to authenticate clients to the connected registry. */
+  clientTokenIds?: string[];
+  /** The login server properties of the connected registry. */
+  loginServer?: LoginServerProperties;
+  /** The logging properties of the connected registry. */
+  logging?: LoggingProperties;
+  /** The list of current statuses of the connected registry. */
+  readonly statusDetails?: StatusDetailProperties[];
+  /** The list of notifications subscription information for the connected registry. */
+  notificationsList?: string[];
+  /** The garbage collection properties of the connected registry. */
+  garbageCollection?: GarbageCollectionProperties;
 }
 
 export function connectedRegistrySerializer(item: ConnectedRegistry): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : connectedRegistryPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "mode",
+      "parent",
+      "clientTokenIds",
+      "loginServer",
+      "logging",
+      "notificationsList",
+      "garbageCollection",
+    ])
+      ? undefined
+      : _connectedRegistryPropertiesSerializer(item),
   };
 }
 
@@ -2209,9 +2313,9 @@ export function connectedRegistryDeserializer(item: any): ConnectedRegistry {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : connectedRegistryPropertiesDeserializer(item["properties"]),
+      : _connectedRegistryPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -2771,17 +2875,23 @@ export function _privateEndpointConnectionListResultDeserializer(
 
 /** An object that represents a replication for a container registry. */
 export interface Replication extends TrackedResource {
-  /** The properties of the replication. */
-  properties?: ReplicationProperties;
+  /** The provisioning state of the replication at the time the operation was called. */
+  readonly provisioningState?: ProvisioningState;
+  /** The status of the replication at the time the operation was called. */
+  readonly status?: Status;
+  /** Specifies whether the replication's regional endpoint is enabled. Requests will not be routed to a replication whose regional endpoint is disabled, however its data will continue to be synced with other replications. */
+  regionEndpointEnabled?: boolean;
+  /** Whether or not zone redundancy is enabled for this container registry replication */
+  zoneRedundancy?: ZoneRedundancy;
 }
 
 export function replicationSerializer(item: Replication): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : replicationPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["regionEndpointEnabled", "zoneRedundancy"])
+      ? undefined
+      : _replicationPropertiesSerializer(item),
   };
 }
 
@@ -2797,9 +2907,9 @@ export function replicationDeserializer(item: any): Replication {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : replicationPropertiesDeserializer(item["properties"]),
+      : _replicationPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -2889,15 +2999,27 @@ export function replicationArrayDeserializer(result: Array<Replication>): any[] 
 
 /** An object that represents a scope map for a container registry. */
 export interface ScopeMap extends ProxyResource {
-  /** The properties of the scope map. */
-  properties?: ScopeMapProperties;
+  /** The user friendly description of the scope map. */
+  description?: string;
+  /** The type of the scope map. E.g. BuildIn scope map. */
+  readonly typePropertiesType?: string;
+  /** The creation date of scope map. */
+  readonly creationDate?: Date;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The list of scoped permissions for registry artifacts.
+   * E.g. repositories/repository-name/content/read,
+   * repositories/repository-name/metadata/write
+   */
+  actions?: string[];
 }
 
 export function scopeMapSerializer(item: ScopeMap): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : scopeMapPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["description", "actions"])
+      ? undefined
+      : _scopeMapPropertiesSerializer(item),
   };
 }
 
@@ -2909,9 +3031,9 @@ export function scopeMapDeserializer(item: any): ScopeMap {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : scopeMapPropertiesDeserializer(item["properties"]),
+      : _scopeMapPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -3028,15 +3150,23 @@ export function scopeMapArrayDeserializer(result: Array<ScopeMap>): any[] {
 
 /** An object that represents a token for a container registry. */
 export interface Token extends ProxyResource {
-  /** The properties of the token. */
-  properties?: TokenProperties;
+  /** The creation date of scope map. */
+  readonly creationDate?: Date;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** The resource ID of the scope map to which the token will be associated with. */
+  scopeMapId?: string;
+  /** The credentials that can be used for authenticating the token. */
+  credentials?: TokenCredentialsProperties;
+  /** The status of the token example enabled or disabled. */
+  status?: TokenStatus;
 }
 
 export function tokenSerializer(item: Token): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : tokenPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["scopeMapId", "credentials", "status"])
+      ? undefined
+      : _tokenPropertiesSerializer(item),
   };
 }
 
@@ -3048,9 +3178,9 @@ export function tokenDeserializer(item: any): Token {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : tokenPropertiesDeserializer(item["properties"]),
+      : _tokenPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -3255,8 +3385,14 @@ export function tokenArrayDeserializer(result: Array<Token>): any[] {
 
 /** An object that represents a webhook for a container registry. */
 export interface Webhook extends TrackedResource {
-  /** The properties of the webhook. */
-  properties?: WebhookProperties;
+  /** The status of the webhook at the time the operation was called. */
+  status?: WebhookStatus;
+  /** The scope of repositories where the event can be triggered. For example, 'foo:*' means events for all tags under repository 'foo'. 'foo:bar' means events for 'foo:bar' only. 'foo' is equivalent to 'foo:latest'. Empty means all events. */
+  scope?: string;
+  /** The list of actions that trigger the webhook to post notifications. */
+  actions?: WebhookAction[];
+  /** The provisioning state of the webhook at the time the operation was called. */
+  readonly provisioningState?: ProvisioningState;
 }
 
 export function webhookDeserializer(item: any): Webhook {
@@ -3271,9 +3407,9 @@ export function webhookDeserializer(item: any): Webhook {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : webhookPropertiesDeserializer(item["properties"]),
+      : _webhookPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -3734,6 +3870,83 @@ export function _operationDefinitionPropertiesDeserializer(item: any) {
   };
 }
 
+export function _privateEndpointConnectionPropertiesSerializer(
+  item: PrivateEndpointConnection,
+): any {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointSerializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
+      ? item["privateLinkServiceConnectionState"]
+      : privateLinkServiceConnectionStateSerializer(item["privateLinkServiceConnectionState"]),
+  };
+}
+
+export function _privateEndpointConnectionPropertiesDeserializer(item: any) {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointDeserializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
+      ? item["privateLinkServiceConnectionState"]
+      : privateLinkServiceConnectionStateDeserializer(item["privateLinkServiceConnectionState"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function _registryPropertiesSerializer(item: Registry): any {
+  return {
+    adminUserEnabled: item["adminUserEnabled"],
+    networkRuleSet: !item["networkRuleSet"]
+      ? item["networkRuleSet"]
+      : networkRuleSetSerializer(item["networkRuleSet"]),
+    policies: !item["policies"] ? item["policies"] : policiesSerializer(item["policies"]),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : encryptionPropertySerializer(item["encryption"]),
+    dataEndpointEnabled: item["dataEndpointEnabled"],
+    publicNetworkAccess: item["publicNetworkAccess"],
+    networkRuleBypassOptions: item["networkRuleBypassOptions"],
+    networkRuleBypassAllowedForTasks: item["networkRuleBypassAllowedForTasks"],
+    zoneRedundancy: item["zoneRedundancy"],
+    anonymousPullEnabled: item["anonymousPullEnabled"],
+    roleAssignmentMode: item["roleAssignmentMode"],
+  };
+}
+
+export function _registryPropertiesDeserializer(item: any) {
+  return {
+    loginServer: item["loginServer"],
+    creationDate: !item["creationDate"] ? item["creationDate"] : new Date(item["creationDate"]),
+    provisioningState: item["provisioningState"],
+    status: !item["status"] ? item["status"] : statusDeserializer(item["status"]),
+    adminUserEnabled: item["adminUserEnabled"],
+    networkRuleSet: !item["networkRuleSet"]
+      ? item["networkRuleSet"]
+      : networkRuleSetDeserializer(item["networkRuleSet"]),
+    policies: !item["policies"] ? item["policies"] : policiesDeserializer(item["policies"]),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : encryptionPropertyDeserializer(item["encryption"]),
+    dataEndpointEnabled: item["dataEndpointEnabled"],
+    dataEndpointHostNames: !item["dataEndpointHostNames"]
+      ? item["dataEndpointHostNames"]
+      : item["dataEndpointHostNames"].map((p: any) => {
+          return p;
+        }),
+    privateEndpointConnections: !item["privateEndpointConnections"]
+      ? item["privateEndpointConnections"]
+      : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
+    publicNetworkAccess: item["publicNetworkAccess"],
+    networkRuleBypassOptions: item["networkRuleBypassOptions"],
+    networkRuleBypassAllowedForTasks: item["networkRuleBypassAllowedForTasks"],
+    zoneRedundancy: item["zoneRedundancy"],
+    anonymousPullEnabled: item["anonymousPullEnabled"],
+    roleAssignmentMode: item["roleAssignmentMode"],
+  };
+}
+
 export function _registryUpdateParametersPropertiesSerializer(item: RegistryUpdateParameters): any {
   return {
     adminUserEnabled: item["adminUserEnabled"],
@@ -3753,10 +3966,48 @@ export function _registryUpdateParametersPropertiesSerializer(item: RegistryUpda
   };
 }
 
+export function _cacheRulePropertiesSerializer(item: CacheRule): any {
+  return {
+    credentialSetResourceId: item["credentialSetResourceId"],
+    sourceRepository: item["sourceRepository"],
+    targetRepository: item["targetRepository"],
+  };
+}
+
+export function _cacheRulePropertiesDeserializer(item: any) {
+  return {
+    credentialSetResourceId: item["credentialSetResourceId"],
+    sourceRepository: item["sourceRepository"],
+    targetRepository: item["targetRepository"],
+    creationDate: !item["creationDate"] ? item["creationDate"] : new Date(item["creationDate"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
 export function _cacheRuleUpdateParametersPropertiesSerializer(
   item: CacheRuleUpdateParameters,
 ): any {
   return { credentialSetResourceId: item["credentialSetResourceId"] };
+}
+
+export function _credentialSetPropertiesSerializer(item: CredentialSet): any {
+  return {
+    loginServer: item["loginServer"],
+    authCredentials: !item["authCredentials"]
+      ? item["authCredentials"]
+      : authCredentialArraySerializer(item["authCredentials"]),
+  };
+}
+
+export function _credentialSetPropertiesDeserializer(item: any) {
+  return {
+    loginServer: item["loginServer"],
+    authCredentials: !item["authCredentials"]
+      ? item["authCredentials"]
+      : authCredentialArrayDeserializer(item["authCredentials"]),
+    creationDate: !item["creationDate"] ? item["creationDate"] : new Date(item["creationDate"]),
+    provisioningState: item["provisioningState"],
+  };
 }
 
 export function _credentialSetUpdateParametersPropertiesSerializer(
@@ -3766,6 +4017,66 @@ export function _credentialSetUpdateParametersPropertiesSerializer(
     authCredentials: !item["authCredentials"]
       ? item["authCredentials"]
       : authCredentialArraySerializer(item["authCredentials"]),
+  };
+}
+
+export function _connectedRegistryPropertiesSerializer(item: ConnectedRegistry): any {
+  return {
+    mode: item["mode"],
+    parent: !item["parent"] ? item["parent"] : parentPropertiesSerializer(item["parent"]),
+    clientTokenIds: !item["clientTokenIds"]
+      ? item["clientTokenIds"]
+      : item["clientTokenIds"].map((p: any) => {
+          return p;
+        }),
+    loginServer: !item["loginServer"]
+      ? item["loginServer"]
+      : loginServerPropertiesSerializer(item["loginServer"]),
+    logging: !item["logging"] ? item["logging"] : loggingPropertiesSerializer(item["logging"]),
+    notificationsList: !item["notificationsList"]
+      ? item["notificationsList"]
+      : item["notificationsList"].map((p: any) => {
+          return p;
+        }),
+    garbageCollection: !item["garbageCollection"]
+      ? item["garbageCollection"]
+      : garbageCollectionPropertiesSerializer(item["garbageCollection"]),
+  };
+}
+
+export function _connectedRegistryPropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    mode: item["mode"],
+    version: item["version"],
+    connectionState: item["connectionState"],
+    lastActivityTime: !item["lastActivityTime"]
+      ? item["lastActivityTime"]
+      : new Date(item["lastActivityTime"]),
+    activation: !item["activation"]
+      ? item["activation"]
+      : activationPropertiesDeserializer(item["activation"]),
+    parent: !item["parent"] ? item["parent"] : parentPropertiesDeserializer(item["parent"]),
+    clientTokenIds: !item["clientTokenIds"]
+      ? item["clientTokenIds"]
+      : item["clientTokenIds"].map((p: any) => {
+          return p;
+        }),
+    loginServer: !item["loginServer"]
+      ? item["loginServer"]
+      : loginServerPropertiesDeserializer(item["loginServer"]),
+    logging: !item["logging"] ? item["logging"] : loggingPropertiesDeserializer(item["logging"]),
+    statusDetails: !item["statusDetails"]
+      ? item["statusDetails"]
+      : statusDetailPropertiesArrayDeserializer(item["statusDetails"]),
+    notificationsList: !item["notificationsList"]
+      ? item["notificationsList"]
+      : item["notificationsList"].map((p: any) => {
+          return p;
+        }),
+    garbageCollection: !item["garbageCollection"]
+      ? item["garbageCollection"]
+      : garbageCollectionPropertiesDeserializer(item["garbageCollection"]),
   };
 }
 
@@ -3793,10 +4104,51 @@ export function _connectedRegistryUpdateParametersPropertiesSerializer(
   };
 }
 
+export function _replicationPropertiesSerializer(item: Replication): any {
+  return {
+    regionEndpointEnabled: item["regionEndpointEnabled"],
+    zoneRedundancy: item["zoneRedundancy"],
+  };
+}
+
+export function _replicationPropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    status: !item["status"] ? item["status"] : statusDeserializer(item["status"]),
+    regionEndpointEnabled: item["regionEndpointEnabled"],
+    zoneRedundancy: item["zoneRedundancy"],
+  };
+}
+
 export function _replicationUpdateParametersPropertiesSerializer(
   item: ReplicationUpdateParameters,
 ): any {
   return { regionEndpointEnabled: item["regionEndpointEnabled"] };
+}
+
+export function _scopeMapPropertiesSerializer(item: ScopeMap): any {
+  return {
+    description: item["description"],
+    actions: !item["actions"]
+      ? item["actions"]
+      : item["actions"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function _scopeMapPropertiesDeserializer(item: any) {
+  return {
+    description: item["description"],
+    typePropertiesType: item["type"],
+    creationDate: !item["creationDate"] ? item["creationDate"] : new Date(item["creationDate"]),
+    provisioningState: item["provisioningState"],
+    actions: !item["actions"]
+      ? item["actions"]
+      : item["actions"].map((p: any) => {
+          return p;
+        }),
+  };
 }
 
 export function _scopeMapUpdateParametersPropertiesSerializer(item: ScopeMapUpdateParameters): any {
@@ -3810,6 +4162,28 @@ export function _scopeMapUpdateParametersPropertiesSerializer(item: ScopeMapUpda
   };
 }
 
+export function _tokenPropertiesSerializer(item: Token): any {
+  return {
+    scopeMapId: item["scopeMapId"],
+    credentials: !item["credentials"]
+      ? item["credentials"]
+      : tokenCredentialsPropertiesSerializer(item["credentials"]),
+    status: item["status"],
+  };
+}
+
+export function _tokenPropertiesDeserializer(item: any) {
+  return {
+    creationDate: !item["creationDate"] ? item["creationDate"] : new Date(item["creationDate"]),
+    provisioningState: item["provisioningState"],
+    scopeMapId: item["scopeMapId"],
+    credentials: !item["credentials"]
+      ? item["credentials"]
+      : tokenCredentialsPropertiesDeserializer(item["credentials"]),
+    status: item["status"],
+  };
+}
+
 export function _tokenUpdateParametersPropertiesSerializer(item: TokenUpdateParameters): any {
   return {
     scopeMapId: item["scopeMapId"],
@@ -3817,6 +4191,19 @@ export function _tokenUpdateParametersPropertiesSerializer(item: TokenUpdatePara
     credentials: !item["credentials"]
       ? item["credentials"]
       : tokenCredentialsPropertiesSerializer(item["credentials"]),
+  };
+}
+
+export function _webhookPropertiesDeserializer(item: any) {
+  return {
+    status: item["status"],
+    scope: item["scope"],
+    actions: !item["actions"]
+      ? item["actions"]
+      : item["actions"].map((p: any) => {
+          return p;
+        }),
+    provisioningState: item["provisioningState"],
   };
 }
 
