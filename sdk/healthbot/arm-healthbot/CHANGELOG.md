@@ -1,8 +1,10 @@
 # Release History
 
-## 3.0.0 (2025-12-30)
+## 3.0.0 (2026-01-22)
 
 ### Features Added
+  - Added operation BotsOperations.beginUpdate
+  - Added operation BotsOperations.beginUpdateAndWait
   - Added operation BotsOperations.create
   - Added operation BotsOperations.delete
   - Added operation BotsOperations.listSecrets
@@ -15,6 +17,7 @@
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
   - Interface BotsUpdateOptionalParams has a new optional parameter updateIntervalInMs
   - Interface HealthBotProperties has a new optional parameter accessControlMethod
   - Interface HealthBotProperties has a new optional parameter keyVaultProperties
@@ -26,10 +29,8 @@
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation Bots.beginCreate
-  - Removed operation Bots.beginCreateAndWait
-  - Removed operation Bots.beginDelete
-  - Removed operation Bots.beginDeleteAndWait
+  - Operation Bots.beginCreate has a new signature
+  - Operation Bots.beginCreateAndWait has a new signature
   - Operation Bots.get has a new signature
   - Operation Bots.update has a new signature
   - Removed Interface AvailableOperations

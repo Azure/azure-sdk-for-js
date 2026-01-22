@@ -29,6 +29,8 @@ import type {
   HealthBotKey,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Bots operations. */
@@ -63,6 +65,18 @@ export interface BotsOperations {
     botName: string,
     options?: BotsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    botName: string,
+    options?: BotsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    botName: string,
+    options?: BotsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Patch a HealthBot. */
   update: (
     resourceGroupName: string,
@@ -70,6 +84,20 @@ export interface BotsOperations {
     parameters: HealthBotUpdateParameters,
     options?: BotsUpdateOptionalParams,
   ) => PollerLike<OperationState<HealthBot>, HealthBot>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    botName: string,
+    parameters: HealthBotUpdateParameters,
+    options?: BotsUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<HealthBot>, HealthBot>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    botName: string,
+    parameters: HealthBotUpdateParameters,
+    options?: BotsUpdateOptionalParams,
+  ) => Promise<HealthBot>;
   /** Create a new Azure Health Bot. */
   create: (
     resourceGroupName: string,
@@ -77,6 +105,20 @@ export interface BotsOperations {
     parameters: HealthBot,
     options?: BotsCreateOptionalParams,
   ) => PollerLike<OperationState<HealthBot>, HealthBot>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    botName: string,
+    parameters: HealthBot,
+    options?: BotsCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<HealthBot>, HealthBot>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    botName: string,
+    parameters: HealthBot,
+    options?: BotsCreateOptionalParams,
+  ) => Promise<HealthBot>;
   /** Get a HealthBot. */
   get: (
     resourceGroupName: string,
@@ -104,18 +146,70 @@ function _getBots(context: HealthbotContext) {
     ) => listByResourceGroup(context, resourceGroupName, options),
     delete: (resourceGroupName: string, botName: string, options?: BotsDeleteOptionalParams) =>
       $delete(context, resourceGroupName, botName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      botName: string,
+      options?: BotsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, botName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      botName: string,
+      options?: BotsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, botName, options);
+    },
     update: (
       resourceGroupName: string,
       botName: string,
       parameters: HealthBotUpdateParameters,
       options?: BotsUpdateOptionalParams,
     ) => update(context, resourceGroupName, botName, parameters, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      botName: string,
+      parameters: HealthBotUpdateParameters,
+      options?: BotsUpdateOptionalParams,
+    ) => {
+      const poller = update(context, resourceGroupName, botName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      botName: string,
+      parameters: HealthBotUpdateParameters,
+      options?: BotsUpdateOptionalParams,
+    ) => {
+      return await update(context, resourceGroupName, botName, parameters, options);
+    },
     create: (
       resourceGroupName: string,
       botName: string,
       parameters: HealthBot,
       options?: BotsCreateOptionalParams,
     ) => create(context, resourceGroupName, botName, parameters, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      botName: string,
+      parameters: HealthBot,
+      options?: BotsCreateOptionalParams,
+    ) => {
+      const poller = create(context, resourceGroupName, botName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      botName: string,
+      parameters: HealthBot,
+      options?: BotsCreateOptionalParams,
+    ) => {
+      return await create(context, resourceGroupName, botName, parameters, options);
+    },
     get: (resourceGroupName: string, botName: string, options?: BotsGetOptionalParams) =>
       get(context, resourceGroupName, botName, options),
   };

@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
@@ -51,6 +52,18 @@ export interface BotsListSecretsOptionalParams extends OperationOptions {
 
 // @public
 export interface BotsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, botName: string, parameters: HealthBot, options?: BotsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<HealthBot>, HealthBot>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, botName: string, parameters: HealthBot, options?: BotsCreateOptionalParams) => Promise<HealthBot>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, botName: string, options?: BotsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, botName: string, options?: BotsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, botName: string, parameters: HealthBotUpdateParameters, options?: BotsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<HealthBot>, HealthBot>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, botName: string, parameters: HealthBotUpdateParameters, options?: BotsUpdateOptionalParams) => Promise<HealthBot>;
     create: (resourceGroupName: string, botName: string, parameters: HealthBot, options?: BotsCreateOptionalParams) => PollerLike<OperationState<HealthBot>, HealthBot>;
     delete: (resourceGroupName: string, botName: string, options?: BotsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, botName: string, options?: BotsGetOptionalParams) => Promise<HealthBot>;
@@ -236,6 +249,28 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
