@@ -12,6 +12,8 @@ import type {
 } from "../../api/replications/options.js";
 import type { Replication, ReplicationUpdateParameters } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Replications operations. */
@@ -34,6 +36,20 @@ export interface ReplicationsOperations {
     replicationName: string,
     options?: ReplicationsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    options?: ReplicationsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    options?: ReplicationsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates a replication for a container registry with the specified parameters. */
   update: (
     resourceGroupName: string,
@@ -42,6 +58,22 @@ export interface ReplicationsOperations {
     replicationUpdateParameters: ReplicationUpdateParameters,
     options?: ReplicationsUpdateOptionalParams,
   ) => PollerLike<OperationState<Replication>, Replication>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    replicationUpdateParameters: ReplicationUpdateParameters,
+    options?: ReplicationsUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Replication>, Replication>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    replicationUpdateParameters: ReplicationUpdateParameters,
+    options?: ReplicationsUpdateOptionalParams,
+  ) => Promise<Replication>;
   /** Creates a replication for a container registry with the specified parameters. */
   create: (
     resourceGroupName: string,
@@ -50,6 +82,22 @@ export interface ReplicationsOperations {
     replication: Replication,
     options?: ReplicationsCreateOptionalParams,
   ) => PollerLike<OperationState<Replication>, Replication>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    replication: Replication,
+    options?: ReplicationsCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Replication>, Replication>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    replication: Replication,
+    options?: ReplicationsCreateOptionalParams,
+  ) => Promise<Replication>;
   /** Gets the properties of the specified replication. */
   get: (
     resourceGroupName: string,
@@ -72,6 +120,24 @@ function _getReplications(context: ContainerRegistryManagementContext) {
       replicationName: string,
       options?: ReplicationsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, registryName, replicationName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      registryName: string,
+      replicationName: string,
+      options?: ReplicationsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, registryName, replicationName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      registryName: string,
+      replicationName: string,
+      options?: ReplicationsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, registryName, replicationName, options);
+    },
     update: (
       resourceGroupName: string,
       registryName: string,
@@ -87,6 +153,40 @@ function _getReplications(context: ContainerRegistryManagementContext) {
         replicationUpdateParameters,
         options,
       ),
+    beginUpdate: async (
+      resourceGroupName: string,
+      registryName: string,
+      replicationName: string,
+      replicationUpdateParameters: ReplicationUpdateParameters,
+      options?: ReplicationsUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        registryName,
+        replicationName,
+        replicationUpdateParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      registryName: string,
+      replicationName: string,
+      replicationUpdateParameters: ReplicationUpdateParameters,
+      options?: ReplicationsUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        registryName,
+        replicationName,
+        replicationUpdateParameters,
+        options,
+      );
+    },
     create: (
       resourceGroupName: string,
       registryName: string,
@@ -94,6 +194,40 @@ function _getReplications(context: ContainerRegistryManagementContext) {
       replication: Replication,
       options?: ReplicationsCreateOptionalParams,
     ) => create(context, resourceGroupName, registryName, replicationName, replication, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      registryName: string,
+      replicationName: string,
+      replication: Replication,
+      options?: ReplicationsCreateOptionalParams,
+    ) => {
+      const poller = create(
+        context,
+        resourceGroupName,
+        registryName,
+        replicationName,
+        replication,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      registryName: string,
+      replicationName: string,
+      replication: Replication,
+      options?: ReplicationsCreateOptionalParams,
+    ) => {
+      return await create(
+        context,
+        resourceGroupName,
+        registryName,
+        replicationName,
+        replication,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       registryName: string,

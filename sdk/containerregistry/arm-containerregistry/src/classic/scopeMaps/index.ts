@@ -12,6 +12,8 @@ import type {
 } from "../../api/scopeMaps/options.js";
 import type { ScopeMap, ScopeMapUpdateParameters } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ScopeMaps operations. */
@@ -34,6 +36,20 @@ export interface ScopeMapsOperations {
     scopeMapName: string,
     options?: ScopeMapsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    registryName: string,
+    scopeMapName: string,
+    options?: ScopeMapsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    registryName: string,
+    scopeMapName: string,
+    options?: ScopeMapsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates a scope map with the specified parameters. */
   update: (
     resourceGroupName: string,
@@ -42,6 +58,22 @@ export interface ScopeMapsOperations {
     scopeMapUpdateParameters: ScopeMapUpdateParameters,
     options?: ScopeMapsUpdateOptionalParams,
   ) => PollerLike<OperationState<ScopeMap>, ScopeMap>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    registryName: string,
+    scopeMapName: string,
+    scopeMapUpdateParameters: ScopeMapUpdateParameters,
+    options?: ScopeMapsUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<ScopeMap>, ScopeMap>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    registryName: string,
+    scopeMapName: string,
+    scopeMapUpdateParameters: ScopeMapUpdateParameters,
+    options?: ScopeMapsUpdateOptionalParams,
+  ) => Promise<ScopeMap>;
   /** Creates a scope map for a container registry with the specified parameters. */
   create: (
     resourceGroupName: string,
@@ -50,6 +82,22 @@ export interface ScopeMapsOperations {
     scopeMapCreateParameters: ScopeMap,
     options?: ScopeMapsCreateOptionalParams,
   ) => PollerLike<OperationState<ScopeMap>, ScopeMap>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    registryName: string,
+    scopeMapName: string,
+    scopeMapCreateParameters: ScopeMap,
+    options?: ScopeMapsCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<ScopeMap>, ScopeMap>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    registryName: string,
+    scopeMapName: string,
+    scopeMapCreateParameters: ScopeMap,
+    options?: ScopeMapsCreateOptionalParams,
+  ) => Promise<ScopeMap>;
   /** Gets the properties of the specified scope map. */
   get: (
     resourceGroupName: string,
@@ -72,6 +120,24 @@ function _getScopeMaps(context: ContainerRegistryManagementContext) {
       scopeMapName: string,
       options?: ScopeMapsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, registryName, scopeMapName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      registryName: string,
+      scopeMapName: string,
+      options?: ScopeMapsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, registryName, scopeMapName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      registryName: string,
+      scopeMapName: string,
+      options?: ScopeMapsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, registryName, scopeMapName, options);
+    },
     update: (
       resourceGroupName: string,
       registryName: string,
@@ -87,6 +153,40 @@ function _getScopeMaps(context: ContainerRegistryManagementContext) {
         scopeMapUpdateParameters,
         options,
       ),
+    beginUpdate: async (
+      resourceGroupName: string,
+      registryName: string,
+      scopeMapName: string,
+      scopeMapUpdateParameters: ScopeMapUpdateParameters,
+      options?: ScopeMapsUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        registryName,
+        scopeMapName,
+        scopeMapUpdateParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      registryName: string,
+      scopeMapName: string,
+      scopeMapUpdateParameters: ScopeMapUpdateParameters,
+      options?: ScopeMapsUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        registryName,
+        scopeMapName,
+        scopeMapUpdateParameters,
+        options,
+      );
+    },
     create: (
       resourceGroupName: string,
       registryName: string,
@@ -102,6 +202,40 @@ function _getScopeMaps(context: ContainerRegistryManagementContext) {
         scopeMapCreateParameters,
         options,
       ),
+    beginCreate: async (
+      resourceGroupName: string,
+      registryName: string,
+      scopeMapName: string,
+      scopeMapCreateParameters: ScopeMap,
+      options?: ScopeMapsCreateOptionalParams,
+    ) => {
+      const poller = create(
+        context,
+        resourceGroupName,
+        registryName,
+        scopeMapName,
+        scopeMapCreateParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      registryName: string,
+      scopeMapName: string,
+      scopeMapCreateParameters: ScopeMap,
+      options?: ScopeMapsCreateOptionalParams,
+    ) => {
+      return await create(
+        context,
+        resourceGroupName,
+        registryName,
+        scopeMapName,
+        scopeMapCreateParameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       registryName: string,

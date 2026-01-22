@@ -31,6 +31,8 @@ import type {
   CallbackConfig,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Webhooks operations. */
@@ -74,6 +76,20 @@ export interface WebhooksOperations {
     webhookName: string,
     options?: WebhooksDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options?: WebhooksDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options?: WebhooksDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates a webhook with the specified parameters. */
   update: (
     resourceGroupName: string,
@@ -82,6 +98,22 @@ export interface WebhooksOperations {
     webhookUpdateParameters: WebhookUpdateParameters,
     options?: WebhooksUpdateOptionalParams,
   ) => PollerLike<OperationState<Webhook>, Webhook>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    webhookUpdateParameters: WebhookUpdateParameters,
+    options?: WebhooksUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Webhook>, Webhook>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    webhookUpdateParameters: WebhookUpdateParameters,
+    options?: WebhooksUpdateOptionalParams,
+  ) => Promise<Webhook>;
   /** Creates a webhook for a container registry with the specified parameters. */
   create: (
     resourceGroupName: string,
@@ -90,6 +122,22 @@ export interface WebhooksOperations {
     webhookCreateParameters: WebhookCreateParameters,
     options?: WebhooksCreateOptionalParams,
   ) => PollerLike<OperationState<Webhook>, Webhook>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    webhookCreateParameters: WebhookCreateParameters,
+    options?: WebhooksCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Webhook>, Webhook>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    webhookCreateParameters: WebhookCreateParameters,
+    options?: WebhooksCreateOptionalParams,
+  ) => Promise<Webhook>;
   /** Gets the properties of the specified webhook. */
   get: (
     resourceGroupName: string,
@@ -127,6 +175,24 @@ function _getWebhooks(context: ContainerRegistryManagementContext) {
       webhookName: string,
       options?: WebhooksDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, registryName, webhookName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      registryName: string,
+      webhookName: string,
+      options?: WebhooksDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, registryName, webhookName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      registryName: string,
+      webhookName: string,
+      options?: WebhooksDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, registryName, webhookName, options);
+    },
     update: (
       resourceGroupName: string,
       registryName: string,
@@ -142,6 +208,40 @@ function _getWebhooks(context: ContainerRegistryManagementContext) {
         webhookUpdateParameters,
         options,
       ),
+    beginUpdate: async (
+      resourceGroupName: string,
+      registryName: string,
+      webhookName: string,
+      webhookUpdateParameters: WebhookUpdateParameters,
+      options?: WebhooksUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        registryName,
+        webhookName,
+        webhookUpdateParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      registryName: string,
+      webhookName: string,
+      webhookUpdateParameters: WebhookUpdateParameters,
+      options?: WebhooksUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        registryName,
+        webhookName,
+        webhookUpdateParameters,
+        options,
+      );
+    },
     create: (
       resourceGroupName: string,
       registryName: string,
@@ -157,6 +257,40 @@ function _getWebhooks(context: ContainerRegistryManagementContext) {
         webhookCreateParameters,
         options,
       ),
+    beginCreate: async (
+      resourceGroupName: string,
+      registryName: string,
+      webhookName: string,
+      webhookCreateParameters: WebhookCreateParameters,
+      options?: WebhooksCreateOptionalParams,
+    ) => {
+      const poller = create(
+        context,
+        resourceGroupName,
+        registryName,
+        webhookName,
+        webhookCreateParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      registryName: string,
+      webhookName: string,
+      webhookCreateParameters: WebhookCreateParameters,
+      options?: WebhooksCreateOptionalParams,
+    ) => {
+      return await create(
+        context,
+        resourceGroupName,
+        registryName,
+        webhookName,
+        webhookCreateParameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       registryName: string,

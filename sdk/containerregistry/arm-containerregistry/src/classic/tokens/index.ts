@@ -12,6 +12,8 @@ import type {
 } from "../../api/tokens/options.js";
 import type { Token, TokenUpdateParameters } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Tokens operations. */
@@ -34,6 +36,20 @@ export interface TokensOperations {
     tokenName: string,
     options?: TokensDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    registryName: string,
+    tokenName: string,
+    options?: TokensDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    registryName: string,
+    tokenName: string,
+    options?: TokensDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates a token with the specified parameters. */
   update: (
     resourceGroupName: string,
@@ -42,6 +58,22 @@ export interface TokensOperations {
     tokenUpdateParameters: TokenUpdateParameters,
     options?: TokensUpdateOptionalParams,
   ) => PollerLike<OperationState<Token>, Token>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    registryName: string,
+    tokenName: string,
+    tokenUpdateParameters: TokenUpdateParameters,
+    options?: TokensUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Token>, Token>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    registryName: string,
+    tokenName: string,
+    tokenUpdateParameters: TokenUpdateParameters,
+    options?: TokensUpdateOptionalParams,
+  ) => Promise<Token>;
   /** Creates a token for a container registry with the specified parameters. */
   create: (
     resourceGroupName: string,
@@ -50,6 +82,22 @@ export interface TokensOperations {
     tokenCreateParameters: Token,
     options?: TokensCreateOptionalParams,
   ) => PollerLike<OperationState<Token>, Token>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    registryName: string,
+    tokenName: string,
+    tokenCreateParameters: Token,
+    options?: TokensCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Token>, Token>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    registryName: string,
+    tokenName: string,
+    tokenCreateParameters: Token,
+    options?: TokensCreateOptionalParams,
+  ) => Promise<Token>;
   /** Gets the properties of the specified token. */
   get: (
     resourceGroupName: string,
@@ -69,6 +117,24 @@ function _getTokens(context: ContainerRegistryManagementContext) {
       tokenName: string,
       options?: TokensDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, registryName, tokenName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      registryName: string,
+      tokenName: string,
+      options?: TokensDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, registryName, tokenName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      registryName: string,
+      tokenName: string,
+      options?: TokensDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, registryName, tokenName, options);
+    },
     update: (
       resourceGroupName: string,
       registryName: string,
@@ -77,6 +143,40 @@ function _getTokens(context: ContainerRegistryManagementContext) {
       options?: TokensUpdateOptionalParams,
     ) =>
       update(context, resourceGroupName, registryName, tokenName, tokenUpdateParameters, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      registryName: string,
+      tokenName: string,
+      tokenUpdateParameters: TokenUpdateParameters,
+      options?: TokensUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        registryName,
+        tokenName,
+        tokenUpdateParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      registryName: string,
+      tokenName: string,
+      tokenUpdateParameters: TokenUpdateParameters,
+      options?: TokensUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        registryName,
+        tokenName,
+        tokenUpdateParameters,
+        options,
+      );
+    },
     create: (
       resourceGroupName: string,
       registryName: string,
@@ -85,6 +185,40 @@ function _getTokens(context: ContainerRegistryManagementContext) {
       options?: TokensCreateOptionalParams,
     ) =>
       create(context, resourceGroupName, registryName, tokenName, tokenCreateParameters, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      registryName: string,
+      tokenName: string,
+      tokenCreateParameters: Token,
+      options?: TokensCreateOptionalParams,
+    ) => {
+      const poller = create(
+        context,
+        resourceGroupName,
+        registryName,
+        tokenName,
+        tokenCreateParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      registryName: string,
+      tokenName: string,
+      tokenCreateParameters: Token,
+      options?: TokensCreateOptionalParams,
+    ) => {
+      return await create(
+        context,
+        resourceGroupName,
+        registryName,
+        tokenName,
+        tokenCreateParameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       registryName: string,

@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
@@ -99,6 +100,18 @@ export interface CacheRulesListOptionalParams extends OperationOptions {
 
 // @public
 export interface CacheRulesOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, registryName: string, cacheRuleName: string, cacheRuleCreateParameters: CacheRule, options?: CacheRulesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<CacheRule>, CacheRule>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, registryName: string, cacheRuleName: string, cacheRuleCreateParameters: CacheRule, options?: CacheRulesCreateOptionalParams) => Promise<CacheRule>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, registryName: string, cacheRuleName: string, options?: CacheRulesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, registryName: string, cacheRuleName: string, options?: CacheRulesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, registryName: string, cacheRuleName: string, cacheRuleUpdateParameters: CacheRuleUpdateParameters, options?: CacheRulesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CacheRule>, CacheRule>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, registryName: string, cacheRuleName: string, cacheRuleUpdateParameters: CacheRuleUpdateParameters, options?: CacheRulesUpdateOptionalParams) => Promise<CacheRule>;
     create: (resourceGroupName: string, registryName: string, cacheRuleName: string, cacheRuleCreateParameters: CacheRule, options?: CacheRulesCreateOptionalParams) => PollerLike<OperationState<CacheRule>, CacheRule>;
     delete: (resourceGroupName: string, registryName: string, cacheRuleName: string, options?: CacheRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, registryName: string, cacheRuleName: string, options?: CacheRulesGetOptionalParams) => Promise<CacheRule>;
@@ -156,6 +169,22 @@ export interface ConnectedRegistriesListOptionalParams extends OperationOptions 
 
 // @public
 export interface ConnectedRegistriesOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, registryName: string, connectedRegistryName: string, connectedRegistryCreateParameters: ConnectedRegistry, options?: ConnectedRegistriesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<ConnectedRegistry>, ConnectedRegistry>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, registryName: string, connectedRegistryName: string, connectedRegistryCreateParameters: ConnectedRegistry, options?: ConnectedRegistriesCreateOptionalParams) => Promise<ConnectedRegistry>;
+    // @deprecated (undocumented)
+    beginDeactivate: (resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesDeactivateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeactivateAndWait: (resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesDeactivateOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, registryName: string, connectedRegistryName: string, connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters, options?: ConnectedRegistriesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ConnectedRegistry>, ConnectedRegistry>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, registryName: string, connectedRegistryName: string, connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters, options?: ConnectedRegistriesUpdateOptionalParams) => Promise<ConnectedRegistry>;
     create: (resourceGroupName: string, registryName: string, connectedRegistryName: string, connectedRegistryCreateParameters: ConnectedRegistry, options?: ConnectedRegistriesCreateOptionalParams) => PollerLike<OperationState<ConnectedRegistry>, ConnectedRegistry>;
     deactivate: (resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesDeactivateOptionalParams) => PollerLike<OperationState<void>, void>;
     delete: (resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -314,6 +343,18 @@ export interface CredentialSetsListOptionalParams extends OperationOptions {
 
 // @public
 export interface CredentialSetsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, registryName: string, credentialSetName: string, credentialSetCreateParameters: CredentialSet, options?: CredentialSetsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<CredentialSet>, CredentialSet>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, registryName: string, credentialSetName: string, credentialSetCreateParameters: CredentialSet, options?: CredentialSetsCreateOptionalParams) => Promise<CredentialSet>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, registryName: string, credentialSetName: string, options?: CredentialSetsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, registryName: string, credentialSetName: string, options?: CredentialSetsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, registryName: string, credentialSetName: string, credentialSetUpdateParameters: CredentialSetUpdateParameters, options?: CredentialSetsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CredentialSet>, CredentialSet>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, registryName: string, credentialSetName: string, credentialSetUpdateParameters: CredentialSetUpdateParameters, options?: CredentialSetsUpdateOptionalParams) => Promise<CredentialSet>;
     create: (resourceGroupName: string, registryName: string, credentialSetName: string, credentialSetCreateParameters: CredentialSet, options?: CredentialSetsCreateOptionalParams) => PollerLike<OperationState<CredentialSet>, CredentialSet>;
     delete: (resourceGroupName: string, registryName: string, credentialSetName: string, options?: CredentialSetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, registryName: string, credentialSetName: string, options?: CredentialSetsGetOptionalParams) => Promise<CredentialSet>;
@@ -856,6 +897,14 @@ export interface PrivateEndpointConnectionsListOptionalParams extends OperationO
 
 // @public
 export interface PrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, registryName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, registryName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, registryName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, registryName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, registryName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
     delete: (resourceGroupName: string, registryName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, registryName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
@@ -955,6 +1004,26 @@ export interface RegistriesListUsagesOptionalParams extends OperationOptions {
 
 // @public
 export interface RegistriesOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, registryName: string, registry: Registry, options?: RegistriesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Registry>, Registry>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, registryName: string, registry: Registry, options?: RegistriesCreateOptionalParams) => Promise<Registry>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, registryName: string, options?: RegistriesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, registryName: string, options?: RegistriesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginGenerateCredentials: (resourceGroupName: string, registryName: string, generateCredentialsParameters: GenerateCredentialsParameters, options?: RegistriesGenerateCredentialsOptionalParams) => Promise<SimplePollerLike<OperationState<GenerateCredentialsResult>, GenerateCredentialsResult>>;
+    // @deprecated (undocumented)
+    beginGenerateCredentialsAndWait: (resourceGroupName: string, registryName: string, generateCredentialsParameters: GenerateCredentialsParameters, options?: RegistriesGenerateCredentialsOptionalParams) => Promise<GenerateCredentialsResult>;
+    // @deprecated (undocumented)
+    beginImportImage: (resourceGroupName: string, registryName: string, parameters: ImportImageParameters, options?: RegistriesImportImageOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginImportImageAndWait: (resourceGroupName: string, registryName: string, parameters: ImportImageParameters, options?: RegistriesImportImageOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, registryName: string, registryUpdateParameters: RegistryUpdateParameters, options?: RegistriesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Registry>, Registry>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, registryName: string, registryUpdateParameters: RegistryUpdateParameters, options?: RegistriesUpdateOptionalParams) => Promise<Registry>;
     checkNameAvailability: (registryNameCheckRequest: RegistryNameCheckRequest, options?: RegistriesCheckNameAvailabilityOptionalParams) => Promise<RegistryNameStatus>;
     create: (resourceGroupName: string, registryName: string, registry: Registry, options?: RegistriesCreateOptionalParams) => PollerLike<OperationState<Registry>, Registry>;
     delete: (resourceGroupName: string, registryName: string, options?: RegistriesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -1132,6 +1201,18 @@ export interface ReplicationsListOptionalParams extends OperationOptions {
 
 // @public
 export interface ReplicationsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, registryName: string, replicationName: string, replication: Replication, options?: ReplicationsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Replication>, Replication>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, registryName: string, replicationName: string, replication: Replication, options?: ReplicationsCreateOptionalParams) => Promise<Replication>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, registryName: string, replicationName: string, options?: ReplicationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, registryName: string, replicationName: string, options?: ReplicationsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, registryName: string, replicationName: string, replicationUpdateParameters: ReplicationUpdateParameters, options?: ReplicationsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Replication>, Replication>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, registryName: string, replicationName: string, replicationUpdateParameters: ReplicationUpdateParameters, options?: ReplicationsUpdateOptionalParams) => Promise<Replication>;
     create: (resourceGroupName: string, registryName: string, replicationName: string, replication: Replication, options?: ReplicationsCreateOptionalParams) => PollerLike<OperationState<Replication>, Replication>;
     delete: (resourceGroupName: string, registryName: string, replicationName: string, options?: ReplicationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, registryName: string, replicationName: string, options?: ReplicationsGetOptionalParams) => Promise<Replication>;
@@ -1240,6 +1321,18 @@ export interface ScopeMapsListOptionalParams extends OperationOptions {
 
 // @public
 export interface ScopeMapsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, registryName: string, scopeMapName: string, scopeMapCreateParameters: ScopeMap, options?: ScopeMapsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<ScopeMap>, ScopeMap>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, registryName: string, scopeMapName: string, scopeMapCreateParameters: ScopeMap, options?: ScopeMapsCreateOptionalParams) => Promise<ScopeMap>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, registryName: string, scopeMapName: string, options?: ScopeMapsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, registryName: string, scopeMapName: string, options?: ScopeMapsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, registryName: string, scopeMapName: string, scopeMapUpdateParameters: ScopeMapUpdateParameters, options?: ScopeMapsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ScopeMap>, ScopeMap>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, registryName: string, scopeMapName: string, scopeMapUpdateParameters: ScopeMapUpdateParameters, options?: ScopeMapsUpdateOptionalParams) => Promise<ScopeMap>;
     create: (resourceGroupName: string, registryName: string, scopeMapName: string, scopeMapCreateParameters: ScopeMap, options?: ScopeMapsCreateOptionalParams) => PollerLike<OperationState<ScopeMap>, ScopeMap>;
     delete: (resourceGroupName: string, registryName: string, scopeMapName: string, options?: ScopeMapsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, registryName: string, scopeMapName: string, options?: ScopeMapsGetOptionalParams) => Promise<ScopeMap>;
@@ -1256,6 +1349,28 @@ export interface ScopeMapsUpdateOptionalParams extends OperationOptions {
 export interface ScopeMapUpdateParameters {
     actions?: string[];
     description?: string;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -1416,6 +1531,18 @@ export interface TokensListOptionalParams extends OperationOptions {
 
 // @public
 export interface TokensOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, registryName: string, tokenName: string, tokenCreateParameters: Token, options?: TokensCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Token>, Token>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, registryName: string, tokenName: string, tokenCreateParameters: Token, options?: TokensCreateOptionalParams) => Promise<Token>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, registryName: string, tokenName: string, options?: TokensDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, registryName: string, tokenName: string, options?: TokensDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, registryName: string, tokenName: string, tokenUpdateParameters: TokenUpdateParameters, options?: TokensUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Token>, Token>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, registryName: string, tokenName: string, tokenUpdateParameters: TokenUpdateParameters, options?: TokensUpdateOptionalParams) => Promise<Token>;
     create: (resourceGroupName: string, registryName: string, tokenName: string, tokenCreateParameters: Token, options?: TokensCreateOptionalParams) => PollerLike<OperationState<Token>, Token>;
     delete: (resourceGroupName: string, registryName: string, tokenName: string, options?: TokensDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, registryName: string, tokenName: string, options?: TokensGetOptionalParams) => Promise<Token>;
@@ -1542,6 +1669,18 @@ export interface WebhooksListOptionalParams extends OperationOptions {
 
 // @public
 export interface WebhooksOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, registryName: string, webhookName: string, webhookCreateParameters: WebhookCreateParameters, options?: WebhooksCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Webhook>, Webhook>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, registryName: string, webhookName: string, webhookCreateParameters: WebhookCreateParameters, options?: WebhooksCreateOptionalParams) => Promise<Webhook>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, registryName: string, webhookName: string, options?: WebhooksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, registryName: string, webhookName: string, options?: WebhooksDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, registryName: string, webhookName: string, webhookUpdateParameters: WebhookUpdateParameters, options?: WebhooksUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Webhook>, Webhook>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, registryName: string, webhookName: string, webhookUpdateParameters: WebhookUpdateParameters, options?: WebhooksUpdateOptionalParams) => Promise<Webhook>;
     create: (resourceGroupName: string, registryName: string, webhookName: string, webhookCreateParameters: WebhookCreateParameters, options?: WebhooksCreateOptionalParams) => PollerLike<OperationState<Webhook>, Webhook>;
     delete: (resourceGroupName: string, registryName: string, webhookName: string, options?: WebhooksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, registryName: string, webhookName: string, options?: WebhooksGetOptionalParams) => Promise<Webhook>;
