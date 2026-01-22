@@ -171,11 +171,6 @@ async function compileForEnvironment(
     mkdirSync(browserTestPath, { recursive: true });
   }
 
-  const shouldSkipOverrides = !configIncludesSrc(resolvedConfig);
-  if (shouldSkipOverrides) {
-    log.info("Detected no src entries in tsconfig; skipping file overrides");
-  }
-
   // Create import map
   const imports: Record<string, string> = {};
   for (const [key, value] of importMap.entries()) {
@@ -192,12 +187,14 @@ async function compileForEnvironment(
     return false;
   }
 
-  // Only apply overrides if not using package name or internal path imports
-  if (!shouldSkipOverrides) {
+  // Only apply src overrides if src is included in the tsconfig
+  if (configIncludesSrc(resolvedConfig)) {
     for (const [override, original] of overrideMap.entries()) {
       log.info(`Replacing for : ${original} => ${override}`);
       copyOverrides(type, outputPath, original);
     }
+  } else {
+    log.info("Detected no src entries in tsconfig; skipping file overrides");
   }
 
   return true;
