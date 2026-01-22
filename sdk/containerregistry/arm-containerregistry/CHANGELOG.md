@@ -1,5 +1,327 @@
 # Release History
 
+## 12.0.0 (2026-01-22)
+
+### Features Added
+  - Added operation CacheRulesOperations.create
+  - Added operation CacheRulesOperations.delete
+  - Added operation CacheRulesOperations.update
+  - Added operation ConnectedRegistriesOperations.create
+  - Added operation ConnectedRegistriesOperations.deactivate
+  - Added operation ConnectedRegistriesOperations.delete
+  - Added operation ConnectedRegistriesOperations.update
+  - Added operation CredentialSetsOperations.create
+  - Added operation CredentialSetsOperations.delete
+  - Added operation CredentialSetsOperations.update
+  - Added operation PrivateEndpointConnectionsOperations.createOrUpdate
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation RegistriesOperations.create
+  - Added operation RegistriesOperations.delete
+  - Added operation RegistriesOperations.generateCredentials
+  - Added operation RegistriesOperations.importImage
+  - Added operation RegistriesOperations.update
+  - Added operation ReplicationsOperations.create
+  - Added operation ReplicationsOperations.delete
+  - Added operation ReplicationsOperations.update
+  - Added operation ScopeMapsOperations.create
+  - Added operation ScopeMapsOperations.delete
+  - Added operation ScopeMapsOperations.update
+  - Added operation TokensOperations.create
+  - Added operation TokensOperations.delete
+  - Added operation TokensOperations.update
+  - Added operation WebhooksOperations.create
+  - Added operation WebhooksOperations.delete
+  - Added operation WebhooksOperations.update
+  - Added Interface CacheRuleProperties
+  - Added Interface CacheRuleUpdateProperties
+  - Added Interface ConnectedRegistryProperties
+  - Added Interface ConnectedRegistryUpdateProperties
+  - Added Interface CredentialSetProperties
+  - Added Interface CredentialSetUpdateProperties
+  - Added Interface OperationPropertiesDefinition
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface RegistryProperties
+  - Added Interface RegistryPropertiesUpdateParameters
+  - Added Interface ReplicationProperties
+  - Added Interface ReplicationUpdateParametersProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface ScopeMapProperties
+  - Added Interface ScopeMapPropertiesUpdateParameters
+  - Added Interface TokenProperties
+  - Added Interface TokenUpdateProperties
+  - Added Interface WebhookProperties
+  - Added Interface WebhookPropertiesCreateParameters
+  - Added Interface WebhookPropertiesUpdateParameters
+  - Interface CacheRule has a new optional parameter properties
+  - Interface ConnectedRegistry has a new optional parameter properties
+  - Interface CredentialSet has a new optional parameter properties
+  - Interface PrivateEndpointConnection has a new optional parameter properties
+  - Interface PrivateLinkResource has a new optional parameter properties
+  - Interface Registry has a new optional parameter properties
+  - Interface Replication has a new optional parameter properties
+  - Interface ScopeMap has a new optional parameter properties
+  - Interface Token has a new optional parameter properties
+  - Interface Webhook has a new optional parameter properties
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ContainerRegistryResourceType
+  - Added Enum AzureClouds
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Removed operation CacheRules.beginCreate
+  - Removed operation CacheRules.beginCreateAndWait
+  - Removed operation CacheRules.beginDelete
+  - Removed operation CacheRules.beginDeleteAndWait
+  - Removed operation CacheRules.beginUpdate
+  - Removed operation CacheRules.beginUpdateAndWait
+  - Removed operation ConnectedRegistries.beginCreate
+  - Removed operation ConnectedRegistries.beginCreateAndWait
+  - Removed operation ConnectedRegistries.beginDeactivate
+  - Removed operation ConnectedRegistries.beginDeactivateAndWait
+  - Removed operation ConnectedRegistries.beginDelete
+  - Removed operation ConnectedRegistries.beginDeleteAndWait
+  - Removed operation ConnectedRegistries.beginUpdate
+  - Removed operation ConnectedRegistries.beginUpdateAndWait
+  - Removed operation CredentialSets.beginCreate
+  - Removed operation CredentialSets.beginCreateAndWait
+  - Removed operation CredentialSets.beginDelete
+  - Removed operation CredentialSets.beginDeleteAndWait
+  - Removed operation CredentialSets.beginUpdate
+  - Removed operation CredentialSets.beginUpdateAndWait
+  - Removed operation PrivateEndpointConnections.beginCreateOrUpdate
+  - Removed operation PrivateEndpointConnections.beginCreateOrUpdateAndWait
+  - Removed operation PrivateEndpointConnections.beginDelete
+  - Removed operation PrivateEndpointConnections.beginDeleteAndWait
+  - Removed operation Registries.beginCreate
+  - Removed operation Registries.beginCreateAndWait
+  - Removed operation Registries.beginDelete
+  - Removed operation Registries.beginDeleteAndWait
+  - Removed operation Registries.beginGenerateCredentials
+  - Removed operation Registries.beginGenerateCredentialsAndWait
+  - Removed operation Registries.beginImportImage
+  - Removed operation Registries.beginImportImageAndWait
+  - Removed operation Registries.beginScheduleRun
+  - Removed operation Registries.beginScheduleRunAndWait
+  - Removed operation Registries.beginUpdate
+  - Removed operation Registries.beginUpdateAndWait
+  - Removed operation Registries.getBuildSourceUploadUrl
+  - Removed operation Replications.beginCreate
+  - Removed operation Replications.beginCreateAndWait
+  - Removed operation Replications.beginDelete
+  - Removed operation Replications.beginDeleteAndWait
+  - Removed operation Replications.beginUpdate
+  - Removed operation Replications.beginUpdateAndWait
+  - Removed operation ScopeMaps.beginCreate
+  - Removed operation ScopeMaps.beginCreateAndWait
+  - Removed operation ScopeMaps.beginDelete
+  - Removed operation ScopeMaps.beginDeleteAndWait
+  - Removed operation ScopeMaps.beginUpdate
+  - Removed operation ScopeMaps.beginUpdateAndWait
+  - Removed operation Tokens.beginCreate
+  - Removed operation Tokens.beginCreateAndWait
+  - Removed operation Tokens.beginDelete
+  - Removed operation Tokens.beginDeleteAndWait
+  - Removed operation Tokens.beginUpdate
+  - Removed operation Tokens.beginUpdateAndWait
+  - Removed operation Webhooks.beginCreate
+  - Removed operation Webhooks.beginCreateAndWait
+  - Removed operation Webhooks.beginDelete
+  - Removed operation Webhooks.beginDeleteAndWait
+  - Removed operation Webhooks.beginUpdate
+  - Removed operation Webhooks.beginUpdateAndWait
+  - Removed Interface AgentPool
+  - Removed Interface AgentPoolQueueStatus
+  - Removed Interface AgentPoolsOperations
+  - Removed Interface AgentPoolsCreateOptionalParams
+  - Removed Interface AgentPoolsDeleteOptionalParams
+  - Removed Interface AgentPoolsGetOptionalParams
+  - Removed Interface AgentPoolsGetQueueStatusOptionalParams
+  - Removed Interface AgentPoolsListOptionalParams
+  - Removed Interface AgentPoolsUpdateOptionalParams
+  - Removed Interface AgentPoolUpdateParameters
+  - Removed Interface AgentProperties
+  - Removed Interface Argument
+  - Removed Interface AuthInfo
+  - Removed Interface AuthInfoUpdateParameters
+  - Removed Interface BaseImageDependency
+  - Removed Interface BaseImageTrigger
+  - Removed Interface BaseImageTriggerUpdateParameters
+  - Removed Interface Credentials
+  - Removed Interface CustomRegistryCredentials
+  - Removed Interface DockerBuildRequest
+  - Removed Interface DockerBuildStep
+  - Removed Interface DockerBuildStepUpdateParameters
+  - Removed Interface EncodedTaskRunRequest
+  - Removed Interface EncodedTaskStep
+  - Removed Interface EncodedTaskStepUpdateParameters
+  - Removed Interface ErrorResponseBody
+  - Removed Interface ErrorResponseForContainerRegistry
+  - Removed Interface FileTaskRunRequest
+  - Removed Interface FileTaskStep
+  - Removed Interface FileTaskStepUpdateParameters
+  - Removed Interface ImageDescriptor
+  - Removed Interface ImageUpdateTrigger
+  - Removed Interface InnerErrorDescription
+  - Removed Interface OverrideTaskStepProperties
+  - Removed Interface PlatformProperties
+  - Removed Interface PlatformUpdateParameters
+  - Removed Interface RegistriesGetBuildSourceUploadUrlOptionalParams
+  - Removed Interface RegistriesScheduleRunOptionalParams
+  - Removed Interface Run
+  - Removed Interface RunFilter
+  - Removed Interface RunRequest
+  - Removed Interface RunsOperations
+  - Removed Interface RunsCancelOptionalParams
+  - Removed Interface RunsGetLogSasUrlOptionalParams
+  - Removed Interface RunsGetOptionalParams
+  - Removed Interface RunsListOptionalParams
+  - Removed Interface RunsUpdateOptionalParams
+  - Removed Interface RunUpdateParameters
+  - Removed Interface SecretObject
+  - Removed Interface SetValue
+  - Removed Interface SourceProperties
+  - Removed Interface SourceRegistryCredentials
+  - Removed Interface SourceTrigger
+  - Removed Interface SourceTriggerDescriptor
+  - Removed Interface SourceTriggerUpdateParameters
+  - Removed Interface SourceUpdateParameters
+  - Removed Interface SourceUploadDefinition
+  - Removed Interface Task
+  - Removed Interface TaskRun
+  - Removed Interface TaskRunRequest
+  - Removed Interface TaskRunsOperations
+  - Removed Interface TaskRunsCreateOptionalParams
+  - Removed Interface TaskRunsDeleteOptionalParams
+  - Removed Interface TaskRunsGetDetailsOptionalParams
+  - Removed Interface TaskRunsGetOptionalParams
+  - Removed Interface TaskRunsListOptionalParams
+  - Removed Interface TaskRunsUpdateOptionalParams
+  - Removed Interface TaskRunUpdateParameters
+  - Removed Interface TasksOperations
+  - Removed Interface TasksCreateOptionalParams
+  - Removed Interface TasksDeleteOptionalParams
+  - Removed Interface TasksGetDetailsOptionalParams
+  - Removed Interface TasksGetOptionalParams
+  - Removed Interface TasksListOptionalParams
+  - Removed Interface TaskStepProperties
+  - Removed Interface TaskStepUpdateParameters
+  - Removed Interface TasksUpdateOptionalParams
+  - Removed Interface TaskUpdateParameters
+  - Removed Interface TimerTrigger
+  - Removed Interface TimerTriggerDescriptor
+  - Removed Interface TimerTriggerUpdateParameters
+  - Removed Interface TriggerProperties
+  - Removed Interface TriggerUpdateParameters
+  - Interface IPRule has a new required parameter ipAddressOrRange
+  - Interface CacheRule no longer has parameter creationDate
+  - Interface CacheRule no longer has parameter credentialSetResourceId
+  - Interface CacheRule no longer has parameter provisioningState
+  - Interface CacheRule no longer has parameter sourceRepository
+  - Interface CacheRule no longer has parameter targetRepository
+  - Interface ConnectedRegistry no longer has parameter activation
+  - Interface ConnectedRegistry no longer has parameter clientTokenIds
+  - Interface ConnectedRegistry no longer has parameter connectionState
+  - Interface ConnectedRegistry no longer has parameter garbageCollection
+  - Interface ConnectedRegistry no longer has parameter lastActivityTime
+  - Interface ConnectedRegistry no longer has parameter logging
+  - Interface ConnectedRegistry no longer has parameter loginServer
+  - Interface ConnectedRegistry no longer has parameter mode
+  - Interface ConnectedRegistry no longer has parameter notificationsList
+  - Interface ConnectedRegistry no longer has parameter parent
+  - Interface ConnectedRegistry no longer has parameter provisioningState
+  - Interface ConnectedRegistry no longer has parameter statusDetails
+  - Interface ConnectedRegistry no longer has parameter version
+  - Interface CredentialSet no longer has parameter authCredentials
+  - Interface CredentialSet no longer has parameter creationDate
+  - Interface CredentialSet no longer has parameter loginServer
+  - Interface CredentialSet no longer has parameter provisioningState
+  - Interface IPRule no longer has parameter iPAddressOrRange
+  - Interface PrivateEndpointConnection no longer has parameter privateEndpoint
+  - Interface PrivateEndpointConnection no longer has parameter privateLinkServiceConnectionState
+  - Interface PrivateEndpointConnection no longer has parameter provisioningState
+  - Interface PrivateLinkResource no longer has parameter groupId
+  - Interface PrivateLinkResource no longer has parameter requiredMembers
+  - Interface PrivateLinkResource no longer has parameter requiredZoneNames
+  - Interface Registry no longer has parameter adminUserEnabled
+  - Interface Registry no longer has parameter anonymousPullEnabled
+  - Interface Registry no longer has parameter autoGeneratedDomainNameLabelScope
+  - Interface Registry no longer has parameter creationDate
+  - Interface Registry no longer has parameter dataEndpointEnabled
+  - Interface Registry no longer has parameter dataEndpointHostNames
+  - Interface Registry no longer has parameter encryption
+  - Interface Registry no longer has parameter loginServer
+  - Interface Registry no longer has parameter networkRuleBypassAllowedForTasks
+  - Interface Registry no longer has parameter networkRuleBypassOptions
+  - Interface Registry no longer has parameter networkRuleSet
+  - Interface Registry no longer has parameter policies
+  - Interface Registry no longer has parameter privateEndpointConnections
+  - Interface Registry no longer has parameter provisioningState
+  - Interface Registry no longer has parameter publicNetworkAccess
+  - Interface Registry no longer has parameter roleAssignmentMode
+  - Interface Registry no longer has parameter status
+  - Interface Registry no longer has parameter zoneRedundancy
+  - Interface RegistryNameCheckRequest no longer has parameter autoGeneratedDomainNameLabelScope
+  - Interface RegistryNameCheckRequest no longer has parameter resourceGroupName
+  - Interface RegistryNameStatus no longer has parameter availableLoginServerName
+  - Interface Replication no longer has parameter provisioningState
+  - Interface Replication no longer has parameter regionEndpointEnabled
+  - Interface Replication no longer has parameter status
+  - Interface Replication no longer has parameter zoneRedundancy
+  - Interface ScopeMap no longer has parameter actions
+  - Interface ScopeMap no longer has parameter creationDate
+  - Interface ScopeMap no longer has parameter description
+  - Interface ScopeMap no longer has parameter provisioningState
+  - Interface ScopeMap no longer has parameter typePropertiesType
+  - Interface Token no longer has parameter creationDate
+  - Interface Token no longer has parameter credentials
+  - Interface Token no longer has parameter provisioningState
+  - Interface Token no longer has parameter scopeMapId
+  - Interface Token no longer has parameter status
+  - Interface Webhook no longer has parameter actions
+  - Interface Webhook no longer has parameter provisioningState
+  - Interface Webhook no longer has parameter scope
+  - Interface Webhook no longer has parameter status
+  - Removed Type Alias Architecture
+  - Removed Type Alias AutoGeneratedDomainNameLabelScope
+  - Removed Type Alias BaseImageDependencyType
+  - Removed Type Alias BaseImageTriggerType
+  - Removed Type Alias OS
+  - Removed Type Alias RunRequestUnion
+  - Removed Type Alias RunStatus
+  - Removed Type Alias RunType
+  - Removed Type Alias SecretObjectType
+  - Removed Type Alias SourceControlType
+  - Removed Type Alias SourceRegistryLoginMode
+  - Removed Type Alias SourceTriggerEvent
+  - Removed Type Alias StepType
+  - Removed Type Alias TaskStatus
+  - Removed Type Alias TaskStepPropertiesUnion
+  - Removed Type Alias TaskStepUpdateParametersUnion
+  - Removed Type Alias TokenType
+  - Removed Type Alias TriggerStatus
+  - Removed Type Alias UpdateTriggerPayloadType
+  - Removed Type Alias Variant
+  - Removed Enum KnownArchitecture
+  - Removed Enum KnownAutoGeneratedDomainNameLabelScope
+  - Removed Enum KnownBaseImageDependencyType
+  - Removed Enum KnownBaseImageTriggerType
+  - Removed Enum KnownOS
+  - Removed Enum KnownRunStatus
+  - Removed Enum KnownRunType
+  - Removed Enum KnownSecretObjectType
+  - Removed Enum KnownSourceControlType
+  - Removed Enum KnownSourceRegistryLoginMode
+  - Removed Enum KnownSourceTriggerEvent
+  - Removed Enum KnownStepType
+  - Removed Enum KnownTaskStatus
+  - Removed Enum KnownTokenType
+  - Removed Enum KnownTriggerStatus
+  - Removed Enum KnownUpdateTriggerPayloadType
+  - Removed Enum KnownVariant
+
 ## 12.0.0-beta.1 (2025-12-11)
 Compared with version 11.0.0
 
