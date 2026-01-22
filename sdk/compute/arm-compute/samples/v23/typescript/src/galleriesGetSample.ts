@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Retrieves information about a Shared Image Gallery.
  *
  * @summary Retrieves information about a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/CommunityGallery_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/CommunityGallery_Get.json
  */
 async function getACommunityGallery(): Promise<void> {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getACommunityGallery(): Promise<void> {
  * This sample demonstrates how to Retrieves information about a Shared Image Gallery.
  *
  * @summary Retrieves information about a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_Get_WithExpandSharingProfileGroups.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/Gallery_Get_WithExpandSharingProfileGroups.json
  */
 async function getAGalleryWithExpandSharingProfileGroups(): Promise<void> {
   const subscriptionId =
@@ -55,7 +55,7 @@ async function getAGalleryWithExpandSharingProfileGroups(): Promise<void> {
  * This sample demonstrates how to Retrieves information about a Shared Image Gallery.
  *
  * @summary Retrieves information about a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_Get_WithSelectPermissions.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/Gallery_Get_WithSelectPermissions.json
  */
 async function getAGalleryWithSelectPermissions(): Promise<void> {
   const subscriptionId =
@@ -79,7 +79,7 @@ async function getAGalleryWithSelectPermissions(): Promise<void> {
  * This sample demonstrates how to Retrieves information about a Shared Image Gallery.
  *
  * @summary Retrieves information about a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_Get_WithManagedIdentity.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/Gallery_Get_WithManagedIdentity.json
  */
 async function getAGalleryWithSystemAssignedAndUserAssignedManagedIdentities(): Promise<void> {
   const subscriptionId =
@@ -97,7 +97,7 @@ async function getAGalleryWithSystemAssignedAndUserAssignedManagedIdentities(): 
  * This sample demonstrates how to Retrieves information about a Shared Image Gallery.
  *
  * @summary Retrieves information about a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/Gallery_Get.json
  */
 async function getAGallery(): Promise<void> {
   const subscriptionId =

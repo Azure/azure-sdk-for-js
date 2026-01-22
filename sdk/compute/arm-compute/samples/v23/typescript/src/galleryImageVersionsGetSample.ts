@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Retrieves information about a gallery image version.
  *
  * @summary Retrieves information about a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Get_WithReplicationStatus.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryImageVersion_Get_WithReplicationStatus.json
  */
 async function getAGalleryImageVersionWithReplicationStatus(): Promise<void> {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function getAGalleryImageVersionWithReplicationStatus(): Promise<void> {
  * This sample demonstrates how to Retrieves information about a gallery image version.
  *
  * @summary Retrieves information about a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Get_WithSnapshotsAsSource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryImageVersion_Get_WithSnapshotsAsSource.json
  */
 async function getAGalleryImageVersionWithSnapshotsAsASource(): Promise<void> {
   const subscriptionId =
@@ -66,7 +66,7 @@ async function getAGalleryImageVersionWithSnapshotsAsASource(): Promise<void> {
  * This sample demonstrates how to Retrieves information about a gallery image version.
  *
  * @summary Retrieves information about a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Get_WithValidationProfileAndReplicationStatus.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryImageVersion_Get_WithValidationProfileAndReplicationStatus.json
  */
 async function getAGalleryImageVersionWithValidationProfileAndReplicationStatus(): Promise<void> {
   const subscriptionId =
@@ -94,7 +94,7 @@ async function getAGalleryImageVersionWithValidationProfileAndReplicationStatus(
  * This sample demonstrates how to Retrieves information about a gallery image version.
  *
  * @summary Retrieves information about a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Get_WithValidationProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryImageVersion_Get_WithValidationProfile.json
  */
 async function getAGalleryImageVersionWithValidationProfile(): Promise<void> {
   const subscriptionId =
@@ -122,7 +122,7 @@ async function getAGalleryImageVersionWithValidationProfile(): Promise<void> {
  * This sample demonstrates how to Retrieves information about a gallery image version.
  *
  * @summary Retrieves information about a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Get_WithVhdAsSource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryImageVersion_Get_WithVhdAsSource.json
  */
 async function getAGalleryImageVersionWithVhdAsASource(): Promise<void> {
   const subscriptionId =
@@ -147,7 +147,7 @@ async function getAGalleryImageVersionWithVhdAsASource(): Promise<void> {
  * This sample demonstrates how to Retrieves information about a gallery image version.
  *
  * @summary Retrieves information about a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryImageVersion_Get.json
  */
 async function getAGalleryImageVersion(): Promise<void> {
   const subscriptionId =
