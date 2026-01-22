@@ -14,7 +14,7 @@ import { PollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface A2ATool extends Tool {
+export interface A2APreviewTool extends Tool {
     agent_card_path?: string;
     base_url?: string;
     project_connection_id?: string;
@@ -33,6 +33,7 @@ export interface Agent {
 
 // @public
 export interface AgentClusterInsightResult extends InsightResult {
+    // (undocumented)
     clusterInsight: ClusterInsightResult;
     type: "AgentClusterInsight";
 }
@@ -227,6 +228,7 @@ export interface AISearchIndexResource {
 
 // @public
 export interface Annotation {
+    // (undocumented)
     type: AnnotationType;
 }
 
@@ -238,6 +240,7 @@ export type AnnotationUnion = FileCitationBody | UrlCitationBody | ContainerFile
 
 // @public
 export interface ApiErrorResponse {
+    // (undocumented)
     error: ErrorModel;
 }
 
@@ -268,6 +271,7 @@ export interface ApplyPatchDeleteFileOperationParam extends ApplyPatchOperationP
 
 // @public
 export interface ApplyPatchOperationParam {
+    // (undocumented)
     type: ApplyPatchOperationParamType;
 }
 
@@ -309,10 +313,14 @@ export interface ApplyPatchUpdateFileOperationParam extends ApplyPatchOperationP
 
 // @public
 export interface ApproximateLocation {
-    city?: string;
-    country?: string;
-    region?: string;
-    timezone?: string;
+    // (undocumented)
+    city?: string | null;
+    // (undocumented)
+    country?: string | null;
+    // (undocumented)
+    region?: string | null;
+    // (undocumented)
+    timezone?: string | null;
     type: "approximate";
 }
 
@@ -328,12 +336,6 @@ export interface AzureAIAgentTarget extends Target {
 }
 
 // @public
-export interface AzureAISearchAgentTool extends Tool {
-    azure_ai_search: AzureAISearchToolResource;
-    type: "azure_ai_search";
-}
-
-// @public
 export interface AzureAISearchIndex extends Index {
     connectionName: string;
     fieldMapping?: FieldMapping;
@@ -345,14 +347,14 @@ export interface AzureAISearchIndex extends Index {
 export type AzureAISearchQueryType = "simple" | "semantic" | "vector" | "vector_simple_hybrid" | "vector_semantic_hybrid";
 
 // @public
-export interface AzureAISearchToolResource {
-    indexes: AISearchIndexResource[];
+export interface AzureAISearchTool extends Tool {
+    azure_ai_search: AzureAISearchToolResource;
+    type: "azure_ai_search";
 }
 
 // @public
-export interface AzureFunctionAgentTool extends Tool {
-    azure_function: AzureFunctionDefinition;
-    type: "azure_function";
+export interface AzureAISearchToolResource {
+    indexes: AISearchIndexResource[];
 }
 
 // @public
@@ -379,8 +381,15 @@ export interface AzureFunctionStorageQueue {
 }
 
 // @public
+export interface AzureFunctionTool extends Tool {
+    azure_function: AzureFunctionDefinition;
+    type: "azure_function";
+}
+
+// @public
 export interface AzureOpenAIModelConfiguration extends TargetConfig {
     modelDeploymentName: string;
+    // (undocumented)
     type: "AzureOpenAIModel";
 }
 
@@ -393,12 +402,6 @@ export interface BaseCredentials {
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityCredentials | BaseCredentials;
 
 // @public
-export interface BingCustomSearchAgentTool extends Tool {
-    bing_custom_search_preview: BingCustomSearchToolParameters;
-    type: "bing_custom_search_preview";
-}
-
-// @public
 export interface BingCustomSearchConfiguration {
     count?: number;
     freshness?: string;
@@ -409,14 +412,14 @@ export interface BingCustomSearchConfiguration {
 }
 
 // @public
-export interface BingCustomSearchToolParameters {
-    search_configurations: BingCustomSearchConfiguration[];
+export interface BingCustomSearchPreviewTool extends Tool {
+    bing_custom_search_preview: BingCustomSearchToolParameters;
+    type: "bing_custom_search_preview";
 }
 
 // @public
-export interface BingGroundingAgentTool extends Tool {
-    bing_grounding: BingGroundingSearchToolParameters;
-    type: "bing_grounding";
+export interface BingCustomSearchToolParameters {
+    search_configurations: BingCustomSearchConfiguration[];
 }
 
 // @public
@@ -434,6 +437,12 @@ export interface BingGroundingSearchToolParameters {
 }
 
 // @public
+export interface BingGroundingTool extends Tool {
+    bing_grounding: BingGroundingSearchToolParameters;
+    type: "bing_grounding";
+}
+
+// @public
 export interface BlobReference {
     blobUri: string;
     credential: SasCredential;
@@ -441,7 +450,7 @@ export interface BlobReference {
 }
 
 // @public
-export interface BrowserAutomationAgentTool extends Tool {
+export interface BrowserAutomationPreviewTool extends Tool {
     browser_automation_preview: BrowserAutomationToolParameters;
     type: "browser_automation_preview";
 }
@@ -502,13 +511,15 @@ export interface ClusterTokenUsage {
 // @public
 export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
     code_text: string;
+    // (undocumented)
     type: "code";
 }
 
 // @public
 export interface CodeInterpreterContainerAuto {
     file_ids?: string[];
-    memory_limit?: ContainerMemoryLimit;
+    // (undocumented)
+    memory_limit?: ContainerMemoryLimit | null;
     type: "auto";
 }
 
@@ -532,6 +543,7 @@ export interface CodeInterpreterTool extends Tool {
 
 // @public
 export interface CompactionSummaryItemParam extends Item {
+    // (undocumented)
     encrypted_content: string;
     id?: string;
     type: "compaction";
@@ -549,12 +561,13 @@ export type ComparisonFilterValueItems = string | number;
 
 // @public
 export interface CompoundFilter {
-    filters: (ComparisonFilter | CompoundFilter)[];
+    filters: (ComparisonFilter | any)[];
     type: "and" | "or";
 }
 
 // @public
 export interface ComputerAction {
+    // (undocumented)
     type: ComputerActionType;
 }
 
@@ -582,7 +595,7 @@ export interface ComputerCallSafetyCheckParam {
 }
 
 // @public
-export type ComputerEnvironment = "windows" | "mac" | "linux" | "browser";
+export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "browser";
 
 // @public
 export interface ComputerScreenshotImage {
@@ -643,6 +656,7 @@ export interface ContainerAppAgentDefinition extends AgentDefinition {
     container_app_resource_id: string;
     container_protocol_versions: ProtocolVersionRecord[];
     ingress_subdomain_suffix: string;
+    // (undocumented)
     kind: "container_app";
 }
 
@@ -671,6 +685,7 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export interface ContinuousEvaluationRuleAction extends EvaluationRuleAction {
     evalId: string;
     maxHourlyRuns?: number;
+    // (undocumented)
     type: "continuousEvaluation";
 }
 
@@ -693,6 +708,7 @@ export interface CronTrigger extends Trigger {
     expression: string;
     startTime?: string;
     timeZone?: string;
+    // (undocumented)
     type: "Cron";
 }
 
@@ -724,6 +740,7 @@ export interface CustomToolParam extends Tool {
 
 // @public
 export interface CustomToolParamFormat {
+    // (undocumented)
     type: CustomToolParamFormatType;
 }
 
@@ -1028,6 +1045,7 @@ export interface EvaluationRulesOperations {
 
 // @public
 export interface EvaluationRunClusterInsightResult extends InsightResult {
+    // (undocumented)
     clusterInsight: ClusterInsightResult;
     type: "EvaluationRunClusterInsight";
 }
@@ -1231,6 +1249,7 @@ export interface FilePath extends Annotation {
 
 // @public
 export interface FileSearchTool extends Tool {
+    // (undocumented)
     filters?: Filters;
     max_num_results?: number;
     ranking_options?: RankingOptions;
@@ -1257,6 +1276,7 @@ export interface FolderDatasetVersion extends DatasetVersion {
 
 // @public
 export interface FunctionAndCustomToolCallOutput {
+    // (undocumented)
     type: FunctionAndCustomToolCallOutputType;
 }
 
@@ -1344,6 +1364,7 @@ export interface FunctionShellCallOutputItemParam extends Item {
 
 // @public
 export interface FunctionShellCallOutputOutcomeParam {
+    // (undocumented)
     type: FunctionShellCallOutputOutcomeParamType;
 }
 
@@ -1365,9 +1386,12 @@ export interface FunctionShellToolParam extends Tool {
 
 // @public
 export interface FunctionTool extends Tool {
+    // (undocumented)
     description?: string;
     name: string;
-    parameters: Record<string, unknown>;
+    // (undocumented)
+    parameters: Record<string, any>;
+    // (undocumented)
     strict: boolean;
     type: "function";
 }
@@ -1390,12 +1414,14 @@ export type HostedAgentDefinitionUnion = ImageBasedHostedAgentDefinition | Hoste
 
 // @public
 export interface HourlyRecurrenceSchedule extends RecurrenceSchedule {
+    // (undocumented)
     type: "Hourly";
 }
 
 // @public
 export interface HumanEvaluationRuleAction extends EvaluationRuleAction {
     templateId: string;
+    // (undocumented)
     type: "humanEvaluation";
 }
 
@@ -1408,6 +1434,7 @@ export interface HybridSearchOptions {
 // @public
 export interface ImageBasedHostedAgentDefinition extends HostedAgentDefinition {
     image: string;
+    // (undocumented)
     kind: "hosted";
 }
 
@@ -1417,8 +1444,10 @@ export type ImageDetail = "low" | "high" | "auto";
 // @public
 export interface ImageGenTool extends Tool {
     background?: "transparent" | "opaque" | "auto";
+    // (undocumented)
     input_fidelity?: InputFidelity;
     input_image_mask?: ImageGenToolInputImageMask;
+    // (undocumented)
     model?: "gpt-image-1" | "gpt-image-1-mini";
     moderation?: "auto" | "low";
     output_compression?: number;
@@ -1431,7 +1460,9 @@ export interface ImageGenTool extends Tool {
 
 // @public
 export interface ImageGenToolInputImageMask {
+    // (undocumented)
     file_id?: string;
+    // (undocumented)
     image_url?: string;
 }
 
@@ -1482,6 +1513,7 @@ export type IndexUnion = AzureAISearchIndex | ManagedAzureAISearchIndex | Cosmos
 
 // @public
 export interface InputContent {
+    // (undocumented)
     type: InputContentType;
 }
 
@@ -1657,6 +1689,7 @@ export type InsightType = "EvaluationRunClusterInsight" | "AgentClusterInsight" 
 
 // @public
 export interface Item {
+    // (undocumented)
     type: ItemType;
 }
 
@@ -1672,6 +1705,7 @@ export interface ItemCodeInterpreterToolCall extends Item {
 
 // @public
 export interface ItemComputerToolCall extends Item {
+    // (undocumented)
     action: ComputerActionUnion;
     call_id: string;
     id: string;
@@ -1726,6 +1760,7 @@ export interface ItemImageGenToolCall extends Item {
 
 // @public
 export interface ItemLocalShellToolCall extends Item {
+    // (undocumented)
     action: LocalShellExecAction;
     call_id: string;
     id: string;
@@ -1795,7 +1830,7 @@ export interface ItemReasoningItem extends Item {
 export type ItemType = "message" | "output_message" | "file_search_call" | "computer_call" | "computer_call_output" | "web_search_call" | "function_call" | "function_call_output" | "reasoning" | "compaction" | "image_generation_call" | "code_interpreter_call" | "local_shell_call" | "local_shell_call_output" | "shell_call" | "shell_call_output" | "apply_patch_call" | "apply_patch_call_output" | "mcp_list_tools" | "mcp_approval_request" | "mcp_approval_response" | "mcp_call" | "custom_tool_call_output" | "custom_tool_call" | "structured_outputs" | "workflow_action" | "memory_search_call" | "oauth_consent_request";
 
 // @public
-export type ItemUnion = InputMessage | ComputerCallOutputItemParam | FunctionCallOutputItemParam | CompactionSummaryItemParam | FunctionShellCallItemParam | FunctionShellCallOutputItemParam | ApplyPatchToolCallItemParam | ApplyPatchToolCallOutputItemParam | MCPApprovalResponse | ItemOutputMessage | ItemFileSearchToolCall | ItemComputerToolCall | ItemWebSearchToolCall | ItemFunctionToolCall | ItemReasoningItem | ItemImageGenToolCall | ItemCodeInterpreterToolCall | ItemLocalShellToolCall | ItemLocalShellToolCallOutput | ItemMcpListTools | ItemMcpApprovalRequest | ItemMcpToolCall | ItemCustomToolCallOutput | ItemCustomToolCall | MemorySearchToolCallItemParam | Item;
+export type ItemUnion = MemorySearchToolCallItemParam | InputMessage | ComputerCallOutputItemParam | FunctionCallOutputItemParam | CompactionSummaryItemParam | FunctionShellCallItemParam | FunctionShellCallOutputItemParam | ApplyPatchToolCallItemParam | ApplyPatchToolCallOutputItemParam | MCPApprovalResponse | ItemOutputMessage | ItemFileSearchToolCall | ItemComputerToolCall | ItemWebSearchToolCall | ItemFunctionToolCall | ItemReasoningItem | ItemImageGenToolCall | ItemCodeInterpreterToolCall | ItemLocalShellToolCall | ItemLocalShellToolCallOutput | ItemMcpListTools | ItemMcpApprovalRequest | ItemMcpToolCall | ItemCustomToolCallOutput | ItemCustomToolCall | Item;
 
 // @public
 export interface ItemWebSearchToolCall extends Item {
@@ -1833,9 +1868,13 @@ export interface LocalShellToolParam extends Tool {
 
 // @public
 export interface LogProb {
+    // (undocumented)
     bytes: number[];
+    // (undocumented)
     logprob: number;
+    // (undocumented)
     token: string;
+    // (undocumented)
     top_logprobs: TopLogProb[];
 }
 
@@ -1872,12 +1911,15 @@ export interface MCPListToolsToolInputSchema {
 
 // @public
 export interface MCPTool extends Tool {
-    allowed_tools?: string[] | MCPToolFilter;
+    // (undocumented)
+    allowed_tools?: (string[] | MCPToolFilter);
     authorization?: string;
     connector_id?: "connector_dropbox" | "connector_gmail" | "connector_googlecalendar" | "connector_googledrive" | "connector_microsoftteams" | "connector_outlookcalendar" | "connector_outlookemail" | "connector_sharepoint";
+    // (undocumented)
     headers?: Record<string, string>;
     project_connection_id?: string;
-    require_approval?: MCPToolRequireApproval | "always" | "never";
+    // (undocumented)
+    require_approval?: (MCPToolRequireApproval | "always" | "never");
     server_description?: string;
     server_label: string;
     server_url?: string;
@@ -1895,7 +1937,9 @@ export interface MCPToolFilter {
 
 // @public
 export interface MCPToolRequireApproval {
+    // (undocumented)
     always?: MCPToolFilter;
+    // (undocumented)
     never?: MCPToolFilter;
 }
 
@@ -1944,7 +1988,8 @@ export interface MemorySearchTool extends Tool {
 
 // @public
 export interface MemorySearchToolCallItemParam extends Item {
-    results?: MemorySearchItem[];
+    results?: MemorySearchItem[] | null;
+    // (undocumented)
     type: "memory_search_call";
 }
 
@@ -2108,7 +2153,7 @@ export interface MemoryStoreUpdateResponse {
 export type MemoryStoreUpdateStatus = "queued" | "in_progress" | "completed" | "failed" | "superseded";
 
 // @public
-export interface MicrosoftFabricAgentTool extends Tool {
+export interface MicrosoftFabricPreviewTool extends Tool {
     fabric_dataagent_preview: FabricDataAgentToolParameters;
     type: "fabric_dataagent_preview";
 }
@@ -2155,13 +2200,8 @@ export interface NoAuthenticationCredentials extends BaseCredentials {
 export interface OneTimeTrigger extends Trigger {
     timeZone?: string;
     triggerAt: string;
+    // (undocumented)
     type: "OneTime";
-}
-
-// @public
-export interface OpenApiAgentTool extends Tool {
-    openapi: OpenApiFunctionDefinition;
-    type: "openapi";
 }
 
 // @public
@@ -2188,10 +2228,10 @@ export interface OpenApiFunctionDefinition {
     readonly functions?: {
         name: string;
         description?: string;
-        parameters: unknown;
+        parameters: any;
     }[];
     name: string;
-    spec: unknown;
+    spec: any;
 }
 
 // @public
@@ -2217,10 +2257,17 @@ export interface OpenApiProjectConnectionSecurityScheme {
 }
 
 // @public
+export interface OpenApiTool extends Tool {
+    openapi: OpenApiFunctionDefinition;
+    type: "openapi";
+}
+
+// @public
 export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 
 // @public
 export interface OutputContent {
+    // (undocumented)
     type: OutputContentType;
 }
 
@@ -2232,12 +2279,14 @@ export type OutputContentUnion = ReasoningTextContent | OutputContent;
 
 // @public
 export interface OutputMessageContent {
+    // (undocumented)
     type: OutputMessageContentType;
 }
 
 // @public
 export interface OutputMessageContentOutputTextContent extends OutputMessageContent {
     annotations: AnnotationUnion[];
+    // (undocumented)
     logprobs?: LogProb[];
     text: string;
     type: "output_text";
@@ -2306,6 +2355,7 @@ export interface PromptAgentDefinition extends AgentDefinition {
 // @public
 export interface PromptBasedEvaluatorDefinition extends EvaluatorDefinition {
     prompt_text: string;
+    // (undocumented)
     type: "prompt";
 }
 
@@ -2332,6 +2382,7 @@ export interface RankingOptions {
 
 // @public
 export interface Reasoning {
+    // (undocumented)
     effort?: ReasoningEffort;
     generate_summary?: "auto" | "concise" | "detailed";
     summary?: "auto" | "concise" | "detailed";
@@ -2410,11 +2461,13 @@ export interface ResponseFormatJsonSchemaSchema {
 
 // @public
 export interface ResponseUsageInputTokensDetails {
+    // (undocumented)
     cached_tokens: number;
 }
 
 // @public
 export interface ResponseUsageOutputTokensDetails {
+    // (undocumented)
     reasoning_tokens: number;
 }
 
@@ -2544,14 +2597,14 @@ export type SearchContextSize = "low" | "medium" | "high";
 export type ServiceTier = "auto" | "default" | "flex" | "scale" | "priority";
 
 // @public
-export interface SharepointAgentTool extends Tool {
-    sharepoint_grounding_preview: SharepointGroundingToolParameters;
-    type: "sharepoint_grounding_preview";
+export interface SharepointGroundingToolParameters {
+    project_connections?: ToolProjectConnection[];
 }
 
 // @public
-export interface SharepointGroundingToolParameters {
-    project_connections?: ToolProjectConnection[];
+export interface SharepointPreviewTool extends Tool {
+    sharepoint_grounding_preview: SharepointGroundingToolParameters;
+    type: "sharepoint_grounding_preview";
 }
 
 // @public
@@ -2618,6 +2671,7 @@ export interface TelemetryOperations {
 
 // @public
 export interface TextResponseFormatConfiguration {
+    // (undocumented)
     type: TextResponseFormatConfigurationType;
 }
 
@@ -2663,15 +2717,18 @@ export interface ToolProjectConnection {
 }
 
 // @public
-export type ToolType = "function" | "file_search" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "web_search_preview" | "apply_patch" | "bing_grounding" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "azure_ai_search" | "openapi" | "bing_custom_search_preview" | "capture_structured_outputs" | "a2a_preview" | "azure_function" | "memory_search";
+export type ToolType = "function" | "file_search" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi" | "memory_search";
 
 // @public
-export type ToolUnion = CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | BingGroundingAgentTool | MicrosoftFabricAgentTool | SharepointAgentTool | AzureAISearchAgentTool | OpenApiAgentTool | BingCustomSearchAgentTool | BrowserAutomationAgentTool | AzureFunctionAgentTool | CaptureStructuredOutputsTool | A2ATool | MemorySearchTool | Tool;
+export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | MemorySearchTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | Tool;
 
 // @public
 export interface TopLogProb {
+    // (undocumented)
     bytes: number[];
+    // (undocumented)
     logprob: number;
+    // (undocumented)
     token: string;
 }
 
@@ -2711,7 +2768,7 @@ export interface UserProfileMemoryItem extends MemoryItem {
 
 // @public
 export interface VectorStoreFileAttributes {
-    additionalProperties?: Record<string, string | boolean | number>;
+    additionalProperties?: Record<string, string | number | boolean>;
 }
 
 // @public
@@ -2750,10 +2807,14 @@ export interface WebSearchActionSearchSources {
 
 // @public
 export interface WebSearchApproximateLocation {
-    city?: string;
-    country?: string;
-    region?: string;
-    timezone?: string;
+    // (undocumented)
+    city?: string | null;
+    // (undocumented)
+    country?: string | null;
+    // (undocumented)
+    region?: string | null;
+    // (undocumented)
+    timezone?: string | null;
     type?: "approximate";
 }
 
@@ -2765,23 +2826,27 @@ export interface WebSearchConfiguration {
 
 // @public
 export interface WebSearchPreviewTool extends Tool {
-    custom_search_configuration?: WebSearchConfiguration;
     search_context_size?: SearchContextSize;
     type: "web_search_preview";
-    user_location?: ApproximateLocation;
+    // (undocumented)
+    user_location?: ApproximateLocation | null;
 }
 
 // @public
 export interface WebSearchTool extends Tool {
-    filters?: WebSearchToolFilters;
+    custom_search_configuration?: WebSearchConfiguration;
+    // (undocumented)
+    filters?: WebSearchToolFilters | null;
     search_context_size?: "low" | "medium" | "high";
     type: "web_search";
-    user_location?: WebSearchApproximateLocation;
+    // (undocumented)
+    user_location?: WebSearchApproximateLocation | null;
 }
 
 // @public
 export interface WebSearchToolFilters {
-    allowed_domains?: string[];
+    // (undocumented)
+    allowed_domains?: string[] | null;
 }
 
 // @public
