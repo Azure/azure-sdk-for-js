@@ -39,8 +39,7 @@ export function createBatchSharedKeyCredentialsPolicy(
       // Add canonicalized resource
       stringToSign += getCanonicalizedResource(request.url, accountName);
       // Signed with sha256
-      const signature = computeSha256Hmac(credentials.key, stringToSign, "base64");
-
+      const signature = await computeSha256Hmac(credentials.key, stringToSign, "base64");
       request.headers.set("Authorization", `SharedKey ${accountName}:${signature}`);
       return next(request);
     },
