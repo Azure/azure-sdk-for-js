@@ -208,8 +208,8 @@ describe("Pool Operations Test", () => {
 
     expect(pool.id).toEqual(poolId);
     expect(pool.state).toEqual("active");
-    expect(pool.allocationState).toBe('steady');
-    expect(pool.vmSize).toBe('standard_d1_v2');
+    expect(pool.allocationState).toBe("steady");
+    expect(pool.vmSize).toBe("standard_d1_v2");
   });
 
   it("should list pools without filters", async () => {
@@ -256,10 +256,10 @@ describe("Pool Operations Test", () => {
     }
 
     expect(pools.length).toEqual(1);
-    expect((pools[0]).id).toEqual(poolId);
-    expect((pools[0]).state).toEqual("active");
-    expect((pools[0]).allocationState).toBe('steady');
-    expect((pools[0]).vmSize).toBe('standard_d1_v2');
+    expect(pools[0].id).toEqual(poolId);
+    expect(pools[0].state).toEqual("active");
+    expect(pools[0].allocationState).toBe("steady");
+    expect(pools[0].vmSize).toBe("standard_d1_v2");
   });
 
   it("should check that pool exists successfully", async () => {
@@ -299,7 +299,7 @@ describe("Pool Operations Test", () => {
     expect(pool.virtualMachineConfiguration!.dataDisks![0].logicalUnitNumber).toEqual(1);
     expect(pool.virtualMachineConfiguration!.dataDisks![0].diskSizeGb).toEqual(50);
 
-    await batchClient.beginDeletePoolAndWait(poolId, {updateIntervalInMs: POLLING_INTERVAL});
+    await batchClient.beginDeletePoolAndWait(poolId, { updateIntervalInMs: POLLING_INTERVAL });
   });
 
   it("should add a pool with inbound endpoint configuration successfully", async () => {
@@ -438,10 +438,12 @@ describe("Pool Operations Test", () => {
       targetLowPriorityNodes: 1,
     };
 
-    await batchClient.beginResizePoolAndWait(poolId, options, {updateIntervalInMs: POLLING_INTERVAL});
+    await batchClient.beginResizePoolAndWait(poolId, options, {
+      updateIntervalInMs: POLLING_INTERVAL,
+    });
 
     const pool = await batchClient.getPool(poolId);
-    
+
     expect(pool.targetDedicatedNodes).toEqual(1);
     expect(pool.targetLowPriorityNodes).toEqual(1);
     expect(pool.allocationState).toEqual("steady");
@@ -449,18 +451,22 @@ describe("Pool Operations Test", () => {
 
   it("should stop pool resizing successfully", async () => {
     const poolId = recorder.variable("TEST_POOL3", TEST_POOL3);
-    const resizePoolPromise = batchClient.beginResizePoolAndWait(poolId, {
-      targetDedicatedNodes: 0,
-      targetLowPriorityNodes: 1,
-    }, {updateIntervalInMs: POLLING_INTERVAL});
-    await batchClient.beginStopPoolResizeAndWait(poolId, {updateIntervalInMs: POLLING_INTERVAL});
+    const resizePoolPromise = batchClient.beginResizePoolAndWait(
+      poolId,
+      {
+        targetDedicatedNodes: 0,
+        targetLowPriorityNodes: 1,
+      },
+      { updateIntervalInMs: POLLING_INTERVAL },
+    );
+    await batchClient.beginStopPoolResizeAndWait(poolId, { updateIntervalInMs: POLLING_INTERVAL });
     // beginResizePoolAndWait will resolve once the resize is fully stopped
     await resizePoolPromise;
   });
 
   it("should delete a pool successfully", async () => {
     const poolId = recorder.variable("BASIC_POOL", BASIC_POOL);
-    await batchClient.beginDeletePoolAndWait(poolId, {updateIntervalInMs: POLLING_INTERVAL});
+    await batchClient.beginDeletePoolAndWait(poolId, { updateIntervalInMs: POLLING_INTERVAL });
     try {
       await batchClient.getPool(poolId);
       expect.fail("Expected an error to be thrown");
@@ -473,11 +479,11 @@ describe("Pool Operations Test", () => {
 
   it("should delete a second pool successfully", async () => {
     const poolId = recorder.variable("ENDPOINT_POOL", ENDPOINT_POOL);
-    await batchClient.beginDeletePoolAndWait(poolId, {updateIntervalInMs: POLLING_INTERVAL});
+    await batchClient.beginDeletePoolAndWait(poolId, { updateIntervalInMs: POLLING_INTERVAL });
   });
 
   it("should delete a third pool successfully", async () => {
     const poolId = recorder.variable("TEST_POOL3", TEST_POOL3);
-    await batchClient.beginDeletePoolAndWait(poolId, {updateIntervalInMs: POLLING_INTERVAL});
+    await batchClient.beginDeletePoolAndWait(poolId, { updateIntervalInMs: POLLING_INTERVAL });
   });
 });

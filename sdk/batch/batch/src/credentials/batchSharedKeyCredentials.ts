@@ -135,7 +135,9 @@ function getCanonicalizedResource(url: string, accountName: string): string {
 
   const queryString = urlstring.searchParams;
   // sort the query string parameters by key lexicographically
-  const sortedQueryString = [...queryString.entries()].sort((a, b) => a[0].localeCompare(b[0], 'en-US'));
+  const sortedQueryString = [...queryString.entries()].sort((a, b) =>
+    a[0].localeCompare(b[0], "en-US"),
+  );
   for (const [key, value] of sortedQueryString) {
     canonicalizedResource += `\n${key}:${value}`;
   }

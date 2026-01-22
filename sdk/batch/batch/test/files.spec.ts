@@ -19,10 +19,7 @@ import {
   getBatchAccountKeys,
   getExistingBatchAccount,
 } from "./utils/arm-resources/batch-account.js";
-import {
-  createBatchLinuxPool,
-  deleteBatchPool,
-} from "./utils/arm-resources/batch-pool.js";
+import { createBatchLinuxPool, deleteBatchPool } from "./utils/arm-resources/batch-pool.js";
 import { getHoboBatchAccountName } from "./utils/arm-resources/env-const.js";
 import { RestError } from "@azure/core-rest-pipeline";
 
@@ -230,7 +227,9 @@ describe("File Operations Test", () => {
     const recordedNodeId = recorder.variable("NODE_ID", nodeId);
 
     const files: BatchNodeFile[] = [];
-    for await (const file of batchClient.listNodeFiles(poolId, recordedNodeId, {recursive: true})) {
+    for await (const file of batchClient.listNodeFiles(poolId, recordedNodeId, {
+      recursive: true,
+    })) {
       files.push(file);
     }
 
@@ -239,7 +238,6 @@ describe("File Operations Test", () => {
     const startupDir = files.find((f) => f.name === "startup");
     expect(startupDir).toBeDefined();
     expect(startupDir?.isDirectory).toBe(true);
-
   });
 
   it("should get node file properties successfully", async () => {
@@ -264,7 +262,11 @@ describe("File Operations Test", () => {
     const recordedNodeId = recorder.variable("NODE_ID", nodeId);
 
     // Get content of the startup/wd/hello.txt file
-    const fileContent = await batchClient.getNodeFile(poolId, recordedNodeId, "startup/wd/hello.txt");
+    const fileContent = await batchClient.getNodeFile(
+      poolId,
+      recordedNodeId,
+      "startup/wd/hello.txt",
+    );
 
     expect(fileContent).toBeDefined();
     expect(fileContent.length).toBeGreaterThan(0);

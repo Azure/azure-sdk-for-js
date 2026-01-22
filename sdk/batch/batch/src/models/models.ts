@@ -61,8 +61,12 @@ export interface BatchError {
 export function batchErrorDeserializer(item?: any): BatchError {
   return {
     code: item?.["code"],
-    message: !item?.["message"] ? item?.["message"] : batchErrorMessageDeserializer(item?.["message"]),
-    values: !item?.["values"] ? item?.["values"] : batchErrorDetailArrayDeserializer(item?.["values"]),
+    message: !item?.["message"]
+      ? item?.["message"]
+      : batchErrorMessageDeserializer(item?.["message"]),
+    values: !item?.["values"]
+      ? item?.["values"]
+      : batchErrorDetailArrayDeserializer(item?.["values"]),
   };
 }
 

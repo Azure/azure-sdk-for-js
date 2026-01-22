@@ -4,7 +4,12 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
-import type { BatchClient, BatchJobCreateOptions, BatchJobUpdateOptions, BatchJob } from "../src/index.js";
+import type {
+  BatchClient,
+  BatchJobCreateOptions,
+  BatchJobUpdateOptions,
+  BatchJob,
+} from "../src/index.js";
 import { fakeAzureBatchEndpoint, fakeTestPasswordPlaceholder2 } from "./utils/fakeTestSecrets.js";
 import { getResourceName, POLLING_INTERVAL } from "./utils/helpers.js";
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert, expect } from "vitest";

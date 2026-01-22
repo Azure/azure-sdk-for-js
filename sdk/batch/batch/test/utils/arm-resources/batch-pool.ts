@@ -8,7 +8,6 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { fakeTestPasswordPlaceholder2 } from "../fakeTestSecrets.js";
 import { waitForNotNull } from "../helpers.js";
 
-
 export async function createBatchLinuxPool(
   accountName: string,
   poolName: string,

@@ -237,9 +237,9 @@ describe("Pool Advanced Features Test", () => {
       expect(securityProfile.uefiSettings!.vTpmEnabled).toEqual(true);
 
       const osDisk = pool.virtualMachineConfiguration!.osDisk!;
-      expect(osDisk.managedDisk!.securityProfile!.securityEncryptionType?.toLocaleLowerCase()).toEqual(
-        "vmgueststateonly",
-      );
+      expect(
+        osDisk.managedDisk!.securityProfile!.securityEncryptionType?.toLocaleLowerCase(),
+      ).toEqual("vmgueststateonly");
 
       const proxySettings = securityProfile.proxyAgentSettings!;
       expect(proxySettings.enabled).toEqual(true);
@@ -319,9 +319,7 @@ describe("Pool Advanced Features Test", () => {
       const pool = await batchClient.getPool(poolId);
       expect(pool.networkConfiguration).toBeDefined();
       expect(pool.networkConfiguration?.publicIpAddressConfiguration).toBeDefined();
-      expect(pool.networkConfiguration?.publicIpAddressConfiguration?.ipFamilies).toContain(
-        "IPv6",
-      );
+      expect(pool.networkConfiguration?.publicIpAddressConfiguration?.ipFamilies).toContain("IPv6");
 
       await waitForNodesToStart(poolId, batchClient);
 
@@ -342,7 +340,7 @@ describe("Pool Advanced Features Test", () => {
       expect(remoteLoginSettings.ipv6RemoteLoginIpAddress).toBeDefined();
       expect(remoteLoginSettings.ipv6RemoteLoginPort).toBeDefined();
     } finally {
-      await batchClient.beginDeletePoolAndWait(poolId, { updateIntervalInMs: POLLING_INTERVAL});
+      await batchClient.beginDeletePoolAndWait(poolId, { updateIntervalInMs: POLLING_INTERVAL });
     }
   });
 
@@ -379,7 +377,7 @@ describe("Pool Advanced Features Test", () => {
       }
       expect(error.statusCode).toBe(400);
       expect(error.code).toBe("InvalidPropertyValue");
-      const details = error.details as BatchError
+      const details = error.details as BatchError;
       expect(details.values).toContainEqual({
         key: "Reason",
         value: "Pool Identity is required when using CustomerManagedKey.",

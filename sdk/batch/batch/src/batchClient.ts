@@ -4,7 +4,22 @@
 
 import type { BatchContext, BatchClientOptionalParams } from "./api/index.js";
 import { createBatch } from "./api/index.js";
-import { createDeletePoolPoller, createDeleteJobPoller, createDisableJobPoller, createEnableJobPoller, createDeleteJobSchedulePoller, createDeallocateNodePoller, createRebootNodePoller, createReimageNodePoller, createRemoveNodesPoller, createResizePoolPoller, createStartNodePoller, createStopPoolResizePoller, createTerminateJobPoller, createTerminateJobSchedulePoller } from "./api/lroPoller.js";
+import {
+  createDeletePoolPoller,
+  createDeleteJobPoller,
+  createDisableJobPoller,
+  createEnableJobPoller,
+  createDeleteJobSchedulePoller,
+  createDeallocateNodePoller,
+  createRebootNodePoller,
+  createReimageNodePoller,
+  createRemoveNodesPoller,
+  createResizePoolPoller,
+  createStartNodePoller,
+  createStopPoolResizePoller,
+  createTerminateJobPoller,
+  createTerminateJobSchedulePoller,
+} from "./api/lroPoller.js";
 import type { PollerIntervalOptions } from "./api/lroPoller.js";
 import {
   listNodeFiles,

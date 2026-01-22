@@ -9,7 +9,6 @@ export function createBatchPoller(params: {
   pollFn: (options?: { abortSignal?: AbortSignalLike }) => Promise<OperationState<void>>;
   updateIntervalInMs?: number;
 }): PollerLike<OperationState<void>, void> {
-
   const updateIntervalInMs = params.updateIntervalInMs ?? 5000;
   let state: OperationState<void> = { status: "notStarted" };
   let resultPromise: Promise<void> | undefined;
@@ -58,40 +57,51 @@ export function createBatchPoller(params: {
   // Helper to call pollFn, reusing existing promise if one is in flight
   const doPoll = (options?: { abortSignal?: AbortSignalLike }): Promise<OperationState<void>> => {
     if (!pollPromise) {
-      pollPromise = params.pollFn(options).then((newState) => {
-        state = newState;
-        checkStatus(state);
-        return state;
-      }).catch((err) => {
-        state.error = err;
-        state.status = (state.status !== 'failed' && state.status !== 'canceled') ? 'failed' : state.status;
-        throw err;
-      }).finally(() => {
-        // Notify all progress callbacks
-        for (const callback of progressCallbacks) {
-          callback(state);
-        }
-        pollPromise = undefined;
-      });
+      pollPromise = params
+        .pollFn(options)
+        .then((newState) => {
+          state = newState;
+          checkStatus(state);
+          return state;
+        })
+        .catch((err) => {
+          state.error = err;
+          state.status =
+            state.status !== "failed" && state.status !== "canceled" ? "failed" : state.status;
+          throw err;
+        })
+        .finally(() => {
+          // Notify all progress callbacks
+          for (const callback of progressCallbacks) {
+            callback(state);
+          }
+          pollPromise = undefined;
+        });
     }
     return pollPromise;
   };
 
   // Start initialization immediately when poller is created
-  const initPromise = params.initFn().then((initialState) => {
-    checkIfAborted(abortSignal);
-    state = initialState;
-    checkStatus(state);
-    return state;
-  }).catch((err) => {
-    state.error = err;
-    state.status = (state.status !== 'failed' && state.status !== 'canceled') ? 'failed' : state.status;
-    throw err;
-  });
+  const initPromise = params
+    .initFn()
+    .then((initialState) => {
+      checkIfAborted(abortSignal);
+      state = initialState;
+      checkStatus(state);
+      return state;
+    })
+    .catch((err) => {
+      state.error = err;
+      state.status =
+        state.status !== "failed" && state.status !== "canceled" ? "failed" : state.status;
+      throw err;
+    });
 
   const poller: PollerLike<OperationState<void>, void> = {
     get isDone() {
-      return state.status === "succeeded" || state.status === "failed" || state.status === "canceled";
+      return (
+        state.status === "succeeded" || state.status === "failed" || state.status === "canceled"
+      );
     },
     get operationState() {
       return state;
@@ -165,7 +175,6 @@ export function createBatchPoller(params: {
 
   return poller;
 }
-
 
 function checkStatus(state: OperationState<void>): void {
   switch (state.status) {
