@@ -16,6 +16,8 @@ import type {
 } from "../../api/backupsAutomaticAndOnDemand/options.js";
 import type { BackupAutomaticAndOnDemand } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BackupsAutomaticAndOnDemand operations. */
@@ -38,6 +40,20 @@ export interface BackupsAutomaticAndOnDemandOperations {
     backupName: string,
     options?: BackupsAutomaticAndOnDemandDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    serverName: string,
+    backupName: string,
+    options?: BackupsAutomaticAndOnDemandDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    serverName: string,
+    backupName: string,
+    options?: BackupsAutomaticAndOnDemandDeleteOptionalParams,
+  ) => Promise<void>;
   /** Creates an on demand backup of a server. */
   create: (
     resourceGroupName: string,
@@ -45,6 +61,22 @@ export interface BackupsAutomaticAndOnDemandOperations {
     backupName: string,
     options?: BackupsAutomaticAndOnDemandCreateOptionalParams,
   ) => PollerLike<OperationState<BackupAutomaticAndOnDemand>, BackupAutomaticAndOnDemand>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    serverName: string,
+    backupName: string,
+    options?: BackupsAutomaticAndOnDemandCreateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<BackupAutomaticAndOnDemand>, BackupAutomaticAndOnDemand>
+  >;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    serverName: string,
+    backupName: string,
+    options?: BackupsAutomaticAndOnDemandCreateOptionalParams,
+  ) => Promise<BackupAutomaticAndOnDemand>;
   /** Gets information of an on demand backup, given its name. */
   get: (
     resourceGroupName: string,
@@ -67,12 +99,48 @@ function _getBackupsAutomaticAndOnDemand(context: PostgreSQLManagementFlexibleSe
       backupName: string,
       options?: BackupsAutomaticAndOnDemandDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, serverName, backupName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      serverName: string,
+      backupName: string,
+      options?: BackupsAutomaticAndOnDemandDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, serverName, backupName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      serverName: string,
+      backupName: string,
+      options?: BackupsAutomaticAndOnDemandDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, serverName, backupName, options);
+    },
     create: (
       resourceGroupName: string,
       serverName: string,
       backupName: string,
       options?: BackupsAutomaticAndOnDemandCreateOptionalParams,
     ) => create(context, resourceGroupName, serverName, backupName, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      serverName: string,
+      backupName: string,
+      options?: BackupsAutomaticAndOnDemandCreateOptionalParams,
+    ) => {
+      const poller = create(context, resourceGroupName, serverName, backupName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      serverName: string,
+      backupName: string,
+      options?: BackupsAutomaticAndOnDemandCreateOptionalParams,
+    ) => {
+      return await create(context, resourceGroupName, serverName, backupName, options);
+    },
     get: (
       resourceGroupName: string,
       serverName: string,

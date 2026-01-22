@@ -11,6 +11,8 @@ import type {
 } from "../../api/databases/options.js";
 import type { Database } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Databases operations. */
@@ -33,6 +35,20 @@ export interface DatabasesOperations {
     databaseName: string,
     options?: DatabasesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: DatabasesDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: DatabasesDeleteOptionalParams,
+  ) => Promise<void>;
   /** Creates a new database. */
   create: (
     resourceGroupName: string,
@@ -41,6 +57,22 @@ export interface DatabasesOperations {
     parameters: Database,
     options?: DatabasesCreateOptionalParams,
   ) => PollerLike<OperationState<Database>, Database>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Database,
+    options?: DatabasesCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Database>, Database>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Database,
+    options?: DatabasesCreateOptionalParams,
+  ) => Promise<Database>;
   /** Gets information about an existing database. */
   get: (
     resourceGroupName: string,
@@ -63,6 +95,24 @@ function _getDatabases(context: PostgreSQLManagementFlexibleServerContext) {
       databaseName: string,
       options?: DatabasesDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, serverName, databaseName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      serverName: string,
+      databaseName: string,
+      options?: DatabasesDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, serverName, databaseName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      serverName: string,
+      databaseName: string,
+      options?: DatabasesDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, serverName, databaseName, options);
+    },
     create: (
       resourceGroupName: string,
       serverName: string,
@@ -70,6 +120,40 @@ function _getDatabases(context: PostgreSQLManagementFlexibleServerContext) {
       parameters: Database,
       options?: DatabasesCreateOptionalParams,
     ) => create(context, resourceGroupName, serverName, databaseName, parameters, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      serverName: string,
+      databaseName: string,
+      parameters: Database,
+      options?: DatabasesCreateOptionalParams,
+    ) => {
+      const poller = create(
+        context,
+        resourceGroupName,
+        serverName,
+        databaseName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      serverName: string,
+      databaseName: string,
+      parameters: Database,
+      options?: DatabasesCreateOptionalParams,
+    ) => {
+      return await create(
+        context,
+        resourceGroupName,
+        serverName,
+        databaseName,
+        parameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       serverName: string,

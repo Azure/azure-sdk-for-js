@@ -22,6 +22,8 @@ import type {
   BackupsLongTermRetentionOperation,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BackupsLongTermRetention operations. */
@@ -49,6 +51,25 @@ export interface BackupsLongTermRetentionOperations {
     OperationState<BackupsLongTermRetentionResponse>,
     BackupsLongTermRetentionResponse
   >;
+  /** @deprecated use start instead */
+  beginStart: (
+    resourceGroupName: string,
+    serverName: string,
+    parameters: BackupsLongTermRetentionRequest,
+    options?: BackupsLongTermRetentionStartOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<BackupsLongTermRetentionResponse>,
+      BackupsLongTermRetentionResponse
+    >
+  >;
+  /** @deprecated use start instead */
+  beginStartAndWait: (
+    resourceGroupName: string,
+    serverName: string,
+    parameters: BackupsLongTermRetentionRequest,
+    options?: BackupsLongTermRetentionStartOptionalParams,
+  ) => Promise<BackupsLongTermRetentionResponse>;
   /** Performs all checks required for a long term retention backup operation to succeed. */
   checkPrerequisites: (
     resourceGroupName: string,
@@ -77,6 +98,24 @@ function _getBackupsLongTermRetention(context: PostgreSQLManagementFlexibleServe
       parameters: BackupsLongTermRetentionRequest,
       options?: BackupsLongTermRetentionStartOptionalParams,
     ) => start(context, resourceGroupName, serverName, parameters, options),
+    beginStart: async (
+      resourceGroupName: string,
+      serverName: string,
+      parameters: BackupsLongTermRetentionRequest,
+      options?: BackupsLongTermRetentionStartOptionalParams,
+    ) => {
+      const poller = start(context, resourceGroupName, serverName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginStartAndWait: async (
+      resourceGroupName: string,
+      serverName: string,
+      parameters: BackupsLongTermRetentionRequest,
+      options?: BackupsLongTermRetentionStartOptionalParams,
+    ) => {
+      return await start(context, resourceGroupName, serverName, parameters, options);
+    },
     checkPrerequisites: (
       resourceGroupName: string,
       serverName: string,

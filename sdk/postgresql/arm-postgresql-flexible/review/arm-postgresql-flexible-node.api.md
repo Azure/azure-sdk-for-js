@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
@@ -75,6 +76,14 @@ export interface AdministratorsMicrosoftEntraListByServerOptionalParams extends 
 
 // @public
 export interface AdministratorsMicrosoftEntraOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, serverName: string, objectId: string, parameters: AdministratorMicrosoftEntraAdd, options?: AdministratorsMicrosoftEntraCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AdministratorMicrosoftEntra>, AdministratorMicrosoftEntra>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, serverName: string, objectId: string, parameters: AdministratorMicrosoftEntraAdd, options?: AdministratorsMicrosoftEntraCreateOrUpdateOptionalParams) => Promise<AdministratorMicrosoftEntra>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, serverName: string, objectId: string, options?: AdministratorsMicrosoftEntraDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, serverName: string, objectId: string, options?: AdministratorsMicrosoftEntraDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, serverName: string, objectId: string, parameters: AdministratorMicrosoftEntraAdd, options?: AdministratorsMicrosoftEntraCreateOrUpdateOptionalParams) => PollerLike<OperationState<AdministratorMicrosoftEntra>, AdministratorMicrosoftEntra>;
     delete: (resourceGroupName: string, serverName: string, objectId: string, options?: AdministratorsMicrosoftEntraDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, serverName: string, objectId: string, options?: AdministratorsMicrosoftEntraGetOptionalParams) => Promise<AdministratorMicrosoftEntra>;
@@ -187,6 +196,14 @@ export interface BackupsAutomaticAndOnDemandListByServerOptionalParams extends O
 
 // @public
 export interface BackupsAutomaticAndOnDemandOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, serverName: string, backupName: string, options?: BackupsAutomaticAndOnDemandCreateOptionalParams) => Promise<SimplePollerLike<OperationState<BackupAutomaticAndOnDemand>, BackupAutomaticAndOnDemand>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, serverName: string, backupName: string, options?: BackupsAutomaticAndOnDemandCreateOptionalParams) => Promise<BackupAutomaticAndOnDemand>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, serverName: string, backupName: string, options?: BackupsAutomaticAndOnDemandDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, serverName: string, backupName: string, options?: BackupsAutomaticAndOnDemandDeleteOptionalParams) => Promise<void>;
     create: (resourceGroupName: string, serverName: string, backupName: string, options?: BackupsAutomaticAndOnDemandCreateOptionalParams) => PollerLike<OperationState<BackupAutomaticAndOnDemand>, BackupAutomaticAndOnDemand>;
     delete: (resourceGroupName: string, serverName: string, backupName: string, options?: BackupsAutomaticAndOnDemandDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, serverName: string, backupName: string, options?: BackupsAutomaticAndOnDemandGetOptionalParams) => Promise<BackupAutomaticAndOnDemand>;
@@ -226,6 +243,10 @@ export interface BackupsLongTermRetentionOperation extends ProxyResource {
 
 // @public
 export interface BackupsLongTermRetentionOperations {
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, serverName: string, parameters: BackupsLongTermRetentionRequest, options?: BackupsLongTermRetentionStartOptionalParams) => Promise<SimplePollerLike<OperationState<BackupsLongTermRetentionResponse>, BackupsLongTermRetentionResponse>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, serverName: string, parameters: BackupsLongTermRetentionRequest, options?: BackupsLongTermRetentionStartOptionalParams) => Promise<BackupsLongTermRetentionResponse>;
     checkPrerequisites: (resourceGroupName: string, serverName: string, parameters: LtrPreBackupRequest, options?: BackupsLongTermRetentionCheckPrerequisitesOptionalParams) => Promise<LtrPreBackupResponse>;
     get: (resourceGroupName: string, serverName: string, backupName: string, options?: BackupsLongTermRetentionGetOptionalParams) => Promise<BackupsLongTermRetentionOperation>;
     listByServer: (resourceGroupName: string, serverName: string, options?: BackupsLongTermRetentionListByServerOptionalParams) => PagedAsyncIterableIterator<BackupsLongTermRetentionOperation>;
@@ -422,6 +443,14 @@ export interface ConfigurationsListByServerOptionalParams extends OperationOptio
 
 // @public
 export interface ConfigurationsOperations {
+    // @deprecated (undocumented)
+    beginPut: (resourceGroupName: string, serverName: string, configurationName: string, parameters: ConfigurationForUpdate, options?: ConfigurationsPutOptionalParams) => Promise<SimplePollerLike<OperationState<Configuration>, Configuration>>;
+    // @deprecated (undocumented)
+    beginPutAndWait: (resourceGroupName: string, serverName: string, configurationName: string, parameters: ConfigurationForUpdate, options?: ConfigurationsPutOptionalParams) => Promise<Configuration>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, serverName: string, configurationName: string, parameters: ConfigurationForUpdate, options?: ConfigurationsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Configuration>, Configuration>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, serverName: string, configurationName: string, parameters: ConfigurationForUpdate, options?: ConfigurationsUpdateOptionalParams) => Promise<Configuration>;
     get: (resourceGroupName: string, serverName: string, configurationName: string, options?: ConfigurationsGetOptionalParams) => Promise<Configuration>;
     listByServer: (resourceGroupName: string, serverName: string, options?: ConfigurationsListByServerOptionalParams) => PagedAsyncIterableIterator<Configuration>;
     put: (resourceGroupName: string, serverName: string, configurationName: string, parameters: ConfigurationForUpdate, options?: ConfigurationsPutOptionalParams) => PollerLike<OperationState<Configuration>, Configuration>;
@@ -504,6 +533,14 @@ export interface DatabasesListByServerOptionalParams extends OperationOptions {
 
 // @public
 export interface DatabasesOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, serverName: string, databaseName: string, parameters: Database, options?: DatabasesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Database>, Database>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, serverName: string, databaseName: string, parameters: Database, options?: DatabasesCreateOptionalParams) => Promise<Database>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesDeleteOptionalParams) => Promise<void>;
     create: (resourceGroupName: string, serverName: string, databaseName: string, parameters: Database, options?: DatabasesCreateOptionalParams) => PollerLike<OperationState<Database>, Database>;
     delete: (resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesGetOptionalParams) => Promise<Database>;
@@ -622,6 +659,14 @@ export interface FirewallRulesListByServerOptionalParams extends OperationOption
 
 // @public
 export interface FirewallRulesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: FirewallRule, options?: FirewallRulesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<FirewallRule>, FirewallRule>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: FirewallRule, options?: FirewallRulesCreateOrUpdateOptionalParams) => Promise<FirewallRule>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, serverName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, serverName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: FirewallRule, options?: FirewallRulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<FirewallRule>, FirewallRule>;
     delete: (resourceGroupName: string, serverName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, serverName: string, firewallRuleName: string, options?: FirewallRulesGetOptionalParams) => Promise<FirewallRule>;
@@ -1641,6 +1686,14 @@ export interface PrivateEndpointConnectionsListByServerOptionalParams extends Op
 
 // @public
 export interface PrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, serverName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, serverName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, serverName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, serverName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
     delete: (resourceGroupName: string, serverName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, serverName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
     listByServer: (resourceGroupName: string, serverName: string, options?: PrivateEndpointConnectionsListByServerOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -1925,6 +1978,34 @@ export interface ServersMigrateNetworkModeOptionalParams extends OperationOption
 
 // @public
 export interface ServersOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, serverName: string, parameters: Server, options?: ServersCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Server>, Server>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, serverName: string, parameters: Server, options?: ServersCreateOrUpdateOptionalParams) => Promise<Server>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, serverName: string, options?: ServersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, serverName: string, options?: ServersDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginMigrateNetworkMode: (resourceGroupName: string, serverName: string, options?: ServersMigrateNetworkModeOptionalParams) => Promise<SimplePollerLike<OperationState<MigrateNetworkStatus>, MigrateNetworkStatus>>;
+    // @deprecated (undocumented)
+    beginMigrateNetworkModeAndWait: (resourceGroupName: string, serverName: string, options?: ServersMigrateNetworkModeOptionalParams) => Promise<MigrateNetworkStatus>;
+    // @deprecated (undocumented)
+    beginRestart: (resourceGroupName: string, serverName: string, options?: ServersRestartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestartAndWait: (resourceGroupName: string, serverName: string, options?: ServersRestartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, serverName: string, options?: ServersStartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, serverName: string, options?: ServersStartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStop: (resourceGroupName: string, serverName: string, options?: ServersStopOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStopAndWait: (resourceGroupName: string, serverName: string, options?: ServersStopOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, serverName: string, parameters: ServerForPatch, options?: ServersUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Server>, Server>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, serverName: string, parameters: ServerForPatch, options?: ServersUpdateOptionalParams) => Promise<Server>;
     createOrUpdate: (resourceGroupName: string, serverName: string, parameters: Server, options?: ServersCreateOrUpdateOptionalParams) => PollerLike<OperationState<Server>, Server>;
     delete: (resourceGroupName: string, serverName: string, options?: ServersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, serverName: string, options?: ServersGetOptionalParams) => Promise<Server>;
@@ -1968,6 +2049,10 @@ export interface ServerThreatProtectionSettingsCreateOrUpdateOptionalParams exte
 
 // @public
 export interface ServerThreatProtectionSettingsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, serverName: string, threatProtectionName: ThreatProtectionName, parameters: AdvancedThreatProtectionSettingsModel, options?: ServerThreatProtectionSettingsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AdvancedThreatProtectionSettingsModel>, AdvancedThreatProtectionSettingsModel>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, serverName: string, threatProtectionName: ThreatProtectionName, parameters: AdvancedThreatProtectionSettingsModel, options?: ServerThreatProtectionSettingsCreateOrUpdateOptionalParams) => Promise<AdvancedThreatProtectionSettingsModel>;
     createOrUpdate: (resourceGroupName: string, serverName: string, threatProtectionName: ThreatProtectionName, parameters: AdvancedThreatProtectionSettingsModel, options?: ServerThreatProtectionSettingsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AdvancedThreatProtectionSettingsModel>, AdvancedThreatProtectionSettingsModel>;
 }
 
@@ -1976,6 +2061,28 @@ export interface ServerVersionCapability extends CapabilityBase {
     readonly name?: string;
     readonly supportedFeatures?: SupportedFeature[];
     readonly supportedVersionsToUpgrade?: string[];
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -2184,6 +2291,18 @@ export interface VirtualEndpointsListByServerOptionalParams extends OperationOpt
 
 // @public
 export interface VirtualEndpointsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, serverName: string, virtualEndpointName: string, parameters: VirtualEndpoint, options?: VirtualEndpointsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualEndpoint>, VirtualEndpoint>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, serverName: string, virtualEndpointName: string, parameters: VirtualEndpoint, options?: VirtualEndpointsCreateOptionalParams) => Promise<VirtualEndpoint>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, serverName: string, virtualEndpointName: string, options?: VirtualEndpointsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, serverName: string, virtualEndpointName: string, options?: VirtualEndpointsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, serverName: string, virtualEndpointName: string, parameters: VirtualEndpointResourceForPatch, options?: VirtualEndpointsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualEndpoint>, VirtualEndpoint>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, serverName: string, virtualEndpointName: string, parameters: VirtualEndpointResourceForPatch, options?: VirtualEndpointsUpdateOptionalParams) => Promise<VirtualEndpoint>;
     create: (resourceGroupName: string, serverName: string, virtualEndpointName: string, parameters: VirtualEndpoint, options?: VirtualEndpointsCreateOptionalParams) => PollerLike<OperationState<VirtualEndpoint>, VirtualEndpoint>;
     delete: (resourceGroupName: string, serverName: string, virtualEndpointName: string, options?: VirtualEndpointsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, serverName: string, virtualEndpointName: string, options?: VirtualEndpointsGetOptionalParams) => Promise<VirtualEndpoint>;

@@ -18,6 +18,8 @@ import type {
 } from "../../api/virtualEndpoints/options.js";
 import type { VirtualEndpoint, VirtualEndpointResourceForPatch } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VirtualEndpoints operations. */
@@ -40,6 +42,20 @@ export interface VirtualEndpointsOperations {
     virtualEndpointName: string,
     options?: VirtualEndpointsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    serverName: string,
+    virtualEndpointName: string,
+    options?: VirtualEndpointsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    serverName: string,
+    virtualEndpointName: string,
+    options?: VirtualEndpointsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates a pair of virtual endpoints for a server. */
   update: (
     resourceGroupName: string,
@@ -48,6 +64,22 @@ export interface VirtualEndpointsOperations {
     parameters: VirtualEndpointResourceForPatch,
     options?: VirtualEndpointsUpdateOptionalParams,
   ) => PollerLike<OperationState<VirtualEndpoint>, VirtualEndpoint>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    serverName: string,
+    virtualEndpointName: string,
+    parameters: VirtualEndpointResourceForPatch,
+    options?: VirtualEndpointsUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<VirtualEndpoint>, VirtualEndpoint>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    serverName: string,
+    virtualEndpointName: string,
+    parameters: VirtualEndpointResourceForPatch,
+    options?: VirtualEndpointsUpdateOptionalParams,
+  ) => Promise<VirtualEndpoint>;
   /** Creates a pair of virtual endpoints for a server. */
   create: (
     resourceGroupName: string,
@@ -56,6 +88,22 @@ export interface VirtualEndpointsOperations {
     parameters: VirtualEndpoint,
     options?: VirtualEndpointsCreateOptionalParams,
   ) => PollerLike<OperationState<VirtualEndpoint>, VirtualEndpoint>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    serverName: string,
+    virtualEndpointName: string,
+    parameters: VirtualEndpoint,
+    options?: VirtualEndpointsCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<VirtualEndpoint>, VirtualEndpoint>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    serverName: string,
+    virtualEndpointName: string,
+    parameters: VirtualEndpoint,
+    options?: VirtualEndpointsCreateOptionalParams,
+  ) => Promise<VirtualEndpoint>;
   /** Gets information about a pair of virtual endpoints. */
   get: (
     resourceGroupName: string,
@@ -78,6 +126,24 @@ function _getVirtualEndpoints(context: PostgreSQLManagementFlexibleServerContext
       virtualEndpointName: string,
       options?: VirtualEndpointsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, serverName, virtualEndpointName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      serverName: string,
+      virtualEndpointName: string,
+      options?: VirtualEndpointsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, serverName, virtualEndpointName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      serverName: string,
+      virtualEndpointName: string,
+      options?: VirtualEndpointsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, serverName, virtualEndpointName, options);
+    },
     update: (
       resourceGroupName: string,
       serverName: string,
@@ -85,6 +151,40 @@ function _getVirtualEndpoints(context: PostgreSQLManagementFlexibleServerContext
       parameters: VirtualEndpointResourceForPatch,
       options?: VirtualEndpointsUpdateOptionalParams,
     ) => update(context, resourceGroupName, serverName, virtualEndpointName, parameters, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      serverName: string,
+      virtualEndpointName: string,
+      parameters: VirtualEndpointResourceForPatch,
+      options?: VirtualEndpointsUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        serverName,
+        virtualEndpointName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      serverName: string,
+      virtualEndpointName: string,
+      parameters: VirtualEndpointResourceForPatch,
+      options?: VirtualEndpointsUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        serverName,
+        virtualEndpointName,
+        parameters,
+        options,
+      );
+    },
     create: (
       resourceGroupName: string,
       serverName: string,
@@ -92,6 +192,40 @@ function _getVirtualEndpoints(context: PostgreSQLManagementFlexibleServerContext
       parameters: VirtualEndpoint,
       options?: VirtualEndpointsCreateOptionalParams,
     ) => create(context, resourceGroupName, serverName, virtualEndpointName, parameters, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      serverName: string,
+      virtualEndpointName: string,
+      parameters: VirtualEndpoint,
+      options?: VirtualEndpointsCreateOptionalParams,
+    ) => {
+      const poller = create(
+        context,
+        resourceGroupName,
+        serverName,
+        virtualEndpointName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      serverName: string,
+      virtualEndpointName: string,
+      parameters: VirtualEndpoint,
+      options?: VirtualEndpointsCreateOptionalParams,
+    ) => {
+      return await create(
+        context,
+        resourceGroupName,
+        serverName,
+        virtualEndpointName,
+        parameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       serverName: string,
