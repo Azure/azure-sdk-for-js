@@ -198,7 +198,7 @@ describe("Pool Advanced Features Test", () => {
         },
         nodeAgentSkuId: "batch.node.ubuntu 22.04",
         securityProfile: {
-          securityType: "confidentialVM",
+          securityType: "confidentialvm",
           encryptionAtHost: true,
           uefiSettings: {
             secureBootEnabled: true,

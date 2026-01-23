@@ -999,7 +999,7 @@ export function hostEndpointSettingsDeserializer(item: any): HostEndpointSetting
 /** HostEndpointSettingsModeTypes enums */
 export type HostEndpointSettingsModeTypes = "Audit" | "Enforce";
 /** Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. */
-export type SecurityTypes = "trustedLaunch" | "confidentialVM";
+export type SecurityTypes = "trustedLaunch" | "confidentialvm";
 
 /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
 export interface BatchUefiSettings {
@@ -5552,7 +5552,7 @@ export interface BatchNode {
   readonly id: string;
   /** The URL of the Compute Node. */
   readonly url: string;
-  /** The current state of the Compute Node. The Spot/Low-priority Compute Node has been preempted. Tasks which were running on the Compute Node when it was preempted will be rescheduled when another Compute Node becomes available. */
+  /** The current state of the Compute Node. */
   readonly state: BatchNodeState;
   /** Whether the Compute Node is available for Task scheduling. */
   readonly schedulingState?: SchedulingState;
@@ -5591,7 +5591,7 @@ export interface BatchNode {
   /** The endpoint configuration for the Compute Node. */
   readonly endpointConfiguration?: BatchNodeEndpointConfiguration;
   /** Information about the Compute Node agent version and the time the Compute Node upgraded to a new version. */
-  readonly nodeAgentInfo: BatchNodeAgentInfo;
+  readonly nodeAgentInfo?: BatchNodeAgentInfo;
   /** Info about the current state of the virtual machine. */
   readonly virtualMachineInfo: VirtualMachineInfo;
 }

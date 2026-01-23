@@ -466,7 +466,7 @@ export interface BatchNode {
     readonly ipv6Address: string;
     readonly isDedicated?: boolean;
     readonly lastBootTime: Date;
-    readonly nodeAgentInfo: BatchNodeAgentInfo;
+    readonly nodeAgentInfo?: BatchNodeAgentInfo;
     readonly recentTasks?: BatchTaskInfo[];
     readonly runningTasksCount?: number;
     readonly runningTaskSlotsCount?: number;
@@ -1465,7 +1465,7 @@ export interface SecurityProfile {
 }
 
 // @public
-export type SecurityTypes = "trustedLaunch" | "confidentialVM";
+export type SecurityTypes = "trustedLaunch" | "confidentialvm";
 
 // @public
 export interface ServiceArtifactReference {
