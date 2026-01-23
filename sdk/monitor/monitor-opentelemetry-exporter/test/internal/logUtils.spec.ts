@@ -36,6 +36,7 @@ import { TraceFlags } from "@opentelemetry/api";
 import { hrTimeToDate, serializeAttribute } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
 import { resourceFromAttributes } from "@opentelemetry/resources";
+import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js";
 
 const context = getInstance();
 
@@ -113,6 +114,32 @@ describe("logUtils.ts", () => {
   };
 
   describe("#logToEnvelope", () => {
+    it("does not attach applicationId to log envelopes", () => {
+      const logRecordWithAppId: any = {
+        ...testLogRecord,
+        resource: resourceFromAttributes({
+          [SEMRESATTRS_SERVICE_INSTANCE_ID]: "instance-id",
+          [SEMRESATTRS_SERVICE_NAME]: "svc",
+          [SEMRESATTRS_SERVICE_NAMESPACE]: "ns",
+          [APPLICATION_ID_RESOURCE_KEY]: "app-from-resource",
+        }),
+        attributes: {
+          ...testLogRecord.attributes,
+          "extra.attribute": "foo",
+        },
+      };
+
+      const envelope = logToEnvelope(logRecordWithAppId as ReadableLogRecord, "ikey");
+
+      assert.isDefined(envelope);
+      assert.isUndefined(envelope?.tags?.[APPLICATION_ID_RESOURCE_KEY]);
+      assert.isUndefined(
+        (envelope?.data?.baseData as Partial<MonitorDomain>)?.properties?.[
+          APPLICATION_ID_RESOURCE_KEY
+        ],
+      );
+    });
+
     it("should create a Message Envelope for Logs", () => {
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       testLogRecord.body = "Test message";
@@ -303,6 +330,31 @@ describe("logUtils.ts", () => {
         expectedBaseData,
         expectedTime,
         expectedServiceTagsBase,
+      );
+    });
+
+    it("should not truncate custom properties at 13-bit limit", () => {
+      // Create a property value that exceeds the old 13-bit (8192 character) limit
+      const longPropertyValue = "a".repeat(MaxPropertyLengths.THIRTEEN_BIT + 1000);
+      testLogRecord.body = "Test message";
+      testLogRecord.severityLevel = "Information";
+      testLogRecord.attributes = {
+        "custom.longProperty": longPropertyValue,
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+      // Verify the property value is NOT truncated
+      assert.strictEqual(
+        (envelope?.data?.baseData as MessageData)?.properties?.["custom.longProperty"],
+        longPropertyValue,
+        "Custom properties should not be truncated at 13-bit limit",
+      );
+      assert.strictEqual(
+        (envelope?.data?.baseData as MessageData)?.properties?.["custom.longProperty"]?.length,
+        MaxPropertyLengths.THIRTEEN_BIT + 1000,
+        "Custom property length should exceed the old 13-bit limit",
       );
     });
 

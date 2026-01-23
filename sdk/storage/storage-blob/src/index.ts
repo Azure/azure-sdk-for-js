@@ -76,6 +76,7 @@ export {
   StorageBrowserPolicy,
   StorageBrowserPolicyFactory,
   UserDelegationKey,
+  CredentialPolicyCreator,
 } from "@azure/storage-common";
 export * from "./sas/SASQueryParameters.js";
 export { CommonOptions } from "./StorageClient.js";

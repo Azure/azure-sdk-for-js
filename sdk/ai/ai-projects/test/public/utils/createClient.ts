@@ -116,7 +116,9 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
       ],
       removeHeaderSanitizer: {
         headersForRemoval: [
+          "x-stainless-arch",
           "x-stainless-os",
+          "x-stainless-package-version",
           "x-stainless-retry-count",
           "x-stainless-runtime-version",
         ],

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete a gallery inVMAccessControlProfile.
  *
  * @summary Delete a gallery inVMAccessControlProfile.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfile_Delete.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfile_Delete.json
  */
 async function deleteAGalleryInVMAccessControlProfile(): Promise<void> {
   const subscriptionId =

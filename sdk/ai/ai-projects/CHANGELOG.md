@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.3 (2026-01-07)
+## 2.0.0-beta.3 (2026-01-09)
 
 ### Bugs Fixed
 
