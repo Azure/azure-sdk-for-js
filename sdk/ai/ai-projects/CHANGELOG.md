@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.4 (2026-02-06)
+## 2.0.0-beta.3 (2026-01-09)
 
 ### Breaking changes
 
@@ -15,8 +15,6 @@
   * Rename class `BingCustomSearchAgentTool` to `BingCustomSearchPreviewTool`
   * Rename class `BrowserAutomationAgentTool` to `BrowserAutomationPreviewTool`
   * Rename class `A2ATool` to `A2APreviewTool`
-
-## 2.0.0-beta.3 (2026-01-09)
 
 ### Bugs Fixed
 
