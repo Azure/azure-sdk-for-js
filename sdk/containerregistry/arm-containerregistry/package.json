@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-containerregistry",
-  "version": "11.1.0",
+  "version": "12.0.0",
   "description": "A generated SDK for ContainerRegistryManagementClient.",
   "engines": {
     "node": ">=20.0.0"
