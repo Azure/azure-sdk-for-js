@@ -532,17 +532,17 @@ export interface IPRule {
   /** The action of IP ACL rule. */
   action?: Action;
   /** Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed. */
-  ipAddressOrRange: string;
+  iPAddressOrRange: string;
 }
 
 export function ipRuleSerializer(item: IPRule): any {
-  return { action: item["action"], value: item["ipAddressOrRange"] };
+  return { action: item["action"], value: item["iPAddressOrRange"] };
 }
 
 export function ipRuleDeserializer(item: any): IPRule {
   return {
     action: item["action"],
-    ipAddressOrRange: item["value"],
+    iPAddressOrRange: item["value"],
   };
 }
 

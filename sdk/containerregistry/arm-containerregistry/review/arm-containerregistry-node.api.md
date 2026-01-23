@@ -514,7 +514,7 @@ export interface ImportSourceCredentials {
 // @public
 export interface IPRule {
     action?: Action;
-    ipAddressOrRange: string;
+    iPAddressOrRange: string;
 }
 
 // @public
