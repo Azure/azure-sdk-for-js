@@ -1912,14 +1912,14 @@ export interface MCPListToolsToolInputSchema {
 // @public
 export interface MCPTool extends Tool {
     // (undocumented)
-    allowed_tools?: (string[] | MCPToolFilter);
+    allowed_tools?: string[] | MCPToolFilter;
     authorization?: string;
     connector_id?: "connector_dropbox" | "connector_gmail" | "connector_googlecalendar" | "connector_googledrive" | "connector_microsoftteams" | "connector_outlookcalendar" | "connector_outlookemail" | "connector_sharepoint";
     // (undocumented)
     headers?: Record<string, string>;
     project_connection_id?: string;
     // (undocumented)
-    require_approval?: (MCPToolRequireApproval | "always" | "never");
+    require_approval?: MCPToolRequireApproval | "always" | "never";
     server_description?: string;
     server_label: string;
     server_url?: string;
