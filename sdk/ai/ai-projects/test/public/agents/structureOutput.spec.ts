@@ -17,7 +17,7 @@ const agentInstructions = `
 /**
  * Define the JSON schema for calendar events
  */
-const calendarEventSchema = {
+const calendarEventSchema: Record<string, unknown> = {
   type: "object",
   properties: {
     name: { type: "string" },
