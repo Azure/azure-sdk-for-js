@@ -297,6 +297,7 @@ export class CallMedia {
           : 5,
         targetParticipant: serializeCommunicationIdentifier(targetParticipant),
         speechOptions: speechOptions,
+        speechLanguage: recognizeOptions.speechLanguage,
         dtmfOptions: dtmfOptionsInternal,
         speechRecognitionModelEndpointId: recognizeOptions.speechRecognitionModelEndpointId,
       };
