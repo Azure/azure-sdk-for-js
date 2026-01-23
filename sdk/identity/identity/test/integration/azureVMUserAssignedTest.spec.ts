@@ -8,7 +8,6 @@ describe("AzureVM UserAssigned Integration test", function () {
   it.skipIf(!isLiveMode())("live IMDS test", async function () {
     const identityVMIP = process.env.IDENTITY_VM_PUBLIC_IP;
     if (!identityVMIP) {
-      console.log("IDENTITY_VM_PUBLIC_IP is not set");
       throw new Error("IDENTITY_VM_PUBLIC_IP is not set");
     }
     const client = createDefaultHttpClient();
