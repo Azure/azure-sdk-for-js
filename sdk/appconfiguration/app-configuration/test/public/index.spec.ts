@@ -1152,100 +1152,107 @@ describe("AppConfigurationClient", () => {
   });
 
   describe("checkConfigurationSettings", () => {
-    let count = 0;
-
-    const keys: {
-      checkConfigSettingA: string;
-    } = {
-      checkConfigSettingA: "",
-    };
-
-    beforeEach(async () => {
-      keys.checkConfigSettingA = recorder.variable(
-        `checkConfigSetting${count}A`,
-        `checkConfigSetting${count}A${Math.floor(Math.random() * 100000)}`,
+    it("returns empty items with valid response structure", async () => {
+      const key = recorder.variable(
+        "checkConfigSetting-emptyItems",
+        `checkConfigSetting-emptyItems${Math.floor(Math.random() * 100000)}`,
       );
-      count += 1;
 
       await client.addConfigurationSetting({
-        key: keys.checkConfigSettingA,
+        key,
         value: "[A] production value",
       });
-    });
 
-    afterEach(async () => {
       try {
-        await deleteKeyCompletely([keys.checkConfigSettingA], client);
-      } catch (e: any) {
-        /** empty */
+        const pageIterator = client.checkConfigurationSettings({ keyFilter: key }).byPage();
+
+        const firstPage = await pageIterator.next();
+        assert.isFalse(firstPage.done);
+        assert.isDefined(firstPage.value);
+        assert.equal(firstPage.value.items.length, 0, "items should be empty for HEAD request");
+        assert.isDefined(firstPage.value.etag, "etag should be present");
+        assert.equal(firstPage.value._response.status, 200);
+        assert.isDefined(firstPage.value._response.headers.get("x-ms-date"));
+      } finally {
+        await deleteKeyCompletely([key], client);
       }
     });
 
-    it("returns empty items with valid response structure", async () => {
-      const pageIterator = client
-        .checkConfigurationSettings({ keyFilter: keys.checkConfigSettingA })
-        .byPage();
-
-      const firstPage = await pageIterator.next();
-      assert.isFalse(firstPage.done);
-      assert.isDefined(firstPage.value);
-      assert.equal(firstPage.value.items.length, 0, "items should be empty for HEAD request");
-      assert.isDefined(firstPage.value.etag, "etag should be present");
-      assert.equal(firstPage.value._response.status, 200);
-      assert.isDefined(firstPage.value._response.headers.get("x-ms-date"));
-    });
-
     it("returns 304 when using valid etag and no changes occurred", async () => {
-      // First call to get the etag
-      const pageIterator1 = client
-        .checkConfigurationSettings({ keyFilter: keys.checkConfigSettingA })
-        .byPage();
-      const firstPage1 = await pageIterator1.next();
-      const etag = firstPage1.value.etag;
+      const key = recorder.variable(
+        "checkConfigSetting-304",
+        `checkConfigSetting-304${Math.floor(Math.random() * 100000)}`,
+      );
 
-      assert.isDefined(etag);
-      const etags: string[] = [etag!];
+      await client.addConfigurationSetting({
+        key,
+        value: "[A] production value",
+      });
 
-      // Second call with the same etag - should return 304
-      const pageIterator2 = client
-        .checkConfigurationSettings({ keyFilter: keys.checkConfigSettingA, pageEtags: etags })
-        .byPage();
-      const firstPage2 = await pageIterator2.next();
+      try {
+        // First call to get the etag
+        const pageIterator1 = client.checkConfigurationSettings({ keyFilter: key }).byPage();
+        const firstPage1 = await pageIterator1.next();
+        const etag = firstPage1.value.etag;
 
-      assert.isFalse(firstPage2.done);
-      assert.equal(firstPage2.value.items.length, 0);
-      assert.equal(firstPage2.value._response.status, 304, "should return 304 Not Modified");
-      assert.equal(firstPage2.value.etag, etag, "etag should be the same");
-      assert.isDefined(firstPage2.value._response.headers.get("x-ms-date"));
+        assert.isDefined(etag);
+        const etags: string[] = [etag!];
+
+        // Second call with the same etag - should return 304
+        const pageIterator2 = client
+          .checkConfigurationSettings({ keyFilter: key, pageEtags: etags })
+          .byPage();
+        const firstPage2 = await pageIterator2.next();
+
+        assert.isFalse(firstPage2.done);
+        assert.equal(firstPage2.value.items.length, 0);
+        assert.equal(firstPage2.value._response.status, 304, "should return 304 Not Modified");
+        assert.equal(firstPage2.value.etag, etag, "etag should be the same");
+        assert.isDefined(firstPage2.value._response.headers.get("x-ms-date"));
+      } finally {
+        await deleteKeyCompletely([key], client);
+      }
     });
 
     it("returns 200 when using etag but changes were made", async () => {
-      // First call to get the etag
-      const pageIterator1 = client
-        .checkConfigurationSettings({ keyFilter: keys.checkConfigSettingA })
-        .byPage();
-      const firstPage1 = await pageIterator1.next();
-      const etag = firstPage1.value.etag;
+      const key = recorder.variable(
+        "checkConfigSetting-200",
+        `checkConfigSetting-200${Math.floor(Math.random() * 100000)}`,
+      );
 
-      assert.isDefined(etag);
-      const etags: string[] = [etag!];
-
-      // Make a change
-      await client.setConfigurationSetting({
-        key: keys.checkConfigSettingA,
-        value: "[A] modified value",
+      await client.addConfigurationSetting({
+        key,
+        value: "[A] production value",
       });
 
-      // Second call with the old etag - should return 200 because content changed
-      const pageIterator2 = client
-        .checkConfigurationSettings({ keyFilter: keys.checkConfigSettingA, pageEtags: etags })
-        .byPage();
-      const firstPage2 = await pageIterator2.next();
+      try {
+        // First call to get the etag
+        const pageIterator1 = client.checkConfigurationSettings({ keyFilter: key }).byPage();
+        const firstPage1 = await pageIterator1.next();
+        const etag = firstPage1.value.etag;
 
-      assert.isFalse(firstPage2.done);
-      assert.equal(firstPage2.value.items.length, 0);
-      assert.equal(firstPage2.value._response.status, 200, "should return 200 with changes");
-      assert.notEqual(firstPage2.value.etag, etag, "etag should be different");
+        assert.isDefined(etag);
+        const etags: string[] = [etag!];
+
+        // Make a change
+        await client.setConfigurationSetting({
+          key,
+          value: "[A] modified value",
+        });
+
+        // Second call with the old etag - should return 200 because content changed
+        const pageIterator2 = client
+          .checkConfigurationSettings({ keyFilter: key, pageEtags: etags })
+          .byPage();
+        const firstPage2 = await pageIterator2.next();
+
+        assert.isFalse(firstPage2.done);
+        assert.equal(firstPage2.value.items.length, 0);
+        assert.equal(firstPage2.value._response.status, 200, "should return 200 with changes");
+        assert.notEqual(firstPage2.value.etag, etag, "etag should be different");
+      } finally {
+        await deleteKeyCompletely([key], client);
+      }
     });
   });
 
@@ -1687,7 +1694,7 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async () => {
+    it.skip("accepts operation options", async () => {
       const key = recorder.variable(
         `setConfigTestNA`,
         `setConfigTestNA${Math.floor(Math.random() * 1000)}`,
