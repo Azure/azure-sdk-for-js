@@ -5,6 +5,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder, createRecordedClient } from "./utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { PlanetaryComputerProClient } from "../../src/index.js";
+import { toUint8Array, toHexString, uint8ArrayEquals, PNG_MAGIC } from "./utils/byteHelpers.js";
 
 /**
  * Test suite for Map Legend operations.
@@ -175,15 +176,16 @@ describe("Map Legend Operations", () => {
 
     console.log(`Response type: ${typeof response}`);
 
-    // Response comes as a string (binary data encoded as string), convert to Buffer
-    const legendBytes = Buffer.from(response as any, "binary");
+    // Convert response to Uint8Array (browser-compatible)
+    const legendBytes = toUint8Array(response);
     console.log(`Legend size: ${legendBytes.length} bytes`);
-    console.log(`First 16 bytes (hex): ${legendBytes.subarray(0, 16).toString("hex")}`);
+    console.log(`First 16 bytes (hex): ${toHexString(legendBytes.subarray(0, 16))}`);
 
     // Verify PNG magic bytes (89 50 4E 47 0D 0A 1A 0A)
-    const pngMagic = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
-    console.log(`PNG magic bytes: ${pngMagic.toString("hex")}`);
-    console.log(`Response starts with PNG magic: ${legendBytes.subarray(0, 8).equals(pngMagic)}`);
+    console.log(`PNG magic bytes: ${toHexString(PNG_MAGIC)}`);
+    console.log(
+      `Response starts with PNG magic: ${uint8ArrayEquals(legendBytes.subarray(0, 8), PNG_MAGIC)}`,
+    );
 
     // Assert response is valid PNG
     assert.isTrue(legendBytes.length > 0, "Legend bytes should not be empty");
@@ -192,7 +194,7 @@ describe("Map Legend Operations", () => {
       `Legend should be substantial image, got only ${legendBytes.length} bytes`,
     );
     assert.isTrue(
-      legendBytes.subarray(0, 8).equals(pngMagic),
+      uint8ArrayEquals(legendBytes.subarray(0, 8), PNG_MAGIC),
       "Response should be a valid PNG image (magic bytes mismatch)",
     );
 
@@ -211,19 +213,18 @@ describe("Map Legend Operations", () => {
 
     console.log(`Response type: ${typeof response}`);
 
-    // Response comes as a string (binary data encoded as string), convert to Buffer
-    const legendBytes = Buffer.from(response as any, "binary");
+    // Convert response to Uint8Array (browser-compatible)
+    const legendBytes = toUint8Array(response);
     console.log(`Legend size: ${legendBytes.length} bytes`);
 
     // Verify PNG magic bytes
-    const pngMagic = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
     assert.isTrue(legendBytes.length > 0, "Legend bytes should not be empty");
     assert.isTrue(
       legendBytes.length > 100,
       `Legend should be substantial image, got only ${legendBytes.length} bytes`,
     );
     assert.isTrue(
-      legendBytes.subarray(0, 8).equals(pngMagic),
+      uint8ArrayEquals(legendBytes.subarray(0, 8), PNG_MAGIC),
       "Response should be a valid PNG image",
     );
 

@@ -6,6 +6,13 @@ import { createRecorder, createRecordedClient } from "./utils/recordedClient.js"
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { PlanetaryComputerProClient } from "../../src/index.js";
 import { assertEnvironmentVariable, EnvironmentVariableNames } from "./utils/envVars.js";
+import {
+  toUint8Array,
+  toHexString,
+  uint8ArrayEquals,
+  PNG_MAGIC,
+  JPEG_MAGIC,
+} from "./utils/byteHelpers.js";
 
 /**
  * Test suite for STAC Item Tiler operations.
@@ -179,17 +186,16 @@ describe("STAC Item Tiler Operations", () => {
       `Response has Symbol.asyncIterator: ${(response as any)?.[Symbol.asyncIterator] !== undefined}`,
     );
 
-    // Response comes as a string (binary data encoded as string), convert to Buffer
-    const imageBytes = Buffer.from(response as any, "binary");
+    // Convert response to Uint8Array (browser-compatible)
+    const imageBytes = toUint8Array(response);
     console.log(`Image size: ${imageBytes.length} bytes`);
-    console.log(`First 16 bytes (hex): ${imageBytes.subarray(0, 16).toString("hex")}`);
+    console.log(`First 16 bytes (hex): ${toHexString(imageBytes.subarray(0, 16))}`);
 
     // Verify PNG magic bytes
-    const pngMagic = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
     assert.isTrue(imageBytes.length > 0, "Image bytes should not be empty");
     assert.isTrue(imageBytes.length > 100, "Image should be substantial");
     assert.isTrue(
-      imageBytes.subarray(0, 8).equals(pngMagic),
+      uint8ArrayEquals(imageBytes.subarray(0, 8), PNG_MAGIC),
       "Response should be a valid PNG image (magic bytes mismatch)",
     );
 
@@ -258,12 +264,12 @@ describe("STAC Item Tiler Operations", () => {
 
     console.log(`Response type: ${typeof response}`);
 
-    // Response is already Uint8Array
-    const xmlBytes = Buffer.from(response);
+    // Convert response to Uint8Array (browser-compatible)
+    const xmlBytes = toUint8Array(response);
     console.log(`XML size: ${xmlBytes.length} bytes`);
 
-    // Decode to string
-    const xmlString = xmlBytes.toString("utf-8");
+    // Decode to string using TextDecoder (browser-compatible)
+    const xmlString = new TextDecoder("utf-8").decode(xmlBytes);
     console.log(`XML first 200 chars: ${xmlString.substring(0, 200)}`);
 
     // Validate XML structure
@@ -323,12 +329,11 @@ describe("STAC Item Tiler Operations", () => {
       assetBandIndices: "image|1,2,3",
     });
 
-    const imageBytes = Buffer.from(response);
+    const imageBytes = toUint8Array(response);
     console.log(`Image size: ${imageBytes.length} bytes`);
 
     assert.isTrue(imageBytes.length > 0, "Image bytes should not be empty");
-    const pngMagic = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
-    assert.isTrue(imageBytes.subarray(0, 8).equals(pngMagic), "Should be PNG format");
+    assert.isTrue(uint8ArrayEquals(imageBytes.subarray(0, 8), PNG_MAGIC), "Should be PNG format");
 
     console.log("Test PASSED\n");
   });
@@ -369,12 +374,11 @@ describe("STAC Item Tiler Operations", () => {
       },
     );
 
-    const imageBytes = Buffer.from(response);
+    const imageBytes = toUint8Array(response);
     console.log(`Image size: ${imageBytes.length} bytes`);
 
     assert.isTrue(imageBytes.length > 0, "Image bytes should not be empty");
-    const pngMagic = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
-    assert.isTrue(imageBytes.subarray(0, 8).equals(pngMagic), "Should be PNG format");
+    assert.isTrue(uint8ArrayEquals(imageBytes.subarray(0, 8), PNG_MAGIC), "Should be PNG format");
 
     console.log("Test PASSED\n");
   });
@@ -434,12 +438,11 @@ describe("STAC Item Tiler Operations", () => {
       },
     );
 
-    const imageBytes = Buffer.from(response);
+    const imageBytes = toUint8Array(response);
     console.log(`Image size: ${imageBytes.length} bytes`);
 
     assert.isTrue(imageBytes.length > 0, "Image bytes should not be empty");
-    const pngMagic = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
-    assert.isTrue(imageBytes.subarray(0, 8).equals(pngMagic), "Should be PNG format");
+    assert.isTrue(uint8ArrayEquals(imageBytes.subarray(0, 8), PNG_MAGIC), "Should be PNG format");
 
     console.log("Test PASSED\n");
   });
@@ -468,12 +471,11 @@ describe("STAC Item Tiler Operations", () => {
       },
     );
 
-    const imageBytes = Buffer.from(response);
+    const imageBytes = toUint8Array(response);
     console.log(`Image size: ${imageBytes.length} bytes`);
 
     assert.isTrue(imageBytes.length > 0, "Image bytes should not be empty");
-    const pngMagic = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
-    assert.isTrue(imageBytes.subarray(0, 8).equals(pngMagic), "Should be PNG format");
+    assert.isTrue(uint8ArrayEquals(imageBytes.subarray(0, 8), PNG_MAGIC), "Should be PNG format");
 
     console.log("Test PASSED\n");
   });
@@ -507,14 +509,12 @@ describe("STAC Item Tiler Operations", () => {
       assetBandIndices: "image|1,2,3",
     });
 
-    const imageBytes = Buffer.from(response);
+    const imageBytes = toUint8Array(response);
     console.log(`Image size: ${imageBytes.length} bytes`);
 
     assert.isTrue(imageBytes.length > 0, "Image bytes should not be empty");
     // JPEG magic bytes
-    assert.equal(imageBytes[0], 0xff, "First byte should be 0xff");
-    assert.equal(imageBytes[1], 0xd8, "Second byte should be 0xd8");
-    assert.equal(imageBytes[2], 0xff, "Third byte should be 0xff");
+    assert.isTrue(uint8ArrayEquals(imageBytes.subarray(0, 3), JPEG_MAGIC), "Should be JPEG format");
 
     console.log("Test PASSED\n");
   });
@@ -565,12 +565,11 @@ describe("STAC Item Tiler Operations", () => {
       },
     );
 
-    const imageBytes = Buffer.from(response);
+    const imageBytes = toUint8Array(response);
     console.log(`Tile size: ${imageBytes.length} bytes`);
 
     assert.isTrue(imageBytes.length > 0, "Tile bytes should not be empty");
-    const pngMagic = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
-    assert.isTrue(imageBytes.subarray(0, 8).equals(pngMagic), "Should be PNG format");
+    assert.isTrue(uint8ArrayEquals(imageBytes.subarray(0, 8), PNG_MAGIC), "Should be PNG format");
 
     console.log("Test PASSED\n");
   });

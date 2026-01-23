@@ -79,21 +79,77 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+import { isNodeLike } from "@azure/core-util";
 
 /**
- * Helper function to deserialize binary responses from Node.js streams.
- * When using asNodeStream(), the response body is a readable stream that needs
- * to be read and buffered into a Uint8Array to preserve binary data.
+ * Helper function to get response as stream, handling both Node.js and browser environments.
+ */
+async function getResponseAsStream(streamable: StreamableMethod): Promise<PathUncheckedResponse> {
+  if (isNodeLike) {
+    return streamable.asNodeStream();
+  } else {
+    return streamable.asBrowserStream();
+  }
+}
+
+/**
+ * Helper function to deserialize binary responses from streams.
+ * Works in both Node.js and browser environments.
  */
 async function deserializeBinaryStream(result: PathUncheckedResponse): Promise<Uint8Array> {
   const stream = (result as any).body;
-  if (stream && typeof stream[Symbol.asyncIterator] === "function") {
-    const chunks: Buffer[] = [];
-    for await (const chunk of stream) {
-      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+
+  // Handle ReadableStream (browser)
+  if (stream && typeof stream.getReader === "function") {
+    const reader = stream.getReader();
+    const chunks: Uint8Array[] = [];
+    let totalLength = 0;
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (value) {
+        chunks.push(value);
+        totalLength += value.length;
+      }
     }
-    return new Uint8Array(Buffer.concat(chunks));
+
+    // Concatenate all chunks into a single Uint8Array
+    const result = new Uint8Array(totalLength);
+    let offset = 0;
+    for (const chunk of chunks) {
+      result.set(chunk, offset);
+      offset += chunk.length;
+    }
+    return result;
   }
+
+  // Handle async iterator (Node.js streams)
+  if (stream && typeof stream[Symbol.asyncIterator] === "function") {
+    const chunks: Uint8Array[] = [];
+    let totalLength = 0;
+
+    for await (const chunk of stream) {
+      const uint8Chunk =
+        chunk instanceof Uint8Array
+          ? chunk
+          : typeof Buffer !== "undefined" && Buffer.isBuffer(chunk)
+            ? new Uint8Array(chunk)
+            : new Uint8Array(chunk);
+      chunks.push(uint8Chunk);
+      totalLength += uint8Chunk.length;
+    }
+
+    // Concatenate all chunks into a single Uint8Array
+    const result = new Uint8Array(totalLength);
+    let offset = 0;
+    for (const chunk of chunks) {
+      result.set(chunk, offset);
+      offset += chunk.length;
+    }
+    return result;
+  }
+
   // Fallback: if body is already buffered
   return result.body;
 }
@@ -173,12 +229,9 @@ export async function getMosaicsWmtsCapabilities(
     requestOptions: {},
   },
 ): Promise<Uint8Array> {
-  const result = await _getMosaicsWmtsCapabilitiesSend(
-    context,
-    searchId,
-    tileMatrixSetId,
-    options,
-  ).asNodeStream();
+  const result = await getResponseAsStream(
+    _getMosaicsWmtsCapabilitiesSend(context, searchId, tileMatrixSetId, options),
+  );
   return _getMosaicsWmtsCapabilitiesDeserialize(result);
 }
 
@@ -265,17 +318,9 @@ export async function getMosaicsTile(
   format: string,
   options: DataGetMosaicsTileOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _getMosaicsTileSend(
-    context,
-    searchId,
-    tileMatrixSetId,
-    z,
-    x,
-    y,
-    scale,
-    format,
-    options,
-  ).asNodeStream();
+  const result = await getResponseAsStream(
+    _getMosaicsTileSend(context, searchId, tileMatrixSetId, z, x, y, scale, format, options),
+  );
   return _getMosaicsTileDeserialize(result);
 }
 
@@ -657,7 +702,7 @@ export async function getLegend(
   colorMapName: string,
   options: DataGetLegendOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _getLegendSend(context, colorMapName, options).asNodeStream();
+  const result = await getResponseAsStream(_getLegendSend(context, colorMapName, options));
   return _getLegendDeserialize(result);
 }
 
@@ -829,13 +874,9 @@ export async function getWmtsCapabilities(
   tileMatrixSetId: string,
   options: DataGetWmtsCapabilitiesOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _getWmtsCapabilitiesSend(
-    context,
-    collectionId,
-    itemId,
-    tileMatrixSetId,
-    options,
-  ).asNodeStream();
+  const result = await getResponseAsStream(
+    _getWmtsCapabilitiesSend(context, collectionId, itemId, tileMatrixSetId, options),
+  );
   return _getWmtsCapabilitiesDeserialize(result);
 }
 
@@ -922,18 +963,9 @@ export async function getTile(
   format: string,
   options: DataGetTileOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _getTileSend(
-    context,
-    collectionId,
-    itemId,
-    tileMatrixSetId,
-    z,
-    x,
-    y,
-    scale,
-    format,
-    options,
-  ).asNodeStream();
+  const result = await getResponseAsStream(
+    _getTileSend(context, collectionId, itemId, tileMatrixSetId, z, x, y, scale, format, options),
+  );
   return _getTileDeserialize(result);
 }
 
@@ -1129,7 +1161,7 @@ export async function getStaticImage(
   id: string,
   options: DataGetStaticImageOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _getStaticImageSend(context, collectionId, id, options).asNodeStream();
+  const result = await getResponseAsStream(_getStaticImageSend(context, collectionId, id, options));
   return _getStaticImageDeserialize(result);
 }
 
@@ -1249,13 +1281,9 @@ export async function getPreviewWithFormat(
   format: string,
   options: DataGetPreviewWithFormatOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _getPreviewWithFormatSend(
-    context,
-    collectionId,
-    itemId,
-    format,
-    options,
-  ).asNodeStream();
+  const result = await getResponseAsStream(
+    _getPreviewWithFormatSend(context, collectionId, itemId, format, options),
+  );
   return _getPreviewWithFormatDeserialize(result);
 }
 
@@ -1322,7 +1350,7 @@ export async function getPreview(
   itemId: string,
   options: DataGetPreviewOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _getPreviewSend(context, collectionId, itemId, options).asNodeStream();
+  const result = await getResponseAsStream(_getPreviewSend(context, collectionId, itemId, options));
   return _getPreviewDeserialize(result);
 }
 
@@ -1476,19 +1504,21 @@ export async function getPartWithDimensions(
   format: string,
   options: DataGetPartWithDimensionsOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _getPartWithDimensionsSend(
-    context,
-    collectionId,
-    itemId,
-    minx,
-    miny,
-    maxx,
-    maxy,
-    width,
-    height,
-    format,
-    options,
-  ).asNodeStream();
+  const result = await getResponseAsStream(
+    _getPartWithDimensionsSend(
+      context,
+      collectionId,
+      itemId,
+      minx,
+      miny,
+      maxx,
+      maxy,
+      width,
+      height,
+      format,
+      options,
+    ),
+  );
   return _getPartWithDimensionsDeserialize(result);
 }
 
@@ -1570,17 +1600,9 @@ export async function getPart(
   format: string,
   options: DataGetPartOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _getPartSend(
-    context,
-    collectionId,
-    itemId,
-    minx,
-    miny,
-    maxx,
-    maxy,
-    format,
-    options,
-  ).asNodeStream();
+  const result = await getResponseAsStream(
+    _getPartSend(context, collectionId, itemId, minx, miny, maxx, maxy, format, options),
+  );
   return _getPartDeserialize(result);
 }
 
@@ -1845,16 +1867,18 @@ export async function cropGeoJsonWithDimensions(
   body: Feature,
   options: DataCropGeoJsonWithDimensionsOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _cropGeoJsonWithDimensionsSend(
-    context,
-    collectionId,
-    itemId,
-    width,
-    height,
-    format,
-    body,
-    options,
-  ).asNodeStream();
+  const result = await getResponseAsStream(
+    _cropGeoJsonWithDimensionsSend(
+      context,
+      collectionId,
+      itemId,
+      width,
+      height,
+      format,
+      body,
+      options,
+    ),
+  );
   return _cropGeoJsonWithDimensionsDeserialize(result);
 }
 
@@ -1929,14 +1953,9 @@ export async function cropGeoJson(
   body: Feature,
   options: DataCropGeoJsonOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _cropGeoJsonSend(
-    context,
-    collectionId,
-    itemId,
-    format,
-    body,
-    options,
-  ).asNodeStream();
+  const result = await getResponseAsStream(
+    _cropGeoJsonSend(context, collectionId, itemId, format, body, options),
+  );
   return _cropGeoJsonDeserialize(result);
 }
 

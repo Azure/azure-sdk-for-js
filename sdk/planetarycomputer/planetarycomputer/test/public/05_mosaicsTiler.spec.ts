@@ -6,6 +6,13 @@ import { createRecorder, createRecordedClient } from "./utils/recordedClient.js"
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { PlanetaryComputerProClient } from "../../src/index.js";
 import { assertEnvironmentVariable, EnvironmentVariableNames } from "./utils/envVars.js";
+import {
+  toUint8Array,
+  toHexString,
+  uint8ArrayEquals,
+  concatUint8Arrays,
+  PNG_MAGIC,
+} from "./utils/byteHelpers.js";
 
 /**
  * Test suite for Mosaics Tiler operations.
@@ -216,17 +223,16 @@ describe("Mosaics Tiler Operations", () => {
       console.log(`Error checking Symbol.iterator: ${e}`);
     }
 
-    // Response comes as a string (binary data encoded as string), convert to Buffer
-    const imageBytes = Buffer.from(response as any, "binary");
+    // Convert response to Uint8Array (browser-compatible)
+    const imageBytes = toUint8Array(response);
     console.log(`Image size: ${imageBytes.length} bytes`);
-    console.log(`First 16 bytes (hex): ${imageBytes.subarray(0, 16).toString("hex")}`);
+    console.log(`First 16 bytes (hex): ${toHexString(imageBytes.subarray(0, 16))}`);
 
     // Verify PNG magic bytes
-    const pngMagic = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
     assert.isTrue(imageBytes.length > 0, "Image bytes should not be empty");
     assert.isTrue(imageBytes.length > 100, "Image should be substantial");
     assert.isTrue(
-      imageBytes.subarray(0, 8).equals(pngMagic),
+      uint8ArrayEquals(imageBytes.subarray(0, 8), PNG_MAGIC),
       "Response should be a valid PNG image (magic bytes mismatch)",
     );
 
@@ -268,12 +274,12 @@ describe("Mosaics Tiler Operations", () => {
 
     console.log(`Response type: ${typeof response}`);
 
-    // Response comes as a string (binary data encoded as string), convert to Buffer
-    const xmlBytes = Buffer.from(response as any, "binary");
+    // Convert response to Uint8Array (browser-compatible)
+    const xmlBytes = toUint8Array(response);
     console.log(`XML size: ${xmlBytes.length} bytes`);
 
-    // Decode to string
-    const xmlString = xmlBytes.toString("utf-8");
+    // Decode to string using TextDecoder (browser-compatible)
+    const xmlString = new TextDecoder("utf-8").decode(xmlBytes);
     console.log(`XML first 200 chars: ${xmlString.substring(0, 200)}`);
 
     // Validate XML structure
@@ -517,20 +523,14 @@ describe("Mosaics Tiler Operations", () => {
 
     console.log(`Image data type: ${typeof imageData}`);
 
-    // Collect the streaming response
-    const chunks: Buffer[] = [];
+    // Collect the streaming response (browser-compatible)
+    const chunks: Uint8Array[] = [];
     for await (const chunk of imageData) {
-      if (typeof chunk === "string") {
-        chunks.push(Buffer.from(chunk, "binary"));
-      } else if (typeof chunk === "number") {
-        chunks.push(Buffer.from([chunk]));
-      } else {
-        chunks.push(Buffer.from(chunk as Uint8Array));
-      }
+      chunks.push(toUint8Array(chunk));
     }
-    const imageBytes = Buffer.concat(chunks);
+    const imageBytes = concatUint8Arrays(chunks);
     console.log(`Image size: ${imageBytes.length} bytes`);
-    console.log(`First 16 bytes (hex): ${imageBytes.subarray(0, 16).toString("hex")}`);
+    console.log(`First 16 bytes (hex): ${toHexString(imageBytes.subarray(0, 16))}`);
 
     assert.isTrue(imageBytes.length > 0, "Image bytes should not be empty");
 
