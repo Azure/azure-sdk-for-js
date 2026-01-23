@@ -388,7 +388,6 @@ resource vnet 'Microsoft.Network/virtualNetworks@2024-07-01' = {
         properties: {
           addressPrefix: '10.0.0.0/24'
           defaultOutboundAccess: false
-          
           networkSecurityGroup: {
             id: nsg.id
           }
