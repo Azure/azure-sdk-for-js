@@ -23,6 +23,14 @@ import type {
   StacExtensionExtent,
   StacCollection,
 } from "../../src/index.js";
+import {
+  toUint8Array,
+  toHexString,
+  concatUint8Arrays,
+  isPng,
+  isJpeg,
+  isWebp,
+} from "./utils/byteHelpers.js";
 
 /**
  * Test suite for STAC Collection operations.
@@ -384,22 +392,15 @@ describe("STAC Collections", () => {
 
     console.log(`Response type: ${typeof response}`);
 
-    // Collect the streaming response
-    const chunks: Buffer[] = [];
+    // Collect the streaming response (browser-compatible)
+    const chunks: Uint8Array[] = [];
     for await (const chunk of response) {
-      if (typeof chunk === "string") {
-        // Convert string to Buffer
-        chunks.push(Buffer.from(chunk, "binary"));
-      } else if (typeof chunk === "number") {
-        chunks.push(Buffer.from([chunk]));
-      } else {
-        chunks.push(Buffer.from(chunk as Uint8Array));
-      }
+      chunks.push(toUint8Array(chunk));
     }
 
-    const thumbnailBytes = Buffer.concat(chunks);
+    const thumbnailBytes = concatUint8Arrays(chunks);
     console.log(`Thumbnail size: ${thumbnailBytes.length} bytes`);
-    console.log(`First 16 bytes (hex): ${thumbnailBytes.subarray(0, 16).toString("hex")}`);
+    console.log(`First 16 bytes (hex): ${toHexString(thumbnailBytes.subarray(0, 16))}`);
 
     // Validate image data
     assert.isTrue(thumbnailBytes.length > 0, "Thumbnail bytes should not be empty");
@@ -409,27 +410,25 @@ describe("STAC Collections", () => {
     );
 
     // Check for common image format magic bytes
-    const isPng = thumbnailBytes.subarray(0, 8).toString("hex") === "89504e470d0a1a0a"; // PNG signature
-    const isJpeg = thumbnailBytes.subarray(0, 3).toString("hex") === "ffd8ff"; // JPEG signature
-    const isWebp =
-      thumbnailBytes.subarray(0, 4).toString("hex") === "52494646" && // RIFF
-      thumbnailBytes.subarray(8, 12).toString("hex") === "57454250"; // WEBP
+    const isPngFormat = isPng(thumbnailBytes);
+    const isJpegFormat = isJpeg(thumbnailBytes);
+    const isWebpFormat = isWebp(thumbnailBytes);
 
-    if (isPng) {
+    if (isPngFormat) {
       console.log("Thumbnail format: PNG");
-    } else if (isJpeg) {
+    } else if (isJpegFormat) {
       console.log("Thumbnail format: JPEG");
-    } else if (isWebp) {
+    } else if (isWebpFormat) {
       console.log("Thumbnail format: WebP");
     } else {
       console.log(
-        `Unknown format - First 32 bytes: ${thumbnailBytes.subarray(0, Math.min(32, thumbnailBytes.length)).toString("hex")}`,
+        `Unknown format - First 32 bytes: ${toHexString(thumbnailBytes.subarray(0, Math.min(32, thumbnailBytes.length)))}`,
       );
     }
 
     // Accept PNG, JPEG, or WebP, or just verify we got substantial binary data
     assert.isTrue(
-      isPng || isJpeg || isWebp || thumbnailBytes.length > 100,
+      isPngFormat || isJpegFormat || isWebpFormat || thumbnailBytes.length > 100,
       "Thumbnail should be a valid image format or substantial binary data",
     );
 

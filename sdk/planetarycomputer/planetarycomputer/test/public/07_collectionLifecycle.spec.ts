@@ -202,7 +202,7 @@ describe("Collection Lifecycle Operations", () => {
       description: "A test asset for collection lifecycle testing",
     };
 
-    const fileContent = Buffer.from("Test asset content");
+    const fileContent = new TextEncoder().encode("Test asset content");
 
     console.log(`Calling: createCollectionAsset(collection_id='${collectionId}', body={{...}})`);
     const response = await client.stac.createCollectionAsset(collectionId, {
@@ -238,7 +238,7 @@ describe("Collection Lifecycle Operations", () => {
       description: "An updated test asset for collection lifecycle testing",
     };
 
-    const fileContent = Buffer.from("Test asset content - updated");
+    const fileContent = new TextEncoder().encode("Test asset content - updated");
 
     console.log(
       `Calling: replaceCollectionAsset(collection_id='${collectionId}', asset_id='test-asset', body={{...}})`,
@@ -279,7 +279,7 @@ describe("Collection Lifecycle Operations", () => {
       description: "A test asset that will be deleted",
     };
 
-    const fileContent = Buffer.from("Test asset content for deletion");
+    const fileContent = new TextEncoder().encode("Test asset content for deletion");
 
     await client.stac.createCollectionAsset(collectionId, {
       data: assetData,
