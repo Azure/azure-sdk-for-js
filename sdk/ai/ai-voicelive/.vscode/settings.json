@@ -1,0 +1,28 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/dist-test": true,
+    "**/.tshy": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/dist-test": true,
+    "**/.tshy": true,
+    "**/coverage": true,
+    "**/temp": true
+  },
+  "vitest.enable": true,
+  "vitest.commandLine": "npm run test:vitest",
+  "testing.automaticallyOpenPeekView": "never"
+}

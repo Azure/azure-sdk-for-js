@@ -1132,11 +1132,8 @@ export interface RuleDefinition {
   binStartTime?: Date;
   /** The time cursor used in Summary rules bins processing, e.g. TimeGenerated. */
   timeSelector?: TimeSelectorEnum;
-  /**
-   * The destination table used for the Summary rule results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly destinationTable?: string;
+  /** The destination table used for the Summary rule results. */
+  destinationTable?: string;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */

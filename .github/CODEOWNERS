@@ -149,10 +149,10 @@
 # ServiceOwners: @shankarsama @rajeshka
 
 # PRLabel: %Event Hubs
-/sdk/eventhub/ @axisc @sjkwak @hmlam
+/sdk/eventhub/ @j7nw4r @axisc @sjkwak @hmlam
 
 # ServiceLabel: %Event Hubs
-# ServiceOwners: @axisc @sjkwak @hmlam
+# ServiceOwners: @j7nw4r @axisc @sjkwak @hmlam
 
 # ServiceLabel: %Cognitive - Health Insights
 # PRLabel: %Cognitive - Health Insights
@@ -181,10 +181,10 @@
 # AzureSdkOwners: @maorleger
 
 # PRLabel: %Service Bus
-/sdk/servicebus/ @skarri-microsoft @EldertGrootenboer
+/sdk/servicebus/ @j7nw4r @skarri-microsoft @EldertGrootenboer
 
 # ServiceLabel: %Service Bus
-# ServiceOwners: @skarri-microsoft @EldertGrootenboer
+# ServiceOwners: @j7nw4r @skarri-microsoft @EldertGrootenboer
 
 # PRLabel: %Storage
 # ServiceLabel: %Storage
@@ -1677,8 +1677,8 @@ sdk/contentunderstanding/ai-content-understanding-rest/ @qiaozha @MaryGao
 /sdk/*/arm-*/tsconfig*.json @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-for-js-core
 
 /.scripts/ @mikeharder
-/.scripts/automation_generate.sh @MaryGao @lirenhe
-/.scripts/automation_init.sh @MaryGao @lirenhe
+/.scripts/automation_generate.sh @MaryGao @lirenhe @qiaozha @JialinHuang803
+/.scripts/automation_init.sh @MaryGao @lirenhe @qiaozha @JialinHuang803
 /vitest.*.config.ts @jeremymeng @deyaaeldeen
 /vitest.workspace.ts @jeremymeng @deyaaeldeen
 
@@ -1702,6 +1702,7 @@ sdk/contentunderstanding/ai-content-understanding-rest/ @qiaozha @MaryGao
 /.github/copilot-instructions.md         @timovv @praveenkuttappan @maririos
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
+/eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803
 /eng/emitter-package-lock.json @qiaozha @MaryGao @JialinHuang803
 /eng/emitter-package.json @qiaozha @MaryGao @JialinHuang803
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a PlacementPolicy
  *
  * @summary get a PlacementPolicy
- * x-ms-original-file: 2024-09-01/PlacementPolicies_Get.json
+ * x-ms-original-file: 2025-09-01/PlacementPolicies_Get.json
  */
 async function placementPoliciesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

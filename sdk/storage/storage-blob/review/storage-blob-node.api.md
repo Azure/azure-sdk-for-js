@@ -15,6 +15,7 @@ import * as coreHttpCompat from '@azure/core-http-compat';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
 import { Credential as Credential_2 } from '@azure/storage-common';
 import { CredentialPolicy } from '@azure/storage-common';
+import { CredentialPolicyCreator } from '@azure/storage-common';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
@@ -2140,6 +2141,8 @@ export interface CpkInfo {
 export { Credential_2 as Credential }
 
 export { CredentialPolicy }
+
+export { CredentialPolicyCreator }
 
 // @public
 export type DeleteSnapshotsOptionType = "include" | "only";

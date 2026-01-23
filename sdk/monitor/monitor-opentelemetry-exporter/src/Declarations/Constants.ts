@@ -109,6 +109,12 @@ export const ENV_AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const ENV_AZURE_MONITOR_DISTRO_VERSION = "AZURE_MONITOR_DISTRO_VERSION";
 
 /**
+ * Resource attribute used for Application Insights correlation when specified.
+ * @internal
+ */
+export const APPLICATION_ID_RESOURCE_KEY = "microsoft.applicationId";
+
+/**
  * Enables the preview version of customer-facing SDK Stats.
  * @internal
  */

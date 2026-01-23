@@ -3,7 +3,7 @@ Getting Started - Generate the RLC REST-level client libraries with Swagger
 
 # Before you start
 
-Please refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for the environment set up prerequisites in `azure-sdk-for-js` repository. We highly recommand to read [this blog](https://devblogs.microsoft.com/azure-sdk/azure-rest-libraries-for-javascript/) to get familiar with REST libraries for JavaScript. 
+Please refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for the environment set up prerequisites in `azure-sdk-for-js` repository. We highly recommend to read [this blog](https://devblogs.microsoft.com/azure-sdk/azure-rest-libraries-for-javascript/) to get familiar with REST libraries for JavaScript.
 
 :warning: Note: if you’re generating from TypeSpec with RLC, please read [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-quickstart.md) for TypeSpec specific details.
 
@@ -11,26 +11,26 @@ Please refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/
 
 If you are the first time to prepare the SDK, please follow the Azure SDK guidance and discuss with architects to decide the project folder and name convention for RLC libraries.
 
-1. Project Folder Structure.  
-   normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/agrifood/agrifood-farming-rest` folder for Farmbeats account modules. That folder will be your **${PROJECT_ROOT} folder**.  
-1. Package Name Convention.  
+1. Project Folder Structure.
+   normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/agrifood/agrifood-farming-rest` folder for Farmbeats account modules. That folder will be your **${PROJECT_ROOT} folder**.
+1. Package Name Convention.
    The package name for RLC is something like `@azure-rest/{servicename}-{modulename}`. For example, the package name for Farmbeats module is `@azure-rest/agrifood-farming`.
 
 # How to generate RLC
 
 We are working on to automatically generate everything right now, but currently, we still need some manual work to get a releasable package. Here're the steps of how to get the package.
 
-1. **Create a swagger/README.md file under ${PROJECT_ROOT} folder**  
-    We are using autorest to generate the code, but there's a lot of command options and in order to make the regenerate process easier in the cases of refresh the rest api input or change the code generator version, you need to document the generate command parameters.  
+1. **Create a swagger/README.md file under ${PROJECT_ROOT} folder**
+    We are using autorest to generate the code, but there's a lot of command options and in order to make the regenerate process easier in the cases of refresh the rest api input or change the code generator version, you need to document the generate command parameters.
     Here's an example of the `swagger/README.md`:
 
     ~~~
-    
+
     # Azure  Farmbeats TypeScript Protocol Layer
-    
+
     > see https://aka.ms/autorest
     ## Configuration
-    
+
     ```yaml
     package-name: "@azure-rest/agrifood-farming"
     title: Farmbeats
@@ -54,8 +54,8 @@ We are working on to automatically generate everything right now, but currently,
     Here, we need to replace the value in `package-name`, `title`, `description`, `input-file`, `package-version`,  `security`,`security-scopes` into **your own service's** `package-name`, `title`, `description` etc.
 
     **How to configure authentication**
-    
-    Autorest only support two types of authentication: Azure Key Credential(AzureKey) and Token credential(AADToken), any other will need to be handled manually. 
+
+    Autorest only support two types of authentication: Azure Key Credential(AzureKey) and Token credential(AADToken), any other will need to be handled manually.
 
     This could be either configured in OpenAPI spec or configuration file e.g `README.md`. You could learn more in [Authentication in AutoRest](https://github.com/Azure/autorest/blob/main/docs/generate/authentication.md).
 
@@ -82,11 +82,11 @@ We are working on to automatically generate everything right now, but currently,
     ```yaml
     add-credentials: false
     ```
-  
+
     ---
     **NOTE**
 
-    It's always recommended to replace the version of code generator @autorest/typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@autorest/typescript) in latest tag. 
+    It's always recommended to replace the version of code generator @autorest/typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@autorest/typescript) in latest tag.
 
     If the `input-file` is followed by an `.md` file, you need to replace the `input-file` with `require`. If it is a `JSON` file, do not change it.
 
@@ -94,10 +94,10 @@ We are working on to automatically generate everything right now, but currently,
 
     **After the first generation, you need to switch `generate-metadata: false` as we have some manual changes in this file and don't want them get overwritten by generated ones.**
 
-    ---  
+    ---
 
 
-2. **Run autorest to generate the SDK**  
+2. **Run autorest to generate the SDK**
 
     Now, you can run this command in swagger folder you just created.
 
@@ -105,7 +105,7 @@ We are working on to automatically generate everything right now, but currently,
     autorest --typescript ./README.md
     ```
 
-    After this finishes, you will see the generated code in `${PROJECT_ROOT}/src` folder.  
+    After this finishes, you will see the generated code in `${PROJECT_ROOT}/src` folder.
     After that, you can get a workable package, and run the following commands to get a artifact if you like.
 
     ```shell
@@ -114,7 +114,7 @@ We are working on to automatically generate everything right now, but currently,
     cd <your-sdk-folder>
     pnpm pack
     ```
-    
+
     But, we still need to add some tests for it.
 
 # Improve README.md document
@@ -128,7 +128,7 @@ In order to release your RLC library, we need to add some tests for it to make s
 
 See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md) for information on how to write and run tests for the JavaScript SDK.
 
-1. **Prerequisites** 
+1. **Prerequisites**
 
     To be able to leverage the asset-sync workflow
     - Install [Powershell](https://github.com/PowerShell/PowerShell)
@@ -144,7 +144,7 @@ See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure
     ```
 
 1. **Write the test**
-    
+
     You could follow the [basic RLC test interaction and recording example](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#example-1-basic-rlc-test-interaction-and-recording-for-azure-data-plane-service) to write your test step by step. Also you could refer [the test of MapsRouteClient](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/test/public) for more cases.
 
 
@@ -194,7 +194,7 @@ See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure
     Here is the command to push:
 
     ```shell
-    npx dev-tool test-proxy push 
+    npx dev-tool test-proxy push
     ```
 
     After above command finished, you can find your local recording files in `./azure-sdk-for-js/.assets`.
@@ -202,7 +202,7 @@ See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure
     And if you want to find your recording on `assets repo`, you can get the tag in `assets.json` in your package root, which is a tag pointing to your recordings in the [Azure/azure-sdk-assets](https://github.com/Azure/azure-sdk-assets) repo.
 
     Example `assets.json` from `keyvault-certificates` SDK.
-    
+
     ```json
     {
       "AssetsRepo": "Azure/azure-sdk-assets",
@@ -212,7 +212,7 @@ See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure
     }
     ```
     And the recordings are located at [here](https://github.com/Azure/azure-sdk-assets/tree/js/keyvault/keyvault-certificates_43821e21b3).
-    
+
 
 # How to write samples
 
@@ -229,12 +229,12 @@ Now, you can generate both JavaScript and TypeScript workable samples with the f
 ```shell
 npm install -g common/tools/dev-tool # make sure you are in the azure-sdk-for-js repo root directory
 cd ${PROJECT_ROOT}
-npx dev-tool samples publish -f 
+npx dev-tool samples publish -f
 ```
 
-You will see the workable samples in the `${PROJECT_ROOT}/samples` folder. 
+You will see the workable samples in the `${PROJECT_ROOT}/samples` folder.
 
-Besides the generated samples, we also recommand you to add your HERO sample scenarios per your services to guide customers on how to use your library. You could refer to [the samples of MapsRouteClient here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/samples-dev) as an example.
+Besides the generated samples, we also recommend you to add your HERO sample scenarios per your services to guide customers on how to use your library. You could refer to [the samples of MapsRouteClient here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/samples-dev) as an example.
 
 # Format both the generated code and manual code
 
@@ -243,8 +243,8 @@ After you have finished the generation and added your own tests or samples, You 
 ```shell
 cd ${PROJECT_ROOT} && pnpm format
 ```
- 
-Also we'll recommand you to run `lint` command to analyze your code and quickly find any problems.
+
+Also we'll recommend you to run `lint` command to analyze your code and quickly find any problems.
 
 ```shell
 cd ${PROJECT_ROOT} && pnpm lint
@@ -311,9 +311,9 @@ extends:
         safeName: azurerestagrifoodfarming
 ```
 
-Please change the `paths.include` value as your own project path, and change the Artifacts `name` and `safeName` into yours.  
+Please change the `paths.include` value as your own project path, and change the Artifacts `name` and `safeName` into yours.
 
-If there's already a `ci.yml` file in your project path, then the only thing you need to do is to add the Artifacts `name` and `safeName` of yours into that `ci.yml`.  
+If there's already a `ci.yml` file in your project path, then the only thing you need to do is to add the Artifacts `name` and `safeName` of yours into that `ci.yml`.
 
 Please notice the Artifacts name should align with your package name. Here, the package name is `@azure-rest/agrifood-farming`, so the relevant Artifacts name is `azure-rest-agrifood-farming`.
 
@@ -323,7 +323,7 @@ The codegen can only help you generate SDK code, there is something you need to 
 
 ## CHANGELOG.md
 
-CHANGELOG can help customers know the change of new version quicky, so you need to update it according to the change of this new version. It is also necessary to update release date like `1.0.0-beta.1 (2022-11-11)` (rough time is fine and no need to be very accurate).
+CHANGELOG can help customers know the change of new version quickly, so you need to update it according to the change of this new version. It is also necessary to update release date like `1.0.0-beta.1 (2022-11-11)` (rough time is fine and no need to be very accurate).
 
 ## Version Number
 
@@ -347,7 +347,7 @@ cc @Azure/dpg-devs for awareness
 
 # Create API View
 
-When submitting a PR, our pipeline would automatically prepare the API view in [API View Website](https://apiview.dev/). You could see an [example link](https://github.com/Azure/azure-sdk-for-js/pull/23866#issuecomment-1316259448) here. You could click the API view link in that comment to know more details. 
+When submitting a PR, our pipeline would automatically prepare the API view in [API View Website](https://apiview.dev/). You could see an [example link](https://github.com/Azure/azure-sdk-for-js/pull/23866#issuecomment-1316259448) here. You could click the API view link in that comment to know more details.
 
 # Release
 

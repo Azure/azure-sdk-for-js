@@ -53,6 +53,8 @@ import {
   GalleryImageVersionsImpl,
   GalleryInVMAccessControlProfilesImpl,
   GalleryInVMAccessControlProfileVersionsImpl,
+  GalleryScriptsImpl,
+  GalleryScriptVersionsImpl,
   GallerySharingProfileImpl,
   SoftDeletedResourceImpl,
   CloudServiceRoleInstancesImpl,
@@ -107,6 +109,8 @@ import type {
   GalleryImageVersions,
   GalleryInVMAccessControlProfiles,
   GalleryInVMAccessControlProfileVersions,
+  GalleryScripts,
+  GalleryScriptVersions,
   GallerySharingProfile,
   SoftDeletedResource,
   CloudServiceRoleInstances,
@@ -148,7 +152,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-compute/23.2.0`;
+    const packageDetails = `azsdk-js-arm-compute/23.3.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -247,6 +251,8 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.galleryInVMAccessControlProfileVersions = new GalleryInVMAccessControlProfileVersionsImpl(
       this,
     );
+    this.galleryScripts = new GalleryScriptsImpl(this);
+    this.galleryScriptVersions = new GalleryScriptVersionsImpl(this);
     this.gallerySharingProfile = new GallerySharingProfileImpl(this);
     this.softDeletedResource = new SoftDeletedResourceImpl(this);
     this.cloudServiceRoleInstances = new CloudServiceRoleInstancesImpl(this);
@@ -301,6 +307,8 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
   galleryImageVersions: GalleryImageVersions;
   galleryInVMAccessControlProfiles: GalleryInVMAccessControlProfiles;
   galleryInVMAccessControlProfileVersions: GalleryInVMAccessControlProfileVersions;
+  galleryScripts: GalleryScripts;
+  galleryScriptVersions: GalleryScriptVersions;
   gallerySharingProfile: GallerySharingProfile;
   softDeletedResource: SoftDeletedResource;
   cloudServiceRoleInstances: CloudServiceRoleInstances;
