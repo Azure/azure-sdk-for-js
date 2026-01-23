@@ -1,5 +1,17 @@
 # Release History
 
+## 12.31.0 (Unreleased)
+
+### Features Added
+
+- Enhanced `readableStreamBody` type to include `.destroy()` method, making stream cancellation more type-safe without requiring type casting.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 12.30.0 (2026-01-16)
 
 ### Features Added
@@ -14,7 +26,6 @@
 - Added support for the StartFrom parameter on BlobContainerClient.listBlobs() and .listBlobsByHierarchy().
 - Added support for Principal-Bound Identity User Delegation SAS
 - Added support for conditional headers on BlobBaseClient.getTags(), and .getTags().
-- Enhanced `readableStreamBody` type to include `.destroy()` method, making stream cancellation more type-safe without requiring type casting.
 
 ### Other Changes
 
