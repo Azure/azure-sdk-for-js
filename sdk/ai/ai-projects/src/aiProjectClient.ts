@@ -5,7 +5,6 @@
 import OpenAI from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
 import { createAIProject, AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
-import { SDK_VERSION } from "./constants.js";
 import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
 import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
 import { DatasetsOperations, _getDatasetsOperations } from "./classic/datasets/index.js";
@@ -33,15 +32,6 @@ import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
 import { getCustomFetch } from "./getCustomFetch.js";
 
 export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
-
-/**
- * Generates the user agent string for the OpenAI client.
- * @returns The user agent string in the format "azsdk-js-{package-name}/{version}"
- * @internal
- */
-function _getUserAgentString(): string {
-  return `azsdk-js-ai-projects/${SDK_VERSION}`;
-}
 
 /**
  * The main client for the AIProjectClient service. It provides access to the various operations available in the service.
@@ -136,6 +126,26 @@ export class AIProjectClient {
   public readonly agents: AgentsOperations;
   /** The operation groups for telemetry */
   public readonly telemetry: TelemetryOperations;
+
+  private async _buildOpenAIUserAgent(): Promise<string> {
+    // Create a dummy OpenAI client to extract the default user agent
+    const scope = "https://ai.azure.com/.default";
+    const tokenProvider = await getBearerTokenProvider(this._credential, scope);
+    const dummyClient = new OpenAI({ apiKey: tokenProvider });
+    const openaiDefaultUserAgent = (dummyClient as any).getUserAgent?.() || "";
+    console.log(openaiDefaultUserAgent)
+
+    const customUserAgent = this._options.userAgentOptions?.userAgentPrefix;
+    const userAgentParts: string[] = [];
+    if (customUserAgent) {
+      userAgentParts.push(`${customUserAgent}-AIProjectClient/JS`);
+    } else {
+      userAgentParts.push("AIProjectClient/JS");
+    }
+
+    return `${userAgentParts.join("-")} ${openaiDefaultUserAgent}`.trim();
+  }
+
   /**
    * gets the OpenAI client
    * @returns the OpenAI client
@@ -151,13 +161,14 @@ export class AIProjectClient {
       customFetch = getCustomFetch(this._azureScopeClient.pipeline, this._options.httpClient);
     }
 
-    const userAgent = _getUserAgentString();
+    const finalUserAgent = await this._buildOpenAIUserAgent();
+    console.log('finaluseragent : ' + finalUserAgent)
 
     const openAIOptions: ConstructorParameters<typeof OpenAI>[0] = {
       apiKey: azureADTokenProvider,
       baseURL: `${this._endpoint}/openai`,
       defaultQuery: { "api-version": this._options?.apiVersion || "2025-11-15-preview" },
-      defaultHeaders: { "User-Agent": userAgent },
+      defaultHeaders: { "User-Agent": finalUserAgent },
       dangerouslyAllowBrowser: true,
       fetch: customFetch,
     };
