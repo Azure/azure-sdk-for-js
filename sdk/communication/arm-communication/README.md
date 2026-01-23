@@ -5,7 +5,7 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 REST API for Azure Communication Services
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/arm-communication) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/arm-communication) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/arm-edgemarketplace) |
 [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-communication) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
