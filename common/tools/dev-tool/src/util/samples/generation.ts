@@ -356,7 +356,9 @@ export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> 
       module?: string;
     };
   };
-  const tsconfig = (await resolveConfig(tsconfigFilePath)) as SerializableConfig;
+  const { config: tsconfig } = (await resolveConfig(tsconfigFilePath)) as {
+    config: SerializableConfig;
+  };
   delete tsconfig.compilerOptions.paths;
   delete tsconfig.exclude;
   delete tsconfig.compilerOptions.composite;
