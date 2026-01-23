@@ -629,7 +629,8 @@
         "Vnet",
         "osdisk",
         "nopublicipaddresses",
-        "standardssd"
+        "standardssd",
+        "confidentialvm"
       ]
     }
   ]
