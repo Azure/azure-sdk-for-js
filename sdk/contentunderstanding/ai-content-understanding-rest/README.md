@@ -517,9 +517,9 @@ If you'd like to contribute to this library, please read the [contributing guide
 [prebuilt_analyzers_docs]: https://learn.microsoft.com/azure/ai-services/content-understanding/concepts/prebuilt-analyzers
 [samples_directory]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding-rest/samples
 [sample_update_defaults]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding-rest/samples-dev/updateDefaults.ts
-[client_options]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-client-rest/README.md
-[accessing_response]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-client-rest/README.md
-[long_running_operations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/README.md
-[handling_failures]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/README.md
-[diagnostics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/logger/README.md
-[client_lifetime]: https://devblogs.microsoft.com/azure-sdk/lifetime-management-and-thread-safety-guarantees-of-azure-sdk-net-clients/
+[client_options]: https://learn.microsoft.com/javascript/api/@azure/core-rest-pipeline/pipelineoptions?view=azure-node-latest
+[accessing_response]: https://learn.microsoft.com/javascript/api/@azure/core-rest-pipeline/pipelineresponse?view=azure-node-latest
+[long_running_operations]: https://learn.microsoft.com/javascript/api/@azure/core-lro?view=azure-node-latest
+[handling_failures]: https://learn.microsoft.com/javascript/api/@azure/core-rest-pipeline/resterror?view=azure-node-latest
+[diagnostics]: https://learn.microsoft.com/javascript/api/@azure/logger?view=azure-node-latest
+[client_lifetime]: https://learn.microsoft.com/azure/developer/javascript/sdk/use-azure-sdk
