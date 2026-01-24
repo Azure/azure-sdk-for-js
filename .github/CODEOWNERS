@@ -296,8 +296,14 @@
 # ServiceLabel: %Schema Registry
 # ServiceOwners: @axisc @sjkwak @hmlam
 
+# PRLabel: %Cognitive - Content Understanding
+/sdk/contentunderstanding/                                         @bojunehsu @changjian-wang @yungshinlintw
+
 # PRLabel: %Cognitive - Form Recognizer
-/sdk/formrecognizer/ @jeremymeng
+/sdk/documentintelligence/                                         @changjian-wang @bojunehsu @yungshinlintw
+
+# PRLabel: %Cognitive - Form Recognizer
+/sdk/formrecognizer/                                               @changjian-wang @bojunehsu @yungshinlintw
 
 # ServiceLabel: %Cognitive - Form Recognizer
 # AzureSdkOwners: @jeremymeng
@@ -1643,9 +1649,6 @@ sdk/compute/arm-computerecommender/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-sdk/contentunderstanding/ai-content-understanding-rest/ @qiaozha @MaryGao
 
 ###########
 # Config
