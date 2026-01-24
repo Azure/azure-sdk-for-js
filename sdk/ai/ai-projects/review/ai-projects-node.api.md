@@ -2455,11 +2455,6 @@ export interface RedTeamsOperations {
 }
 
 // @public
-export interface ResponseFormatJsonSchemaSchema {
-    additionalProperties?: Record<string, unknown>;
-}
-
-// @public
 export interface ResponseUsageInputTokensDetails {
     // (undocumented)
     cached_tokens: number;
@@ -2695,7 +2690,7 @@ export type TextResponseFormatConfigurationUnion = TextResponseFormatJsonSchema 
 export interface TextResponseFormatJsonSchema extends TextResponseFormatConfiguration {
     description?: string;
     name: string;
-    schema: ResponseFormatJsonSchemaSchema;
+    schema: Record<string, any>;
     strict?: boolean;
     type: "json_schema";
 }

@@ -99,7 +99,6 @@ export {
   TextResponseFormatConfigurationUnion,
   TextResponseFormatConfigurationType,
   TextResponseFormatJsonSchema,
-  ResponseFormatJsonSchemaSchema,
   TextResponseFormatConfigurationResponseFormatText,
   TextResponseFormatConfigurationResponseFormatJsonObject,
   StructuredInputDefinition,

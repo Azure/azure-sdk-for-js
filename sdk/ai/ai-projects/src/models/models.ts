@@ -2907,7 +2907,7 @@ export interface TextResponseFormatJsonSchema extends TextResponseFormatConfigur
    */
   name: string;
   /** The JSON Schema describing the response format. */
-  schema: ResponseFormatJsonSchemaSchema;
+  schema: Record<string, any>;
   /** Whether to enforce strict validation. */
   strict?: boolean;
 }
@@ -2917,7 +2917,7 @@ export function textResponseFormatJsonSchemaSerializer(item: TextResponseFormatJ
     type: item["type"],
     description: item["description"],
     name: item["name"],
-    schema: responseFormatJsonSchemaSchemaSerializer(item["schema"]),
+    schema: item["schema"],
     strict: item["strict"],
   };
 }
@@ -2927,31 +2927,10 @@ export function textResponseFormatJsonSchemaDeserializer(item: any): TextRespons
     type: item["type"],
     description: item["description"],
     name: item["name"],
-    schema: responseFormatJsonSchemaSchemaDeserializer(item["schema"]),
+    schema: Object.fromEntries(
+      Object.entries(item["schema"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     strict: item["strict"],
-  };
-}
-
-/**
- * The schema for the response format, described as a JSON Schema object.
- * Learn how to build JSON schemas [here](https://json-schema.org/).
- */
-export interface ResponseFormatJsonSchemaSchema {
-  /** Additional properties */
-  additionalProperties?: Record<string, unknown>;
-}
-
-export function responseFormatJsonSchemaSchemaSerializer(
-  item: ResponseFormatJsonSchemaSchema,
-): any {
-  return { ...serializeRecord(item.additionalProperties ?? {}) };
-}
-
-export function responseFormatJsonSchemaSchemaDeserializer(
-  item: any,
-): ResponseFormatJsonSchemaSchema {
-  return {
-    additionalProperties: serializeRecord(item, []),
   };
 }
 
