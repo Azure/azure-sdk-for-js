@@ -30,9 +30,7 @@ export function _listByParentSend(
   context: Client,
   resourceGroupName: string,
   cloudvmclustername: string,
-  options: VirtualNetworkAddressesListByParentOptionalParams = {
-    requestOptions: {},
-  },
+  options: VirtualNetworkAddressesListByParentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}/virtualNetworkAddresses{?api%2Dversion}",
@@ -48,10 +46,7 @@ export function _listByParentSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -73,9 +68,7 @@ export function listByParent(
   context: Client,
   resourceGroupName: string,
   cloudvmclustername: string,
-  options: VirtualNetworkAddressesListByParentOptionalParams = {
-    requestOptions: {},
-  },
+  options: VirtualNetworkAddressesListByParentOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<VirtualNetworkAddress> {
   return buildPagedAsyncIterator(
     context,
@@ -110,7 +103,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
+  const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -133,7 +126,7 @@ export function $delete(
   virtualnetworkaddressname: string,
   options: VirtualNetworkAddressesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -170,10 +163,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -214,9 +204,7 @@ export function _createOrUpdateSend(
   cloudvmclustername: string,
   virtualnetworkaddressname: string,
   resource: VirtualNetworkAddress,
-  options: VirtualNetworkAddressesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: VirtualNetworkAddressesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}/virtualNetworkAddresses/{virtualnetworkaddressname}{?api%2Dversion}",
@@ -234,10 +222,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: virtualNetworkAddressSerializer(resource),
   });
 }
@@ -262,9 +247,7 @@ export function createOrUpdate(
   cloudvmclustername: string,
   virtualnetworkaddressname: string,
   resource: VirtualNetworkAddress,
-  options: VirtualNetworkAddressesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: VirtualNetworkAddressesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<VirtualNetworkAddress>, VirtualNetworkAddress> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,

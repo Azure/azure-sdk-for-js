@@ -71,10 +71,7 @@ export function _actionSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: autonomousDatabaseLifecycleActionSerializer(body),
   });
 }
@@ -82,7 +79,7 @@ export function _actionSend(
 export async function _actionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<AutonomousDatabase> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -100,7 +97,7 @@ export function action(
   body: AutonomousDatabaseLifecycleAction,
   options: AutonomousDatabasesActionOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase> {
-  return getLongRunningPoller(context, _actionDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _actionDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -133,10 +130,7 @@ export function _changeDisasterRecoveryConfigurationSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: disasterRecoveryConfigurationDetailsSerializer(body),
   });
 }
@@ -144,7 +138,7 @@ export function _changeDisasterRecoveryConfigurationSend(
 export async function _changeDisasterRecoveryConfigurationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<AutonomousDatabase> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -167,7 +161,7 @@ export function changeDisasterRecoveryConfiguration(
   return getLongRunningPoller(
     context,
     _changeDisasterRecoveryConfigurationDeserialize,
-    ["202", "200"],
+    ["202", "200", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -204,17 +198,14 @@ export function _shrinkSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
 export async function _shrinkDeserialize(
   result: PathUncheckedResponse,
 ): Promise<AutonomousDatabase> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -231,7 +222,7 @@ export function shrink(
   autonomousdatabasename: string,
   options: AutonomousDatabasesShrinkOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase> {
-  return getLongRunningPoller(context, _shrinkDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _shrinkDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -262,10 +253,7 @@ export function _restoreSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: restoreAutonomousDatabaseDetailsSerializer(body),
   });
 }
@@ -273,7 +261,7 @@ export function _restoreSend(
 export async function _restoreDeserialize(
   result: PathUncheckedResponse,
 ): Promise<AutonomousDatabase> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -291,7 +279,7 @@ export function restore(
   body: RestoreAutonomousDatabaseDetails,
   options: AutonomousDatabasesRestoreOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase> {
-  return getLongRunningPoller(context, _restoreDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _restoreDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -305,9 +293,7 @@ export function _generateWalletSend(
   resourceGroupName: string,
   autonomousdatabasename: string,
   body: GenerateAutonomousDatabaseWalletDetails,
-  options: AutonomousDatabasesGenerateWalletOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabasesGenerateWalletOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/generateWallet{?api%2Dversion}",
@@ -324,10 +310,7 @@ export function _generateWalletSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: generateAutonomousDatabaseWalletDetailsSerializer(body),
   });
 }
@@ -351,9 +334,7 @@ export async function generateWallet(
   resourceGroupName: string,
   autonomousdatabasename: string,
   body: GenerateAutonomousDatabaseWalletDetails,
-  options: AutonomousDatabasesGenerateWalletOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabasesGenerateWalletOptionalParams = { requestOptions: {} },
 ): Promise<AutonomousDatabaseWalletFile> {
   const result = await _generateWalletSend(
     context,
@@ -387,10 +368,7 @@ export function _failoverSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: peerDbDetailsSerializer(body),
   });
 }
@@ -398,7 +376,7 @@ export function _failoverSend(
 export async function _failoverDeserialize(
   result: PathUncheckedResponse,
 ): Promise<AutonomousDatabase> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -416,7 +394,7 @@ export function failover(
   body: PeerDbDetails,
   options: AutonomousDatabasesFailoverOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase> {
-  return getLongRunningPoller(context, _failoverDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _failoverDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -447,10 +425,7 @@ export function _switchoverSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: peerDbDetailsSerializer(body),
   });
 }
@@ -458,7 +433,7 @@ export function _switchoverSend(
 export async function _switchoverDeserialize(
   result: PathUncheckedResponse,
 ): Promise<AutonomousDatabase> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -476,7 +451,7 @@ export function switchover(
   body: PeerDbDetails,
   options: AutonomousDatabasesSwitchoverOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase> {
-  return getLongRunningPoller(context, _switchoverDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _switchoverDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -488,9 +463,7 @@ export function switchover(
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: AutonomousDatabasesListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabasesListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases{?api%2Dversion}",
@@ -505,10 +478,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -529,9 +499,7 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: AutonomousDatabasesListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabasesListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AutonomousDatabase> {
   return buildPagedAsyncIterator(
     context,
@@ -564,10 +532,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: autonomousDatabaseUpdateSerializer(properties),
   });
 }
@@ -575,7 +540,7 @@ export function _updateSend(
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<AutonomousDatabase> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -593,7 +558,7 @@ export function update(
   properties: AutonomousDatabaseUpdate,
   options: AutonomousDatabasesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -624,7 +589,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
+  const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -646,7 +611,7 @@ export function $delete(
   autonomousdatabasename: string,
   options: AutonomousDatabasesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -675,10 +640,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -709,9 +671,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   autonomousdatabasename: string,
   resource: AutonomousDatabase,
-  options: AutonomousDatabasesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabasesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}{?api%2Dversion}",
@@ -728,10 +688,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: autonomousDatabaseSerializer(resource),
   });
 }
@@ -755,9 +712,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   autonomousdatabasename: string,
   resource: AutonomousDatabase,
-  options: AutonomousDatabasesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabasesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -770,9 +725,7 @@ export function createOrUpdate(
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: AutonomousDatabasesListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabasesListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/autonomousDatabases{?api%2Dversion}",
@@ -786,10 +739,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -809,9 +759,7 @@ export async function _listBySubscriptionDeserialize(
 /** List AutonomousDatabase resources by subscription ID */
 export function listBySubscription(
   context: Client,
-  options: AutonomousDatabasesListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabasesListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AutonomousDatabase> {
   return buildPagedAsyncIterator(
     context,

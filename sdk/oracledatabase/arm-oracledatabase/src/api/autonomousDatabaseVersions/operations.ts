@@ -21,9 +21,7 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 export function _listByLocationSend(
   context: Client,
   location: string,
-  options: AutonomousDatabaseVersionsListByLocationOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabaseVersionsListByLocationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/autonomousDbVersions{?api%2Dversion}",
@@ -38,10 +36,7 @@ export function _listByLocationSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -62,9 +57,7 @@ export async function _listByLocationDeserialize(
 export function listByLocation(
   context: Client,
   location: string,
-  options: AutonomousDatabaseVersionsListByLocationOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabaseVersionsListByLocationOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AutonomousDbVersion> {
   return buildPagedAsyncIterator(
     context,
@@ -95,10 +88,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

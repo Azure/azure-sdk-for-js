@@ -33,9 +33,7 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: ResourceAnchorsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: ResourceAnchorsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/resourceAnchors{?api%2Dversion}",
@@ -50,10 +48,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -74,9 +69,7 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: ResourceAnchorsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: ResourceAnchorsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ResourceAnchor> {
   return buildPagedAsyncIterator(
     context,
@@ -109,7 +102,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
+  const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -131,7 +124,7 @@ export function $delete(
   resourceAnchorName: string,
   options: ResourceAnchorsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, resourceAnchorName, options),
@@ -161,16 +154,13 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: resourceAnchorUpdateSerializer(properties),
   });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<ResourceAnchor> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -188,7 +178,7 @@ export function update(
   properties: ResourceAnchorUpdate,
   options: ResourceAnchorsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ResourceAnchor>, ResourceAnchor> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -217,10 +207,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -268,10 +255,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: resourceAnchorSerializer(resource),
   });
 }
@@ -308,9 +292,7 @@ export function createOrUpdate(
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: ResourceAnchorsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: ResourceAnchorsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/resourceAnchors{?api%2Dversion}",
@@ -324,10 +306,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -347,9 +326,7 @@ export async function _listBySubscriptionDeserialize(
 /** List ResourceAnchor resources by subscription ID */
 export function listBySubscription(
   context: Client,
-  options: ResourceAnchorsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: ResourceAnchorsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ResourceAnchor> {
   return buildPagedAsyncIterator(
     context,
