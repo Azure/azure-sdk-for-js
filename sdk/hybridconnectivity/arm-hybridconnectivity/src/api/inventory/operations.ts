@@ -1,37 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPIContext as Client } from "../index.js";
+import type { HybridConnectivityManagementAPIContext as Client } from "../index.js";
+import type { InventoryResource, _InventoryResourceListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  InventoryResource,
   inventoryResourceDeserializer,
-  _InventoryResourceListResult,
   _inventoryResourceListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   InventoryListBySolutionConfigurationOptionalParams,
   InventoryGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listBySolutionConfigurationSend(
   context: Client,
   resourceUri: string,
   solutionConfiguration: string,
-  options: InventoryListBySolutionConfigurationOptionalParams = {
-    requestOptions: {},
-  },
+  options: InventoryListBySolutionConfigurationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory{?api%2Dversion}",
@@ -46,10 +37,7 @@ export function _listBySolutionConfigurationSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -71,9 +59,7 @@ export function listBySolutionConfiguration(
   context: Client,
   resourceUri: string,
   solutionConfiguration: string,
-  options: InventoryListBySolutionConfigurationOptionalParams = {
-    requestOptions: {},
-  },
+  options: InventoryListBySolutionConfigurationOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<InventoryResource> {
   return buildPagedAsyncIterator(
     context,
@@ -105,10 +91,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridconnectivity/arm-hybridconnectivity)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-hybridconnectivity)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-hybridconnectivity?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-hybridconnectivity)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridconnectivity/arm-hybridconnectivity/samples)
 
 ## Getting started
