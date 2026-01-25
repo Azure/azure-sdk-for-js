@@ -1,21 +1,568 @@
 # Release History
 
-## 4.0.0-beta.4 (Unreleased)
+## 4.0.0-beta.4 (2025-12-19)
+Compared with version 3.1.0
 
 ### Features Added
+  - Added operation group DeploymentSettingsOperations
+  - Added operation group EdgeDeviceJobsOperations
+  - Added operation group EdgeDevicesOperations
+  - Added operation group EdgeMachineJobsOperations
+  - Added operation group EdgeMachinesOperations
+  - Added operation group KubernetesVersionsOperations
+  - Added operation group OffersOperations
+  - Added operation group OsImagesOperations
+  - Added operation group OwnershipVouchersOperations
+  - Added operation group PlatformUpdatesOperations
+  - Added operation group PublishersOperations
+  - Added operation group SecuritySettingsOperations
+  - Added operation group SkusOperations
+  - Added operation group UpdateContentsOperations
+  - Added operation group UpdateRunsOperations
+  - Added operation group UpdatesOperations
+  - Added operation group UpdateSummariesOperations
+  - Added operation group ValidatedSolutionRecipesOperations
+  - Added operation ArcSettingsOperations.consentAndInstallDefaultExtensions
+  - Added operation ArcSettingsOperations.createIdentity
+  - Added operation ArcSettingsOperations.delete
+  - Added operation ArcSettingsOperations.initializeDisableProcess
+  - Added operation ArcSettingsOperations.reconcile
+  - Added operation ClustersOperations.changeRing
+  - Added operation ClustersOperations.configureRemoteSupport
+  - Added operation ClustersOperations.createIdentity
+  - Added operation ClustersOperations.delete
+  - Added operation ClustersOperations.extendSoftwareAssuranceBenefit
+  - Added operation ClustersOperations.triggerLogCollection
+  - Added operation ClustersOperations.updateSecretsLocations
+  - Added operation ClustersOperations.uploadCertificate
+  - Added operation ExtensionsOperations.create
+  - Added operation ExtensionsOperations.delete
+  - Added operation ExtensionsOperations.update
+  - Added operation ExtensionsOperations.upgrade
+  - Added Interface ArcIdentityResponseProperties
+  - Added Interface ArcSettingProperties
+  - Added Interface ArcSettingsConsentAndInstallDefaultExtensionsOptionalParams
+  - Added Interface ArcSettingsInitializeDisableProcessOptionalParams
+  - Added Interface ArcSettingsPatchProperties
+  - Added Interface ArcSettingsReconcileOptionalParams
+  - Added Interface AssemblyInfo
+  - Added Interface AssemblyInfoPayload
+  - Added Interface ChangeRingRequest
+  - Added Interface ChangeRingRequestProperties
+  - Added Interface ClusterIdentityResponseProperties
+  - Added Interface ClusterPatchProperties
+  - Added Interface ClusterProperties
+  - Added Interface ClustersChangeRingOptionalParams
+  - Added Interface ClustersConfigureRemoteSupportOptionalParams
+  - Added Interface ClusterSdnProperties
+  - Added Interface ClustersExtendSoftwareAssuranceBenefitOptionalParams
+  - Added Interface ClustersTriggerLogCollectionOptionalParams
+  - Added Interface ClustersUpdateSecretsLocationsOptionalParams
+  - Added Interface ConfidentialVmProfile
+  - Added Interface ConfidentialVmProperties
+  - Added Interface ContentPayload
+  - Added Interface DefaultExtensionDetails
+  - Added Interface DeploymentCluster
+  - Added Interface DeploymentConfiguration
+  - Added Interface DeploymentData
+  - Added Interface DeploymentSecuritySettings
+  - Added Interface DeploymentSetting
+  - Added Interface DeploymentSettingAdapterPropertyOverrides
+  - Added Interface DeploymentSettingHostNetwork
+  - Added Interface DeploymentSettingIntents
+  - Added Interface DeploymentSettingsCreateOrUpdateOptionalParams
+  - Added Interface DeploymentSettingsDeleteOptionalParams
+  - Added Interface DeploymentSettingsGetOptionalParams
+  - Added Interface DeploymentSettingsListByClustersOptionalParams
+  - Added Interface DeploymentSettingsProperties
+  - Added Interface DeploymentSettingStorageAdapterIPInfo
+  - Added Interface DeploymentSettingStorageNetworks
+  - Added Interface DeploymentSettingVirtualSwitchConfigurationOverrides
+  - Added Interface DeploymentStep
+  - Added Interface DeviceConfiguration
+  - Added Interface DnsZones
+  - Added Interface DownloadOsJobProperties
+  - Added Interface DownloadOsProfile
+  - Added Interface DownloadRequest
+  - Added Interface EceActionStatus
+  - Added Interface EceDeploymentSecrets
+  - Added Interface EceReportedProperties
+  - Added Interface EdgeDevice
+  - Added Interface EdgeDeviceJob
+  - Added Interface EdgeDeviceJobsCreateOrUpdateOptionalParams
+  - Added Interface EdgeDeviceJobsDeleteOptionalParams
+  - Added Interface EdgeDeviceJobsGetOptionalParams
+  - Added Interface EdgeDeviceJobsListByEdgeDeviceOptionalParams
+  - Added Interface EdgeDeviceProperties
+  - Added Interface EdgeDevicesCreateOrUpdateOptionalParams
+  - Added Interface EdgeDevicesDeleteOptionalParams
+  - Added Interface EdgeDevicesGetOptionalParams
+  - Added Interface EdgeDevicesListOptionalParams
+  - Added Interface EdgeDevicesValidateOptionalParams
+  - Added Interface EdgeMachine
+  - Added Interface EdgeMachineCollectLogJobProperties
+  - Added Interface EdgeMachineCollectLogJobReportedProperties
+  - Added Interface EdgeMachineJob
+  - Added Interface EdgeMachineJobProperties
+  - Added Interface EdgeMachineJobsCreateOrUpdateOptionalParams
+  - Added Interface EdgeMachineJobsDeleteOptionalParams
+  - Added Interface EdgeMachineJobsGetOptionalParams
+  - Added Interface EdgeMachineJobsListOptionalParams
+  - Added Interface EdgeMachineNetworkProfile
+  - Added Interface EdgeMachineNicDetail
+  - Added Interface EdgeMachinePatch
+  - Added Interface EdgeMachineProperties
+  - Added Interface EdgeMachineRemoteSupportJobProperties
+  - Added Interface EdgeMachineRemoteSupportJobReportedProperties
+  - Added Interface EdgeMachineRemoteSupportNodeSettings
+  - Added Interface EdgeMachineReportedProperties
+  - Added Interface EdgeMachinesCreateOrUpdateOptionalParams
+  - Added Interface EdgeMachinesDeleteOptionalParams
+  - Added Interface EdgeMachinesGetOptionalParams
+  - Added Interface EdgeMachinesListByResourceGroupOptionalParams
+  - Added Interface EdgeMachinesListBySubscriptionOptionalParams
+  - Added Interface EdgeMachinesUpdateOptionalParams
+  - Added Interface ExtensionInstanceView
+  - Added Interface ExtensionInstanceViewStatus
+  - Added Interface ExtensionParameters
+  - Added Interface ExtensionPatch
+  - Added Interface ExtensionPatchParameters
+  - Added Interface ExtensionPatchProperties
+  - Added Interface ExtensionProfile
+  - Added Interface ExtensionProperties
+  - Added Interface ExtensionResource
+  - Added Interface ExtensionsUpgradeOptionalParams
+  - Added Interface ExtensionUpgradeParameters
+  - Added Interface HardwareProfile
+  - Added Interface HciCollectLogJobProperties
+  - Added Interface HciEdgeDevice
+  - Added Interface HciEdgeDeviceAdapterPropertyOverrides
+  - Added Interface HciEdgeDeviceArcExtension
+  - Added Interface HciEdgeDeviceHostNetwork
+  - Added Interface HciEdgeDeviceIntents
+  - Added Interface HciEdgeDeviceJob
+  - Added Interface HciEdgeDeviceJobProperties
+  - Added Interface HciEdgeDeviceProperties
+  - Added Interface HciEdgeDeviceStorageAdapterIPInfo
+  - Added Interface HciEdgeDeviceStorageNetworks
+  - Added Interface HciEdgeDeviceVirtualSwitchConfigurationOverrides
+  - Added Interface HciHardwareProfile
+  - Added Interface HciNetworkProfile
+  - Added Interface HciNicDetail
+  - Added Interface HciOsProfile
+  - Added Interface HciRemoteSupportJobProperties
+  - Added Interface HciReportedProperties
+  - Added Interface HciStorageProfile
+  - Added Interface HciValidationFailureDetail
+  - Added Interface IgvmStatusDetail
+  - Added Interface InfrastructureNetwork
+  - Added Interface IpAddressRange
+  - Added Interface IpPools
+  - Added Interface IsolatedVmAttestationConfiguration
+  - Added Interface KubernetesVersion
+  - Added Interface KubernetesVersionProperties
+  - Added Interface KubernetesVersionsListBySubscriptionLocationResourceOptionalParams
+  - Added Interface LocalAvailabilityZones
+  - Added Interface LogCollectionError
+  - Added Interface LogCollectionJobSession
+  - Added Interface LogCollectionProperties
+  - Added Interface LogCollectionReportedProperties
+  - Added Interface LogCollectionRequest
+  - Added Interface LogCollectionRequestProperties
+  - Added Interface LogCollectionSession
+  - Added Interface ManagedServiceIdentity
+  - Added Interface NetworkAdapter
+  - Added Interface NetworkConfiguration
+  - Added Interface NetworkController
+  - Added Interface NicDetail
+  - Added Interface Observability
+  - Added Interface Offer
+  - Added Interface OfferProperties
+  - Added Interface OffersGetOptionalParams
+  - Added Interface OffersListByClusterOptionalParams
+  - Added Interface OffersListByPublisherOptionalParams
+  - Added Interface OnboardingConfiguration
+  - Added Interface OperationDetail
+  - Added Interface OptionalServices
+  - Added Interface OsImage
+  - Added Interface OsImageProperties
+  - Added Interface OsImagesGetOptionalParams
+  - Added Interface OsImagesListBySubscriptionLocationResourceOptionalParams
+  - Added Interface OsProfile
+  - Added Interface OsProvisionProfile
+  - Added Interface OwnershipVoucherDetails
+  - Added Interface OwnershipVouchersValidateOptionalParams
+  - Added Interface OwnershipVoucherValidationDetails
+  - Added Interface PackageVersionInfo
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PerNodeRemoteSupportSession
+  - Added Interface PhysicalNodes
+  - Added Interface PlatformPayload
+  - Added Interface PlatformUpdate
+  - Added Interface PlatformUpdateDetails
+  - Added Interface PlatformUpdateProperties
+  - Added Interface PlatformUpdatesGetOptionalParams
+  - Added Interface PlatformUpdatesListOptionalParams
+  - Added Interface PrecheckResult
+  - Added Interface PrecheckResultTags
+  - Added Interface ProvisioningDetails
+  - Added Interface ProvisioningRequest
+  - Added Interface ProvisionOsJobProperties
+  - Added Interface ProvisionOsReportedProperties
+  - Added Interface Publisher
+  - Added Interface PublisherProperties
+  - Added Interface PublishersGetOptionalParams
+  - Added Interface PublishersListByClusterOptionalParams
+  - Added Interface QosPolicyOverrides
+  - Added Interface ReconcileArcSettingsRequest
+  - Added Interface ReconcileArcSettingsRequestProperties
+  - Added Interface RemoteSupportJobNodeSettings
+  - Added Interface RemoteSupportJobReportedProperties
+  - Added Interface RemoteSupportNodeSettings
+  - Added Interface RemoteSupportProperties
+  - Added Interface RemoteSupportRequest
+  - Added Interface RemoteSupportRequestProperties
+  - Added Interface RemoteSupportSession
+  - Added Interface ReportedProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SbeCredentials
+  - Added Interface SbeDeploymentInfo
+  - Added Interface SbeDeploymentPackageInfo
+  - Added Interface SbePartnerInfo
+  - Added Interface SbePartnerProperties
+  - Added Interface ScaleUnits
+  - Added Interface SdnIntegration
+  - Added Interface SdnProperties
+  - Added Interface SecretsLocationDetails
+  - Added Interface SecretsLocationsChangeRequest
+  - Added Interface SecurityComplianceStatus
+  - Added Interface SecurityProperties
+  - Added Interface SecuritySetting
+  - Added Interface SecuritySettingsCreateOrUpdateOptionalParams
+  - Added Interface SecuritySettingsDeleteOptionalParams
+  - Added Interface SecuritySettingsGetOptionalParams
+  - Added Interface SecuritySettingsListByClustersOptionalParams
+  - Added Interface ServiceConfiguration
+  - Added Interface SiteDetails
+  - Added Interface Sku
+  - Added Interface SkuMappings
+  - Added Interface SkuProperties
+  - Added Interface SkusGetOptionalParams
+  - Added Interface SkusListByOfferOptionalParams
+  - Added Interface SoftwareAssuranceChangeRequest
+  - Added Interface SoftwareAssuranceChangeRequestProperties
+  - Added Interface SoftwareAssuranceProperties
+  - Added Interface Step
+  - Added Interface Storage
+  - Added Interface StorageConfiguration
+  - Added Interface StorageProfile
+  - Added Interface SwitchDetail
+  - Added Interface SwitchExtension
+  - Added Interface SystemData
+  - Added Interface TargetDeviceConfiguration
+  - Added Interface TimeConfiguration
+  - Added Interface Update
+  - Added Interface UpdateContent
+  - Added Interface UpdateContentProperties
+  - Added Interface UpdateContentsGetOptionalParams
+  - Added Interface UpdateContentsListOptionalParams
+  - Added Interface UpdatePrerequisite
+  - Added Interface UpdateProperties
+  - Added Interface UpdateRun
+  - Added Interface UpdateRunProperties
+  - Added Interface UpdateRunsDeleteOptionalParams
+  - Added Interface UpdateRunsGetOptionalParams
+  - Added Interface UpdateRunsListOptionalParams
+  - Added Interface UpdateRunsPutOptionalParams
+  - Added Interface UpdatesDeleteOptionalParams
+  - Added Interface UpdatesGetOptionalParams
+  - Added Interface UpdatesListOptionalParams
+  - Added Interface UpdatesPostOptionalParams
+  - Added Interface UpdatesPutOptionalParams
+  - Added Interface UpdateStateProperties
+  - Added Interface UpdateSummaries
+  - Added Interface UpdateSummariesDeleteOptionalParams
+  - Added Interface UpdateSummariesGetOptionalParams
+  - Added Interface UpdateSummariesListOptionalParams
+  - Added Interface UpdateSummariesProperties
+  - Added Interface UpdateSummariesPutOptionalParams
+  - Added Interface UserAssignedIdentity
+  - Added Interface UserDetails
+  - Added Interface ValidatedSolutionRecipe
+  - Added Interface ValidatedSolutionRecipeCapabilities
+  - Added Interface ValidatedSolutionRecipeCapability
+  - Added Interface ValidatedSolutionRecipeComponent
+  - Added Interface ValidatedSolutionRecipeComponentMetadata
+  - Added Interface ValidatedSolutionRecipeComponentPayload
+  - Added Interface ValidatedSolutionRecipeContent
+  - Added Interface ValidatedSolutionRecipeInfo
+  - Added Interface ValidatedSolutionRecipeProperties
+  - Added Interface ValidatedSolutionRecipesGetOptionalParams
+  - Added Interface ValidatedSolutionRecipesListBySubscriptionLocationResourceOptionalParams
+  - Added Interface ValidateOwnershipVouchersRequest
+  - Added Interface ValidateOwnershipVouchersResponse
+  - Added Interface ValidateRequest
+  - Added Interface ValidateResponse
+  - Added Interface WebProxyConfiguration
+  - Interface ArcConnectivityProperties has a new optional parameter serviceConfigurations
+  - Interface ArcSetting has a new optional parameter defaultExtensions
+  - Interface ArcSetting has a new optional parameter systemData
+  - Interface Cluster has a new optional parameter clusterPattern
+  - Interface Cluster has a new optional parameter confidentialVmProperties
+  - Interface Cluster has a new optional parameter connectivityStatus
+  - Interface Cluster has a new optional parameter identityProvider
+  - Interface Cluster has a new optional parameter isManagementCluster
+  - Interface Cluster has a new optional parameter isolatedVmAttestationConfiguration
+  - Interface Cluster has a new optional parameter kind
+  - Interface Cluster has a new optional parameter localAvailabilityZones
+  - Interface Cluster has a new optional parameter logCollectionProperties
+  - Interface Cluster has a new optional parameter principalId
+  - Interface Cluster has a new optional parameter remoteSupportProperties
+  - Interface Cluster has a new optional parameter resourceProviderObjectId
+  - Interface Cluster has a new optional parameter ring
+  - Interface Cluster has a new optional parameter sdnProperties
+  - Interface Cluster has a new optional parameter secretsLocations
+  - Interface Cluster has a new optional parameter softwareAssuranceProperties
+  - Interface Cluster has a new optional parameter supportStatus
+  - Interface Cluster has a new optional parameter tenantId
+  - Interface Cluster has a new optional parameter typeIdentityType
+  - Interface Cluster has a new optional parameter userAssignedIdentities
+  - Interface Cluster has a new optional parameter systemData
+  - Interface ClusterNode has a new optional parameter ehcResourceId
+  - Interface ClusterNode has a new optional parameter lastLicensingTimestamp
+  - Interface ClusterNode has a new optional parameter nodeType
+  - Interface ClusterNode has a new optional parameter oemActivation
+  - Interface ClusterNode has a new optional parameter osDisplayVersion
+  - Interface ClusterPatch has a new optional parameter principalId
+  - Interface ClusterPatch has a new optional parameter tenantId
+  - Interface ClusterPatch has a new optional parameter type
+  - Interface ClusterPatch has a new optional parameter userAssignedIdentities
+  - Interface ClusterReportedProperties has a new optional parameter clusterType
+  - Interface ClusterReportedProperties has a new optional parameter hardwareClass
+  - Interface ClusterReportedProperties has a new optional parameter manufacturer
+  - Interface ClusterReportedProperties has a new optional parameter msiExpirationTimeStamp
+  - Interface ClusterReportedProperties has a new optional parameter oemActivation
+  - Interface ClusterReportedProperties has a new optional parameter supportedCapabilities
+  - Interface Extension has a new optional parameter extensionParameters
+  - Interface Extension has a new optional parameter managedBy
+  - Interface Extension has a new optional parameter systemData
+  - Interface PerNodeExtensionState has a new optional parameter instanceView
+  - Interface PerNodeExtensionState has a new optional parameter typeHandlerVersion
+  - Interface PerNodeState has a new optional parameter arcNodeServicePrincipalObjectId
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface TrackedResource has a new optional parameter systemData
+  - Added Type Alias AccessLevel
+  - Added Type Alias ArcExtensionState
+  - Added Type Alias AvailabilityType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ClusterNodeType
+  - Added Type Alias ClusterPattern
+  - Added Type Alias ComplianceAssignmentType
+  - Added Type Alias ComplianceStatus
+  - Added Type Alias ConfidentialVmIntent
+  - Added Type Alias ConfidentialVmStatus
+  - Added Type Alias ConnectivityStatus
+  - Added Type Alias DeploymentMode
+  - Added Type Alias DeviceKind
+  - Added Type Alias DeviceLogCollectionStatus
+  - Added Type Alias DeviceState
+  - Added Type Alias DnsServerConfig
+  - Added Type Alias EceSecrets
+  - Added Type Alias EdgeDeviceJobUnion
+  - Added Type Alias EdgeDeviceKind
+  - Added Type Alias EdgeDeviceUnion
+  - Added Type Alias EdgeMachineConnectivityStatus
+  - Added Type Alias EdgeMachineJobPropertiesUnion
+  - Added Type Alias EdgeMachineJobType
+  - Added Type Alias EdgeMachineKind
+  - Added Type Alias EdgeMachineState
+  - Added Type Alias ExtensionManagedBy
+  - Added Type Alias HardwareClass
+  - Added Type Alias HciEdgeDeviceJobPropertiesUnion
+  - Added Type Alias HciEdgeDeviceJobType
+  - Added Type Alias HealthState
+  - Added Type Alias IdentityProvider
+  - Added Type Alias IgvmStatus
+  - Added Type Alias IpAssignmentType
+  - Added Type Alias JobStatus
+  - Added Type Alias LogCollectionJobType
+  - Added Type Alias LogCollectionStatus
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias OemActivation
+  - Added Type Alias OnboardingResourceType
+  - Added Type Alias OperationType
+  - Added Type Alias OSOperationType
+  - Added Type Alias OwnerKeyType
+  - Added Type Alias OwnershipVoucherValidationStatus
+  - Added Type Alias ProvisioningOsType
+  - Added Type Alias RdmaCapability
+  - Added Type Alias RebootRequirement
+  - Added Type Alias RemoteSupportAccessLevel
+  - Added Type Alias RemoteSupportType
+  - Added Type Alias SdnIntegrationIntent
+  - Added Type Alias SdnStatus
+  - Added Type Alias SecretsType
+  - Added Type Alias SecretType
+  - Added Type Alias ServiceName
+  - Added Type Alias Severity
+  - Added Type Alias SoftwareAssuranceIntent
+  - Added Type Alias SoftwareAssuranceStatus
+  - Added Type Alias State
+  - Added Type Alias StatusLevelTypes
+  - Added Type Alias SupportStatus
+  - Added Type Alias UpdateRunPropertiesState
+  - Added Type Alias UpdateSummariesPropertiesState
+  - Added Enum AzureClouds
+  - Added Enum KnownAccessLevel
+  - Added Enum KnownArcExtensionState
+  - Added Enum KnownAvailabilityType
+  - Added Enum KnownClusterNodeType
+  - Added Enum KnownClusterPattern
+  - Added Enum KnownComplianceAssignmentType
+  - Added Enum KnownComplianceStatus
+  - Added Enum KnownConfidentialVmIntent
+  - Added Enum KnownConfidentialVmStatus
+  - Added Enum KnownConnectivityStatus
+  - Added Enum KnownDeploymentMode
+  - Added Enum KnownDeviceKind
+  - Added Enum KnownDeviceLogCollectionStatus
+  - Added Enum KnownDeviceState
+  - Added Enum KnownDnsServerConfig
+  - Added Enum KnownEceSecrets
+  - Added Enum KnownEdgeDeviceKind
+  - Added Enum KnownEdgeMachineConnectivityStatus
+  - Added Enum KnownEdgeMachineJobType
+  - Added Enum KnownEdgeMachineKind
+  - Added Enum KnownEdgeMachineState
+  - Added Enum KnownExtensionManagedBy
+  - Added Enum KnownHardwareClass
+  - Added Enum KnownHciEdgeDeviceJobType
+  - Added Enum KnownHealthState
+  - Added Enum KnownIdentityProvider
+  - Added Enum KnownIgvmStatus
+  - Added Enum KnownIpAssignmentType
+  - Added Enum KnownJobStatus
+  - Added Enum KnownLogCollectionJobType
+  - Added Enum KnownLogCollectionStatus
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownOemActivation
+  - Added Enum KnownOnboardingResourceType
+  - Added Enum KnownOperationType
+  - Added Enum KnownOSOperationType
+  - Added Enum KnownOwnerKeyType
+  - Added Enum KnownOwnershipVoucherValidationStatus
+  - Added Enum KnownProvisioningOsType
+  - Added Enum KnownRdmaCapability
+  - Added Enum KnownRebootRequirement
+  - Added Enum KnownRemoteSupportAccessLevel
+  - Added Enum KnownRemoteSupportType
+  - Added Enum KnownSdnIntegrationIntent
+  - Added Enum KnownSdnStatus
+  - Added Enum KnownSecretsType
+  - Added Enum KnownSecretType
+  - Added Enum KnownServiceName
+  - Added Enum KnownSeverity
+  - Added Enum KnownSoftwareAssuranceIntent
+  - Added Enum KnownSoftwareAssuranceStatus
+  - Added Enum KnownState
+  - Added Enum KnownStatusLevelTypes
+  - Added Enum KnownSupportStatus
+  - Added Enum KnownUpdateRunPropertiesState
+  - Added Enum KnownUpdateSummariesPropertiesState
+  - Added Enum KnownVersions
+  - Enum KnownArcSettingAggregateState has a new value Accepted
+  - Enum KnownArcSettingAggregateState has a new value DisableInProgress
+  - Enum KnownArcSettingAggregateState has a new value Provisioning
+  - Enum KnownExtensionAggregateState has a new value Accepted
+  - Enum KnownExtensionAggregateState has a new value Provisioning
+  - Enum KnownExtensionAggregateState has a new value UpgradeFailedRollbackSucceeded
+  - Enum KnownNodeArcState has a new value Accepted
+  - Enum KnownNodeArcState has a new value DisableInProgress
+  - Enum KnownNodeArcState has a new value InProgress
+  - Enum KnownNodeArcState has a new value PartiallyConnected
+  - Enum KnownNodeArcState has a new value PartiallySucceeded
+  - Enum KnownNodeArcState has a new value Provisioning
+  - Enum KnownNodeExtensionState has a new value Accepted
+  - Enum KnownNodeExtensionState has a new value InProgress
+  - Enum KnownNodeExtensionState has a new value PartiallyConnected
+  - Enum KnownNodeExtensionState has a new value PartiallySucceeded
+  - Enum KnownNodeExtensionState has a new value Provisioning
+  - Enum KnownProvisioningState has a new value Connected
+  - Enum KnownProvisioningState has a new value Creating
+  - Enum KnownProvisioningState has a new value Deleted
+  - Enum KnownProvisioningState has a new value Deleting
+  - Enum KnownProvisioningState has a new value DisableInProgress
+  - Enum KnownProvisioningState has a new value Disconnected
+  - Enum KnownProvisioningState has a new value Error
+  - Enum KnownProvisioningState has a new value InProgress
+  - Enum KnownProvisioningState has a new value Moving
+  - Enum KnownProvisioningState has a new value NotSpecified
+  - Enum KnownProvisioningState has a new value PartiallyConnected
+  - Enum KnownProvisioningState has a new value PartiallySucceeded
+  - Enum KnownProvisioningState has a new value Updating
+  - Enum KnownStatus has a new value DeploymentFailed
+  - Enum KnownStatus has a new value DeploymentInProgress
+  - Enum KnownStatus has a new value DeploymentSuccess
+  - Enum KnownStatus has a new value NotSpecified
+  - Enum KnownStatus has a new value ValidationFailed
+  - Enum KnownStatus has a new value ValidationInProgress
+  - Enum KnownStatus has a new value ValidationSuccess
 
 ### Breaking Changes
+  - Removed operation ArcSettings.beginCreateIdentity
+  - Removed operation ArcSettings.beginCreateIdentityAndWait
+  - Removed operation ArcSettings.beginDelete
+  - Removed operation ArcSettings.beginDeleteAndWait
+  - Removed operation Clusters.beginCreateIdentity
+  - Removed operation Clusters.beginCreateIdentityAndWait
+  - Removed operation Clusters.beginDelete
+  - Removed operation Clusters.beginDeleteAndWait
+  - Removed operation Clusters.beginUploadCertificate
+  - Removed operation Clusters.beginUploadCertificateAndWait
+  - Removed operation Extensions.beginCreate
+  - Removed operation Extensions.beginCreateAndWait
+  - Removed operation Extensions.beginDelete
+  - Removed operation Extensions.beginDeleteAndWait
+  - Removed operation Extensions.beginUpdate
+  - Removed operation Extensions.beginUpdateAndWait
+  - Operation ArcSettings.create has a new signature
+  - Operation ArcSettings.get has a new signature
+  - Operation ArcSettings.update has a new signature
+  - Operation Operations.list has a new signature
+  - Removed Interface ArcSettingList
+  - Removed Interface ClusterList
+  - Removed Interface ExtensionList
+  - Type of parameter connectivityProperties of interface ArcSetting is changed from Record<string, unknown> to ArcConnectivityProperties
+  - Type of parameter connectivityProperties of interface ArcSettingsPatch is changed from Record<string, unknown> to ArcConnectivityProperties
+  - Interface ArcSetting no longer has parameter createdAt
+  - Interface ArcSetting no longer has parameter createdBy
+  - Interface ArcSetting no longer has parameter createdByType
+  - Interface ArcSetting no longer has parameter lastModifiedAt
+  - Interface ArcSetting no longer has parameter lastModifiedBy
+  - Interface ArcSetting no longer has parameter lastModifiedByType
+  - Interface Cluster no longer has parameter createdAt
+  - Interface Cluster no longer has parameter createdBy
+  - Interface Cluster no longer has parameter createdByType
+  - Interface Cluster no longer has parameter lastModifiedAt
+  - Interface Cluster no longer has parameter lastModifiedBy
+  - Interface Cluster no longer has parameter lastModifiedByType
+  - Interface Extension no longer has parameter autoUpgradeMinorVersion
+  - Interface Extension no longer has parameter createdAt
+  - Interface Extension no longer has parameter createdBy
+  - Interface Extension no longer has parameter createdByType
+  - Interface Extension no longer has parameter forceUpdateTag
+  - Interface Extension no longer has parameter lastModifiedAt
+  - Interface Extension no longer has parameter lastModifiedBy
+  - Interface Extension no longer has parameter lastModifiedByType
+  - Interface Extension no longer has parameter protectedSettings
+  - Interface Extension no longer has parameter publisher
+  - Interface Extension no longer has parameter settings
+  - Interface Extension no longer has parameter typeHandlerVersion
+  - Interface Extension no longer has parameter typePropertiesExtensionParametersType
 
-### Bugs Fixed
-
-### Other Changes
-
-## 4.0.0-beta.3 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 4.0.0-beta.2 (2024-08-14)
 Compared with version 3.0.0
 

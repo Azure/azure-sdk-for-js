@@ -1,34 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Upload certificate.
- *
- * @summary Upload certificate.
- * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/UploadCertificate.json
- */
-
-import type { UploadCertificateRequest } from "@azure/arm-azurestackhci";
 import { AzureStackHCIClient } from "@azure/arm-azurestackhci";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to upload certificate.
+ *
+ * @summary upload certificate.
+ * x-ms-original-file: 2025-12-01-preview/UploadCertificate.json
+ */
 async function uploadCertificate(): Promise<void> {
-  const subscriptionId =
-    process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] || "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName = process.env["AZURESTACKHCI_RESOURCE_GROUP"] || "test-rg";
-  const clusterName = "myCluster";
-  const uploadCertificateRequest: UploadCertificateRequest = {
-    properties: { certificates: ["base64cert", "base64cert"] },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
   const client = new AzureStackHCIClient(credential, subscriptionId);
-  const result = await client.clusters.beginUploadCertificateAndWait(
-    resourceGroupName,
-    clusterName,
-    uploadCertificateRequest,
-  );
-  console.log(result);
+  await client.clusters.uploadCertificate("test-rg", "myCluster", {
+    properties: { certificates: ["base64cert", "base64cert"] },
+  });
 }
 
 async function main(): Promise<void> {
