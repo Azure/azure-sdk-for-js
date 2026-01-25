@@ -18,7 +18,8 @@ import { EnvironmentVariableNames, assertEnvironmentVariable } from "./utils/env
 describe("Collection Lifecycle Operations", () => {
   let recorder: Recorder;
   let client: PlanetaryComputerProClient;
-  const testCollectionId = "test-collection-lifecycle";
+  // Use a unique collection name to avoid "collection is being deleted" race conditions
+  const testCollectionId = "test-collection-lifecycle-v2";
 
   beforeEach(async function (ctx) {
     recorder = await createRecorder(ctx);
