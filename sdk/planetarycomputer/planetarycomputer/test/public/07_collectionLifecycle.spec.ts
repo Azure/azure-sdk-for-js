@@ -43,6 +43,12 @@ describe("Collection Lifecycle Operations", () => {
         const poller = client.stac.deleteCollection(testCollectionId);
         await poller.pollUntilDone();
         console.log(`Deleted existing collection '${testCollectionId}'`);
+        // Wait for the service to fully clean up the collection after deletion
+        // The LRO completion doesn't guarantee the collection is fully removed
+        if (!isPlaybackMode()) {
+          console.log("Waiting for service to complete cleanup...");
+          await new Promise((resolve) => setTimeout(resolve, 30000));
+        }
       }
     } catch (error: any) {
       console.log(`Collection '${testCollectionId}' does not exist, proceeding with creation`);
@@ -66,8 +72,37 @@ describe("Collection Lifecycle Operations", () => {
     };
 
     console.log("Calling: createCollection(body=collection_data)");
-    const poller = client.stac.createCollection(collectionData as any);
-    await poller.pollUntilDone();
+
+    // Retry loop to handle "collection is being deleted" race condition
+    // The service may still be cleaning up even after the delete LRO completes
+    const maxRetries = isPlaybackMode() ? 1 : 5;
+    let lastError: Error | undefined;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const poller = client.stac.createCollection(collectionData as any);
+        await poller.pollUntilDone();
+        lastError = undefined;
+        break;
+      } catch (error: any) {
+        lastError = error;
+        if (
+          isRestError(error) &&
+          error.message?.includes("is being deleted") &&
+          attempt < maxRetries
+        ) {
+          const waitTime = attempt * 15000; // Exponential backoff: 15s, 30s, 45s, 60s
+          console.log(
+            `Collection still being deleted, waiting ${waitTime / 1000}s before retry ${attempt + 1}/${maxRetries}...`,
+          );
+          await new Promise((resolve) => setTimeout(resolve, waitTime));
+        } else {
+          throw error;
+        }
+      }
+    }
+    if (lastError) {
+      throw lastError;
+    }
 
     console.log("Collection created successfully");
 
@@ -124,6 +159,24 @@ describe("Collection Lifecycle Operations", () => {
 
     const deletionTestCollectionId = "test-collection-deletion";
 
+    // Check if collection exists and delete it first to ensure clean state
+    try {
+      const existingCollection = await client.stac.getCollection(deletionTestCollectionId);
+      if (existingCollection) {
+        console.log(`Collection '${deletionTestCollectionId}' already exists, deleting first...`);
+        const poller = client.stac.deleteCollection(deletionTestCollectionId);
+        await poller.pollUntilDone();
+        console.log(`Deleted existing collection '${deletionTestCollectionId}'`);
+        // Wait for the service to fully clean up the collection after deletion
+        if (!isPlaybackMode()) {
+          console.log("Waiting for service to complete cleanup...");
+          await new Promise((resolve) => setTimeout(resolve, 30000));
+        }
+      }
+    } catch (error: any) {
+      console.log(`Collection '${deletionTestCollectionId}' does not exist, proceeding`);
+    }
+
     // First, create a collection to delete
     const collectionData = {
       id: deletionTestCollectionId,
@@ -142,8 +195,35 @@ describe("Collection Lifecycle Operations", () => {
     };
 
     console.log("Creating collection to be deleted...");
-    const createPoller = client.stac.createCollection(collectionData as any);
-    await createPoller.pollUntilDone();
+    // Retry loop to handle "collection is being deleted" race condition
+    const maxRetries = isPlaybackMode() ? 1 : 5;
+    let lastError: Error | undefined;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const createPoller = client.stac.createCollection(collectionData as any);
+        await createPoller.pollUntilDone();
+        lastError = undefined;
+        break;
+      } catch (error: any) {
+        lastError = error;
+        if (
+          isRestError(error) &&
+          error.message?.includes("is being deleted") &&
+          attempt < maxRetries
+        ) {
+          const waitTime = attempt * 15000; // Exponential backoff: 15s, 30s, 45s, 60s
+          console.log(
+            `Collection still being deleted, waiting ${waitTime / 1000}s before retry ${attempt + 1}/${maxRetries}...`,
+          );
+          await new Promise((resolve) => setTimeout(resolve, waitTime));
+        } else {
+          throw error;
+        }
+      }
+    }
+    if (lastError) {
+      throw lastError;
+    }
     console.log("Collection created");
 
     // Now delete it
