@@ -1,22 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPIContext as Client } from "../index.js";
+import type { HybridConnectivityManagementAPIContext as Client } from "../index.js";
+import type {
+  GenerateAwsTemplateRequest,
+  GenerateAwsTemplateResponse,
+} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  GenerateAwsTemplateRequest,
   generateAwsTemplateRequestSerializer,
-  GenerateAwsTemplateResponse,
   generateAwsTemplateResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { GenerateAwsTemplatePostOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { GenerateAwsTemplatePostOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _postSend(
   context: Client,
@@ -36,10 +34,7 @@ export function _postSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: generateAwsTemplateRequestSerializer(generateAwsTemplateRequest),
   });
 }

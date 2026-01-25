@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
+import type { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
 import {
   testPermissions,
   listBySubscription,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/publicCloudConnectors/operations.js";
-import {
+import type {
   PublicCloudConnectorsTestPermissionsOptionalParams,
   PublicCloudConnectorsListBySubscriptionOptionalParams,
   PublicCloudConnectorsListByResourceGroupOptionalParams,
@@ -20,13 +20,13 @@ import {
   PublicCloudConnectorsCreateOrUpdateOptionalParams,
   PublicCloudConnectorsGetOptionalParams,
 } from "../../api/publicCloudConnectors/options.js";
-import {
+import type {
   PublicCloudConnector,
   PublicCloudConnectorUpdate,
   OperationStatusResult,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PublicCloudConnectors operations. */
 export interface PublicCloudConnectorsOperations {

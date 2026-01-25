@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -222,7 +229,9 @@ export function endpointPropertiesDeserializer(item: any): EndpointProperties {
 
 /** The type of endpoint. */
 export enum KnownType {
+  /** default */
   Default = "default",
+  /** custom */
   Custom = "custom",
 }
 
@@ -324,7 +333,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -373,7 +382,9 @@ export function listCredentialsRequestSerializer(item: ListCredentialsRequest): 
 
 /** Name of the service. */
 export enum KnownServiceName {
+  /** SSH */
   SSH = "SSH",
+  /** WAC */
   WAC = "WAC",
 }
 
@@ -389,15 +400,23 @@ export type ServiceName = string;
 
 /** The endpoint access for the target resource. */
 export interface EndpointAccessResource {
-  /** Azure relay hybrid connection access properties */
-  relay?: RelayNamespaceAccessProperties;
+  /** The namespace name. */
+  namespaceName?: string;
+  /** The suffix domain name of relay namespace. */
+  namespaceNameSuffix?: string;
+  /** Azure Relay hybrid connection name for the resource. */
+  hybridConnectionName?: string;
+  /** Access key for hybrid connection. */
+  readonly accessKey?: string;
+  /** The expiration of access key in unix time. */
+  expiresOn?: number;
+  /** The token to access the enabled service. */
+  serviceConfigurationToken?: string;
 }
 
 export function endpointAccessResourceDeserializer(item: any): EndpointAccessResource {
   return {
-    relay: !item["relay"]
-      ? item["relay"]
-      : relayNamespaceAccessPropertiesDeserializer(item["relay"]),
+    ...(!item["relay"] ? item["relay"] : _endpointAccessResourceRelayDeserializer(item["relay"])),
   };
 }
 
@@ -444,20 +463,30 @@ export function listIngressGatewayCredentialsRequestSerializer(
 
 /** The ingress gateway access credentials */
 export interface IngressGatewayResource {
-  /** Azure relay hybrid connection access properties */
-  relay?: RelayNamespaceAccessProperties;
-  /** Ingress gateway profile */
-  ingress?: IngressProfileProperties;
+  /** The namespace name. */
+  namespaceName?: string;
+  /** The suffix domain name of relay namespace. */
+  namespaceNameSuffix?: string;
+  /** Azure Relay hybrid connection name for the resource. */
+  hybridConnectionName?: string;
+  /** Access key for hybrid connection. */
+  readonly accessKey?: string;
+  /** The expiration of access key in unix time. */
+  expiresOn?: number;
+  /** The token to access the enabled service. */
+  serviceConfigurationToken?: string;
+  /** The ingress hostname. */
+  hostname?: string;
+  /** The AAD Profile */
+  aadProfile?: AADProfileProperties;
 }
 
 export function ingressGatewayResourceDeserializer(item: any): IngressGatewayResource {
   return {
-    relay: !item["relay"]
-      ? item["relay"]
-      : relayNamespaceAccessPropertiesDeserializer(item["relay"]),
-    ingress: !item["ingress"]
+    ...(!item["relay"] ? item["relay"] : _ingressGatewayResourceRelayDeserializer(item["relay"])),
+    ...(!item["ingress"]
       ? item["ingress"]
-      : ingressProfilePropertiesDeserializer(item["ingress"]),
+      : _ingressGatewayResourceIngressDeserializer(item["ingress"])),
   };
 }
 
@@ -465,14 +494,16 @@ export function ingressGatewayResourceDeserializer(item: any): IngressGatewayRes
 export interface IngressProfileProperties {
   /** The ingress hostname. */
   hostname: string;
-  /** The AAD Profile */
-  aadProfile: AADProfileProperties;
+  /** The arc ingress gateway server app id. */
+  serverId: string;
+  /** The target resource home tenant id. */
+  tenantId: string;
 }
 
 export function ingressProfilePropertiesDeserializer(item: any): IngressProfileProperties {
   return {
     hostname: item["hostname"],
-    aadProfile: aadProfilePropertiesDeserializer(item["aadProfile"]),
+    ..._ingressProfilePropertiesAadProfileDeserializer(item["aadProfile"]),
   };
 }
 
@@ -502,11 +533,7 @@ export interface ManagedProxyRequest {
 }
 
 export function managedProxyRequestSerializer(item: ManagedProxyRequest): any {
-  return {
-    service: item["service"],
-    hostname: item["hostname"],
-    serviceName: item["serviceName"],
-  };
+  return { service: item["service"], hostname: item["hostname"], serviceName: item["serviceName"] };
 }
 
 /** Managed Proxy */
@@ -526,15 +553,21 @@ export function managedProxyResourceDeserializer(item: any): ManagedProxyResourc
 
 /** The service configuration details associated with the target resource. */
 export interface ServiceConfigurationResource extends ExtensionResource {
-  /** The service configuration properties. */
-  properties?: ServiceConfigurationProperties;
+  /** Name of the service. */
+  serviceName?: ServiceName;
+  /** The resource Id of the connectivity endpoint (optional). */
+  resourceId?: string;
+  /** The port on which service is enabled. */
+  port?: number;
+  /** The resource provisioning state. */
+  readonly provisioningState?: ProvisioningState;
 }
 
 export function serviceConfigurationResourceSerializer(item: ServiceConfigurationResource): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : serviceConfigurationPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["serviceName", "resourceId", "port"])
+      ? undefined
+      : _serviceConfigurationResourcePropertiesSerializer(item),
   };
 }
 
@@ -546,9 +579,9 @@ export function serviceConfigurationResourceDeserializer(item: any): ServiceConf
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : serviceConfigurationPropertiesDeserializer(item["properties"]),
+      : _serviceConfigurationResourcePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -567,11 +600,7 @@ export interface ServiceConfigurationProperties {
 export function serviceConfigurationPropertiesSerializer(
   item: ServiceConfigurationProperties,
 ): any {
-  return {
-    serviceName: item["serviceName"],
-    resourceId: item["resourceId"],
-    port: item["port"],
-  };
+  return { serviceName: item["serviceName"], resourceId: item["resourceId"], port: item["port"] };
 }
 
 export function serviceConfigurationPropertiesDeserializer(
@@ -587,10 +616,15 @@ export function serviceConfigurationPropertiesDeserializer(
 
 /** The resource provisioning state. */
 export enum KnownProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
 }
 
@@ -609,17 +643,17 @@ export type ProvisioningState = string;
 
 /** The service details under service configuration for the target endpoint resource. */
 export interface ServiceConfigurationResourcePatch {
-  /** The service configuration properties. */
-  properties?: ServiceConfigurationPropertiesPatch;
+  /** The port on which service is enabled. */
+  port?: number;
 }
 
 export function serviceConfigurationResourcePatchSerializer(
   item: ServiceConfigurationResourcePatch,
 ): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : serviceConfigurationPropertiesPatchSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["port"])
+      ? undefined
+      : _serviceConfigurationResourcePatchPropertiesSerializer(item),
   };
 }
 
@@ -713,7 +747,7 @@ export interface SolutionSettings {
 }
 
 export function solutionSettingsSerializer(item: SolutionSettings): any {
-  return { ...serializeRecord(item.additionalProperties) };
+  return { ...serializeRecord(item.additionalProperties ?? {}) };
 }
 
 export function solutionSettingsDeserializer(item: any): SolutionSettings {
@@ -747,7 +781,9 @@ export function publicCloudConnectorSerializer(item: PublicCloudConnector): any 
 
 export function publicCloudConnectorDeserializer(item: any): PublicCloudConnector {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -883,7 +919,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -1392,4 +1430,63 @@ export function solutionTypeResourceArrayDeserializer(result: Array<SolutionType
 export enum KnownVersions {
   /** Version 2024-12-01 */
   V20241201 = "2024-12-01",
+}
+
+export function _endpointAccessResourceRelayDeserializer(item: any) {
+  return {
+    namespaceName: item["namespaceName"],
+    namespaceNameSuffix: item["namespaceNameSuffix"],
+    hybridConnectionName: item["hybridConnectionName"],
+    accessKey: item["accessKey"],
+    expiresOn: item["expiresOn"],
+    serviceConfigurationToken: item["serviceConfigurationToken"],
+  };
+}
+
+export function _ingressGatewayResourceRelayDeserializer(item: any) {
+  return {
+    namespaceName: item["namespaceName"],
+    namespaceNameSuffix: item["namespaceNameSuffix"],
+    hybridConnectionName: item["hybridConnectionName"],
+    accessKey: item["accessKey"],
+    expiresOn: item["expiresOn"],
+    serviceConfigurationToken: item["serviceConfigurationToken"],
+  };
+}
+
+export function _ingressProfilePropertiesAadProfileDeserializer(item: any) {
+  return {
+    serverId: item["serverId"],
+    tenantId: item["tenantId"],
+  };
+}
+
+export function _ingressGatewayResourceIngressDeserializer(item: any) {
+  return {
+    hostname: item["hostname"],
+    aadProfile: !item["aadProfile"]
+      ? item["aadProfile"]
+      : aadProfilePropertiesDeserializer(item["aadProfile"]),
+  };
+}
+
+export function _serviceConfigurationResourcePropertiesSerializer(
+  item: ServiceConfigurationResource,
+): any {
+  return { serviceName: item["serviceName"], resourceId: item["resourceId"], port: item["port"] };
+}
+
+export function _serviceConfigurationResourcePropertiesDeserializer(item: any) {
+  return {
+    serviceName: item["serviceName"],
+    resourceId: item["resourceId"],
+    port: item["port"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function _serviceConfigurationResourcePatchPropertiesSerializer(
+  item: ServiceConfigurationResourcePatch,
+): any {
+  return { port: item["port"] };
 }
