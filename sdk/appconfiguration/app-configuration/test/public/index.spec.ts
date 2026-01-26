@@ -1254,6 +1254,66 @@ describe("AppConfigurationClient", () => {
         await deleteKeyCompletely([key], client);
       }
     });
+
+    // Skip in live mode to avoid throttling (429) when creating 100+ settings
+    it("returns different etags for different pages", { skip: isLiveMode() }, async () => {
+      const key = recorder.variable(
+        "checkConfigSetting-multiPage",
+        `checkConfigSetting-multiPage${Math.floor(Math.random() * 100000)}`,
+      );
+
+      // Create 101 settings to ensure we have at least 2 pages (page size is 100)
+      const expectedNumberOfLabels = 101;
+
+      let addSettingPromises = [];
+      for (let i = 0; i < expectedNumberOfLabels; i++) {
+        addSettingPromises.push(
+          client.addConfigurationSetting({
+            key,
+            value: `value for ${i}`,
+            label: i.toString(),
+          }),
+        );
+
+        if (i !== 0 && i % 10 === 0) {
+          await Promise.all(addSettingPromises);
+          addSettingPromises = [];
+        }
+      }
+      await Promise.all(addSettingPromises);
+
+      try {
+        const pageIterator = client.checkConfigurationSettings({ keyFilter: key }).byPage();
+
+        // Get first page
+        const firstPage = await pageIterator.next();
+        assert.isFalse(firstPage.done);
+        assert.isDefined(firstPage.value.etag, "first page etag should be present");
+        assert.equal(firstPage.value.items.length, 0, "items should be empty for HEAD request");
+        assert.equal(firstPage.value._response.status, 200);
+        const firstPageEtag = firstPage.value.etag;
+
+        // Get second page
+        const secondPage = await pageIterator.next();
+        assert.isFalse(secondPage.done);
+        assert.isDefined(secondPage.value.etag, "second page etag should be present");
+        assert.equal(secondPage.value.items.length, 0, "items should be empty for HEAD request");
+        assert.equal(secondPage.value._response.status, 200);
+        const secondPageEtag = secondPage.value.etag;
+
+        // Verify that each page has a different etag
+        assert.notEqual(
+          firstPageEtag,
+          secondPageEtag,
+          "different pages should have different etags",
+        );
+      } finally {
+        // Clean up all created settings
+        for (let i = 0; i < expectedNumberOfLabels; i++) {
+          await client.deleteConfigurationSetting({ key, label: i.toString() });
+        }
+      }
+    });
   });
 
   describe("listConfigSettings", () => {
