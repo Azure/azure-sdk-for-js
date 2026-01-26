@@ -88,6 +88,10 @@ describe("Library/TraceHandler", () => {
   });
 
   afterEach(async () => {
+    if (tracerProvider) {
+      await tracerProvider.shutdown();
+    }
+    trace.disable();
     activeInstrumentations.forEach((instrumentation) => instrumentation.disable());
     activeInstrumentations = [];
     if (metricHandler) {
@@ -332,3 +336,4 @@ describe("Library/TraceHandler", () => {
     });
   });
 });
+
