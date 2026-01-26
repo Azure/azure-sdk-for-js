@@ -1178,9 +1178,6 @@
 # ServiceLabel: %Cognitive - Form Recognizer %Service Attention
 # ServiceOwners:          @ctstone @vkurpad
 
-# ServiceLabel: %Cognitive - Anomaly Detector %Service Attention
-# ServiceOwners:          @yingqunpku
-
 # ServiceLabel: %Cognitive - Custom Vision %Service Attention
 # ServiceOwners:          @areddish @tburns10
 
