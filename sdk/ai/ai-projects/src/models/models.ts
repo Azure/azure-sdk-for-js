@@ -3031,49 +3031,62 @@ export function structuredInputDefinitionDeserializer(item: any): StructuredInpu
 
 /** Error response for API failures. */
 export interface ApiErrorResponse {
-  error: ErrorModel;
+  error: ApiError;
 }
 
 export function apiErrorResponseDeserializer(item: any): ApiErrorResponse {
   return {
-    error: errorDeserializer(item["error"]),
+    error: apiErrorDeserializer(item["error"]),
   };
 }
 
-/** model interface ErrorModel */
-export interface ErrorModel {
+/** model interface ApiError */
+export interface ApiError {
   /** The error code. */
   code: string;
   /** A human-readable description of the error. */
   message: string;
-  /** The parameter that caused the error, if applicable. */
-  param?: string;
-  /** The type of error. */
-  type: string;
+  /** The target of the error, if applicable. */
+  target?: string;
   /** Additional details about the error. */
-  details?: ErrorModel[];
-  /** Additional information about the error. */
-  additionalInfo?: Record<string, unknown>;
-  /** Debug information for the error. */
-  debugInfo?: Record<string, unknown>;
+  details: ApiError[];
+  /** The inner error, if any. */
+  innererror?: ApiInnerError;
 }
 
-export function errorDeserializer(item: any): ErrorModel {
+export function apiErrorDeserializer(item: any): ApiError {
   return {
     code: item["code"],
     message: item["message"],
-    param: item["param"],
-    type: item["type"],
-    details: !item["details"] ? item["details"] : errorArrayDeserializer(item["details"]),
-    additionalInfo: item["additionalInfo"],
-    debugInfo: item["debugInfo"],
+    target: item["target"],
+    details: apiErrorArrayDeserializer(item["details"]),
+    innererror: !item["innererror"]
+      ? item["innererror"]
+      : apiInnerErrorDeserializer(item["innererror"]),
   };
 }
 
-export function errorArrayDeserializer(result: Array<ErrorModel>): any[] {
-  return result.map((item) => {
-    return errorDeserializer(item);
+export function apiErrorArrayDeserializer(result: Array<ApiError>): any[] {
+  return (result || []).map((item) => {
+    return apiErrorDeserializer(item);
   });
+}
+
+/** model interface ApiInnerError */
+export interface ApiInnerError {
+  /** The error code. */
+  code: string;
+  /** The inner error, if any. */
+  innererror?: ApiInnerError;
+}
+
+export function apiInnerErrorDeserializer(item: any): ApiInnerError {
+  return {
+    code: item["code"],
+    innererror: !item["innererror"]
+      ? item["innererror"]
+      : apiInnerErrorDeserializer(item["innererror"]),
+  };
 }
 
 /** A deleted agent Object */
@@ -3586,11 +3599,6 @@ export function memoryItemDeserializer(item: any): MemoryItem {
 
 /** Alias for MemoryItemUnion */
 export type MemoryItemUnion = UserProfileMemoryItem | ChatSummaryMemoryItem | MemoryItem;
-export function apiErrorArrayDeserializer(result: Array<ApiError>): any[] {
-  return (result || []).map((item) => {
-    return apiErrorDeserializer(item);
-  });
-}
 
 export function memoryItemUnionSerializer(item: MemoryItemUnion): any {
   switch (item.kind) {
@@ -5795,7 +5803,7 @@ export interface MemoryStoreUpdateResponse {
   /** The result of memory store update operation when status is "completed". */
   result?: MemoryStoreUpdateCompletedResult;
   /** Error object that describes the error when status is "failed". */
-  error?: ErrorModel;
+  error?: ApiError;
 }
 
 export function memoryStoreUpdateResponseDeserializer(item: any): MemoryStoreUpdateResponse {
@@ -5806,7 +5814,7 @@ export function memoryStoreUpdateResponseDeserializer(item: any): MemoryStoreUpd
     result: !item["result"]
       ? item["result"]
       : memoryStoreUpdateCompletedResultDeserializer(item["result"]),
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
   };
 }
 

@@ -111,7 +111,7 @@ export {
   TextResponseFormatConfigurationResponseFormatJsonObject,
   StructuredInputDefinition,
   ApiErrorResponse,
-  ErrorModel,
+  ApiError,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
   MemoryStoreDefinition,

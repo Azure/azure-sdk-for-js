@@ -239,9 +239,19 @@ export type AnnotationType = "file_citation" | "url_citation" | "container_file_
 export type AnnotationUnion = FileCitationBody | UrlCitationBody | ContainerFileCitationBody | FilePath | Annotation;
 
 // @public
+export interface ApiError {
+    code: string;
+    details: ApiError[];
+    // Warning: (ae-forgotten-export) The symbol "ApiInnerError" needs to be exported by the entry point index.d.ts
+    innererror?: ApiInnerError;
+    message: string;
+    target?: string;
+}
+
+// @public
 export interface ApiErrorResponse {
     // (undocumented)
-    error: ErrorModel;
+    error: ApiError;
 }
 
 // @public
@@ -914,17 +924,6 @@ export interface EmbeddingConfiguration {
 // @public
 export interface EntraIDCredentials extends BaseCredentials {
     readonly type: "AAD";
-}
-
-// @public
-export interface ErrorModel {
-    additionalInfo?: Record<string, unknown>;
-    code: string;
-    debugInfo?: Record<string, unknown>;
-    details?: ErrorModel[];
-    message: string;
-    param?: string;
-    type: string;
 }
 
 // @public
@@ -2142,7 +2141,7 @@ export type MemoryStoreUpdateOperationState = OperationState_2<MemoryStoreUpdate
 
 // @public
 export interface MemoryStoreUpdateResponse {
-    error?: ErrorModel;
+    error?: ApiError;
     result?: MemoryStoreUpdateCompletedResult;
     status: MemoryStoreUpdateStatus;
     superseded_by?: string;
