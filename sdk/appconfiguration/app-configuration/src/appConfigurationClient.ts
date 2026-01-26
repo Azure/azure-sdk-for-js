@@ -9,6 +9,7 @@ import {
   type AddConfigurationSettingParam,
   type AddConfigurationSettingResponse,
   type AppConfigurationClientOptions,
+  type CheckConfigurationSettingsOptions,
   type ConfigurationSetting,
   type ConfigurationSettingId,
   type CreateSnapshotOptions,
@@ -44,9 +45,11 @@ import type {
   AppConfigurationGetKeyValuesHeaders,
   AppConfigurationGetRevisionsHeaders,
   AppConfigurationGetSnapshotsHeaders,
+  AppConfigurationCheckKeyValuesHeaders,
   GetKeyValuesResponse,
   GetRevisionsResponse,
   GetSnapshotsResponse,
+  CheckKeyValuesResponse,
   ConfigurationSnapshot,
   GetLabelsResponse,
   AppConfigurationGetLabelsHeaders,
@@ -448,6 +451,81 @@ export class AppConfigurationClient {
   }
 
   /**
+   * Checks settings from the Azure App Configuration service using a HEAD request, returning only headers without the response body.
+   * This is useful for efficiently checking if settings have changed by comparing ETags.
+   *
+   * Example code:
+   * ```ts snippet:CheckConfigurationSettings
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * // The endpoint for your App Configuration resource
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
+   * const pageIterator = client.checkConfigurationSettings({ keyFilter: "MyKey" }).byPage();
+   * ```
+   * @param options - Optional parameters for the request.
+   */
+  checkConfigurationSettings(
+    options: CheckConfigurationSettingsOptions = {},
+  ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
+    const pageEtags = options.pageEtags ? [...options.pageEtags] : undefined;
+    delete options.pageEtags;
+    const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
+      {
+        firstPageLink: undefined,
+        getPage: async (pageLink: string | undefined) => {
+          const etag = pageEtags?.shift();
+          try {
+            const response = await this.checkConfigurationSettingsRequest(
+              { ...options, etag },
+              pageLink,
+            );
+            const link = response._response?.headers?.get("link");
+            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+            const currentResponse: ListConfigurationSettingPage = {
+              ...response,
+              etag: response._response?.headers?.get("etag"),
+              items: [],
+              continuationToken: continuationToken,
+              _response: response._response,
+            };
+            return {
+              page: currentResponse,
+              nextPageLink: currentResponse.continuationToken,
+            };
+          } catch (error) {
+            const err = error as RestError;
+
+            const link = err.response?.headers?.get("link");
+            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+
+            if (err.statusCode === 304) {
+              err.message = `Status 304: No updates for this page`;
+              logger.info(
+                `[checkConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
+              );
+              return {
+                page: {
+                  items: [],
+                  etag,
+                  _response: { ...err.response, status: 304 },
+                } as unknown as ListConfigurationSettingPage,
+                nextPageLink: continuationToken,
+              };
+            }
+
+            throw err;
+          }
+        },
+        toElements: (page) => page.items,
+      };
+    return getPagedAsyncIterator(pagedResult);
+  }
+
+  /**
    * Lists settings from the Azure App Configuration service for snapshots based on name, optionally
    * filtered by key names, labels and accept datetime.
    *
@@ -576,6 +654,28 @@ export class AppConfigurationClient {
 
         return response as GetKeyValuesResponse &
           HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
+      },
+    );
+  }
+
+  private async checkConfigurationSettingsRequest(
+    options: SendConfigurationSettingsOptions & PageSettings = {},
+    pageLink: string | undefined,
+  ): Promise<CheckKeyValuesResponse & HttpResponseField<AppConfigurationCheckKeyValuesHeaders>> {
+    return tracingClient.withSpan(
+      "AppConfigurationClient.checkConfigurationSettings",
+      options,
+      async (updatedOptions) => {
+        const response = await this.client.checkKeyValues({
+          ...updatedOptions,
+          ...formatAcceptDateTime(options),
+          ...formatConfigurationSettingsFiltersAndSelect(options),
+          ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfChanged: true }),
+          after: pageLink,
+        });
+
+        return response as CheckKeyValuesResponse &
+          HttpResponseField<AppConfigurationCheckKeyValuesHeaders>;
       },
     );
   }
