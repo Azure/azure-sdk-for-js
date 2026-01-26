@@ -5,7 +5,12 @@ import { StacAssetUrlSigningMode } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface StacSearchOptionalParams extends OperationOptions {}
+export interface StacSearchOptionalParams extends OperationOptions {
+  /** Whether to sign asset URLs in the response. */
+  sign?: StacAssetUrlSigningMode;
+  /** URL signature duration in minutes. */
+  durationInMinutes?: number;
+}
 
 /** Optional parameters. */
 export interface StacGetCollectionQueryablesOptionalParams extends OperationOptions {}
@@ -148,7 +153,7 @@ export interface StacReplacePartitionTypeOptionalParams extends OperationOptions
 export interface StacGetPartitionTypeOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StacListCollectionsOptionalParams extends OperationOptions {
+export interface StacGetCollectionsOptionalParams extends OperationOptions {
   /** Whether to sign asset URLs in the response. */
   sign?: StacAssetUrlSigningMode;
   /** URL signature duration in minutes. */

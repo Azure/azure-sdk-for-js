@@ -1,6 +1,6 @@
 {
   "apiVersion": "2025-04-30-preview",
-  "emitterVersion": "0.45.1",
+  "emitterVersion": "0.48.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.PlanetaryComputer",
     "CrossLanguageDefinitionId": {
@@ -68,11 +68,11 @@
       "@azure/planetarycomputer!TileMatrixSetBoundingBox:interface": "TileMatrixSetBoundingBox",
       "@azure/planetarycomputer!TileMatrix:interface": "TileMatrix",
       "@azure/planetarycomputer!VariableMatrixWidth:interface": "VariableMatrixWidth",
-      "@azure/planetarycomputer!BandStatistics:interface": "Microsoft.PlanetaryComputer.BandStatistics",
       "@azure/planetarycomputer!StacItemBounds:interface": "Microsoft.PlanetaryComputer.StacItemBounds",
       "@azure/planetarycomputer!Feature:interface": "Feature",
       "@azure/planetarycomputer!StacItemStatisticsGeoJson:interface": "Microsoft.PlanetaryComputer.StacItemStatisticsGeoJson",
       "@azure/planetarycomputer!StacItemStatisticsGeoJsonProperties:interface": "Microsoft.PlanetaryComputer.StacItemStatisticsGeoJsonProperties",
+      "@azure/planetarycomputer!BandStatistics:interface": "Microsoft.PlanetaryComputer.BandStatistics",
       "@azure/planetarycomputer!TilerInfoGeoJsonFeature:interface": "Microsoft.PlanetaryComputer.TilerInfoGeoJsonFeature",
       "@azure/planetarycomputer!TilerInfo:interface": "Microsoft.PlanetaryComputer.TilerInfo",
       "@azure/planetarycomputer!TilerCoreModelsResponsesPoint:interface": "Microsoft.PlanetaryComputer.TilerCoreModelsResponsesPoint",
@@ -116,7 +116,6 @@
       "@azure/planetarycomputer!KnownVersions:enum": "Microsoft.PlanetaryComputer.Versions",
       "@azure/planetarycomputer!StacCollectionTemporalExtentInterval:type": "Microsoft.PlanetaryComputer.StacCollectionTemporalExtent.interval.anonymous",
       "@azure/planetarycomputer!BandMetadataElement:type": "Microsoft.PlanetaryComputer.BandMetadataElement",
-      "@azure/planetarycomputer!IntervalLegendsElement:type": "IntervalLegendsElement",
       "@azure/planetarycomputer!SharedAccessSignatureOperations#revokeToken:member": "Customizations.SharedAccessSignature.revokeToken",
       "@azure/planetarycomputer!SharedAccessSignatureOperations#getToken:member": "Customizations.SharedAccessSignature.getToken",
       "@azure/planetarycomputer!SharedAccessSignatureOperations#getSign:member": "Customizations.SharedAccessSignature.getSign",
@@ -175,7 +174,7 @@
       "@azure/planetarycomputer!StacOperations#createRenderOption:member": "Customizations.Stac.createRenderOption",
       "@azure/planetarycomputer!StacOperations#replacePartitionType:member": "Customizations.Stac.replacePartitionType",
       "@azure/planetarycomputer!StacOperations#getPartitionType:member": "Customizations.Stac.getPartitionType",
-      "@azure/planetarycomputer!StacOperations#listCollections:member": "Customizations.Stac.listCollections",
+      "@azure/planetarycomputer!StacOperations#getCollections:member": "Customizations.Stac.getCollections",
       "@azure/planetarycomputer!StacOperations#getCollection:member": "Customizations.Stac.getCollection",
       "@azure/planetarycomputer!StacOperations#deleteCollection:member": "Customizations.Stac.deleteCollection",
       "@azure/planetarycomputer!StacOperations#createOrReplaceCollection:member": "Customizations.Stac.createOrReplaceCollection",

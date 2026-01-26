@@ -23,9 +23,7 @@ import {
 
 export function _revokeTokenSend(
   context: Client,
-  options: SharedAccessSignatureRevokeTokenOptionalParams = {
-    requestOptions: {},
-  },
+  options: SharedAccessSignatureRevokeTokenOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/sas/token/revoke{?api%2Dversion,duration}",
@@ -50,14 +48,12 @@ export async function _revokeTokenDeserialize(result: PathUncheckedResponse): Pr
 }
 
 /**
- * Revoke a [SAS Token](https://docs.microsoft.com/en-us/azure/storage/common/storage-sas-overview#how-a-shared-access-signature-works)
+ * Revoke a [SAS Token](https://docs.microsoft.com//azure/storage/common/storage-sas-overview#how-a-shared-access-signature-works)
  * for managed storage account of this GeoCatalog.
  */
 export async function revokeToken(
   context: Client,
-  options: SharedAccessSignatureRevokeTokenOptionalParams = {
-    requestOptions: {},
-  },
+  options: SharedAccessSignatureRevokeTokenOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _revokeTokenSend(context, options);
   return _revokeTokenDeserialize(result);
@@ -79,13 +75,12 @@ export function _getTokenSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getTokenDeserialize(
@@ -100,7 +95,7 @@ export async function _getTokenDeserialize(
 }
 
 /**
- * Generate a [SAS Token](https://docs.microsoft.com/en-us/azure/storage/common/storage-sas-overview#how-a-shared-access-signature-works)
+ * Generate a [SAS Token](https://docs.microsoft.com//azure/storage/common/storage-sas-overview#how-a-shared-access-signature-works)
  * for the given storage account and container. The storage account and container
  * must be associated with a Planetary Computer dataset indexed by the STAC API.
  */
@@ -129,13 +124,12 @@ export function _getSignSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSignDeserialize(
@@ -150,7 +144,7 @@ export async function _getSignDeserialize(
 }
 
 /**
- * Signs a HREF (a link URL) by appending a [SAS Token](https://docs.microsoft.com/en-us/azure/storage/common/storage-sas-overview#how-a-shared-access-signature-works).
+ * Signs a HREF (a link URL) by appending a [SAS Token](https://docs.microsoft.com//azure/storage/common/storage-sas-overview#how-a-shared-access-signature-works).
  * If the HREF is not a Azure Blob Storage HREF, then pass back the HREF unsigned.
  */
 export async function getSign(

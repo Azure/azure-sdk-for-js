@@ -5,6 +5,12 @@ import { FileContents, createFilePartDescriptor } from "../static-helpers/multip
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 import { ErrorModel } from "@azure-rest/core-client";
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Microsoft Planetary Computer Pro geo-catalog operation */
 export interface Operation {
   /** Operation id */
@@ -39,7 +45,11 @@ export function operationDeserializer(item: any): Operation {
     statusHistory: operationStatusHistoryItemArrayDeserializer(item["statusHistory"]),
     startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
     finishTime: !item["finishTime"] ? item["finishTime"] : new Date(item["finishTime"]),
-    additionalInformation: item["additionalInformation"],
+    additionalInformation: !item["additionalInformation"]
+      ? item["additionalInformation"]
+      : Object.fromEntries(
+          Object.entries(item["additionalInformation"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     error: !item["error"] ? item["error"] : errorInfoDeserializer(item["error"]),
   };
 }
@@ -447,10 +457,7 @@ export interface SharedAccessSignatureTokenConnection {
 export function sharedAccessSignatureTokenConnectionSerializer(
   item: SharedAccessSignatureTokenConnection,
 ): any {
-  return {
-    containerUrl: item["containerUri"],
-    sasToken: item["sharedAccessSignatureToken"],
-  };
+  return { containerUrl: item["containerUri"], sasToken: item["sharedAccessSignatureToken"] };
 }
 
 export function sharedAccessSignatureTokenConnectionDeserializer(
@@ -684,7 +691,7 @@ export interface StacCollection {
 
 export function stacCollectionSerializer(item: StacCollection): any {
   return {
-    ...serializeRecord(item.additionalProperties),
+    ...serializeRecord(item.additionalProperties ?? {}),
     "msft:_created": item["createdOn"],
     "msft:_updated": item["updatedOn"],
     "msft:short_description": item["shortDescription"],
@@ -766,7 +773,11 @@ export function stacCollectionDeserializer(item: any): StacCollection {
     providers: !item["providers"]
       ? item["providers"]
       : stacProviderArrayDeserializer(item["providers"]),
-    summaries: item["summaries"],
+    summaries: !item["summaries"]
+      ? item["summaries"]
+      : Object.fromEntries(
+          Object.entries(item["summaries"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
   };
 }
 
@@ -847,8 +858,12 @@ export function stacLinkDeserializer(item: any): StacLink {
     hreflang: item["hreflang"],
     length: item["length"],
     method: item["method"],
-    headers: item["headers"],
-    body: item["body"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : Object.fromEntries(Object.entries(item["headers"]).map(([k, p]: [string, any]) => [k, p])),
+    body: !item["body"]
+      ? item["body"]
+      : Object.fromEntries(Object.entries(item["body"]).map(([k, p]: [string, any]) => [k, p])),
     merge: item["merge"],
   };
 }
@@ -958,7 +973,7 @@ export interface StacAsset {
 
 export function stacAssetSerializer(item: StacAsset): any {
   return {
-    ...serializeRecord(item.additionalProperties),
+    ...serializeRecord(item.additionalProperties ?? {}),
     platform: item["platform"],
     instruments: !item["instruments"]
       ? item["instruments"]
@@ -1140,7 +1155,7 @@ export interface StacItemAsset {
 
 export function stacItemAssetSerializer(item: StacItemAsset): any {
   return {
-    ...serializeRecord(item.additionalProperties),
+    ...serializeRecord(item.additionalProperties ?? {}),
     platform: item["platform"],
     instruments: !item["instruments"]
       ? item["instruments"]
@@ -1271,8 +1286,8 @@ export function stacExtensionSpatialExtentDeserializer(item: any): StacExtension
     boundingBox: !item["bbox"]
       ? item["bbox"]
       : item["bbox"].map((p: any) => {
-          return p.map((p: any) => {
-            return p;
+          return p.map((p1: any) => {
+            return p1;
           });
         }),
   };
@@ -1301,8 +1316,8 @@ export function stacCollectionTemporalExtentSerializer(item: StacCollectionTempo
 export function stacCollectionTemporalExtentDeserializer(item: any): StacCollectionTemporalExtent {
   return {
     interval: item["interval"].map((p: any) => {
-      return p.map((p: any) => {
-        return !p ? p : new Date(p);
+      return p.map((p1: any) => {
+        return !p1 ? p1 : !p1 ? p1 : new Date(p1);
       });
     }),
   };
@@ -1403,7 +1418,11 @@ export function stacMosaicConfigurationDeserializer(item: any): StacMosaicConfig
     defaultLocation: !item["defaultLocation"]
       ? item["defaultLocation"]
       : defaultLocationDeserializer(item["defaultLocation"]),
-    defaultCustomQuery: item["defaultCustomQuery"],
+    defaultCustomQuery: !item["defaultCustomQuery"]
+      ? item["defaultCustomQuery"]
+      : Object.fromEntries(
+          Object.entries(item["defaultCustomQuery"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
   };
 }
 
@@ -1448,7 +1467,7 @@ export function stacMosaicDeserializer(item: any): StacMosaic {
     name: item["name"],
     description: item["description"],
     cql: item["cql"].map((p: any) => {
-      return p;
+      return Object.fromEntries(Object.entries(p).map(([k1, p1]: [string, any]) => [k1, p1]));
     }),
   };
 }
@@ -2311,9 +2330,9 @@ export function polygonDeserializer(item: any): Polygon {
           return p;
         }),
     coordinates: item["coordinates"].map((p: any) => {
-      return p.map((p: any) => {
-        return p.map((p: any) => {
-          return p;
+      return p.map((p1: any) => {
+        return p1.map((p2: any) => {
+          return p2;
         });
       });
     }),
@@ -2355,9 +2374,9 @@ export function multiPolygonDeserializer(item: any): MultiPolygon {
           return p;
         }),
     coordinates: item["coordinates"].map((p: any) => {
-      return p.map((p: any) => {
-        return p.map((p: any) => {
-          return p;
+      return p.map((p1: any) => {
+        return p1.map((p2: any) => {
+          return p2;
         });
       });
     }),
@@ -2397,8 +2416,8 @@ export function multiLineStringDeserializer(item: any): MultiLineString {
           return p;
         }),
     coordinates: item["coordinates"].map((p: any) => {
-      return p.map((p: any) => {
-        return p;
+      return p.map((p1: any) => {
+        return p1;
       });
     }),
   };
@@ -2514,7 +2533,7 @@ export interface StacItemProperties {
 
 export function stacItemPropertiesSerializer(item: StacItemProperties): any {
   return {
-    ...serializeRecord(item.additionalProperties),
+    ...serializeRecord(item.additionalProperties ?? {}),
     platform: item["platform"],
     instruments: !item["instruments"]
       ? item["instruments"]
@@ -2595,11 +2614,7 @@ export interface StacContextExtension {
 }
 
 export function stacContextExtensionSerializer(item: StacContextExtension): any {
-  return {
-    returned: item["returned"],
-    limit: item["limit"],
-    matched: item["matched"],
-  };
+  return { returned: item["returned"], limit: item["limit"], matched: item["matched"] };
 }
 
 export function stacContextExtensionDeserializer(item: any): StacContextExtension {
@@ -2634,7 +2649,9 @@ export function stacQueryableSerializer(item: StacQueryable): any {
 export function stacQueryableDeserializer(item: any): StacQueryable {
   return {
     name: item["name"],
-    definition: item["definition"],
+    definition: Object.fromEntries(
+      Object.entries(item["definition"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     createIndex: item["create_index"],
     dataType: item["data_type"],
   };
@@ -2715,10 +2732,6 @@ export interface StacSearchParameters {
    * Overrides datetime validation from the base request model.
    */
   conformanceClass?: Record<string, any>;
-  /** Whether to sign asset URLs in the response. */
-  sign?: StacAssetUrlSigningMode;
-  /** URL signature duration in minutes. */
-  durationInMinutes?: number;
   /**
    * STAC Query
    *
@@ -2774,8 +2787,6 @@ export function stacSearchParametersSerializer(item: StacSearchParameters): any 
     datetime: item["datetime"],
     limit: item["limit"],
     conf: item["conformanceClass"],
-    sign: item["sign"],
-    duration: item["durationInMinutes"],
     query: item["query"],
     sortby: !item["sortBy"] ? item["sortBy"] : stacSortExtensionArraySerializer(item["sortBy"]),
     fields: !item["fields"] ? item["fields"] : searchOptionsFieldsArraySerializer(item["fields"]),
@@ -2785,24 +2796,6 @@ export function stacSearchParametersSerializer(item: StacSearchParameters): any 
     token: item["token"],
   };
 }
-
-/** Represent the signature type for asset URLs. */
-export enum KnownStacAssetUrlSigningMode {
-  /** Sign asset URLs in the response. */
-  True = "true",
-  /** Do not sign asset URLs in the response. */
-  False = "false",
-}
-
-/**
- * Represent the signature type for asset URLs. \
- * {@link KnownStacAssetUrlSigningMode} can be used interchangeably with StacAssetUrlSigningMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **true**: Sign asset URLs in the response. \
- * **false**: Do not sign asset URLs in the response.
- */
-export type StacAssetUrlSigningMode = string;
 
 export function stacSortExtensionArraySerializer(result: Array<StacSortExtension>): any[] {
   return result.map((item) => {
@@ -3148,73 +3141,6 @@ export function variableMatrixWidthDeserializer(item: any): VariableMatrixWidth 
   };
 }
 
-/** Statistical information about a data band. */
-export interface BandStatistics {
-  /** Minimum value in the band. */
-  minimum: number;
-  /** Maximum value in the band. */
-  maximum: number;
-  /** Mean value of the band. */
-  mean: number;
-  /** Count of pixels in the band. */
-  count: number;
-  /** Sum of all pixel values in the band. */
-  sum: number;
-  /** Standard deviation of pixel values in the band. */
-  std: number;
-  /** Median value of the band. */
-  median: number;
-  /** Most common value in the band. */
-  majority: number;
-  /** Least common value in the band. */
-  minority: number;
-  /** Count of unique values in the band. */
-  unique: number;
-  /** Histogram of pixel values in the band. */
-  histogram: number[][];
-  /** Percentage of valid (non-masked) pixels. */
-  validPercent: number;
-  /** Count of masked pixels in the band. */
-  maskedPixels: number;
-  /** Count of valid (non-masked) pixels in the band. */
-  validPixels: number;
-  /**
-   * Percentile 2
-   * The 2nd percentile value.
-   */
-  percentile2: number;
-  /**
-   * Percentile 98
-   * The 98th percentile value.
-   */
-  percentile98: number;
-}
-
-export function bandStatisticsDeserializer(item: any): BandStatistics {
-  return {
-    minimum: item["min"],
-    maximum: item["max"],
-    mean: item["mean"],
-    count: item["count"],
-    sum: item["sum"],
-    std: item["std"],
-    median: item["median"],
-    majority: item["majority"],
-    minority: item["minority"],
-    unique: item["unique"],
-    histogram: item["histogram"].map((p: any) => {
-      return p.map((p: any) => {
-        return p;
-      });
-    }),
-    validPercent: item["valid_percent"],
-    maskedPixels: item["masked_pixels"],
-    validPixels: item["valid_pixels"],
-    percentile2: item["percentile_2"],
-    percentile98: item["percentile_98"],
-  };
-}
-
 /** Geographic extent of a dataset expressed as a bounding box */
 export interface StacItemBounds {
   /** Array of coordinates defining the bounding box [west, south, east, north] */
@@ -3309,6 +3235,73 @@ export function bandStatisticsRecordDeserializer(
   return result;
 }
 
+/** Statistical information about a data band. */
+export interface BandStatistics {
+  /** Minimum value in the band. */
+  minimum: number;
+  /** Maximum value in the band. */
+  maximum: number;
+  /** Mean value of the band. */
+  mean: number;
+  /** Count of pixels in the band. */
+  count: number;
+  /** Sum of all pixel values in the band. */
+  sum: number;
+  /** Standard deviation of pixel values in the band. */
+  std: number;
+  /** Median value of the band. */
+  median: number;
+  /** Most common value in the band. */
+  majority: number;
+  /** Least common value in the band. */
+  minority: number;
+  /** Count of unique values in the band. */
+  unique: number;
+  /** Histogram of pixel values in the band. */
+  histogram: number[][];
+  /** Percentage of valid (non-masked) pixels. */
+  validPercent: number;
+  /** Count of masked pixels in the band. */
+  maskedPixels: number;
+  /** Count of valid (non-masked) pixels in the band. */
+  validPixels: number;
+  /**
+   * Percentile 2
+   * The 2nd percentile value.
+   */
+  percentile2: number;
+  /**
+   * Percentile 98
+   * The 98th percentile value.
+   */
+  percentile98: number;
+}
+
+export function bandStatisticsDeserializer(item: any): BandStatistics {
+  return {
+    minimum: item["min"],
+    maximum: item["max"],
+    mean: item["mean"],
+    count: item["count"],
+    sum: item["sum"],
+    std: item["std"],
+    median: item["median"],
+    majority: item["majority"],
+    minority: item["minority"],
+    unique: item["unique"],
+    histogram: item["histogram"].map((p: any) => {
+      return p.map((p1: any) => {
+        return p1;
+      });
+    }),
+    validPercent: item["valid_percent"],
+    maskedPixels: item["masked_pixels"],
+    validPixels: item["valid_pixels"],
+    percentile2: item["percentile_2"],
+    percentile98: item["percentile_98"],
+  };
+}
+
 /** GeoJSON Feature object containing rio-tiler model information */
 export interface TilerInfoGeoJsonFeature {
   /** GeoJSON type identifier */
@@ -3390,8 +3383,8 @@ export function tilerInfoDeserializer(item: any): TilerInfo {
     bandDescriptions: !item["band_descriptions"]
       ? item["band_descriptions"]
       : item["band_descriptions"].map((p: any) => {
-          return p.map((p: any) => {
-            return p;
+          return p.map((p1: any) => {
+            return p1;
           });
         }),
     dtype: item["dtype"],
@@ -3420,7 +3413,16 @@ export function tilerInfoDeserializer(item: any): TilerInfo {
       : item["offsets"].map((p: any) => {
           return p;
         }),
-    colormap: item["colormap"],
+    colormap: !item["colormap"]
+      ? item["colormap"]
+      : Object.fromEntries(
+          Object.entries(item["colormap"]).map(([k, p]: [string, any]) => [
+            k,
+            p.map((p1: any) => {
+              return p1;
+            }),
+          ]),
+        ),
     minZoom: item["minzoom"],
     maxZoom: item["maxzoom"],
     coordinateReferenceSystem: item["crs"],
@@ -3720,7 +3722,9 @@ export interface TilerStacSearchDefinition {
 export function tilerStacSearchDefinitionDeserializer(item: any): TilerStacSearchDefinition {
   return {
     hash: item["hash"],
-    search: item["search"],
+    search: Object.fromEntries(
+      Object.entries(item["search"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     where: item["_where"],
     orderBy: item["orderby"],
     lastUsed: new Date(item["lastused"]),
@@ -3775,7 +3779,9 @@ export function mosaicMetadataDeserializer(item: any): MosaicMetadata {
       : item["assets"].map((p: any) => {
           return p;
         }),
-    defaults: item["defaults"],
+    defaults: !item["defaults"]
+      ? item["defaults"]
+      : Object.fromEntries(Object.entries(item["defaults"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -3849,12 +3855,23 @@ export function sharedAccessSignatureTokenDeserializer(item: any): SharedAccessS
   };
 }
 
-/** Interval legends element used to define a color map */
-export type IntervalLegendsElement = number[] | Record<string, string>;
-
-export function intervalLegendsElementDeserializer(item: any): IntervalLegendsElement {
-  return item;
+/** Represent the signature type for asset URLs. */
+export enum KnownStacAssetUrlSigningMode {
+  /** Sign asset URLs in the response. */
+  True = "true",
+  /** Do not sign asset URLs in the response. */
+  False = "false",
 }
+
+/**
+ * Represent the signature type for asset URLs. \
+ * {@link KnownStacAssetUrlSigningMode} can be used interchangeably with StacAssetUrlSigningMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **true**: Sign asset URLs in the response. \
+ * **false**: Do not sign asset URLs in the response.
+ */
+export type StacAssetUrlSigningMode = string;
 
 /** Resampling algorithm to use when reading source raster data at different resolutions */
 export enum KnownResampling {
@@ -4668,32 +4685,6 @@ export type PixelSelection = string;
 export enum KnownVersions {
   /** Represents the 2025-04-30-preview version. */
   V20250430Preview = "2025-04-30-preview",
-}
-
-export function bandStatisticsRecordRecordDeserializer(
-  item: Record<string, any>,
-): Record<string, Record<string, BandStatistics>> {
-  const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : bandStatisticsRecordDeserializer(item[key]);
-  });
-  return result;
-}
-
-export function intervalLegendsElementArrayArrayDeserializer(
-  result: Array<Array<IntervalLegendsElement>>,
-): any[] {
-  return result.map((item) => {
-    return intervalLegendsElementArrayDeserializer(item);
-  });
-}
-
-export function intervalLegendsElementArrayDeserializer(
-  result: Array<IntervalLegendsElement>,
-): any[] {
-  return result.map((item) => {
-    return intervalLegendsElementDeserializer(item);
-  });
 }
 
 export function stacItemPointAssetArrayDeserializer(result: Array<StacItemPointAsset>): any[] {

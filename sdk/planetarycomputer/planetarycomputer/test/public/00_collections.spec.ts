@@ -57,8 +57,8 @@ describe("STAC Collections", () => {
     console.log("=".repeat(80));
     console.log(`Input - endpoint: ${endpoint}`);
 
-    console.log("Calling: listCollections()");
-    const response = await client.stac.listCollections();
+    console.log("Calling: getCollections()");
+    const response = await client.stac.getCollections();
 
     console.log(`Response type: ${typeof response}`);
 

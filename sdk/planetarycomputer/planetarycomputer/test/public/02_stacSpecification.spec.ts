@@ -88,7 +88,7 @@ describe("STAC API Specification", () => {
       EnvironmentVariableNames.PLANETARYCOMPUTER_COLLECTION_ID,
     );
 
-    const collections = await client.stac.listCollections();
+    const collections = await client.stac.getCollections();
 
     // Validate collections response
     assert.isDefined(collections, "Collections should not be undefined");
@@ -132,7 +132,7 @@ describe("STAC API Specification", () => {
     assert.property(firstCollection, "extent", "Collection should have extent");
 
     // Validate that the collection is in the list
-    const collectionIds = collections.collections!.map((c) => c.id);
+    const collectionIds = collections.collections!.map((c: { id?: string }) => c.id);
     assert.include(collectionIds, collectionId, `${collectionId} collection should be present`);
 
     console.log("Test PASSED\n");
