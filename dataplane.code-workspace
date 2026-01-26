@@ -140,10 +140,6 @@
       "path": "sdk/maps/maps-route-rest",
     },
     {
-      "name": "metrics-advisor",
-      "path": "sdk/metricsadvisor/ai-metrics-advisor",
-    },
-    {
       "name": "schema-registry",
       "path": "sdk/schemaregistry/schema-registry",
     },
