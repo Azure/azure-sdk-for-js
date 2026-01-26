@@ -75,7 +75,8 @@ describe("Collection Lifecycle Operations", () => {
 
     // Retry loop to handle "collection is being deleted" race condition
     // The service may still be cleaning up even after the delete LRO completes
-    const maxRetries = isPlaybackMode() ? 1 : 5;
+    // Keep the same number of retries in playback to match recorded request sequence
+    const maxRetries = 5;
     let lastError: Error | undefined;
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
@@ -90,11 +91,16 @@ describe("Collection Lifecycle Operations", () => {
           error.message?.includes("is being deleted") &&
           attempt < maxRetries
         ) {
-          const waitTime = attempt * 15000; // Exponential backoff: 15s, 30s, 45s, 60s
-          console.log(
-            `Collection still being deleted, waiting ${waitTime / 1000}s before retry ${attempt + 1}/${maxRetries}...`,
-          );
-          await new Promise((resolve) => setTimeout(resolve, waitTime));
+          // Only wait in live/record mode, skip wait in playback
+          if (!isPlaybackMode()) {
+            const waitTime = attempt * 15000; // Exponential backoff: 15s, 30s, 45s, 60s
+            console.log(
+              `Collection still being deleted, waiting ${waitTime / 1000}s before retry ${attempt + 1}/${maxRetries}...`,
+            );
+            await new Promise((resolve) => setTimeout(resolve, waitTime));
+          } else {
+            console.log(`Retrying (playback mode) - attempt ${attempt + 1}/${maxRetries}...`);
+          }
         } else {
           throw error;
         }
@@ -196,7 +202,8 @@ describe("Collection Lifecycle Operations", () => {
 
     console.log("Creating collection to be deleted...");
     // Retry loop to handle "collection is being deleted" race condition
-    const maxRetries = isPlaybackMode() ? 1 : 5;
+    // Keep the same number of retries in playback to match recorded request sequence
+    const maxRetries = 5;
     let lastError: Error | undefined;
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
@@ -211,11 +218,16 @@ describe("Collection Lifecycle Operations", () => {
           error.message?.includes("is being deleted") &&
           attempt < maxRetries
         ) {
-          const waitTime = attempt * 15000; // Exponential backoff: 15s, 30s, 45s, 60s
-          console.log(
-            `Collection still being deleted, waiting ${waitTime / 1000}s before retry ${attempt + 1}/${maxRetries}...`,
-          );
-          await new Promise((resolve) => setTimeout(resolve, waitTime));
+          // Only wait in live/record mode, skip wait in playback
+          if (!isPlaybackMode()) {
+            const waitTime = attempt * 15000; // Exponential backoff: 15s, 30s, 45s, 60s
+            console.log(
+              `Collection still being deleted, waiting ${waitTime / 1000}s before retry ${attempt + 1}/${maxRetries}...`,
+            );
+            await new Promise((resolve) => setTimeout(resolve, waitTime));
+          } else {
+            console.log(`Retrying (playback mode) - attempt ${attempt + 1}/${maxRetries}...`);
+          }
         } else {
           throw error;
         }
