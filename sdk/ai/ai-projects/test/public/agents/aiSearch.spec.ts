@@ -105,7 +105,7 @@ describe("agents - ai search - execution flow", () => {
           {
             type: "message",
             role: "user",
-            content: "What information do you have in the search index?",
+            content: "What is the temperature rating of the cozynights sleeping bag?",
           },
         ],
       },
@@ -144,7 +144,7 @@ describe("agents - ai search - execution flow", () => {
       // Send a streaming query
       const streamResponse = await openAIClient.responses.create(
         {
-          input: "Search for relevant documents in the index.",
+          input: "What is the temperature rating of the cozynights sleeping bag?",
           stream: true,
         },
         {
@@ -204,7 +204,7 @@ describe("agents - ai search - execution flow", () => {
           {
             type: "message",
             role: "user",
-            content: "Search the index for any available information.",
+            content: "What is the temperature rating of the cozynights sleeping bag?",
           },
         ],
       });

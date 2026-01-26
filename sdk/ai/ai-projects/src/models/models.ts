@@ -3586,6 +3586,11 @@ export function memoryItemDeserializer(item: any): MemoryItem {
 
 /** Alias for MemoryItemUnion */
 export type MemoryItemUnion = UserProfileMemoryItem | ChatSummaryMemoryItem | MemoryItem;
+export function apiErrorArrayDeserializer(result: Array<ApiError>): any[] {
+  return (result || []).map((item) => {
+    return apiErrorDeserializer(item);
+  });
+}
 
 export function memoryItemUnionSerializer(item: MemoryItemUnion): any {
   switch (item.kind) {
