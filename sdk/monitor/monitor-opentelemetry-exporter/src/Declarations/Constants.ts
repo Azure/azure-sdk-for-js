@@ -122,6 +122,12 @@ export const ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW =
   "APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW";
 
 /**
+ * Disables customer-facing SDK Stats metrics.
+ * @internal
+ */
+export const ENV_DISABLE_SDKSTATS = "APPLICATIONINSIGHTS_SDKSTATS_DISABLED";
+
+/**
  * Sets the export interval for customer-facing SDK Stats in seconds.
  * @internal
  */
