@@ -970,5 +970,41 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       assert.isFalse(isResolved, "Unexpected - promise is resolved");
       assert.isTrue(isRejected, "Unexpected - promise is not rejected");
     });
+
+    it("should map 401 status code to UnauthorizedError when errorCondition is not provided", () => {
+      context.message!.application_properties!.statusCode = 401;
+      context.message!.application_properties!.statusDescription = "Unauthorized";
+      // No errorCondition provided - should be mapped from status code
+      delete context.message!.application_properties!.errorCondition;
+
+      let rejectedError: any;
+      responsesMap.set("abc-id", {
+        resolve: () => {
+          isResolved = true;
+        },
+        reject: (err: any) => {
+          isRejected = true;
+          rejectedError = err;
+        },
+        cleanupBeforeResolveOrReject: () => {
+          cleanupBeforeResolveOrRejectIsCalled = true;
+        },
+      });
+
+      assertItemsLengthInResponsesMap(responsesMap, 1);
+      onMessageReceived(context, defaultConnectionId, responsesMap);
+      assertItemsLengthInResponsesMap(responsesMap, 0);
+      assert.isTrue(
+        cleanupBeforeResolveOrRejectIsCalled,
+        "Unexpected - cleanupBeforeResolveOrReject is not called",
+      );
+      assert.isFalse(isResolved, "Unexpected - promise is resolved");
+      assert.isTrue(isRejected, "Unexpected - promise is not rejected");
+      assert.equal(
+        rejectedError?.code,
+        "UnauthorizedError",
+        "Expected error code to be UnauthorizedError",
+      );
+    });
   });
 });
