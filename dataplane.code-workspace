@@ -9,10 +9,6 @@
       "path": "sdk/purview/purview-catalog-rest"
     },
     {
-      "name": "anomaly-detector-rest",
-      "path": "sdk/anomalydetector/ai-anomaly-detector-rest"
-    },
-    {
       "name": "app-configuration",
       "path": "sdk/appconfiguration/app-configuration"
     },
