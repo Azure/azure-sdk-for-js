@@ -1,5 +1,15 @@
 # Release History
 
+## 1.11.0 (2026-01-26)
+
+### Features Added
+
+- Support `checkConfigurationSettings` method to check settings from the Azure App Configuration store using a HEAD request, returning only headers without the response body.[#36959](https://github.com/Azure/azure-sdk-for-js/pull/36959)
+
+### Other Changes
+
+- Added internal pipeline policy to handle audience error and surface up an improved error message. [#36573](https://github.com/Azure/azure-sdk-for-js/pull/36573)
+
 ## 1.10.0 (2025-11-13)
 
 ### Features Added
