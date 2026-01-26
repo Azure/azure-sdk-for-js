@@ -27,7 +27,7 @@ import {
   createRenderOption,
   replacePartitionType,
   getPartitionType,
-  listCollections,
+  getCollections,
   getCollection,
   deleteCollection,
   createOrReplaceCollection,
@@ -67,7 +67,7 @@ import {
   StacCreateRenderOptionOptionalParams,
   StacReplacePartitionTypeOptionalParams,
   StacGetPartitionTypeOptionalParams,
-  StacListCollectionsOptionalParams,
+  StacGetCollectionsOptionalParams,
   StacGetCollectionOptionalParams,
   StacDeleteCollectionOptionalParams,
   StacCreateOrReplaceCollectionOptionalParams,
@@ -252,7 +252,7 @@ export interface StacOperations {
     options?: StacGetPartitionTypeOptionalParams,
   ) => Promise<PartitionType>;
   /** List all collections in the GeoCatalog instance */
-  listCollections: (options?: StacListCollectionsOptionalParams) => Promise<StacCatalogCollections>;
+  getCollections: (options?: StacGetCollectionsOptionalParams) => Promise<StacCatalogCollections>;
   /** Get a collection in the GeoCatalog instance */
   getCollection: (
     collectionId: string,
@@ -427,8 +427,8 @@ function _getStac(context: PlanetaryComputerProContext) {
     ) => replacePartitionType(context, collectionId, body, options),
     getPartitionType: (collectionId: string, options?: StacGetPartitionTypeOptionalParams) =>
       getPartitionType(context, collectionId, options),
-    listCollections: (options?: StacListCollectionsOptionalParams) =>
-      listCollections(context, options),
+    getCollections: (options?: StacGetCollectionsOptionalParams) =>
+      getCollections(context, options),
     getCollection: (collectionId: string, options?: StacGetCollectionOptionalParams) =>
       getCollection(context, collectionId, options),
     deleteCollection: (collectionId: string, options?: StacDeleteCollectionOptionalParams) =>

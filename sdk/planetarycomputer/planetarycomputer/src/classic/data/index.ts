@@ -70,7 +70,6 @@ import {
 } from "../../api/data/options.js";
 import {
   TileMatrixSet,
-  BandStatistics,
   StacItemBounds,
   Feature,
   StacItemStatisticsGeoJson,
@@ -84,7 +83,6 @@ import {
   StacItemPointAsset,
   TilerStacSearchRegistration,
   TilerMosaicSearchRegistrationResponse,
-  IntervalLegendsElement,
 } from "../../models/models.js";
 
 /** Interface representing a Data operations. */
@@ -146,11 +144,36 @@ export interface DataOperations {
    * the number of values to trim.
    */
   getLegend: (colorMapName: string, options?: DataGetLegendOptionalParams) => Promise<Uint8Array>;
-  /** Generate values and color swatches mapping for a given interval classmap. */
+  /**
+   * Generate values and color swatches mapping for a given interval classmap.
+   *
+   * Returns a color map for intervals, where each interval is defined by:
+   * - A numeric range `[min, max]` representing the interval boundaries.
+   * - An RGBA color `[red, green, blue, alpha]` associated with the interval.
+   *
+   * The response is a 2D array of interval definitions, where each element is a pair:
+   * - The first element is an array of two numbers `[min, max]` defining the interval.
+   * - The second element is an array of four numbers `[red, green, blue, alpha]` defining the RGBA color.
+   *
+   * Example:
+   * ```json
+   * [
+   *   [
+   *     [-2, 0], [0, 0, 0, 0]
+   *   ],
+   *   [
+   *     [1, 32], [255, 255, 178, 255]
+   *   ]
+   * ]
+   * ```
+   * This example defines two intervals:
+   * - The interval `[-2, 0]` is mapped to the color `[0, 0, 0, 0]` (transparent black).
+   * - The interval `[1, 32]` is mapped to the color `[255, 255, 178, 255]` (opaque yellow).
+   */
   getIntervalLegend: (
     classmapName: string,
     options?: DataGetIntervalLegendOptionalParams,
-  ) => Promise<IntervalLegendsElement[][]>;
+  ) => Promise<Record<string, any>>;
   /** Generate values and color swatches mapping for a given classmap. */
   getClassMapLegend: (
     classmapName: string,
@@ -299,7 +322,7 @@ export interface DataOperations {
     collectionId: string,
     itemId: string,
     options?: DataGetAssetStatisticsOptionalParams,
-  ) => Promise<Record<string, Record<string, BandStatistics>>>;
+  ) => Promise<Record<string, any>>;
   /** Return Matrix List */
   listTileMatrices: (options?: DataListTileMatricesOptionalParams) => Promise<string[]>;
   /** Return Matrix Definition */

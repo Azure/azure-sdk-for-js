@@ -79,39 +79,38 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 }
 
 interface DeserializationHelper {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "PATCH /stac/collections/{collectionId}/items/{itemId}": {
     deserializer: _updateItemDeserialize,
-    expectedStatuses: ["202", "200"],
+    expectedStatuses: ["202", "200", "201"],
   },
   "DELETE /stac/collections/{collectionId}/items/{itemId}": {
     deserializer: _deleteItemDeserialize,
-    expectedStatuses: ["202", "200"],
+    expectedStatuses: ["202", "200", "201"],
   },
   "PUT /stac/collections/{collectionId}/items/{itemId}": {
     deserializer: _createOrReplaceItemDeserialize,
-    expectedStatuses: ["202", "200"],
+    expectedStatuses: ["202", "200", "201"],
   },
   "POST /stac/collections/{collectionId}/items": {
     deserializer: _createItemDeserialize,
-    expectedStatuses: ["202", "200"],
+    expectedStatuses: ["202", "200", "201"],
   },
   "DELETE /stac/collections/{collectionId}": {
     deserializer: _deleteCollectionDeserialize,
-    expectedStatuses: ["202", "200"],
+    expectedStatuses: ["202", "200", "201"],
   },
   "POST /stac/collections": {
     deserializer: _createCollectionDeserialize,
-    expectedStatuses: ["202", "200"],
+    expectedStatuses: ["202", "200", "201"],
   },
   "DELETE /inma/collections/{collectionId}/ingestions/{ingestionId}": {
     deserializer: _$deleteDeserialize,
-    expectedStatuses: ["202", "200"],
+    expectedStatuses: ["202", "200", "201"],
   },
 };
 

@@ -101,13 +101,17 @@ describe("Map Legend Operations", () => {
     console.log(`Response type: ${typeof response}`);
     console.log(`Response: ${JSON.stringify(response)}`);
 
-    // Assert response is an array
-    assert.isArray(response, `Response should be an array, got ${typeof response}`);
-    assert.isTrue(response.length > 0, "Response should not be empty");
+    // Assert response is an object (API returns Record<string, any>)
+    assert.isObject(response, `Response should be an object, got ${typeof response}`);
+    const keys = Object.keys(response);
+    assert.isTrue(keys.length > 0, "Response should not be empty");
+
+    // Convert object to array for validation (keys are numeric strings)
+    const intervals = keys.map((key) => (response as Record<string, unknown>)[key]);
 
     // Validate each interval structure
-    for (let idx = 0; idx < response.length; idx++) {
-      const interval = response[idx];
+    for (let idx = 0; idx < intervals.length; idx++) {
+      const interval = intervals[idx] as unknown[];
       // Each interval should be an array with 2 elements: [range, color]
       assert.isArray(interval, `Interval ${idx} should be an array`);
       assert.strictEqual(
@@ -117,7 +121,7 @@ describe("Map Legend Operations", () => {
       );
 
       // Validate range component
-      const valueRange = interval[0] as any;
+      const valueRange = interval[0] as number[];
       assert.isArray(valueRange, `Interval ${idx} range should be an array`);
       assert.strictEqual(valueRange.length, 2, `Interval ${idx} range should have [min, max]`);
       const minVal = valueRange[0] as number;
@@ -130,9 +134,9 @@ describe("Map Legend Operations", () => {
       );
 
       // Validate color component
-      const color = interval[1] as any;
+      const color = interval[1] as number[];
       assert.isArray(color, `Interval ${idx} color should be an array`);
-      const colorLength = (color as any[]).length;
+      const colorLength = color.length;
       assert.strictEqual(colorLength, 4, `Interval ${idx} color should have 4 RGBA values`);
       const componentNames = ["R", "G", "B", "A"];
       for (let i = 0; i < colorLength; i++) {
@@ -151,9 +155,9 @@ describe("Map Legend Operations", () => {
     }
 
     // Validate intervals are sequential (each max should connect to next min)
-    for (let i = 0; i < response.length - 1; i++) {
-      const currentMax = (response[i][0] as any)[1] as number;
-      const nextMin = (response[i + 1][0] as any)[0] as number;
+    for (let i = 0; i < intervals.length - 1; i++) {
+      const currentMax = ((intervals[i] as unknown[])[0] as number[])[1] as number;
+      const nextMin = ((intervals[i + 1] as unknown[])[0] as number[])[0] as number;
       // Allow some tolerance for continuous intervals
       assert.isTrue(
         Math.abs(currentMax - nextMin) <= 1,

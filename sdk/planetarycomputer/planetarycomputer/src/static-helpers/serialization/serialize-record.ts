@@ -2,11 +2,6 @@
 // Licensed under the MIT License.
 
 export function serializeRecord(item: any, excludes?: string[], serializer?: (item: any) => any) {
-  // Handle null/undefined input
-  if (!item) {
-    return {};
-  }
-
   excludes = excludes ?? [];
   const res: any = {};
   for (const key of Object.keys(item)) {

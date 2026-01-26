@@ -7,7 +7,6 @@ import {
   stacSortExtensionArraySerializer,
   TileMatrixSet,
   tileMatrixSetDeserializer,
-  BandStatistics,
   StacItemBounds,
   stacItemBoundsDeserializer,
   Feature,
@@ -34,11 +33,9 @@ import {
   mosaicMetadataSerializer,
   TilerMosaicSearchRegistrationResponse,
   tilerMosaicSearchRegistrationResponseDeserializer,
-  IntervalLegendsElement,
-  bandStatisticsRecordRecordDeserializer,
-  intervalLegendsElementArrayArrayDeserializer,
   stacItemPointAssetArrayDeserializer,
 } from "../../models/models.js";
+import { getBinaryResponse } from "../../static-helpers/serialization/get-binary-response.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   DataGetMosaicsWmtsCapabilitiesOptionalParams,
@@ -79,88 +76,13 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { isNodeLike } from "@azure/core-util";
-
-/**
- * Helper function to get response as stream, handling both Node.js and browser environments.
- */
-async function getResponseAsStream(streamable: StreamableMethod): Promise<PathUncheckedResponse> {
-  if (isNodeLike) {
-    return streamable.asNodeStream();
-  } else {
-    return streamable.asBrowserStream();
-  }
-}
-
-/**
- * Helper function to deserialize binary responses from streams.
- * Works in both Node.js and browser environments.
- */
-async function deserializeBinaryStream(result: PathUncheckedResponse): Promise<Uint8Array> {
-  const stream = (result as any).body;
-
-  // Handle ReadableStream (browser)
-  if (stream && typeof stream.getReader === "function") {
-    const reader = stream.getReader();
-    const chunks: Uint8Array[] = [];
-    let totalLength = 0;
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      if (value) {
-        chunks.push(value);
-        totalLength += value.length;
-      }
-    }
-
-    // Concatenate all chunks into a single Uint8Array
-    const result = new Uint8Array(totalLength);
-    let offset = 0;
-    for (const chunk of chunks) {
-      result.set(chunk, offset);
-      offset += chunk.length;
-    }
-    return result;
-  }
-
-  // Handle async iterator (Node.js streams)
-  if (stream && typeof stream[Symbol.asyncIterator] === "function") {
-    const chunks: Uint8Array[] = [];
-    let totalLength = 0;
-
-    for await (const chunk of stream) {
-      const uint8Chunk =
-        chunk instanceof Uint8Array
-          ? chunk
-          : typeof Buffer !== "undefined" && Buffer.isBuffer(chunk)
-            ? new Uint8Array(chunk)
-            : new Uint8Array(chunk);
-      chunks.push(uint8Chunk);
-      totalLength += uint8Chunk.length;
-    }
-
-    // Concatenate all chunks into a single Uint8Array
-    const result = new Uint8Array(totalLength);
-    let offset = 0;
-    for (const chunk of chunks) {
-      result.set(chunk, offset);
-      offset += chunk.length;
-    }
-    return result;
-  }
-
-  // Fallback: if body is already buffered
-  return result.body;
-}
+import { stringToUint8Array } from "@azure/core-util";
 
 export function _getMosaicsWmtsCapabilitiesSend(
   context: Client,
   searchId: string,
   tileMatrixSetId: string,
-  options: DataGetMosaicsWmtsCapabilitiesOptionalParams = {
-    requestOptions: {},
-  },
+  options: DataGetMosaicsWmtsCapabilitiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/data/mosaic/{searchId}/{tileMatrixSetId}/WMTSCapabilities.xml{?api%2Dversion,assets*,expression,asset_bidx,asset_as_band,nodata,unscale,algorithm,algorithm_params,tile_format,tile_scale,minzoom,maxzoom,buffer,color_formula,resampling,rescale*,colormap_name,colormap,return_mask}",
@@ -200,13 +122,12 @@ export function _getMosaicsWmtsCapabilitiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/xml",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/xml", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicsWmtsCapabilitiesDeserialize(
@@ -217,7 +138,7 @@ export async function _getMosaicsWmtsCapabilitiesDeserialize(
     throw createRestError(result);
   }
 
-  return deserializeBinaryStream(result);
+  return typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body;
 }
 
 /** OGC WMTS endpoint. */
@@ -225,13 +146,9 @@ export async function getMosaicsWmtsCapabilities(
   context: Client,
   searchId: string,
   tileMatrixSetId: string,
-  options: DataGetMosaicsWmtsCapabilitiesOptionalParams = {
-    requestOptions: {},
-  },
+  options: DataGetMosaicsWmtsCapabilitiesOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await getResponseAsStream(
-    _getMosaicsWmtsCapabilitiesSend(context, searchId, tileMatrixSetId, options),
-  );
+  const result = await _getMosaicsWmtsCapabilitiesSend(context, searchId, tileMatrixSetId, options);
   return _getMosaicsWmtsCapabilitiesDeserialize(result);
 }
 
@@ -303,7 +220,7 @@ export async function _getMosaicsTileDeserialize(
     throw createRestError(result);
   }
 
-  return deserializeBinaryStream(result);
+  return result.body;
 }
 
 /** Create map tile. */
@@ -318,9 +235,18 @@ export async function getMosaicsTile(
   format: string,
   options: DataGetMosaicsTileOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await getResponseAsStream(
-    _getMosaicsTileSend(context, searchId, tileMatrixSetId, z, x, y, scale, format, options),
+  const streamableMethod = _getMosaicsTileSend(
+    context,
+    searchId,
+    tileMatrixSetId,
+    z,
+    x,
+    y,
+    scale,
+    format,
+    options,
   );
+  const result = await getBinaryResponse(streamableMethod);
   return _getMosaicsTileDeserialize(result);
 }
 
@@ -375,13 +301,12 @@ export function _getMosaicsTileJsonSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicsTileJsonDeserialize(
@@ -487,13 +412,12 @@ export function _getMosaicsSearchInfoSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicsSearchInfoDeserialize(
@@ -547,13 +471,12 @@ export function _getMosaicsAssetsForTileSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicsAssetsForTileDeserialize(
@@ -618,13 +541,12 @@ export function _getMosaicsAssetsForPointSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicsAssetsForPointDeserialize(
@@ -675,10 +597,12 @@ export function _getLegendSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "image/png", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "image/png", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getLegendDeserialize(result: PathUncheckedResponse): Promise<Uint8Array> {
@@ -687,7 +611,7 @@ export async function _getLegendDeserialize(result: PathUncheckedResponse): Prom
     throw createRestError(result);
   }
 
-  return deserializeBinaryStream(result);
+  return result.body;
 }
 
 /**
@@ -702,7 +626,8 @@ export async function getLegend(
   colorMapName: string,
   options: DataGetLegendOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await getResponseAsStream(_getLegendSend(context, colorMapName, options));
+  const streamableMethod = _getLegendSend(context, colorMapName, options);
+  const result = await getBinaryResponse(streamableMethod);
   return _getLegendDeserialize(result);
 }
 
@@ -723,32 +648,56 @@ export function _getIntervalLegendSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getIntervalLegendDeserialize(
   result: PathUncheckedResponse,
-): Promise<IntervalLegendsElement[][]> {
+): Promise<Record<string, any>> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return intervalLegendsElementArrayArrayDeserializer(result.body);
+  return Object.fromEntries(Object.entries(result.body).map(([k, p]: [string, any]) => [k, p]));
 }
 
-/** Generate values and color swatches mapping for a given interval classmap. */
+/**
+ * Generate values and color swatches mapping for a given interval classmap.
+ *
+ * Returns a color map for intervals, where each interval is defined by:
+ * - A numeric range `[min, max]` representing the interval boundaries.
+ * - An RGBA color `[red, green, blue, alpha]` associated with the interval.
+ *
+ * The response is a 2D array of interval definitions, where each element is a pair:
+ * - The first element is an array of two numbers `[min, max]` defining the interval.
+ * - The second element is an array of four numbers `[red, green, blue, alpha]` defining the RGBA color.
+ *
+ * Example:
+ * ```json
+ * [
+ *   [
+ *     [-2, 0], [0, 0, 0, 0]
+ *   ],
+ *   [
+ *     [1, 32], [255, 255, 178, 255]
+ *   ]
+ * ]
+ * ```
+ * This example defines two intervals:
+ * - The interval `[-2, 0]` is mapped to the color `[0, 0, 0, 0]` (transparent black).
+ * - The interval `[1, 32]` is mapped to the color `[255, 255, 178, 255]` (opaque yellow).
+ */
 export async function getIntervalLegend(
   context: Client,
   classmapName: string,
   options: DataGetIntervalLegendOptionalParams = { requestOptions: {} },
-): Promise<IntervalLegendsElement[][]> {
+): Promise<Record<string, any>> {
   const result = await _getIntervalLegendSend(context, classmapName, options);
   return _getIntervalLegendDeserialize(result);
 }
@@ -770,13 +719,12 @@ export function _getClassMapLegendSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getClassMapLegendDeserialize(
@@ -787,7 +735,7 @@ export async function _getClassMapLegendDeserialize(
     throw createRestError(result);
   }
 
-  return result.body;
+  return Object.fromEntries(Object.entries(result.body).map(([k, p]: [string, any]) => [k, p]));
 }
 
 /** Generate values and color swatches mapping for a given classmap. */
@@ -846,13 +794,12 @@ export function _getWmtsCapabilitiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/xml",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/xml", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getWmtsCapabilitiesDeserialize(
@@ -863,7 +810,7 @@ export async function _getWmtsCapabilitiesDeserialize(
     throw createRestError(result);
   }
 
-  return deserializeBinaryStream(result);
+  return typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body;
 }
 
 /** OGC WMTS endpoint. */
@@ -874,8 +821,12 @@ export async function getWmtsCapabilities(
   tileMatrixSetId: string,
   options: DataGetWmtsCapabilitiesOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await getResponseAsStream(
-    _getWmtsCapabilitiesSend(context, collectionId, itemId, tileMatrixSetId, options),
+  const result = await _getWmtsCapabilitiesSend(
+    context,
+    collectionId,
+    itemId,
+    tileMatrixSetId,
+    options,
   );
   return _getWmtsCapabilitiesDeserialize(result);
 }
@@ -947,7 +898,7 @@ export async function _getTileDeserialize(result: PathUncheckedResponse): Promis
     throw createRestError(result);
   }
 
-  return deserializeBinaryStream(result);
+  return result.body;
 }
 
 /** Create map tile from a dataset. */
@@ -963,9 +914,19 @@ export async function getTile(
   format: string,
   options: DataGetTileOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await getResponseAsStream(
-    _getTileSend(context, collectionId, itemId, tileMatrixSetId, z, x, y, scale, format, options),
+  const streamableMethod = _getTileSend(
+    context,
+    collectionId,
+    itemId,
+    tileMatrixSetId,
+    z,
+    x,
+    y,
+    scale,
+    format,
+    options,
   );
+  const result = await getBinaryResponse(streamableMethod);
   return _getTileDeserialize(result);
 }
 
@@ -1015,13 +976,12 @@ export function _getTileJsonSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getTileJsonDeserialize(
@@ -1089,13 +1049,12 @@ export function _listStatisticsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listStatisticsDeserialize(
@@ -1137,10 +1096,12 @@ export function _getStaticImageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "image/png", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "image/png", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getStaticImageDeserialize(
@@ -1151,7 +1112,7 @@ export async function _getStaticImageDeserialize(
     throw createRestError(result);
   }
 
-  return deserializeBinaryStream(result);
+  return result.body;
 }
 
 /** Fetch an existing image export by ID */
@@ -1161,7 +1122,8 @@ export async function getStaticImage(
   id: string,
   options: DataGetStaticImageOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await getResponseAsStream(_getStaticImageSend(context, collectionId, id, options));
+  const streamableMethod = _getStaticImageSend(context, collectionId, id, options);
+  const result = await getBinaryResponse(streamableMethod);
   return _getStaticImageDeserialize(result);
 }
 
@@ -1181,15 +1143,14 @@ export function _createStaticImageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: imageParametersSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: imageParametersSerializer(body),
+    });
 }
 
 export async function _createStaticImageDeserialize(
@@ -1270,7 +1231,7 @@ export async function _getPreviewWithFormatDeserialize(
     throw createRestError(result);
   }
 
-  return deserializeBinaryStream(result);
+  return result.body;
 }
 
 /** Create preview of a dataset. */
@@ -1281,9 +1242,14 @@ export async function getPreviewWithFormat(
   format: string,
   options: DataGetPreviewWithFormatOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await getResponseAsStream(
-    _getPreviewWithFormatSend(context, collectionId, itemId, format, options),
+  const streamableMethod = _getPreviewWithFormatSend(
+    context,
+    collectionId,
+    itemId,
+    format,
+    options,
   );
+  const result = await getBinaryResponse(streamableMethod);
   return _getPreviewWithFormatDeserialize(result);
 }
 
@@ -1340,7 +1306,7 @@ export async function _getPreviewDeserialize(result: PathUncheckedResponse): Pro
     throw createRestError(result);
   }
 
-  return deserializeBinaryStream(result);
+  return result.body;
 }
 
 /** Create preview of a dataset. */
@@ -1350,7 +1316,8 @@ export async function getPreview(
   itemId: string,
   options: DataGetPreviewOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await getResponseAsStream(_getPreviewSend(context, collectionId, itemId, options));
+  const streamableMethod = _getPreviewSend(context, collectionId, itemId, options);
+  const result = await getBinaryResponse(streamableMethod);
   return _getPreviewDeserialize(result);
 }
 
@@ -1387,13 +1354,12 @@ export function _getPointSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getPointDeserialize(
@@ -1487,7 +1453,7 @@ export async function _getPartWithDimensionsDeserialize(
     throw createRestError(result);
   }
 
-  return deserializeBinaryStream(result);
+  return result.body;
 }
 
 /** Create image from part of a dataset. */
@@ -1504,21 +1470,20 @@ export async function getPartWithDimensions(
   format: string,
   options: DataGetPartWithDimensionsOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await getResponseAsStream(
-    _getPartWithDimensionsSend(
-      context,
-      collectionId,
-      itemId,
-      minx,
-      miny,
-      maxx,
-      maxy,
-      width,
-      height,
-      format,
-      options,
-    ),
+  const streamableMethod = _getPartWithDimensionsSend(
+    context,
+    collectionId,
+    itemId,
+    minx,
+    miny,
+    maxx,
+    maxy,
+    width,
+    height,
+    format,
+    options,
   );
+  const result = await getBinaryResponse(streamableMethod);
   return _getPartWithDimensionsDeserialize(result);
 }
 
@@ -1585,7 +1550,7 @@ export async function _getPartDeserialize(result: PathUncheckedResponse): Promis
     throw createRestError(result);
   }
 
-  return deserializeBinaryStream(result);
+  return result.body;
 }
 
 /** Create image from part of a dataset. */
@@ -1600,9 +1565,18 @@ export async function getPart(
   format: string,
   options: DataGetPartOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await getResponseAsStream(
-    _getPartSend(context, collectionId, itemId, minx, miny, maxx, maxy, format, options),
+  const streamableMethod = _getPartSend(
+    context,
+    collectionId,
+    itemId,
+    minx,
+    miny,
+    maxx,
+    maxy,
+    format,
+    options,
   );
+  const result = await getBinaryResponse(streamableMethod);
   return _getPartDeserialize(result);
 }
 
@@ -1628,13 +1602,12 @@ export function _getItemAssetDetailsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getItemAssetDetailsDeserialize(
@@ -1681,13 +1654,12 @@ export function _getInfoGeoJsonSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getInfoGeoJsonDeserialize(
@@ -1756,15 +1728,14 @@ export function _getGeoJsonStatisticsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: featureSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: featureSerializer(body),
+    });
 }
 
 export async function _getGeoJsonStatisticsDeserialize(
@@ -1838,11 +1809,13 @@ export function _cropGeoJsonWithDimensionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: featureSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: featureSerializer(body),
+    });
 }
 
 export async function _cropGeoJsonWithDimensionsDeserialize(
@@ -1853,7 +1826,7 @@ export async function _cropGeoJsonWithDimensionsDeserialize(
     throw createRestError(result);
   }
 
-  return deserializeBinaryStream(result);
+  return result.body;
 }
 
 /** Create image from a geojson feature. */
@@ -1867,18 +1840,17 @@ export async function cropGeoJsonWithDimensions(
   body: Feature,
   options: DataCropGeoJsonWithDimensionsOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await getResponseAsStream(
-    _cropGeoJsonWithDimensionsSend(
-      context,
-      collectionId,
-      itemId,
-      width,
-      height,
-      format,
-      body,
-      options,
-    ),
+  const streamableMethod = _cropGeoJsonWithDimensionsSend(
+    context,
+    collectionId,
+    itemId,
+    width,
+    height,
+    format,
+    body,
+    options,
   );
+  const result = await getBinaryResponse(streamableMethod);
   return _cropGeoJsonWithDimensionsDeserialize(result);
 }
 
@@ -1928,11 +1900,13 @@ export function _cropGeoJsonSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: featureSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: featureSerializer(body),
+    });
 }
 
 export async function _cropGeoJsonDeserialize(result: PathUncheckedResponse): Promise<Uint8Array> {
@@ -1941,7 +1915,7 @@ export async function _cropGeoJsonDeserialize(result: PathUncheckedResponse): Pr
     throw createRestError(result);
   }
 
-  return deserializeBinaryStream(result);
+  return result.body;
 }
 
 /** Create image from a geojson feature. */
@@ -1953,9 +1927,8 @@ export async function cropGeoJson(
   body: Feature,
   options: DataCropGeoJsonOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await getResponseAsStream(
-    _cropGeoJsonSend(context, collectionId, itemId, format, body, options),
-  );
+  const streamableMethod = _cropGeoJsonSend(context, collectionId, itemId, format, body, options);
+  const result = await getBinaryResponse(streamableMethod);
   return _cropGeoJsonDeserialize(result);
 }
 
@@ -1976,13 +1949,12 @@ export function _getBoundsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getBoundsDeserialize(
@@ -2024,13 +1996,12 @@ export function _listAvailableAssetsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAvailableAssetsDeserialize(
@@ -2099,24 +2070,23 @@ export function _getAssetStatisticsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getAssetStatisticsDeserialize(
   result: PathUncheckedResponse,
-): Promise<Record<string, Record<string, BandStatistics>>> {
+): Promise<Record<string, any>> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return bandStatisticsRecordRecordDeserializer(result.body);
+  return Object.fromEntries(Object.entries(result.body).map(([k, p]: [string, any]) => [k, p]));
 }
 
 /** Per Asset statistics */
@@ -2125,7 +2095,7 @@ export async function getAssetStatistics(
   collectionId: string,
   itemId: string,
   options: DataGetAssetStatisticsOptionalParams = { requestOptions: {} },
-): Promise<Record<string, Record<string, BandStatistics>>> {
+): Promise<Record<string, any>> {
   const result = await _getAssetStatisticsSend(context, collectionId, itemId, options);
   return _getAssetStatisticsDeserialize(result);
 }
@@ -2143,13 +2113,12 @@ export function _listTileMatricesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listTileMatricesDeserialize(
@@ -2189,13 +2158,12 @@ export function _getTileMatrixDefinitionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getTileMatrixDefinitionsDeserialize(
