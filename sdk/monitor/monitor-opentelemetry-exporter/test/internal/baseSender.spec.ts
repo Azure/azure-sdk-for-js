@@ -1057,11 +1057,6 @@ describe("BaseSender", () => {
         sendMock = vi.fn<(payload: unknown[]) => Promise<SenderResult>>();
         shutdownMock = vi.fn<() => Promise<void>>();
 
-        constructor(options: any) {
-          super(options);
-          // Don't override customerSDKStatsMetrics - let it remain as set by BaseSender
-        }
-
         async send(payload: unknown[]): Promise<SenderResult> {
           return this.sendMock(payload);
         }

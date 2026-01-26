@@ -115,13 +115,6 @@ export const ENV_AZURE_MONITOR_DISTRO_VERSION = "AZURE_MONITOR_DISTRO_VERSION";
 export const APPLICATION_ID_RESOURCE_KEY = "microsoft.applicationId";
 
 /**
- * Enables the preview version of customer-facing SDK Stats.
- * @internal
- */
-export const ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW =
-  "APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW";
-
-/**
  * Disables customer-facing SDK Stats metrics.
  * @internal
  */
