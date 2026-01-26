@@ -240,9 +240,7 @@ describe("Mosaics Tiler Operations", () => {
     console.log("Test PASSED\n");
   });
 
-  // TODO: Skip until SDK deserialization bug is fixed - SDK incorrectly decodes XML as base64
-  // See: https://github.com/Azure/azure-sdk-for-js/issues/XXXXX
-  it.skip("test_05: Get WMTS capabilities XML for mosaics", async () => {
+  it("test_05: Get WMTS capabilities XML for mosaics", async () => {
     console.log("=" + "=".repeat(79));
     console.log("TEST: test_05_get_mosaics_wmts_capabilities");
     console.log("=" + "=".repeat(79));

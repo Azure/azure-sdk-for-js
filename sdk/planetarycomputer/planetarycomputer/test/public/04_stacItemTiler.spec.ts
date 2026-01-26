@@ -241,9 +241,7 @@ describe("STAC Item Tiler Operations", () => {
     console.log("Test PASSED\n");
   });
 
-  // TODO: Skip until SDK deserialization bug is fixed - SDK incorrectly decodes XML as base64
-  // See: https://github.com/Azure/azure-sdk-for-js/issues/XXXXX
-  it.skip("test_08: Get WMTS capabilities XML for a STAC item", async () => {
+  it("test_08: Get WMTS capabilities XML for a STAC item", async () => {
     console.log("=" + "=".repeat(79));
     console.log("TEST: test_08_get_wmts_capabilities");
     console.log("=" + "=".repeat(79));
