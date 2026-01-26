@@ -5,7 +5,7 @@
 ### Features Added
 
 - Remove limit on custom properties field on both logs and spans.
-- Updated customer SDK Stats metric names from preview format to stable format:
+- Updated customer SDK Stats metric names from preview format to stable format.
 
 ### 1.0.0-beta.37 (2026-01-15)
 
