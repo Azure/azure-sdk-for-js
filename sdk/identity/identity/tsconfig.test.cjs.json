@@ -12,6 +12,7 @@
     "./test/stress",
     "./test/integration*",
     "./test/manual*",
-    "./test/snippets.spec.ts"
+    "./test/snippets.spec.ts",
+    "./test/**/browser"
   ]
 }
