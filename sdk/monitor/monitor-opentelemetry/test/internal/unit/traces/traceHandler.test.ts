@@ -264,8 +264,14 @@ describe("Library/TraceHandler", () => {
       });
       await makeHttpRequest();
       await tracerProvider.forceFlush();
-      expect(exportSpy).toHaveBeenCalledOnce();
-      const spans = exportSpy.mock.calls[0][0];
+      expect(exportSpy).toHaveBeenCalled();
+      // Filter spans to only those from our test request (with custom attributes from our customSpanProcessor)
+      const allSpans = exportSpy.mock.calls.flatMap((call) => call[0]);
+      const spans = allSpans.filter(
+        (span: ReadableSpan) =>
+          span.attributes["startAttribute"] === "SomeValue" &&
+          span.attributes["http.target"] === "/test",
+      );
       expect(spans.length).toBe(2);
       assert.deepStrictEqual(spans.length, 2);
       // Incoming request
