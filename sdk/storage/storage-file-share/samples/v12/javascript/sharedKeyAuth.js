@@ -8,7 +8,7 @@
 const { ShareServiceClient, StorageSharedKeyCredential } = require("@azure/storage-file-share");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // Enter your storage account name and shared key
@@ -22,7 +22,7 @@ async function main() {
   // List shares
   const serviceClient = new ShareServiceClient(
     `https://${account}.file.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   console.log("Shares:");
