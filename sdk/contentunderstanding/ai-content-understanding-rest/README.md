@@ -466,6 +466,8 @@ DEBUG ENV KEY DEFINED: true
 
 The samples directories are excluded from the pnpm workspace to avoid dependency conflicts. To run samples with the local development version of the package:
 
+> **Note:** Running `pnpm link` and `pnpm install` inside the samples folders will update local files like `package.json` and `pnpm-lock.yaml` under the samples directories. These changes are only for local testing and should not be checked in. If you accidentally modify them, use `git restore <path>` to revert.
+
 1. Build the package:
 
    ```bash
