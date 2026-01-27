@@ -138,8 +138,8 @@ export class AIProjectClient {
   public async getOpenAIClient(): Promise<OpenAI> {
     const scope = "https://ai.azure.com/.default";
     const azureADTokenProvider = await getBearerTokenProvider(this._credential, scope);
-    const finalUserAgent = this._buildOpenAIUserAgent();
-    
+    const userAgent = this._buildOpenAIUserAgent();
+
     let customFetch: NonNullable<ConstructorParameters<typeof OpenAI>[0]>["fetch"];
 
     if (
@@ -152,7 +152,7 @@ export class AIProjectClient {
       apiKey: azureADTokenProvider,
       baseURL: `${this._endpoint}/openai`,
       defaultQuery: { "api-version": this._options?.apiVersion || "2025-11-15-preview" },
-      defaultHeaders: { "user-agent": finalUserAgent },
+      defaultHeaders: { "user-agent": userAgent },
       dangerouslyAllowBrowser: true,
       fetch: customFetch,
     };
