@@ -2921,7 +2921,7 @@ export function apiErrorDeserializer(item: any): ApiError {
 }
 
 export function apiErrorArrayDeserializer(result: Array<ApiError>): any[] {
-  return result.map((item) => {
+  return (result || []).map((item) => {
     return apiErrorDeserializer(item);
   });
 }

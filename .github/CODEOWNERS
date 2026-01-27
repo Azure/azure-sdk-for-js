@@ -302,12 +302,6 @@
 # ServiceLabel: %Cognitive - Form Recognizer
 # AzureSdkOwners: @jeremymeng
 
-# PRLabel: %Cognitive - Metrics Advisor
-/sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
-
-# ServiceLabel: %Cognitive - Metrics Advisor
-# AzureSdkOwners: @KarishmaGhiya
-
 # PRLabel: %Notification Hub
 /sdk/notificationhubs/notification-hubs @jeremymeng
 
@@ -1183,9 +1177,6 @@
 
 # ServiceLabel: %Cognitive - Form Recognizer %Service Attention
 # ServiceOwners:          @ctstone @vkurpad
-
-# ServiceLabel: %Cognitive - Anomaly Detector %Service Attention
-# ServiceOwners:          @yingqunpku
 
 # ServiceLabel: %Cognitive - Custom Vision %Service Attention
 # ServiceOwners:          @areddish @tburns10
