@@ -70,8 +70,8 @@ export class AIProjectClient {
     this._options = options;
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
+      ? `${prefixFromOptions} AIProjectClient/JS`
+      : `AIProjectClient/JS`;
     this._cognitiveScopeClient = createAIProject(endpoint, this._credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
@@ -127,23 +127,8 @@ export class AIProjectClient {
   /** The operation groups for telemetry */
   public readonly telemetry: TelemetryOperations;
 
-  private async _buildOpenAIUserAgent(): Promise<string> {
-    // Create a dummy OpenAI client to extract the default user agent
-    const scope = "https://ai.azure.com/.default";
-    const tokenProvider = await getBearerTokenProvider(this._credential, scope);
-    const dummyClient = new OpenAI({ apiKey: tokenProvider });
-    const openaiDefaultUserAgent = (dummyClient as any).getUserAgent?.() || "";
-    console.log(openaiDefaultUserAgent)
-
-    const customUserAgent = this._options.userAgentOptions?.userAgentPrefix;
-    const userAgentParts: string[] = [];
-    if (customUserAgent) {
-      userAgentParts.push(`${customUserAgent}-AIProjectClient/JS`);
-    } else {
-      userAgentParts.push("AIProjectClient/JS");
-    }
-
-    return `${userAgentParts.join("-")} ${openaiDefaultUserAgent}`.trim();
+  private _buildOpenAIUserAgent(): string {
+    return "AIProjectClient/JS OpenAI/JS";
   }
 
   /**
@@ -153,6 +138,8 @@ export class AIProjectClient {
   public async getOpenAIClient(): Promise<OpenAI> {
     const scope = "https://ai.azure.com/.default";
     const azureADTokenProvider = await getBearerTokenProvider(this._credential, scope);
+    const finalUserAgent = this._buildOpenAIUserAgent();
+    
     let customFetch: NonNullable<ConstructorParameters<typeof OpenAI>[0]>["fetch"];
 
     if (
@@ -161,14 +148,11 @@ export class AIProjectClient {
       customFetch = getCustomFetch(this._azureScopeClient.pipeline, this._options.httpClient);
     }
 
-    const finalUserAgent = await this._buildOpenAIUserAgent();
-    console.log('finaluseragent : ' + finalUserAgent)
-
     const openAIOptions: ConstructorParameters<typeof OpenAI>[0] = {
       apiKey: azureADTokenProvider,
       baseURL: `${this._endpoint}/openai`,
       defaultQuery: { "api-version": this._options?.apiVersion || "2025-11-15-preview" },
-      defaultHeaders: { "User-Agent": finalUserAgent },
+      defaultHeaders: { "user-agent": finalUserAgent },
       dangerouslyAllowBrowser: true,
       fetch: customFetch,
     };
