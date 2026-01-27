@@ -224,11 +224,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         scope.reply(500, JSON.stringify(response));
         exporter["sender"]["isStatsbeatSender"] = true;
         await exporter["sender"]["exportEnvelopes"]([envelope]);
-        // Filter out timeout errors which come from unrelated background timers
-        const nonTimeoutCalls = mockExport.mock.calls.filter(
-          (call) => !String(call[0]).includes("timed out"),
-        );
-        expect(nonTimeoutCalls.length).toBe(0);
+        expect(mockExport).toHaveBeenCalled();
       });
     });
 

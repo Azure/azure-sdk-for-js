@@ -14,7 +14,7 @@ import type {
   MetricsData,
   MetricDataPoint,
 } from "../generated/index.js";
-import { createTagsFromResource } from "./common.js";
+import { createTagsFromResource, sanitizeTags } from "./common.js";
 import type { Tags } from "../types.js";
 import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../types.js";
 import {
@@ -132,7 +132,7 @@ export function resourceMetricsToEnvelope(
           time: time,
           sampleRate: 100, // Metrics are never sampled
           instrumentationKey: instrumentationKey,
-          tags: tags,
+          tags: sanitizeTags(tags),
           version: 1,
           data: {
             baseType: "MetricData",

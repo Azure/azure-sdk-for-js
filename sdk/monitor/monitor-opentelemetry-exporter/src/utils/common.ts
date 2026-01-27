@@ -259,12 +259,21 @@ export function createResourceMetricEnvelope(
           baseType: "MetricData",
           baseData: baseData,
         },
-        tags: tags,
+        tags: sanitizeTags(tags),
       };
       return envelope;
     }
   }
   return;
+}
+
+export function sanitizeTags(tags?: Tags): Record<string, string> | undefined {
+  if (!tags) {
+    return undefined;
+  }
+  return Object.fromEntries(
+    Object.entries(tags).filter(([, value]) => value !== undefined),
+  ) as Record<string, string>;
 }
 
 export function serializeAttribute(value: AnyValue): string {

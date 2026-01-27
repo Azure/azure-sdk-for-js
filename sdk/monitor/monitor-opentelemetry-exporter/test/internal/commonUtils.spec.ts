@@ -11,6 +11,7 @@ import {
   serializeAttribute,
 } from "../../src/utils/common.js";
 import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js";
+import type { MetricsData } from "../../src/generated/index.js";
 import { describe, it, assert } from "vitest";
 
 describe("commonUtils.ts", () => {
@@ -128,10 +129,8 @@ describe("commonUtils.ts", () => {
         const envelope = createResourceMetricEnvelope(resource, "ikey", "my-app-id");
 
         assert.ok(envelope);
-        assert.strictEqual(
-          envelope?.data?.baseData?.properties?.[APPLICATION_ID_RESOURCE_KEY],
-          "my-app-id",
-        );
+        const baseData = envelope?.data?.baseData as MetricsData | undefined;
+        assert.strictEqual(baseData?.properties?.[APPLICATION_ID_RESOURCE_KEY], "my-app-id");
       });
     });
   });

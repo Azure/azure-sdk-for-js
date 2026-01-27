@@ -90,7 +90,6 @@ export function shouldSample(
   // Only add sample rate attribute if it's not 100
   if (sampleRate !== 100) {
     // Add sample rate as span attribute
-    attributes = attributes || {};
     attributes[AzureMonitorSampleRate] = sampleRate;
   }
 

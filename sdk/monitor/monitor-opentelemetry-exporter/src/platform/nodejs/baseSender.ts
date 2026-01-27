@@ -26,7 +26,7 @@ import {
   ENV_DISABLE_SDKSTATS,
   RetriableRestErrorTypes,
 } from "../../Declarations/Constants.js";
-import { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
+import type { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 
