@@ -1,11 +1,20 @@
 # Release History
 
-### 1.15.0 ()
+### 1.15.1 (2026-01-16)
+
+### Other Changes
+
+- Updated to using exporter version 1.0.0-beta.38.
+
+### 1.15.0 (2026-01-15)
 
 ### Features Added
 
 - Allow configuring additional metric views through `AzureMonitorOpenTelemetryOptions` and pass them to the NodeSDK.
 - Honor `OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION` for selecting default histogram aggregation (explicit or exponential).
+- Support `OTEL_TRACES_SAMPLER`/`OTEL_TRACES_SAMPLER_ARG` environment variables for sampler selection.
+
+- Add support for automatic instrumentation in ESM environments.
 
 ### 1.14.2 (2025-11-13)
 

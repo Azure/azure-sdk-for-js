@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to run Prompt Agent operations
- * using the Web Search Tool and a synchronous client.
+ * This sample demonstrates how to run Prompt Agent operations using the Web Search Tool.
  *
  * @summary This sample demonstrates how to create an agent with web search capabilities,
  * send a query to search the web, and clean up resources.

@@ -6,10 +6,10 @@ import type {
   RequestPolicyOptionsLike as RequestPolicyOptions,
   RequestPolicyFactory,
 } from "@azure/core-http-compat";
-import { StorageRetryPolicy } from "./policies/StorageRetryPolicy.js";
+import { StorageRetryPolicy, NewRetryPolicyFactory } from "./policies/StorageRetryPolicy.js";
 import { StorageRetryPolicyType } from "./policies/StorageRetryPolicyType.js";
 
-export { StorageRetryPolicyType, StorageRetryPolicy };
+export { StorageRetryPolicyType, StorageRetryPolicy, NewRetryPolicyFactory };
 
 /**
  * Storage Blob retry options interface.

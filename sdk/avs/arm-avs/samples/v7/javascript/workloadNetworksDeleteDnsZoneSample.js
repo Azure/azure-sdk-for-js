@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a WorkloadNetworkDnsZone
  *
  * @summary delete a WorkloadNetworkDnsZone
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_DeleteDnsZone.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_DeleteDnsZone.json
  */
 async function workloadNetworksDeleteDnsZone() {
   const credential = new DefaultAzureCredential();

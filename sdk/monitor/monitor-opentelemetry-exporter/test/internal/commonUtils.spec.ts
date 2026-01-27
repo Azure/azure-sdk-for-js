@@ -5,7 +5,12 @@ import os from "node:os";
 import type { Resource } from "@opentelemetry/resources";
 import { defaultResource, resourceFromAttributes } from "@opentelemetry/resources";
 import type { Tags } from "../../src/types.js";
-import { createTagsFromResource, serializeAttribute } from "../../src/utils/common.js";
+import {
+  createResourceMetricEnvelope,
+  createTagsFromResource,
+  serializeAttribute,
+} from "../../src/utils/common.js";
+import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js";
 import { describe, it, assert } from "vitest";
 
 describe("commonUtils.ts", () => {
@@ -113,6 +118,20 @@ describe("commonUtils.ts", () => {
         attr = serializeAttribute(new Error("testError") as any);
         assert.isTrue(attr.includes('"stack":"Error: testError'));
         assert.isTrue(attr.includes('"message":"testError"'));
+      });
+    });
+
+    describe("#createResourceMetricEnvelope", () => {
+      it("adds applicationId from connection string when resource is missing it", () => {
+        const resource = resourceFromAttributes({ "service.name": "svc" });
+
+        const envelope = createResourceMetricEnvelope(resource, "ikey", "my-app-id");
+
+        assert.ok(envelope);
+        assert.strictEqual(
+          envelope?.data?.baseData?.properties?.[APPLICATION_ID_RESOURCE_KEY],
+          "my-app-id",
+        );
       });
     });
   });

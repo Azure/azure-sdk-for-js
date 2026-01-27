@@ -6,9 +6,9 @@
  * Shared helper functions and classes for Computer Use Agent samples.
  */
 
-import * as fs from "fs";
+import * as fs from "node:fs/promises";
 import * as path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,13 +28,9 @@ export enum SearchState {
  * @returns A Base64-encoded string representing the image.
  * @throws Error if the provided file path does not exist or if there's an error reading the file.
  */
-export function imageToBase64(imagePath: string): string {
-  if (!fs.existsSync(imagePath)) {
-    throw new Error(`File not found at: ${imagePath}`);
-  }
-
+export async function imageToBase64(imagePath: string): Promise<string> {
   try {
-    const fileData = fs.readFileSync(imagePath);
+    const fileData = await fs.readFile(imagePath);
     return fileData.toString("base64");
   } catch (error) {
     throw new Error(`Error reading file '${imagePath}': ${error}`);
@@ -64,7 +60,7 @@ export interface Screenshots {
  * @returns Dictionary mapping state names to screenshot info with filename and data URL
  * @throws Error if any required screenshot asset files are missing
  */
-export function loadScreenshotAssets(): Screenshots {
+export async function loadScreenshotAssets(): Promise<Screenshots> {
   // Load demo screenshot images from assets directory
   // Flow: search page -> typed search -> search results
   const screenshotPaths = {
@@ -83,7 +79,7 @@ export function loadScreenshotAssets(): Screenshots {
 
   for (const [key, filePath] of Object.entries(screenshotPaths)) {
     try {
-      const imageBase64 = imageToBase64(filePath);
+      const imageBase64 = await imageToBase64(filePath);
       screenshots[key as keyof Screenshots] = {
         filename: filenameMap[key as keyof typeof filenameMap],
         url: `data:image/png;base64,${imageBase64}`,

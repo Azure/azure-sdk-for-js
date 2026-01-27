@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to return trial status for subscription by region
  *
  * @summary return trial status for subscription by region
- * x-ms-original-file: 2024-09-01/Locations_CheckTrialAvailability.json
+ * x-ms-original-file: 2025-09-01/Locations_CheckTrialAvailability.json
  */
 async function locationsCheckTrialAvailability() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function locationsCheckTrialAvailability() {
  * This sample demonstrates how to return trial status for subscription by region
  *
  * @summary return trial status for subscription by region
- * x-ms-original-file: 2024-09-01/Locations_CheckTrialAvailabilityWithSku.json
+ * x-ms-original-file: 2025-09-01/Locations_CheckTrialAvailabilityWithSku.json
  */
 async function locationsCheckTrialAvailabilityWithSku() {
   const credential = new DefaultAzureCredential();

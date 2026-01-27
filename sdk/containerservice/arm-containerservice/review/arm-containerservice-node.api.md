@@ -374,7 +374,6 @@ export interface AgentPoolUpgradeSettings {
     maxBlockedNodes?: string;
     maxSurge?: string;
     maxUnavailable?: string;
-    minSurge?: string;
     nodeSoakDurationInMinutes?: number;
     undrainableNodeBehavior?: UndrainableNodeBehavior;
 }
@@ -1872,12 +1871,12 @@ export interface MachineProperties {
     kubernetes?: MachineKubernetesProfile;
     mode?: AgentPoolMode;
     network?: MachineNetworkProperties;
-    readonly nodeImageVersion?: string;
+    nodeImageVersion?: string;
     operatingSystem?: MachineOSProfile;
     priority?: ScaleSetPriority;
     readonly provisioningState?: string;
     readonly resourceId?: string;
-    security?: AgentPoolSecurityProfile;
+    security?: MachineSecurityProfile;
     readonly status?: MachineStatus;
     tags?: {
         [propertyName: string]: string;
@@ -1914,6 +1913,14 @@ export interface MachinesCreateOrUpdateOptionalParams extends coreClient.Operati
 
 // @public
 export type MachinesCreateOrUpdateResponse = MachinesCreateOrUpdateHeaders & Machine;
+
+// @public
+export interface MachineSecurityProfile {
+    enableEncryptionAtHost?: boolean;
+    enableSecureBoot?: boolean;
+    enableVtpm?: boolean;
+    sshAccess?: AgentPoolSSHAccess;
+}
 
 // @public
 export interface MachinesGetOptionalParams extends coreClient.OperationOptions {

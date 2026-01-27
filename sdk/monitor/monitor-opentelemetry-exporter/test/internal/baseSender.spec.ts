@@ -8,8 +8,8 @@ import { diag } from "@opentelemetry/api";
 import { ExportResultCode } from "@opentelemetry/core";
 import {
   RetriableRestErrorTypes,
-  ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
+  ENV_DISABLE_SDKSTATS,
 } from "../../src/Declarations/Constants.js";
 import type { SenderResult } from "../../src/types.js";
 import { CustomerSDKStatsMetrics } from "../../src/export/statsbeat/customerSDKStats.js";
@@ -578,6 +578,79 @@ describe("BaseSender", () => {
 
       expect(diag.error).not.toHaveBeenCalled();
     });
+
+    it("should report success when statsbeat sender encounters non-retriable failure", async () => {
+      const originalEnv = process.env;
+      const newEnv = { ...process.env } as NodeJS.ProcessEnv;
+      delete newEnv.APPLICATIONINSIGHTS_SDK_STATS_LOGGING;
+      process.env = newEnv;
+
+      sender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: true,
+      });
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 400,
+        result: "",
+      });
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+
+      process.env = originalEnv;
+    });
+
+    it("should surface failure when APPLICATIONINSIGHTS_SDK_STATS_LOGGING is enabled for statsbeat sender", async () => {
+      const originalEnv = process.env;
+      const newEnv = {
+        ...process.env,
+        APPLICATIONINSIGHTS_SDK_STATS_LOGGING: "true",
+      } as NodeJS.ProcessEnv;
+      process.env = newEnv;
+
+      sender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: true,
+      });
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 400,
+        result: "",
+      });
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(result.code).toBe(ExportResultCode.FAILED);
+
+      process.env = originalEnv;
+    });
+
+    it("should keep failure result for customer sender non-retriable failure", async () => {
+      sender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 400,
+        result: "",
+      });
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(result.code).toBe(ExportResultCode.FAILED);
+    });
   });
 
   describe("Performance Counter Detection", () => {
@@ -706,13 +779,11 @@ describe("BaseSender", () => {
 
   describe("Customer SDK Stats Exception Message Handling", () => {
     let testSender: TestBaseSender;
-    let originalEnv: string | undefined;
+    let originalEnvDisabled: string | undefined;
 
     beforeEach(async () => {
-      // Save original environment variable
-      originalEnv = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
-      // Set environment variable to enable Customer SDK Stats metrics
-      process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "true";
+      originalEnvDisabled = process.env[ENV_DISABLE_SDKSTATS];
+      delete process.env[ENV_DISABLE_SDKSTATS];
 
       testSender = new TestBaseSender({
         endpointUrl: "https://example.com",
@@ -737,10 +808,10 @@ describe("BaseSender", () => {
 
     afterEach(() => {
       // Restore original environment variable
-      if (originalEnv === undefined) {
-        delete process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+      if (originalEnvDisabled === undefined) {
+        delete process.env[ENV_DISABLE_SDKSTATS];
       } else {
-        process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = originalEnv;
+        process.env[ENV_DISABLE_SDKSTATS] = originalEnvDisabled;
       }
     });
 
@@ -859,16 +930,14 @@ describe("BaseSender", () => {
   });
 
   describe("Customer SDK Stats Export Interval Configuration", () => {
-    let originalEnvEnabled: string | undefined;
+    let originalEnvDisabled: string | undefined;
     let originalEnvInterval: string | undefined;
 
     beforeEach(() => {
       // Save original environment variables
-      originalEnvEnabled = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+      originalEnvDisabled = process.env[ENV_DISABLE_SDKSTATS];
       originalEnvInterval = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
-
-      // Enable Customer SDK Stats for all tests in this section
-      process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "true";
+      delete process.env[ENV_DISABLE_SDKSTATS];
 
       // Clear all mock calls from previous tests
       vi.clearAllMocks();
@@ -876,10 +945,10 @@ describe("BaseSender", () => {
 
     afterEach(() => {
       // Restore original environment variables
-      if (originalEnvEnabled === undefined) {
-        delete process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+      if (originalEnvDisabled === undefined) {
+        delete process.env[ENV_DISABLE_SDKSTATS];
       } else {
-        process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = originalEnvEnabled;
+        process.env[ENV_DISABLE_SDKSTATS] = originalEnvDisabled;
       }
 
       if (originalEnvInterval === undefined) {
@@ -973,6 +1042,54 @@ describe("BaseSender", () => {
         disableOfflineStorage: false,
         networkCollectionInterval: undefined,
       });
+    });
+
+    it("should not initialize Customer SDK Stats when ENV_DISABLE_SDKSTATS is set", async () => {
+      // Disable SDK stats by setting the environment variable
+      process.env[ENV_DISABLE_SDKSTATS] = "true";
+
+      // Clear mock calls
+      vi.clearAllMocks();
+
+      // Create a new sender - we need to NOT override customerSDKStatsMetrics in the constructor
+      // to test that it remains undefined when disabled
+      class TestSenderWithoutMockStats extends BaseSender {
+        sendMock = vi.fn<(payload: unknown[]) => Promise<SenderResult>>();
+        shutdownMock = vi.fn<() => Promise<void>>();
+
+        async send(payload: unknown[]): Promise<SenderResult> {
+          return this.sendMock(payload);
+        }
+
+        async shutdown(): Promise<void> {
+          return this.shutdownMock();
+        }
+
+        handlePermanentRedirect(_location: string | undefined): void {
+          // No-op
+        }
+
+        getCustomerSDKStatsMetrics(): any {
+          return (this as any).customerSDKStatsMetrics;
+        }
+      }
+
+      const testSender = new TestSenderWithoutMockStats({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      // Verify sender was created successfully
+      expect(testSender).toBeDefined();
+
+      // Wait for async initialization to complete (if it were to happen)
+      await new Promise((resolve) => setTimeout(resolve, 150));
+
+      // Verify that customerSDKStatsMetrics is undefined (not initialized) when SDK stats are disabled
+      expect(testSender.getCustomerSDKStatsMetrics()).toBeUndefined();
     });
   });
 });

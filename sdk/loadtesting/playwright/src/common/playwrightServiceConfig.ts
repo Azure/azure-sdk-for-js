@@ -8,6 +8,7 @@ import {
   ServiceAuth,
 } from "./constants.js";
 import type { PlaywrightServiceAdditionalOptions, OsType } from "./types.js";
+import type { TokenCredential } from "@azure/identity";
 import { getAndSetRunId, getRunName, ValidateRunID } from "../utils/utils.js";
 import { CIInfoProvider } from "../utils/cIInfoProvider.js";
 import { state } from "./state.js";
@@ -22,6 +23,7 @@ class PlaywrightServiceConfig {
   public runName: string;
   public apiVersion: string;
   private _serviceAuthType: string = ServiceAuth.ENTRA_ID;
+  public credential?: TokenCredential;
 
   constructor() {
     this.serviceOs = (process.env[InternalEnvironmentVariables.MPT_SERVICE_OS] ||
@@ -110,6 +112,9 @@ class PlaywrightServiceConfig {
     }
     if (options?.connectTimeout) {
       this.connectTimeout = options.connectTimeout;
+    }
+    if (options?.credential) {
+      this.credential = options.credential;
     }
   };
 }

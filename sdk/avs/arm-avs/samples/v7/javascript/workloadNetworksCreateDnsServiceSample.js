@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a WorkloadNetworkDnsService
  *
  * @summary create a WorkloadNetworkDnsService
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_CreateDnsService.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_CreateDnsService.json
  */
 async function workloadNetworksCreateDnsService() {
   const credential = new DefaultAzureCredential();
