@@ -16,7 +16,7 @@
   * Rename class `BrowserAutomationAgentTool` to `BrowserAutomationPreviewTool`
   * Rename class `A2ATool` to `A2APreviewTool`
 
-* `ResponsesUserMessageItemParam` removed as a valid ItemUnion member.
+- `ResponsesUserMessageItemParam` removed as a valid ItemUnion member.
 
 ## 2.0.0-beta.3 (2026-01-09)
 
