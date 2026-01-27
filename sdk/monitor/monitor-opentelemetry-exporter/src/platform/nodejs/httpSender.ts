@@ -6,12 +6,49 @@ import { diag } from "@opentelemetry/api";
 import type { FullOperationResponse } from "@azure/core-client";
 import { redirectPolicyName } from "@azure/core-rest-pipeline";
 import type { SenderResult } from "../../types.js";
-import type { TelemetryItem as Envelope, TrackOptionalParams } from "../../generated/index.js";
+import type {
+  MonitorDomain,
+  TelemetryItem as Envelope,
+  TrackOptionalParams,
+} from "../../generated/index.js";
 import { ApplicationInsightsClient } from "../../client/applicationInsightsClient.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import { BaseSender } from "./baseSender.js";
 
 const applicationInsightsResource = "https://monitor.azure.com//.default";
+
+// The generated serializer only emits `additionalProperties` plus the `ver` field.
+// Normalize baseData so all fields end up under `additionalProperties` before we serialize.
+function normalizeMonitorDomain(baseData: MonitorDomain): MonitorDomain {
+  const { version, additionalProperties, ...rest } = baseData as MonitorDomain &
+    Record<string, any>;
+  const mergedAdditional = { ...(additionalProperties ?? {}) } as Record<string, any>;
+  for (const [key, value] of Object.entries(rest)) {
+    if (value !== undefined) {
+      mergedAdditional[key] = value;
+    }
+  }
+  return {
+    version: (version ?? (baseData as any).ver ?? 1) as number,
+    additionalProperties: mergedAdditional,
+  };
+}
+
+function normalizeEnvelopesForSerialization(envelopes: Envelope[]): Envelope[] {
+  return envelopes.map((envelope) => {
+    const baseData = envelope.data?.baseData;
+    if (!baseData) {
+      return envelope;
+    }
+    return {
+      ...envelope,
+      data: {
+        ...envelope.data,
+        baseData: normalizeMonitorDomain(baseData as MonitorDomain),
+      },
+    } as Envelope;
+  });
+}
 
 /**
  * Exporter HTTP sender class
@@ -55,6 +92,7 @@ export class HttpSender extends BaseSender {
    * @internal
    */
   async send(envelopes: Envelope[]): Promise<SenderResult> {
+    const normalizedEnvelopes = normalizeEnvelopesForSerialization(envelopes);
     const options: TrackOptionalParams = {};
     let response: FullOperationResponse | undefined;
     function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
@@ -63,7 +101,7 @@ export class HttpSender extends BaseSender {
         options.onResponse(rawResponse, flatResponse);
       }
     }
-    await this.appInsightsClient.track(envelopes, {
+    await this.appInsightsClient.track(normalizedEnvelopes, {
       ...options,
       onResponse,
     });
