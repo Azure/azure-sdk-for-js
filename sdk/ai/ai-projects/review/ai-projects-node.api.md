@@ -14,7 +14,7 @@ import { PollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface A2ATool extends Tool {
+export interface A2APreviewTool extends Tool {
     agent_card_path?: string;
     base_url?: string;
     project_connection_id?: string;
@@ -47,7 +47,6 @@ export interface AgentClusterInsightsRequest extends InsightRequest {
 
 // @public
 export interface AgentDefinition {
-    // (undocumented)
     kind: AgentKind;
     rai_config?: RaiConfig;
 }
@@ -63,7 +62,6 @@ export interface AgenticIdentityCredentials extends BaseCredentials {
 // @public
 export interface AgentId {
     name: string;
-    // (undocumented)
     type: "agent_id";
     version: string;
 }
@@ -77,7 +75,6 @@ export type AgentProtocol = "activity_protocol" | "responses";
 // @public
 export interface AgentReference {
     name: string;
-    // (undocumented)
     type: "agent_reference";
     version?: string;
 }
@@ -128,7 +125,7 @@ export interface AgentsListAgentsOptionalParams extends OperationOptions {
     before?: string;
     kind?: AgentKind;
     limit?: number;
-    order?: "asc" | "desc";
+    order?: PageOrder;
 }
 
 // @public
@@ -136,7 +133,7 @@ export interface AgentsListAgentVersionsOptionalParams extends OperationOptions 
     after?: string;
     before?: string;
     limit?: number;
-    order?: "asc" | "desc";
+    order?: PageOrder;
 }
 
 // @public
@@ -151,8 +148,16 @@ export interface AgentsOperations {
     getVersion: (agentName: string, agentVersion: string, options?: AgentsGetAgentVersionOptionalParams) => Promise<AgentVersion>;
     list: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<Agent>;
     listVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersion>;
+    streamAgentContainerLogs: (agentName: string, agentVersion: string, options?: AgentsStreamAgentContainerLogsOptionalParams) => Promise<void>;
     update(agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateAgentOptionalParams): Promise<Agent>;
     update(agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsUpdateAgentFromManifestOptionalParams): Promise<Agent>;
+}
+
+// @public
+export interface AgentsStreamAgentContainerLogsOptionalParams extends OperationOptions {
+    kind?: ContainerLogKind;
+    replicaName?: string;
+    tail?: number;
 }
 
 // @public
@@ -228,39 +233,16 @@ export interface Annotation {
 }
 
 // @public
-export interface AnnotationFileCitation extends Annotation {
-    file_id: string;
-    filename: string;
-    index: number;
-    type: "file_citation";
-}
+export type AnnotationType = "file_citation" | "url_citation" | "container_file_citation" | "file_path";
 
 // @public
-export interface AnnotationFilePath extends Annotation {
-    file_id: string;
-    index: number;
-    type: "file_path";
-}
-
-// @public
-export type AnnotationType = "file_citation" | "url_citation" | "file_path" | "container_file_citation";
-
-// @public
-export type AnnotationUnion = AnnotationFileCitation | AnnotationUrlCitation | AnnotationFilePath | Annotation;
-
-// @public
-export interface AnnotationUrlCitation extends Annotation {
-    end_index: number;
-    start_index: number;
-    title: string;
-    type: "url_citation";
-    url: string;
-}
+export type AnnotationUnion = FileCitationBody | UrlCitationBody | ContainerFileCitationBody | FilePath | Annotation;
 
 // @public
 export interface ApiError {
     code: string;
     details: ApiError[];
+    // Warning: (ae-forgotten-export) The symbol "ApiInnerError" needs to be exported by the entry point index.d.ts
     innererror?: ApiInnerError;
     message: string;
     target?: string;
@@ -273,24 +255,82 @@ export interface ApiErrorResponse {
 }
 
 // @public
-export interface ApiInnerError {
-    code: string;
-    innererror?: ApiInnerError;
-}
-
-// @public
 export interface ApiKeyCredentials extends BaseCredentials {
     readonly apiKey: string;
     readonly type: "ApiKey";
 }
 
 // @public
-export interface ApproximateLocation extends Location {
-    city?: string;
-    country?: string;
-    region?: string;
-    timezone?: string;
+export type ApplyPatchCallOutputStatusParam = "completed" | "failed";
+
+// @public
+export type ApplyPatchCallStatusParam = "in_progress" | "completed";
+
+// @public
+export interface ApplyPatchCreateFileOperationParam extends ApplyPatchOperationParam {
+    diff: string;
+    path: string;
+    type: "create_file";
+}
+
+// @public
+export interface ApplyPatchDeleteFileOperationParam extends ApplyPatchOperationParam {
+    path: string;
+    type: "delete_file";
+}
+
+// @public
+export interface ApplyPatchOperationParam {
     // (undocumented)
+    type: ApplyPatchOperationParamType;
+}
+
+// @public
+export type ApplyPatchOperationParamType = "create_file" | "delete_file" | "update_file";
+
+// @public
+export type ApplyPatchOperationParamUnion = ApplyPatchCreateFileOperationParam | ApplyPatchDeleteFileOperationParam | ApplyPatchUpdateFileOperationParam | ApplyPatchOperationParam;
+
+// @public
+export interface ApplyPatchToolCallItemParam extends Item {
+    call_id: string;
+    id?: string;
+    operation: ApplyPatchOperationParamUnion;
+    status: ApplyPatchCallStatusParam;
+    type: "apply_patch_call";
+}
+
+// @public
+export interface ApplyPatchToolCallOutputItemParam extends Item {
+    call_id: string;
+    id?: string;
+    output?: string;
+    status: ApplyPatchCallOutputStatusParam;
+    type: "apply_patch_call_output";
+}
+
+// @public
+export interface ApplyPatchToolParam extends Tool {
+    type: "apply_patch";
+}
+
+// @public
+export interface ApplyPatchUpdateFileOperationParam extends ApplyPatchOperationParam {
+    diff: string;
+    path: string;
+    type: "update_file";
+}
+
+// @public
+export interface ApproximateLocation {
+    // (undocumented)
+    city?: string | null;
+    // (undocumented)
+    country?: string | null;
+    // (undocumented)
+    region?: string | null;
+    // (undocumented)
+    timezone?: string | null;
     type: "approximate";
 }
 
@@ -306,12 +346,6 @@ export interface AzureAIAgentTarget extends Target {
 }
 
 // @public
-export interface AzureAISearchAgentTool extends Tool {
-    azure_ai_search: AzureAISearchToolResource;
-    type: "azure_ai_search";
-}
-
-// @public
 export interface AzureAISearchIndex extends Index {
     connectionName: string;
     fieldMapping?: FieldMapping;
@@ -323,14 +357,14 @@ export interface AzureAISearchIndex extends Index {
 export type AzureAISearchQueryType = "simple" | "semantic" | "vector" | "vector_simple_hybrid" | "vector_semantic_hybrid";
 
 // @public
-export interface AzureAISearchToolResource {
-    indexes: AISearchIndexResource[];
+export interface AzureAISearchTool extends Tool {
+    azure_ai_search: AzureAISearchToolResource;
+    type: "azure_ai_search";
 }
 
 // @public
-export interface AzureFunctionAgentTool extends Tool {
-    azure_function: AzureFunctionDefinition;
-    type: "azure_function";
+export interface AzureAISearchToolResource {
+    indexes: AISearchIndexResource[];
 }
 
 // @public
@@ -357,6 +391,12 @@ export interface AzureFunctionStorageQueue {
 }
 
 // @public
+export interface AzureFunctionTool extends Tool {
+    azure_function: AzureFunctionDefinition;
+    type: "azure_function";
+}
+
+// @public
 export interface AzureOpenAIModelConfiguration extends TargetConfig {
     modelDeploymentName: string;
     // (undocumented)
@@ -372,12 +412,6 @@ export interface BaseCredentials {
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityCredentials | BaseCredentials;
 
 // @public
-export interface BingCustomSearchAgentTool extends Tool {
-    bing_custom_search_preview: BingCustomSearchToolParameters;
-    type: "bing_custom_search_preview";
-}
-
-// @public
 export interface BingCustomSearchConfiguration {
     count?: number;
     freshness?: string;
@@ -388,14 +422,14 @@ export interface BingCustomSearchConfiguration {
 }
 
 // @public
-export interface BingCustomSearchToolParameters {
-    search_configurations: BingCustomSearchConfiguration[];
+export interface BingCustomSearchPreviewTool extends Tool {
+    bing_custom_search_preview: BingCustomSearchToolParameters;
+    type: "bing_custom_search_preview";
 }
 
 // @public
-export interface BingGroundingAgentTool extends Tool {
-    bing_grounding: BingGroundingSearchToolParameters;
-    type: "bing_grounding";
+export interface BingCustomSearchToolParameters {
+    search_configurations: BingCustomSearchConfiguration[];
 }
 
 // @public
@@ -413,6 +447,12 @@ export interface BingGroundingSearchToolParameters {
 }
 
 // @public
+export interface BingGroundingTool extends Tool {
+    bing_grounding: BingGroundingSearchToolParameters;
+    type: "bing_grounding";
+}
+
+// @public
 export interface BlobReference {
     blobUri: string;
     credential: SasCredential;
@@ -420,7 +460,7 @@ export interface BlobReference {
 }
 
 // @public
-export interface BrowserAutomationAgentTool extends Tool {
+export interface BrowserAutomationPreviewTool extends Tool {
     browser_automation_preview: BrowserAutomationToolParameters;
     type: "browser_automation_preview";
 }
@@ -454,6 +494,17 @@ export interface ChatSummaryMemoryItem extends MemoryItem {
 }
 
 // @public
+export type ClickButtonType = "left" | "right" | "wheel" | "back" | "forward";
+
+// @public
+export interface ClickParam extends ComputerAction {
+    button: ClickButtonType;
+    type: "click";
+    x: number;
+    y: number;
+}
+
+// @public
 export interface ClusterInsightResult {
     clusters: InsightCluster[];
     coordinates?: Record<string, ChartCoordinate>;
@@ -475,60 +526,52 @@ export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
 }
 
 // @public
-export interface CodeInterpreterOutput {
+export interface CodeInterpreterContainerAuto {
+    file_ids?: string[];
     // (undocumented)
-    type: CodeInterpreterOutputType;
+    memory_limit?: ContainerMemoryLimit | null;
+    type: "auto";
 }
 
 // @public
-export interface CodeInterpreterOutputImage extends CodeInterpreterOutput {
+export interface CodeInterpreterOutputImage {
     type: "image";
     url: string;
 }
 
 // @public
-export interface CodeInterpreterOutputLogs extends CodeInterpreterOutput {
+export interface CodeInterpreterOutputLogs {
     logs: string;
     type: "logs";
 }
 
 // @public
-export type CodeInterpreterOutputType = "logs" | "image";
-
-// @public
-export type CodeInterpreterOutputUnion = CodeInterpreterOutputImage | CodeInterpreterOutputLogs | CodeInterpreterOutput;
-
-// @public
 export interface CodeInterpreterTool extends Tool {
-    container: string | CodeInterpreterToolAuto;
+    container: string | CodeInterpreterContainerAuto;
     type: "code_interpreter";
 }
 
 // @public
-export interface CodeInterpreterToolAuto {
-    file_ids?: string[];
-    type: "auto";
-}
-
-// @public
-export interface CodeInterpreterToolCallItemParam extends ItemParam {
-    code: string;
-    container_id: string;
-    outputs: CodeInterpreterOutputUnion[];
+export interface CompactionSummaryItemParam extends Item {
     // (undocumented)
-    type: "code_interpreter_call";
+    encrypted_content: string;
+    id?: string;
+    type: "compaction";
 }
 
 // @public
 export interface ComparisonFilter {
     key: string;
     type: "eq" | "ne" | "gt" | "gte" | "lt" | "lte";
-    value: string | number | boolean;
+    value: string | number | boolean | ComparisonFilterValueItems[];
 }
 
 // @public
+export type ComparisonFilterValueItems = string | number;
+
+// @public
 export interface CompoundFilter {
-    filters: (ComparisonFilter | CompoundFilter)[];
+    filters: (ComparisonFilter | any)[];
     type: "and" | "or";
 }
 
@@ -539,122 +582,43 @@ export interface ComputerAction {
 }
 
 // @public
-export interface ComputerActionClick extends ComputerAction {
-    button: "left" | "right" | "wheel" | "back" | "forward";
-    type: "click";
-    x: number;
-    y: number;
-}
+export type ComputerActionType = "click" | "double_click" | "drag" | "keypress" | "move" | "screenshot" | "scroll" | "type" | "wait";
 
 // @public
-export interface ComputerActionDoubleClick extends ComputerAction {
-    type: "double_click";
-    x: number;
-    y: number;
-}
+export type ComputerActionUnion = ClickParam | DoubleClickAction | Drag | KeyPressAction | Move | Screenshot | Scroll | Type | Wait | ComputerAction;
 
 // @public
-export interface ComputerActionDrag extends ComputerAction {
-    path: Coordinate[];
-    type: "drag";
-}
-
-// @public
-export interface ComputerActionKeyPress extends ComputerAction {
-    keys: string[];
-    type: "keypress";
-}
-
-// @public
-export interface ComputerActionMove extends ComputerAction {
-    type: "move";
-    x: number;
-    y: number;
-}
-
-// @public
-export interface ComputerActionScreenshot extends ComputerAction {
-    type: "screenshot";
-}
-
-// @public
-export interface ComputerActionScroll extends ComputerAction {
-    scroll_x: number;
-    scroll_y: number;
-    type: "scroll";
-    x: number;
-    y: number;
-}
-
-// @public
-export type ComputerActionType = "screenshot" | "click" | "double_click" | "scroll" | "type" | "wait" | "keypress" | "drag" | "move";
-
-// @public
-export interface ComputerActionTypeKeys extends ComputerAction {
-    text: string;
-    type: "type";
-}
-
-// @public
-export type ComputerActionUnion = ComputerActionClick | ComputerActionDoubleClick | ComputerActionDrag | ComputerActionMove | ComputerActionScreenshot | ComputerActionScroll | ComputerActionTypeKeys | ComputerActionWait | ComputerActionKeyPress | ComputerAction;
-
-// @public
-export interface ComputerActionWait extends ComputerAction {
-    type: "wait";
-}
-
-// @public
-export interface ComputerToolCallItemParam extends ItemParam {
-    // (undocumented)
-    action: ComputerActionUnion;
+export interface ComputerCallOutputItemParam extends Item {
+    acknowledged_safety_checks?: ComputerCallSafetyCheckParam[];
     call_id: string;
-    pending_safety_checks: ComputerToolCallSafetyCheck[];
-    // (undocumented)
-    type: "computer_call";
-}
-
-// @public
-export interface ComputerToolCallOutputItemOutput {
-    // (undocumented)
-    type: ComputerToolCallOutputItemOutputType;
-}
-
-// @public
-export interface ComputerToolCallOutputItemOutputComputerScreenshot extends ComputerToolCallOutputItemOutput {
-    file_id?: string;
-    image_url?: string;
-    // (undocumented)
-    type: "computer_screenshot";
-}
-
-// @public
-export type ComputerToolCallOutputItemOutputType = "computer_screenshot";
-
-// @public
-export type ComputerToolCallOutputItemOutputUnion = ComputerToolCallOutputItemOutputComputerScreenshot | ComputerToolCallOutputItemOutput;
-
-// @public
-export interface ComputerToolCallOutputItemParam extends ItemParam {
-    acknowledged_safety_checks?: ComputerToolCallSafetyCheck[];
-    call_id: string;
-    // (undocumented)
-    output: ComputerToolCallOutputItemOutputUnion;
-    // (undocumented)
+    id?: string;
+    output: ComputerScreenshotImage;
+    status?: FunctionCallItemStatus;
     type: "computer_call_output";
 }
 
 // @public
-export interface ComputerToolCallSafetyCheck {
-    code: string;
+export interface ComputerCallSafetyCheckParam {
+    code?: string;
     id: string;
-    message: string;
+    message?: string;
+}
+
+// @public
+export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "browser";
+
+// @public
+export interface ComputerScreenshotImage {
+    file_id?: string;
+    image_url?: string;
+    type: "computer_screenshot";
 }
 
 // @public
 export interface ComputerUsePreviewTool extends Tool {
     display_height: number;
     display_width: number;
-    environment: "windows" | "mac" | "linux" | "browser";
+    environment: ComputerEnvironment;
     type: "computer_use_preview";
 }
 
@@ -707,6 +671,22 @@ export interface ContainerAppAgentDefinition extends AgentDefinition {
 }
 
 // @public
+export interface ContainerFileCitationBody extends Annotation {
+    container_id: string;
+    end_index: number;
+    file_id: string;
+    filename: string;
+    start_index: number;
+    type: "container_file_citation";
+}
+
+// @public
+export type ContainerLogKind = "console" | "system";
+
+// @public
+export type ContainerMemoryLimit = "1g" | "4g" | "16g" | "64g";
+
+// @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
@@ -717,12 +697,6 @@ export interface ContinuousEvaluationRuleAction extends EvaluationRuleAction {
     maxHourlyRuns?: number;
     // (undocumented)
     type: "continuousEvaluation";
-}
-
-// @public
-export interface Coordinate {
-    x: number;
-    y: number;
 }
 
 // @public
@@ -753,6 +727,38 @@ export interface CustomCredential extends BaseCredentials {
     additionalProperties?: Record<string, string>;
     readonly type: "CustomKeys";
 }
+
+// @public
+export interface CustomGrammarFormatParam extends CustomToolParamFormat {
+    definition: string;
+    syntax: GrammarSyntax1;
+    type: "grammar";
+}
+
+// @public
+export interface CustomTextFormatParam extends CustomToolParamFormat {
+    type: "text";
+}
+
+// @public
+export interface CustomToolParam extends Tool {
+    description?: string;
+    format?: CustomToolParamFormatUnion;
+    name: string;
+    type: "custom";
+}
+
+// @public
+export interface CustomToolParamFormat {
+    // (undocumented)
+    type: CustomToolParamFormatType;
+}
+
+// @public
+export type CustomToolParamFormatType = "text" | "grammar";
+
+// @public
+export type CustomToolParamFormatUnion = CustomTextFormatParam | CustomGrammarFormatParam | CustomToolParamFormat;
 
 // @public
 export interface DailyRecurrenceSchedule extends RecurrenceSchedule {
@@ -886,6 +892,28 @@ export type DeploymentType = "ModelDeployment";
 
 // @public
 export type DeploymentUnion = ModelDeployment | Deployment;
+
+// @public
+export type DetailEnum = "low" | "high" | "auto";
+
+// @public
+export interface DoubleClickAction extends ComputerAction {
+    type: "double_click";
+    x: number;
+    y: number;
+}
+
+// @public
+export interface Drag extends ComputerAction {
+    path: DragPoint[];
+    type: "drag";
+}
+
+// @public
+export interface DragPoint {
+    x: number;
+    y: number;
+}
 
 // @public
 export interface EmbeddingConfiguration {
@@ -1033,7 +1061,6 @@ export interface EvaluationRunClusterInsightsRequest extends InsightRequest {
 export interface EvaluationScheduleTask extends ScheduleTask {
     evalId: string;
     evalRun: Record<string, any>;
-    // (undocumented)
     type: "Evaluation";
 }
 
@@ -1200,12 +1227,28 @@ export interface FieldMapping {
 }
 
 // @public
+export interface FileCitationBody extends Annotation {
+    file_id: string;
+    filename: string;
+    index: number;
+    type: "file_citation";
+}
+
+// @public
 export interface FileDatasetVersion extends DatasetVersion {
     type: "uri_file";
 }
 
 // @public
+export interface FilePath extends Annotation {
+    file_id: string;
+    index: number;
+    type: "file_path";
+}
+
+// @public
 export interface FileSearchTool extends Tool {
+    // (undocumented)
     filters?: Filters;
     max_num_results?: number;
     ranking_options?: RankingOptions;
@@ -1214,17 +1257,12 @@ export interface FileSearchTool extends Tool {
 }
 
 // @public
-export interface FileSearchToolCallItemParam extends ItemParam {
-    queries: string[];
-    results?: {
-        file_id?: string;
-        text?: string;
-        filename?: string;
-        attributes?: VectorStoreFileAttributes;
-        score?: number;
-    }[];
-    // (undocumented)
-    type: "file_search_call";
+export interface FileSearchToolCallResults {
+    attributes?: VectorStoreFileAttributes;
+    file_id?: string;
+    filename?: string;
+    score?: number;
+    text?: string;
 }
 
 // @public
@@ -1236,30 +1274,129 @@ export interface FolderDatasetVersion extends DatasetVersion {
 }
 
 // @public
+export interface FunctionAndCustomToolCallOutput {
+    // (undocumented)
+    type: FunctionAndCustomToolCallOutputType;
+}
+
+// @public
+export interface FunctionAndCustomToolCallOutputInputFileContent extends FunctionAndCustomToolCallOutput {
+    file_data?: string;
+    file_id?: string;
+    file_url?: string;
+    filename?: string;
+    type: "input_file";
+}
+
+// @public
+export interface FunctionAndCustomToolCallOutputInputImageContent extends FunctionAndCustomToolCallOutput {
+    detail: ImageDetail;
+    file_id?: string;
+    image_url?: string;
+    type: "input_image";
+}
+
+// @public
+export interface FunctionAndCustomToolCallOutputInputTextContent extends FunctionAndCustomToolCallOutput {
+    text: string;
+    type: "input_text";
+}
+
+// @public
+export type FunctionAndCustomToolCallOutputType = "input_text" | "input_image" | "input_file";
+
+// @public
+export type FunctionAndCustomToolCallOutputUnion = FunctionAndCustomToolCallOutputInputTextContent | FunctionAndCustomToolCallOutputInputImageContent | FunctionAndCustomToolCallOutputInputFileContent | FunctionAndCustomToolCallOutput;
+
+// @public
+export type FunctionCallItemStatus = "in_progress" | "completed" | "incomplete";
+
+// @public
+export interface FunctionCallOutputItemParam extends Item {
+    call_id: string;
+    id?: string;
+    output: string | (InputTextContentParam | InputImageContentParamAutoParam | InputFileContentParam)[];
+    status?: FunctionCallItemStatus;
+    type: "function_call_output";
+}
+
+// @public
+export interface FunctionShellActionParam {
+    commands: string[];
+    max_output_length?: number;
+    timeout_ms?: number;
+}
+
+// @public
+export interface FunctionShellCallItemParam extends Item {
+    action: FunctionShellActionParam;
+    call_id: string;
+    id?: string;
+    status?: FunctionShellCallItemStatus;
+    type: "shell_call";
+}
+
+// @public
+export type FunctionShellCallItemStatus = "in_progress" | "completed" | "incomplete";
+
+// @public
+export interface FunctionShellCallOutputContentParam {
+    outcome: FunctionShellCallOutputOutcomeParamUnion;
+    stderr: string;
+    stdout: string;
+}
+
+// @public
+export interface FunctionShellCallOutputExitOutcomeParam extends FunctionShellCallOutputOutcomeParam {
+    exit_code: number;
+    type: "exit";
+}
+
+// @public
+export interface FunctionShellCallOutputItemParam extends Item {
+    call_id: string;
+    id?: string;
+    max_output_length?: number;
+    output: FunctionShellCallOutputContentParam[];
+    type: "shell_call_output";
+}
+
+// @public
+export interface FunctionShellCallOutputOutcomeParam {
+    // (undocumented)
+    type: FunctionShellCallOutputOutcomeParamType;
+}
+
+// @public
+export type FunctionShellCallOutputOutcomeParamType = "timeout" | "exit";
+
+// @public
+export type FunctionShellCallOutputOutcomeParamUnion = FunctionShellCallOutputTimeoutOutcomeParam | FunctionShellCallOutputExitOutcomeParam | FunctionShellCallOutputOutcomeParam;
+
+// @public
+export interface FunctionShellCallOutputTimeoutOutcomeParam extends FunctionShellCallOutputOutcomeParam {
+    type: "timeout";
+}
+
+// @public
+export interface FunctionShellToolParam extends Tool {
+    type: "shell";
+}
+
+// @public
 export interface FunctionTool extends Tool {
+    // (undocumented)
     description?: string;
     name: string;
-    parameters: unknown;
+    // (undocumented)
+    parameters: Record<string, any>;
+    // (undocumented)
     strict: boolean;
     type: "function";
 }
 
 // @public
-export interface FunctionToolCallItemParam extends ItemParam {
-    arguments: string;
-    call_id: string;
-    name: string;
-    // (undocumented)
-    type: "function_call";
-}
-
-// @public
-export interface FunctionToolCallOutputItemParam extends ItemParam {
-    call_id: string;
-    output: string;
-    // (undocumented)
-    type: "function_call_output";
-}
+export type GrammarSyntax1 = "lark" | "regex";
 
 // @public
 export interface HostedAgentDefinition extends AgentDefinition {
@@ -1288,6 +1425,12 @@ export interface HumanEvaluationRuleAction extends EvaluationRuleAction {
 }
 
 // @public
+export interface HybridSearchOptions {
+    embedding_weight: number;
+    text_weight: number;
+}
+
+// @public
 export interface ImageBasedHostedAgentDefinition extends HostedAgentDefinition {
     image: string;
     // (undocumented)
@@ -1295,13 +1438,16 @@ export interface ImageBasedHostedAgentDefinition extends HostedAgentDefinition {
 }
 
 // @public
+export type ImageDetail = "low" | "high" | "auto";
+
+// @public
 export interface ImageGenTool extends Tool {
     background?: "transparent" | "opaque" | "auto";
-    input_image_mask?: {
-        image_url?: string;
-        file_id?: string;
-    };
-    model?: "gpt-image-1";
+    // (undocumented)
+    input_fidelity?: InputFidelity;
+    input_image_mask?: ImageGenToolInputImageMask;
+    // (undocumented)
+    model?: "gpt-image-1" | "gpt-image-1-mini";
     moderation?: "auto" | "low";
     output_compression?: number;
     output_format?: "png" | "webp" | "jpeg";
@@ -1312,10 +1458,11 @@ export interface ImageGenTool extends Tool {
 }
 
 // @public
-export interface ImageGenToolCallItemParam extends ItemParam {
-    result: string;
+export interface ImageGenToolInputImageMask {
     // (undocumented)
-    type: "image_generation_call";
+    file_id?: string;
+    // (undocumented)
+    image_url?: string;
 }
 
 // @public
@@ -1362,6 +1509,75 @@ export type IndexType = "AzureSearch" | "CosmosDBNoSqlVectorStore" | "ManagedAzu
 
 // @public
 export type IndexUnion = AzureAISearchIndex | ManagedAzureAISearchIndex | CosmosDBIndex | Index;
+
+// @public
+export interface InputContent {
+    // (undocumented)
+    type: InputContentType;
+}
+
+// @public
+export interface InputContentInputFileContent extends InputContent {
+    file_data?: string;
+    file_id?: string;
+    file_url?: string;
+    filename?: string;
+    type: "input_file";
+}
+
+// @public
+export interface InputContentInputImageContent extends InputContent {
+    detail: ImageDetail;
+    file_id?: string;
+    image_url?: string;
+    type: "input_image";
+}
+
+// @public
+export interface InputContentInputTextContent extends InputContent {
+    text: string;
+    type: "input_text";
+}
+
+// @public
+export type InputContentType = "input_text" | "input_image" | "input_file";
+
+// @public
+export type InputContentUnion = InputContentInputTextContent | InputContentInputImageContent | InputContentInputFileContent | InputContent;
+
+// @public
+export type InputFidelity = "high" | "low";
+
+// @public
+export interface InputFileContentParam {
+    file_data?: string;
+    file_id?: string;
+    file_url?: string;
+    filename?: string;
+    type: "input_file";
+}
+
+// @public
+export interface InputImageContentParamAutoParam {
+    detail?: DetailEnum;
+    file_id?: string;
+    image_url?: string;
+    type: "input_image";
+}
+
+// @public
+export interface InputMessage extends Item {
+    content: InputContentUnion[];
+    role: "user" | "system" | "developer";
+    status?: "in_progress" | "completed" | "incomplete";
+    type: "message";
+}
+
+// @public
+export interface InputTextContentParam {
+    text: string;
+    type: "input_text";
+}
 
 // @public
 export interface Insight {
@@ -1420,7 +1636,6 @@ export type InsightSampleUnion = EvaluationResultSample | InsightSample;
 // @public
 export interface InsightScheduleTask extends ScheduleTask {
     insight: Insight;
-    // (undocumented)
     type: "Insight";
 }
 
@@ -1472,86 +1687,163 @@ export interface InsightSummary {
 export type InsightType = "EvaluationRunClusterInsight" | "AgentClusterInsight" | "EvaluationComparison";
 
 // @public
-export interface ItemContent {
-    // (undocumented)
-    type: ItemContentType;
-}
-
-// @public
-export interface ItemContentInputAudio extends ItemContent {
-    data: string;
-    format: "mp3" | "wav";
-    type: "input_audio";
-}
-
-// @public
-export interface ItemContentInputFile extends ItemContent {
-    file_data?: string;
-    file_id?: string;
-    filename?: string;
-    type: "input_file";
-}
-
-// @public
-export interface ItemContentInputImage extends ItemContent {
-    detail?: "low" | "high" | "auto";
-    file_id?: string;
-    image_url?: string;
-    type: "input_image";
-}
-
-// @public
-export interface ItemContentInputText extends ItemContent {
-    text: string;
-    type: "input_text";
-}
-
-// @public
-export interface ItemContentOutputAudio extends ItemContent {
-    data: string;
-    transcript: string;
-    type: "output_audio";
-}
-
-// @public
-export interface ItemContentOutputText extends ItemContent {
-    annotations: AnnotationUnion[];
-    // (undocumented)
-    logprobs?: LogProb[];
-    text: string;
-    type: "output_text";
-}
-
-// @public
-export interface ItemContentRefusal extends ItemContent {
-    refusal: string;
-    type: "refusal";
-}
-
-// @public
-export type ItemContentType = "input_text" | "input_audio" | "input_image" | "input_file" | "output_text" | "output_audio" | "refusal";
-
-// @public
-export type ItemContentUnion = ItemContentInputAudio | ItemContentOutputAudio | ItemContentRefusal | ItemContentInputText | ItemContentInputImage | ItemContentInputFile | ItemContentOutputText | ItemContent;
-
-// @public
-export interface ItemParam {
+export interface Item {
     // (undocumented)
     type: ItemType;
 }
 
 // @public
-export type ItemParamUnion = ResponsesMessageItemParamUnion | FunctionToolCallOutputItemParam | FileSearchToolCallItemParam | ComputerToolCallItemParam | ComputerToolCallOutputItemParam | WebSearchToolCallItemParam | FunctionToolCallItemParam | ReasoningItemParam | ItemReferenceItemParam | ImageGenToolCallItemParam | CodeInterpreterToolCallItemParam | LocalShellToolCallItemParam | LocalShellToolCallOutputItemParam | MCPListToolsItemParam | MCPApprovalRequestItemParam | MCPApprovalResponseItemParam | MCPCallItemParam | MemorySearchToolCallItemParam | ItemParam;
-
-// @public
-export interface ItemReferenceItemParam extends ItemParam {
+export interface ItemCodeInterpreterToolCall extends Item {
+    code?: string;
+    container_id: string;
     id: string;
-    // (undocumented)
-    type: "item_reference";
+    outputs?: (CodeInterpreterOutputLogs | CodeInterpreterOutputImage)[];
+    status: "in_progress" | "completed" | "incomplete" | "interpreting" | "failed";
+    type: "code_interpreter_call";
 }
 
 // @public
-export type ItemType = "message" | "file_search_call" | "function_call" | "function_call_output" | "computer_call" | "computer_call_output" | "web_search_call" | "reasoning" | "item_reference" | "image_generation_call" | "code_interpreter_call" | "local_shell_call" | "local_shell_call_output" | "mcp_list_tools" | "mcp_approval_request" | "mcp_approval_response" | "mcp_call" | "structured_outputs" | "workflow_action" | "memory_search_call" | "oauth_consent_request";
+export interface ItemComputerToolCall extends Item {
+    // (undocumented)
+    action: ComputerActionUnion;
+    call_id: string;
+    id: string;
+    pending_safety_checks: ComputerCallSafetyCheckParam[];
+    status: "in_progress" | "completed" | "incomplete";
+    type: "computer_call";
+}
+
+// @public
+export interface ItemCustomToolCall extends Item {
+    call_id: string;
+    id?: string;
+    input: string;
+    name: string;
+    type: "custom_tool_call";
+}
+
+// @public
+export interface ItemCustomToolCallOutput extends Item {
+    call_id: string;
+    id?: string;
+    output: string | FunctionAndCustomToolCallOutputUnion[];
+    type: "custom_tool_call_output";
+}
+
+// @public
+export interface ItemFileSearchToolCall extends Item {
+    id: string;
+    queries: string[];
+    results?: FileSearchToolCallResults[];
+    status: "in_progress" | "searching" | "completed" | "incomplete" | "failed";
+    type: "file_search_call";
+}
+
+// @public
+export interface ItemFunctionToolCall extends Item {
+    arguments: string;
+    call_id: string;
+    id?: string;
+    name: string;
+    status?: "in_progress" | "completed" | "incomplete";
+    type: "function_call";
+}
+
+// @public
+export interface ItemImageGenToolCall extends Item {
+    id: string;
+    result?: string;
+    status: "in_progress" | "completed" | "generating" | "failed";
+    type: "image_generation_call";
+}
+
+// @public
+export interface ItemLocalShellToolCall extends Item {
+    // (undocumented)
+    action: LocalShellExecAction;
+    call_id: string;
+    id: string;
+    status: "in_progress" | "completed" | "incomplete";
+    type: "local_shell_call";
+}
+
+// @public
+export interface ItemLocalShellToolCallOutput extends Item {
+    id: string;
+    output: string;
+    status?: "in_progress" | "completed" | "incomplete";
+    type: "local_shell_call_output";
+}
+
+// @public
+export interface ItemMcpApprovalRequest extends Item {
+    arguments: string;
+    id: string;
+    name: string;
+    server_label: string;
+    type: "mcp_approval_request";
+}
+
+// @public
+export interface ItemMcpListTools extends Item {
+    error?: string;
+    id: string;
+    server_label: string;
+    tools: MCPListToolsTool[];
+    type: "mcp_list_tools";
+}
+
+// @public
+export interface ItemMcpToolCall extends Item {
+    approval_request_id?: string;
+    arguments: string;
+    error?: string;
+    id: string;
+    name: string;
+    output?: string;
+    server_label: string;
+    status?: MCPToolCallStatus;
+    type: "mcp_call";
+}
+
+// @public
+export interface ItemOutputMessage extends Item {
+    content: OutputMessageContentUnion[];
+    id: string;
+    role: "assistant";
+    status: "in_progress" | "completed" | "incomplete";
+    type: "output_message";
+}
+
+// @public
+export interface ItemReasoningItem extends Item {
+    content?: ReasoningTextContent[];
+    encrypted_content?: string;
+    id: string;
+    status?: "in_progress" | "completed" | "incomplete";
+    summary: Summary[];
+    type: "reasoning";
+}
+
+// @public
+export type ItemType = "message" | "output_message" | "file_search_call" | "computer_call" | "computer_call_output" | "web_search_call" | "function_call" | "function_call_output" | "reasoning" | "compaction" | "image_generation_call" | "code_interpreter_call" | "local_shell_call" | "local_shell_call_output" | "shell_call" | "shell_call_output" | "apply_patch_call" | "apply_patch_call_output" | "mcp_list_tools" | "mcp_approval_request" | "mcp_approval_response" | "mcp_call" | "custom_tool_call_output" | "custom_tool_call" | "structured_outputs" | "workflow_action" | "memory_search_call" | "oauth_consent_request";
+
+// @public
+export type ItemUnion = MemorySearchToolCallItemParam | InputMessage | ComputerCallOutputItemParam | FunctionCallOutputItemParam | CompactionSummaryItemParam | FunctionShellCallItemParam | FunctionShellCallOutputItemParam | ApplyPatchToolCallItemParam | ApplyPatchToolCallOutputItemParam | MCPApprovalResponse | ItemOutputMessage | ItemFileSearchToolCall | ItemComputerToolCall | ItemWebSearchToolCall | ItemFunctionToolCall | ItemReasoningItem | ItemImageGenToolCall | ItemCodeInterpreterToolCall | ItemLocalShellToolCall | ItemLocalShellToolCallOutput | ItemMcpListTools | ItemMcpApprovalRequest | ItemMcpToolCall | ItemCustomToolCallOutput | ItemCustomToolCall | Item;
+
+// @public
+export interface ItemWebSearchToolCall extends Item {
+    action: WebSearchActionSearch | WebSearchActionOpenPage | WebSearchActionFind;
+    id: string;
+    status: "in_progress" | "searching" | "completed" | "failed";
+    type: "web_search_call";
+}
+
+// @public
+export interface KeyPressAction extends ComputerAction {
+    keys: string[];
+    type: "keypress";
+}
 
 // @public
 export enum KnownApiVersions {
@@ -1569,37 +1861,9 @@ export interface LocalShellExecAction {
 }
 
 // @public
-export interface LocalShellTool extends Tool {
+export interface LocalShellToolParam extends Tool {
     type: "local_shell";
 }
-
-// @public
-export interface LocalShellToolCallItemParam extends ItemParam {
-    // (undocumented)
-    action: LocalShellExecAction;
-    call_id: string;
-    // (undocumented)
-    type: "local_shell_call";
-}
-
-// @public
-export interface LocalShellToolCallOutputItemParam extends ItemParam {
-    output: string;
-    // (undocumented)
-    type: "local_shell_call_output";
-}
-
-// @public
-export interface Location {
-    // (undocumented)
-    type: LocationType;
-}
-
-// @public
-export type LocationType = "approximate";
-
-// @public
-export type LocationUnion = ApproximateLocation | Location;
 
 // @public
 export interface LogProb {
@@ -1620,69 +1884,62 @@ export interface ManagedAzureAISearchIndex extends Index {
 }
 
 // @public
-export interface MCPApprovalRequestItemParam extends ItemParam {
-    arguments: string;
-    name: string;
-    server_label: string;
-    // (undocumented)
-    type: "mcp_approval_request";
-}
-
-// @public
-export interface MCPApprovalResponseItemParam extends ItemParam {
+export interface MCPApprovalResponse extends Item {
     approval_request_id: string;
     approve: boolean;
+    id?: string;
     reason?: string;
-    // (undocumented)
     type: "mcp_approval_response";
 }
 
 // @public
-export interface MCPCallItemParam extends ItemParam {
-    arguments: string;
-    error?: string;
-    name: string;
-    output?: string;
-    server_label: string;
-    // (undocumented)
-    type: "mcp_call";
-}
-
-// @public
-export interface MCPListToolsItemParam extends ItemParam {
-    error?: string;
-    server_label: string;
-    tools: MCPListToolsTool[];
-    // (undocumented)
-    type: "mcp_list_tools";
-}
-
-// @public
 export interface MCPListToolsTool {
-    annotations?: unknown;
+    annotations?: MCPListToolsToolAnnotations;
     description?: string;
-    input_schema: unknown;
+    input_schema: MCPListToolsToolInputSchema;
     name: string;
+}
+
+// @public
+export interface MCPListToolsToolAnnotations {
+}
+
+// @public
+export interface MCPListToolsToolInputSchema {
 }
 
 // @public
 export interface MCPTool extends Tool {
-    allowed_tools?: string[] | {
-        tool_names?: string[];
-    };
+    // (undocumented)
+    allowed_tools?: string[] | MCPToolFilter;
+    authorization?: string;
+    connector_id?: "connector_dropbox" | "connector_gmail" | "connector_googlecalendar" | "connector_googledrive" | "connector_microsoftteams" | "connector_outlookcalendar" | "connector_outlookemail" | "connector_sharepoint";
+    // (undocumented)
     headers?: Record<string, string>;
     project_connection_id?: string;
-    require_approval?: {
-        always?: {
-            tool_names?: string[];
-        };
-        never?: {
-            tool_names?: string[];
-        };
-    } | "always" | "never";
+    // (undocumented)
+    require_approval?: MCPToolRequireApproval | "always" | "never";
+    server_description?: string;
     server_label: string;
-    server_url: string;
+    server_url?: string;
     type: "mcp";
+}
+
+// @public
+export type MCPToolCallStatus = "in_progress" | "completed" | "incomplete" | "calling" | "failed";
+
+// @public
+export interface MCPToolFilter {
+    read_only?: boolean;
+    tool_names?: string[];
+}
+
+// @public
+export interface MCPToolRequireApproval {
+    // (undocumented)
+    always?: MCPToolFilter;
+    // (undocumented)
+    never?: MCPToolFilter;
 }
 
 // @public
@@ -1729,8 +1986,8 @@ export interface MemorySearchTool extends Tool {
 }
 
 // @public
-export interface MemorySearchToolCallItemParam extends ItemParam {
-    results?: MemorySearchItem[];
+export interface MemorySearchToolCallItemParam extends Item {
+    results?: MemorySearchItem[] | null;
     // (undocumented)
     type: "memory_search_call";
 }
@@ -1785,13 +2042,9 @@ export type MemoryStoreKind = "default";
 export interface MemoryStoreOperationUsage {
     embedding_tokens: number;
     input_tokens: number;
-    input_tokens_details: {
-        cached_tokens: number;
-    };
+    input_tokens_details: ResponseUsageInputTokensDetails;
     output_tokens: number;
-    output_tokens_details: {
-        reasoning_tokens: number;
-    };
+    output_tokens_details: ResponseUsageOutputTokensDetails;
     total_tokens: number;
 }
 
@@ -1829,7 +2082,7 @@ export interface MemoryStoresListMemoryStoresOptionalParams extends OperationOpt
     after?: string;
     before?: string;
     limit?: number;
-    order?: "asc" | "desc";
+    order?: PageOrder;
 }
 
 // @public
@@ -1842,21 +2095,19 @@ export interface MemoryStoresOperations {
     list: (options?: MemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
     searchMemories: (name: string, scope: string, options?: MemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
     update: (name: string, options?: MemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStore>;
-    updateMemories: (name: string, scope: string, options?: MemoryStoresUpdateMemoriesOptionalParams) => MemoryStoreUpdateMemoriesPoller;
+    updateMemories: (name: string, scope: string, options?: MemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult>;
 }
 
 // @public
 export interface MemoryStoresSearchMemoriesOptionalParams extends OperationOptions {
-    conversationId?: string;
-    items?: ItemParamUnion[];
+    items?: ItemUnion[];
     options?: MemorySearchOptions;
     previousSearchId?: string;
 }
 
 // @public
 export interface MemoryStoresUpdateMemoriesOptionalParams extends OperationOptions {
-    conversationId?: string;
-    items?: ItemParamUnion[];
+    items?: ItemUnion[];
     previousUpdateId?: string;
     updateDelay?: number;
     updateIntervalInMs?: number;
@@ -1869,14 +2120,20 @@ export interface MemoryStoresUpdateMemoryStoreOptionalParams extends OperationOp
 }
 
 // @public
-export type MemoryStoreUpdateMemoriesPoller = PollerLike<MemoryStoreUpdateOperationState, MemoryStoreUpdateResult> & {
+export interface MemoryStoreUpdateCompletedResult {
+    memory_operations: MemoryOperation[];
+    usage: MemoryStoreOperationUsage;
+}
+
+// @public
+export type MemoryStoreUpdateMemoriesPoller = PollerLike<MemoryStoreUpdateOperationState, MemoryStoreUpdateCompletedResult> & {
     readonly updateId: string;
     readonly updateStatus: MemoryStoreUpdateStatus;
     readonly supersededBy?: string;
 };
 
 // @public
-export type MemoryStoreUpdateOperationState = OperationState_2<MemoryStoreUpdateResult> & {
+export type MemoryStoreUpdateOperationState = OperationState_2<MemoryStoreUpdateCompletedResult> & {
     updateId: string;
     updateStatus: MemoryStoreUpdateStatus;
     supersededBy?: string;
@@ -1885,23 +2142,17 @@ export type MemoryStoreUpdateOperationState = OperationState_2<MemoryStoreUpdate
 // @public
 export interface MemoryStoreUpdateResponse {
     error?: ApiError;
-    result?: MemoryStoreUpdateResult;
+    result?: MemoryStoreUpdateCompletedResult;
     status: MemoryStoreUpdateStatus;
     superseded_by?: string;
     update_id: string;
 }
 
 // @public
-export interface MemoryStoreUpdateResult {
-    memory_operations: MemoryOperation[];
-    usage: MemoryStoreOperationUsage;
-}
-
-// @public
 export type MemoryStoreUpdateStatus = "queued" | "in_progress" | "completed" | "failed" | "superseded";
 
 // @public
-export interface MicrosoftFabricAgentTool extends Tool {
+export interface MicrosoftFabricPreviewTool extends Tool {
     fabric_dataagent_preview: FabricDataAgentToolParameters;
     type: "fabric_dataagent_preview";
 }
@@ -1933,6 +2184,13 @@ export interface MonthlyRecurrenceSchedule extends RecurrenceSchedule {
 }
 
 // @public
+export interface Move extends ComputerAction {
+    type: "move";
+    x: number;
+    y: number;
+}
+
+// @public
 export interface NoAuthenticationCredentials extends BaseCredentials {
     readonly type: "None";
 }
@@ -1943,12 +2201,6 @@ export interface OneTimeTrigger extends Trigger {
     triggerAt: string;
     // (undocumented)
     type: "OneTime";
-}
-
-// @public
-export interface OpenApiAgentTool extends Tool {
-    openapi: OpenApiFunctionDefinition;
-    type: "openapi";
 }
 
 // @public
@@ -1975,10 +2227,10 @@ export interface OpenApiFunctionDefinition {
     readonly functions?: {
         name: string;
         description?: string;
-        parameters: unknown;
+        parameters: any;
     }[];
     name: string;
-    spec: unknown;
+    spec: any;
 }
 
 // @public
@@ -2004,7 +2256,52 @@ export interface OpenApiProjectConnectionSecurityScheme {
 }
 
 // @public
+export interface OpenApiTool extends Tool {
+    openapi: OpenApiFunctionDefinition;
+    type: "openapi";
+}
+
+// @public
 export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
+
+// @public
+export interface OutputContent {
+    // (undocumented)
+    type: OutputContentType;
+}
+
+// @public
+export type OutputContentType = "output_text" | "refusal" | "reasoning_text";
+
+// @public
+export type OutputContentUnion = ReasoningTextContent | OutputContent;
+
+// @public
+export interface OutputMessageContent {
+    // (undocumented)
+    type: OutputMessageContentType;
+}
+
+// @public
+export interface OutputMessageContentOutputTextContent extends OutputMessageContent {
+    annotations: AnnotationUnion[];
+    // (undocumented)
+    logprobs?: LogProb[];
+    text: string;
+    type: "output_text";
+}
+
+// @public
+export interface OutputMessageContentRefusalContent extends OutputMessageContent {
+    refusal: string;
+    type: "refusal";
+}
+
+// @public
+export type OutputMessageContentType = "output_text" | "refusal";
+
+// @public
+export type OutputMessageContentUnion = OutputMessageContentOutputTextContent | OutputMessageContentRefusalContent | OutputMessageContent;
 
 // @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
@@ -2014,10 +2311,7 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 }
 
 // @public
-export interface PagedScheduleRun {
-    nextLink?: string;
-    value: ScheduleRun[];
-}
+export type PageOrder = "asc" | "desc";
 
 // @public
 export interface PageSettings {
@@ -2045,15 +2339,13 @@ export type PendingUploadType = "None" | "BlobReference";
 // @public
 export interface PromptAgentDefinition extends AgentDefinition {
     instructions?: string;
-    // (undocumented)
     kind: "prompt";
     model: string;
-    // (undocumented)
     reasoning?: Reasoning;
     structured_inputs?: Record<string, StructuredInputDefinition>;
     temperature?: number;
     text?: {
-        format?: ResponseTextFormatConfigurationUnion;
+        format?: TextResponseFormatConfigurationUnion;
     };
     tools?: ToolUnion[];
     top_p?: number;
@@ -2078,8 +2370,12 @@ export interface RaiConfig {
 }
 
 // @public
+export type RankerVersionType = "auto" | "default-2024-11-15";
+
+// @public
 export interface RankingOptions {
-    ranker?: "auto" | "default-2024-11-15";
+    hybrid_search?: HybridSearchOptions;
+    ranker?: RankerVersionType;
     score_threshold?: number;
 }
 
@@ -2092,34 +2388,12 @@ export interface Reasoning {
 }
 
 // @public
-export type ReasoningEffort = "low" | "medium" | "high";
+export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh";
 
 // @public
-export interface ReasoningItemParam extends ItemParam {
-    encrypted_content?: string;
-    summary: ReasoningItemSummaryPartUnion[];
-    // (undocumented)
-    type: "reasoning";
-}
-
-// @public
-export interface ReasoningItemSummaryPart {
-    // (undocumented)
-    type: ReasoningItemSummaryPartType;
-}
-
-// @public
-export type ReasoningItemSummaryPartType = "summary_text";
-
-// @public
-export type ReasoningItemSummaryPartUnion = ReasoningItemSummaryTextPart | ReasoningItemSummaryPart;
-
-// @public
-export interface ReasoningItemSummaryTextPart extends ReasoningItemSummaryPart {
-    // (undocumented)
+export interface ReasoningTextContent extends OutputContent {
     text: string;
-    // (undocumented)
-    type: "summary_text";
+    type: "reasoning_text";
 }
 
 // @public
@@ -2180,79 +2454,16 @@ export interface RedTeamsOperations {
 }
 
 // @public
-export interface ResponseFormatJsonSchemaSchema {
-    additionalProperties?: boolean;
-}
-
-// @public
-export interface ResponsesAssistantMessageItemParam extends ResponsesMessageItemParam {
-    content: string | ItemContentUnion[];
-    role: "assistant";
-}
-
-// @public
-export interface ResponsesDeveloperMessageItemParam extends ResponsesMessageItemParam {
-    content: string | ItemContentUnion[];
-    role: "developer";
-}
-
-// @public
-export interface ResponsesMessageItemParam extends ItemParam {
-    role: ResponsesMessageRole;
-    type: "message";
-}
-
-// @public
-export type ResponsesMessageItemParamUnion = ResponsesUserMessageItemParam | ResponsesSystemMessageItemParam | ResponsesDeveloperMessageItemParam | ResponsesAssistantMessageItemParam | ResponsesMessageItemParam;
-
-// @public
-export type ResponsesMessageRole = "system" | "developer" | "user" | "assistant";
-
-// @public
-export interface ResponsesSystemMessageItemParam extends ResponsesMessageItemParam {
-    content: string | ItemContentUnion[];
-    role: "system";
-}
-
-// @public
-export interface ResponsesUserMessageItemParam extends ResponsesMessageItemParam {
-    content: string | ItemContentUnion[];
-    role: "user";
-}
-
-// @public
-export interface ResponseTextFormatConfiguration {
+export interface ResponseUsageInputTokensDetails {
     // (undocumented)
-    type: ResponseTextFormatConfigurationType;
+    cached_tokens: number;
 }
 
 // @public
-export interface ResponseTextFormatConfigurationJson extends ResponseTextFormatConfiguration {
+export interface ResponseUsageOutputTokensDetails {
     // (undocumented)
-    type: "json_object";
+    reasoning_tokens: number;
 }
-
-// @public
-export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextFormatConfiguration {
-    description?: string;
-    name: string;
-    // (undocumented)
-    schema: ResponseFormatJsonSchemaSchema;
-    strict?: boolean;
-    type: "json_schema";
-}
-
-// @public
-export interface ResponseTextFormatConfigurationText extends ResponseTextFormatConfiguration {
-    // (undocumented)
-    type: "text";
-}
-
-// @public
-export type ResponseTextFormatConfigurationType = "text" | "json_schema" | "json_object";
-
-// @public
-export type ResponseTextFormatConfigurationUnion = ResponseTextFormatConfigurationText | ResponseTextFormatConfigurationJson | ResponseTextFormatConfigurationJsonSchema | ResponseTextFormatConfiguration;
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AIProjectClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
@@ -2302,8 +2513,8 @@ export type ScheduleProvisioningStatus = "Creating" | "Updating" | "Deleting" | 
 // @public
 export interface ScheduleRun {
     readonly error?: string;
-    readonly id: string;
     readonly properties: Record<string, string>;
+    readonly runId: string;
     scheduleId: string;
     readonly success: boolean;
     triggerTime?: string;
@@ -2334,6 +2545,7 @@ export interface SchedulesListOptionalParams extends OperationOptions {
 
 // @public
 export interface SchedulesListRunsOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
@@ -2343,7 +2555,7 @@ export interface SchedulesOperations {
     get: (id: string, options?: SchedulesGetOptionalParams) => Promise<Schedule>;
     getRun: (scheduleId: string, runId: string, options?: SchedulesGetRunOptionalParams) => Promise<ScheduleRun>;
     list: (options?: SchedulesListOptionalParams) => PagedAsyncIterableIterator<Schedule>;
-    listRuns: (scheduleId: string, options?: SchedulesListRunsOptionalParams) => Promise<PagedScheduleRun>;
+    listRuns: (scheduleId: string, options?: SchedulesListRunsOptionalParams) => PagedAsyncIterableIterator<ScheduleRun>;
 }
 
 // @public
@@ -2359,14 +2571,34 @@ export type ScheduleTaskType = "Evaluation" | "Insight";
 export type ScheduleTaskUnion = EvaluationScheduleTask | InsightScheduleTask | ScheduleTask;
 
 // @public
-export interface SharepointAgentTool extends Tool {
-    sharepoint_grounding_preview: SharepointGroundingToolParameters;
-    type: "sharepoint_grounding_preview";
+export interface Screenshot extends ComputerAction {
+    type: "screenshot";
 }
+
+// @public
+export interface Scroll extends ComputerAction {
+    scroll_x: number;
+    scroll_y: number;
+    type: "scroll";
+    x: number;
+    y: number;
+}
+
+// @public
+export type SearchContextSize = "low" | "medium" | "high";
+
+// @public
+export type ServiceTier = "auto" | "default" | "flex" | "scale" | "priority";
 
 // @public
 export interface SharepointGroundingToolParameters {
     project_connections?: ToolProjectConnection[];
+}
+
+// @public
+export interface SharepointPreviewTool extends Tool {
+    sharepoint_grounding_preview: SharepointGroundingToolParameters;
+    type: "sharepoint_grounding_preview";
 }
 
 // @public
@@ -2375,7 +2607,6 @@ export interface StructuredInputDefinition {
     description?: string;
     required?: boolean;
     schema?: unknown;
-    tool_argument_bindings?: ToolArgumentBinding[];
 }
 
 // @public
@@ -2384,6 +2615,12 @@ export interface StructuredOutputDefinition {
     name: string;
     schema: Record<string, any>;
     strict: boolean;
+}
+
+// @public
+export interface Summary {
+    text: string;
+    type: "summary_text";
 }
 
 // @public
@@ -2427,15 +2664,39 @@ export interface TelemetryOperations {
 }
 
 // @public
-export interface Tool {
+export interface TextResponseFormatConfiguration {
     // (undocumented)
-    type: ToolType;
+    type: TextResponseFormatConfigurationType;
 }
 
 // @public
-export interface ToolArgumentBinding {
-    argument_name: string;
-    tool_name?: string;
+export interface TextResponseFormatConfigurationResponseFormatJsonObject extends TextResponseFormatConfiguration {
+    type: "json_object";
+}
+
+// @public
+export interface TextResponseFormatConfigurationResponseFormatText extends TextResponseFormatConfiguration {
+    type: "text";
+}
+
+// @public
+export type TextResponseFormatConfigurationType = "text" | "json_schema" | "json_object";
+
+// @public
+export type TextResponseFormatConfigurationUnion = TextResponseFormatJsonSchema | TextResponseFormatConfigurationResponseFormatText | TextResponseFormatConfigurationResponseFormatJsonObject | TextResponseFormatConfiguration;
+
+// @public
+export interface TextResponseFormatJsonSchema extends TextResponseFormatConfiguration {
+    description?: string;
+    name: string;
+    schema: Record<string, any>;
+    strict?: boolean;
+    type: "json_schema";
+}
+
+// @public
+export interface Tool {
+    type: ToolType;
 }
 
 // @public
@@ -2450,10 +2711,10 @@ export interface ToolProjectConnection {
 }
 
 // @public
-export type ToolType = "file_search" | "function" | "computer_use_preview" | "web_search_preview" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "bing_grounding" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "azure_ai_search" | "openapi" | "bing_custom_search_preview" | "capture_structured_outputs" | "a2a_preview" | "azure_function" | "memory_search";
+export type ToolType = "function" | "file_search" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi" | "memory_search";
 
 // @public
-export type ToolUnion = FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchPreviewTool | CodeInterpreterTool | ImageGenTool | LocalShellTool | MCPTool | BingGroundingAgentTool | MicrosoftFabricAgentTool | SharepointAgentTool | AzureAISearchAgentTool | OpenApiAgentTool | BingCustomSearchAgentTool | BrowserAutomationAgentTool | AzureFunctionAgentTool | CaptureStructuredOutputsTool | A2ATool | MemorySearchTool | Tool;
+export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | MemorySearchTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | Tool;
 
 // @public
 export interface TopLogProb {
@@ -2480,36 +2741,53 @@ export type TriggerType = "Cron" | "Recurrence" | "OneTime";
 export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Trigger;
 
 // @public
+export interface Type extends ComputerAction {
+    text: string;
+    type: "type";
+}
+
+// @public
+export interface UrlCitationBody extends Annotation {
+    end_index: number;
+    start_index: number;
+    title: string;
+    type: "url_citation";
+    url: string;
+}
+
+// @public
 export interface UserProfileMemoryItem extends MemoryItem {
     kind: "user_profile";
 }
 
 // @public
 export interface VectorStoreFileAttributes {
-    additionalProperties?: Record<string, string | boolean | number>;
+    additionalProperties?: Record<string, string | number | boolean>;
 }
 
 // @public
-export interface WebSearchAction {
-    // (undocumented)
-    type: WebSearchActionType;
+export type Verbosity = "low" | "medium" | "high";
+
+// @public
+export interface Wait extends ComputerAction {
+    type: "wait";
 }
 
 // @public
-export interface WebSearchActionFind extends WebSearchAction {
+export interface WebSearchActionFind {
     pattern: string;
     type: "find";
     url: string;
 }
 
 // @public
-export interface WebSearchActionOpenPage extends WebSearchAction {
+export interface WebSearchActionOpenPage {
     type: "open_page";
     url: string;
 }
 
 // @public
-export interface WebSearchActionSearch extends WebSearchAction {
+export interface WebSearchActionSearch {
     query: string;
     sources?: WebSearchActionSearchSources[];
     type: "search";
@@ -2517,30 +2795,52 @@ export interface WebSearchActionSearch extends WebSearchAction {
 
 // @public
 export interface WebSearchActionSearchSources {
-    // (undocumented)
     type: "url";
-    // (undocumented)
     url: string;
 }
 
 // @public
-export type WebSearchActionType = "search" | "open_page" | "find";
-
-// @public
-export type WebSearchActionUnion = WebSearchActionFind | WebSearchActionOpenPage | WebSearchActionSearch | WebSearchAction;
-
-// @public
-export interface WebSearchPreviewTool extends Tool {
-    search_context_size?: "low" | "medium" | "high";
-    type: "web_search_preview";
-    user_location?: LocationUnion;
+export interface WebSearchApproximateLocation {
+    // (undocumented)
+    city?: string | null;
+    // (undocumented)
+    country?: string | null;
+    // (undocumented)
+    region?: string | null;
+    // (undocumented)
+    timezone?: string | null;
+    type?: "approximate";
 }
 
 // @public
-export interface WebSearchToolCallItemParam extends ItemParam {
-    action: WebSearchActionUnion;
+export interface WebSearchConfiguration {
+    instance_name: string;
+    project_connection_id: string;
+}
+
+// @public
+export interface WebSearchPreviewTool extends Tool {
+    search_context_size?: SearchContextSize;
+    type: "web_search_preview";
     // (undocumented)
-    type: "web_search_call";
+    user_location?: ApproximateLocation | null;
+}
+
+// @public
+export interface WebSearchTool extends Tool {
+    custom_search_configuration?: WebSearchConfiguration;
+    // (undocumented)
+    filters?: WebSearchToolFilters | null;
+    search_context_size?: "low" | "medium" | "high";
+    type: "web_search";
+    // (undocumented)
+    user_location?: WebSearchApproximateLocation | null;
+}
+
+// @public
+export interface WebSearchToolFilters {
+    // (undocumented)
+    allowed_domains?: string[] | null;
 }
 
 // @public
@@ -2551,7 +2851,6 @@ export interface WeeklyRecurrenceSchedule extends RecurrenceSchedule {
 
 // @public
 export interface WorkflowAgentDefinition extends AgentDefinition {
-    // (undocumented)
     kind: "workflow";
     workflow?: string;
 }
