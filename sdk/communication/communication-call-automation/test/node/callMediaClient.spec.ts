@@ -628,6 +628,304 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(request.method, "POST");
   });
 
+  it("validates all properties are populated for CallMediaRecognizeDtmfOptions", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+
+    const playPrompt: FileSource = { kind: "fileSource", url: MEDIA_URL_WAV };
+    const playPrompts: (FileSource | TextSource | SsmlSource)[] = [
+      { kind: "fileSource", url: MEDIA_URL_WAV },
+      { kind: "textSource", text: "test text" },
+    ];
+
+    const recognizeOptions: CallMediaRecognizeDtmfOptions = {
+      kind: "callMediaRecognizeDtmfOptions",
+      // DTMF specific properties
+      interToneTimeoutInSeconds: 3,
+      stopDtmfTones: [DtmfTone.Pound, DtmfTone.Asterisk],
+      maxTonesToCollect: 10,
+      // Base CallMediaRecognizeOptions properties
+      playPrompt: playPrompt,
+      playPrompts: playPrompts,
+      interruptCallMediaOperation: true,
+      operationContext: "testOperationContext",
+      interruptPrompt: true,
+      initialSilenceTimeoutInSeconds: 10,
+      operationCallbackUrl: "https://localhost/callback",
+    };
+
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
+    const request = spy.mock.calls[0][0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    // Validate request method
+    assert.equal(request.method, "POST");
+
+    // Validate recognizeInputType
+    assert.equal(data.recognizeInputType, "dtmf");
+
+    // Validate DTMF options
+    assert.isDefined(data.recognizeOptions.dtmfOptions);
+    assert.equal(data.recognizeOptions.dtmfOptions.interToneTimeoutInSeconds, 3);
+    assert.equal(data.recognizeOptions.dtmfOptions.maxTonesToCollect, 10);
+    assert.deepEqual(data.recognizeOptions.dtmfOptions.stopTones, [
+      DtmfTone.Pound,
+      DtmfTone.Asterisk,
+    ]);
+
+    // Validate base recognize options
+    assert.equal(data.recognizeOptions.interruptPrompt, true);
+    assert.equal(data.recognizeOptions.initialSilenceTimeoutInSeconds, 10);
+    assert.isDefined(data.recognizeOptions.targetParticipant);
+
+    // Validate play prompt (single)
+    assert.isDefined(data.playPrompt);
+    assert.equal(data.playPrompt.kind, "file");
+    assert.equal(data.playPrompt.file.uri, MEDIA_URL_WAV);
+
+    // Validate play prompts (multiple)
+    assert.isDefined(data.playPrompts);
+    assert.equal(data.playPrompts.length, 2);
+    assert.equal(data.playPrompts[0].kind, "file");
+    assert.equal(data.playPrompts[1].kind, "text");
+
+    // Validate other request properties
+    assert.equal(data.interruptCallMediaOperation, true);
+    assert.equal(data.operationContext, "testOperationContext");
+    assert.equal(data.operationCallbackUri, "https://localhost/callback");
+  });
+
+  it("validates all properties are populated for CallMediaRecognizeChoiceOptions", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+
+    const playPrompt: FileSource = { kind: "fileSource", url: MEDIA_URL_WAV };
+    const playPrompts: (FileSource | TextSource | SsmlSource)[] = [
+      { kind: "fileSource", url: MEDIA_URL_WAV },
+      { kind: "textSource", text: "test text" },
+    ];
+
+    const choices: RecognitionChoice[] = [
+      { label: "option1", phrases: ["yes", "confirm"] },
+      { label: "option2", phrases: ["no", "cancel"] },
+    ];
+
+    const recognizeOptions: CallMediaRecognizeChoiceOptions = {
+      kind: "callMediaRecognizeChoiceOptions",
+      // Choice specific properties
+      choices: choices,
+      speechLanguage: "en-US",
+      speechRecognitionModelEndpointId: "customModelEndpointId",
+      // Base CallMediaRecognizeOptions properties
+      playPrompt: playPrompt,
+      playPrompts: playPrompts,
+      interruptCallMediaOperation: true,
+      operationContext: "testOperationContext",
+      interruptPrompt: true,
+      initialSilenceTimeoutInSeconds: 10,
+      operationCallbackUrl: "https://localhost/callback",
+    };
+
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
+    const request = spy.mock.calls[0][0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    // Validate request method
+    assert.equal(request.method, "POST");
+
+    // Validate recognizeInputType
+    assert.equal(data.recognizeInputType, "choices");
+
+    // Validate choice options
+    assert.isDefined(data.recognizeOptions.choices);
+    assert.equal(data.recognizeOptions.choices.length, 2);
+    assert.equal(data.recognizeOptions.choices[0].label, "option1");
+    assert.deepEqual(data.recognizeOptions.choices[0].phrases, ["yes", "confirm"]);
+    assert.equal(data.recognizeOptions.choices[1].label, "option2");
+    assert.deepEqual(data.recognizeOptions.choices[1].phrases, ["no", "cancel"]);
+
+    // Validate speech language and model endpoint
+    assert.equal(data.recognizeOptions.speechLanguage, "en-US");
+    assert.equal(data.recognizeOptions.speechRecognitionModelEndpointId, "customModelEndpointId");
+
+    // Validate base recognize options
+    assert.equal(data.recognizeOptions.interruptPrompt, true);
+    assert.equal(data.recognizeOptions.initialSilenceTimeoutInSeconds, 10);
+    assert.isDefined(data.recognizeOptions.targetParticipant);
+
+    // Validate play prompt (single)
+    assert.isDefined(data.playPrompt);
+    assert.equal(data.playPrompt.kind, "file");
+    assert.equal(data.playPrompt.file.uri, MEDIA_URL_WAV);
+
+    // Validate play prompts (multiple)
+    assert.isDefined(data.playPrompts);
+    assert.equal(data.playPrompts.length, 2);
+    assert.equal(data.playPrompts[0].kind, "file");
+    assert.equal(data.playPrompts[1].kind, "text");
+
+    // Validate other request properties
+    assert.equal(data.interruptCallMediaOperation, true);
+    assert.equal(data.operationContext, "testOperationContext");
+    assert.equal(data.operationCallbackUri, "https://localhost/callback");
+  });
+
+  it("validates all properties are populated for CallMediaRecognizeSpeechOptions", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+
+    const playPrompt: FileSource = { kind: "fileSource", url: MEDIA_URL_WAV };
+    const playPrompts: (FileSource | TextSource | SsmlSource)[] = [
+      { kind: "fileSource", url: MEDIA_URL_WAV },
+      { kind: "textSource", text: "test text" },
+    ];
+
+    const recognizeOptions: CallMediaRecognizeSpeechOptions = {
+      kind: "callMediaRecognizeSpeechOptions",
+      // Speech specific properties
+      endSilenceTimeoutInSeconds: 5,
+      speechLanguage: "en-US",
+      speechRecognitionModelEndpointId: "customModelEndpointId",
+      // Base CallMediaRecognizeOptions properties
+      playPrompt: playPrompt,
+      playPrompts: playPrompts,
+      interruptCallMediaOperation: true,
+      operationContext: "testOperationContext",
+      interruptPrompt: true,
+      initialSilenceTimeoutInSeconds: 10,
+      operationCallbackUrl: "https://localhost/callback",
+    };
+
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
+    const request = spy.mock.calls[0][0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    // Validate request method
+    assert.equal(request.method, "POST");
+
+    // Validate recognizeInputType
+    assert.equal(data.recognizeInputType, "speech");
+
+    // Validate Speech options
+    assert.isDefined(data.recognizeOptions.speechOptions);
+    assert.equal(data.recognizeOptions.speechOptions.endSilenceTimeoutInMs, 5000); // 5 seconds * 1000
+
+    // Validate speech language and model endpoint
+    assert.equal(data.recognizeOptions.speechLanguage, "en-US");
+    assert.equal(data.recognizeOptions.speechRecognitionModelEndpointId, "customModelEndpointId");
+
+    // Validate base recognize options
+    assert.equal(data.recognizeOptions.interruptPrompt, true);
+    assert.equal(data.recognizeOptions.initialSilenceTimeoutInSeconds, 10);
+    assert.isDefined(data.recognizeOptions.targetParticipant);
+
+    // Validate play prompt (single)
+    assert.isDefined(data.playPrompt);
+    assert.equal(data.playPrompt.kind, "file");
+    assert.equal(data.playPrompt.file.uri, MEDIA_URL_WAV);
+
+    // Validate play prompts (multiple)
+    assert.isDefined(data.playPrompts);
+    assert.equal(data.playPrompts.length, 2);
+    assert.equal(data.playPrompts[0].kind, "file");
+    assert.equal(data.playPrompts[1].kind, "text");
+
+    // Validate other request properties
+    assert.equal(data.interruptCallMediaOperation, true);
+    assert.equal(data.operationContext, "testOperationContext");
+    assert.equal(data.operationCallbackUri, "https://localhost/callback");
+  });
+
+  it("validates all properties are populated for CallMediaRecognizeSpeechOrDtmfOptions", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+
+    const playPrompt: FileSource = { kind: "fileSource", url: MEDIA_URL_WAV };
+    const playPrompts: (FileSource | TextSource | SsmlSource)[] = [
+      { kind: "fileSource", url: MEDIA_URL_WAV },
+      { kind: "textSource", text: "test text" },
+    ];
+
+    const recognizeOptions: CallMediaRecognizeSpeechOrDtmfOptions = {
+      kind: "callMediaRecognizeSpeechOrDtmfOptions",
+      // SpeechOrDtmf specific properties
+      endSilenceTimeoutInSeconds: 5,
+      interToneTimeoutInSeconds: 3,
+      stopDtmfTones: [DtmfTone.Pound, DtmfTone.Asterisk],
+      maxTonesToCollect: 10,
+      speechLanguage: "en-US",
+      speechRecognitionModelEndpointId: "customModelEndpointId",
+      // Base CallMediaRecognizeOptions properties
+      playPrompt: playPrompt,
+      playPrompts: playPrompts,
+      interruptCallMediaOperation: true,
+      operationContext: "testOperationContext",
+      interruptPrompt: true,
+      initialSilenceTimeoutInSeconds: 10,
+      operationCallbackUrl: "https://localhost/callback",
+    };
+
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
+    const request = spy.mock.calls[0][0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    // Validate request method
+    assert.equal(request.method, "POST");
+
+    // Validate recognizeInputType
+    assert.equal(data.recognizeInputType, "speechOrDtmf");
+
+    // Validate DTMF options
+    assert.isDefined(data.recognizeOptions.dtmfOptions);
+    assert.equal(data.recognizeOptions.dtmfOptions.interToneTimeoutInSeconds, 3);
+    assert.equal(data.recognizeOptions.dtmfOptions.maxTonesToCollect, 10);
+    assert.deepEqual(data.recognizeOptions.dtmfOptions.stopTones, [
+      DtmfTone.Pound,
+      DtmfTone.Asterisk,
+    ]);
+
+    // Validate Speech options
+    assert.isDefined(data.recognizeOptions.speechOptions);
+    assert.equal(data.recognizeOptions.speechOptions.endSilenceTimeoutInMs, 5000); // 5 seconds * 1000
+
+    // Validate speech language and model endpoint
+    assert.equal(data.recognizeOptions.speechLanguage, "en-US");
+    assert.equal(data.recognizeOptions.speechRecognitionModelEndpointId, "customModelEndpointId");
+
+    // Validate base recognize options
+    assert.equal(data.recognizeOptions.interruptPrompt, true);
+    assert.equal(data.recognizeOptions.initialSilenceTimeoutInSeconds, 10);
+    assert.isDefined(data.recognizeOptions.targetParticipant);
+
+    // Validate play prompt (single)
+    assert.isDefined(data.playPrompt);
+    assert.equal(data.playPrompt.kind, "file");
+    assert.equal(data.playPrompt.file.uri, MEDIA_URL_WAV);
+
+    // Validate play prompts (multiple)
+    assert.isDefined(data.playPrompts);
+    assert.equal(data.playPrompts.length, 2);
+    assert.equal(data.playPrompts[0].kind, "file");
+    assert.equal(data.playPrompts[1].kind, "text");
+
+    // Validate other request properties
+    assert.equal(data.interruptCallMediaOperation, true);
+    assert.equal(data.operationContext, "testOperationContext");
+    assert.equal(data.operationCallbackUri, "https://localhost/callback");
+  });
+
   it("makes successful PlayToAll barge in request", async function () {
     const mockHttpClient = generateHttpClient(202);
 
