@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
-import type { OpenAIClient } from "@azure/openai";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type {
   AutocompleteResult,
@@ -23,7 +22,13 @@ import {
 import { defaultServiceVersion } from "../../../src/serviceUtils.js";
 import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
-import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup.js";
+import {
+  createIndex,
+  createRandomIndexName,
+  getMockQueryEmbedding,
+  populateIndex,
+  WAIT_TIME,
+} from "../utils/setup.js";
 
 describe("SearchClient", { timeout: 20_000 }, () => {
   describe("constructor", () => {
@@ -65,11 +70,10 @@ describe("SearchClient", { timeout: 20_000 }, () => {
   });
 
   // TODO: the preview-only tests are mixed in here when they should be in another describe (and removed in the stable release branch)
-  describe("stable", { skip: true }, () => {
+  describe("stable", () => {
     let recorder: Recorder;
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
-    let openAIClient: OpenAIClient;
     let TEST_INDEX_NAME: string;
     let TEST_BASE_NAME: string;
     let indexDefinition: SearchIndex;
@@ -80,7 +84,6 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       TEST_BASE_NAME = createRandomIndexName();
       ({
         searchClient,
-        openAIClient,
         indexClient,
         indexName: TEST_INDEX_NAME,
         baseName: TEST_BASE_NAME,
@@ -92,7 +95,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       ));
       indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
       await delay(WAIT_TIME);
-      await populateIndex(searchClient, openAIClient);
+      await populateIndex(searchClient);
     });
 
     afterEach(async () => {
@@ -537,17 +540,8 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       assert.deepEqual(["1"], resultIds);
     });
 
-    it("search with vector", async (ctx) => {
-      // This live test is disabled due to temporary limitations with the new OpenAI service
-      if (isLiveMode()) {
-        ctx.skip();
-      }
-      const embeddings = await openAIClient.getEmbeddings(
-        env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME ?? "embedding-deployment-name",
-        ["What are the most luxurious hotels?"],
-      );
-
-      const embedding = embeddings.data[0].embedding;
+    it("search with vector", async () => {
+      const embedding = getMockQueryEmbedding();
 
       const searchResults = await searchClient.search("*", {
         vectorSearchOptions: {
@@ -571,17 +565,8 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       assert.deepEqual(resultIds, ["1", "3", "4"]);
     });
 
-    it("multi-vector search", async (ctx) => {
-      // This live test is disabled due to temporary limitations with the new OpenAI service
-      if (isLiveMode()) {
-        ctx.skip();
-      }
-      const embeddings = await openAIClient.getEmbeddings(
-        env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME ?? "embedding-deployment-name",
-        ["What are the most luxurious hotels?"],
-      );
-
-      const embedding = embeddings.data[0].embedding;
+    it("multi-vector search", async () => {
+      const embedding = getMockQueryEmbedding();
 
       const searchResults = await searchClient.search("*", {
         vectorSearchOptions: {
@@ -611,18 +596,9 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       assert.deepEqual(resultIds, ["1", "3", "4"]);
     });
 
-    it("oversampling compressed vectors", async (ctx) => {
-      // This live test is disabled due to temporary limitations with the new OpenAI service
-      if (isLiveMode()) {
-        ctx.skip();
-      }
+    it("oversampling compressed vectors", async () => {
+      const embedding = getMockQueryEmbedding();
 
-      const embeddings = await openAIClient.getEmbeddings(
-        env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME ?? "embedding-deployment-name",
-        ["What are the most luxurious hotels?"],
-      );
-
-      const embedding = embeddings.data[0].embedding;
       const searchResults = await searchClient.search("*", {
         vectorSearchOptions: {
           queries: [
