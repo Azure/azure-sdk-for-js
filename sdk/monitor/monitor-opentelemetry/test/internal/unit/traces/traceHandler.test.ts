@@ -237,6 +237,18 @@ describe("Library/TraceHandler", () => {
   };
 
   describe("#autoCollection of HTTP/HTTPS requests", () => {
+    beforeEach(() => {
+      _config.instrumentationOptions = {
+        http: { enabled: true },
+        azureSdk: { enabled: false },
+        mongoDb: { enabled: false },
+        mySql: { enabled: false },
+        postgreSql: { enabled: false },
+        redis: { enabled: false },
+        redis4: { enabled: false },
+      };
+    });
+
     it("http outgoing/incoming requests & custom span processor", async () => {
       createHandler({ enabled: true });
       tracerProvider = new NodeTracerProvider({
