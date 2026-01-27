@@ -7718,28 +7718,28 @@ importers:
         version: 4.13.0
       '@types/node':
         specifier: 'catalog:'
-        version: 20.19.25
+        version: 20.19.30
       '@vitest/browser-playwright':
         specifier: catalog:testing
-        version: 4.0.15(msw@2.7.3(@types/node@20.19.25)(typescript@5.9.3))(playwright@1.57.0)(vite@7.2.6(@types/node@20.19.25)(terser@5.39.0)(tsx@4.21.0)(yaml@2.8.2))(vitest@4.0.15)
+        version: 4.0.17(playwright@1.57.0)(vite@7.3.1(@types/node@20.19.30)(tsx@4.21.0)(yaml@2.8.2))(vitest@4.0.17)
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
-        version: 4.0.15(vitest@4.0.15)
+        version: 4.0.17(vitest@4.0.17)
       cross-env:
         specifier: 'catalog:'
-        version: 7.0.3
+        version: 10.1.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
       eslint:
         specifier: 'catalog:'
-        version: 9.39.1
+        version: 9.39.2
       playwright:
         specifier: catalog:testing
         version: 1.57.0
       prettier:
         specifier: 'catalog:'
-        version: 3.7.4
+        version: 3.8.0
       rimraf:
         specifier: 'catalog:'
         version: 6.1.2
@@ -7751,7 +7751,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: catalog:testing
-        version: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@20.19.25)(@vitest/browser-playwright@4.0.15)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.25)(typescript@5.9.3))(terser@5.39.0)(tsx@4.21.0)(yaml@2.8.2)
+        version: 4.0.17(@opentelemetry/api@1.9.0)(@types/node@20.19.30)(@vitest/browser-playwright@4.0.17)(tsx@4.21.0)(yaml@2.8.2)
 
   sdk/core/abort-controller:
     dependencies:
