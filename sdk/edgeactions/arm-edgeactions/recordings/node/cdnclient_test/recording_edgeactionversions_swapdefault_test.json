@@ -1,0 +1,45 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.azure.com/subscriptions/azure_subscription_id/resourceGroups/SSS3PT_myjstest/providers/Microsoft.Cdn/edgeActions/testedgeaction/versions/version1/swapDefault?api-version=2025-12-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-arm-edgeactions/1.0.0-beta.1 core-rest-pipeline/1.22.3 Node/22.16.0 (Windows_NT 10.0.26200; x64)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 415,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "176",
+        "Content-Type": "application/problem+json; charset=utf-8",
+        "Date": "Wed, 28 Jan 2026 06:40:08 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "1014",
+        "x-ms-correlation-request-id": "611ff2f9-6245-4237-b7e4-64042ee92033",
+        "x-ms-operation-identifier": "tenantId=70a036f6-8e4d-4615-bad6-149c02e7720d,objectId=08590cc6-0084-4fe0-bd47-6d126231a201/eastus/d754cd58-12eb-46ec-990a-63ef7a436430",
+        "x-ms-ratelimit-remaining-subscription-global-writes": "2999",
+        "x-ms-ratelimit-remaining-subscription-writes": "199",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "EASTUS:20260128T064008Z:611ff2f9-6245-4237-b7e4-64042ee92033",
+        "X-MSEdge-Ref": "Ref A: 9A82DA76D99948A598B76253745A992D Ref B: SG2AA1040512052 Ref C: 2026-01-28T06:40:05Z"
+      },
+      "ResponseBody": {
+        "type": "https://tools.ietf.org/html/rfc9110#section-15.5.16",
+        "title": "Unsupported Media Type",
+        "status": 415,
+        "traceId": "00-5711c36432c6d5c66a114b3d1ff7d082-28c2ec28921bab19-01"
+      }
+    }
+  ],
+  "Variables": {}
+}
