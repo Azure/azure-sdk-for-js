@@ -19,6 +19,7 @@ export interface DeidPropertiesUpdate {
 export interface DeidService extends TrackedResource {
     identity?: ManagedServiceIdentity;
     properties?: DeidServiceProperties;
+    sku?: Sku;
 }
 
 // @public
@@ -33,7 +34,28 @@ export interface DeidServiceProperties {
 export interface DeidUpdate {
     identity?: ManagedServiceIdentityUpdate;
     properties?: DeidPropertiesUpdate;
+    sku?: Sku;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -91,8 +113,16 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownSkuTier {
+    Basic = "Basic",
+    Free = "Free",
+    Standard = "Standard"
+}
+
+// @public
 export enum KnownVersions {
-    V2024_09_20 = "2024-09-20"
+    V2024_09_20 = "2024-09-20",
+    V20260127Preview = "2026-01-27-preview"
 }
 
 // @public
@@ -114,8 +144,8 @@ export interface ManagedServiceIdentityUpdate {
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -197,6 +227,16 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export interface Sku {
+    capacity?: number;
+    name: string;
+    tier?: SkuTier;
+}
+
+// @public
+export type SkuTier = string;
 
 // @public
 export interface SystemData {
