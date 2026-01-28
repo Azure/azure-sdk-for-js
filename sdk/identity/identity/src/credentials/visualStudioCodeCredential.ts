@@ -10,7 +10,11 @@ import {
 import { CredentialUnavailableError } from "../errors.js";
 import type { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions.js";
 import { checkTenantId } from "../util/tenantIdUtils.js";
-import { createMsalClient, type MsalClient } from "../msal/nodeFlows/msalClient.js";
+import {
+  createMsalClientContext,
+  getTokenByInteractiveRequest,
+  type MsalClientContext,
+} from "../msal/nodeFlows/msalClient.js";
 import { ensureScopes } from "../util/scopeUtils.js";
 import { hasVSCodePlugin, vsCodeAuthRecordPath } from "../msal/nodeFlows/msalPlugins.js";
 import { deserializeAuthenticationRecord } from "../msal/utils.js";
@@ -42,7 +46,7 @@ function checkUnsupportedTenant(tenantId: string): void {
 export class VisualStudioCodeCredential implements TokenCredential {
   private tenantId: string;
   private additionallyAllowedTenantIds: string[];
-  private msalClient: MsalClient | undefined;
+  private msalContext: MsalClientContext | undefined;
   private options: VisualStudioCodeCredentialOptions;
 
   /**
@@ -98,7 +102,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
     // Load the authentication record directly from the path
     const authenticationRecord = await this.loadAuthRecord(vsCodeAuthRecordPath, scopes);
 
-    this.msalClient = createMsalClient(VSCodeClientId, tenantId, {
+    this.msalContext = createMsalClientContext(VSCodeClientId, tenantId, {
       ...this.options,
       isVSCodeCredential: true,
       brokerOptions: {
@@ -140,7 +144,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
     const scopeArray = ensureScopes(scopes);
     await this.prepareOnce(scopeArray);
 
-    if (!this.msalClient) {
+    if (!this.msalContext) {
       throw new CredentialUnavailableError(
         "Visual Studio Code Authentication failed to initialize." +
           " Ensure you have have Azure Resources Extension installed in VS Code," +
@@ -149,7 +153,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
       );
     }
     // Disable automatic authentication to ensure that the user is not prompted interactively if no token is available
-    return this.msalClient.getTokenByInteractiveRequest(scopeArray, {
+    return getTokenByInteractiveRequest(this.msalContext, scopeArray, {
       ...options,
       disableAutomaticAuthentication: true,
     });
