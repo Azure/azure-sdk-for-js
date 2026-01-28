@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Support `checkConfigurationSettings` method to check settings from the Azure App Configuration store using a HEAD request, returning only headers without the response body. [#36959](https://github.com/Azure/azure-sdk-for-js/pull/36959)
+- Added a new method, `checkConfigurationSettings`, which can be used to check settings from the Azure App Configuration store using HEAD requests, returning only headers without the response body. [#36959](https://github.com/Azure/azure-sdk-for-js/pull/36959)
 
 ### Other Changes
 
