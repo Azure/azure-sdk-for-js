@@ -68,7 +68,12 @@ async function main() {
   const userMessage = {
     type: "message",
     role: "user",
-    content: "I prefer dark roast coffee and usually drink it in the morning",
+    content: [
+      {
+        type: "input_text",
+        text: "I prefer dark roast coffee and usually drink it in the morning",
+      },
+    ],
   };
 
   console.log("\nSubmitting memory update request...");
@@ -89,7 +94,7 @@ async function main() {
   const queryMessage = {
     type: "message",
     role: "user",
-    content: "What are my coffee preferences?",
+    content: [{ type: "input_text", text: "What are my coffee preferences?" }],
   };
 
   console.log("\nSearching memories for stored preferences...");

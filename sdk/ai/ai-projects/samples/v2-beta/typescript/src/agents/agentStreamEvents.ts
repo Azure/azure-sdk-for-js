@@ -33,9 +33,7 @@ export async function main(): Promise<void> {
   // Create conversation with initial user message
   console.log("\nCreating conversation with initial user message...");
   const conversation = await openAIClient.conversations.create({
-    items: [
-      { type: "message", role: "user", content: "Tell me about the capital city of France" },
-    ],
+    items: [{ type: "message", role: "user", content: "Tell me about the capital city of France" }],
   });
   console.log(`Created conversation with initial user message (id: ${conversation.id})`);
 

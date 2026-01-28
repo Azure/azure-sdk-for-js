@@ -18,7 +18,8 @@ const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project en
 const chatModelDeployment =
   process.env["MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME"] || "<chat model deployment name>";
 const embeddingModelDeployment =
-  process.env["MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model deployment name>";
+  process.env["MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME"] ||
+  "<embedding model deployment name>";
 
 const memoryStoreName = "my_memory_store";
 
@@ -45,7 +46,9 @@ export async function main(): Promise<void> {
   const memoryStore = await project.memoryStores.create(memoryStoreName, definition, {
     description: "Example memory store for conversations",
   });
-  console.log(`Created memory store: ${memoryStore.name} (${memoryStore.id}): ${memoryStore.description}`);
+  console.log(
+    `Created memory store: ${memoryStore.name} (${memoryStore.id}): ${memoryStore.description}`,
+  );
 
   // Get Memory Store
   const getStore = await project.memoryStores.get(memoryStore.name);
@@ -58,7 +61,7 @@ export async function main(): Promise<void> {
   console.log(`Updated: ${updatedStore.name} (${updatedStore.id}): ${updatedStore.description}`);
 
   // List Memory Stores
-  const memoryStores: typeof memoryStore[] = [];
+  const memoryStores: (typeof memoryStore)[] = [];
   for await (const store of project.memoryStores.list({ limit: 10 })) {
     memoryStores.push(store);
   }

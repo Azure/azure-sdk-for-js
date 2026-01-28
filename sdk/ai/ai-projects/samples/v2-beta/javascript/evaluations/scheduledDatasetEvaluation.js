@@ -157,8 +157,8 @@ async function main() {
 
     // List schedule runs
     console.log(`\nListing schedule runs for schedule id: ${schedule.id}`);
-    const scheduleRuns = await project.schedules.listRuns(schedule.id ?? "");
-    for (const run of scheduleRuns.value) {
+    const scheduleRuns = project.schedules.listRuns(schedule.id ?? "");
+    for await (const run of scheduleRuns) {
       console.log(JSON.stringify(run, null, 2));
     }
 
