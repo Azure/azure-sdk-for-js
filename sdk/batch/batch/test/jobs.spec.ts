@@ -176,7 +176,7 @@ describe("Job Operations Test", () => {
   it("should disable a job successfully", async () => {
     const jobId = recorder.variable("JOB_NAME", JOB_NAME);
 
-    await batchClient.beginDisableJobAndWait(
+    await batchClient.disableJob(
       jobId,
       { disableTasks: "requeue" },
       { updateIntervalInMs: POLLING_INTERVAL },
@@ -189,7 +189,7 @@ describe("Job Operations Test", () => {
   it("should enable a job successfully", async () => {
     const jobId = recorder.variable("JOB_NAME", JOB_NAME);
 
-    await batchClient.beginEnableJobAndWait(jobId, { updateIntervalInMs: POLLING_INTERVAL });
+    await batchClient.enableJob(jobId, { updateIntervalInMs: POLLING_INTERVAL });
 
     const job = await batchClient.getJob(jobId);
     assert.equal(job.state, "active");
@@ -198,7 +198,7 @@ describe("Job Operations Test", () => {
   it("should terminate a job successfully", async () => {
     const jobId = recorder.variable("JOB_NAME", JOB_NAME);
 
-    await batchClient.beginTerminateJobAndWait(jobId, {
+    await batchClient.terminateJob(jobId, {
       updateIntervalInMs: POLLING_INTERVAL,
       force: true,
     });
@@ -210,7 +210,7 @@ describe("Job Operations Test", () => {
   it("should delete a job successfully", async () => {
     const jobId = recorder.variable("JOB_NAME", JOB_NAME);
 
-    await batchClient.beginDeleteJobAndWait(jobId, {
+    await batchClient.deleteJob(jobId, {
       updateIntervalInMs: POLLING_INTERVAL,
       force: true,
     });

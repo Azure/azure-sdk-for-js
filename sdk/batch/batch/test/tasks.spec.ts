@@ -88,7 +88,7 @@ describe("Task Operations Test", () => {
 
     // Delete job first
     try {
-      await cleanupClient.beginDeleteJobAndWait(JOB_NAME, {
+      await cleanupClient.deleteJob(JOB_NAME, {
         updateIntervalInMs: POLLING_INTERVAL,
         force: true,
       });
@@ -188,7 +188,7 @@ describe("Task Operations Test", () => {
     assert.equal(task.exitConditions!.exitCodes![0].exitOptions!.jobAction, "none");
     assert.equal(task.exitConditions!.exitCodes![0].exitOptions!.dependencyAction, "block");
 
-    await batchClient.beginDeleteJobAndWait(jobId, {
+    await batchClient.deleteJob(jobId, {
       updateIntervalInMs: POLLING_INTERVAL,
       force: true,
     });

@@ -186,7 +186,7 @@ describe("Compute node operations", () => {
   it("should reboot a compute node successfully", async () => {
     const poolId = recorder.variable("BASIC_POOL", BASIC_POOL);
 
-    await batchClient.beginRebootNodeAndWait(poolId, computeNodes[0], {
+    await batchClient.rebootNode(poolId, computeNodes[0], {
       updateIntervalInMs: POLLING_INTERVAL,
     });
 
@@ -198,7 +198,7 @@ describe("Compute node operations", () => {
   it("should reimage a compute node successfully", async () => {
     const poolId = recorder.variable("BASIC_POOL", BASIC_POOL);
 
-    await batchClient.beginReimageNodeAndWait(poolId, computeNodes[1], {
+    await batchClient.reimageNode(poolId, computeNodes[1], {
       updateIntervalInMs: POLLING_INTERVAL,
     });
 
@@ -225,7 +225,7 @@ describe("Compute node operations", () => {
     const poolId = recorder.variable("BASIC_POOL", BASIC_POOL);
     const nodeId = computeNodes[3];
 
-    await batchClient.beginDeallocateNodeAndWait(poolId, nodeId, {
+    await batchClient.deallocateNode(poolId, nodeId, {
       updateIntervalInMs: POLLING_INTERVAL,
     });
 
@@ -233,7 +233,7 @@ describe("Compute node operations", () => {
     const deallocatedNode = await batchClient.getNode(poolId, nodeId);
     expect(deallocatedNode.state).toBe("deallocated");
 
-    await batchClient.beginStartNodeAndWait(poolId, nodeId, {
+    await batchClient.startNode(poolId, nodeId, {
       updateIntervalInMs: POLLING_INTERVAL,
     });
 

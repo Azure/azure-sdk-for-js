@@ -7,7 +7,8 @@
 import type { AzureNamedKeyCredential } from '@azure/core-auth';
 import { ClientOptions } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -101,37 +102,28 @@ export interface BatchAutoPoolSpecification {
     poolLifetimeOption: BatchPoolLifetimeOption;
 }
 
-// @public (undocumented)
+// @public
 export class BatchClient {
     constructor(endpointParam: string, credential: TokenCredential | AzureNamedKeyCredential, options?: BatchClientOptionalParams);
-    // Warning: (ae-forgotten-export) The symbol "PollerIntervalOptions" needs to be exported by the entry point index.d.ts
-    beginDeallocateNodeAndWait(poolId: string, nodeId: string, options?: DeallocateNodeOptionalParams & PollerIntervalOptions): Promise<void>;
-    beginDeleteJobAndWait(jobId: string, options?: DeleteJobOptionalParams & PollerIntervalOptions): Promise<void>;
-    beginDeleteJobScheduleAndWait(jobScheduleId: string, options?: DeleteJobScheduleOptionalParams & PollerIntervalOptions): Promise<void>;
-    beginDeletePoolAndWait(poolId: string, options?: DeletePoolOptionalParams & PollerIntervalOptions): Promise<void>;
-    beginDisableJobAndWait(jobId: string, disableOptions: BatchJobDisableOptions, options?: DisableJobOptionalParams & PollerIntervalOptions): Promise<void>;
-    beginEnableJobAndWait(jobId: string, options?: EnableJobOptionalParams & PollerIntervalOptions): Promise<void>;
-    beginRebootNodeAndWait(poolId: string, nodeId: string, options?: RebootNodeOptionalParams & PollerIntervalOptions): Promise<void>;
-    beginReimageNodeAndWait(poolId: string, nodeId: string, options?: ReimageNodeOptionalParams & PollerIntervalOptions): Promise<void>;
-    beginRemoveNodesAndWait(poolId: string, removeOptions: BatchNodeRemoveOptions, options?: RemoveNodesOptionalParams & PollerIntervalOptions): Promise<void>;
-    beginResizePoolAndWait(poolId: string, resizeOptions: BatchPoolResizeOptions, options?: ResizePoolOptionalParams & PollerIntervalOptions): Promise<void>;
-    beginStartNodeAndWait(poolId: string, nodeId: string, options?: StartNodeOptionalParams & PollerIntervalOptions): Promise<void>;
-    beginStopPoolResizeAndWait(poolId: string, options?: StopPoolResizeOptionalParams & PollerIntervalOptions): Promise<void>;
-    beginTerminateJobAndWait(jobId: string, options?: TerminateJobOptionalParams & PollerIntervalOptions): Promise<void>;
-    beginTerminateJobScheduleAndWait(jobScheduleId: string, options?: TerminateJobScheduleOptionalParams & PollerIntervalOptions): Promise<void>;
     createJob(job: BatchJobCreateOptions, options?: CreateJobOptionalParams): Promise<void>;
     createJobSchedule(jobSchedule: BatchJobScheduleCreateOptions, options?: CreateJobScheduleOptionalParams): Promise<void>;
     createNodeUser(poolId: string, nodeId: string, user: BatchNodeUserCreateOptions, options?: CreateNodeUserOptionalParams): Promise<void>;
     createPool(pool: BatchPoolCreateOptions, options?: CreatePoolOptionalParams): Promise<void>;
     createTask(jobId: string, task: BatchTaskCreateOptions, options?: CreateTaskOptionalParams): Promise<void>;
     createTaskCollection(jobId: string, taskCollection: BatchTaskGroup, options?: CreateTaskCollectionOptionalParams): Promise<BatchCreateTaskCollectionResult>;
+    deallocateNode(poolId: string, nodeId: string, options?: DeallocateNodeOptionalParams): PollerLike<OperationState<void>, void>;
+    deleteJob(jobId: string, options?: DeleteJobOptionalParams): PollerLike<OperationState<void>, void>;
+    deleteJobSchedule(jobScheduleId: string, options?: DeleteJobScheduleOptionalParams): PollerLike<OperationState<void>, void>;
     deleteNodeFile(poolId: string, nodeId: string, filePath: string, options?: DeleteNodeFileOptionalParams): Promise<void>;
     deleteNodeUser(poolId: string, nodeId: string, userName: string, options?: DeleteNodeUserOptionalParams): Promise<void>;
+    deletePool(poolId: string, options?: DeletePoolOptionalParams): PollerLike<OperationState<void>, void>;
     deleteTask(jobId: string, taskId: string, options?: DeleteTaskOptionalParams): Promise<void>;
     deleteTaskFile(jobId: string, taskId: string, filePath: string, options?: DeleteTaskFileOptionalParams): Promise<void>;
+    disableJob(jobId: string, disableOptions: BatchJobDisableOptions, options?: DisableJobOptionalParams): PollerLike<OperationState<void>, void>;
     disableJobSchedule(jobScheduleId: string, options?: DisableJobScheduleOptionalParams): Promise<void>;
     disableNodeScheduling(poolId: string, nodeId: string, options?: DisableNodeSchedulingOptionalParams): Promise<void>;
     disablePoolAutoScale(poolId: string, options?: DisablePoolAutoScaleOptionalParams): Promise<void>;
+    enableJob(jobId: string, options?: EnableJobOptionalParams): PollerLike<OperationState<void>, void>;
     enableJobSchedule(jobScheduleId: string, options?: EnableJobScheduleOptionalParams): Promise<void>;
     enableNodeScheduling(poolId: string, nodeId: string, options?: EnableNodeSchedulingOptionalParams): Promise<void>;
     enablePoolAutoScale(poolId: string, enableAutoScaleOptions: BatchPoolEnableAutoScaleOptions, options?: EnablePoolAutoScaleOptionalParams): Promise<void>;
@@ -149,7 +141,7 @@ export class BatchClient {
     getTask(jobId: string, taskId: string, options?: GetTaskOptionalParams): Promise<BatchTask>;
     getTaskFile(jobId: string, taskId: string, filePath: string, options?: GetTaskFileOptionalParams): Promise<Uint8Array>;
     getTaskFileProperties(jobId: string, taskId: string, filePath: string, options?: GetTaskFilePropertiesOptionalParams): Promise<BatchNodeFile>;
-    jobScheduleExists(jobScheduleId: string, options?: JobScheduleExistsOptionalParams): Promise<void>;
+    jobScheduleExists(jobScheduleId: string, options?: JobScheduleExistsOptionalParams): Promise<boolean>;
     listApplications(options?: ListApplicationsOptionalParams): PagedAsyncIterableIterator<BatchApplication>;
     listJobPreparationAndReleaseTaskStatus(jobId: string, options?: ListJobPreparationAndReleaseTaskStatusOptionalParams): PagedAsyncIterableIterator<BatchJobPreparationAndReleaseTaskStatus>;
     listJobs(options?: ListJobsOptionalParams): PagedAsyncIterableIterator<BatchJob>;
@@ -165,14 +157,21 @@ export class BatchClient {
     listSupportedImages(options?: ListSupportedImagesOptionalParams): PagedAsyncIterableIterator<BatchSupportedImage>;
     listTaskFiles(jobId: string, taskId: string, options?: ListTaskFilesOptionalParams): PagedAsyncIterableIterator<BatchNodeFile>;
     listTasks(jobId: string, options?: ListTasksOptionalParams): PagedAsyncIterableIterator<BatchTask>;
-    readonly pipeline: Pipeline;
-    poolExists(poolId: string, options?: PoolExistsOptionalParams): Promise<void>;
+    poolExists(poolId: string, options?: PoolExistsOptionalParams): Promise<boolean>;
     reactivateTask(jobId: string, taskId: string, options?: ReactivateTaskOptionalParams): Promise<void>;
+    rebootNode(poolId: string, nodeId: string, options?: RebootNodeOptionalParams): PollerLike<OperationState<void>, void>;
+    reimageNode(poolId: string, nodeId: string, options?: ReimageNodeOptionalParams): PollerLike<OperationState<void>, void>;
+    removeNodes(poolId: string, removeOptions: BatchNodeRemoveOptions, options?: RemoveNodesOptionalParams): PollerLike<OperationState<void>, void>;
     replaceJob(jobId: string, job: BatchJob, options?: ReplaceJobOptionalParams): Promise<void>;
     replaceJobSchedule(jobScheduleId: string, jobSchedule: BatchJobSchedule, options?: ReplaceJobScheduleOptionalParams): Promise<void>;
     replaceNodeUser(poolId: string, nodeId: string, userName: string, updateOptions: BatchNodeUserUpdateOptions, options?: ReplaceNodeUserOptionalParams): Promise<void>;
     replacePoolProperties(poolId: string, pool: BatchPoolReplaceOptions, options?: ReplacePoolPropertiesOptionalParams): Promise<void>;
     replaceTask(jobId: string, taskId: string, task: BatchTask, options?: ReplaceTaskOptionalParams): Promise<void>;
+    resizePool(poolId: string, resizeOptions: BatchPoolResizeOptions, options?: ResizePoolOptionalParams): PollerLike<OperationState<void>, void>;
+    startNode(poolId: string, nodeId: string, options?: StartNodeOptionalParams): PollerLike<OperationState<void>, void>;
+    stopPoolResize(poolId: string, options?: StopPoolResizeOptionalParams): PollerLike<OperationState<void>, void>;
+    terminateJob(jobId: string, options?: TerminateJobOptionalParams): PollerLike<OperationState<void>, void>;
+    terminateJobSchedule(jobScheduleId: string, options?: TerminateJobScheduleOptionalParams): PollerLike<OperationState<void>, void>;
     terminateTask(jobId: string, taskId: string, options?: TerminateTaskOptionalParams): Promise<void>;
     updateJob(jobId: string, job: BatchJobUpdateOptions, options?: UpdateJobOptionalParams): Promise<void>;
     updateJobSchedule(jobScheduleId: string, jobSchedule: BatchJobScheduleUpdateOptions, options?: UpdateJobScheduleOptionalParams): Promise<void>;
@@ -1326,6 +1325,7 @@ export interface DeallocateNodeOptionalParams extends OperationOptions {
     options?: BatchNodeDeallocateOptions;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1339,6 +1339,7 @@ export interface DeleteJobOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1352,6 +1353,7 @@ export interface DeleteJobScheduleOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1381,6 +1383,7 @@ export interface DeletePoolOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1423,6 +1426,7 @@ export interface DisableJobOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1491,6 +1495,7 @@ export interface EnableJobOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2095,6 +2100,7 @@ export interface RebootNodeOptionalParams extends OperationOptions {
     options?: BatchNodeRebootOptions;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2110,6 +2116,7 @@ export interface ReimageNodeOptionalParams extends OperationOptions {
     options?: BatchNodeReimageOptions;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2122,6 +2129,7 @@ export interface RemoveNodesOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2193,6 +2201,7 @@ export interface ResizePoolOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2245,6 +2254,7 @@ export interface StartNodeOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2260,6 +2270,7 @@ export interface StopPoolResizeOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2277,6 +2288,7 @@ export interface TerminateJobOptionalParams extends OperationOptions {
     options?: BatchJobTerminateOptions;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2290,6 +2302,7 @@ export interface TerminateJobScheduleOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public

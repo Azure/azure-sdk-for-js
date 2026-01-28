@@ -70,7 +70,9 @@ export function createBatchClient(params: {
 }): BatchClient {
   const { recorder, accountEndpoint, accountName, accountKey, options } = params;
   const credential = isPlaybackMode()
-    ? new NoOpCredential()
+    ? isNodeLike
+      ? new AzureNamedKeyCredential("accountName", "accountKey")
+      : new NoOpCredential()
     : isNodeLike && accountKey && accountName
       ? new AzureNamedKeyCredential(accountName, accountKey)
       : createTestCredential();

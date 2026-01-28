@@ -299,7 +299,7 @@ describe("Pool Operations Test", () => {
     expect(pool.virtualMachineConfiguration!.dataDisks![0].logicalUnitNumber).toEqual(1);
     expect(pool.virtualMachineConfiguration!.dataDisks![0].diskSizeGb).toEqual(50);
 
-    await batchClient.beginDeletePoolAndWait(poolId, { updateIntervalInMs: POLLING_INTERVAL });
+    await batchClient.deletePool(poolId, { updateIntervalInMs: POLLING_INTERVAL });
   });
 
   it("should add a pool with inbound endpoint configuration successfully", async () => {
@@ -438,7 +438,7 @@ describe("Pool Operations Test", () => {
       targetLowPriorityNodes: 1,
     };
 
-    await batchClient.beginResizePoolAndWait(poolId, options, {
+    await batchClient.resizePool(poolId, options, {
       updateIntervalInMs: POLLING_INTERVAL,
     });
 
@@ -451,7 +451,7 @@ describe("Pool Operations Test", () => {
 
   it("should stop pool resizing successfully", async () => {
     const poolId = recorder.variable("TEST_POOL3", TEST_POOL3);
-    const resizePoolPromise = batchClient.beginResizePoolAndWait(
+    const resizePoolPromise = batchClient.resizePool(
       poolId,
       {
         targetDedicatedNodes: 0,
@@ -459,14 +459,14 @@ describe("Pool Operations Test", () => {
       },
       { updateIntervalInMs: POLLING_INTERVAL },
     );
-    await batchClient.beginStopPoolResizeAndWait(poolId, { updateIntervalInMs: POLLING_INTERVAL });
-    // beginResizePoolAndWait will resolve once the resize is fully stopped
+    await batchClient.stopPoolResize(poolId, { updateIntervalInMs: POLLING_INTERVAL });
+    // resizePool will resolve once the resize is fully stopped
     await resizePoolPromise;
   });
 
   it("should delete a pool successfully", async () => {
     const poolId = recorder.variable("BASIC_POOL", BASIC_POOL);
-    await batchClient.beginDeletePoolAndWait(poolId, { updateIntervalInMs: POLLING_INTERVAL });
+    await batchClient.deletePool(poolId, { updateIntervalInMs: POLLING_INTERVAL });
     try {
       await batchClient.getPool(poolId);
       expect.fail("Expected an error to be thrown");
@@ -479,11 +479,11 @@ describe("Pool Operations Test", () => {
 
   it("should delete a second pool successfully", async () => {
     const poolId = recorder.variable("ENDPOINT_POOL", ENDPOINT_POOL);
-    await batchClient.beginDeletePoolAndWait(poolId, { updateIntervalInMs: POLLING_INTERVAL });
+    await batchClient.deletePool(poolId, { updateIntervalInMs: POLLING_INTERVAL });
   });
 
   it("should delete a third pool successfully", async () => {
     const poolId = recorder.variable("TEST_POOL3", TEST_POOL3);
-    await batchClient.beginDeletePoolAndWait(poolId, { updateIntervalInMs: POLLING_INTERVAL });
+    await batchClient.deletePool(poolId, { updateIntervalInMs: POLLING_INTERVAL });
   });
 });

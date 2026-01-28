@@ -117,7 +117,7 @@ describe("Pool Advanced Features Test", () => {
       expect(osDisk.diskSizeGB).toEqual(50);
       expect(osDisk.writeAcceleratorEnabled).toEqual(true);
     } finally {
-      await batchClient.beginDeletePoolAndWait(poolId, { updateIntervalInMs: POLLING_INTERVAL });
+      await batchClient.deletePool(poolId, { updateIntervalInMs: POLLING_INTERVAL });
     }
   });
 
@@ -181,7 +181,7 @@ describe("Pool Advanced Features Test", () => {
         rollbackFailedInstancesOnPolicyBreach: false,
       });
     } finally {
-      await batchClient.beginDeletePoolAndWait(poolId, { updateIntervalInMs: POLLING_INTERVAL });
+      await batchClient.deletePool(poolId, { updateIntervalInMs: POLLING_INTERVAL });
     }
   });
 
@@ -246,7 +246,7 @@ describe("Pool Advanced Features Test", () => {
       expect(proxySettings.wireServer!.mode?.toLocaleLowerCase()).toEqual("audit");
       expect(proxySettings.imds!.mode?.toLocaleLowerCase()).toEqual("audit");
     } finally {
-      await batchClient.beginDeletePoolAndWait(poolId, { updateIntervalInMs: POLLING_INTERVAL });
+      await batchClient.deletePool(poolId, { updateIntervalInMs: POLLING_INTERVAL });
     }
   });
 
@@ -276,7 +276,7 @@ describe("Pool Advanced Features Test", () => {
       expect(pool.taskSchedulingPolicy).toBeDefined();
       expect(pool.taskSchedulingPolicy?.jobDefaultOrder).toBe("creationtime");
     } finally {
-      await batchClient.beginDeletePoolAndWait(poolId, { updateIntervalInMs: POLLING_INTERVAL });
+      await batchClient.deletePool(poolId, { updateIntervalInMs: POLLING_INTERVAL });
     }
   });
 
@@ -340,7 +340,7 @@ describe("Pool Advanced Features Test", () => {
       expect(remoteLoginSettings.ipv6RemoteLoginIpAddress).toBeDefined();
       expect(remoteLoginSettings.ipv6RemoteLoginPort).toBeDefined();
     } finally {
-      await batchClient.beginDeletePoolAndWait(poolId, { updateIntervalInMs: POLLING_INTERVAL });
+      await batchClient.deletePool(poolId, { updateIntervalInMs: POLLING_INTERVAL });
     }
   });
 

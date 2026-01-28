@@ -309,6 +309,8 @@ export interface DeallocateNodeOptionalParams extends OperationOptions {
   ocpdate?: Date;
   /** The options to use for deallocating the Compute Node. */
   options?: BatchNodeDeallocateOptions;
+  /** The interval, in milliseconds, at which to poll for the operation's status. */
+  updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
@@ -330,6 +332,8 @@ export interface ReimageNodeOptionalParams extends OperationOptions {
   ocpdate?: Date;
   /** The options to use for reimaging the Compute Node. */
   options?: BatchNodeReimageOptions;
+  /** The interval, in milliseconds, at which to poll for the operation's status. */
+  updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
@@ -349,6 +353,8 @@ export interface StartNodeOptionalParams extends OperationOptions {
    * directly.
    */
   ocpdate?: Date;
+  /** The interval, in milliseconds, at which to poll for the operation's status. */
+  updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
@@ -370,6 +376,8 @@ export interface RebootNodeOptionalParams extends OperationOptions {
   ocpdate?: Date;
   /** The options to use for rebooting the Compute Node. */
   options?: BatchNodeRebootOptions;
+  /** The interval, in milliseconds, at which to poll for the operation's status. */
+  updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
@@ -983,6 +991,8 @@ export interface TerminateJobScheduleOptionalParams extends OperationOptions {
   ifNoneMatch?: string;
   /** If true, the server will terminate the JobSchedule even if the corresponding nodes have not fully processed the termination. The default value is false. */
   force?: boolean;
+  /** The interval, in milliseconds, at which to poll for the operation's status. */
+  updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
@@ -1247,6 +1257,8 @@ export interface DeleteJobScheduleOptionalParams extends OperationOptions {
   ifNoneMatch?: string;
   /** If true, the server will delete the JobSchedule even if the corresponding nodes have not fully processed the deletion. The default value is false. */
   force?: boolean;
+  /** The interval, in milliseconds, at which to poll for the operation's status. */
+  updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
@@ -1472,6 +1484,8 @@ export interface TerminateJobOptionalParams extends OperationOptions {
   options?: BatchJobTerminateOptions;
   /** If true, the server will terminate the Job even if the corresponding nodes have not fully processed the termination. The default value is false. */
   force?: boolean;
+  /** The interval, in milliseconds, at which to poll for the operation's status. */
+  updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
@@ -1515,6 +1529,8 @@ export interface EnableJobOptionalParams extends OperationOptions {
    * service does not match the value specified by the client.
    */
   ifNoneMatch?: string;
+  /** The interval, in milliseconds, at which to poll for the operation's status. */
+  updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
@@ -1558,6 +1574,8 @@ export interface DisableJobOptionalParams extends OperationOptions {
    * service does not match the value specified by the client.
    */
   ifNoneMatch?: string;
+  /** The interval, in milliseconds, at which to poll for the operation's status. */
+  updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
@@ -1736,6 +1754,8 @@ export interface DeleteJobOptionalParams extends OperationOptions {
   ifNoneMatch?: string;
   /** If true, the server will delete the Job even if the corresponding nodes have not fully processed the deletion. The default value is false. */
   force?: boolean;
+  /** The interval, in milliseconds, at which to poll for the operation's status. */
+  updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
@@ -1837,6 +1857,8 @@ export interface RemoveNodesOptionalParams extends OperationOptions {
    * service does not match the value specified by the client.
    */
   ifNoneMatch?: string;
+  /** The interval, in milliseconds, at which to poll for the operation's status. */
+  updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
@@ -1899,6 +1921,8 @@ export interface StopPoolResizeOptionalParams extends OperationOptions {
    * service does not match the value specified by the client.
    */
   ifNoneMatch?: string;
+  /** The interval, in milliseconds, at which to poll for the operation's status. */
+  updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
@@ -1942,6 +1966,8 @@ export interface ResizePoolOptionalParams extends OperationOptions {
    * service does not match the value specified by the client.
    */
   ifNoneMatch?: string;
+  /** The interval, in milliseconds, at which to poll for the operation's status. */
+  updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
@@ -2199,6 +2225,8 @@ export interface DeletePoolOptionalParams extends OperationOptions {
    * service does not match the value specified by the client.
    */
   ifNoneMatch?: string;
+  /** The interval, in milliseconds, at which to poll for the operation's status. */
+  updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */

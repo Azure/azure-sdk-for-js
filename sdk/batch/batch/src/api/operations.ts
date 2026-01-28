@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BatchContext as Client } from "./index.js";
+import type { BatchContext as Client } from "./index.js";
 import {
   _BatchApplicationListResult,
   _batchApplicationListResultDeserializer,
@@ -190,6 +190,23 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 import { getBatchNodeFileProperties } from "../static-helpers/fileProperties.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  createDeletePoolPoller,
+  createResizePoolPoller,
+  createStopPoolResizePoller,
+  createRemoveNodesPoller,
+  createDeallocateNodePoller,
+  createRebootNodePoller,
+  createReimageNodePoller,
+  createStartNodePoller,
+  createDeleteJobPoller,
+  createDisableJobPoller,
+  createEnableJobPoller,
+  createTerminateJobPoller,
+  createDeleteJobSchedulePoller,
+  createTerminateJobSchedulePoller,
+} from "./lroPoller.js";
 
 export function _listNodeFilesSend(
   context: Client,
@@ -991,8 +1008,7 @@ export async function _deallocateNodeDeserialize(result: PathUncheckedResponse):
   return;
 }
 
-/** You can deallocate a Compute Node only if it is in an idle or running state. */
-export async function deallocateNode(
+export async function _deallocateNode(
   context: Client,
   poolId: string,
   nodeId: string,
@@ -1000,6 +1016,16 @@ export async function deallocateNode(
 ): Promise<void> {
   const result = await _deallocateNodeSend(context, poolId, nodeId, options);
   return _deallocateNodeDeserialize(result);
+}
+
+/** You can deallocate a Compute Node only if it is in an idle or running state. */
+export function deallocateNode(
+  context: Client,
+  poolId: string,
+  nodeId: string,
+  options: DeallocateNodeOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return createDeallocateNodePoller(context, poolId, nodeId, options);
 }
 
 export function _reimageNodeSend(
@@ -1052,12 +1078,7 @@ export async function _reimageNodeDeserialize(result: PathUncheckedResponse): Pr
   return;
 }
 
-/**
- * You can reinstall the operating system on a Compute Node only if it is in an
- * idle or running state. This API can be invoked only on Pools created with the
- * cloud service configuration property.
- */
-export async function reimageNode(
+export async function _reimageNode(
   context: Client,
   poolId: string,
   nodeId: string,
@@ -1065,6 +1086,20 @@ export async function reimageNode(
 ): Promise<void> {
   const result = await _reimageNodeSend(context, poolId, nodeId, options);
   return _reimageNodeDeserialize(result);
+}
+
+/**
+ * You can reinstall the operating system on a Compute Node only if it is in an
+ * idle or running state. This API can be invoked only on Pools created with the
+ * cloud service configuration property.
+ */
+export function reimageNode(
+  context: Client,
+  poolId: string,
+  nodeId: string,
+  options: ReimageNodeOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return createReimageNodePoller(context, poolId, nodeId, options);
 }
 
 export function _startNodeSend(
@@ -1113,8 +1148,7 @@ export async function _startNodeDeserialize(result: PathUncheckedResponse): Prom
   return;
 }
 
-/** You can start a Compute Node only if it has been deallocated. */
-export async function startNode(
+export async function _startNode(
   context: Client,
   poolId: string,
   nodeId: string,
@@ -1122,6 +1156,16 @@ export async function startNode(
 ): Promise<void> {
   const result = await _startNodeSend(context, poolId, nodeId, options);
   return _startNodeDeserialize(result);
+}
+
+/** You can start a Compute Node only if it has been deallocated. */
+export function startNode(
+  context: Client,
+  poolId: string,
+  nodeId: string,
+  options: StartNodeOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return createStartNodePoller(context, poolId, nodeId, options);
 }
 
 export function _rebootNodeSend(
@@ -1174,8 +1218,7 @@ export async function _rebootNodeDeserialize(result: PathUncheckedResponse): Pro
   return;
 }
 
-/** You can restart a Compute Node only if it is in an idle or running state. */
-export async function rebootNode(
+export async function _rebootNode(
   context: Client,
   poolId: string,
   nodeId: string,
@@ -1183,6 +1226,16 @@ export async function rebootNode(
 ): Promise<void> {
   const result = await _rebootNodeSend(context, poolId, nodeId, options);
   return _rebootNodeDeserialize(result);
+}
+
+/** You can restart a Compute Node only if it is in an idle or running state. */
+export function rebootNode(
+  context: Client,
+  poolId: string,
+  nodeId: string,
+  options: RebootNodeOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return createRebootNodePoller(context, poolId, nodeId, options);
 }
 
 export function _getNodeSend(
@@ -2610,14 +2663,22 @@ export async function _terminateJobScheduleDeserialize(
   return;
 }
 
-/** Terminates a Job Schedule. */
-export async function terminateJobSchedule(
+export async function _terminateJobSchedule(
   context: Client,
   jobScheduleId: string,
   options: TerminateJobScheduleOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _terminateJobScheduleSend(context, jobScheduleId, options);
   return _terminateJobScheduleDeserialize(result);
+}
+
+/** Terminates a Job Schedule. */
+export function terminateJobSchedule(
+  context: Client,
+  jobScheduleId: string,
+  options: TerminateJobScheduleOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return createTerminateJobSchedulePoller(context, jobScheduleId, options);
 }
 
 export function _enableJobScheduleSend(
@@ -3064,6 +3125,15 @@ export async function _deleteJobScheduleDeserialize(result: PathUncheckedRespons
   return;
 }
 
+export async function _deleteJobSchedule(
+  context: Client,
+  jobScheduleId: string,
+  options: DeleteJobScheduleOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteJobScheduleSend(context, jobScheduleId, options);
+  return _deleteJobScheduleDeserialize(result);
+}
+
 /**
  * When you delete a Job Schedule, this also deletes all Jobs and Tasks under that
  * schedule. When Tasks are deleted, all the files in their working directories on
@@ -3071,13 +3141,12 @@ export async function _deleteJobScheduleDeserialize(result: PathUncheckedRespons
  * Schedule statistics are no longer accessible once the Job Schedule is deleted,
  * though they are still counted towards Account lifetime statistics.
  */
-export async function deleteJobSchedule(
+export function deleteJobSchedule(
   context: Client,
   jobScheduleId: string,
   options: DeleteJobScheduleOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _deleteJobScheduleSend(context, jobScheduleId, options);
-  return _deleteJobScheduleDeserialize(result);
+): PollerLike<OperationState<void>, void> {
+  return createDeleteJobSchedulePoller(context, jobScheduleId, options);
 }
 
 export function _jobScheduleExistsSend(
@@ -3129,7 +3198,9 @@ export function _jobScheduleExistsSend(
   });
 }
 
-export async function _jobScheduleExistsDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _jobScheduleExistsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<boolean> {
   const expectedStatuses = ["200", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -3137,7 +3208,7 @@ export async function _jobScheduleExistsDeserialize(result: PathUncheckedRespons
     throw error;
   }
 
-  return;
+  return result.status === "200";
 }
 
 /** Checks the specified Job Schedule exists. */
@@ -3145,7 +3216,7 @@ export async function jobScheduleExists(
   context: Client,
   jobScheduleId: string,
   options: JobScheduleExistsOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<boolean> {
   const result = await _jobScheduleExistsSend(context, jobScheduleId, options);
   return _jobScheduleExistsDeserialize(result);
 }
@@ -3563,6 +3634,15 @@ export async function _terminateJobDeserialize(result: PathUncheckedResponse): P
   return;
 }
 
+export async function _terminateJob(
+  context: Client,
+  jobId: string,
+  options: TerminateJobOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _terminateJobSend(context, jobId, options);
+  return _terminateJobDeserialize(result);
+}
+
 /**
  * When a Terminate Job request is received, the Batch service sets the Job to the
  * terminating state. The Batch service then terminates any running Tasks
@@ -3571,13 +3651,12 @@ export async function _terminateJobDeserialize(result: PathUncheckedResponse): P
  * state, they will remain in the active state. Once a Job is terminated, new
  * Tasks cannot be added and any remaining active Tasks will not be scheduled.
  */
-export async function terminateJob(
+export function terminateJob(
   context: Client,
   jobId: string,
   options: TerminateJobOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _terminateJobSend(context, jobId, options);
-  return _terminateJobDeserialize(result);
+): PollerLike<OperationState<void>, void> {
+  return createTerminateJobPoller(context, jobId, options);
 }
 
 export function _enableJobSend(
@@ -3640,6 +3719,15 @@ export async function _enableJobDeserialize(result: PathUncheckedResponse): Prom
   return;
 }
 
+export async function _enableJob(
+  context: Client,
+  jobId: string,
+  options: EnableJobOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _enableJobSend(context, jobId, options);
+  return _enableJobDeserialize(result);
+}
+
 /**
  * When you call this API, the Batch service sets a disabled Job to the enabling
  * state. After the this operation is completed, the Job moves to the active
@@ -3648,13 +3736,12 @@ export async function _enableJobDeserialize(result: PathUncheckedResponse): Prom
  * Therefore, if you enable a Job containing active Tasks which were added more
  * than 180 days ago, those Tasks will not run.
  */
-export async function enableJob(
+export function enableJob(
   context: Client,
   jobId: string,
   options: EnableJobOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _enableJobSend(context, jobId, options);
-  return _enableJobDeserialize(result);
+): PollerLike<OperationState<void>, void> {
+  return createEnableJobPoller(context, jobId, options);
 }
 
 export function _disableJobSend(
@@ -3720,6 +3807,16 @@ export async function _disableJobDeserialize(result: PathUncheckedResponse): Pro
   return;
 }
 
+export async function _disableJob(
+  context: Client,
+  jobId: string,
+  disableOptions: BatchJobDisableOptions,
+  options: DisableJobOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _disableJobSend(context, jobId, disableOptions, options);
+  return _disableJobDeserialize(result);
+}
+
 /**
  * The Batch Service immediately moves the Job to the disabling state. Batch then
  * uses the disableTasks parameter to determine what to do with the currently
@@ -3730,14 +3827,13 @@ export async function _disableJobDeserialize(result: PathUncheckedResponse): Pro
  * disable a Job that is in any state other than active, disabling, or disabled,
  * the request fails with status code 409.
  */
-export async function disableJob(
+export function disableJob(
   context: Client,
   jobId: string,
   disableOptions: BatchJobDisableOptions,
   options: DisableJobOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _disableJobSend(context, jobId, disableOptions, options);
-  return _disableJobDeserialize(result);
+): PollerLike<OperationState<void>, void> {
+  return createDisableJobPoller(context, jobId, disableOptions, options);
 }
 
 export function _replaceJobSend(
@@ -4038,6 +4134,15 @@ export async function _deleteJobDeserialize(result: PathUncheckedResponse): Prom
   return;
 }
 
+export async function _deleteJob(
+  context: Client,
+  jobId: string,
+  options: DeleteJobOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteJobSend(context, jobId, options);
+  return _deleteJobDeserialize(result);
+}
+
 /**
  * Deleting a Job also deletes all Tasks that are part of that Job, and all Job
  * statistics. This also overrides the retention period for Task data; that is, if
@@ -4048,13 +4153,12 @@ export async function _deleteJobDeserialize(result: PathUncheckedResponse): Prom
  * fail with status code 409 (Conflict), with additional information indicating
  * that the Job is being deleted.
  */
-export async function deleteJob(
+export function deleteJob(
   context: Client,
   jobId: string,
   options: DeleteJobOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _deleteJobSend(context, jobId, options);
-  return _deleteJobDeserialize(result);
+): PollerLike<OperationState<void>, void> {
+  return createDeleteJobPoller(context, jobId, options);
 }
 
 export function _listPoolNodeCountsSend(
@@ -4246,12 +4350,7 @@ export async function _removeNodesDeserialize(result: PathUncheckedResponse): Pr
   return;
 }
 
-/**
- * This operation can only run when the allocation state of the Pool is steady.
- * When this operation runs, the allocation state changes from steady to resizing.
- * Each request may remove up to 100 nodes.
- */
-export async function removeNodes(
+export async function _removeNodes(
   context: Client,
   poolId: string,
   removeOptions: BatchNodeRemoveOptions,
@@ -4259,6 +4358,20 @@ export async function removeNodes(
 ): Promise<void> {
   const result = await _removeNodesSend(context, poolId, removeOptions, options);
   return _removeNodesDeserialize(result);
+}
+
+/**
+ * This operation can only run when the allocation state of the Pool is steady.
+ * When this operation runs, the allocation state changes from steady to resizing.
+ * Each request may remove up to 100 nodes.
+ */
+export function removeNodes(
+  context: Client,
+  poolId: string,
+  removeOptions: BatchNodeRemoveOptions,
+  options: RemoveNodesOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return createRemoveNodesPoller(context, poolId, removeOptions, options);
 }
 
 export function _replacePoolPropertiesSend(
@@ -4385,6 +4498,15 @@ export async function _stopPoolResizeDeserialize(result: PathUncheckedResponse):
   return;
 }
 
+export async function _stopPoolResize(
+  context: Client,
+  poolId: string,
+  options: StopPoolResizeOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _stopPoolResizeSend(context, poolId, options);
+  return _stopPoolResizeDeserialize(result);
+}
+
 /**
  * This does not restore the Pool to its previous state before the resize
  * operation: it only stops any further changes being made, and the Pool maintains
@@ -4394,13 +4516,12 @@ export async function _stopPoolResizeDeserialize(result: PathUncheckedResponse):
  * resize operation need not be an explicit resize Pool request; this API can also
  * be used to halt the initial sizing of the Pool when it is created.
  */
-export async function stopPoolResize(
+export function stopPoolResize(
   context: Client,
   poolId: string,
   options: StopPoolResizeOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _stopPoolResizeSend(context, poolId, options);
-  return _stopPoolResizeDeserialize(result);
+): PollerLike<OperationState<void>, void> {
+  return createStopPoolResizePoller(context, poolId, options);
 }
 
 export function _resizePoolSend(
@@ -4466,6 +4587,16 @@ export async function _resizePoolDeserialize(result: PathUncheckedResponse): Pro
   return;
 }
 
+export async function _resizePool(
+  context: Client,
+  poolId: string,
+  resizeOptions: BatchPoolResizeOptions,
+  options: ResizePoolOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _resizePoolSend(context, poolId, resizeOptions, options);
+  return _resizePoolDeserialize(result);
+}
+
 /**
  * You can only resize a Pool when its allocation state is steady. If the Pool is
  * already resizing, the request fails with status code 409. When you resize a
@@ -4475,14 +4606,13 @@ export async function _resizePoolDeserialize(result: PathUncheckedResponse): Pro
  * Batch service chooses which Compute Nodes to remove. To remove specific Compute
  * Nodes, use the Pool remove Compute Nodes API instead.
  */
-export async function resizePool(
+export function resizePool(
   context: Client,
   poolId: string,
   resizeOptions: BatchPoolResizeOptions,
   options: ResizePoolOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _resizePoolSend(context, poolId, resizeOptions, options);
-  return _resizePoolDeserialize(result);
+): PollerLike<OperationState<void>, void> {
+  return createResizePoolPoller(context, poolId, resizeOptions, options);
 }
 
 export function _evaluatePoolAutoScaleSend(
@@ -4902,7 +5032,7 @@ export function _poolExistsSend(
   });
 }
 
-export async function _poolExistsDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _poolExistsDeserialize(result: PathUncheckedResponse): Promise<boolean> {
   const expectedStatuses = ["404", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -4910,7 +5040,7 @@ export async function _poolExistsDeserialize(result: PathUncheckedResponse): Pro
     throw error;
   }
 
-  return;
+  return result.status === "200";
 }
 
 /** Gets basic properties of a Pool. */
@@ -4918,7 +5048,7 @@ export async function poolExists(
   context: Client,
   poolId: string,
   options: PoolExistsOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<boolean> {
   const result = await _poolExistsSend(context, poolId, options);
   return _poolExistsDeserialize(result);
 }
@@ -4983,6 +5113,15 @@ export async function _deletePoolDeserialize(result: PathUncheckedResponse): Pro
   return;
 }
 
+export async function _deletePool(
+  context: Client,
+  poolId: string,
+  options: DeletePoolOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deletePoolSend(context, poolId, options);
+  return _deletePoolDeserialize(result);
+}
+
 /**
  * When you request that a Pool be deleted, the following actions occur: the Pool
  * state is set to deleting; any ongoing resize operation on the Pool are stopped;
@@ -4997,13 +5136,12 @@ export async function _deletePoolDeserialize(result: PathUncheckedResponse): Pro
  * on a Pool in the deleting state, it will fail with HTTP status code 409 with
  * error code PoolBeingDeleted.
  */
-export async function deletePool(
+export function deletePool(
   context: Client,
   poolId: string,
   options: DeletePoolOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _deletePoolSend(context, poolId, options);
-  return _deletePoolDeserialize(result);
+): PollerLike<OperationState<void>, void> {
+  return createDeletePoolPoller(context, poolId, options);
 }
 
 export function _listPoolsSend(

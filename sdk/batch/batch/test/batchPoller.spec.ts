@@ -192,10 +192,12 @@ describe("createBatchPoller", () => {
     const pollFn = vi.fn().mockResolvedValue({ status: "succeeded" } as OperationState<void>);
 
     const poller = createBatchPoller({ initFn, pollFn });
+    vi.spyOn(poller, "pollUntilDone");
 
     await poller;
 
     expect(poller.isDone).toBe(true);
+    expect(poller.pollUntilDone).toHaveBeenCalledTimes(1);
   });
 
   it("should return isDone=true for succeeded status", async () => {

@@ -215,7 +215,7 @@ describe("Job Schedule Operations Test", () => {
   it("should terminate a job schedule successfully", async () => {
     const jobScheduleId = recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE);
 
-    await batchClient.beginTerminateJobScheduleAndWait(jobScheduleId, {
+    await batchClient.terminateJobSchedule(jobScheduleId, {
       updateIntervalInMs: POLLING_INTERVAL,
     });
 
@@ -226,7 +226,7 @@ describe("Job Schedule Operations Test", () => {
   it("should delete a job schedule successfully", async () => {
     const jobScheduleId = recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE);
 
-    await batchClient.beginDeleteJobScheduleAndWait(jobScheduleId, {
+    await batchClient.deleteJobSchedule(jobScheduleId, {
       updateIntervalInMs: POLLING_INTERVAL,
     });
 

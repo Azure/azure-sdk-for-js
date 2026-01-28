@@ -8,6 +8,8 @@ import { AzureNamedKeyCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -20,7 +22,7 @@ export interface BatchContext extends Client {
     apiVersion: string;
 }
 
-// @public (undocumented)
+// @public
 export function createBatch(endpointParam: string, credential: TokenCredential | AzureNamedKeyCredential, options?: BatchClientOptionalParams): BatchContext;
 
 // @public
@@ -90,7 +92,7 @@ export interface CreateTaskOptionalParams extends OperationOptions {
 }
 
 // @public
-export function deallocateNode(context: BatchContext, poolId: string, nodeId: string, options?: DeallocateNodeOptionalParams): Promise<void>;
+export function deallocateNode(context: BatchContext, poolId: string, nodeId: string, options?: DeallocateNodeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface DeallocateNodeOptionalParams extends OperationOptions {
@@ -99,10 +101,11 @@ export interface DeallocateNodeOptionalParams extends OperationOptions {
     options?: BatchNodeDeallocateOptions;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export function deleteJob(context: BatchContext, jobId: string, options?: DeleteJobOptionalParams): Promise<void>;
+export function deleteJob(context: BatchContext, jobId: string, options?: DeleteJobOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface DeleteJobOptionalParams extends OperationOptions {
@@ -115,10 +118,11 @@ export interface DeleteJobOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export function deleteJobSchedule(context: BatchContext, jobScheduleId: string, options?: DeleteJobScheduleOptionalParams): Promise<void>;
+export function deleteJobSchedule(context: BatchContext, jobScheduleId: string, options?: DeleteJobScheduleOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface DeleteJobScheduleOptionalParams extends OperationOptions {
@@ -131,6 +135,7 @@ export interface DeleteJobScheduleOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -157,7 +162,7 @@ export interface DeleteNodeUserOptionalParams extends OperationOptions {
 }
 
 // @public
-export function deletePool(context: BatchContext, poolId: string, options?: DeletePoolOptionalParams): Promise<void>;
+export function deletePool(context: BatchContext, poolId: string, options?: DeletePoolOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface DeletePoolOptionalParams extends OperationOptions {
@@ -169,6 +174,7 @@ export interface DeletePoolOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -199,7 +205,7 @@ export interface DeleteTaskOptionalParams extends OperationOptions {
 }
 
 // @public
-export function disableJob(context: BatchContext, jobId: string, disableOptions: BatchJobDisableOptions, options?: DisableJobOptionalParams): Promise<void>;
+export function disableJob(context: BatchContext, jobId: string, disableOptions: BatchJobDisableOptions, options?: DisableJobOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface DisableJobOptionalParams extends OperationOptions {
@@ -211,6 +217,7 @@ export interface DisableJobOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -252,7 +259,7 @@ export interface DisablePoolAutoScaleOptionalParams extends OperationOptions {
 }
 
 // @public
-export function enableJob(context: BatchContext, jobId: string, options?: EnableJobOptionalParams): Promise<void>;
+export function enableJob(context: BatchContext, jobId: string, options?: EnableJobOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface EnableJobOptionalParams extends OperationOptions {
@@ -264,6 +271,7 @@ export interface EnableJobOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -498,7 +506,7 @@ export interface GetTaskOptionalParams extends OperationOptions {
 }
 
 // @public
-export function jobScheduleExists(context: BatchContext, jobScheduleId: string, options?: JobScheduleExistsOptionalParams): Promise<void>;
+export function jobScheduleExists(context: BatchContext, jobScheduleId: string, options?: JobScheduleExistsOptionalParams): Promise<boolean>;
 
 // @public
 export interface JobScheduleExistsOptionalParams extends OperationOptions {
@@ -722,7 +730,7 @@ export interface ListTasksOptionalParams extends OperationOptions {
 }
 
 // @public
-export function poolExists(context: BatchContext, poolId: string, options?: PoolExistsOptionalParams): Promise<void>;
+export function poolExists(context: BatchContext, poolId: string, options?: PoolExistsOptionalParams): Promise<boolean>;
 
 // @public
 export interface PoolExistsOptionalParams extends OperationOptions {
@@ -752,7 +760,7 @@ export interface ReactivateTaskOptionalParams extends OperationOptions {
 }
 
 // @public
-export function rebootNode(context: BatchContext, poolId: string, nodeId: string, options?: RebootNodeOptionalParams): Promise<void>;
+export function rebootNode(context: BatchContext, poolId: string, nodeId: string, options?: RebootNodeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface RebootNodeOptionalParams extends OperationOptions {
@@ -761,10 +769,11 @@ export interface RebootNodeOptionalParams extends OperationOptions {
     options?: BatchNodeRebootOptions;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export function reimageNode(context: BatchContext, poolId: string, nodeId: string, options?: ReimageNodeOptionalParams): Promise<void>;
+export function reimageNode(context: BatchContext, poolId: string, nodeId: string, options?: ReimageNodeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface ReimageNodeOptionalParams extends OperationOptions {
@@ -773,10 +782,11 @@ export interface ReimageNodeOptionalParams extends OperationOptions {
     options?: BatchNodeReimageOptions;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export function removeNodes(context: BatchContext, poolId: string, removeOptions: BatchNodeRemoveOptions, options?: RemoveNodesOptionalParams): Promise<void>;
+export function removeNodes(context: BatchContext, poolId: string, removeOptions: BatchNodeRemoveOptions, options?: RemoveNodesOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface RemoveNodesOptionalParams extends OperationOptions {
@@ -788,6 +798,7 @@ export interface RemoveNodesOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -858,7 +869,7 @@ export interface ReplaceTaskOptionalParams extends OperationOptions {
 }
 
 // @public
-export function resizePool(context: BatchContext, poolId: string, resizeOptions: BatchPoolResizeOptions, options?: ResizePoolOptionalParams): Promise<void>;
+export function resizePool(context: BatchContext, poolId: string, resizeOptions: BatchPoolResizeOptions, options?: ResizePoolOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface ResizePoolOptionalParams extends OperationOptions {
@@ -870,10 +881,11 @@ export interface ResizePoolOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export function startNode(context: BatchContext, poolId: string, nodeId: string, options?: StartNodeOptionalParams): Promise<void>;
+export function startNode(context: BatchContext, poolId: string, nodeId: string, options?: StartNodeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface StartNodeOptionalParams extends OperationOptions {
@@ -881,10 +893,11 @@ export interface StartNodeOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export function stopPoolResize(context: BatchContext, poolId: string, options?: StopPoolResizeOptionalParams): Promise<void>;
+export function stopPoolResize(context: BatchContext, poolId: string, options?: StopPoolResizeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface StopPoolResizeOptionalParams extends OperationOptions {
@@ -896,10 +909,11 @@ export interface StopPoolResizeOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export function terminateJob(context: BatchContext, jobId: string, options?: TerminateJobOptionalParams): Promise<void>;
+export function terminateJob(context: BatchContext, jobId: string, options?: TerminateJobOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface TerminateJobOptionalParams extends OperationOptions {
@@ -913,10 +927,11 @@ export interface TerminateJobOptionalParams extends OperationOptions {
     options?: BatchJobTerminateOptions;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export function terminateJobSchedule(context: BatchContext, jobScheduleId: string, options?: TerminateJobScheduleOptionalParams): Promise<void>;
+export function terminateJobSchedule(context: BatchContext, jobScheduleId: string, options?: TerminateJobScheduleOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface TerminateJobScheduleOptionalParams extends OperationOptions {
@@ -929,6 +944,7 @@ export interface TerminateJobScheduleOptionalParams extends OperationOptions {
     ocpdate?: Date;
     returnClientRequestId?: boolean;
     timeOutInSeconds?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public

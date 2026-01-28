@@ -25,41 +25,37 @@ import type {
   BatchPoolResizeOptions,
 } from "../models/models.js";
 import {
-  deletePool,
+  _deletePool,
   getPool,
-  resizePool,
-  stopPoolResize,
-  removeNodes,
-  deallocateNode,
+  _resizePool,
+  _stopPoolResize,
+  _removeNodes,
+  _deallocateNode,
   getNode,
-  rebootNode,
-  reimageNode,
-  startNode,
-  deleteJob,
+  _rebootNode,
+  _reimageNode,
+  _startNode,
+  _deleteJob,
   getJob,
-  disableJob,
-  enableJob,
-  terminateJob,
-  deleteJobSchedule,
+  _disableJob,
+  _enableJob,
+  _terminateJob,
+  _deleteJobSchedule,
   getJobSchedule,
-  terminateJobSchedule,
+  _terminateJobSchedule,
 } from "./operations.js";
 import { RestError } from "@azure/core-rest-pipeline";
 import { createBatchPoller } from "../static-helpers/batchPoller.js";
 
 // ==================== Pool Pollers ====================
 
-export interface PollerIntervalOptions {
-  updateIntervalInMs?: number;
-}
-
 export function createDeletePoolPoller(
   context: BatchContext,
   poolId: string,
-  options: DeletePoolOptionalParams & PollerIntervalOptions = { requestOptions: {} },
+  options: DeletePoolOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   const initFn = async (): Promise<OperationState<void>> => {
-    await deletePool(context, poolId, options);
+    await _deletePool(context, poolId, options);
     return { status: "running" };
   };
 
@@ -82,10 +78,10 @@ export function createResizePoolPoller(
   context: BatchContext,
   poolId: string,
   resizeOptions: BatchPoolResizeOptions,
-  options: ResizePoolOptionalParams & PollerIntervalOptions = { requestOptions: {} },
+  options: ResizePoolOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   const initFn = async (): Promise<OperationState<void>> => {
-    await resizePool(context, poolId, resizeOptions, options);
+    await _resizePool(context, poolId, resizeOptions, options);
     return { status: "running" };
   };
 
@@ -107,10 +103,10 @@ export function createResizePoolPoller(
 export function createStopPoolResizePoller(
   context: BatchContext,
   poolId: string,
-  options: StopPoolResizeOptionalParams & PollerIntervalOptions = { requestOptions: {} },
+  options: StopPoolResizeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   const initFn = async (): Promise<OperationState<void>> => {
-    await stopPoolResize(context, poolId, options);
+    await _stopPoolResize(context, poolId, options);
     return { status: "running" };
   };
 
@@ -135,10 +131,10 @@ export function createRemoveNodesPoller(
   context: BatchContext,
   poolId: string,
   removeOptions: BatchNodeRemoveOptions,
-  options: RemoveNodesOptionalParams & PollerIntervalOptions = { requestOptions: {} },
+  options: RemoveNodesOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   const initFn = async (): Promise<OperationState<void>> => {
-    await removeNodes(context, poolId, removeOptions, options);
+    await _removeNodes(context, poolId, removeOptions, options);
     return { status: "running" };
   };
 
@@ -163,10 +159,10 @@ export function createDeallocateNodePoller(
   context: BatchContext,
   poolId: string,
   nodeId: string,
-  options: DeallocateNodeOptionalParams & PollerIntervalOptions = { requestOptions: {} },
+  options: DeallocateNodeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   const initFn = async (): Promise<OperationState<void>> => {
-    await deallocateNode(context, poolId, nodeId, options);
+    await _deallocateNode(context, poolId, nodeId, options);
     return { status: "running" };
   };
 
@@ -189,10 +185,10 @@ export function createRebootNodePoller(
   context: BatchContext,
   poolId: string,
   nodeId: string,
-  options: RebootNodeOptionalParams & PollerIntervalOptions = { requestOptions: {} },
+  options: RebootNodeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   const initFn = async (): Promise<OperationState<void>> => {
-    await rebootNode(context, poolId, nodeId, options);
+    await _rebootNode(context, poolId, nodeId, options);
     return { status: "running" };
   };
 
@@ -215,10 +211,10 @@ export function createReimageNodePoller(
   context: BatchContext,
   poolId: string,
   nodeId: string,
-  options: ReimageNodeOptionalParams & PollerIntervalOptions = { requestOptions: {} },
+  options: ReimageNodeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   const initFn = async (): Promise<OperationState<void>> => {
-    await reimageNode(context, poolId, nodeId, options);
+    await _reimageNode(context, poolId, nodeId, options);
     return { status: "running" };
   };
 
@@ -241,10 +237,10 @@ export function createStartNodePoller(
   context: BatchContext,
   poolId: string,
   nodeId: string,
-  options: StartNodeOptionalParams & PollerIntervalOptions = { requestOptions: {} },
+  options: StartNodeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   const initFn = async (): Promise<OperationState<void>> => {
-    await startNode(context, poolId, nodeId, options);
+    await _startNode(context, poolId, nodeId, options);
     return { status: "running" };
   };
 
@@ -268,10 +264,10 @@ export function createStartNodePoller(
 export function createDeleteJobPoller(
   context: BatchContext,
   jobId: string,
-  options: DeleteJobOptionalParams & PollerIntervalOptions = { requestOptions: {} },
+  options: DeleteJobOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   const initFn = async (): Promise<OperationState<void>> => {
-    await deleteJob(context, jobId, options);
+    await _deleteJob(context, jobId, options);
     return { status: "running" };
   };
 
@@ -294,10 +290,10 @@ export function createDisableJobPoller(
   context: BatchContext,
   jobId: string,
   disableOptions: BatchJobDisableOptions,
-  options: DisableJobOptionalParams & PollerIntervalOptions = { requestOptions: {} },
+  options: DisableJobOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   const initFn = async (): Promise<OperationState<void>> => {
-    await disableJob(context, jobId, disableOptions, options);
+    await _disableJob(context, jobId, disableOptions, options);
     return { status: "running" };
   };
 
@@ -320,10 +316,10 @@ export function createDisableJobPoller(
 export function createEnableJobPoller(
   context: BatchContext,
   jobId: string,
-  options: EnableJobOptionalParams & PollerIntervalOptions = { requestOptions: {} },
+  options: EnableJobOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   const initFn = async (): Promise<OperationState<void>> => {
-    await enableJob(context, jobId, options);
+    await _enableJob(context, jobId, options);
     return { status: "running" };
   };
 
@@ -345,10 +341,10 @@ export function createEnableJobPoller(
 export function createTerminateJobPoller(
   context: BatchContext,
   jobId: string,
-  options: TerminateJobOptionalParams & PollerIntervalOptions = { requestOptions: {} },
+  options: TerminateJobOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   const initFn = async (): Promise<OperationState<void>> => {
-    await terminateJob(context, jobId, options);
+    await _terminateJob(context, jobId, options);
     return { status: "running" };
   };
 
@@ -372,10 +368,10 @@ export function createTerminateJobPoller(
 export function createDeleteJobSchedulePoller(
   context: BatchContext,
   jobScheduleId: string,
-  options: DeleteJobScheduleOptionalParams & PollerIntervalOptions = { requestOptions: {} },
+  options: DeleteJobScheduleOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   const initFn = async (): Promise<OperationState<void>> => {
-    await deleteJobSchedule(context, jobScheduleId, options);
+    await _deleteJobSchedule(context, jobScheduleId, options);
     return { status: "running" };
   };
 
@@ -397,10 +393,10 @@ export function createDeleteJobSchedulePoller(
 export function createTerminateJobSchedulePoller(
   context: BatchContext,
   jobScheduleId: string,
-  options: TerminateJobScheduleOptionalParams & PollerIntervalOptions = { requestOptions: {} },
+  options: TerminateJobScheduleOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   const initFn = async (): Promise<OperationState<void>> => {
-    await terminateJobSchedule(context, jobScheduleId, options);
+    await _terminateJobSchedule(context, jobScheduleId, options);
     return { status: "running" };
   };
 

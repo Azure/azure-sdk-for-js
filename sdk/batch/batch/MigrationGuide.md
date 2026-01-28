@@ -10,6 +10,7 @@ This guide is intended to assist customers in migrating to version 13.x of the `
 - [Constructing the Clients](#constructing-the-clients)
   - [Authenticate with Shared Key Credentials](#authenticate-with-shared-key-credentials)
   - [Authenticate with Microsoft Entra ID](#authenticate-with-microsoft-entra-id)
+- [Modular Imports (Subpath Exports)](#modular-imports-subpath-exports)
 - [Paging Operations](#paging-operations)
 - [Long-Running Operations](#long-running-operations)
 - [Error Handling](#error-handling)
@@ -21,7 +22,7 @@ This guide is intended to assist customers in migrating to version 13.x of the `
 
 ## Migration Benefits
 
-- Reduced package size: Version 13.x is a modular client built on top of the [REST client](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md), which is more lightweight compared to version 12.x. It provides an idiomatic API surface that is easy to use, while maintaining the reduced bundle size of the underlying REST client. The bundle size is reduced by approximately 52% (from ~66KB down to ~32KB gzipped with dependencies).
+- Modular design with subpath exports: Version 13.x is a modular client built on top of the [REST client](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) and leverages [subpath exports](https://nodejs.org/api/packages.html#subpath-exports) to offer layered APIs. You can access the familiar `BatchClient` at the root level while also using the `/api` subpath for fine-grained, operation-level imports. This approach allows you to import only the operations you need, minimizing the overall library footprint in your application bundle. For more details, see the [Modular Imports](#modular-imports-subpath-exports) section and the [Azure SDK modularized libraries blog post](https://devblogs.microsoft.com/azure-sdk/azure-sdk-modularized-libraries-for-javascript/).
 
 - Embrace the latest Azure JavaScript SDK ecosystem: Works with [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) for simpler and more secure authentication. Also leverages common paging and logging utilities used by all Azure SDK clients.
 
@@ -78,6 +79,48 @@ const credential = new DefaultAzureCredential();
 const client = new BatchClient("<account-endpoint>", credential);
 ```
 
+## Modular Imports (Subpath Exports)
+
+Version 13.x supports [subpath exports](https://nodejs.org/api/packages.html#subpath-exports) which allows you to import only the specific operations you need. This can help reduce bundle size in your application by excluding unused code.
+
+Instead of using the `BatchClient` class, you can create a `BatchContext` object using the `createBatch` function and then import individual operation functions from the `/api` subpath.
+
+```typescript
+import { DefaultAzureCredential } from "@azure/identity";
+import { createBatch, createPool, deletePool, listPools } from "@azure/batch/api";
+import type { BatchContext } from "@azure/batch/api";
+
+// Create a BatchContext object
+const credential = new DefaultAzureCredential();
+const context: BatchContext = createBatch("<account-endpoint>", credential);
+
+// Use individual operation functions with the context
+await createPool(context, {
+  id: "<pool-id>",
+  vmSize: "Standard_D1_v2",
+  virtualMachineConfiguration: {
+    nodeAgentSkuId: "batch.node.windows amd64",
+    imageReference: {
+      publisher: "microsoftwindowsserver",
+      offer: "windowsserver",
+      sku: "2022-datacenter",
+    },
+  },
+});
+console.log("Pool created");
+
+// List pools
+for await (const pool of listPools(context)) {
+  console.log(`Pool: ${pool.id}`);
+}
+
+// Delete pool (returns a poller)
+await deletePool(context, "<pool-id>");
+console.log("Pool deleted");
+```
+
+This approach is particularly useful when you only need a subset of operations, as it allows bundlers to tree-shake unused code more effectively.
+
 ## Paging Operations
 
 Previously in version 12.x, listing operations returned a promise of an array.
@@ -102,28 +145,40 @@ for await (const pool of pools) {
 
 ## Long-Running Operations
 
-Version 13.x provides built-in support for long-running operations (LRO) through polling methods. For operations like deleting pools or jobs, you can use the `beginXxxAndWait` pattern.
+Version 13.x provides built-in support for long-running operations (LRO) through polling methods. For operations like deleting pools or jobs, these methods return a `PollerLike` object that you can await directly or use to monitor progress.
 
 ```typescript
 import { BatchClient } from "@azure/batch";
 
 // Delete a pool and wait for completion
-await client.beginDeletePoolAndWait("<pool-id>");
+await client.deletePool("<pool-id>");
 console.log("Pool deleted");
 
 // Delete a job and wait for completion
-await client.beginDeleteJobAndWait("<job-id>");
+await client.deleteJob("<job-id>");
 console.log("Job deleted");
 
 // Terminate a job and wait for completion
-await client.beginTerminateJobAndWait("<job-id>");
+await client.terminateJob("<job-id>");
 console.log("Job terminated");
 
 // Resize a pool and wait for completion
-await client.beginResizePoolAndWait("<pool-id>", {
+await client.resizePool("<pool-id>", {
   targetDedicatedNodes: 5,
 });
 console.log("Pool resized");
+
+// You can also get the poller to monitor progress
+const poller = client.deletePool("<pool-id>");
+poller.onProgress((state) => {
+  console.log(`Operation status: ${state.status}`);
+});
+await poller.pollUntilDone();
+
+// You can also only wait for the initial request to complete without waiting for the entire operation
+const poller2 = client.deletePool("<pool-id>");
+await poller2.submitted();
+console.log("Initial request to delete pool has been accepted by the service.");
 ```
 
 ## Error Handling
@@ -170,7 +225,7 @@ try {
 
 The following table maps the old operation names from version 12.x to the new method names in version 13.x.
 
-> **Note:** Operations marked with `*` are long-running operations (LRO) and use the `begin...AndWait` pattern in version 13.x.
+> **Note:** Operations marked with `*` are long-running operations (LRO) that return a `PollerLike` object in version 13.x. You can `await` these methods directly to wait for completion.
 
 ### Pool Operations
 
@@ -179,16 +234,16 @@ The following table maps the old operation names from version 12.x to the new me
 | `client.pool.add(pool)` | `client.createPool(pool)` |
 | `client.pool.list()` | `client.listPools()` |
 | `client.pool.get(poolId)` | `client.getPool(poolId)` |
-| `client.pool.deleteMethod(poolId)` | `client.beginDeletePoolAndWait(poolId)` * |
+| `client.pool.deleteMethod(poolId)` | `client.deletePool(poolId)` * |
 | `client.pool.exists(poolId)` | `client.poolExists(poolId)` |
 | `client.pool.patch(poolId, params)` | `client.updatePool(poolId, pool)` |
 | `client.pool.updateProperties(poolId, params)` | `client.replacePoolProperties(poolId, pool)` |
 | `client.pool.disableAutoScale(poolId)` | `client.disablePoolAutoScale(poolId)` |
 | `client.pool.enableAutoScale(poolId, params)` | `client.enablePoolAutoScale(poolId, enableAutoScaleOptions)` |
 | `client.pool.evaluateAutoScale(poolId, formula)` | `client.evaluatePoolAutoScale(poolId, evaluateAutoScaleOptions)` |
-| `client.pool.resize(poolId, params)` | `client.beginResizePoolAndWait(poolId, resizeOptions)` * |
-| `client.pool.stopResize(poolId)` | `client.beginStopPoolResizeAndWait(poolId)` * |
-| `client.pool.removeNodes(poolId, params)` | `client.beginRemoveNodesAndWait(poolId, removeOptions)` * |
+| `client.pool.resize(poolId, params)` | `client.resizePool(poolId, resizeOptions)` * |
+| `client.pool.stopResize(poolId)` | `client.stopPoolResize(poolId)` * |
+| `client.pool.removeNodes(poolId, params)` | `client.removeNodes(poolId, removeOptions)` * |
 | `client.pool.listUsageMetrics()` | `client.listPoolUsageMetrics()` |
 
 ### Job Operations
@@ -198,12 +253,12 @@ The following table maps the old operation names from version 12.x to the new me
 | `client.job.add(job)` | `client.createJob(job)` |
 | `client.job.list()` | `client.listJobs()` |
 | `client.job.get(jobId)` | `client.getJob(jobId)` |
-| `client.job.deleteMethod(jobId)` | `client.beginDeleteJobAndWait(jobId)` * |
+| `client.job.deleteMethod(jobId)` | `client.deleteJob(jobId)` * |
 | `client.job.patch(jobId, params)` | `client.updateJob(jobId, job)` |
 | `client.job.update(jobId, params)` | `client.replaceJob(jobId, job)` |
-| `client.job.disable(jobId, disableTasks)` | `client.beginDisableJobAndWait(jobId, disableOptions)` * |
-| `client.job.enable(jobId)` | `client.beginEnableJobAndWait(jobId)` * |
-| `client.job.terminate(jobId)` | `client.beginTerminateJobAndWait(jobId)` * |
+| `client.job.disable(jobId, disableTasks)` | `client.disableJob(jobId, disableOptions)` * |
+| `client.job.enable(jobId)` | `client.enableJob(jobId)` * |
+| `client.job.terminate(jobId)` | `client.terminateJob(jobId)` * |
 | `client.job.listFromJobSchedule(scheduleId)` | `client.listJobsFromSchedule(scheduleId)` |
 | `client.job.listPreparationAndReleaseTaskStatus(jobId)` | `client.listJobPreparationAndReleaseTaskStatus(jobId)` |
 | `client.job.getTaskCounts(jobId)` | `client.getJobTaskCounts(jobId)` |
@@ -215,13 +270,13 @@ The following table maps the old operation names from version 12.x to the new me
 | `client.jobSchedule.add(schedule)` | `client.createJobSchedule(jobSchedule)` |
 | `client.jobSchedule.list()` | `client.listJobSchedules()` |
 | `client.jobSchedule.get(scheduleId)` | `client.getJobSchedule(jobScheduleId)` |
-| `client.jobSchedule.deleteMethod(scheduleId)` | `client.beginDeleteJobScheduleAndWait(jobScheduleId)` * |
+| `client.jobSchedule.deleteMethod(scheduleId)` | `client.deleteJobSchedule(jobScheduleId)` * |
 | `client.jobSchedule.exists(scheduleId)` | `client.jobScheduleExists(jobScheduleId)` |
 | `client.jobSchedule.patch(scheduleId, params)` | `client.updateJobSchedule(jobScheduleId, jobSchedule)` |
 | `client.jobSchedule.update(scheduleId, params)` | `client.replaceJobSchedule(jobScheduleId, jobSchedule)` |
 | `client.jobSchedule.disable(scheduleId)` | `client.disableJobSchedule(jobScheduleId)` |
 | `client.jobSchedule.enable(scheduleId)` | `client.enableJobSchedule(jobScheduleId)` |
-| `client.jobSchedule.terminate(scheduleId)` | `client.beginTerminateJobScheduleAndWait(jobScheduleId)` * |
+| `client.jobSchedule.terminate(scheduleId)` | `client.terminateJobSchedule(jobScheduleId)` * |
 
 ### Task Operations
 
@@ -246,12 +301,12 @@ The following table maps the old operation names from version 12.x to the new me
 | `client.computeNode.addUser(poolId, nodeId, user)` | `client.createNodeUser(poolId, nodeId, user)` |
 | `client.computeNode.deleteUser(poolId, nodeId, userName)` | `client.deleteNodeUser(poolId, nodeId, userName)` |
 | `client.computeNode.updateUser(poolId, nodeId, userName, params)` | `client.replaceNodeUser(poolId, nodeId, userName, updateOptions)` |
-| `client.computeNode.reboot(poolId, nodeId)` | `client.beginRebootNodeAndWait(poolId, nodeId)` * |
-| `client.computeNode.reimage(poolId, nodeId)` | `client.beginReimageNodeAndWait(poolId, nodeId)` * |
+| `client.computeNode.reboot(poolId, nodeId)` | `client.rebootNode(poolId, nodeId)` * |
+| `client.computeNode.reimage(poolId, nodeId)` | `client.reimageNode(poolId, nodeId)` * |
 | `client.computeNode.disableScheduling(poolId, nodeId)` | `client.disableNodeScheduling(poolId, nodeId)` |
 | `client.computeNode.enableScheduling(poolId, nodeId)` | `client.enableNodeScheduling(poolId, nodeId)` |
-| `client.computeNode.deallocate(poolId, nodeId)` | `client.beginDeallocateNodeAndWait(poolId, nodeId)` * |
-| `client.computeNode.start(poolId, nodeId)` | `client.beginStartNodeAndWait(poolId, nodeId)` * |
+| `client.computeNode.deallocate(poolId, nodeId)` | `client.deallocateNode(poolId, nodeId)` * |
+| `client.computeNode.start(poolId, nodeId)` | `client.startNode(poolId, nodeId)` * |
 | `client.computeNode.getRemoteLoginSettings(poolId, nodeId)` | `client.getNodeRemoteLoginSettings(poolId, nodeId)` |
 | `client.computeNode.uploadBatchServiceLogs(poolId, nodeId, config)` | `client.uploadNodeLogs(poolId, nodeId, uploadOptions)` |
 

@@ -5,23 +5,6 @@
 import type { BatchContext, BatchClientOptionalParams } from "./api/index.js";
 import { createBatch } from "./api/index.js";
 import {
-  createDeletePoolPoller,
-  createDeleteJobPoller,
-  createDisableJobPoller,
-  createEnableJobPoller,
-  createDeleteJobSchedulePoller,
-  createDeallocateNodePoller,
-  createRebootNodePoller,
-  createReimageNodePoller,
-  createRemoveNodesPoller,
-  createResizePoolPoller,
-  createStartNodePoller,
-  createStopPoolResizePoller,
-  createTerminateJobPoller,
-  createTerminateJobSchedulePoller,
-} from "./api/lroPoller.js";
-import type { PollerIntervalOptions } from "./api/lroPoller.js";
-import {
   listNodeFiles,
   getNodeFileProperties,
   getNodeFile,
@@ -33,6 +16,10 @@ import {
   getNodeRemoteLoginSettings,
   enableNodeScheduling,
   disableNodeScheduling,
+  deallocateNode,
+  reimageNode,
+  startNode,
+  rebootNode,
   getNode,
   replaceNodeUser,
   deleteNodeUser,
@@ -52,29 +39,39 @@ import {
   createTask,
   listJobSchedules,
   createJobSchedule,
+  terminateJobSchedule,
   enableJobSchedule,
   disableJobSchedule,
   replaceJobSchedule,
   updateJobSchedule,
   getJobSchedule,
+  deleteJobSchedule,
   jobScheduleExists,
   getJobTaskCounts,
   listJobPreparationAndReleaseTaskStatus,
   listJobsFromSchedule,
   listJobs,
   createJob,
+  terminateJob,
+  enableJob,
+  disableJob,
   replaceJob,
   updateJob,
   getJob,
+  deleteJob,
   listPoolNodeCounts,
   listSupportedImages,
+  removeNodes,
   replacePoolProperties,
+  stopPoolResize,
+  resizePool,
   evaluatePoolAutoScale,
   enablePoolAutoScale,
   disablePoolAutoScale,
   updatePool,
   getPool,
   poolExists,
+  deletePool,
   listPools,
   createPool,
   listPoolUsageMetrics,
@@ -194,14 +191,15 @@ import type {
 } from "./models/models.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { TokenCredential, AzureNamedKeyCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { OperationState, PollerLike } from "@azure/core-lro";
 
 export { BatchClientOptionalParams } from "./api/batchContext.js";
 
+/**
+ * Client class for accessing Azure Batch service.
+ */
 export class BatchClient {
   private _client: BatchContext;
-  /** The pipeline used by this client to make requests */
-  public readonly pipeline: Pipeline;
 
   constructor(
     endpointParam: string,
@@ -216,7 +214,6 @@ export class BatchClient {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
-    this.pipeline = this._client.pipeline;
   }
 
   /** Lists all of the files in Task directories on the specified Compute Node. */
@@ -337,13 +334,12 @@ export class BatchClient {
   }
 
   /** You can deallocate a Compute Node only if it is in an idle or running state. */
-  async beginDeallocateNodeAndWait(
+  deallocateNode(
     poolId: string,
     nodeId: string,
-    options: DeallocateNodeOptionalParams & PollerIntervalOptions = { requestOptions: {} },
-  ): Promise<void> {
-    const poller = createDeallocateNodePoller(this._client, poolId, nodeId, options);
-    return poller.pollUntilDone({ abortSignal: options.abortSignal });
+    options: DeallocateNodeOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<void>, void> {
+    return deallocateNode(this._client, poolId, nodeId, options);
   }
 
   /**
@@ -351,33 +347,30 @@ export class BatchClient {
    * idle or running state. This API can be invoked only on Pools created with the
    * cloud service configuration property.
    */
-  async beginReimageNodeAndWait(
+  reimageNode(
     poolId: string,
     nodeId: string,
-    options: ReimageNodeOptionalParams & PollerIntervalOptions = { requestOptions: {} },
-  ): Promise<void> {
-    const poller = createReimageNodePoller(this._client, poolId, nodeId, options);
-    return poller.pollUntilDone({ abortSignal: options.abortSignal });
+    options: ReimageNodeOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<void>, void> {
+    return reimageNode(this._client, poolId, nodeId, options);
   }
 
   /** You can start a Compute Node only if it has been deallocated. */
-  async beginStartNodeAndWait(
+  startNode(
     poolId: string,
     nodeId: string,
-    options: StartNodeOptionalParams & PollerIntervalOptions = { requestOptions: {} },
-  ): Promise<void> {
-    const poller = createStartNodePoller(this._client, poolId, nodeId, options);
-    return poller.pollUntilDone({ abortSignal: options.abortSignal });
+    options: StartNodeOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<void>, void> {
+    return startNode(this._client, poolId, nodeId, options);
   }
 
   /** You can restart a Compute Node only if it is in an idle or running state. */
-  async beginRebootNodeAndWait(
+  rebootNode(
     poolId: string,
     nodeId: string,
-    options: RebootNodeOptionalParams & PollerIntervalOptions = { requestOptions: {} },
-  ): Promise<void> {
-    const poller = createRebootNodePoller(this._client, poolId, nodeId, options);
-    return poller.pollUntilDone({ abortSignal: options.abortSignal });
+    options: RebootNodeOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<void>, void> {
+    return rebootNode(this._client, poolId, nodeId, options);
   }
 
   /** Gets information about the specified Compute Node. */
@@ -612,12 +605,11 @@ export class BatchClient {
   }
 
   /** Terminates a Job Schedule. */
-  async beginTerminateJobScheduleAndWait(
+  terminateJobSchedule(
     jobScheduleId: string,
-    options: TerminateJobScheduleOptionalParams & PollerIntervalOptions = { requestOptions: {} },
-  ): Promise<void> {
-    const poller = createTerminateJobSchedulePoller(this._client, jobScheduleId, options);
-    return poller.pollUntilDone({ abortSignal: options.abortSignal });
+    options: TerminateJobScheduleOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<void>, void> {
+    return terminateJobSchedule(this._client, jobScheduleId, options);
   }
 
   /** Enables a Job Schedule. */
@@ -681,19 +673,18 @@ export class BatchClient {
    * Schedule statistics are no longer accessible once the Job Schedule is deleted,
    * though they are still counted towards Account lifetime statistics.
    */
-  async beginDeleteJobScheduleAndWait(
+  deleteJobSchedule(
     jobScheduleId: string,
-    options: DeleteJobScheduleOptionalParams & PollerIntervalOptions = { requestOptions: {} },
-  ): Promise<void> {
-    const poller = createDeleteJobSchedulePoller(this._client, jobScheduleId, options);
-    return poller.pollUntilDone({ abortSignal: options.abortSignal });
+    options: DeleteJobScheduleOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<void>, void> {
+    return deleteJobSchedule(this._client, jobScheduleId, options);
   }
 
   /** Checks the specified Job Schedule exists. */
   jobScheduleExists(
     jobScheduleId: string,
     options: JobScheduleExistsOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<boolean> {
     return jobScheduleExists(this._client, jobScheduleId, options);
   }
 
@@ -766,12 +757,11 @@ export class BatchClient {
    * state, they will remain in the active state. Once a Job is terminated, new
    * Tasks cannot be added and any remaining active Tasks will not be scheduled.
    */
-  async beginTerminateJobAndWait(
+  terminateJob(
     jobId: string,
-    options: TerminateJobOptionalParams & PollerIntervalOptions = { requestOptions: {} },
-  ): Promise<void> {
-    const poller = createTerminateJobPoller(this._client, jobId, options);
-    return poller.pollUntilDone({ abortSignal: options.abortSignal });
+    options: TerminateJobOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<void>, void> {
+    return terminateJob(this._client, jobId, options);
   }
 
   /**
@@ -782,12 +772,11 @@ export class BatchClient {
    * Therefore, if you enable a Job containing active Tasks which were added more
    * than 180 days ago, those Tasks will not run.
    */
-  async beginEnableJobAndWait(
+  enableJob(
     jobId: string,
-    options: EnableJobOptionalParams & PollerIntervalOptions = { requestOptions: {} },
-  ): Promise<void> {
-    const poller = createEnableJobPoller(this._client, jobId, options);
-    return poller.pollUntilDone({ abortSignal: options.abortSignal });
+    options: EnableJobOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<void>, void> {
+    return enableJob(this._client, jobId, options);
   }
 
   /**
@@ -800,13 +789,12 @@ export class BatchClient {
    * disable a Job that is in any state other than active, disabling, or disabled,
    * the request fails with status code 409.
    */
-  async beginDisableJobAndWait(
+  disableJob(
     jobId: string,
     disableOptions: BatchJobDisableOptions,
-    options: DisableJobOptionalParams & PollerIntervalOptions = { requestOptions: {} },
-  ): Promise<void> {
-    const poller = createDisableJobPoller(this._client, jobId, disableOptions, options);
-    return poller.pollUntilDone({ abortSignal: options.abortSignal });
+    options: DisableJobOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<void>, void> {
+    return disableJob(this._client, jobId, disableOptions, options);
   }
 
   /**
@@ -850,12 +838,11 @@ export class BatchClient {
    * fail with status code 409 (Conflict), with additional information indicating
    * that the Job is being deleted.
    */
-  async beginDeleteJobAndWait(
+  deleteJob(
     jobId: string,
-    options: DeleteJobOptionalParams & PollerIntervalOptions = { requestOptions: {} },
-  ): Promise<void> {
-    const poller = createDeleteJobPoller(this._client, jobId, options);
-    return poller.pollUntilDone({ abortSignal: options.abortSignal });
+    options: DeleteJobOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<void>, void> {
+    return deleteJob(this._client, jobId, options);
   }
 
   /**
@@ -881,13 +868,12 @@ export class BatchClient {
    * When this operation runs, the allocation state changes from steady to resizing.
    * Each request may remove up to 100 nodes.
    */
-  async beginRemoveNodesAndWait(
+  removeNodes(
     poolId: string,
     removeOptions: BatchNodeRemoveOptions,
-    options: RemoveNodesOptionalParams & PollerIntervalOptions = { requestOptions: {} },
-  ): Promise<void> {
-    const poller = createRemoveNodesPoller(this._client, poolId, removeOptions, options);
-    return poller.pollUntilDone({ abortSignal: options.abortSignal });
+    options: RemoveNodesOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<void>, void> {
+    return removeNodes(this._client, poolId, removeOptions, options);
   }
 
   /**
@@ -912,12 +898,11 @@ export class BatchClient {
    * resize operation need not be an explicit resize Pool request; this API can also
    * be used to halt the initial sizing of the Pool when it is created.
    */
-  async beginStopPoolResizeAndWait(
+  stopPoolResize(
     poolId: string,
-    options: StopPoolResizeOptionalParams & PollerIntervalOptions = { requestOptions: {} },
-  ): Promise<void> {
-    const poller = createStopPoolResizePoller(this._client, poolId, options);
-    return poller.pollUntilDone({ abortSignal: options.abortSignal });
+    options: StopPoolResizeOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<void>, void> {
+    return stopPoolResize(this._client, poolId, options);
   }
 
   /**
@@ -929,13 +914,12 @@ export class BatchClient {
    * Batch service chooses which Compute Nodes to remove. To remove specific Compute
    * Nodes, use the Pool remove Compute Nodes API instead.
    */
-  async beginResizePoolAndWait(
+  resizePool(
     poolId: string,
     resizeOptions: BatchPoolResizeOptions,
-    options: ResizePoolOptionalParams & PollerIntervalOptions = { requestOptions: {} },
-  ): Promise<void> {
-    const poller = createResizePoolPoller(this._client, poolId, resizeOptions, options);
-    return poller.pollUntilDone({ abortSignal: options.abortSignal });
+    options: ResizePoolOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<void>, void> {
+    return resizePool(this._client, poolId, resizeOptions, options);
   }
 
   /**
@@ -1000,7 +984,7 @@ export class BatchClient {
   poolExists(
     poolId: string,
     options: PoolExistsOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<boolean> {
     return poolExists(this._client, poolId, options);
   }
 
@@ -1018,12 +1002,11 @@ export class BatchClient {
    * on a Pool in the deleting state, it will fail with HTTP status code 409 with
    * error code PoolBeingDeleted.
    */
-  async beginDeletePoolAndWait(
+  deletePool(
     poolId: string,
-    options: DeletePoolOptionalParams & PollerIntervalOptions = { requestOptions: {} },
-  ): Promise<void> {
-    const poller = createDeletePoolPoller(this._client, poolId, options);
-    return poller.pollUntilDone({ abortSignal: options.abortSignal });
+    options: DeletePoolOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<void>, void> {
+    return deletePool(this._client, poolId, options);
   }
 
   /** Lists all of the Pools in the specified Account. */

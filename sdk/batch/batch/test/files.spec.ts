@@ -122,7 +122,7 @@ describe("File Operations Test", () => {
 
     // Delete job first
     try {
-      await cleanupClient.beginDeleteJobAndWait(JOB_NAME, {
+      await cleanupClient.deleteJob(JOB_NAME, {
         updateIntervalInMs: POLLING_INTERVAL,
         force: true,
       });
