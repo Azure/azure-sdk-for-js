@@ -99,14 +99,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     this.fetchBuffer = [];
     // Initialize the appropriate fetch implementation based on enableQueryControl
     if (this.options.enableQueryControl) {
-      const disableContinuationTokens = this.disableContinuationTokens || !querySupportsTokens;
+      const disableQueryContinuationTokens = this.disableContinuationTokens || !querySupportsTokens;
       this.fetchImplementation = new QueryControlFetchImplementation(
         this.endpoint,
         pageSize,
         this.collectionLink,
         this.options.continuationToken,
         isOrderByQuery,
-        disableContinuationTokens,
+        disableQueryContinuationTokens,
       );
     } else {
       this.fetchImplementation = new LegacyFetchImplementation(this.endpoint, pageSize);
