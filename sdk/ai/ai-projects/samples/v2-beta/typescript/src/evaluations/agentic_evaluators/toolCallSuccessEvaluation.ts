@@ -260,7 +260,6 @@ export async function main(): Promise<void> {
   console.log(JSON.stringify(outputItems, null, 2));
   console.log(`Eval Run Status: ${evalRunResponse.status}`);
   console.log(`Eval Run Report URL: ${evalRunResponse.report_url}`);
-
 }
 
 main().catch((err) => {

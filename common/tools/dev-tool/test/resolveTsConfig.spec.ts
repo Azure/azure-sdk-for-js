@@ -30,7 +30,10 @@ describe("resolveConfig", () => {
     });
 
     const result = await resolveConfig("/project/tsconfig.json");
-    expect(result).toEqual(def);
+    expect(result).toEqual({
+      config: def,
+      references: [],
+    });
   });
 
   it("should resolve tsconfig.json with single extend", async () => {
@@ -51,11 +54,14 @@ describe("resolveConfig", () => {
 
     const result = await resolveConfig("/project/tsconfig.json");
     expect(result).toEqual({
-      compilerOptions: {
-        target: "ES5",
-        module: "CommonJS",
-        strict: true,
+      config: {
+        compilerOptions: {
+          target: "ES5",
+          module: "CommonJS",
+          strict: true,
+        },
       },
+      references: [],
     });
   });
 
@@ -78,11 +84,14 @@ describe("resolveConfig", () => {
 
     const result = await resolveConfig("/project/tsconfig.json");
     expect(result).toEqual({
-      compilerOptions: {
-        target: "ES5",
-        strict: true,
-        outDir: "path2",
+      config: {
+        compilerOptions: {
+          target: "ES5",
+          strict: true,
+          outDir: "path2",
+        },
       },
+      references: [],
     });
   });
 
@@ -109,11 +118,41 @@ describe("resolveConfig", () => {
 
     const result = await resolveConfig("/project/tsconfig.json");
     expect(result).toEqual({
-      compilerOptions: {
-        target: "ES5",
-        strict: true,
-        outDir: "path2",
+      config: {
+        compilerOptions: {
+          target: "ES5",
+          strict: true,
+          outDir: "path2",
+        },
       },
+      references: [],
     });
+  });
+
+  it("should resolve and normalize project references", async () => {
+    vol.fromJSON({
+      "/project/tsconfig.json": JSON.stringify({
+        references: [{ path: "./tsconfig.ref.json" }],
+      }),
+      "/project/tsconfig.ref.json": JSON.stringify({
+        compilerOptions: {
+          outDir: "${configDir}/dist",
+        },
+        include: ["${configDir}/src"],
+      }),
+    });
+
+    const result = await resolveConfig("/project/tsconfig.json");
+    expect(result.references).toEqual([
+      {
+        path: "/project/tsconfig.ref.json",
+        config: {
+          compilerOptions: {
+            outDir: "/project/dist",
+          },
+          include: ["/project/src"],
+        },
+      },
+    ]);
   });
 });

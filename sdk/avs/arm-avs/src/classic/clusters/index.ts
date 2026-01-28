@@ -1,16 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { Cluster, ClusterUpdate, ClusterZoneList } from "../../models/models.js";
-import {
-  ClustersListZonesOptionalParams,
-  ClustersDeleteOptionalParams,
-  ClustersUpdateOptionalParams,
-  ClustersCreateOrUpdateOptionalParams,
-  ClustersGetOptionalParams,
-  ClustersListOptionalParams,
-} from "../../api/clusters/options.js";
+import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import {
   listZones,
   $delete,
@@ -19,8 +10,17 @@ import {
   get,
   list,
 } from "../../api/clusters/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  ClustersListZonesOptionalParams,
+  ClustersDeleteOptionalParams,
+  ClustersUpdateOptionalParams,
+  ClustersCreateOrUpdateOptionalParams,
+  ClustersGetOptionalParams,
+  ClustersListOptionalParams,
+} from "../../api/clusters/options.js";
+import type { Cluster, ClusterUpdate, ClusterZoneList } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Clusters operations. */
 export interface ClustersOperations {

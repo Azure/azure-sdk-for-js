@@ -1,14 +1,12 @@
 {
   "references": [
-    {
-      "path": "./tsconfig.test.node.json"
-    },
-    {
-      "path": "./tsconfig.browser.config.json"
-    }
+    { "path": "./tsconfig.test.node.json" },
+    { "path": "./tsconfig.browser.config.json" },
+    { "path": "./tsconfig.test.cjs.json" }
   ],
   "compilerOptions": {
-    "composite": true
+    "composite": true,
+    "noEmit": true
   },
   "files": []
 }

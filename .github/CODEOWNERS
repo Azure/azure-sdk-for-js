@@ -149,10 +149,10 @@
 # ServiceOwners: @shankarsama @rajeshka
 
 # PRLabel: %Event Hubs
-/sdk/eventhub/ @axisc @sjkwak @hmlam
+/sdk/eventhub/ @j7nw4r @axisc @sjkwak @hmlam
 
 # ServiceLabel: %Event Hubs
-# ServiceOwners: @axisc @sjkwak @hmlam
+# ServiceOwners: @j7nw4r @axisc @sjkwak @hmlam
 
 # ServiceLabel: %Cognitive - Health Insights
 # PRLabel: %Cognitive - Health Insights
@@ -181,10 +181,10 @@
 # AzureSdkOwners: @maorleger
 
 # PRLabel: %Service Bus
-/sdk/servicebus/ @skarri-microsoft @EldertGrootenboer
+/sdk/servicebus/ @j7nw4r @skarri-microsoft @EldertGrootenboer
 
 # ServiceLabel: %Service Bus
-# ServiceOwners: @skarri-microsoft @EldertGrootenboer
+# ServiceOwners: @j7nw4r @skarri-microsoft @EldertGrootenboer
 
 # PRLabel: %Storage
 # ServiceLabel: %Storage
@@ -301,12 +301,6 @@
 
 # ServiceLabel: %Cognitive - Form Recognizer
 # AzureSdkOwners: @jeremymeng
-
-# PRLabel: %Cognitive - Metrics Advisor
-/sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
-
-# ServiceLabel: %Cognitive - Metrics Advisor
-# AzureSdkOwners: @KarishmaGhiya
 
 # PRLabel: %Notification Hub
 /sdk/notificationhubs/notification-hubs @jeremymeng
@@ -1184,9 +1178,6 @@
 # ServiceLabel: %Cognitive - Form Recognizer %Service Attention
 # ServiceOwners:          @ctstone @vkurpad
 
-# ServiceLabel: %Cognitive - Anomaly Detector %Service Attention
-# ServiceOwners:          @yingqunpku
-
 # ServiceLabel: %Cognitive - Custom Vision %Service Attention
 # ServiceOwners:          @areddish @tburns10
 
@@ -1674,8 +1665,8 @@ sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 /sdk/*/arm-*/tsconfig*.json @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-for-js-core
 
 /.scripts/ @mikeharder
-/.scripts/automation_generate.sh @MaryGao @lirenhe
-/.scripts/automation_init.sh @MaryGao @lirenhe
+/.scripts/automation_generate.sh @MaryGao @lirenhe @qiaozha @JialinHuang803
+/.scripts/automation_init.sh @MaryGao @lirenhe @qiaozha @JialinHuang803
 /vitest.*.config.ts @jeremymeng @deyaaeldeen
 /vitest.workspace.ts @jeremymeng @deyaaeldeen
 
@@ -1699,6 +1690,7 @@ sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 /.github/copilot-instructions.md         @timovv @praveenkuttappan @maririos
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
+/eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803
 /eng/emitter-package-lock.json @qiaozha @MaryGao @JialinHuang803
 /eng/emitter-package.json @qiaozha @MaryGao @JialinHuang803
 

@@ -1,0 +1,33 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ComputeManagementClient } = require("@azure/arm-compute");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
+
+/**
+ * This sample demonstrates how to Delete a gallery Script Definition.
+ *
+ * @summary Delete a gallery Script Definition.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryScriptExamples/GalleryScript_Delete.json
+ */
+async function deleteAGalleryScript() {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const galleryName = "myGalleryName";
+  const galleryScriptName = "myGalleryScriptName";
+  const credential = new DefaultAzureCredential();
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.galleryScripts.beginDeleteAndWait(
+    resourceGroupName,
+    galleryName,
+    galleryScriptName,
+  );
+  console.log(result);
+}
+
+async function main() {
+  await deleteAGalleryScript();
+}
+
+main().catch(console.error);

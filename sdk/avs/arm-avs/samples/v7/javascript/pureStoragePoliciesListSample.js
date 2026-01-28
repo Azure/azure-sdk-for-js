@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list PureStoragePolicy resources by PrivateCloud
  *
  * @summary list PureStoragePolicy resources by PrivateCloud
- * x-ms-original-file: 2024-09-01/PureStoragePolicies_List.json
+ * x-ms-original-file: 2025-09-01/PureStoragePolicies_List.json
  */
 async function pureStoragePoliciesList() {
   const credential = new DefaultAzureCredential();

@@ -51,6 +51,14 @@ vi.mock("../../src/common/logger.js", () => ({
   },
 }));
 
+vi.mock("../../src/utils/getPlaywrightVersion.js", () => {
+  const getPlaywrightVersionMock = vi.fn();
+  (globalThis as any).__getPlaywrightVersionMock = getPlaywrightVersionMock;
+  return {
+    getPlaywrightVersion: getPlaywrightVersionMock,
+  };
+});
+
 describe("PlaywrightReporter", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -60,6 +68,8 @@ describe("PlaywrightReporter", () => {
     process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS] = "true";
     (globalThis as any).__getHtmlReporterOutputFolderMock.mockReturnValue("playwright-report");
     (globalThis as any).__getPortalTestRunUrlMock.mockReturnValue("https://portal/link");
+    // Set default Playwright version to supported version
+    (globalThis as any).__getPlaywrightVersionMock.mockReturnValue("1.57.0");
   });
 
   afterEach(() => {
@@ -98,7 +108,7 @@ describe("PlaywrightReporter", () => {
 
     await reporter.onBegin(config);
 
-    expect((globalThis as any).__getWorkspaceMetadataMock).toHaveBeenCalled();
+    expect((globalThis as any).__getWorkspaceMetadataMock).not.toHaveBeenCalled();
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       ServiceErrorMessageConstants.HTML_REPORTER_REQUIRED.message,
     );
@@ -131,6 +141,7 @@ describe("PlaywrightReporter", () => {
     await reporter.onBegin(config);
     await reporter.onEnd();
 
+    expect((globalThis as any).__getWorkspaceMetadataMock).toHaveBeenCalled();
     expect((globalThis as any).__uploadHtmlReportAfterTestsMock).toHaveBeenCalledWith(
       "custom-report",
       workspaceMetadata,
@@ -261,5 +272,75 @@ describe("PlaywrightReporter", () => {
 
     await reporter.onEnd();
     expect((globalThis as any).__uploadHtmlReportAfterTestsMock).not.toHaveBeenCalled();
+  });
+
+  it("should disable reporting when Playwright version is too old for reporting feature", async () => {
+    const reporter = new PlaywrightReporter();
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+
+    // Set Playwright version to below 1.57
+    (globalThis as any).__getPlaywrightVersionMock.mockReturnValue("1.56.0");
+    PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
+
+    const config = { reporter: [["html"]] } as unknown as FullConfig;
+    await reporter.onBegin(config);
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      ServiceErrorMessageConstants.PLAYWRIGHT_VERSION_TOO_OLD_FOR_REPORTING.message,
+    );
+    expect((globalThis as any).__getWorkspaceMetadataMock).not.toHaveBeenCalled();
+
+    await reporter.onEnd();
+    expect((globalThis as any).__uploadHtmlReportAfterTestsMock).not.toHaveBeenCalled();
+  });
+
+  it("should disable reporting when Playwright version check fails", async () => {
+    const reporter = new PlaywrightReporter();
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+
+    // Mock getPlaywrightVersion to throw an error
+    (globalThis as any).__getPlaywrightVersionMock.mockImplementation(() => {
+      throw new Error("Version check failed");
+    });
+    PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
+
+    const config = { reporter: [["html"]] } as unknown as FullConfig;
+    await reporter.onBegin(config);
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      ServiceErrorMessageConstants.PLAYWRIGHT_VERSION_TOO_OLD_FOR_REPORTING.message,
+    );
+    expect((globalThis as any).__getWorkspaceMetadataMock).not.toHaveBeenCalled();
+
+    await reporter.onEnd();
+    expect((globalThis as any).__uploadHtmlReportAfterTestsMock).not.toHaveBeenCalled();
+  });
+
+  it("should continue with reporting when Playwright version is supported", async () => {
+    PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
+    const reporter = new PlaywrightReporter();
+    const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => undefined);
+
+    // Set Playwright version to supported version
+    (globalThis as any).__getPlaywrightVersionMock.mockReturnValue("1.57.0");
+
+    const workspaceMetadata = {
+      storageUri: "https://account.blob.core.windows.net",
+      subscriptionId: "sub-id",
+      resourceId:
+        "/subscriptions/sub-id/resourceGroups/my-rg/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace-name",
+      name: "workspace-name",
+    };
+    (globalThis as any).__getWorkspaceMetadataMock.mockResolvedValue(workspaceMetadata);
+    (globalThis as any).__uploadHtmlReportAfterTestsMock.mockResolvedValue({ success: true });
+
+    const config = { reporter: [["html"]] } as unknown as FullConfig;
+    await reporter.onBegin(config);
+
+    // Should not show version error and should proceed to get workspace metadata
+    expect((globalThis as any).__getWorkspaceMetadataMock).toHaveBeenCalled();
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      ServiceErrorMessageConstants.REPORTING_ENABLED.message,
+    );
   });
 });

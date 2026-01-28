@@ -3,6 +3,8 @@
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
 import { AIProjectClient, DatasetVersion } from "../src/index.js";
+import { useAzureMonitor } from "@azure/monitor-opentelemetry";
+import type { AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
 import type {
   AzureAISearchIndex,
   Connection,
@@ -12,6 +14,7 @@ import type {
 import { isRestError } from "@azure/core-rest-pipeline";
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
+import type { JobCreateParams } from "openai/resources/fine-tuning/jobs";
 import { beforeEach, it, describe } from "vitest";
 import { RestError } from "@azure/core-rest-pipeline";
 import * as path from "path";
@@ -251,6 +254,27 @@ describe("snippets", function () {
     console.log(`Response: ${response.output_text}`);
   });
 
+  it("agent-computer-use", async function () {
+    const agent = await project.agents.createVersion("ComputerUseAgent", {
+      kind: "prompt" as const,
+      model: deploymentName,
+      instructions: `
+You are a computer automation assistant.
+
+Be direct and efficient. When you reach the search results page, read and describe the actual search result titles and descriptions you can see.
+    `.trim(),
+      tools: [
+        {
+          type: "computer_use_preview",
+          display_width: 1026,
+          display_height: 769,
+          environment: "windows" as const,
+        },
+      ],
+    });
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+  });
+
   it("agent-mcp", async function () {
     const openAIClient = await project.getOpenAIClient();
     const agent = await project.agents.createVersion("agent-mcp", {
@@ -341,6 +365,47 @@ describe("snippets", function () {
       tools: [funcTool],
     });
     console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+  });
+
+  it("agent-memory-search", async function () {
+    const memoryStoreName = "AgentMemoryStore";
+    const embeddingModelDeployment =
+      process.env["AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model>";
+    const scope = "user_123";
+    const memoryStore = await project.memoryStores.create(
+      memoryStoreName,
+      {
+        kind: "default",
+        chat_model: deploymentName,
+        embedding_model: embeddingModelDeployment,
+        options: {
+          user_profile_enabled: true,
+          chat_summary_enabled: true,
+        },
+      },
+      {
+        description: "Memory store for agent conversations",
+      },
+    );
+    console.log(
+      `Created memory store: ${memoryStore.name} (${memoryStore.id}) using chat model '${deploymentName}'`,
+    );
+
+    // Create an agent that will use the Memory Search tool
+    const agent = await project.agents.createVersion("MemorySearchAgent", {
+      kind: "prompt",
+      model: deploymentName,
+      instructions:
+        "You are a helpful assistant that remembers user preferences using the memory search tool.",
+      tools: [
+        {
+          type: "memory_search",
+          memory_store_name: memoryStore.name,
+          scope,
+          update_delay: 1, // wait briefly after conversation inactivity before updating memories
+        },
+      ],
+    });
   });
 
   it("agent-azure-ai-search", async function () {
@@ -565,6 +630,33 @@ describe("snippets", function () {
     console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
   });
 
+  it("evaluations", async function () {
+    const openAIClient = await project.getOpenAIClient();
+    const dataSourceConfig = {
+      type: "custom" as const,
+      item_schema: {
+        type: "object",
+        properties: { query: { type: "string" } },
+        required: ["query"],
+      },
+      include_sample_schema: true,
+    };
+
+    const evalObject = await openAIClient.evals.create({
+      name: "Agent Evaluation",
+      data_source_config: dataSourceConfig,
+      testing_criteria: [
+        {
+          type: "azure_ai_evaluator",
+          name: "violence_detection",
+          evaluator_name: "builtin.violence",
+          data_mapping: { query: "{{item.query}}", response: "{{item.response}}" },
+        } as any,
+      ],
+    });
+    console.log(`Evaluation created (id: ${evalObject.id}, name: ${evalObject.name})`);
+  });
+
   it("deployments", async function () {
     const modelPublisher = process.env["MODEL_PUBLISHER"] || "<model publisher>";
     console.log("List all deployments:");
@@ -705,7 +797,7 @@ describe("snippets", function () {
     console.log("Dataset version 1:", JSON.stringify(datasetVersion1, null, 2));
 
     console.log(`Listing all versions of the Dataset named '${datasetName}':`);
-    const datasetVersions = await project.datasets.listVersions(datasetName);
+    const datasetVersions = project.datasets.listVersions(datasetName);
     for await (const version of datasetVersions) {
       console.log("List versions:", version);
     }
@@ -800,6 +892,59 @@ describe("snippets", function () {
 
     console.log("Delete the Index versions created above:");
     await project.indexes.delete(indexName, version);
+  });
+
+  it("finetuning", async function () {
+    const trainingFilePath = "training_data_path.jsonl";
+    const validationFilePath = "validation_data_path.jsonl";
+    const openAIClient = await project.getOpenAIClient();
+    // 1) Create the training and validation files
+    const trainingFile = await openAIClient.files.create({
+      file: fs.createReadStream(trainingFilePath),
+      purpose: "fine-tune",
+    });
+    console.log(`Uploaded file with ID: ${trainingFile.id}`);
+    const validationFile = await openAIClient.files.create({
+      file: fs.createReadStream(validationFilePath),
+      purpose: "fine-tune",
+    });
+    console.log(`Uploaded file with ID: ${validationFile.id}`);
+    // 2) Wait for the files to be processed
+    await openAIClient.files.waitForProcessing(trainingFile.id);
+    await openAIClient.files.waitForProcessing(validationFile.id);
+    console.log("Files processed.");
+
+    // 3) Create a supervised fine-tuning job
+    const fineTuningJob = await openAIClient.fineTuning.jobs.create({} as JobCreateParams, {
+      body: {
+        trainingType: "Standard",
+        training_file: trainingFile.id,
+        validation_file: validationFile.id,
+        model: deploymentName,
+        method: {
+          type: "supervised",
+          supervised: {
+            hyperparameters: {
+              n_epochs: 3,
+              batch_size: 1,
+              learning_rate_multiplier: 1.0,
+            },
+          },
+        },
+      },
+    });
+    console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
+  });
+
+  it("tracing", async function () {
+    const TELEMETRY_CONNECTION_STRING = process.env["TELEMETRY_CONNECTION_STRING"];
+    const options: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: TELEMETRY_CONNECTION_STRING,
+      },
+    };
+
+    useAzureMonitor(options);
   });
 
   it("datasetUpload", async function () {
