@@ -77,7 +77,7 @@ function getRequestContentType(options: InternalRequestParameters = {}): string 
   return (
     options.contentType ??
     (options.headers?.["content-type"] as string) ??
-    (options.body !== undefined ? getContentType(options.body) : undefined)
+    getContentType(options.body)
   );
 }
 
@@ -88,6 +88,10 @@ function getRequestContentType(options: InternalRequestParameters = {}): string 
  * @returns returns the content-type
  */
 function getContentType(body: any): string | undefined {
+  if (body === undefined) {
+    return undefined;
+  }
+
   if (ArrayBuffer.isView(body)) {
     return "application/octet-stream";
   }
