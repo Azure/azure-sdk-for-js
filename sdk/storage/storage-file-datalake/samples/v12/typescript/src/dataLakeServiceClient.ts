@@ -16,7 +16,7 @@ export async function main(): Promise<void> {
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // ONLY AVAILABLE IN NODE.JS RUNTIME
@@ -43,7 +43,7 @@ export async function main(): Promise<void> {
   const serviceClient = new DataLakeServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.dfs.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   console.log("File Systems:");
@@ -57,7 +57,7 @@ export async function main(): Promise<void> {
 
   const fileSystemResponse = await fileSystemClient.create();
   console.log(
-    `Created file system ${fileSystemClient.name} successfully, request ID: ${fileSystemResponse.requestId}`
+    `Created file system ${fileSystemClient.name} successfully, request ID: ${fileSystemResponse.requestId}`,
   );
 
   // Create a file

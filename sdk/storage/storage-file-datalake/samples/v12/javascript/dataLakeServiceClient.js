@@ -11,7 +11,7 @@ const {
 } = require("@azure/storage-file-datalake");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // Enter your storage account name and shared key
@@ -19,7 +19,7 @@ async function main() {
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // ONLY AVAILABLE IN NODE.JS RUNTIME
@@ -46,7 +46,7 @@ async function main() {
   const serviceClient = new DataLakeServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.dfs.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   console.log("File Systems:");
@@ -60,7 +60,7 @@ async function main() {
 
   const fileSystemResponse = await fileSystemClient.create();
   console.log(
-    `Created file system ${fileSystemClient.name} successfully, request ID: ${fileSystemResponse.requestId}`
+    `Created file system ${fileSystemClient.name} successfully, request ID: ${fileSystemResponse.requestId}`,
   );
 
   // Create a file
@@ -101,7 +101,7 @@ async function streamToBuffer(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
     readableStream.on("data", (data) => {
-      chunks.push(Buffer.isBuffer(data) ? data : Buffer.from(data));
+      chunks.push(typeof data === "string" ? Buffer.from(data) : data);
     });
     readableStream.on("end", () => {
       resolve(Buffer.concat(chunks));
