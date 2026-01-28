@@ -5,7 +5,7 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 Compute Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-compute) |
-<!-- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-edgemarketplace1) | -->
+[Package (NPM)](https://www.npmjs.com/package/@azure/arm-compute) |
 [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-compute) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
