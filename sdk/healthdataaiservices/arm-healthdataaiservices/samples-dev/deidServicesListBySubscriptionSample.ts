@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list DeidService resources by subscription ID
  *
  * @summary list DeidService resources by subscription ID
- * x-ms-original-file: 2026-02-01-preview/DeidServices_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-09-20/DeidServices_ListBySubscription_MaximumSet_Gen.json
  */
-async function deidServicesListBySubscriptionGeneratedByMaximumSetRulePreview(): Promise<void> {
+async function deidServicesListBySubscriptionGeneratedByMaximumSetRuleStable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F21BB31B-C214-42C0-ACF0-DACCA05D3011";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function deidServicesListBySubscriptionGeneratedByMaximumSetRulePreview():
 }
 
 async function main(): Promise<void> {
-  await deidServicesListBySubscriptionGeneratedByMaximumSetRulePreview();
+  await deidServicesListBySubscriptionGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

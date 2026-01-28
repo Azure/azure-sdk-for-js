@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the private endpoint connection
  *
  * @summary delete the private endpoint connection
- * x-ms-original-file: 2026-02-01-preview/PrivateEndpointConnections_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-09-20/PrivateEndpointConnections_Delete_MaximumSet_Gen.json
  */
-async function privateEndpointConnectionsDeleteGeneratedByMaximumSetRulePreview(): Promise<void> {
+async function privateEndpointConnectionsDeleteGeneratedByMaximumSetRuleStable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F21BB31B-C214-42C0-ACF0-DACCA05D3011";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function privateEndpointConnectionsDeleteGeneratedByMaximumSetRulePreview(
 }
 
 async function main(): Promise<void> {
-  await privateEndpointConnectionsDeleteGeneratedByMaximumSetRulePreview();
+  await privateEndpointConnectionsDeleteGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

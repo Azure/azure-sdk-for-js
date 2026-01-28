@@ -1,5 +1,5 @@
 {
-  "apiVersion": "2026-02-01-preview",
+  "apiVersion": "2024-09-20",
   "emitterVersion": "0.48.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.HealthDataAIServices",

@@ -896,6 +896,4 @@ export function privateLinkResourcePropertiesDeserializer(
 export enum KnownVersions {
   /** The 2024-09-20 version. */
   V2024_09_20 = "2024-09-20",
-  /** The 2026-02-01-preview version. */
-  V2026_02_01_Preview = "2026-02-01-preview",
 }

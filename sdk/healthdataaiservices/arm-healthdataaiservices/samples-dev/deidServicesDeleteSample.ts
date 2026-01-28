@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a DeidService
  *
  * @summary delete a DeidService
- * x-ms-original-file: 2026-02-01-preview/DeidServices_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-09-20/DeidServices_Delete_MaximumSet_Gen.json
  */
-async function deidServicesDeleteGeneratedByMaximumSetRulePreview(): Promise<void> {
+async function deidServicesDeleteGeneratedByMaximumSetRuleStable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F21BB31B-C214-42C0-ACF0-DACCA05D3011";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
@@ -18,7 +18,7 @@ async function deidServicesDeleteGeneratedByMaximumSetRulePreview(): Promise<voi
 }
 
 async function main(): Promise<void> {
-  await deidServicesDeleteGeneratedByMaximumSetRulePreview();
+  await deidServicesDeleteGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

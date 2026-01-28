@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2026-02-01-preview/Operations_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-09-20/Operations_List_MaximumSet_Gen.json
  */
-async function operationsListMaximumSetGeneratedByMaximumSetRulePreview(): Promise<void> {
+async function operationsListMaximumSetGeneratedByMaximumSetRuleStable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
@@ -26,9 +26,9 @@ async function operationsListMaximumSetGeneratedByMaximumSetRulePreview(): Promi
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2026-02-01-preview/Operations_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2024-09-20/Operations_List_MinimumSet_Gen.json
  */
-async function operationsListMinimumSetGeneratedByMinimumSetRulePreview(): Promise<void> {
+async function operationsListMinimumSetGeneratedByMinimumSetRuleStable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
@@ -41,8 +41,8 @@ async function operationsListMinimumSetGeneratedByMinimumSetRulePreview(): Promi
 }
 
 async function main(): Promise<void> {
-  await operationsListMaximumSetGeneratedByMaximumSetRulePreview();
-  await operationsListMinimumSetGeneratedByMinimumSetRulePreview();
+  await operationsListMaximumSetGeneratedByMaximumSetRuleStable();
+  await operationsListMinimumSetGeneratedByMinimumSetRuleStable();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ export function createHealthDataAIServices(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2026-02-01-preview";
+  const apiVersion = options.apiVersion ?? "2024-09-20";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

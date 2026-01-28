@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a DeidService
  *
  * @summary get a DeidService
- * x-ms-original-file: 2026-02-01-preview/DeidServices_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-09-20/DeidServices_Get_MaximumSet_Gen.json
  */
-async function deidServicesGetGeneratedByMaximumSetRulePreview(): Promise<void> {
+async function deidServicesGetGeneratedByMaximumSetRuleStable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F21BB31B-C214-42C0-ACF0-DACCA05D3011";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
@@ -19,7 +19,7 @@ async function deidServicesGetGeneratedByMaximumSetRulePreview(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  await deidServicesGetGeneratedByMaximumSetRulePreview();
+  await deidServicesGetGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);
