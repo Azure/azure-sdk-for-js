@@ -7,12 +7,13 @@ import { isNodeLike } from "@azure/core-util";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type {
+  UserDelegationKey} from "@azure/storage-common";
 import {
   AnonymousCredential,
-  StorageSharedKeyCredential,
-  UserDelegationKey,
+  StorageSharedKeyCredential
 } from "@azure/storage-common";
-import type { Container } from "./generated/src/operationsInterfaces/index.js";
+import type { Container } from "./generated-tsp/index.js";
 import type {
   BlobDeleteResponse,
   BlobPrefix,
@@ -739,7 +740,7 @@ export class ContainerClient extends StorageClient {
     }
     super(url, pipeline);
     this._containerName = this.getContainerNameFromUrl();
-    this.containerContext = this.storageClientContext.container;
+    this.containerContext = this.storageClientContextTsp.container;
   }
 
   /**

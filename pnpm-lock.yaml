@@ -28329,6 +28329,9 @@ importers:
 
   sdk/storage/storage-blob:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.5.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller

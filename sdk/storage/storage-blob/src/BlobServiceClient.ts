@@ -27,7 +27,7 @@ import type {
   ServiceGetStatisticsResponseInternal,
   ServiceListContainersSegmentResponseInternal,
 } from "./generatedModels.js";
-import type { Service } from "./generated/src/operationsInterfaces/index.js";
+import type { Service } from "./generated-tsp/index.js";
 import type { StoragePipelineOptions, PipelineLike } from "./Pipeline.js";
 import { newPipeline, isPipelineLike } from "./Pipeline.js";
 import type { ContainerCreateOptions, ContainerDeleteMethodOptions } from "./ContainerClient.js";
@@ -39,10 +39,11 @@ import {
   extractConnectionStringParts,
   toTags,
 } from "./utils/utils.common.js";
+import type {
+  UserDelegationKey} from "@azure/storage-common";
 import {
   StorageSharedKeyCredential,
-  AnonymousCredential,
-  UserDelegationKey,
+  AnonymousCredential
 } from "@azure/storage-common";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { truncatedISO8061Date, assertResponse } from "./utils/utils.common.js";
@@ -439,7 +440,7 @@ export class BlobServiceClient extends StorageClient {
       pipeline = newPipeline(new AnonymousCredential(), options);
     }
     super(url, pipeline);
-    this.serviceContext = this.storageClientContext.service;
+    this.serviceContext = this.storageClientContextTsp.service;
   }
 
   /**
@@ -544,7 +545,7 @@ export class BlobServiceClient extends StorageClient {
           options.destinationContainerName || deletedContainerName,
         );
         // Hack to access a protected member.
-        const containerContext = containerClient["storageClientContext"].container;
+        const containerContext = containerClient["storageClientContextTsp"].container;
         const containerUndeleteResponse = assertResponse<
           ContainerRestoreHeaders,
           ContainerRestoreHeaders
@@ -735,11 +736,10 @@ export class BlobServiceClient extends StorageClient {
           ServiceFilterBlobsHeaders,
           FilterBlobSegmentModel
         >(
-          await this.serviceContext.filterBlobs({
+          await this.serviceContext.findBlobsByTags(tagFilterSqlExpression, {
             abortSignal: options.abortSignal,
-            where: tagFilterSqlExpression,
             marker,
-            maxPageSize: options.maxPageSize,
+            maxresults: options.maxPageSize,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );

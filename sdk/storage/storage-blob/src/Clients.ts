@@ -15,17 +15,18 @@ import { randomUUID } from "@azure/core-util";
 import type { Readable } from "node:stream";
 import { BlobDownloadResponse } from "./BlobDownloadResponse.js";
 import { BlobQueryResponse } from "./BlobQueryResponse.js";
+import type {
+  UserDelegationKey} from "@azure/storage-common";
 import {
   AnonymousCredential,
-  StorageSharedKeyCredential,
-  UserDelegationKey,
+  StorageSharedKeyCredential
 } from "@azure/storage-common";
 import type {
   AppendBlob,
   Blob as StorageBlob,
   BlockBlob,
   PageBlob,
-} from "./generated/src/operationsInterfaces/index.js";
+} from "./generated-tsp/index.js";
 import type {
   AppendBlobAppendBlockFromUrlHeaders,
   AppendBlobAppendBlockHeaders,
@@ -1099,7 +1100,7 @@ export class BlobClient extends StorageClient {
     super(url, pipeline);
     ({ blobName: this._name, containerName: this._containerName } =
       this.getBlobAndContainerNamesFromUrl());
-    this.blobContext = this.storageClientContext.blob;
+    this.blobContext = this.storageClientContextTsp.blob;
 
     this._snapshot = getURLParameter(this.url, URLConstants.Parameters.SNAPSHOT) as string;
     this._versionId = getURLParameter(this.url, URLConstants.Parameters.VERSIONID) as string;
@@ -1530,7 +1531,7 @@ export class BlobClient extends StorageClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlobClient-setHTTPHeaders", options, async (updatedOptions) => {
       return assertResponse<BlobSetHttpHeadersHeaders, BlobSetHttpHeadersHeaders>(
-        await this.blobContext.setHttpHeaders({
+        await this.blobContext.setProperties({
           abortSignal: options.abortSignal,
           blobHttpHeaders: blobHTTPHeaders,
           leaseAccessConditions: options.conditions,
@@ -1584,7 +1585,7 @@ export class BlobClient extends StorageClient {
    * Sets tags on the underlying blob.
    * A blob can have up to 10 tags. Tag keys must be between 1 and 128 characters.  Tag values must be between 0 and 256 characters.
    * Valid tag key and value characters include lower and upper case letters, digits (0-9),
-   * space (' '), plus ('+'), minus ('-'), period ('.'), foward slash ('/'), colon (':'), equals ('='), and underscore ('_').
+   * space (' '), plus ('+'), minus ('-'), period ('.'), forward slash ('/'), colon (':'), equals ('='), and underscore ('_').
    *
    * @param tags -
    * @param options -
@@ -1794,7 +1795,7 @@ export class BlobClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<BlobAbortCopyFromURLHeaders, BlobAbortCopyFromURLHeaders>(
-          await this.blobContext.abortCopyFromURL(copyId, {
+          await this.blobContext.abortCopyFromUrl(copyId, {
             abortSignal: options.abortSignal,
             leaseAccessConditions: options.conditions,
             tracingOptions: updatedOptions.tracingOptions,
@@ -1820,7 +1821,7 @@ export class BlobClient extends StorageClient {
     options.sourceConditions = options.sourceConditions || {};
     return tracingClient.withSpan("BlobClient-syncCopyFromURL", options, async (updatedOptions) => {
       return assertResponse<BlobCopyFromURLHeaders, BlobCopyFromURLHeaders>(
-        await this.blobContext.copyFromURL(copySource, {
+        await this.blobContext.copyFromUrl(copySource, {
           abortSignal: options.abortSignal,
           metadata: options.metadata,
           leaseAccessConditions: options.conditions,
@@ -2148,7 +2149,7 @@ export class BlobClient extends StorageClient {
         options.conditions = options.conditions || {};
         options.sourceConditions = options.sourceConditions || {};
         return assertResponse<BlobStartCopyFromURLHeaders, BlobStartCopyFromURLHeaders>(
-          await this.blobContext.startCopyFromURL(copySource, {
+          await this.blobContext.startCopyFromUrl(copySource, {
             abortSignal: options.abortSignal,
             leaseAccessConditions: options.conditions,
             metadata: options.metadata,
@@ -2776,7 +2777,7 @@ export class AppendBlobClient extends BlobClient {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }
     super(url, pipeline);
-    this.appendBlobContext = this.storageClientContext.appendBlob;
+    this.appendBlobContext = this.storageClientContextTsp.appendBlob;
   }
 
   /**
@@ -3803,8 +3804,8 @@ export class BlockBlobClient extends BlobClient {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }
     super(url, pipeline);
-    this.blockBlobContext = this.storageClientContext.blockBlob;
-    this._blobContext = this.storageClientContext.blob;
+    this.blockBlobContext = this.storageClientContextTsp.blockBlob;
+    this._blobContext = this.storageClientContextTsp.blob;
   }
 
   /**
@@ -3884,7 +3885,7 @@ export class BlockBlobClient extends BlobClient {
 
     return tracingClient.withSpan("BlockBlobClient-query", options, async (updatedOptions) => {
       const response = assertResponse<BlobQueryResponseInternal, BlobQueryHeaders>(
-        (await this._blobContext.query({
+        await this.blockBlobContext.query({
           abortSignal: options.abortSignal,
           queryRequest: {
             queryType: "SQL",
@@ -4014,7 +4015,7 @@ export class BlockBlobClient extends BlobClient {
       options,
       async (updatedOptions) => {
         return assertResponse<BlockBlobPutBlobFromUrlHeaders, BlockBlobPutBlobFromUrlHeaders>(
-          await this.blockBlobContext.putBlobFromUrl(0, sourceURL, {
+          await this.blockBlobContext.uploadBlobFromUrl(0, sourceURL, {
             ...options,
             blobHttpHeaders: options.blobHTTPHeaders,
             leaseAccessConditions: options.conditions,
@@ -4112,7 +4113,7 @@ export class BlockBlobClient extends BlobClient {
       options,
       async (updatedOptions) => {
         return assertResponse<BlockBlobStageBlockFromURLHeaders, BlockBlobStageBlockFromURLHeaders>(
-          await this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
+          await this.blockBlobContext.stageBlockFromUrl(blockId, 0, sourceURL, {
             abortSignal: options.abortSignal,
             leaseAccessConditions: options.conditions,
             sourceContentMD5: options.sourceContentMD5,
@@ -5104,7 +5105,7 @@ export class PageBlobClient extends BlobClient {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }
     super(url, pipeline);
-    this.pageBlobContext = this.storageClientContext.pageBlob;
+    this.pageBlobContext = this.storageClientContextTsp.pageBlob;
   }
 
   /**
@@ -5232,7 +5233,7 @@ export class PageBlobClient extends BlobClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("PageBlobClient-uploadPages", options, async (updatedOptions) => {
       return assertResponse<PageBlobUploadPagesHeaders, PageBlobUploadPagesHeaders>(
-        await this.pageBlobContext.uploadPages(count, body, {
+        await this.pageBlobContext.uploadPages(body, count, {
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: {
@@ -5280,7 +5281,7 @@ export class PageBlobClient extends BlobClient {
       options,
       async (updatedOptions) => {
         return assertResponse<PageBlobUploadPagesFromURLHeaders, PageBlobUploadPagesFromURLHeaders>(
-          await this.pageBlobContext.uploadPagesFromURL(
+          await this.pageBlobContext.uploadPagesFromUrl(
             sourceURL,
             rangeToString({ offset: sourceOffset, count }),
             0,
