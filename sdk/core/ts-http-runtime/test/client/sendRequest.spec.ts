@@ -366,14 +366,26 @@ describe("sendRequest", () => {
     await sendRequest("POST", mockBaseUrl, mockPipeline, { contentType: "testContent", body: {} });
   });
 
-  it("should not set content-type if no body is present", async () => {
+  it("should set content-type via contentType option even without body", async () => {
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {
-      assert.equal(request.headers.get("content-type"), undefined);
+      assert.equal(request.headers.get("content-type"), "testContent");
       return { headers: createHttpHeaders() } as PipelineResponse;
     };
 
     await sendRequest("POST", mockBaseUrl, mockPipeline, { contentType: "testContent" });
+  });
+
+  it("should set content-type via headers option even without body", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.headers.get("content-type"), "application/xml");
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("POST", mockBaseUrl, mockPipeline, {
+      headers: { "content-type": "application/xml" },
+    });
   });
 
   it("should set custom accept", async () => {
