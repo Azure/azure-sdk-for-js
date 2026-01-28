@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { HealthDataAIServicesClient } from "@azure/arm-healthdataaiservices";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2024-09-20/Operations_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-02-01-preview/Operations_List_MaximumSet_Gen.json
  */
-
-import { HealthDataAIServicesClient } from "@azure/arm-healthdataaiservices";
-import { DefaultAzureCredential } from "@azure/identity";
-
-async function operationsListMaximumSetGeneratedByMaximumSetRuleStable(): Promise<void> {
+async function operationsListMaximumSetGeneratedByMaximumSetRulePreview(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
@@ -27,11 +26,11 @@ async function operationsListMaximumSetGeneratedByMaximumSetRuleStable(): Promis
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2024-09-20/Operations_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-02-01-preview/Operations_List_MinimumSet_Gen.json
  */
-async function operationsListMinimumSetGeneratedByMinimumSetRuleStable(): Promise<void> {
+async function operationsListMinimumSetGeneratedByMinimumSetRulePreview(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
@@ -42,8 +41,8 @@ async function operationsListMinimumSetGeneratedByMinimumSetRuleStable(): Promis
 }
 
 async function main(): Promise<void> {
-  await operationsListMaximumSetGeneratedByMaximumSetRuleStable();
-  await operationsListMinimumSetGeneratedByMinimumSetRuleStable();
+  await operationsListMaximumSetGeneratedByMaximumSetRulePreview();
+  await operationsListMinimumSetGeneratedByMinimumSetRulePreview();
 }
 
 main().catch(console.error);
