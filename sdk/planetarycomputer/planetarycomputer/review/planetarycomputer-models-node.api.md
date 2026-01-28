@@ -158,9 +158,6 @@ export type IngestionStatus = string;
 export type IngestionType = string;
 
 // @public
-export type IntervalLegendsElement = number[] | Record<string, string>;
-
-// @public
 export enum KnownColorMapNames {
     Accent = "accent",
     AccentR = "accent_r",
@@ -1020,7 +1017,6 @@ export interface StacSearchParameters {
     collections?: string[];
     conformanceClass?: Record<string, any>;
     datetime?: string;
-    durationInMinutes?: number;
     fields?: SearchOptionsFields[];
     filter?: Record<string, any>;
     filterCoordinateReferenceSystem?: string;
@@ -1029,7 +1025,6 @@ export interface StacSearchParameters {
     intersects?: GeometryUnion;
     limit?: number;
     query?: Record<string, any>;
-    sign?: StacAssetUrlSigningMode;
     sortBy?: StacSortExtension[];
     token?: string;
 }

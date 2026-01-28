@@ -61,6 +61,9 @@ export function getCollectionConfiguration(context: PlanetaryComputerProContext,
 export function getCollectionQueryables(context: PlanetaryComputerProContext, collectionId: string, options?: StacGetCollectionQueryablesOptionalParams): Promise<Record<string, any>>;
 
 // @public
+export function getCollections(context: PlanetaryComputerProContext, options?: StacGetCollectionsOptionalParams): Promise<StacCatalogCollections>;
+
+// @public
 export function getCollectionThumbnail(context: PlanetaryComputerProContext, collectionId: string, options?: StacGetCollectionThumbnailOptionalParams): Promise<Uint8Array>;
 
 // @public
@@ -86,9 +89,6 @@ export function getRenderOption(context: PlanetaryComputerProContext, collection
 
 // @public
 export function getTileSettings(context: PlanetaryComputerProContext, collectionId: string, options?: StacGetTileSettingsOptionalParams): Promise<TileSettings>;
-
-// @public
-export function listCollections(context: PlanetaryComputerProContext, options?: StacListCollectionsOptionalParams): Promise<StacCatalogCollections>;
 
 // @public
 export function listMosaics(context: PlanetaryComputerProContext, collectionId: string, options?: StacListMosaicsOptionalParams): Promise<StacMosaic[]>;
@@ -196,6 +196,12 @@ export interface StacGetCollectionQueryablesOptionalParams extends OperationOpti
 }
 
 // @public
+export interface StacGetCollectionsOptionalParams extends OperationOptions {
+    durationInMinutes?: number;
+    sign?: StacAssetUrlSigningMode;
+}
+
+// @public
 export interface StacGetCollectionThumbnailOptionalParams extends OperationOptions {
 }
 
@@ -232,12 +238,6 @@ export interface StacGetRenderOptionOptionalParams extends OperationOptions {
 
 // @public
 export interface StacGetTileSettingsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StacListCollectionsOptionalParams extends OperationOptions {
-    durationInMinutes?: number;
-    sign?: StacAssetUrlSigningMode;
 }
 
 // @public
@@ -278,6 +278,8 @@ export interface StacReplaceTileSettingsOptionalParams extends OperationOptions 
 
 // @public
 export interface StacSearchOptionalParams extends OperationOptions {
+    durationInMinutes?: number;
+    sign?: StacAssetUrlSigningMode;
 }
 
 // @public

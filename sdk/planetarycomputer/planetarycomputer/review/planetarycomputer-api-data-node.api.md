@@ -449,7 +449,7 @@ export interface DataRegisterMosaicsSearchOptionalParams extends OperationOption
 }
 
 // @public
-export function getAssetStatistics(context: PlanetaryComputerProContext, collectionId: string, itemId: string, options?: DataGetAssetStatisticsOptionalParams): Promise<Record<string, Record<string, BandStatistics>>>;
+export function getAssetStatistics(context: PlanetaryComputerProContext, collectionId: string, itemId: string, options?: DataGetAssetStatisticsOptionalParams): Promise<Record<string, any>>;
 
 // @public
 export function getBounds(context: PlanetaryComputerProContext, collectionId: string, itemId: string, options?: DataGetBoundsOptionalParams): Promise<StacItemBounds>;
@@ -464,7 +464,7 @@ export function getGeoJsonStatistics(context: PlanetaryComputerProContext, colle
 export function getInfoGeoJson(context: PlanetaryComputerProContext, collectionId: string, itemId: string, options?: DataGetInfoGeoJsonOptionalParams): Promise<TilerInfoGeoJsonFeature>;
 
 // @public
-export function getIntervalLegend(context: PlanetaryComputerProContext, classmapName: string, options?: DataGetIntervalLegendOptionalParams): Promise<IntervalLegendsElement[][]>;
+export function getIntervalLegend(context: PlanetaryComputerProContext, classmapName: string, options?: DataGetIntervalLegendOptionalParams): Promise<Record<string, any>>;
 
 // @public
 export function getItemAssetDetails(context: PlanetaryComputerProContext, collectionId: string, itemId: string, options?: DataGetItemAssetDetailsOptionalParams): Promise<Record<string, TilerInfo>>;

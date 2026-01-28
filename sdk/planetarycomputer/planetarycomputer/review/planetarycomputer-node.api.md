@@ -477,12 +477,12 @@ export interface DataOperations {
     createStaticImage: (collectionId: string, body: ImageParameters, options?: DataCreateStaticImageOptionalParams) => Promise<ImageResponse>;
     cropGeoJson: (collectionId: string, itemId: string, format: string, body: Feature, options?: DataCropGeoJsonOptionalParams) => Promise<Uint8Array>;
     cropGeoJsonWithDimensions: (collectionId: string, itemId: string, width: number, height: number, format: string, body: Feature, options?: DataCropGeoJsonWithDimensionsOptionalParams) => Promise<Uint8Array>;
-    getAssetStatistics: (collectionId: string, itemId: string, options?: DataGetAssetStatisticsOptionalParams) => Promise<Record<string, Record<string, BandStatistics>>>;
+    getAssetStatistics: (collectionId: string, itemId: string, options?: DataGetAssetStatisticsOptionalParams) => Promise<Record<string, any>>;
     getBounds: (collectionId: string, itemId: string, options?: DataGetBoundsOptionalParams) => Promise<StacItemBounds>;
     getClassMapLegend: (classmapName: string, options?: DataGetClassMapLegendOptionalParams) => Promise<Record<string, any>>;
     getGeoJsonStatistics: (collectionId: string, itemId: string, body: Feature, options?: DataGetGeoJsonStatisticsOptionalParams) => Promise<StacItemStatisticsGeoJson>;
     getInfoGeoJson: (collectionId: string, itemId: string, options?: DataGetInfoGeoJsonOptionalParams) => Promise<TilerInfoGeoJsonFeature>;
-    getIntervalLegend: (classmapName: string, options?: DataGetIntervalLegendOptionalParams) => Promise<IntervalLegendsElement[][]>;
+    getIntervalLegend: (classmapName: string, options?: DataGetIntervalLegendOptionalParams) => Promise<Record<string, any>>;
     getItemAssetDetails: (collectionId: string, itemId: string, options?: DataGetItemAssetDetailsOptionalParams) => Promise<Record<string, TilerInfo>>;
     getLegend: (colorMapName: string, options?: DataGetLegendOptionalParams) => Promise<Uint8Array>;
     getMosaicsAssetsForPoint: (searchId: string, longitude: number, latitude: number, options?: DataGetMosaicsAssetsForPointOptionalParams) => Promise<StacItemPointAsset[]>;
@@ -744,9 +744,6 @@ export type IngestionType = string;
 // @public
 export interface IngestionUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type IntervalLegendsElement = number[] | Record<string, string>;
 
 // @public
 export enum KnownColorMapNames {
@@ -1570,6 +1567,12 @@ export interface StacGetCollectionQueryablesOptionalParams extends OperationOpti
 }
 
 // @public
+export interface StacGetCollectionsOptionalParams extends OperationOptions {
+    durationInMinutes?: number;
+    sign?: StacAssetUrlSigningMode;
+}
+
+// @public
 export interface StacGetCollectionThumbnailOptionalParams extends OperationOptions {
 }
 
@@ -1738,12 +1741,6 @@ export interface StacLink {
 export type StacLinkType = string;
 
 // @public
-export interface StacListCollectionsOptionalParams extends OperationOptions {
-    durationInMinutes?: number;
-    sign?: StacAssetUrlSigningMode;
-}
-
-// @public
 export interface StacListMosaicsOptionalParams extends OperationOptions {
 }
 
@@ -1793,6 +1790,7 @@ export interface StacOperations {
     getCollection: (collectionId: string, options?: StacGetCollectionOptionalParams) => Promise<StacCollection>;
     getCollectionConfiguration: (collectionId: string, options?: StacGetCollectionConfigurationOptionalParams) => Promise<UserCollectionSettings>;
     getCollectionQueryables: (collectionId: string, options?: StacGetCollectionQueryablesOptionalParams) => Promise<Record<string, any>>;
+    getCollections: (options?: StacGetCollectionsOptionalParams) => Promise<StacCatalogCollections>;
     getCollectionThumbnail: (collectionId: string, options?: StacGetCollectionThumbnailOptionalParams) => Promise<Uint8Array>;
     getConformanceClass: (options?: StacGetConformanceClassOptionalParams) => Promise<StacConformanceClasses>;
     getItem: (collectionId: string, itemId: string, options?: StacGetItemOptionalParams) => Promise<StacItem>;
@@ -1802,7 +1800,6 @@ export interface StacOperations {
     getPartitionType: (collectionId: string, options?: StacGetPartitionTypeOptionalParams) => Promise<PartitionType>;
     getRenderOption: (collectionId: string, renderOptionId: string, options?: StacGetRenderOptionOptionalParams) => Promise<RenderOption>;
     getTileSettings: (collectionId: string, options?: StacGetTileSettingsOptionalParams) => Promise<TileSettings>;
-    listCollections: (options?: StacListCollectionsOptionalParams) => Promise<StacCatalogCollections>;
     listMosaics: (collectionId: string, options?: StacListMosaicsOptionalParams) => Promise<StacMosaic[]>;
     listQueryables: (options?: StacListQueryablesOptionalParams) => Promise<Record<string, any>>;
     listRenderOptions: (collectionId: string, options?: StacListRenderOptionsOptionalParams) => Promise<RenderOption[]>;
@@ -1861,6 +1858,8 @@ export interface StacReplaceTileSettingsOptionalParams extends OperationOptions 
 
 // @public
 export interface StacSearchOptionalParams extends OperationOptions {
+    durationInMinutes?: number;
+    sign?: StacAssetUrlSigningMode;
 }
 
 // @public
@@ -1869,7 +1868,6 @@ export interface StacSearchParameters {
     collections?: string[];
     conformanceClass?: Record<string, any>;
     datetime?: string;
-    durationInMinutes?: number;
     fields?: SearchOptionsFields[];
     filter?: Record<string, any>;
     filterCoordinateReferenceSystem?: string;
@@ -1878,7 +1876,6 @@ export interface StacSearchParameters {
     intersects?: GeometryUnion;
     limit?: number;
     query?: Record<string, any>;
-    sign?: StacAssetUrlSigningMode;
     sortBy?: StacSortExtension[];
     token?: string;
 }
