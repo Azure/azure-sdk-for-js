@@ -5,35 +5,29 @@
  * @summary use custom HTTP pipeline options when connecting to the service
  */
 
-const {
-  BlobServiceClient,
-  StorageSharedKeyCredential,
-  newPipeline,
-} = require("@azure/storage-blob");
+const { BlobServiceClient, newPipeline } = require("@azure/storage-blob");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
-  // Enter your storage account name and shared key
-  const account = process.env.ACCOUNT_NAME || "<account name>";
-  const accountKey = process.env.ACCOUNT_KEY || "<account key>";
+  // Enter your storage account name
+  const accountName = process.env.ACCOUNT_NAME;
+  if (!accountName) {
+    throw new Error("ACCOUNT_NAME environment variable is not set.");
+  }
 
-  // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-
-  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = newPipeline(sharedKeyCredential, {
+  const pipeline = newPipeline(new DefaultAzureCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
-    retryOptions: { maxTries: 4 },
+    retryOptions: { maxTries: 4 }, // Retry options
     userAgentOptions: { userAgentPrefix: "Sample V1.0.0" }, // Customized telemetry string
   });
 
   // List containers
   const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net`,
-    pipeline
+    `https://${accountName}.blob.core.windows.net`,
+    pipeline,
   );
 
   let i = 1;

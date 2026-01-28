@@ -5,21 +5,55 @@
  * @summary authenticate anonymously using a SAS-encoded URL
  */
 
+import { StorageManagementClient } from "@azure/arm-storage";
+import { DefaultAzureCredential } from "@azure/identity";
 import { BlobServiceClient, AnonymousCredential } from "@azure/storage-blob";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
+async function getAccountSas(accountName: string): Promise<string> {
+  const sas = process.env.ACCOUNT_SAS;
+  if (sas) {
+    return sas;
+  }
+  const subscriptionId = process.env.SUBSCRIPTION_ID;
+  const resourceGroupName = process.env.RESOURCE_GROUP;
+  if (!subscriptionId || !resourceGroupName) {
+    throw new Error(
+      "Either STORAGE_CONNECTION_STRING or ACCOUNT_NAME + SUBSCRIPTION_ID + RESOURCE_GROUP environment variable is required.",
+    );
+  }
+  const mgmtClient = new StorageManagementClient(new DefaultAzureCredential(), subscriptionId);
+  const { accountSasToken } = await mgmtClient.storageAccounts.listAccountSAS(
+    resourceGroupName,
+    accountName,
+    {
+      permissions: "rwdlacup",
+      services: "bfqt",
+      resourceTypes: "sco",
+      keyToSign: "key2",
+      sharedAccessExpiryTime: new Date(Date.now() + 60 * 1000),
+    },
+  );
+  if (!accountSasToken) {
+    throw new Error("Cannot get SAS token from storage account");
+  }
+  return accountSasToken;
+}
+
 async function main(): Promise<void> {
-  // Enter your storage account name and SAS
-  const account = process.env.ACCOUNT_NAME || "<account name>";
-  const accountSas = process.env.ACCOUNT_SAS || "<account SAS>";
+  // Enter your storage account name
+  const accountName = process.env.ACCOUNT_NAME;
+  if (!accountName) {
+    throw new Error("ACCOUNT_NAME environment variable is not set.");
+  }
 
   // List containers
   const blobServiceClient = new BlobServiceClient(
-    // When using AnonymousCredential, following url should include a valid SAS or support public access
-    `https://${account}.blob.core.windows.net?${accountSas}`,
-    new AnonymousCredential()
+    // When using AnonymousCredential, following url should include a valid SAS or the account supports public access
+    `https://${accountName}.blob.core.windows.net?${await getAccountSas(accountName)}`,
+    new AnonymousCredential(),
   );
 
   console.log("Containers:");

@@ -13,18 +13,20 @@
  * @azsdk-weight 10
  **/
 
+import type { CompatResponse } from "@azure/core-http-compat";
+import { DefaultAzureCredential } from "@azure/identity";
 import {
   newPipeline,
-  AnonymousCredential,
   BlobServiceClient,
   BaseRequestPolicy,
-  WebResource,
-  RequestPolicy,
-  RequestPolicyOptions,
+  type WebResource,
+  type RequestPolicy,
+  type RequestPolicyOptions,
 } from "@azure/storage-blob";
 
 // Load the .env file if it exists
 import "dotenv/config";
+
 // Create a policy factory with create() method provided
 class RequestIDPolicyFactory {
   prefix: string;
@@ -34,7 +36,7 @@ class RequestIDPolicyFactory {
   }
 
   // create() method needs to create a new RequestIDPolicy object
-  create(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
+  create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RequestIDPolicy {
     return new RequestIDPolicy(nextPolicy, options, this.prefix);
   }
 }
@@ -49,7 +51,7 @@ class RequestIDPolicy extends BaseRequestPolicy {
 
   // Customize HTTP requests and responses by overriding sendRequest
   // Parameter request is WebResource type
-  async sendRequest(request: WebResource) {
+  async sendRequest(request: WebResource): Promise<CompatResponse> {
     // Customize client request ID header
     request.headers.set(
       "x-ms-client-request-id",
@@ -67,17 +69,19 @@ class RequestIDPolicy extends BaseRequestPolicy {
 
 // Main function
 async function main(): Promise<void> {
-  const account = process.env.ACCOUNT_NAME || "<account name>";
-  const accountSas = process.env.ACCOUNT_SAS || "<account SAS>";
+  const accountName = process.env.ACCOUNT_NAME;
+  if (!accountName) {
+    throw new Error("Set ACCOUNT_NAME in your environment before running this sample.");
+  }
 
   // Create a default pipeline with newPipeline
-  const pipeline = newPipeline(new AnonymousCredential());
+  const pipeline = newPipeline(new DefaultAzureCredential());
 
   // Inject customized factory into default pipeline
-  await pipeline.factories.unshift(new RequestIDPolicyFactory("Prefix"));
+  pipeline.factories.unshift(new RequestIDPolicyFactory("Prefix"));
 
   const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net${accountSas}`,
+    `https://${accountName}.blob.core.windows.net`,
     pipeline,
   );
 

@@ -22,6 +22,8 @@ export {
   HttpAuthorization,
   ModificationConditions,
   MatchConditions,
+  StorageBlobAudience,
+  getBlobServiceAccountAudience,
 } from "./models.js";
 export {
   Pipeline,

@@ -6,24 +6,24 @@
  * @azsdk-weight 70
  */
 
-import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
+import { DefaultAzureCredential } from "@azure/identity";
+import { BlobServiceClient } from "@azure/storage-blob";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
 async function main(): Promise<void> {
-  // Enter your storage account name and shared key
-  const account = process.env.ACCOUNT_NAME || "";
-  const accountKey = process.env.ACCOUNT_KEY || "";
+  // Enter your storage account name
+  const accountName = process.env.ACCOUNT_NAME;
 
-  // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+  if (!accountName) {
+    throw new Error("ACCOUNT_NAME environment variable is not set.");
+  }
 
   // List containers
   const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential,
+    `https://${accountName}.blob.core.windows.net`,
+    new DefaultAzureCredential(),
   );
 
   // Iterate over all containers in the account

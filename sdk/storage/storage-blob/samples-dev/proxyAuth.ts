@@ -6,19 +6,18 @@
  * @azsdk-weight 30
  */
 
-import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
+import { BlobServiceClient } from "@azure/storage-blob";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
 async function main(): Promise<void> {
-  // Enter your storage account name and shared key
-  const account = process.env.ACCOUNT_NAME || "";
-  const accountKey = process.env.ACCOUNT_KEY || "";
-
-  // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+  // Enter your storage account name
+  const accountName = process.env.ACCOUNT_NAME;
+  if (!accountName) {
+    throw new Error("ACCOUNT_NAME environment variable is not set.");
+  }
 
   // To use the manual proxyOptions below, remove this block
   if (!process.env.HTTP_PROXY || !process.env.HTTPS_PROXY) {
@@ -27,8 +26,8 @@ async function main(): Promise<void> {
   }
 
   const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential,
+    `https://${accountName}.blob.core.windows.net`,
+    new DefaultAzureCredential(),
     // The library tries to load the proxy settings from the environment variables like HTTP_PROXY
     // Alternatively, the service client accepts the following `proxyOptions` as part of its options:
     {
