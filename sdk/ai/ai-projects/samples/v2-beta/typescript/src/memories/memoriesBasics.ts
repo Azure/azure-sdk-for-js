@@ -9,7 +9,11 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import type { InputMessage, MemoryStoreDefaultDefinition, MemoryStoreDefaultOptions } from "@azure/ai-projects";
+import type {
+  InputMessage,
+  MemoryStoreDefaultDefinition,
+  MemoryStoreDefaultOptions,
+} from "@azure/ai-projects";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
@@ -69,7 +73,12 @@ export async function main(): Promise<void> {
   const userMessage: InputMessage = {
     type: "message",
     role: "user",
-    content: [{ type: "input_text", text: "I prefer dark roast coffee and usually drink it in the morning" }],
+    content: [
+      {
+        type: "input_text",
+        text: "I prefer dark roast coffee and usually drink it in the morning",
+      },
+    ],
   };
 
   console.log("\nSubmitting memory update request...");

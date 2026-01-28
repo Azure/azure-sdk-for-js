@@ -62,7 +62,12 @@ async function main() {
   const userMessage = {
     type: "message",
     role: "user",
-    content: "I prefer dark roast coffee and usually drink it in the morning",
+    content: [
+      {
+        type: "input_text",
+        text: "I prefer dark roast coffee and usually drink it in the morning",
+      },
+    ],
   };
 
   const updatePoller = project.memoryStores.updateMemories(memoryStore.name, scope, {
@@ -84,7 +89,7 @@ async function main() {
   const newMessage = {
     type: "message",
     role: "user",
-    content: "I also like cappuccinos in the afternoon",
+    content: [{ type: "input_text", text: "I also like cappuccinos in the afternoon" }],
   };
 
   const newUpdatePoller = project.memoryStores.updateMemories(memoryStore.name, scope, {
@@ -111,7 +116,7 @@ async function main() {
   const queryMessage = {
     type: "message",
     role: "user",
-    content: "What are my morning coffee preferences?",
+    content: [{ type: "input_text", text: "What are my morning coffee preferences?" }],
   };
 
   const searchResponse = await project.memoryStores.searchMemories(memoryStore.name, scope, {
@@ -127,15 +132,23 @@ async function main() {
 
   // Perform another search using the previous search as context
   const agentMessage = {
-    type: "message",
+    id: "agent-msg-1",
+    type: "output_message",
     role: "assistant",
-    content: "You previously indicated a preference for dark roast coffee in the morning.",
+    content: [
+      {
+        type: "output_text",
+        text: "You previously indicated a preference for dark roast coffee in the morning.",
+        annotations: [],
+      },
+    ],
+    status: "completed",
   };
 
   const followupQuery = {
     type: "message",
     role: "user",
-    content: "What about afternoon?", // Follow-up assuming context from previous messages
+    content: [{ type: "input_text", text: "What about afternoon?" }], // Follow-up assuming context from previous messages
   };
 
   const followupSearchResponse = await project.memoryStores.searchMemories(

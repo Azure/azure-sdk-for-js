@@ -120,7 +120,8 @@ export async function main(): Promise<void> {
       content: [
         {
           type: "tool_result",
-          tool_result: '{ "order": { "id": "123", "status": "shipped", "delivery_date": "2025-03-15" } }',
+          tool_result:
+            '{ "order": { "id": "123", "status": "shipped", "delivery_date": "2025-03-15" } }',
         },
       ],
     },
@@ -179,7 +180,9 @@ export async function main(): Promise<void> {
       description: "Get tracking information for an order.",
       parameters: {
         type: "object",
-        properties: { order_id: { type: "string", description: "The order ID to get tracking for." } },
+        properties: {
+          order_id: { type: "string", description: "The order ID to get tracking for." },
+        },
       },
     },
   ];

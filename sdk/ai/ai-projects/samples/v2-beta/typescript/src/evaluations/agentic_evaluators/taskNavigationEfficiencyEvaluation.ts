@@ -118,7 +118,12 @@ export async function main(): Promise<void> {
     },
   ];
 
-  const simpleGroundTruth = ["identify_tools_to_call", "call_tool_A", "call_tool_B", "response_synthesis"];
+  const simpleGroundTruth = [
+    "identify_tools_to_call",
+    "call_tool_A",
+    "call_tool_B",
+    "response_synthesis",
+  ];
 
   // Another example with parameters in tool calls
   const response = [
