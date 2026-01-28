@@ -2,21 +2,15 @@
 // Licensed under the MIT License.
 
 import type {
-  DerivedMetricInfo,
-  FilterConjunctionGroupInfo,
-  FilterInfo,
+  DerivedMetricInfoOutput,
+  FilterConjunctionGroupInfoOutput,
+  FilterInfoOutput,
   RemoteDependency,
   /* eslint-disable-next-line @typescript-eslint/no-redeclare */
   Request,
   Exception,
   Trace,
-  DocumentFilterConjunctionGroupInfo,
-} from "../../../../src/generated/index.js";
-import {
-  KnownPredicateType,
-  KnownTelemetryType,
-  KnownDocumentType,
-  KnownAggregationType,
+  DocumentFilterConjunctionGroupInfoOutput,
 } from "../../../../src/generated/index.js";
 import { Validator } from "../../../../src/metrics/quickpulse/filtering/validator.js";
 import { Filter } from "../../../../src/metrics/quickpulse/filtering/filter.js";
@@ -53,253 +47,253 @@ import { assert, describe, it } from "vitest";
 describe("Live Metrics filtering - Validator", () => {
   const validator: Validator = new Validator();
   it("The validator rejects the invalid telemetry types", () => {
-    const derivedMetricInfo: DerivedMetricInfo = {
-      id: "random-id1",
-      telemetryType: "Event",
-      filterGroups: [{ filters: [] }],
-      projection: "Message",
-      aggregation: "Sum",
-      backEndAggregation: "Sum",
+    const DerivedMetricInfoOutput: DerivedMetricInfoOutput = {
+      Id: "random-id1",
+      TelemetryType: "Event",
+      FilterGroups: [{ Filters: [] }],
+      Projection: "Message",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
     assert.throws(
-      () => validator.validateTelemetryType(derivedMetricInfo.telemetryType),
+      () => validator.validateTelemetryType(DerivedMetricInfoOutput.TelemetryType),
       TelemetryTypeError,
     );
-    derivedMetricInfo.telemetryType = "\\Random\\Counter";
+    DerivedMetricInfoOutput.TelemetryType = "\\Random\\Counter";
     assert.throws(
-      () => validator.validateTelemetryType(derivedMetricInfo.telemetryType),
+      () => validator.validateTelemetryType(DerivedMetricInfoOutput.TelemetryType),
       TelemetryTypeError,
     );
-    derivedMetricInfo.telemetryType = "Metric";
+    DerivedMetricInfoOutput.TelemetryType = "Metric";
     assert.throws(
-      () => validator.validateTelemetryType(derivedMetricInfo.telemetryType),
+      () => validator.validateTelemetryType(DerivedMetricInfoOutput.TelemetryType),
       TelemetryTypeError,
     );
-    derivedMetricInfo.telemetryType = "does not exist";
+    DerivedMetricInfoOutput.TelemetryType = "does not exist";
     assert.throws(
-      () => validator.validateTelemetryType(derivedMetricInfo.telemetryType),
+      () => validator.validateTelemetryType(DerivedMetricInfoOutput.TelemetryType),
       TelemetryTypeError,
     );
   });
 
-  it("The validator rejects CustomMetrics projections and filters (not supported in Otel)", () => {
-    const invalid1: DerivedMetricInfo = {
-      id: "random-id1",
-      telemetryType: "Request",
-      filterGroups: [],
-      projection: "CustomMetrics.property",
-      aggregation: "Sum",
-      backEndAggregation: "Sum",
+  it("The validator rejects CustomMetrics Projections and Filters (not supported in Otel)", () => {
+    const invalid1: DerivedMetricInfoOutput = {
+      Id: "random-id1",
+      TelemetryType: "Request",
+      FilterGroups: [],
+      Projection: "CustomMetrics.property",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
-    const conjunctionGroup: FilterConjunctionGroupInfo = {
-      filters: [
+    const conjunctionGroup: FilterConjunctionGroupInfoOutput = {
+      Filters: [
         {
-          fieldName: "CustomMetrics.property",
-          predicate: KnownPredicateType.Equal,
-          comparand: "5",
+          FieldName: "CustomMetrics.property",
+          Predicate: "Equal",
+          Comparand: "5",
         },
       ],
     };
 
-    const invalid2: DerivedMetricInfo = {
-      id: "random-id2",
-      telemetryType: "Request",
-      filterGroups: [conjunctionGroup],
-      projection: "Message",
-      aggregation: "Sum",
-      backEndAggregation: "Sum",
+    const invalid2: DerivedMetricInfoOutput = {
+      Id: "random-id2",
+      TelemetryType: "Request",
+      FilterGroups: [conjunctionGroup],
+      Projection: "Message",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
     assert.throws(
       () => validator.checkCustomMetricProjection(invalid1),
       UnexpectedFilterCreateError,
     );
-    validator.validateTelemetryType(invalid2.telemetryType); // this shouldn't throw an error as the telemetry type is supported
+    validator.validateTelemetryType(invalid2.TelemetryType); // this shouldn't throw an error as the telemetry type is supported
     assert.throws(() => validator.validateMetricFilters(invalid2), UnexpectedFilterCreateError);
 
-    const invalidDocFilterConjuctionInfo: DocumentFilterConjunctionGroupInfo = {
-      telemetryType: KnownTelemetryType.Request,
-      filters: conjunctionGroup,
+    const invalidDocFilterConjuctionInfo: DocumentFilterConjunctionGroupInfoOutput = {
+      TelemetryType: "Request",
+      Filters: conjunctionGroup,
     };
-    validator.validateTelemetryType(invalidDocFilterConjuctionInfo.telemetryType);
+    validator.validateTelemetryType(invalidDocFilterConjuctionInfo.TelemetryType);
     assert.throws(
       () => validator.validateDocumentFilters(invalidDocFilterConjuctionInfo),
       UnexpectedFilterCreateError,
     );
   });
 
-  it("The validator rejects invalid filters", () => {
-    const emptyFilterName: FilterInfo = {
-      fieldName: "",
-      predicate: KnownPredicateType.Equal,
-      comparand: "blah",
+  it("The validator rejects invalid Filters", () => {
+    const emptyFilterName: FilterInfoOutput = {
+      FieldName: "",
+      Predicate: "Equal",
+      Comparand: "blah",
     };
 
-    const emptyComparand: FilterInfo = {
-      fieldName: KnownRequestColumns.Url,
-      predicate: KnownPredicateType.Equal,
-      comparand: "",
+    const emptyComparand: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Url,
+      Predicate: "Equal",
+      Comparand: "",
     };
 
-    const invalidAnyFieldEqual: FilterInfo = {
-      fieldName: "*",
-      predicate: KnownPredicateType.Equal,
-      comparand: "5",
+    const invalidAnyFieldEqual: FilterInfoOutput = {
+      FieldName: "*",
+      Predicate: "Equal",
+      Comparand: "5",
     };
 
-    const invalidAnyFieldNotEqual: FilterInfo = {
-      fieldName: "*",
-      predicate: KnownPredicateType.NotEqual,
-      comparand: "5",
+    const invalidAnyFieldNotEqual: FilterInfoOutput = {
+      FieldName: "*",
+      Predicate: "NotEqual",
+      Comparand: "5",
     };
 
-    const invalidAnyFieldLessThan: FilterInfo = {
-      fieldName: "*",
-      predicate: KnownPredicateType.LessThan,
-      comparand: "5",
+    const invalidAnyFieldLessThan: FilterInfoOutput = {
+      FieldName: "*",
+      Predicate: "LessThan",
+      Comparand: "5",
     };
 
-    const invalidAnyFieldLessThanOrEqual: FilterInfo = {
-      fieldName: "*",
-      predicate: KnownPredicateType.LessThanOrEqual,
-      comparand: "5",
+    const invalidAnyFieldLessThanOrEqual: FilterInfoOutput = {
+      FieldName: "*",
+      Predicate: "LessThanOrEqual",
+      Comparand: "5",
     };
 
-    const invalidAnyFieldGreaterThan: FilterInfo = {
-      fieldName: "*",
-      predicate: KnownPredicateType.GreaterThan,
-      comparand: "5",
+    const invalidAnyFieldGreaterThan: FilterInfoOutput = {
+      FieldName: "*",
+      Predicate: "GreaterThan",
+      Comparand: "5",
     };
 
-    const invalidAnyFieldGreaterThanOrEqual: FilterInfo = {
-      fieldName: "*",
-      predicate: KnownPredicateType.GreaterThanOrEqual,
-      comparand: "5",
+    const invalidAnyFieldGreaterThanOrEqual: FilterInfoOutput = {
+      FieldName: "*",
+      Predicate: "GreaterThanOrEqual",
+      Comparand: "5",
     };
 
-    const invalidStringFieldPredicate: FilterInfo = {
-      fieldName: KnownRequestColumns.Url,
-      predicate: KnownPredicateType.LessThan,
-      comparand: "hi",
+    const invalidStringFieldPredicate: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Url,
+      Predicate: "LessThan",
+      Comparand: "hi",
     };
 
-    const invalidStringFieldPredicate2: FilterInfo = {
-      fieldName: KnownRequestColumns.Url,
-      predicate: KnownPredicateType.GreaterThan,
-      comparand: "hi",
+    const invalidStringFieldPredicate2: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Url,
+      Predicate: "GreaterThan",
+      Comparand: "hi",
     };
 
-    const invalidStringFieldPredicate3: FilterInfo = {
-      fieldName: KnownRequestColumns.Url,
-      predicate: KnownPredicateType.GreaterThanOrEqual,
-      comparand: "hi",
+    const invalidStringFieldPredicate3: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Url,
+      Predicate: "GreaterThanOrEqual",
+      Comparand: "hi",
     };
 
-    const invalidStringFieldPredicate4: FilterInfo = {
-      fieldName: KnownRequestColumns.Url,
-      predicate: KnownPredicateType.LessThanOrEqual,
-      comparand: "hi",
+    const invalidStringFieldPredicate4: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Url,
+      Predicate: "LessThanOrEqual",
+      Comparand: "hi",
     };
 
-    const invalidCustomDimLess: FilterInfo = {
-      fieldName: "CustomDimensions.property",
-      predicate: KnownPredicateType.LessThan,
-      comparand: "hi",
+    const invalidCustomDimLess: FilterInfoOutput = {
+      FieldName: "CustomDimensions.property",
+      Predicate: "LessThan",
+      Comparand: "hi",
     };
 
-    const invalidCustomDimGreater: FilterInfo = {
-      fieldName: "CustomDimensions.property",
-      predicate: KnownPredicateType.GreaterThan,
-      comparand: "hi",
+    const invalidCustomDimGreater: FilterInfoOutput = {
+      FieldName: "CustomDimensions.property",
+      Predicate: "GreaterThan",
+      Comparand: "hi",
     };
 
-    const invalidCustomDimGreaterThanOrEqual: FilterInfo = {
-      fieldName: "CustomDimensions.property",
-      predicate: KnownPredicateType.GreaterThanOrEqual,
-      comparand: "hi",
+    const invalidCustomDimGreaterThanOrEqual: FilterInfoOutput = {
+      FieldName: "CustomDimensions.property",
+      Predicate: "GreaterThanOrEqual",
+      Comparand: "hi",
     };
 
-    const invalidCustomDimLessThanOrEqual: FilterInfo = {
-      fieldName: "CustomDimensions.property",
-      predicate: KnownPredicateType.LessThanOrEqual,
-      comparand: "hi",
+    const invalidCustomDimLessThanOrEqual: FilterInfoOutput = {
+      FieldName: "CustomDimensions.property",
+      Predicate: "LessThanOrEqual",
+      Comparand: "hi",
     };
 
-    const invalidNumericFieldPredicate: FilterInfo = {
-      fieldName: KnownRequestColumns.ResponseCode,
-      predicate: KnownPredicateType.Contains,
-      comparand: "5",
+    const invalidNumericFieldPredicate: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.ResponseCode,
+      Predicate: "Contains",
+      Comparand: "5",
     };
 
-    const invalidNumericFieldPredicate2: FilterInfo = {
-      fieldName: KnownRequestColumns.ResponseCode,
-      predicate: KnownPredicateType.DoesNotContain,
-      comparand: "5",
+    const invalidNumericFieldPredicate2: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.ResponseCode,
+      Predicate: "DoesNotContain",
+      Comparand: "5",
     };
 
-    const invalidNumericFieldComparand: FilterInfo = {
-      fieldName: KnownRequestColumns.ResponseCode,
-      predicate: KnownPredicateType.Equal,
-      comparand: "hi",
+    const invalidNumericFieldComparand: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.ResponseCode,
+      Predicate: "Equal",
+      Comparand: "hi",
     };
 
-    const invalidDurationComparand: FilterInfo = {
-      fieldName: KnownRequestColumns.Duration,
-      predicate: KnownPredicateType.NotEqual,
-      comparand: "invalid timestamp",
+    const invalidDurationComparand: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Duration,
+      Predicate: "NotEqual",
+      Comparand: "invalid timestamp",
     };
 
-    const unknownFieldName: FilterInfo = {
-      fieldName: "unknown field",
-      predicate: KnownPredicateType.Contains,
-      comparand: "hi",
+    const unknownFieldName: FilterInfoOutput = {
+      FieldName: "unknown field",
+      Predicate: "Contains",
+      Comparand: "hi",
     };
 
-    const successLessThan: FilterInfo = {
-      fieldName: KnownRequestColumns.Success,
-      predicate: KnownPredicateType.LessThan,
-      comparand: "true",
+    const successLessThan: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Success,
+      Predicate: "LessThan",
+      Comparand: "true",
     };
 
-    const successLessThanOrEqual: FilterInfo = {
-      fieldName: KnownRequestColumns.Success,
-      predicate: KnownPredicateType.LessThanOrEqual,
-      comparand: "true",
+    const successLessThanOrEqual: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Success,
+      Predicate: "LessThanOrEqual",
+      Comparand: "true",
     };
 
-    const successFieldGreaterThan: FilterInfo = {
-      fieldName: KnownRequestColumns.Success,
-      predicate: KnownPredicateType.GreaterThan,
-      comparand: "true",
+    const successFieldGreaterThan: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Success,
+      Predicate: "GreaterThan",
+      Comparand: "true",
     };
 
-    const successGreaterThanOrEqual: FilterInfo = {
-      fieldName: KnownRequestColumns.Success,
-      predicate: KnownPredicateType.GreaterThanOrEqual,
-      comparand: "true",
+    const successGreaterThanOrEqual: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Success,
+      Predicate: "GreaterThanOrEqual",
+      Comparand: "true",
     };
 
-    const successContains: FilterInfo = {
-      fieldName: KnownRequestColumns.Success,
-      predicate: KnownPredicateType.Contains,
-      comparand: "true",
+    const successContains: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Success,
+      Predicate: "Contains",
+      Comparand: "true",
     };
 
-    const successNotContain: FilterInfo = {
-      fieldName: KnownRequestColumns.Success,
-      predicate: KnownPredicateType.DoesNotContain,
-      comparand: "true",
+    const successNotContain: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Success,
+      Predicate: "DoesNotContain",
+      Comparand: "true",
     };
 
-    const invalidBool: FilterInfo = {
-      fieldName: KnownRequestColumns.Success,
-      predicate: KnownPredicateType.Equal,
-      comparand: "hi",
+    const invalidBool: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Success,
+      Predicate: "Equal",
+      Comparand: "hi",
     };
 
-    const filterInfoList: FilterInfo[] = [
+    const filterInfoList: FilterInfoOutput[] = [
       emptyFilterName,
       emptyComparand,
       invalidAnyFieldEqual,
@@ -329,218 +323,218 @@ describe("Live Metrics filtering - Validator", () => {
       invalidBool,
     ];
 
-    const derivedMetricInfo: DerivedMetricInfo = {
-      id: "random-id",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [],
-      projection: "Count()",
-      aggregation: "Sum",
-      backEndAggregation: "Sum",
+    const DerivedMetricInfoOutput: DerivedMetricInfoOutput = {
+      Id: "random-id",
+      TelemetryType: "Request",
+      FilterGroups: [],
+      Projection: "Count()",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
-    const documentFilterConjunctionGroupInfo: DocumentFilterConjunctionGroupInfo = {
-      telemetryType: KnownTelemetryType.Request,
-      filters: { filters: [] },
+    const DocumentFilterConjunctionGroupInfoOutput: DocumentFilterConjunctionGroupInfoOutput = {
+      TelemetryType: "Request",
+      Filters: { Filters: [] },
     };
 
     filterInfoList.forEach((filter) => {
-      const conjunctionGroup: FilterConjunctionGroupInfo = {
-        filters: [filter],
+      const conjunctionGroup: FilterConjunctionGroupInfoOutput = {
+        Filters: [filter],
       };
 
-      derivedMetricInfo.filterGroups = [conjunctionGroup];
+      DerivedMetricInfoOutput.FilterGroups = [conjunctionGroup];
       assert.throws(
-        () => validator.validateMetricFilters(derivedMetricInfo),
+        () => validator.validateMetricFilters(DerivedMetricInfoOutput),
         UnexpectedFilterCreateError || TelemetryTypeError,
       );
 
-      documentFilterConjunctionGroupInfo.filters = conjunctionGroup;
+      DocumentFilterConjunctionGroupInfoOutput.Filters = conjunctionGroup;
 
       assert.throws(
-        () => validator.validateDocumentFilters(documentFilterConjunctionGroupInfo),
+        () => validator.validateDocumentFilters(DocumentFilterConjunctionGroupInfoOutput),
         UnexpectedFilterCreateError || TelemetryTypeError,
       );
     });
 
-    derivedMetricInfo.filterGroups = [{ filters: [unknownFieldName] }];
-    documentFilterConjunctionGroupInfo.filters = { filters: [unknownFieldName] };
-    const supportedTelemetryTypes: KnownTelemetryType[] = [
-      KnownTelemetryType.Request,
-      KnownTelemetryType.Dependency,
-      KnownTelemetryType.Exception,
-      KnownTelemetryType.Trace,
+    DerivedMetricInfoOutput.FilterGroups = [{ Filters: [unknownFieldName] }];
+    DocumentFilterConjunctionGroupInfoOutput.Filters = { Filters: [unknownFieldName] };
+    const supportedTelemetryTypes: string[] = [
+      "Request",
+      "Dependency",
+      "Exception",
+      "Trace",
     ];
 
-    supportedTelemetryTypes.forEach((telemetryType) => {
-      derivedMetricInfo.telemetryType = telemetryType;
+    supportedTelemetryTypes.forEach((TelemetryType) => {
+      DerivedMetricInfoOutput.TelemetryType = TelemetryType;
       assert.throws(
-        () => validator.validateMetricFilters(derivedMetricInfo),
+        () => validator.validateMetricFilters(DerivedMetricInfoOutput),
         UnexpectedFilterCreateError,
       );
-      documentFilterConjunctionGroupInfo.telemetryType = telemetryType;
+      DocumentFilterConjunctionGroupInfoOutput.TelemetryType = TelemetryType;
       assert.throws(
-        () => validator.validateDocumentFilters(documentFilterConjunctionGroupInfo),
+        () => validator.validateDocumentFilters(DocumentFilterConjunctionGroupInfoOutput),
         UnexpectedFilterCreateError,
       );
     });
   });
 
-  it("The validator rejects a derivedMetricInfo/documentFilterConjuctionGroupInfo if the only filterConjunctionGroupInfo has an invalid filter inside it", () => {
-    const invalidFilter: FilterInfo = {
-      fieldName: KnownRequestColumns.Duration,
-      predicate: KnownPredicateType.NotEqual,
-      comparand: "invalid timestamp",
+  it("The validator rejects a DerivedMetricInfoOutput/documentFilterConjuctionGroupInfo if the only FilterConjunctionGroupInfoOutput has an invalid filter inside it", () => {
+    const invalidFilter: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Duration,
+      Predicate: "NotEqual",
+      Comparand: "invalid timestamp",
     };
 
-    const validFilter: FilterInfo = {
-      fieldName: KnownRequestColumns.ResponseCode,
-      predicate: KnownPredicateType.Equal,
-      comparand: "200",
+    const validFilter: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.ResponseCode,
+      Predicate: "Equal",
+      Comparand: "200",
     };
 
-    const conjunctionGroup: FilterConjunctionGroupInfo = {
-      filters: [validFilter, invalidFilter],
+    const conjunctionGroup: FilterConjunctionGroupInfoOutput = {
+      Filters: [validFilter, invalidFilter],
     };
-    const documentFilterConjunctionGroupInfo: DocumentFilterConjunctionGroupInfo = {
-      telemetryType: KnownTelemetryType.Request,
-      filters: conjunctionGroup,
+    const DocumentFilterConjunctionGroupInfoOutput: DocumentFilterConjunctionGroupInfoOutput = {
+      TelemetryType: "Request",
+      Filters: conjunctionGroup,
     };
 
-    const derivedMetricInfo: DerivedMetricInfo = {
-      id: "random-id",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [conjunctionGroup],
-      projection: "Count()",
-      aggregation: "Sum",
-      backEndAggregation: "Sum",
+    const DerivedMetricInfoOutput: DerivedMetricInfoOutput = {
+      Id: "random-id",
+      TelemetryType: "Request",
+      FilterGroups: [conjunctionGroup],
+      Projection: "Count()",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
     assert.throws(
-      () => validator.validateMetricFilters(derivedMetricInfo),
+      () => validator.validateMetricFilters(DerivedMetricInfoOutput),
       UnexpectedFilterCreateError,
     );
     assert.throws(
-      () => validator.validateDocumentFilters(documentFilterConjunctionGroupInfo),
+      () => validator.validateDocumentFilters(DocumentFilterConjunctionGroupInfoOutput),
       UnexpectedFilterCreateError,
     );
   });
 
-  it("The validator accepts valid filters", () => {
-    const anyFieldContains: FilterInfo = {
-      fieldName: "*",
-      predicate: KnownPredicateType.Contains,
-      comparand: "hi",
+  it("The validator accepts valid Filters", () => {
+    const anyFieldContains: FilterInfoOutput = {
+      FieldName: "*",
+      Predicate: "Contains",
+      Comparand: "hi",
     };
 
-    const anyFieldDoesNotContain: FilterInfo = {
-      fieldName: "*",
-      predicate: KnownPredicateType.DoesNotContain,
-      comparand: "hi",
+    const anyFieldDoesNotContain: FilterInfoOutput = {
+      FieldName: "*",
+      Predicate: "DoesNotContain",
+      Comparand: "hi",
     };
 
-    const stringNotEqual: FilterInfo = {
-      fieldName: KnownRequestColumns.Url,
-      predicate: KnownPredicateType.NotEqual,
-      comparand: "hi",
+    const stringNotEqual: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Url,
+      Predicate: "NotEqual",
+      Comparand: "hi",
     };
 
-    const stringEquals: FilterInfo = {
-      fieldName: KnownRequestColumns.Url,
-      predicate: KnownPredicateType.Equal,
-      comparand: "hi",
+    const stringEquals: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Url,
+      Predicate: "Equal",
+      Comparand: "hi",
     };
 
-    const stringContain: FilterInfo = {
-      fieldName: KnownRequestColumns.Url,
-      predicate: KnownPredicateType.Contains,
-      comparand: "hi",
+    const stringContain: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Url,
+      Predicate: "Contains",
+      Comparand: "hi",
     };
 
-    const stringNotContain: FilterInfo = {
-      fieldName: KnownRequestColumns.Url,
-      predicate: KnownPredicateType.DoesNotContain,
-      comparand: "hi",
+    const stringNotContain: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Url,
+      Predicate: "DoesNotContain",
+      Comparand: "hi",
     };
 
-    const customDimNotEqual: FilterInfo = {
-      fieldName: "CustomDimensions.property",
-      predicate: KnownPredicateType.NotEqual,
-      comparand: "hi",
+    const customDimNotEqual: FilterInfoOutput = {
+      FieldName: "CustomDimensions.property",
+      Predicate: "NotEqual",
+      Comparand: "hi",
     };
 
-    const customDimEquals: FilterInfo = {
-      fieldName: "CustomDimensions.property",
-      predicate: KnownPredicateType.Equal,
-      comparand: "hi",
+    const customDimEquals: FilterInfoOutput = {
+      FieldName: "CustomDimensions.property",
+      Predicate: "Equal",
+      Comparand: "hi",
     };
 
-    const customDimContain: FilterInfo = {
-      fieldName: "CustomDimensions.property",
-      predicate: KnownPredicateType.Contains,
-      comparand: "hi",
+    const customDimContain: FilterInfoOutput = {
+      FieldName: "CustomDimensions.property",
+      Predicate: "Contains",
+      Comparand: "hi",
     };
 
-    const customDimNotContain: FilterInfo = {
-      fieldName: "CustomDimensions.property",
-      predicate: KnownPredicateType.DoesNotContain,
-      comparand: "hi",
+    const customDimNotContain: FilterInfoOutput = {
+      FieldName: "CustomDimensions.property",
+      Predicate: "DoesNotContain",
+      Comparand: "hi",
     };
 
-    const numericEquals: FilterInfo = {
-      fieldName: KnownRequestColumns.ResponseCode,
-      predicate: KnownPredicateType.Equal,
-      comparand: "5",
+    const numericEquals: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.ResponseCode,
+      Predicate: "Equal",
+      Comparand: "5",
     };
 
-    const numericNotEqual: FilterInfo = {
-      fieldName: KnownRequestColumns.ResponseCode,
-      predicate: KnownPredicateType.NotEqual,
-      comparand: "5",
+    const numericNotEqual: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.ResponseCode,
+      Predicate: "NotEqual",
+      Comparand: "5",
     };
 
-    const numericLessThan: FilterInfo = {
-      fieldName: KnownRequestColumns.ResponseCode,
-      predicate: KnownPredicateType.LessThan,
-      comparand: "5",
+    const numericLessThan: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.ResponseCode,
+      Predicate: "LessThan",
+      Comparand: "5",
     };
 
-    const numericGreaterThan: FilterInfo = {
-      fieldName: KnownRequestColumns.ResponseCode,
-      predicate: KnownPredicateType.GreaterThan,
-      comparand: "5",
+    const numericGreaterThan: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.ResponseCode,
+      Predicate: "GreaterThan",
+      Comparand: "5",
     };
 
-    const numericLessThanOrEqual: FilterInfo = {
-      fieldName: KnownRequestColumns.ResponseCode,
-      predicate: KnownPredicateType.LessThanOrEqual,
-      comparand: "5",
+    const numericLessThanOrEqual: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.ResponseCode,
+      Predicate: "LessThanOrEqual",
+      Comparand: "5",
     };
 
-    const numericGreaterThanOrEqual: FilterInfo = {
-      fieldName: KnownRequestColumns.ResponseCode,
-      predicate: KnownPredicateType.GreaterThanOrEqual,
-      comparand: "5",
+    const numericGreaterThanOrEqual: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.ResponseCode,
+      Predicate: "GreaterThanOrEqual",
+      Comparand: "5",
     };
 
-    const durationEquals: FilterInfo = {
-      fieldName: KnownRequestColumns.Duration,
-      predicate: KnownPredicateType.Equal,
-      comparand: "0.0:0:0.2", // 200 ms in iso 8601 format
+    const durationEquals: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Duration,
+      Predicate: "Equal",
+      Comparand: "0.0:0:0.2", // 200 ms in iso 8601 format
     };
 
-    const successEqual: FilterInfo = {
-      fieldName: KnownRequestColumns.Success,
-      predicate: KnownPredicateType.Equal,
-      comparand: "true",
+    const successEqual: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Success,
+      Predicate: "Equal",
+      Comparand: "true",
     };
 
-    const successNotEqual: FilterInfo = {
-      fieldName: KnownRequestColumns.Success,
-      predicate: KnownPredicateType.NotEqual,
-      comparand: "false",
+    const successNotEqual: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Success,
+      Predicate: "NotEqual",
+      Comparand: "false",
     };
 
-    const filterInfoList: FilterInfo[] = [
+    const filterInfoList: FilterInfoOutput[] = [
       anyFieldContains,
       anyFieldDoesNotContain,
       stringNotEqual,
@@ -562,28 +556,28 @@ describe("Live Metrics filtering - Validator", () => {
       successNotEqual,
     ];
 
-    const derivedMetricInfo: DerivedMetricInfo = {
-      id: "random-id",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [],
-      projection: "Count()",
-      aggregation: "Sum",
-      backEndAggregation: "Sum",
+    const DerivedMetricInfoOutput: DerivedMetricInfoOutput = {
+      Id: "random-id",
+      TelemetryType: "Request",
+      FilterGroups: [],
+      Projection: "Count()",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
     filterInfoList.forEach((filter) => {
-      const conjunctionGroup: FilterConjunctionGroupInfo = {
-        filters: [filter],
+      const conjunctionGroup: FilterConjunctionGroupInfoOutput = {
+        Filters: [filter],
       };
 
-      derivedMetricInfo.filterGroups = [conjunctionGroup];
-      validator.validateMetricFilters(derivedMetricInfo);
+      DerivedMetricInfoOutput.FilterGroups = [conjunctionGroup];
+      validator.validateMetricFilters(DerivedMetricInfoOutput);
 
-      const documentFilterConjunctionGroupInfo: DocumentFilterConjunctionGroupInfo = {
-        telemetryType: KnownTelemetryType.Request,
-        filters: conjunctionGroup,
+      const DocumentFilterConjunctionGroupInfoOutput: DocumentFilterConjunctionGroupInfoOutput = {
+        TelemetryType: "Request",
+        Filters: conjunctionGroup,
       };
-      validator.validateDocumentFilters(documentFilterConjunctionGroupInfo);
+      validator.validateDocumentFilters(DocumentFilterConjunctionGroupInfoOutput);
     });
   });
 });
@@ -712,37 +706,37 @@ describe("Live Metrics filtering - Conversion of Span/Log to TelemetryData", () 
   });
 });
 
-describe("Live Metrics filtering - Applying valid filters", () => {
+describe("Live Metrics filtering - Applying valid Filters", () => {
   const filterClass: Filter = new Filter();
   it("Can handle AnyField filter", () => {
-    const anyFieldContainsHi: FilterInfo = {
-      fieldName: "*",
-      predicate: KnownPredicateType.Contains,
-      comparand: "hi",
+    const anyFieldContainsHi: FilterInfoOutput = {
+      FieldName: "*",
+      Predicate: "Contains",
+      Comparand: "hi",
     };
 
-    const anyFieldNotContains: FilterInfo = {
-      fieldName: "*",
-      predicate: KnownPredicateType.DoesNotContain,
-      comparand: "hi",
+    const anyFieldNotContains: FilterInfoOutput = {
+      FieldName: "*",
+      Predicate: "DoesNotContain",
+      Comparand: "hi",
     };
 
-    const anyFieldContainsCool: FilterInfo = {
-      fieldName: "*",
-      predicate: KnownPredicateType.Contains,
-      comparand: "cool",
+    const anyFieldContainsCool: FilterInfoOutput = {
+      FieldName: "*",
+      Predicate: "Contains",
+      Comparand: "cool",
     };
 
-    const anyFieldForNumeric: FilterInfo = {
-      fieldName: "*",
-      predicate: KnownPredicateType.Contains,
-      comparand: "200",
+    const anyFieldForNumeric: FilterInfoOutput = {
+      FieldName: "*",
+      Predicate: "Contains",
+      Comparand: "200",
     };
 
-    const anyFieldForBoolean: FilterInfo = {
-      fieldName: "*",
-      predicate: KnownPredicateType.Contains,
-      comparand: "true",
+    const anyFieldForBoolean: FilterInfoOutput = {
+      FieldName: "*",
+      Predicate: "Contains",
+      Comparand: "true",
     };
 
     const request1: RequestData = {
@@ -763,76 +757,76 @@ describe("Live Metrics filtering - Applying valid filters", () => {
       CustomDimensions: new Map<string, string>([["property", "cool"]]),
     };
 
-    const conjunctionGroup: FilterConjunctionGroupInfo = {
-      filters: [anyFieldContainsHi],
+    const conjunctionGroup: FilterConjunctionGroupInfoOutput = {
+      Filters: [anyFieldContainsHi],
     };
 
-    const derivedMetricInfo: DerivedMetricInfo = {
-      id: "random-id",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [conjunctionGroup],
-      projection: "Count()",
-      aggregation: "Sum",
-      backEndAggregation: "Sum",
+    const DerivedMetricInfoOutput: DerivedMetricInfoOutput = {
+      Id: "random-id",
+      TelemetryType: "Request",
+      FilterGroups: [conjunctionGroup],
+      Projection: "Count()",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
     // request contains "hi" in multiple fields & filter is contains hi
     // return true
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request1));
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request1));
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request1));
 
     // request does not contain "hi" in any field & filter is contains hi
     // return false
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request2));
-    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request2));
+    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request2));
 
     // request does not contain "hi" in any field & filter is does not contain hi
     // return true
-    conjunctionGroup.filters = [anyFieldNotContains];
-    derivedMetricInfo.filterGroups = [conjunctionGroup];
+    conjunctionGroup.Filters = [anyFieldNotContains];
+    DerivedMetricInfoOutput.FilterGroups = [conjunctionGroup];
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request2));
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request2));
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request2));
 
     // request contains "cool" in custom dimensions & filter is contains cool
     // return true
-    conjunctionGroup.filters = [anyFieldContainsCool];
-    derivedMetricInfo.filterGroups = [conjunctionGroup];
+    conjunctionGroup.Filters = [anyFieldContainsCool];
+    DerivedMetricInfoOutput.FilterGroups = [conjunctionGroup];
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request2));
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request2));
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request2));
 
     // request contains 200 in duration & filter is contains "200".
     // fields are expected to be treated as string
-    conjunctionGroup.filters = [anyFieldForNumeric];
-    derivedMetricInfo.filterGroups = [conjunctionGroup];
+    conjunctionGroup.Filters = [anyFieldForNumeric];
+    DerivedMetricInfoOutput.FilterGroups = [conjunctionGroup];
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request1));
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request1));
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request1));
 
     // request contains true in Success & filter is contains "true".
     // fields are expected to be treated as string
-    conjunctionGroup.filters = [anyFieldForBoolean];
-    derivedMetricInfo.filterGroups = [conjunctionGroup];
+    conjunctionGroup.Filters = [anyFieldForBoolean];
+    DerivedMetricInfoOutput.FilterGroups = [conjunctionGroup];
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request1));
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request1));
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request1));
   });
 
   it("Can handle CustomDimension filter", () => {
-    const customDimFilter: FilterInfo = {
-      fieldName: "CustomDimensions.hi",
-      predicate: KnownPredicateType.Equal,
-      comparand: "hi",
+    const customDimFilter: FilterInfoOutput = {
+      FieldName: "CustomDimensions.hi",
+      Predicate: "Equal",
+      Comparand: "hi",
     };
 
-    const conjunctionGroup: FilterConjunctionGroupInfo = {
-      filters: [customDimFilter],
+    const conjunctionGroup: FilterConjunctionGroupInfoOutput = {
+      Filters: [customDimFilter],
     };
 
-    const derivedMetricInfo: DerivedMetricInfo = {
-      id: "random-id",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [conjunctionGroup],
-      projection: "Count()",
-      aggregation: "Sum",
-      backEndAggregation: "Sum",
+    const DerivedMetricInfoOutput: DerivedMetricInfoOutput = {
+      Id: "random-id",
+      TelemetryType: "Request",
+      FilterGroups: [conjunctionGroup],
+      Projection: "Count()",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
     const request: RequestData = {
@@ -845,56 +839,56 @@ describe("Live Metrics filtering - Applying valid filters", () => {
     };
 
     // the asked for field is not in the custom dimensions so return false
-    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // the asked for field is in the custom dimensions but value does not match
     request.CustomDimensions.clear();
     request.CustomDimensions.set("hi", "bye");
-    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // the asked for field is in the custom dimensions and value matches
     request.CustomDimensions.set("hi", "hi");
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
-    // testing not equal predicate. The CustomDimensions.hi value != hi so return true.
-    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.NotEqual;
+    // testing not equal Predicate. The CustomDimensions.hi value != hi so return true.
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].Predicate = "NotEqual";
     request.CustomDimensions.set("hi", "bye");
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
-    // testing does not contain predicate. The CustomDimensions.hi value does not contain hi so return true.
-    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.DoesNotContain;
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    // testing does not contain Predicate. The CustomDimensions.hi value does not contain hi so return true.
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].Predicate = "DoesNotContain";
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
-    // testing contains predicate. The CustomDimensions.hi value contains hi so return true.
-    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.Contains;
+    // testing contains Predicate. The CustomDimensions.hi value contains hi so return true.
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].Predicate = "Contains";
     request.CustomDimensions.set("hi", "hi there");
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
   });
 
   it("Can handle filter on known boolean columns", () => {
-    const filter: FilterInfo = {
-      fieldName: KnownRequestColumns.Success,
-      predicate: KnownPredicateType.Equal,
-      comparand: "true",
+    const filter: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Success,
+      Predicate: "Equal",
+      Comparand: "true",
     };
 
-    const conjunctionGroup: FilterConjunctionGroupInfo = {
-      filters: [filter],
+    const conjunctionGroup: FilterConjunctionGroupInfoOutput = {
+      Filters: [filter],
     };
 
-    const derivedMetricInfo: DerivedMetricInfo = {
-      id: "random-id",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [conjunctionGroup],
-      projection: "Count()",
-      aggregation: "Sum",
-      backEndAggregation: "Sum",
+    const DerivedMetricInfoOutput: DerivedMetricInfoOutput = {
+      Id: "random-id",
+      TelemetryType: "Request",
+      FilterGroups: [conjunctionGroup],
+      Projection: "Count()",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
     const request: RequestData = {
@@ -918,54 +912,54 @@ describe("Live Metrics filtering - Applying valid filters", () => {
     };
 
     // Request Success filter matches
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // Request Success filter does not match
     request.Success = false;
-    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
-    // Request Success filter matches for != predicate
-    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.NotEqual;
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    // Request Success filter matches for != Predicate
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].Predicate = "NotEqual";
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // Dependency Success filter matches
-    derivedMetricInfo.telemetryType = KnownTelemetryType.Dependency;
-    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.Equal;
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
+    DerivedMetricInfoOutput.TelemetryType = "Dependency";
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].Predicate = "Equal";
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, dependency));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
 
     // Dependency Success filter does not match
     dependency.Success = false;
-    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
+    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfoOutput, dependency));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
 
-    // Dependency Success filter matches for != predicate
-    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.NotEqual;
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
+    // Dependency Success filter matches for != Predicate
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].Predicate = "NotEqual";
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, dependency));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
   });
 
   it("Can handle filter on known numeric columns", () => {
-    const filter: FilterInfo = {
-      fieldName: KnownRequestColumns.ResponseCode,
-      predicate: KnownPredicateType.Equal,
-      comparand: "200",
+    const filter: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.ResponseCode,
+      Predicate: "Equal",
+      Comparand: "200",
     };
 
-    const conjunctionGroup: FilterConjunctionGroupInfo = {
-      filters: [filter],
+    const conjunctionGroup: FilterConjunctionGroupInfoOutput = {
+      Filters: [filter],
     };
 
-    const derivedMetricInfo: DerivedMetricInfo = {
-      id: "random-id",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [conjunctionGroup],
-      projection: "Count()",
-      aggregation: "Sum",
-      backEndAggregation: "Sum",
+    const DerivedMetricInfoOutput: DerivedMetricInfoOutput = {
+      Id: "random-id",
+      TelemetryType: "Request",
+      FilterGroups: [conjunctionGroup],
+      Projection: "Count()",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
     const request: RequestData = {
@@ -989,93 +983,93 @@ describe("Live Metrics filtering - Applying valid filters", () => {
     };
 
     // Request ResponseCode filter matches
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // Request ResponseCode filter does not match
     request.ResponseCode = 404;
     request.Success = false;
-    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // Dependency ResultCode filter matches
-    derivedMetricInfo.telemetryType = KnownTelemetryType.Dependency;
-    derivedMetricInfo.filterGroups[0].filters[0].fieldName = KnownDependencyColumns.ResultCode;
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
+    DerivedMetricInfoOutput.TelemetryType = "Dependency";
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].FieldName = KnownDependencyColumns.ResultCode;
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, dependency));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
 
     // Dependency ResultCode filter does not match
     dependency.ResultCode = 404;
     dependency.Success = false;
-    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
+    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfoOutput, dependency));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
 
     // Dependency duration filter matches
-    derivedMetricInfo.filterGroups[0].filters[0].fieldName = KnownDependencyColumns.Duration;
-    derivedMetricInfo.filterGroups[0].filters[0].comparand = "14.6:56:7.89"; // 14 days, 6 hours, 56 minutes, 7.89 seconds (1234567890 ms)
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].FieldName = KnownDependencyColumns.Duration;
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].Comparand = "14.6:56:7.89"; // 14 days, 6 hours, 56 minutes, 7.89 seconds (1234567890 ms)
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, dependency));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
 
     // Dependency duration filter does not match
     dependency.Duration = 400;
-    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
+    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfoOutput, dependency));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
 
     // Request duration filter matches
-    derivedMetricInfo.telemetryType = KnownTelemetryType.Request;
-    derivedMetricInfo.filterGroups[0].filters[0].fieldName = KnownRequestColumns.Duration;
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    DerivedMetricInfoOutput.TelemetryType = "Request";
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].FieldName = KnownRequestColumns.Duration;
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // Request duration filter does not match
     request.Duration = 400;
-    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
-    // != predicate
-    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.NotEqual;
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    // != Predicate
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].Predicate = "NotEqual";
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
-    // < predicate
-    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.LessThan;
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    // < Predicate
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].Predicate = "LessThan";
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
-    // <= predicate
-    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.LessThanOrEqual;
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    // <= Predicate
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].Predicate = "LessThanOrEqual";
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
-    // > predicate
-    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.GreaterThan;
-    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    // > Predicate
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].Predicate = "GreaterThan";
+    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
-    // >= predicate
-    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.GreaterThanOrEqual;
-    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    // >= Predicate
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].Predicate = "GreaterThanOrEqual";
+    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
   });
 
   it("Can handle filter on known string columns", () => {
-    const filter: FilterInfo = {
-      fieldName: KnownRequestColumns.Url,
-      predicate: KnownPredicateType.Contains,
-      comparand: "hi",
+    const filter: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Url,
+      Predicate: "Contains",
+      Comparand: "hi",
     };
 
-    const conjunctionGroup: FilterConjunctionGroupInfo = {
-      filters: [filter],
+    const conjunctionGroup: FilterConjunctionGroupInfoOutput = {
+      Filters: [filter],
     };
 
-    const derivedMetricInfo: DerivedMetricInfo = {
-      id: "random-id",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [conjunctionGroup],
-      projection: "Count()",
-      aggregation: "Sum",
-      backEndAggregation: "Sum",
+    const DerivedMetricInfoOutput: DerivedMetricInfoOutput = {
+      Id: "random-id",
+      TelemetryType: "Request",
+      FilterGroups: [conjunctionGroup],
+      Projection: "Count()",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
     const request: RequestData = {
@@ -1110,70 +1104,70 @@ describe("Live Metrics filtering - Applying valid filters", () => {
     };
 
     // Request Url filter matches
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // Request Url filter does not match
     request.Url = "https://test.com/bye";
-    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // Dependency Data filter matches
-    derivedMetricInfo.telemetryType = KnownTelemetryType.Dependency;
-    derivedMetricInfo.filterGroups[0].filters[0].fieldName = KnownDependencyColumns.Data;
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
+    DerivedMetricInfoOutput.TelemetryType = "Dependency";
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].FieldName = KnownDependencyColumns.Data;
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, dependency));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
 
     // Dependency Data filter does not match
     dependency.Data = "https://test.com/bye";
-    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
+    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfoOutput, dependency));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
 
     // Trace Message filter matches
-    derivedMetricInfo.telemetryType = KnownTelemetryType.Trace;
-    derivedMetricInfo.filterGroups[0].filters[0].fieldName = "Message";
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, trace));
+    DerivedMetricInfoOutput.TelemetryType = "Trace";
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].FieldName = "Message";
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, trace));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, trace));
 
     // Trace Message filter does not match
     trace.Message = "bye";
-    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, trace));
+    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfoOutput, trace));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, trace));
 
-    // Exception Message filter matches. Note that fieldName is still "Message" here and that's intended (we remove the Exception. prefix when validating config)
-    derivedMetricInfo.telemetryType = KnownTelemetryType.Exception;
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, exception));
+    // Exception Message filter matches. Note that FieldName is still "Message" here and that's intended (we remove the Exception. prefix when validating config)
+    DerivedMetricInfoOutput.TelemetryType = "Exception";
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, exception));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, exception));
 
     // Exception Message filter does not match
     exception.Message = "Exception Message";
-    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, exception));
+    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfoOutput, exception));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, exception));
 
-    // != predicate
-    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.NotEqual;
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, exception));
+    // != Predicate
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].Predicate = "NotEqual";
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, exception));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, exception));
 
     // not contains
-    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.DoesNotContain;
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, exception));
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].Predicate = "DoesNotContain";
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, exception));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, exception));
 
     // equal
-    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.Equal;
-    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, exception));
+    DerivedMetricInfoOutput.FilterGroups[0].Filters[0].Predicate = "Equal";
+    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfoOutput, exception));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, exception));
   });
 
   it("Empty filter conjunction group info - should match", () => {
-    const derivedMetricInfo: DerivedMetricInfo = {
-      id: "random-id",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [{ filters: [] }],
-      projection: "Count()",
-      aggregation: "Sum",
-      backEndAggregation: "Sum",
+    const DerivedMetricInfoOutput: DerivedMetricInfoOutput = {
+      Id: "random-id",
+      TelemetryType: "Request",
+      FilterGroups: [{ Filters: [] }],
+      Projection: "Count()",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
     const request: RequestData = {
@@ -1185,40 +1179,40 @@ describe("Live Metrics filtering - Applying valid filters", () => {
       CustomDimensions: new Map<string, string>(),
     };
 
-    const documentFilterConjunctionGroupInfo: DocumentFilterConjunctionGroupInfo = {
-      telemetryType: KnownTelemetryType.Request,
-      filters: { filters: [] },
+    const DocumentFilterConjunctionGroupInfoOutput: DocumentFilterConjunctionGroupInfoOutput = {
+      TelemetryType: "Request",
+      Filters: { Filters: [] },
     };
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isTrue(
-      filterClass.checkFilterConjunctionGroup(documentFilterConjunctionGroupInfo.filters, request),
+      filterClass.checkFilterConjunctionGroup(DocumentFilterConjunctionGroupInfoOutput.Filters, request),
     );
   });
 
-  it("Can handle multiple filters in a filter conjunction group", () => {
-    const filter1: FilterInfo = {
-      fieldName: KnownRequestColumns.Url,
-      predicate: KnownPredicateType.Contains,
-      comparand: "hi",
+  it("Can handle multiple Filters in a filter conjunction group", () => {
+    const filter1: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.Url,
+      Predicate: "Contains",
+      Comparand: "hi",
     };
 
-    const filter2: FilterInfo = {
-      fieldName: KnownRequestColumns.ResponseCode,
-      predicate: KnownPredicateType.Equal,
-      comparand: "200",
+    const filter2: FilterInfoOutput = {
+      FieldName: KnownRequestColumns.ResponseCode,
+      Predicate: "Equal",
+      Comparand: "200",
     };
 
-    const conjunctionGroup: FilterConjunctionGroupInfo = {
-      filters: [filter1, filter2],
+    const conjunctionGroup: FilterConjunctionGroupInfoOutput = {
+      Filters: [filter1, filter2],
     };
 
-    const derivedMetricInfo: DerivedMetricInfo = {
-      id: "random-id",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [conjunctionGroup],
-      projection: "Count()",
-      aggregation: "Sum",
-      backEndAggregation: "Sum",
+    const DerivedMetricInfoOutput: DerivedMetricInfoOutput = {
+      Id: "random-id",
+      TelemetryType: "Request",
+      FilterGroups: [conjunctionGroup],
+      Projection: "Count()",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
     const request: RequestData = {
@@ -1230,13 +1224,13 @@ describe("Live Metrics filtering - Applying valid filters", () => {
       CustomDimensions: new Map<string, string>(),
     };
 
-    // matches both filters
-    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    // matches both Filters
+    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // only one filter matches, the entire conjunction group should return false
     request.Url = "https://test.com/bye";
-    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfoOutput, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
   });
 });
@@ -1244,40 +1238,40 @@ describe("Live Metrics filtering - Applying valid filters", () => {
 describe("Live Metrics filtering - Metric Projection", () => {
   const proj: Projection = new Projection();
   it("Count()", () => {
-    const derivedMetricInfoRequest: DerivedMetricInfo = {
-      id: "id-for-request",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [{ filters: [] }],
-      projection: "Count()",
-      aggregation: "Sum",
-      backEndAggregation: "Sum",
+    const derivedMetricInfoRequest: DerivedMetricInfoOutput = {
+      Id: "id-for-request",
+      TelemetryType: "Request",
+      FilterGroups: [{ Filters: [] }],
+      Projection: "Count()",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
-    const derivedMetricInfoDependency: DerivedMetricInfo = {
-      id: "id-for-dependency",
-      telemetryType: KnownTelemetryType.Dependency,
-      filterGroups: [{ filters: [] }],
-      projection: "Count()",
-      aggregation: "Sum",
-      backEndAggregation: "Sum",
+    const derivedMetricInfoDependency: DerivedMetricInfoOutput = {
+      Id: "id-for-dependency",
+      TelemetryType: "Dependency",
+      FilterGroups: [{ Filters: [] }],
+      Projection: "Count()",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
-    const derivedMetricInfoTrace: DerivedMetricInfo = {
-      id: "id-for-trace",
-      telemetryType: KnownTelemetryType.Trace,
-      filterGroups: [{ filters: [] }],
-      projection: "Count()",
-      aggregation: "Sum",
-      backEndAggregation: "Sum",
+    const derivedMetricInfoTrace: DerivedMetricInfoOutput = {
+      Id: "id-for-trace",
+      TelemetryType: "Trace",
+      FilterGroups: [{ Filters: [] }],
+      Projection: "Count()",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
-    const derivedMetricInfoException: DerivedMetricInfo = {
-      id: "id-for-exception",
-      telemetryType: KnownTelemetryType.Exception,
-      filterGroups: [{ filters: [] }],
-      projection: "Count()",
-      aggregation: "Sum",
-      backEndAggregation: "Sum",
+    const derivedMetricInfoException: DerivedMetricInfoOutput = {
+      Id: "id-for-exception",
+      TelemetryType: "Exception",
+      FilterGroups: [{ Filters: [] }],
+      Projection: "Count()",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
     const request: RequestData = {
@@ -1316,7 +1310,7 @@ describe("Live Metrics filtering - Metric Projection", () => {
     proj.initDerivedMetricProjection(derivedMetricInfoTrace);
     proj.initDerivedMetricProjection(derivedMetricInfoException);
 
-    // call the projection function with the corresponding telemetry data for each telemetry type
+    // call the Projection function with the corresponding telemetry data for each telemetry type
     proj.calculateProjection(derivedMetricInfoRequest, request);
     proj.calculateProjection(derivedMetricInfoRequest, request);
 
@@ -1331,69 +1325,69 @@ describe("Live Metrics filtering - Metric Projection", () => {
 
     proj.calculateProjection(derivedMetricInfoException, exception);
 
-    // get the projection map at the end and check if the count is correct
-    const projectionMap: Map<string, number> = proj.getMetricValues();
-    assert.equal(projectionMap.get("id-for-request"), 2);
-    assert.equal(projectionMap.get("id-for-dependency"), 3);
-    assert.equal(projectionMap.get("id-for-trace"), 4);
-    assert.equal(projectionMap.get("id-for-exception"), 1);
+    // get the Projection map at the end and check if the count is correct
+    const ProjectionMap: Map<string, number> = proj.getMetricValues();
+    assert.equal(ProjectionMap.get("id-for-request"), 2);
+    assert.equal(ProjectionMap.get("id-for-dependency"), 3);
+    assert.equal(ProjectionMap.get("id-for-trace"), 4);
+    assert.equal(ProjectionMap.get("id-for-exception"), 1);
 
     proj.clearProjectionMaps();
   });
 
   it("Duration", () => {
-    const requestAvg: DerivedMetricInfo = {
-      id: "id-for-request-avg",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [{ filters: [] }],
-      projection: "Duration",
-      aggregation: KnownAggregationType.Avg,
-      backEndAggregation: KnownAggregationType.Avg,
+    const requestAvg: DerivedMetricInfoOutput = {
+      Id: "id-for-request-avg",
+      TelemetryType: "Request",
+      FilterGroups: [{ Filters: [] }],
+      Projection: "Duration",
+      Aggregation: "Avg",
+      BackEndAggregation: "Avg",
     };
 
-    const requestMin: DerivedMetricInfo = {
-      id: "id-for-request-min",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [{ filters: [] }],
-      projection: "Duration",
-      aggregation: KnownAggregationType.Min,
-      backEndAggregation: KnownAggregationType.Min,
+    const requestMin: DerivedMetricInfoOutput = {
+      Id: "id-for-request-min",
+      TelemetryType: "Request",
+      FilterGroups: [{ Filters: [] }],
+      Projection: "Duration",
+      Aggregation: "Min",
+      BackEndAggregation: "Min",
     };
 
-    const requestMax: DerivedMetricInfo = {
-      id: "id-for-request-max",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [{ filters: [] }],
-      projection: "Duration",
-      aggregation: KnownAggregationType.Max,
-      backEndAggregation: KnownAggregationType.Max,
+    const requestMax: DerivedMetricInfoOutput = {
+      Id: "id-for-request-max",
+      TelemetryType: "Request",
+      FilterGroups: [{ Filters: [] }],
+      Projection: "Duration",
+      Aggregation: "Max",
+      BackEndAggregation: "Max",
     };
 
-    const dependencyAvg: DerivedMetricInfo = {
-      id: "id-for-dependency-avg",
-      telemetryType: KnownTelemetryType.Dependency,
-      filterGroups: [{ filters: [] }],
-      projection: "Duration",
-      aggregation: KnownAggregationType.Avg,
-      backEndAggregation: KnownAggregationType.Avg,
+    const dependencyAvg: DerivedMetricInfoOutput = {
+      Id: "id-for-dependency-avg",
+      TelemetryType: "Dependency",
+      FilterGroups: [{ Filters: [] }],
+      Projection: "Duration",
+      Aggregation: "Avg",
+      BackEndAggregation: "Avg",
     };
 
-    const dependencyMin: DerivedMetricInfo = {
-      id: "id-for-dependency-min",
-      telemetryType: KnownTelemetryType.Dependency,
-      filterGroups: [{ filters: [] }],
-      projection: "Duration",
-      aggregation: KnownAggregationType.Min,
-      backEndAggregation: KnownAggregationType.Min,
+    const dependencyMin: DerivedMetricInfoOutput = {
+      Id: "id-for-dependency-min",
+      TelemetryType: "Dependency",
+      FilterGroups: [{ Filters: [] }],
+      Projection: "Duration",
+      Aggregation: "Min",
+      BackEndAggregation: "Min",
     };
 
-    const dependencyMax: DerivedMetricInfo = {
-      id: "id-for-dependency-max",
-      telemetryType: KnownTelemetryType.Dependency,
-      filterGroups: [{ filters: [] }],
-      projection: "Duration",
-      aggregation: KnownAggregationType.Max,
-      backEndAggregation: KnownAggregationType.Max,
+    const dependencyMax: DerivedMetricInfoOutput = {
+      Id: "id-for-dependency-max",
+      TelemetryType: "Dependency",
+      FilterGroups: [{ Filters: [] }],
+      Projection: "Duration",
+      Aggregation: "Max",
+      BackEndAggregation: "Max",
     };
 
     const request: RequestData = {
@@ -1423,95 +1417,95 @@ describe("Live Metrics filtering - Metric Projection", () => {
     proj.initDerivedMetricProjection(dependencyMin);
     proj.initDerivedMetricProjection(dependencyMax);
 
-    // projection for request duration - avg
+    // Projection for request duration - avg
     proj.calculateProjection(requestAvg, request);
     request.Duration = 400;
     proj.calculateProjection(requestAvg, request);
     request.Duration = 600;
     proj.calculateProjection(requestAvg, request);
 
-    // projection for request duration - min
+    // Projection for request duration - min
     proj.calculateProjection(requestMin, request);
     request.Duration = 100;
     proj.calculateProjection(requestMin, request);
     request.Duration = 500;
     proj.calculateProjection(requestMin, request);
 
-    // projection for request duration - max
+    // Projection for request duration - max
     proj.calculateProjection(requestMax, request);
     request.Duration = 100;
     proj.calculateProjection(requestMax, request);
     request.Duration = 600;
     proj.calculateProjection(requestMax, request);
 
-    // projection for dependency duration - avg
+    // Projection for dependency duration - avg
     proj.calculateProjection(dependencyAvg, dependency);
     dependency.Duration = 400;
     proj.calculateProjection(dependencyAvg, dependency);
     dependency.Duration = 600;
     proj.calculateProjection(dependencyAvg, dependency);
 
-    // projection for request duration - min
+    // Projection for request duration - min
     proj.calculateProjection(dependencyMin, dependency);
     dependency.Duration = 100;
     proj.calculateProjection(dependencyMin, dependency);
     dependency.Duration = 500;
     proj.calculateProjection(dependencyMin, dependency);
 
-    // projection for request duration - max
+    // Projection for request duration - max
     proj.calculateProjection(dependencyMax, dependency);
     dependency.Duration = 100;
     proj.calculateProjection(dependencyMax, dependency);
     dependency.Duration = 600;
     proj.calculateProjection(dependencyMax, dependency);
 
-    // get the projection map at the end and check if the projections are correct
-    const projectionMap: Map<string, number> = proj.getMetricValues();
-    assert.equal(projectionMap.get("id-for-request-avg"), 400);
-    assert.equal(projectionMap.get("id-for-request-min"), 100);
-    assert.equal(projectionMap.get("id-for-request-max"), 600);
-    assert.equal(projectionMap.get("id-for-dependency-avg"), 400);
-    assert.equal(projectionMap.get("id-for-dependency-min"), 100);
-    assert.equal(projectionMap.get("id-for-dependency-max"), 600);
+    // get the Projection map at the end and check if the Projections are correct
+    const ProjectionMap: Map<string, number> = proj.getMetricValues();
+    assert.equal(ProjectionMap.get("id-for-request-avg"), 400);
+    assert.equal(ProjectionMap.get("id-for-request-min"), 100);
+    assert.equal(ProjectionMap.get("id-for-request-max"), 600);
+    assert.equal(ProjectionMap.get("id-for-dependency-avg"), 400);
+    assert.equal(ProjectionMap.get("id-for-dependency-min"), 100);
+    assert.equal(ProjectionMap.get("id-for-dependency-max"), 600);
 
     proj.clearProjectionMaps();
   });
 
   it("CustomDimension", () => {
-    const avg: DerivedMetricInfo = {
-      id: "id-avg",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [{ filters: [] }],
-      projection: "CustomDimensions.property",
-      aggregation: KnownAggregationType.Avg,
-      backEndAggregation: KnownAggregationType.Avg,
+    const avg: DerivedMetricInfoOutput = {
+      Id: "id-avg",
+      TelemetryType: "Request",
+      FilterGroups: [{ Filters: [] }],
+      Projection: "CustomDimensions.property",
+      Aggregation: "Avg",
+      BackEndAggregation: "Avg",
     };
 
-    const min: DerivedMetricInfo = {
-      id: "id-min",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [{ filters: [] }],
-      projection: "CustomDimensions.property",
-      aggregation: KnownAggregationType.Min,
-      backEndAggregation: KnownAggregationType.Min,
+    const min: DerivedMetricInfoOutput = {
+      Id: "id-min",
+      TelemetryType: "Request",
+      FilterGroups: [{ Filters: [] }],
+      Projection: "CustomDimensions.property",
+      Aggregation: "Min",
+      BackEndAggregation: "Min",
     };
 
-    const max: DerivedMetricInfo = {
-      id: "id-max",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [{ filters: [] }],
-      projection: "CustomDimensions.property",
-      aggregation: KnownAggregationType.Max,
-      backEndAggregation: KnownAggregationType.Max,
+    const max: DerivedMetricInfoOutput = {
+      Id: "id-max",
+      TelemetryType: "Request",
+      FilterGroups: [{ Filters: [] }],
+      Projection: "CustomDimensions.property",
+      Aggregation: "Max",
+      BackEndAggregation: "Max",
     };
 
-    const sum: DerivedMetricInfo = {
-      id: "id-sum",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [{ filters: [] }],
-      projection: "CustomDimensions.property",
-      aggregation: KnownAggregationType.Sum,
-      backEndAggregation: KnownAggregationType.Sum,
+    const sum: DerivedMetricInfoOutput = {
+      Id: "id-sum",
+      TelemetryType: "Request",
+      FilterGroups: [{ Filters: [] }],
+      Projection: "CustomDimensions.property",
+      Aggregation: "Sum",
+      BackEndAggregation: "Sum",
     };
 
     const request: RequestData = {
@@ -1564,24 +1558,24 @@ describe("Live Metrics filtering - Metric Projection", () => {
     request.CustomDimensions.set("property", "15");
     proj.calculateProjection(sum, request);
 
-    // get the projection map at the end and check if the values are correct.
-    const projectionMap: Map<string, number> = proj.getMetricValues();
-    assert.equal(projectionMap.get("id-avg"), 10);
-    assert.equal(projectionMap.get("id-min"), 1);
-    assert.equal(projectionMap.get("id-max"), 20);
-    assert.equal(projectionMap.get("id-sum"), 31);
+    // get the Projection map at the end and check if the values are correct.
+    const ProjectionMap: Map<string, number> = proj.getMetricValues();
+    assert.equal(ProjectionMap.get("id-avg"), 10);
+    assert.equal(ProjectionMap.get("id-min"), 1);
+    assert.equal(ProjectionMap.get("id-max"), 20);
+    assert.equal(ProjectionMap.get("id-sum"), 31);
 
     proj.clearProjectionMaps();
   });
 
-  it("Projection across multiple seconds & projection after config change to no derived metrics", () => {
-    const avg: DerivedMetricInfo = {
-      id: "id-avg",
-      telemetryType: KnownTelemetryType.Request,
-      filterGroups: [{ filters: [] }],
-      projection: "CustomDimensions.property",
-      aggregation: KnownAggregationType.Avg,
-      backEndAggregation: KnownAggregationType.Avg,
+  it("Projection across multiple seconds & Projection after config change to no derived metrics", () => {
+    const avg: DerivedMetricInfoOutput = {
+      Id: "id-avg",
+      TelemetryType: "Request",
+      FilterGroups: [{ Filters: [] }],
+      Projection: "CustomDimensions.property",
+      Aggregation: "Avg",
+      BackEndAggregation: "Avg",
     };
 
     const request: RequestData = {
@@ -1648,29 +1642,29 @@ describe("Live Metrics filtering - documents", () => {
     const traceDoc: Trace = getLogDocument(trace) as Trace;
     const exceptionDoc: Exception = getLogDocument(exception, "Error") as Exception;
 
-    assert.equal(requestDoc.url, "https://test.com/hiThere");
-    assert.equal(requestDoc.documentType, KnownDocumentType.Request);
-    assert.equal(requestDoc.duration, "PT0.2S");
-    assert.equal(requestDoc.responseCode, "200");
-    assert.equal(requestDoc.name, "GET /hiThere");
+    assert.equal(requestDoc.Url, "https://test.com/hiThere");
+    assert.equal(requestDoc.DocumentType, "Request");
+    assert.equal(requestDoc.Duration, "PT0.2S");
+    assert.equal(requestDoc.ResponseCode, "200");
+    assert.equal(requestDoc.Name, "GET /hiThere");
 
-    assert.equal(dependencyDoc.commandName, "https://test.com/hiThere?x=y");
-    assert.equal(dependencyDoc.documentType, KnownDocumentType.RemoteDependency);
-    assert.equal(dependencyDoc.duration, "PT0.2S");
-    assert.equal(dependencyDoc.resultCode, "200");
-    assert.equal(dependencyDoc.name, "GET /hiThere");
+    assert.equal(dependencyDoc.CommandName, "https://test.com/hiThere?x=y");
+    assert.equal(dependencyDoc.DocumentType, "RemoteDependency");
+    assert.equal(dependencyDoc.Duration, "PT0.2S");
+    assert.equal(dependencyDoc.ResultCode, "200");
+    assert.equal(dependencyDoc.Name, "GET /hiThere");
 
-    assert.equal(traceDoc.message, "hi there");
-    assert.equal(traceDoc.documentType, KnownDocumentType.Trace);
+    assert.equal(traceDoc.Message, "hi there");
+    assert.equal(traceDoc.DocumentType, "Trace");
 
-    assert.equal(exceptionDoc.exceptionMessage, "Exception Message hi");
-    assert.equal(exceptionDoc.exceptionType, "Error");
-    assert.equal(exceptionDoc.documentType, KnownDocumentType.Exception);
+    assert.equal(exceptionDoc.ExceptionMessage, "Exception Message hi");
+    assert.equal(exceptionDoc.ExceptionType, "Error");
+    assert.equal(exceptionDoc.DocumentType, "Exception");
   });
 });
 
 describe("Live Metrics filtering - timestamp conversion", () => {
-  it("Can convert timestamp from filter.comparand to ms", () => {
+  it("Can convert timestamp from filter.Comparand to ms", () => {
     assert.equal(getMsFromFilterTimestampString("14.6:56:7.89"), 1234567890);
     assert.equal(getMsFromFilterTimestampString("0.0:0:0.2"), 200);
     assert.equal(getMsFromFilterTimestampString("0.0:0:0.0"), 0);
