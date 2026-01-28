@@ -16,7 +16,7 @@ import type { ExecutionContext } from "./ExecutionContext.js";
 export class QueryControlFetchImplementation {
   // Required fields for query control - not optional
   private readonly continuationTokenManager: BaseContinuationTokenManager;
-  private readonly querySupportsTokens: boolean;
+  private readonly disableContinuationTokens: boolean;
 
   constructor(
     private endpoint: ExecutionContext,
@@ -24,9 +24,9 @@ export class QueryControlFetchImplementation {
     collectionLink: string,
     continuationToken: string | undefined,
     isOrderByQuery: boolean,
-    querySupportsTokens: boolean,
+    disableContinuationTokens: boolean,
   ) {
-    this.querySupportsTokens = querySupportsTokens;
+    this.disableContinuationTokens = disableContinuationTokens;
 
     // Initialize continuation token manager immediately for query control
     this.continuationTokenManager = ContinuationTokenManagerFactory.create(
@@ -45,10 +45,10 @@ export class QueryControlFetchImplementation {
 
     // Use continuation token logic for supported queries when query control is enabled
     // Otherwise use simplified buffer-only logic
-    if (this.querySupportsTokens) {
-      return this._handleQueryFetch(diagnosticNode, fetchBuffer, fetchMoreRespHeaders);
-    } else {
+    if (this.disableContinuationTokens) {
       return this._handleSimpleBufferFetch(diagnosticNode, fetchBuffer, fetchMoreRespHeaders);
+    } else {
+      return this._handleQueryFetch(diagnosticNode, fetchBuffer, fetchMoreRespHeaders);
     }
   }
 

@@ -470,6 +470,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         componentPartitionExecutionInfo,
         this.correlatedActivityId,
         this.emitRawOrderByPayload,
+        true,
       );
       this.componentsExecutionContext.push(executionContext);
     }
