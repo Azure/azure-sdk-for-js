@@ -154,10 +154,6 @@
 # ServiceLabel: %Event Hubs
 # ServiceOwners: @j7nw4r @axisc @sjkwak @hmlam
 
-# ServiceLabel: %Cognitive - Health Insights
-# PRLabel: %Cognitive - Health Insights
-/sdk/healthinsights/ @tomsft @koen-mertens
-
 # ServiceLabel: %Health Deidentification
 # PRLabel: %Health Deidentification
 /sdk/healthdataaiservices/ @alexathomases @Azure/healthdatadeidentification
