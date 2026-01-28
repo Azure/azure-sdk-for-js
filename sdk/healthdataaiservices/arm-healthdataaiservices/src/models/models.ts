@@ -520,48 +520,42 @@ export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentit
   };
 }
 
-/** The SKU (Stock Keeping Unit) assigned to this resource. */
+/** The resource model definition representing SKU */
 export interface Sku {
-  /** The name of the SKU. */
+  /** The name of the SKU. Ex - P3. It is typically a letter+number code */
   name: string;
-  /** The tier of the SKU. */
+  /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
   tier?: SkuTier;
-  /** The capacity of the SKU. */
+  /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
+  size?: string;
+  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
+  family?: string;
+  /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
   capacity?: number;
 }
 
 export function skuSerializer(item: Sku): any {
-  return { name: item["name"], tier: item["tier"], capacity: item["capacity"] };
+  return {
+    name: item["name"],
+    tier: item["tier"],
+    size: item["size"],
+    family: item["family"],
+    capacity: item["capacity"],
+  };
 }
 
 export function skuDeserializer(item: any): Sku {
   return {
     name: item["name"],
     tier: item["tier"],
+    size: item["size"],
+    family: item["family"],
     capacity: item["capacity"],
   };
 }
 
-/** The tier of the SKU. */
-export enum KnownSkuTier {
-  /** Free tier. */
-  Free = "Free",
-  /** Basic tier. */
-  Basic = "Basic",
-  /** Standard tier. */
-  Standard = "Standard",
-}
-
-/**
- * The tier of the SKU. \
- * {@link KnownSkuTier} can be used interchangeably with SkuTier,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Free**: Free tier. \
- * **Basic**: Basic tier. \
- * **Standard**: Standard tier.
- */
-export type SkuTier = string;
+/** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
+export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
@@ -706,7 +700,7 @@ export interface DeidUpdate {
   /** RP-specific properties */
   properties?: DeidPropertiesUpdate;
   /** The SKU (Stock Keeping Unit) assigned to this resource. */
-  sku?: SkuUpdate;
+  sku?: Sku;
 }
 
 export function deidUpdateSerializer(item: DeidUpdate): any {
@@ -718,7 +712,7 @@ export function deidUpdateSerializer(item: DeidUpdate): any {
     properties: !item["properties"]
       ? item["properties"]
       : deidPropertiesUpdateSerializer(item["properties"]),
-    sku: !item["sku"] ? item["sku"] : skuUpdateSerializer(item["sku"]),
+    sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
   };
 }
 
@@ -742,20 +736,6 @@ export interface DeidPropertiesUpdate {
 
 export function deidPropertiesUpdateSerializer(item: DeidPropertiesUpdate): any {
   return { publicNetworkAccess: item["publicNetworkAccess"] };
-}
-
-/** The SKU (Stock Keeping Unit) update model for PATCH operations. */
-export interface SkuUpdate {
-  /** The name of the SKU. */
-  name?: string;
-  /** The tier of the SKU. */
-  tier?: SkuTier;
-  /** The capacity of the SKU. */
-  capacity?: number;
-}
-
-export function skuUpdateSerializer(item: SkuUpdate): any {
-  return { name: item["name"], tier: item["tier"], capacity: item["capacity"] };
 }
 
 /** Holder for private endpoint connections */

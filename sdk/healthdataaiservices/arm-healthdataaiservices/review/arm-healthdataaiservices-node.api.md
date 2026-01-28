@@ -95,7 +95,7 @@ export interface DeidServicesUpdateOptionalParams extends OperationOptions {
 export interface DeidUpdate {
     identity?: ManagedServiceIdentityUpdate;
     properties?: DeidPropertiesUpdate;
-    sku?: SkuUpdate;
+    sku?: Sku;
     tags?: Record<string, string>;
 }
 
@@ -187,13 +187,6 @@ export enum KnownProvisioningState {
     Provisioning = "Provisioning",
     Succeeded = "Succeeded",
     Updating = "Updating"
-}
-
-// @public
-export enum KnownSkuTier {
-    Basic = "Basic",
-    Free = "Free",
-    Standard = "Standard"
 }
 
 // @public
@@ -374,19 +367,14 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 // @public
 export interface Sku {
     capacity?: number;
+    family?: string;
     name: string;
+    size?: string;
     tier?: SkuTier;
 }
 
 // @public
-export type SkuTier = string;
-
-// @public
-export interface SkuUpdate {
-    capacity?: number;
-    name?: string;
-    tier?: SkuTier;
-}
+export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
 // @public
 export interface SystemData {
