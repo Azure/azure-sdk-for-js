@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { PathUncheckedResponse } from "@azure-rest/core-client";
 import type {
   ContentUnderstandingContext,
   ContentUnderstandingClientOptionalParams,
@@ -202,7 +203,7 @@ export class ContentUnderstandingClient {
     options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
   ): AnalyzeResultPoller {
     let operationId: string | undefined;
-    const getInitialResponse = async () => {
+    const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
       const res = await _analyzeBinarySend(
         this._client,
         analyzerId,
@@ -249,7 +250,7 @@ export class ContentUnderstandingClient {
     options: AnalyzeOptionalParams = { requestOptions: {} },
   ): AnalyzeResultPoller {
     let operationId: string | undefined;
-    const getInitialResponse = async () => {
+    const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
       const res = await _analyzeSend(this._client, analyzerId, options);
       const operationLocation = res.headers["operation-location"];
       if (operationLocation) {
