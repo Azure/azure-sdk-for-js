@@ -741,6 +741,26 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   }
 
   /**
+   * Replaces the format placeholder in the rewritten query with the provided filter condition.
+   * Handles both string queries and SqlQuerySpec objects.
+   */
+  private _replaceFormatPlaceholder(
+    rewrittenQuery: string | SqlQuerySpec,
+    formatPlaceHolder: string,
+    filterCondition?: string,
+  ): string {
+    const replacement = filterCondition ?? "true";
+
+    // If rewrittenQuery has a query property, it's a SqlQuerySpec object
+    if (typeof rewrittenQuery === "object" && rewrittenQuery.query) {
+      return rewrittenQuery.query.replace(formatPlaceHolder, replacement);
+    }
+
+    // Otherwise, it's a string
+    return (rewrittenQuery as string).replace(formatPlaceHolder, replacement);
+  }
+
+  /**
    * Creates target partition range Query Execution Context
    */
   private _createTargetPartitionQueryExecutionContext(
@@ -752,7 +772,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     filterCondition?: string,
     filterContext?: FilterContext,
   ): DocumentProducer {
-    let rewrittenQuery = this.partitionedQueryExecutionInfo.queryInfo?.rewrittenQuery;
+    const rewrittenQuery = this.partitionedQueryExecutionInfo.queryInfo?.rewrittenQuery;
     let sqlQuerySpec: SqlQuerySpec;
     const query = this.query;
     if (typeof query === "string") {
@@ -764,10 +784,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     const formatPlaceHolder = "{documentdb-formattableorderbyquery-filter}";
     if (rewrittenQuery) {
       sqlQuerySpec = JSON.parse(JSON.stringify(sqlQuerySpec));
-      rewrittenQuery = filterCondition
-        ? rewrittenQuery.replace(formatPlaceHolder, filterCondition)
-        : rewrittenQuery.replace(formatPlaceHolder, "true");
-      sqlQuerySpec["query"] = rewrittenQuery;
+      const replacedQuery = this._replaceFormatPlaceholder(
+        rewrittenQuery,
+        formatPlaceHolder,
+        filterCondition,
+      );
+      sqlQuerySpec["query"] = replacedQuery;
     }
 
     const options = { ...this.options };

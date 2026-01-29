@@ -1,4 +1,10 @@
 # Release History
+
+## 4.9.1 (2025-12-16)
+
+### Bugs Fixed
+- Fix support for Parameterized hybrid search and Full Text Ranking search.
+
 ## 4.9.0 (2025-11-24)
 
 ### Features Added
