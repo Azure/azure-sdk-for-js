@@ -323,10 +323,6 @@
 # ServiceLabel: %Maps
 /sdk/maps/ @dubiety @andykao1213
 
-# PRLabel: %Microsoft Playwright Testing
-# ServiceLabel: %Microsoft Playwright Testing
-/sdk/playwrighttesting/ @azure/testing-services
-
 # PRLabel: %Azure Load Testing
 # ServiceLabel: %Azure Load Testing
 /sdk/loadtesting/ @azure/testing-services
@@ -820,9 +816,6 @@
 
 # PRLabel: %Mgmt
 /sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-/sdk/playwrighttesting/arm-playwrighttesting/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/policy/arm-policy/ @qiaozha @MaryGao @JialinHuang803
