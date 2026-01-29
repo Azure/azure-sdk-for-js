@@ -7,12 +7,8 @@ import { isNodeLike } from "@azure/core-util";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import type {
-  UserDelegationKey} from "@azure/storage-common";
-import {
-  AnonymousCredential,
-  StorageSharedKeyCredential
-} from "@azure/storage-common";
+import type { UserDelegationKey } from "@azure/storage-common";
+import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
 import type { Container } from "./generated-tsp/index.js";
 import type {
   BlobDeleteResponse,
@@ -58,6 +54,7 @@ import {
   appendToURLPath,
   appendToURLQuery,
   assertResponse,
+  attachResponse,
   BlobNameToString,
   ConvertInternalResponseOfListBlobFlat,
   ConvertInternalResponseOfListBlobHierarchy,
@@ -772,8 +769,8 @@ export class ContainerClient extends StorageClient {
    */
   public async create(options: ContainerCreateOptions = {}): Promise<ContainerCreateResponse> {
     return tracingClient.withSpan("ContainerClient-create", options, async (updatedOptions) => {
-      return assertResponse<ContainerCreateHeaders, ContainerCreateHeaders>(
-        await this.containerContext.create(updatedOptions),
+      return attachResponse<ContainerCreateHeaders, ContainerCreateHeaders>(() =>
+        this.containerContext.create(updatedOptions),
       );
     });
   }
@@ -923,8 +920,8 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-getProperties",
       options,
       async (updatedOptions) => {
-        return assertResponse<ContainerGetPropertiesHeaders, ContainerGetPropertiesHeaders>(
-          await this.containerContext.getProperties({
+        return attachResponse<ContainerGetPropertiesHeaders, ContainerGetPropertiesHeaders>(() =>
+          this.containerContext.getProperties({
             abortSignal: options.abortSignal,
             ...options.conditions,
             tracingOptions: updatedOptions.tracingOptions,
@@ -949,8 +946,8 @@ export class ContainerClient extends StorageClient {
     }
 
     return tracingClient.withSpan("ContainerClient-delete", options, async (updatedOptions) => {
-      return assertResponse<ContainerDeleteHeaders, ContainerDeleteHeaders>(
-        await this.containerContext.delete({
+      return attachResponse<ContainerDeleteHeaders, ContainerDeleteHeaders>(() =>
+        this.containerContext.delete({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: options.conditions,
@@ -1025,8 +1022,8 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-setMetadata",
       options,
       async (updatedOptions) => {
-        return assertResponse<ContainerSetMetadataHeaders, ContainerSetMetadataHeaders>(
-          await this.containerContext.setMetadata({
+        return attachResponse<ContainerSetMetadataHeaders, ContainerSetMetadataHeaders>(() =>
+          this.containerContext.setMetadata({
             abortSignal: options.abortSignal,
             leaseAccessConditions: options.conditions,
             metadata,
@@ -1060,17 +1057,18 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-getAccessPolicy",
       options,
       async (updatedOptions) => {
-        const response = assertResponse<
+        const response = await attachResponse<
           ContainerGetAccessPolicyResponseModel,
           ContainerGetAccessPolicyHeaders,
           SignedIdentifierModel
-        >(
-          await this.containerContext.getAccessPolicy({
+        >(async () => {
+          const original = await this.containerContext.getAccessPolicy({
             abortSignal: options.abortSignal,
-            leaseAccessConditions: options.conditions,
+            leaseId: options.conditions?.leaseId,
             tracingOptions: updatedOptions.tracingOptions,
-          }),
-        );
+          });
+          return original.items;
+        });
 
         const res: ContainerGetAccessPolicyResponse = {
           _response: response._response,
@@ -1155,15 +1153,14 @@ export class ContainerClient extends StorageClient {
           });
         }
 
-        return assertResponse<ContainerSetAccessPolicyHeaders, ContainerSetAccessPolicyHeaders>(
-          await this.containerContext.setAccessPolicy({
-            abortSignal: options.abortSignal,
-            access,
-            containerAcl: acl,
-            leaseAccessConditions: options.conditions,
-            modifiedAccessConditions: options.conditions,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+        return attachResponse<ContainerSetAccessPolicyHeaders, ContainerSetAccessPolicyHeaders>(
+          () =>
+            this.containerContext.setAccessPolicy(acl, {
+              abortSignal: options.abortSignal,
+              access,
+              ...options.conditions,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
         );
       },
     );
@@ -1263,12 +1260,12 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-listBlobFlatSegment",
       options,
       async (updatedOptions) => {
-        const response = assertResponse<
+        const response = await attachResponse<
           ListBlobsFlatSegmentResponseInternal,
           ContainerListBlobFlatSegmentHeaders,
           ListBlobsFlatSegmentResponseInternal
-        >(
-          await this.containerContext.listBlobFlatSegment({
+        >(() =>
+          this.containerContext.listBlobFlatSegment({
             marker,
             ...options,
             tracingOptions: updatedOptions.tracingOptions,
@@ -1321,12 +1318,12 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-listBlobHierarchySegment",
       options,
       async (updatedOptions) => {
-        const response = assertResponse<
+        const response = await attachResponse<
           ContainerListBlobHierarchySegmentResponseModel,
           ContainerListBlobHierarchySegmentHeaders,
           ListBlobsHierarchySegmentResponseInternal
-        >(
-          await this.containerContext.listBlobHierarchySegment(delimiter, {
+        >(() =>
+          this.containerContext.listBlobHierarchySegment(delimiter, {
             marker,
             ...options,
             tracingOptions: updatedOptions.tracingOptions,
@@ -1806,16 +1803,15 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-findBlobsByTagsSegment",
       options,
       async (updatedOptions) => {
-        const response = assertResponse<
+        const response = await attachResponse<
           ContainerFilterBlobsResponse,
           ContainerFilterBlobsHeaders,
           FilterBlobSegmentModel
-        >(
-          await this.containerContext.filterBlobs({
+        >(() =>
+          this.containerContext.findBlobsByTags(tagFilterSqlExpression, {
             abortSignal: options.abortSignal,
-            where: tagFilterSqlExpression,
             marker,
-            maxPageSize: options.maxPageSize,
+            maxresults: options.maxPageSize,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -2020,8 +2016,8 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-getAccountInfo",
       options,
       async (updatedOptions) => {
-        return assertResponse<ContainerGetAccountInfoHeaders, ContainerGetAccountInfoHeaders>(
-          await this.containerContext.getAccountInfo({
+        return attachResponse<ContainerGetAccountInfoHeaders, ContainerGetAccountInfoHeaders>(() =>
+          this.containerContext.getAccountInfo({
             abortSignal: options.abortSignal,
             tracingOptions: updatedOptions.tracingOptions,
           }),

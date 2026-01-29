@@ -1019,3 +1019,10 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
 
   throw new TypeError(`Unexpected response object ${response}`);
 }
+
+export async function attachResponse<T extends object, Headers = undefined, Body = undefined>(
+  operation: () => Promise<T>,
+): Promise<WithResponse<T, Headers, Body>> {
+  const response = await operation();
+  return assertResponse<T, Headers, Body>(response);
+}

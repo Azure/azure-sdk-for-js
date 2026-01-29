@@ -3,7 +3,7 @@
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
-import { isNodeLike } from "@azure/core-util";
+import { isNodeLike, uint8ArrayToString } from "@azure/core-util";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type {
   ServiceGetUserDelegationKeyHeaders,
@@ -36,15 +36,12 @@ import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   appendToURLQuery,
+  attachResponse,
   extractConnectionStringParts,
   toTags,
 } from "./utils/utils.common.js";
-import type {
-  UserDelegationKey} from "@azure/storage-common";
-import {
-  StorageSharedKeyCredential,
-  AnonymousCredential
-} from "@azure/storage-common";
+import type { UserDelegationKey } from "@azure/storage-common";
+import { StorageSharedKeyCredential, AnonymousCredential } from "@azure/storage-common";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { truncatedISO8061Date, assertResponse } from "./utils/utils.common.js";
 import { tracingClient } from "./utils/tracing.js";
@@ -70,6 +67,7 @@ import type {
   ServiceListContainersSegmentHeaders,
   ServiceSetPropertiesHeaders,
 } from "./generated/src/index.js";
+import { FullOperationResponse } from "@azure-rest/core-client";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.
@@ -546,11 +544,11 @@ export class BlobServiceClient extends StorageClient {
         );
         // Hack to access a protected member.
         const containerContext = containerClient["storageClientContextTsp"].container;
-        const containerUndeleteResponse = assertResponse<
+        const containerUndeleteResponse = attachResponse<
           ContainerRestoreHeaders,
           ContainerRestoreHeaders
-        >(
-          await containerContext.restore({
+        >(() =>
+          containerContext.restore({
             deletedContainerName,
             deletedContainerVersion,
             tracingOptions: updatedOptions.tracingOptions,
@@ -576,11 +574,12 @@ export class BlobServiceClient extends StorageClient {
       "BlobServiceClient-getProperties",
       options,
       async (updatedOptions) => {
-        return assertResponse<ServiceGetPropertiesResponseInternal, ServiceGetPropertiesHeaders>(
-          await this.serviceContext.getProperties({
-            abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+        return attachResponse<ServiceGetPropertiesResponseInternal, ServiceGetPropertiesHeaders>(
+          () =>
+            this.serviceContext.getProperties({
+              abortSignal: options.abortSignal,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
         );
       },
     );
@@ -603,8 +602,8 @@ export class BlobServiceClient extends StorageClient {
       "BlobServiceClient-setProperties",
       options,
       async (updatedOptions) => {
-        return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
-          await this.serviceContext.setProperties(properties, {
+        return attachResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(() =>
+          this.serviceContext.setProperties(properties, {
             abortSignal: options.abortSignal,
             tracingOptions: updatedOptions.tracingOptions,
           }),
@@ -629,11 +628,12 @@ export class BlobServiceClient extends StorageClient {
       "BlobServiceClient-getStatistics",
       options,
       async (updatedOptions) => {
-        return assertResponse<ServiceGetStatisticsResponseInternal, ServiceGetStatisticsHeaders>(
-          await this.serviceContext.getStatistics({
-            abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+        return attachResponse<ServiceGetStatisticsResponseInternal, ServiceGetStatisticsHeaders>(
+          () =>
+            this.serviceContext.getStatistics({
+              abortSignal: options.abortSignal,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
         );
       },
     );
@@ -656,8 +656,8 @@ export class BlobServiceClient extends StorageClient {
       "BlobServiceClient-getAccountInfo",
       options,
       async (updatedOptions) => {
-        return assertResponse<ServiceGetAccountInfoHeaders, ServiceGetAccountInfoHeaders>(
-          await this.serviceContext.getAccountInfo({
+        return attachResponse<ServiceGetAccountInfoHeaders, ServiceGetAccountInfoHeaders>(() =>
+          this.serviceContext.getAccountInfo({
             abortSignal: options.abortSignal,
             tracingOptions: updatedOptions.tracingOptions,
           }),
@@ -688,11 +688,11 @@ export class BlobServiceClient extends StorageClient {
       "BlobServiceClient-listContainersSegment",
       options,
       async (updatedOptions) => {
-        return assertResponse<
+        return attachResponse<
           ServiceListContainersSegmentResponseInternal,
           ServiceListContainersSegmentHeaders
-        >(
-          await this.serviceContext.listContainersSegment({
+        >(() =>
+          this.serviceContext.listContainersSegment({
             abortSignal: options.abortSignal,
             marker,
             ...options,
@@ -731,12 +731,12 @@ export class BlobServiceClient extends StorageClient {
       "BlobServiceClient-findBlobsByTagsSegment",
       options,
       async (updatedOptions) => {
-        const response = assertResponse<
+        const response = await attachResponse<
           ServiceFilterBlobsResponse,
           ServiceFilterBlobsHeaders,
           FilterBlobSegmentModel
-        >(
-          await this.serviceContext.findBlobsByTags(tagFilterSqlExpression, {
+        >(() =>
+          this.serviceContext.findBlobsByTags(tagFilterSqlExpression, {
             abortSignal: options.abortSignal,
             marker,
             maxresults: options.maxPageSize,
@@ -1107,12 +1107,12 @@ export class BlobServiceClient extends StorageClient {
       "BlobServiceClient-getUserDelegationKey",
       options,
       async (updatedOptions) => {
-        const response = assertResponse<
+        const response = await attachResponse<
           ServiceGetUserDelegationKeyResponseModel,
           ServiceGetUserDelegationKeyHeaders,
           UserDelegationKeyModel
-        >(
-          await this.serviceContext.getUserDelegationKey(
+        >(async () => {
+          const original = await this.serviceContext.getUserDelegationKey(
             {
               startsOn: truncatedISO8061Date(startsOn, false),
               expiresOn: truncatedISO8061Date(expiresOn, false),
@@ -1121,8 +1121,13 @@ export class BlobServiceClient extends StorageClient {
               abortSignal: options.abortSignal,
               tracingOptions: updatedOptions.tracingOptions,
             },
-          ),
-        );
+          );
+          const transformed = {
+            ...original,
+            value: uint8ArrayToString(original.value, "utf-8"),
+          };
+          return transformed;
+        });
 
         const userDelegationKey = {
           signedObjectId: response.signedObjectId,

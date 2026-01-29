@@ -179,6 +179,7 @@ import {
   appendToURLPath,
   appendToURLQuery,
   assertResponse,
+  attachResponse,
   extractConnectionStringParts,
   ExtractPageRangeInfoItems,
   generateBlockID,
@@ -1441,8 +1442,8 @@ export class BlobClient extends StorageClient {
   public async delete(options: BlobDeleteOptions = {}): Promise<BlobDeleteResponse> {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan("BlobClient-delete", options, async (updatedOptions) => {
-      return assertResponse<BlobDeleteHeaders, BlobDeleteHeaders>(
-        await this.blobContext.delete({
+      return attachResponse<BlobDeleteHeaders, BlobDeleteHeaders>(() =>
+         this.blobContext.delete({
           abortSignal: options.abortSignal,
           deleteSnapshots: options.deleteSnapshots,
           leaseAccessConditions: options.conditions,
@@ -1499,8 +1500,8 @@ export class BlobClient extends StorageClient {
    */
   public async undelete(options: BlobUndeleteOptions = {}): Promise<BlobUndeleteResponse> {
     return tracingClient.withSpan("BlobClient-undelete", options, async (updatedOptions) => {
-      return assertResponse<BlobUndeleteHeaders, BlobUndeleteHeaders>(
-        await this.blobContext.undelete({
+      return attachResponse<BlobUndeleteHeaders, BlobUndeleteHeaders>(() =>
+        this.blobContext.undelete({
           abortSignal: options.abortSignal,
           tracingOptions: updatedOptions.tracingOptions,
         }),
@@ -1530,8 +1531,8 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlobClient-setHTTPHeaders", options, async (updatedOptions) => {
-      return assertResponse<BlobSetHttpHeadersHeaders, BlobSetHttpHeadersHeaders>(
-        await this.blobContext.setProperties({
+      return attachResponse<BlobSetHttpHeadersHeaders, BlobSetHttpHeadersHeaders>(() =>
+        this.blobContext.setProperties({
           abortSignal: options.abortSignal,
           blobHttpHeaders: blobHTTPHeaders,
           leaseAccessConditions: options.conditions,
@@ -1564,8 +1565,8 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlobClient-setMetadata", options, async (updatedOptions) => {
-      return assertResponse<BlobSetMetadataHeaders, BlobSetMetadataHeaders>(
-        await this.blobContext.setMetadata({
+      return attachResponse<BlobSetMetadataHeaders, BlobSetMetadataHeaders>(() =>
+        this.blobContext.setMetadata({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
           metadata,
@@ -1592,8 +1593,8 @@ export class BlobClient extends StorageClient {
    */
   public async setTags(tags: Tags, options: BlobSetTagsOptions = {}): Promise<BlobSetTagsResponse> {
     return tracingClient.withSpan("BlobClient-setTags", options, async (updatedOptions) => {
-      return assertResponse<BlobSetTagsHeaders, BlobSetTagsHeaders>(
-        await this.blobContext.setTags({
+      return attachResponse<BlobSetTagsHeaders, BlobSetTagsHeaders>(() =>
+        this.blobContext.setTags({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: {
@@ -1615,8 +1616,8 @@ export class BlobClient extends StorageClient {
    */
   public async getTags(options: BlobGetTagsOptions = {}): Promise<BlobGetTagsResponse> {
     return tracingClient.withSpan("BlobClient-getTags", options, async (updatedOptions) => {
-      const response = assertResponse<BlobGetTagsResponseInternal, BlobGetTagsHeaders, BlobTags>(
-        await this.blobContext.getTags({
+      const response = attachResponse<BlobGetTagsResponseInternal, BlobGetTagsHeaders, BlobTags>(() =>
+        this.blobContext.getTags({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: {
@@ -1658,8 +1659,8 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlobClient-createSnapshot", options, async (updatedOptions) => {
-      return assertResponse<BlobCreateSnapshotHeaders, BlobCreateSnapshotHeaders>(
-        await this.blobContext.createSnapshot({
+      return attachResponse<BlobCreateSnapshotHeaders, BlobCreateSnapshotHeaders>(() =>
+        this.blobContext.createSnapshot({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
           metadata: options.metadata,
@@ -1794,8 +1795,8 @@ export class BlobClient extends StorageClient {
       "BlobClient-abortCopyFromURL",
       options,
       async (updatedOptions) => {
-        return assertResponse<BlobAbortCopyFromURLHeaders, BlobAbortCopyFromURLHeaders>(
-          await this.blobContext.abortCopyFromUrl(copyId, {
+        return attachResponse<BlobAbortCopyFromURLHeaders, BlobAbortCopyFromURLHeaders>(() =>
+          this.blobContext.abortCopyFromUrl(copyId, {
             abortSignal: options.abortSignal,
             leaseAccessConditions: options.conditions,
             tracingOptions: updatedOptions.tracingOptions,
@@ -1820,8 +1821,8 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     options.sourceConditions = options.sourceConditions || {};
     return tracingClient.withSpan("BlobClient-syncCopyFromURL", options, async (updatedOptions) => {
-      return assertResponse<BlobCopyFromURLHeaders, BlobCopyFromURLHeaders>(
-        await this.blobContext.copyFromUrl(copySource, {
+      return attachResponse<BlobCopyFromURLHeaders, BlobCopyFromURLHeaders>(() =>
+        this.blobContext.copyFromUrl(copySource, {
           abortSignal: options.abortSignal,
           metadata: options.metadata,
           leaseAccessConditions: options.conditions,
@@ -1867,8 +1868,8 @@ export class BlobClient extends StorageClient {
     options: BlobSetTierOptions = {},
   ): Promise<BlobSetTierResponse> {
     return tracingClient.withSpan("BlobClient-setAccessTier", options, async (updatedOptions) => {
-      return assertResponse<BlobSetTierHeaders, BlobSetTierHeaders>(
-        await this.blobContext.setTier(toAccessTier(tier)!, {
+      return attachResponse<BlobSetTierHeaders, BlobSetTierHeaders>(() =>
+        this.blobContext.setTier(toAccessTier(tier)!, {
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: {
