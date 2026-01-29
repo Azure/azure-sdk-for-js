@@ -73,7 +73,7 @@ export async function sendRequest(
  * @param options - request options InternalRequestParameters
  * @returns returns the content-type
  */
-function getRequestContentType(options: InternalRequestParameters = {}): string {
+function getRequestContentType(options: InternalRequestParameters = {}): string | undefined {
   return (
     options.contentType ??
     (options.headers?.["content-type"] as string) ??
@@ -88,6 +88,10 @@ function getRequestContentType(options: InternalRequestParameters = {}): string 
  * @returns returns the content-type
  */
 function getContentType(body: any): string | undefined {
+  if (body === undefined) {
+    return undefined;
+  }
+
   if (ArrayBuffer.isView(body)) {
     return "application/octet-stream";
   }
@@ -116,15 +120,13 @@ function buildPipelineRequest(
 ): PipelineRequest {
   const requestContentType = getRequestContentType(options);
   const { body, multipartBody } = getRequestBody(options.body, requestContentType);
-  const hasContent = body !== undefined || multipartBody !== undefined;
 
   const headers = createHttpHeaders({
     ...(options.headers ? options.headers : {}),
     accept: options.accept ?? options.headers?.accept ?? "application/json",
-    ...(hasContent &&
-      requestContentType && {
-        "content-type": requestContentType,
-      }),
+    ...(requestContentType && {
+      "content-type": requestContentType,
+    }),
   });
 
   return createPipelineRequest({

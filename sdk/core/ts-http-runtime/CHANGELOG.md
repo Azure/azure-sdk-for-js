@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed an issue where setting `content-type` header was ignored when the request has no body. [#37181](https://github.com/Azure/azure-sdk-for-js/pull/37181)
+
 ### Other Changes
 
 ## 0.3.2 (2025-11-06)
