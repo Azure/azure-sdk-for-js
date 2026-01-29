@@ -458,7 +458,7 @@ export function apiManagementCircuitBreakerDeserializer(item: any): ApiManagemen
     rules: Object.fromEntries(
       Object.entries(item["rules"]).map(([k, p]: [string, any]) => [
         k,
-        Object.fromEntries(Object.entries(p).map(([k, p]: [string, any]) => [k, p])),
+        Object.fromEntries(Object.entries(p).map(([k1, p1]: [string, any]) => [k1, p1])),
       ]),
     ),
   };
