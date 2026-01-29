@@ -752,7 +752,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     const replacement = filterCondition ?? "true";
 
     // If rewrittenQuery has a query property, it's a SqlQuerySpec object
-    if (typeof rewrittenQuery === "object" && rewrittenQuery.query) {
+    if (typeof rewrittenQuery === "object" && rewrittenQuery !== null && rewrittenQuery.query) {
       return rewrittenQuery.query.replace(formatPlaceHolder, replacement);
     }
 
