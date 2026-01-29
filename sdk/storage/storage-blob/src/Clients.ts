@@ -15,12 +15,8 @@ import { randomUUID } from "@azure/core-util";
 import type { Readable } from "node:stream";
 import { BlobDownloadResponse } from "./BlobDownloadResponse.js";
 import { BlobQueryResponse } from "./BlobQueryResponse.js";
-import type {
-  UserDelegationKey} from "@azure/storage-common";
-import {
-  AnonymousCredential,
-  StorageSharedKeyCredential
-} from "@azure/storage-common";
+import type { UserDelegationKey } from "@azure/storage-common";
+import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
 import type {
   AppendBlob,
   Blob as StorageBlob,
@@ -1443,7 +1439,7 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan("BlobClient-delete", options, async (updatedOptions) => {
       return attachResponse<BlobDeleteHeaders, BlobDeleteHeaders>(() =>
-         this.blobContext.delete({
+        this.blobContext.delete({
           abortSignal: options.abortSignal,
           deleteSnapshots: options.deleteSnapshots,
           leaseAccessConditions: options.conditions,
@@ -1616,17 +1612,18 @@ export class BlobClient extends StorageClient {
    */
   public async getTags(options: BlobGetTagsOptions = {}): Promise<BlobGetTagsResponse> {
     return tracingClient.withSpan("BlobClient-getTags", options, async (updatedOptions) => {
-      const response = attachResponse<BlobGetTagsResponseInternal, BlobGetTagsHeaders, BlobTags>(() =>
-        this.blobContext.getTags({
-          abortSignal: options.abortSignal,
-          leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-          },
-          blobModifiedAccessConditions: options.conditions,
-          tracingOptions: updatedOptions.tracingOptions,
-        }),
+      const response = attachResponse<BlobGetTagsResponseInternal, BlobGetTagsHeaders, BlobTags>(
+        () =>
+          this.blobContext.getTags({
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.conditions,
+            modifiedAccessConditions: {
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+            },
+            blobModifiedAccessConditions: options.conditions,
+            tracingOptions: updatedOptions.tracingOptions,
+          }),
       );
       const wrappedResponse: BlobGetTagsResponse = {
         ...response,

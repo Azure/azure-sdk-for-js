@@ -185,7 +185,7 @@ export interface Logging {
   /** The version of the logging properties. */
   version: string;
   /** Whether delete operation is logged. */
-  delete: boolean;
+  deleteProperty: boolean;
   /** Whether read operation is logged. */
   read: boolean;
   /** Whether write operation is logged. */
@@ -197,7 +197,7 @@ export interface Logging {
 export function loggingSerializer(item: Logging): any {
   return {
     version: item["version"],
-    delete: item["delete"],
+    deleteProperty: item["deleteProperty"],
     read: item["read"],
     write: item["write"],
     retentionPolicy: retentionPolicySerializer(item["retentionPolicy"]),
@@ -207,7 +207,7 @@ export function loggingSerializer(item: Logging): any {
 export function loggingDeserializer(item: any): Logging {
   return {
     version: item["version"],
-    delete: item["delete"],
+    deleteProperty: item["deleteProperty"],
     read: item["read"],
     write: item["write"],
     retentionPolicy: retentionPolicyDeserializer(item["retentionPolicy"]),
@@ -217,7 +217,7 @@ export function loggingDeserializer(item: any): Logging {
 export function loggingXmlSerializer(item: Logging): string {
   const properties: XmlPropertyMetadata[] = [
     { propertyName: "version", xmlOptions: { name: "Version" }, type: "primitive" },
-    { propertyName: "delete", xmlOptions: { name: "Delete" }, type: "primitive" },
+    { propertyName: "deleteProperty", xmlOptions: { name: "Delete" }, type: "primitive" },
     { propertyName: "read", xmlOptions: { name: "Read" }, type: "primitive" },
     { propertyName: "write", xmlOptions: { name: "Write" }, type: "primitive" },
     {
@@ -233,7 +233,7 @@ export function loggingXmlSerializer(item: Logging): string {
 export function loggingXmlDeserializer(xmlString: string): Logging {
   const properties: XmlPropertyDeserializeMetadata[] = [
     { propertyName: "version", xmlOptions: { name: "Version" }, type: "primitive" },
-    { propertyName: "delete", xmlOptions: { name: "Delete" }, type: "primitive" },
+    { propertyName: "deleteProperty", xmlOptions: { name: "Delete" }, type: "primitive" },
     { propertyName: "read", xmlOptions: { name: "Read" }, type: "primitive" },
     { propertyName: "write", xmlOptions: { name: "Write" }, type: "primitive" },
     {
@@ -1309,43 +1309,33 @@ export function signedIdentifierXmlDeserializer(xmlString: string): SignedIdenti
 /** Represents an access policy. */
 export interface AccessPolicy {
   /** The date-time the policy is active. */
-  startsOn: Date;
+  startsOn: string;
   /** The date-time the policy expires. */
-  expiresOn: Date;
+  expiresOn: string;
   /** The permissions for acl the policy. */
   permissions: string;
 }
 
 export function accessPolicySerializer(item: AccessPolicy): any {
   return {
-    startsOn: item["startsOn"].toISOString(),
-    expiresOn: item["expiresOn"].toISOString(),
+    startsOn: item["startsOn"],
+    expiresOn: item["expiresOn"],
     permissions: item["permissions"],
   };
 }
 
 export function accessPolicyDeserializer(item: any): AccessPolicy {
   return {
-    startsOn: new Date(item["startsOn"]),
-    expiresOn: new Date(item["expiresOn"]),
+    startsOn: item["startsOn"],
+    expiresOn: item["expiresOn"],
     permissions: item["permissions"],
   };
 }
 
 export function accessPolicyXmlSerializer(item: AccessPolicy): string {
   const properties: XmlPropertyMetadata[] = [
-    {
-      propertyName: "startsOn",
-      xmlOptions: { name: "Start" },
-      type: "date",
-      dateEncoding: "rfc3339-fixed-width",
-    },
-    {
-      propertyName: "expiresOn",
-      xmlOptions: { name: "Expiry" },
-      type: "date",
-      dateEncoding: "rfc3339-fixed-width",
-    },
+    { propertyName: "startsOn", xmlOptions: { name: "Start" }, type: "primitive" },
+    { propertyName: "expiresOn", xmlOptions: { name: "Expiry" }, type: "primitive" },
     { propertyName: "permissions", xmlOptions: { name: "Permission" }, type: "primitive" },
   ];
   return serializeToXml(item, properties, "AccessPolicy");
@@ -1353,18 +1343,8 @@ export function accessPolicyXmlSerializer(item: AccessPolicy): string {
 
 export function accessPolicyXmlDeserializer(xmlString: string): AccessPolicy {
   const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "startsOn",
-      xmlOptions: { name: "Start" },
-      type: "date",
-      dateEncoding: "rfc3339-fixed-width",
-    },
-    {
-      propertyName: "expiresOn",
-      xmlOptions: { name: "Expiry" },
-      type: "date",
-      dateEncoding: "rfc3339-fixed-width",
-    },
+    { propertyName: "startsOn", xmlOptions: { name: "Start" }, type: "primitive" },
+    { propertyName: "expiresOn", xmlOptions: { name: "Expiry" }, type: "primitive" },
     { propertyName: "permissions", xmlOptions: { name: "Permission" }, type: "primitive" },
   ];
   return deserializeFromXml<AccessPolicy>(xmlString, properties, "AccessPolicy");

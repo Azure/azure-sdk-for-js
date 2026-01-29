@@ -116,10 +116,7 @@ export abstract class StorageClient {
     this.isHttps = iEqual(getURLScheme(this.url) || "", "https");
 
     this.credential = getCredentialFromPipeline(pipeline);
-    this.storageClientContextTsp = new StorageClientContextTsp(
-      this.url,
-      coreClientOptions,
-    );
+    this.storageClientContextTsp = new StorageClientContextTsp(this.url, coreClientOptions);
     // Override protocol layer's default content-type
     // const storageClientContext = this.storageClientContext as any;
     // storageClientContext.requestContentType = undefined;
