@@ -105,10 +105,7 @@ export function _listQuotaReportSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -382,9 +379,7 @@ export function _performReplicationTransferSend(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesPerformReplicationTransferOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesPerformReplicationTransferOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/performReplicationTransfer{?api%2Dversion}",
@@ -423,9 +418,7 @@ export function performReplicationTransfer(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesPerformReplicationTransferOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesPerformReplicationTransferOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(
     context,
@@ -454,9 +447,7 @@ export function _finalizeExternalReplicationSend(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesFinalizeExternalReplicationOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesFinalizeExternalReplicationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/finalizeExternalReplication{?api%2Dversion}",
@@ -495,9 +486,7 @@ export function finalizeExternalReplication(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesFinalizeExternalReplicationOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesFinalizeExternalReplicationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(
     context,
@@ -526,9 +515,7 @@ export function _authorizeExternalReplicationSend(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesAuthorizeExternalReplicationOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesAuthorizeExternalReplicationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/authorizeExternalReplication{?api%2Dversion}",
@@ -546,10 +533,7 @@ export function _authorizeExternalReplicationSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -573,9 +557,7 @@ export function authorizeExternalReplication(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesAuthorizeExternalReplicationOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesAuthorizeExternalReplicationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SvmPeerCommandResponse>, SvmPeerCommandResponse> {
   return getLongRunningPoller(
     context,
@@ -624,10 +606,7 @@ export function _peerExternalClusterSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: peerClusterForVolumeMigrationRequestSerializer(body),
   });
 }
@@ -678,9 +657,7 @@ export function _reInitializeReplicationSend(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesReInitializeReplicationOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesReInitializeReplicationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/reinitializeReplication{?api%2Dversion}",
@@ -719,9 +696,7 @@ export function reInitializeReplication(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesReInitializeReplicationOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesReInitializeReplicationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _reInitializeReplicationDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -956,10 +931,7 @@ export function _listReplicationsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: !options["body"] ? options["body"] : listReplicationsRequestSerializer(options["body"]),
   });
 }
@@ -1020,10 +992,7 @@ export function _replicationStatusSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -1195,9 +1164,7 @@ export function _listGetGroupIdListForLdapUserSend(
   poolName: string,
   volumeName: string,
   body: GetGroupIdListForLdapUserRequest,
-  options: VolumesListGetGroupIdListForLdapUserOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesListGetGroupIdListForLdapUserOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/getGroupIdListForLdapUser{?api%2Dversion}",
@@ -1216,10 +1183,7 @@ export function _listGetGroupIdListForLdapUserSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: getGroupIdListForLdapUserRequestSerializer(body),
   });
 }
@@ -1245,9 +1209,7 @@ export function listGetGroupIdListForLdapUser(
   poolName: string,
   volumeName: string,
   body: GetGroupIdListForLdapUserRequest,
-  options: VolumesListGetGroupIdListForLdapUserOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesListGetGroupIdListForLdapUserOptionalParams = { requestOptions: {} },
 ): PollerLike<
   OperationState<GetGroupIdListForLdapUserResponse>,
   GetGroupIdListForLdapUserResponse
@@ -1359,10 +1321,7 @@ export function _splitCloneFromParentSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -1531,9 +1490,7 @@ export function _populateAvailabilityZoneSend(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesPopulateAvailabilityZoneOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesPopulateAvailabilityZoneOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/populateAvailabilityZone{?api%2Dversion}",
@@ -1551,10 +1508,7 @@ export function _populateAvailabilityZoneSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -1578,9 +1532,7 @@ export function populateAvailabilityZone(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesPopulateAvailabilityZoneOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesPopulateAvailabilityZoneOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Volume>, Volume> {
   return getLongRunningPoller(
     context,
@@ -1625,10 +1577,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -1746,10 +1695,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: volumePatchSerializer(body),
   });
 }
@@ -1810,10 +1756,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: volumeSerializer(body),
   });
 }
@@ -1880,10 +1823,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

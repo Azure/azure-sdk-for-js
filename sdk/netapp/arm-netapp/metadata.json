@@ -1,6 +1,6 @@
 {
   "apiVersion": "2025-09-01-preview",
-  "emitterVersion": "0.46.1",
+  "emitterVersion": "0.47.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.NetApp",
     "CrossLanguageDefinitionId": {

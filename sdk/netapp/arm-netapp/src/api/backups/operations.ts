@@ -35,9 +35,7 @@ export function _getVolumeLatestRestoreStatusSend(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: BackupsGetVolumeLatestRestoreStatusOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupsGetVolumeLatestRestoreStatusOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/latestRestoreStatus/current{?api%2Dversion}",
@@ -55,10 +53,7 @@ export function _getVolumeLatestRestoreStatusSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -82,9 +77,7 @@ export async function getVolumeLatestRestoreStatus(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: BackupsGetVolumeLatestRestoreStatusOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupsGetVolumeLatestRestoreStatusOptionalParams = { requestOptions: {} },
 ): Promise<RestoreStatus> {
   const result = await _getVolumeLatestRestoreStatusSend(
     context,
@@ -121,10 +114,7 @@ export function _getLatestStatusSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -184,10 +174,7 @@ export function _listByVaultSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -305,10 +292,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: !options["body"] ? options["body"] : backupPatchSerializer(options["body"]),
   });
 }
@@ -368,10 +352,7 @@ export function _createSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: backupSerializer(body),
   });
 }
@@ -438,10 +419,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
