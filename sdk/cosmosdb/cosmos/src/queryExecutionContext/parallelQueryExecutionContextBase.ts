@@ -772,7 +772,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     filterCondition?: string,
     filterContext?: FilterContext,
   ): DocumentProducer {
-    let rewrittenQuery = this.partitionedQueryExecutionInfo.queryInfo?.rewrittenQuery;
+    const rewrittenQuery = this.partitionedQueryExecutionInfo.queryInfo?.rewrittenQuery;
     let sqlQuerySpec: SqlQuerySpec;
     const query = this.query;
     if (typeof query === "string") {
