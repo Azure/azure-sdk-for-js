@@ -178,6 +178,12 @@ export class PartitionRangeManager {
       }
 
       const { itemCount } = value;
+
+      // ASSUMPTION: Backend should respect maxItemCount and return pageSize or fewer items per partition.
+      // The logic below expects itemCount (items from a partition) to be <= pageSize.
+      // KNOWN ISSUE: Backend currently violates this contract for non-streaming queries (e.g., hybrid queries),
+      // returning more items per partition than maxItemCount specified. This causes pagination logic to fail,
+      // as ranges with itemCount > pageSize cannot fit and result in endIndex=0.
       if (endIndex + itemCount <= pageSize) {
         lastPartitionBeforeCutoff = { rangeId, mapping: value };
         endIndex += itemCount;

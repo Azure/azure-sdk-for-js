@@ -88,6 +88,10 @@ describe("Library/TraceHandler", () => {
   });
 
   afterEach(async () => {
+    if (tracerProvider) {
+      await tracerProvider.shutdown();
+    }
+    trace.disable();
     activeInstrumentations.forEach((instrumentation) => instrumentation.disable());
     activeInstrumentations = [];
     if (metricHandler) {
@@ -233,6 +237,18 @@ describe("Library/TraceHandler", () => {
   };
 
   describe("#autoCollection of HTTP/HTTPS requests", () => {
+    beforeEach(() => {
+      _config.instrumentationOptions = {
+        http: { enabled: true },
+        azureSdk: { enabled: false },
+        mongoDb: { enabled: false },
+        mySql: { enabled: false },
+        postgreSql: { enabled: false },
+        redis: { enabled: false },
+        redis4: { enabled: false },
+      };
+    });
+
     it("http outgoing/incoming requests & custom span processor", async () => {
       createHandler({ enabled: true });
       tracerProvider = new NodeTracerProvider({
@@ -248,8 +264,14 @@ describe("Library/TraceHandler", () => {
       });
       await makeHttpRequest();
       await tracerProvider.forceFlush();
-      expect(exportSpy).toHaveBeenCalledOnce();
-      const spans = exportSpy.mock.calls[0][0];
+      expect(exportSpy).toHaveBeenCalled();
+      // Filter spans to only those from our test request (with custom attributes from our customSpanProcessor)
+      const allSpans = exportSpy.mock.calls.flatMap((call) => call[0]);
+      const spans = allSpans.filter(
+        (span: ReadableSpan) =>
+          span.attributes["startAttribute"] === "SomeValue" &&
+          span.attributes["http.target"] === "/test",
+      );
       expect(spans.length).toBe(2);
       assert.deepStrictEqual(spans.length, 2);
       // Incoming request

@@ -95,6 +95,13 @@ export const ServiceErrorMessageConstants = {
     key: "UnableToExtractWorkspaceId",
     message: "Unable to extract workspace ID from service URL",
   },
+  STORAGE_ACCOUNT_DELETED: {
+    key: "StorageAccountDeleted",
+    message:
+      "The storage account linked to your Playwright Workspace may have been deleted. Please link a different storage account to your Playwright Workspace before trying again. To learn more on how to link a new storage account, refer to https://aka.ms/pww-reporting-migration",
+    formatWithStorageAccount: (storageAccountName: string): string =>
+      `The storage account linked to your Playwright Workspace (${storageAccountName}) may have been deleted. Please link a different storage account to your Playwright Workspace before trying again. To learn more on how to link a new storage account, refer to https://aka.ms/pww-reporting-migration`,
+  },
   REPORTER_REQUIRES_ENTRA_AUTH: {
     key: "ReporterRequiresEntraAuth",
     message:

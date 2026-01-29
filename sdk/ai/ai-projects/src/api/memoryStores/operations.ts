@@ -13,11 +13,13 @@ import {
   _agentsPagedResultMemoryStoreObjectDeserializer,
   DeleteMemoryStoreResponse,
   deleteMemoryStoreResponseDeserializer,
-  itemParamUnionArraySerializer,
+  itemUnionArraySerializer,
   MemoryStoreSearchResponse,
   memoryStoreSearchResponseDeserializer,
   MemoryStoreUpdateResponse,
   memoryStoreUpdateResponseDeserializer,
+  MemoryStoreUpdateCompletedResult,
+  memoryStoreUpdateCompletedResultDeserializer,
   MemoryStoreDeleteScopeResponse,
   memoryStoreDeleteScopeResponseDeserializer,
 } from "../../models/models.js";
@@ -25,11 +27,8 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  createMemoryStoreUpdateMemoriesPoller,
-  MemoryStoreUpdateMemoriesPoller,
-} from "./memoryStoreUpdateMemoriesPoller.js";
 import {
   MemoryStoresDeleteScopeOptionalParams,
   MemoryStoresGetUpdateResultOptionalParams,
@@ -47,6 +46,7 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _deleteScopeSend(
   context: Client,
@@ -174,12 +174,31 @@ export function _updateMemoriesSend(
     },
     body: {
       scope: scope,
-      conversation_id: options?.conversationId,
-      items: !options?.items ? options?.items : itemParamUnionArraySerializer(options?.items),
+      items: !options?.items ? options?.items : itemUnionArraySerializer(options?.items),
       previous_update_id: options?.previousUpdateId,
       update_delay: options?.updateDelay,
     },
   });
+}
+
+export async function _updateMemoriesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<MemoryStoreUpdateCompletedResult> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  if (result?.body?.result === undefined) {
+    throw createRestError(
+      `Expected a result in the response at position "result.body.result"`,
+      result,
+    );
+  }
+
+  return memoryStoreUpdateCompletedResultDeserializer(result.body.result);
 }
 
 /** Update memory store with conversation memories. */
@@ -188,16 +207,15 @@ export function updateMemories(
   name: string,
   scope: string,
   options: MemoryStoresUpdateMemoriesOptionalParams = { requestOptions: {} },
-): MemoryStoreUpdateMemoriesPoller {
-  return createMemoryStoreUpdateMemoriesPoller(
-    context,
-    ["202", "200"],
-    () => _updateMemoriesSend(context, name, scope, options),
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-    },
-  );
+): PollerLike<OperationState<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult> {
+  return getLongRunningPoller(context, _updateMemoriesDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
+  }) as PollerLike<
+    OperationState<MemoryStoreUpdateCompletedResult>,
+    MemoryStoreUpdateCompletedResult
+  >;
 }
 
 export function _searchMemoriesSend(
@@ -225,8 +243,7 @@ export function _searchMemoriesSend(
     },
     body: {
       scope: scope,
-      conversation_id: options?.conversationId,
-      items: !options?.items ? options?.items : itemParamUnionArraySerializer(options?.items),
+      items: !options?.items ? options?.items : itemUnionArraySerializer(options?.items),
       previous_search_id: options?.previousSearchId,
       options: !options?.options
         ? options?.options
