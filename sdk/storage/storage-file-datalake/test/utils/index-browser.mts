@@ -3,7 +3,7 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 import { DataLakeServiceClient, newPipeline } from "../../src/index.js";
-import { AnonymousCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-common";
 import { configureStorageClient, SimpleTokenCredential } from "./testutils.common.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";

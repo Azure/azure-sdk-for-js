@@ -53,11 +53,13 @@ export {
   StorageBrowserPolicyFactory,
   StorageSharedKeyCredential,
   StorageSharedKeyCredentialPolicy,
+  UserDelegationKey,
+  CredentialPolicyCreator,
+} from "@azure/storage-common";
+export {
   BlobServiceProperties as DataLakeServiceProperties,
   ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
-  CredentialPolicyCreator,
 } from "@azure/storage-blob";
-export { UserDelegationKey } from "@azure/storage-common";
 export { CommonOptions } from "./StorageClient.js";
 export { SasIPRange } from "./sas/SasIPRange.js";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants.js";
