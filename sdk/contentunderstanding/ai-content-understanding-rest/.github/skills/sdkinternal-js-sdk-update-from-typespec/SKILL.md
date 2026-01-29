@@ -53,6 +53,7 @@ See [RLC Customization Guide](https://aka.ms/azsdk/js/customization) for details
 Compare `generated/` vs `src/` to ensure all expected customizations are present.
 
 Key files to check:
+
 - `src/static-helpers/serialization/serialize-record.ts`
 - `src/models/models.ts`
 - `src/api/operations.ts`
@@ -61,14 +62,14 @@ Key files to check:
 
 Verify each fix listed in the "Current Known Fixes" section below is still applied in `src/`.
 
-| Fix # | Description | Check Location | Verification |
-|-------|-------------|----------------|--------------|
-| 1 | `serializeRecord` return types + no param reassign | `src/static-helpers/serialization/serialize-record.ts` | Has `): Record<string, any>` return type and uses `propertiesToExclude` |
-| 2 | `keyFrameTimesMs` casing fallback | `src/models/models.ts` in `audioVisualContentDeserializer` | Has `item["keyFrameTimesMs"] ?? item["KeyFrameTimesMs"]` |
-| 3 | Default `stringEncoding` to 'utf16' | `src/api/operations.ts` in `_analyzeSend` and `_analyzeBinarySend` | Has `options?.stringEncoding ?? "utf16"` |
-| 4 | `path` variable renamed to `urlPath` | `src/api/operations.ts` in `_getResultFileSend` | Uses `const urlPath = expandUrlTemplate(...)` |
-| 5 | Null guard in `contentFieldDefinitionRecordDeserializer` | `src/models/models.ts` | Has `if (!item) { return item; }` |
-| 6 | `value` property on ContentField types | `src/models/models.ts` | All field types have `value` property |
+| Fix # | Description                                              | Check Location                                                     | Verification                                                            |
+| ----- | -------------------------------------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| 1     | `serializeRecord` return types + no param reassign       | `src/static-helpers/serialization/serialize-record.ts`             | Has `): Record<string, any>` return type and uses `propertiesToExclude` |
+| 2     | `keyFrameTimesMs` casing fallback                        | `src/models/models.ts` in `audioVisualContentDeserializer`         | Has `item["keyFrameTimesMs"] ?? item["KeyFrameTimesMs"]`                |
+| 3     | Default `stringEncoding` to 'utf16'                      | `src/api/operations.ts` in `_analyzeSend` and `_analyzeBinarySend` | Has `options?.stringEncoding ?? "utf16"`                                |
+| 4     | `path` variable renamed to `urlPath`                     | `src/api/operations.ts` in `_getResultFileSend`                    | Uses `const urlPath = expandUrlTemplate(...)`                           |
+| 5     | Null guard in `contentFieldDefinitionRecordDeserializer` | `src/models/models.ts`                                             | Has `if (!item) { return item; }`                                       |
+| 6     | `value` property on ContentField types                   | `src/models/models.ts`                                             | All field types have `value` property                                   |
 
 **If a fix is now included in the generated code upstream, remove it from this skill document.**
 
@@ -84,10 +85,11 @@ Run tests in playback mode:
 
 ```bash
 cd sdk/contentunderstanding/ai-content-understanding-rest
-export TEST_MODE=playback && pnpm test:node
+TEST_MODE=playback pnpm test:node
 ```
 
 If tests fail:
+
 1. Check if API changes require recording updates (run with `TEST_MODE=record`)
 2. Check if model changes broke test assertions
 3. Update tests as needed
@@ -97,6 +99,7 @@ See [Testing Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/document
 ### Step 8: Update This Skill Document
 
 **Important**: Update this SKILL.md file directly with any changes:
+
 - Add any new fixes discovered during this update
 - Remove fixes that are now included in upstream generated code
 - Update fix descriptions if implementation details changed
@@ -121,6 +124,7 @@ These fixes address issues in the generated code that are not yet resolved upstr
 **File**: `src/static-helpers/serialization/serialize-record.ts`
 
 **Problem**: The generated code has two ESLint violations:
+
 1. Missing explicit return type annotation (violates `@typescript-eslint/explicit-module-boundary-types`)
 2. Reassigns the `excludes` parameter (violates `no-param-reassign`)
 
@@ -177,7 +181,8 @@ keyFrameTimesMs: (() => {
 
 **Problem**: The generated code does not set a default value for `stringEncoding`, but JavaScript strings use UTF-16 code units internally for `.length` and string indexing.
 
-**Why this matters**: 
+**Why this matters**:
+
 - JavaScript's `String.length` returns the number of UTF-16 code units, not Unicode code points
 - The .NET SDK defaults to 'utf16' for the same reason (.NET strings are UTF-16)
 - Without this default, span offsets and lengths returned by the service may not align correctly with JavaScript string operations
@@ -195,7 +200,7 @@ stringEncoding: options?.stringEncoding ?? "utf16",
 
 ---
 
-### Fix 4: Duplicate Variable Name in _getResultFileSend
+### Fix 4: Duplicate Variable Name in \_getResultFileSend
 
 **File**: `src/api/operations.ts` in `_getResultFileSend`
 
@@ -209,10 +214,11 @@ stringEncoding: options?.stringEncoding ?? "utf16",
 export function _getResultFileSend(
   context: Client,
   operationId: string,
-  path: string,  // Function parameter
+  path: string, // Function parameter
   options: GetResultFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const urlPath = expandUrlTemplate(  // Renamed from 'path' to 'urlPath'
+  const urlPath = expandUrlTemplate(
+    // Renamed from 'path' to 'urlPath'
     "/analyzerResults/{operationId}/files/{+path}{?api%2Dversion}",
     {
       operationId: operationId,
@@ -223,7 +229,8 @@ export function _getResultFileSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(urlPath).get({  // Use urlPath here
+  return context.path(urlPath).get({
+    // Use urlPath here
     ...operationOptionsToRequestParameters(options),
     headers: { accept: "*/*", ...options.requestOptions?.headers },
   });
@@ -266,6 +273,7 @@ export function contentFieldDefinitionRecordDeserializer(
 **Problem**: The generated ContentField subtypes (StringField, NumberField, etc.) only expose typed properties like `valueString`, `valueNumber`, etc. This differs from the .NET SDK which exposes a convenient `value` property.
 
 **Why this matters**:
+
 - Improves developer experience by providing a consistent, simpler way to access field values
 - Aligns with the .NET SDK design for cross-language consistency
 - Reduces boilerplate in user code (no need to check field type before accessing value)
@@ -274,11 +282,12 @@ export function contentFieldDefinitionRecordDeserializer(
 **Fix**: Add a `value` property to each ContentField subtype interface and populate it in the deserializer:
 
 **StringField**:
+
 ```typescript
 export interface StringField extends ContentField {
   fieldType: "string";
   valueString?: string;
-  value?: string;  // Added
+  value?: string; // Added
 }
 
 export function stringFieldDeserializer(item: any): StringField {
@@ -289,7 +298,7 @@ export function stringFieldDeserializer(item: any): StringField {
     source: item["source"],
     fieldType: item["type"],
     valueString: item["valueString"],
-    value: item["valueString"],  // Added
+    value: item["valueString"], // Added
   };
 }
 ```
