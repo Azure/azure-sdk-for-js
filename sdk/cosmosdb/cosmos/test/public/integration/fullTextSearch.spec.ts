@@ -283,6 +283,25 @@ describe("FTSQuery", { timeout: 20000 }, () => {
         expected2: [2, 85, 57],
       },
     ],
+    [
+      {
+        query: `SELECT TOP 10 c[@Prop1] AS Index, c[@prop2] AS Title, c[@PROP3] AS Text
+        FROM c
+        WHERE FullTextContains(c[@prop2], @searchTitle) OR FullTextContains(c[@PROP3], @searchTitle) OR FullTextContains(c[@PROP3], @searchText)
+        ORDER BY RANK RRF(FullTextScore(c[@prop2], @searchTitle), FullTextScore(c[@PROP3], @searchText))`,
+        parameters: [
+          { name: "@Prop1", value: "index" },
+          { name: "@prop2", value: "title" },
+          { name: "@PROP3", value: "text" },
+          { name: "@searchTitle", value: "John" },
+          { name: "@searchText", value: "United States" },
+        ],
+      },
+      {
+        expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
+        expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
+      },
+    ],
     // TODO: Add test case of just RRF with vector search no FullTextScore
   ];
 
