@@ -18,7 +18,13 @@ describe("ContentUnderstandingClient - Analysis", () => {
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
-    await recorder.setMatcher("BodilessMatcher");
+    // Use CustomDefaultMatcher with excluded headers to allow recordings made with either
+    // API key auth (Ocp-Apim-Subscription-Key) or AAD auth (Authorization) to work in playback
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Authorization", "Ocp-Apim-Subscription-Key"],
+      ignoredHeaders: ["Content-Length"],
+      compareBodies: false,
+    });
     const key = getKey();
     client = new ContentUnderstandingClient(
       getEndpoint(),
