@@ -2575,84 +2575,25 @@ export const EventInfo: coreClient.CompositeMapper = {
   },
 };
 
-export const ErrorResponseForContainerRegistry: coreClient.CompositeMapper = {
+export const AgentPoolListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ErrorResponseForContainerRegistry",
+    className: "AgentPoolListResult",
     modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorResponseBody",
-        },
-      },
-    },
-  },
-};
-
-export const ErrorResponseBody: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponseBody",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      message: {
-        serializedName: "message",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String",
-        },
-      },
-      details: {
-        serializedName: "details",
+      value: {
+        serializedName: "value",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "InnerErrorDescription",
+              className: "AgentPool",
             },
           },
         },
       },
-    },
-  },
-};
-
-export const InnerErrorDescription: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "InnerErrorDescription",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      message: {
-        serializedName: "message",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      target: {
-        serializedName: "target",
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String",
         },
@@ -2683,33 +2624,6 @@ export const AgentPoolUpdateParameters: coreClient.CompositeMapper = {
   },
 };
 
-export const AgentPoolListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AgentPoolListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AgentPool",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const AgentPoolQueueStatus: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2725,38 +2639,46 @@ export const AgentPoolQueueStatus: coreClient.CompositeMapper = {
   },
 };
 
-export const RunRequest: coreClient.CompositeMapper = {
+export const SourceUploadDefinition: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RunRequest",
-    uberParent: "RunRequest",
-    polymorphicDiscriminator: {
-      serializedName: "type",
-      clientName: "type",
-    },
+    className: "SourceUploadDefinition",
     modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
+      uploadUrl: {
+        serializedName: "uploadUrl",
         type: {
           name: "String",
         },
       },
-      isArchiveEnabled: {
-        defaultValue: false,
-        serializedName: "isArchiveEnabled",
-        type: {
-          name: "Boolean",
-        },
-      },
-      agentPoolName: {
-        serializedName: "agentPoolName",
+      relativePath: {
+        serializedName: "relativePath",
         type: {
           name: "String",
         },
       },
-      logTemplate: {
-        serializedName: "logTemplate",
+    },
+  },
+};
+
+export const RunListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RunListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Run",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String",
         },
@@ -2946,54 +2868,6 @@ export const AgentProperties: coreClient.CompositeMapper = {
   },
 };
 
-export const SourceUploadDefinition: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SourceUploadDefinition",
-    modelProperties: {
-      uploadUrl: {
-        serializedName: "uploadUrl",
-        type: {
-          name: "String",
-        },
-      },
-      relativePath: {
-        serializedName: "relativePath",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const RunListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RunListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Run",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const RunUpdateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3022,6 +2896,73 @@ export const RunGetLogResult: coreClient.CompositeMapper = {
       },
       logArtifactLink: {
         serializedName: "logArtifactLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RunRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RunRequest",
+    uberParent: "RunRequest",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type",
+    },
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      isArchiveEnabled: {
+        defaultValue: false,
+        serializedName: "isArchiveEnabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      agentPoolName: {
+        serializedName: "agentPoolName",
+        type: {
+          name: "String",
+        },
+      },
+      logTemplate: {
+        serializedName: "logTemplate",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TaskRunListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TaskRunListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TaskRun",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String",
         },
@@ -3064,33 +3005,6 @@ export const TaskRunUpdateParameters: coreClient.CompositeMapper = {
       },
       forceUpdateTag: {
         serializedName: "properties.forceUpdateTag",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const TaskRunListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TaskRunListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "TaskRun",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
         type: {
           name: "String",
         },
@@ -3469,6 +3383,12 @@ export const SourceRegistryCredentials: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SourceRegistryCredentials",
     modelProperties: {
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "String",
+        },
+      },
       loginMode: {
         serializedName: "loginMode",
         type: {
@@ -3892,69 +3812,6 @@ export const BaseImageTriggerUpdateParameters: coreClient.CompositeMapper = {
   },
 };
 
-export const RunFilter: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RunFilter",
-    modelProperties: {
-      runId: {
-        serializedName: "runId",
-        type: {
-          name: "String",
-        },
-      },
-      runType: {
-        serializedName: "runType",
-        type: {
-          name: "String",
-        },
-      },
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String",
-        },
-      },
-      createTime: {
-        serializedName: "createTime",
-        type: {
-          name: "DateTime",
-        },
-      },
-      finishTime: {
-        serializedName: "finishTime",
-        type: {
-          name: "DateTime",
-        },
-      },
-      outputImageManifests: {
-        serializedName: "outputImageManifests",
-        type: {
-          name: "String",
-        },
-      },
-      isArchiveEnabled: {
-        serializedName: "isArchiveEnabled",
-        type: {
-          name: "Boolean",
-        },
-      },
-      taskName: {
-        serializedName: "taskName",
-        type: {
-          name: "String",
-        },
-      },
-      agentPoolName: {
-        serializedName: "agentPoolName",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const Argument: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4271,6 +4128,82 @@ export const DockerBuildRequest: coreClient.CompositeMapper = {
   },
 };
 
+export const EncodedTaskRunRequest: coreClient.CompositeMapper = {
+  serializedName: "EncodedTaskRunRequest",
+  type: {
+    name: "Composite",
+    className: "EncodedTaskRunRequest",
+    uberParent: "RunRequest",
+    polymorphicDiscriminator: RunRequest.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...RunRequest.type.modelProperties,
+      encodedTaskContent: {
+        serializedName: "encodedTaskContent",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      encodedValuesContent: {
+        serializedName: "encodedValuesContent",
+        type: {
+          name: "String",
+        },
+      },
+      values: {
+        serializedName: "values",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SetValue",
+            },
+          },
+        },
+      },
+      timeout: {
+        defaultValue: 3600,
+        constraints: {
+          InclusiveMaximum: 28800,
+          InclusiveMinimum: 300,
+        },
+        serializedName: "timeout",
+        type: {
+          name: "Number",
+        },
+      },
+      platform: {
+        serializedName: "platform",
+        type: {
+          name: "Composite",
+          className: "PlatformProperties",
+        },
+      },
+      agentConfiguration: {
+        serializedName: "agentConfiguration",
+        type: {
+          name: "Composite",
+          className: "AgentProperties",
+        },
+      },
+      sourceLocation: {
+        serializedName: "sourceLocation",
+        type: {
+          name: "String",
+        },
+      },
+      credentials: {
+        serializedName: "credentials",
+        type: {
+          name: "Composite",
+          className: "Credentials",
+        },
+      },
+    },
+  },
+};
+
 export const FileTaskRunRequest: coreClient.CompositeMapper = {
   serializedName: "FileTaskRunRequest",
   type: {
@@ -4374,82 +4307,6 @@ export const TaskRunRequest: coreClient.CompositeMapper = {
   },
 };
 
-export const EncodedTaskRunRequest: coreClient.CompositeMapper = {
-  serializedName: "EncodedTaskRunRequest",
-  type: {
-    name: "Composite",
-    className: "EncodedTaskRunRequest",
-    uberParent: "RunRequest",
-    polymorphicDiscriminator: RunRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...RunRequest.type.modelProperties,
-      encodedTaskContent: {
-        serializedName: "encodedTaskContent",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      encodedValuesContent: {
-        serializedName: "encodedValuesContent",
-        type: {
-          name: "String",
-        },
-      },
-      values: {
-        serializedName: "values",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SetValue",
-            },
-          },
-        },
-      },
-      timeout: {
-        defaultValue: 3600,
-        constraints: {
-          InclusiveMaximum: 28800,
-          InclusiveMinimum: 300,
-        },
-        serializedName: "timeout",
-        type: {
-          name: "Number",
-        },
-      },
-      platform: {
-        serializedName: "platform",
-        type: {
-          name: "Composite",
-          className: "PlatformProperties",
-        },
-      },
-      agentConfiguration: {
-        serializedName: "agentConfiguration",
-        type: {
-          name: "Composite",
-          className: "AgentProperties",
-        },
-      },
-      sourceLocation: {
-        serializedName: "sourceLocation",
-        type: {
-          name: "String",
-        },
-      },
-      credentials: {
-        serializedName: "credentials",
-        type: {
-          name: "Composite",
-          className: "Credentials",
-        },
-      },
-    },
-  },
-};
-
 export const DockerBuildStep: coreClient.CompositeMapper = {
   serializedName: "Docker",
   type: {
@@ -4513,24 +4370,24 @@ export const DockerBuildStep: coreClient.CompositeMapper = {
   },
 };
 
-export const FileTaskStep: coreClient.CompositeMapper = {
-  serializedName: "FileTask",
+export const EncodedTaskStep: coreClient.CompositeMapper = {
+  serializedName: "EncodedTask",
   type: {
     name: "Composite",
-    className: "FileTaskStep",
+    className: "EncodedTaskStep",
     uberParent: "TaskStepProperties",
     polymorphicDiscriminator: TaskStepProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...TaskStepProperties.type.modelProperties,
-      taskFilePath: {
-        serializedName: "taskFilePath",
+      encodedTaskContent: {
+        serializedName: "encodedTaskContent",
         required: true,
         type: {
           name: "String",
         },
       },
-      valuesFilePath: {
-        serializedName: "valuesFilePath",
+      encodedValuesContent: {
+        serializedName: "encodedValuesContent",
         type: {
           name: "String",
         },
@@ -4551,24 +4408,24 @@ export const FileTaskStep: coreClient.CompositeMapper = {
   },
 };
 
-export const EncodedTaskStep: coreClient.CompositeMapper = {
-  serializedName: "EncodedTask",
+export const FileTaskStep: coreClient.CompositeMapper = {
+  serializedName: "FileTask",
   type: {
     name: "Composite",
-    className: "EncodedTaskStep",
+    className: "FileTaskStep",
     uberParent: "TaskStepProperties",
     polymorphicDiscriminator: TaskStepProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...TaskStepProperties.type.modelProperties,
-      encodedTaskContent: {
-        serializedName: "encodedTaskContent",
+      taskFilePath: {
+        serializedName: "taskFilePath",
         required: true,
         type: {
           name: "String",
         },
       },
-      encodedValuesContent: {
-        serializedName: "encodedValuesContent",
+      valuesFilePath: {
+        serializedName: "valuesFilePath",
         type: {
           name: "String",
         },
@@ -4649,23 +4506,23 @@ export const DockerBuildStepUpdateParameters: coreClient.CompositeMapper = {
   },
 };
 
-export const FileTaskStepUpdateParameters: coreClient.CompositeMapper = {
-  serializedName: "FileTask",
+export const EncodedTaskStepUpdateParameters: coreClient.CompositeMapper = {
+  serializedName: "EncodedTask",
   type: {
     name: "Composite",
-    className: "FileTaskStepUpdateParameters",
+    className: "EncodedTaskStepUpdateParameters",
     uberParent: "TaskStepUpdateParameters",
     polymorphicDiscriminator: TaskStepUpdateParameters.type.polymorphicDiscriminator,
     modelProperties: {
       ...TaskStepUpdateParameters.type.modelProperties,
-      taskFilePath: {
-        serializedName: "taskFilePath",
+      encodedTaskContent: {
+        serializedName: "encodedTaskContent",
         type: {
           name: "String",
         },
       },
-      valuesFilePath: {
-        serializedName: "valuesFilePath",
+      encodedValuesContent: {
+        serializedName: "encodedValuesContent",
         type: {
           name: "String",
         },
@@ -4686,23 +4543,23 @@ export const FileTaskStepUpdateParameters: coreClient.CompositeMapper = {
   },
 };
 
-export const EncodedTaskStepUpdateParameters: coreClient.CompositeMapper = {
-  serializedName: "EncodedTask",
+export const FileTaskStepUpdateParameters: coreClient.CompositeMapper = {
+  serializedName: "FileTask",
   type: {
     name: "Composite",
-    className: "EncodedTaskStepUpdateParameters",
+    className: "FileTaskStepUpdateParameters",
     uberParent: "TaskStepUpdateParameters",
     polymorphicDiscriminator: TaskStepUpdateParameters.type.polymorphicDiscriminator,
     modelProperties: {
       ...TaskStepUpdateParameters.type.modelProperties,
-      encodedTaskContent: {
-        serializedName: "encodedTaskContent",
+      taskFilePath: {
+        serializedName: "taskFilePath",
         type: {
           name: "String",
         },
       },
-      encodedValuesContent: {
-        serializedName: "encodedValuesContent",
+      valuesFilePath: {
+        serializedName: "valuesFilePath",
         type: {
           name: "String",
         },
@@ -6245,18 +6102,123 @@ export const WebhooksDeleteHeaders: coreClient.CompositeMapper = {
   },
 };
 
+export const AgentPoolsCreateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolsCreateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const AgentPoolsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolsUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const AgentPoolsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const TaskRunsCreateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TaskRunsCreateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const TaskRunsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TaskRunsUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
 export const discriminators = {
   RunRequest: RunRequest,
   TaskStepProperties: TaskStepProperties,
   TaskStepUpdateParameters: TaskStepUpdateParameters,
   "RunRequest.DockerBuildRequest": DockerBuildRequest,
+  "RunRequest.EncodedTaskRunRequest": EncodedTaskRunRequest,
   "RunRequest.FileTaskRunRequest": FileTaskRunRequest,
   "RunRequest.TaskRunRequest": TaskRunRequest,
-  "RunRequest.EncodedTaskRunRequest": EncodedTaskRunRequest,
   "TaskStepProperties.Docker": DockerBuildStep,
-  "TaskStepProperties.FileTask": FileTaskStep,
   "TaskStepProperties.EncodedTask": EncodedTaskStep,
+  "TaskStepProperties.FileTask": FileTaskStep,
   "TaskStepUpdateParameters.Docker": DockerBuildStepUpdateParameters,
-  "TaskStepUpdateParameters.FileTask": FileTaskStepUpdateParameters,
   "TaskStepUpdateParameters.EncodedTask": EncodedTaskStepUpdateParameters,
+  "TaskStepUpdateParameters.FileTask": FileTaskStepUpdateParameters,
 };

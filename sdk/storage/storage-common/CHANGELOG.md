@@ -1,5 +1,23 @@
 # Release History
 
+## 12.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed duplicate ESM exports that caused compatibility issues with ESM loaders like `import-in-the-middle`.
+
+### Other Changes
+
+## 12.2.0 (2026-01-16)
+
+### Features Added
+
+- Includes all features released in 12.2.0-beta.1
+
 ## 12.2.0-beta.1 (2025-11-24)
 
 ### Features Added

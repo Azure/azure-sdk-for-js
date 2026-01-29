@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MemorySearchOptions, ItemParamUnion } from "../../models/models.js";
+import { MemorySearchOptions, ItemUnion, PageOrder } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -14,11 +14,9 @@ export interface MemoryStoresGetUpdateResultOptionalParams extends OperationOpti
 export interface MemoryStoresUpdateMemoriesOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
-  /** The conversation ID from which to extract memories. Only one of conversation_id or items should be provided. */
-  conversationId?: string;
-  /** Conversation items from which to extract memories. Only one of conversation_id or items should be provided. */
-  items?: ItemParamUnion[];
-  /** The unique ID of the previous update request, enabling incremental memory updates from where the last operation left off. Cannot be used together with conversation_id. */
+  /** Conversation items from which to extract memories. */
+  items?: ItemUnion[];
+  /** The unique ID of the previous update request, enabling incremental memory updates from where the last operation left off. */
   previousUpdateId?: string;
   /**
    * Timeout period before processing the memory update in seconds.
@@ -31,11 +29,9 @@ export interface MemoryStoresUpdateMemoriesOptionalParams extends OperationOptio
 
 /** Optional parameters. */
 export interface MemoryStoresSearchMemoriesOptionalParams extends OperationOptions {
-  /** The conversation ID for which to search memories. Only one of conversation_id or items should be provided. */
-  conversationId?: string;
-  /** Items for which to search for relevant memories. Only one of conversation_id or items should be provided. */
-  items?: ItemParamUnion[];
-  /** The unique ID of the previous search request, enabling incremental memory search from where the last operation left off. Cannot be used together with conversation_id. */
+  /** Items for which to search for relevant memories. */
+  items?: ItemUnion[];
+  /** The unique ID of the previous search request, enabling incremental memory search from where the last operation left off. */
   previousSearchId?: string;
   /** Memory search options. */
   options?: MemorySearchOptions;
@@ -55,7 +51,7 @@ export interface MemoryStoresListMemoryStoresOptionalParams extends OperationOpt
    * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
    * for descending order.
    */
-  order?: "asc" | "desc";
+  order?: PageOrder;
   /**
    * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
    * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your

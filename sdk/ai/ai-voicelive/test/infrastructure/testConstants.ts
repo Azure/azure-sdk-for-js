@@ -36,6 +36,13 @@ export const TestConstants = {
   SAMPLE_FUNCTION_ARGS: '{"location": "San Francisco"}',
   SAMPLE_FUNCTION_RESULT: '{"temperature": "22°C", "condition": "sunny"}',
 
+  // Test MCP server definitions
+  SAMPLE_MCP_SERVER_LABEL: "weather-server",
+  SAMPLE_MCP_SERVER_URL: "https://weather-mcp.example.com",
+  SAMPLE_MCP_TOOL_NAME: "get_weather",
+  SAMPLE_MCP_TOOL_DESCRIPTION: "Get current weather for a location",
+  SAMPLE_MCP_APPROVAL_REQUEST_ID: "approval_123",
+
   // Timeouts and delays
   DEFAULT_TIMEOUT_MS: 5000,
   SHORT_TIMEOUT_MS: 1000,
@@ -58,6 +65,14 @@ export const TestConstants = {
     RESPONSE_DONE: "response.done",
     FUNCTION_CALL_ARGUMENTS_DONE: "response.function_call.arguments.done",
     FUNCTION_CALL_OUTPUT: "conversation.item.function_call_output",
+    MCP_LIST_TOOLS_IN_PROGRESS: "mcp_list_tools.in_progress",
+    MCP_LIST_TOOLS_COMPLETED: "mcp_list_tools.completed",
+    MCP_LIST_TOOLS_FAILED: "mcp_list_tools.failed",
+    MCP_CALL_ARGUMENTS_DELTA: "response.mcp_call_arguments.delta",
+    MCP_CALL_ARGUMENTS_DONE: "response.mcp_call_arguments.done",
+    MCP_CALL_IN_PROGRESS: "response.mcp_call.in_progress",
+    MCP_CALL_COMPLETED: "response.mcp_call.completed",
+    MCP_CALL_FAILED: "response.mcp_call.failed",
     ERROR: "error",
   },
 } as const;
@@ -232,4 +247,219 @@ export function getMessagesByType(messages: string[], messageType: string): any[
 export function getLastMessageByType(messages: string[], messageType: string): any | null {
   const filtered = getMessagesByType(messages, messageType);
   return filtered.length > 0 ? filtered[filtered.length - 1] : null;
+}
+
+/**
+ * Create a test MCP list tools in progress event
+ */
+export function createMcpListToolsInProgressEvent(
+  itemId: string = "item_123",
+  eventId: string = TestConstants.SAMPLE_EVENT_ID,
+): string {
+  return JSON.stringify({
+    type: TestConstants.EVENT_TYPES.MCP_LIST_TOOLS_IN_PROGRESS,
+    event_id: eventId,
+    item_id: itemId,
+  });
+}
+
+/**
+ * Create a test MCP list tools completed event
+ */
+export function createMcpListToolsCompletedEvent(
+  itemId: string = "item_123",
+  eventId: string = TestConstants.SAMPLE_EVENT_ID,
+): string {
+  return JSON.stringify({
+    type: TestConstants.EVENT_TYPES.MCP_LIST_TOOLS_COMPLETED,
+    event_id: eventId,
+    item_id: itemId,
+  });
+}
+
+/**
+ * Create a test MCP list tools failed event
+ */
+export function createMcpListToolsFailedEvent(
+  itemId: string = "item_123",
+  eventId: string = TestConstants.SAMPLE_EVENT_ID,
+): string {
+  return JSON.stringify({
+    type: TestConstants.EVENT_TYPES.MCP_LIST_TOOLS_FAILED,
+    event_id: eventId,
+    item_id: itemId,
+  });
+}
+
+/**
+ * Create a test MCP call arguments delta event
+ */
+export function createMcpCallArgumentsDeltaEvent(
+  itemId: string = "item_123",
+  responseId: string = "resp_456",
+  outputIndex: number = 0,
+  delta: string = '{"location": "San',
+  eventId: string = TestConstants.SAMPLE_EVENT_ID,
+): string {
+  return JSON.stringify({
+    type: TestConstants.EVENT_TYPES.MCP_CALL_ARGUMENTS_DELTA,
+    event_id: eventId,
+    response_id: responseId,
+    item_id: itemId,
+    output_index: outputIndex,
+    delta: delta,
+  });
+}
+
+/**
+ * Create a test MCP call arguments done event
+ */
+export function createMcpCallArgumentsDoneEvent(
+  itemId: string = "item_123",
+  responseId: string = "resp_456",
+  outputIndex: number = 0,
+  eventId: string = TestConstants.SAMPLE_EVENT_ID,
+): string {
+  return JSON.stringify({
+    type: TestConstants.EVENT_TYPES.MCP_CALL_ARGUMENTS_DONE,
+    event_id: eventId,
+    response_id: responseId,
+    item_id: itemId,
+    output_index: outputIndex,
+  });
+}
+
+/**
+ * Create a test MCP call in progress event
+ */
+export function createMcpCallInProgressEvent(
+  itemId: string = "item_123",
+  eventId: string = TestConstants.SAMPLE_EVENT_ID,
+): string {
+  return JSON.stringify({
+    type: TestConstants.EVENT_TYPES.MCP_CALL_IN_PROGRESS,
+    event_id: eventId,
+    item_id: itemId,
+  });
+}
+
+/**
+ * Create a test MCP call completed event
+ */
+export function createMcpCallCompletedEvent(
+  itemId: string = "item_123",
+  eventId: string = TestConstants.SAMPLE_EVENT_ID,
+): string {
+  return JSON.stringify({
+    type: TestConstants.EVENT_TYPES.MCP_CALL_COMPLETED,
+    event_id: eventId,
+    item_id: itemId,
+  });
+}
+
+/**
+ * Create a test MCP call failed event
+ */
+export function createMcpCallFailedEvent(
+  itemId: string = "item_123",
+  eventId: string = TestConstants.SAMPLE_EVENT_ID,
+): string {
+  return JSON.stringify({
+    type: TestConstants.EVENT_TYPES.MCP_CALL_FAILED,
+    event_id: eventId,
+    item_id: itemId,
+  });
+}
+
+/**
+ * Create a test MCP approval request item
+ */
+export function createMcpApprovalRequestEvent(
+  approvalRequestId: string = TestConstants.SAMPLE_MCP_APPROVAL_REQUEST_ID,
+  toolName: string = TestConstants.SAMPLE_MCP_TOOL_NAME,
+  serverLabel: string = TestConstants.SAMPLE_MCP_SERVER_LABEL,
+  args: string = TestConstants.SAMPLE_FUNCTION_ARGS,
+  responseId: string = "resp_456",
+  eventId: string = TestConstants.SAMPLE_EVENT_ID,
+): string {
+  return JSON.stringify({
+    type: "response.output_item.added",
+    event_id: eventId,
+    response_id: responseId,
+    output_index: 0,
+    item: {
+      type: "mcp_approval_request",
+      id: approvalRequestId,
+      object: "realtime.item",
+      status: "completed",
+      arguments: args,
+      name: toolName,
+      serverLabel: serverLabel,
+    },
+  });
+}
+
+/**
+ * Create a test MCP list tools response item event
+ */
+export function createMcpListToolsResponseEvent(
+  serverLabel: string = TestConstants.SAMPLE_MCP_SERVER_LABEL,
+  tools: any[] = [
+    {
+      name: TestConstants.SAMPLE_MCP_TOOL_NAME,
+      description: TestConstants.SAMPLE_MCP_TOOL_DESCRIPTION,
+      inputSchema: {
+        type: "object",
+        properties: {
+          location: { type: "string" },
+        },
+        required: ["location"],
+      },
+    },
+  ],
+  responseId: string = "resp_456",
+  eventId: string = TestConstants.SAMPLE_EVENT_ID,
+): string {
+  return JSON.stringify({
+    type: "response.output_item.added",
+    event_id: eventId,
+    response_id: responseId,
+    output_index: 0,
+    item: {
+      type: "mcp_list_tools",
+      id: "list_tools_123",
+      object: "realtime.item",
+      tools: tools,
+      serverLabel: serverLabel,
+    },
+  });
+}
+
+/**
+ * Create a test MCP call response item event
+ */
+export function createMcpCallResponseEvent(
+  toolName: string = TestConstants.SAMPLE_MCP_TOOL_NAME,
+  serverLabel: string = TestConstants.SAMPLE_MCP_SERVER_LABEL,
+  args: string = TestConstants.SAMPLE_FUNCTION_ARGS,
+  approvalRequestId?: string,
+  responseId: string = "resp_456",
+  eventId: string = TestConstants.SAMPLE_EVENT_ID,
+): string {
+  return JSON.stringify({
+    type: "response.output_item.added",
+    event_id: eventId,
+    response_id: responseId,
+    output_index: 0,
+    item: {
+      type: "mcp_call",
+      id: "mcp_call_123",
+      object: "realtime.item",
+      status: "in_progress",
+      ...(approvalRequestId && { approvalRequestId }),
+      name: toolName,
+      arguments: args,
+      serverLabel: serverLabel,
+    },
+  });
 }

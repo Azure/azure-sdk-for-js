@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to create an AI agent with OpenAPI tool capabilities
- * using the OpenApiAgentTool and synchronous Azure AI Projects client. The agent can call
+ * using the OpenApiTool and synchronous Azure AI Projects client. The agent can call
  * external APIs defined by OpenAPI specifications.
  *
  * @summary This sample demonstrates how to create an agent with OpenAPI tool capabilities,
@@ -16,32 +16,32 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import {
   AIProjectClient,
-  OpenApiAgentTool,
+  OpenApiTool,
   OpenApiFunctionDefinition,
   OpenApiAnonymousAuthDetails,
 } from "@azure/ai-projects";
-import * as fs from "fs";
+import { fileURLToPath } from "node:url";
+import * as fs from "node:fs/promises";
 import * as path from "path";
 import "dotenv/config";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 const weatherSpecPath = path.resolve(__dirname, "../assets", "weather_openapi.json");
 
-function loadOpenApiSpec(specPath: string): unknown {
-  if (!fs.existsSync(specPath)) {
-    throw new Error(`OpenAPI specification not found at: ${specPath}`);
-  }
-
+async function loadOpenApiSpec(specPath: string): Promise<unknown> {
   try {
-    const data = fs.readFileSync(specPath, "utf-8");
+    const data = await fs.readFile(specPath, "utf-8");
     return JSON.parse(data);
   } catch (error) {
     throw new Error(`Failed to read or parse OpenAPI specification at ${specPath}: ${error}`);
   }
 }
 
-function createWeatherTool(spec: unknown): OpenApiAgentTool {
+function createWeatherTool(spec: unknown): OpenApiTool {
   const auth: OpenApiAnonymousAuthDetails = { type: "anonymous" };
   const definition: OpenApiFunctionDefinition = {
     name: "get_weather",
@@ -58,7 +58,7 @@ function createWeatherTool(spec: unknown): OpenApiAgentTool {
 
 export async function main(): Promise<void> {
   console.log("Loading OpenAPI specifications from assets directory...");
-  const weatherSpec = loadOpenApiSpec(weatherSpecPath);
+  const weatherSpec = await loadOpenApiSpec(weatherSpecPath);
 
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = await project.getOpenAIClient();

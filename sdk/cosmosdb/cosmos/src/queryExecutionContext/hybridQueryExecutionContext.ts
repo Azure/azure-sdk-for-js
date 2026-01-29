@@ -475,6 +475,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         componentPartitionExecutionInfo,
         this.correlatedActivityId,
         this.emitRawOrderByPayload,
+        /* supportsContinuationTokens */ false,
       );
       this.componentsExecutionContext.push(executionContext);
     }

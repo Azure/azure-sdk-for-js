@@ -7,11 +7,12 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -12,83 +12,32 @@
+@@ -12,84 +12,32 @@
  import * as coreClient from '@azure/core-client';
  import * as coreHttpCompat from '@azure/core-http-compat';
  import { Credential as Credential_2 } from '@azure/storage-common';
  import { CredentialPolicy } from '@azure/storage-common';
+-import { CredentialPolicyCreator } from '@azure/storage-common';
 -import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 -import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 -import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
@@ -94,7 +95,18 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { AnonymousCredentialPolicy }
  
-@@ -132,17 +81,8 @@
+@@ -112,10 +60,8 @@
+ export { Credential_2 as Credential }
+ 
+ export { CredentialPolicy }
+ 
+-export { CredentialPolicyCreator }
+-
+ // @public
+ export interface DequeuedMessageItem {
+     dequeueCount: number;
+     expiresOn: Date;
+@@ -135,17 +81,8 @@
      popReceipt: string;
  }
  
@@ -112,7 +124,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      lastSyncOn: Date;
      status: GeoReplicationStatusType;
  }
-@@ -150,30 +90,18 @@
+@@ -153,30 +90,18 @@
  // @public
  export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
  
@@ -145,7 +157,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      // (undocumented)
      continuationToken: string;
      // (undocumented)
-@@ -433,8 +361,9 @@
+@@ -436,8 +361,9 @@
      expiresOn?: Date;
      identifier?: string;
      ipRange?: SasIPRange;
@@ -155,7 +167,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      startsOn?: Date;
      version?: string;
  }
-@@ -518,21 +447,8 @@
+@@ -521,21 +447,8 @@
      update: boolean;
  }
  
@@ -177,7 +189,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      abortSignal?: AbortSignalLike;
  }
  
-@@ -551,8 +467,9 @@
+@@ -554,8 +467,9 @@
      constructor(url: string, pipeline: Pipeline);
      createQueue(queueName: string, options?: QueueCreateOptions): Promise<QueueCreateResponse>;
      deleteQueue(queueName: string, options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
@@ -187,7 +199,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
      getQueueClient(queueName: string): QueueClient;
-@@ -619,15 +536,8 @@
+@@ -622,15 +536,8 @@
  
  // @public
  export type ReceivedMessageItem = DequeuedMessageItem;
@@ -203,7 +215,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface ResponseLike {
      _response: HttpResponse;
  }
-@@ -662,32 +572,8 @@
+@@ -665,32 +572,8 @@
      start: string;
  }
  
@@ -236,7 +248,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      httpClient?: RequestPolicy;
      requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
  }
-@@ -805,11 +691,8 @@
+@@ -805,11 +688,8 @@
  
  export { StorageBrowserPolicyFactory }
  
@@ -248,7 +260,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      audience?: string;
      httpClient?: RequestPolicy;
      keepAliveOptions?: KeepAliveOptions;
-@@ -817,25 +700,10 @@
+@@ -817,25 +697,10 @@
      retryOptions?: StorageRetryOptions;
      userAgentOptions?: UserAgentPolicyOptions;
  }
@@ -274,7 +286,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface UserDelegationKeyModel {
-@@ -847,10 +715,8 @@
+@@ -847,10 +712,8 @@
      signedVersion: string;
      value: string;
  }

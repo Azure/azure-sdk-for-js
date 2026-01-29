@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes a specified agent pool resource.
  *
  * @summary Deletes a specified agent pool resource.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/AgentPoolsDelete.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/AgentPoolsDelete.json
  */
 async function agentPoolsDelete(): Promise<void> {
   const subscriptionId =

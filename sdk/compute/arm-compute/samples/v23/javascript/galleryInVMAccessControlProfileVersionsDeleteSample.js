@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Delete a gallery inVMAccessControlProfile version.
  *
  * @summary Delete a gallery inVMAccessControlProfile version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_Delete.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_Delete.json
  */
 async function deleteAGalleryInVMAccessControlProfileVersion() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

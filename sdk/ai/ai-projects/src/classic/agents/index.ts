@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+/* eslint-disable tsdoc/syntax */
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
+  streamAgentContainerLogs,
   listAgentVersions,
   deleteAgentVersion,
   getAgentVersion,
@@ -17,6 +19,7 @@ import {
   getAgent,
 } from "../../api/agents/operations.js";
 import {
+  AgentsStreamAgentContainerLogsOptionalParams,
   AgentsListAgentVersionsOptionalParams,
   AgentsDeleteAgentVersionOptionalParams,
   AgentsGetAgentVersionOptionalParams,
@@ -41,6 +44,29 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 
 /** Interface representing a Agents operations. */
 export interface AgentsOperations {
+  /**
+   * Container log entry streamed from the container as text chunks.
+   * Each chunk is a UTF-8 string that may be either a plain text log line
+   * or a JSON-formatted log entry, depending on the type of container log being streamed.
+   * Clients should treat each chunk as opaque text and, if needed, attempt
+   * to parse it as JSON based on their logging requirements.
+   *
+   * For system logs, the format is JSON with the following structure:
+   * {"TimeStamp":"2025-12-15T16:51:33Z","Type":"Normal","ContainerAppName":null,"RevisionName":null,"ReplicaName":null,"Msg":"Connecting to the events collector...","Reason":"StartingGettingEvents","EventSource":"ContainerAppController","Count":1}
+   * {"TimeStamp":"2025-12-15T16:51:34Z","Type":"Normal","ContainerAppName":null,"RevisionName":null,"ReplicaName":null,"Msg":"Successfully connected to events server","Reason":"ConnectedToEventsServer","EventSource":"ContainerAppController","Count":1}
+   *
+   * For console logs, the format is plain text as emitted by the container's stdout/stderr.
+   * 2025-12-15T08:43:48.72656  Connecting to the container 'agent-container'...
+   * 2025-12-15T08:43:48.75451  Successfully Connected to container: 'agent-container' [Revision: 'je90fe655aa742ef9a188b9fd14d6764--7tca06b', Replica: 'je90fe655aa742ef9a188b9fd14d6764--7tca06b-6898b9c89f-mpkjc']
+   * 2025-12-15T08:33:59.0671054Z stdout F INFO:     127.0.0.1:42588 - "GET /readiness HTTP/1.1" 200 OK
+   * 2025-12-15T08:34:29.0649033Z stdout F INFO:     127.0.0.1:60246 - "GET /readiness HTTP/1.1" 200 OK
+   * 2025-12-15T08:34:59.0644467Z stdout F INFO:     127.0.0.1:43994 - "GET /readiness HTTP/1.1" 200 OK
+   */
+  streamAgentContainerLogs: (
+    agentName: string,
+    agentVersion: string,
+    options?: AgentsStreamAgentContainerLogsOptionalParams,
+  ) => Promise<void>;
   /** Returns the list of versions of an agent. */
   listVersions: (
     agentName: string,
@@ -116,6 +142,11 @@ export interface AgentsOperations {
 
 function _getAgents(context: AIProjectContext) {
   return {
+    streamAgentContainerLogs: (
+      agentName: string,
+      agentVersion: string,
+      options?: AgentsStreamAgentContainerLogsOptionalParams,
+    ) => streamAgentContainerLogs(context, agentName, agentVersion, options),
     listVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) =>
       listAgentVersions(context, agentName, options),
     deleteVersion: (

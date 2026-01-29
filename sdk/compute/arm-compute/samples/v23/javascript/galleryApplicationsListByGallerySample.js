@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to List gallery Application Definitions in a gallery.
  *
  * @summary List gallery Application Definitions in a gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryApplication_ListByGallery.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryApplication_ListByGallery.json
  */
 async function listGalleryApplicationsInAGallery() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
