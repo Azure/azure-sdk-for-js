@@ -255,7 +255,7 @@ describe.skip("FTSQuery", { timeout: 20000 }, () => {
       {
         query: `SELECT TOP 10 c.index AS Index, c.title AS Title, c.text AS Text
         FROM c
-        WHERE FullTextContains(c.title, @searchTitle) OR FullTextContains(c.text, @searchText)
+        WHERE FullTextContains(c.title, @searchTitle) OR FullTextContains(c.text, @searchTitle) OR FullTextContains(c.text, @searchText)
         ORDER BY RANK RRF(FullTextScore(c.title, @searchTitle), FullTextScore(c.text, @searchText))`,
         parameters: [
           { name: "@searchTitle", value: "John" },
