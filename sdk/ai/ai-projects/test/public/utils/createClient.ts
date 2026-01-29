@@ -46,6 +46,12 @@ const replaceableVariables = {
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
   sanitizerOptions: {
+    headerSanitizers: [
+      {
+        key: "User-Agent",
+        value: "sanitized-user-agent",
+      },
+    ],
     generalSanitizers: [
       {
         regex: true,

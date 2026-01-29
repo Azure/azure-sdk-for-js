@@ -3,6 +3,7 @@
 /* eslint-disable tsdoc/syntax */
 
 import OpenAI from "openai";
+import type { ClientOptions as OpenAIClientOptions } from "openai"
 import { getBearerTokenProvider } from "@azure/identity";
 import { createAIProject, AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
 import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
@@ -30,6 +31,7 @@ import { SchedulesOperations, _getSchedulesOperations } from "./classic/schedule
 import { TokenCredential } from "@azure/core-auth";
 import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
 import { getCustomFetch } from "./getCustomFetch.js";
+import { getOpenAIDefaultHeaders } from "./util.js";
 
 export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
@@ -130,7 +132,8 @@ export class AIProjectClient {
    * gets the OpenAI client
    * @returns the OpenAI client
    */
-  public async getOpenAIClient(): Promise<OpenAI> {
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+  public async getOpenAIClient(opts?: OpenAIClientOptions): Promise<OpenAI> {
     const scope = "https://ai.azure.com/.default";
     const azureADTokenProvider = await getBearerTokenProvider(this._credential, scope);
     let customFetch: NonNullable<ConstructorParameters<typeof OpenAI>[0]>["fetch"];
@@ -141,11 +144,20 @@ export class AIProjectClient {
       customFetch = getCustomFetch(this._azureScopeClient.pipeline, this._options.httpClient);
     }
 
+    const defaultHeaders = getOpenAIDefaultHeaders(
+      opts?.defaultHeaders,
+      this._options?.userAgentOptions?.userAgentPrefix
+    );
+
+    // Destructure opts to exclude defaultHeaders, then override specific properties
+    const { defaultHeaders: _ignoredHeaders, ...restOpts } = opts || {};
     const openAIOptions: ConstructorParameters<typeof OpenAI>[0] = {
+      ...restOpts,
       apiKey: azureADTokenProvider,
       baseURL: `${this._endpoint}/openai`,
       defaultQuery: { "api-version": this._options?.apiVersion || "2025-11-15-preview" },
       dangerouslyAllowBrowser: true,
+      defaultHeaders: defaultHeaders.toJSON(),
       fetch: customFetch,
     };
 
