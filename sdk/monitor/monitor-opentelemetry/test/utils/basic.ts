@@ -47,8 +47,6 @@ export class TraceBasicScenario implements Scenario {
         httpClient,
       },
       resource: resource,
-      // Use tracesPerSecond: 0 to fall back to ApplicationInsightsSampler with 100% sampling
-      // This maintains backward compatibility with functional tests that expect sampleRate: 100
       tracesPerSecond: 0,
     });
     this._tracerProvider = (
