@@ -421,14 +421,6 @@
       ]
     },
     {
-      "filename": "sdk/healthinsights/azure-healthinsights-radiologyinsights/**",
-      "words": [
-        "ctxt",
-        "mros",
-        "nify"
-      ]
-    },
-    {
       "filename": "sdk/identity/**/*.md",
       "words": [
         "MSAL",
