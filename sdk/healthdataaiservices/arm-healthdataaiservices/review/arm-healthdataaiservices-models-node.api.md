@@ -19,6 +19,7 @@ export interface DeidPropertiesUpdate {
 export interface DeidService extends TrackedResource {
     identity?: ManagedServiceIdentity;
     properties?: DeidServiceProperties;
+    sku?: Sku;
 }
 
 // @public
@@ -34,6 +35,26 @@ export interface DeidUpdate {
     identity?: ManagedServiceIdentityUpdate;
     properties?: DeidPropertiesUpdate;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -114,8 +135,8 @@ export interface ManagedServiceIdentityUpdate {
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -197,6 +218,18 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export interface Sku {
+    capacity?: number;
+    family?: string;
+    name: string;
+    size?: string;
+    tier?: SkuTier;
+}
+
+// @public
+export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
 // @public
 export interface SystemData {
