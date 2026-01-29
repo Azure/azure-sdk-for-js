@@ -40,7 +40,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
     correlatedActivityId: string,
     private emitRawOrderByPayload: boolean = false,
-    private disableContinuationTokens: boolean = false,
+    private supportsContinuationTokens: boolean = true,
   ) {
     // Validate that queryInfo is present in partitioned query execution info
     if (!partitionedQueryExecutionInfo.queryInfo) {
@@ -99,14 +99,15 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     this.fetchBuffer = [];
     // Initialize the appropriate fetch implementation based on enableQueryControl
     if (this.options.enableQueryControl) {
-      const disableQueryContinuationTokens = this.disableContinuationTokens || !querySupportsTokens;
+      const querySupportsContinuationTokens =
+        this.supportsContinuationTokens && querySupportsTokens;
       this.fetchImplementation = new QueryControlFetchImplementation(
         this.endpoint,
         pageSize,
         this.collectionLink,
         this.options.continuationToken,
         isOrderByQuery,
-        disableQueryContinuationTokens,
+        querySupportsContinuationTokens,
       );
     } else {
       this.fetchImplementation = new LegacyFetchImplementation(this.endpoint, pageSize);
