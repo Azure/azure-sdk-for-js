@@ -6,11 +6,8 @@
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import {
-  ContentUnderstandingClient,
-  type ContentAnalyzer,
-  type ContentAnalyzerConfig,
-} from "../../../../src/index.js";
+import type { ContentUnderstandingClient } from "../../../../src/index.js";
+import { type ContentAnalyzer, type ContentAnalyzerConfig } from "../../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { createRecorder, createClient, testPollingOptions } from "./sampleTestUtils.js";
 

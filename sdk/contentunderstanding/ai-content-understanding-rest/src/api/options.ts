@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AnalyzeInput, ProcessingLocation, RecordMergePatchUpdate } from "../models/models.js";
+import type { AnalyzeInput, ProcessingLocation, RecordMergePatchUpdate } from "../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
