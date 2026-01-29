@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to create an AI agent with SharePoint capabilities
- * using the SharepointAgentTool and synchronous Azure AI Projects client. The agent can search
+ * using the SharepointPreviewTool and synchronous Azure AI Projects client. The agent can search
  * SharePoint content and provide responses with relevant information from SharePoint sites.
  *
  * @summary This sample demonstrates how to create an agent with SharePoint tool capabilities,

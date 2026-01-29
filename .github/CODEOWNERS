@@ -154,10 +154,6 @@
 # ServiceLabel: %Event Hubs
 # ServiceOwners: @j7nw4r @axisc @sjkwak @hmlam
 
-# ServiceLabel: %Cognitive - Health Insights
-# PRLabel: %Cognitive - Health Insights
-/sdk/healthinsights/ @tomsft @koen-mertens
-
 # ServiceLabel: %Health Deidentification
 # PRLabel: %Health Deidentification
 /sdk/healthdataaiservices/ @alexathomases @Azure/healthdatadeidentification
@@ -302,12 +298,6 @@
 # ServiceLabel: %Cognitive - Form Recognizer
 # AzureSdkOwners: @jeremymeng
 
-# PRLabel: %Cognitive - Metrics Advisor
-/sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
-
-# ServiceLabel: %Cognitive - Metrics Advisor
-# AzureSdkOwners: @KarishmaGhiya
-
 # PRLabel: %Notification Hub
 /sdk/notificationhubs/notification-hubs @jeremymeng
 
@@ -328,10 +318,6 @@
 # PRLabel: %Maps
 # ServiceLabel: %Maps
 /sdk/maps/ @dubiety @andykao1213
-
-# PRLabel: %Microsoft Playwright Testing
-# ServiceLabel: %Microsoft Playwright Testing
-/sdk/playwrighttesting/ @azure/testing-services
 
 # PRLabel: %Azure Load Testing
 # ServiceLabel: %Azure Load Testing
@@ -828,9 +814,6 @@
 /sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-/sdk/playwrighttesting/arm-playwrighttesting/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
 /sdk/policy/arm-policy/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1183,9 +1166,6 @@
 
 # ServiceLabel: %Cognitive - Form Recognizer %Service Attention
 # ServiceOwners:          @ctstone @vkurpad
-
-# ServiceLabel: %Cognitive - Anomaly Detector %Service Attention
-# ServiceOwners:          @yingqunpku
 
 # ServiceLabel: %Cognitive - Custom Vision %Service Attention
 # ServiceOwners:          @areddish @tburns10
@@ -1674,8 +1654,8 @@ sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 /sdk/*/arm-*/tsconfig*.json @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-for-js-core
 
 /.scripts/ @mikeharder
-/.scripts/automation_generate.sh @MaryGao @lirenhe
-/.scripts/automation_init.sh @MaryGao @lirenhe
+/.scripts/automation_generate.sh @MaryGao @lirenhe @qiaozha @JialinHuang803
+/.scripts/automation_init.sh @MaryGao @lirenhe @qiaozha @JialinHuang803
 /vitest.*.config.ts @jeremymeng @deyaaeldeen
 /vitest.workspace.ts @jeremymeng @deyaaeldeen
 

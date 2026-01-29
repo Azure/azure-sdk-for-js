@@ -109,11 +109,16 @@ export const ENV_AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const ENV_AZURE_MONITOR_DISTRO_VERSION = "AZURE_MONITOR_DISTRO_VERSION";
 
 /**
- * Enables the preview version of customer-facing SDK Stats.
+ * Resource attribute used for Application Insights correlation when specified.
  * @internal
  */
-export const ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW =
-  "APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW";
+export const APPLICATION_ID_RESOURCE_KEY = "microsoft.applicationId";
+
+/**
+ * Disables customer-facing SDK Stats metrics.
+ * @internal
+ */
+export const ENV_DISABLE_SDKSTATS = "APPLICATIONINSIGHTS_SDKSTATS_DISABLED";
 
 /**
  * Sets the export interval for customer-facing SDK Stats in seconds.

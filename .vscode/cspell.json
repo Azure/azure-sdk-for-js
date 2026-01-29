@@ -41,7 +41,6 @@
     "sdk/purview/purview-catalog-rest/review/*.md",
     "sdk/purview/purview-scanning-rest/review/*.md",
     "sdk/purview/purview-sharing-rest/review/*.md",
-    "sdk/quantum/quantum-jobs/review/*.md",
     "sdk/synapse/synapse-access-control-rest/review/*.md",
     "sdk/synapse/synapse-access-control/review/*.md",
     "sdk/synapse/synapse-artifacts/review/*.md",
@@ -177,10 +176,53 @@
     "uefi",
     "Uefi",
     "Reimage",
-    "Milli"
+    "Milli",
+    "Turborepo",
+    "Apim",
+    "Kurtzeborn"
   ],
   "allowCompoundWords": true,
   "overrides": [
+    {
+      "filename": "documentation/how-to-use.md",
+      "words": [
+        "jstest"
+      ]
+    },
+    {
+      "filename": "documentation/next-generation-quickstart.md",
+      "words": [
+        "virtualmachinex",
+        "subnetnamex",
+        "interfacex",
+        "networknamex",
+        "jstest"
+      ]
+    },
+    {
+      "filename": "documentation/Quickstart-on-how-to-write-tests.md",
+      "words": [
+        "azuread",
+        "glossaryspects",
+        "utilsrecordedclientts",
+        "monitorspects",
+        "dpgrlc"
+      ]
+    },
+    {
+      "filename": "documentation/RLC-Swagger-quickstart.md",
+      "words": [
+        "azurerestagrifoodfarming"
+      ]
+    },
+    {
+      "filename": "documentation/steps-after-generations.md",
+      "words": [
+        "azureagrifoodfarming",
+        "azurerestagrifoodfarming",
+        "dpgrlc"
+      ]
+    },
     {
       "filename": "eng/tools/rush-runner.js",
       "words": [
@@ -190,7 +232,8 @@
     {
       "filename": "sdk/ai/ai-projects/review/**/*.md",
       "words": [
-        "Agentic"
+        "Agentic",
+        "xhigh"
       ]
     },
     {
@@ -375,14 +418,6 @@
         "healthdataaiservices",
         "deidentify",
         "deidentified"
-      ]
-    },
-    {
-      "filename": "sdk/healthinsights/azure-healthinsights-radiologyinsights/**",
-      "words": [
-        "ctxt",
-        "mros",
-        "nify"
       ]
     },
     {

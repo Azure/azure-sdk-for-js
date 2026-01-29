@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to create an AI agent with Azure AI Search capabilities
- * using the AzureAISearchAgentTool and synchronous Azure AI Projects client. The agent can search
+ * using the AzureAISearchTool and synchronous Azure AI Projects client. The agent can search
  * indexed content and provide responses with citations from search results.
  *
  * @summary This sample demonstrates how to create an agent with Azure AI Search tool capabilities,
