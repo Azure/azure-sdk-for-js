@@ -150,7 +150,15 @@ describe("Library/TraceHandler", () => {
       expect(handler.getSampler().toString()).toBe("ApplicationInsightsSampler{0.3}");
     });
 
-    it("uses ApplicationInsightsSampler when no sampler or rate limit is provided", () => {
+    it("uses RateLimitedSampler by default with tracesPerSecond=5", () => {
+      // Default config has tracesPerSecond=5
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+
+      expect(handler.getSampler()).toBeInstanceOf(RateLimitedSampler);
+    });
+
+    it("uses ApplicationInsightsSampler when tracesPerSecond is explicitly undefined", () => {
       _config.tracesPerSecond = undefined;
       _config.samplingRatio = 0.2;
 

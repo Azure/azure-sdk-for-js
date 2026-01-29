@@ -1,5 +1,13 @@
 # Release History
 
+## 1.0.0-beta.39 (Unreleased)
+
+### Breaking Changes
+
+- Default Sampler Changed: The default sampling behavior has been changed from `ApplicationInsightsSampler` with 100% sampling (all traces sampled) to `RateLimitedSampler` with 5.0 traces per second. This change significantly reduces telemetry volume for high-traffic applications and provides better cost optimization out of the box.
+  - **Impact**: Applications with more than 5 requests per second will see fewer traces exported by default.
+  - **Migration**: To maintain the previous behavior (100% sampling), explicitly configure the sampler by setting `tracesPerSecond: 0` which will fall back to using `samplingRatio: 1.0`.
+
 ### 1.0.0-beta.38 (2026-01-16)
 
 ### Features Added

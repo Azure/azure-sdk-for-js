@@ -17,7 +17,7 @@ export interface AzureMonitorOpenTelemetryOptions {
   resource?: Resource;
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   samplingRatio?: number;
-  /** The maximum number of traces to sample per second (Default undefined) */
+  /** The maximum number of traces to sample per second (Default 5). Set to 0 to use samplingRatio instead. */
   tracesPerSecond?: number;
   /** Enable Live Metrics feature (Default false)*/
   enableLiveMetrics?: boolean;
@@ -78,7 +78,6 @@ export interface StatsbeatFeatures {
   shim?: boolean;
   customerSdkStats?: boolean;
   multiIkey?: boolean;
-  rateLimitedSampler?: boolean;
 }
 
 /**
@@ -94,7 +93,6 @@ export const StatsbeatFeaturesMap = new Map<string, number>([
   ["shim", 32],
   ["customerSdkStats", 64],
   ["multiIkey", 128],
-  ["rateLimitedSampler", 256],
 ]);
 
 /**
