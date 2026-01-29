@@ -1,5 +1,22 @@
 # Release History
 
+## 1.1.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.1.1 (2026-01-28)
+
+### Bugs Fixed
+
+- Improved error messages for better clarity and troubleshooting.
+- Fixed trace viewer logic for HTML reporter to correctly handle Azure Portal and local scenarios.
+
 ## 1.1.0 (2026-01-06)
 
 ### Features Added

@@ -14,8 +14,9 @@ import { AIProjectClient } from "@azure/ai-projects";
 import type {
   MemoryStoreDefaultDefinition,
   MemoryStoreDefaultOptions,
-  ResponsesUserMessageItemParam,
-  ResponsesAssistantMessageItemParam,
+  InputMessage,
+  ItemOutputMessage,
+  MemoryStoreUpdateMemoriesPoller,
 } from "@azure/ai-projects";
 import "dotenv/config";
 
@@ -65,16 +66,21 @@ export async function main(): Promise<void> {
   );
 
   // Extract memories from messages and add them to the memory store
-  const userMessage: ResponsesUserMessageItemParam = {
+  const userMessage: InputMessage = {
     type: "message",
     role: "user",
-    content: "I prefer dark roast coffee and usually drink it in the morning",
+    content: [
+      {
+        type: "input_text",
+        text: "I prefer dark roast coffee and usually drink it in the morning",
+      },
+    ],
   };
 
   const updatePoller = project.memoryStores.updateMemories(memoryStore.name, scope, {
     items: [userMessage],
     updateDelay: 300, // Keep default inactivity delay before starting update
-  });
+  }) as MemoryStoreUpdateMemoriesPoller;
   console.log(
     `Scheduled memory update operation (Update ID: ${updatePoller.updateId}, Status: ${updatePoller.updateStatus})`,
   );
@@ -87,17 +93,17 @@ export async function main(): Promise<void> {
   );
 
   // Extend the previous update with another update and more messages
-  const newMessage: ResponsesUserMessageItemParam = {
+  const newMessage: InputMessage = {
     type: "message",
     role: "user",
-    content: "I also like cappuccinos in the afternoon",
+    content: [{ type: "input_text", text: "I also like cappuccinos in the afternoon" }],
   };
 
   const newUpdatePoller = project.memoryStores.updateMemories(memoryStore.name, scope, {
     items: [newMessage],
     previousUpdateId: updatePoller.updateId, // Extend from previous update ID
     updateDelay: 0, // Trigger update immediately without waiting for inactivity
-  });
+  }) as MemoryStoreUpdateMemoriesPoller;
   console.log(
     `Scheduled memory update operation (Update ID: ${newUpdatePoller.updateId}, Status: ${newUpdatePoller.updateStatus})`,
   );
@@ -114,10 +120,10 @@ export async function main(): Promise<void> {
   }
 
   // Retrieve memories from the memory store
-  const queryMessage: ResponsesUserMessageItemParam = {
+  const queryMessage: InputMessage = {
     type: "message",
     role: "user",
-    content: "What are my morning coffee preferences?",
+    content: [{ type: "input_text", text: "What are my morning coffee preferences?" }],
   };
 
   const searchResponse = await project.memoryStores.searchMemories(memoryStore.name, scope, {
@@ -132,16 +138,24 @@ export async function main(): Promise<void> {
   }
 
   // Perform another search using the previous search as context
-  const agentMessage: ResponsesAssistantMessageItemParam = {
-    type: "message",
+  const agentMessage: ItemOutputMessage = {
+    id: "agent-msg-1",
+    type: "output_message",
     role: "assistant",
-    content: "You previously indicated a preference for dark roast coffee in the morning.",
+    content: [
+      {
+        type: "output_text",
+        text: "You previously indicated a preference for dark roast coffee in the morning.",
+        annotations: [],
+      },
+    ],
+    status: "completed",
   };
 
-  const followupQuery: ResponsesUserMessageItemParam = {
+  const followupQuery: InputMessage = {
     type: "message",
     role: "user",
-    content: "What about afternoon?", // Follow-up assuming context from previous messages
+    content: [{ type: "input_text", text: "What about afternoon?" }], // Follow-up assuming context from previous messages
   };
 
   const followupSearchResponse = await project.memoryStores.searchMemories(
