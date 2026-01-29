@@ -168,7 +168,7 @@ describe("Library/Config", () => {
     it("Default config", () => {
       const config = new InternalConfig();
       assert.deepStrictEqual(config.samplingRatio, 1, "Wrong samplingRatio");
-      assert.deepStrictEqual(config.tracesPerSecond, 5, "Wrong tracesPerSecond - should default to 5 for RateLimitedSampler");
+      assert.deepStrictEqual(config.tracesPerSecond, 5, "Wrong tracesPerSecond");
       assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
         true,
@@ -200,7 +200,7 @@ describe("Library/Config", () => {
 
       const config = new InternalConfig();
 
-      assert.strictEqual(config.tracesPerSecond, 5, "Wrong tracesPerSecond - should keep default 5");
+      assert.strictEqual(config.tracesPerSecond, 5, "Wrong tracesPerSecond");
       assert.strictEqual(config.samplingRatio, 1, "Wrong samplingRatio");
     });
 
