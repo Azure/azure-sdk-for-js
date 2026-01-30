@@ -88,37 +88,22 @@ export interface CopyAnalyzerOptionalParams extends OperationOptions {
 export interface AnalyzeBinaryOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
-  /**
-   *   The string encoding format for content spans in the response.
-   *   Possible values are 'codePoint', 'utf16', and `utf8`.  Default is `codePoint`.")
-   */
-  stringEncoding?: string;
-  /** The location where the data may be processed.  Defaults to global. */
+  /** Range of the input to analyze (ex. `1-3,5,9-`). Document content uses 1-based page numbers, while audio visual content uses integer milliseconds. */
+  range?: string;
+  /** Request content type. */
+  contentType?: string;
+  /** The location where the data may be processed. Defaults to global. */
   processingLocation?: ProcessingLocation;
-  /** Range of the input to analyze (ex. `1-3,5,9-`).  Document content uses 1-based page numbers, while audio visual content uses integer milliseconds. */
-  inputRange?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface AnalyzeOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
-  /**
-   *   The string encoding format for content spans in the response.
-   *   Possible values are 'codePoint', 'utf16', and `utf8`.  Default is `codePoint`.")
-   */
-  stringEncoding?: string;
-  /** The location where the data may be processed.  Defaults to global. */
-  processingLocation?: ProcessingLocation;
-  /** Inputs to analyze.  Currently, only pro mode supports multiple inputs. */
+  /** Inputs to analyze. Currently, only pro mode supports multiple inputs. */
   inputs?: AnalyzeInput[];
-  /**
-   * Override default mapping of model names to deployments.
-   * Ex. { "gpt-4.1": "myGpt41Deployment", "text-embedding-3-large": "myTextEmbedding3LargeDeployment" }.
-   */
+  /** Override default mapping of model names to deployments. Ex. { "gpt-4.1": "myGpt41Deployment" }. */
   modelDeployments?: Record<string, string>;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
+  /** The location where the data may be processed. Defaults to global. */
+  processingLocation?: ProcessingLocation;
 }

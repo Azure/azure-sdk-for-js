@@ -1,6 +1,6 @@
 {
   "apiVersion": "2025-11-01",
-  "emitterVersion": "0.47.0",
+  "emitterVersion": "0.48.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "ContentUnderstanding",
     "CrossLanguageDefinitionId": {
@@ -49,7 +49,6 @@
       "@azure-rest/ai-content-understanding!ContentAnalyzerAnalyzeOperationStatus:interface": "ContentUnderstanding.ContentAnalyzerAnalyzeOperationStatus",
       "@azure-rest/ai-content-understanding!UsageDetails:interface": "ContentUnderstanding.UsageDetails",
       "@azure-rest/ai-content-understanding!CopyAnalyzerRequest:interface": "ClientCustomizations.copyAnalyzer.Request.anonymous",
-      "@azure-rest/ai-content-understanding!ResourceOperationStatusContentAnalyzerContentAnalyzerError:interface": "Azure.Core.ResourceOperationStatus",
       "@azure-rest/ai-content-understanding!ContentAnalyzer:interface": "ContentUnderstanding.ContentAnalyzer",
       "@azure-rest/ai-content-understanding!ContentAnalyzerConfig:interface": "ContentUnderstanding.ContentAnalyzerConfig",
       "@azure-rest/ai-content-understanding!ContentCategoryDefinition:interface": "ContentUnderstanding.ContentCategoryDefinition",
