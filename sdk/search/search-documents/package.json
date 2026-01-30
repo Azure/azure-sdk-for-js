@@ -14,7 +14,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,mts}\" \"generated/**/*.{ts,mts}\" \"test/**/*.{ts,mts}\" \"samples-dev/**/*.{ts,mts}\" \"*.{js,mjs,json}\"",
-    "generate:client": "tsp-client update && npm run format && npx dev-tool customization apply-v2 --skip index.ts",
+    "generate:client": "tsp-client update -d --local-spec-repo ~/workspace/azure-rest-api-specs/specification/search/data-plane/Search && npm run format && npx dev-tool customization apply-v2 --skip index.ts",
     "generate:embeddings": "ts-node scripts/generateSampleEmbeddings.ts",
     "lint": "eslint package.json src test samples-dev",
     "lint:fix": "eslint package.json src test samples-dev --fix --fix-type [problem,suggestion]",
@@ -110,7 +110,19 @@
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
-      ".": "./src/index.ts"
+      ".": "./src/index.ts",
+      "./search": "./src/search/index.ts",
+      "./search/api": "./src/search/api/index.ts",
+      "./searchIndex": "./src/searchIndex/index.ts",
+      "./searchIndex/api": "./src/searchIndex/api/index.ts",
+      "./searchIndexer": "./src/searchIndexer/index.ts",
+      "./searchIndexer/api": "./src/searchIndexer/api/index.ts",
+      "./knowledgeBaseRetrieval": "./src/knowledgeBaseRetrieval/index.ts",
+      "./knowledgeBaseRetrieval/api": "./src/knowledgeBaseRetrieval/api/index.ts",
+      "./models": "./src/models/index.ts",
+      "./models/azure/search/documents": "./src/models/azure/search/documents/index.ts",
+      "./models/azure/search/documents/indexes": "./src/models/azure/search/documents/indexes/index.ts",
+      "./models/azure/search/documents/knowledgeBases": "./src/models/azure/search/documents/knowledgeBases/index.ts"
     },
     "dialects": [
       "esm",
