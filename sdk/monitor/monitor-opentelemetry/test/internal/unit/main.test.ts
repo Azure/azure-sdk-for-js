@@ -327,7 +327,8 @@ describe("Main functions", () => {
     // This avoids issues with OTel global state in test environments
     const internalSdk = _getSdkInstance();
     const tracerProvider = (internalSdk as any)["_tracerProvider"];
-    const resource = tracerProvider?.["resource"]?.["attributes"] || tracerProvider?.["_resource"]?.["attributes"];
+    const resource =
+      tracerProvider?.["resource"]?.["attributes"] || tracerProvider?.["_resource"]?.["attributes"];
     assert.isDefined(resource, "Resource should be defined on tracer provider");
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
@@ -351,7 +352,8 @@ describe("Main functions", () => {
     // This avoids issues with OTel global state in test environments
     const internalSdk = _getSdkInstance();
     const tracerProvider = (internalSdk as any)["_tracerProvider"];
-    const resource = tracerProvider?.["resource"]?.["attributes"] || tracerProvider?.["_resource"]?.["attributes"];
+    const resource =
+      tracerProvider?.["resource"]?.["attributes"] || tracerProvider?.["_resource"]?.["attributes"];
     assert.isDefined(resource, "Resource should be defined on tracer provider");
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
@@ -371,7 +373,8 @@ describe("Main functions", () => {
     // This avoids issues with OTel global state in test environments
     const internalSdk = _getSdkInstance();
     const tracerProvider = (internalSdk as any)["_tracerProvider"];
-    const resource = tracerProvider?.["resource"]?.["attributes"] || tracerProvider?.["_resource"]?.["attributes"];
+    const resource =
+      tracerProvider?.["resource"]?.["attributes"] || tracerProvider?.["_resource"]?.["attributes"];
     assert.isDefined(resource, "Resource should be defined on tracer provider");
     Object.keys(resource || {}).forEach((attr) => {
       assert.isTrue(!attr.includes("process"));
