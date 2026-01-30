@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.39 ()
 
+### Features Added 
+
+- Add ownership checks for storage directories.
+
 ### 1.0.0-beta.38 (2026-01-16)
 
 ### Features Added
