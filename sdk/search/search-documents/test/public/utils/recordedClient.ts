@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createTestCredential } from "@azure-tools/test-credential";
 import type { Recorder, RecorderStartOptions, SanitizerOptions } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
 import { isDefined } from "@azure/core-util";
@@ -12,6 +11,7 @@ import {
   SearchClient,
   SearchIndexClient,
   SearchIndexerClient,
+  AzureKeyCredential,
 } from "../../../src/index.js";
 
 export interface Clients<IndexModel extends object> {
@@ -104,7 +104,7 @@ export async function createClients<IndexModel extends object>(
   indexName = recorder.variable("TEST_INDEX_NAME", indexName);
   baseName = recorder.variable("TEST_BASE_NAME", baseName);
 
-  const credential = createTestCredential();
+  const credential = new AzureKeyCredential(assertEnvironmentVariable("SEARCH_API_KEY"));
 
   const endPoint: string = assertEnvironmentVariable("ENDPOINT");
   const openAIEndpoint = assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT");
@@ -112,12 +112,14 @@ export async function createClients<IndexModel extends object>(
   const embeddingAzureOpenAIParameters: AzureOpenAIParameters = {
     deploymentId: env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME,
     resourceUrl: env.AZURE_OPENAI_ENDPOINT,
+    apiKey: assertEnvironmentVariable("AZURE_OPENAI_API_KEY"),
     modelName: "text-embedding-ada-002",
   };
 
   const chatAzureOpenAIParameters: AzureOpenAIParameters = {
     deploymentId: env.AZURE_OPENAI_CHAT_DEPLOYMENT_NAME,
     resourceUrl: env.AZURE_OPENAI_ENDPOINT,
+    apiKey: assertEnvironmentVariable("AZURE_OPENAI_API_KEY"),
     modelName: "gpt-4o",
   };
 
