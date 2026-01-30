@@ -202,7 +202,9 @@ export class AIProjectClient {
     readonly evaluationRules: EvaluationRulesOperations;
     readonly evaluationTaxonomies: EvaluationTaxonomiesOperations;
     readonly evaluators: EvaluatorsOperations;
-    getOpenAIClient(): Promise<OpenAI>;
+    getOpenAIClient(options?: {
+        defaultHeaders?: Record<string, string>;
+    }): Promise<OpenAI>;
     readonly indexes: IndexesOperations;
     readonly insights: InsightsOperations;
     readonly memoryStores: MemoryStoresOperations;
