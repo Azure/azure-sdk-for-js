@@ -711,8 +711,8 @@ export function copyAnalyzer(
 export function _analyzeBinarySend(
   context: Client,
   analyzerId: string,
-  contentType: string,
-  binaryInput: Uint8Array,
+  input: Uint8Array,
+  stringEncoding: string,
   options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -733,13 +733,7 @@ export function _analyzeBinarySend(
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: contentType,
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
       body: binaryInput,
     });
 }
@@ -766,15 +760,15 @@ export async function _analyzeBinaryDeserialize(
 export function analyzeBinary(
   context: Client,
   analyzerId: string,
-  contentType: string,
-  binaryInput: Uint8Array,
+  input: Uint8Array,
+  stringEncoding: string,
   options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
   return getLongRunningPoller(context, _analyzeBinaryDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _analyzeBinarySend(context, analyzerId, contentType, binaryInput, options),
+      _analyzeBinarySend(context, analyzerId, input, stringEncoding, options),
     resourceLocationConfig: "operation-location",
   }) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
 }
@@ -782,6 +776,7 @@ export function analyzeBinary(
 export function _analyzeSend(
   context: Client,
   analyzerId: string,
+  stringEncoding: string,
   options: AnalyzeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -801,13 +796,7 @@ export function _analyzeSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
       body: {
         inputs: !options?.inputs ? options?.inputs : analyzeInputArraySerializer(options?.inputs),
         modelDeployments: options?.modelDeployments,
@@ -835,12 +824,13 @@ export async function _analyzeDeserialize(result: PathUncheckedResponse): Promis
 export function analyze(
   context: Client,
   analyzerId: string,
+  stringEncoding: string,
   options: AnalyzeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
   return getLongRunningPoller(context, _analyzeDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _analyzeSend(context, analyzerId, options),
+    getInitialResponse: () => _analyzeSend(context, analyzerId, stringEncoding, options),
     resourceLocationConfig: "operation-location",
   }) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
 }
