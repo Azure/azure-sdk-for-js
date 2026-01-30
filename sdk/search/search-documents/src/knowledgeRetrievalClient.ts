@@ -22,7 +22,7 @@ import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
 import { KnownSearchAudience } from "./searchAudience.js";
 import * as utils from "./serviceUtils.js";
-import { createSpan } from "./tracing.js";
+import { tracingClient } from "./tracing.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 
 /**
@@ -103,8 +103,9 @@ export class KnowledgeRetrievalClient {
     this.endpoint = endpoint;
     this.knowledgeBaseName = knowledgeBaseName;
 
-    const internalClientPipelineOptions: InternalClientPipelineOptions = {
+    const internalClientPipelineOptions: KnowledgeBaseRetrievalClientOptionalParams = {
       ...options,
+      apiVersion: options.serviceVersion ?? utils.defaultServiceVersion,
       ...{
         loggingOptions: {
           logger: logger.info,
@@ -122,14 +123,12 @@ export class KnowledgeRetrievalClient {
 
     this.serviceVersion = options.serviceVersion ?? utils.defaultServiceVersion;
 
-    this.client = new GeneratedClient(
-      this.endpoint,
-      this.knowledgeBaseName,
-      this.serviceVersion,
-      internalClientPipelineOptions,
-    );
+    this.client = new GeneratedClient(endpoint, credential, internalClientPipelineOptions);
 
     this.pipeline = this.client.pipeline;
+
+    // Replaced with a custom policy below
+    this.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
 
     if (isTokenCredential(credential)) {
       const scope: string = options.audience
@@ -148,23 +147,14 @@ export class KnowledgeRetrievalClient {
 
   public async retrieveKnowledge(
     retrievalRequest: KnowledgeBaseRetrievalRequest,
-    options?: RetrieveKnowledgeOptions,
+    options: RetrieveKnowledgeOptions = {},
   ): Promise<KnowledgeBaseRetrievalResponse> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "KnowledgeRetrievalClient-retrieveKnowledge",
       options,
+      async (updatedOptions) => {
+        return this.client.retrieve(this.knowledgeBaseName, retrievalRequest, updatedOptions);
+      },
     );
-
-    try {
-      return await this.client.knowledgeRetrieval.retrieve(retrievalRequest, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 }

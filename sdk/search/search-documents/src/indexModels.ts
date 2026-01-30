@@ -765,10 +765,10 @@ export type IndexDocumentsAction<TModel> = {
  * Otherwise, a narrowed `Fields[]` type to be used elsewhere in the consuming type.
  */
 export type SelectArray<TFields = never> = [string] extends [TFields]
-  ? readonly TFields[]
+  ? TFields[]
   : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false
-    ? readonly string[]
-    : readonly TFields[];
+    ? string[]
+    : TFields[];
 
 /**
  * If `TModel` is an untyped object, an untyped string array
@@ -776,8 +776,8 @@ export type SelectArray<TFields = never> = [string] extends [TFields]
  */
 export type SearchFieldArray<TModel extends object = object> =
   (<T>() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false
-    ? readonly string[]
-    : readonly SelectFields<TModel>[];
+    ? string[]
+    : SelectFields<TModel>[];
 
 export type UnionToIntersection<Union> =
   // Distribute members of U into parameter position of a union of functions

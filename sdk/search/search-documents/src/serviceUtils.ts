@@ -704,12 +704,12 @@ export function generatedSearchResultToPublicSearchResult<
   const returnValues: SearchResult<TModel, TFields>[] = results.map<SearchResult<TModel, TFields>>(
     (result) => {
       const {
-        _score: score,
-        _highlights: highlights,
-        _rerankerScore: rerankerScore,
-        _rerankerBoostedScore: rerankerBoostedScore,
-        _captions: captions,
-        _documentDebugInfo: documentDebugInfo,
+        score,
+        highlights,
+        rerankerScore,
+        rerankerBoostedScore,
+        captions,
+        documentDebugInfo,
         ...restProps
       } = result;
       const obj = {
