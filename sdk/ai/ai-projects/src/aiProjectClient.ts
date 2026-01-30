@@ -3,7 +3,7 @@
 /* eslint-disable tsdoc/syntax */
 
 import OpenAI from "openai";
-import type { ClientOptions as OpenAIClientOptions } from "openai"
+import type { ClientOptions as OpenAIClientOptions } from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
 import { createAIProject, AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
 import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
@@ -53,7 +53,7 @@ export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * @property {AgentsOperations} agents - The operation groups for agents
  * @property {TelemetryOperations} telemetry - The operation groups for telemetry
  * @property {getEndpointUrl} getEndpointUrl - gets the endpoint of the client
- * @property {getOpenAIClient} getOpenAIClient - gets the OpenAI client
+ * @property {getOpenAIClient} getOpenAIClient - gets the OpenAI client with optional OpenAI client options
  */
 export class AIProjectClient {
   private _cognitiveScopeClient: AIProjectContext;
@@ -157,7 +157,7 @@ export class AIProjectClient {
       baseURL: `${this._endpoint}/openai`,
       defaultQuery: { "api-version": this._options?.apiVersion || "2025-11-15-preview" },
       dangerouslyAllowBrowser: true,
-      defaultHeaders: defaultHeaders.toJSON(),
+      defaultHeaders: defaultHeaders.toJSON({ preserveCase: true }),
       fetch: customFetch,
     };
 

@@ -1,9 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { ClientOptions as OpenAIClientOptions } from "openai"
-import type { HttpHeaders , RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { HttpHeaders, RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
+/*
+ * @param headers the openai defaultHeaders in openai client options
+ * @returns HttpHeaders, normalized from various OpenAI header formats
+ */
 export const normalizeOpenAIHeaders = (headers?: OpenAIClientOptions["defaultHeaders"]): HttpHeaders => {
   if (!headers) {
     return createHttpHeaders();
@@ -83,7 +87,7 @@ export const normalizeOpenAIHeaders = (headers?: OpenAIClientOptions["defaultHea
 /**
  * Get OpenAI default headers with user-agent set appropriately
  * @param defaultHeaders - The default headers from OpenAI client options
- * @param userAgentPrefix - Optional user agent prefix to prepend
+ * @param userAgentPrefix - Optional user agent prefix to prepend from  AIProjectClient options 
  * @returns HttpHeaders with normalized headers and user-agent set
  */
 export const getOpenAIDefaultHeaders = (
@@ -92,11 +96,11 @@ export const getOpenAIDefaultHeaders = (
 ): HttpHeaders => {
   const headers = normalizeOpenAIHeaders(defaultHeaders);
 
-  if (!headers.has("user-agent")) {
+  if (!headers.has("User-Agent")) {
     const clientIdentifier = userAgentPrefix
       ? `${userAgentPrefix}-AIProjectClient`
       : "AIProjectClient";
-    headers.set("user-agent", `${clientIdentifier} OpenAI/JS`);
+    headers.set("User-Agent", `${clientIdentifier} OpenAI/JS`);
   }
 
   return headers;
