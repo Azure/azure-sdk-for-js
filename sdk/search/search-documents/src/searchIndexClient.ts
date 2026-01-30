@@ -309,6 +309,13 @@ export class SearchIndexClient {
     index: SearchIndex,
     options: CreateIndexOptions = {},
   ): Promise<SearchIndex> {
+    this.client.pipeline.addPolicy({
+      name: "debugPolicy",
+      sendRequest(request, next) {
+        console.log("Request:", request);
+        return next(request);
+      },
+    });
     return tracingClient.withSpan(
       "SearchIndexClient-createIndex",
       options,
@@ -317,6 +324,7 @@ export class SearchIndexClient {
           utils.publicIndexToGeneratedIndex(index),
           updatedOptions,
         );
+        this.client.pipeline.removePolicy({ name: "debugPolicy" });
         return utils.generatedIndexToPublicIndex(result);
       },
     );

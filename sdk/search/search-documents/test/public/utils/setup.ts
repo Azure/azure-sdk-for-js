@@ -27,6 +27,10 @@ export async function createIndex(
   serviceVersion: string,
 ): Promise<SearchIndex> {
   const isPreview = serviceVersion.toLowerCase().includes("preview");
+  console.log({
+    deploymentId: assertEnvironmentVariable("AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME"),
+    resourceUrl: assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT"),
+  });
 
   const vectorizers: VectorSearchVectorizer[] = [
     {

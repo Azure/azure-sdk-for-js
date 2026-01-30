@@ -31,7 +31,6 @@ import type {
   KnowledgeBaseAzureOpenAIModel as GeneratedKnowledgeBaseAzureOpenAIModel,
   KnowledgeBaseModelUnion as GeneratedKnowledgeBaseModel,
   KnowledgeSourceUnion as GeneratedKnowledgeSource,
-  // KnowledgeSourceIngestionParameters as GeneratedKnowledgeSourceIngestionParameters,
   // KnowledgeSourceVectorizer as GeneratedKnowledgeSourceVectorizer,
   // PatternAnalyzer as GeneratedPatternAnalyzer,
   // RemoteSharePointKnowledgeSource as GeneratedRemoteSharePointKnowledgeSource,
@@ -53,7 +52,6 @@ import type {
   LexicalAnalyzerUnion,
   LexicalTokenizerUnion,
   LuceneStandardAnalyzer,
-  PatternTokenizer,
   SearchIndexerDataIdentityUnion,
   SearchIndexerDataNoneIdentity,
   SearchIndexerDataUserAssignedIdentity,
@@ -100,7 +98,6 @@ import type {
   LexicalTokenizer,
   NoAuthAzureMachineLearningVectorizerParameters,
   PatternAnalyzer,
-  RegexFlags,
   ScoringProfile,
   SearchField,
   SearchFieldDataType,
@@ -130,7 +127,7 @@ import type {
 import { isComplexField } from "./serviceModels.js";
 import { SearchIndexerDataSourceConnection as GeneratedSearchIndexerDataSourceConnection } from "./models/azure/search/documents/indexes/index.js";
 import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import { KnowledgeSourceIngestionParameters as GeneratedKnowledgeSourceIngestionParameters } from "./models/models.js";
+import { KnowledgeSourceIngestionParameters as GeneratedKnowledgeSourceIngestionParameters } from "./models/azure/search/documents/knowledgeBases/index.js";
 
 export const defaultServiceVersion = "2025-11-01-Preview";
 
@@ -735,6 +732,14 @@ export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
 }
 
 export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearchIndex {
+  const vectorizers = index.vectorSearch?.vectorizers || [];
+  for (const vectorizer of vectorizers) {
+    if (vectorizer.kind === "azureOpenAI") {
+      const deploymentId = vectorizer.parameters?.deploymentId;
+      console.log({ deploymentId });
+    }
+  }
+
   const { encryptionKey, tokenFilters, analyzers, tokenizers, fields, similarity } = index;
 
   return {
@@ -840,17 +845,24 @@ export function generatedSearchIndexerToPublicSearchIndexer(
       | BlobIndexerPDFTextRotationAlgorithm
       | undefined,
     executionEnvironment: executionEnvironment as IndexerExecutionEnvironment | undefined,
+    markdownParsingSubmode: indexer.parameters?.configuration?.markdownParsingSubmode ?? undefined,
+    markdownHeaderDepth: indexer.parameters?.configuration?.markdownHeaderDepth ?? undefined,
   };
   const parameters: IndexingParameters = {
     ...indexer.parameters,
     configuration,
+    batchSize: indexer.parameters?.batchSize ?? undefined,
+    maxFailedItems: indexer.parameters?.maxFailedItems ?? undefined,
+    maxFailedItemsPerBatch: indexer.parameters?.maxFailedItemsPerBatch ?? undefined,
   };
 
   return {
     ...indexer,
     parameters,
-    encryptionKey: convertEncryptionKeyToPublic(indexer.encryptionKey),
-    cache: convertSearchIndexerCacheToPublic(indexer.cache),
+    encryptionKey: convertEncryptionKeyToPublic(indexer.encryptionKey ?? undefined),
+    cache: convertSearchIndexerCacheToPublic(indexer.cache ?? undefined),
+    schedule: indexer.schedule ?? undefined,
+    isDisabled: indexer.isDisabled ?? undefined,
   };
 }
 
@@ -861,9 +873,7 @@ export function publicDataSourceToGeneratedDataSource(
     name: dataSource.name,
     description: dataSource.description,
     type: dataSource.type,
-    credentials: {
-      connectionString: dataSource.connectionString,
-    },
+    connectionString: dataSource.connectionString,
     container: dataSource.container,
     identity: dataSource.identity,
     eTag: dataSource.etag,
@@ -880,17 +890,17 @@ export function generatedDataSourceToPublicDataSource(
     name: dataSource.name,
     description: dataSource.name,
     type: dataSource.type as SearchIndexerDataSourceType,
-    connectionString: dataSource.credentials.connectionString,
+    connectionString: dataSource.connectionString,
     container: dataSource.container,
-    identity: convertSearchIndexerDataIdentityToPublic(dataSource.identity),
+    identity: convertSearchIndexerDataIdentityToPublic(dataSource.identity ?? undefined),
     etag: dataSource.eTag,
     dataChangeDetectionPolicy: convertDataChangeDetectionPolicyToPublic(
-      dataSource.dataChangeDetectionPolicy,
+      dataSource.dataChangeDetectionPolicy ?? undefined,
     ),
     dataDeletionDetectionPolicy: convertDataDeletionDetectionPolicyToPublic(
-      dataSource.dataDeletionDetectionPolicy,
+      dataSource.dataDeletionDetectionPolicy ?? undefined,
     ),
-    encryptionKey: convertEncryptionKeyToPublic(dataSource.encryptionKey),
+    encryptionKey: convertEncryptionKeyToPublic(dataSource.encryptionKey ?? undefined),
   };
 }
 
@@ -955,7 +965,7 @@ function convertKnowledgeStoreToPublic(
 
   return {
     ...knowledgeStore,
-    identity: convertSearchIndexerDataIdentityToPublic(knowledgeStore.identity),
+    identity: convertSearchIndexerDataIdentityToPublic(knowledgeStore.identity ?? undefined),
   };
 }
 
@@ -968,7 +978,8 @@ export function convertSearchIndexerCacheToPublic(
 
   return {
     ...cache,
-    identity: convertSearchIndexerDataIdentityToPublic(cache.identity),
+    identity: convertSearchIndexerDataIdentityToPublic(cache.identity ?? undefined),
+    enableReprocessing: cache.enableReprocessing ?? undefined,
   };
 }
 
@@ -980,7 +991,7 @@ export function convertKnowledgeBaseToPublic(knowledgeBase: GeneratedKnowledgeBa
   return {
     ...knowledgeBase,
     models: knowledgeBase.models!.map((model) => convertKnowledgeBaseModelToPublic(model)),
-    encryptionKey: convertEncryptionKeyToPublic(knowledgeBase.encryptionKey),
+    encryptionKey: convertEncryptionKeyToPublic(knowledgeBase.encryptionKey ?? undefined),
   };
 }
 
@@ -1009,7 +1020,7 @@ export function convertKnowledgeSourceToPublic(
       const { encryptionKey } = knowledgeSource as GeneratedSearchIndexKnowledgeSource;
       return {
         ...knowledgeSource,
-        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
+        encryptionKey: convertEncryptionKeyToPublic(encryptionKey ?? undefined),
       } as KnowledgeSource;
     }
     case "azureBlob": {
@@ -1018,7 +1029,7 @@ export function convertKnowledgeSourceToPublic(
       return {
         ...knowledgeSource,
         kind: "azureBlob",
-        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
+        encryptionKey: convertEncryptionKeyToPublic(encryptionKey ?? undefined),
         azureBlobParameters:
           convertAzureBlobKnowledgeSourceParametersToPublic(azureBlobParameters)!,
       };
@@ -1093,14 +1104,13 @@ function convertKnowledgeIngestionParametersToPublic(
     return params;
   }
 
-  const { embeddingModel, chatCompletionModel, identity, ...rest } =
-    params as GeneratedAzureBlobKnowledgeSourceParameters; /* TODO: no idea why GeneratedKnowledgeSourceIngestionParameters does not have these */
+  const { embeddingModel, chatCompletionModel, identity, ...rest } = params;
   return {
     ...rest,
     embeddingModel: !embeddingModel
       ? embeddingModel
       : generatedKnowledgeSourceVectorizerToPublicVectorizer(embeddingModel),
-    identity: convertSearchIndexerDataIdentityToPublic(identity),
+    identity: convertSearchIndexerDataIdentityToPublic(identity ?? undefined),
     chatCompletionModel: !chatCompletionModel
       ? chatCompletionModel
       : convertKnowledgeBaseModelToPublic(chatCompletionModel),
@@ -1113,13 +1123,16 @@ function convertAzureBlobKnowledgeSourceParametersToPublic(
   if (!params) {
     return params;
   }
-  const { embeddingModel, chatCompletionModel, identity, ...rest } = params;
+  const { embeddingModel, chatCompletionModel, identity, ...rest } =
+    params.ingestionParameters ?? {};
   return {
     ...rest,
     embeddingModel: !embeddingModel
       ? embeddingModel
       : generatedKnowledgeSourceVectorizerToPublicVectorizer(embeddingModel),
-    identity: convertSearchIndexerDataIdentityToPublic(identity),
+    identity: convertSearchIndexerDataIdentityToPublic(identity ?? undefined),
+    connectionString: params.connectionString,
+    containerName: params.containerName,
     chatCompletionModel: !chatCompletionModel
       ? chatCompletionModel
       : convertKnowledgeBaseModelToPublic(chatCompletionModel),
