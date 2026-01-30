@@ -6,7 +6,7 @@ import type {
   KnowledgeRetrievalOutputMode,
   KnowledgeSourceReference,
   KnowledgeRetrievalReasoningEffort,
-} from "./generated/service/index.js";
+} from "./service/index.js";
 import type { KnowledgeBaseModel, SearchResourceEncryptionKey } from "./serviceModels.js";
 
 export interface RetrieveKnowledgeOptions extends OperationOptions {

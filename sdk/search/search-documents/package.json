@@ -9,12 +9,12 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "tsc -p tsconfig.samples.json",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,mts}\" \"test/**/*.{ts,mts}\" \"samples-dev/**/*.{ts,mts}\" \"*.{js,mjs,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,mts}\" \"generated/**/*.{ts,mts}\" \"test/**/*.{ts,mts}\" \"samples-dev/**/*.{ts,mts}\" \"*.{js,mjs,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,mts}\" \"test/**/*.{ts,mts}\" \"samples-dev/**/*.{ts,mts}\" \"*.{js,mjs,json}\"",
-    "generate:client": "autorest --typescript swagger/Service.md & autorest --typescript swagger/Data.md & autorest --typescript swagger/KnowledgeBase.md & wait",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,mts}\" \"generated/**/*.{ts,mts}\" \"test/**/*.{ts,mts}\" \"samples-dev/**/*.{ts,mts}\" \"*.{js,mjs,json}\"",
+    "generate:client": "tsp-client update && npm run format && npx dev-tool customization apply-v2 --skip index.ts",
     "generate:embeddings": "ts-node scripts/generateSampleEmbeddings.ts",
     "lint": "eslint package.json src test samples-dev",
     "lint:fix": "eslint package.json src test samples-dev --fix --fix-type [problem,suggestion]",
@@ -37,20 +37,12 @@
         "prefix": "SDK_VERSION"
       },
       {
-        "path": "src/generated/data/searchClient.ts",
+        "path": "src/data/searchClient.ts",
         "prefix": "packageDetails"
       },
       {
-        "path": "src/generated/service/searchServiceClient.ts",
+        "path": "src/service/searchServiceClient.ts",
         "prefix": "packageDetails"
-      },
-      {
-        "path": "swagger/Data.md",
-        "prefix": "package-version"
-      },
-      {
-        "path": "swagger/Service.md",
-        "prefix": "package-version"
       }
     ]
   },

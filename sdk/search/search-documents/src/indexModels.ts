@@ -27,7 +27,7 @@ import type {
   SemanticFieldState,
   SemanticQueryRewritesResultType,
   VectorsDebugInfo,
-} from "./generated/data/models/index.js";
+} from "./data/models/index.js";
 import type GeographyPoint from "./geographyPoint.js";
 
 /**

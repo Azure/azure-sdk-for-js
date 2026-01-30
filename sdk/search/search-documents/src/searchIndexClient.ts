@@ -13,8 +13,8 @@ import type {
   AnalyzeResult,
   IndexStatisticsSummary,
   KnowledgeSourceStatus,
-} from "./generated/service/models/index.js";
-import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient.js";
+} from "./service/models/index.js";
+import { SearchServiceClient as GeneratedClient } from "./service/searchServiceClient.js";
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 import type { KnowledgeRetrievalClientOptions as GetKnowledgeRetrievalClientOptions } from "./knowledgeRetrievalClient.js";
 import { KnowledgeRetrievalClient } from "./knowledgeRetrievalClient.js";
