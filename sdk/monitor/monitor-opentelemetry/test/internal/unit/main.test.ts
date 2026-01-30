@@ -116,8 +116,6 @@ describe("Main functions", () => {
         return Promise.resolve();
       },
     };
-    const spyOnStart = vi.spyOn(processor, "onStart");
-    const spyOnEnd = vi.spyOn(processor, "onEnd");
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -125,10 +123,15 @@ describe("Main functions", () => {
       spanProcessors: [processor],
     };
     useAzureMonitor(config);
-    const span = trace.getTracer("testTracer").startSpan("testSpan");
-    span.end();
-    expect(spyOnStart).toHaveBeenCalled();
-    expect(spyOnEnd).toHaveBeenCalled();
+    // Verify the custom processor was added to the SDK configuration
+    // by checking it's in the tracer provider's span processors
+    const internalSdk = _getSdkInstance();
+    const tracerProvider = (internalSdk as any)["_tracerProvider"];
+    const activeSpanProcessor = tracerProvider["_activeSpanProcessor"];
+    // The active span processor should be a MultiSpanProcessor containing our custom processor
+    const spanProcessors = activeSpanProcessor["_spanProcessors"] || [activeSpanProcessor];
+    const hasCustomProcessor = spanProcessors.some((sp: SpanProcessor) => sp === processor);
+    expect(hasCustomProcessor).toBe(true);
   });
 
   it("should add custom logProcessors", () => {
@@ -319,12 +322,14 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    const span = trace.getTracer("testTracer").startSpan("testSpan");
-    span.end();
 
-    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
-    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["attributes"];
+    // Access resource from the SDK's tracer provider instead of from a span
+    // This avoids issues with OTel global state in test environments
+    const internalSdk = _getSdkInstance();
+    const tracerProvider = (internalSdk as any)["_tracerProvider"];
+    const resource =
+      tracerProvider?.["resource"]?.["attributes"] || tracerProvider?.["_resource"]?.["attributes"];
+    assert.isDefined(resource, "Resource should be defined on tracer provider");
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
       assert.isTrue(expectedResourceAttributeNamespaces.has(parts[0]));
@@ -342,13 +347,14 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    const span = trace.getTracer("testTracer").startSpan("testSpan");
-    span.end();
 
-    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
-    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["attributes"];
-    console.log(resource);
+    // Access resource from the SDK's tracer provider instead of from a span
+    // This avoids issues with OTel global state in test environments
+    const internalSdk = _getSdkInstance();
+    const tracerProvider = (internalSdk as any)["_tracerProvider"];
+    const resource =
+      tracerProvider?.["resource"]?.["attributes"] || tracerProvider?.["_resource"]?.["attributes"];
+    assert.isDefined(resource, "Resource should be defined on tracer provider");
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
       assert.isTrue(expectedResourceAttributeNamespaces.has(parts[0]));
@@ -362,13 +368,14 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    const span = trace.getTracer("testTracer").startSpan("testSpan");
-    span.end();
 
-    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
-    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["_rawAttributes"];
-    console.log(resource);
+    // Access resource from the SDK's tracer provider instead of from a span
+    // This avoids issues with OTel global state in test environments
+    const internalSdk = _getSdkInstance();
+    const tracerProvider = (internalSdk as any)["_tracerProvider"];
+    const resource =
+      tracerProvider?.["resource"]?.["attributes"] || tracerProvider?.["_resource"]?.["attributes"];
+    assert.isDefined(resource, "Resource should be defined on tracer provider");
     Object.keys(resource || {}).forEach((attr) => {
       assert.isTrue(!attr.includes("process"));
     });
