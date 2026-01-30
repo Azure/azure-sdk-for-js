@@ -63,10 +63,7 @@ export function _checkVolumeFilePathAvailabilitySend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: checkElasticVolumeFilePathAvailabilityRequestSerializer(body),
   });
 }
@@ -112,9 +109,7 @@ export function _changeZoneSend(
   accountName: string,
   poolName: string,
   body: ChangeZoneRequest,
-  options: ElasticCapacityPoolsChangeZoneOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticCapacityPoolsChangeZoneOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticCapacityPools/{poolName}/changeZone{?api%2Dversion}",
@@ -132,10 +127,7 @@ export function _changeZoneSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: changeZoneRequestSerializer(body),
   });
 }
@@ -160,9 +152,7 @@ export function changeZone(
   accountName: string,
   poolName: string,
   body: ChangeZoneRequest,
-  options: ElasticCapacityPoolsChangeZoneOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticCapacityPoolsChangeZoneOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ElasticCapacityPool>, ElasticCapacityPool> {
   return getLongRunningPoller(context, _changeZoneDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -177,9 +167,7 @@ export function _listByElasticAccountSend(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: ElasticCapacityPoolsListByElasticAccountOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticCapacityPoolsListByElasticAccountOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticCapacityPools{?api%2Dversion}",
@@ -195,10 +183,7 @@ export function _listByElasticAccountSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -220,9 +205,7 @@ export function listByElasticAccount(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: ElasticCapacityPoolsListByElasticAccountOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticCapacityPoolsListByElasticAccountOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ElasticCapacityPool> {
   return buildPagedAsyncIterator(
     context,
@@ -313,10 +296,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: elasticCapacityPoolUpdateSerializer(body),
   });
 }
@@ -358,9 +338,7 @@ export function _createOrUpdateSend(
   accountName: string,
   poolName: string,
   body: ElasticCapacityPool,
-  options: ElasticCapacityPoolsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticCapacityPoolsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticCapacityPools/{poolName}{?api%2Dversion}",
@@ -378,10 +356,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: elasticCapacityPoolSerializer(body),
   });
 }
@@ -406,9 +381,7 @@ export function createOrUpdate(
   accountName: string,
   poolName: string,
   body: ElasticCapacityPool,
-  options: ElasticCapacityPoolsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticCapacityPoolsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ElasticCapacityPool>, ElasticCapacityPool> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -441,10 +414,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
