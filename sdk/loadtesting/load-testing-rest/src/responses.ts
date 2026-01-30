@@ -4,17 +4,24 @@
 import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import type { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import type {
+  OperationStatusOutput,
   TestOutput,
   PagedTestOutput,
+  ResourceOperationStatusTestErrorOutput,
   TestFileInfoOutput,
   PagedTestFileInfoOutput,
   TestAppComponentsOutput,
   TestServerMetricsConfigurationOutput,
   TestProfileOutput,
   PagedTestProfileOutput,
+  TriggerOutput,
+  PagedTriggerOutput,
+  NotificationRuleOutput,
+  PagedNotificationRuleOutput,
   TestRunOutput,
   PagedTestRunOutput,
   TestRunFileInfoOutput,
+  TestRunInsightsOutput,
   MetricNamespaceCollectionOutput,
   MetricDefinitionCollectionOutput,
   MetricsOutput,
@@ -23,11 +30,24 @@ import type {
   TestRunServerMetricsConfigurationOutput,
   TestProfileRunOutput,
   PagedTestProfileRunOutput,
-  TriggerOutput,
-  PagedTriggerOutput,
-  NotificationRuleOutput,
-  PagedNotificationRuleOutput,
 } from "./outputModels.js";
+
+/** The request has succeeded. */
+export interface OperationsGetStatus200Response extends HttpResponse {
+  status: "200";
+  body: OperationStatusOutput;
+}
+
+export interface OperationsGetStatusDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface OperationsGetStatusDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & OperationsGetStatusDefaultHeaders;
+}
 
 /** The request has succeeded. */
 export interface LoadTestAdministrationCreateOrUpdateTest200Response extends HttpResponse {
@@ -100,6 +120,64 @@ export interface LoadTestAdministrationListTestsDefaultResponse extends HttpResp
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & LoadTestAdministrationListTestsDefaultHeaders;
+}
+
+export interface LoadTestAdministrationCloneTest202Headers {
+  /** The location for monitoring the operation state. */
+  "operation-location": string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface LoadTestAdministrationCloneTest202Response extends HttpResponse {
+  status: "202";
+  body: ResourceOperationStatusTestErrorOutput;
+  headers: RawHttpHeaders & LoadTestAdministrationCloneTest202Headers;
+}
+
+export interface LoadTestAdministrationCloneTestDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface LoadTestAdministrationCloneTestDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & LoadTestAdministrationCloneTestDefaultHeaders;
+}
+
+/** The final response for long-running cloneTest operation */
+export interface LoadTestAdministrationCloneTestLogicalResponse extends HttpResponse {
+  status: "200";
+  body: ResourceOperationStatusTestErrorOutput;
+}
+
+export interface LoadTestAdministrationGenerateTestPlanRecommendations202Headers {
+  /** The location for monitoring the operation state. */
+  "operation-location": string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface LoadTestAdministrationGenerateTestPlanRecommendations202Response extends HttpResponse {
+  status: "202";
+  body: ResourceOperationStatusTestErrorOutput;
+  headers: RawHttpHeaders & LoadTestAdministrationGenerateTestPlanRecommendations202Headers;
+}
+
+export interface LoadTestAdministrationGenerateTestPlanRecommendationsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface LoadTestAdministrationGenerateTestPlanRecommendationsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & LoadTestAdministrationGenerateTestPlanRecommendationsDefaultHeaders;
+}
+
+/** The final response for long-running generateTestPlanRecommendations operation */
+export interface LoadTestAdministrationGenerateTestPlanRecommendationsLogicalResponse extends HttpResponse {
+  status: "200";
+  body: ResourceOperationStatusTestErrorOutput;
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
@@ -323,6 +401,153 @@ export interface TestProfileAdministrationListTestProfilesDefaultResponse extend
 }
 
 /** The request has succeeded. */
+export interface TriggerAdministrationGetTrigger200Response extends HttpResponse {
+  status: "200";
+  body: TriggerOutput;
+}
+
+export interface TriggerAdministrationGetTriggerDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TriggerAdministrationGetTriggerDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & TriggerAdministrationGetTriggerDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface TriggerAdministrationCreateOrUpdateTrigger200Response extends HttpResponse {
+  status: "200";
+  body: TriggerOutput;
+}
+
+/** The request has succeeded and a new resource has been created as a result. */
+export interface TriggerAdministrationCreateOrUpdateTrigger201Response extends HttpResponse {
+  status: "201";
+  body: TriggerOutput;
+}
+
+export interface TriggerAdministrationCreateOrUpdateTriggerDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TriggerAdministrationCreateOrUpdateTriggerDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & TriggerAdministrationCreateOrUpdateTriggerDefaultHeaders;
+}
+
+/** There is no content to send for this request, but the headers may be useful. */
+export interface TriggerAdministrationDeleteTrigger204Response extends HttpResponse {
+  status: "204";
+}
+
+export interface TriggerAdministrationDeleteTriggerDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TriggerAdministrationDeleteTriggerDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & TriggerAdministrationDeleteTriggerDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface TriggerAdministrationListTrigger200Response extends HttpResponse {
+  status: "200";
+  body: PagedTriggerOutput;
+}
+
+export interface TriggerAdministrationListTriggerDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TriggerAdministrationListTriggerDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & TriggerAdministrationListTriggerDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface NotificationRuleAdministrationGetNotificationRule200Response extends HttpResponse {
+  status: "200";
+  body: NotificationRuleOutput;
+}
+
+export interface NotificationRuleAdministrationGetNotificationRuleDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface NotificationRuleAdministrationGetNotificationRuleDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & NotificationRuleAdministrationGetNotificationRuleDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response extends HttpResponse {
+  status: "200";
+  body: NotificationRuleOutput;
+}
+
+/** The request has succeeded and a new resource has been created as a result. */
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response extends HttpResponse {
+  status: "201";
+  body: NotificationRuleOutput;
+}
+
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultHeaders;
+}
+
+/** There is no content to send for this request, but the headers may be useful. */
+export interface NotificationRuleAdministrationDeleteNotificationRule204Response extends HttpResponse {
+  status: "204";
+}
+
+export interface NotificationRuleAdministrationDeleteNotificationRuleDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & NotificationRuleAdministrationDeleteNotificationRuleDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface NotificationRuleAdministrationListNotificationRule200Response extends HttpResponse {
+  status: "200";
+  body: PagedNotificationRuleOutput;
+}
+
+export interface NotificationRuleAdministrationListNotificationRuleDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface NotificationRuleAdministrationListNotificationRuleDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & NotificationRuleAdministrationListNotificationRuleDefaultHeaders;
+}
+
+/** The request has succeeded. */
 export interface LoadTestRunGetTestRun200Response extends HttpResponse {
   status: "200";
   body: TestRunOutput;
@@ -427,6 +652,68 @@ export interface LoadTestRunStopDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & LoadTestRunStopDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface LoadTestRunGetLatestInsights200Response extends HttpResponse {
+  status: "200";
+  body: TestRunInsightsOutput;
+}
+
+export interface LoadTestRunGetLatestInsightsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface LoadTestRunGetLatestInsightsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & LoadTestRunGetLatestInsightsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface LoadTestRunPatchLatestInsights200Response extends HttpResponse {
+  status: "200";
+  body: TestRunInsightsOutput;
+}
+
+export interface LoadTestRunPatchLatestInsightsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface LoadTestRunPatchLatestInsightsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & LoadTestRunPatchLatestInsightsDefaultHeaders;
+}
+
+export interface LoadTestRunGenerateInsights202Headers {
+  "operation-location": string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface LoadTestRunGenerateInsights202Response extends HttpResponse {
+  status: "202";
+  body: OperationStatusOutput;
+  headers: RawHttpHeaders & LoadTestRunGenerateInsights202Headers;
+}
+
+export interface LoadTestRunGenerateInsightsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface LoadTestRunGenerateInsightsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & LoadTestRunGenerateInsightsDefaultHeaders;
+}
+
+/** The final response for long-running generateInsights operation */
+export interface LoadTestRunGenerateInsightsLogicalResponse extends HttpResponse {
+  status: "200";
+  body: OperationStatusOutput;
 }
 
 /** The request has succeeded. */
@@ -665,151 +952,4 @@ export interface TestProfileRunAdministrationListTestProfileRunsDefaultResponse 
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & TestProfileRunAdministrationListTestProfileRunsDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface TriggerAdministrationGetTrigger200Response extends HttpResponse {
-  status: "200";
-  body: TriggerOutput;
-}
-
-export interface TriggerAdministrationGetTriggerDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TriggerAdministrationGetTriggerDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TriggerAdministrationGetTriggerDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface TriggerAdministrationCreateOrUpdateTrigger200Response extends HttpResponse {
-  status: "200";
-  body: TriggerOutput;
-}
-
-/** The request has succeeded and a new resource has been created as a result. */
-export interface TriggerAdministrationCreateOrUpdateTrigger201Response extends HttpResponse {
-  status: "201";
-  body: TriggerOutput;
-}
-
-export interface TriggerAdministrationCreateOrUpdateTriggerDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TriggerAdministrationCreateOrUpdateTriggerDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TriggerAdministrationCreateOrUpdateTriggerDefaultHeaders;
-}
-
-/** There is no content to send for this request, but the headers may be useful. */
-export interface TriggerAdministrationDeleteTrigger204Response extends HttpResponse {
-  status: "204";
-}
-
-export interface TriggerAdministrationDeleteTriggerDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TriggerAdministrationDeleteTriggerDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TriggerAdministrationDeleteTriggerDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface TriggerAdministrationListTrigger200Response extends HttpResponse {
-  status: "200";
-  body: PagedTriggerOutput;
-}
-
-export interface TriggerAdministrationListTriggerDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TriggerAdministrationListTriggerDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TriggerAdministrationListTriggerDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface NotificationRuleAdministrationGetNotificationRule200Response extends HttpResponse {
-  status: "200";
-  body: NotificationRuleOutput;
-}
-
-export interface NotificationRuleAdministrationGetNotificationRuleDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface NotificationRuleAdministrationGetNotificationRuleDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & NotificationRuleAdministrationGetNotificationRuleDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response extends HttpResponse {
-  status: "200";
-  body: NotificationRuleOutput;
-}
-
-/** The request has succeeded and a new resource has been created as a result. */
-export interface NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response extends HttpResponse {
-  status: "201";
-  body: NotificationRuleOutput;
-}
-
-export interface NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders &
-    NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultHeaders;
-}
-
-/** There is no content to send for this request, but the headers may be useful. */
-export interface NotificationRuleAdministrationDeleteNotificationRule204Response extends HttpResponse {
-  status: "204";
-}
-
-export interface NotificationRuleAdministrationDeleteNotificationRuleDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & NotificationRuleAdministrationDeleteNotificationRuleDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface NotificationRuleAdministrationListNotificationRule200Response extends HttpResponse {
-  status: "200";
-  body: PagedNotificationRuleOutput;
-}
-
-export interface NotificationRuleAdministrationListNotificationRuleDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface NotificationRuleAdministrationListNotificationRuleDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & NotificationRuleAdministrationListNotificationRuleDefaultHeaders;
 }

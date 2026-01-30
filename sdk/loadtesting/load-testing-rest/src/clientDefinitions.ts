@@ -2,10 +2,13 @@
 // Licensed under the MIT License.
 
 import type {
+  OperationsGetStatusParameters,
   LoadTestAdministrationCreateOrUpdateTestParameters,
   LoadTestAdministrationDeleteTestParameters,
   LoadTestAdministrationGetTestParameters,
   LoadTestAdministrationListTestsParameters,
+  LoadTestAdministrationCloneTestParameters,
+  LoadTestAdministrationGenerateTestPlanRecommendationsParameters,
   LoadTestAdministrationUploadTestFileParameters,
   LoadTestAdministrationGetTestFileParameters,
   LoadTestAdministrationDeleteTestFileParameters,
@@ -18,12 +21,23 @@ import type {
   TestProfileAdministrationDeleteTestProfileParameters,
   TestProfileAdministrationGetTestProfileParameters,
   TestProfileAdministrationListTestProfilesParameters,
+  TriggerAdministrationGetTriggerParameters,
+  TriggerAdministrationCreateOrUpdateTriggerParameters,
+  TriggerAdministrationDeleteTriggerParameters,
+  TriggerAdministrationListTriggerParameters,
+  NotificationRuleAdministrationGetNotificationRuleParameters,
+  NotificationRuleAdministrationCreateOrUpdateNotificationRuleParameters,
+  NotificationRuleAdministrationDeleteNotificationRuleParameters,
+  NotificationRuleAdministrationListNotificationRuleParameters,
   LoadTestRunGetTestRunParameters,
   LoadTestRunCreateOrUpdateTestRunParameters,
   LoadTestRunDeleteTestRunParameters,
   LoadTestRunListTestRunsParameters,
   LoadTestRunGetTestRunFileParameters,
   LoadTestRunStopParameters,
+  LoadTestRunGetLatestInsightsParameters,
+  LoadTestRunPatchLatestInsightsParameters,
+  LoadTestRunGenerateInsightsParameters,
   LoadTestRunListMetricNamespacesParameters,
   LoadTestRunListMetricDefinitionsParameters,
   LoadTestRunListMetricsParameters,
@@ -37,16 +51,10 @@ import type {
   TestProfileRunAdministrationDeleteTestProfileRunParameters,
   TestProfileRunAdministrationStopParameters,
   TestProfileRunAdministrationListTestProfileRunsParameters,
-  TriggerAdministrationGetTriggerParameters,
-  TriggerAdministrationCreateOrUpdateTriggerParameters,
-  TriggerAdministrationDeleteTriggerParameters,
-  TriggerAdministrationListTriggerParameters,
-  NotificationRuleAdministrationGetNotificationRuleParameters,
-  NotificationRuleAdministrationCreateOrUpdateNotificationRuleParameters,
-  NotificationRuleAdministrationDeleteNotificationRuleParameters,
-  NotificationRuleAdministrationListNotificationRuleParameters,
 } from "./parameters.js";
 import type {
+  OperationsGetStatus200Response,
+  OperationsGetStatusDefaultResponse,
   LoadTestAdministrationCreateOrUpdateTest200Response,
   LoadTestAdministrationCreateOrUpdateTest201Response,
   LoadTestAdministrationCreateOrUpdateTestDefaultResponse,
@@ -56,6 +64,10 @@ import type {
   LoadTestAdministrationGetTestDefaultResponse,
   LoadTestAdministrationListTests200Response,
   LoadTestAdministrationListTestsDefaultResponse,
+  LoadTestAdministrationCloneTest202Response,
+  LoadTestAdministrationCloneTestDefaultResponse,
+  LoadTestAdministrationGenerateTestPlanRecommendations202Response,
+  LoadTestAdministrationGenerateTestPlanRecommendationsDefaultResponse,
   LoadTestAdministrationUploadTestFile201Response,
   LoadTestAdministrationUploadTestFileDefaultResponse,
   LoadTestAdministrationGetTestFile200Response,
@@ -83,6 +95,24 @@ import type {
   TestProfileAdministrationGetTestProfileDefaultResponse,
   TestProfileAdministrationListTestProfiles200Response,
   TestProfileAdministrationListTestProfilesDefaultResponse,
+  TriggerAdministrationGetTrigger200Response,
+  TriggerAdministrationGetTriggerDefaultResponse,
+  TriggerAdministrationCreateOrUpdateTrigger200Response,
+  TriggerAdministrationCreateOrUpdateTrigger201Response,
+  TriggerAdministrationCreateOrUpdateTriggerDefaultResponse,
+  TriggerAdministrationDeleteTrigger204Response,
+  TriggerAdministrationDeleteTriggerDefaultResponse,
+  TriggerAdministrationListTrigger200Response,
+  TriggerAdministrationListTriggerDefaultResponse,
+  NotificationRuleAdministrationGetNotificationRule200Response,
+  NotificationRuleAdministrationGetNotificationRuleDefaultResponse,
+  NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response,
+  NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response,
+  NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse,
+  NotificationRuleAdministrationDeleteNotificationRule204Response,
+  NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse,
+  NotificationRuleAdministrationListNotificationRule200Response,
+  NotificationRuleAdministrationListNotificationRuleDefaultResponse,
   LoadTestRunGetTestRun200Response,
   LoadTestRunGetTestRunDefaultResponse,
   LoadTestRunCreateOrUpdateTestRun200Response,
@@ -96,6 +126,12 @@ import type {
   LoadTestRunGetTestRunFileDefaultResponse,
   LoadTestRunStop200Response,
   LoadTestRunStopDefaultResponse,
+  LoadTestRunGetLatestInsights200Response,
+  LoadTestRunGetLatestInsightsDefaultResponse,
+  LoadTestRunPatchLatestInsights200Response,
+  LoadTestRunPatchLatestInsightsDefaultResponse,
+  LoadTestRunGenerateInsights202Response,
+  LoadTestRunGenerateInsightsDefaultResponse,
   LoadTestRunListMetricNamespaces200Response,
   LoadTestRunListMetricNamespacesDefaultResponse,
   LoadTestRunListMetricDefinitions200Response,
@@ -125,26 +161,15 @@ import type {
   TestProfileRunAdministrationStopDefaultResponse,
   TestProfileRunAdministrationListTestProfileRuns200Response,
   TestProfileRunAdministrationListTestProfileRunsDefaultResponse,
-  TriggerAdministrationGetTrigger200Response,
-  TriggerAdministrationGetTriggerDefaultResponse,
-  TriggerAdministrationCreateOrUpdateTrigger200Response,
-  TriggerAdministrationCreateOrUpdateTrigger201Response,
-  TriggerAdministrationCreateOrUpdateTriggerDefaultResponse,
-  TriggerAdministrationDeleteTrigger204Response,
-  TriggerAdministrationDeleteTriggerDefaultResponse,
-  TriggerAdministrationListTrigger200Response,
-  TriggerAdministrationListTriggerDefaultResponse,
-  NotificationRuleAdministrationGetNotificationRule200Response,
-  NotificationRuleAdministrationGetNotificationRuleDefaultResponse,
-  NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response,
-  NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response,
-  NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse,
-  NotificationRuleAdministrationDeleteNotificationRule204Response,
-  NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse,
-  NotificationRuleAdministrationListNotificationRule200Response,
-  NotificationRuleAdministrationListNotificationRuleDefaultResponse,
 } from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
+
+export interface OperationsGetStatus {
+  /** Get the status of a long running operation. */
+  get(
+    options?: OperationsGetStatusParameters,
+  ): StreamableMethod<OperationsGetStatus200Response | OperationsGetStatusDefaultResponse>;
+}
 
 export interface LoadTestAdministrationCreateOrUpdateTest {
   /** Create a new test or update an existing test by providing the test Id. */
@@ -178,6 +203,25 @@ export interface LoadTestAdministrationListTests {
     options?: LoadTestAdministrationListTestsParameters,
   ): StreamableMethod<
     LoadTestAdministrationListTests200Response | LoadTestAdministrationListTestsDefaultResponse
+  >;
+}
+
+export interface LoadTestAdministrationCloneTest {
+  /** Clone the given test with optional overrides applied to the clone test. */
+  post(
+    options: LoadTestAdministrationCloneTestParameters,
+  ): StreamableMethod<
+    LoadTestAdministrationCloneTest202Response | LoadTestAdministrationCloneTestDefaultResponse
+  >;
+}
+
+export interface LoadTestAdministrationGenerateTestPlanRecommendations {
+  /** Generate AI Recommendations to author a load test plan using the uploaded browser recording file. */
+  post(
+    options?: LoadTestAdministrationGenerateTestPlanRecommendationsParameters,
+  ): StreamableMethod<
+    | LoadTestAdministrationGenerateTestPlanRecommendations202Response
+    | LoadTestAdministrationGenerateTestPlanRecommendationsDefaultResponse
   >;
 }
 
@@ -289,6 +333,74 @@ export interface TestProfileAdministrationListTestProfiles {
   >;
 }
 
+export interface TriggerAdministrationGetTrigger {
+  /** Resource read operation template. */
+  get(
+    options?: TriggerAdministrationGetTriggerParameters,
+  ): StreamableMethod<
+    TriggerAdministrationGetTrigger200Response | TriggerAdministrationGetTriggerDefaultResponse
+  >;
+  /** Create or update operation template. */
+  patch(
+    options: TriggerAdministrationCreateOrUpdateTriggerParameters,
+  ): StreamableMethod<
+    | TriggerAdministrationCreateOrUpdateTrigger200Response
+    | TriggerAdministrationCreateOrUpdateTrigger201Response
+    | TriggerAdministrationCreateOrUpdateTriggerDefaultResponse
+  >;
+  /** Resource delete operation template. */
+  delete(
+    options?: TriggerAdministrationDeleteTriggerParameters,
+  ): StreamableMethod<
+    | TriggerAdministrationDeleteTrigger204Response
+    | TriggerAdministrationDeleteTriggerDefaultResponse
+  >;
+}
+
+export interface TriggerAdministrationListTrigger {
+  /** Resource list operation template. */
+  get(
+    options?: TriggerAdministrationListTriggerParameters,
+  ): StreamableMethod<
+    TriggerAdministrationListTrigger200Response | TriggerAdministrationListTriggerDefaultResponse
+  >;
+}
+
+export interface NotificationRuleAdministrationGetNotificationRule {
+  /** Resource read operation template. */
+  get(
+    options?: NotificationRuleAdministrationGetNotificationRuleParameters,
+  ): StreamableMethod<
+    | NotificationRuleAdministrationGetNotificationRule200Response
+    | NotificationRuleAdministrationGetNotificationRuleDefaultResponse
+  >;
+  /** Create or update operation template. */
+  patch(
+    options: NotificationRuleAdministrationCreateOrUpdateNotificationRuleParameters,
+  ): StreamableMethod<
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse
+  >;
+  /** Resource delete operation template. */
+  delete(
+    options?: NotificationRuleAdministrationDeleteNotificationRuleParameters,
+  ): StreamableMethod<
+    | NotificationRuleAdministrationDeleteNotificationRule204Response
+    | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse
+  >;
+}
+
+export interface NotificationRuleAdministrationListNotificationRule {
+  /** Resource list operation template. */
+  get(
+    options?: NotificationRuleAdministrationListNotificationRuleParameters,
+  ): StreamableMethod<
+    | NotificationRuleAdministrationListNotificationRule200Response
+    | NotificationRuleAdministrationListNotificationRuleDefaultResponse
+  >;
+}
+
 export interface LoadTestRunGetTestRun {
   /** Get test run details by test run Id. */
   get(
@@ -331,6 +443,30 @@ export interface LoadTestRunStop {
   post(
     options?: LoadTestRunStopParameters,
   ): StreamableMethod<LoadTestRunStop200Response | LoadTestRunStopDefaultResponse>;
+}
+
+export interface LoadTestRunGetLatestInsights {
+  /** Get the latest insights for the test run. */
+  get(
+    options?: LoadTestRunGetLatestInsightsParameters,
+  ): StreamableMethod<
+    LoadTestRunGetLatestInsights200Response | LoadTestRunGetLatestInsightsDefaultResponse
+  >;
+  /** Update the latest insights for the test run. */
+  patch(
+    options: LoadTestRunPatchLatestInsightsParameters,
+  ): StreamableMethod<
+    LoadTestRunPatchLatestInsights200Response | LoadTestRunPatchLatestInsightsDefaultResponse
+  >;
+}
+
+export interface LoadTestRunGenerateInsights {
+  /** Generate insights for the test run. */
+  post(
+    options?: LoadTestRunGenerateInsightsParameters,
+  ): StreamableMethod<
+    LoadTestRunGenerateInsights202Response | LoadTestRunGenerateInsightsDefaultResponse
+  >;
 }
 
 export interface LoadTestRunListMetricNamespaces {
@@ -449,79 +585,20 @@ export interface TestProfileRunAdministrationListTestProfileRuns {
   >;
 }
 
-export interface TriggerAdministrationGetTrigger {
-  /** Resource read operation template. */
-  get(
-    options?: TriggerAdministrationGetTriggerParameters,
-  ): StreamableMethod<
-    TriggerAdministrationGetTrigger200Response | TriggerAdministrationGetTriggerDefaultResponse
-  >;
-  /** Create or update operation template. */
-  patch(
-    options: TriggerAdministrationCreateOrUpdateTriggerParameters,
-  ): StreamableMethod<
-    | TriggerAdministrationCreateOrUpdateTrigger200Response
-    | TriggerAdministrationCreateOrUpdateTrigger201Response
-    | TriggerAdministrationCreateOrUpdateTriggerDefaultResponse
-  >;
-  /** Resource delete operation template. */
-  delete(
-    options?: TriggerAdministrationDeleteTriggerParameters,
-  ): StreamableMethod<
-    | TriggerAdministrationDeleteTrigger204Response
-    | TriggerAdministrationDeleteTriggerDefaultResponse
-  >;
-}
-
-export interface TriggerAdministrationListTrigger {
-  /** Resource list operation template. */
-  get(
-    options?: TriggerAdministrationListTriggerParameters,
-  ): StreamableMethod<
-    TriggerAdministrationListTrigger200Response | TriggerAdministrationListTriggerDefaultResponse
-  >;
-}
-
-export interface NotificationRuleAdministrationGetNotificationRule {
-  /** Resource read operation template. */
-  get(
-    options?: NotificationRuleAdministrationGetNotificationRuleParameters,
-  ): StreamableMethod<
-    | NotificationRuleAdministrationGetNotificationRule200Response
-    | NotificationRuleAdministrationGetNotificationRuleDefaultResponse
-  >;
-  /** Create or update operation template. */
-  patch(
-    options: NotificationRuleAdministrationCreateOrUpdateNotificationRuleParameters,
-  ): StreamableMethod<
-    | NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response
-    | NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response
-    | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse
-  >;
-  /** Resource delete operation template. */
-  delete(
-    options?: NotificationRuleAdministrationDeleteNotificationRuleParameters,
-  ): StreamableMethod<
-    | NotificationRuleAdministrationDeleteNotificationRule204Response
-    | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse
-  >;
-}
-
-export interface NotificationRuleAdministrationListNotificationRule {
-  /** Resource list operation template. */
-  get(
-    options?: NotificationRuleAdministrationListNotificationRuleParameters,
-  ): StreamableMethod<
-    | NotificationRuleAdministrationListNotificationRule200Response
-    | NotificationRuleAdministrationListNotificationRuleDefaultResponse
-  >;
-}
-
 export interface Routes {
+  /** Resource for '/operations/\{operationId\}' has methods for the following verbs: get */
+  (path: "/operations/{operationId}", operationId: string): OperationsGetStatus;
   /** Resource for '/tests/\{testId\}' has methods for the following verbs: patch, delete, get */
   (path: "/tests/{testId}", testId: string): LoadTestAdministrationCreateOrUpdateTest;
   /** Resource for '/tests' has methods for the following verbs: get */
   (path: "/tests"): LoadTestAdministrationListTests;
+  /** Resource for '/tests/\{testId\}:clone' has methods for the following verbs: post */
+  (path: "/tests/{testId}:clone", testId: string): LoadTestAdministrationCloneTest;
+  /** Resource for '/tests/\{testId\}:generateTestPlanRecommendations' has methods for the following verbs: post */
+  (
+    path: "/tests/{testId}:generateTestPlanRecommendations",
+    testId: string,
+  ): LoadTestAdministrationGenerateTestPlanRecommendations;
   /** Resource for '/tests/\{testId\}/files/\{fileName\}' has methods for the following verbs: put, get, delete */
   (
     path: "/tests/{testId}/files/{fileName}",
@@ -547,6 +624,17 @@ export interface Routes {
   ): TestProfileAdministrationCreateOrUpdateTestProfile;
   /** Resource for '/test-profiles' has methods for the following verbs: get */
   (path: "/test-profiles"): TestProfileAdministrationListTestProfiles;
+  /** Resource for '/triggers/\{triggerId\}' has methods for the following verbs: get, patch, delete */
+  (path: "/triggers/{triggerId}", triggerId: string): TriggerAdministrationGetTrigger;
+  /** Resource for '/triggers' has methods for the following verbs: get */
+  (path: "/triggers"): TriggerAdministrationListTrigger;
+  /** Resource for '/notification-rules/\{notificationRuleId\}' has methods for the following verbs: get, patch, delete */
+  (
+    path: "/notification-rules/{notificationRuleId}",
+    notificationRuleId: string,
+  ): NotificationRuleAdministrationGetNotificationRule;
+  /** Resource for '/notification-rules' has methods for the following verbs: get */
+  (path: "/notification-rules"): NotificationRuleAdministrationListNotificationRule;
   /** Resource for '/test-runs/\{testRunId\}' has methods for the following verbs: get, patch, delete */
   (path: "/test-runs/{testRunId}", testRunId: string): LoadTestRunGetTestRun;
   /** Resource for '/test-runs' has methods for the following verbs: get */
@@ -559,6 +647,13 @@ export interface Routes {
   ): LoadTestRunGetTestRunFile;
   /** Resource for '/test-runs/\{testRunId\}:stop' has methods for the following verbs: post */
   (path: "/test-runs/{testRunId}:stop", testRunId: string): LoadTestRunStop;
+  /** Resource for '/test-runs/\{testRunId\}/insights/latest' has methods for the following verbs: get, patch */
+  (path: "/test-runs/{testRunId}/insights/latest", testRunId: string): LoadTestRunGetLatestInsights;
+  /** Resource for '/test-runs/\{testRunId\}/insights:generate' has methods for the following verbs: post */
+  (
+    path: "/test-runs/{testRunId}/insights:generate",
+    testRunId: string,
+  ): LoadTestRunGenerateInsights;
   /** Resource for '/test-runs/\{testRunId\}/metric-namespaces' has methods for the following verbs: get */
   (
     path: "/test-runs/{testRunId}/metric-namespaces",
@@ -599,17 +694,6 @@ export interface Routes {
   ): TestProfileRunAdministrationStop;
   /** Resource for '/test-profile-runs' has methods for the following verbs: get */
   (path: "/test-profile-runs"): TestProfileRunAdministrationListTestProfileRuns;
-  /** Resource for '/triggers/\{triggerId\}' has methods for the following verbs: get, patch, delete */
-  (path: "/triggers/{triggerId}", triggerId: string): TriggerAdministrationGetTrigger;
-  /** Resource for '/triggers' has methods for the following verbs: get */
-  (path: "/triggers"): TriggerAdministrationListTrigger;
-  /** Resource for '/notification-rules/\{notificationRuleId\}' has methods for the following verbs: get, patch, delete */
-  (
-    path: "/notification-rules/{notificationRuleId}",
-    notificationRuleId: string,
-  ): NotificationRuleAdministrationGetNotificationRule;
-  /** Resource for '/notification-rules' has methods for the following verbs: get */
-  (path: "/notification-rules"): NotificationRuleAdministrationListNotificationRule;
 }
 
 export type AzureLoadTestingClient = Client & {
