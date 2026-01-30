@@ -43,7 +43,7 @@ export {
   SingleVectorFieldResult,
   TextResult,
   VectorsDebugInfo,
-} from "./generated/data/models/index.js";
+} from "./data/models/index.js";
 export {
   AzureBlobKnowledgeSourceParams,
   KnowledgeBaseActivityRecord as BaseKnowledgeBaseActivityRecord,
@@ -103,7 +103,7 @@ export {
   SearchIndexKnowledgeSourceParams,
   SharePointSensitivityLabelInfo,
   WebKnowledgeSourceParams,
-} from "./generated/knowledgeBase/models/index.js";
+} from "./knowledgeBase/models/index.js";
 export {
   AIFoundryModelCatalogName,
   AIServices,
@@ -355,7 +355,7 @@ export {
   WebKnowledgeSourceParameters,
   WordDelimiterTokenFilter,
   WebKnowledgeSourceDomain,
-} from "./generated/service/models/index.js";
+} from "./service/models/index.js";
 export { default as GeographyPoint } from "./geographyPoint.js";
 export { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
 export {

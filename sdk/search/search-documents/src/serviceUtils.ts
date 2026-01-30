@@ -4,7 +4,7 @@
 import type {
   SearchResult as GeneratedSearchResult,
   SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
-} from "./generated/data/models/index.js";
+} from "./data/models/index.js";
 import type {
   CustomAnalyzer as BaseCustomAnalyzer,
   SearchIndexerKnowledgeStore as BaseSearchIndexerKnowledgeStore,
@@ -64,7 +64,7 @@ import type {
   SqlIntegratedChangeTrackingPolicy,
   StopAnalyzer,
   TokenFilterUnion,
-} from "./generated/service/models/index.js";
+} from "./service/models/index.js";
 import type {
   SearchResult,
   SelectFields,

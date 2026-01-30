@@ -12,8 +12,8 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import type {
   KnowledgeBaseRetrievalRequest,
   KnowledgeBaseRetrievalResponse,
-} from "./generated/knowledgeBase/index.js";
-import { SearchClient as GeneratedClient } from "./generated/knowledgeBase/searchClient.js";
+} from "./knowledgeBase/index.js";
+import { SearchClient as GeneratedClient } from "./knowledgeBase/searchClient.js";
 import type { RetrieveKnowledgeOptions } from "./knowledgeBaseModels.js";
 import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";

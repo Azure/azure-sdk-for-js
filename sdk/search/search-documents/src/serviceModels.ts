@@ -145,7 +145,7 @@ import type {
   VectorSearchVectorizerKind,
   WebKnowledgeSourceParameters,
   WordDelimiterTokenFilter,
-} from "./generated/service/models/index.js";
+} from "./service/models/index.js";
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 
 /**
