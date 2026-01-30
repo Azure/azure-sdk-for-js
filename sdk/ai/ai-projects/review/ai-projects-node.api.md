@@ -6,6 +6,7 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
+import type { ClientOptions as ClientOptions_2 } from 'openai';
 import OpenAI from 'openai';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState as OperationState_2 } from '@azure/core-lro';
@@ -202,7 +203,7 @@ export class AIProjectClient {
     readonly evaluationRules: EvaluationRulesOperations;
     readonly evaluationTaxonomies: EvaluationTaxonomiesOperations;
     readonly evaluators: EvaluatorsOperations;
-    getOpenAIClient(): Promise<OpenAI>;
+    getOpenAIClient(opts?: ClientOptions_2): Promise<OpenAI>;
     readonly indexes: IndexesOperations;
     readonly insights: InsightsOperations;
     readonly memoryStores: MemoryStoresOperations;
