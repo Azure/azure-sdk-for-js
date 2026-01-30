@@ -11,7 +11,6 @@ This skill guides updating the `@azure-rest/ai-content-understanding` SDK when a
 
 - Node.js LTS installed
 - pnpm installed
-- `tsp-client` available (install via `npm install -g @azure-tools/typespec-client-generator-cli` if needed)
 
 ## Workflow Steps
 
@@ -32,7 +31,7 @@ Run from the package directory:
 
 ```bash
 cd sdk/contentunderstanding/ai-content-understanding-rest
-tsp-client update
+npx tsp-client update
 ```
 
 This updates the `generated/` folder with new generated code from the TypeSpec specification.

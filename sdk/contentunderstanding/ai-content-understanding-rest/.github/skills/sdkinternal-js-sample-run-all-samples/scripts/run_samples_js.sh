@@ -154,7 +154,8 @@ run_js_dir() {
   fi
   echo "Finding .js files under $dir"
   # Ensure any package installs for directories are done once per directory when files are executed
-  find "$dir" -type f -name "*.js" -print0 | sort -z | while IFS= read -r -d '' file; do
+  # Exclude node_modules to avoid running library code
+  find "$dir" -type d -name "node_modules" -prune -o -type f -name "*.js" -print0 | sort -z | while IFS= read -r -d '' file; do
     run_in_dir "$(dirname "$file")"
     run_js_file "$file"
   done
