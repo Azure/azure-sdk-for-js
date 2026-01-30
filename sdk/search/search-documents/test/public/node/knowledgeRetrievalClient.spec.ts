@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createTestCredential } from "@azure-tools/test-credential";
-import { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import type { OpenAIClient } from "@azure/openai";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
@@ -21,7 +21,7 @@ import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "..
 
 // TODO: Remove skip and fix recording issues before enabling these tests in PRs
 // To run these tests locally in 'live' mode, remove the skip modifier
-describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
+describe.skipIf(!isLiveMode())("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
   let indexClient: SearchIndexClient;
@@ -101,7 +101,7 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
       assert.isTrue(result.response.length > 0);
     });
 
-    it("create webKnowledgeSource and query knowledge base", { timeout: 60000 }, async () => {
+    it.todo("create webKnowledgeSource and query knowledge base", { timeout: 60000 }, async () => {
       const webKnowledgeSource: WebKnowledgeSource = {
         kind: "web",
         name: "web-ks",

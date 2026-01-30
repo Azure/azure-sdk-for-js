@@ -65,7 +65,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
   });
 
   // TODO: the preview-only tests are mixed in here when they should be in another describe (and removed in the stable release branch)
-  describe("stable", { skip: true }, () => {
+  describe("stable", () => {
     let recorder: Recorder;
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
@@ -145,35 +145,33 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       } as const;
       const searchResults = await searchClient.search("luxury", options);
       for await (const result of searchResults.results) {
-        assert.deepEqual(
-          {
-            semantic: {
-              contentFields: [
-                {
-                  name: "description",
-                  state: "used",
-                },
-              ],
-              keywordFields: [
-                {
-                  name: "tags",
-                  state: "used",
-                },
-              ],
-              rerankerInput: {
-                content:
-                  "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
-                keywords: "pool\r\nview\r\nwifi\r\nconcierge",
-                title: "Fancy Stay",
-              },
-              titleField: {
-                name: "hotelName",
+        assert.deepEqual(result.documentDebugInfo, {
+          semantic: {
+            contentFields: [
+              {
+                name: "description",
                 state: "used",
               },
+            ],
+            keywordFields: [
+              {
+                name: "tags",
+                state: "used",
+              },
+            ],
+            rerankerInput: {
+              content:
+                "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
+              keywords: "pool\r\nview\r\nwifi\r\nconcierge",
+              title: "Fancy Stay",
+            },
+            titleField: {
+              name: "hotelName",
+              state: "used",
             },
           },
-          result.documentDebugInfo,
-        );
+          vectors: null as any, // TODO: null returned from service, should our types reflect that?
+        });
       }
     });
 
