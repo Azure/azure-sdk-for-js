@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure/core-client";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
   AIFoundryModelCatalogName,
-  AIServices,
   AIServicesAccountKey,
   AsciiFoldingTokenFilter,
   AzureMachineLearningSkill,
@@ -13,7 +12,6 @@ import type {
   AzureOpenAITokenizerParameters,
   CognitiveServicesAccount as BaseCognitiveServicesAccount,
   KnowledgeBaseModel as BaseKnowledgeBaseModel,
-  KnowledgeSourceVectorizer as BaseKnowledgeSourceVectorizer,
   SearchIndexerSkill as BaseSearchIndexerSkill,
   BinaryQuantizationCompression,
   BM25Similarity,
@@ -63,8 +61,8 @@ import type {
   KnownBlobIndexerPDFTextRotationAlgorithm,
   KnownCharFilterName,
   KnownCustomEntityLookupSkillLanguage,
-  KnownEntityCategory,
-  KnownEntityRecognitionSkillLanguage,
+  // KnownEntityCategory,
+  // KnownEntityRecognitionSkillLanguage,
   KnownImageAnalysisSkillLanguage,
   KnownImageDetail,
   KnownIndexerExecutionEnvironment,
@@ -76,7 +74,7 @@ import type {
   KnownRegexFlags,
   KnownSearchFieldDataType,
   KnownSearchIndexerDataSourceType,
-  KnownSentimentSkillLanguage,
+  // KnownSentimentSkillLanguage,
   KnownSplitSkillLanguage,
   KnownTextSplitMode,
   KnownTextTranslationSkillLanguage,
@@ -118,7 +116,7 @@ import type {
   SearchIndexerKnowledgeStoreProjection,
   SearchIndexKnowledgeSourceParameters,
   SearchIndexPermissionFilterOption,
-  Suggester as SearchSuggester,
+  SearchSuggester,
   SemanticSearch,
   SentimentSkillV3,
   ServiceCounters,
@@ -145,7 +143,11 @@ import type {
   VectorSearchVectorizerKind,
   WebKnowledgeSourceParameters,
   WordDelimiterTokenFilter,
-} from "./service/models/index.js";
+} from "./models/azure/search/documents/indexes/index.js";
+import type {
+  AIServices,
+  KnowledgeSourceVectorizer as BaseKnowledgeSourceVectorizer,
+} from "./models/azure/search/documents/knowledgeBases/index.js";
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 
 /**

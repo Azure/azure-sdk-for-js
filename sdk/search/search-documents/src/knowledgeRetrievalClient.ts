@@ -5,15 +5,17 @@
 
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import type { InternalClientPipelineOptions } from "@azure/core-client";
-import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import {
+  bearerTokenAuthenticationPolicy,
+  bearerTokenAuthenticationPolicyName,
+} from "@azure/core-rest-pipeline";
 import type {
   KnowledgeBaseRetrievalRequest,
   KnowledgeBaseRetrievalResponse,
-} from "./knowledgeBase/index.js";
-import { SearchClient as GeneratedClient } from "./knowledgeBase/searchClient.js";
+} from "./models/azure/search/documents/knowledgeBases/index.js";
+import type { KnowledgeBaseRetrievalClientOptionalParams } from "./knowledgeBaseRetrieval/knowledgeBaseRetrievalClient.js";
+import { KnowledgeBaseRetrievalClient as GeneratedClient } from "./knowledgeBaseRetrieval/knowledgeBaseRetrievalClient.js";
 import type { RetrieveKnowledgeOptions } from "./knowledgeBaseModels.js";
 import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
@@ -21,11 +23,12 @@ import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPoli
 import { KnownSearchAudience } from "./searchAudience.js";
 import * as utils from "./serviceUtils.js";
 import { createSpan } from "./tracing.js";
+import type { ClientOptions } from "@azure-rest/core-client";
 
 /**
  * Client options used to configure Cognitive Search API requests.
  */
-export interface KnowledgeRetrievalClientOptions extends ExtendedCommonClientOptions {
+export interface KnowledgeRetrievalClientOptions extends ClientOptions {
   /**
    * The service version to use when communicating with the service.
    */

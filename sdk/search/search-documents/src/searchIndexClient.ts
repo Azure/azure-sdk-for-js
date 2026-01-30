@@ -5,16 +5,17 @@
 
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import type { InternalClientPipelineOptions } from "@azure/core-client";
-import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import {
+  bearerTokenAuthenticationPolicy,
+  bearerTokenAuthenticationPolicyName,
+} from "@azure/core-rest-pipeline";
 import type {
   AnalyzeResult,
-  IndexStatisticsSummary,
-  KnowledgeSourceStatus,
-} from "./service/models/index.js";
-import { SearchServiceClient as GeneratedClient } from "./service/searchServiceClient.js";
+  // KnowledgeSourceStatus,
+} from "./models/azure/search/documents/indexes/index.js";
+import type { SearchIndexClientOptionalParams } from "./searchIndex/searchIndexClient.js";
+import { SearchIndexClient as GeneratedClient } from "./searchIndex/searchIndexClient.js";
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 import type { KnowledgeRetrievalClientOptions as GetKnowledgeRetrievalClientOptions } from "./knowledgeRetrievalClient.js";
 import { KnowledgeRetrievalClient } from "./knowledgeRetrievalClient.js";
@@ -48,7 +49,6 @@ import type {
   GetIndexStatsSummaryOptions,
   GetKnowledgeBaseOptions,
   GetKnowledgeSourceOptions,
-  GetKnowledgeSourceStatusOptions,
   GetServiceStatisticsOptions,
   GetSynonymMapsOptions,
   IndexIterator,
@@ -69,12 +69,13 @@ import type {
   SynonymMap,
 } from "./serviceModels.js";
 import * as utils from "./serviceUtils.js";
-import { createSpan } from "./tracing.js";
+import { tracingClient } from "./tracing.js";
+import type { ClientOptions } from "@azure-rest/core-client";
 
 /**
  * Client options used to configure AI Search API requests.
  */
-export interface SearchIndexClientOptions extends ExtendedCommonClientOptions {
+export interface SearchIndexClientOptions extends ClientOptions {
   /**
    * The API version to use when communicating with the service.
    * @deprecated use {@Link serviceVersion} instead
