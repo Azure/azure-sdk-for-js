@@ -5,23 +5,24 @@
 
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import type { InternalClientPipelineOptions } from "@azure/core-client";
-import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import type { Pipeline } from "@azure/core-rest-pipeline";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import type { ClientOptions, OperationOptions } from "@azure-rest/core-client";
+import {
+  bearerTokenAuthenticationPolicy,
+  bearerTokenAuthenticationPolicyName,
+  type Pipeline,
+} from "@azure/core-rest-pipeline";
 import { decode, encode } from "./base64.js";
 import type {
-  AutocompleteRequest,
   AutocompleteResult,
   IndexDocumentsResult,
   QueryAnswerType as BaseAnswers,
   QueryCaptionType as BaseCaptions,
   QueryRewritesType as GeneratedQueryRewrites,
   SearchRequest as GeneratedSearchRequest,
-  SuggestRequest,
   VectorQueryUnion as GeneratedVectorQuery,
-} from "./data/models/index.js";
-import { SearchClient as GeneratedClient } from "./data/searchClient.js";
+} from "./models/azure/search/documents/index.js";
+import type { SearchClientOptionalParams } from "./search/searchClient.js";
+import { SearchClient as GeneratedClient } from "./search/searchClient.js";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
 import type {
   AutocompleteOptions,
@@ -58,12 +59,13 @@ import { KnownSearchAudience } from "./searchAudience.js";
 import type { IndexDocumentsClient } from "./searchIndexingBufferedSender.js";
 import { deserialize, serialize } from "./serialization.js";
 import * as utils from "./serviceUtils.js";
-import { createSpan } from "./tracing.js";
+import { createSpan, tracingClient } from "./tracing.js";
+import type { GetDocumentOptionalParams, SuggestPostOptionalParams } from "./search/index.js";
 
 /**
  * Client options used to configure AI Search API requests.
  */
-export interface SearchClientOptions extends ExtendedCommonClientOptions {
+export interface SearchClientOptions extends ClientOptions {
   /**
    * The API version to use when communicating with the service.
    * @deprecated use {@link serviceVersion} instead

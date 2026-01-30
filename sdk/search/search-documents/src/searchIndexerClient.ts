@@ -3,12 +3,14 @@
 
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import type { InternalClientPipelineOptions } from "@azure/core-client";
-import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import type { SearchIndexerStatus } from "./service/models/index.js";
-import { SearchServiceClient as GeneratedClient } from "./service/searchServiceClient.js";
+import {
+  bearerTokenAuthenticationPolicy,
+  bearerTokenAuthenticationPolicyName,
+} from "@azure/core-rest-pipeline";
+import type { SearchIndexerStatus } from "./models/azure/search/documents/indexes/index.js";
+import type { SearchIndexerClientOptionalParams } from "./searchIndexer/searchIndexerClient.js";
+import { SearchIndexerClient as GeneratedClient } from "./searchIndexer/searchIndexerClient.js";
 import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
@@ -39,12 +41,13 @@ import type {
   SearchIndexerSkillset,
 } from "./serviceModels.js";
 import * as utils from "./serviceUtils.js";
-import { createSpan } from "./tracing.js";
+import { tracingClient } from "./tracing.js";
+import type { ClientOptions } from "@azure-rest/core-client";
 
 /**
  * Client options used to configure AI Search API requests.
  */
-export interface SearchIndexerClientOptions extends ExtendedCommonClientOptions {
+export interface SearchIndexerClientOptions extends ClientOptions {
   /**
    * The API version to use when communicating with the service.
    * @deprecated use {@Link serviceVersion} instead
