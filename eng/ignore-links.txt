@@ -54,3 +54,5 @@ https://learn.microsoft.com/javascript/api/@azure/arm-computelimit?view=azure-no
 https://learn.microsoft.com/javascript/api/@azure/arm-certificateregistration?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-domainregistration?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-dell-storage
+https://learn.microsoft.com/javascript/api/@azure/arm-managedops?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-managedops
