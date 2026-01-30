@@ -26884,33 +26884,24 @@ importers:
 
   sdk/search/search-documents:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
-      '@azure/core-http-compat':
-        specifier: ^2.1.2
-        version: link:../../core/core-http-compat
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
-        specifier: ^1.18.0
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
       '@azure/core-util':
-        specifier: ^1.11.0
+        specifier: ^1.12.0
         version: link:../../core/core-util
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: ^1.2.0
         version: link:../../core/logger
-      events:
-        specifier: ^3.0.0
-        version: 3.3.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
