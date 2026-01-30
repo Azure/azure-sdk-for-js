@@ -2911,11 +2911,11 @@ export interface EntityRecognitionSkill extends BaseSearchIndexerSkill {
   /**
    * A list of entity categories that should be extracted.
    */
-  categories?: EntityCategory[];
+  categories?: string[];
   /**
    * A value indicating which language code to use. Default is en.
    */
-  defaultLanguageCode?: EntityRecognitionSkillLanguage;
+  defaultLanguageCode?: string;
   /**
    * Determines whether or not to include entities which are well known but don't conform to a
    * pre-defined type. If this configuration is not set (default), set to null or set to false,
@@ -3061,7 +3061,7 @@ export interface SentimentSkill extends BaseSearchIndexerSkill {
   /**
    * A value indicating which language code to use. Default is en.
    */
-  defaultLanguageCode?: SentimentSkillLanguage;
+  defaultLanguageCode?: string;
 }
 
 /**
@@ -3528,8 +3528,9 @@ export type BlobIndexerParsingMode = `${KnownBlobIndexerParsingMode}`;
 export type BlobIndexerPDFTextRotationAlgorithm = `${KnownBlobIndexerPDFTextRotationAlgorithm}`;
 export type CharFilterNames = `${KnownCharFilterName}`;
 export type CustomEntityLookupSkillLanguage = `${KnownCustomEntityLookupSkillLanguage}`;
-export type EntityCategory = `${KnownEntityCategory}`;
-export type EntityRecognitionSkillLanguage = `${KnownEntityRecognitionSkillLanguage}`;
+// TODO: find these enums
+// export type EntityCategory = `${KnownEntityCategory}`;
+// export type EntityRecognitionSkillLanguage = `${KnownEntityRecognitionSkillLanguage}`;
 export type ImageAnalysisSkillLanguage = `${KnownImageAnalysisSkillLanguage}`;
 export type ImageDetail = `${KnownImageDetail}`;
 export type IndexerExecutionEnvironment = `${KnownIndexerExecutionEnvironment}`;
@@ -3581,7 +3582,8 @@ export type SearchFieldDataType = Exclude<
   "Edm.ComplexType" | "Edm.Byte" | "Edm.Half" | "Edm.Int16" | "Edm.SByte" | "Edm.Single"
 >;
 export type SearchIndexerDataSourceType = `${KnownSearchIndexerDataSourceType}`;
-export type SentimentSkillLanguage = `${KnownSentimentSkillLanguage}`;
+// TODO: find this enum
+// export type SentimentSkillLanguage = `${KnownSentimentSkillLanguage}`;
 export type SplitSkillLanguage = `${KnownSplitSkillLanguage}`;
 export type TextSplitMode = `${KnownTextSplitMode}`;
 export type TextTranslationSkillLanguage = `${KnownTextTranslationSkillLanguage}`;

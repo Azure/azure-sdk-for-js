@@ -229,7 +229,7 @@ export class SearchIndexClient {
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public listIndexesNames(options: ListIndexesOptions = {}): IndexNameIterator {
     return utils.mapPagedAsyncIterable(
-      this.client.listIndexes({ ...options, select: "name" }),
+      this.client.listIndexes({ ...options, select: ["name"] }),
       (idx) => idx.name,
     );
   }
@@ -261,7 +261,7 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         const result = await this.client.getSynonymMaps({
           ...updatedOptions,
-          select: "name",
+          select: ["name"],
         });
         return result.synonymMaps.map((sm) => sm.name);
       },
