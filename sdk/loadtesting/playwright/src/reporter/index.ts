@@ -9,6 +9,6 @@
  * @packageDocumentation
  */
 
-import playwrightReporter from "./playwrightReporter.js";
+import { PlaywrightReporter } from "./playwrightReporter.js";
 
-export default playwrightReporter;
+export default PlaywrightReporter;

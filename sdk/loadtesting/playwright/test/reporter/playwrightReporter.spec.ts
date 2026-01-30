@@ -3,7 +3,7 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import type { FullConfig } from "@playwright/test";
-import PlaywrightReporter from "../../src/reporter/playwrightReporter.js";
+import { PlaywrightReporter } from "../../src/reporter/playwrightReporter.js";
 import { ServiceAuth, InternalEnvironmentVariables } from "../../src/common/constants.js";
 import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig.js";
 import { state } from "../../src/common/state.js";
