@@ -179,7 +179,7 @@ describe.runIf(isLiveMode())("Foundry Agent Execution - Live", () => {
           { timeout: 30000 },
         )) as ServerEventResponseFoundryAgentCallArgumentsDelta;
 
-        expect(deltaEvent.type).toBe("response.foundry_agent_call_arguments.delta");
+        expect(deltaEvent.type).toBe(KnownServerEventType.ResponseFoundryAgentCallArgumentsDelta);
         expect(deltaEvent.itemId).toBeTruthy();
         expect(deltaEvent.responseId).toBeTruthy();
         console.log("Received arguments delta:", deltaEvent.delta);
@@ -202,7 +202,7 @@ describe.runIf(isLiveMode())("Foundry Agent Execution - Live", () => {
           { timeout: 30000 },
         )) as ServerEventResponseFoundryAgentCallArgumentsDone;
 
-        expect(doneEvent.type).toBe("response.foundry_agent_call_arguments.done");
+        expect(doneEvent.type).toBe(KnownServerEventType.ResponseFoundryAgentCallArgumentsDone);
         expect(doneEvent.itemId).toBeTruthy();
         expect(doneEvent.responseId).toBeTruthy();
         expect(doneEvent.arguments).toBeDefined();
@@ -226,7 +226,7 @@ describe.runIf(isLiveMode())("Foundry Agent Execution - Live", () => {
           { timeout: 30000 },
         )) as ServerEventResponseFoundryAgentCallInProgress;
 
-        expect(inProgressEvent.type).toBe("response.foundry_agent_call.in_progress");
+        expect(inProgressEvent.type).toBe(KnownServerEventType.ResponseFoundryAgentCallInProgress);
         expect(inProgressEvent.itemId).toBeTruthy();
         expect(inProgressEvent.outputIndex).toBeDefined();
         console.log("Agent execution in progress, itemId:", inProgressEvent.itemId);
@@ -249,7 +249,7 @@ describe.runIf(isLiveMode())("Foundry Agent Execution - Live", () => {
           { timeout: 45000 },
         )) as ServerEventResponseFoundryAgentCallCompleted;
 
-        expect(completedEvent.type).toBe("response.foundry_agent_call.completed");
+        expect(completedEvent.type).toBe(KnownServerEventType.ResponseFoundryAgentCallCompleted);
         expect(completedEvent.itemId).toBeTruthy();
         console.log("Agent completed, itemId:", completedEvent.itemId);
       },
