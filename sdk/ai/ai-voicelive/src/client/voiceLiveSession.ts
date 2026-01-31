@@ -16,13 +16,13 @@ import {
   type ServerEventUnion,
   KnownClientEventType,
   KnownServerEventType,
-} from "./models/index.js";
-import { ConnectionManager, ConnectionState } from "./websocket/connectionManager.js";
-import { VoiceLiveWebSocketFactory } from "./websocket/websocketFactory.js";
-import { VoiceLiveMessageParser } from "./protocol/messageParser.js";
-import { CredentialHandler } from "./auth/credentialHandler.js";
-import { VoiceLiveConnectionError, classifyConnectionError } from "./errors/index.js";
-import { logger } from "./logger.js";
+} from "../models/index.js";
+import { ConnectionManager, ConnectionState } from "../websocket/connectionManager.js";
+import { VoiceLiveWebSocketFactory } from "../websocket/websocketFactory.js";
+import { VoiceLiveMessageParser } from "../protocol/messageParser.js";
+import { CredentialHandler } from "../auth/credentialHandler.js";
+import { VoiceLiveConnectionError, classifyConnectionError } from "../errors/index.js";
+import { logger } from "../logger.js";
 import type {
   VoiceLiveSessionHandlers,
   VoiceLiveSubscription,
@@ -31,8 +31,8 @@ import type {
   ConnectedEventArgs,
   DisconnectedEventArgs,
   ErrorEventArgs,
-} from "./handlers/sessionHandlers.js";
-import { SubscriptionManager } from "./handlers/subscriptionManager.js";
+} from "../handlers/sessionHandlers.js";
+import { SubscriptionManager } from "../handlers/subscriptionManager.js";
 
 export interface VoiceLiveSessionOptions {
   /** Connection timeout in milliseconds */
