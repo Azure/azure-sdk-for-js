@@ -4,11 +4,27 @@
 
 ### Features Added
 
+- Add support for agents v2 (40046f166045d78164a82428377eca6d9e8026ec)
+- Added Azure AI Foundry Agent support for integrating AI agents
+  - `FoundryAgentTool` tool type for connecting to Foundry Agents
+  - `FoundryAgentContextType` and `KnownFoundryAgentContextType` for agent context configuration
+  - `ResponseFoundryAgentCallItem` for agent call responses
+  - Foundry Agent execution events (`ServerEventResponseFoundryAgentCallArgumentsDelta`, `ServerEventResponseFoundryAgentCallArgumentsDone`, `ServerEventResponseFoundryAgentCallInProgress`, `ServerEventResponseFoundryAgentCallCompleted`, `ServerEventResponseFoundryAgentCallFailed`)
+- Added reasoning effort configuration with `ReasoningEffort` and `KnownReasoningEffort`
+- Added filler response configuration
+  - `FillerResponseConfig`, `BasicFillerResponseConfig`, `LlmFillerResponseConfig` types
+  - `FillerResponseConfigBase`, `FillerResponseConfigBaseUnion` base types
+  - `FillerResponseConfigType`, `KnownFillerResponseConfigType` for configuration type selection
+  - `FillerTrigger`, `KnownFillerTrigger` for trigger configuration
+
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- Added integration tests for Foundry Agent connection and execution
+- Refactored client modules into `client/` subdirectory for better organization
 
 ## 1.0.0-beta.2 (2026-01-05)
 
