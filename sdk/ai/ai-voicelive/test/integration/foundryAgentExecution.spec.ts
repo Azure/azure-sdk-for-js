@@ -43,19 +43,6 @@ import {
   getOrCreateTestAgent,
 } from "../infrastructure/index.js";
 
-// Only configure dotenv in Node.js environments
-if (typeof self === "undefined") {
-  try {
-    console.log("Configuring dotenv for Foundry Agent Execution tests");
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    require("dotenv").config();
-  } catch {
-    // dotenv not available or we're in a browser, ignore
-  }
-} else {
-  console.log("Skipping dotenv configuration in browser environment");
-}
-
 describe.runIf(isLiveMode())("Foundry Agent Execution - Live", () => {
   let client: VoiceLiveClient;
   let sessions: VoiceLiveSession[] = [];
@@ -90,7 +77,6 @@ describe.runIf(isLiveMode())("Foundry Agent Execution - Live", () => {
     }
 
     console.info(`Creating VoiceLiveClient for endpoint: ${endpoint}`);
-    // Agent integration requires AAD auth - API keys don't work
     if (!apiKey) {
       const credential = createTestCredential();
       client = new VoiceLiveClient(endpoint, credential, {
@@ -188,7 +174,6 @@ describe.runIf(isLiveMode())("Foundry Agent Execution - Live", () => {
         await sendMathQuestion(session);
 
         // Try to collect agent call events
-        // Note: The AI may not always choose to use the agent, making this non-deterministic
         const deltaEvent = (await recorder.waitForEvent(
           KnownServerEventType.ResponseFoundryAgentCallArgumentsDelta,
           { timeout: 30000 },

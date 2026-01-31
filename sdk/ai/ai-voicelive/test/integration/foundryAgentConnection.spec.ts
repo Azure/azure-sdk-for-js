@@ -38,19 +38,6 @@ import {
   getOrCreateTestAgent,
 } from "../infrastructure/index.js";
 
-// Only configure dotenv in Node.js environments
-if (typeof self === "undefined") {
-  try {
-    console.log("Configuring dotenv for Foundry Agent Connection tests");
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    require("dotenv").config();
-  } catch {
-    // dotenv not available or we're in a browser, ignore
-  }
-} else {
-  console.log("Skipping dotenv configuration in browser environment");
-}
-
 describe.runIf(isLiveMode())("Foundry Agent Connection - Live", () => {
   let client: VoiceLiveClient;
   let sessions: VoiceLiveSession[] = [];
@@ -85,7 +72,6 @@ describe.runIf(isLiveMode())("Foundry Agent Connection - Live", () => {
     }
 
     console.info(`Creating VoiceLiveClient for endpoint: ${endpoint}`);
-    // Create client - prefer AAD credential for agent integration (API key auth doesn't work with agents)
     if (!apiKey) {
       const credential = createTestCredential();
       client = new VoiceLiveClient(endpoint, credential, {

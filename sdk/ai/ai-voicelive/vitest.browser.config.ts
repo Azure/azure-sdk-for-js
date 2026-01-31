@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import "dotenv/config";
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.browser.shared.config.ts";
 

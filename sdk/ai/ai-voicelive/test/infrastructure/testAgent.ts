@@ -6,11 +6,14 @@
  *
  * Provides utilities for creating and discovering Foundry agents
  * for integration testing with VoiceLive.
+ *
+ * Note: Agent creation/discovery requires DefaultAzureCredential which only works in Node.js.
+ * In browser environments, these functions assume agents already exist and return the expected names.
  */
 
-import { AIProjectClient } from "@azure/ai-projects";
-import type { PromptAgentDefinition } from "@azure/ai-projects";
-import { DefaultAzureCredential } from "@azure/identity";
+// Only import Node-specific modules in Node.js environment
+const isNodeEnvironment = typeof window === "undefined" && typeof self === "undefined";
+
 import { TestConstants } from "./testConstants.js";
 import type { FoundryAgentTool } from "../../src/models/index.js";
 
@@ -56,6 +59,7 @@ function getProjectName(): string {
 
 /**
  * Creates a Foundry agent with the specified name.
+ * Note: This function only works in Node.js environments.
  *
  * @param agentName - Name for the agent (defaults to TEST_AGENT_NAME)
  * @param options - Optional configuration for the agent
@@ -65,14 +69,23 @@ export async function createTestAgent(
   agentName: string = TEST_AGENT_NAME,
   options?: CreateAgentOptions,
 ): Promise<string> {
+  // In browser environments, agent creation is not supported
+  if (!isNodeEnvironment) {
+    console.warn(`Browser environment: cannot create agent "${agentName}", returning name only`);
+    return agentName;
+  }
+
+  const { AIProjectClient } = await import("@azure/ai-projects");
+  const { DefaultAzureCredential } = await import("@azure/identity");
+
   const endpoint = getProjectEndpoint();
   const modelName = options?.model ?? process.env.MODEL_DEPLOYMENT_NAME ?? "gpt-4o";
 
   console.info(`Creating agent "${agentName}" with model: ${modelName} at endpoint: ${endpoint}`);
   const client = new AIProjectClient(endpoint, new DefaultAzureCredential());
 
-  const definition: PromptAgentDefinition = {
-    kind: "prompt",
+  const definition = {
+    kind: "prompt" as const,
     model: modelName,
     instructions: options?.instructions ?? DEFAULT_AGENT_INSTRUCTIONS,
   };
@@ -87,11 +100,21 @@ export async function createTestAgent(
 
 /**
  * Finds a Foundry agent by name.
+ * Note: This function only works in Node.js environments.
  *
  * @param agentName - Name of the agent to find (defaults to TEST_AGENT_NAME)
  * @returns Promise resolving to the agent name if found, or empty string if not found
  */
 export async function findTestAgent(agentName: string = TEST_AGENT_NAME): Promise<string> {
+  // In browser environments, assume agent exists
+  if (!isNodeEnvironment) {
+    console.log(`Browser environment: assuming agent "${agentName}" exists`);
+    return agentName;
+  }
+
+  const { AIProjectClient } = await import("@azure/ai-projects");
+  const { DefaultAzureCredential } = await import("@azure/identity");
+
   const endpoint = getProjectEndpoint();
   const client = new AIProjectClient(endpoint, new DefaultAzureCredential());
   console.info(`Searching for agent "${agentName}" at endpoint:`, endpoint);
@@ -110,6 +133,7 @@ export async function findTestAgent(agentName: string = TEST_AGENT_NAME): Promis
 /**
  * Gets or creates a Foundry agent by name.
  * First attempts to find an existing agent, creates one if not found.
+ * In browser environments, assumes the agent already exists and returns the name.
  *
  * @param agentName - Name of the agent (defaults to TEST_AGENT_NAME)
  * @param options - Optional configuration used when creating a new agent
@@ -119,6 +143,12 @@ export async function getOrCreateTestAgent(
   agentName: string = TEST_AGENT_NAME,
   options?: CreateAgentOptions,
 ): Promise<string> {
+  // In browser environments, assume agents already exist (created by Node tests)
+  if (!isNodeEnvironment) {
+    console.log(`Browser environment: assuming agent "${agentName}" exists`);
+    return agentName;
+  }
+
   const existingAgent = await findTestAgent(agentName);
   if (existingAgent) {
     return existingAgent;
