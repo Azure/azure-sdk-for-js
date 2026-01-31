@@ -6,7 +6,6 @@ import type {
   PipelineRequest,
   PipelineResponse,
   RawHttpHeaders,
-  RequestBodyType,
   TransferProgressEvent,
   RawHttpHeadersInput,
 } from "../interfaces.js";
@@ -91,7 +90,7 @@ export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: u
 
 /**
  * Wrapper object for http request and response. Deserialized object is stored in
- * the `parsedBody` property when the response body is received in JSON.
+ * the `parsedBody` property when the response body is received in JSON or other parseable formats.
  */
 export interface FullOperationResponse extends PipelineResponse {
   /**
@@ -100,9 +99,9 @@ export interface FullOperationResponse extends PipelineResponse {
   rawHeaders?: RawHttpHeaders;
 
   /**
-   * The response body as parsed JSON.
+   * The response body as parsed content (JSON, multipart, etc.)
    */
-  parsedBody?: RequestBodyType;
+  parsedBody?: unknown;
 
   /**
    * The request that generated the response.
