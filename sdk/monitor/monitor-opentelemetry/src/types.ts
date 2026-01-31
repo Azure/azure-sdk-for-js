@@ -193,11 +193,10 @@ export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://global.livediagnostics.moni
 export const AzureMonitorSampleRate = "microsoft.sample_rate";
 
 /**
- * Enables the preview version of customer-facing SDK Stats.
+ * Disables customer-facing SDK Stats.
  * @internal
  */
-export const APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW =
-  "APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW";
+export const APPLICATIONINSIGHTS_SDKSTATS_DISABLED = "APPLICATIONINSIGHTS_SDKSTATS_DISABLED";
 
 export enum StatsbeatFeature {
   NONE = 0,
