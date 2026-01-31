@@ -12,6 +12,9 @@ export default mergeConfig(
   defineConfig({
     optimizeDeps: {
       include: ["@azure-tools/test-recorder"],
+      // @azure/core-lro must be excluded from Vite's dependency optimization
+      // because it's a workspace dependency that Vite cannot properly pre-bundle.
+      exclude: ["@azure/core-lro"],
     },
     test: {
       // Enable verbose reporting for debugging
