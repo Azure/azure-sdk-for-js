@@ -17,6 +17,16 @@ import { TokenCredential } from '@azure/core-auth';
 export type ActionType = string;
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
@@ -33,6 +43,7 @@ export interface DeidPropertiesUpdate {
 export interface DeidService extends TrackedResource {
     identity?: ManagedServiceIdentity;
     properties?: DeidServiceProperties;
+    sku?: DeidServiceSku;
 }
 
 // @public
@@ -56,6 +67,18 @@ export interface DeidServicesDeleteOptionalParams extends OperationOptions {
 // @public
 export interface DeidServicesGetOptionalParams extends OperationOptions {
 }
+
+// @public
+export interface DeidServiceSku {
+    capacity?: number;
+    family?: string;
+    name: DeidServiceSkuName;
+    size?: string;
+    tier?: SkuTier;
+}
+
+// @public
+export type DeidServiceSkuName = string;
 
 // @public
 export interface DeidServicesListByResourceGroupOptionalParams extends OperationOptions {
@@ -84,7 +107,28 @@ export interface DeidServicesUpdateOptionalParams extends OperationOptions {
 export interface DeidUpdate {
     identity?: ManagedServiceIdentityUpdate;
     properties?: DeidPropertiesUpdate;
+    sku?: DeidServiceSku;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public (undocumented)
@@ -100,6 +144,7 @@ export class HealthDataAIServicesClient {
 // @public
 export interface HealthDataAIServicesClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -113,6 +158,13 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownDeidServiceSkuName {
+    Basic = "Basic",
+    Free = "Free",
+    Standard = "Standard"
 }
 
 // @public
@@ -180,8 +232,8 @@ export interface ManagedServiceIdentityUpdate {
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -329,6 +381,9 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
 // @public
 export interface SystemData {
