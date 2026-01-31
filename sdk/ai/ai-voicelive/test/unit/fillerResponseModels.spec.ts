@@ -423,8 +423,7 @@ describe("Filler Response Models - Serialization & Validation", () => {
       expect(serialized.filler_response).toBeDefined();
       expect(serialized.filler_response.type).toBe(KnownFillerResponseConfigType.StaticFiller);
       expect(serialized.filler_response.triggers).toEqual([KnownFillerTrigger.Latency]);
-      // Note: fillerResponseConfigSerializer is currently pass-through, so properties remain in camelCase
-      expect(serialized.filler_response.latencyThresholdInMs).toBe(2000);
+      expect(serialized.filler_response.latency_threshold_ms).toBe(2000);
       expect(serialized.filler_response.texts).toEqual(["Just a moment..."]);
     });
 
@@ -446,8 +445,7 @@ describe("Filler Response Models - Serialization & Validation", () => {
       expect(serialized.filler_response.type).toBe(KnownFillerResponseConfigType.LlmFiller);
       expect(serialized.filler_response.model).toBe("gpt-4.1-mini");
       expect(serialized.filler_response.instructions).toBe("Generate brief acknowledgments.");
-      // Note: fillerResponseConfigSerializer is currently pass-through, so properties remain in camelCase
-      expect(serialized.filler_response.maxCompletionTokens).toBe(50);
+      expect(serialized.filler_response.max_completion_tokens).toBe(50);
     });
 
     it("should serialize RequestSession without fillerResponse", () => {
@@ -494,8 +492,7 @@ describe("Filler Response Models - Serialization & Validation", () => {
         KnownFillerTrigger.Latency,
         KnownFillerTrigger.Tool,
       ]);
-      // Note: fillerResponseConfigSerializer is currently pass-through, so properties remain in camelCase
-      expect(serialized.filler_response.latencyThresholdInMs).toBe(3000);
+      expect(serialized.filler_response.latency_threshold_ms).toBe(3000);
     });
   });
 

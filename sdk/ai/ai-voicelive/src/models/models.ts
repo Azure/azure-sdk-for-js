@@ -2013,11 +2013,11 @@ export type ReasoningEffort = string;
 export type FillerResponseConfig = BasicFillerResponseConfig | LlmFillerResponseConfig;
 
 export function fillerResponseConfigSerializer(item: FillerResponseConfig): any {
-  return item;
+  return fillerResponseConfigBaseUnionSerializer(item);
 }
 
 export function fillerResponseConfigDeserializer(item: any): FillerResponseConfig {
-  return item;
+  return fillerResponseConfigBaseUnionDeserializer(item) as FillerResponseConfig;
 }
 
 /**
