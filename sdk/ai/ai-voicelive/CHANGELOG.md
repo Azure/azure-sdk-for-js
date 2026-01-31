@@ -4,7 +4,6 @@
 
 ### Features Added
 
-- Add support for agents v2 (40046f166045d78164a82428377eca6d9e8026ec)
 - Added Azure AI Foundry Agent support for integrating AI agents
   - `FoundryAgentTool` tool type for connecting to Foundry Agents
   - `FoundryAgentContextType` and `KnownFoundryAgentContextType` for agent context configuration
@@ -18,6 +17,10 @@
   - `FillerTrigger`, `KnownFillerTrigger` for trigger configuration
 
 ### Breaking Changes
+
+- `KnownOutputAudioFormat` enum values changed wire format from hyphens to underscores:
+  - `pcm16-8000hz` → `pcm16_8000hz`
+  - `pcm16-16000hz` → `pcm16_16000hz`
 
 ### Bugs Fixed
 
