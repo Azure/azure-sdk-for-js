@@ -68,6 +68,13 @@ export { createDefaultHttpClient } from "./defaultHttpClient.js";
 export { getClient } from "./client/getClient.js";
 export { operationOptionsToRequestParameters } from "./client/operationOptionHelpers.js";
 export { createRestError } from "./client/restError.js";
+export {
+  getBoundaryFromContentType,
+  isMultipartContentType,
+  parseMultipartResponse,
+  type MultipartPart,
+  type MultipartResponseBody,
+} from "./client/multipartResponse.js";
 export type {
   Client,
   ClientOptions,
