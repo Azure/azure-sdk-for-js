@@ -1438,7 +1438,7 @@ export class BlobClient extends StorageClient {
   public async delete(options: BlobDeleteOptions = {}): Promise<BlobDeleteResponse> {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan("BlobClient-delete", options, async (updatedOptions) => {
-      return attachResponse<BlobDeleteHeaders, BlobDeleteHeaders>(() =>
+      return createResponseWrapper<BlobDeleteHeaders, BlobDeleteHeaders>(() =>
         this.blobContext.delete({
           abortSignal: options.abortSignal,
           deleteSnapshots: options.deleteSnapshots,
@@ -1496,7 +1496,7 @@ export class BlobClient extends StorageClient {
    */
   public async undelete(options: BlobUndeleteOptions = {}): Promise<BlobUndeleteResponse> {
     return tracingClient.withSpan("BlobClient-undelete", options, async (updatedOptions) => {
-      return attachResponse<BlobUndeleteHeaders, BlobUndeleteHeaders>(() =>
+      return createResponseWrapper<BlobUndeleteHeaders, BlobUndeleteHeaders>(() =>
         this.blobContext.undelete({
           abortSignal: options.abortSignal,
           tracingOptions: updatedOptions.tracingOptions,
@@ -1527,7 +1527,7 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlobClient-setHTTPHeaders", options, async (updatedOptions) => {
-      return attachResponse<BlobSetHttpHeadersHeaders, BlobSetHttpHeadersHeaders>(() =>
+      return createResponseWrapper<BlobSetHttpHeadersHeaders, BlobSetHttpHeadersHeaders>(() =>
         this.blobContext.setProperties({
           abortSignal: options.abortSignal,
           blobHttpHeaders: blobHTTPHeaders,
@@ -1561,7 +1561,7 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlobClient-setMetadata", options, async (updatedOptions) => {
-      return attachResponse<BlobSetMetadataHeaders, BlobSetMetadataHeaders>(() =>
+      return createResponseWrapper<BlobSetMetadataHeaders, BlobSetMetadataHeaders>(() =>
         this.blobContext.setMetadata({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
@@ -1589,7 +1589,7 @@ export class BlobClient extends StorageClient {
    */
   public async setTags(tags: Tags, options: BlobSetTagsOptions = {}): Promise<BlobSetTagsResponse> {
     return tracingClient.withSpan("BlobClient-setTags", options, async (updatedOptions) => {
-      return attachResponse<BlobSetTagsHeaders, BlobSetTagsHeaders>(() =>
+      return createResponseWrapper<BlobSetTagsHeaders, BlobSetTagsHeaders>(() =>
         this.blobContext.setTags({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
@@ -1612,7 +1612,7 @@ export class BlobClient extends StorageClient {
    */
   public async getTags(options: BlobGetTagsOptions = {}): Promise<BlobGetTagsResponse> {
     return tracingClient.withSpan("BlobClient-getTags", options, async (updatedOptions) => {
-      const response = attachResponse<BlobGetTagsResponseInternal, BlobGetTagsHeaders, BlobTags>(
+      const response = createResponseWrapper<BlobGetTagsResponseInternal, BlobGetTagsHeaders, BlobTags>(
         () =>
           this.blobContext.getTags({
             abortSignal: options.abortSignal,
@@ -1656,7 +1656,7 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlobClient-createSnapshot", options, async (updatedOptions) => {
-      return attachResponse<BlobCreateSnapshotHeaders, BlobCreateSnapshotHeaders>(() =>
+      return createResponseWrapper<BlobCreateSnapshotHeaders, BlobCreateSnapshotHeaders>(() =>
         this.blobContext.createSnapshot({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
@@ -1792,7 +1792,7 @@ export class BlobClient extends StorageClient {
       "BlobClient-abortCopyFromURL",
       options,
       async (updatedOptions) => {
-        return attachResponse<BlobAbortCopyFromURLHeaders, BlobAbortCopyFromURLHeaders>(() =>
+        return createResponseWrapper<BlobAbortCopyFromURLHeaders, BlobAbortCopyFromURLHeaders>(() =>
           this.blobContext.abortCopyFromUrl(copyId, {
             abortSignal: options.abortSignal,
             leaseAccessConditions: options.conditions,
@@ -1818,7 +1818,7 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     options.sourceConditions = options.sourceConditions || {};
     return tracingClient.withSpan("BlobClient-syncCopyFromURL", options, async (updatedOptions) => {
-      return attachResponse<BlobCopyFromURLHeaders, BlobCopyFromURLHeaders>(() =>
+      return createResponseWrapper<BlobCopyFromURLHeaders, BlobCopyFromURLHeaders>(() =>
         this.blobContext.copyFromUrl(copySource, {
           abortSignal: options.abortSignal,
           metadata: options.metadata,
@@ -1865,7 +1865,7 @@ export class BlobClient extends StorageClient {
     options: BlobSetTierOptions = {},
   ): Promise<BlobSetTierResponse> {
     return tracingClient.withSpan("BlobClient-setAccessTier", options, async (updatedOptions) => {
-      return attachResponse<BlobSetTierHeaders, BlobSetTierHeaders>(() =>
+      return createResponseWrapper<BlobSetTierHeaders, BlobSetTierHeaders>(() =>
         this.blobContext.setTier(toAccessTier(tier)!, {
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,

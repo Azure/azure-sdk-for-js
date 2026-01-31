@@ -44,6 +44,12 @@ import type {
   PageRangeInfo,
 } from "../generatedModels.js";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import type {
+  FullOperationResponse,
+  OperationOptions,
+} from "@azure-rest/core-client";
+import type { CommonOptions } from "../index.js";
+import { toCompatResponse } from "../../../../core/core-http-compat/dist/esm/response.js";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -1020,9 +1026,27 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   throw new TypeError(`Unexpected response object ${response}`);
 }
 
-export async function attachResponse<T extends object, Headers = undefined, Body = undefined>(
-  operation: () => Promise<T>,
-): Promise<WithResponse<T, Headers, Body>> {
-  const response = await operation();
-  return assertResponse<T, Headers, Body>(response);
+export async function attachResponse<T>(
+  options: CommonOptions,
+  callback: (
+    optionsWithOnResponse: Omit<OperationOptions, "onResponse"> & {
+      onResponse: (response: FullOperationResponse) => void;
+    },
+  ) => Promise<T>,
+): Promise<T & { _response: HttpResponse }> {
+  let rawResponse: FullOperationResponse | undefined;
+  const updatedOptions = {
+    ...options,
+    onResponse: (response: FullOperationResponse) => {
+      rawResponse = response;
+    },
+  };
+  const ret = await callback(updatedOptions);
+  if (rawResponse !== undefined) {
+    Object.defineProperty(ret, "_response", {
+      enumerable: false,
+      value: toCompatResponse(rawResponse),
+    });
+  }
+  return ret as T & { _response: HttpResponse };
 }
