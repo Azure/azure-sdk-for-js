@@ -10,21 +10,21 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -17,9 +17,8 @@
  import * as coreHttpCompat from '@azure/core-http-compat';
  import * as coreRestPipeline from '@azure/core-rest-pipeline';
- import { Credential as Credential_2 } from '@azure/storage-blob';
- import { CredentialPolicy } from '@azure/storage-blob';
--import { CredentialPolicyCreator } from '@azure/storage-blob';
+ import { Credential as Credential_2 } from '@azure/storage-common';
+ import { CredentialPolicy } from '@azure/storage-common';
+-import { CredentialPolicyCreator } from '@azure/storage-common';
  import { ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse } from '@azure/storage-blob';
  import { BlobServiceProperties as DataLakeServiceProperties } from '@azure/storage-blob';
  import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
  import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 @@ -53,10 +52,9 @@
- import { StorageRetryOptions } from '@azure/storage-blob';
- import { StorageRetryPolicy } from '@azure/storage-blob';
- import { StorageRetryPolicyFactory } from '@azure/storage-blob';
- import { StorageRetryPolicyType } from '@azure/storage-blob';
--import { StorageSharedKeyCredential } from '@azure/storage-blob';
--import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
-+import type { StorageSharedKeyCredential as StorageSharedKeyCredential_2 } from '@azure/storage-blob';
+ import { StorageRetryOptions } from '@azure/storage-common';
+ import { StorageRetryPolicy } from '@azure/storage-common';
+ import { StorageRetryPolicyFactory } from '@azure/storage-common';
+ import { StorageRetryPolicyType } from '@azure/storage-common';
+-import { StorageSharedKeyCredential } from '@azure/storage-common';
+-import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
++import type { StorageSharedKeyCredential as StorageSharedKeyCredential_2 } from '@azure/storage-common';
  import type { TokenCredential } from '@azure/core-auth';
  import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
  import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';

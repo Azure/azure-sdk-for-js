@@ -28654,6 +28654,9 @@ importers:
       '@azure/storage-blob':
         specifier: ^12.26.0
         version: link:../storage-blob
+      '@azure/storage-common':
+        specifier: ^2.0.0
+        version: link:../storage-common
       '@azure/storage-internal-avro':
         specifier: ^1.0.0
         version: link:../storage-internal-avro
