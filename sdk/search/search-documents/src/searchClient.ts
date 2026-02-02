@@ -28,6 +28,7 @@ import type {
   CountDocumentsOptions,
   DeleteDocumentsOptions,
   GetDocumentOptions,
+  IndexDocumentsAction,
   IndexDocumentsOptions,
   ListSearchResultsPageSettings,
   MergeDocumentsOptions,
@@ -613,8 +614,9 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       options,
       async (updatedOptions) => {
         let status = 0;
+        const serializedActions = serialize<IndexDocumentsAction<TModel>[]>(batch.actions);
         const result = await this.client.index(
-          { actions: serialize(batch.actions) },
+          { actions: utils.convertPublicActionsToGeneratedActions(serializedActions) },
           {
             ...updatedOptions,
             onResponse: (rawResponse, flatResponse) => {

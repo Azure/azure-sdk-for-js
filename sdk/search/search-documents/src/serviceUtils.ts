@@ -4,6 +4,8 @@
 import type {
   SearchResult as GeneratedSearchResult,
   SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
+  IndexAction,
+  IndexActionType,
 } from "./models/azure/search/documents/index.js";
 import type {
   SearchIndexerKnowledgeStore as BaseSearchIndexerKnowledgeStore,
@@ -361,11 +363,11 @@ export function convertFieldsToGenerated(
         filterable: field.filterable ?? false,
         facetable: field.facetable ?? false,
         sortable: field.sortable ?? false,
-        analyzer: field.analyzerName,
-        searchAnalyzer: field.searchAnalyzerName,
-        indexAnalyzer: field.indexAnalyzerName,
-        synonymMaps: field.synonymMapNames,
-        normalizer: field.normalizerName,
+        analyzerName: field.analyzerName,
+        searchAnalyzerName: field.searchAnalyzerName,
+        indexAnalyzerName: field.indexAnalyzerName,
+        synonymMapNames: field.synonymMapNames,
+        normalizerName: field.normalizerName,
       };
     }
   });
@@ -1179,4 +1181,22 @@ export function mapPagedAsyncIterable<T, U>(
       }
     },
   };
+}
+
+/**
+ * Converts public IndexDocumentsAction format to generated IndexAction format.
+ * The public API uses `__actionType` with document properties spread at the root,
+ * while the generated API expects `actionType` with document properties in `additionalProperties`.
+ * @internal
+ */
+export function convertPublicActionsToGeneratedActions<TModel>(
+  actions: Array<{ __actionType: string } & Partial<TModel>>,
+): IndexAction[] {
+  return actions.map((action) => {
+    const { __actionType, ...documentProperties } = action;
+    return {
+      actionType: __actionType as IndexActionType,
+      additionalProperties: documentProperties as Record<string, unknown>,
+    };
+  });
 }

@@ -118,7 +118,7 @@ export interface AzureMachineLearningVectorizer extends VectorSearchVectorizer {
 export interface AzureOpenAIEmbeddingSkill extends SearchIndexerSkill {
     apiKey?: string;
     authIdentity?: SearchIndexerDataIdentityUnion;
-    deploymentName?: string;
+    deploymentId?: string;
     dimensions?: number | null;
     modelName?: AzureOpenAIModelName;
     odatatype: "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
@@ -144,7 +144,7 @@ export interface AzureOpenAIVectorizer extends VectorSearchVectorizer {
 export interface AzureOpenAIVectorizerParameters {
     apiKey?: string;
     authIdentity?: SearchIndexerDataIdentityUnion;
-    deploymentName?: string;
+    deploymentId?: string;
     modelName?: AzureOpenAIModelName;
     resourceUrl?: string;
 }
