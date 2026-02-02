@@ -290,13 +290,12 @@ describe("HttpSender", () => {
       const result = await sender.exportEnvelopes([envelope, envelope, envelope]);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
+      // Wait for persistence to complete
+      await delay(1500);
+
       const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
       // Only the timeout error (408) should be persisted, not the sampling rejections
-      setTimeout(() => {
-        assert.strictEqual(persistedEnvelopes?.length, 1);
-      }, 1500);
-
-      await delay(2000); // wait enough time for timeout callback
+      assert.strictEqual(persistedEnvelopes?.length, 1);
     });
 
     it("should not persist non-retriable failed telemetry", async () => {
