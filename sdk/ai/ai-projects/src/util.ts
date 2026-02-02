@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientOptions as OpenAIClientOptions } from "openai"
+import type { ClientOptions as OpenAIClientOptions } from "openai";
 import type { HttpHeaders, RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
@@ -8,7 +8,9 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
  * @param headers the openai defaultHeaders in openai client options
  * @returns HttpHeaders, normalized from various OpenAI header formats
  */
-export const normalizeOpenAIHeaders = (headers?: OpenAIClientOptions["defaultHeaders"]): HttpHeaders => {
+export const normalizeOpenAIHeaders = (
+  headers?: OpenAIClientOptions["defaultHeaders"],
+): HttpHeaders => {
   if (!headers) {
     return createHttpHeaders();
   }
@@ -50,14 +52,16 @@ export const normalizeOpenAIHeaders = (headers?: OpenAIClientOptions["defaultHea
   if ("forEach" in headers && typeof headers.forEach === "function") {
     const rawHeaders: RawHttpHeadersInput = {};
     // Type assertion since we've verified it has forEach
-    (headers as { forEach: (callback: (value: string, key: string) => void) => void }).forEach((value, key) => {
-      // Merge multiple headers with the same name using comma separation
-      if (rawHeaders[key]) {
-        rawHeaders[key] = `${rawHeaders[key]}, ${value}`;
-      } else {
-        rawHeaders[key] = value;
-      }
-    });
+    (headers as { forEach: (callback: (value: string, key: string) => void) => void }).forEach(
+      (value, key) => {
+        // Merge multiple headers with the same name using comma separation
+        if (rawHeaders[key]) {
+          rawHeaders[key] = `${rawHeaders[key]}, ${value}`;
+        } else {
+          rawHeaders[key] = value;
+        }
+      },
+    );
     return createHttpHeaders(rawHeaders);
   }
 
@@ -87,12 +91,12 @@ export const normalizeOpenAIHeaders = (headers?: OpenAIClientOptions["defaultHea
 /**
  * Get OpenAI default headers with user-agent set appropriately
  * @param defaultHeaders - The default headers from OpenAI client options
- * @param userAgentPrefix - Optional user agent prefix to prepend from  AIProjectClient options 
+ * @param userAgentPrefix - Optional user agent prefix to prepend from  AIProjectClient options
  * @returns HttpHeaders with normalized headers and user-agent set
  */
 export const getOpenAIDefaultHeaders = (
   defaultHeaders?: OpenAIClientOptions["defaultHeaders"],
-  userAgentPrefix?: string
+  userAgentPrefix?: string,
 ): HttpHeaders => {
   const headers = normalizeOpenAIHeaders(defaultHeaders);
 
