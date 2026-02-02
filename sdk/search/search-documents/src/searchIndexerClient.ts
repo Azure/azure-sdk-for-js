@@ -138,7 +138,9 @@ export class SearchIndexerClient {
       },
     };
 
-    this.serviceVersion = this.apiVersion = this.serviceVersion;
+    this.serviceVersion =
+      options.serviceVersion ?? options.apiVersion ?? utils.defaultServiceVersion;
+    this.apiVersion = this.serviceVersion;
 
     this.client = new GeneratedClient(this.endpoint, credential, internalClientPipelineOptions);
     this.pipeline = this.client.pipeline;

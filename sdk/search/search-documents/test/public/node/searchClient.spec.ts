@@ -112,7 +112,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
         },
       }) as const;
 
-    it.only("search with speller", async () => {
+    it("search with speller", async () => {
       const searchResults = await searchClient.search("budjet", {
         skip: 0,
         top: 5,

@@ -732,14 +732,6 @@ export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
 }
 
 export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearchIndex {
-  const vectorizers = index.vectorSearch?.vectorizers || [];
-  for (const vectorizer of vectorizers) {
-    if (vectorizer.kind === "azureOpenAI") {
-      const deploymentId = vectorizer.parameters?.deploymentId;
-      console.log({ deploymentId });
-    }
-  }
-
   const { encryptionKey, tokenFilters, analyzers, tokenizers, fields, similarity } = index;
 
   return {
@@ -888,7 +880,7 @@ export function generatedDataSourceToPublicDataSource(
 ): SearchIndexerDataSourceConnection {
   return {
     name: dataSource.name,
-    description: dataSource.name,
+    description: dataSource.description,
     type: dataSource.type as SearchIndexerDataSourceType,
     connectionString: dataSource.connectionString,
     container: dataSource.container,
