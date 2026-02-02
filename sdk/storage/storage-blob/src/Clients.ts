@@ -206,7 +206,7 @@ import type { BlobSASPermissions } from "./sas/BlobSASPermissions.js";
 import { BlobLeaseClient } from "./BlobLeaseClient.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { _downloadSend } from "./generated-tsp/blob/api/operations.js";
-import { FullOperationResponse } from "@azure-rest/core-client";
+import type { FullOperationResponse, HttpBrowserStreamResponse } from "@azure-rest/core-client";
 import { toCompatResponse } from "../../../core/core-http-compat/dist/esm/response.js";
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -1308,6 +1308,11 @@ export class BlobClient extends StorageClient {
       //   cpkInfo: options.customerProvidedKey,
       //   tracingOptions: updatedOptions.tracingOptions,
       // }),
+      if (!isNodeLike && !(res as BlobDownloadResponseInternal).blobBody) {
+        const response = new Response((res as HttpBrowserStreamResponse).body);
+        (res as BlobDownloadResponseInternal).blobBody = response.blob();
+      }
+
       const wrappedRes: BlobDownloadResponseParsed = {
         ...res,
         _response: assertResponse<BlobDownloadResponseInternal, BlobDownloadHeaders>(res)._response, // _response is made non-enumerable
@@ -6050,14 +6055,16 @@ export class PageBlobClient extends BlobClient {
       options,
       async (updatedOptions) => {
         return assertResponse<PageBlobCopyIncrementalHeaders, PageBlobCopyIncrementalHeaders>(
-          await this.pageBlobContext.copyIncremental(copySource, {
-            abortSignal: options.abortSignal,
-            modifiedAccessConditions: {
-              ...options.conditions,
-              ifTags: options.conditions?.tagConditions,
-            },
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          await attachResponse(updatedOptions, (optionsWithResponse) =>
+            this.pageBlobContext.copyIncremental(copySource, {
+              abortSignal: options.abortSignal,
+              modifiedAccessConditions: {
+                ...options.conditions,
+                ifTags: options.conditions?.tagConditions,
+              },
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
         );
       },
     );
