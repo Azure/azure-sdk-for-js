@@ -22,6 +22,7 @@ import type {
   Blob as StorageBlob,
   BlockBlob,
   PageBlob,
+  EncryptionAlgorithmType,
 } from "./generated-tsp/index.js";
 import type {
   AppendBlobAppendBlockFromUrlHeaders,
@@ -204,6 +205,9 @@ import {
 import type { BlobSASPermissions } from "./sas/BlobSASPermissions.js";
 import { BlobLeaseClient } from "./BlobLeaseClient.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { _downloadSend } from "./generated-tsp/blob/api/operations.js";
+import { FullOperationResponse } from "@azure-rest/core-client";
+import { toCompatResponse } from "../../../core/core-http-compat/dist/esm/response.js";
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
  */
@@ -1254,29 +1258,59 @@ export class BlobClient extends StorageClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
     return tracingClient.withSpan("BlobClient-download", options, async (updatedOptions) => {
-      const res = assertResponse<BlobDownloadResponseInternal, BlobDownloadHeaders>(
-        (await this.blobContext.download({
-          abortSignal: options.abortSignal,
-          leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-          },
-          requestOptions: {
-            onDownloadProgress: isNodeLike ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
-          },
-          range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
-          rangeGetContentMD5: options.rangeGetContentMD5,
-          rangeGetContentCRC64: options.rangeGetContentCrc64,
-          snapshot: options.snapshot,
-          cpkInfo: options.customerProvidedKey,
-          tracingOptions: updatedOptions.tracingOptions,
-        })) as BlobDownloadResponseInternal,
-      );
+      let rawResponse: FullOperationResponse | undefined;
+      const onResponse = (response: FullOperationResponse) => {
+        rawResponse = response;
+      };
+      const context = this.blobContext["_client"];
+      const streamableMethod = _downloadSend(context, {
+        abortSignal: options.abortSignal,
+        ...options.conditions,
+        ifTags: options.conditions?.tagConditions,
+        requestOptions: {
+          onDownloadProgress: isNodeLike ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+        },
+        range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
+        rangeGetContentMd5: options.rangeGetContentMD5,
+        rangeGetContentCrc64: options.rangeGetContentCrc64,
+        snapshot: options.snapshot,
+        encryptionKey: options.customerProvidedKey?.encryptionKey,
+        encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+        encryptionAlgorithm: options.customerProvidedKey
+          ?.encryptionAlgorithm as EncryptionAlgorithmType,
+        onResponse: onResponse,
+        tracingOptions: updatedOptions.tracingOptions,
+      });
 
+      const res = isNodeLike
+        ? await streamableMethod.asNodeStream()
+        : await streamableMethod.asBrowserStream();
+      if (rawResponse) {
+        Object.defineProperty(res, "_response", {
+          value: toCompatResponse(rawResponse)!,
+          enumerable: false,
+        });
+      }
+      // await this.blobContext.download({
+      //   abortSignal: options.abortSignal,
+      //   leaseAccessConditions: options.conditions,
+      //   modifiedAccessConditions: {
+      //     ...options.conditions,
+      //     ifTags: options.conditions?.tagConditions,
+      //   },
+      //   requestOptions: {
+      //     onDownloadProgress: isNodeLike ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+      //   },
+      //   range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
+      //   rangeGetContentMD5: options.rangeGetContentMD5,
+      //   rangeGetContentCRC64: options.rangeGetContentCrc64,
+      //   snapshot: options.snapshot,
+      //   cpkInfo: options.customerProvidedKey,
+      //   tracingOptions: updatedOptions.tracingOptions,
+      // }),
       const wrappedRes: BlobDownloadResponseParsed = {
         ...res,
-        _response: res._response, // _response is made non-enumerable
+        _response: assertResponse<BlobDownloadResponseInternal, BlobDownloadHeaders>(res)._response, // _response is made non-enumerable
         objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
         objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules),
       };
@@ -1333,11 +1367,17 @@ export class BlobClient extends StorageClient {
           // );
 
           return (
-            await this.blobContext.download({
+            await _downloadSend(context, {
               abortSignal: options.abortSignal,
               ...updatedDownloadOptions,
-            })
-          ).readableStreamBody!;
+            }).asNodeStream()
+          ).body!;
+
+          //   await this.blobContext.download({
+          //     abortSignal: options.abortSignal,
+          //     ...updatedDownloadOptions,
+          //   })
+          // ).readableStreamBody!;
         },
         offset,
         res.contentLength!,
@@ -1612,18 +1652,21 @@ export class BlobClient extends StorageClient {
    */
   public async getTags(options: BlobGetTagsOptions = {}): Promise<BlobGetTagsResponse> {
     return tracingClient.withSpan("BlobClient-getTags", options, async (updatedOptions) => {
-      const response = createResponseWrapper<BlobGetTagsResponseInternal, BlobGetTagsHeaders, BlobTags>(
-        () =>
-          this.blobContext.getTags({
-            abortSignal: options.abortSignal,
-            leaseAccessConditions: options.conditions,
-            modifiedAccessConditions: {
-              ...options.conditions,
-              ifTags: options.conditions?.tagConditions,
-            },
-            blobModifiedAccessConditions: options.conditions,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+      const response = createResponseWrapper<
+        BlobGetTagsResponseInternal,
+        BlobGetTagsHeaders,
+        BlobTags
+      >(() =>
+        this.blobContext.getTags({
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          blobModifiedAccessConditions: options.conditions,
+          tracingOptions: updatedOptions.tracingOptions,
+        }),
       );
       const wrappedResponse: BlobGetTagsResponse = {
         ...response,
