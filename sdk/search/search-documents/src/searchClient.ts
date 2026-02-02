@@ -60,11 +60,7 @@ import { deserialize, serialize } from "./serialization.js";
 import * as utils from "./serviceUtils.js";
 import { createSpan, tracingClient } from "./tracing.js";
 import type { ClientOptions, OperationOptions } from "@azure-rest/core-client";
-import type {
-  AutocompletePostOptionalParams,
-  GetDocumentOptionalParams,
-  SuggestPostOptionalParams,
-} from "./search/index.js";
+import type { GetDocumentOptionalParams, SuggestPostOptionalParams } from "./search/index.js";
 
 /**
  * Client options used to configure AI Search API requests.
@@ -289,25 +285,15 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       throw new RangeError("suggesterName must be provided.");
     }
 
+    const { searchFields, ...restOptions } = options;
+
     return tracingClient.withSpan("SearchClient-autocomplete", options, async (updatedOptions) => {
-      // TODO: cleanup the readonly incompat, casting for now
-      /*
-      Argument of type 'AutocompleteOptions<TModel>' is not assignable to parameter of type 'AutocompletePostOptionalParams | undefined'.
-  Type 'AutocompleteOptions<TModel>' is not assignable to type 'AutocompletePostOptionalParams'.
-    Types of property 'searchFields' are incompatible.
-      Type 'SearchFieldArray<TModel> | undefined' is not assignable to type 'string[] | undefined'.
-        Type 'SearchFieldArray<TModel>' is not assignable to type 'string[] | undefined'.
-          Type 'readonly string[] | readonly SelectFields<TModel>[]' is not assignable to type 'string[] | undefined'.
-            The type 'readonly string[]' is 'readonly' and cannot be assigned to the mutable type 'string[]'.
-              Type 'SearchFieldArray<TModel>' is not assignable to type 'string[]'.
-                Type 'readonly string[] | readonly SelectFields<TModel>[]' is not assignable to type 'string[]'.
-                  The type 'readonly string[]' is 'readonly' and cannot be assigned to the mutable type 'string[]'.
-      */
-      return this.client.autocompletePost(
-        searchText,
-        suggesterName,
-        updatedOptions as AutocompletePostOptionalParams,
-      );
+      return this.client.autocompletePost(searchText, suggesterName, {
+        ...updatedOptions,
+        ...restOptions,
+        // Cast readonly array to mutable - the generated code doesn't mutate it
+        searchFields: searchFields as string[] | undefined,
+      });
     });
   }
 
@@ -345,7 +331,8 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       ...restVectorOptions,
       ...restOptions,
       ...nextPageParameters,
-      searchFields,
+      // Cast readonly arrays to mutable - the generated code doesn't mutate them
+      searchFields: searchFields as string[] | undefined,
       semanticFields,
       highlightFields: highlightFields?.split(","), // TODO: verify this
       orderBy,
@@ -547,8 +534,9 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   ): Promise<SuggestDocumentsResult<TModel, TFields>> {
     const { select, searchFields, orderBy, ...nonFieldOptions } = options;
     const fullOptions: SuggestPostOptionalParams = {
-      searchFields,
-      select,
+      // Cast readonly arrays to mutable - the generated code doesn't mutate them
+      searchFields: searchFields as string[] | undefined,
+      select: select as string[] | undefined,
       orderBy,
       ...nonFieldOptions,
     };
@@ -590,7 +578,8 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
           ...updatedOptions,
           selectedFields: updatedOptions.selectedFields as string[] | undefined,
         });
-        return deserialize<NarrowedModel<TModel, TFields>>(result);
+        // The generated code puts document fields in additionalProperties
+        return deserialize<NarrowedModel<TModel, TFields>>(result.additionalProperties ?? {});
       },
     );
   }
@@ -801,7 +790,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     if (fields) {
       return fields.join(",");
     }
-    return fields;
+    return undefined;
   }
 
   private convertQueryAnswers(answers?: QueryAnswer): BaseAnswers | undefined {

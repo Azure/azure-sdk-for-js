@@ -693,7 +693,7 @@ export function generatedSearchResultToPublicSearchResult<
         rerankerBoostedScore,
         captions,
         documentDebugInfo,
-        ...restProps
+        additionalProperties,
       } = result;
       const obj = {
         score,
@@ -702,7 +702,8 @@ export function generatedSearchResultToPublicSearchResult<
         rerankerBoostedScore,
         captions,
         documentDebugInfo,
-        document: restProps,
+        // The generated code puts document fields in additionalProperties
+        document: additionalProperties ?? {},
       };
       return obj as SearchResult<TModel, TFields>;
     },
@@ -715,11 +716,12 @@ export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
   TFields extends SelectFields<TModel>,
 >(searchDocumentsResult: GeneratedSuggestDocumentsResult): SuggestDocumentsResult<TModel, TFields> {
   const results = searchDocumentsResult.results.map<SuggestResult<TModel, TFields>>((element) => {
-    const { text, ...restProps } = element;
+    const { text, additionalProperties } = element;
 
     const obj = {
       text,
-      document: restProps,
+      // The generated code puts document fields in additionalProperties
+      document: additionalProperties ?? {},
     };
 
     return obj as SuggestResult<TModel, TFields>;
