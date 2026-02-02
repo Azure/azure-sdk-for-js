@@ -129,14 +129,18 @@ export async function createClients<IndexModel extends object>(
       name: "debug-policy",
       sendRequest: async (request, next) => {
         // Uncomment the following line to see the requests being sent
-        console.log("==================REQUEST=================");
-        console.log(request);
-        console.log("==================END=================");
+        if (env.AZURE_LOG_LEVEL === "verbose") {
+          console.log("==================REQUEST=================");
+          console.log(request);
+          console.log("==================END=================");
+        }
         const response = await next(request);
         // Uncomment the following line to see the responses being received
-        console.log("==================RESPONSE=================");
-        console.log(response);
-        console.log("==================END=================");
+        if (env.AZURE_LOG_LEVEL === "verbose") {
+          console.log("==================RESPONSE=================");
+          console.log(response);
+          console.log("==================END=================");
+        }
         return response;
       },
     },

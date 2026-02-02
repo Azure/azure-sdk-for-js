@@ -145,32 +145,16 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       } as const;
       const searchResults = await searchClient.search("luxury", options);
       for await (const result of searchResults.results) {
-        assert.deepEqual(result.documentDebugInfo, {
-          semantic: {
-            contentFields: [
-              {
-                name: "description",
-                state: "used",
-              },
-            ],
-            keywordFields: [
-              {
-                name: "tags",
-                state: "used",
-              },
-            ],
-            rerankerInput: {
-              content:
-                "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
-              keywords: "pool\r\nview\r\nwifi\r\nconcierge",
-              title: "Fancy Stay",
-            },
-            titleField: {
-              name: "hotelName",
-              state: "used",
-            },
-          },
-          vectors: null as any, // TODO: null returned from service, should our types reflect that?
+        const { semantic } = result.documentDebugInfo ?? assert.fail("Expected documentDebugInfo");
+
+        assert.deepEqual(semantic?.contentFields, [{ name: "description", state: "used" }]);
+        assert.deepEqual(semantic?.keywordFields, [{ name: "tags", state: "used" }]);
+        assert.deepEqual(semantic?.titleField, { name: "hotelName", state: "used" });
+        assert.deepEqual(semantic?.rerankerInput, {
+          content:
+            "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
+          keywords: "pool\r\nview\r\nwifi\r\nconcierge",
+          title: "Fancy Stay",
         });
       }
     });

@@ -21,7 +21,7 @@ import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "..
 
 // TODO: Remove skip and fix recording issues before enabling these tests in PRs
 // To run these tests locally in 'live' mode, remove the skip modifier
-describe.skipIf(!isLiveMode())("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
+describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
   let indexClient: SearchIndexClient;

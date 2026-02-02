@@ -727,6 +727,7 @@ export async function _getDocumentCountDeserialize(result: PathUncheckedResponse
     throw error;
   }
 
+  console.log({ documentCount: result.body });
   return result.body;
 }
 
