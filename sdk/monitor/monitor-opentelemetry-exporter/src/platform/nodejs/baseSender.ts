@@ -18,7 +18,7 @@ import {
   isStatsbeatShutdownStatus,
 } from "../../export/statsbeat/types.js";
 import type { BreezeResponse } from "../../utils/breezeUtils.js";
-import { isRetriable } from "../../utils/breezeUtils.js";
+import { isRetriable, isSamplingRejection } from "../../utils/breezeUtils.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import {
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
@@ -175,8 +175,13 @@ export abstract class BaseSender {
               // Mark as undefined so we don't process them in countSuccessfulEnvelopes
               successfulEnvelopes[error.index] = undefined as unknown as Envelope;
 
-              // Add to retry list if status code is retriable
-              if (error.statusCode && isRetriable(error.statusCode)) {
+              // Add to retry list if status code is retriable and not a sampling rejection
+              // Sampling rejections should not be retried as the server will always reject these items
+              if (
+                error.statusCode &&
+                isRetriable(error.statusCode) &&
+                !isSamplingRejection(error)
+              ) {
                 filteredEnvelopes.push(envelopes[error.index]);
               }
             });

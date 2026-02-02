@@ -40,6 +40,24 @@ export function isRetriable(statusCode: number): boolean {
   );
 }
 
+/**
+ * Checks if the error message indicates a sampling-related rejection.
+ * Sampling rejections should not be retried as the server will always reject these items.
+ * @internal
+ */
+export function isSamplingRejection(error: BreezeError): boolean {
+  if (!error.message) {
+    return false;
+  }
+  const message = error.message.toLowerCase();
+  // Check for common sampling-related rejection messages from Breeze
+  return (
+    message.includes("sampled out") ||
+    message.includes("sampling") ||
+    message.includes("filtered by sampling")
+  );
+}
+
 //  Convert ms to c# time span format DD.HH:MM:SS.MMMMMM
 export function msToTimeSpan(totalms: number): string {
   if (isNaN(totalms) || totalms < 0) {
