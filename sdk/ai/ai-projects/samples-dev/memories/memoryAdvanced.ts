@@ -14,8 +14,7 @@ import { AIProjectClient } from "@azure/ai-projects";
 import type {
   MemoryStoreDefaultDefinition,
   MemoryStoreDefaultOptions,
-  InputMessage,
-  ItemOutputMessage,
+  EasyInputMessage,
   MemoryStoreUpdateMemoriesPoller,
 } from "@azure/ai-projects";
 import "dotenv/config";
@@ -66,7 +65,7 @@ export async function main(): Promise<void> {
   );
 
   // Extract memories from messages and add them to the memory store
-  const userMessage: InputMessage = {
+  const userMessage: EasyInputMessage = {
     type: "message",
     role: "user",
     content: [
@@ -93,7 +92,7 @@ export async function main(): Promise<void> {
   );
 
   // Extend the previous update with another update and more messages
-  const newMessage: InputMessage = {
+  const newMessage: EasyInputMessage = {
     type: "message",
     role: "user",
     content: [{ type: "input_text", text: "I also like cappuccinos in the afternoon" }],
@@ -120,7 +119,7 @@ export async function main(): Promise<void> {
   }
 
   // Retrieve memories from the memory store
-  const queryMessage: InputMessage = {
+  const queryMessage: EasyInputMessage = {
     type: "message",
     role: "user",
     content: [{ type: "input_text", text: "What are my morning coffee preferences?" }],
@@ -138,21 +137,18 @@ export async function main(): Promise<void> {
   }
 
   // Perform another search using the previous search as context
-  const agentMessage: ItemOutputMessage = {
-    id: "agent-msg-1",
-    type: "output_message",
+  const agentMessage: EasyInputMessage = {
+    type: "message",
     role: "assistant",
     content: [
       {
-        type: "output_text",
+        type: "input_text",
         text: "You previously indicated a preference for dark roast coffee in the morning.",
-        annotations: [],
       },
     ],
-    status: "completed",
   };
 
-  const followupQuery: InputMessage = {
+  const followupQuery: EasyInputMessage = {
     type: "message",
     role: "user",
     content: [{ type: "input_text", text: "What about afternoon?" }], // Follow-up assuming context from previous messages

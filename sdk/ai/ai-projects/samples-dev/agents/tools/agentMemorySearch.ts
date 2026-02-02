@@ -17,7 +17,7 @@ import {
   AIProjectClient,
   MemoryStoreDefaultDefinition,
   MemoryStoreDefaultOptions,
-  MemorySearchTool,
+  MemorySearchPreviewTool,
 } from "@azure/ai-projects";
 import "dotenv/config";
 
@@ -82,8 +82,8 @@ export async function main(): Promise<void> {
     );
 
     // Configure Memory Search tool to attach to the agent
-    const memorySearchTool: MemorySearchTool = {
-      type: "memory_search",
+    const memorySearchTool: MemorySearchPreviewTool = {
+      type: "memory_search_preview",
       memory_store_name: memoryStore.name,
       scope,
       update_delay: 1, // wait briefly after conversation inactivity before updating memories
@@ -157,6 +157,7 @@ export async function main(): Promise<void> {
       console.log("Memory store deleted");
     } catch (error: any) {
       if (error?.statusCode !== 404) {
+        // eslint-disable-next-line no-unsafe-finally
         throw error;
       }
     }
