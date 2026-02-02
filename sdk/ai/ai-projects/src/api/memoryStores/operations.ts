@@ -13,7 +13,7 @@ import {
   _agentsPagedResultMemoryStoreObjectDeserializer,
   DeleteMemoryStoreResponse,
   deleteMemoryStoreResponseDeserializer,
-  itemUnionArraySerializer,
+  inputItemUnionArraySerializer,
   MemoryStoreSearchResponse,
   memoryStoreSearchResponseDeserializer,
   MemoryStoreUpdateResponse,
@@ -68,6 +68,7 @@ export function _deleteScopeSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      "foundry-beta": "MemoryStores=v1",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -119,6 +120,7 @@ export function _getUpdateResultSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-beta": "MemoryStores=v1",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -169,12 +171,13 @@ export function _updateMemoriesSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      "foundry-beta": "MemoryStores=v1",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
     body: {
       scope: scope,
-      items: !options?.items ? options?.items : itemUnionArraySerializer(options?.items),
+      items: !options?.items ? options?.items : inputItemUnionArraySerializer(options?.items),
       previous_update_id: options?.previousUpdateId,
       update_delay: options?.updateDelay,
     },
@@ -238,12 +241,13 @@ export function _searchMemoriesSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      "foundry-beta": "MemoryStores=v1",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
     body: {
       scope: scope,
-      items: !options?.items ? options?.items : itemUnionArraySerializer(options?.items),
+      items: !options?.items ? options?.items : inputItemUnionArraySerializer(options?.items),
       previous_search_id: options?.previousSearchId,
       options: !options?.options
         ? options?.options
@@ -294,6 +298,7 @@ export function _deleteMemoryStoreSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-beta": "MemoryStores=v1",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -343,6 +348,7 @@ export function _listMemoryStoresSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-beta": "MemoryStores=v1",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -394,6 +400,7 @@ export function _getMemoryStoreSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-beta": "MemoryStores=v1",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -442,6 +449,7 @@ export function _updateMemoryStoreSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      "foundry-beta": "MemoryStores=v1",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -491,6 +499,7 @@ export function _createMemoryStoreSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      "foundry-beta": "MemoryStores=v1",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },

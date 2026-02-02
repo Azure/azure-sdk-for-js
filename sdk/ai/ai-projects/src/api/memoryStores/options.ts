@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MemorySearchOptions, ItemUnion, PageOrder } from "../../models/models.js";
+import { MemorySearchOptions, InputItemUnion, PageOrder } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -15,7 +15,7 @@ export interface MemoryStoresUpdateMemoriesOptionalParams extends OperationOptio
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** Conversation items from which to extract memories. */
-  items?: ItemUnion[];
+  items?: InputItemUnion[];
   /** The unique ID of the previous update request, enabling incremental memory updates from where the last operation left off. */
   previousUpdateId?: string;
   /**
@@ -30,7 +30,7 @@ export interface MemoryStoresUpdateMemoriesOptionalParams extends OperationOptio
 /** Optional parameters. */
 export interface MemoryStoresSearchMemoriesOptionalParams extends OperationOptions {
   /** Items for which to search for relevant memories. */
-  items?: ItemUnion[];
+  items?: InputItemUnion[];
   /** The unique ID of the previous search request, enabling incremental memory search from where the last operation left off. */
   previousSearchId?: string;
   /** Memory search options. */

@@ -13,7 +13,7 @@ import {
   apiErrorResponseDeserializer,
   DeleteAgentResponse,
   deleteAgentResponseDeserializer,
-  _AgentsPagedResultAgentObject,
+  AgentsPagedResultAgentObject,
   _agentsPagedResultAgentObjectDeserializer,
   DeleteAgentVersionResponse,
   deleteAgentVersionResponseDeserializer,
@@ -67,7 +67,13 @@ export function _streamAgentContainerLogsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _streamAgentContainerLogsDeserialize(
@@ -187,6 +193,7 @@ export function _deleteAgentVersionSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -287,6 +294,7 @@ export function _createAgentVersionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -351,7 +359,7 @@ export function _listAgentsSend(
 
 export async function _listAgentsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultAgentObject> {
+): Promise<AgentsPagedResultAgentObject> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -394,6 +402,7 @@ export function _deleteAgentSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -444,6 +453,7 @@ export function _updateAgentFromManifestSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -510,6 +520,7 @@ export function _createAgentFromManifestSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -574,6 +585,7 @@ export function _updateAgentSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -629,6 +641,7 @@ export function _createAgentSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },

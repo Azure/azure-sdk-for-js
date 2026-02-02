@@ -3,6 +3,7 @@
 
 import { AIProjectContext as Client } from "../index.js";
 import {
+  apiErrorResponseDeserializer,
   Schedule,
   scheduleSerializer,
   scheduleDeserializer,
@@ -106,6 +107,7 @@ export function _getRunSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-beta": "Insights=v1",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -115,7 +117,9 @@ export function _getRunSend(
 export async function _getRunDeserialize(result: PathUncheckedResponse): Promise<ScheduleRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+    throw error;
   }
 
   return scheduleRunDeserializer(result.body);
@@ -150,8 +154,11 @@ export function _createOrUpdateSend(
   );
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
+    contentType: "application/merge-patch+json",
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },

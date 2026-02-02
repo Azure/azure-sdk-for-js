@@ -48,6 +48,7 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -97,6 +98,7 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },

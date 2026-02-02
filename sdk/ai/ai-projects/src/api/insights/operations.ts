@@ -144,12 +144,13 @@ export function _generateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      "foundry-beta": "Insights=v1",
       ...(options?.repeatabilityRequestId !== undefined
-        ? { "Repeatability-Request-ID": options?.repeatabilityRequestId }
+        ? { "repeatability-request-id": options?.repeatabilityRequestId }
         : {}),
       ...(options?.repeatabilityFirstSent !== undefined
         ? {
-            "Repeatability-First-Sent": !options?.repeatabilityFirstSent
+            "repeatability-first-sent": !options?.repeatabilityFirstSent
               ? options?.repeatabilityFirstSent
               : options?.repeatabilityFirstSent.toUTCString(),
           }

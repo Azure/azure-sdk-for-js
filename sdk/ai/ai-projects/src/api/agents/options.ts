@@ -6,6 +6,8 @@ import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AgentsStreamAgentContainerLogsOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryBeta?: "ContainerAgents=v1";
   /** console returns container stdout/stderr, system returns container app event stream. defaults to console */
   kind?: ContainerLogKind;
   /** When omitted, the server chooses the first replica for console logs. Required to target a specific replica. */
@@ -41,7 +43,10 @@ export interface AgentsListAgentVersionsOptionalParams extends OperationOptions 
 }
 
 /** Optional parameters. */
-export interface AgentsDeleteAgentVersionOptionalParams extends OperationOptions {}
+export interface AgentsDeleteAgentVersionOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1";
+}
 
 /** Optional parameters. */
 export interface AgentsGetAgentVersionOptionalParams extends OperationOptions {}
@@ -63,6 +68,8 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
 
 /** Optional parameters. */
 export interface AgentsCreateAgentVersionOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1" | "WorkflowAgents=v1" | "MemoryStores=v1";
   /** A human-readable description of the agent. */
   description?: string;
   /**
@@ -105,10 +112,15 @@ export interface AgentsListAgentsOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AgentsDeleteAgentOptionalParams extends OperationOptions {}
+export interface AgentsDeleteAgentOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1";
+}
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryBeta?: "MemoryStores=v1";
   /** A human-readable description of the agent. */
   description?: string;
   /**
@@ -124,6 +136,8 @@ export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1";
   /** A human-readable description of the agent. */
   description?: string;
   /**
@@ -139,6 +153,8 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryBeta?: "MemoryStores=v1";
   /** A human-readable description of the agent. */
   description?: string;
   /**
@@ -154,6 +170,8 @@ export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface AgentsCreateAgentOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1" | "WorkflowAgents=v1" | "MemoryStores=v1";
   /** A human-readable description of the agent. */
   description?: string;
   /**

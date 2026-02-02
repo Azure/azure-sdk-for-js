@@ -146,7 +146,7 @@ export class AIProjectClient {
 
     const defaultHeaders = getOpenAIDefaultHeaders(
       opts?.defaultHeaders,
-      this._options?.userAgentOptions?.userAgentPrefix
+      this._options?.userAgentOptions?.userAgentPrefix,
     );
 
     // Destructure opts to exclude defaultHeaders, then override specific properties
