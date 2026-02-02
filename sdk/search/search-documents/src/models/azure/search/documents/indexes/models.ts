@@ -4020,7 +4020,7 @@ export enum KnownRankingOrder {
   /** Sets sort order as BoostedRerankerScore */
   BoostedRerankerScore = "BoostedRerankerScore",
   /** Sets sort order as ReRankerScore */
-  RerankerScore = "RerankerScore",
+  ReRankerScore = "RerankerScore",
 }
 
 /**
@@ -4783,9 +4783,9 @@ export function azureMachineLearningParametersDeserializer(
 /** The name of the embedding model from the Azure AI Foundry Catalog that will be called. */
 export enum KnownAIFoundryModelCatalogName {
   /** OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32 */
-  OpenAiclipImageTextEmbeddingsVitBasePatch32 = "OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32",
+  OpenAIClipImageTextEmbeddingsVitBasePatch32 = "OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32",
   /** OpenAI-CLIP-Image-Text-Embeddings-ViT-Large-Patch14-336 */
-  OpenAiclipImageTextEmbeddingsViTLargePatch14336 = "OpenAI-CLIP-Image-Text-Embeddings-ViT-Large-Patch14-336",
+  OpenAIClipImageTextEmbeddingsViTLargePatch14336 = "OpenAI-CLIP-Image-Text-Embeddings-ViT-Large-Patch14-336",
   /** Facebook-DinoV2-Image-Embeddings-ViT-Base */
   FacebookDinoV2ImageEmbeddingsViTBase = "Facebook-DinoV2-Image-Embeddings-ViT-Base",
   /** Facebook-DinoV2-Image-Embeddings-ViT-Giant */
@@ -5216,7 +5216,7 @@ export interface SearchAlias {
   /** The name of the index this alias maps to. Only one index name may be specified. */
   indexes: string[];
   /** The ETag of the alias. */
-  eTag?: string;
+  etag?: string;
 }
 
 export function searchAliasSerializer(item: SearchAlias): any {
@@ -5225,7 +5225,7 @@ export function searchAliasSerializer(item: SearchAlias): any {
     indexes: item["indexes"].map((p: any) => {
       return p;
     }),
-    "@odata.etag": item["eTag"],
+    "@odata.etag": item["etag"],
   };
 }
 
@@ -5235,7 +5235,7 @@ export function searchAliasDeserializer(item: any): SearchAlias {
     indexes: item["indexes"].map((p: any) => {
       return p;
     }),
-    eTag: item["@odata.etag"],
+    etag: item["@odata.etag"],
   };
 }
 
@@ -10911,22 +10911,22 @@ export interface ChatCompletionResponseFormat {
   /** Specifies how the LLM should format the response. */
   type?: ChatCompletionResponseFormatType;
   /** An open dictionary for extended properties. Required if 'type' == 'json_schema' */
-  jsonSchemaProperties?: ChatCompletionSchemaProperties | null;
+  chatCompletionSchemaProperties?: ChatCompletionSchemaProperties | null;
 }
 
 export function chatCompletionResponseFormatSerializer(item: ChatCompletionResponseFormat): any {
   return {
     type: item["type"],
-    jsonSchemaProperties: !item["jsonSchemaProperties"]
-      ? item["jsonSchemaProperties"]
-      : chatCompletionSchemaPropertiesSerializer(item["jsonSchemaProperties"]),
+    jsonSchemaProperties: !item["chatCompletionSchemaProperties"]
+      ? item["chatCompletionSchemaProperties"]
+      : chatCompletionSchemaPropertiesSerializer(item["chatCompletionSchemaProperties"]),
   };
 }
 
 export function chatCompletionResponseFormatDeserializer(item: any): ChatCompletionResponseFormat {
   return {
     type: item["type"],
-    jsonSchemaProperties: !item["jsonSchemaProperties"]
+    chatCompletionSchemaProperties: !item["jsonSchemaProperties"]
       ? item["jsonSchemaProperties"]
       : chatCompletionSchemaPropertiesDeserializer(item["jsonSchemaProperties"]),
   };

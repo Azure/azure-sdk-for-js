@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { assert, describe, it } from "vitest";
-import type { SearchField as GeneratedSearchField } from "../../src/service/models/index.js";
+import type { SearchField as GeneratedSearchField } from "../../src/models/azure/search/documents/indexes/index.js";
 import { KnownAnalyzerNames } from "../../src/index.js";
 import type { ComplexField, SearchField } from "../../src/serviceModels.js";
 import { convertFieldsToGenerated, convertFieldsToPublic } from "../../src/serviceUtils.js";
@@ -18,11 +18,11 @@ describe("serviceUtils", () => {
         filterable: true,
         facetable: true,
         retrievable: false,
-        analyzer: KnownAnalyzerNames.ArMicrosoft,
-        indexAnalyzer: KnownAnalyzerNames.ArLucene,
-        normalizer: KnownAnalyzerNames.BgLucene,
-        searchAnalyzer: KnownAnalyzerNames.CaLucene,
-        synonymMaps: undefined,
+        analyzerName: KnownAnalyzerNames.ArMicrosoft,
+        indexAnalyzerName: KnownAnalyzerNames.ArLucene,
+        normalizerName: KnownAnalyzerNames.BgLucene,
+        searchAnalyzerName: KnownAnalyzerNames.CaLucene,
+        synonymMapNames: undefined,
       },
     ]);
 
@@ -58,11 +58,11 @@ describe("serviceUtils", () => {
             filterable: true,
             facetable: true,
             retrievable: false,
-            analyzer: KnownAnalyzerNames.ArMicrosoft,
-            indexAnalyzer: KnownAnalyzerNames.ArLucene,
-            normalizer: KnownAnalyzerNames.BgLucene,
-            searchAnalyzer: KnownAnalyzerNames.CaLucene,
-            synonymMaps: undefined,
+            analyzerName: KnownAnalyzerNames.ArMicrosoft,
+            indexAnalyzerName: KnownAnalyzerNames.ArLucene,
+            normalizerName: KnownAnalyzerNames.BgLucene,
+            searchAnalyzerName: KnownAnalyzerNames.CaLucene,
+            synonymMapNames: undefined,
           },
         ],
       },
@@ -118,11 +118,11 @@ describe("serviceUtils", () => {
       filterable: true,
       facetable: true,
       retrievable: false,
-      analyzer: KnownAnalyzerNames.ArMicrosoft,
-      indexAnalyzer: KnownAnalyzerNames.ArLucene,
-      normalizer: KnownAnalyzerNames.BgLucene,
-      searchAnalyzer: KnownAnalyzerNames.CaLucene,
-      synonymMaps: undefined,
+      analyzerName: KnownAnalyzerNames.ArMicrosoft,
+      indexAnalyzerName: KnownAnalyzerNames.ArLucene,
+      normalizerName: KnownAnalyzerNames.BgLucene,
+      searchAnalyzerName: KnownAnalyzerNames.CaLucene,
+      synonymMapNames: undefined,
     });
   });
 
@@ -165,11 +165,11 @@ describe("serviceUtils", () => {
       filterable: true,
       facetable: true,
       retrievable: false,
-      analyzer: KnownAnalyzerNames.ArMicrosoft,
-      indexAnalyzer: KnownAnalyzerNames.ArLucene,
-      normalizer: KnownAnalyzerNames.BgLucene,
-      searchAnalyzer: KnownAnalyzerNames.CaLucene,
-      synonymMaps: undefined,
+      analyzerName: KnownAnalyzerNames.ArMicrosoft,
+      indexAnalyzerName: KnownAnalyzerNames.ArLucene,
+      normalizerName: KnownAnalyzerNames.BgLucene,
+      searchAnalyzerName: KnownAnalyzerNames.CaLucene,
+      synonymMapNames: undefined,
     });
   });
 });

@@ -431,7 +431,7 @@ export type ChatCompletionExtraParametersBehavior = string;
 // @public
 export interface ChatCompletionResponseFormat {
     // Warning: (ae-forgotten-export) The symbol "ChatCompletionSchemaProperties" needs to be exported by the entry point index.d.ts
-    jsonSchemaProperties?: ChatCompletionSchemaProperties | null;
+    chatCompletionSchemaProperties?: ChatCompletionSchemaProperties | null;
     type?: ChatCompletionResponseFormatType;
 }
 
@@ -1545,8 +1545,8 @@ export enum KnownAIFoundryModelCatalogName {
     CohereEmbedV4 = "Cohere-embed-v4",
     FacebookDinoV2ImageEmbeddingsViTBase = "Facebook-DinoV2-Image-Embeddings-ViT-Base",
     FacebookDinoV2ImageEmbeddingsViTGiant = "Facebook-DinoV2-Image-Embeddings-ViT-Giant",
-    OpenAiclipImageTextEmbeddingsVitBasePatch32 = "OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32",
-    OpenAiclipImageTextEmbeddingsViTLargePatch14336 = "OpenAI-CLIP-Image-Text-Embeddings-ViT-Large-Patch14-336"
+    OpenAIClipImageTextEmbeddingsVitBasePatch32 = "OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32",
+    OpenAIClipImageTextEmbeddingsViTLargePatch14336 = "OpenAI-CLIP-Image-Text-Embeddings-ViT-Large-Patch14-336"
 }
 
 // @public
@@ -2311,7 +2311,7 @@ export enum KnownQuerySpeller {
 // @public
 export enum KnownRankingOrder {
     BoostedRerankerScore = "BoostedRerankerScore",
-    RerankerScore = "RerankerScore"
+    ReRankerScore = "RerankerScore"
 }
 
 // @public
@@ -3101,7 +3101,7 @@ export type ScoringStatistics = "local" | "global";
 
 // @public
 export interface SearchAlias {
-    eTag?: string;
+    etag?: string;
     indexes: string[];
     name: string;
 }

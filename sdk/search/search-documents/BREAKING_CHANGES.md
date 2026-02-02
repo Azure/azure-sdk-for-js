@@ -2,24 +2,7 @@
 
 This document summarizes breaking changes introduced by the migration from Swagger to TypeSpec code generation in the `@azure/search-documents` package.
 
-## Property Renames
-
-| Interface                      | Old Property                     | New Property           |
-| ------------------------------ | -------------------------------- | ---------------------- |
-| `SearchAlias`                  | `etag`                           | `eTag`                 |
-| `ChatCompletionResponseFormat` | `chatCompletionSchemaProperties` | `jsonSchemaProperties` |
-
-## Enum Key and Value Changes
-
-### Key Renames
-
-| Enum                             | Old Key                                           | New Key                                           |
-| -------------------------------- | ------------------------------------------------- | ------------------------------------------------- |
-| `KnownRankingOrder`              | `ReRankerScore`                                   | `RerankerScore`                                   |
-| `KnownAIFoundryModelCatalogName` | `OpenAIClipImageTextEmbeddingsVitBasePatch32`     | `OpenAiclipImageTextEmbeddingsVitBasePatch32`     |
-| `KnownAIFoundryModelCatalogName` | `OpenAIClipImageTextEmbeddingsViTLargePatch14336` | `OpenAiclipImageTextEmbeddingsViTLargePatch14336` |
-
-### Value Changes
+## Enum Value Changes
 
 | Enum                                         | Key           | Old Value       | New Value        |
 | -------------------------------------------- | ------------- | --------------- | ---------------- |

@@ -28,6 +28,7 @@ describe.skipIf(!isLiveMode())("KnowledgeRetrievalClient", { timeout: 20_000 }, 
   let openAIClient: OpenAIClient;
   let TEST_INDEX_NAME: string;
   let TEST_BASE_NAME: string;
+  let KNOWLEDGE_SOURCE_NAME: string;
   let knowledgeRetrievalClient: KnowledgeRetrievalClient;
   let chatAzureOpenAIParameters: AzureOpenAIParameters;
 
@@ -35,6 +36,7 @@ describe.skipIf(!isLiveMode())("KnowledgeRetrievalClient", { timeout: 20_000 }, 
     recorder = new Recorder(ctx);
     TEST_INDEX_NAME = createRandomIndexName();
     TEST_BASE_NAME = createRandomIndexName();
+    KNOWLEDGE_SOURCE_NAME = `${TEST_INDEX_NAME}-ks`;
     ({
       searchClient,
       indexClient,
@@ -53,7 +55,7 @@ describe.skipIf(!isLiveMode())("KnowledgeRetrievalClient", { timeout: 20_000 }, 
 
     await indexClient.createKnowledgeSource({
       kind: "searchIndex",
-      name: "searchindex-ks",
+      name: KNOWLEDGE_SOURCE_NAME,
       searchIndexParameters: {
         searchIndexName: TEST_INDEX_NAME,
         searchFields: [{ name: "hotelName" }, { name: "description" }],
@@ -69,7 +71,7 @@ describe.skipIf(!isLiveMode())("KnowledgeRetrievalClient", { timeout: 20_000 }, 
           azureOpenAIParameters: chatAzureOpenAIParameters,
         },
       ],
-      knowledgeSources: [{ name: "searchindex-ks" }],
+      knowledgeSources: [{ name: KNOWLEDGE_SOURCE_NAME }],
     });
 
     await delay(WAIT_TIME);
@@ -78,7 +80,7 @@ describe.skipIf(!isLiveMode())("KnowledgeRetrievalClient", { timeout: 20_000 }, 
 
   afterEach(async () => {
     await indexClient.deleteKnowledgeBase(TEST_BASE_NAME);
-    await indexClient.deleteKnowledgeSource("searchindex-ks");
+    await indexClient.deleteKnowledgeSource(KNOWLEDGE_SOURCE_NAME);
     await indexClient.deleteIndex(TEST_INDEX_NAME);
     await delay(WAIT_TIME);
     await recorder?.stop();

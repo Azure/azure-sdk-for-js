@@ -13,6 +13,7 @@ import {
   SearchIndexerClient,
   AzureKeyCredential,
 } from "../../../src/index.js";
+import { AdditionalPolicyConfig } from "@azure-rest/core-client";
 
 export interface Clients<IndexModel extends object> {
   searchClient: SearchClient<IndexModel>;
@@ -123,12 +124,32 @@ export async function createClients<IndexModel extends object>(
     modelName: "gpt-4o",
   };
 
+  const policy: AdditionalPolicyConfig = {
+    policy: {
+      name: "debug-policy",
+      sendRequest: async (request, next) => {
+        // Uncomment the following line to see the requests being sent
+        console.log("==================REQUEST=================");
+        console.log(request);
+        console.log("==================END=================");
+        const response = await next(request);
+        // Uncomment the following line to see the responses being received
+        console.log("==================RESPONSE=================");
+        console.log(response);
+        console.log("==================END=================");
+        return response;
+      },
+    },
+    position: "perCall",
+  };
+
   const searchClient = new SearchClient<IndexModel>(
     endPoint,
     indexName,
     credential,
     recorder.configureClientOptions({
       serviceVersion,
+      additionalPolicies: [policy],
     }),
   );
   const indexClient = new SearchIndexClient(
@@ -136,6 +157,7 @@ export async function createClients<IndexModel extends object>(
     credential,
     recorder.configureClientOptions({
       serviceVersion,
+      additionalPolicies: [policy],
     }),
   );
   const indexerClient = new SearchIndexerClient(
@@ -143,18 +165,23 @@ export async function createClients<IndexModel extends object>(
     credential,
     recorder.configureClientOptions({
       serviceVersion,
+      additionalPolicies: [policy],
     }),
   );
   const openAIClient = new OpenAIClient(
     openAIEndpoint,
     credential,
-    recorder.configureClientOptions({}),
+    recorder.configureClientOptions({
+      additionalPolicies: [policy],
+    }),
   );
   const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
     endPoint,
     baseName,
     credential,
-    recorder.configureClientOptions({}),
+    recorder.configureClientOptions({
+      additionalPolicies: [policy],
+    }),
   );
 
   return {
