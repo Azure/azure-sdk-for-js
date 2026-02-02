@@ -41,6 +41,9 @@ useAzureMonitor(options);
 
 - Connection String can be set via `APPLICATIONINSIGHTS_CONNECTION_STRING`.
 - Sampler can be set via the OpenTelemetry env vars `OTEL_TRACES_SAMPLER` and `OTEL_TRACES_SAMPLER_ARG` (takes precedence over the `samplingRatio` option). Supported sampler values: `microsoft.rate_limited`, `microsoft.fixed_percentage`, `always_on`, `always_off`, `trace_id_ratio`, `parentbased_always_on`, `parentbased_always_off`, `parentbased_trace_id_ratio`. For `microsoft.rate_limited`, the arg is spans per second; for `trace_id_ratio`/parentbased, the arg is a probability in [0,1]. When the arg is omitted, defaults apply (rate limit disabled; probability defaults to 1). See the upstream OpenTelemetry environment variable spec for full context: https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/.
+- To use the **fixed percentage sampler** (instead of the default rate-limited sampler), you can either:
+  - Set the environment variable `OTEL_TRACES_SAMPLER=microsoft.fixed_percentage` with an optional `OTEL_TRACES_SAMPLER_ARG` for the sampling probability (e.g., `0.5` for 50%).
+  - Set `tracesPerSecond: 0` in the distro options, which disables rate limiting and falls back to using `samplingRatio` for fixed percentage sampling.
 
 ### ESM Support
 
@@ -136,8 +139,13 @@ useAzureMonitor(options);
   </tr>
   <tr>
     <td><code>samplingRatio</code></td>
-    <td>Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out.</td>
+    <td>Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out. Only used when <code>tracesPerSecond</code> is set to 0.</td>
     <td><code>1</code></td>
+  </tr>
+  <tr>
+    <td><code>tracesPerSecond</code></td>
+    <td>The maximum number of traces to sample per second using the rate-limited sampler. Set to 0 to disable rate limiting and use fixed percentage sampling with <code>samplingRatio</code> instead.</td>
+    <td><code>5</code></td>
   </tr>
   <tr>
     <td><code>instrumentationOptions</code></td>
