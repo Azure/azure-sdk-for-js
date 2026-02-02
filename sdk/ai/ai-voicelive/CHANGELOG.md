@@ -16,6 +16,13 @@
   - `FillerResponseConfigBase`, `FillerResponseConfigBaseUnion` base types
   - `FillerResponseConfigType`, `KnownFillerResponseConfigType` for configuration type selection
   - `FillerTrigger`, `KnownFillerTrigger` for trigger configuration
+- Added metadata support for responses
+  - `metadata` property added to `ResponseCreateParams` and `Response` for storing key-value pairs
+- Added new output audio format values
+  - `Pcm168000Hz` for 16-bit PCM audio at 8kHz sampling rate
+  - `Pcm1616000Hz` for 16-bit PCM audio at 16kHz sampling rate
+- Added voice customization enhancements
+  - `customTextNormalizationUrl` property for voice configuration
 
 ### Breaking Changes
 
