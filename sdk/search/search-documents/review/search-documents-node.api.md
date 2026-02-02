@@ -513,6 +513,26 @@ export interface ConditionalSkill extends BaseSearchIndexerSkill {
 }
 
 // @public
+export interface ContentUnderstandingSkill extends BaseSearchIndexerSkill {
+    chunkingProperties?: ContentUnderstandingSkillChunkingProperties | null;
+    extractionOptions?: ContentUnderstandingSkillExtractionOptions[] | null;
+    odataType: "#Microsoft.Skills.Util.ContentUnderstandingSkill";
+}
+
+// @public
+export interface ContentUnderstandingSkillChunkingProperties {
+    maximumLength?: number | null;
+    overlapLength?: number | null;
+    unit?: ContentUnderstandingSkillChunkingUnit | null;
+}
+
+// @public
+export type ContentUnderstandingSkillChunkingUnit = string;
+
+// @public
+export type ContentUnderstandingSkillExtractionOptions = string;
+
+// @public
 export interface CorsOptions {
     allowedOrigins: string[];
     maxAgeInSeconds?: number | null;
@@ -1111,6 +1131,19 @@ export interface IndexedSharePointKnowledgeSourceParams extends BaseKnowledgeSou
     kind: "indexedSharePoint";
 }
 
+// @public
+export interface IndexerCurrentState {
+    readonly allDocsFinalTrackingState?: string;
+    readonly allDocsInitialTrackingState?: string;
+    readonly mode?: IndexingMode;
+    readonly resetDatasourceDocumentIds?: string[];
+    readonly resetDocsFinalTrackingState?: string;
+    readonly resetDocsInitialTrackingState?: string;
+    readonly resetDocumentKeys?: string[];
+    readonly resyncFinalTrackingState?: string;
+    readonly resyncInitialTrackingState?: string;
+}
+
 // @public (undocumented)
 export type IndexerExecutionEnvironment = `${KnownIndexerExecutionEnvironment}`;
 
@@ -1141,6 +1174,14 @@ export type IndexerPermissionOption = string;
 
 // @public
 export type IndexerResyncOption = string;
+
+// @public
+export interface IndexerRuntime {
+    beginningTime: Date;
+    endingTime: Date;
+    remainingSeconds?: number | null;
+    usedSeconds: number;
+}
 
 // @public
 export type IndexerStatus = "unknown" | "error" | "running";
@@ -1668,6 +1709,17 @@ export enum KnownChatCompletionResponseFormatType {
     JsonObject = "jsonObject",
     JsonSchema = "jsonSchema",
     Text = "text"
+}
+
+// @public
+export enum KnownContentUnderstandingSkillChunkingUnit {
+    Characters = "characters"
+}
+
+// @public
+export enum KnownContentUnderstandingSkillExtractionOptions {
+    Images = "images",
+    LocationMetadata = "locationMetadata"
 }
 
 // @public
@@ -3390,8 +3442,6 @@ export interface SearchIndexerLimits {
     readonly maxRunTime?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ContentUnderstandingSkill" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type SearchIndexerSkill = AzureMachineLearningSkill | AzureOpenAIEmbeddingSkill | ConditionalSkill | CustomEntityLookupSkill | DocumentExtractionSkill | DocumentIntelligenceLayoutSkill | ContentUnderstandingSkill | EntityLinkingSkill | EntityRecognitionSkill | EntityRecognitionSkillV3 | ImageAnalysisSkill | KeyPhraseExtractionSkill | LanguageDetectionSkill | MergeSkill | OcrSkill | PIIDetectionSkill | SentimentSkill | SentimentSkillV3 | ShaperSkill | SplitSkill | TextTranslationSkill | VisionVectorizeSkill | WebApiSkills;
 
@@ -3409,13 +3459,11 @@ export interface SearchIndexerSkillset {
 
 // @public
 export interface SearchIndexerStatus {
-    // Warning: (ae-forgotten-export) The symbol "IndexerCurrentState" needs to be exported by the entry point index.d.ts
     readonly currentState?: IndexerCurrentState;
     readonly executionHistory: IndexerExecutionResult[];
     readonly lastResult?: IndexerExecutionResult;
     readonly limits: SearchIndexerLimits;
     readonly name: string;
-    // Warning: (ae-forgotten-export) The symbol "IndexerRuntime" needs to be exported by the entry point index.d.ts
     readonly runtime: IndexerRuntime;
     readonly status: IndexerStatus;
 }
@@ -3569,9 +3617,7 @@ export interface SearchScoreThreshold extends BaseVectorThreshold {
 
 // @public
 export interface SearchServiceStatistics {
-    // Warning: (ae-forgotten-export) The symbol "ServiceCounters" needs to be exported by the entry point index.d.ts
     counters: ServiceCounters;
-    // Warning: (ae-forgotten-export) The symbol "ServiceLimits" needs to be exported by the entry point index.d.ts
     limits: ServiceLimits;
 }
 
@@ -3664,6 +3710,29 @@ export interface SentimentSkillV3 extends BaseSearchIndexerSkill {
     includeOpinionMining?: boolean;
     modelVersion?: string | null;
     odatatype: "#Microsoft.Skills.Text.V3.SentimentSkill";
+}
+
+// @public
+export interface ServiceCounters {
+    aliasCounter: ResourceCounter;
+    dataSourceCounter: ResourceCounter;
+    documentCounter: ResourceCounter;
+    indexCounter: ResourceCounter;
+    indexerCounter: ResourceCounter;
+    skillsetCounter: ResourceCounter;
+    storageSizeCounter: ResourceCounter;
+    synonymMapCounter: ResourceCounter;
+    vectorIndexSizeCounter: ResourceCounter;
+}
+
+// @public
+export interface ServiceLimits {
+    maxComplexCollectionFieldsPerIndex?: number | null;
+    maxComplexObjectsInCollectionsPerDocument?: number | null;
+    maxCumulativeIndexerRuntimeSeconds?: number | null;
+    maxFieldNestingDepthPerIndex?: number | null;
+    maxFieldsPerIndex?: number | null;
+    maxStoragePerIndexInBytes?: number | null;
 }
 
 // @public
