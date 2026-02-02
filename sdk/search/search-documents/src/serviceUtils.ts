@@ -555,13 +555,13 @@ export function generatedVectorSearchVectorizerToPublicVectorizer(
       const { aIServicesVisionParameters: generatedParameters } = generatedVisionVectorizer;
       const parameters = generatedParameters
         ? {
-            ...generatedParameters,
-            modelVersion: generatedParameters.modelVersion ?? undefined,
-            resourceUri: generatedParameters.resourceUri,
-            authIdentity: convertSearchIndexerDataIdentityToPublic(
-              generatedParameters.authIdentity,
-            ),
-          }
+          ...generatedParameters,
+          modelVersion: generatedParameters.modelVersion ?? undefined,
+          resourceUri: generatedParameters.resourceUri,
+          authIdentity: convertSearchIndexerDataIdentityToPublic(
+            generatedParameters.authIdentity,
+          ),
+        }
         : undefined;
       const vectorizer: AIServicesVisionVectorizer = {
         ...generatedVisionVectorizer,
@@ -996,7 +996,7 @@ export function convertKnowledgeBaseToPublic(knowledgeBase: GeneratedKnowledgeBa
 
   return {
     ...knowledgeBase,
-    models: knowledgeBase.models.map((model) => convertKnowledgeBaseModelToPublic(model)),
+    models: knowledgeBase.models?.map((model) => convertKnowledgeBaseModelToPublic(model)),
     encryptionKey: convertEncryptionKeyToPublic(knowledgeBase.encryptionKey),
   };
 }
@@ -1010,6 +1010,7 @@ export function convertKnowledgeBaseToGenerated(
 
   return {
     ...knowledgeBase,
+    models: knowledgeBase.models ?? [],
     encryptionKey: convertEncryptionKeyToGenerated(knowledgeBase.encryptionKey),
   };
 }

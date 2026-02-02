@@ -4,10 +4,8 @@
 import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
-import type { OpenAIClient } from "@azure/openai";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type {
-  AzureOpenAIParameters,
   RemoteSharePointKnowledgeSource,
   SearchClient,
   SearchIndexClient,
@@ -21,15 +19,13 @@ import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "..
 
 // TODO: Remove skip and fix recording issues before enabling these tests in PRs
 // To run these tests locally in 'live' mode, remove the skip modifier
-describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
+describe("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
   let indexClient: SearchIndexClient;
-  let openAIClient: OpenAIClient;
   let TEST_INDEX_NAME: string;
   let TEST_BASE_NAME: string;
   let knowledgeRetrievalClient: KnowledgeRetrievalClient;
-  let chatAzureOpenAIParameters: AzureOpenAIParameters;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
@@ -38,11 +34,9 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
     ({
       searchClient,
       indexClient,
-      openAIClient,
       knowledgeRetrievalClient,
       indexName: TEST_INDEX_NAME,
       baseName: TEST_BASE_NAME,
-      chatAzureOpenAIParameters,
     } = await createClients<Hotel>(
       defaultServiceVersion,
       recorder,
@@ -63,17 +57,12 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
 
     await indexClient.createKnowledgeBase({
       name: TEST_BASE_NAME,
-      models: [
-        {
-          kind: "azureOpenAI",
-          azureOpenAIParameters: chatAzureOpenAIParameters,
-        },
-      ],
+      models: [],
       knowledgeSources: [{ name: "searchindex-ks" }],
     });
 
     await delay(WAIT_TIME);
-    await populateIndex(searchClient, openAIClient);
+    await populateIndex(searchClient);
   });
 
   afterEach(async () => {
@@ -111,12 +100,7 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
 
       await indexClient.createKnowledgeBase({
         name: `${TEST_BASE_NAME}-web`,
-        models: [
-          {
-            kind: "azureOpenAI",
-            azureOpenAIParameters: chatAzureOpenAIParameters,
-          },
-        ],
+        models: [],
         knowledgeSources: [{ name: "web-ks" }],
         outputMode: KnownKnowledgeRetrievalOutputMode.AnswerSynthesis,
       });
@@ -163,12 +147,7 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
 
       await indexClient.createKnowledgeBase({
         name: `${TEST_BASE_NAME}-remotesharepoint`,
-        models: [
-          {
-            kind: "azureOpenAI",
-            azureOpenAIParameters: chatAzureOpenAIParameters,
-          },
-        ],
+        models: [],
         knowledgeSources: [{ name: "remotesharepoint-ks" }],
         outputMode: KnownKnowledgeRetrievalOutputMode.AnswerSynthesis,
       });

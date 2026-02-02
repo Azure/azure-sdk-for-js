@@ -6,8 +6,6 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { delay } from "@azure/core-util";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type {
-  AzureOpenAIParameters,
-  AzureOpenAIVectorizer,
   KnowledgeBase,
   KnowledgeSource,
   SearchIndex,
@@ -71,8 +69,6 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;
     let TEST_BASE_NAME: string;
-    let embeddingAzureOpenAIParameters: AzureOpenAIParameters;
-    let chatAzureOpenAIParameters: AzureOpenAIParameters;
     let knowledgeBase: KnowledgeBase;
     let knowledgeSource: KnowledgeSource;
 
@@ -84,8 +80,6 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         indexClient,
         indexName: TEST_INDEX_NAME,
         baseName: TEST_BASE_NAME,
-        embeddingAzureOpenAIParameters,
-        chatAzureOpenAIParameters,
       } = await createClients<Hotel>(
         defaultServiceVersion,
         recorder,
@@ -101,7 +95,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       };
       knowledgeBase = {
         name: "knowledge-base",
-        models: [{ kind: "azureOpenAI", azureOpenAIParameters: chatAzureOpenAIParameters }],
+        models: [],
         knowledgeSources: [knowledgeSource],
       };
 
@@ -360,15 +354,9 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         kind: "hnsw",
         parameters: { m: 10, efSearch: 1000, efConstruction: 1000, metric: "dotProduct" },
       };
-      const vectorizer: AzureOpenAIVectorizer = {
-        kind: "azureOpenAI",
-        vectorizerName: "vectorizer",
-        parameters: embeddingAzureOpenAIParameters,
-      };
       const profile: VectorSearchProfile = {
         name: "profile",
         algorithmConfigurationName: algorithm.name,
-        vectorizerName: vectorizer.vectorizerName,
       };
 
       let index: SearchIndex = {
@@ -389,7 +377,6 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         ],
         vectorSearch: {
           algorithms: [algorithm],
-          vectorizers: [vectorizer],
           profiles: [profile],
         },
       };
@@ -397,10 +384,6 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         await indexClient.createOrUpdateIndex(index);
         index = await indexClient.getIndex(indexName);
         assert.deepEqual(index.vectorSearch?.algorithms?.[0].name, algorithm.name);
-        assert.deepEqual(
-          index.vectorSearch?.vectorizers?.[0].vectorizerName,
-          vectorizer.vectorizerName,
-        );
         assert.deepEqual(index.vectorSearch?.profiles?.[0].name, profile.name);
       } finally {
         await indexClient.deleteIndex(index);

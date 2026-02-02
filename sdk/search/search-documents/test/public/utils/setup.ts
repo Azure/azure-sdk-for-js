@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { computeSha256Hash, delay } from "@azure/core-util";
 import { assert } from "vitest";
 import type {
@@ -13,7 +13,6 @@ import type {
   VectorSearchAlgorithmConfiguration,
   VectorSearchCompression,
   VectorSearchProfile,
-  VectorSearchVectorizer,
 } from "../../../src/index.js";
 import { GeographyPoint, KnownAnalyzerNames } from "../../../src/index.js";
 import type { Hotel } from "./interfaces.js";
@@ -27,20 +26,6 @@ export async function createIndex(
   serviceVersion: string,
 ): Promise<SearchIndex> {
   const isPreview = serviceVersion.toLowerCase().includes("preview");
-
-  const vectorizers: VectorSearchVectorizer[] = [
-    {
-      kind: "azureOpenAI",
-      vectorizerName: "vector-search-vectorizer",
-      parameters: {
-        deploymentId: env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME ?? "embedding-deployment-name",
-        resourceUrl: env.AZURE_OPENAI_ENDPOINT ?? "https://placeholder.openai.azure.com/",
-        modelName: "text-embedding-ada-002",
-      },
-    },
-  ];
-  await Promise.all(vectorizers.map((v) => renameUniquelyInPlace("vectorizerName", v)));
-  const [azureOpenAiVectorizerName] = vectorizers.map((v) => v.vectorizerName);
 
   const algorithmConfigurations: VectorSearchAlgorithmConfiguration[] = [
     {
@@ -75,18 +60,16 @@ export async function createIndex(
   const vectorSearchProfiles: VectorSearchProfile[] = [
     {
       name: "vector-search-profile-1",
-      vectorizerName: isPreview ? azureOpenAiVectorizerName : undefined,
       algorithmConfigurationName: exhaustiveKnnAlgorithmConfigurationName,
     },
     {
       name: "vector-search-profile-2",
-      vectorizerName: isPreview ? azureOpenAiVectorizerName : undefined,
       algorithmConfigurationName: hnswAlgorithmConfigurationName,
       compressionName: isPreview ? scalarQuantizationCompressionConfigurationName : undefined,
     },
   ];
   await Promise.all(vectorSearchProfiles.map((p) => renameUniquelyInPlace("name", p)));
-  const [azureOpenAiVectorSearchProfileName, azureOpenAiCompressedVectorSearchProfileName] =
+  const [vectorSearchProfileName, compressedVectorSearchProfileName] =
     vectorSearchProfiles.map((p) => p.name);
 
   const vectorFields: SearchField[] = [
@@ -96,7 +79,7 @@ export async function createIndex(
       searchable: true,
       vectorSearchDimensions: 1536,
       hidden: true,
-      vectorSearchProfileName: azureOpenAiVectorSearchProfileName,
+      vectorSearchProfileName: vectorSearchProfileName,
     },
     {
       type: "Collection(Edm.Half)",
@@ -104,7 +87,7 @@ export async function createIndex(
       searchable: true,
       hidden: true,
       vectorSearchDimensions: 1536,
-      vectorSearchProfileName: azureOpenAiCompressedVectorSearchProfileName,
+      vectorSearchProfileName: compressedVectorSearchProfileName,
       stored: false,
     },
   ];
@@ -321,7 +304,6 @@ export async function createIndex(
     },
     vectorSearch: {
       algorithms: algorithmConfigurations,
-      vectorizers: isPreview ? vectorizers : undefined,
       compressions: isPreview ? compressionConfigurations : undefined,
       profiles: vectorSearchProfiles,
     },
