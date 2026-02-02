@@ -117,15 +117,6 @@ All client options interfaces now extend `ClientOptions` from `@azure-rest/core-
 - `SearchIndexerClientOptions`
 - `KnowledgeRetrievalClientOptions`
 
-## Array Mutability Changes
-
-The following array types changed from `readonly` to mutable:
-
-| Type               | Old                                                     | New                                   |
-| ------------------ | ------------------------------------------------------- | ------------------------------------- |
-| `SearchFieldArray` | `readonly string[]` / `readonly SelectFields<TModel>[]` | `string[]` / `SelectFields<TModel>[]` |
-| `SelectArray`      | `readonly TFields[]` / `readonly string[]`              | `TFields[]` / `string[]`              |
-
 ## Known Issue: Null Union Types
 
 Many optional properties now include `| null` in their type signature. For example:
