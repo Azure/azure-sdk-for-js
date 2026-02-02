@@ -61,9 +61,11 @@ describe("Avatar and Voice Models - Serialization & Validation", () => {
         style: "friendly",
         video: {
           bitrate: 2000000,
-          width: 1920,
-          height: 1080,
           codec: "h264",
+          resolution: {
+            width: 1920,
+            height: 1080
+          }
         },
       };
 
