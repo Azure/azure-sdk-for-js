@@ -4488,7 +4488,7 @@ export interface AzureOpenAIVectorizerParameters {
   /** The resource URI of the Azure OpenAI resource. */
   resourceUrl?: string;
   /** ID of the Azure OpenAI model deployment on the designated resource. */
-  deploymentName?: string;
+  deploymentId?: string;
   /** API key of the designated Azure OpenAI resource. */
   apiKey?: string;
   /** The user-assigned managed identity used for outbound connections. */
@@ -4502,7 +4502,7 @@ export function azureOpenAIVectorizerParametersSerializer(
 ): any {
   return {
     resourceUri: item["resourceUrl"],
-    deploymentId: item["deploymentName"],
+    deploymentId: item["deploymentId"],
     apiKey: item["apiKey"],
     authIdentity: !item["authIdentity"]
       ? item["authIdentity"]
@@ -4516,7 +4516,7 @@ export function azureOpenAIVectorizerParametersDeserializer(
 ): AzureOpenAIVectorizerParameters {
   return {
     resourceUrl: item["resourceUri"],
-    deploymentName: item["deploymentId"],
+    deploymentId: item["deploymentId"],
     apiKey: item["apiKey"],
     authIdentity: !item["authIdentity"]
       ? item["authIdentity"]
@@ -10537,7 +10537,7 @@ export interface AzureOpenAIEmbeddingSkill extends SearchIndexerSkill {
   /** The resource URI of the Azure OpenAI resource. */
   resourceUrl?: string;
   /** ID of the Azure OpenAI model deployment on the designated resource. */
-  deploymentName?: string;
+  deploymentId?: string;
   /** API key of the designated Azure OpenAI resource. */
   apiKey?: string;
   /** The user-assigned managed identity used for outbound connections. */
@@ -10559,7 +10559,7 @@ export function azureOpenAIEmbeddingSkillSerializer(item: AzureOpenAIEmbeddingSk
     inputs: inputFieldMappingEntryArraySerializer(item["inputs"]),
     outputs: outputFieldMappingEntryArraySerializer(item["outputs"]),
     resourceUri: item["resourceUrl"],
-    deploymentId: item["deploymentName"],
+    deploymentId: item["deploymentId"],
     apiKey: item["apiKey"],
     authIdentity: !item["authIdentity"]
       ? item["authIdentity"]
@@ -10578,7 +10578,7 @@ export function azureOpenAIEmbeddingSkillDeserializer(item: any): AzureOpenAIEmb
     inputs: inputFieldMappingEntryArrayDeserializer(item["inputs"]),
     outputs: outputFieldMappingEntryArrayDeserializer(item["outputs"]),
     resourceUrl: item["resourceUri"],
-    deploymentName: item["deploymentId"],
+    deploymentId: item["deploymentId"],
     apiKey: item["apiKey"],
     authIdentity: !item["authIdentity"]
       ? item["authIdentity"]
