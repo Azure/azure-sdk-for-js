@@ -14,7 +14,6 @@ import {
   grantCopyAuthorization,
   getResultFile,
   getResult,
-  getOperationStatus,
   getDefaults,
   getAnalyzer,
   deleteResult,
@@ -34,7 +33,6 @@ import type {
   GrantCopyAuthorizationOptionalParams,
   GetResultFileOptionalParams,
   GetResultOptionalParams,
-  GetOperationStatusOptionalParams,
   GetDefaultsOptionalParams,
   GetAnalyzerOptionalParams,
   DeleteResultOptionalParams,
@@ -48,7 +46,6 @@ import type {
   AnalyzeResult,
   ContentAnalyzerAnalyzeOperationStatus,
   ContentAnalyzer,
-  ContentAnalyzerOperationStatus,
   ContentUnderstandingDefaults,
   CopyAuthorization,
   AnalyzeInput,
@@ -156,14 +153,8 @@ export class ContentUnderstandingClient {
     return getResult(this._client, operationId, options);
   }
 
-  /** Get the status of an analyzer creation operation. */
-  getOperationStatus(
-    analyzerId: string,
-    operationId: string,
-    options: GetOperationStatusOptionalParams = { requestOptions: {} },
-  ): Promise<ContentAnalyzerOperationStatus> {
-    return getOperationStatus(this._client, analyzerId, operationId, options);
-  }
+  // CUSTOMIZATION: Removed `getOperationStatus` method - it is marked as @internal in TypeSpec,
+  // but the JS emitter does not respect the @internal decorator. The poller handles operation status internally.
 
   /** Return default settings for this Content Understanding resource. */
   getDefaults(
@@ -230,7 +221,6 @@ export class ContentUnderstandingClient {
     const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
       const res = await _analyzeBinarySend(this._client, analyzerId, contentType, binaryInput, {
         ...options,
-        // CUSTOMIZATION: Always use 'utf16' encoding for JavaScript string compatibility
         stringEncoding: "utf16",
       });
       const operationLocation = res.headers["operation-location"];
@@ -282,7 +272,6 @@ export class ContentUnderstandingClient {
       const res = await _analyzeSend(this._client, analyzerId, {
         ...options,
         inputs,
-        // CUSTOMIZATION: Always use 'utf16' encoding for JavaScript string compatibility
         stringEncoding: "utf16",
       });
       const operationLocation = res.headers["operation-location"];

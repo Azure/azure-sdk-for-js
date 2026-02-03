@@ -74,6 +74,7 @@ Verify each fix listed in the "Current Known Fixes" section below is still appli
 | 7     | ContentUnderstandingClient API customizations                  | `src/contentUnderstandingClient.ts`                        | Custom option types and `analyze` requires `inputs` as second param     |
 | 8     | `result` variable renamed to `varResults` in urlTemplate       | `src/static-helpers/urlTemplate.ts`                        | Uses `const varResults = []` instead of `const result = []`             |
 | 9     | Regex character class fix in urlTemplate                       | `src/static-helpers/urlTemplate.ts`                        | Uses `/[.~-]/` instead of `/[\-.~]/`                                    |
+| 10    | Hide `getOperationStatus` method (@internal not respected)     | `src/contentUnderstandingClient.ts`                        | Method removed - marked @internal in TypeSpec but emitter ignores it    |
 
 **If a fix is now included in the generated code upstream, remove it from this skill document.**
 
@@ -446,6 +447,24 @@ function normalizeUnreserved(uri: string): string {
   });
 }
 ```
+
+---
+
+### Fix 10: Hide getOperationStatus Method (TypeSpec @internal Not Respected)
+
+**File**: `src/contentUnderstandingClient.ts`
+
+**Problem**: The `getOperationStatus` operation is marked with `@internal` in TypeSpec, but the JavaScript emitter does not respect this decorator and still generates the method in the client.
+
+**Why this matters**:
+
+- The method should not be exposed in the public API per the TypeSpec definition
+- The poller returned by `createAnalyzer` and `copyAnalyzer` already handles operation status internally
+- Reduces API surface area and user confusion
+
+**Fix**: Remove the `getOperationStatus` method from the `ContentUnderstandingClient` class. Also remove the related imports (`getOperationStatus`, `GetOperationStatusOptionalParams`, `ContentAnalyzerOperationStatus`).
+
+**Note**: This is a workaround for the TypeSpec JS emitter not respecting the `@internal` decorator. When the emitter is fixed upstream, this customization may no longer be needed.
 
 ---
 

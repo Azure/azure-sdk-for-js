@@ -226,7 +226,6 @@ export class ContentUnderstandingClient {
     deleteResult(operationId: string, options?: DeleteResultOptionalParams): Promise<void>;
     getAnalyzer(analyzerId: string, options?: GetAnalyzerOptionalParams): Promise<ContentAnalyzer>;
     getDefaults(options?: GetDefaultsOptionalParams): Promise<ContentUnderstandingDefaults>;
-    getOperationStatus(analyzerId: string, operationId: string, options?: GetOperationStatusOptionalParams): Promise<ContentAnalyzerOperationStatus>;
     getResult(operationId: string, options?: GetResultOptionalParams): Promise<ContentAnalyzerAnalyzeOperationStatus>;
     getResultFile(operationId: string, path: string, options?: GetResultFileOptionalParams): Promise<Uint8Array>;
     grantCopyAuthorization(analyzerId: string, targetAzureResourceId: string, options?: GrantCopyAuthorizationOptionalParams): Promise<CopyAuthorization>;
