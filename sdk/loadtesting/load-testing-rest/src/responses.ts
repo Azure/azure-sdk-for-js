@@ -672,20 +672,20 @@ export interface LoadTestRunGetLatestInsightsDefaultResponse extends HttpRespons
 }
 
 /** The request has succeeded. */
-export interface LoadTestRunPatchLatestInsights200Response extends HttpResponse {
+export interface LoadTestRunUpdateLatestInsights200Response extends HttpResponse {
   status: "200";
   body: TestRunInsightsOutput;
 }
 
-export interface LoadTestRunPatchLatestInsightsDefaultHeaders {
+export interface LoadTestRunUpdateLatestInsightsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface LoadTestRunPatchLatestInsightsDefaultResponse extends HttpResponse {
+export interface LoadTestRunUpdateLatestInsightsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & LoadTestRunPatchLatestInsightsDefaultHeaders;
+  headers: RawHttpHeaders & LoadTestRunUpdateLatestInsightsDefaultHeaders;
 }
 
 export interface LoadTestRunGenerateInsights202Headers {

@@ -36,7 +36,7 @@ import type {
   LoadTestRunGetTestRunFileParameters,
   LoadTestRunStopParameters,
   LoadTestRunGetLatestInsightsParameters,
-  LoadTestRunPatchLatestInsightsParameters,
+  LoadTestRunUpdateLatestInsightsParameters,
   LoadTestRunGenerateInsightsParameters,
   LoadTestRunListMetricNamespacesParameters,
   LoadTestRunListMetricDefinitionsParameters,
@@ -128,8 +128,8 @@ import type {
   LoadTestRunStopDefaultResponse,
   LoadTestRunGetLatestInsights200Response,
   LoadTestRunGetLatestInsightsDefaultResponse,
-  LoadTestRunPatchLatestInsights200Response,
-  LoadTestRunPatchLatestInsightsDefaultResponse,
+  LoadTestRunUpdateLatestInsights200Response,
+  LoadTestRunUpdateLatestInsightsDefaultResponse,
   LoadTestRunGenerateInsights202Response,
   LoadTestRunGenerateInsightsDefaultResponse,
   LoadTestRunListMetricNamespaces200Response,
@@ -454,9 +454,9 @@ export interface LoadTestRunGetLatestInsights {
   >;
   /** Update the latest insights for the test run. */
   patch(
-    options: LoadTestRunPatchLatestInsightsParameters,
+    options: LoadTestRunUpdateLatestInsightsParameters,
   ): StreamableMethod<
-    LoadTestRunPatchLatestInsights200Response | LoadTestRunPatchLatestInsightsDefaultResponse
+    LoadTestRunUpdateLatestInsights200Response | LoadTestRunUpdateLatestInsightsDefaultResponse
   >;
 }
 

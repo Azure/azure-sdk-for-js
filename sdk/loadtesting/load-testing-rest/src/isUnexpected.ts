@@ -79,8 +79,8 @@ import type {
   LoadTestRunStopDefaultResponse,
   LoadTestRunGetLatestInsights200Response,
   LoadTestRunGetLatestInsightsDefaultResponse,
-  LoadTestRunPatchLatestInsights200Response,
-  LoadTestRunPatchLatestInsightsDefaultResponse,
+  LoadTestRunUpdateLatestInsights200Response,
+  LoadTestRunUpdateLatestInsightsDefaultResponse,
   LoadTestRunGenerateInsights202Response,
   LoadTestRunGenerateInsightsLogicalResponse,
   LoadTestRunGenerateInsightsDefaultResponse,
@@ -335,9 +335,9 @@ export function isUnexpected(
 ): response is LoadTestRunGetLatestInsightsDefaultResponse;
 export function isUnexpected(
   response:
-    | LoadTestRunPatchLatestInsights200Response
-    | LoadTestRunPatchLatestInsightsDefaultResponse,
-): response is LoadTestRunPatchLatestInsightsDefaultResponse;
+    | LoadTestRunUpdateLatestInsights200Response
+    | LoadTestRunUpdateLatestInsightsDefaultResponse,
+): response is LoadTestRunUpdateLatestInsightsDefaultResponse;
 export function isUnexpected(
   response:
     | LoadTestRunGenerateInsights202Response
@@ -487,8 +487,8 @@ export function isUnexpected(
     | LoadTestRunStopDefaultResponse
     | LoadTestRunGetLatestInsights200Response
     | LoadTestRunGetLatestInsightsDefaultResponse
-    | LoadTestRunPatchLatestInsights200Response
-    | LoadTestRunPatchLatestInsightsDefaultResponse
+    | LoadTestRunUpdateLatestInsights200Response
+    | LoadTestRunUpdateLatestInsightsDefaultResponse
     | LoadTestRunGenerateInsights202Response
     | LoadTestRunGenerateInsightsLogicalResponse
     | LoadTestRunGenerateInsightsDefaultResponse
@@ -556,7 +556,7 @@ export function isUnexpected(
   | LoadTestRunGetTestRunFileDefaultResponse
   | LoadTestRunStopDefaultResponse
   | LoadTestRunGetLatestInsightsDefaultResponse
-  | LoadTestRunPatchLatestInsightsDefaultResponse
+  | LoadTestRunUpdateLatestInsightsDefaultResponse
   | LoadTestRunGenerateInsightsDefaultResponse
   | LoadTestRunListMetricNamespacesDefaultResponse
   | LoadTestRunListMetricDefinitionsDefaultResponse

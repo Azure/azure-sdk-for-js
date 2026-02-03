@@ -347,8 +347,8 @@ export interface LoadTestRunListTestRunsTestIdsQueryParam {
 
 export interface LoadTestRunListTestRunsQueryParamProperties {
   /**
-   * Sort on the supported fields in (field asc/desc) format. eg: executedDateTime
-   * asc. Supported fields - executedDateTime
+   * Sort on the supported fields in (field asc/desc) format. eg: createdDateTime asc.
+   * Supported fields - createdDateTime, executedDateTime (legacy)
    */
   orderby?: string;
   /**
@@ -385,19 +385,19 @@ export type LoadTestRunGetLatestInsightsParameters = RequestParameters;
 /** Test run insights model. */
 export type TestRunInsightsResourceMergeAndPatch = Partial<TestRunInsights>;
 
-export interface LoadTestRunPatchLatestInsightsBodyParam {
+export interface LoadTestRunUpdateLatestInsightsBodyParam {
   /** Test run insights model. */
   body: TestRunInsightsResourceMergeAndPatch;
 }
 
-export interface LoadTestRunPatchLatestInsightsMediaTypesParam {
+export interface LoadTestRunUpdateLatestInsightsMediaTypesParam {
   /** Content type. */
   contentType: "application/merge-patch+json";
 }
 
-export type LoadTestRunPatchLatestInsightsParameters =
-  LoadTestRunPatchLatestInsightsMediaTypesParam &
-    LoadTestRunPatchLatestInsightsBodyParam &
+export type LoadTestRunUpdateLatestInsightsParameters =
+  LoadTestRunUpdateLatestInsightsMediaTypesParam &
+    LoadTestRunUpdateLatestInsightsBodyParam &
     RequestParameters;
 export type LoadTestRunGenerateInsightsParameters = RequestParameters;
 export type LoadTestRunListMetricNamespacesParameters = RequestParameters;

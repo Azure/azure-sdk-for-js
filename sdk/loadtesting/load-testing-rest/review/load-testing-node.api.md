@@ -4,15 +4,18 @@
 
 ```ts
 
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
+import type { CreateHttpPollerOptions } from '@azure/core-lro';
+import type { ErrorModel } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
+import type { OperationState as OperationState_2 } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
-import type { SimplePollerLike } from '@azure/core-lro';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -55,6 +58,7 @@ export interface AutoStopCriteria {
     autoStopDisabled?: boolean;
     errorRate?: number;
     errorRateTimeWindowInSeconds?: number;
+    maximumVirtualUsersPerEngine?: number;
 }
 
 // @public
@@ -62,6 +66,7 @@ export interface AutoStopCriteriaOutput {
     autoStopDisabled?: boolean;
     errorRate?: number;
     errorRateTimeWindowInSeconds?: number;
+    maximumVirtualUsersPerEngine?: number;
 }
 
 // @public (undocumented)
@@ -93,6 +98,13 @@ export type CertificateType = string;
 
 // @public
 export type CertificateTypeOutput = string;
+
+// @public
+export interface CloneTestRequest {
+    description?: string;
+    displayName?: string;
+    newTestId: string;
+}
 
 // @public
 function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: AzureLoadTestingClientOptions): AzureLoadTestingClient;
@@ -141,7 +153,9 @@ export interface ErrorDetails {
 
 // @public
 export interface ErrorDetailsOutput {
+    readonly code?: string;
     readonly message?: string;
+    readonly properties?: Record<string, string[]>;
 }
 
 // @public
@@ -149,9 +163,6 @@ export type FileType = string;
 
 // @public
 export type FileTypeOutput = string;
-
-// @public
-export type FileUploadAndValidatePoller = SimplePollerLike<OperationState<LoadTestAdministrationGetTestFile200Response>, LoadTestAdministrationGetTestFile200Response>;
 
 // @public
 export type FileValidationStatus = string;
@@ -192,14 +203,14 @@ export interface FunctionFlexConsumptionTargetResourceConfigurationsOutput exten
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
-// @public (undocumented)
-export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestUploadFileSuccessResponse, polledOperationOptions?: PolledOperationOptions): Promise<FileUploadAndValidatePoller>;
+// @public
+export function getLongRunningPoller<TResult extends LoadTestAdministrationCloneTestLogicalResponse | LoadTestAdministrationCloneTestDefaultResponse>(client: Client, initialResponse: LoadTestAdministrationCloneTest202Response | LoadTestAdministrationCloneTestDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState_2<TResult>>): Promise<SimplePollerLike<OperationState_2<TResult>, TResult>>;
 
 // @public (undocumented)
-export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestRunCreateOrUpdateSuccessResponse, polledOperationOptions?: PolledOperationOptions): Promise<TestRunCompletionPoller>;
+export function getLongRunningPoller<TResult extends LoadTestAdministrationGenerateTestPlanRecommendationsLogicalResponse | LoadTestAdministrationGenerateTestPlanRecommendationsDefaultResponse>(client: Client, initialResponse: LoadTestAdministrationGenerateTestPlanRecommendations202Response | LoadTestAdministrationGenerateTestPlanRecommendationsDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState_2<TResult>>): Promise<SimplePollerLike<OperationState_2<TResult>, TResult>>;
 
 // @public (undocumented)
-export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestProfileRunCreateOrUpdateSuccessResponse, polledOperationOptions?: PolledOperationOptions): Promise<TestProfileRunCompletionPoller>;
+export function getLongRunningPoller<TResult extends LoadTestRunGenerateInsightsLogicalResponse | LoadTestRunGenerateInsightsDefaultResponse>(client: Client, initialResponse: LoadTestRunGenerateInsights202Response | LoadTestRunGenerateInsightsDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState_2<TResult>>): Promise<SimplePollerLike<OperationState_2<TResult>, TResult>>;
 
 // @public
 export type GetPage<TPage> = (pageLink: string) => Promise<{
@@ -220,6 +231,9 @@ export interface HourlyRecurrenceOutput extends RecurrenceOutputParent {
 }
 
 // @public (undocumented)
+export function isUnexpected(response: OperationsGetStatus200Response | OperationsGetStatusDefaultResponse): response is OperationsGetStatusDefaultResponse;
+
+// @public (undocumented)
 export function isUnexpected(response: LoadTestAdministrationCreateOrUpdateTest200Response | LoadTestAdministrationCreateOrUpdateTest201Response | LoadTestAdministrationCreateOrUpdateTestDefaultResponse): response is LoadTestAdministrationCreateOrUpdateTestDefaultResponse;
 
 // @public (undocumented)
@@ -230,6 +244,12 @@ export function isUnexpected(response: LoadTestAdministrationGetTest200Response 
 
 // @public (undocumented)
 export function isUnexpected(response: LoadTestAdministrationListTests200Response | LoadTestAdministrationListTestsDefaultResponse): response is LoadTestAdministrationListTestsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: LoadTestAdministrationCloneTest202Response | LoadTestAdministrationCloneTestLogicalResponse | LoadTestAdministrationCloneTestDefaultResponse): response is LoadTestAdministrationCloneTestDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: LoadTestAdministrationGenerateTestPlanRecommendations202Response | LoadTestAdministrationGenerateTestPlanRecommendationsLogicalResponse | LoadTestAdministrationGenerateTestPlanRecommendationsDefaultResponse): response is LoadTestAdministrationGenerateTestPlanRecommendationsDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: LoadTestAdministrationUploadTestFile201Response | LoadTestAdministrationUploadTestFileDefaultResponse): response is LoadTestAdministrationUploadTestFileDefaultResponse;
@@ -268,6 +288,30 @@ export function isUnexpected(response: TestProfileAdministrationGetTestProfile20
 export function isUnexpected(response: TestProfileAdministrationListTestProfiles200Response | TestProfileAdministrationListTestProfilesDefaultResponse): response is TestProfileAdministrationListTestProfilesDefaultResponse;
 
 // @public (undocumented)
+export function isUnexpected(response: TriggerAdministrationGetTrigger200Response | TriggerAdministrationGetTriggerDefaultResponse): response is TriggerAdministrationGetTriggerDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TriggerAdministrationCreateOrUpdateTrigger200Response | TriggerAdministrationCreateOrUpdateTrigger201Response | TriggerAdministrationCreateOrUpdateTriggerDefaultResponse): response is TriggerAdministrationCreateOrUpdateTriggerDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TriggerAdministrationDeleteTrigger204Response | TriggerAdministrationDeleteTriggerDefaultResponse): response is TriggerAdministrationDeleteTriggerDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TriggerAdministrationListTrigger200Response | TriggerAdministrationListTriggerDefaultResponse): response is TriggerAdministrationListTriggerDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: NotificationRuleAdministrationGetNotificationRule200Response | NotificationRuleAdministrationGetNotificationRuleDefaultResponse): response is NotificationRuleAdministrationGetNotificationRuleDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response | NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse): response is NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: NotificationRuleAdministrationDeleteNotificationRule204Response | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse): response is NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: NotificationRuleAdministrationListNotificationRule200Response | NotificationRuleAdministrationListNotificationRuleDefaultResponse): response is NotificationRuleAdministrationListNotificationRuleDefaultResponse;
+
+// @public (undocumented)
 export function isUnexpected(response: LoadTestRunGetTestRun200Response | LoadTestRunGetTestRunDefaultResponse): response is LoadTestRunGetTestRunDefaultResponse;
 
 // @public (undocumented)
@@ -284,6 +328,15 @@ export function isUnexpected(response: LoadTestRunGetTestRunFile200Response | Lo
 
 // @public (undocumented)
 export function isUnexpected(response: LoadTestRunStop200Response | LoadTestRunStopDefaultResponse): response is LoadTestRunStopDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: LoadTestRunGetLatestInsights200Response | LoadTestRunGetLatestInsightsDefaultResponse): response is LoadTestRunGetLatestInsightsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: LoadTestRunPatchLatestInsights200Response | LoadTestRunPatchLatestInsightsDefaultResponse): response is LoadTestRunPatchLatestInsightsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: LoadTestRunGenerateInsights202Response | LoadTestRunGenerateInsightsLogicalResponse | LoadTestRunGenerateInsightsDefaultResponse): response is LoadTestRunGenerateInsightsDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: LoadTestRunListMetricNamespaces200Response | LoadTestRunListMetricNamespacesDefaultResponse): response is LoadTestRunListMetricNamespacesDefaultResponse;
@@ -325,28 +378,56 @@ export function isUnexpected(response: TestProfileRunAdministrationStop200Respon
 export function isUnexpected(response: TestProfileRunAdministrationListTestProfileRuns200Response | TestProfileRunAdministrationListTestProfileRunsDefaultResponse): response is TestProfileRunAdministrationListTestProfileRunsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TriggerAdministrationGetTrigger200Response | TriggerAdministrationGetTriggerDefaultResponse): response is TriggerAdministrationGetTriggerDefaultResponse;
+export interface LoadTestAdministrationCloneTest {
+    post(options: LoadTestAdministrationCloneTestParameters): StreamableMethod<LoadTestAdministrationCloneTest202Response | LoadTestAdministrationCloneTestDefaultResponse>;
+}
 
 // @public (undocumented)
-export function isUnexpected(response: TriggerAdministrationCreateOrUpdateTrigger200Response | TriggerAdministrationCreateOrUpdateTrigger201Response | TriggerAdministrationCreateOrUpdateTriggerDefaultResponse): response is TriggerAdministrationCreateOrUpdateTriggerDefaultResponse;
+export interface LoadTestAdministrationCloneTest202Headers {
+    "operation-location": string;
+}
+
+// @public
+export interface LoadTestAdministrationCloneTest202Response extends HttpResponse {
+    // (undocumented)
+    body: ResourceOperationStatusTestErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestAdministrationCloneTest202Headers;
+    // (undocumented)
+    status: "202";
+}
 
 // @public (undocumented)
-export function isUnexpected(response: TriggerAdministrationDeleteTrigger204Response | TriggerAdministrationDeleteTriggerDefaultResponse): response is TriggerAdministrationDeleteTriggerDefaultResponse;
+export interface LoadTestAdministrationCloneTestBodyParam {
+    // (undocumented)
+    body: CloneTestRequest;
+}
 
 // @public (undocumented)
-export function isUnexpected(response: TriggerAdministrationListTrigger200Response | TriggerAdministrationListTriggerDefaultResponse): response is TriggerAdministrationListTriggerDefaultResponse;
+export interface LoadTestAdministrationCloneTestDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
 
 // @public (undocumented)
-export function isUnexpected(response: NotificationRuleAdministrationGetNotificationRule200Response | NotificationRuleAdministrationGetNotificationRuleDefaultResponse): response is NotificationRuleAdministrationGetNotificationRuleDefaultResponse;
+export interface LoadTestAdministrationCloneTestDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestAdministrationCloneTestDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public
+export interface LoadTestAdministrationCloneTestLogicalResponse extends HttpResponse {
+    // (undocumented)
+    body: ResourceOperationStatusTestErrorOutput;
+    // (undocumented)
+    status: "200";
+}
 
 // @public (undocumented)
-export function isUnexpected(response: NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response | NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse): response is NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: NotificationRuleAdministrationDeleteNotificationRule204Response | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse): response is NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: NotificationRuleAdministrationListNotificationRule200Response | NotificationRuleAdministrationListNotificationRuleDefaultResponse): response is NotificationRuleAdministrationListNotificationRuleDefaultResponse;
+export type LoadTestAdministrationCloneTestParameters = LoadTestAdministrationCloneTestBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface LoadTestAdministrationCreateOrUpdateAppComponents {
@@ -546,6 +627,52 @@ export type LoadTestAdministrationDeleteTestFileParameters = RequestParameters;
 
 // @public (undocumented)
 export type LoadTestAdministrationDeleteTestParameters = RequestParameters;
+
+// @public (undocumented)
+export interface LoadTestAdministrationGenerateTestPlanRecommendations {
+    post(options?: LoadTestAdministrationGenerateTestPlanRecommendationsParameters): StreamableMethod<LoadTestAdministrationGenerateTestPlanRecommendations202Response | LoadTestAdministrationGenerateTestPlanRecommendationsDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationGenerateTestPlanRecommendations202Headers {
+    "operation-location": string;
+}
+
+// @public
+export interface LoadTestAdministrationGenerateTestPlanRecommendations202Response extends HttpResponse {
+    // (undocumented)
+    body: ResourceOperationStatusTestErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestAdministrationGenerateTestPlanRecommendations202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationGenerateTestPlanRecommendationsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationGenerateTestPlanRecommendationsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestAdministrationGenerateTestPlanRecommendationsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public
+export interface LoadTestAdministrationGenerateTestPlanRecommendationsLogicalResponse extends HttpResponse {
+    // (undocumented)
+    body: ResourceOperationStatusTestErrorOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type LoadTestAdministrationGenerateTestPlanRecommendationsParameters = RequestParameters;
 
 // @public
 export interface LoadTestAdministrationGetAppComponents200Response extends HttpResponse {
@@ -979,6 +1106,53 @@ export interface LoadTestRunDeleteTestRunDefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type LoadTestRunDeleteTestRunParameters = RequestParameters;
 
+// @public (undocumented)
+export interface LoadTestRunGenerateInsights {
+    post(options?: LoadTestRunGenerateInsightsParameters): StreamableMethod<LoadTestRunGenerateInsights202Response | LoadTestRunGenerateInsightsDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface LoadTestRunGenerateInsights202Headers {
+    // (undocumented)
+    "operation-location": string;
+}
+
+// @public
+export interface LoadTestRunGenerateInsights202Response extends HttpResponse {
+    // (undocumented)
+    body: OperationStatusOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunGenerateInsights202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface LoadTestRunGenerateInsightsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunGenerateInsightsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunGenerateInsightsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public
+export interface LoadTestRunGenerateInsightsLogicalResponse extends HttpResponse {
+    // (undocumented)
+    body: OperationStatusOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type LoadTestRunGenerateInsightsParameters = RequestParameters;
+
 // @public
 export interface LoadTestRunGetAppComponents200Response extends HttpResponse {
     // (undocumented)
@@ -1004,6 +1178,38 @@ export interface LoadTestRunGetAppComponentsDefaultResponse extends HttpResponse
 
 // @public (undocumented)
 export type LoadTestRunGetAppComponentsParameters = RequestParameters;
+
+// @public (undocumented)
+export interface LoadTestRunGetLatestInsights {
+    get(options?: LoadTestRunGetLatestInsightsParameters): StreamableMethod<LoadTestRunGetLatestInsights200Response | LoadTestRunGetLatestInsightsDefaultResponse>;
+    patch(options: LoadTestRunPatchLatestInsightsParameters): StreamableMethod<LoadTestRunPatchLatestInsights200Response | LoadTestRunPatchLatestInsightsDefaultResponse>;
+}
+
+// @public
+export interface LoadTestRunGetLatestInsights200Response extends HttpResponse {
+    // (undocumented)
+    body: TestRunInsightsOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestRunGetLatestInsightsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunGetLatestInsightsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunGetLatestInsightsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type LoadTestRunGetLatestInsightsParameters = RequestParameters;
 
 // @public
 export interface LoadTestRunGetServerMetricsConfig200Response extends HttpResponse {
@@ -1277,6 +1483,13 @@ export interface LoadTestRunListTestRuns200Response extends HttpResponse {
     status: "200";
 }
 
+// @public
+export interface LoadTestRunListTestRunsCreatedByTypesQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
 // @public (undocumented)
 export interface LoadTestRunListTestRunsDefaultHeaders {
     "x-ms-error-code"?: string;
@@ -1303,6 +1516,7 @@ export interface LoadTestRunListTestRunsQueryParam {
 
 // @public (undocumented)
 export interface LoadTestRunListTestRunsQueryParamProperties {
+    createdByTypes?: string[] | LoadTestRunListTestRunsCreatedByTypesQueryParam;
     executionFrom?: Date | string;
     executionTo?: Date | string;
     maxpagesize?: number;
@@ -1310,7 +1524,51 @@ export interface LoadTestRunListTestRunsQueryParamProperties {
     search?: string;
     status?: string;
     testId?: string;
+    testIds?: string[] | LoadTestRunListTestRunsTestIdsQueryParam;
 }
+
+// @public
+export interface LoadTestRunListTestRunsTestIdsQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
+// @public
+export interface LoadTestRunPatchLatestInsights200Response extends HttpResponse {
+    // (undocumented)
+    body: TestRunInsightsOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestRunPatchLatestInsightsBodyParam {
+    body: TestRunInsightsResourceMergeAndPatch;
+}
+
+// @public (undocumented)
+export interface LoadTestRunPatchLatestInsightsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunPatchLatestInsightsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunPatchLatestInsightsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunPatchLatestInsightsMediaTypesParam {
+    contentType: "application/merge-patch+json";
+}
+
+// @public (undocumented)
+export type LoadTestRunPatchLatestInsightsParameters = LoadTestRunPatchLatestInsightsMediaTypesParam & LoadTestRunPatchLatestInsightsBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface LoadTestRunStop {
@@ -1628,6 +1886,54 @@ export type NotificationScopeType = string;
 export type NotificationScopeTypeOutput = string;
 
 // @public
+export type OperationKindOutput = string;
+
+// @public (undocumented)
+export interface OperationsGetStatus {
+    get(options?: OperationsGetStatusParameters): StreamableMethod<OperationsGetStatus200Response | OperationsGetStatusDefaultResponse>;
+}
+
+// @public
+export interface OperationsGetStatus200Response extends HttpResponse {
+    // (undocumented)
+    body: OperationStatusOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface OperationsGetStatusDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface OperationsGetStatusDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & OperationsGetStatusDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type OperationsGetStatusParameters = RequestParameters;
+
+// @public
+export type OperationState = string;
+
+// @public
+export type OperationStateOutput = string;
+
+// @public
+export interface OperationStatusOutput {
+    error?: ErrorModel;
+    readonly id: string;
+    kind: OperationKindOutput;
+    status: OperationStateOutput;
+}
+
+// @public
 export interface OptionalLoadTestConfiguration {
     duration?: number;
     endpointUrl?: string;
@@ -1804,11 +2110,6 @@ export type PFMetrics = string;
 // @public
 export type PFMetricsOutput = string;
 
-// @public (undocumented)
-export interface PolledOperationOptions {
-    updateIntervalInMs?: number;
-}
-
 // @public
 export type RecommendationCategory = string;
 
@@ -1918,20 +2219,36 @@ export interface ResourceMetricOutput {
     unit?: string;
 }
 
+// @public
+export interface ResourceOperationStatusTestErrorOutput {
+    error?: ErrorModel;
+    id: string;
+    status: OperationStateOutput;
+}
+
 // @public (undocumented)
 export interface Routes {
+    (path: "/operations/{operationId}", operationId: string): OperationsGetStatus;
     (path: "/tests/{testId}", testId: string): LoadTestAdministrationCreateOrUpdateTest;
     (path: "/tests"): LoadTestAdministrationListTests;
+    (path: "/tests/{testId}:clone", testId: string): LoadTestAdministrationCloneTest;
+    (path: "/tests/{testId}:generateTestPlanRecommendations", testId: string): LoadTestAdministrationGenerateTestPlanRecommendations;
     (path: "/tests/{testId}/files/{fileName}", testId: string, fileName: string): LoadTestAdministrationUploadTestFile;
     (path: "/tests/{testId}/files", testId: string): LoadTestAdministrationListTestFiles;
     (path: "/tests/{testId}/app-components", testId: string): LoadTestAdministrationCreateOrUpdateAppComponents;
     (path: "/tests/{testId}/server-metrics-config", testId: string): LoadTestAdministrationCreateOrUpdateServerMetricsConfig;
     (path: "/test-profiles/{testProfileId}", testProfileId: string): TestProfileAdministrationCreateOrUpdateTestProfile;
     (path: "/test-profiles"): TestProfileAdministrationListTestProfiles;
+    (path: "/triggers/{triggerId}", triggerId: string): TriggerAdministrationGetTrigger;
+    (path: "/triggers"): TriggerAdministrationListTrigger;
+    (path: "/notification-rules/{notificationRuleId}", notificationRuleId: string): NotificationRuleAdministrationGetNotificationRule;
+    (path: "/notification-rules"): NotificationRuleAdministrationListNotificationRule;
     (path: "/test-runs/{testRunId}", testRunId: string): LoadTestRunGetTestRun;
     (path: "/test-runs"): LoadTestRunListTestRuns;
     (path: "/test-runs/{testRunId}/files/{fileName}", testRunId: string, fileName: string): LoadTestRunGetTestRunFile;
     (path: "/test-runs/{testRunId}:stop", testRunId: string): LoadTestRunStop;
+    (path: "/test-runs/{testRunId}/insights/latest", testRunId: string): LoadTestRunGetLatestInsights;
+    (path: "/test-runs/{testRunId}/insights:generate", testRunId: string): LoadTestRunGenerateInsights;
     (path: "/test-runs/{testRunId}/metric-namespaces", testRunId: string): LoadTestRunListMetricNamespaces;
     (path: "/test-runs/{testRunId}/metric-definitions", testRunId: string): LoadTestRunListMetricDefinitions;
     (path: "/test-runs/{testRunId}/metrics", testRunId: string): LoadTestRunListMetrics;
@@ -1941,10 +2258,6 @@ export interface Routes {
     (path: "/test-profile-runs/{testProfileRunId}", testProfileRunId: string): TestProfileRunAdministrationGetTestProfileRun;
     (path: "/test-profile-runs/{testProfileRunId}:stop", testProfileRunId: string): TestProfileRunAdministrationStop;
     (path: "/test-profile-runs"): TestProfileRunAdministrationListTestProfileRuns;
-    (path: "/triggers/{triggerId}", triggerId: string): TriggerAdministrationGetTrigger;
-    (path: "/triggers"): TriggerAdministrationListTrigger;
-    (path: "/notification-rules/{notificationRuleId}", notificationRuleId: string): NotificationRuleAdministrationGetNotificationRule;
-    (path: "/notification-rules"): NotificationRuleAdministrationListNotificationRule;
 }
 
 // @public
@@ -1982,6 +2295,28 @@ export type SecretType = string;
 
 // @public
 export type SecretTypeOutput = string;
+
+// @public
+export interface SimplePollerLike<TState extends OperationState_2<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
 
 // @public
 export interface StateDetails {
@@ -2028,6 +2363,7 @@ export interface Test {
     metricsReferenceIdentityId?: string;
     metricsReferenceIdentityType?: ManagedIdentityType;
     passFailCriteria?: PassFailCriteria;
+    preferences?: TestPreferences;
     publicIPDisabled?: boolean;
     secrets?: Record<string, Secret>;
     subnetId?: string;
@@ -2103,6 +2439,7 @@ export interface TestOutput {
     engineBuiltInIdentityIds?: string[];
     engineBuiltInIdentityType?: ManagedIdentityTypeOutput;
     environmentVariables?: Record<string, string>;
+    readonly estimatedVirtualUserHours?: number;
     readonly inputArtifacts?: TestInputArtifactsOutput;
     keyvaultReferenceIdentityId?: string;
     keyvaultReferenceIdentityType?: string;
@@ -2113,10 +2450,21 @@ export interface TestOutput {
     metricsReferenceIdentityId?: string;
     metricsReferenceIdentityType?: ManagedIdentityTypeOutput;
     passFailCriteria?: PassFailCriteriaOutput;
+    preferences?: TestPreferencesOutput;
     publicIPDisabled?: boolean;
     secrets?: Record<string, SecretOutput>;
     subnetId?: string;
     readonly testId: string;
+}
+
+// @public
+export interface TestPreferences {
+    enableAIErrorInsights?: boolean;
+}
+
+// @public
+export interface TestPreferencesOutput {
+    enableAIErrorInsights?: boolean;
 }
 
 // @public
@@ -2518,12 +2866,6 @@ export interface TestProfileRunAdministrationStopDefaultResponse extends HttpRes
 export type TestProfileRunAdministrationStopParameters = RequestParameters;
 
 // @public
-export type TestProfileRunCompletionPoller = SimplePollerLike<OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>, TestProfileRunAdministrationGetTestProfileRun200Response>;
-
-// @public (undocumented)
-export type TestProfileRunCreateOrUpdateSuccessResponse = TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response;
-
-// @public
 export interface TestProfileRunOutput {
     readonly createdBy?: string;
     readonly createdDateTime?: string;
@@ -2613,12 +2955,6 @@ export interface TestRunArtifactsOutput {
 }
 
 // @public
-export type TestRunCompletionPoller = SimplePollerLike<OperationState<LoadTestRunGetTestRun200Response>, LoadTestRunGetTestRun200Response>;
-
-// @public (undocumented)
-export type TestRunCreateOrUpdateSuccessResponse = LoadTestRunCreateOrUpdateTestRun200Response | LoadTestRunCreateOrUpdateTestRun201Response;
-
-// @public
 export interface TestRunDetail {
     configurationId: string;
     properties: Record<string, string>;
@@ -2691,11 +3027,40 @@ export interface TestRunInputArtifactsOutput {
 }
 
 // @public
+export interface TestRunInsightColumn {
+    dataType: string;
+    name: string;
+}
+
+// @public
+export interface TestRunInsightColumnOutput {
+    dataType: string;
+    name: string;
+}
+
+// @public
+export interface TestRunInsights {
+    rows?: Record<string, Record<string, string>>;
+}
+
+// @public
+export interface TestRunInsightsOutput {
+    readonly columns?: Array<TestRunInsightColumnOutput>;
+    rows?: Record<string, Record<string, string>>;
+    readonly status?: OperationStateOutput;
+    readonly version?: number;
+}
+
+// @public
+export type TestRunInsightsResourceMergeAndPatch = Partial<TestRunInsights>;
+
+// @public
 export interface TestRunOutput {
     autoStopCriteria?: AutoStopCriteriaOutput;
     certificate?: CertificateMetadataOutput;
     readonly createdBy?: string;
     createdByType?: CreatedByTypeOutput;
+    readonly createdByUri?: string;
     readonly createdDateTime?: string;
     debugLogsEnabled?: boolean;
     description?: string;
@@ -2704,7 +3069,10 @@ export interface TestRunOutput {
     readonly endDateTime?: string;
     environmentVariables?: Record<string, string>;
     readonly errorDetails?: Array<ErrorDetailsOutput>;
+    readonly estimatedVirtualUserHours?: number;
     readonly executedDateTime?: string;
+    readonly executionEndDateTime?: string;
+    readonly executionStartDateTime?: string;
     readonly kind?: TestKindOutput;
     readonly lastModifiedBy?: string;
     readonly lastModifiedDateTime?: string;
@@ -2857,9 +3225,6 @@ export interface TestsNotificationRuleOutput extends NotificationRuleOutputParen
     scope: "Tests";
     testIds?: string[];
 }
-
-// @public (undocumented)
-export type TestUploadFileSuccessResponse = LoadTestAdministrationUploadTestFile201Response;
 
 // @public
 export type TimeGrain = string;

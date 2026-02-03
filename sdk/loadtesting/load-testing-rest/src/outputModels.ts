@@ -753,7 +753,7 @@ export interface TestRunOutput {
   readonly startDateTime?: string;
   /** The test run end DateTime(RFC 3339 literal format). */
   readonly endDateTime?: string;
-  /** Test run initiated time. */
+  /** Test run initiated time. This is legacy, new developments should use createdDateTime. */
   readonly executedDateTime?: string;
   /** Portal url. */
   readonly portalUrl?: string;
