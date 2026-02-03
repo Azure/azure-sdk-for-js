@@ -64,8 +64,8 @@ describe("Avatar and Voice Models - Serialization & Validation", () => {
           codec: "h264",
           resolution: {
             width: 1920,
-            height: 1080
-          }
+            height: 1080,
+          },
         },
       };
 
