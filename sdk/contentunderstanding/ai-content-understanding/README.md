@@ -15,7 +15,6 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding)
 - Package (NPM)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/ai-content-understanding?view=azure-node-preview)
 - [Product documentation][product_docs]
 - [Samples][samples_directory]
 
