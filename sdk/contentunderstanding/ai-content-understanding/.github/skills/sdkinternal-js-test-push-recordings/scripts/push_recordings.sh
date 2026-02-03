@@ -6,7 +6,7 @@ set -euo pipefail
 #   push_recordings.sh [--dry-run] [--init] [--log <file>]
 # Examples:
 #   push_recordings.sh              # push recordings
-#   push_recordings.sh --init       # initialize assets.json first
+#   push_recordings.sh --init       # initialize, record tests, and push (for new packages)
 #   push_recordings.sh --dry-run    # show what would be done
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -26,7 +26,7 @@ Push test recordings for @azure/ai-content-understanding to the
 azure-sdk-assets repository.
 
 Options:
-  --init        Initialize assets.json if it doesn't exist
+  --init        Initialize assets.json, run tests in record mode, then push
   --dry-run     Print what would be run without executing
   --log <file>  Save output to <file> (default: $LOG_FILE)
   --help, -h    Show this help message
@@ -37,9 +37,18 @@ Prerequisites:
   - Git is configured with user.name and user.email
 
 Workflow:
-  1. Run tests in record mode: TEST_MODE=record pnpm test:node
-  2. Push recordings: $(basename "$0")
-  3. Commit updated assets.json to your PR
+  For existing packages (assets.json already has a Tag):
+    1. Run tests in record mode: TEST_MODE=record pnpm test:node
+    2. Push recordings: $(basename "$0")
+    3. Commit updated assets.json to your PR
+
+  For NEW packages (no assets.json or empty Tag):
+    1. Run: $(basename "$0") --init
+       This will: initialize assets.json, run tests in record mode, then push
+    2. Commit updated assets.json to your PR
+
+  IMPORTANT: The order must be init -> record -> push.
+  Recording BEFORE init will NOT work!
 
 What This Script Does:
   - Checks for assets.json (optionally creates it with --init)
@@ -49,8 +58,8 @@ What This Script Does:
   - Displays the updated tag for verification
 
 Examples:
-  $(basename "$0")           # Push recordings
-  $(basename "$0") --init    # Initialize assets.json first, then push
+  $(basename "$0")           # Push recordings (assets.json must exist with recordings)
+  $(basename "$0") --init    # Initialize, record tests, and push (for new packages)
   $(basename "$0") --dry-run # Show what would be done
 EOF
 }
@@ -135,11 +144,18 @@ check_assets_json() {
       log "assets.json not found. Initializing..."
       if [[ $DRY_RUN -eq 1 ]]; then
         echo "DRY RUN: (in $PACKAGE_ROOT) npx dev-tool test-proxy init"
+        echo "DRY RUN: (in $PACKAGE_ROOT) TEST_MODE=record pnpm test:node"
       else
         (cd "$PACKAGE_ROOT" && npx dev-tool test-proxy init)
         log "assets.json created:"
         cat "$assets_file"
         echo ""
+        log "========================================================"
+        log "Running tests in RECORD mode (required after init)..."
+        log "The correct order is: init -> record -> push"
+        log "========================================================"
+        (cd "$PACKAGE_ROOT" && TEST_MODE=record pnpm test:node)
+        log "Recording completed successfully."
       fi
       return 0
     else
@@ -221,7 +237,7 @@ main() {
   echo "Package root: $PACKAGE_ROOT"
   echo "Log file: $LOG_FILE"
   if [[ $INIT_ASSETS -eq 1 ]]; then
-    echo "Mode: Initialize + Push"
+    echo "Mode: Initialize + Record + Push"
   else
     echo "Mode: Push only"
   fi

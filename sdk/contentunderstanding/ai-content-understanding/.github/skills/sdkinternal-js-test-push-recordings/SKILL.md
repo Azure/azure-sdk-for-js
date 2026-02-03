@@ -53,6 +53,19 @@ This creates an `assets.json` file with an empty tag:
 }
 ```
 
+> **IMPORTANT: Correct Order for New Packages**
+>
+> The workflow for a new package **must** be: **init → record → push**
+>
+> If you recorded tests *before* running `init`, those recordings will NOT be in the correct location for the test proxy to find. You must:
+> 1. Run `npx dev-tool test-proxy init` first
+> 2. Then run `TEST_MODE=record pnpm test:node` to re-record tests
+> 3. Then run `npx dev-tool test-proxy push`
+>
+> Recording before init will **not** work because the proxy needs the `assets.json` configuration to know where to store recordings.
+>
+> **Tip:** Use `./push_recordings.sh --init` to run all three steps automatically.
+
 Then run tests in record mode before pushing.
 
 ## Instructions
@@ -116,10 +129,10 @@ sdk/contentunderstanding/ai-content-understanding/.github/skills/sdkinternal-js-
 ### Script Usage
 
 ```bash
-# Push recordings (assets.json must exist)
+# Push recordings (assets.json must exist with recordings)
 ./push_recordings.sh
 
-# Initialize assets.json first, then push
+# For NEW packages: Initialize, record tests, and push (all-in-one)
 ./push_recordings.sh --init
 
 # Dry run (see what would be executed)
@@ -132,7 +145,7 @@ sdk/contentunderstanding/ai-content-understanding/.github/skills/sdkinternal-js-
 ### Script Features
 
 - **Pre-flight checks**: Verifies git is configured, assets.json exists
-- **Optional initialization**: Creates assets.json with `--init` flag
+- **Automatic init + record + push**: With `--init`, initializes assets.json, runs tests in record mode, then pushes
 - **Logging**: Saves output to timestamped log files
 - **Dry run**: See what would be executed without running
 - **Post-run guidance**: Provides next steps after push completes
