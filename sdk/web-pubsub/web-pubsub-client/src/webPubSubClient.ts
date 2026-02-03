@@ -451,6 +451,25 @@ export class WebPubSubClient {
 
     try {
       await this._sendMessage(invokeMessage, invokeOptions.abortSignal);
+    } catch (err) {
+      const invocationError =
+        err instanceof InvocationError
+          ? err
+          : new InvocationError(
+              err instanceof Error ? err.message : "Failed to send invocation message.",
+              {
+                invocationId,
+              },
+            );
+
+      this._invocationManager.rejectInvocation(invocationId, invocationError);
+      void responsePromise.catch(() => {
+        /** empty */
+      });
+      throw invocationError;
+    }
+
+    try {
       const response = await responsePromise;
       return this._mapInvokeResponse(response);
     } catch (err) {
@@ -1106,9 +1125,7 @@ export class WebPubSubClient {
     } as OnRejoinGroupFailedArgs);
   }
 
-  private _mapInvokeResponse(
-    message: InvokeResponseMessage,
-  ): InvokeEventResult {
+  private _mapInvokeResponse(message: InvokeResponseMessage): InvokeEventResult {
     if (message.success !== true) {
       if (message.success === false) {
         throw new InvocationError(message.error?.message ?? "Invocation failed.", {
@@ -1141,7 +1158,6 @@ export class WebPubSubClient {
       logger.verbose(`Failed to send cancelInvocation for ${invocationId}`, err);
     }
   }
-
 
   private _buildDefaultOptions(clientOptions: WebPubSubClientOptions): WebPubSubClientOptions {
     if (clientOptions.autoReconnect == null) {
@@ -1301,8 +1317,8 @@ class RetryPolicy {
     this._retryOptions = retryOptions;
     this._maxRetriesToGetMaxDelay = Math.ceil(
       Math.log2(this._retryOptions.maxRetryDelayInMs!) -
-      Math.log2(this._retryOptions.retryDelayInMs!) +
-      1,
+        Math.log2(this._retryOptions.retryDelayInMs!) +
+        1,
     );
   }
 

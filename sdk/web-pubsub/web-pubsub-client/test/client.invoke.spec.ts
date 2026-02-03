@@ -17,14 +17,9 @@ describe("WebPubSubClient invoke support", () => {
     await client.start();
     testWs.invokemessage(JSON.stringify(getConnectedPayload("conn")));
 
-    const invokePromise = client.invokeEvent(
-      "echo",
-      "ping",
-      "text",
-      {
-        invocationId: "invoke-id",
-      },
-    );
+    const invokePromise = client.invokeEvent("echo", "ping", "text", {
+      invocationId: "invoke-id",
+    });
 
     testWs.invokemessage(
       JSON.stringify({
@@ -54,14 +49,9 @@ describe("WebPubSubClient invoke support", () => {
     await client.start();
     testWs.invokemessage(JSON.stringify(getConnectedPayload("conn")));
 
-    const invokePromise = client.invokeEvent(
-      "echo",
-      "ping",
-      "text",
-      {
-        invocationId: "invoke-error",
-      },
-    );
+    const invokePromise = client.invokeEvent("echo", "ping", "text", {
+      invocationId: "invoke-error",
+    });
 
     testWs.invokemessage(
       JSON.stringify({
@@ -90,31 +80,61 @@ describe("WebPubSubClient invoke support", () => {
     testWs.invokemessage(JSON.stringify(getConnectedPayload("conn")));
 
     const abortController = new AbortController();
-    const invokePromise = client.invokeEvent(
-      "echo",
-      "ping",
-      "text",
-      {
-        invocationId: "invoke-abort",
-        abortSignal: abortController.signal,
-      },
-    );
+    const invokePromise = client.invokeEvent("echo", "ping", "text", {
+      invocationId: "invoke-abort",
+      abortSignal: abortController.signal,
+    });
 
     abortController.abort();
 
     await expect(invokePromise).rejects.toThrow(InvocationError);
 
     // Verify cancelInvocation message is sent
-    // The last call should be cancelInvocation. 
+    // The last call should be cancelInvocation.
     // Note: send might be called multiple times (e.g. for invoke message).
     // We need to find the cancelInvocation message.
     const calls = sendSpy.mock.calls;
-    const cancelMessage = calls.map(args => JSON.parse(args[0] as string)).find(msg => msg.type === "cancelInvocation");
+    const cancelMessage = calls
+      .map((args) => JSON.parse(args[0] as string))
+      .find((msg) => msg.type === "cancelInvocation");
 
     expect(cancelMessage).toMatchObject({
       type: "cancelInvocation",
       invocationId: "invoke-abort",
     });
+
+    client.stop();
+  });
+
+  it("invokeEvent removes abort listener when send fails", async () => {
+    const client = new WebPubSubClient("wss://service.com", {
+      messageRetryOptions: {
+        maxRetries: 0,
+      },
+    });
+    const testWs = new TestWebSocketClient(client);
+    makeStartable(testWs);
+
+    const sendSpy = vi.spyOn(testWs, "send");
+    sendSpy.mockRejectedValueOnce(new Error("send failed"));
+
+    await client.start();
+    testWs.invokemessage(JSON.stringify(getConnectedPayload("conn")));
+
+    const abortController = new AbortController();
+    const addSpy = vi.spyOn(abortController.signal, "addEventListener");
+    const removeSpy = vi.spyOn(abortController.signal, "removeEventListener");
+
+    const invokePromise = client.invokeEvent("echo", "ping", "text", {
+      invocationId: "invoke-send-fail",
+      abortSignal: abortController.signal,
+    });
+
+    await expect(invokePromise).rejects.toThrow(InvocationError);
+    await expect(invokePromise).rejects.toThrow("send failed");
+
+    expect(addSpy).toHaveBeenCalledWith("abort", expect.any(Function));
+    expect(removeSpy).toHaveBeenCalledWith("abort", expect.any(Function));
 
     client.stop();
   });
