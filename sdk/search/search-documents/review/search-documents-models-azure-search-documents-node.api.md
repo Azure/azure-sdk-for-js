@@ -282,7 +282,7 @@ export interface LookupDocument {
 // @public
 export interface QueryAnswerResult {
     additionalProperties?: Record<string, any>;
-    readonly highlights?: string | null;
+    readonly highlights?: string;
     readonly key?: string;
     readonly score?: number;
     readonly text?: string;
@@ -294,7 +294,7 @@ export type QueryAnswerType = string;
 // @public
 export interface QueryCaptionResult {
     additionalProperties?: Record<string, any>;
-    readonly highlights?: string | null;
+    readonly highlights?: string;
     readonly text?: string;
 }
 
@@ -359,10 +359,10 @@ export type ScoringStatistics = "local" | "global";
 
 // @public
 export interface SearchDocumentsResult {
-    readonly answers?: QueryAnswerResult[] | null;
+    readonly answers?: QueryAnswerResult[];
     readonly count?: number;
     readonly coverage?: number;
-    readonly debugInfo?: DebugInfo | null;
+    readonly debugInfo?: DebugInfo;
     readonly facets?: Record<string, FacetResult[]>;
     readonly nextLink?: string;
     readonly nextPageParameters?: SearchRequest;
@@ -415,11 +415,11 @@ export interface SearchRequest {
 // @public
 export interface SearchResult {
     additionalProperties?: Record<string, any>;
-    readonly captions?: QueryCaptionResult[] | null;
-    readonly documentDebugInfo?: DocumentDebugInfo | null;
+    readonly captions?: QueryCaptionResult[];
+    readonly documentDebugInfo?: DocumentDebugInfo;
     readonly highlights?: Record<string, string[]>;
-    readonly rerankerBoostedScore?: number | null;
-    readonly rerankerScore?: number | null;
+    readonly rerankerBoostedScore?: number;
+    readonly rerankerScore?: number;
     readonly score: number;
 }
 

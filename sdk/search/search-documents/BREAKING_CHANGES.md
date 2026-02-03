@@ -69,35 +69,13 @@ The following interfaces previously had an index signature `[property: string]: 
 
 ## MEDIUM IMPACT Changes
 
-### Nullable Properties
+### Nullable Properties - ✅ MITIGATED
 
-Many optional properties now include `| null` in their type signature. For example:
+~~Many optional properties now include `| null` in their type signature.~~
 
-```typescript
-// Before
-authenticationKey?: string;
+**Status**: This has been mitigated by manually removing `| null` from all generated model files. A permanent fix is coming from the TypeSpec codegen side.
 
-// After
-authenticationKey?: string | null;
-```
-
-This affects many properties across multiple interfaces including:
-
-- `AzureMachineLearningSkill`: `authenticationKey`, `degreeOfParallelism`, `region`, `resourceId`, `scoringUri`, `timeout`
-- `AzureOpenAITokenizerParameters`: `encoderModelName`
-- `ContentUnderstandingSkillChunkingProperties`: `maximumLength`, `overlapLength`, `unit`
-- `CorsOptions`: `maxAgeInSeconds`
-- `DocumentExtractionSkill`: `configuration`, `dataToExtract`, `parsingMode`
-- `EntityLinkingSkill`: `defaultLanguageCode`, `modelVersion`
-- `IndexerExecutionResult`: `endTime`
-- `IndexerRuntime`: `remainingSeconds`
-- `RescoringOptions`: `defaultOversampling`, `enableRescoring`, `rescoreStorageMethod`
-- `BaseVectorSearchCompression`: `rescoringOptions`, `truncationDimension`
-- And many others
-
-**Hypothesis**: TypeSpec explicitly represents nullable types per the service schema.
-
-**Mitigation**: Most TypeScript code should continue to work. Users with strict null checks may need to handle `null` explicitly.
+No action required from users.
 
 ### Interface Property Changes
 
@@ -301,18 +279,6 @@ const state: IndexerState = ...;
 
 // After
 const state: IndexerCurrentState = ...;
-```
-
-### For Nullable Properties
-
-```typescript
-// Before
-if (skill.timeout) { ... }
-
-// After
-if (skill.timeout != null) { ... }
-// or
-if (skill.timeout !== undefined && skill.timeout !== null) { ... }
 ```
 
 ### For Deprecated Skills

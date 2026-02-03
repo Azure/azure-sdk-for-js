@@ -86,9 +86,9 @@ export interface SearchDocumentsResult {
   /** The facet query results for the search operation, organized as a collection of buckets for each faceted field; null if the query did not include any facet expressions. */
   readonly facets?: Record<string, FacetResult[]>;
   /** The answers query results for the search operation; null if the answers query parameter was not specified or set to 'none'. */
-  readonly answers?: QueryAnswerResult[] | null;
+  readonly answers?: QueryAnswerResult[];
   /** Debug information that applies to the search results as a whole. */
-  readonly debugInfo?: DebugInfo | null;
+  readonly debugInfo?: DebugInfo;
   /** Continuation JSON payload returned when the query can't return all the requested results in a single response. You can use this JSON along with */
   readonly nextPageParameters?: SearchRequest;
   /** The sequence of results returned by the query. */
@@ -231,7 +231,7 @@ export interface QueryAnswerResult {
   /** The text passage extracted from the document contents as the answer. */
   readonly text?: string;
   /** Same text passage as in the Text property with highlighted text phrases most relevant to the query. */
-  readonly highlights?: string | null;
+  readonly highlights?: string;
   /** Additional properties */
   additionalProperties?: Record<string, any>;
 }
@@ -1316,15 +1316,15 @@ export interface SearchResult {
   /** The relevance score of the document compared to other documents returned by the query. */
   readonly score: number;
   /** The relevance score computed by the semantic ranker for the top search results. Search results are sorted by the RerankerScore first and then by the Score. RerankerScore is only returned for queries of type 'semantic'. */
-  readonly rerankerScore?: number | null;
+  readonly rerankerScore?: number;
   /** The relevance score computed by boosting the Reranker Score. Search results are sorted by the RerankerScore/RerankerBoostedScore based on useScoringProfileBoostedRanking in the Semantic Config. RerankerBoostedScore is only returned for queries of type 'semantic'. */
-  readonly rerankerBoostedScore?: number | null;
+  readonly rerankerBoostedScore?: number;
   /** Text fragments from the document that indicate the matching search terms, organized by each applicable field; null if hit highlighting was not enabled for the query. */
   readonly highlights?: Record<string, string[]>;
   /** Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'. */
-  readonly captions?: QueryCaptionResult[] | null;
+  readonly captions?: QueryCaptionResult[];
   /** Contains debugging information that can be used to further explore your search results. */
-  readonly documentDebugInfo?: DocumentDebugInfo | null;
+  readonly documentDebugInfo?: DocumentDebugInfo;
   /** Additional properties */
   additionalProperties?: Record<string, any>;
 }
@@ -1376,7 +1376,7 @@ export interface QueryCaptionResult {
   /** A representative text passage extracted from the document most relevant to the search query. */
   readonly text?: string;
   /** Same text passage as in the Text property with highlighted phrases most relevant to the query. */
-  readonly highlights?: string | null;
+  readonly highlights?: string;
   /** Additional properties */
   additionalProperties?: Record<string, any>;
 }

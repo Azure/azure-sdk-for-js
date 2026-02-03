@@ -244,14 +244,14 @@ export interface KnowledgeSourceAzureOpenAIVectorizer extends KnowledgeSourceVec
 
 // @public
 export interface KnowledgeSourceIngestionParameters {
-    aiServices?: AIServices | null;
-    chatCompletionModel?: KnowledgeBaseModelUnion | null;
-    contentExtractionMode?: KnowledgeSourceContentExtractionMode | null;
+    aiServices?: AIServices;
+    chatCompletionModel?: KnowledgeBaseModelUnion;
+    contentExtractionMode?: KnowledgeSourceContentExtractionMode;
     disableImageVerbalization?: boolean;
-    embeddingModel?: KnowledgeSourceVectorizerUnion | null;
-    identity?: SearchIndexerDataIdentityUnion | null;
-    ingestionPermissionOptions?: KnowledgeSourceIngestionPermissionOption[] | null;
-    ingestionSchedule?: IndexingSchedule | null;
+    embeddingModel?: KnowledgeSourceVectorizerUnion;
+    identity?: SearchIndexerDataIdentityUnion;
+    ingestionPermissionOptions?: KnowledgeSourceIngestionPermissionOption[];
+    ingestionSchedule?: IndexingSchedule;
 }
 
 // @public
@@ -276,10 +276,10 @@ export interface KnowledgeSourceStatistics {
 
 // @public
 export interface KnowledgeSourceStatus {
-    currentSynchronizationState?: SynchronizationState | null;
-    lastSynchronizationState?: CompletedSynchronizationState | null;
-    statistics?: KnowledgeSourceStatistics | null;
-    synchronizationInterval?: string | null;
+    currentSynchronizationState?: SynchronizationState;
+    lastSynchronizationState?: CompletedSynchronizationState;
+    statistics?: KnowledgeSourceStatistics;
+    synchronizationInterval?: string;
     synchronizationStatus: KnowledgeSourceSynchronizationStatus;
 }
 

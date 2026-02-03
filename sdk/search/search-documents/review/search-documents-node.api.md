@@ -148,13 +148,13 @@ export { AzureKeyCredential }
 
 // @public
 export interface AzureMachineLearningSkill extends BaseSearchIndexerSkill {
-    authenticationKey?: string | null;
-    degreeOfParallelism?: number | null;
+    authenticationKey?: string;
+    degreeOfParallelism?: number;
     odatatype: "#Microsoft.Skills.Custom.AmlSkill";
-    region?: string | null;
-    resourceId?: string | null;
-    scoringUri?: string | null;
-    timeout?: string | null;
+    region?: string;
+    resourceId?: string;
+    scoringUri?: string;
+    timeout?: string;
 }
 
 // @public
@@ -187,7 +187,7 @@ export interface AzureOpenAIParameters {
 // @public
 export interface AzureOpenAITokenizerParameters {
     allowedSpecialTokens?: string[];
-    encoderModelName?: SplitSkillEncoderModelName | null;
+    encoderModelName?: SplitSkillEncoderModelName;
 }
 
 // @public
@@ -378,8 +378,8 @@ export interface BaseVectorSearchAlgorithmConfiguration {
 export interface BaseVectorSearchCompression {
     compressionName: string;
     kind: VectorSearchCompressionKind;
-    rescoringOptions?: RescoringOptions | null;
-    truncationDimension?: number | null;
+    rescoringOptions?: RescoringOptions;
+    truncationDimension?: number;
 }
 
 // @public
@@ -421,14 +421,14 @@ export type ChatCompletionExtraParametersBehavior = string;
 
 // @public
 export interface ChatCompletionResponseFormat {
-    chatCompletionSchemaProperties?: ChatCompletionResponseFormatJsonSchemaProperties | null;
+    chatCompletionSchemaProperties?: ChatCompletionResponseFormatJsonSchemaProperties;
     type?: ChatCompletionResponseFormatType;
 }
 
 // @public
 export interface ChatCompletionResponseFormatJsonSchemaProperties {
-    description?: string | null;
-    name?: string | null;
+    description?: string;
+    name?: string;
     schema?: ChatCompletionSchema;
     strict?: boolean;
 }
@@ -498,13 +498,13 @@ export interface CommonGramTokenFilter extends BaseTokenFilter {
 
 // @public
 export interface CommonModelParameters {
-    frequencyPenalty?: number | null;
-    maxTokens?: number | null;
-    modelName?: string | null;
-    presencePenalty?: number | null;
-    seed?: number | null;
-    stop?: string[] | null;
-    temperature?: number | null;
+    frequencyPenalty?: number;
+    maxTokens?: number;
+    modelName?: string;
+    presencePenalty?: number;
+    seed?: number;
+    stop?: string[];
+    temperature?: number;
 }
 
 // @public
@@ -524,16 +524,16 @@ export interface ConditionalSkill extends BaseSearchIndexerSkill {
 
 // @public
 export interface ContentUnderstandingSkill extends BaseSearchIndexerSkill {
-    chunkingProperties?: ContentUnderstandingSkillChunkingProperties | null;
-    extractionOptions?: ContentUnderstandingSkillExtractionOptions[] | null;
+    chunkingProperties?: ContentUnderstandingSkillChunkingProperties;
+    extractionOptions?: ContentUnderstandingSkillExtractionOptions[];
     odataType: "#Microsoft.Skills.Util.ContentUnderstandingSkill";
 }
 
 // @public
 export interface ContentUnderstandingSkillChunkingProperties {
-    maximumLength?: number | null;
-    overlapLength?: number | null;
-    unit?: ContentUnderstandingSkillChunkingUnit | null;
+    maximumLength?: number;
+    overlapLength?: number;
+    unit?: ContentUnderstandingSkillChunkingUnit;
 }
 
 // @public
@@ -545,7 +545,7 @@ export type ContentUnderstandingSkillExtractionOptions = string;
 // @public
 export interface CorsOptions {
     allowedOrigins: string[];
-    maxAgeInSeconds?: number | null;
+    maxAgeInSeconds?: number;
 }
 
 // @public
@@ -637,25 +637,25 @@ export interface CustomAnalyzer {
 
 // @public
 export interface CustomEntity {
-    accentSensitive?: boolean | null;
-    aliases?: CustomEntityAlias[] | null;
-    caseSensitive?: boolean | null;
-    defaultAccentSensitive?: boolean | null;
-    defaultCaseSensitive?: boolean | null;
-    defaultFuzzyEditDistance?: number | null;
-    description?: string | null;
-    fuzzyEditDistance?: number | null;
-    id?: string | null;
+    accentSensitive?: boolean;
+    aliases?: CustomEntityAlias[];
+    caseSensitive?: boolean;
+    defaultAccentSensitive?: boolean;
+    defaultCaseSensitive?: boolean;
+    defaultFuzzyEditDistance?: number;
+    description?: string;
+    fuzzyEditDistance?: number;
+    id?: string;
     name: string;
-    subtype?: string | null;
-    type?: string | null;
+    subtype?: string;
+    type?: string;
 }
 
 // @public
 export interface CustomEntityAlias {
-    accentSensitive?: boolean | null;
-    caseSensitive?: boolean | null;
-    fuzzyEditDistance?: number | null;
+    accentSensitive?: boolean;
+    caseSensitive?: boolean;
+    fuzzyEditDistance?: number;
     text: string;
 }
 
@@ -781,10 +781,10 @@ export interface DocumentDebugInfo {
 
 // @public
 export interface DocumentExtractionSkill extends BaseSearchIndexerSkill {
-    configuration?: Record<string, any> | null;
-    dataToExtract?: string | null;
+    configuration?: Record<string, any>;
+    dataToExtract?: string;
     odatatype: "#Microsoft.Skills.Util.DocumentExtractionSkill";
-    parsingMode?: string | null;
+    parsingMode?: string;
 }
 
 // @public
@@ -799,9 +799,9 @@ export interface DocumentIntelligenceLayoutSkill extends BaseSearchIndexerSkill 
 
 // @public
 export interface DocumentIntelligenceLayoutSkillChunkingProperties {
-    maximumLength?: number | null;
-    overlapLength?: number | null;
-    unit?: DocumentIntelligenceLayoutSkillChunkingUnit | null;
+    maximumLength?: number;
+    overlapLength?: number;
+    unit?: DocumentIntelligenceLayoutSkillChunkingUnit;
 }
 
 // @public
@@ -847,9 +847,9 @@ export interface ElisionTokenFilter extends BaseTokenFilter {
 
 // @public
 export interface EntityLinkingSkill extends BaseSearchIndexerSkill {
-    defaultLanguageCode?: string | null;
+    defaultLanguageCode?: string;
     minimumPrecision?: number;
-    modelVersion?: string | null;
+    modelVersion?: string;
     odatatype: "#Microsoft.Skills.Text.V3.EntityLinkingSkill";
 }
 
@@ -865,9 +865,9 @@ export interface EntityRecognitionSkill extends BaseSearchIndexerSkill {
 // @public
 export interface EntityRecognitionSkillV3 extends BaseSearchIndexerSkill {
     categories?: string[];
-    defaultLanguageCode?: string | null;
+    defaultLanguageCode?: string;
     minimumPrecision?: number;
-    modelVersion?: string | null;
+    modelVersion?: string;
     odatatype: "#Microsoft.Skills.Text.V3.EntityRecognitionSkill";
 }
 
@@ -922,7 +922,7 @@ export interface FacetResult {
 
 // @public
 export interface FieldMapping {
-    mappingFunction?: FieldMappingFunction | null;
+    mappingFunction?: FieldMappingFunction;
     sourceFieldName: string;
     targetFieldName?: string;
 }
@@ -930,7 +930,7 @@ export interface FieldMapping {
 // @public
 export interface FieldMappingFunction {
     name: string;
-    parameters?: Record<string, any> | null;
+    parameters?: Record<string, any>;
 }
 
 // @public
@@ -1148,7 +1148,7 @@ export type IndexerExecutionEnvironment = `${KnownIndexerExecutionEnvironment}`;
 
 // @public
 export interface IndexerExecutionResult {
-    readonly endTime?: Date | null;
+    readonly endTime?: Date;
     readonly errorMessage?: string;
     readonly errors: SearchIndexerError[];
     readonly failedItemCount: number;
@@ -1178,7 +1178,7 @@ export type IndexerResyncOption = string;
 export interface IndexerRuntime {
     beginningTime: Date;
     endingTime: Date;
-    remainingSeconds?: number | null;
+    remainingSeconds?: number;
     usedSeconds: number;
 }
 
@@ -2707,8 +2707,8 @@ export enum KnownVisualFeature {
 
 // @public
 export interface LanguageDetectionSkill extends BaseSearchIndexerSkill {
-    defaultCountryHint?: string | null;
-    modelVersion?: string | null;
+    defaultCountryHint?: string;
+    modelVersion?: string;
     odatatype: "#Microsoft.Skills.Text.LanguageDetectionSkill";
 }
 
@@ -2986,7 +2986,7 @@ export type QueryAnswer = ExtractiveQueryAnswer;
 // @public
 export interface QueryAnswerResult {
     additionalProperties?: Record<string, any>;
-    readonly highlights?: string | null;
+    readonly highlights?: string;
     readonly key?: string;
     readonly score?: number;
     readonly text?: string;
@@ -2998,7 +2998,7 @@ export type QueryCaption = ExtractiveQueryCaption;
 // @public
 export interface QueryCaptionResult {
     additionalProperties?: Record<string, any>;
-    readonly highlights?: string | null;
+    readonly highlights?: string;
     readonly text?: string;
 }
 
@@ -3082,9 +3082,9 @@ export interface RemoteSharePointKnowledgeSourceParams extends BaseKnowledgeSour
 
 // @public
 export interface RescoringOptions {
-    defaultOversampling?: number | null;
-    enableRescoring?: boolean | null;
-    rescoreStorageMethod?: VectorSearchCompressionRescoreStorageMethod | null;
+    defaultOversampling?: number;
+    enableRescoring?: boolean;
+    rescoreStorageMethod?: VectorSearchCompressionRescoreStorageMethod;
 }
 
 // @public
@@ -3104,7 +3104,7 @@ export interface ResetSkillsOptions extends OperationOptions {
 
 // @public
 export interface ResourceCounter {
-    quota?: number | null;
+    quota?: number;
     usage: number;
 }
 
@@ -3124,7 +3124,7 @@ export interface ScalarQuantizationCompression extends BaseVectorSearchCompressi
 
 // @public
 export interface ScalarQuantizationParameters {
-    quantizedDataType?: VectorSearchCompressionTarget | null;
+    quantizedDataType?: VectorSearchCompressionTarget;
 }
 
 // @public
@@ -3693,7 +3693,7 @@ export interface SemanticConfiguration {
     flightingOptIn?: boolean;
     name: string;
     prioritizedFields: SemanticPrioritizedFields;
-    rankingOrder?: RankingOrder | null;
+    rankingOrder?: RankingOrder;
 }
 
 // @public
@@ -3758,9 +3758,9 @@ export interface SentimentSkill extends BaseSearchIndexerSkill {
 
 // @public
 export interface SentimentSkillV3 extends BaseSearchIndexerSkill {
-    defaultLanguageCode?: string | null;
+    defaultLanguageCode?: string;
     includeOpinionMining?: boolean;
-    modelVersion?: string | null;
+    modelVersion?: string;
     odatatype: "#Microsoft.Skills.Text.V3.SentimentSkill";
 }
 
@@ -3779,12 +3779,12 @@ export interface ServiceCounters {
 
 // @public
 export interface ServiceLimits {
-    maxComplexCollectionFieldsPerIndex?: number | null;
-    maxComplexObjectsInCollectionsPerDocument?: number | null;
-    maxCumulativeIndexerRuntimeSeconds?: number | null;
-    maxFieldNestingDepthPerIndex?: number | null;
-    maxFieldsPerIndex?: number | null;
-    maxStoragePerIndexInBytes?: number | null;
+    maxComplexCollectionFieldsPerIndex?: number;
+    maxComplexObjectsInCollectionsPerDocument?: number;
+    maxCumulativeIndexerRuntimeSeconds?: number;
+    maxFieldNestingDepthPerIndex?: number;
+    maxFieldsPerIndex?: number;
+    maxStoragePerIndexInBytes?: number;
 }
 
 // @public

@@ -32,7 +32,7 @@ export interface SynonymMap {
   /** A series of synonym rules in the specified synonym map format. The rules must be separated by newlines. */
   synonyms: string[];
   /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your data when you want full assurance that no one, not even Microsoft, can decrypt your data. Once you have encrypted your data, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your data will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
-  encryptionKey?: SearchResourceEncryptionKey | null;
+  encryptionKey?: SearchResourceEncryptionKey;
   /** The ETag of the synonym map. */
   eTag?: string;
 }
@@ -74,7 +74,7 @@ export interface SearchResourceEncryptionKey {
   /** The URI of your Azure Key Vault, also referred to as DNS name, that contains the key to be used to encrypt your data at rest. An example URI might be `https://my-keyvault-name.vault.azure.net`. */
   vaultUri: string;
   /** An explicit managed identity to use for this encryption key. If not specified and the access credentials property is null, the system-assigned managed identity is used. On update to the resource, if the explicit identity is unspecified, it remains unchanged. If "none" is specified, the value of this property is cleared. */
-  identity?: SearchIndexerDataIdentityUnion | null;
+  identity?: SearchIndexerDataIdentityUnion;
   /** An AAD Application ID that was granted the required access permissions to the Azure Key Vault that is to be used when encrypting your data at rest. The Application ID should not be confused with the Object ID for your AAD Application. */
   applicationId?: string;
   /** The authentication key of the specified AAD application. */
@@ -267,7 +267,7 @@ export interface SearchIndex {
   /** The name of the scoring profile to use if none is specified in the query. If this property is not set and no scoring profile is specified in the query, then default scoring (tf-idf) will be used. */
   defaultScoringProfile?: string;
   /** Options to control Cross-Origin Resource Sharing (CORS) for the index. */
-  corsOptions?: CorsOptions | null;
+  corsOptions?: CorsOptions;
   /** The suggesters for the index. */
   suggesters?: SearchSuggester[];
   /** The analyzers for the index. */
@@ -281,17 +281,17 @@ export interface SearchIndex {
   /** The normalizers for the index. */
   normalizers?: LexicalNormalizerUnion[];
   /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your data when you want full assurance that no one, not even Microsoft, can decrypt your data. Once you have encrypted your data, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your data will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
-  encryptionKey?: SearchResourceEncryptionKey | null;
+  encryptionKey?: SearchResourceEncryptionKey;
   /** The type of similarity algorithm to be used when scoring and ranking the documents matching a search query. The similarity algorithm can only be defined at index creation time and cannot be modified on existing indexes. If null, the ClassicSimilarity algorithm is used. */
   similarity?: SimilarityAlgorithmUnion;
   /** Defines parameters for a search index that influence semantic capabilities. */
-  semanticSearch?: SemanticSearch | null;
+  semanticSearch?: SemanticSearch;
   /** Contains configuration options related to vector search. */
-  vectorSearch?: VectorSearch | null;
+  vectorSearch?: VectorSearch;
   /** A value indicating whether permission filtering is enabled for the index. */
-  permissionFilterOption?: SearchIndexPermissionFilterOption | null;
+  permissionFilterOption?: SearchIndexPermissionFilterOption;
   /** A value indicating whether Purview is enabled for the index. */
-  purviewEnabled?: boolean | null;
+  purviewEnabled?: boolean;
   /** The ETag of the index. */
   eTag?: string;
 }
@@ -425,23 +425,23 @@ export interface SearchField {
   /** A value indicating whether to enable the field to be referenced in facet queries. Typically used in a presentation of search results that includes hit count by category (for example, search for digital cameras and see hits by brand, by megapixels, by price, and so on). This property must be null for complex fields. Fields of type Edm.GeographyPoint or Collection(Edm.GeographyPoint) cannot be facetable. Default is true for all other simple fields. */
   facetable?: boolean;
   /** A value indicating whether the field should be used as a permission filter. */
-  permissionFilter?: PermissionFilter | null;
+  permissionFilter?: PermissionFilter;
   /** A value indicating whether the field contains sensitivity label information. */
-  sensitivityLabel?: boolean | null;
+  sensitivityLabel?: boolean;
   /** The name of the analyzer to use for the field. This option can be used only with searchable fields and it can't be set together with either searchAnalyzer or indexAnalyzer. Once the analyzer is chosen, it cannot be changed for the field. Must be null for complex fields. */
-  analyzerName?: LexicalAnalyzerName | null;
+  analyzerName?: LexicalAnalyzerName;
   /** The name of the analyzer used at search time for the field. This option can be used only with searchable fields. It must be set together with indexAnalyzer and it cannot be set together with the analyzer option. This property cannot be set to the name of a language analyzer; use the analyzer property instead if you need a language analyzer. This analyzer can be updated on an existing field. Must be null for complex fields. */
-  searchAnalyzerName?: LexicalAnalyzerName | null;
+  searchAnalyzerName?: LexicalAnalyzerName;
   /** The name of the analyzer used at indexing time for the field. This option can be used only with searchable fields. It must be set together with searchAnalyzer and it cannot be set together with the analyzer option.  This property cannot be set to the name of a language analyzer; use the analyzer property instead if you need a language analyzer. Once the analyzer is chosen, it cannot be changed for the field. Must be null for complex fields. */
-  indexAnalyzerName?: LexicalAnalyzerName | null;
+  indexAnalyzerName?: LexicalAnalyzerName;
   /** The name of the normalizer to use for the field. This option can be used only with fields with filterable, sortable, or facetable enabled. Once the normalizer is chosen, it cannot be changed for the field. Must be null for complex fields. */
-  normalizerName?: LexicalNormalizerName | null;
+  normalizerName?: LexicalNormalizerName;
   /** The dimensionality of the vector field. */
   vectorSearchDimensions?: number;
   /** The name of the vector search profile that specifies the algorithm and vectorizer to use when searching the vector field. */
-  vectorSearchProfileName?: string | null;
+  vectorSearchProfileName?: string;
   /** The encoding format to interpret the field contents. */
-  vectorEncodingFormat?: VectorEncodingFormat | null;
+  vectorEncodingFormat?: VectorEncodingFormat;
   /** A list of the names of synonym maps to associate with this field. This option can be used only with searchable fields. Currently only one synonym map per field is supported. Assigning a synonym map to a field ensures that query terms targeting that field are expanded at query-time using the rules in the synonym map. This attribute can be changed on existing fields. Must be null or an empty collection for complex fields. */
   synonymMapNames?: string[];
   /** A list of sub-fields if this is a field of type Edm.ComplexType or Collection(Edm.ComplexType). Must be null or empty for simple fields. */
@@ -928,7 +928,7 @@ export interface ScoringProfile {
   /** The name of the scoring profile. */
   name: string;
   /** Parameters that boost scoring based on text matches in certain index fields. */
-  textWeights?: TextWeights | null;
+  textWeights?: TextWeights;
   /** The collection of functions that influence the scoring of documents. */
   functions?: ScoringFunctionUnion[];
   /** A value indicating how the results of individual scoring functions should be combined. Defaults to "Sum". Ignored if there are no scoring functions. */
@@ -1273,7 +1273,7 @@ export interface CorsOptions {
   /** The list of origins from which JavaScript code will be granted access to your index. Can contain a list of hosts of the form {protocol}://{fully-qualified-domain-name}[:{port#}], or a single '*' to allow all origins (not recommended). */
   allowedOrigins: string[];
   /** The duration for which browsers should cache CORS preflight responses. Defaults to 5 minutes. */
-  maxAgeInSeconds?: number | null;
+  maxAgeInSeconds?: number;
 }
 
 export function corsOptionsSerializer(item: CorsOptions): any {
@@ -3860,9 +3860,9 @@ export function classicSimilarityDeserializer(item: any): ClassicSimilarity {
 /** Ranking function based on the Okapi BM25 similarity algorithm. BM25 is a TF-IDF-like algorithm that includes length normalization (controlled by the 'b' parameter) as well as term frequency saturation (controlled by the 'k1' parameter). */
 export interface BM25Similarity extends SimilarityAlgorithm {
   /** This property controls the scaling function between the term frequency of each matching terms and the final relevance score of a document-query pair. By default, a value of 1.2 is used. A value of 0.0 means the score does not scale with an increase in term frequency. */
-  k1?: number | null;
+  k1?: number;
   /** This property controls how the length of a document affects the relevance score. By default, a value of 0.75 is used. A value of 0.0 means no length normalization is applied, while a value of 1.0 means the score is fully normalized by the length of the document. */
-  b?: number | null;
+  b?: number;
   /** The discriminator for derived types. */
   odatatype: "#Microsoft.Azure.Search.BM25Similarity";
 }
@@ -3926,7 +3926,7 @@ export interface SemanticConfiguration {
   /** Describes the title, content, and keyword fields to be used for semantic ranking, captions, highlights, and answers. At least one of the three sub properties (titleField, prioritizedKeywordsFields and prioritizedContentFields) need to be set. */
   prioritizedFields: SemanticPrioritizedFields;
   /** Specifies the score type to be used for the sort order of the search results. */
-  rankingOrder?: RankingOrder | null;
+  rankingOrder?: RankingOrder;
   /** Determines which semantic or query rewrite models to use during model flighting/upgrades. */
   flightingOptIn?: boolean;
 }
@@ -4256,7 +4256,7 @@ export interface HnswParameters {
   /** The size of the dynamic list containing the nearest neighbors, which is used during search time. Increasing this parameter may improve search results, at the expense of slower search. At a certain point, increasing this parameter leads to diminishing returns. */
   efSearch?: number;
   /** The similarity metric to use for vector comparisons. */
-  metric?: VectorSearchAlgorithmMetric | null;
+  metric?: VectorSearchAlgorithmMetric;
 }
 
 export function hnswParametersSerializer(item: HnswParameters): any {
@@ -4336,7 +4336,7 @@ export function exhaustiveKnnAlgorithmConfigurationDeserializer(
 /** Contains the parameters specific to exhaustive KNN algorithm. */
 export interface ExhaustiveKnnParameters {
   /** The similarity metric to use for vector comparisons. */
-  metric?: VectorSearchAlgorithmMetric | null;
+  metric?: VectorSearchAlgorithmMetric;
 }
 
 export function exhaustiveKnnParametersSerializer(item: ExhaustiveKnnParameters): any {
@@ -4609,9 +4609,9 @@ export interface WebApiVectorizerParameters {
   /** The desired timeout for the request. Default is 30 seconds. */
   timeout?: string;
   /** Applies to custom endpoints that connect to external code in an Azure function or some other application that provides the transformations. This value should be the application ID created for the function or app when it was registered with Azure Active Directory. When specified, the vectorization connects to the function or app using a managed ID (either system or user-assigned) of the search service and the access token of the function or app, using this value as the resource id for creating the scope of the access token. */
-  authResourceId?: string | null;
+  authResourceId?: string;
   /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
-  authIdentity?: SearchIndexerDataIdentityUnion | null;
+  authIdentity?: SearchIndexerDataIdentityUnion;
 }
 
 export function webApiVectorizerParametersSerializer(item: WebApiVectorizerParameters): any {
@@ -4675,13 +4675,13 @@ export function aiServicesVisionVectorizerDeserializer(item: any): AIServicesVis
 /** Specifies the AI Services Vision parameters for vectorizing a query image or text. */
 export interface AIServicesVisionParameters {
   /** The version of the model to use when calling the AI Services Vision service. It will default to the latest available when not specified. */
-  modelVersion: string | null;
+  modelVersion: string;
   /** The resource URI of the AI Services resource. */
   resourceUri: string;
   /** API key of the designated AI Services resource. */
   apiKey?: string;
   /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the index, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
-  authIdentity?: SearchIndexerDataIdentityUnion | null;
+  authIdentity?: SearchIndexerDataIdentityUnion;
 }
 
 export function aiServicesVisionParametersSerializer(item: AIServicesVisionParameters): any {
@@ -4741,15 +4741,15 @@ export function azureMachineLearningVectorizerDeserializer(
 /** Specifies the properties for connecting to an AML vectorizer. */
 export interface AzureMachineLearningParameters {
   /** (Required for no authentication or key authentication) The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI scheme is allowed. */
-  scoringUri: string | null;
+  scoringUri: string;
   /** (Required for key authentication) The key for the AML service. */
-  authenticationKey?: string | null;
+  authenticationKey?: string;
   /** (Required for token authentication). The Azure Resource Manager resource ID of the AML service. It should be in the format subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.MachineLearningServices/workspaces/{workspace-name}/services/{service_name}. */
-  resourceId?: string | null;
+  resourceId?: string;
   /** (Optional) When specified, indicates the timeout for the http client making the API call. */
-  timeout?: string | null;
+  timeout?: string;
   /** (Optional for token authentication). The region the AML service is deployed in. */
-  region?: string | null;
+  region?: string;
   /** The name of the embedding model from the Azure AI Foundry Catalog that is deployed at the provided endpoint. */
   modelName?: AIFoundryModelCatalogName;
 }
@@ -4834,9 +4834,9 @@ export interface VectorSearchCompression {
   /** The name to associate with this particular configuration. */
   compressionName: string;
   /** Contains the options for rescoring. */
-  rescoringOptions?: RescoringOptions | null;
+  rescoringOptions?: RescoringOptions;
   /** The number of dimensions to truncate the vectors to. Truncating the vectors reduces the size of the vectors and the amount of data that needs to be transferred during search. This can save storage cost and improve search performance at the expense of recall. It should be only used for embeddings trained with Matryoshka Representation Learning (MRL) such as OpenAI text-embedding-3-large (small). The default value is null, which means no truncation. */
-  truncationDimension?: number | null;
+  truncationDimension?: number;
   /** Type of VectorSearchCompression. */
   /** The discriminator possible values: scalarQuantization, binaryQuantization */
   kind: VectorSearchCompressionKind;
@@ -4899,11 +4899,11 @@ export function vectorSearchCompressionUnionDeserializer(item: any): VectorSearc
 /** Contains the options for rescoring. */
 export interface RescoringOptions {
   /** If set to true, after the initial search on the compressed vectors, the similarity scores are recalculated using the full-precision vectors. This will improve recall at the expense of latency. */
-  enableRescoring?: boolean | null;
+  enableRescoring?: boolean;
   /** Default oversampling factor. Oversampling retrieves a greater set of potential documents to offset the resolution loss due to quantization. This increases the set of results that will be rescored on full-precision vectors. Minimum value is 1, meaning no oversampling (1x). This parameter can only be set when 'enableRescoring' is true. Higher values improve recall at the expense of latency. */
-  defaultOversampling?: number | null;
+  defaultOversampling?: number;
   /** Controls the storage method for original vectors. This setting is immutable. */
-  rescoreStorageMethod?: VectorSearchCompressionRescoreStorageMethod | null;
+  rescoreStorageMethod?: VectorSearchCompressionRescoreStorageMethod;
 }
 
 export function rescoringOptionsSerializer(item: RescoringOptions): any {
@@ -4999,7 +4999,7 @@ export function scalarQuantizationCompressionDeserializer(
 /** Contains the parameters specific to Scalar Quantization. */
 export interface ScalarQuantizationParameters {
   /** The quantized data type of compressed vector values. */
-  quantizedDataType?: VectorSearchCompressionTarget | null;
+  quantizedDataType?: VectorSearchCompressionTarget;
 }
 
 export function scalarQuantizationParametersSerializer(item: ScalarQuantizationParameters): any {
@@ -5278,7 +5278,7 @@ export interface KnowledgeBase {
   /** The ETag of the knowledge base. */
   eTag?: string;
   /** A description of an encryption key that you create in Azure Key Vault. */
-  encryptionKey?: SearchResourceEncryptionKey | null;
+  encryptionKey?: SearchResourceEncryptionKey;
   /** The description of the knowledge base. */
   description?: string;
   /** Instructions considered by the knowledge base when developing query plan. */
@@ -5493,7 +5493,7 @@ export interface KnowledgeSource {
   /** The ETag of the knowledge source. */
   eTag?: string;
   /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your knowledge source definition when you want full assurance that no one, not even Microsoft, can decrypt them. Once you have encrypted your knowledge source definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your knowledge source definition will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
-  encryptionKey?: SearchResourceEncryptionKey | null;
+  encryptionKey?: SearchResourceEncryptionKey;
 }
 
 export function knowledgeSourceSerializer(item: KnowledgeSource): any {
@@ -5763,11 +5763,11 @@ export interface AzureBlobKnowledgeSourceParameters {
   /** The name of the blob storage container. */
   containerName: string;
   /** Optional folder path within the container. */
-  folderPath?: string | null;
+  folderPath?: string;
   /** Set to true if connecting to an ADLS Gen2 storage account. Default is false. */
   isAdlsGen2?: boolean;
   /** Consolidates all general ingestion settings. */
-  ingestionParameters?: KnowledgeSourceIngestionParameters | null;
+  ingestionParameters?: KnowledgeSourceIngestionParameters;
   /** Resources created by the knowledge source. */
   readonly createdResources?: CreatedResources;
 }
@@ -5924,9 +5924,9 @@ export interface IndexedSharePointKnowledgeSourceParameters {
   /** Specifies which SharePoint libraries to access. */
   containerName: IndexedSharePointContainerName;
   /** Optional query to filter SharePoint content. */
-  query?: string | null;
+  query?: string;
   /** Consolidates all general ingestion settings. */
-  ingestionParameters?: KnowledgeSourceIngestionParameters | null;
+  ingestionParameters?: KnowledgeSourceIngestionParameters;
   /** Resources created by the knowledge source. */
   readonly createdResources?: CreatedResources;
 }
@@ -6027,7 +6027,7 @@ export interface IndexedOneLakeKnowledgeSourceParameters {
   /** Specifies which OneLake lakehouse to access. */
   lakehouseId: string;
   /** Optional OneLakehouse folder or shortcut to filter OneLake content. */
-  targetPath?: string | null;
+  targetPath?: string;
   /** Consolidates all general ingestion settings. */
   ingestionParameters?: KnowledgeSourceIngestionParameters;
   /** Resources created by the knowledge source. */
@@ -6370,7 +6370,7 @@ export interface ResourceCounter {
   /** The resource usage amount. */
   usage: number;
   /** The resource amount quota. */
-  quota?: number | null;
+  quota?: number;
 }
 
 export function resourceCounterDeserializer(item: any): ResourceCounter {
@@ -6383,17 +6383,17 @@ export function resourceCounterDeserializer(item: any): ResourceCounter {
 /** Represents various service level limits. */
 export interface ServiceLimits {
   /** The maximum allowed fields per index. */
-  maxFieldsPerIndex?: number | null;
+  maxFieldsPerIndex?: number;
   /** The maximum depth which you can nest sub-fields in an index, including the top-level complex field. For example, a/b/c has a nesting depth of 3. */
-  maxFieldNestingDepthPerIndex?: number | null;
+  maxFieldNestingDepthPerIndex?: number;
   /** The maximum number of fields of type Collection(Edm.ComplexType) allowed in an index. */
-  maxComplexCollectionFieldsPerIndex?: number | null;
+  maxComplexCollectionFieldsPerIndex?: number;
   /** The maximum number of objects in complex collections allowed per document. */
-  maxComplexObjectsInCollectionsPerDocument?: number | null;
+  maxComplexObjectsInCollectionsPerDocument?: number;
   /** The maximum amount of storage in bytes allowed per index. */
-  maxStoragePerIndexInBytes?: number | null;
+  maxStoragePerIndexInBytes?: number;
   /** The maximum cumulative indexer runtime in seconds allowed for the service. */
-  maxCumulativeIndexerRuntimeSeconds?: number | null;
+  maxCumulativeIndexerRuntimeSeconds?: number;
 }
 
 export function serviceLimitsDeserializer(item: any): ServiceLimits {
@@ -6412,7 +6412,7 @@ export interface ServiceIndexersRuntime {
   /** Cumulative runtime of all indexers in the service from the beginningTime to endingTime, in seconds. */
   usedSeconds: number;
   /** Cumulative runtime remaining for all indexers in the service from the beginningTime to endingTime, in seconds. */
-  remainingSeconds?: number | null;
+  remainingSeconds?: number;
   /** Beginning UTC time of the 24-hour period considered for indexer runtime usage (inclusive). */
   beginningTime: Date;
   /** End UTC time of the 24-hour period considered for indexer runtime usage (inclusive). */
@@ -6482,17 +6482,17 @@ export interface SearchIndexerDataSourceConnection {
   /** The data container for the datasource. */
   container: SearchIndexerDataContainer;
   /** An explicit managed identity to use for this datasource. If not specified and the connection string is a managed identity, the system-assigned managed identity is used. If not specified, the value remains unchanged. If "none" is specified, the value of this property is cleared. */
-  identity?: SearchIndexerDataIdentityUnion | null;
+  identity?: SearchIndexerDataIdentityUnion;
   /** Ingestion options with various types of permission data. */
-  indexerPermissionOptions?: IndexerPermissionOption[] | null;
+  indexerPermissionOptions?: IndexerPermissionOption[];
   /** The data change detection policy for the datasource. */
-  dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion | null;
+  dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion;
   /** The data deletion detection policy for the datasource. */
-  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicyUnion | null;
+  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicyUnion;
   /** The ETag of the data source. */
   eTag?: string;
   /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your datasource definition when you want full assurance that no one, not even Microsoft, can decrypt your data source definition. Once you have encrypted your data source definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your datasource definition will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
-  encryptionKey?: SearchResourceEncryptionKey | null;
+  encryptionKey?: SearchResourceEncryptionKey;
   /** The connection string for the datasource. Set to `<unchanged>` (with brackets) if you don't want the connection string updated. Set to `<redacted>` if you want to remove the connection string value from the datasource. */
   connectionString?: string;
 }
@@ -6897,7 +6897,7 @@ export function searchIndexerDataSourceConnectionArrayDeserializer(
 /** Request body for resync indexer operation. */
 export interface IndexerResyncBody {
   /** Re-sync options that have been pre-defined from data source. */
-  options?: IndexerResyncOption[] | null;
+  options?: IndexerResyncOption[];
 }
 
 export function indexerResyncBodySerializer(item: IndexerResyncBody): any {
@@ -6961,21 +6961,21 @@ export interface SearchIndexer {
   /** The name of the index to which this indexer writes data. */
   targetIndexName: string;
   /** The schedule for this indexer. */
-  schedule?: IndexingSchedule | null;
+  schedule?: IndexingSchedule;
   /** Parameters for indexer execution. */
-  parameters?: IndexingParameters | null;
+  parameters?: IndexingParameters;
   /** Defines mappings between fields in the data source and corresponding target fields in the index. */
   fieldMappings?: FieldMapping[];
   /** Output field mappings are applied after enrichment and immediately before indexing. */
   outputFieldMappings?: FieldMapping[];
   /** A value indicating whether the indexer is disabled. Default is false. */
-  isDisabled?: boolean | null;
+  isDisabled?: boolean;
   /** The ETag of the indexer. */
   eTag?: string;
   /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your indexer definition (as well as indexer execution status) when you want full assurance that no one, not even Microsoft, can decrypt them. Once you have encrypted your indexer definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your indexer definition (and indexer execution status) will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
-  encryptionKey?: SearchResourceEncryptionKey | null;
+  encryptionKey?: SearchResourceEncryptionKey;
   /** Adds caching to an enrichment pipeline to allow for incremental modification steps without having to rebuild the index every time. */
-  cache?: SearchIndexerCache | null;
+  cache?: SearchIndexerCache;
 }
 
 export function searchIndexerSerializer(item: SearchIndexer): any {
@@ -7033,11 +7033,11 @@ export function searchIndexerDeserializer(item: any): SearchIndexer {
 /** Represents parameters for indexer execution. */
 export interface IndexingParameters {
   /** The number of items that are read from the data source and indexed as a single batch in order to improve performance. The default depends on the data source type. */
-  batchSize?: number | null;
+  batchSize?: number;
   /** The maximum number of items that can fail indexing for indexer execution to still be considered successful. -1 means no limit. Default is 0. */
-  maxFailedItems?: number | null;
+  maxFailedItems?: number;
   /** The maximum number of items in a single batch that can fail indexing for the batch to still be considered successful. -1 means no limit. Default is 0. */
-  maxFailedItemsPerBatch?: number | null;
+  maxFailedItemsPerBatch?: number;
   /** A dictionary of indexer-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
   configuration?: IndexingParametersConfiguration;
 }
@@ -7085,9 +7085,9 @@ export interface IndexingParametersConfiguration {
   /** For CSV blobs, indicates that the first (non-blank) line of each blob contains headers. */
   firstLineContainsHeaders?: boolean;
   /** Specifies the submode that will determine whether a markdown file will be parsed into exactly one search document or multiple search documents. Default is `oneToMany`. */
-  markdownParsingSubmode?: MarkdownParsingSubmode | null;
+  markdownParsingSubmode?: MarkdownParsingSubmode;
   /** Specifies the max header depth that will be considered while grouping markdown content. Default is `h6`. */
-  markdownHeaderDepth?: MarkdownHeaderDepth | null;
+  markdownHeaderDepth?: MarkdownHeaderDepth;
   /** For JSON arrays, given a structured or semi-structured document, you can specify a path to the array using this property. */
   documentRoot?: string;
   /** Specifies the data to extract from Azure blob storage and tells the indexer which data to extract from image content when "imageAction" is set to a value other than "none".  This applies to embedded image content in a .PDF or other application, or image files such as .jpg and .png, in Azure blobs. */
@@ -7357,7 +7357,7 @@ export interface FieldMapping {
   /** The name of the target field in the index. Same as the source field name by default. */
   targetFieldName?: string;
   /** A function to apply to each source field value before indexing. */
-  mappingFunction?: FieldMappingFunction | null;
+  mappingFunction?: FieldMappingFunction;
 }
 
 export function fieldMappingSerializer(item: FieldMapping): any {
@@ -7385,7 +7385,7 @@ export interface FieldMappingFunction {
   /** The name of the field mapping function. */
   name: string;
   /** A dictionary of parameter name/value pairs to pass to the function. Each value must be of a primitive type. */
-  parameters?: Record<string, any> | null;
+  parameters?: Record<string, any>;
 }
 
 export function fieldMappingFunctionSerializer(item: FieldMappingFunction): any {
@@ -7410,9 +7410,9 @@ export interface SearchIndexerCache {
   /** The connection string to the storage account where the cache data will be persisted. */
   storageConnectionString?: string;
   /** Specifies whether incremental reprocessing is enabled. */
-  enableReprocessing?: boolean | null;
+  enableReprocessing?: boolean;
   /** The user-assigned managed identity used for connections to the enrichment cache.  If the connection string indicates an identity (ResourceId) and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
-  identity?: SearchIndexerDataIdentityUnion | null;
+  identity?: SearchIndexerDataIdentityUnion;
 }
 
 export function searchIndexerCacheSerializer(item: SearchIndexerCache): any {
@@ -7503,7 +7503,7 @@ export interface IndexerRuntime {
   /** Cumulative runtime of the indexer from the beginningTime to endingTime, in seconds. */
   usedSeconds: number;
   /** Cumulative runtime remaining for all indexers in the service from the beginningTime to endingTime, in seconds. */
-  remainingSeconds?: number | null;
+  remainingSeconds?: number;
   /** Beginning UTC time of the 24-hour period considered for indexer runtime usage (inclusive). */
   beginningTime: Date;
   /** End UTC time of the 24-hour period considered for indexer runtime usage (inclusive). */
@@ -7532,7 +7532,7 @@ export interface IndexerExecutionResult {
   /** The start time of this indexer execution. */
   readonly startTime?: Date;
   /** The end time of this indexer execution, if the execution has already completed. */
-  readonly endTime?: Date | null;
+  readonly endTime?: Date;
   /** The item-level indexing errors. */
   readonly errors: SearchIndexerError[];
   /** The item-level indexing warnings. */
@@ -7756,7 +7756,7 @@ export interface SearchIndexerSkillset {
   /** The ETag of the skillset. */
   eTag?: string;
   /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your skillset definition when you want full assurance that no one, not even Microsoft, can decrypt your skillset definition. Once you have encrypted your skillset definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your skillset definition will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
-  encryptionKey?: SearchResourceEncryptionKey | null;
+  encryptionKey?: SearchResourceEncryptionKey;
 }
 
 export function searchIndexerSkillsetSerializer(item: SearchIndexerSkillset): any {
@@ -8146,9 +8146,9 @@ export interface KeyPhraseExtractionSkill extends SearchIndexerSkill {
   /** A value indicating which language code to use. Default is `en`. */
   defaultLanguageCode?: KeyPhraseExtractionSkillLanguage;
   /** A number indicating how many key phrases to return. If absent, all identified key phrases will be returned. */
-  maxKeyPhraseCount?: number | null;
+  maxKeyPhraseCount?: number;
   /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
-  modelVersion?: string | null;
+  modelVersion?: string;
   /** A URI fragment specifying the type of skill. */
   odatatype: "#Microsoft.Skills.Text.KeyPhraseExtractionSkill";
 }
@@ -9105,9 +9105,9 @@ export type ImageDetail = string;
 /** A skill that detects the language of input text and reports a single language code for every document submitted on the request. The language code is paired with a score indicating the confidence of the analysis. */
 export interface LanguageDetectionSkill extends SearchIndexerSkill {
   /** A country code to use as a hint to the language detection model if it cannot disambiguate the language. */
-  defaultCountryHint?: string | null;
+  defaultCountryHint?: string;
   /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
-  modelVersion?: string | null;
+  modelVersion?: string;
   /** A URI fragment specifying the type of skill. */
   odatatype: "#Microsoft.Skills.Text.LanguageDetectionSkill";
 }
@@ -9205,11 +9205,11 @@ export function mergeSkillDeserializer(item: any): MergeSkill {
 /** Using the Text Analytics API, evaluates unstructured text and for each record, provides sentiment labels (such as "negative", "neutral" and "positive") based on the highest confidence score found by the service at a sentence and document-level. */
 export interface SentimentSkillV3 extends SearchIndexerSkill {
   /** A value indicating which language code to use. Default is `en`. */
-  defaultLanguageCode?: string | null;
+  defaultLanguageCode?: string;
   /** If set to true, the skill output will include information from Text Analytics for opinion mining, namely targets (nouns or verbs) and their associated assessment (adjective) in the text. Default is false. */
   includeOpinionMining?: boolean;
   /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
-  modelVersion?: string | null;
+  modelVersion?: string;
   /** A URI fragment specifying the type of skill. */
   odatatype: "#Microsoft.Skills.Text.V3.SentimentSkill";
 }
@@ -9245,11 +9245,11 @@ export function sentimentSkillV3Deserializer(item: any): SentimentSkillV3 {
 /** Using the Text Analytics API, extracts linked entities from text. */
 export interface EntityLinkingSkill extends SearchIndexerSkill {
   /** A value indicating which language code to use. Default is `en`. */
-  defaultLanguageCode?: string | null;
+  defaultLanguageCode?: string;
   /** A value between 0 and 1 that be used to only include entities whose confidence score is greater than the value specified. If not set (default), or if explicitly set to null, all entities will be included. */
   minimumPrecision?: number;
   /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
-  modelVersion?: string | null;
+  modelVersion?: string;
   /** A URI fragment specifying the type of skill. */
   odatatype: "#Microsoft.Skills.Text.V3.EntityLinkingSkill";
 }
@@ -9287,11 +9287,11 @@ export interface EntityRecognitionSkillV3 extends SearchIndexerSkill {
   /** A list of entity categories that should be extracted. */
   categories?: string[];
   /** A value indicating which language code to use. Default is `en`. */
-  defaultLanguageCode?: string | null;
+  defaultLanguageCode?: string;
   /** A value between 0 and 1 that be used to only include entities whose confidence score is greater than the value specified. If not set (default), or if explicitly set to null, all entities will be included. */
   minimumPrecision?: number;
   /** The version of the model to use when calling the Text Analytics API. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
-  modelVersion?: string | null;
+  modelVersion?: string;
   /** A URI fragment specifying the type of skill. */
   odatatype: "#Microsoft.Skills.Text.V3.EntityRecognitionSkill";
 }
@@ -9337,7 +9337,7 @@ export function entityRecognitionSkillV3Deserializer(item: any): EntityRecogniti
 /** Using the Text Analytics API, extracts personal information from an input text and gives you the option of masking it. */
 export interface PIIDetectionSkill extends SearchIndexerSkill {
   /** A value indicating which language code to use. Default is `en`. */
-  defaultLanguageCode?: string | null;
+  defaultLanguageCode?: string;
   /** A value between 0 and 1 that be used to only include entities whose confidence score is greater than the value specified. If not set (default), or if explicitly set to null, all entities will be included. */
   minimumPrecision?: number;
   /** A parameter that provides various ways to mask the personal information detected in the input text. Default is 'none'. */
@@ -9345,11 +9345,11 @@ export interface PIIDetectionSkill extends SearchIndexerSkill {
   /** The character used to mask the text if the maskingMode parameter is set to replace. Default is '*'. */
   mask?: string;
   /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
-  modelVersion?: string | null;
+  modelVersion?: string;
   /** A list of PII entity categories that should be extracted and masked. */
   piiCategories?: string[];
   /** If specified, will set the PII domain to include only a subset of the entity categories. Possible values include: 'phi', 'none'. Default is 'none'. */
-  domain?: string | null;
+  domain?: string;
   /** A URI fragment specifying the type of skill. */
   odatatype: "#Microsoft.Skills.Text.PIIDetectionSkill";
 }
@@ -9423,15 +9423,15 @@ export interface SplitSkill extends SearchIndexerSkill {
   /** A value indicating which split mode to perform. */
   textSplitMode?: TextSplitMode;
   /** The desired maximum page length. Default is 10000. */
-  maximumPageLength?: number | null;
+  maximumPageLength?: number;
   /** Only applicable when textSplitMode is set to 'pages'. If specified, n+1th chunk will start with this number of characters/tokens from the end of the nth chunk. */
-  pageOverlapLength?: number | null;
+  pageOverlapLength?: number;
   /** Only applicable when textSplitMode is set to 'pages'. If specified, the SplitSkill will discontinue splitting after processing the first 'maximumPagesToTake' pages, in order to improve performance when only a few initial pages are needed from each document. */
-  maximumPagesToTake?: number | null;
+  maximumPagesToTake?: number;
   /** Only applies if textSplitMode is set to pages. There are two possible values. The choice of the values will decide the length (maximumPageLength and pageOverlapLength) measurement. The default is 'characters', which means the length will be measured by character. */
-  unit?: SplitSkillUnit | null;
+  unit?: SplitSkillUnit;
   /** Only applies if the unit is set to azureOpenAITokens. If specified, the splitSkill will use these parameters when performing the tokenization. The parameters are a valid 'encoderModelName' and an optional 'allowedSpecialTokens' property. */
-  azureOpenAITokenizerParameters?: AzureOpenAITokenizerParameters | null;
+  azureOpenAITokenizerParameters?: AzureOpenAITokenizerParameters;
   /** A URI fragment specifying the type of skill. */
   odatatype: "#Microsoft.Skills.Text.SplitSkill";
 }
@@ -9626,7 +9626,7 @@ export type SplitSkillUnit = string;
 /** Azure OpenAI Tokenizer parameters. */
 export interface AzureOpenAITokenizerParameters {
   /** Only applies if the unit is set to azureOpenAITokens. Options include 'R50k_base', 'P50k_base', 'P50k_edit' and 'CL100k_base'. The default value is 'CL100k_base'. */
-  encoderModelName?: SplitSkillEncoderModelName | null;
+  encoderModelName?: SplitSkillEncoderModelName;
   /** (Optional) Only applies if the unit is set to azureOpenAITokens. This parameter defines a collection of special tokens that are permitted within the tokenization process. */
   allowedSpecialTokens?: string[];
 }
@@ -9684,17 +9684,17 @@ export type SplitSkillEncoderModelName = string;
 /** A skill looks for text from a custom, user-defined list of words and phrases. */
 export interface CustomEntityLookupSkill extends SearchIndexerSkill {
   /** A value indicating which language code to use. Default is `en`. */
-  defaultLanguageCode?: CustomEntityLookupSkillLanguage | null;
+  defaultLanguageCode?: CustomEntityLookupSkillLanguage;
   /** Path to a JSON or CSV file containing all the target text to match against. This entity definition is read at the beginning of an indexer run. Any updates to this file during an indexer run will not take effect until subsequent runs. This config must be accessible over HTTPS. */
-  entitiesDefinitionUri?: string | null;
+  entitiesDefinitionUri?: string;
   /** The inline CustomEntity definition. */
-  inlineEntitiesDefinition?: CustomEntity[] | null;
+  inlineEntitiesDefinition?: CustomEntity[];
   /** A global flag for CaseSensitive. If CaseSensitive is not set in CustomEntity, this value will be the default value. */
-  globalDefaultCaseSensitive?: boolean | null;
+  globalDefaultCaseSensitive?: boolean;
   /** A global flag for AccentSensitive. If AccentSensitive is not set in CustomEntity, this value will be the default value. */
-  globalDefaultAccentSensitive?: boolean | null;
+  globalDefaultAccentSensitive?: boolean;
   /** A global flag for FuzzyEditDistance. If FuzzyEditDistance is not set in CustomEntity, this value will be the default value. */
-  globalDefaultFuzzyEditDistance?: number | null;
+  globalDefaultFuzzyEditDistance?: number;
   /** A URI fragment specifying the type of skill. */
   odatatype: "#Microsoft.Skills.Text.CustomEntityLookupSkill";
 }
@@ -9793,27 +9793,27 @@ export interface CustomEntity {
   /** The top-level entity descriptor. Matches in the skill output will be grouped by this name, and it should represent the "normalized" form of the text being found. */
   name: string;
   /** This field can be used as a passthrough for custom metadata about the matched text(s). The value of this field will appear with every match of its entity in the skill output. */
-  description?: string | null;
+  description?: string;
   /** This field can be used as a passthrough for custom metadata about the matched text(s). The value of this field will appear with every match of its entity in the skill output. */
-  type?: string | null;
+  type?: string;
   /** This field can be used as a passthrough for custom metadata about the matched text(s). The value of this field will appear with every match of its entity in the skill output. */
-  subtype?: string | null;
+  subtype?: string;
   /** This field can be used as a passthrough for custom metadata about the matched text(s). The value of this field will appear with every match of its entity in the skill output. */
-  id?: string | null;
+  id?: string;
   /** Defaults to false. Boolean value denoting whether comparisons with the entity name should be sensitive to character casing. Sample case insensitive matches of "Microsoft" could be: microsoft, microSoft, MICROSOFT. */
-  caseSensitive?: boolean | null;
+  caseSensitive?: boolean;
   /** Defaults to false. Boolean value denoting whether comparisons with the entity name should be sensitive to accent. */
-  accentSensitive?: boolean | null;
+  accentSensitive?: boolean;
   /** Defaults to 0. Maximum value of 5. Denotes the acceptable number of divergent characters that would still constitute a match with the entity name. The smallest possible fuzziness for any given match is returned. For instance, if the edit distance is set to 3, "Windows10" would still match "Windows", "Windows10" and "Windows 7". When case sensitivity is set to false, case differences do NOT count towards fuzziness tolerance, but otherwise do. */
-  fuzzyEditDistance?: number | null;
+  fuzzyEditDistance?: number;
   /** Changes the default case sensitivity value for this entity. It be used to change the default value of all aliases caseSensitive values. */
-  defaultCaseSensitive?: boolean | null;
+  defaultCaseSensitive?: boolean;
   /** Changes the default accent sensitivity value for this entity. It be used to change the default value of all aliases accentSensitive values. */
-  defaultAccentSensitive?: boolean | null;
+  defaultAccentSensitive?: boolean;
   /** Changes the default fuzzy edit distance value for this entity. It can be used to change the default value of all aliases fuzzyEditDistance values. */
-  defaultFuzzyEditDistance?: number | null;
+  defaultFuzzyEditDistance?: number;
   /** An array of complex objects that can be used to specify alternative spellings or synonyms to the root entity name. */
-  aliases?: CustomEntityAlias[] | null;
+  aliases?: CustomEntityAlias[];
 }
 
 export function customEntitySerializer(item: CustomEntity): any {
@@ -9869,11 +9869,11 @@ export interface CustomEntityAlias {
   /** The text of the alias. */
   text: string;
   /** Determine if the alias is case sensitive. */
-  caseSensitive?: boolean | null;
+  caseSensitive?: boolean;
   /** Determine if the alias is accent sensitive. */
-  accentSensitive?: boolean | null;
+  accentSensitive?: boolean;
   /** Determine the fuzzy edit distance of the alias. */
-  fuzzyEditDistance?: number | null;
+  fuzzyEditDistance?: number;
 }
 
 export function customEntityAliasSerializer(item: CustomEntityAlias): any {
@@ -9901,7 +9901,7 @@ export interface TextTranslationSkill extends SearchIndexerSkill {
   /** The language code to translate documents from for documents that don't specify the from language explicitly. */
   defaultFromLanguageCode?: TextTranslationSkillLanguage;
   /** The language code to translate documents from when neither the fromLanguageCode input nor the defaultFromLanguageCode parameter are provided, and the automatic language detection is unsuccessful. Default is `en`. */
-  suggestedFrom?: TextTranslationSkillLanguage | null;
+  suggestedFrom?: TextTranslationSkillLanguage;
   /** A URI fragment specifying the type of skill. */
   odatatype: "#Microsoft.Skills.Text.TranslationSkill";
 }
@@ -10165,11 +10165,11 @@ export type TextTranslationSkillLanguage = string;
 /** A skill that extracts content from a file within the enrichment pipeline. */
 export interface DocumentExtractionSkill extends SearchIndexerSkill {
   /** The parsingMode for the skill. Will be set to 'default' if not defined. */
-  parsingMode?: string | null;
+  parsingMode?: string;
   /** The type of data to be extracted for the skill. Will be set to 'contentAndMetadata' if not defined. */
-  dataToExtract?: string | null;
+  dataToExtract?: string;
   /** A dictionary of configurations for the skill. */
-  configuration?: Record<string, any> | null;
+  configuration?: Record<string, any>;
   /** A URI fragment specifying the type of skill. */
   odatatype: "#Microsoft.Skills.Util.DocumentExtractionSkill";
 }
@@ -10209,15 +10209,15 @@ export function documentExtractionSkillDeserializer(item: any): DocumentExtracti
 /** A skill that extracts content and layout information, via Azure AI Services, from files within the enrichment pipeline. */
 export interface DocumentIntelligenceLayoutSkill extends SearchIndexerSkill {
   /** Controls the output format. Default is 'markdown'. */
-  outputFormat?: DocumentIntelligenceLayoutSkillOutputFormat | null;
+  outputFormat?: DocumentIntelligenceLayoutSkillOutputFormat;
   /** Controls the cardinality of the output produced by the skill. Default is 'oneToMany'. */
-  outputMode?: DocumentIntelligenceLayoutSkillOutputMode | null;
+  outputMode?: DocumentIntelligenceLayoutSkillOutputMode;
   /** The depth of headers in the markdown output. Default is h6. */
-  markdownHeaderDepth?: DocumentIntelligenceLayoutSkillMarkdownHeaderDepth | null;
+  markdownHeaderDepth?: DocumentIntelligenceLayoutSkillMarkdownHeaderDepth;
   /** Controls the cardinality of the content extracted from the document by the skill. */
-  extractionOptions?: DocumentIntelligenceLayoutSkillExtractionOptions[] | null;
+  extractionOptions?: DocumentIntelligenceLayoutSkillExtractionOptions[];
   /** Controls the cardinality for chunking the content. */
-  chunkingProperties?: DocumentIntelligenceLayoutSkillChunkingProperties | null;
+  chunkingProperties?: DocumentIntelligenceLayoutSkillChunkingProperties;
   /** A URI fragment specifying the type of skill. */
   odatatype: "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill";
 }
@@ -10354,11 +10354,11 @@ export type DocumentIntelligenceLayoutSkillExtractionOptions = string;
 /** Controls the cardinality for chunking the content. */
 export interface DocumentIntelligenceLayoutSkillChunkingProperties {
   /** The unit of the chunk. */
-  unit?: DocumentIntelligenceLayoutSkillChunkingUnit | null;
+  unit?: DocumentIntelligenceLayoutSkillChunkingUnit;
   /** The maximum chunk length in characters. Default is 500. */
-  maximumLength?: number | null;
+  maximumLength?: number;
   /** The length of overlap provided between two text chunks. Default is 0. */
-  overlapLength?: number | null;
+  overlapLength?: number;
 }
 
 export function documentIntelligenceLayoutSkillChunkingPropertiesSerializer(
@@ -10407,13 +10407,13 @@ export interface WebApiSkill extends SearchIndexerSkill {
   /** The desired timeout for the request. Default is 30 seconds. */
   timeout?: string;
   /** The desired batch size which indicates number of documents. */
-  batchSize?: number | null;
+  batchSize?: number;
   /** If set, the number of parallel calls that can be made to the Web API. */
-  degreeOfParallelism?: number | null;
+  degreeOfParallelism?: number;
   /** Applies to custom skills that connect to external code in an Azure function or some other application that provides the transformations. This value should be the application ID created for the function or app when it was registered with Azure Active Directory. When specified, the custom skill connects to the function or app using a managed ID (either system or user-assigned) of the search service and the access token of the function or app, using this value as the resource id for creating the scope of the access token. */
-  authResourceId?: string | null;
+  authResourceId?: string;
   /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
-  authIdentity?: SearchIndexerDataIdentityUnion | null;
+  authIdentity?: SearchIndexerDataIdentityUnion;
   /** A URI fragment specifying the type of skill. */
   odatatype: "#Microsoft.Skills.Custom.WebApiSkill";
 }
@@ -10483,17 +10483,17 @@ export function webApiHttpHeadersDeserializer(item: any): WebApiHttpHeaders {
 /** The AML skill allows you to extend AI enrichment with a custom Azure Machine Learning (AML) model. Once an AML model is trained and deployed, an AML skill integrates it into AI enrichment. */
 export interface AzureMachineLearningSkill extends SearchIndexerSkill {
   /** (Required for no authentication or key authentication) The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI scheme is allowed. */
-  scoringUri?: string | null;
+  scoringUri?: string;
   /** (Required for key authentication) The key for the AML service. */
-  authenticationKey?: string | null;
+  authenticationKey?: string;
   /** (Required for token authentication). The Azure Resource Manager resource ID of the AML service. It should be in the format subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.MachineLearningServices/workspaces/{workspace-name}/services/{service_name}. */
-  resourceId?: string | null;
+  resourceId?: string;
   /** (Optional) When specified, indicates the timeout for the http client making the API call. */
-  timeout?: string | null;
+  timeout?: string;
   /** (Optional for token authentication). The region the AML service is deployed in. */
-  region?: string | null;
+  region?: string;
   /** (Optional) When specified, indicates the number of calls the indexer will make in parallel to the endpoint you have provided. You can decrease this value if your endpoint is failing under too high of a request load, or raise it if your endpoint is able to accept more requests and you would like an increase in the performance of the indexer. If not set, a default value of 5 is used. The degreeOfParallelism can be set to a maximum of 10 and a minimum of 1. */
-  degreeOfParallelism?: number | null;
+  degreeOfParallelism?: number;
   /** A URI fragment specifying the type of skill. */
   odatatype: "#Microsoft.Skills.Custom.AmlSkill";
 }
@@ -10545,7 +10545,7 @@ export interface AzureOpenAIEmbeddingSkill extends SearchIndexerSkill {
   /** The name of the embedding model that is deployed at the provided deploymentId path. */
   modelName?: AzureOpenAIModelName;
   /** The number of dimensions the resulting output embeddings should have. Only supported in text-embedding-3 and later models. */
-  dimensions?: number | null;
+  dimensions?: number;
   /** A URI fragment specifying the type of skill. */
   odatatype: "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
 }
@@ -10591,7 +10591,7 @@ export function azureOpenAIEmbeddingSkillDeserializer(item: any): AzureOpenAIEmb
 /** Allows you to generate a vector embedding for a given image or text input using the Azure AI Services Vision Vectorize API. */
 export interface VisionVectorizeSkill extends SearchIndexerSkill {
   /** The version of the model to use when calling the AI Services Vision service. It will default to the latest available when not specified. */
-  modelVersion: string | null;
+  modelVersion: string;
   /** A URI fragment specifying the type of skill. */
   odatatype: "#Microsoft.Skills.Vision.VectorizeSkill";
 }
@@ -10623,9 +10623,9 @@ export function visionVectorizeSkillDeserializer(item: any): VisionVectorizeSkil
 /** A skill that leverages Azure AI Content Understanding to process and extract structured insights from documents, enabling enriched, searchable content for enhanced document indexing and retrieval. */
 export interface ContentUnderstandingSkill extends SearchIndexerSkill {
   /** Controls the cardinality of the content extracted from the document by the skill. */
-  extractionOptions?: ContentUnderstandingSkillExtractionOptions[] | null;
+  extractionOptions?: ContentUnderstandingSkillExtractionOptions[];
   /** Controls the cardinality for chunking the content. */
-  chunkingProperties?: ContentUnderstandingSkillChunkingProperties | null;
+  chunkingProperties?: ContentUnderstandingSkillChunkingProperties;
   /** A URI fragment specifying the type of skill. */
   odataType: "#Microsoft.Skills.Util.ContentUnderstandingSkill";
 }
@@ -10691,11 +10691,11 @@ export type ContentUnderstandingSkillExtractionOptions = string;
 /** Controls the cardinality for chunking the content. */
 export interface ContentUnderstandingSkillChunkingProperties {
   /** The unit of the chunk. */
-  unit?: ContentUnderstandingSkillChunkingUnit | null;
+  unit?: ContentUnderstandingSkillChunkingUnit;
   /** The maximum chunk length in characters. Default is 500. */
-  maximumLength?: number | null;
+  maximumLength?: number;
   /** The length of overlap provided between two text chunks. Default is 0. */
-  overlapLength?: number | null;
+  overlapLength?: number;
 }
 
 export function contentUnderstandingSkillChunkingPropertiesSerializer(
@@ -10744,19 +10744,19 @@ export interface ChatCompletionSkill extends SearchIndexerSkill {
   /** The desired timeout for the request. Default is 30 seconds. */
   timeout?: string;
   /** The desired batch size which indicates number of documents. */
-  batchSize?: number | null;
+  batchSize?: number;
   /** If set, the number of parallel calls that can be made to the Web API. */
-  degreeOfParallelism?: number | null;
+  degreeOfParallelism?: number;
   /** Applies to custom skills that connect to external code in an Azure function or some other application that provides the transformations. This value should be the application ID created for the function or app when it was registered with Azure Active Directory. When specified, the custom skill connects to the function or app using a managed ID (either system or user-assigned) of the search service and the access token of the function or app, using this value as the resource id for creating the scope of the access token. */
-  authResourceId?: string | null;
+  authResourceId?: string;
   /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
-  authIdentity?: SearchIndexerDataIdentityUnion | null;
+  authIdentity?: SearchIndexerDataIdentityUnion;
   /** API key for authenticating to the model. Both apiKey and authIdentity cannot be specified at the same time. */
   apiKey?: string;
   /** Common language model parameters that customers can tweak. If omitted, reasonable defaults will be applied. */
   commonModelParameters?: CommonModelParameters;
   /** Open-type dictionary for model-specific parameters that should be appended to the chat completions call. Follows Azure AI Foundry's extensibility pattern. */
-  extraParameters?: Record<string, any> | null;
+  extraParameters?: Record<string, any>;
   /** How extra parameters are handled by Azure AI Foundry. Default is 'error'. */
   extraParametersBehavior?: ChatCompletionExtraParametersBehavior;
   /** Determines how the LLM should format its response. Defaults to 'text' response type. */
@@ -10838,19 +10838,19 @@ export function chatCompletionSkillDeserializer(item: any): ChatCompletionSkill 
 /** Common language model parameters for Chat Completions. If omitted, default values are used. */
 export interface CommonModelParameters {
   /** The name of the model to use (e.g., 'gpt-4o', etc.). Default is null if not specified. */
-  modelName?: string | null;
+  modelName?: string;
   /** A float in the range [-2,2] that reduces or increases likelihood of repeated tokens. Default is 0. */
-  frequencyPenalty?: number | null;
+  frequencyPenalty?: number;
   /** A float in the range [-2,2] that penalizes new tokens based on their existing presence. Default is 0. */
-  presencePenalty?: number | null;
+  presencePenalty?: number;
   /** Maximum number of tokens to generate. */
-  maxTokens?: number | null;
+  maxTokens?: number;
   /** Sampling temperature. Default is 0.7. */
-  temperature?: number | null;
+  temperature?: number;
   /** Random seed for controlling deterministic outputs. If omitted, randomization is used. */
-  seed?: number | null;
+  seed?: number;
   /** List of stop sequences that will cut off text generation. Default is none. */
-  stop?: string[] | null;
+  stop?: string[];
 }
 
 export function commonModelParametersSerializer(item: CommonModelParameters): any {
@@ -10911,7 +10911,7 @@ export interface ChatCompletionResponseFormat {
   /** Specifies how the LLM should format the response. */
   type?: ChatCompletionResponseFormatType;
   /** An open dictionary for extended properties. Required if 'type' == 'json_schema' */
-  chatCompletionSchemaProperties?: ChatCompletionSchemaProperties | null;
+  chatCompletionSchemaProperties?: ChatCompletionSchemaProperties;
 }
 
 export function chatCompletionResponseFormatSerializer(item: ChatCompletionResponseFormat): any {
@@ -10956,9 +10956,9 @@ export type ChatCompletionResponseFormatType = string;
 /** Properties for JSON schema response format. */
 export interface ChatCompletionSchemaProperties {
   /** Name of the json schema the model will adhere to. */
-  name?: string | null;
+  name?: string;
   /** Description of the json schema the model will adhere to. */
-  description?: string | null;
+  description?: string;
   /** Whether or not the model's response should use structured outputs. Default is true. */
   strict?: boolean;
   /** The schema definition. */
@@ -11165,7 +11165,7 @@ export function aiServicesAccountKeyDeserializer(item: any): AIServicesAccountKe
 /** The multi-region account of an Azure AI service resource that's attached to a skillset. */
 export interface AIServicesAccountIdentity extends CognitiveServicesAccount {
   /** The user-assigned managed identity used for connections to AI Service. If not specified, the system-assigned managed identity is used. On updates to the skillset, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
-  identity?: SearchIndexerDataIdentityUnion | null;
+  identity?: SearchIndexerDataIdentityUnion;
   /** The subdomain url for the corresponding AI Service. */
   subdomainUrl: string;
   /** A URI fragment specifying the type of Azure AI service resource attached to a skillset. */
@@ -11201,7 +11201,7 @@ export interface SearchIndexerKnowledgeStore {
   /** A list of additional projections to perform during indexing. */
   projections: SearchIndexerKnowledgeStoreProjection[];
   /** The user-assigned managed identity used for connections to Azure Storage when writing knowledge store projections. If the connection string indicates an identity (ResourceId) and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
-  identity?: SearchIndexerDataIdentityUnion | null;
+  identity?: SearchIndexerDataIdentityUnion;
   /** A dictionary of knowledge store-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
   parameters?: SearchIndexerKnowledgeStoreParameters;
 }
