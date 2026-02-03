@@ -264,9 +264,7 @@ const client = new ContentUnderstandingClient(endpoint, new DefaultAzureCredenti
 const documentUrl = "https://example.com/sample_invoice.pdf";
 
 // Analyze document using prebuilt-documentSearch
-const poller = client.analyze("prebuilt-documentSearch", {
-  inputs: [{ url: documentUrl }],
-});
+const poller = client.analyze("prebuilt-documentSearch", [{ url: documentUrl }]);
 const result = await poller.pollUntilDone();
 
 // Extract markdown content
@@ -300,9 +298,7 @@ const client = new ContentUnderstandingClient(endpoint, new DefaultAzureCredenti
 const invoiceUrl = "https://example.com/invoice.pdf";
 
 // Analyze invoice using prebuilt-invoice analyzer
-const poller = client.analyze("prebuilt-invoice", {
-  inputs: [{ url: invoiceUrl }],
-});
+const poller = client.analyze("prebuilt-invoice", [{ url: invoiceUrl }]);
 const result = await poller.pollUntilDone();
 
 if (result.contents && result.contents.length > 0) {

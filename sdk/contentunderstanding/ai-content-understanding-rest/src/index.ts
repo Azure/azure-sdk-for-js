@@ -7,7 +7,12 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { ContentUnderstandingClient, AnalyzeResultPoller } from "./contentUnderstandingClient.js";
+export {
+  ContentUnderstandingClient,
+  AnalyzeResultPoller,
+  ContentUnderstandingAnalyzeOptionalParams,
+  ContentUnderstandingAnalyzeBinaryOptionalParams,
+} from "./contentUnderstandingClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   AnalyzeInput,

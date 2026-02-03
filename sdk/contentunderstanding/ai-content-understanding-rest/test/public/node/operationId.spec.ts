@@ -81,7 +81,7 @@ describe("AnalyzeResultPoller operationId", () => {
 
     (operationsMock._analyzeSend as any).mockResolvedValue(mockResponse);
 
-    const poller = client.analyze("analyzer1", { url: "http://test.com/doc.pdf" });
+    const poller = client.analyze("analyzer1", [{ url: "http://test.com/doc.pdf" }]);
 
     await poller.poll();
 

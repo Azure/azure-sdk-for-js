@@ -51,6 +51,7 @@ import type {
   ContentAnalyzerOperationStatus,
   ContentUnderstandingDefaults,
   CopyAuthorization,
+  AnalyzeInput,
 } from "./models/models.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -58,6 +59,18 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
+
+/** Optional parameters for the analyze operation, excluding inputs and stringEncoding. */
+export type ContentUnderstandingAnalyzeOptionalParams = Omit<
+  AnalyzeOptionalParams,
+  "inputs" | "stringEncoding"
+>;
+
+/** Optional parameters for the analyzeBinary operation, excluding stringEncoding. */
+export type ContentUnderstandingAnalyzeBinaryOptionalParams = Omit<
+  AnalyzeBinaryOptionalParams,
+  "stringEncoding"
+>;
 
 export interface AnalyzeResultPoller extends PollerLike<
   OperationState<AnalyzeResult>,
@@ -200,17 +213,14 @@ export class ContentUnderstandingClient {
     analyzerId: string,
     binaryInput: Uint8Array,
     contentType: string = "application/octet-stream",
-    options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
+    options: ContentUnderstandingAnalyzeBinaryOptionalParams = { requestOptions: {} },
   ): AnalyzeResultPoller {
     let operationId: string | undefined;
     const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
-      const res = await _analyzeBinarySend(
-        this._client,
-        analyzerId,
-        contentType,
-        binaryInput,
-        options,
-      );
+      const res = await _analyzeBinarySend(this._client, analyzerId, contentType, binaryInput, {
+        ...options,
+        stringEncoding: "utf16",
+      });
       const operationLocation = res.headers["operation-location"];
       if (operationLocation) {
         const lastSegment = operationLocation
@@ -247,11 +257,16 @@ export class ContentUnderstandingClient {
   /** Extract content and fields from input. */
   analyze(
     analyzerId: string,
-    options: AnalyzeOptionalParams = { requestOptions: {} },
+    inputs: AnalyzeInput[],
+    options: ContentUnderstandingAnalyzeOptionalParams = { requestOptions: {} },
   ): AnalyzeResultPoller {
     let operationId: string | undefined;
     const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
-      const res = await _analyzeSend(this._client, analyzerId, options);
+      const res = await _analyzeSend(this._client, analyzerId, {
+        ...options,
+        inputs,
+        stringEncoding: "utf16",
+      });
       const operationLocation = res.headers["operation-location"];
       if (operationLocation) {
         const lastSegment = operationLocation

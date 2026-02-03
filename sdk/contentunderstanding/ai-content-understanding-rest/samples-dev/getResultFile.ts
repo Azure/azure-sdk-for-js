@@ -52,9 +52,7 @@ export async function main(): Promise<void> {
   console.log(`  URL: ${videoUrl}`);
 
   // Start the analysis operation
-  const poller = client.analyze("prebuilt-videoSearch", {
-    inputs: [{ url: videoUrl }],
-  });
+  const poller = client.analyze("prebuilt-videoSearch", [{ url: videoUrl }]);
 
   // Get the operation ID from the poller state
   // We need to wait for at least one poll to get the operation location

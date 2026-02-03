@@ -45,9 +45,7 @@ async function main() {
   console.log("Analyzing invoice with prebuilt-invoice analyzer...");
   console.log(`  URL: ${invoiceUrl}`);
 
-  const poller = client.analyze("prebuilt-invoice", {
-    inputs: [{ url: invoiceUrl }],
-  });
+  const poller = client.analyze("prebuilt-invoice", [{ url: invoiceUrl }]);
   const result = await poller.pollUntilDone();
 
   if (!result.contents || result.contents.length === 0) {

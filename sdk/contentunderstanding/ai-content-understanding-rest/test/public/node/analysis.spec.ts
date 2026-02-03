@@ -50,7 +50,7 @@ describe("ContentUnderstandingClient - Analysis", () => {
     const pdfBytes = fs.readFileSync(filePath);
 
     // Use the analyzeBinary method from the SDK
-    const poller = client.analyzeBinary(testAnalyzerId, pdfBytes, "application/pdf");
+    const poller = client.analyzeBinary(testAnalyzerId, pdfBytes);
 
     await poller.pollUntilDone();
     const operationId = poller.operationId!;
@@ -69,9 +69,7 @@ describe("ContentUnderstandingClient - Analysis", () => {
     const testUrl =
       "https://github.com/Azure-Samples/azure-ai-content-understanding-python/raw/refs/heads/main/data/invoice.pdf";
 
-    const poller = client.analyze(testAnalyzerId, {
-      inputs: [{ url: testUrl }],
-    });
+    const poller = client.analyze(testAnalyzerId, [{ url: testUrl }]);
 
     await poller.pollUntilDone();
     const operationId = poller.operationId!;
@@ -88,9 +86,7 @@ describe("ContentUnderstandingClient - Analysis", () => {
     const testUrl =
       "https://github.com/Azure-Samples/azure-ai-content-understanding-python/raw/refs/heads/main/data/invoice.pdf";
 
-    const poller = client.analyze(testAnalyzerId, {
-      inputs: [{ url: testUrl }],
-    });
+    const poller = client.analyze(testAnalyzerId, [{ url: testUrl }]);
 
     await poller.pollUntilDone();
     const operationId = poller.operationId!;
@@ -115,9 +111,7 @@ describe("ContentUnderstandingClient - Analysis", () => {
 
     // The error should occur during polling
     try {
-      const poller = client.analyze(testAnalyzerId, {
-        inputs: [{ url: invalidUrl }],
-      });
+      const poller = client.analyze(testAnalyzerId, [{ url: invalidUrl }]);
       await poller.pollUntilDone();
       // If the poller completes without throwing, try to fetch the result to see the error
       const operationId = poller.operationId!;

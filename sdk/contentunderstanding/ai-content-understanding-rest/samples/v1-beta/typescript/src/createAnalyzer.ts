@@ -129,15 +129,13 @@ export async function main(): Promise<void> {
   console.log("\nAnalyzing document with custom analyzer...");
   const documentUrl =
     "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/document/invoice.pdf";
-  
-  const analyzePoller = client.analyze(analyzerId, {
-    inputs: [{ url: documentUrl }],
-  });
+
+  const analyzePoller = client.analyze(analyzerId, [{ url: documentUrl }]);
   const analyzeResult = await analyzePoller.pollUntilDone();
 
   if (analyzeResult.contents && analyzeResult.contents.length > 0) {
     const content = analyzeResult.contents[0];
-    
+
     // Extract custom fields
     if (content.fields) {
       // Extract field (literal text extraction)

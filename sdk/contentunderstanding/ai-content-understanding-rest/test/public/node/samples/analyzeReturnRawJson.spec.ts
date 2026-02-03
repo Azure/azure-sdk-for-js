@@ -34,7 +34,7 @@ describe("Sample: analyzeReturnRawJson", () => {
     const filePath = getSampleFilePath("sample_invoice.pdf");
     const fileBytes = fs.readFileSync(filePath);
 
-    const poller = client.analyzeBinary("prebuilt-documentSearch", fileBytes, "application/pdf");
+    const poller = client.analyzeBinary("prebuilt-documentSearch", fileBytes);
 
     await poller.pollUntilDone();
 

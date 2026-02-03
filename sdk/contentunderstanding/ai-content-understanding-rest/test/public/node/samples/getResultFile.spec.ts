@@ -40,10 +40,11 @@ describe("Sample: getResultFile", () => {
     console.log("Analyzing video with prebuilt-videoSearch...");
     console.log(`URL: ${TEST_VIDEO_URL}`);
 
-    const poller = client.analyze("prebuilt-videoSearch", {
-      inputs: [{ url: TEST_VIDEO_URL }],
-      ...testPollingOptions,
-    });
+    const poller = client.analyze(
+      "prebuilt-videoSearch",
+      [{ url: TEST_VIDEO_URL }],
+      testPollingOptions,
+    );
 
     const result = await poller.pollUntilDone();
 

@@ -50,9 +50,7 @@ async function main() {
 
   // Step 1: Start the analysis operation
   console.log("\nStep 1: Starting document analysis...");
-  const poller = client.analyze("prebuilt-invoice", {
-    inputs: [{ url: documentUrl }],
-  });
+  const poller = client.analyze("prebuilt-invoice", [{ url: documentUrl }]);
 
   // Get the operation ID from the poller state
   // We need to wait for at least one poll to get the operation location

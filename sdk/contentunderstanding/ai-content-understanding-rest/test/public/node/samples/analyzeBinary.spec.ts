@@ -51,7 +51,6 @@ describe("Sample: analyzeBinary", () => {
     const poller = client.analyzeBinary(
       "prebuilt-documentSearch",
       pdfBytes,
-      "application/pdf",
       testPollingOptions,
     );
 

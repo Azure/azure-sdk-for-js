@@ -52,9 +52,7 @@ export async function main(): Promise<void> {
   console.log("Analyzing invoice with prebuilt-invoice analyzer...");
   console.log(`  URL: ${invoiceUrl}`);
 
-  const poller = client.analyze("prebuilt-invoice", {
-    inputs: [{ url: invoiceUrl }],
-  });
+  const poller = client.analyze("prebuilt-invoice", [{ url: invoiceUrl }]);
   const result = await poller.pollUntilDone();
 
   if (!result.contents || result.contents.length === 0) {
@@ -71,7 +69,7 @@ export async function main(): Promise<void> {
     // Print document unit information
     console.log(`\nDocument unit: ${documentContent.unit ?? "unknown"}`);
     console.log(`Pages: ${documentContent.startPageNumber} to ${documentContent.endPageNumber}`);
-    
+
     if (documentContent.pages && documentContent.pages.length > 0) {
       const page = documentContent.pages[0];
       const unit = documentContent.unit ?? "units";

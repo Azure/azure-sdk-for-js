@@ -56,19 +56,21 @@ Key files to check:
 - `src/static-helpers/serialization/serialize-record.ts`
 - `src/models/models.ts`
 - `src/api/operations.ts`
+- `src/contentUnderstandingClient.ts`
 
 ### Step 5: Check Fix Status
 
 Verify each fix listed in the "Current Known Fixes" section below is still applied in `src/`.
 
-| Fix # | Description                                              | Check Location                                                     | Verification                                                            |
-| ----- | -------------------------------------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------- |
-| 1     | `serializeRecord` return types + no param reassign       | `src/static-helpers/serialization/serialize-record.ts`             | Has `): Record<string, any>` return type and uses `propertiesToExclude` |
-| 2     | `keyFrameTimesMs` casing fallback                        | `src/models/models.ts` in `audioVisualContentDeserializer`         | Has `item["keyFrameTimesMs"] ?? item["KeyFrameTimesMs"]`                |
-| 3     | Default `stringEncoding` to 'utf16'                      | `src/api/operations.ts` in `_analyzeSend` and `_analyzeBinarySend` | Has `options?.stringEncoding ?? "utf16"`                                |
-| 4     | `path` variable renamed to `urlPath`                     | `src/api/operations.ts` in `_getResultFileSend`                    | Uses `const urlPath = expandUrlTemplate(...)`                           |
-| 5     | Null guard in `contentFieldDefinitionRecordDeserializer` | `src/models/models.ts`                                             | Has `if (!item) { return item; }`                                       |
-| 6     | `value` property on ContentField types                   | `src/models/models.ts`                                             | All field types have `value` property                                   |
+| Fix # | Description                                                    | Check Location                                             | Verification                                                            |
+| ----- | -------------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------- |
+| 1     | `serializeRecord` return types + no param reassign             | `src/static-helpers/serialization/serialize-record.ts`     | Has `): Record<string, any>` return type and uses `propertiesToExclude` |
+| 2     | `keyFrameTimesMs` casing fallback                              | `src/models/models.ts` in `audioVisualContentDeserializer` | Has `item["keyFrameTimesMs"] ?? item["KeyFrameTimesMs"]`                |
+| 3     | `stringEncoding` always 'utf16' via ContentUnderstandingClient | `src/contentUnderstandingClient.ts`                        | `analyze` and `analyzeBinary` pass `stringEncoding: "utf16"` internally |
+| 4     | `path` variable renamed to `urlPath`                           | `src/api/operations.ts` in `_getResultFileSend`            | Uses `const urlPath = expandUrlTemplate(...)`                           |
+| 5     | Null guard in `contentFieldDefinitionRecordDeserializer`       | `src/models/models.ts`                                     | Has `if (!item) { return item; }`                                       |
+| 6     | `value` property on ContentField types                         | `src/models/models.ts`                                     | All field types have `value` property                                   |
+| 7     | ContentUnderstandingClient API customizations                  | `src/contentUnderstandingClient.ts`                        | Custom option types and `analyze` requires `inputs` as second param     |
 
 **If a fix is now included in the generated code upstream, remove it from this skill document.**
 
@@ -174,28 +176,45 @@ keyFrameTimesMs: (() => {
 
 ---
 
-### Fix 3: Default stringEncoding to 'utf16'
+### Fix 3: Always Use 'utf16' for stringEncoding
 
-**File**: `src/api/operations.ts` in `_analyzeSend` and `_analyzeBinarySend`
+**File**: `src/contentUnderstandingClient.ts`
 
-**Problem**: The generated code does not set a default value for `stringEncoding`, but JavaScript strings use UTF-16 code units internally for `.length` and string indexing.
+**Problem**: JavaScript strings use UTF-16 code units internally for `.length` and string indexing. The SDK should always use 'utf16' encoding to ensure span offsets align correctly with JavaScript string operations.
 
 **Why this matters**:
 
 - JavaScript's `String.length` returns the number of UTF-16 code units, not Unicode code points
 - The .NET SDK defaults to 'utf16' for the same reason (.NET strings are UTF-16)
-- Without this default, span offsets and lengths returned by the service may not align correctly with JavaScript string operations
-- Users would need to remember to always pass `stringEncoding: 'utf16'` manually
+- Without this, span offsets and lengths returned by the service may not align correctly with JavaScript string operations
+- Users should not need to specify this parameter
 
-**Fix**: Set default value to 'utf16' in the URL template expansion:
+**Fix**: The `ContentUnderstandingClient` wrapper methods always pass `stringEncoding: "utf16"` internally within the `getInitialResponse` function, regardless of user input:
 
 ```typescript
-// In _analyzeSend:
-stringEncoding: options?.stringEncoding ?? "utf16",
+// In analyze method:
+const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
+  const res = await _analyzeSend(this._client, analyzerId, {
+    ...options,
+    inputs,
+    stringEncoding: "utf16",
+  });
+  // ... operationId extraction
+  return res;
+};
 
-// In _analyzeBinarySend:
-stringEncoding: options?.stringEncoding ?? "utf16",
+// In analyzeBinary method:
+const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
+  const res = await _analyzeBinarySend(this._client, analyzerId, contentType, binaryInput, {
+    ...options,
+    stringEncoding: "utf16",
+  });
+  // ... operationId extraction
+  return res;
+};
 ```
+
+The `stringEncoding` property is also excluded from the public option types (see Fix 7).
 
 ---
 
@@ -317,6 +336,64 @@ export function stringFieldDeserializer(item: any): StringField {
 
 ---
 
+### Fix 7: ContentUnderstandingClient API Customizations
+
+**File**: `src/contentUnderstandingClient.ts`
+
+**Problem**: The generated client API for `analyze` and `analyzeBinary` needs to be customized for better developer experience:
+
+1. `inputs` should be a required parameter for `analyze`, not optional in the options bag
+2. `stringEncoding` should be hidden from users (always 'utf16')
+3. The `operationId` should be exposed on the poller for result retrieval
+
+**Why this matters**:
+
+- `inputs` is semantically required - an analyze call without inputs doesn't make sense
+- `stringEncoding` must always be 'utf16' for JavaScript (see Fix 3)
+- Users need `operationId` to call `getResult`, `getResultFile`, and `deleteResult`
+
+**Fix**: Add custom option types and modify method signatures:
+
+```typescript
+// Custom option types that hide internal parameters
+export type ContentUnderstandingAnalyzeOptionalParams = Omit<
+  AnalyzeOptionalParams,
+  "inputs" | "stringEncoding"
+>;
+
+export type ContentUnderstandingAnalyzeBinaryOptionalParams = Omit<
+  AnalyzeBinaryOptionalParams,
+  "stringEncoding"
+>;
+
+// Custom poller type with operationId
+export interface AnalyzeResultPoller extends PollerLike<
+  OperationState<AnalyzeResult>,
+  AnalyzeResult
+> {
+  operationId?: string;
+}
+
+// analyze method - inputs is now a required second parameter
+analyze(
+  analyzerId: string,
+  inputs: AnalyzeInput[],
+  options: ContentUnderstandingAnalyzeOptionalParams = { requestOptions: {} },
+): AnalyzeResultPoller
+
+// analyzeBinary method - uses custom options type
+analyzeBinary(
+  analyzerId: string,
+  binaryInput: Uint8Array,
+  contentType: string = "application/octet-stream",
+  options: ContentUnderstandingAnalyzeBinaryOptionalParams = { requestOptions: {} },
+): AnalyzeResultPoller
+```
+
+Both methods internally always pass `stringEncoding: "utf16"` and expose `operationId` on the returned poller.
+
+---
+
 ## Troubleshooting
 
 ### Build Fails After Regeneration
@@ -351,3 +428,4 @@ export function stringFieldDeserializer(item: any): StringField {
 - `tsp-location.yaml` - TypeSpec commit reference
 - `generated/` - Raw generated code (do not edit directly)
 - `src/` - Customized source code (apply fixes here)
+- `src/contentUnderstandingClient.ts` - Client wrapper with API customizations (Fix 3 & 7)
