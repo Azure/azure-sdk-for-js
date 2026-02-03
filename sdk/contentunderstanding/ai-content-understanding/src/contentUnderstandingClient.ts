@@ -57,7 +57,7 @@ import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
 
-// CUSTOMIZATION: Custom option types that exclude `inputs` and `stringEncoding` from the public API.
+// CUSTOMIZATION: SDK-IMPROVEMENT: Custom option types that exclude `inputs` and `stringEncoding` from the public API.
 // `inputs` is made a required parameter in the method signature, and `stringEncoding` is always 'utf16'
 // internally to ensure span offsets align with JavaScript's UTF-16 string operations.
 /** Optional parameters for the analyze operation, excluding inputs and stringEncoding. */
@@ -66,14 +66,14 @@ export type ContentUnderstandingAnalyzeOptionalParams = Omit<
   "inputs" | "stringEncoding"
 >;
 
-// CUSTOMIZATION: Custom option type that excludes `stringEncoding` from the public API.
+// CUSTOMIZATION: SDK-IMPROVEMENT: Custom option type that excludes `stringEncoding` from the public API.
 /** Optional parameters for the analyzeBinary operation, excluding stringEncoding. */
 export type ContentUnderstandingAnalyzeBinaryOptionalParams = Omit<
   AnalyzeBinaryOptionalParams,
   "stringEncoding"
 >;
 
-// CUSTOMIZATION: Custom poller type that exposes `operationId` for users to call
+// CUSTOMIZATION: SDK-IMPROVEMENT: Custom poller type that exposes `operationId` for users to call
 // `getResult`, `getResultFile`, and `deleteResult` methods.
 export interface AnalyzeResultPoller extends PollerLike<
   OperationState<AnalyzeResult>,
@@ -153,8 +153,9 @@ export class ContentUnderstandingClient {
     return getResult(this._client, operationId, options);
   }
 
-  // CUSTOMIZATION: Removed `getOperationStatus` method - it is marked as @internal in TypeSpec,
-  // but the JS emitter does not respect the @internal decorator. The poller handles operation status internally.
+  // CUSTOMIZATION: EMITTER-FIX: Removed `getOperationStatus` method - it is marked as
+  // @@access(Access.internal) in TypeSpec, but the JS emitter does not respect this decorator.
+  // The poller handles operation status internally.
 
   /** Return default settings for this Content Understanding resource. */
   getDefaults(
@@ -205,7 +206,7 @@ export class ContentUnderstandingClient {
     return copyAnalyzer(this._client, analyzerId, sourceAnalyzerId, options);
   }
 
-  // CUSTOMIZATION: Custom `analyzeBinary` method with:
+  // CUSTOMIZATION: SDK-IMPROVEMENT: Custom `analyzeBinary` method with:
   // 1. Different parameter order (`contentType` before `binaryInput` with default value)
   // 2. Uses custom option type that hides `stringEncoding`
   // 3. Always passes `stringEncoding: "utf16"` internally for JavaScript string compatibility
@@ -256,7 +257,7 @@ export class ContentUnderstandingClient {
     return poller;
   }
 
-  // CUSTOMIZATION: Custom `analyze` method with:
+  // CUSTOMIZATION: SDK-IMPROVEMENT: Custom `analyze` method with:
   // 1. `inputs` as a required parameter (semantically required for analyze calls)
   // 2. Uses custom option type that hides `inputs` and `stringEncoding`
   // 3. Always passes `stringEncoding: "utf16"` internally for JavaScript string compatibility

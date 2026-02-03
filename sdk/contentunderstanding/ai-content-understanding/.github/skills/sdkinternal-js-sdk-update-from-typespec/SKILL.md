@@ -63,18 +63,23 @@ Key files to check:
 
 Verify each fix listed in the "Current Known Fixes" section below is still applied in `src/`.
 
-| Fix # | Description                                                    | Check Location                                             | Verification                                                            |
-| ----- | -------------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------- |
-| 1     | `serializeRecord` return types + no param reassign             | `src/static-helpers/serialization/serialize-record.ts`     | Has `): Record<string, any>` return type and uses `propertiesToExclude` |
-| 2     | `keyFrameTimesMs` casing fallback                              | `src/models/models.ts` in `audioVisualContentDeserializer` | Has `item["keyFrameTimesMs"] ?? item["KeyFrameTimesMs"]`                |
-| 3     | `stringEncoding` always 'utf16' via ContentUnderstandingClient | `src/contentUnderstandingClient.ts`                        | `analyze` and `analyzeBinary` pass `stringEncoding: "utf16"` internally |
-| 4     | `path` variable renamed to `urlPath`                           | `src/api/operations.ts` in `_getResultFileSend`            | Uses `const urlPath = expandUrlTemplate(...)`                           |
-| 5     | Null guard in `contentFieldDefinitionRecordDeserializer`       | `src/models/models.ts`                                     | Has `if (!item) { return item; }`                                       |
-| 6     | `value` property on ContentField types                         | `src/models/models.ts`                                     | All field types have `value` property                                   |
-| 7     | ContentUnderstandingClient API customizations                  | `src/contentUnderstandingClient.ts`                        | Custom option types and `analyze` requires `inputs` as second param     |
-| 8     | `result` variable renamed to `varResults` in urlTemplate       | `src/static-helpers/urlTemplate.ts`                        | Uses `const varResults = []` instead of `const result = []`             |
-| 9     | Regex character class fix in urlTemplate                       | `src/static-helpers/urlTemplate.ts`                        | Uses `/[.~-]/` instead of `/[\-.~]/`                                    |
-| 10    | Hide `getOperationStatus` method (@internal not respected)     | `src/contentUnderstandingClient.ts`                        | Method removed - marked @internal in TypeSpec but emitter ignores it    |
+**Category Legend:**
+- **EMITTER-FIX**: Issues with the TypeSpec JS emitter that need workarounds
+- **SERVICE-FIX**: Issues with the service returning incorrect/inconsistent data
+- **SDK-IMPROVEMENT**: Enhancements to the SDK API for better developer experience
+
+| Fix # | Category        | Description                                                    | Check Location                                             | Verification                                                            |
+| ----- | --------------- | -------------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------- |
+| 1     | EMITTER-FIX     | `serializeRecord` return types + no param reassign             | `src/static-helpers/serialization/serialize-record.ts`     | Has `): Record<string, any>` return type and uses `propertiesToExclude` |
+| 2     | SERVICE-FIX     | `keyFrameTimesMs` casing fallback                              | `src/models/models.ts` in `audioVisualContentDeserializer` | Has `item["keyFrameTimesMs"] ?? item["KeyFrameTimesMs"]`                |
+| 3     | SDK-IMPROVEMENT | `stringEncoding` always 'utf16' via ContentUnderstandingClient | `src/contentUnderstandingClient.ts`                        | `analyze` and `analyzeBinary` pass `stringEncoding: "utf16"` internally |
+| 4     | EMITTER-FIX     | `path` variable renamed to `urlPath`                           | `src/api/operations.ts` in `_getResultFileSend`            | Uses `const urlPath = expandUrlTemplate(...)`                           |
+| 5     | EMITTER-FIX     | Null guard in `contentFieldDefinitionRecordDeserializer`       | `src/models/models.ts`                                     | Has `if (!item) { return item; }`                                       |
+| 6     | SDK-IMPROVEMENT | `value` property on ContentField types                         | `src/models/models.ts`                                     | All field types have `value` property                                   |
+| 7     | SDK-IMPROVEMENT | ContentUnderstandingClient API customizations                  | `src/contentUnderstandingClient.ts`                        | Custom option types and `analyze` requires `inputs` as second param     |
+| 8     | EMITTER-FIX     | `result` variable renamed to `varResults` in urlTemplate       | `src/static-helpers/urlTemplate.ts`                        | Uses `const varResults = []` instead of `const result = []`             |
+| 9     | EMITTER-FIX     | Regex character class fix in urlTemplate                       | `src/static-helpers/urlTemplate.ts`                        | Uses `/[.~-]/` instead of `/[\-.~]/`                                    |
+| 10    | EMITTER-FIX     | Hide `getOperationStatus` method (Access.internal not respected) | `src/contentUnderstandingClient.ts`                        | Method removed - marked @@access(Access.internal) in TypeSpec but emitter ignores it |
 
 **If a fix is now included in the generated code upstream, remove it from this skill document.**
 
@@ -124,7 +129,7 @@ Never disable `eslint-plugin-azure-sdk` rules to resolve linting issues.
 
 These fixes address issues in the generated code that are not yet resolved upstream in the TypeSpec emitter. Each fix must be verified after regeneration.
 
-### Fix 1: serializeRecord Linting Issues
+### Fix 1 [EMITTER-FIX]: serializeRecord Linting Issues
 
 **File**: `src/static-helpers/serialization/serialize-record.ts`
 
@@ -161,7 +166,7 @@ export function serializeRecord(
 
 ---
 
-### Fix 2: keyFrameTimesMs Property Casing Inconsistency
+### Fix 2 [SERVICE-FIX]: keyFrameTimesMs Property Casing Inconsistency
 
 **File**: `src/models/models.ts` in `audioVisualContentDeserializer`
 
@@ -180,7 +185,7 @@ keyFrameTimesMs: (() => {
 
 ---
 
-### Fix 3: Always Use 'utf16' for stringEncoding
+### Fix 3 [SDK-IMPROVEMENT]: Always Use 'utf16' for stringEncoding
 
 **File**: `src/contentUnderstandingClient.ts`
 
@@ -222,7 +227,7 @@ The `stringEncoding` property is also excluded from the public option types (see
 
 ---
 
-### Fix 4: Duplicate Variable Name in \_getResultFileSend
+### Fix 4 [EMITTER-FIX]: Duplicate Variable Name in \_getResultFileSend
 
 **File**: `src/api/operations.ts` in `_getResultFileSend`
 
@@ -261,7 +266,7 @@ export function _getResultFileSend(
 
 ---
 
-### Fix 5: Missing Null Guard in contentFieldDefinitionRecordDeserializer
+### Fix 5 [EMITTER-FIX]: Missing Null Guard in contentFieldDefinitionRecordDeserializer
 
 **File**: `src/models/models.ts` in `contentFieldDefinitionRecordDeserializer`
 
@@ -288,7 +293,7 @@ export function contentFieldDefinitionRecordDeserializer(
 
 ---
 
-### Fix 6: Add value Property to ContentField Types
+### Fix 6 [SDK-IMPROVEMENT]: Add value Property to ContentField Types
 
 **File**: `src/models/models.ts`
 
@@ -340,7 +345,7 @@ export function stringFieldDeserializer(item: any): StringField {
 
 ---
 
-### Fix 7: ContentUnderstandingClient API Customizations
+### Fix 7 [SDK-IMPROVEMENT]: ContentUnderstandingClient API Customizations
 
 **File**: `src/contentUnderstandingClient.ts`
 
@@ -398,7 +403,7 @@ Both methods internally always pass `stringEncoding: "utf16"` and expose `operat
 
 ---
 
-### Fix 8: Variable Shadowing in urlTemplate.ts
+### Fix 8 [EMITTER-FIX]: Variable Shadowing in urlTemplate.ts
 
 **File**: `src/static-helpers/urlTemplate.ts`
 
@@ -425,7 +430,7 @@ const result = template.replace(/\{([^{}]+)\}|([^{}]+)/g, (_, expr, text) => {
 
 ---
 
-### Fix 9: Regex Character Class Escaping in urlTemplate.ts
+### Fix 9 [EMITTER-FIX]: Regex Character Class Escaping in urlTemplate.ts
 
 **File**: `src/static-helpers/urlTemplate.ts` in `normalizeUnreserved`
 
@@ -450,11 +455,19 @@ function normalizeUnreserved(uri: string): string {
 
 ---
 
-### Fix 10: Hide getOperationStatus Method (TypeSpec @internal Not Respected)
+### Fix 10 [EMITTER-FIX]: Hide getOperationStatus Method (Access.internal Not Respected)
 
 **File**: `src/contentUnderstandingClient.ts`
 
-**Problem**: The `getOperationStatus` operation is marked with `@internal` in TypeSpec, but the JavaScript emitter does not respect this decorator and still generates the method in the client.
+**Problem**: The `getOperationStatus` operation is marked with `@@access(ContentUnderstandingClient.getOperationStatus, Access.internal)` in the TypeSpec client.tsp file, but the JavaScript emitter does not respect this decorator and still generates the method in the client.
+
+**TypeSpec definition** (from client.tsp):
+```typespec
+// Mark polling operations as internal - client generators automatically handle
+// the polling pattern for long-running operations.
+@@access(ContentUnderstandingClient.getResult, Access.internal);
+@@access(ContentUnderstandingClient.getOperationStatus, Access.internal);
+```
 
 **Why this matters**:
 
@@ -464,7 +477,7 @@ function normalizeUnreserved(uri: string): string {
 
 **Fix**: Remove the `getOperationStatus` method from the `ContentUnderstandingClient` class. Also remove the related imports (`getOperationStatus`, `GetOperationStatusOptionalParams`, `ContentAnalyzerOperationStatus`).
 
-**Note**: This is a workaround for the TypeSpec JS emitter not respecting the `@internal` decorator. When the emitter is fixed upstream, this customization may no longer be needed.
+**Note**: This is a workaround for the TypeSpec JS emitter not respecting the `@@access(Access.internal)` decorator. When the emitter is fixed upstream, this customization may no longer be needed.
 
 ---
 

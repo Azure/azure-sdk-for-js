@@ -259,7 +259,7 @@ export function _getResultFileSend(
   path: string,
   options: GetResultFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  // CUSTOMIZATION: Renamed `path` to `urlPath` to avoid shadowing the function parameter `path`
+  // CUSTOMIZATION: EMITTER-FIX: Renamed `path` to `urlPath` to avoid shadowing the function parameter `path`
   const urlPath = expandUrlTemplate(
     "/analyzerResults/{operationId}/files/{+path}{?api%2Dversion}",
     {
