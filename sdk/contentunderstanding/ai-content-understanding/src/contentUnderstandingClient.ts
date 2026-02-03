@@ -60,18 +60,24 @@ import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
 
+// CUSTOMIZATION: Custom option types that exclude `inputs` and `stringEncoding` from the public API.
+// `inputs` is made a required parameter in the method signature, and `stringEncoding` is always 'utf16'
+// internally to ensure span offsets align with JavaScript's UTF-16 string operations.
 /** Optional parameters for the analyze operation, excluding inputs and stringEncoding. */
 export type ContentUnderstandingAnalyzeOptionalParams = Omit<
   AnalyzeOptionalParams,
   "inputs" | "stringEncoding"
 >;
 
+// CUSTOMIZATION: Custom option type that excludes `stringEncoding` from the public API.
 /** Optional parameters for the analyzeBinary operation, excluding stringEncoding. */
 export type ContentUnderstandingAnalyzeBinaryOptionalParams = Omit<
   AnalyzeBinaryOptionalParams,
   "stringEncoding"
 >;
 
+// CUSTOMIZATION: Custom poller type that exposes `operationId` for users to call
+// `getResult`, `getResultFile`, and `deleteResult` methods.
 export interface AnalyzeResultPoller extends PollerLike<
   OperationState<AnalyzeResult>,
   AnalyzeResult
@@ -208,6 +214,11 @@ export class ContentUnderstandingClient {
     return copyAnalyzer(this._client, analyzerId, sourceAnalyzerId, options);
   }
 
+  // CUSTOMIZATION: Custom `analyzeBinary` method with:
+  // 1. Different parameter order (`contentType` before `binaryInput` with default value)
+  // 2. Uses custom option type that hides `stringEncoding`
+  // 3. Always passes `stringEncoding: "utf16"` internally for JavaScript string compatibility
+  // 4. Exposes `operationId` on the returned poller for result retrieval
   /** Extract content and fields from input. */
   analyzeBinary(
     analyzerId: string,
@@ -219,6 +230,7 @@ export class ContentUnderstandingClient {
     const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
       const res = await _analyzeBinarySend(this._client, analyzerId, contentType, binaryInput, {
         ...options,
+        // CUSTOMIZATION: Always use 'utf16' encoding for JavaScript string compatibility
         stringEncoding: "utf16",
       });
       const operationLocation = res.headers["operation-location"];
@@ -254,6 +266,11 @@ export class ContentUnderstandingClient {
     return poller;
   }
 
+  // CUSTOMIZATION: Custom `analyze` method with:
+  // 1. `inputs` as a required parameter (semantically required for analyze calls)
+  // 2. Uses custom option type that hides `inputs` and `stringEncoding`
+  // 3. Always passes `stringEncoding: "utf16"` internally for JavaScript string compatibility
+  // 4. Exposes `operationId` on the returned poller for result retrieval
   /** Extract content and fields from input. */
   analyze(
     analyzerId: string,
@@ -265,6 +282,7 @@ export class ContentUnderstandingClient {
       const res = await _analyzeSend(this._client, analyzerId, {
         ...options,
         inputs,
+        // CUSTOMIZATION: Always use 'utf16' encoding for JavaScript string compatibility
         stringEncoding: "utf16",
       });
       const operationLocation = res.headers["operation-location"];

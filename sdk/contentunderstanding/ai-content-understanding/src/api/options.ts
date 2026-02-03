@@ -94,6 +94,8 @@ export interface AnalyzeBinaryOptionalParams extends OperationOptions {
   contentType?: string;
   /** The location where the data may be processed. Defaults to global. */
   processingLocation?: ProcessingLocation;
+  // CUSTOMIZATION: Added stringEncoding property to support internal UTF-16 encoding.
+  // This is used internally by ContentUnderstandingClient but hidden from the public API.
   /** String encoding for span offsets. Defaults to 'utf16'. */
   stringEncoding?: string;
 }
@@ -108,6 +110,8 @@ export interface AnalyzeOptionalParams extends OperationOptions {
   modelDeployments?: Record<string, string>;
   /** The location where the data may be processed. Defaults to global. */
   processingLocation?: ProcessingLocation;
+  // CUSTOMIZATION: Added stringEncoding property to support internal UTF-16 encoding.
+  // This is used internally by ContentUnderstandingClient but hidden from the public API.
   /** String encoding for span offsets. Defaults to 'utf16'. */
   stringEncoding?: string;
 }

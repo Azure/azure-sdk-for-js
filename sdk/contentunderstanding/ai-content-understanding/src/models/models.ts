@@ -155,6 +155,8 @@ export interface ContentField {
   confidence?: number;
   /** Encoded source that identifies the position of the field value in the content. */
   source?: string;
+  // CUSTOMIZATION: Added `value` property to provide a convenient way to access field values,
+  // aligning with .NET SDK design for cross-language consistency.
   /** The value of the field. */
   value?: any;
 }
@@ -255,6 +257,7 @@ export interface StringField extends ContentField {
   fieldType: "string";
   /** String field value. */
   valueString?: string;
+  // CUSTOMIZATION: Added `value` property mapped from `valueString`
   /** The value of the field. */
   value?: string;
 }
@@ -267,6 +270,7 @@ export function stringFieldDeserializer(item: any): StringField {
     source: item["source"],
     fieldType: item["type"],
     valueString: item["valueString"],
+    // CUSTOMIZATION: Map `value` from `valueString`
     value: item["valueString"],
   };
 }
@@ -277,6 +281,7 @@ export interface DateField extends ContentField {
   fieldType: "date";
   /** Date field value, in ISO 8601 (YYYY-MM-DD) format. */
   valueDate?: string;
+  // CUSTOMIZATION: Added `value` property mapped from `valueDate`
   /** The value of the field. */
   value?: string;
 }
@@ -289,6 +294,7 @@ export function dateFieldDeserializer(item: any): DateField {
     source: item["source"],
     fieldType: item["type"],
     valueDate: item["valueDate"],
+    // CUSTOMIZATION: Map `value` from `valueDate`
     value: item["valueDate"],
   };
 }
@@ -299,6 +305,7 @@ export interface TimeField extends ContentField {
   fieldType: "time";
   /** Time field value, in ISO 8601 (hh:mm:ss) format. */
   valueTime?: string;
+  // CUSTOMIZATION: Added `value` property mapped from `valueTime`
   /** The value of the field. */
   value?: string;
 }
@@ -311,6 +318,7 @@ export function timeFieldDeserializer(item: any): TimeField {
     source: item["source"],
     fieldType: item["type"],
     valueTime: item["valueTime"],
+    // CUSTOMIZATION: Map `value` from `valueTime`
     value: item["valueTime"],
   };
 }
@@ -321,6 +329,7 @@ export interface NumberField extends ContentField {
   fieldType: "number";
   /** Number field value. */
   valueNumber?: number;
+  // CUSTOMIZATION: Added `value` property mapped from `valueNumber`
   /** The value of the field. */
   value?: number;
 }
@@ -333,6 +342,7 @@ export function numberFieldDeserializer(item: any): NumberField {
     source: item["source"],
     fieldType: item["type"],
     valueNumber: item["valueNumber"],
+    // CUSTOMIZATION: Map `value` from `valueNumber`
     value: item["valueNumber"],
   };
 }
@@ -343,6 +353,7 @@ export interface IntegerField extends ContentField {
   fieldType: "integer";
   /** Integer field value. */
   valueInteger?: number;
+  // CUSTOMIZATION: Added `value` property mapped from `valueInteger`
   /** The value of the field. */
   value?: number;
 }
@@ -355,6 +366,7 @@ export function integerFieldDeserializer(item: any): IntegerField {
     source: item["source"],
     fieldType: item["type"],
     valueInteger: item["valueInteger"],
+    // CUSTOMIZATION: Map `value` from `valueInteger`
     value: item["valueInteger"],
   };
 }
@@ -365,6 +377,7 @@ export interface BooleanField extends ContentField {
   fieldType: "boolean";
   /** Boolean field value. */
   valueBoolean?: boolean;
+  // CUSTOMIZATION: Added `value` property mapped from `valueBoolean`
   /** The value of the field. */
   value?: boolean;
 }
@@ -377,6 +390,7 @@ export function booleanFieldDeserializer(item: any): BooleanField {
     source: item["source"],
     fieldType: item["type"],
     valueBoolean: item["valueBoolean"],
+    // CUSTOMIZATION: Map `value` from `valueBoolean`
     value: item["valueBoolean"],
   };
 }
@@ -387,6 +401,7 @@ export interface ArrayField extends ContentField {
   fieldType: "array";
   /** Array field value. */
   valueArray?: ContentFieldUnion[];
+  // CUSTOMIZATION: Added `value` property mapped from `valueArray`
   /** The value of the field. */
   value?: ContentFieldUnion[];
 }
@@ -402,6 +417,7 @@ export function arrayFieldDeserializer(item: any): ArrayField {
     source: item["source"],
     fieldType: item["type"],
     valueArray: valueArray,
+    // CUSTOMIZATION: Map `value` from `valueArray`
     value: valueArray,
   };
 }
@@ -418,6 +434,7 @@ export interface ObjectField extends ContentField {
   fieldType: "object";
   /** Object field value. */
   valueObject?: Record<string, ContentFieldUnion>;
+  // CUSTOMIZATION: Added `value` property mapped from `valueObject`
   /** The value of the field. */
   value?: Record<string, ContentFieldUnion>;
 }
@@ -433,6 +450,7 @@ export function objectFieldDeserializer(item: any): ObjectField {
     source: item["source"],
     fieldType: item["type"],
     valueObject: valueObject,
+    // CUSTOMIZATION: Map `value` from `valueObject`
     value: valueObject,
   };
 }
@@ -443,6 +461,7 @@ export interface JsonField extends ContentField {
   fieldType: "json";
   /** JSON field value. */
   valueJson?: any;
+  // CUSTOMIZATION: Added `value` property mapped from `valueJson`
   /** The value of the field. */
   value?: any;
 }
@@ -455,6 +474,7 @@ export function jsonFieldDeserializer(item: any): JsonField {
     source: item["source"],
     fieldType: item["type"],
     valueJson: item["valueJson"],
+    // CUSTOMIZATION: Map `value` from `valueJson`
     value: item["valueJson"],
   };
 }
@@ -1257,6 +1277,8 @@ export function audioVisualContentDeserializer(item: any): AudioVisualContent {
       : item["cameraShotTimesMs"].map((p: any) => {
           return p;
         }),
+    // CUSTOMIZATION: Accept both `keyFrameTimesMs` (camelCase) and `KeyFrameTimesMs` (PascalCase)
+    // due to a known service issue returning PascalCase for this property.
     keyFrameTimesMs: (() => {
       const val = item["keyFrameTimesMs"] ?? item["KeyFrameTimesMs"];
       return !val ? val : val.map((p: any) => p);
@@ -1720,6 +1742,8 @@ export function contentFieldDefinitionRecordSerializer(
 export function contentFieldDefinitionRecordDeserializer(
   item: Record<string, any>,
 ): Record<string, ContentFieldDefinition> {
+  // CUSTOMIZATION: Added null/undefined guard to prevent runtime error when
+  // `definitions` property in `ContentFieldSchema` is optional and not present.
   if (!item) {
     return item;
   }
