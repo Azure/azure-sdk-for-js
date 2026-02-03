@@ -110,7 +110,7 @@ Base interface `odatatype` properties changed from specific literal unions to `s
 
 The following types have been removed from the public API:
 
-### Deprecated Skill Types (BY DESIGN per [Azure docs](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated))
+### Deprecated Skill Types (BY DESIGN per [Azure docs](https://learn.microsoft.com/azure/search/cognitive-search-skill-deprecated))
 
 These types are related to deprecated skills and their removal is intentional:
 
