@@ -46,10 +46,7 @@ function isDefined(val: any): boolean {
 }
 
 function getNamedAndIfEmpty(op?: string): [boolean, string] {
-  return [
-    !!op && [";", "?", "&"].includes(op),
-    !!op && ["?", "&"].includes(op) ? "=" : "",
-  ];
+  return [!!op && [";", "?", "&"].includes(op), !!op && ["?", "&"].includes(op) ? "=" : ""];
 }
 
 function getFirstOrSep(op?: string, isFirst = false): string {
@@ -190,14 +187,14 @@ export function expandUrlTemplate(
       expr = expr.slice(1);
     }
     const varList = expr.split(/,/g);
-    const result = [];
+    const varResults = [];
     for (const varSpec of varList) {
       const varMatch = /([^:*]*)(?::(\d+)|(\*))?/.exec(varSpec);
       if (!varMatch || !varMatch[1]) {
         continue;
       }
       const varValue = getVarValue({
-        isFirst: result.length === 0,
+        isFirst: varResults.length === 0,
         op,
         varValue: context[varMatch[1]],
         varName: varMatch[1],
@@ -205,10 +202,10 @@ export function expandUrlTemplate(
         reserved: option?.allowReserved,
       });
       if (varValue) {
-        result.push(varValue);
+        varResults.push(varValue);
       }
     }
-    return result.join("");
+    return varResults.join("");
   });
 
   return normalizeUnreserved(result);
@@ -222,7 +219,7 @@ function normalizeUnreserved(uri: string): string {
   return uri.replace(/%([0-9A-Fa-f]{2})/g, (match, hex) => {
     const char = String.fromCharCode(parseInt(hex, 16));
     // Decode only if it's unreserved
-    if (/[\-.~]/.test(char)) {
+    if (/[.~-]/.test(char)) {
       return char;
     }
     return match; // leave other encodings intact

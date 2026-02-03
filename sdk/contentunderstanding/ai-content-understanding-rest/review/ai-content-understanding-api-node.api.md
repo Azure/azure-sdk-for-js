@@ -17,13 +17,14 @@ import type { TokenCredential } from '@azure/core-auth';
 export function analyze(context: ContentUnderstandingContext, analyzerId: string, options?: AnalyzeOptionalParams): PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult>;
 
 // @public
-export function analyzeBinary(context: ContentUnderstandingContext, analyzerId: string, contentType: string, binaryInput: Uint8Array, options?: AnalyzeBinaryOptionalParams): PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult>;
+export function analyzeBinary(context: ContentUnderstandingContext, analyzerId: string, contentType: string, input: Uint8Array, options?: AnalyzeBinaryOptionalParams): PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult>;
 
 // @public
 export interface AnalyzeBinaryOptionalParams extends OperationOptions {
     clientRequestId?: string;
-    inputRange?: string;
+    contentType?: string;
     processingLocation?: ProcessingLocation;
+    range?: string;
     stringEncoding?: string;
     updateIntervalInMs?: number;
 }

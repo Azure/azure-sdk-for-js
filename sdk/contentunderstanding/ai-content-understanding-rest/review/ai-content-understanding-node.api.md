@@ -18,8 +18,9 @@ import type { TokenCredential } from '@azure/core-auth';
 // @public
 export interface AnalyzeBinaryOptionalParams extends OperationOptions {
     clientRequestId?: string;
-    inputRange?: string;
+    contentType?: string;
     processingLocation?: ProcessingLocation;
+    range?: string;
     stringEncoding?: string;
     updateIntervalInMs?: number;
 }

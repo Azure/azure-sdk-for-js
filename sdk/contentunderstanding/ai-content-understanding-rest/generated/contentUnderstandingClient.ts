@@ -186,18 +186,19 @@ export class ContentUnderstandingClient {
   /** Extract content and fields from input. */
   analyzeBinary(
     analyzerId: string,
-    contentType: string,
-    binaryInput: Uint8Array,
+    input: Uint8Array,
+    stringEncoding: string,
     options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
   ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
-    return analyzeBinary(this._client, analyzerId, contentType, binaryInput, options);
+    return analyzeBinary(this._client, analyzerId, input, stringEncoding, options);
   }
 
   /** Extract content and fields from input. */
   analyze(
     analyzerId: string,
+    stringEncoding: string,
     options: AnalyzeOptionalParams = { requestOptions: {} },
   ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
-    return analyze(this._client, analyzerId, options);
+    return analyze(this._client, analyzerId, stringEncoding, options);
   }
 }

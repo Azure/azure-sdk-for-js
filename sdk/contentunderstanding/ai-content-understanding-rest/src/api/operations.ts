@@ -684,7 +684,7 @@ export function _analyzeBinarySend(
   context: Client,
   analyzerId: string,
   contentType: string,
-  binaryInput: Uint8Array,
+  input: Uint8Array,
   options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -694,7 +694,7 @@ export function _analyzeBinarySend(
       "api%2Dversion": context.apiVersion,
       stringEncoding: options?.stringEncoding ?? "utf16",
       processingLocation: options?.processingLocation,
-      range: options?.inputRange,
+      range: options?.range,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -710,7 +710,7 @@ export function _analyzeBinarySend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: binaryInput,
+    body: input,
   });
 }
 
@@ -737,14 +737,13 @@ export function analyzeBinary(
   context: Client,
   analyzerId: string,
   contentType: string,
-  binaryInput: Uint8Array,
+  input: Uint8Array,
   options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
   return getLongRunningPoller(context, _analyzeBinaryDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _analyzeBinarySend(context, analyzerId, contentType, binaryInput, options),
+    getInitialResponse: () => _analyzeBinarySend(context, analyzerId, contentType, input, options),
     resourceLocationConfig: "operation-location",
   }) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
 }

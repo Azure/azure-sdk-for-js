@@ -16,7 +16,13 @@ describe("ContentUnderstandingClient - Analyzers", () => {
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
-    await recorder.setMatcher("BodilessMatcher");
+    // Use CustomDefaultMatcher with excluded headers to allow recordings made with either
+    // API key auth (Ocp-Apim-Subscription-Key) or AAD auth (Authorization) to work in playback
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Authorization", "Ocp-Apim-Subscription-Key"],
+      ignoredHeaders: ["Content-Length"],
+      compareBodies: false,
+    });
     const key = getKey();
     client = new ContentUnderstandingClient(
       getEndpoint(),
@@ -66,11 +72,7 @@ describe("ContentUnderstandingClient - Analyzers", () => {
       },
     };
 
-    const poller = client.createAnalyzer(
-      testAnalyzerId,
-      analyzerConfig as any,
-      testPollingOptions,
-    );
+    const poller = client.createAnalyzer(testAnalyzerId, analyzerConfig as any, testPollingOptions);
 
     const result = await poller.pollUntilDone();
     assert.ok(result, "Expected a result from the poller");

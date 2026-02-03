@@ -1,4 +1,11 @@
 # Release History
+## 4.9.1 (2026-01-29)
+
+### Bugs Fixed
+
+- [#37178](https://github.com/Azure/azure-sdk-for-js/pull/37178) Fixed memory leak in full-text search queries by improving continuation token handling for hybrid component query scenarios.
+- [#37194](https://github.com/Azure/azure-sdk-for-js/pull/37194) Added support for `SQLQuerySpec` in hybrid search queries. Previously, only string queries were supported.
+
 ## 4.9.0 (2025-11-24)
 
 ### Features Added

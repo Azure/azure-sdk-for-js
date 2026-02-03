@@ -466,6 +466,8 @@ DEBUG ENV KEY DEFINED: true
 
 The samples directories are excluded from the pnpm workspace to avoid dependency conflicts. To run samples with the local development version of the package:
 
+> **Note:** Running `pnpm link` and `pnpm install` inside the samples folders will update local files like `package.json` and `pnpm-lock.yaml` under the samples directories. These changes are only for local testing and should not be checked in. If you accidentally modify them, use `git restore <path>` to revert.
+
 1. Build the package:
 
    ```bash
@@ -490,7 +492,33 @@ The samples directories are excluded from the pnpm workspace to avoid dependency
    pnpm install
    ```
 
-4. Follow the setup instructions in the [samples README][samples_directory].
+#### Alternative (no package.json/lockfile changes)
+
+If you want to use the local package without modifying sample `package.json` or `pnpm-lock.yaml`, install from a packed tarball without saving:
+
+1. Build the package:
+
+   ```bash
+   npx turbo build --filter=@azure-rest/ai-content-understanding...
+   ```
+
+2. Create a local tarball:
+
+   ```bash
+   cd sdk/contentunderstanding/ai-content-understanding-rest
+   pnpm pack --pack-destination /tmp
+   ```
+
+3. Install the tarball in the samples (no save, no lockfile):
+
+   ```bash
+   cd sdk/contentunderstanding/ai-content-understanding-rest/samples/v1-beta/typescript
+   npm install --no-save --no-package-lock /tmp/azure-rest-ai-content-understanding-*.tgz
+   cd ../javascript
+   npm install --no-save --no-package-lock /tmp/azure-rest-ai-content-understanding-*.tgz
+   ```
+
+Finally, follow the setup instructions in the [samples README][samples_directory].
 
 ## Next steps
 

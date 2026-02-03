@@ -308,12 +308,6 @@
 # ServiceLabel: %Cognitive - Form Recognizer
 # AzureSdkOwners: @jeremymeng
 
-# PRLabel: %Cognitive - Metrics Advisor
-/sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
-
-# ServiceLabel: %Cognitive - Metrics Advisor
-# AzureSdkOwners: @KarishmaGhiya
-
 # PRLabel: %Notification Hub
 /sdk/notificationhubs/notification-hubs @jeremymeng
 
@@ -334,10 +328,6 @@
 # PRLabel: %Maps
 # ServiceLabel: %Maps
 /sdk/maps/ @dubiety @andykao1213
-
-# PRLabel: %Microsoft Playwright Testing
-# ServiceLabel: %Microsoft Playwright Testing
-/sdk/playwrighttesting/ @azure/testing-services
 
 # PRLabel: %Azure Load Testing
 # ServiceLabel: %Azure Load Testing
@@ -834,9 +824,6 @@
 /sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-/sdk/playwrighttesting/arm-playwrighttesting/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
 /sdk/policy/arm-policy/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1189,9 +1176,6 @@
 
 # ServiceLabel: %Cognitive - Form Recognizer %Service Attention
 # ServiceOwners:          @ctstone @vkurpad
-
-# ServiceLabel: %Cognitive - Anomaly Detector %Service Attention
-# ServiceOwners:          @yingqunpku
 
 # ServiceLabel: %Cognitive - Custom Vision %Service Attention
 # ServiceOwners:          @areddish @tburns10
