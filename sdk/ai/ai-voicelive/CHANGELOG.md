@@ -4,7 +4,6 @@
 
 ### Features Added
 
-- Add support for agents v2 (40046f166045d78164a82428377eca6d9e8026ec)
 - Added Azure AI Foundry Agent support for integrating AI agents
   - `FoundryAgentTool` tool type for connecting to Foundry Agents
   - `FoundryAgentContextType` and `KnownFoundryAgentContextType` for agent context configuration
@@ -16,8 +15,19 @@
   - `FillerResponseConfigBase`, `FillerResponseConfigBaseUnion` base types
   - `FillerResponseConfigType`, `KnownFillerResponseConfigType` for configuration type selection
   - `FillerTrigger`, `KnownFillerTrigger` for trigger configuration
+- Added metadata support for responses
+  - `metadata` property added to `ResponseCreateParams` and `Response` for storing key-value pairs
+- Added new output audio format values
+  - `Pcm168000Hz` for 16-bit PCM audio at 8kHz sampling rate
+  - `Pcm1616000Hz` for 16-bit PCM audio at 16kHz sampling rate
+- Added voice customization enhancements
+  - `customTextNormalizationUrl` property for voice configuration
 
 ### Breaking Changes
+
+- `KnownOutputAudioFormat` enum values changed wire format from hyphens to underscores:
+  - `pcm16-8000hz` → `pcm16_8000hz`
+  - `pcm16-16000hz` → `pcm16_16000hz`
 
 ### Bugs Fixed
 
