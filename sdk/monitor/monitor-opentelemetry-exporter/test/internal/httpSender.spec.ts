@@ -283,7 +283,7 @@ describe("HttpSender", () => {
       // Sampling rejections should not be retried even if the status code is retriable
       const response = partialBreezeResponse(
         [500, 500, 408],
-        ["Sampled out by ingestion sampling", "Filtered by sampling policy", "Timeout error"],
+        ["Telemetry sampled out.", "Telemetry sampled out.", "Timeout error"],
       );
       scope.reply(206, JSON.stringify(response));
 
