@@ -25,5 +25,5 @@ extends:
   parameters:
     ServiceDirectory: contentunderstanding
     Artifacts:
-      - name: azure-rest-ai-content-understanding
-        safeName: azurerestaicontentunderstanding
+      - name: azure-ai-content-understanding
+        safeName: azureaicontentunderstanding

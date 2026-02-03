@@ -7586,7 +7586,7 @@ importers:
         specifier: catalog:testing
         version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@20.19.30)(@vitest/browser-playwright@4.0.18)(tsx@4.21.0)(yaml@2.8.2)
 
-  sdk/contentunderstanding/ai-content-understanding-rest:
+  sdk/contentunderstanding/ai-content-understanding:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
