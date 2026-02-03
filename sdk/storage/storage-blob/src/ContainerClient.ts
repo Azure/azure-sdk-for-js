@@ -926,7 +926,8 @@ export class ContainerClient extends StorageClient {
           await attachResponse(updatedOptions, (operationsWithOnResponse) =>
             this.containerContext.getProperties({
               abortSignal: options.abortSignal,
-              ...operationsWithOnResponse.conditions,
+              ...updatedOptions.conditions,
+              onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
           ),
@@ -956,7 +957,7 @@ export class ContainerClient extends StorageClient {
             abortSignal: options.abortSignal,
             leaseAccessConditions: options.conditions,
             modifiedAccessConditions: options.conditions,
-            ...operationsWithOnResponse,
+            onResponse: operationsWithOnResponse.onResponse,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         ),
@@ -1034,7 +1035,7 @@ export class ContainerClient extends StorageClient {
             this.containerContext.setMetadata(metadata, {
               abortSignal: options.abortSignal,
               ...options.conditions,
-              ...operationsWithOnResponse,
+              onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
           ),
@@ -1174,7 +1175,7 @@ export class ContainerClient extends StorageClient {
               abortSignal: options.abortSignal,
               access,
               ...options.conditions,
-              ...operationsWithOnResponse,
+              onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
           ),
@@ -2038,7 +2039,7 @@ export class ContainerClient extends StorageClient {
           await attachResponse(updatedOptions, (operationsWithOnResponse) =>
             this.containerContext.getAccountInfo({
               abortSignal: options.abortSignal,
-              ...operationsWithOnResponse,
+              onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
           ),

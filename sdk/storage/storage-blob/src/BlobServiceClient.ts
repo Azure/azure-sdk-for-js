@@ -554,7 +554,7 @@ export class BlobServiceClient extends StorageClient {
               await containerContext.restore({
                 deletedContainerName,
                 deletedContainerVersion,
-                ...operationsWithOnResponse,
+                onResponse: operationsWithOnResponse.onResponse,
                 tracingOptions: updatedOptions.tracingOptions,
               }),
           ),
@@ -595,7 +595,7 @@ export class BlobServiceClient extends StorageClient {
           await attachResponse(updatedOptions, (operationsWithOnResponse) =>
             this.serviceContext.getProperties({
               abortSignal: options.abortSignal,
-              ...operationsWithOnResponse,
+              onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
           ),
@@ -625,7 +625,7 @@ export class BlobServiceClient extends StorageClient {
           await attachResponse(updatedOptions, (operationsWithOnResponse) =>
             this.serviceContext.setProperties(properties, {
               abortSignal: options.abortSignal,
-              ...operationsWithOnResponse,
+              onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
           ),
@@ -654,7 +654,7 @@ export class BlobServiceClient extends StorageClient {
           await attachResponse(updatedOptions, (operationsWithOnResponse) =>
             this.serviceContext.getStatistics({
               abortSignal: options.abortSignal,
-              ...operationsWithOnResponse,
+              onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
           ),
@@ -682,11 +682,12 @@ export class BlobServiceClient extends StorageClient {
       async (updatedOptions) => {
         return assertResponse<ServiceGetAccountInfoHeaders, ServiceGetAccountInfoHeaders>(
           await attachResponse(updatedOptions, (operationsWithOnResponse) =>
-          this.serviceContext.getAccountInfo({
-            abortSignal: options.abortSignal,
-            ...operationsWithOnResponse,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+            this.serviceContext.getAccountInfo({
+              abortSignal: options.abortSignal,
+              onResponse: operationsWithOnResponse.onResponse,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
         );
       },
     );
@@ -719,14 +720,15 @@ export class BlobServiceClient extends StorageClient {
           ServiceListContainersSegmentHeaders
         >(
           await attachResponse(updatedOptions, (operationsWithOnResponse) =>
-          this.serviceContext.listContainersSegment({
-            abortSignal: options.abortSignal,
-            marker,
-            ...operationsWithOnResponse,
-            include: typeof options.include === "string" ? [options.include] : options.include,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
-        ));
+            this.serviceContext.listContainersSegment({
+              abortSignal: options.abortSignal,
+              marker,
+              onResponse: operationsWithOnResponse.onResponse,
+              include: typeof options.include === "string" ? [options.include] : options.include,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
+        );
       },
     );
   }
@@ -762,15 +764,17 @@ export class BlobServiceClient extends StorageClient {
           ServiceFilterBlobsResponse,
           ServiceFilterBlobsHeaders,
           FilterBlobSegmentModel
-        >(await attachResponse(updatedOptions, (operationsWithOnResponse) =>
-          this.serviceContext.findBlobsByTags(tagFilterSqlExpression, {
-            abortSignal: options.abortSignal,
-            marker,
-            maxresults: options.maxPageSize,
-            ...operationsWithOnResponse,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
-        ));
+        >(
+          await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+            this.serviceContext.findBlobsByTags(tagFilterSqlExpression, {
+              abortSignal: options.abortSignal,
+              marker,
+              maxresults: options.maxPageSize,
+              onResponse: operationsWithOnResponse.onResponse,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
+        );
 
         const wrappedResponse: ServiceFindBlobsByTagsSegmentResponse = {
           ...response,
@@ -1135,21 +1139,23 @@ export class BlobServiceClient extends StorageClient {
       "BlobServiceClient-getUserDelegationKey",
       options,
       async (updatedOptions) => {
-          const original = await attachResponse(updatedOptions, (operationsWithOnResponse) => this.serviceContext.getUserDelegationKey(
+        const original = await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+          this.serviceContext.getUserDelegationKey(
             {
               startsOn: truncatedISO8061Date(startsOn, false),
               expiresOn: truncatedISO8061Date(expiresOn, false),
             },
             {
               abortSignal: options.abortSignal,
-              ...operationsWithOnResponse,
+              onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             },
-          ));
-          const transformed = {
-            ...original,
-            value: uint8ArrayToString(original.value, "utf-8"),
-          };
+          ),
+        );
+        const transformed = {
+          ...original,
+          value: uint8ArrayToString(original.value, "utf-8"),
+        };
         const response = await assertResponse<
           ServiceGetUserDelegationKeyResponseModel,
           ServiceGetUserDelegationKeyHeaders,
