@@ -13,5 +13,4 @@ extends:
         Public:
           Location: eastus
       EnvVars:
-        AZURE_SKIP_LIVE_RECORDING: 'true'
-        AZURE_TEST_RUN_LIVE: 'false'
+        TEST_MODE: 'playback'
