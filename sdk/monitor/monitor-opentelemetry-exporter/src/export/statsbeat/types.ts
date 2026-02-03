@@ -123,9 +123,9 @@ export enum StatsbeatCounter {
 }
 
 export enum CustomSDKStatsCounter {
-  ITEM_SUCCESS_COUNT = "Item_Success_Count",
-  ITEM_DROP_COUNT = "Item_Dropped_Count",
-  ITEM_RETRY_COUNT = "Item_Retry_Count",
+  ITEM_SUCCESS_COUNT = "preview.item.success.count",
+  ITEM_DROP_COUNT = "preview.item.dropped.count",
+  ITEM_RETRY_COUNT = "preview.item.retry.count",
 }
 
 // Legacy alias for backward compatibility
