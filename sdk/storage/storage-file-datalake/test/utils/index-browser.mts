@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import { DataLakeServiceClient, newPipeline } from "../../src/index.js";
+import { DataLakeClientOptions, DataLakeServiceClient, newPipeline } from "../../src/index.js";
 import { AnonymousCredential } from "@azure/storage-blob";
 import { configureStorageClient, SimpleTokenCredential } from "./testutils.common.js";
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -29,6 +29,7 @@ export function getGenericDataLakeServiceClient(
   recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = "",
+  pipelineOptions: DataLakeClientOptions = {},
 ): DataLakeServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
@@ -48,8 +49,8 @@ export function getGenericDataLakeServiceClient(
 
   const credentials = getGenericCredential();
   const pipeline = newPipeline(credentials);
-  const dfsPrimaryURL = `https://${accountName}${accountNameSuffix}.dfs.core.windows.net${accountSAS}`;
-  const client = new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+  const dfsPrimaryURL = `https://${accountName}${accountNameSuffix}.dfs.preprod.core.windows.net${accountSAS}`;
+  const client = new DataLakeServiceClient(dfsPrimaryURL, pipeline, pipelineOptions);
   configureStorageClient(recorder, client);
   return client;
 }
@@ -64,14 +65,16 @@ export function getTokenDataLakeServiceClient(recorder: Recorder): DataLakeServi
 
   const credentials = getTokenCredential();
   const pipeline = newPipeline(credentials);
-  const dfsPrimaryURL = `https://${accountName}.dfs.core.windows.net/`;
+  const dfsPrimaryURL = `https://${accountName}.dfs.preprod.core.windows.net/`;
   const client = new DataLakeServiceClient(dfsPrimaryURL, pipeline);
   configureStorageClient(recorder, client);
   return client;
 }
 
-export function getDataLakeServiceClient(recorder: Recorder): DataLakeServiceClient {
-  return getGenericDataLakeServiceClient(recorder, "DFS_");
+export function getDataLakeServiceClient(recorder: Recorder,
+    pipelineOptions: DataLakeClientOptions = {},
+): DataLakeServiceClient {
+  return getGenericDataLakeServiceClient(recorder, "DFS_", "", pipelineOptions);
 }
 
 export function getAlternateDataLakeServiceClient(recorder: Recorder): DataLakeServiceClient {
@@ -150,5 +153,5 @@ export function getSASConnectionStringFromEnvironment(): string {
   if (sasToken && sasToken.startsWith("?")) {
     sasToken = sasToken.slice(1);
   }
-  return `BlobEndpoint=https://${env.DFS_ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.DFS_ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.DFS_ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.DFS_ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${sasToken}`;
+  return `BlobEndpoint=https://${env.DFS_ACCOUNT_NAME}.blob.preprod.core.windows.net/;QueueEndpoint=https://${env.DFS_ACCOUNT_NAME}.queue.preprod.core.windows.net/;FileEndpoint=https://${env.DFS_ACCOUNT_NAME}.file.preprod.core.windows.net/;TableEndpoint=https://${env.DFS_ACCOUNT_NAME}.table.preprod.core.windows.net/;SharedAccessSignature=${sasToken}`;
 }

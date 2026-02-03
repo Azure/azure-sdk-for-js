@@ -167,7 +167,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      startsOn?: Date;
      version?: string;
  }
+<<<<<<< HEAD
 @@ -521,21 +447,8 @@
+=======
+@@ -528,21 +457,8 @@
+>>>>>>> 367b8bcce1 (STG101)
      update: boolean;
  }
  
@@ -189,7 +193,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      abortSignal?: AbortSignalLike;
  }
  
+<<<<<<< HEAD
 @@ -554,8 +467,9 @@
+=======
+@@ -561,8 +477,9 @@
+>>>>>>> 367b8bcce1 (STG101)
      constructor(url: string, pipeline: Pipeline);
      createQueue(queueName: string, options?: QueueCreateOptions): Promise<QueueCreateResponse>;
      deleteQueue(queueName: string, options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
@@ -199,7 +207,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
      getQueueClient(queueName: string): QueueClient;
+<<<<<<< HEAD
 @@ -622,15 +536,8 @@
+=======
+@@ -631,15 +548,8 @@
+>>>>>>> 367b8bcce1 (STG101)
  
  // @public
  export type ReceivedMessageItem = DequeuedMessageItem;
@@ -215,7 +227,11 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface ResponseLike {
      _response: HttpResponse;
  }
+<<<<<<< HEAD
 @@ -665,32 +572,8 @@
+=======
+@@ -674,32 +584,8 @@
+>>>>>>> 367b8bcce1 (STG101)
      start: string;
  }
  
@@ -248,7 +264,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      httpClient?: RequestPolicy;
      requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
  }
+<<<<<<< HEAD
 @@ -805,11 +688,8 @@
+=======
+@@ -817,11 +703,8 @@
+>>>>>>> 367b8bcce1 (STG101)
  
  export { StorageBrowserPolicyFactory }
  
@@ -260,7 +280,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      audience?: string;
      httpClient?: RequestPolicy;
      keepAliveOptions?: KeepAliveOptions;
+<<<<<<< HEAD
 @@ -817,25 +697,10 @@
+=======
+@@ -829,25 +712,10 @@
+>>>>>>> 367b8bcce1 (STG101)
      retryOptions?: StorageRetryOptions;
      userAgentOptions?: UserAgentPolicyOptions;
  }
@@ -286,7 +310,11 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface UserDelegationKeyModel {
+<<<<<<< HEAD
 @@ -847,10 +712,8 @@
+=======
+@@ -860,10 +728,8 @@
+>>>>>>> 367b8bcce1 (STG101)
      signedVersion: string;
      value: string;
  }

@@ -200,7 +200,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      metadata?: Metadata;
  }
  
+<<<<<<< HEAD
 @@ -698,8 +631,9 @@
+=======
+@@ -704,8 +640,9 @@
+>>>>>>> 367b8bcce1 (STG101)
  export type FileForceCloseHandlesResponse = WithResponse<CloseHandlesInfo & FileCloseHandlesHeaders, FileForceCloseHandlesHeaders>;
  
  // @public
@@ -210,7 +214,11 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
+<<<<<<< HEAD
 @@ -795,18 +729,8 @@
+=======
+@@ -801,18 +738,8 @@
+>>>>>>> 367b8bcce1 (STG101)
  
  // @public
  export type FileGetSymbolicLinkResponse = WithResponse<FileGetSymbolicLinkHeaders, FileGetSymbolicLinkHeaders>;
@@ -229,18 +237,28 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface FileItem {
      // (undocumented)
      attributes?: string;
+<<<<<<< HEAD
 @@ -848,9 +772,9 @@
  // @public
  export interface FileParallelUploadOptions extends CommonOptions {
+=======
+@@ -856,9 +783,9 @@
+>>>>>>> 367b8bcce1 (STG101)
      abortSignal?: AbortSignalLike;
      concurrency?: number;
+     // (undocumented)
+     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 -    fileHttpHeaders?: FileHttpHeaders;
 +    fileHttpHeaders?: FileHttpHeaders_2;
      leaseAccessConditions?: LeaseAccessConditions;
      metadata?: Metadata;
      onProgress?: (progress: TransferProgressEvent) => void;
      rangeSize?: number;
+<<<<<<< HEAD
 @@ -864,21 +788,12 @@
+=======
+@@ -872,21 +799,12 @@
+>>>>>>> 367b8bcce1 (STG101)
  
  // @public
  export type FilePermissionPreserveType = "preserve";
@@ -263,7 +281,11 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
+<<<<<<< HEAD
 @@ -948,37 +863,8 @@
+=======
+@@ -956,37 +874,8 @@
+>>>>>>> 367b8bcce1 (STG101)
      fileItems: FileItem[];
  }
  
@@ -301,11 +323,17 @@ For the complete API surface, see the corresponding -node.api.md file.
      cors?: CorsRule[];
      hourMetrics?: Metrics;
      minuteMetrics?: Metrics;
+<<<<<<< HEAD
 @@ -1145,27 +1031,15 @@
  
  // @public
+=======
+@@ -1158,27 +1047,15 @@
+>>>>>>> 367b8bcce1 (STG101)
  export interface FileUploadStreamOptions extends CommonOptions {
      abortSignal?: AbortSignalLike;
+     // (undocumented)
+     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 -    fileHttpHeaders?: FileHttpHeaders;
 +    fileHttpHeaders?: FileHttpHeaders_2;
      leaseAccessConditions?: LeaseAccessConditions;
@@ -330,7 +358,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      // (undocumented)
      accessRightList?: ShareFileHandleAccessRights[];
      clientIp: string;
+<<<<<<< HEAD
 @@ -1184,18 +1058,12 @@
+=======
+@@ -1197,18 +1074,12 @@
+>>>>>>> 367b8bcce1 (STG101)
      scheme: string;
      value: string;
  }
@@ -351,7 +383,11 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
+<<<<<<< HEAD
 @@ -1310,14 +1178,8 @@
+=======
+@@ -1323,14 +1194,8 @@
+>>>>>>> 367b8bcce1 (STG101)
  
  // @public
  export const logger: AzureLogger;
@@ -366,7 +402,11 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface Metrics {
      enabled: boolean;
      includeAPIs?: boolean;
+<<<<<<< HEAD
 @@ -1331,23 +1193,15 @@
+=======
+@@ -1344,23 +1209,15 @@
+>>>>>>> 367b8bcce1 (STG101)
  // @public
  export function newPipeline(credential?: Credential_2 | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
  
@@ -392,7 +432,11 @@ For the complete API surface, see the corresponding -node.api.md file.
  export function parseOctalFileMode(input?: string): NfsFileMode | undefined;
  
  // @public
+<<<<<<< HEAD
 @@ -1377,15 +1231,8 @@
+=======
+@@ -1390,15 +1247,8 @@
+>>>>>>> 367b8bcce1 (STG101)
      shareTokenIntent?: ShareTokenIntent;
  }
  
@@ -408,7 +452,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      count?: number;
      offset: number;
  }
+<<<<<<< HEAD
 @@ -1402,15 +1249,8 @@
+=======
+@@ -1415,15 +1265,8 @@
+>>>>>>> 367b8bcce1 (STG101)
      blobBody?: Promise<Blob>;
      readableStreamBody?: NodeJS.ReadableStream;
  };
@@ -424,7 +472,11 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface ResponseLike {
      _response: HttpResponse;
  }
+<<<<<<< HEAD
 @@ -1445,37 +1285,8 @@
+=======
+@@ -1458,37 +1301,8 @@
+>>>>>>> 367b8bcce1 (STG101)
      start: string;
  }
  
@@ -462,7 +514,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      httpClient?: RequestPolicy;
      requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
  }
+<<<<<<< HEAD
 @@ -1649,8 +1460,9 @@
+=======
+@@ -1669,8 +1483,9 @@
+>>>>>>> 367b8bcce1 (STG101)
      };
      paidBurstingEnabled?: boolean;
      paidBurstingMaxBandwidthMibps?: number;
@@ -472,7 +528,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      quota?: number;
      rootSquash?: ShareRootSquash;
      shareProvisionedBandwidthMibps?: number;
+<<<<<<< HEAD
 @@ -1805,16 +1617,16 @@
+=======
+@@ -1825,16 +1640,16 @@
+>>>>>>> 367b8bcce1 (STG101)
          destinationFileClient: ShareFileClient;
          fileRenameResponse: FileRenameResponse;
      }>;
@@ -491,7 +551,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
      uploadSeekableBlob(blobFactory: (offset: number, size: number) => Blob, size: number, options?: FileParallelUploadOptions): Promise<void>;
      uploadStream(stream: Readable, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
+<<<<<<< HEAD
 @@ -1833,8 +1645,9 @@
+=======
+@@ -1853,8 +1668,9 @@
+>>>>>>> 367b8bcce1 (STG101)
  }
  
  // @public
@@ -501,7 +565,11 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
+<<<<<<< HEAD
 @@ -2069,14 +1882,8 @@
+=======
+@@ -2099,14 +1915,8 @@
+>>>>>>> 367b8bcce1 (STG101)
      rootSquash?: ShareRootSquash;
  }
  
@@ -516,7 +584,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      nfs?: ShareNfsSettings;
      smb?: ShareSmbSettings;
  }
+<<<<<<< HEAD
 @@ -2084,19 +1891,8 @@
+=======
+@@ -2114,19 +1924,8 @@
+>>>>>>> 367b8bcce1 (STG101)
  // @public
  export type ShareRootSquash = "NoRootSquash" | "RootSquash" | "AllSquash";
  
@@ -536,7 +608,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(url: string, credential?: Credential_2 | TokenCredential, options?: ShareClientOptions);
      constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
      createShare(shareName: string, options?: ShareCreateOptions): Promise<{
+<<<<<<< HEAD
 @@ -2104,8 +1900,9 @@
+=======
+@@ -2134,8 +1933,9 @@
+>>>>>>> 367b8bcce1 (STG101)
          shareClient: ShareClient;
      }>;
      deleteShare(shareName: string, options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse>;
@@ -546,7 +622,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
      getShareClient(shareName: string): ShareClient;
+<<<<<<< HEAD
 @@ -2249,16 +2046,8 @@
+=======
+@@ -2281,16 +2081,8 @@
+>>>>>>> 367b8bcce1 (STG101)
  
  export { StorageBrowserPolicyFactory }
  
@@ -563,7 +643,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      audience?: string;
      httpClient?: RequestPolicy;
      keepAliveOptions?: KeepAliveOptions;
+<<<<<<< HEAD
 @@ -2274,12 +2063,8 @@
+=======
+@@ -2306,12 +2098,8 @@
+>>>>>>> 367b8bcce1 (STG101)
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }
@@ -576,7 +660,11 @@ For the complete API surface, see the corresponding -node.api.md file.
  export type TimeNowType = "now";
  
  // @public
+<<<<<<< HEAD
 @@ -2303,10 +2088,8 @@
+=======
+@@ -2336,10 +2124,8 @@
+>>>>>>> 367b8bcce1 (STG101)
      signedVersion: string;
      value: string;
  }

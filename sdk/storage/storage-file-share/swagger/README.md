@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b6472ffd34d5d4a155101b41b4eb1f356abff600/specification/storage/data-plane/Microsoft.FileStorage/stable/2026-02-06/file.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/be46becafeb29aa993898709e35759d3643b2809/specification/storage/data-plane/Microsoft.FileStorage/stable/2026-04-06/file.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -898,29 +898,6 @@ directive:
       $.properties.SignedOid["x-ms-client-name"] = "signedObjectId";
       $.properties.SignedStart["x-ms-client-name"] = "signedStartsOn";
       $.properties.SignedExpiry["x-ms-client-name"] = "signedExpiresOn";
-```
-
-### Remove structured body parameters.
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}"]["get"]
-    transform: >
-      $["parameters"] = $["parameters"].filter(function(param) { return false == param['$ref'].endsWith("#/parameters/StructuredBodyGet")});
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}"]["get"]["responses"]["200"]["headers"]
-    transform: >
-      delete $["x-ms-structured-body"];
-      delete $["x-ms-structured-content-length"];
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}?comp=range"]["put"]
-    transform: >
-      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/StructuredBodyPut") && false == param['$ref'].endsWith("#/parameters/StructuredContentLength"))});
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}?comp=range"]["put"]["responses"]["201"]["headers"]
-    transform: >
-      delete $["x-ms-structured-body"];
 ```
 
 ### Remove EnableSmbDirectoryLease

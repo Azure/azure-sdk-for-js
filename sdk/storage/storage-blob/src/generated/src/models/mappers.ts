@@ -637,6 +637,13 @@ export const KeyInfo: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      delegatedUserTid: {
+        serializedName: "DelegatedUserTid",
+        xmlName: "DelegatedUserTid",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -691,6 +698,13 @@ export const UserDelegationKey: coreClient.CompositeMapper = {
         serializedName: "SignedVersion",
         required: true,
         xmlName: "SignedVersion",
+        type: {
+          name: "String",
+        },
+      },
+      signedDelegatedUserTid: {
+        serializedName: "SignedDelegatedUserTid",
+        xmlName: "SignedDelegatedUserTid",
         type: {
           name: "String",
         },
@@ -2365,6 +2379,9 @@ export const ServiceGetAccountInfoHeaders: coreClient.CompositeMapper = {
             "Standard_RAGRS",
             "Standard_ZRS",
             "Premium_LRS",
+            "Standard_GZRS",
+            "Premium_ZRS",
+            "Standard_RAGZRS",
           ],
         },
       },
@@ -3869,6 +3886,9 @@ export const ContainerGetAccountInfoHeaders: coreClient.CompositeMapper = {
             "Standard_RAGRS",
             "Standard_ZRS",
             "Premium_LRS",
+            "Standard_GZRS",
+            "Premium_ZRS",
+            "Standard_RAGZRS",
           ],
         },
       },
@@ -4236,6 +4256,20 @@ export const BlobDownloadHeaders: coreClient.CompositeMapper = {
         xmlName: "x-ms-legal-hold",
         type: {
           name: "Boolean",
+        },
+      },
+      structuredBodyType: {
+        serializedName: "x-ms-structured-body",
+        xmlName: "x-ms-structured-body",
+        type: {
+          name: "String",
+        },
+      },
+      structuredContentLength: {
+        serializedName: "x-ms-structured-content-length",
+        xmlName: "x-ms-structured-content-length",
+        type: {
+          name: "Number",
         },
       },
       errorCode: {
@@ -6115,6 +6149,9 @@ export const BlobGetAccountInfoHeaders: coreClient.CompositeMapper = {
             "Standard_RAGRS",
             "Standard_ZRS",
             "Premium_LRS",
+            "Standard_GZRS",
+            "Premium_ZRS",
+            "Standard_RAGZRS",
           ],
         },
       },
@@ -6759,6 +6796,13 @@ export const PageBlobUploadPagesHeaders: coreClient.CompositeMapper = {
       encryptionScope: {
         serializedName: "x-ms-encryption-scope",
         xmlName: "x-ms-encryption-scope",
+        type: {
+          name: "String",
+        },
+      },
+      structuredBodyType: {
+        serializedName: "x-ms-structured-body",
+        xmlName: "x-ms-structured-body",
         type: {
           name: "String",
         },
@@ -7649,6 +7693,13 @@ export const AppendBlobAppendBlockHeaders: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      structuredBodyType: {
+        serializedName: "x-ms-structured-body",
+        xmlName: "x-ms-structured-body",
+        type: {
+          name: "String",
+        },
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -7970,6 +8021,13 @@ export const BlockBlobUploadHeaders: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      structuredBodyType: {
+        serializedName: "x-ms-structured-body",
+        xmlName: "x-ms-structured-body",
+        type: {
+          name: "String",
+        },
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -8189,6 +8247,13 @@ export const BlockBlobStageBlockHeaders: coreClient.CompositeMapper = {
       encryptionScope: {
         serializedName: "x-ms-encryption-scope",
         xmlName: "x-ms-encryption-scope",
+        type: {
+          name: "String",
+        },
+      },
+      structuredBodyType: {
+        serializedName: "x-ms-structured-body",
+        xmlName: "x-ms-structured-body",
         type: {
           name: "String",
         },

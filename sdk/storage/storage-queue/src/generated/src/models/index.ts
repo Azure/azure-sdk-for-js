@@ -95,6 +95,8 @@ export interface KeyInfo {
   start?: string;
   /** The date-time the key expires in ISO 8601 UTC time */
   expiry: string;
+  /** The delegated user tenant id in Azure AD */
+  delegatedUserTid?: string;
 }
 
 /** A user delegation key */
@@ -111,6 +113,8 @@ export interface UserDelegationKey {
   signedService: string;
   /** The service version that created the key */
   signedVersion: string;
+  /** The delegated user tenant id in Azure AD. Return if DelegatedUserTid is specified. */
+  signedDelegatedUserTid?: string;
   /** The key as a base64 string */
   value: string;
 }

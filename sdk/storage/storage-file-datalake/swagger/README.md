@@ -357,18 +357,3 @@ directive:
     transform: >
       $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
 ```
-
-### Remove structured body parameters.
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{filesystem}/{path}?action=append]["patch"]
-    transform: >
-      $["parameters"] = $["parameters"].filter(function(param) { return (false == param['$ref'].endsWith("#/parameters/StructuredBodyPut")) && (false == param['$ref'].endsWith("#/parameters/StructuredContentLength"))};
-      
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{filesystem}/{path}?action=append]["patch"]["responses"]["202"]["headers"]    
-    transform: >
-      delete $["x-ms-structured-body"];
-```

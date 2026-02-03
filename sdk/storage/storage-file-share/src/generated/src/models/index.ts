@@ -166,6 +166,8 @@ export interface KeyInfo {
   start?: string;
   /** The date-time the key expires in ISO 8601 UTC time */
   expiry: string;
+  /** The delegated user tenant id in Azure AD */
+  delegatedUserTid?: string;
 }
 
 /** A user delegation key */
@@ -182,6 +184,8 @@ export interface UserDelegationKey {
   signedService: string;
   /** The service version that created the key */
   signedVersion: string;
+  /** The delegated user tenant id in Azure AD. Return if DelegatedUserTid is specified. */
+  signedDelegatedUserTid?: string;
   /** The key as a base64 string */
   value: string;
 }
@@ -1216,6 +1220,10 @@ export interface FileDownloadHeaders {
   leaseState?: LeaseStateType;
   /** The current lease status of the file. */
   leaseStatus?: LeaseStatusType;
+  /** Indicates the response body contains a structured message and specifies the message schema version and properties. */
+  structuredBodyType?: string;
+  /** The length of the blob/file content inside the message body when the response body is returned as a structured message. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
   /** NFS only. The mode of the file or directory. */
   fileMode?: string;
   /** NFS only. The owner of the file or directory. */
@@ -1509,6 +1517,8 @@ export interface FileUploadRangeHeaders {
   isServerEncrypted?: boolean;
   /** Last write time for the file. */
   fileLastWriteTime?: Date;
+  /** Indicates the structured message body was accepted and mirrors back the message schema version and properties. */
+  structuredBodyType?: string;
   /** Error Code */
   errorCode?: string;
 }
@@ -2050,6 +2060,20 @@ export enum KnownStorageErrorCode {
   FeatureVersionMismatch = "FeatureVersionMismatch",
   /** ShareSnapshotNotFound */
   ShareSnapshotNotFound = "ShareSnapshotNotFound",
+  /** FileShareProvisionedIopsInvalid */
+  FileShareProvisionedIopsInvalid = "FileShareProvisionedIopsInvalid",
+  /** FileShareProvisionedBandwidthInvalid */
+  FileShareProvisionedBandwidthInvalid = "FileShareProvisionedBandwidthInvalid",
+  /** FileShareProvisionedStorageInvalid */
+  FileShareProvisionedStorageInvalid = "FileShareProvisionedStorageInvalid",
+  /** TotalSharesProvisionedCapacityExceedsAccountLimit */
+  TotalSharesProvisionedCapacityExceedsAccountLimit = "TotalSharesProvisionedCapacityExceedsAccountLimit",
+  /** TotalSharesProvisionedIopsExceedsAccountLimit */
+  TotalSharesProvisionedIopsExceedsAccountLimit = "TotalSharesProvisionedIopsExceedsAccountLimit",
+  /** TotalSharesProvisionedBandwidthExceedsAccountLimit */
+  TotalSharesProvisionedBandwidthExceedsAccountLimit = "TotalSharesProvisionedBandwidthExceedsAccountLimit",
+  /** TotalSharesCountExceedsAccountLimit */
+  TotalSharesCountExceedsAccountLimit = "TotalSharesCountExceedsAccountLimit",
 }
 
 /**
@@ -2126,7 +2150,14 @@ export enum KnownStorageErrorCode {
  * **AuthorizationServiceMismatch** \
  * **AuthorizationResourceTypeMismatch** \
  * **FeatureVersionMismatch** \
- * **ShareSnapshotNotFound**
+ * **ShareSnapshotNotFound** \
+ * **FileShareProvisionedIopsInvalid** \
+ * **FileShareProvisionedBandwidthInvalid** \
+ * **FileShareProvisionedStorageInvalid** \
+ * **TotalSharesProvisionedCapacityExceedsAccountLimit** \
+ * **TotalSharesProvisionedIopsExceedsAccountLimit** \
+ * **TotalSharesProvisionedBandwidthExceedsAccountLimit** \
+ * **TotalSharesCountExceedsAccountLimit**
  */
 export type StorageErrorCode = string;
 /** Defines values for ListSharesIncludeType. */
@@ -2828,6 +2859,8 @@ export interface FileDownloadOptionalParams
   range?: string;
   /** When this header is set to true and specified together with the Range header, the service returns the MD5 hash for the range, as long as the range is less than or equal to 4 MB in size. */
   rangeGetContentMD5?: boolean;
+  /** Specifies the response content should be returned as a structured message and specifies the message schema version and properties. */
+  structuredBodyType?: string;
 }
 
 /** Contains response data for the download operation. */
@@ -3026,8 +3059,12 @@ export interface FileUploadRangeOptionalParams
   body?: coreRestPipeline.RequestBodyType;
   /** An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. When the Content-MD5 header is specified, the File service compares the hash of the content that has arrived with the header value that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request). */
   contentMD5?: Uint8Array;
+  /** Required if the request body is a structured message. Specifies the message schema version and properties. */
+  structuredBodyType?: string;
   /** If the file last write time should be preserved or overwritten */
   fileLastWrittenMode?: FileLastWrittenMode;
+  /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
 }
 
 /** Contains response data for the uploadRange operation. */

@@ -36,7 +36,7 @@ export function getGenericBSU(
 
   const credentials = new AnonymousCredential();
   const pipeline = newPipeline(credentials, config);
-  const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net${accountSAS}`;
+  const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.preprod.core.windows.net${accountSAS}`;
   const client = new ShareServiceClient(filePrimaryURL, pipeline, config);
   configureStorageClient(recorder, client);
   return client;
@@ -68,7 +68,7 @@ export function getTokenBSU(
 
   const credential = getTokenCredential();
   const pipeline = newPipeline(credential);
-  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
+  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.file.preprod.core.windows.net/`;
   const client = new ShareServiceClient(blobPrimaryURL, pipeline, shareClientConfig);
   configureStorageClient(recorder, client);
   return client;
@@ -147,7 +147,7 @@ export function getSASConnectionStringFromEnvironment(): string {
   if (sasToken && sasToken.startsWith("?")) {
     sasToken = sasToken.slice(1);
   }
-  return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${sasToken}`;
+  return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.preprod.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.preprod.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.preprod.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.preprod.core.windows.net/;SharedAccessSignature=${sasToken}`;
 }
 
 export function arraysEqual(a: Uint8Array, b: Uint8Array): boolean {

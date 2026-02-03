@@ -64,7 +64,7 @@ export abstract class StorageClient {
     this.url = escapeURLPath(url);
     this.accountName = getAccountNameFromUrl(url);
     this.pipeline = pipeline;
-    this.storageClientContext = new StorageContextClient(this.url, getCoreClientOptions(pipeline));
+    this.storageClientContext = new StorageContextClient(this.url, "2026-04-06", getCoreClientOptions(pipeline));
 
     this.isHttps = iEqual(getURLScheme(this.url) || "", "https");
 

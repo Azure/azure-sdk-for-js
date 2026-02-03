@@ -28,7 +28,7 @@ import type {
   ServiceListContainersSegmentResponseInternal,
 } from "./generatedModels.js";
 import type { Service } from "./generated/src/operationsInterfaces/index.js";
-import type { StoragePipelineOptions, PipelineLike } from "./Pipeline.js";
+import type { PipelineLike } from "./Pipeline.js";
 import { newPipeline, isPipelineLike } from "./Pipeline.js";
 import type { ContainerCreateOptions, ContainerDeleteMethodOptions } from "./ContainerClient.js";
 import { ContainerClient } from "./ContainerClient.js";
@@ -69,6 +69,8 @@ import type {
   ServiceListContainersSegmentHeaders,
   ServiceSetPropertiesHeaders,
 } from "./generated/src/index.js";
+import { BlobClientConfig, BlobClientOptions } from "./models.js";
+import { isDate } from "util/types";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.
@@ -123,6 +125,22 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    */
   abortSignal?: AbortSignalLike;
+}
+
+export interface BlobGetUserDelegationKeyParameters {
+    startsOn: Date;
+    expiresOn: Date;
+    delegatedUserTenantId: string;
+}
+
+function isBlobGetUserDelegationKeyParameters(parameter: unknown): parameter is BlobGetUserDelegationKeyParameters {
+  if (!parameter || typeof parameter !== "object") {
+    return false;
+  }
+
+  const castParameter = parameter as BlobGetUserDelegationKeyParameters;
+
+  return isDate(castParameter.expiresOn);
 }
 
 /**
@@ -309,6 +327,8 @@ export class BlobServiceClient extends StorageClient {
    */
   private serviceContext: Service;
 
+  private blobClientConfig?: BlobClientConfig;
+
   /**
    *
    * Creates an instance of BlobServiceClient from connection string.
@@ -325,7 +345,7 @@ export class BlobServiceClient extends StorageClient {
     connectionString: string,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   ): BlobServiceClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
@@ -347,7 +367,11 @@ export class BlobServiceClient extends StorageClient {
       }
     } else if (extractedCreds.kind === "SASConnString") {
       const pipeline = newPipeline(new AnonymousCredential(), options);
-      return new BlobServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
+      return new BlobServiceClient(
+        extractedCreds.url + "?" + extractedCreds.accountSas,
+        pipeline,
+        options,
+      );
     } else {
       throw new Error(
         "Connection string must be either an Account connection string or a SAS connection string",
@@ -402,7 +426,7 @@ export class BlobServiceClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   );
   /**
    * Creates an instance of BlobServiceClient.
@@ -413,7 +437,7 @@ export class BlobServiceClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: PipelineLike);
+  constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
   constructor(
     url: string,
     credentialOrPipeline?:
@@ -423,8 +447,9 @@ export class BlobServiceClient extends StorageClient {
       | PipelineLike,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   ) {
+    options = options ?? {};
     let pipeline: PipelineLike;
     if (isPipelineLike(credentialOrPipeline)) {
       pipeline = credentialOrPipeline;
@@ -440,6 +465,7 @@ export class BlobServiceClient extends StorageClient {
     }
     super(url, pipeline);
     this.serviceContext = this.storageClientContext.service;
+    this.blobClientConfig = options;
   }
 
   /**
@@ -467,6 +493,7 @@ export class BlobServiceClient extends StorageClient {
     return new ContainerClient(
       appendToURLPath(this.url, encodeURIComponent(containerName)),
       this.pipeline,
+      this.blobClientConfig,
     );
   }
 
@@ -1101,11 +1128,33 @@ export class BlobServiceClient extends StorageClient {
   public async getUserDelegationKey(
     startsOn: Date,
     expiresOn: Date,
+    options?: ServiceGetUserDelegationKeyOptions,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
+
+  public async getUserDelegationKey(
+    parameters: BlobGetUserDelegationKeyParameters,
+    options?: ServiceGetUserDelegationKeyOptions,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
+  
+  public async getUserDelegationKey(
+    startsOnOrParam: Date | BlobGetUserDelegationKeyParameters,
+    expiresOnOrOption: Date | ServiceGetUserDelegationKeyOptions | undefined,
     options: ServiceGetUserDelegationKeyOptions = {},
   ): Promise<ServiceGetUserDelegationKeyResponse> {
+    let startsOn = startsOnOrParam as Date;
+    let expiresOn = expiresOnOrOption as Date;
+    let userDelegationTid = undefined;
+    let getUserDelegationKeyOptions = options as ServiceGetUserDelegationKeyOptions;
+    if (isBlobGetUserDelegationKeyParameters(startsOnOrParam)){
+      startsOn = startsOnOrParam.startsOn;
+      expiresOn = startsOnOrParam.expiresOn;
+      userDelegationTid = startsOnOrParam.delegatedUserTenantId;
+      getUserDelegationKeyOptions = expiresOnOrOption as ServiceGetUserDelegationKeyOptions;
+    }
+
     return tracingClient.withSpan(
       "BlobServiceClient-getUserDelegationKey",
-      options,
+      getUserDelegationKeyOptions,
       async (updatedOptions) => {
         const response = assertResponse<
           ServiceGetUserDelegationKeyResponseModel,
@@ -1116,9 +1165,10 @@ export class BlobServiceClient extends StorageClient {
             {
               startsOn: truncatedISO8061Date(startsOn, false),
               expiresOn: truncatedISO8061Date(expiresOn, false),
+              delegatedUserTid: userDelegationTid,
             },
             {
-              abortSignal: options.abortSignal,
+              abortSignal: getUserDelegationKeyOptions.abortSignal,
               tracingOptions: updatedOptions.tracingOptions,
             },
           ),
@@ -1131,6 +1181,7 @@ export class BlobServiceClient extends StorageClient {
           signedExpiresOn: new Date(response.signedExpiresOn),
           signedService: response.signedService,
           signedVersion: response.signedVersion,
+          signedDelegatedUserTid: response.signedDelegatedUserTid,
           value: response.value,
         };
 

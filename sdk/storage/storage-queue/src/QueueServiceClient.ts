@@ -52,6 +52,7 @@ import type { SASProtocol } from "./SASQueryParameters.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import type { ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel } from "./generated/src/index.js";
+import { isDate } from "util/types";
 
 /**
  * Options to configure {@link QueueServiceClient.getProperties} operation
@@ -178,6 +179,22 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    */
   abortSignal?: AbortSignalLike;
+}
+
+export interface QueueGetUserDelegationKeyParameters {
+    startsOn: Date;
+    expiresOn: Date;
+    delegatedUserTenantId: string;
+}
+
+function isQueueGetUserDelegationKeyParameters(parameter: unknown): parameter is QueueGetUserDelegationKeyParameters {
+  if (!parameter || typeof parameter !== "object") {
+    return false;
+  }
+
+  const castParameter = parameter as QueueGetUserDelegationKeyParameters;
+
+  return isDate(castParameter.expiresOn);
 }
 
 /**
@@ -805,11 +822,32 @@ export class QueueServiceClient extends StorageClient {
   public async getUserDelegationKey(
     startsOn: Date,
     expiresOn: Date,
+    options?: ServiceGetUserDelegationKeyOptions,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
+
+  public async getUserDelegationKey(
+    parameters: QueueGetUserDelegationKeyParameters,
+    options?: ServiceGetUserDelegationKeyOptions,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
+  
+  public async getUserDelegationKey(
+    startsOnOrParam: Date | QueueGetUserDelegationKeyParameters,
+    expiresOnOrOption: Date | ServiceGetUserDelegationKeyOptions | undefined,
     options: ServiceGetUserDelegationKeyOptions = {},
   ): Promise<ServiceGetUserDelegationKeyResponse> {
+    let startsOn = startsOnOrParam as Date;
+    let expiresOn = expiresOnOrOption as Date;
+    let userDelegationTid = undefined;
+    let getUserDelegationKeyOptions = options as ServiceGetUserDelegationKeyOptions;
+    if (isQueueGetUserDelegationKeyParameters(startsOnOrParam)){
+      startsOn = startsOnOrParam.startsOn;
+      expiresOn = startsOnOrParam.expiresOn;
+      userDelegationTid = startsOnOrParam.delegatedUserTenantId;
+      getUserDelegationKeyOptions = expiresOnOrOption as ServiceGetUserDelegationKeyOptions;
+    }
     return tracingClient.withSpan(
       "QueueServiceClient-getUserDelegationKey",
-      options,
+      getUserDelegationKeyOptions,
       async (updatedOptions) => {
         const response = assertResponse<
           ServiceGetUserDelegationKeyResponseModel,
@@ -820,6 +858,7 @@ export class QueueServiceClient extends StorageClient {
             {
               start: truncatedISO8061Date(startsOn, false),
               expiry: truncatedISO8061Date(expiresOn, false),
+              delegatedUserTid: userDelegationTid,
             },
             {
               abortSignal: options.abortSignal,
@@ -835,6 +874,7 @@ export class QueueServiceClient extends StorageClient {
           signedExpiresOn: new Date(response.signedExpiresOn),
           signedService: response.signedService,
           signedVersion: response.signedVersion,
+          signedDelegatedUserTid: response.signedDelegatedUserTid,
           value: response.value,
         };
 

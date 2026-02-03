@@ -9,6 +9,7 @@
   ],
   "compilerOptions": {
     "composite": true
+    "allowJs": true
   },
   "files": []
 }

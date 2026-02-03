@@ -6,12 +6,13 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
 import type {
+  BlobGetUserDelegationKeyParameters,
   ServiceGetPropertiesOptions,
   ServiceSetPropertiesOptions,
   ServiceSetPropertiesResponse,
 } from "@azure/storage-blob";
 import { BlobServiceClient } from "@azure/storage-blob";
-import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
+import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { AnonymousCredential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
@@ -23,6 +24,9 @@ import type {
   ServiceListFileSystemsSegmentResponse,
   ServiceUndeleteFileSystemOptions,
   FileSystemUndeleteResponse,
+  DataLakeClientOptions,
+  DataLakeClientConfig,
+  DataLakeGetUserDelegationKeyParameters,
 } from "./models.js";
 import { StorageClient } from "./StorageClient.js";
 import {
@@ -43,6 +47,7 @@ import {
 } from "./sas/AccountSASSignatureValues.js";
 import { AccountSASServices } from "./sas/AccountSASServices.js";
 import type { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index.js";
+import { isDate } from "util/types";
 
 /**
  * DataLakeServiceClient allows you to manipulate Azure
@@ -75,7 +80,7 @@ export class DataLakeServiceClient extends StorageClient {
     connectionString: string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions,
+    options?: DataLakeClientOptions,
   ): DataLakeServiceClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
@@ -89,7 +94,7 @@ export class DataLakeServiceClient extends StorageClient {
           options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
         }
         const pipeline = newPipeline(sharedKeyCredential, options);
-        return new DataLakeServiceClient(toDfsEndpointUrl(extractedCreds.url), pipeline);
+        return new DataLakeServiceClient(toDfsEndpointUrl(extractedCreds.url), pipeline, options);
       } else {
         throw new Error("Account connection string is only supported in Node.js environment");
       }
@@ -98,6 +103,7 @@ export class DataLakeServiceClient extends StorageClient {
       return new DataLakeServiceClient(
         toDfsEndpointUrl(extractedCreds.url) + "?" + extractedCreds.accountSas,
         pipeline,
+        options,
       );
     } else {
       throw new Error(
@@ -120,7 +126,7 @@ export class DataLakeServiceClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions,
+    options?: DataLakeClientOptions,
   );
 
   /**
@@ -132,7 +138,7 @@ export class DataLakeServiceClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  public constructor(url: string, pipeline: Pipeline);
+  public constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
 
   public constructor(
     url: string,
@@ -143,10 +149,10 @@ export class DataLakeServiceClient extends StorageClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions,
+    options?: DataLakeClientOptions,
   ) {
     if (isPipelineLike(credentialOrPipeline)) {
-      super(url, credentialOrPipeline);
+      super(url, credentialOrPipeline, options);
     } else {
       let credential;
       if (credentialOrPipeline === undefined) {
@@ -156,7 +162,7 @@ export class DataLakeServiceClient extends StorageClient {
       }
 
       const pipeline = newPipeline(credential, options);
-      super(url, pipeline);
+      super(url, pipeline, options);
     }
 
     // this.serviceContext = new Service(this.storageClientContext);
@@ -174,8 +180,21 @@ export class DataLakeServiceClient extends StorageClient {
     return new DataLakeFileSystemClient(
       appendToURLPath(this.url, encodeURIComponent(fileSystemName)),
       this.pipeline,
+      this.dataLakeClientConfig,
     );
   }
+
+  
+
+isDataLakeGetUserDelegationKeyParameters(parameter: unknown): parameter is DataLakeGetUserDelegationKeyParameters {
+  if (!parameter || typeof parameter !== "object") {
+    return false;
+  }
+
+  const castParameter = parameter as DataLakeGetUserDelegationKeyParameters;
+
+  return isDate(castParameter.expiresOn);
+}
 
   /**
    * ONLY AVAILABLE WHEN USING BEARER TOKEN AUTHENTICATION (TokenCredential).
@@ -227,15 +246,47 @@ export class DataLakeServiceClient extends StorageClient {
   public async getUserDelegationKey(
     startsOn: Date,
     expiresOn: Date,
+    options: ServiceGetUserDelegationKeyOptions | undefined,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
+  public async getUserDelegationKey(
+    parameters: Date,
+    options: ServiceGetUserDelegationKeyOptions | undefined,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
+
+  public async getUserDelegationKey(
+    startsOnOrParam: Date | DataLakeGetUserDelegationKeyParameters,
+    expiresOnOrOption: Date | ServiceGetUserDelegationKeyOptions | undefined,
     options: ServiceGetUserDelegationKeyOptions = {},
   ): Promise<ServiceGetUserDelegationKeyResponse> {
-    return tracingClient.withSpan(
-      "DataLakeServiceClient-getUserDelegationKey",
-      options,
-      async (updatedOptions) => {
-        return this.blobServiceClient.getUserDelegationKey(startsOn, expiresOn, updatedOptions);
-      },
-    );
+    let calledWithParameters = false;
+    let getUserDelegationKeyOptions = options as ServiceGetUserDelegationKeyOptions;
+    if (this.isDataLakeGetUserDelegationKeyParameters(startsOnOrParam)){
+      calledWithParameters = true;
+      getUserDelegationKeyOptions = expiresOnOrOption as ServiceGetUserDelegationKeyOptions;
+    }
+    if (calledWithParameters) {
+      return tracingClient.withSpan(
+        "DataLakeServiceClient-getUserDelegationKey",
+        getUserDelegationKeyOptions,
+        async (updatedOptions) => {
+          return this.blobServiceClient.getUserDelegationKey(
+            startsOnOrParam as BlobGetUserDelegationKeyParameters, 
+            updatedOptions);
+        },
+      );
+    }
+    else {
+      return tracingClient.withSpan(
+        "DataLakeServiceClient-getUserDelegationKey",
+        getUserDelegationKeyOptions,
+        async (updatedOptions) => {
+          return this.blobServiceClient.getUserDelegationKey(
+            startsOnOrParam as Date,
+            expiresOnOrOption as Date,
+            updatedOptions);
+        },
+      );
+    }
   }
 
   /**
