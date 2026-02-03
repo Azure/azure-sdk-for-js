@@ -4,51 +4,19 @@
 import url from "node:url";
 import { diag } from "@opentelemetry/api";
 import type { FullOperationResponse } from "@azure/core-client";
-import { redirectPolicyName } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicyName, redirectPolicyName } from "@azure/core-rest-pipeline";
 import type { SenderResult } from "../../types.js";
-import type {
-  MonitorDomain,
-  TelemetryItem as Envelope,
-  TrackOptionalParams,
-} from "../../generated/index.js";
-import { ApplicationInsightsClient } from "../../client/applicationInsightsClient.js";
+import type { TelemetryItem as Envelope, TrackOptionalParams } from "../../generated/index.js";
+import { ApplicationInsightsClient } from "../../generated/index.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import { BaseSender } from "./baseSender.js";
+import type { TokenCredential } from "@azure/core-auth";
 
 const applicationInsightsResource = "https://monitor.azure.com//.default";
 
-// The generated serializer only emits `additionalProperties` plus the `ver` field.
-// Normalize baseData so all fields end up under `additionalProperties` before we serialize.
-function normalizeMonitorDomain(baseData: MonitorDomain): MonitorDomain {
-  const { version, additionalProperties, ...rest } = baseData as MonitorDomain &
-    Record<string, any>;
-  const mergedAdditional = { ...(additionalProperties ?? {}) } as Record<string, any>;
-  for (const [key, value] of Object.entries(rest)) {
-    if (value !== undefined) {
-      mergedAdditional[key] = value;
-    }
-  }
-  return {
-    version: (version ?? (baseData as any).ver ?? 1) as number,
-    additionalProperties: mergedAdditional,
-  };
-}
-
-function normalizeEnvelopesForSerialization(envelopes: Envelope[]): Envelope[] {
-  return envelopes.map((envelope) => {
-    const baseData = envelope.data?.baseData;
-    if (!baseData) {
-      return envelope;
-    }
-    return {
-      ...envelope,
-      data: {
-        ...envelope.data,
-        baseData: normalizeMonitorDomain(baseData as MonitorDomain),
-      },
-    } as Envelope;
-  });
-}
+type TrackOptionsWithResponse = TrackOptionalParams & {
+  onResponse?: (rawResponse: FullOperationResponse, flatResponse: unknown) => void;
+};
 
 /**
  * Exporter HTTP sender class
@@ -56,7 +24,8 @@ function normalizeEnvelopesForSerialization(envelopes: Envelope[]): Envelope[] {
  */
 export class HttpSender extends BaseSender {
   private appInsightsClient: ApplicationInsightsClient;
-  private appInsightsClientOptions: AzureMonitorExporterOptions;
+  private readonly credential?: TokenCredential;
+  public appInsightsClientOptions: AzureMonitorExporterOptions;
 
   constructor(options: {
     endpointUrl: string;
@@ -73,18 +42,33 @@ export class HttpSender extends BaseSender {
       ...options.exporterOptions,
     };
 
-    if (
-      this.appInsightsClientOptions.credential &&
-      !this.appInsightsClientOptions.credentialScopes
-    ) {
-      this.appInsightsClientOptions.credentialScopes = options.aadAudience
-        ? [options.aadAudience]
-        : [applicationInsightsResource];
+    if (this.appInsightsClientOptions.credential) {
+      const scopes = options.aadAudience ? [options.aadAudience] : [applicationInsightsResource];
+      this.appInsightsClientOptions.credentials = { scopes };
+      this.appInsightsClientOptions.credentialScopes = scopes;
     }
-    this.appInsightsClient = new ApplicationInsightsClient(this.appInsightsClientOptions);
+
+    const { credential, ...clientOptions } = this.appInsightsClientOptions;
+    this.credential = credential as TokenCredential | undefined;
+
+    this.appInsightsClient = this.createClient(clientOptions);
+  }
+
+  private createClient(
+    clientOptions: Omit<AzureMonitorExporterOptions, "credential">,
+  ): ApplicationInsightsClient {
+    const client = new ApplicationInsightsClient(this.credential as any, clientOptions);
+
+    // Expose host for tests and redirect handling
+    (client as any).host = clientOptions.host;
 
     // Handle redirects in HTTP Sender
-    this.appInsightsClient.pipeline.removePolicy({ name: redirectPolicyName });
+    if (!this.appInsightsClientOptions.credential) {
+      client.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
+    }
+
+    client.pipeline.removePolicy({ name: redirectPolicyName });
+    return client;
   }
 
   /**
@@ -92,8 +76,7 @@ export class HttpSender extends BaseSender {
    * @internal
    */
   async send(envelopes: Envelope[]): Promise<SenderResult> {
-    const normalizedEnvelopes = normalizeEnvelopesForSerialization(envelopes);
-    const options: TrackOptionalParams = {};
+    const options: TrackOptionsWithResponse = {};
     let response: FullOperationResponse | undefined;
     function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
       response = rawResponse;
@@ -101,12 +84,15 @@ export class HttpSender extends BaseSender {
         options.onResponse(rawResponse, flatResponse);
       }
     }
-    await this.appInsightsClient.track(normalizedEnvelopes, {
+    await this.appInsightsClient.track(envelopes, {
       ...options,
       onResponse,
     });
-
-    return { statusCode: response?.status, result: response?.bodyAsText ?? "" };
+    return {
+      statusCode: response?.status,
+      result: response?.bodyAsText ?? "",
+      headers: response?.headers,
+    };
   }
 
   /**
@@ -121,12 +107,9 @@ export class HttpSender extends BaseSender {
     if (location) {
       const locUrl = new url.URL(location);
       if (locUrl && locUrl.host) {
-        this.appInsightsClientOptions = {
-          ...this.appInsightsClientOptions,
-          host: "https://" + locUrl.host,
-        };
-        this.appInsightsClient = new ApplicationInsightsClient(this.appInsightsClientOptions);
-        this.appInsightsClient.pipeline.removePolicy({ name: redirectPolicyName });
+        this.appInsightsClientOptions.host = "https://" + locUrl.host;
+        const { credential, ...clientOptions } = this.appInsightsClientOptions;
+        this.appInsightsClient = this.createClient(clientOptions);
       }
     }
   }

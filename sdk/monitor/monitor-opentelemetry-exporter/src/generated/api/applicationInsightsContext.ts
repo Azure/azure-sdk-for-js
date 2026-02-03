@@ -10,13 +10,13 @@ import { TokenCredential } from "@azure/core-auth";
 export interface ApplicationInsightsContext extends Client {
   /** The service API version. */
   apiVersion: Versions;
-  /** Application Insights' Breeze endpoint. */
+  /** Application Insights' Breeze host. */
   host?: string;
 }
 
 /** Optional parameters for the client. */
 export interface ApplicationInsightsClientOptionalParams extends ClientOptions {
-  /** Application Insights' Breeze endpoint. */
+  /** Application Insights' Breeze host. */
   host?: string;
   /** The service API version. */
   apiVersion?: string;

@@ -42,11 +42,13 @@ export function isRetriable(statusCode: number): boolean {
 
 //  Convert ms to c# time span format DD.HH:MM:SS.MMMMMM
 export function msToTimeSpan(totalms: number): string {
-  const totalMilliseconds = isNaN(totalms) || totalms < 0 ? 0 : totalms;
-  let sec = ((totalMilliseconds / 1000) % 60).toFixed(7).replace(/0{0,4}$/, "");
-  let min = "" + (Math.floor(totalMilliseconds / (1000 * 60)) % 60);
-  let hour = "" + (Math.floor(totalMilliseconds / (1000 * 60 * 60)) % 24);
-  const days = Math.floor(totalMilliseconds / (1000 * 60 * 60 * 24));
+  if (isNaN(totalms) || totalms < 0) {
+    totalms = 0;
+  }
+  let sec = ((totalms / 1000) % 60).toFixed(7).replace(/0{0,4}$/, "");
+  let min = "" + (Math.floor(totalms / (1000 * 60)) % 60);
+  let hour = "" + (Math.floor(totalms / (1000 * 60 * 60)) % 24);
+  const days = Math.floor(totalms / (1000 * 60 * 60 * 24));
 
   sec = sec.indexOf(".") < 2 ? "0" + sec : sec;
   min = min.length < 2 ? "0" + min : min;

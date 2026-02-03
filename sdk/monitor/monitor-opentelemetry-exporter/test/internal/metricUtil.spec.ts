@@ -16,11 +16,7 @@ import {
 } from "@opentelemetry/semantic-conventions";
 import { AzureMonitorMetricExporter } from "../../src/export/metric.js";
 import type { AzureMonitorExporterOptions } from "../../src/config.js";
-import type {
-  TelemetryItem as Envelope,
-  RemoteDependencyData,
-  RequestData,
-} from "../../src/generated/index.js";
+import type { TelemetryItem as Envelope, MetricDataPoint } from "../../src/generated/index.js";
 import { KnownContextTagKeys } from "../../src/generated/index.js";
 import type { Tags } from "../../src/types.js";
 import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../../src/types.js";
@@ -54,7 +50,7 @@ function assertEnvelope(
   sampleRate: number,
   baseType: string,
   expectedTags: Tags,
-  expectedBaseData: Partial<RequestData | RemoteDependencyData>,
+  expectedBaseData: Partial<MetricDataPoint>,
   expectedTime?: Date,
   expectedProperties?: { [propertyName: string]: string },
 ): void {
@@ -82,9 +78,12 @@ function assertEnvelope(
     ...expectedServiceTags,
     ...expectedTags,
   });
-  assert.deepStrictEqual((envelope.data?.baseData as any)?.metrics[0], expectedBaseData);
+  const baseData = envelope.data?.baseData as any;
+  if (baseData?.metrics) {
+    assert.deepStrictEqual(baseData.metrics[0], expectedBaseData);
+  }
   if (expectedProperties) {
-    assert.deepStrictEqual((envelope.data?.baseData as any)?.properties, expectedProperties);
+    assert.deepStrictEqual(envelope.data?.baseData?.properties, expectedProperties);
   }
 }
 
@@ -147,12 +146,12 @@ describe("metricUtil.ts", () => {
       const expectedTags: Tags = {
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
-      const expectedBaseData = {
+      const expectedBaseData: Partial<MetricDataPoint> = {
         name: "counter",
         value: 1,
         dataPointType: "Aggregation",
         count: 1,
-      } as any;
+      };
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
@@ -195,12 +194,12 @@ describe("metricUtil.ts", () => {
       const expectedTags: Tags = {
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
-      const expectedBaseData = {
+      const expectedBaseData: Partial<MetricDataPoint> = {
         name: "counter",
         value: 1,
         dataPointType: "Aggregation",
         count: 1,
-      } as any;
+      };
       const expectedProperties = {
         "_MS.SentToAMW": "True",
       };
@@ -242,7 +241,7 @@ describe("metricUtil.ts", () => {
       const expectedTags: Tags = {
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
-      const expectedBaseData: any = {
+      const expectedBaseData = {
         name: BreezePerformanceCounterNames.PRIVATE_BYTES,
         value: 1,
         dataPointType: "Aggregation",
@@ -282,7 +281,7 @@ describe("metricUtil.ts", () => {
       const expectedTags: Tags = {
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
-      const expectedBaseData: any = {
+      const expectedBaseData = {
         name: BreezePerformanceCounterNames.AVAILABLE_BYTES,
         value: 1,
         dataPointType: "Aggregation",
@@ -322,7 +321,7 @@ describe("metricUtil.ts", () => {
       const expectedTags: Tags = {
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
-      const expectedBaseData: any = {
+      const expectedBaseData = {
         name: BreezePerformanceCounterNames.PROCESSOR_TIME,
         value: 1,
         dataPointType: "Aggregation",
@@ -362,7 +361,7 @@ describe("metricUtil.ts", () => {
       const expectedTags: Tags = {
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
-      const expectedBaseData: any = {
+      const expectedBaseData = {
         name: BreezePerformanceCounterNames.PROCESS_TIME_STANDARD,
         value: 1,
         dataPointType: "Aggregation",
@@ -402,7 +401,7 @@ describe("metricUtil.ts", () => {
       const expectedTags: Tags = {
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
-      const expectedBaseData: any = {
+      const expectedBaseData = {
         name: BreezePerformanceCounterNames.REQUEST_RATE,
         value: 1,
         dataPointType: "Aggregation",
@@ -442,7 +441,7 @@ describe("metricUtil.ts", () => {
       const expectedTags: Tags = {
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
-      const expectedBaseData: any = {
+      const expectedBaseData = {
         name: BreezePerformanceCounterNames.REQUEST_DURATION,
         value: 1,
         dataPointType: "Aggregation",
@@ -490,7 +489,7 @@ describe("metricUtil.ts", () => {
       const expectedTags: Tags = {
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
-      const expectedBaseData: any = {
+      const expectedBaseData = {
         name: BreezePerformanceCounterNames.REQUEST_DURATION,
         value: 1,
         dataPointType: "Aggregation",

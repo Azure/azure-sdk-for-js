@@ -10,7 +10,7 @@ import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
 import { NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics.js";
 import { LongIntervalStatsbeatMetrics } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
-import type { RestError } from "@azure/core-rest-pipeline";
+import type { HttpHeaders, RestError } from "@azure/core-rest-pipeline";
 import {
   DropCode,
   RetryCode,
@@ -21,12 +21,12 @@ import type { BreezeResponse } from "../../utils/breezeUtils.js";
 import { isRetriable } from "../../utils/breezeUtils.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import {
-  ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
   ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING,
+  ENV_DISABLE_SDKSTATS,
   RetriableRestErrorTypes,
 } from "../../Declarations/Constants.js";
-import type { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
+import { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 
@@ -67,7 +67,7 @@ export abstract class BaseSender {
         endpointUrl: options.endpointUrl,
         disableOfflineStorage: this.disableOfflineStorage,
       });
-      if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW]) {
+      if (!process.env[ENV_DISABLE_SDKSTATS]) {
         let exportInterval: number | undefined;
         if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL]) {
           const envValue = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
@@ -246,14 +246,12 @@ export abstract class BaseSender {
         this.numConsecutiveRedirects++;
         // To prevent circular redirects
         if (this.numConsecutiveRedirects < 10) {
-          if (restError.response && restError.response.headers) {
-            const location = restError.response.headers.get("location");
-            if (location) {
-              // Update sender URL
-              this.handlePermanentRedirect(location);
-              // Send to redirect endpoint as HTTPs library doesn't handle redirect automatically
-              return this.exportEnvelopes(envelopes);
-            }
+          const location = this.getLocationFromHeaders(restError.response?.headers);
+          if (location) {
+            // Update sender URL
+            this.handlePermanentRedirect(location);
+            // Send to redirect endpoint as HTTPs library doesn't handle redirect automatically
+            return this.exportEnvelopes(envelopes);
           }
         } else {
           const redirectError = new Error("Circular redirect");
@@ -402,6 +400,11 @@ export abstract class BaseSender {
       return true;
     }
     return false;
+  }
+
+  // Normalize location extraction for redirects; mirrors core HttpHeaders behavior
+  private getLocationFromHeaders(headers?: HttpHeaders): string | undefined {
+    return headers?.get("location") ?? headers?.toJSON?.().location;
   }
 
   // Silence noisy failures from statsbeat OTel metric readers unless logging is explicitly enabled

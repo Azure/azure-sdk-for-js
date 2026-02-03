@@ -18,6 +18,7 @@ import type { Tags, Properties, Measurements } from "../../src/types.js";
 import { experimentalOpenTelemetryValues, MaxPropertyLengths } from "../../src/types.js";
 import { getInstance } from "../../src/platform/index.js";
 import type {
+  AvailabilityData,
   MessageData,
   MonitorDomain,
   PageViewData,
@@ -38,18 +39,6 @@ import { resourceFromAttributes } from "@opentelemetry/resources";
 import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js";
 
 const context = getInstance();
-
-// Local type helper for AvailabilityData which is not emitted by the generator in this version.
-type AvailabilityData = MonitorDomain & {
-  id?: string;
-  name?: string;
-  duration?: string;
-  success?: boolean;
-  runLocation?: string;
-  message?: string;
-  properties?: Record<string, string>;
-  measurements?: Record<string, number>;
-};
 
 const expectedServiceTagsBase: Tags = {
   [KnownContextTagKeys.AiCloudRole]: "testServiceNamespace.testServiceName",
@@ -144,8 +133,10 @@ describe("logUtils.ts", () => {
 
       assert.isDefined(envelope);
       assert.isUndefined(envelope?.tags?.[APPLICATION_ID_RESOURCE_KEY]);
-      const baseData = envelope?.data?.baseData as Partial<MessageData> | undefined;
-      assert.isUndefined(baseData?.properties?.[APPLICATION_ID_RESOURCE_KEY]);
+      const baseDataProperties = (envelope?.data?.baseData as any)?.properties?.[
+        APPLICATION_ID_RESOURCE_KEY
+      ];
+      assert.isUndefined(baseDataProperties);
     });
 
     it("should create a Message Envelope for Logs", () => {
@@ -413,8 +404,7 @@ describe("logUtils.ts", () => {
     });
 
     it("should create a Exception Envelope", () => {
-      const data = {
-        message: "testMessage",
+      const data: TelemetryExceptionData = {
         severityLevel: "Error",
         exceptions: [
           {
@@ -424,7 +414,7 @@ describe("logUtils.ts", () => {
           },
         ],
         version: 2,
-      } as TelemetryExceptionData;
+      };
       testLogRecord.attributes = {
         "_MS.baseType": "ExceptionData",
         "extra.attribute": "foo",
@@ -438,8 +428,7 @@ describe("logUtils.ts", () => {
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
-      const expectedBaseData = {
-        message: `testMessage`,
+      const expectedBaseData: Partial<TelemetryExceptionData> = {
         severityLevel: `Error`,
         exceptions: [
           {
@@ -451,7 +440,7 @@ describe("logUtils.ts", () => {
         version: 2,
         properties: expectedProperties,
         measurements: {},
-      } as Partial<TelemetryExceptionData>;
+      };
 
       const envelope = logToEnvelope(testLogRecord, "ikey");
       assertEnvelope(
@@ -701,9 +690,7 @@ describe("logUtils.ts", () => {
     // Verify that ATTR_ENDUSER_ID is not in properties
     assert.ok(
       envelope &&
-        !(envelope.data?.baseData as any)?.properties?.[
-          experimentalOpenTelemetryValues.ATTR_ENDUSER_ID
-        ],
+        !envelope.data?.baseData?.properties?.[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID],
       "ATTR_ENDUSER_ID should not be included in properties",
     );
   });
@@ -734,7 +721,7 @@ describe("logUtils.ts", () => {
     // Verify that ATTR_ENDUSER_PSEUDO_ID is not in properties
     assert.ok(
       envelope &&
-        !(envelope.data?.baseData as any)?.properties?.[
+        !envelope.data?.baseData?.properties?.[
           experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID
         ],
       "ATTR_ENDUSER_PSEUDO_ID should not be included in properties",

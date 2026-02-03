@@ -2,21 +2,20 @@
 // Licensed under the MIT License.
 
 import type {
+  AvailabilityData,
+  DomainUnion,
   TelemetryItem as Envelope,
   MessageData,
-  MonitorDomain,
   PageViewData,
   TelemetryEventData,
   TelemetryExceptionData,
   TelemetryExceptionDetails,
 } from "../generated/index.js";
-import type { SeverityLevel } from "../generated/index.js";
-import { KnownContextTagKeys } from "../generated/index.js";
+import { KnownContextTagKeys, KnownSeverityLevel } from "../generated/index.js";
 import {
   createTagsFromResource,
   hrTimeToDate,
   isSyntheticSource,
-  sanitizeTags,
   serializeAttribute,
 } from "./common.js";
 import type { ReadableLogRecord } from "@opentelemetry/sdk-logs";
@@ -59,7 +58,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   let [properties, measurements] = createPropertiesFromLog(log);
   let name: string;
   let baseType: string;
-  let baseData: TelemetryExceptionData | TelemetryEventData | MessageData | MonitorDomain;
+  let baseData: DomainUnion;
 
   const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
   const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
@@ -80,7 +79,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     };
     const exceptionData: TelemetryExceptionData = {
       exceptions: [exceptionDetails],
-      severityLevel: getSeverity(log.severityNumber),
+      severityLevel: String(getSeverity(log.severityNumber)),
       version: 2,
     };
     baseData = exceptionData;
@@ -98,7 +97,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     baseType = ApplicationInsightsMessageBaseType;
     const messageData: MessageData = {
       message: serializeAttribute(log.body),
-      severityLevel: getSeverity(log.severityNumber),
+      severityLevel: String(getSeverity(log.severityNumber)),
       version: 2,
     };
     baseData = messageData;
@@ -114,37 +113,25 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     }
   }
   // Truncate properties
-  if (hasMessage(baseData)) {
+  if (baseData && "message" in baseData && baseData.message) {
     baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
   }
-  for (const key of Object.keys(properties)) {
-    properties[key] = String(properties[key]).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
-  }
-  const enrichedBaseData = {
-    ...(baseData as MonitorDomain),
-    properties,
-    measurements,
-  } as MonitorDomain & {
-    properties?: Properties;
-    measurements?: Measurements;
-  } & Partial<MessageData>;
-
   return {
     name,
     sampleRate,
     time,
     instrumentationKey,
-    tags: sanitizeTags(tags),
+    tags,
     version: 1,
     data: {
       baseType,
-      baseData: enrichedBaseData,
+      baseData: {
+        ...baseData,
+        properties,
+        measurements,
+      },
     },
   };
-}
-
-function hasMessage(baseData: unknown): baseData is { message?: string } {
-  return typeof (baseData as any)?.message !== "undefined";
 }
 
 function createTagsFromLog(log: ReadableLogRecord): Tags {
@@ -212,27 +199,19 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
   return [properties, measurements];
 }
 
-const SeverityLevels: Record<SeverityLevel, SeverityLevel> = {
-  Verbose: "Verbose",
-  Information: "Information",
-  Warning: "Warning",
-  Error: "Error",
-  Critical: "Critical",
-};
-
 // https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/logs/data-model.md#field-severitynumber
-function getSeverity(severityNumber: number | undefined): SeverityLevel | undefined {
+function getSeverity(severityNumber: number | undefined): KnownSeverityLevel | undefined {
   if (severityNumber) {
     if (severityNumber > 0 && severityNumber < 9) {
-      return SeverityLevels.Verbose;
+      return KnownSeverityLevel.Verbose;
     } else if (severityNumber >= 9 && severityNumber < 13) {
-      return SeverityLevels.Information;
+      return KnownSeverityLevel.Information;
     } else if (severityNumber >= 13 && severityNumber < 17) {
-      return SeverityLevels.Warning;
+      return KnownSeverityLevel.Warning;
     } else if (severityNumber >= 17 && severityNumber < 21) {
-      return SeverityLevels.Error;
+      return KnownSeverityLevel.Error;
     } else if (severityNumber >= 21 && severityNumber < 25) {
-      return SeverityLevels.Critical;
+      return KnownSeverityLevel.Critical;
     }
   }
   return;
@@ -260,24 +239,25 @@ function getLegacyApplicationInsightsName(log: ReadableLogRecord): string {
   return name;
 }
 
-function hasMeasurements(body: unknown): body is { measurements?: Measurements } {
-  return typeof body === "object" && body !== null && "measurements" in (body as any);
-}
-
 function getLegacyApplicationInsightsMeasurements(log: ReadableLogRecord): Measurements {
-  if (hasMeasurements(log.body) && log.body.measurements) {
-    return { ...log.body.measurements };
+  let measurements: Measurements = {};
+  const body = log.body as Record<string, unknown> | undefined;
+  if (body && "measurements" in body && body.measurements) {
+    measurements = { ...(body.measurements as Measurements) };
   }
-  return {};
+  return measurements;
 }
 
-function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): MonitorDomain {
-  let baseData: MonitorDomain = {
+function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): DomainUnion {
+  let baseData: DomainUnion = {
     version: 2,
-  };
+  } as DomainUnion;
   if (log.body) {
     try {
       switch (log.attributes[ApplicationInsightsBaseType]) {
+        case ApplicationInsightsAvailabilityBaseType:
+          baseData = log.body as unknown as AvailabilityData;
+          break;
         case ApplicationInsightsExceptionBaseType:
           baseData = log.body as unknown as TelemetryExceptionData;
           break;
@@ -290,13 +270,9 @@ function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): MonitorDo
         case ApplicationInsightsEventBaseType:
           baseData = log.body as unknown as TelemetryEventData;
           break;
-        case ApplicationInsightsAvailabilityBaseType:
-        default:
-          baseData = log.body as unknown as MonitorDomain;
-          break;
       }
-      if (hasMessage(baseData) && typeof baseData.message === "object") {
-        (baseData as any).message = serializeAttribute((baseData as any).message);
+      if (baseData && "message" in baseData && typeof baseData.message === "object") {
+        baseData.message = serializeAttribute(baseData.message);
       }
     } catch (err) {
       diag.error("AzureMonitorLogExporter failed to parse Application Insights Telemetry");

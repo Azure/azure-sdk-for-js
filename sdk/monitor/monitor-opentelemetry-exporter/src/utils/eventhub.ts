@@ -5,7 +5,7 @@ import { SpanKind } from "@opentelemetry/api";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { SEMATTRS_NET_PEER_NAME } from "@opentelemetry/semantic-conventions";
 import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
-import type { RemoteDependencyData, RequestData } from "../generated/index.js";
+import type { DomainUnion, RemoteDependencyData } from "../generated/index.js";
 import { TIME_SINCE_ENQUEUED, ENQUEUED_TIME } from "./constants/applicationinsights.js";
 import type { MicrosoftEventHub } from "./constants/span/azAttributes.js";
 import { AzNamespace, MessageBusDestination } from "./constants/span/azAttributes.js";
@@ -35,10 +35,7 @@ const getTimeSinceEnqueued = (span: ReadableSpan): number => {
  * https://gist.github.com/lmolkova/e4215c0f44a49ef824983382762e6b92#mapping-to-azure-monitor-application-insights-telemetry
  * @internal
  */
-export const parseEventHubSpan = (
-  span: ReadableSpan,
-  baseData: RequestData | RemoteDependencyData,
-): void => {
+export const parseEventHubSpan = (span: ReadableSpan, baseData: DomainUnion): void => {
   const namespace = span.attributes[AzNamespace] as typeof MicrosoftEventHub;
   const peerAddress = (
     (span.attributes[SEMATTRS_NET_PEER_NAME] ||
@@ -46,25 +43,39 @@ export const parseEventHubSpan = (
       "unknown") as string
   ).replace(/\/$/g, ""); // remove trailing "/"
   const messageBusDestination = (span.attributes[MessageBusDestination] || "unknown") as string;
-
-  const dependencyData = baseData as RemoteDependencyData;
+  const dependencyData = baseData as RemoteDependencyData | undefined;
 
   switch (span.kind) {
     case SpanKind.CLIENT:
-      dependencyData.type = namespace;
-      dependencyData.target = `${peerAddress}/${messageBusDestination}`;
+      if (dependencyData) {
+        dependencyData.type = namespace;
+        dependencyData.target = `${peerAddress}/${messageBusDestination}`;
+      }
       break;
     case SpanKind.PRODUCER:
-      dependencyData.type = `Queue Message | ${namespace}`;
-      dependencyData.target = `${peerAddress}/${messageBusDestination}`;
+      if (dependencyData) {
+        dependencyData.type = `Queue Message | ${namespace}`;
+        dependencyData.target = `${peerAddress}/${messageBusDestination}`;
+      }
       break;
     case SpanKind.CONSUMER:
-      dependencyData.type = `Queue Message | ${namespace}`;
-      (dependencyData as any).source = `${peerAddress}/${messageBusDestination}`;
-      dependencyData.measurements = {
-        ...dependencyData.measurements,
-        [TIME_SINCE_ENQUEUED]: getTimeSinceEnqueued(span),
-      };
+      if (dependencyData) {
+        dependencyData.type = `Queue Message | ${namespace}`;
+      }
+      if (baseData && "responseCode" in baseData) {
+        baseData.measurements = {
+          ...baseData.measurements,
+          [TIME_SINCE_ENQUEUED]: getTimeSinceEnqueued(span),
+        };
+        baseData.source = `${peerAddress}/${messageBusDestination}`;
+      } else if (dependencyData) {
+        dependencyData.measurements = {
+          ...dependencyData.measurements,
+          [TIME_SINCE_ENQUEUED]: getTimeSinceEnqueued(span),
+        };
+        (dependencyData as RemoteDependencyData & { source?: string }).source =
+          `${peerAddress}/${messageBusDestination}`;
+      }
       break;
     default: // no op
   }
