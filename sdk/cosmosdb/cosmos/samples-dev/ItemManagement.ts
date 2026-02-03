@@ -250,6 +250,26 @@ async function run(): Promise<void> {
   console.log("IndexMetrics: ", indexMetrics);
   console.log("Query results: ", resultsIndexMetrics);
 
+  logStep("Query items using continuation token with fetchNext");
+  // Initialize a query iterator and use fetchNext to retrieve results page by page
+  let queryIterator = container.items.query(querySpec, { maxItemCount: 2 });
+  let savedContinuationToken: string | undefined;
+
+  // Fetch pages until no more results
+  while (queryIterator.hasMoreResults()) {
+    const { resources: pageResults, continuationToken } = await queryIterator.fetchNext();
+    console.log(`Fetched ${pageResults.length} items`);
+    // Save continuation token from each response
+    savedContinuationToken = continuationToken;
+  }
+
+  // Re-initialize a new query iterator using the last saved continuation token
+  if (savedContinuationToken) {
+    queryIterator = container.items.query(querySpec, { continuationToken: savedContinuationToken });
+    const { resources: resumedResults } = await queryIterator.fetchNext();
+    console.log(`Resumed query returned ${resumedResults.length} items`);
+  }
+
   logStep("Delete item '" + item.id + "'");
   await item.delete();
 
