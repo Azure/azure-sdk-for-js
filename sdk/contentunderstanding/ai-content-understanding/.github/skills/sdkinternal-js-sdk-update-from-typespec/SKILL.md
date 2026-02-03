@@ -54,6 +54,7 @@ Compare `generated/` vs `src/` to ensure all expected customizations are present
 Key files to check:
 
 - `src/static-helpers/serialization/serialize-record.ts`
+- `src/static-helpers/urlTemplate.ts`
 - `src/models/models.ts`
 - `src/api/operations.ts`
 - `src/contentUnderstandingClient.ts`
@@ -71,6 +72,8 @@ Verify each fix listed in the "Current Known Fixes" section below is still appli
 | 5     | Null guard in `contentFieldDefinitionRecordDeserializer`       | `src/models/models.ts`                                     | Has `if (!item) { return item; }`                                       |
 | 6     | `value` property on ContentField types                         | `src/models/models.ts`                                     | All field types have `value` property                                   |
 | 7     | ContentUnderstandingClient API customizations                  | `src/contentUnderstandingClient.ts`                        | Custom option types and `analyze` requires `inputs` as second param     |
+| 8     | `result` variable renamed to `varResults` in urlTemplate       | `src/static-helpers/urlTemplate.ts`                        | Uses `const varResults = []` instead of `const result = []`             |
+| 9     | Regex character class fix in urlTemplate                       | `src/static-helpers/urlTemplate.ts`                        | Uses `/[.~-]/` instead of `/[\-.~]/`                                    |
 
 **If a fix is now included in the generated code upstream, remove it from this skill document.**
 
@@ -394,6 +397,58 @@ Both methods internally always pass `stringEncoding: "utf16"` and expose `operat
 
 ---
 
+### Fix 8: Variable Shadowing in urlTemplate.ts
+
+**File**: `src/static-helpers/urlTemplate.ts`
+
+**Problem**: The generated code uses a variable named `result` inside a callback that shadows the outer `result` variable, causing a linting error.
+
+**Why this matters**: Variable shadowing can cause confusion and bugs. The ESLint rule `no-shadow` is enabled to prevent this.
+
+**Fix**: Rename the inner `result` variable to `varResults` to avoid shadowing:
+
+```typescript
+const result = template.replace(/\{([^{}]+)\}|([^{}]+)/g, (_, expr, text) => {
+  // ...
+  const varList = expr.split(/,/g);
+  const varResults = []; // Renamed from 'result' to avoid shadowing
+  for (const varSpec of varList) {
+    // ...
+    if (varValue) {
+      varResults.push(varValue);
+    }
+  }
+  return varResults.join("");
+});
+```
+
+---
+
+### Fix 9: Regex Character Class Escaping in urlTemplate.ts
+
+**File**: `src/static-helpers/urlTemplate.ts` in `normalizeUnreserved`
+
+**Problem**: The generated regex `/[\-.~]/` has an unnecessarily escaped hyphen at the start of the character class, which triggers an ESLint warning.
+
+**Why this matters**: While the regex works correctly, the unnecessary escape can be confusing. The hyphen only needs escaping when it's in the middle of a character class.
+
+**Fix**: Move the hyphen to the end of the character class where it doesn't need escaping:
+
+```typescript
+function normalizeUnreserved(uri: string): string {
+  return uri.replace(/%([0-9A-Fa-f]{2})/g, (match, hex) => {
+    const char = String.fromCharCode(parseInt(hex, 16));
+    // Decode only if it's unreserved
+    if (/[.~-]/.test(char)) { // Hyphen moved to end
+      return char;
+    }
+    return match;
+  });
+}
+```
+
+---
+
 ## Troubleshooting
 
 ### Build Fails After Regeneration
@@ -429,3 +484,4 @@ Both methods internally always pass `stringEncoding: "utf16"` and expose `operat
 - `generated/` - Raw generated code (do not edit directly)
 - `src/` - Customized source code (apply fixes here)
 - `src/contentUnderstandingClient.ts` - Client wrapper with API customizations (Fix 3 & 7)
+- `src/static-helpers/urlTemplate.ts` - URL template expansion (Fix 8 & 9)

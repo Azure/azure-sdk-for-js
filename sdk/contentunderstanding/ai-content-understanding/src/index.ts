@@ -7,6 +7,9 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
+// CUSTOMIZATION: Export custom types from ContentUnderstandingClient for the customized
+// analyze and analyzeBinary method signatures (AnalyzeResultPoller with operationId,
+// and option types that hide stringEncoding from the public API).
 export {
   ContentUnderstandingClient,
   AnalyzeResultPoller,

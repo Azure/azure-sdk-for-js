@@ -187,6 +187,8 @@ export function expandUrlTemplate(
       expr = expr.slice(1);
     }
     const varList = expr.split(/,/g);
+    // CUSTOMIZATION: Renamed from `result` to `varResults` to avoid shadowing
+    // the outer `result` variable and fix linting issues.
     const varResults = [];
     for (const varSpec of varList) {
       const varMatch = /([^:*]*)(?::(\d+)|(\*))?/.exec(varSpec);
@@ -219,6 +221,7 @@ function normalizeUnreserved(uri: string): string {
   return uri.replace(/%([0-9A-Fa-f]{2})/g, (match, hex) => {
     const char = String.fromCharCode(parseInt(hex, 16));
     // Decode only if it's unreserved
+    // CUSTOMIZATION: Fixed regex character class - moved hyphen to end to avoid unnecessary escaping.
     if (/[.~-]/.test(char)) {
       return char;
     }
