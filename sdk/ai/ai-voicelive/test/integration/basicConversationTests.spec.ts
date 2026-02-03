@@ -54,16 +54,6 @@ import {
   type ServerVad,
 } from "../../src/models/models.js";
 
-// Only configure dotenv in Node.js environments
-if (typeof self === "undefined") {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    require("dotenv").config();
-  } catch {
-    // dotenv not available or we're in a browser, ignore
-  }
-}
-
 describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
   let client: VoiceLiveClient;
   let sessions: VoiceLiveSession[] = [];

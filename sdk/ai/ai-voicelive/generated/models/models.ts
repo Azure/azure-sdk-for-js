@@ -1310,8 +1310,12 @@ export interface AvatarConfig {
   customized: boolean;
   /** Optional video configuration including resolution, bitrate, and codec. */
   video?: VideoParams;
+  /** Configuration for the avatar's zoom level, position, rotation and movement amplitude in the video frame. */
+  scene?: Scene;
   /** Output protocol for avatar streaming. Default is 'webrtc'. */
   outputProtocol?: AvatarOutputProtocol;
+  /** When enabled, forwards audit audio via WebSocket for review/debugging purposes, even when avatar output is delivered via WebRTC. */
+  outputAuditAudio?: boolean;
 }
 
 export function avatarConfigSerializer(item: AvatarConfig): any {
@@ -1325,7 +1329,9 @@ export function avatarConfigSerializer(item: AvatarConfig): any {
     model: item["model"],
     customized: item["customized"],
     video: !item["video"] ? item["video"] : videoParamsSerializer(item["video"]),
+    scene: !item["scene"] ? item["scene"] : sceneSerializer(item["scene"]),
     output_protocol: item["outputProtocol"],
+    output_audit_audio: item["outputAuditAudio"],
   };
 }
 
@@ -1340,7 +1346,9 @@ export function avatarConfigDeserializer(item: any): AvatarConfig {
     model: item["model"],
     customized: item["customized"],
     video: !item["video"] ? item["video"] : videoParamsDeserializer(item["video"]),
+    scene: !item["scene"] ? item["scene"] : sceneDeserializer(item["scene"]),
     outputProtocol: item["output_protocol"],
+    outputAuditAudio: item["output_audit_audio"],
   };
 }
 
@@ -1528,6 +1536,48 @@ export function backgroundDeserializer(item: any): Background {
   return {
     color: item["color"],
     imageUrl: item["image_url"],
+  };
+}
+
+/** Configuration for avatar's zoom level, position, rotation and movement amplitude in the video frame. */
+export interface Scene {
+  /** Zoom level of the avatar. Range is (0, +∞). Values less than 1 zoom out, values greater than 1 zoom in. */
+  zoom?: number;
+  /** Horizontal position of the avatar. Range is [-1, 1], as a proportion of frame width. Negative values move left, positive values move right. */
+  positionX?: number;
+  /** Vertical position of the avatar. Range is [-1, 1], as a proportion of frame height. Negative values move up, positive values move down. */
+  positionY?: number;
+  /** Rotation around the X-axis (pitch). Range is [-π, π] in radians. Negative values rotate up, positive values rotate down. */
+  rotationX?: number;
+  /** Rotation around the Y-axis (yaw). Range is [-π, π] in radians. Negative values rotate left, positive values rotate right. */
+  rotationY?: number;
+  /** Rotation around the Z-axis (roll). Range is [-π, π] in radians. Negative values rotate anticlockwise, positive values rotate clockwise. */
+  rotationZ?: number;
+  /** Amplitude of the avatar movement. Range is (0, 1]. Values in (0, 1) mean reduced amplitude, 1 means full amplitude. */
+  amplitude?: number;
+}
+
+export function sceneSerializer(item: Scene): any {
+  return {
+    zoom: item["zoom"],
+    position_x: item["positionX"],
+    position_y: item["positionY"],
+    rotation_x: item["rotationX"],
+    rotation_y: item["rotationY"],
+    rotation_z: item["rotationZ"],
+    amplitude: item["amplitude"],
+  };
+}
+
+export function sceneDeserializer(item: any): Scene {
+  return {
+    zoom: item["zoom"],
+    positionX: item["position_x"],
+    positionY: item["position_y"],
+    rotationX: item["rotation_x"],
+    rotationY: item["rotation_y"],
+    rotationZ: item["rotation_z"],
+    amplitude: item["amplitude"],
   };
 }
 
@@ -2013,11 +2063,11 @@ export type ReasoningEffort = string;
 export type FillerResponseConfig = BasicFillerResponseConfig | LlmFillerResponseConfig;
 
 export function fillerResponseConfigSerializer(item: FillerResponseConfig): any {
-  return fillerResponseConfigBaseUnionSerializer(item);
+  return item;
 }
 
 export function fillerResponseConfigDeserializer(item: any): FillerResponseConfig {
-  return fillerResponseConfigBaseUnionDeserializer(item) as FillerResponseConfig;
+  return item;
 }
 
 /**
@@ -3973,7 +4023,7 @@ export function _responseMaxOutputTokensDeserializer(item: any): _ResponseMaxOut
 /** A voicelive server event. */
 export interface ServerEvent {
   /** The type of event. */
-  /** The discriminator possible values: error, session.created, session.updated, session.avatar.connecting, input_audio_buffer.committed, input_audio_buffer.cleared, input_audio_buffer.speech_started, input_audio_buffer.speech_stopped, conversation.item.created, conversation.item.input_audio_transcription.completed, conversation.item.input_audio_transcription.failed, conversation.item.truncated, conversation.item.deleted, response.created, response.done, response.output_item.added, response.output_item.done, response.content_part.added, response.content_part.done, response.text.delta, response.text.done, response.audio_transcript.delta, response.audio_transcript.done, response.audio.delta, response.audio.done, response.animation_blendshapes.delta, response.animation_blendshapes.done, response.audio_timestamp.delta, response.audio_timestamp.done, response.animation_viseme.delta, response.animation_viseme.done, conversation.item.input_audio_transcription.delta, conversation.item.retrieved, response.function_call_arguments.delta, response.function_call_arguments.done, mcp_list_tools.in_progress, mcp_list_tools.completed, mcp_list_tools.failed, response.mcp_call_arguments.delta, response.mcp_call_arguments.done, response.mcp_call.in_progress, response.mcp_call.completed, response.mcp_call.failed, response.foundry_agent_call_arguments.delta, response.foundry_agent_call_arguments.done, response.foundry_agent_call.in_progress, response.foundry_agent_call.completed, response.foundry_agent_call.failed */
+  /** The discriminator possible values: error, warning, session.created, session.updated, session.avatar.connecting, input_audio_buffer.committed, input_audio_buffer.cleared, input_audio_buffer.speech_started, input_audio_buffer.speech_stopped, conversation.item.created, conversation.item.input_audio_transcription.completed, conversation.item.input_audio_transcription.failed, conversation.item.truncated, conversation.item.deleted, response.created, response.done, response.output_item.added, response.output_item.done, response.content_part.added, response.content_part.done, response.text.delta, response.text.done, response.audio_transcript.delta, response.audio_transcript.done, response.audio.delta, response.audio.done, response.animation_blendshapes.delta, response.animation_blendshapes.done, response.audio_timestamp.delta, response.audio_timestamp.done, response.animation_viseme.delta, response.animation_viseme.done, conversation.item.input_audio_transcription.delta, conversation.item.retrieved, response.function_call_arguments.delta, response.function_call_arguments.done, mcp_list_tools.in_progress, mcp_list_tools.completed, mcp_list_tools.failed, response.mcp_call_arguments.delta, response.mcp_call_arguments.done, response.mcp_call.in_progress, response.mcp_call.completed, response.mcp_call.failed, response.foundry_agent_call_arguments.delta, response.foundry_agent_call_arguments.done, response.foundry_agent_call.in_progress, response.foundry_agent_call.completed, response.foundry_agent_call.failed */
   type: ServerEventType;
   eventId?: string;
 }
@@ -3988,6 +4038,7 @@ export function serverEventDeserializer(item: any): ServerEvent {
 /** Alias for ServerEventUnion */
 export type ServerEventUnion =
   | ServerEventError
+  | ServerEventWarning
   | ServerEventSessionCreated
   | ServerEventSessionUpdated
   | ServerEventSessionAvatarConnecting
@@ -4041,6 +4092,9 @@ export function serverEventUnionDeserializer(item: any): ServerEventUnion {
   switch (item.type) {
     case "error":
       return serverEventErrorDeserializer(item as ServerEventError);
+
+    case "warning":
+      return serverEventWarningDeserializer(item as ServerEventWarning);
 
     case "session.created":
       return serverEventSessionCreatedDeserializer(item as ServerEventSessionCreated);
@@ -4264,6 +4318,8 @@ export function serverEventUnionDeserializer(item: any): ServerEventUnion {
 export enum KnownServerEventType {
   /** error */
   Error = "error",
+  /** warning */
+  Warning = "warning",
   /** session.avatar.connecting */
   SessionAvatarConnecting = "session.avatar.connecting",
   /** session.created */
@@ -4370,6 +4426,7 @@ export enum KnownServerEventType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **error** \
+ * **warning** \
  * **session.avatar.connecting** \
  * **session.created** \
  * **session.updated** \
@@ -4463,6 +4520,43 @@ export function serverEventErrorDetailsDeserializer(item: any): ServerEventError
     message: item["message"],
     param: item["param"],
     eventId: item["event_id"],
+  };
+}
+
+/**
+ * Returned when a warning occurs that does not interrupt the conversation flow.
+ * Warnings are informational and the session will continue normally.
+ */
+export interface ServerEventWarning extends ServerEvent {
+  /** The event type, must be `warning`. */
+  type: "warning";
+  /** Details of the warning. */
+  warning: ServerEventWarningDetails;
+}
+
+export function serverEventWarningDeserializer(item: any): ServerEventWarning {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    warning: serverEventWarningDetailsDeserializer(item["warning"]),
+  };
+}
+
+/** Details of the warning. */
+export interface ServerEventWarningDetails {
+  /** A human-readable warning message. */
+  message: string;
+  /** Warning code, if any. */
+  code?: string;
+  /** Parameter related to the warning, if any. */
+  param?: string;
+}
+
+export function serverEventWarningDetailsDeserializer(item: any): ServerEventWarningDetails {
+  return {
+    message: item["message"],
+    code: item["code"],
+    param: item["param"],
   };
 }
 

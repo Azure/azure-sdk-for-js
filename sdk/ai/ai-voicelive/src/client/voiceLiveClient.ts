@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
-import type { RequestSession } from "./models/index.js";
+import type { RequestSession } from "../models/index.js";
 import type {
   CreateSessionOptions,
   StartSessionOptions,
   VoiceLiveSessionOptions,
 } from "./voiceLiveSession.js";
 import { VoiceLiveSession } from "./voiceLiveSession.js";
-import { logger } from "./logger.js";
+import { logger } from "../logger.js";
 
 export interface VoiceLiveClientOptions {
   /** API version to use for the Voice Live service */

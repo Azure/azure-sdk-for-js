@@ -1109,6 +1109,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
+      '@azure/ai-projects':
+        specifier: workspace:^
+        version: link:../ai-projects
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
