@@ -7,22 +7,50 @@
  */
 
 import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
+import { StorageManagementClient } from "@azure/arm-storage";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
+async function getAccountKey(accountName: string): Promise<string> {
+  const accountKey = process.env.ACCOUNT_KEY;
+  if (accountKey) {
+    return accountKey;
+  }
+  const subscriptionId = process.env.SUBSCRIPTION_ID;
+  const resourceGroupName = process.env.RESOURCE_GROUP;
+  if (!subscriptionId || !resourceGroupName || !accountName) {
+    throw new Error(
+      "Either ACCOUNT_KEY or SUBSCRIPTION_ID + RESOURCE_GROUP + ACCOUNT_NAME environment variable is required.",
+    );
+  }
+  const mgmtClient = new StorageManagementClient(new DefaultAzureCredential(), subscriptionId);
+  const { keys } = await mgmtClient.storageAccounts.listKeys(resourceGroupName, accountName);
+  const key = keys?.[0].value;
+  if (!key) {
+    throw new Error("Cannot get account key from storage account");
+  }
+  return key;
+}
+
 async function main(): Promise<void> {
-  // Enter your storage account name and shared key
-  const account = process.env.ACCOUNT_NAME || "";
-  const accountKey = process.env.ACCOUNT_KEY || "";
+  // Enter your storage account name
+  const accountName = process.env.ACCOUNT_NAME;
+  if (!accountName) {
+    throw new Error("ACCOUNT_NAME environment variable is not set.");
+  }
 
   // Use StorageSharedKeyCredential with storage account and account key
   // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+  const sharedKeyCredential = new StorageSharedKeyCredential(
+    accountName,
+    await getAccountKey(accountName),
+  );
 
   // List containers
   const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net`,
+    `https://${accountName}.blob.core.windows.net`,
     sharedKeyCredential,
   );
 

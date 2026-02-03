@@ -8,7 +8,8 @@
 
 import fs from "node:fs";
 
-import { AnonymousCredential, BlobServiceClient, newPipeline } from "@azure/storage-blob";
+import { BlobServiceClient, newPipeline } from "@azure/storage-blob";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
@@ -22,10 +23,9 @@ setLogLevel("info");
 async function main(): Promise<void> {
   // Fill in following settings before running this sample
   const account = process.env.ACCOUNT_NAME || "<account name>";
-  const accountSas = process.env.ACCOUNT_SAS || "";
   const localFilePath = "README.md";
 
-  const pipeline = newPipeline(new AnonymousCredential(), {
+  const pipeline = newPipeline(new DefaultAzureCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     retryOptions: { maxTries: 4 }, // Retry options
     userAgentOptions: { userAgentPrefix: "AdvancedSample V1.0.0" }, // Customized telemetry string
@@ -36,7 +36,7 @@ async function main(): Promise<void> {
   });
 
   const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net${accountSas}`,
+    `https://${account}.blob.core.windows.net`,
     pipeline,
   );
 

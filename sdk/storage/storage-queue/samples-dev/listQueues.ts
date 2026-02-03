@@ -6,69 +6,40 @@
  * @azsdk-weight 70
  */
 
-import { QueueServiceClient, StorageSharedKeyCredential } from "@azure/storage-queue";
+import { DefaultAzureCredential } from "@azure/identity";
+import { QueueServiceClient } from "@azure/storage-queue";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
-export async function main(): Promise<void> {
-  // Enter your storage account name and shared key
-  const account = process.env.ACCOUNT_NAME || "";
-  const accountKey = process.env.ACCOUNT_KEY || "";
+async function main(): Promise<void> {
+  // Enter your storage account name
+  const accountName = process.env.ACCOUNT_NAME;
 
-  // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+  if (!accountName) {
+    throw new Error("ACCOUNT_NAME environment variable is not set.");
+  }
 
+  // List queues
   const queueServiceClient = new QueueServiceClient(
-    `https://${account}.queue.core.windows.net`,
-    sharedKeyCredential,
+    `https://${accountName}.queue.core.windows.net`,
+    new DefaultAzureCredential(),
   );
 
+  // Iterate over all queues in the account
   console.log("Queues:");
-  for await (const item of queueServiceClient.listQueues()) {
-    console.log(`- ${item.name}`);
+  for await (const queue of queueServiceClient.listQueues()) {
+    console.log(`- ${queue.name}`);
   }
 
-  // The iterator also supports iteration by page with a configurable (and optional) `maxPageSize`. Here, we use a small
-  // `maxPageSize` so that the effect of paging is noticeable with a small number of queues.
-  const maxPageSize = 5;
+  // The iterator also supports iteration by page with a configurable (and optional) `maxPageSize` setting.
   console.log("Queues (by page):");
-  let pageNumber = 1;
-  for await (const page of queueServiceClient.listQueues().byPage({ maxPageSize })) {
-    console.log(`- Page ${pageNumber++}:`);
-    if (page.queueItems) {
-      for (const queue of page.queueItems) {
-        console.log(`  - ${queue.name}`);
-      }
-    }
-  }
-
-  // The paged iterator also supports resuming from a continuation token. In the following example, we use the
-  // continuation token from the first iteration to resume iteration at the second page.
-
-  // Get the continuation token
-  console.log("Queues starting from the second page of results:");
-  const iter = queueServiceClient.listQueues().byPage({ maxPageSize });
-  const result = await iter.next();
-
-  if (result.done) {
-    throw new Error("Expected at least one page of results.");
-  }
-
-  // The continuation token is an optional property of the page.
-  const continuationToken = result.value.continuationToken;
-
-  if (!continuationToken) {
-    throw new Error("Expected a continuation token from the service, but one was not returned.");
-  }
-
-  const resumed = queueServiceClient.listQueues().byPage({ continuationToken, maxPageSize });
-  pageNumber = 2;
-  for await (const page of resumed) {
-    console.log(`- Page ${pageNumber++}`);
-    if (page.queueItems) {
-      for (const queue of page.queueItems) {
+  for await (const response of queueServiceClient.listQueues().byPage({
+    maxPageSize: 20,
+  })) {
+    console.log("- Page:");
+    if (response.queueItems) {
+      for (const queue of response.queueItems) {
         console.log(`  - ${queue.name}`);
       }
     }

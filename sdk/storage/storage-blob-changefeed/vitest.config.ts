@@ -9,6 +9,7 @@ export default mergeConfig(
   defineConfig({
     test: {
       fileParallelism: false,
+      globalSetup: ["test/utils/setup.ts"],
     },
   }),
 );

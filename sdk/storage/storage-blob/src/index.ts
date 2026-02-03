@@ -3,7 +3,7 @@
 
 import { RestError } from "@azure/core-rest-pipeline";
 
-export { PollOperationState, PollerLike } from "@azure/core-lro";
+export type { PollOperationState, PollerLike } from "@azure/core-lro";
 export * from "./BlobServiceClient.js";
 export * from "./Clients.js";
 export * from "./ContainerClient.js";

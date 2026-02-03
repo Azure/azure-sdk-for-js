@@ -6,54 +6,51 @@
  * @azsdk-weight 0
  */
 
-import { QueueServiceClient, newPipeline, StorageSharedKeyCredential } from "@azure/storage-queue";
+import { QueueServiceClient, newPipeline } from "@azure/storage-queue";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
-export async function main(): Promise<void> {
-  // Enter your storage account name and shared key
-  const account = process.env.ACCOUNT_NAME || "";
-  const accountKey = process.env.ACCOUNT_KEY || "";
+async function main(): Promise<void> {
+  // Enter your storage account name
+  const accountName = process.env.ACCOUNT_NAME;
+  if (!accountName) {
+    throw new Error("ACCOUNT_NAME environment variable is not set.");
+  }
 
-  // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-
-  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = newPipeline(sharedKeyCredential, {
+  const pipeline = newPipeline(new DefaultAzureCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
-    retryOptions: {
-      maxTries: 4,
-    }, // Retry options
-    userAgentOptions: {
-      userAgentPrefix: "BasicSample V10.0.0",
-    }, // Customized telemetry string
+    retryOptions: { maxTries: 4 }, // Retry options
+    userAgentOptions: { userAgentPrefix: "Sample V1.0.0" }, // Customized telemetry string
     keepAliveOptions: {
       // Keep alive is enabled by default, disable keep alive by setting false
       enable: false,
     },
   });
 
+  // List queues
   const queueServiceClient = new QueueServiceClient(
-    // When using AnonymousCredential, following url should include a valid SAS or support public access
-    `https://${account}.queue.core.windows.net`,
+    `https://${accountName}.queue.core.windows.net`,
     pipeline,
   );
 
-  // Create a new queue
+  let i = 1;
+  for await (const queue of queueServiceClient.listQueues()) {
+    console.log(`Queue ${i++}: ${queue.name}`);
+  }
+
+  // Create a queue
   const queueName = `newqueue${new Date().getTime()}`;
   const queueClient = queueServiceClient.getQueueClient(queueName);
-  const createQueueResponse = await queueClient.create();
-  console.log(
-    `Created queue ${queueClient.name} successfully, service assigned request ID: ${createQueueResponse.requestId}`,
-  );
 
-  // Delete the queue.
-  const deleteQueueResponse = await queueClient.delete();
-  console.log(
-    `Deleted queue ${queueClient.name} successfully, service assigned request ID: ${deleteQueueResponse.requestId}`,
-  );
+  const createQueueResponse = await queueClient.create();
+  console.log(`Created queue ${queueName} successfully`, createQueueResponse.requestId);
+
+  // Delete queue
+  await queueClient.delete();
+
+  console.log("Deleted queue:", queueClient.name);
 }
 
 main().catch((error) => {

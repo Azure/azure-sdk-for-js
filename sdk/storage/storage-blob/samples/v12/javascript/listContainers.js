@@ -5,24 +5,24 @@
  * @summary list containers in an account, showing options for paging, resuming paging, etc.
  */
 
-const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { BlobServiceClient } = require("@azure/storage-blob");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
-  // Enter your storage account name and shared key
-  const account = process.env.ACCOUNT_NAME || "";
-  const accountKey = process.env.ACCOUNT_KEY || "";
+  // Enter your storage account name
+  const accountName = process.env.ACCOUNT_NAME;
 
-  // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+  if (!accountName) {
+    throw new Error("ACCOUNT_NAME environment variable is not set.");
+  }
 
   // List containers
   const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential
+    `https://${accountName}.blob.core.windows.net`,
+    new DefaultAzureCredential(),
   );
 
   // Iterate over all containers in the account
