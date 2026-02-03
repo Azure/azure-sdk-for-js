@@ -12,7 +12,7 @@
  */
 
 // Only import Node-specific modules in Node.js environment
-const isNodeEnvironment = typeof window === "undefined" && typeof self === "undefined";
+const isNodeEnvironment = typeof self === "undefined";
 
 import { TestConstants } from "./testConstants.js";
 import type { FoundryAgentTool } from "../../src/models/index.js";
