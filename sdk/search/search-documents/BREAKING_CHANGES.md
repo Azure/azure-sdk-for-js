@@ -15,32 +15,6 @@ The migration from Swagger to TypeSpec introduces several categories of breaking
 
 ## HIGH IMPACT Changes
 
-### Import Source Changes
-
-The base infrastructure has changed from `@azure/core-client` to `@azure-rest/core-client`:
-
-| Import             | Old Source                                                | New Source                |
-| ------------------ | --------------------------------------------------------- | ------------------------- |
-| `OperationOptions` | `@azure/core-client`                                      | `@azure-rest/core-client` |
-| `ClientOptions`    | `@azure/core-http-compat` (`ExtendedCommonClientOptions`) | `@azure-rest/core-client` |
-
-**Hypothesis**: TypeSpec generates code using the newer `@azure-rest/core-client` infrastructure.
-
-**Mitigation**: Update imports or re-export the types from the package for backward compatibility.
-
-### Client Options Base Type Change
-
-All client options interfaces now extend `ClientOptions` from `@azure-rest/core-client` instead of `ExtendedCommonClientOptions` from `@azure/core-http-compat`:
-
-- `SearchClientOptions`
-- `SearchIndexClientOptions`
-- `SearchIndexerClientOptions`
-- `KnowledgeRetrievalClientOptions`
-
-**Hypothesis**: TypeSpec uses a different base options type.
-
-**Mitigation**: Most user code should be unaffected as both types provide similar options. Users with custom client options may need to update their types.
-
 ### Index Signature Changes
 
 The following interfaces previously had an index signature `[property: string]: any` which has been replaced with an explicit `additionalProperties` property:
