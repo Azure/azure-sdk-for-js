@@ -1,18 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationState, SimplePollerLike } from "@azure/core-lro";
-import type {
-  LoadTestAdministrationGetTestFile200Response,
-  LoadTestAdministrationUploadTestFile201Response,
-  LoadTestRunCreateOrUpdateTestRun200Response,
-  LoadTestRunCreateOrUpdateTestRun201Response,
-  LoadTestRunGetTestRun200Response,
-  TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response,
-  TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response,
-  TestProfileRunAdministrationGetTestProfileRun200Response,
-} from "./responses.js";
-
 /** Load test model. */
 export interface Test {
   /** Pass fail criteria for a test. */
@@ -69,6 +57,8 @@ export interface Test {
   engineBuiltInIdentityType?: ManagedIdentityType;
   /** Resource Ids of the managed identity built in to load test engines. Required if engineBuiltInIdentityType is UserAssigned. */
   engineBuiltInIdentityIds?: string[];
+  /** Preferences for the test. */
+  preferences?: TestPreferences;
 }
 
 /** Pass fail criteria for a test. */
@@ -143,6 +133,8 @@ export interface AutoStopCriteria {
   errorRate?: number;
   /** Time window during which the error percentage should be evaluated in seconds. */
   errorRateTimeWindowInSeconds?: number;
+  /** Maximum number of virtual users per load testing engine, at which the test run should be automatically stopped. */
+  maximumVirtualUsersPerEngine?: number;
 }
 
 /** Secret */
@@ -241,6 +233,22 @@ export interface TestFileInfo {
   fileName: string;
 }
 
+/** Preferences for the test. */
+export interface TestPreferences {
+  /** Enable or disable AI based insights on Test Run Errors. */
+  enableAIErrorInsights?: boolean;
+}
+
+/** Request to clone an existing test into a new test. */
+export interface CloneTestRequest {
+  /** Unique identifier for the new test that will be created. */
+  newTestId: string;
+  /** Display Name override for the newly created test. */
+  displayName?: string;
+  /** Description override for the newly created test. */
+  description?: string;
+}
+
 /** Test app components */
 export interface TestAppComponents {
   /**
@@ -331,173 +339,6 @@ export interface FunctionFlexConsumptionResourceConfiguration {
   instanceMemoryMB: number;
   /** HTTP Concurrency for the function app. */
   httpConcurrency?: number;
-}
-
-/** Load test run model */
-export interface TestRun {
-  /** Pass fail criteria for a test. */
-  passFailCriteria?: PassFailCriteria;
-  /** Auto stop criteria for a test. This will automatically stop a load test if the error percentage is high for a certain time window. */
-  autoStopCriteria?: AutoStopCriteria;
-  /**
-   * Secrets can be stored in an Azure Key Vault or any other secret store. If the
-   * secret is stored in an Azure Key Vault, the value should be the secret
-   * identifier and the type should be AKV_SECRET_URI. If the secret is stored
-   * elsewhere, the secret value should be provided directly and the type should be
-   * SECRET_VALUE.
-   */
-  secrets?: Record<string, Secret>;
-  /** Certificates metadata */
-  certificate?: CertificateMetadata;
-  /** Environment variables which are defined as a set of <name,value> pairs. */
-  environmentVariables?: Record<string, string>;
-  /** Display name of a testRun. */
-  displayName?: string;
-  /** Associated test Id. */
-  testId?: string;
-  /** The test run description. */
-  description?: string;
-  /**
-   * Request data collection level for test run
-   *
-   * Possible values: "NONE", "ERRORS"
-   */
-  requestDataLevel?: RequestDataLevel;
-  /** Enable or disable debug level logging. True if debug logs are enabled for the test run. False otherwise */
-  debugLogsEnabled?: boolean;
-  /**
-   * The type of the entity that created the test run. (E.x. User, ScheduleTrigger, etc).
-   *
-   * Possible values: "User", "ScheduledTrigger"
-   */
-  createdByType?: CreatedByType;
-}
-
-/** Error details if there is any failure in load test run */
-export interface ErrorDetails {}
-
-/** Test run statistics. */
-export interface TestRunStatistics {}
-
-/** Collection of test run artifacts */
-export interface TestRunArtifacts {
-  /** The output artifacts for the test run. */
-  outputArtifacts?: TestRunOutputArtifacts;
-}
-
-/** The input artifacts for the test run. */
-export interface TestRunInputArtifacts {
-  /** The load test YAML file that contains the the test configuration */
-  configFileInfo?: TestRunFileInfo;
-  /** The test script file for the test run */
-  testScriptFileInfo?: TestRunFileInfo;
-  /** The user properties file */
-  userPropFileInfo?: TestRunFileInfo;
-  /** The zip file for all input artifacts */
-  inputArtifactsZipFileInfo?: TestRunFileInfo;
-  /** The config json file for url based test */
-  urlTestConfigFileInfo?: TestRunFileInfo;
-}
-
-/** Test run file info. */
-export interface TestRunFileInfo {
-  /** Name of the file. */
-  fileName: string;
-}
-
-/** The output artifacts for the test run. */
-export interface TestRunOutputArtifacts {
-  /** The test run results file */
-  resultFileInfo?: TestRunFileInfo;
-  /** The test run report with metrics */
-  logsFileInfo?: TestRunFileInfo;
-  /** The container for test run artifacts. */
-  artifactsContainerInfo?: ArtifactsContainerInfo;
-  /** The report file for the test run. */
-  reportFileInfo?: TestRunFileInfo;
-}
-
-/** Artifacts container info. */
-export interface ArtifactsContainerInfo {
-  /** This is a SAS URI to an Azure Storage Container that contains the test run artifacts. */
-  url?: string;
-  /** Expiry time of the container (RFC 3339 literal format) */
-  expireDateTime?: Date | string;
-}
-
-/** Filters to fetch the set of metric. */
-export interface MetricRequestPayload {
-  /**
-   * Get metrics for specific dimension values. Example: Metric contains dimension
-   * like SamplerName, Error. To retrieve all the time series data where SamplerName
-   * is equals to HTTPRequest1 or HTTPRequest2, the DimensionFilter value will be
-   * {"SamplerName", ["HTTPRequest1", "HTTPRequest2"}
-   */
-  filters?: Array<DimensionFilter>;
-}
-
-/** Dimension name and values to filter */
-export interface DimensionFilter {
-  /** The dimension name */
-  name?: string;
-  /** The dimension values. Maximum values can be 20. */
-  values?: string[];
-}
-
-/** Test run app component */
-export interface TestRunAppComponents {
-  /**
-   * Azure resource collection { resource id (fully qualified resource Id e.g
-   * subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName})
-   * : resource object }
-   */
-  components: Record<string, AppComponent>;
-}
-
-/** Test run server metrics configuration */
-export interface TestRunServerMetricsConfiguration {
-  /**
-   * Azure resource metrics collection {metric id : metrics object} (Refer :
-   * https://learn.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition
-   * for metric id).
-   */
-  metrics?: Record<string, ResourceMetric>;
-}
-
-/** The Test Profile Run Model. Test Profile Run resource enables you to instantiate an already created test profile and run load tests to get recommendations on the optimal configuration for the target resource. */
-export interface TestProfileRun {
-  /** Display name for the test profile run. */
-  displayName?: string;
-  /** The test profile run description */
-  description?: string;
-  /** Associated test profile ID for the test profile run. This is required to create a test profile run and can't be updated. */
-  testProfileId?: string;
-}
-
-/** Details of a particular test run for a test profile run. */
-export interface TestRunDetail {
-  /**
-   * Status of the test run.
-   *
-   * Possible values: "ACCEPTED", "NOTSTARTED", "PROVISIONING", "PROVISIONED", "CONFIGURING", "CONFIGURED", "EXECUTING", "EXECUTED", "DEPROVISIONING", "DEPROVISIONED", "DONE", "CANCELLING", "CANCELLED", "FAILED", "VALIDATION_SUCCESS", "VALIDATION_FAILURE"
-   */
-  status: TestRunStatus;
-  /** ID of the configuration on which the test ran. */
-  configurationId: string;
-  /** Key value pair of extra properties associated with the test run. */
-  properties: Record<string, string>;
-}
-
-/** A recommendation object that provides a list of configuration that optimizes its category. */
-export interface TestProfileRunRecommendation {
-  /**
-   * Category of the recommendation.
-   *
-   * Possible values: "ThroughputOptimized", "CostOptimized"
-   */
-  category: RecommendationCategory;
-  /** List of configurations IDs for which the recommendation is applicable. These are a subset of the provided target resource configurations. */
-  configurations?: string[];
 }
 
 /** Trigger model. */
@@ -673,6 +514,187 @@ export interface TriggerDisabledNotificationEventFilter extends TestsNotificatio
   kind: "TriggerDisabled";
 }
 
+/** Load test run model */
+export interface TestRun {
+  /** Pass fail criteria for a test. */
+  passFailCriteria?: PassFailCriteria;
+  /** Auto stop criteria for a test. This will automatically stop a load test if the error percentage is high for a certain time window. */
+  autoStopCriteria?: AutoStopCriteria;
+  /**
+   * Secrets can be stored in an Azure Key Vault or any other secret store. If the
+   * secret is stored in an Azure Key Vault, the value should be the secret
+   * identifier and the type should be AKV_SECRET_URI. If the secret is stored
+   * elsewhere, the secret value should be provided directly and the type should be
+   * SECRET_VALUE.
+   */
+  secrets?: Record<string, Secret>;
+  /** Certificates metadata */
+  certificate?: CertificateMetadata;
+  /** Environment variables which are defined as a set of <name,value> pairs. */
+  environmentVariables?: Record<string, string>;
+  /** Display name of a testRun. */
+  displayName?: string;
+  /** Associated test Id. */
+  testId?: string;
+  /** The test run description. */
+  description?: string;
+  /**
+   * Request data collection level for test run
+   *
+   * Possible values: "NONE", "ERRORS"
+   */
+  requestDataLevel?: RequestDataLevel;
+  /** Enable or disable debug level logging. True if debug logs are enabled for the test run. False otherwise */
+  debugLogsEnabled?: boolean;
+  /**
+   * The type of the entity that created the test run. (E.x. User, ScheduleTrigger, etc).
+   *
+   * Possible values: "User", "ScheduledTrigger", "AzurePipelines", "GitHubWorkflows"
+   */
+  createdByType?: CreatedByType;
+}
+
+/** Error details if there is any failure in load test run */
+export interface ErrorDetails {}
+
+/** Test run statistics. */
+export interface TestRunStatistics {}
+
+/** Collection of test run artifacts */
+export interface TestRunArtifacts {
+  /** The output artifacts for the test run. */
+  outputArtifacts?: TestRunOutputArtifacts;
+}
+
+/** The input artifacts for the test run. */
+export interface TestRunInputArtifacts {
+  /** The load test YAML file that contains the the test configuration */
+  configFileInfo?: TestRunFileInfo;
+  /** The test script file for the test run */
+  testScriptFileInfo?: TestRunFileInfo;
+  /** The user properties file */
+  userPropFileInfo?: TestRunFileInfo;
+  /** The zip file for all input artifacts */
+  inputArtifactsZipFileInfo?: TestRunFileInfo;
+  /** The config json file for url based test */
+  urlTestConfigFileInfo?: TestRunFileInfo;
+}
+
+/** Test run file info. */
+export interface TestRunFileInfo {
+  /** Name of the file. */
+  fileName: string;
+}
+
+/** The output artifacts for the test run. */
+export interface TestRunOutputArtifacts {
+  /** The test run results file */
+  resultFileInfo?: TestRunFileInfo;
+  /** The test run report with metrics */
+  logsFileInfo?: TestRunFileInfo;
+  /** The container for test run artifacts. */
+  artifactsContainerInfo?: ArtifactsContainerInfo;
+  /** The report file for the test run. */
+  reportFileInfo?: TestRunFileInfo;
+}
+
+/** Artifacts container info. */
+export interface ArtifactsContainerInfo {
+  /** This is a SAS URI to an Azure Storage Container that contains the test run artifacts. */
+  url?: string;
+  /** Expiry time of the container (RFC 3339 literal format) */
+  expireDateTime?: Date | string;
+}
+
+/** Represents insights for the test run. */
+export interface TestRunInsights {
+  /** The rows of the insights. */
+  rows?: Record<string, Record<string, string>>;
+}
+
+/** Represents a column of the test run insight */
+export interface TestRunInsightColumn {
+  /** Name of the column. */
+  name: string;
+  /** The data type of the column. */
+  dataType: string;
+}
+
+/** Filters to fetch the set of metric. */
+export interface MetricRequestPayload {
+  /**
+   * Get metrics for specific dimension values. Example: Metric contains dimension
+   * like SamplerName, Error. To retrieve all the time series data where SamplerName
+   * is equals to HTTPRequest1 or HTTPRequest2, the DimensionFilter value will be
+   * {"SamplerName", ["HTTPRequest1", "HTTPRequest2"}
+   */
+  filters?: Array<DimensionFilter>;
+}
+
+/** Dimension name and values to filter */
+export interface DimensionFilter {
+  /** The dimension name */
+  name?: string;
+  /** The dimension values. Maximum values can be 20. */
+  values?: string[];
+}
+
+/** Test run app component */
+export interface TestRunAppComponents {
+  /**
+   * Azure resource collection { resource id (fully qualified resource Id e.g
+   * subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName})
+   * : resource object }
+   */
+  components: Record<string, AppComponent>;
+}
+
+/** Test run server metrics configuration */
+export interface TestRunServerMetricsConfiguration {
+  /**
+   * Azure resource metrics collection {metric id : metrics object} (Refer :
+   * https://learn.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition
+   * for metric id).
+   */
+  metrics?: Record<string, ResourceMetric>;
+}
+
+/** The Test Profile Run Model. Test Profile Run resource enables you to instantiate an already created test profile and run load tests to get recommendations on the optimal configuration for the target resource. */
+export interface TestProfileRun {
+  /** Display name for the test profile run. */
+  displayName?: string;
+  /** The test profile run description */
+  description?: string;
+  /** Associated test profile ID for the test profile run. This is required to create a test profile run and can't be updated. */
+  testProfileId?: string;
+}
+
+/** Details of a particular test run for a test profile run. */
+export interface TestRunDetail {
+  /**
+   * Status of the test run.
+   *
+   * Possible values: "ACCEPTED", "NOTSTARTED", "PROVISIONING", "PROVISIONED", "CONFIGURING", "CONFIGURED", "EXECUTING", "EXECUTED", "DEPROVISIONING", "DEPROVISIONED", "DONE", "CANCELLING", "CANCELLED", "FAILED", "VALIDATION_SUCCESS", "VALIDATION_FAILURE"
+   */
+  status: TestRunStatus;
+  /** ID of the configuration on which the test ran. */
+  configurationId: string;
+  /** Key value pair of extra properties associated with the test run. */
+  properties: Record<string, string>;
+}
+
+/** A recommendation object that provides a list of configuration that optimizes its category. */
+export interface TestProfileRunRecommendation {
+  /**
+   * Category of the recommendation.
+   *
+   * Possible values: "ThroughputOptimized", "CostOptimized"
+   */
+  category: RecommendationCategory;
+  /** List of configurations IDs for which the recommendation is applicable. These are a subset of the provided target resource configurations. */
+  configurations?: string[];
+}
+
 /** Configurations of a target resource. This varies with the kind of resource. */
 export type TargetResourceConfigurations =
   | TargetResourceConfigurationsParent
@@ -697,6 +719,8 @@ export type TestsNotificationEventFilter =
   | TestRunStartedNotificationEventFilter
   | TriggerCompletedNotificationEventFilter
   | TriggerDisabledNotificationEventFilter;
+/** Alias for OperationState */
+export type OperationState = string;
 /** Alias for PFMetrics */
 export type PFMetrics = string;
 /** Alias for PassFailAggregationFunction */
@@ -719,20 +743,6 @@ export type TestKind = string;
 export type ManagedIdentityType = string;
 /** Alias for ResourceKind */
 export type ResourceKind = string;
-/** Alias for PassFailTestResult */
-export type PassFailTestResult = string;
-/** Alias for TestRunStatus */
-export type TestRunStatus = string;
-/** Alias for RequestDataLevel */
-export type RequestDataLevel = string;
-/** Alias for CreatedByType */
-export type CreatedByType = string;
-/** Alias for TimeGrain */
-export type TimeGrain = string;
-/** Alias for TestProfileRunStatus */
-export type TestProfileRunStatus = string;
-/** Alias for RecommendationCategory */
-export type RecommendationCategory = string;
 /** Alias for TriggerType */
 export type TriggerType = string;
 /** Alias for TriggerState */
@@ -745,46 +755,17 @@ export type WeekDays = string;
 export type NotificationScopeType = string;
 /** Alias for NotificationEventType */
 export type NotificationEventType = string;
-
-/** Added Poller Types **/
-
-/**
- * Poller for File Upload and Validation
- */
-export type FileUploadAndValidatePoller = SimplePollerLike<
-  OperationState<LoadTestAdministrationGetTestFile200Response>,
-  LoadTestAdministrationGetTestFile200Response
->;
-
-/**
- * Poller for Test Run Completion
- */
-export type TestRunCompletionPoller = SimplePollerLike<
-  OperationState<LoadTestRunGetTestRun200Response>,
-  LoadTestRunGetTestRun200Response
->;
-
-/**
- * Poller for Test Profile Run Completion
- */
-export type TestProfileRunCompletionPoller = SimplePollerLike<
-  OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>,
-  TestProfileRunAdministrationGetTestProfileRun200Response
->;
-
-export type TestRunCreateOrUpdateSuccessResponse =
-  | LoadTestRunCreateOrUpdateTestRun200Response
-  | LoadTestRunCreateOrUpdateTestRun201Response;
-
-export type TestProfileRunCreateOrUpdateSuccessResponse =
-  | TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response
-  | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response;
-
-export type TestUploadFileSuccessResponse = LoadTestAdministrationUploadTestFile201Response;
-
-export interface PolledOperationOptions {
-  /**
-   * Time delay between poll requests, in milliseconds.
-   */
-  updateIntervalInMs?: number;
-}
+/** Alias for TestRunStatus */
+export type TestRunStatus = string;
+/** Alias for PassFailTestResult */
+export type PassFailTestResult = string;
+/** Alias for RequestDataLevel */
+export type RequestDataLevel = string;
+/** Alias for CreatedByType */
+export type CreatedByType = string;
+/** Alias for TimeGrain */
+export type TimeGrain = string;
+/** Alias for TestProfileRunStatus */
+export type TestProfileRunStatus = string;
+/** Alias for RecommendationCategory */
+export type RecommendationCategory = string;
