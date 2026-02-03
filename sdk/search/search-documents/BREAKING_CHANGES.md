@@ -55,18 +55,6 @@ The following interfaces previously had an index signature `[property: string]: 
 
 **Mitigation**: Update code that accesses dynamic properties to use `result.additionalProperties["propertyName"]` instead of `result["propertyName"]`.
 
-### Type Rename
-
-| Old Name                                           | New Name                         |
-| -------------------------------------------------- | -------------------------------- |
-| `IndexerState`                                     | `IndexerCurrentState`            |
-| `ChatCompletionResponseFormatJsonSchemaProperties` | `ChatCompletionSchemaProperties` |
-| `KnowledgeBaseMessageImageContentImage`            | `KnowledgeBaseImageContent`      |
-
-**Hypothesis**: TypeSpec uses different naming conventions or the service spec was updated.
-
-**Mitigation**: Update type references in user code. Consider adding type aliases for backward compatibility.
-
 ### Property Casing Change
 
 | Interface                   | Property    | Old         | New         |
@@ -259,30 +247,37 @@ These types were consolidated or removed:
 
 ---
 
-## Types with Missing Exports (ae-forgotten-export warnings)
+## Types with Missing Exports (ae-forgotten-export warnings) - MOSTLY MITIGATED
 
-The following types are referenced but not exported from the package entry point. This may affect users who were importing these types:
+The following types were previously referenced but not exported from the package entry point. Most have now been added to the package exports:
 
-- `PagedAsyncIterableIterator` - Now from internal module
-- `KnowledgeBaseActivityRecordType`
-- `KnowledgeBaseMessageContentType`
-- `KnowledgeBaseModelKind`
-- `KnowledgeRetrievalReasoningEffortKind`
-- `KnowledgeRetrievalIntentType`
-- `KnowledgeBaseReferenceType`
-- `KnowledgeSourceKind`
-- `SimilarityAlgorithm_2`
-- `ChatCompletionSchemaProperties`
-- `CommonModelParameters`
-- `AIServices`
-- `KnowledgeSourceContentExtractionMode`
-- `KnowledgeSourceIngestionPermissionOption`
-- `IndexedSharePointContainerName`
-- `RemoteSharePointKnowledgeSourceParameters`
-- `KnowledgeSourceVectorizer_2`
-- `KnowledgeBaseImageContent`
+### Now Exported (✅ Mitigated)
 
-**Mitigation**: These should be exported from the package. File an issue or PR to add missing exports.
+- `KnowledgeBaseActivityRecordType` ✅
+- `KnowledgeBaseMessageContentType` ✅
+- `KnowledgeBaseModelKind` ✅
+- `KnowledgeRetrievalReasoningEffortKind` ✅
+- `KnowledgeRetrievalIntentType` ✅
+- `KnowledgeBaseReferenceType` ✅
+- `KnowledgeSourceKind` ✅
+- `ChatCompletionSchemaProperties` ✅
+- `CommonModelParameters` ✅
+- `AIServices` ✅
+- `KnowledgeSourceContentExtractionMode` ✅
+- `KnowledgeSourceIngestionPermissionOption` ✅
+- `IndexedSharePointContainerName` ✅
+- `RemoteSharePointKnowledgeSourceParameters` ✅
+- `KnowledgeSourceVectorizer_2` ✅ (exported as `KnowledgeSourceVectorizer_2`)
+- `KnowledgeBaseImageContent` ✅
+- `WebKnowledgeSourceParameters` ✅
+- `WebKnowledgeSourceDomains` ✅
+- `WebKnowledgeSourceDomain` ✅
+- `SearchIndexFieldReference` ✅
+
+### Still Internal
+
+- `PagedAsyncIterableIterator` - Now from internal module (use the one from `@azure/core-paging` instead)
+- `SimilarityAlgorithm_2` - Internal type, use `Similarity` or `SimilarityAlgorithm` instead
 
 ---
 
@@ -322,7 +317,7 @@ if (skill.timeout !== undefined && skill.timeout !== null) { ... }
 
 ### For Deprecated Skills
 
-Follow the [Azure migration guide](https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated) to migrate from deprecated skills:
+Follow the [Azure migration guide](https://learn.microsoft.com/azure/search/cognitive-search-skill-deprecated) to migrate from deprecated skills:
 
 - `EntityRecognitionSkill` → `EntityRecognitionSkillV3`
 - `SentimentSkill` → `SentimentSkillV3`

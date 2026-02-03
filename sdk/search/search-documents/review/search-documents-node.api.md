@@ -16,6 +16,12 @@ import type { TokenCredential } from '@azure/core-auth';
 export type AIFoundryModelCatalogName = string;
 
 // @public
+export interface AIServices {
+    apiKey?: string;
+    uri: string;
+}
+
+// @public
 export interface AIServicesAccountIdentity extends BaseCognitiveServicesAccount {
     identity?: SearchIndexerDataIdentity;
     odatatype: "#Microsoft.Azure.Search.AIServicesByIdentity";
@@ -223,19 +229,16 @@ export interface BaseKnowledgeBaseActivityRecord {
     elapsedMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
-    // Warning: (ae-forgotten-export) The symbol "KnowledgeBaseActivityRecordType" needs to be exported by the entry point index.d.ts
     type: KnowledgeBaseActivityRecordType;
 }
 
 // @public
 export interface BaseKnowledgeBaseMessageContent {
-    // Warning: (ae-forgotten-export) The symbol "KnowledgeBaseMessageContentType" needs to be exported by the entry point index.d.ts
     type: KnowledgeBaseMessageContentType;
 }
 
 // @public
 export interface BaseKnowledgeBaseModel {
-    // Warning: (ae-forgotten-export) The symbol "KnowledgeBaseModelKind" needs to be exported by the entry point index.d.ts
     kind: KnowledgeBaseModelKind;
 }
 
@@ -245,7 +248,6 @@ export interface BaseKnowledgeBaseReference {
     id: string;
     rerankerScore?: number;
     sourceData?: Record<string, any>;
-    // Warning: (ae-forgotten-export) The symbol "KnowledgeBaseReferenceType" needs to be exported by the entry point index.d.ts
     type: KnowledgeBaseReferenceType;
 }
 
@@ -257,7 +259,6 @@ export type BaseKnowledgeRetrievalOutputMode = string;
 
 // @public
 export interface BaseKnowledgeRetrievalReasoningEffort {
-    // Warning: (ae-forgotten-export) The symbol "KnowledgeRetrievalReasoningEffortKind" needs to be exported by the entry point index.d.ts
     kind: KnowledgeRetrievalReasoningEffortKind;
 }
 
@@ -275,7 +276,6 @@ export interface BaseKnowledgeSourceParams {
     alwaysQuerySource?: boolean;
     includeReferences?: boolean;
     includeReferenceSourceData?: boolean;
-    // Warning: (ae-forgotten-export) The symbol "KnowledgeSourceKind" needs to be exported by the entry point index.d.ts
     kind: KnowledgeSourceKind;
     knowledgeSourceName: string;
     rerankerThreshold?: number;
@@ -410,15 +410,6 @@ export type BlobIndexerParsingMode = `${KnownBlobIndexerParsingMode}`;
 // @public (undocumented)
 export type BlobIndexerPDFTextRotationAlgorithm = `${KnownBlobIndexerPDFTextRotationAlgorithm}`;
 
-// Warning: (ae-forgotten-export) The symbol "SimilarityAlgorithm_2" needs to be exported by the entry point index.d.ts
-//
-// @public
-export interface BM25Similarity extends SimilarityAlgorithm_2 {
-    b?: number | null;
-    k1?: number | null;
-    odatatype: "#Microsoft.Azure.Search.BM25Similarity";
-}
-
 // @public
 export type CharFilter = MappingCharFilter | PatternReplaceCharFilter;
 
@@ -430,9 +421,16 @@ export type ChatCompletionExtraParametersBehavior = string;
 
 // @public
 export interface ChatCompletionResponseFormat {
-    // Warning: (ae-forgotten-export) The symbol "ChatCompletionSchemaProperties" needs to be exported by the entry point index.d.ts
-    chatCompletionSchemaProperties?: ChatCompletionSchemaProperties | null;
+    chatCompletionSchemaProperties?: ChatCompletionResponseFormatJsonSchemaProperties | null;
     type?: ChatCompletionResponseFormatType;
+}
+
+// @public
+export interface ChatCompletionResponseFormatJsonSchemaProperties {
+    description?: string | null;
+    name?: string | null;
+    schema?: ChatCompletionSchema;
+    strict?: boolean;
 }
 
 // @public
@@ -449,7 +447,6 @@ export interface ChatCompletionSchema {
 // @public
 export interface ChatCompletionSkill extends WebApiSkill {
     apiKey?: string;
-    // Warning: (ae-forgotten-export) The symbol "CommonModelParameters" needs to be exported by the entry point index.d.ts
     commonModelParameters?: CommonModelParameters;
     extraParameters?: {
         [propertyName: string]: unknown;
@@ -469,6 +466,8 @@ export interface CjkBigramTokenFilter extends BaseTokenFilter {
 // @public
 export type CjkBigramTokenFilterScripts = "han" | "hiragana" | "katakana" | "hangul";
 
+// Warning: (ae-forgotten-export) The symbol "SimilarityAlgorithm_2" needs to be exported by the entry point index.d.ts
+//
 // @public
 export interface ClassicSimilarity extends SimilarityAlgorithm_2 {
     odatatype: "#Microsoft.Azure.Search.ClassicSimilarity";
@@ -495,6 +494,17 @@ export interface CommonGramTokenFilter extends BaseTokenFilter {
     ignoreCase?: boolean;
     odatatype: "#Microsoft.Azure.Search.CommonGramTokenFilter";
     useQueryMode?: boolean;
+}
+
+// @public
+export interface CommonModelParameters {
+    frequencyPenalty?: number | null;
+    maxTokens?: number | null;
+    modelName?: string | null;
+    presencePenalty?: number | null;
+    seed?: number | null;
+    stop?: string[] | null;
+    temperature?: number | null;
 }
 
 // @public
@@ -1109,6 +1119,9 @@ export interface IndexedOneLakeKnowledgeSourceParams extends BaseKnowledgeSource
 }
 
 // @public
+export type IndexedSharePointContainerName = string;
+
+// @public
 export interface IndexedSharePointKnowledgeSource extends BaseKnowledgeSource {
     indexedSharePointParameters: IndexedSharePointKnowledgeSourceParameters;
     kind: "indexedSharePoint";
@@ -1117,7 +1130,6 @@ export interface IndexedSharePointKnowledgeSource extends BaseKnowledgeSource {
 // @public
 export interface IndexedSharePointKnowledgeSourceParameters {
     connectionString: string;
-    // Warning: (ae-forgotten-export) The symbol "IndexedSharePointContainerName" needs to be exported by the entry point index.d.ts
     containerName: IndexedSharePointContainerName;
     readonly createdResources?: {
         [propertyName: string]: string;
@@ -1129,19 +1141,6 @@ export interface IndexedSharePointKnowledgeSourceParameters {
 // @public
 export interface IndexedSharePointKnowledgeSourceParams extends BaseKnowledgeSourceParams {
     kind: "indexedSharePoint";
-}
-
-// @public
-export interface IndexerCurrentState {
-    readonly allDocsFinalTrackingState?: string;
-    readonly allDocsInitialTrackingState?: string;
-    readonly mode?: IndexingMode;
-    readonly resetDatasourceDocumentIds?: string[];
-    readonly resetDocsFinalTrackingState?: string;
-    readonly resetDocsInitialTrackingState?: string;
-    readonly resetDocumentKeys?: string[];
-    readonly resyncFinalTrackingState?: string;
-    readonly resyncInitialTrackingState?: string;
 }
 
 // @public (undocumented)
@@ -1181,6 +1180,19 @@ export interface IndexerRuntime {
     endingTime: Date;
     remainingSeconds?: number | null;
     usedSeconds: number;
+}
+
+// @public
+export interface IndexerState {
+    readonly allDocsFinalTrackingState?: string;
+    readonly allDocsInitialTrackingState?: string;
+    readonly mode?: IndexingMode;
+    readonly resetDatasourceDocumentIds?: string[];
+    readonly resetDocsFinalTrackingState?: string;
+    readonly resetDocsInitialTrackingState?: string;
+    readonly resetDocumentKeys?: string[];
+    readonly resyncFinalTrackingState?: string;
+    readonly resyncInitialTrackingState?: string;
 }
 
 // @public
@@ -1322,6 +1334,9 @@ export interface KnowledgeBase {
 export type KnowledgeBaseActivityRecord = KnowledgeBaseModelQueryPlanningActivityRecord | KnowledgeBaseModelAnswerSynthesisActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | BaseKnowledgeBaseActivityRecord;
 
 // @public
+export type KnowledgeBaseActivityRecordType = string;
+
+// @public
 export interface KnowledgeBaseAgenticReasoningActivityRecord extends BaseKnowledgeBaseActivityRecord {
     reasoningTokens?: number;
     retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
@@ -1380,10 +1395,17 @@ export interface KnowledgeBaseMessage {
 export type KnowledgeBaseMessageContent = KnowledgeBaseMessageTextContent | KnowledgeBaseMessageImageContent | BaseKnowledgeBaseMessageContent;
 
 // @public
+export type KnowledgeBaseMessageContentType = string;
+
+// @public
 export interface KnowledgeBaseMessageImageContent extends BaseKnowledgeBaseMessageContent {
-    // Warning: (ae-forgotten-export) The symbol "KnowledgeBaseImageContent" needs to be exported by the entry point index.d.ts
-    image: KnowledgeBaseImageContent;
+    image: KnowledgeBaseMessageImageContentImage;
     type: "image";
+}
+
+// @public
+export interface KnowledgeBaseMessageImageContentImage {
+    url: string;
 }
 
 // @public
@@ -1403,6 +1425,9 @@ export interface KnowledgeBaseModelAnswerSynthesisActivityRecord extends BaseKno
 }
 
 // @public
+export type KnowledgeBaseModelKind = string;
+
+// @public
 export interface KnowledgeBaseModelQueryPlanningActivityRecord extends BaseKnowledgeBaseActivityRecord {
     inputTokens?: number;
     outputTokens?: number;
@@ -1411,6 +1436,9 @@ export interface KnowledgeBaseModelQueryPlanningActivityRecord extends BaseKnowl
 
 // @public
 export type KnowledgeBaseReference = KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedSharePointReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | KnowledgeBaseRemoteSharePointReference | BaseKnowledgeBaseReference;
+
+// @public
+export type KnowledgeBaseReferenceType = string;
 
 // @public
 export interface KnowledgeBaseRemoteSharePointReference extends BaseKnowledgeBaseReference {
@@ -1470,9 +1498,11 @@ export interface KnowledgeRetrievalClientOptions extends ClientOptions {
 
 // @public
 export interface KnowledgeRetrievalIntent {
-    // Warning: (ae-forgotten-export) The symbol "KnowledgeRetrievalIntentType" needs to be exported by the entry point index.d.ts
     type: KnowledgeRetrievalIntentType;
 }
+
+// @public
+export type KnowledgeRetrievalIntentType = string;
 
 // @public
 export interface KnowledgeRetrievalLowReasoningEffort extends BaseKnowledgeRetrievalReasoningEffort {
@@ -1490,6 +1520,9 @@ export interface KnowledgeRetrievalMinimalReasoningEffort extends BaseKnowledgeR
 }
 
 // @public
+export type KnowledgeRetrievalReasoningEffortKind = string;
+
+// @public
 export type KnowledgeRetrievalReasoningEffortUnion = KnowledgeRetrievalMinimalReasoningEffort | KnowledgeRetrievalLowReasoningEffort | KnowledgeRetrievalMediumReasoningEffort | BaseKnowledgeRetrievalReasoningEffort;
 
 // @public
@@ -1501,8 +1534,6 @@ export interface KnowledgeRetrievalSemanticIntent extends KnowledgeRetrievalInte
 // @public (undocumented)
 export type KnowledgeSource = BaseKnowledgeSource | SearchIndexKnowledgeSource | AzureBlobKnowledgeSource | IndexedSharePointKnowledgeSource | IndexedOneLakeKnowledgeSource | WebKnowledgeSource | RemoteSharePointKnowledgeSource;
 
-// Warning: (ae-forgotten-export) The symbol "KnowledgeSourceVectorizer_2" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface KnowledgeSourceAzureOpenAIVectorizer extends KnowledgeSourceVectorizer_2 {
     azureOpenAIParameters?: AzureOpenAIParameters;
@@ -1510,22 +1541,28 @@ export interface KnowledgeSourceAzureOpenAIVectorizer extends KnowledgeSourceVec
 }
 
 // @public
+export type KnowledgeSourceContentExtractionMode = string;
+
+// @public
 export interface KnowledgeSourceIngestionParameters {
-    // Warning: (ae-forgotten-export) The symbol "AIServices" needs to be exported by the entry point index.d.ts
     aiServices?: AIServices;
     chatCompletionModel?: KnowledgeBaseModel;
-    // Warning: (ae-forgotten-export) The symbol "KnowledgeSourceContentExtractionMode" needs to be exported by the entry point index.d.ts
     contentExtractionMode?: KnowledgeSourceContentExtractionMode;
     disableImageVerbalization?: boolean;
     embeddingModel?: KnowledgeSourceVectorizer;
     identity?: SearchIndexerDataIdentity;
-    // Warning: (ae-forgotten-export) The symbol "KnowledgeSourceIngestionPermissionOption" needs to be exported by the entry point index.d.ts
     ingestionPermissionOptions?: KnowledgeSourceIngestionPermissionOption[];
     ingestionSchedule?: IndexingSchedule;
 }
 
 // @public
+export type KnowledgeSourceIngestionPermissionOption = string;
+
+// @public
 export type KnowledgeSourceIterator = PagedAsyncIterableIterator<KnowledgeSource, KnowledgeSource[], {}>;
+
+// @public
+export type KnowledgeSourceKind = string;
 
 // @public
 export type KnowledgeSourceParams = SearchIndexKnowledgeSourceParams | AzureBlobKnowledgeSourceParams | IndexedSharePointKnowledgeSourceParams | IndexedOneLakeKnowledgeSourceParams | WebKnowledgeSourceParams | RemoteSharePointKnowledgeSourceParams | BaseKnowledgeSourceParams;
@@ -1537,6 +1574,11 @@ export interface KnowledgeSourceReference {
 
 // @public (undocumented)
 export type KnowledgeSourceVectorizer = KnowledgeSourceAzureOpenAIVectorizer;
+
+// @public
+export interface KnowledgeSourceVectorizer_2 {
+    kind: VectorSearchVectorizerKind;
+}
 
 // @public
 export enum KnownAIFoundryModelCatalogName {
@@ -3022,8 +3064,14 @@ export type RegexFlags = `${KnownRegexFlags}`;
 // @public
 export interface RemoteSharePointKnowledgeSource extends BaseKnowledgeSource {
     kind: "remoteSharePoint";
-    // Warning: (ae-forgotten-export) The symbol "RemoteSharePointKnowledgeSourceParameters" needs to be exported by the entry point index.d.ts
     remoteSharePointParameters: RemoteSharePointKnowledgeSourceParameters;
+}
+
+// @public
+export interface RemoteSharePointKnowledgeSourceParameters {
+    containerTypeId?: string;
+    filterExpression?: string;
+    resourceMetadata?: string[];
 }
 
 // @public
@@ -3459,7 +3507,7 @@ export interface SearchIndexerSkillset {
 
 // @public
 export interface SearchIndexerStatus {
-    readonly currentState?: IndexerCurrentState;
+    readonly currentState?: IndexerState;
     readonly executionHistory: IndexerExecutionResult[];
     readonly lastResult?: IndexerExecutionResult;
     readonly limits: SearchIndexerLimits;
@@ -3475,6 +3523,11 @@ export interface SearchIndexerWarning {
     readonly key?: string;
     readonly message: string;
     readonly name?: string;
+}
+
+// @public
+export interface SearchIndexFieldReference {
+    name: string;
 }
 
 // @public
@@ -3538,7 +3591,6 @@ export interface SearchIndexKnowledgeSourceParameters {
     searchFields?: SearchIndexFieldReference[];
     searchIndexName: string;
     semanticConfigurationName?: string;
-    // Warning: (ae-forgotten-export) The symbol "SearchIndexFieldReference" needs to be exported by the entry point index.d.ts
     sourceDataFields?: SearchIndexFieldReference[];
 }
 
@@ -3761,6 +3813,8 @@ export interface ShingleTokenFilter extends BaseTokenFilter {
     tokenSeparator?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "BM25Similarity" needs to be exported by the entry point index.d.ts
+//
 // @public
 export type Similarity = ClassicSimilarity | BM25Similarity | SimilarityAlgorithm_2;
 
@@ -4141,8 +4195,24 @@ export interface WebApiVectorizer extends BaseVectorSearchVectorizer {
 // @public
 export interface WebKnowledgeSource extends BaseKnowledgeSource {
     kind: "web";
-    // Warning: (ae-forgotten-export) The symbol "WebKnowledgeSourceParameters" needs to be exported by the entry point index.d.ts
     webParameters?: WebKnowledgeSourceParameters;
+}
+
+// @public
+export interface WebKnowledgeSourceDomain {
+    address: string;
+    includeSubpages?: boolean;
+}
+
+// @public
+export interface WebKnowledgeSourceDomains {
+    allowedDomains?: WebKnowledgeSourceDomain[];
+    blockedDomains?: WebKnowledgeSourceDomain[];
+}
+
+// @public
+export interface WebKnowledgeSourceParameters {
+    domains?: WebKnowledgeSourceDomains;
 }
 
 // @public
