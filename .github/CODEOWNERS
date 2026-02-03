@@ -27,23 +27,27 @@
 
 /sdk/                                                              @Azure/azure-sdk-js-dev @xirzec
 
-# PRLabel: %Azure.Core
-/sdk/core/                                                         @Azure/azure-sdk-for-js-core
+# PRLabel: %Farmbeats
+/sdk/agrifood/                                                     @joheredi
 
-# PRLabel: %Azure.Core
-/sdk/core/core-amqp/                                               @Azure/azure-sdk-for-js-core @xirzec
+# AzureSdkOwners:                                                  @joheredi
+# ServiceLabel: %Farmbeats
 
-# PRLabel: %Azure.Core
-/sdk/core/core-client-rest/                                        @Azure/azure-sdk-for-js-core @joheredi @timovv
+/sdk/ai/ai-agents                                                  @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
 
-# PRLabel: %Azure.Core
-/sdk/core/core-lro/                                                @Azure/azure-sdk-for-js-core @deyaaeldeen @joheredi
+# PRLabel: %AI Model Inference
+/sdk/ai/ai-inference-rest                                          @dargilco @glharper
 
-# PRLabel: %Azure.Core
-/sdk/core/core-tracing/                                            @Azure/azure-sdk-for-js-core @maorleger
+# ServiceLabel: %AI Model Inference
+# ServiceOwners:                                                   @dargilco @glharper
 
-# AzureSdkOwners:                                                  @Azure/azure-sdk-for-js-core
-# ServiceLabel: %Azure.Core
+/sdk/ai/ai-projects                                                @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
+
+# PRLabel: %Voice Live
+/sdk/ai/ai-voicelive                                               @amber-yujueWang @rhurey @xitzhang
+
+# ServiceLabel: %Voice Live
+# ServiceOwners:                                                   @amber-yujueWang @rhurey @xitzhang
 
 # PRLabel: %App Configuration
 /sdk/appconfiguration/                                             @jimmyca15 @minhanh-phan @RichardChen820 @zhiyuanliang-ms
@@ -62,6 +66,10 @@
 # PRLabel: %Batch
 /sdk/batch/                                                        @cRui861 @dpwatrous @skapur12 @wanghoppe @wiboris
 
+# ServiceLabel: %Cognitive - Language
+# PRLabel: %Cognitive - Language
+/sdk/cognitivelanguage/                                            @quentinRobinson
+
 # ServiceLabel: %Communication
 # PRLabel: %Communication
 /sdk/communication/                                                @akania
@@ -74,17 +82,21 @@
 # PRLabel: %Communication - Call Automation
 /sdk/communication/communication-call-automation/                  @juntuchen-msft @khannavikas @minwoolee-msft @v-dharmarajv
 
-# ServiceLabel: %Communication - Identity
-# PRLabel: %Communication - Identity
-/sdk/communication/communication-identity/                         @AikoBB @maximrytych-ms @mjafferi-msft
-
 # ServiceLabel: %Communication - Chat
 # PRLabel: %Communication - Chat
 /sdk/communication/communication-chat/                             @LuChen-Microsoft
 
+# ServiceLabel: %Communication - Common
+# PRLabel: %Communication - Common
+/sdk/communication/communication-common/                           @AikoBB @maximrytych-ms @mjafferi-msft
+
 # ServiceLabel: %Communication - Email
 # PRLabel: %Communication - Email
 /sdk/communication/communication-email/                            @kagbakpem @natekimball-msft @yogeshmo
+
+# ServiceLabel: %Communication - Identity
+# PRLabel: %Communication - Identity
+/sdk/communication/communication-identity/                         @AikoBB @maximrytych-ms @mjafferi-msft
 
 # ServiceLabel: %Communication - Job Router
 # PRLabel: %Communication - Job Router
@@ -102,21 +114,23 @@
 # PRLabel: %Communication - Rooms
 /sdk/communication/communication-rooms/                            @allchiang-msft @mayssamm @minnieliu @paolamvhz
 
-# ServiceLabel: %Communication - SMS
-# PRLabel: %Communication - SMS
-/sdk/communication/communication-sms/                              @gfeitosa-msft @ilyapaliakou-msft @phermanov-msft
-
 # ServiceLabel: %Communication - Short Codes
 # PRLabel: %Communication - Short Codes
 /sdk/communication/communication-short-codes/                      @besh2014 @gfeitosa-msft @ihuseynov-msft @ilyapaliakou-msft @kirill-linnik @phermanov-msft
+
+# ServiceLabel: %Communication - SMS
+# PRLabel: %Communication - SMS
+/sdk/communication/communication-sms/                              @gfeitosa-msft @ilyapaliakou-msft @phermanov-msft
 
 # ServiceLabel: %Communication - Toll Free Verification
 # PRLabel: %Communication - Toll Free Verification
 /sdk/communication/communication-toll-free-verification/           @besh2014 @gfeitosa-msft @ihuseynov-msft @ilyapaliakou-msft @kirill-linnik @phermanov-msft
 
-# ServiceLabel: %Communication - Common
-# PRLabel: %Communication - Common
-/sdk/communication/communication-common/                           @AikoBB @maximrytych-ms @mjafferi-msft
+# PRLabel: %ConfidentialLedger
+/sdk/confidentialledger/                                           @taicchoumsft
+
+# AzureSdkOwners:                                                  @taicchoumsft
+# ServiceLabel: %ConfidentialLedger
 
 # PRLabel: %Container Registry
 /sdk/containerregistry/                                            @Azure/azsdk-acr @jeremymeng @timovv
@@ -124,15 +138,39 @@
 # AzureSdkOwners:                                                  @jeremymeng @timovv
 # ServiceLabel: %Container Registry
 
-# ServiceLabel: %Cosmos %Service Attention
-# ServiceOwners:                                                   @sajeetharan @simorenoh
+# PRLabel: %Azure.Core
+/sdk/core/                                                         @Azure/azure-sdk-for-js-core
+
+# PRLabel: %Azure.Core
+/sdk/core/core-amqp/                                               @Azure/azure-sdk-for-js-core @xirzec
+
+# PRLabel: %Azure.Core
+/sdk/core/core-client-rest/                                        @Azure/azure-sdk-for-js-core @joheredi @timovv
+
+# PRLabel: %Azure.Core
+/sdk/core/core-lro/                                                @Azure/azure-sdk-for-js-core @deyaaeldeen @joheredi
+
+# PRLabel: %Azure.Core
+/sdk/core/core-tracing/                                            @Azure/azure-sdk-for-js-core @maorleger
+
+# AzureSdkOwners:                                                  @Azure/azure-sdk-for-js-core
+# ServiceLabel: %Azure.Core
 
 # PRLabel: %Cosmos
 /sdk/cosmosdb/                                                     @aditishree1 @amanrao23 @sajeetharan @topshot99
 
+# ServiceLabel: %Cosmos %Service Attention
+# ServiceOwners:                                                   @sajeetharan @simorenoh
+
 # ServiceLabel: %Digital Twins
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/                                                 @johngallardo @olivakar @sjiherzig
+
+# PRLabel: %DocumentTranslator
+/sdk/documenttranslator/                                           @joheredi
+
+# AzureSdkOwners:                                                  @joheredi
+# ServiceLabel: %DocumentTranslator
 
 # PRLabel: %Durable Task Scheduler
 /sdk/durabletask/                                                  @berndverst @cgillum @kaibocai @philliphoff @torosent
@@ -153,6 +191,12 @@
 # ServiceLabel: %Event Hubs
 # ServiceOwners:                                                   @axisc @hmlam @j7nw4r @sjkwak
 
+# PRLabel: %Cognitive - Form Recognizer
+/sdk/formrecognizer/                                               @jeremymeng
+
+# AzureSdkOwners:                                                  @jeremymeng
+# ServiceLabel: %Cognitive - Form Recognizer
+
 # ServiceLabel: %Health Deidentification
 # PRLabel: %Health Deidentification
 /sdk/healthdataaiservices/                                         @alexathomases @Azure/healthdatadeidentification
@@ -163,17 +207,63 @@
 # AzureSdkOwners:                                                  @KarishmaGhiya @maorleger @minhanh-phan
 # ServiceLabel: %Azure.Identity
 
+# PRLabel: %OpenTelemetryInstrumentation
+/sdk/instrumentation/                                              @maorleger
+
+# AzureSdkOwners:                                                  @maorleger
+# ServiceLabel: %OpenTelemetryInstrumentation
+
 # PRLabel: %KeyVault
 /sdk/keyvault/                                                     @Azure/azure-sdk-write-keyvault
 
 # AzureSdkOwners:                                                  @Azure/azure-sdk-write-keyvault
 # ServiceLabel: %KeyVault
 
-# PRLabel: %OpenTelemetryInstrumentation
-/sdk/instrumentation/                                              @maorleger
+# ServiceLabel: %Azure Load Testing
+# PRLabel: %Azure Load Testing
+/sdk/loadtesting/                                                  @azure/testing-services
 
-# AzureSdkOwners:                                                  @maorleger
-# ServiceLabel: %OpenTelemetryInstrumentation
+# ServiceLabel: %Maps
+# PRLabel: %Maps
+/sdk/maps/                                                         @andykao1213 @dubiety
+
+# ServiceLabel: %Operator Nexus - Network Cloud
+# PRLabel: %Operator Nexus - Network Cloud
+/sdk/networkcloud/                                                 @Azure/azure-sdk-write-networkcloud
+
+# PRLabel: %Notification Hub
+/sdk/notificationhubs/notification-hubs                            @jeremymeng
+
+# AzureSdkOwners:                                                  @jeremymeng
+# ServiceLabel: %Notification Hub
+
+# ServiceLabel: %Online Experimentation
+# PRLabel: %Online Experimentation
+/sdk/onlineexperimentation/                                        @Azure/azure-sdk-write-onlineexperimentation
+
+# PRLabel: %OpenAI
+/sdk/openai/                                                       @deyaaeldeen @minhanh-phan @trrwilson
+
+# ServiceLabel: %OpenAI
+# ServiceOwners:                                                   @trrwilson
+
+# PRLabel: %Purview
+/sdk/purview/                                                      @qiaozha
+
+# AzureSdkOwners:                                                  @qiaozha
+# ServiceLabel: %Purview
+
+# PRLabel: %Schema Registry
+/sdk/schemaregistry/                                               @axisc @hmlam @sjkwak
+
+# ServiceLabel: %Schema Registry
+# ServiceOwners:                                                   @axisc @hmlam @sjkwak
+
+# PRLabel: %Search
+/sdk/search/                                                       @Azure/azsdk-search @Azure/azure-sdk-write-search
+
+# AzureSdkOwners:                                                  @dgetu
+# ServiceLabel: %Search
 
 # PRLabel: %Service Bus
 /sdk/servicebus/                                                   @EldertGrootenboer @j7nw4r @skarri-microsoft
@@ -196,37 +286,6 @@
 # AzureSdkOwners:                                                  @joheredi
 # ServiceLabel: %Tables
 
-# PRLabel: %Purview
-/sdk/purview/                                                      @qiaozha
-
-# AzureSdkOwners:                                                  @qiaozha
-# ServiceLabel: %Purview
-
-# PRLabel: %Farmbeats
-/sdk/agrifood/                                                     @joheredi
-
-# AzureSdkOwners:                                                  @joheredi
-# ServiceLabel: %Farmbeats
-
-# PRLabel: %ConfidentialLedger
-/sdk/confidentialledger/                                           @taicchoumsft
-
-# AzureSdkOwners:                                                  @taicchoumsft
-# ServiceLabel: %ConfidentialLedger
-
-# PRLabel: %DocumentTranslator
-/sdk/documenttranslator/                                           @joheredi
-
-# AzureSdkOwners:                                                  @joheredi
-# ServiceLabel: %DocumentTranslator
-
-# PRLabel: %Cognitive - Translator
-/sdk/translation/ai-translation-document-rest/                     @Han-msft @zihyunting
-
-# ServiceLabel: %WebPubSub
-# PRLabel: %WebPubSub
-/sdk/web-pubsub/                                                   @chenkennt @vicancy @zackliu
-
 # PRLabel: %EngSys
 /sdk/template/                                                     @benbp @mikeharder @weshaggard
 
@@ -243,81 +302,22 @@
 # PRLabel: %Cognitive - Text Analytics
 /sdk/textanalytics/                                                @quentinRobinson
 
-# ServiceLabel: %Cognitive - Language
-# PRLabel: %Cognitive - Language
-/sdk/cognitivelanguage/                                            @quentinRobinson
-
-# ServiceLabel: %Online Experimentation
-# PRLabel: %Online Experimentation
-/sdk/onlineexperimentation/                                        @Azure/azure-sdk-write-onlineexperimentation
-
-# ServiceLabel: %OpenAI
-# ServiceOwners:                                                   @trrwilson
-
-# PRLabel: %OpenAI
-/sdk/openai/                                                       @deyaaeldeen @minhanh-phan @trrwilson
-
-# PRLabel: %AI Model Inference
-/sdk/ai/ai-inference-rest                                          @dargilco @glharper
-
-# ServiceLabel: %AI Model Inference
-# ServiceOwners:                                                   @dargilco @glharper
-
-/sdk/ai/ai-projects                                                @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
-
-# ServiceLabel: %AI Projects
-# ServiceOwners:                                                   @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
-
-/sdk/ai/ai-agents                                                  @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
-
-# ServiceLabel: %AI Agents
-# ServiceOwners:                                                   @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
-
-# PRLabel: %Voice Live
-/sdk/ai/ai-voicelive                                               @amber-yujueWang @rhurey @xitzhang
-
-# ServiceLabel: %Voice Live
-# ServiceOwners:                                                   @amber-yujueWang @rhurey @xitzhang
+# PRLabel: %Cognitive - Translator
+/sdk/translation/ai-translation-document-rest/                     @Han-msft @zihyunting
 
 # ServiceLabel: %Image Analysis
 # PRLabel: %Image Analysis
 /sdk/vision/ai-vision-image-analysis-rest/                         @dargilco @rhurey
 
-# PRLabel: %Schema Registry
-/sdk/schemaregistry/                                               @axisc @hmlam @sjkwak
+# ServiceLabel: %WebPubSub
+# PRLabel: %WebPubSub
+/sdk/web-pubsub/                                                   @chenkennt @vicancy @zackliu
 
-# ServiceLabel: %Schema Registry
-# ServiceOwners:                                                   @axisc @hmlam @sjkwak
+# ServiceLabel: %AI Agents
+# ServiceOwners:                                                   @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
 
-# PRLabel: %Cognitive - Form Recognizer
-/sdk/formrecognizer/                                               @jeremymeng
-
-# AzureSdkOwners:                                                  @jeremymeng
-# ServiceLabel: %Cognitive - Form Recognizer
-
-# PRLabel: %Notification Hub
-/sdk/notificationhubs/notification-hubs                            @jeremymeng
-
-# AzureSdkOwners:                                                  @jeremymeng
-# ServiceLabel: %Notification Hub
-
-# ServiceLabel: %Operator Nexus - Network Cloud
-# PRLabel: %Operator Nexus - Network Cloud
-/sdk/networkcloud/                                                 @Azure/azure-sdk-write-networkcloud
-
-# PRLabel: %Search
-/sdk/search/                                                       @Azure/azsdk-search @Azure/azure-sdk-write-search
-
-# AzureSdkOwners:                                                  @dgetu
-# ServiceLabel: %Search
-
-# ServiceLabel: %Maps
-# PRLabel: %Maps
-/sdk/maps/                                                         @andykao1213 @dubiety
-
-# ServiceLabel: %Azure Load Testing
-# PRLabel: %Azure Load Testing
-/sdk/loadtesting/                                                  @azure/testing-services
+# ServiceLabel: %AI Projects
+# ServiceOwners:                                                   @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
 
 ####################
 # Management Libraries
