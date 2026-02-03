@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to create an AI agent with OpenAPI tool capabilities
- * using the OpenApiAgentTool and synchronous Azure AI Projects client. The agent can call
+ * using the OpenApiTool and synchronous Azure AI Projects client. The agent can call
  * external APIs defined by OpenAPI specifications.
  *
  * @summary This sample demonstrates how to create an agent with OpenAPI tool capabilities,

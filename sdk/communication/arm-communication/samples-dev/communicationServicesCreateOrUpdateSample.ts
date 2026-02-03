@@ -1,29 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  CommunicationServiceResource} from "@azure/arm-communication";
+import {
+  CommunicationServiceManagementClient,
+} from "@azure/arm-communication";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Create a new CommunicationService or update an existing CommunicationService.
  *
  * @summary Create a new CommunicationService or update an existing CommunicationService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/createOrUpdate.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2025-09-01/examples/communicationServices/createOrUpdate.json
  */
-
-import type { CommunicationServiceResource } from "@azure/arm-communication";
-import { CommunicationServiceManagementClient } from "@azure/arm-communication";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function createOrUpdateResource(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
-  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
+    "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName =
+    process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
   const parameters: CommunicationServiceResource = {
     dataLocation: "United States",
     location: "Global",
   };
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
+  const client = new CommunicationServiceManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.communicationServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     communicationServiceName,
@@ -36,12 +43,76 @@ async function createOrUpdateResource(): Promise<void> {
  * This sample demonstrates how to Create a new CommunicationService or update an existing CommunicationService.
  *
  * @summary Create a new CommunicationService or update an existing CommunicationService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/createOrUpdateWithSystemAssignedIdentity.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2025-09-01/examples/communicationServices/createOrUpdateWithDisableLocalAuth.json
+ */
+async function createOrUpdateResourceWithDisableLocalAuth(): Promise<void> {
+  const subscriptionId =
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
+    "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName =
+    process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+  const communicationServiceName = "MyCommunicationResource";
+  const parameters: CommunicationServiceResource = {
+    dataLocation: "United States",
+    disableLocalAuth: true,
+    location: "Global",
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new CommunicationServiceManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.communicationServices.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    communicationServiceName,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Create a new CommunicationService or update an existing CommunicationService.
+ *
+ * @summary Create a new CommunicationService or update an existing CommunicationService.
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2025-09-01/examples/communicationServices/createOrUpdateWithPublicNetworkAccess.json
+ */
+async function createOrUpdateResourceWithPublicNetworkAccess(): Promise<void> {
+  const subscriptionId =
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
+    "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName =
+    process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+  const communicationServiceName = "MyCommunicationResource";
+  const parameters: CommunicationServiceResource = {
+    dataLocation: "United States",
+    location: "Global",
+    publicNetworkAccess: "Enabled",
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new CommunicationServiceManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.communicationServices.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    communicationServiceName,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Create a new CommunicationService or update an existing CommunicationService.
+ *
+ * @summary Create a new CommunicationService or update an existing CommunicationService.
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2025-09-01/examples/communicationServices/createOrUpdateWithSystemAssignedIdentity.json
  */
 async function createOrUpdateResourceWithManagedIdentity(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
-  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
+    "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName =
+    process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
   const parameters: CommunicationServiceResource = {
     dataLocation: "United States",
@@ -49,7 +120,10 @@ async function createOrUpdateResourceWithManagedIdentity(): Promise<void> {
     location: "Global",
   };
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
+  const client = new CommunicationServiceManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.communicationServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     communicationServiceName,
@@ -60,6 +134,8 @@ async function createOrUpdateResourceWithManagedIdentity(): Promise<void> {
 
 async function main(): Promise<void> {
   await createOrUpdateResource();
+  await createOrUpdateResourceWithDisableLocalAuth();
+  await createOrUpdateResourceWithPublicNetworkAccess();
   await createOrUpdateResourceWithManagedIdentity();
 }
 

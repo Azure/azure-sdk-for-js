@@ -16,7 +16,7 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import {
   AIProjectClient,
-  OpenApiAgentTool,
+  OpenApiTool,
   OpenApiFunctionDefinition,
   OpenApiProjectConnectionAuthDetails,
 } from "@azure/ai-projects";
@@ -43,7 +43,7 @@ async function loadOpenApiSpec(specPath: string): Promise<unknown> {
   }
 }
 
-function createTripAdvisorTool(spec: unknown): OpenApiAgentTool {
+function createTripAdvisorTool(spec: unknown): OpenApiTool {
   const auth: OpenApiProjectConnectionAuthDetails = {
     type: "project_connection",
     security_scheme: {

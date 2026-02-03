@@ -1,10 +1,17 @@
 # Release History
 
+## 1.0.0-beta.39 ()
+
+### Features Added 
+
+- Add ownership checks for storage directories.
+
 ### 1.0.0-beta.38 (2026-01-16)
 
 ### Features Added
 
 - Remove limit on custom properties field on both logs and spans.
+- Updated customer SDK Stats metric names from preview format to stable format.
 
 ### 1.0.0-beta.37 (2026-01-15)
 

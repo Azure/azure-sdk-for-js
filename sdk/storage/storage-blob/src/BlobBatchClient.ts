@@ -6,6 +6,7 @@ import type {
   ServiceSubmitBatchHeaders,
   ServiceSubmitBatchOptionalParamsModel,
   ServiceSubmitBatchResponseModel,
+  ServiceSubmitBatchResponseInternal,
 } from "./generatedModels.js";
 import type { ParsedBatchResponse } from "./BatchResponse.js";
 import { BatchResponseParser } from "./BatchResponseParser.js";
@@ -339,14 +340,14 @@ export class BlobBatchClient {
 
         // ServiceSubmitBatchResponseModel and ContainerSubmitBatchResponse are compatible for now.
         const rawBatchResponse: ServiceSubmitBatchResponseModel = assertResponse(
-          await this.serviceOrContainerContext.submitBatch(
+          (await this.serviceOrContainerContext.submitBatch(
             utf8ByteLength(batchRequestBody),
             batchRequest.getMultiPartContentType(),
             batchRequestBody,
             {
               ...updatedOptions,
             },
-          ),
+          )) as ServiceSubmitBatchResponseInternal,
         );
 
         // Parse the sub responses result, if logic reaches here(i.e. the batch request succeeded with status code 202).
