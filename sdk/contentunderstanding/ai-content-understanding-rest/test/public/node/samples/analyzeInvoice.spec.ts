@@ -30,10 +30,11 @@ describe("Sample: analyzeInvoice", () => {
   });
 
   it("should analyze an invoice and extract structured fields", async () => {
-    const poller = client.analyze("prebuilt-invoice", {
-      inputs: [{ url: TEST_INVOICE_URL }],
-      ...testPollingOptions,
-    });
+    const poller = client.analyze(
+      "prebuilt-invoice",
+      [{ url: TEST_INVOICE_URL }],
+      testPollingOptions,
+    );
 
     const result = await poller.pollUntilDone();
 

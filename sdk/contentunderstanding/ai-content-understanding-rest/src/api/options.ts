@@ -96,8 +96,6 @@ export interface AnalyzeBinaryOptionalParams extends OperationOptions {
   processingLocation?: ProcessingLocation;
   /** String encoding for span offsets. Defaults to 'utf16'. */
   stringEncoding?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
@@ -112,6 +110,4 @@ export interface AnalyzeOptionalParams extends OperationOptions {
   processingLocation?: ProcessingLocation;
   /** String encoding for span offsets. Defaults to 'utf16'. */
   stringEncoding?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }

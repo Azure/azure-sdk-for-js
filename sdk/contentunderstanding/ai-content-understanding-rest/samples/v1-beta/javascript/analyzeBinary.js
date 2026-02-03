@@ -66,7 +66,7 @@ async function main() {
   console.log(`  File size: ${pdfBytes.length.toLocaleString()} bytes`);
 
   // Analyze the document using analyzeBinary
-  const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, "application/pdf");
+  const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes);
   const result = await poller.pollUntilDone();
 
   // Display markdown content

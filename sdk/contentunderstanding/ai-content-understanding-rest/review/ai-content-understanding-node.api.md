@@ -17,7 +17,6 @@ import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AnalyzeBinaryOptionalParams extends OperationOptions {
-    clientRequestId?: string;
     contentType?: string;
     processingLocation?: ProcessingLocation;
     range?: string;
@@ -36,7 +35,6 @@ export interface AnalyzeInput {
 
 // @public
 export interface AnalyzeOptionalParams extends OperationOptions {
-    clientRequestId?: string;
     inputs?: AnalyzeInput[];
     modelDeployments?: Record<string, string>;
     processingLocation?: ProcessingLocation;
@@ -211,11 +209,17 @@ export interface ContentSpan {
     offset: number;
 }
 
+// @public
+export type ContentUnderstandingAnalyzeBinaryOptionalParams = Omit<AnalyzeBinaryOptionalParams, "stringEncoding">;
+
+// @public
+export type ContentUnderstandingAnalyzeOptionalParams = Omit<AnalyzeOptionalParams, "inputs" | "stringEncoding">;
+
 // @public (undocumented)
 export class ContentUnderstandingClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: ContentUnderstandingClientOptionalParams);
-    analyze(analyzerId: string, options?: AnalyzeOptionalParams): AnalyzeResultPoller;
-    analyzeBinary(analyzerId: string, binaryInput: Uint8Array, contentType?: string, options?: AnalyzeBinaryOptionalParams): AnalyzeResultPoller;
+    analyze(analyzerId: string, inputs: AnalyzeInput[], options?: ContentUnderstandingAnalyzeOptionalParams): AnalyzeResultPoller;
+    analyzeBinary(analyzerId: string, binaryInput: Uint8Array, contentType?: string, options?: ContentUnderstandingAnalyzeBinaryOptionalParams): AnalyzeResultPoller;
     copyAnalyzer(analyzerId: string, sourceAnalyzerId: string, options?: CopyAnalyzerOptionalParams): PollerLike<OperationState_2<ContentAnalyzer>, ContentAnalyzer>;
     createAnalyzer(analyzerId: string, resource: ContentAnalyzer, options?: CreateAnalyzerOptionalParams): PollerLike<OperationState_2<ContentAnalyzer>, ContentAnalyzer>;
     deleteAnalyzer(analyzerId: string, options?: DeleteAnalyzerOptionalParams): Promise<void>;

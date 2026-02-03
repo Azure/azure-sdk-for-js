@@ -692,7 +692,7 @@ export function _analyzeBinarySend(
     {
       analyzerId: analyzerId,
       "api%2Dversion": context.apiVersion,
-      stringEncoding: options?.stringEncoding ?? "utf16",
+      stringEncoding: options?.stringEncoding,
       processingLocation: options?.processingLocation,
       range: options?.range,
     },
@@ -704,9 +704,6 @@ export function _analyzeBinarySend(
     ...operationOptionsToRequestParameters(options),
     contentType: contentType,
     headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -758,7 +755,7 @@ export function _analyzeSend(
     {
       analyzerId: analyzerId,
       "api%2Dversion": context.apiVersion,
-      stringEncoding: options?.stringEncoding ?? "utf16",
+      stringEncoding: options?.stringEncoding,
       processingLocation: options?.processingLocation,
     },
     {
@@ -769,9 +766,6 @@ export function _analyzeSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },

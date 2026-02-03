@@ -124,9 +124,7 @@ async function main() {
   const documentUrl =
     "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/document/invoice.pdf";
 
-  const analyzePoller = client.analyze(analyzerId, {
-    inputs: [{ url: documentUrl }],
-  });
+  const analyzePoller = client.analyze(analyzerId, [{ url: documentUrl }]);
   const analyzeResult = await analyzePoller.pollUntilDone();
 
   if (analyzeResult.contents && analyzeResult.contents.length > 0) {

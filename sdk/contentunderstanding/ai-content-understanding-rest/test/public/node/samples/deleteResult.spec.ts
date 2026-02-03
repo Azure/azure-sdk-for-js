@@ -31,10 +31,11 @@ describe("Sample: deleteResult", () => {
 
   it("should delete analysis results", async () => {
     // Start the analysis operation
-    const poller = client.analyze("prebuilt-invoice", {
-      inputs: [{ url: TEST_INVOICE_URL }],
-      ...testPollingOptions,
-    });
+    const poller = client.analyze(
+      "prebuilt-invoice",
+      [{ url: TEST_INVOICE_URL }],
+      testPollingOptions,
+    );
 
     const result = await poller.pollUntilDone();
 

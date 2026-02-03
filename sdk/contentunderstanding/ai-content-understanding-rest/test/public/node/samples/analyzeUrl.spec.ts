@@ -34,10 +34,11 @@ describe("Sample: analyzeUrl", () => {
 
   it("should analyze a document from URL using prebuilt-documentSearch", async () => {
     // Use the analyze method with inputs containing the URL
-    const poller = client.analyze("prebuilt-documentSearch", {
-      inputs: [{ url: TEST_INVOICE_URL }],
-      ...testPollingOptions,
-    });
+    const poller = client.analyze(
+      "prebuilt-documentSearch",
+      [{ url: TEST_INVOICE_URL }],
+      testPollingOptions,
+    );
 
     const result = await poller.pollUntilDone();
 
@@ -59,10 +60,11 @@ describe("Sample: analyzeUrl", () => {
   });
 
   it("should analyze a video from URL using prebuilt-videoSearch", async () => {
-    const poller = client.analyze("prebuilt-videoSearch", {
-      inputs: [{ url: TEST_VIDEO_URL }],
-      ...testPollingOptions,
-    });
+    const poller = client.analyze(
+      "prebuilt-videoSearch",
+      [{ url: TEST_VIDEO_URL }],
+      testPollingOptions,
+    );
 
     const result = await poller.pollUntilDone();
 
@@ -75,10 +77,11 @@ describe("Sample: analyzeUrl", () => {
   });
 
   it("should analyze audio from URL using prebuilt-audioSearch", async () => {
-    const poller = client.analyze("prebuilt-audioSearch", {
-      inputs: [{ url: TEST_AUDIO_URL }],
-      ...testPollingOptions,
-    });
+    const poller = client.analyze(
+      "prebuilt-audioSearch",
+      [{ url: TEST_AUDIO_URL }],
+      testPollingOptions,
+    );
 
     const result = await poller.pollUntilDone();
 
@@ -91,10 +94,11 @@ describe("Sample: analyzeUrl", () => {
   });
 
   it("should analyze an image from URL using prebuilt-imageSearch", async () => {
-    const poller = client.analyze("prebuilt-imageSearch", {
-      inputs: [{ url: TEST_IMAGE_URL }],
-      ...testPollingOptions,
-    });
+    const poller = client.analyze(
+      "prebuilt-imageSearch",
+      [{ url: TEST_IMAGE_URL }],
+      testPollingOptions,
+    );
 
     const result = await poller.pollUntilDone();
 

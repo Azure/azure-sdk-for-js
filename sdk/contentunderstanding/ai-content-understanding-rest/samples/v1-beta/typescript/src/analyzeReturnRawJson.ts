@@ -87,7 +87,7 @@ export async function main(): Promise<void> {
   console.log("  Using protocol method to access raw JSON response");
   console.log("  Analyzing...");
 
-  const poller = client.analyzeBinary(analyzerId, fileBytes, "application/pdf");
+  const poller = client.analyzeBinary(analyzerId, fileBytes);
   await poller.pollUntilDone();
   console.log("  Analysis completed successfully");
 

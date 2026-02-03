@@ -129,10 +129,11 @@ describe("Sample: createAnalyzer", () => {
     }
 
     // Analyze a document using the custom analyzer
-    const analyzePoller = client.analyze(testAnalyzerId, {
-      inputs: [{ url: TEST_INVOICE_URL }],
-      ...testPollingOptions,
-    });
+    const analyzePoller = client.analyze(
+      testAnalyzerId,
+      [{ url: TEST_INVOICE_URL }],
+      testPollingOptions,
+    );
     const analyzeResult = await analyzePoller.pollUntilDone();
 
     assert.ok(analyzeResult, "Analysis result should not be null");

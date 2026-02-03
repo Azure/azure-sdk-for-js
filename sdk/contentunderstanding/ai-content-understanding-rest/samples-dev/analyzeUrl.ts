@@ -61,9 +61,7 @@ async function analyzeDocument(client: ContentUnderstandingClient): Promise<void
   console.log("\n--- Analyzing Document from URL ---");
   console.log(`URL: ${documentUrl}`);
 
-  const poller = client.analyze("prebuilt-documentSearch", {
-    inputs: [{ url: documentUrl }],
-  });
+  const poller = client.analyze("prebuilt-documentSearch", [{ url: documentUrl }]);
   const result = await poller.pollUntilDone();
 
   if (result.contents && result.contents.length > 0) {
@@ -74,7 +72,7 @@ async function analyzeDocument(client: ContentUnderstandingClient): Promise<void
     if (content.kind === "document") {
       const documentContent = content as DocumentContent;
       console.log(`Pages: ${documentContent.startPageNumber} - ${documentContent.endPageNumber}`);
-      
+
       if (documentContent.pages && documentContent.pages.length > 0) {
         console.log(`Number of pages: ${documentContent.pages.length}`);
         for (const page of documentContent.pages) {
@@ -93,9 +91,7 @@ async function analyzeVideo(client: ContentUnderstandingClient): Promise<void> {
   console.log("\n--- Analyzing Video from URL ---");
   console.log(`URL: ${videoUrl}`);
 
-  const poller = client.analyze("prebuilt-videoSearch", {
-    inputs: [{ url: videoUrl }],
-  });
+  const poller = client.analyze("prebuilt-videoSearch", [{ url: videoUrl }]);
   const result = await poller.pollUntilDone();
 
   if (result.contents) {
@@ -126,9 +122,7 @@ async function analyzeAudio(client: ContentUnderstandingClient): Promise<void> {
   console.log("\n--- Analyzing Audio from URL ---");
   console.log(`URL: ${audioUrl}`);
 
-  const poller = client.analyze("prebuilt-audioSearch", {
-    inputs: [{ url: audioUrl }],
-  });
+  const poller = client.analyze("prebuilt-audioSearch", [{ url: audioUrl }]);
   const result = await poller.pollUntilDone();
 
   if (result.contents && result.contents.length > 0) {
@@ -158,9 +152,7 @@ async function analyzeImage(client: ContentUnderstandingClient): Promise<void> {
   console.log("\n--- Analyzing Image from URL ---");
   console.log(`URL: ${imageUrl}`);
 
-  const poller = client.analyze("prebuilt-imageSearch", {
-    inputs: [{ url: imageUrl }],
-  });
+  const poller = client.analyze("prebuilt-imageSearch", [{ url: imageUrl }]);
   const result = await poller.pollUntilDone();
 
   if (result.contents && result.contents.length > 0) {

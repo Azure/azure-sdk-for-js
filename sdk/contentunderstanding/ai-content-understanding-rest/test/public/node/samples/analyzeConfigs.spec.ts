@@ -38,10 +38,11 @@ describe("Sample: analyzeConfigs", () => {
     if (!fs.existsSync(filePath)) {
       console.warn(`Sample file not found at ${filePath}, using URL-based analysis instead`);
       // Use URL-based analysis as fallback
-      const poller = client.analyze("prebuilt-documentSearch", {
-        inputs: [{ url: TEST_INVOICE_URL }],
-        ...testPollingOptions,
-      });
+      const poller = client.analyze(
+        "prebuilt-documentSearch",
+        [{ url: TEST_INVOICE_URL }],
+        testPollingOptions,
+      );
 
       const result = await poller.pollUntilDone();
 
@@ -57,7 +58,6 @@ describe("Sample: analyzeConfigs", () => {
     const poller = client.analyzeBinary(
       "prebuilt-documentSearch",
       pdfBytes,
-      "application/pdf",
       testPollingOptions,
     );
     const result = await poller.pollUntilDone();
