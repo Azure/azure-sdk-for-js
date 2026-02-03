@@ -55,11 +55,7 @@ describe("Sample: analyzeConfigs", () => {
     console.log(`Analyzing ${filePath} with prebuilt-documentSearch...`);
     console.log("Note: prebuilt-documentSearch has formulas, layout, and OCR enabled by default.");
 
-    const poller = client.analyzeBinary(
-      "prebuilt-documentSearch",
-      pdfBytes,
-      testPollingOptions,
-    );
+    const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, testPollingOptions);
     const result = await poller.pollUntilDone();
 
     // Assertions
