@@ -469,23 +469,31 @@ async function getWmtsCapabilities(
     },
   );
 
-  const chunks: Uint8Array[] = [];
-  for await (const chunk of response) {
-    chunks.push(chunk);
-  }
+  // Handle both direct Uint8Array/Buffer and AsyncIterable responses
+  let xmlBytes: Uint8Array;
 
-  const totalLength = chunks.reduce((acc, chunk) => acc + chunk.length, 0);
-  const xmlBytes = new Uint8Array(totalLength);
-  let offset = 0;
-  for (const chunk of chunks) {
-    xmlBytes.set(chunk, offset);
-    offset += chunk.length;
+  if (response instanceof Uint8Array) {
+    xmlBytes = response;
+  } else if (typeof (response as any)[Symbol.asyncIterator] === "function") {
+    const chunks: Uint8Array[] = [];
+    for await (const chunk of response as AsyncIterable<Uint8Array>) {
+      chunks.push(chunk);
+    }
+    const totalLength = chunks.reduce((acc, chunk) => acc + chunk.length, 0);
+    xmlBytes = new Uint8Array(totalLength);
+    let offset = 0;
+    for (const chunk of chunks) {
+      xmlBytes.set(chunk, offset);
+      offset += chunk.length;
+    }
+  } else {
+    throw new Error(`Unexpected response type: ${typeof response}`);
   }
 
   const xmlString = new TextDecoder().decode(xmlBytes);
   const filename = `wmts_capabilities_${targetItemId}.xml`;
   fs.writeFileSync(filename, xmlString, "utf-8");
-  console.log(`WMTS capabilities saved as: ${filename}`);
+  console.log(`WMTS capabilities saved as: ${filename} (${xmlBytes.length} bytes)`);
 }
 
 /**

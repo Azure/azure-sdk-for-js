@@ -72,18 +72,27 @@ async function getLegend(client: PlanetaryComputerProClient): Promise<void> {
 
   const response = await client.data.getLegend("rdylgn");
 
-  // Collect the image bytes
-  const chunks: Uint8Array[] = [];
-  for await (const chunk of response) {
-    chunks.push(chunk);
-  }
+  // Handle both direct Uint8Array/Buffer and AsyncIterable responses
+  let legendBytes: Uint8Array;
 
-  const totalLength = chunks.reduce((acc, chunk) => acc + chunk.length, 0);
-  const legendBytes = new Uint8Array(totalLength);
-  let offset = 0;
-  for (const chunk of chunks) {
-    legendBytes.set(chunk, offset);
-    offset += chunk.length;
+  if (response instanceof Uint8Array) {
+    // Direct Buffer/Uint8Array response
+    legendBytes = response;
+  } else if (typeof (response as any)[Symbol.asyncIterator] === "function") {
+    // AsyncIterable stream response
+    const chunks: Uint8Array[] = [];
+    for await (const chunk of response as AsyncIterable<Uint8Array>) {
+      chunks.push(chunk);
+    }
+    const totalLength = chunks.reduce((acc, chunk) => acc + chunk.length, 0);
+    legendBytes = new Uint8Array(totalLength);
+    let offset = 0;
+    for (const chunk of chunks) {
+      legendBytes.set(chunk, offset);
+      offset += chunk.length;
+    }
+  } else {
+    throw new Error(`Unexpected response type: ${typeof response}`);
   }
 
   // Save the legend to a file
