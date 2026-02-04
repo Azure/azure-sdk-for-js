@@ -22,6 +22,9 @@
   - `Pcm1616000Hz` for 16-bit PCM audio at 16kHz sampling rate
 - Added voice customization enhancements
   - `customTextNormalizationUrl` property for voice configuration
+- Added event handler subscriptions for MCP and Foundry Agent events in `VoiceLiveSessionHandlers`
+  - MCP event handlers: `onMcpListToolsInProgress`, `onMcpListToolsCompleted`, `onMcpListToolsFailed`, `onResponseMcpCallArgumentsDelta`, `onResponseMcpCallArgumentsDone`, `onResponseMcpCallInProgress`, `onResponseMcpCallCompleted`, `onResponseMcpCallFailed`
+  - Foundry Agent event handlers: `onResponseFoundryAgentCallArgumentsDelta`, `onResponseFoundryAgentCallArgumentsDone`, `onResponseFoundryAgentCallInProgress`, `onResponseFoundryAgentCallCompleted`, `onResponseFoundryAgentCallFailed`
 
 ### Breaking Changes
 
