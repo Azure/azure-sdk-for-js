@@ -254,7 +254,7 @@ export function createResourceMetricEnvelope(
         time: new Date(),
         sampleRate: 100, // Metrics are never sampled
         instrumentationKey: instrumentationKey,
-        version: 1,
+        version: 2,
         data: {
           baseType: "MetricData",
           baseData: baseData,

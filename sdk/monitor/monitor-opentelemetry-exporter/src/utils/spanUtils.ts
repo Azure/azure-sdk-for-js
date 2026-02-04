@@ -513,7 +513,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
         name: name,
         time: time,
         instrumentationKey: ikey,
-        version: 1,
+        version: 2,
         sampleRate: sampleRate,
         data: {
           baseType: baseType,
