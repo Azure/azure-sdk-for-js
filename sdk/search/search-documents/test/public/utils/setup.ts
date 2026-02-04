@@ -16,7 +16,7 @@ import type {
 } from "../../../src/index.js";
 import { GeographyPoint, KnownAnalyzerNames } from "../../../src/index.js";
 import type { Hotel } from "./interfaces.js";
-import mockEmbeddingsData from "./mockEmbeddings.json" with { type: "json" };
+import { mockEmbeddingsData } from "./mockEmbeddings.js";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
 

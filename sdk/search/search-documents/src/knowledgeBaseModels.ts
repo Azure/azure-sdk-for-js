@@ -25,7 +25,7 @@ export interface KnowledgeBase {
   /**
    * Contains configuration options on how to connect to AI models.
    */
-  models?: KnowledgeBaseModel[];
+  models: KnowledgeBaseModel[];
   knowledgeSources: KnowledgeSourceReference[];
   retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffort;
   /**

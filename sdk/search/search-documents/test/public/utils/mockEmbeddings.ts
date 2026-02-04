@@ -1,10 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+// Mock embedding vectors extracted from test recordings
+export const mockEmbeddingsData =
 {
-  "description": "Mock embedding vectors extracted from test recordings. These are real 1536-dimension embeddings from text-embedding-ada-002 model.",
-  "embeddings": {
-    "hotelDescriptions": [
+  description: "Mock embedding vectors extracted from test recordings. These are real 1536-dimension embeddings from text-embedding-ada-002 model.",
+  embeddings: {
+    hotelDescriptions: [
       {
-        "hotelId": "1",
-        "embedding": [
+        hotelId: "1",
+        embedding: [
           -0.0038569495,
           0.028041067,
           -0.014854468,
@@ -16956,3 +16961,4 @@
     }
   }
 }
+;

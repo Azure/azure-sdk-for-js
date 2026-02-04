@@ -1373,7 +1373,7 @@ export interface KnowledgeBase {
     etag?: string;
     // (undocumented)
     knowledgeSources: KnowledgeSourceReference[];
-    models?: KnowledgeBaseModel[];
+    models: KnowledgeBaseModel[];
     name: string;
     // (undocumented)
     outputMode?: KnowledgeRetrievalOutputMode;
