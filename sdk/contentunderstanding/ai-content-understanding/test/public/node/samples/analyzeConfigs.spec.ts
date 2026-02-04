@@ -14,7 +14,7 @@ import {
   createClient,
   testPollingOptions,
   getSampleFilePath,
-  TEST_INVOICE_URL,
+  TEST_DOCUMENT_URL,
 } from "./sampleTestUtils.js";
 import fs from "node:fs";
 
@@ -40,7 +40,7 @@ describe("Sample: analyzeConfigs", () => {
       // Use URL-based analysis as fallback
       const poller = client.analyze(
         "prebuilt-documentSearch",
-        [{ url: TEST_INVOICE_URL }],
+        [{ url: TEST_DOCUMENT_URL }],
         testPollingOptions,
       );
 
