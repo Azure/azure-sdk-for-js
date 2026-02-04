@@ -100,11 +100,11 @@ export class InvocationManager {
       waitPromise
         .then((result) => {
           abortSignal.removeEventListener("abort", onAbort);
-          resolve(result);
+          return resolve(result);
         })
         .catch((err) => {
           abortSignal.removeEventListener("abort", onAbort);
-          reject(err);
+          return reject(err);
         });
     });
   }

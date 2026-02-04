@@ -22,9 +22,7 @@ export interface AckMessageError {
 
 // @public
 export interface CancelInvocationMessage extends WebPubSubMessageBase {
-    // (undocumented)
     invocationId: string;
-    // (undocumented)
     readonly kind: "cancelInvocation";
 }
 
@@ -97,9 +95,7 @@ export class InvocationError extends Error {
 
 // @public (undocumented)
 export interface InvocationErrorOptions {
-    // (undocumented)
     errorDetail?: InvokeResponseError;
-    // (undocumented)
     invocationId: string;
 }
 
@@ -121,35 +117,24 @@ export interface InvokeMessage extends WebPubSubMessageBase {
     data?: JSONTypes | ArrayBuffer;
     dataType?: WebPubSubDataType;
     event?: string;
-    // (undocumented)
     invocationId: string;
-    // (undocumented)
     readonly kind: "invoke";
-    // (undocumented)
     target?: "event";
 }
 
 // @public
 export interface InvokeResponseError {
-    // (undocumented)
     message: string;
-    // (undocumented)
     name: string;
 }
 
 // @public
 export interface InvokeResponseMessage extends WebPubSubMessageBase {
-    // (undocumented)
     data?: JSONTypes | ArrayBuffer;
-    // (undocumented)
     dataType?: WebPubSubDataType;
-    // (undocumented)
     error?: InvokeResponseError;
-    // (undocumented)
     invocationId: string;
-    // (undocumented)
     readonly kind: "invokeResponse";
-    // (undocumented)
     success?: boolean;
 }
 
