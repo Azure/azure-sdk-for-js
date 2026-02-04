@@ -80,6 +80,7 @@ export interface BuildPagedAsyncIteratorOptions {
   itemName?: string;
   nextLinkName?: string;
   nextLinkMethod?: "GET" | "POST";
+  apiVersion?: string;
 }
 
 /**

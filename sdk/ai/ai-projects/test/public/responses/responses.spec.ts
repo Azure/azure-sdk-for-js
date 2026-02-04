@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createProjectsClient, createRecorder } from "../utils/createClient.js";
+import { createProjectsClient, createPublishedEndpointClient, createRecorder } from "../utils/createClient.js";
 import { afterEach, assert, beforeEach, it, describe } from "vitest";
 import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import type OpenAI from "openai";
@@ -32,6 +32,22 @@ describe("responses - basic", () => {
     assert.isNotNull(response.output_text);
     console.log(
       `Created response, response ID: ${response.id}, output text: ${response.output_text}`,
+    );
+  }, 50000);
+
+  it.skip("should create and list responses with published endpoint", async function () {
+    const publishedEndpointClient = createPublishedEndpointClient(recorder);
+    const publishedOpenAIClient = await publishedEndpointClient.getOpenAIClient();
+
+    const response = await publishedOpenAIClient.responses.create({
+      model: "gpt-4o",
+      input: "Tell me a three sentence bedtime story about a unicorn.",
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.output_text);
+    console.log(
+      `Created response with published endpoint, response ID: ${response.id}, output text: ${response.output_text}`,
     );
   }, 50000);
 

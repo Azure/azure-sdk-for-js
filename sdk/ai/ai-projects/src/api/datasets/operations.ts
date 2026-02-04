@@ -49,7 +49,7 @@ export function _getCredentialsSend(
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -98,7 +98,7 @@ export function _pendingUploadSend(
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -134,7 +134,7 @@ export async function pendingUpload(
   pendingUploadRequest: PendingUploadRequest,
   options: DatasetsPendingUploadOptionalParams = { requestOptions: {} },
 ): Promise<PendingUploadResponse> {
-  const result = await _pendingUploadSend(context, name, version, pendingUploadRequest, options);
+  const result = await _pendingUploadSend(context, name, pendingUploadRequest, version, options);
   return _pendingUploadDeserialize(result);
 }
 
@@ -150,7 +150,7 @@ export function _createOrUpdateSend(
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -201,7 +201,7 @@ export function _$deleteSend(
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -241,7 +241,7 @@ export function _getSend(
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -283,7 +283,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/datasets{?api-version}",
     {
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -319,7 +319,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
@@ -332,7 +332,7 @@ export function _listVersionsSend(
     "/datasets/{name}/versions{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

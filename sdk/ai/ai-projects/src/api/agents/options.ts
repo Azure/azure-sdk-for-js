@@ -53,8 +53,6 @@ export interface AgentsGetAgentVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
-  /** A human-readable description of the agent. */
-  description?: string;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -64,14 +62,14 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
    * with a maximum length of 512 characters.
    */
   metadata?: Record<string, string>;
+  /** A human-readable description of the agent. */
+  description?: string;
 }
 
 /** Optional parameters. */
 export interface AgentsCreateAgentVersionOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1" | "WorkflowAgents=v1";
-  /** A human-readable description of the agent. */
-  description?: string;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -81,6 +79,8 @@ export interface AgentsCreateAgentVersionOptionalParams extends OperationOptions
    * with a maximum length of 512 characters.
    */
   metadata?: Record<string, string>;
+  /** A human-readable description of the agent. */
+  description?: string;
 }
 
 /** Optional parameters. */
@@ -116,8 +116,6 @@ export interface AgentsDeleteAgentOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
-  /** A human-readable description of the agent. */
-  description?: string;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -127,14 +125,14 @@ export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOp
    * with a maximum length of 512 characters.
    */
   metadata?: Record<string, string>;
+  /** A human-readable description of the agent. */
+  description?: string;
 }
 
 /** Optional parameters. */
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1";
-  /** A human-readable description of the agent. */
-  description?: string;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -144,12 +142,12 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
    * with a maximum length of 512 characters.
    */
   metadata?: Record<string, string>;
+  /** A human-readable description of the agent. */
+  description?: string;
 }
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
-  /** A human-readable description of the agent. */
-  description?: string;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -159,14 +157,14 @@ export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
    * with a maximum length of 512 characters.
    */
   metadata?: Record<string, string>;
+  /** A human-readable description of the agent. */
+  description?: string;
 }
 
 /** Optional parameters. */
 export interface AgentsCreateAgentOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1" | "WorkflowAgents=v1";
-  /** A human-readable description of the agent. */
-  description?: string;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -176,6 +174,8 @@ export interface AgentsCreateAgentOptionalParams extends OperationOptions {
    * with a maximum length of 512 characters.
    */
   metadata?: Record<string, string>;
+  /** A human-readable description of the agent. */
+  description?: string;
 }
 
 /** Optional parameters. */

@@ -28,7 +28,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/deployments{?api-version,modelPublisher,modelName,deploymentType}",
     {
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
       modelPublisher: options?.modelPublisher,
       modelName: options?.modelName,
       deploymentType: options?.deploymentType,
@@ -68,7 +68,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
@@ -81,7 +81,7 @@ export function _getSend(
     "/deployments/{name}{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -13,7 +13,7 @@ import {
   apiErrorResponseDeserializer,
   DeleteAgentResponse,
   deleteAgentResponseDeserializer,
-  AgentsPagedResultAgentObject,
+  _AgentsPagedResultAgentObject,
   _agentsPagedResultAgentObjectDeserializer,
   DeleteAgentVersionResponse,
   deleteAgentVersionResponseDeserializer,
@@ -54,26 +54,28 @@ export function _streamAgentContainerLogsSend(
   options: AgentsStreamAgentContainerLogsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}/containers/default:logstream{?api-version,kind,replica_name,tail}",
+    "/agents/{agent_name}/versions/{agent_version}/containers/default:logstream{?kind,replica_name,tail,api-version}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
-      "api-version": context.apiVersion,
       kind: options?.kind,
       replica_name: options?.replicaName,
       tail: options?.tail,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _streamAgentContainerLogsDeserialize(
@@ -123,26 +125,25 @@ export function _listAgentVersionsSend(
   options: AgentsListAgentVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions{?api-version,limit,order,after,before}",
+    "/agents/{agent_name}/versions{?limit,order,after,before,api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAgentVersionsDeserialize(
@@ -169,7 +170,7 @@ export function listAgentVersions(
     () => _listAgentVersionsSend(context, agentName, options),
     _listAgentVersionsDeserialize,
     ["200"],
-    { itemName: "data" },
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
@@ -184,20 +185,22 @@ export function _deleteAgentVersionSend(
     {
       agent_name: agentName,
       agent_version: agentVersion,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _deleteAgentVersionDeserialize(
@@ -235,19 +238,18 @@ export function _getAgentVersionSend(
     {
       agent_name: agentName,
       agent_version: agentVersion,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getAgentVersionDeserialize(
@@ -284,26 +286,28 @@ export function _createAgentVersionSend(
     "/agents/{agent_name}/versions{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      description: options?.description,
-      metadata: options?.metadata,
-      definition: agentDefinitionUnionSerializer(definition),
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: {
+        metadata: options?.metadata,
+        description: options?.description,
+        definition: agentDefinitionUnionSerializer(definition),
+      },
+    });
 }
 
 export async function _createAgentVersionDeserialize(
@@ -335,31 +339,30 @@ export function _listAgentsSend(
   options: AgentsListAgentsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents{?api-version,kind,limit,order,after,before}",
+    "/agents{?kind,limit,order,after,before,api-version}",
     {
-      "api-version": context.apiVersion,
       kind: options?.kind,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAgentsDeserialize(
   result: PathUncheckedResponse,
-): Promise<AgentsPagedResultAgentObject> {
+): Promise<_AgentsPagedResultAgentObject> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -380,7 +383,7 @@ export function listAgents(
     () => _listAgentsSend(context, options),
     _listAgentsDeserialize,
     ["200"],
-    { itemName: "data" },
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
@@ -393,19 +396,18 @@ export function _deleteAgentSend(
     "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteAgentDeserialize(
@@ -442,26 +444,25 @@ export function _updateAgentFromManifestSend(
     "/agents/{agent_name}/import{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      description: options?.description,
-      metadata: options?.metadata,
-      manifest_id: manifestId,
-      parameter_values: parameterValues,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        metadata: options?.metadata,
+        description: options?.description,
+        manifest_id: manifestId,
+        parameter_values: parameterValues,
+      },
+    });
 }
 
 export async function _updateAgentFromManifestDeserialize(
@@ -508,28 +509,30 @@ export function _createAgentFromManifestSend(
   const path = expandUrlTemplate(
     "/agents:import{?api-version}",
     {
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      name: name,
-      description: options?.description,
-      metadata: options?.metadata,
-      manifest_id: manifestId,
-      parameter_values: parameterValues,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: {
+        name: name,
+        metadata: options?.metadata,
+        description: options?.description,
+        manifest_id: manifestId,
+        parameter_values: parameterValues,
+      },
+    });
 }
 
 export async function _createAgentFromManifestDeserialize(
@@ -573,25 +576,24 @@ export function _updateAgentSend(
     "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      description: options?.description,
-      metadata: options?.metadata,
-      definition: agentDefinitionUnionSerializer(definition),
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        metadata: options?.metadata,
+        description: options?.description,
+        definition: agentDefinitionUnionSerializer(definition),
+      },
+    });
 }
 
 export async function _updateAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
@@ -628,27 +630,29 @@ export function _createAgentSend(
   const path = expandUrlTemplate(
     "/agents{?api-version}",
     {
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      name: name,
-      description: options?.description,
-      metadata: options?.metadata,
-      definition: agentDefinitionUnionSerializer(definition),
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: {
+        name: name,
+        metadata: options?.metadata,
+        description: options?.description,
+        definition: agentDefinitionUnionSerializer(definition),
+      },
+    });
 }
 
 export async function _createAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
@@ -682,19 +686,18 @@ export function _getAgentSend(
     "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
