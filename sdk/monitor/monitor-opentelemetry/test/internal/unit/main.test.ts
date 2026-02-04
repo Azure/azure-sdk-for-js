@@ -12,7 +12,7 @@ import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
 import type { StatsbeatEnvironmentConfig } from "../../../src/types.js";
 import {
   AZURE_MONITOR_STATSBEAT_FEATURES,
-  APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
+  APPLICATIONINSIGHTS_SDKSTATS_DISABLED,
   StatsbeatFeature,
   StatsbeatInstrumentation,
   StatsbeatInstrumentationMap,
@@ -458,9 +458,9 @@ describe("Main functions", () => {
     void shutdownAzureMonitor();
   });
 
-  it("should detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW is 'True'", () => {
+  it("should detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_DISABLED is 'true'", () => {
     const env = <{ [id: string]: string }>{};
-    env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "True";
+    env[APPLICATIONINSIGHTS_SDKSTATS_DISABLED] = "true";
     process.env = env;
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
@@ -474,15 +474,15 @@ describe("Main functions", () => {
     const features = Number(output["feature"] || 0);
     assert.ok(
       features & StatsbeatFeature.CUSTOMER_SDKSTATS,
-      "CUSTOMER_SDKSTATS feature should be detected when env var is 'True'",
+      "CUSTOMER_SDKSTATS feature should be detected when customer explicitly disables SDK stats",
     );
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should also be set");
     void shutdownAzureMonitor();
   });
 
-  it("should not detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW is not 'True'", () => {
+  it("should not detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_DISABLED is not 'true'", () => {
     const env = <{ [id: string]: string }>{};
-    env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "false";
+    env[APPLICATIONINSIGHTS_SDKSTATS_DISABLED] = "false";
     process.env = env;
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
@@ -496,15 +496,15 @@ describe("Main functions", () => {
     const features = Number(output["feature"] || 0);
     assert.ok(
       !(features & StatsbeatFeature.CUSTOMER_SDKSTATS),
-      "CUSTOMER_SDKSTATS feature should not be detected when env var is not 'True'",
+      "CUSTOMER_SDKSTATS feature should not be detected when env var is not 'true'",
     );
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should still be set");
     void shutdownAzureMonitor();
   });
 
-  it("should not detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW is not set", () => {
+  it("should not detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_DISABLED is not set", () => {
     const env = <{ [id: string]: string }>{};
-    delete env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+    delete env[APPLICATIONINSIGHTS_SDKSTATS_DISABLED];
     process.env = env;
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {

@@ -177,7 +177,7 @@ export interface ContentSafetyClientOptions extends ClientOptions {
 }
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: ContentSafetyClientOptions): ContentSafetyClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, input?: ContentSafetyClientOptions): ContentSafetyClient;
 export default createClient;
 
 // @public
