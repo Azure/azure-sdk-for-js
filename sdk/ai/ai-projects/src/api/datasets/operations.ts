@@ -134,7 +134,7 @@ export async function pendingUpload(
   pendingUploadRequest: PendingUploadRequest,
   options: DatasetsPendingUploadOptionalParams = { requestOptions: {} },
 ): Promise<PendingUploadResponse> {
-  const result = await _pendingUploadSend(context, name, pendingUploadRequest, version, options);
+  const result = await _pendingUploadSend(context, name, version, pendingUploadRequest, options);
   return _pendingUploadDeserialize(result);
 }
 

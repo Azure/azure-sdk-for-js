@@ -52,7 +52,7 @@ export function _updateVersionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-beta": "Evaluations=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -105,7 +105,7 @@ export function _createVersionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-beta": "Evaluations=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -156,7 +156,7 @@ export function _deleteVersionSend(
   );
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
-    headers: { "foundry-beta": "Evaluations=v1", ...options.requestOptions?.headers },
+    headers: { "foundry-beta": foundryBeta, ...options.requestOptions?.headers },
   });
 }
 
@@ -202,7 +202,7 @@ export function _getVersionSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-beta": "Evaluations=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -251,7 +251,7 @@ export function _listLatestVersionsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-beta": "Evaluations=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -305,7 +305,7 @@ export function _listVersionsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-beta": "Evaluations=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },

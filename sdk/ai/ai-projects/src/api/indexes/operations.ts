@@ -76,7 +76,7 @@ export async function createOrUpdate(
   version: string,
   options: IndexesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<IndexUnion> {
-  const result = await _createOrUpdateSend(context, name, index, version, options);
+  const result = await _createOrUpdateSend(context, name, version, index, options);
   return _createOrUpdateDeserialize(result);
 }
 

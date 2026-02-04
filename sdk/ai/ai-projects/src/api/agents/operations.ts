@@ -13,7 +13,7 @@ import {
   apiErrorResponseDeserializer,
   DeleteAgentResponse,
   deleteAgentResponseDeserializer,
-  _AgentsPagedResultAgentObject,
+  AgentsPagedResultAgentObject,
   _agentsPagedResultAgentObjectDeserializer,
   DeleteAgentVersionResponse,
   deleteAgentVersionResponseDeserializer,
@@ -362,7 +362,7 @@ export function _listAgentsSend(
 
 export async function _listAgentsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultAgentObject> {
+): Promise<AgentsPagedResultAgentObject> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
