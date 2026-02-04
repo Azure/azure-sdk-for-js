@@ -24,21 +24,19 @@ export function _compactResponseConversationSend(
   options: ResponsesCompactResponseConversationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
-  return context
-    .path("/openai/v1/responses/compact")
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: {
-        model: !model ? model : _modelIdsCompactionSerializer(model),
-        input: !options?.input
-          ? options?.input
-          : _compactResponseMethodPublicBodyInputSerializer(options?.input),
-        previous_response_id: options?.previousResponseId,
-        instructions: options?.instructions,
-      },
-    });
+  return context.path("/openai/v1/responses/compact").post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      model: !model ? model : _modelIdsCompactionSerializer(model),
+      input: !options?.input
+        ? options?.input
+        : _compactResponseMethodPublicBodyInputSerializer(options?.input),
+      previous_response_id: options?.previousResponseId,
+      instructions: options?.instructions,
+    },
+  });
 }
 
 export async function _compactResponseConversationDeserialize(
