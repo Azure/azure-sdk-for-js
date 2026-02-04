@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { delay } from "@azure/core-util";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type { SearchIndex, SearchIndexClient } from "../../../../src/index.js";
-import { KnownQueryLanguage, KnownQuerySpeller, type SearchClient } from "../../../../src/index.js";
+import { KnownQueryLanguage, KnownQuerySpeller, SearchClient } from "../../../../src/index.js";
 import { defaultServiceVersion } from "../../../../src/serviceUtils.js";
 import type { Hotel } from "../../utils/interfaces.js";
 import { createClients } from "../../utils/recordedClient.js";
@@ -107,5 +108,74 @@ describe("search scenarios", { timeout: 20_000 }, () => {
         result.documentDebugInfo?.semantic,
       );
     }
+  });
+});
+
+describe("content security (preview)", { timeout: 20_000 }, () => {
+  let recorder: Recorder;
+  let indexClient: SearchIndexClient;
+  let index: SearchIndex;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    ({ indexClient } = await createClients<Hotel>(defaultServiceVersion, recorder, "", ""));
+    index = {
+      name: "content-security-test",
+      purviewEnabled: true,
+      fields: [
+        {
+          type: "Edm.String",
+          name: "id",
+          key: true,
+        },
+        {
+          name: "sensitivityLabel",
+          type: "Edm.String",
+          filterable: false,
+          sortable: false,
+          facetable: true,
+          sensitivityLabel: true,
+        },
+      ],
+    };
+    await indexClient.createOrUpdateIndex(index);
+    await delay(WAIT_TIME);
+  });
+
+  afterEach(async () => {
+    await indexClient.deleteIndex(index.name);
+    await recorder?.stop();
+  });
+
+  it("verify content security indexes", async () => {
+    const documents = [
+      { id: "1", sensitivityLabel: "87867195-f2b8-4ac2-b0b6-6bb73cb33afc" },
+      { id: "2", sensitivityLabel: "9fbde396-1a24-4c79-8edf-9254a0f35055" },
+      { id: "3", sensitivityLabel: "1a19d03a-48bc-4359-8038-5b5f6d5847c3" },
+      { id: "4", sensitivityLabel: "1a19d03a-48bc-4359-0000-5b5f6d5847c4" },
+    ];
+
+    const searchClient = new SearchClient<{ id: string; sensitivityLabel: string }>(
+      indexClient.endpoint,
+      index.name,
+      createTestCredential(),
+    );
+
+    await searchClient.uploadDocuments(documents);
+    await delay(WAIT_TIME);
+
+    // Test that search with invalid authorization token throws an error
+    let errorThrown = false;
+    try {
+      await searchClient.search("*", {
+        xMsQuerySourceAuthorization: "Invalid token",
+        xMsEnableElevatedRead: true,
+      });
+    } catch (ex: any) {
+      errorThrown = true;
+      // Verify it's an auth related error
+      assert.isTrue(ex.message.includes("Invalid header"));
+    }
+    assert.isTrue(errorThrown, "Expected search with invalid header to throw an error");
   });
 });
