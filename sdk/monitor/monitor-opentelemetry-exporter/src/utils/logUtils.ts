@@ -249,9 +249,7 @@ function getLegacyApplicationInsightsMeasurements(log: ReadableLogRecord): Measu
 }
 
 function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): DomainUnion {
-  let baseData: DomainUnion = {
-    version: 2,
-  } as DomainUnion;
+  let baseData: DomainUnion = {} as DomainUnion;
   if (log.body) {
     try {
       switch (log.attributes[ApplicationInsightsBaseType]) {
@@ -270,6 +268,9 @@ function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): DomainUni
         case ApplicationInsightsEventBaseType:
           baseData = log.body as unknown as TelemetryEventData;
           break;
+      }
+      if (baseData && baseData.version === undefined) {
+        baseData.version = 2;
       }
       if (baseData && "message" in baseData && typeof baseData.message === "object") {
         baseData.message = serializeAttribute(baseData.message);
