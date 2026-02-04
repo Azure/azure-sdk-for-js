@@ -3036,7 +3036,7 @@ export interface ApiErrorResponse {
 
 export function apiErrorResponseDeserializer(item: any): ApiErrorResponse {
   return {
-    error: apiErrorDeserializer(item["error"]),
+    error: apiErrorDeserializer(item?.["error"]),
   };
 }
 
@@ -3056,12 +3056,12 @@ export interface ApiError {
 
 export function apiErrorDeserializer(item: any): ApiError {
   return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
-    details: apiErrorArrayDeserializer(item["details"]),
-    innererror: !item["innererror"]
-      ? item["innererror"]
+    code: item?.["code"],
+    message: item?.["message"],
+    target: item?.["target"],
+    details: apiErrorArrayDeserializer(item?.["details"]),
+    innererror: !item?.["innererror"]
+      ? item?.["innererror"]
       : apiInnerErrorDeserializer(item["innererror"]),
   };
 }

@@ -77,19 +77,10 @@ describe("agents - error handling", () => {
       await client.agents.get("my-agent");
       expect.fail("Expected error to be thrown");
     } catch (error) {
-      // This is the root cause of issue #37227:
-      // When the API returns a different error structure, the deserializer fails
-      // with TypeError: Cannot read properties of undefined (reading 'map')
-      // Instead it should throw a proper RestError with status code 403
-      console.log("Caught error:", error);
-      console.log("Error name:", (error as any).name);
-      console.log("Error message:", (error as any).message);
-      console.log("Error statusCode:", (error as any).statusCode);
-      console.log("Error code:", (error as any).code);
-
-      // The error should NOT be a TypeError - it should be a RestError
-      expect((error as any).name).not.toBe("TypeError");
-      expect(error).toBeDefined();
+      // After fix: The error should be a RestError, not a TypeError
+      // The fix makes apiErrorResponseDeserializer handle undefined/malformed input
+      expect((error as any).name).toBe("RestError");
+      expect((error as any).statusCode).toBe(403);
     }
   });
 
@@ -104,16 +95,9 @@ describe("agents - error handling", () => {
       await client.agents.get("my-agent");
       expect.fail("Expected error to be thrown");
     } catch (error) {
-      // Should handle gracefully even with empty body
-      console.log("Caught error:", error);
-      console.log("Error name:", (error as any).name);
-      console.log("Error message:", (error as any).message);
-      console.log("Error statusCode:", (error as any).statusCode);
-      console.log("Error code:", (error as any).code);
-
-      // The error should NOT be a TypeError - it should be a RestError
-      expect((error as any).name).not.toBe("TypeError");
-      expect(error).toBeDefined();
+      // After fix: Should handle gracefully even with empty body
+      expect((error as any).name).toBe("RestError");
+      expect((error as any).statusCode).toBe(403);
     }
   });
 });
