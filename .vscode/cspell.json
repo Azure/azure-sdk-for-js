@@ -244,7 +244,9 @@
         "Alaw",
         "Ulaw",
         "Webrtc",
-        "webrtc"
+        "webrtc",
+        "xhigh",
+        "Xhigh"
       ]
     },
     {

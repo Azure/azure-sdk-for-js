@@ -4,96 +4,96 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AvailableOperations {
-    nextLink?: string;
-    value?: OperationDetail[];
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
 
 // @public
-export interface BotResponseList {
-    readonly nextLink?: string;
-    readonly value?: HealthBot[];
-}
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
-export interface Bots {
-    beginCreate(resourceGroupName: string, botName: string, parameters: HealthBot, options?: BotsCreateOptionalParams): Promise<PollerLike<PollOperationState<BotsCreateResponse>, BotsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, botName: string, parameters: HealthBot, options?: BotsCreateOptionalParams): Promise<BotsCreateResponse>;
-    beginDelete(resourceGroupName: string, botName: string, options?: BotsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, botName: string, options?: BotsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, botName: string, options?: BotsGetOptionalParams): Promise<BotsGetResponse>;
-    list(options?: BotsListOptionalParams): PagedAsyncIterableIterator<HealthBot>;
-    listByResourceGroup(resourceGroupName: string, options?: BotsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<HealthBot>;
-    update(resourceGroupName: string, botName: string, parameters: HealthBotUpdateParameters, options?: BotsUpdateOptionalParams): Promise<BotsUpdateResponse>;
-}
-
-// @public
-export interface BotsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface BotsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BotsCreateResponse = HealthBot;
-
-// @public
-export interface BotsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface BotsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface BotsGetOptionalParams extends coreClient.OperationOptions {
+export interface BotsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BotsGetResponse = HealthBot;
-
-// @public
-export interface BotsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface BotsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BotsListByResourceGroupNextResponse = BotResponseList;
-
-// @public
-export interface BotsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface BotsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BotsListByResourceGroupResponse = BotResponseList;
-
-// @public
-export interface BotsListNextOptionalParams extends coreClient.OperationOptions {
+export interface BotsListSecretsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BotsListNextResponse = BotResponseList;
-
-// @public
-export interface BotsListOptionalParams extends coreClient.OperationOptions {
+export interface BotsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, botName: string, parameters: HealthBot, options?: BotsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<HealthBot>, HealthBot>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, botName: string, parameters: HealthBot, options?: BotsCreateOptionalParams) => Promise<HealthBot>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, botName: string, options?: BotsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, botName: string, options?: BotsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, botName: string, parameters: HealthBotUpdateParameters, options?: BotsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<HealthBot>, HealthBot>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, botName: string, parameters: HealthBotUpdateParameters, options?: BotsUpdateOptionalParams) => Promise<HealthBot>;
+    create: (resourceGroupName: string, botName: string, parameters: HealthBot, options?: BotsCreateOptionalParams) => PollerLike<OperationState<HealthBot>, HealthBot>;
+    delete: (resourceGroupName: string, botName: string, options?: BotsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, botName: string, options?: BotsGetOptionalParams) => Promise<HealthBot>;
+    list: (options?: BotsListOptionalParams) => PagedAsyncIterableIterator<HealthBot>;
+    listByResourceGroup: (resourceGroupName: string, options?: BotsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<HealthBot>;
+    listSecrets: (resourceGroupName: string, botName: string, options?: BotsListSecretsOptionalParams) => Promise<HealthBotKeysResponse>;
+    regenerateApiJwtSecret: (resourceGroupName: string, botName: string, options?: BotsRegenerateApiJwtSecretOptionalParams) => Promise<HealthBotKey>;
+    update: (resourceGroupName: string, botName: string, parameters: HealthBotUpdateParameters, options?: BotsUpdateOptionalParams) => PollerLike<OperationState<HealthBot>, HealthBot>;
 }
 
 // @public
-export type BotsListResponse = BotResponseList;
-
-// @public
-export interface BotsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface BotsRegenerateApiJwtSecretOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BotsUpdateResponse = HealthBot;
+export interface BotsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -112,9 +112,6 @@ export interface ErrorModel {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface HealthBot extends TrackedResource {
     identity?: Identity;
     properties?: HealthBotProperties;
@@ -122,30 +119,36 @@ export interface HealthBot extends TrackedResource {
 }
 
 // @public (undocumented)
-export class HealthbotClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: HealthbotClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    bots: Bots;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    subscriptionId: string;
+export class HealthbotClient {
+    constructor(credential: TokenCredential, options?: HealthbotClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: HealthbotClientOptionalParams);
+    readonly bots: BotsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
 }
 
 // @public
-export interface HealthbotClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface HealthbotClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
+}
+
+// @public
+export interface HealthBotKey {
+    keyName?: string;
+    value?: string;
+}
+
+// @public
+export interface HealthBotKeysResponse {
+    secrets?: HealthBotKey[];
 }
 
 // @public
 export interface HealthBotProperties {
+    readonly accessControlMethod?: string;
     readonly botManagementPortalLink?: string;
+    keyVaultProperties?: KeyVaultProperties;
     readonly provisioningState?: string;
 }
 
@@ -154,10 +157,9 @@ export interface HealthBotUpdateParameters {
     identity?: Identity;
     // (undocumented)
     location?: string;
+    properties?: HealthBotProperties;
     sku?: Sku;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -165,20 +167,29 @@ export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ResourceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
-export type IdentityType = string;
+export interface KeyVaultProperties {
+    keyName: string;
+    keyVaultUri: string;
+    keyVersion?: string;
+    userIdentity?: string;
+}
 
 // @public
-export enum KnownIdentityType {
+export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownVersions {
+    V20250525 = "2025-05-25",
+    V20251101 = "2025-11-01"
 }
 
 // @public
@@ -187,7 +198,7 @@ export interface OperationDetail {
     isDataAction?: boolean;
     name?: string;
     origin?: string;
-    properties?: Record<string, unknown>;
+    properties?: any;
 }
 
 // @public
@@ -199,23 +210,25 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationDetail>;
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<OperationDetail>;
 }
 
 // @public
-export type OperationsListNextResponse = AvailableOperations;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListResponse = AvailableOperations;
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface Resource {
@@ -229,40 +242,65 @@ export interface Resource {
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 // @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: HealthbotClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface Sku {
     name: SkuName;
 }
 
 // @public
-export type SkuName = "F0" | "S1" | "C0";
+export type SkuName = "F0" | "C0" | "PES" | "C1";
 
 // @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
-    createdByType?: IdentityType;
+    createdByType?: CreatedByType;
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
-    lastModifiedByType?: IdentityType;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
-}
-
-// @public
-export interface ValidationResult {
-    status?: string;
 }
 
 // (No @packageDocumentation comment for this package)

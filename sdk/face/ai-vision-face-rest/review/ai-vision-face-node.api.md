@@ -503,7 +503,7 @@ export interface BlurPropertiesOutput {
 }
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: FaceClientOptions): FaceClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, input?: FaceClientOptions): FaceClient;
 export default createClient;
 
 // @public

@@ -389,7 +389,7 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    *
    * @readonly
    */
-  public get readableStreamBody(): NodeJS.ReadableStream | undefined {
+  public get readableStreamBody(): undefined {
     return undefined;
   }
 
