@@ -13,8 +13,8 @@ import {
 export {
   ContentUnderstandingClient,
   AnalyzeResultPoller,
-  ContentUnderstandingAnalyzeOptionalParams,
-  ContentUnderstandingAnalyzeBinaryOptionalParams,
+  AnalyzeOptionalParams,
+  AnalyzeBinaryOptionalParams,
 } from "./contentUnderstandingClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
@@ -107,7 +107,5 @@ export {
   DeleteAnalyzerOptionalParams,
   CreateAnalyzerOptionalParams,
   CopyAnalyzerOptionalParams,
-  AnalyzeBinaryOptionalParams,
-  AnalyzeOptionalParams,
 } from "./api/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

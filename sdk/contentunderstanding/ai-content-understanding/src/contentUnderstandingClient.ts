@@ -39,9 +39,8 @@ import type {
   DeleteAnalyzerOptionalParams,
   CreateAnalyzerOptionalParams,
   CopyAnalyzerOptionalParams,
-  AnalyzeBinaryOptionalParams,
-  AnalyzeOptionalParams,
 } from "./api/options.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 import type {
   AnalyzeResult,
   ContentAnalyzerAnalyzeOperationStatus,
@@ -57,21 +56,35 @@ import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
 
+import type { ProcessingLocation } from "./models/models.js";
+
 // CUSTOMIZATION: SDK-IMPROVEMENT: Custom option types that exclude `inputs` and `stringEncoding` from the public API.
 // `inputs` is made a required parameter in the method signature, and `stringEncoding` is always 'utf16'
 // internally to ensure span offsets align with JavaScript's UTF-16 string operations.
-/** Optional parameters for the analyze operation, excluding inputs and stringEncoding. */
-export type ContentUnderstandingAnalyzeOptionalParams = Omit<
-  AnalyzeOptionalParams,
-  "inputs" | "stringEncoding"
->;
+// Defined as explicit interfaces (rather than Omit<> aliases) to keep standard type names
+// (AnalyzeOptionalParams, AnalyzeBinaryOptionalParams) and avoid API Extractor warnings.
 
-// CUSTOMIZATION: SDK-IMPROVEMENT: Custom option type that excludes `stringEncoding` from the public API.
-/** Optional parameters for the analyzeBinary operation, excluding stringEncoding. */
-export type ContentUnderstandingAnalyzeBinaryOptionalParams = Omit<
-  AnalyzeBinaryOptionalParams,
-  "stringEncoding"
->;
+/** Optional parameters for the analyze operation. */
+export interface AnalyzeOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** Override default mapping of model names to deployments. */
+  modelDeployments?: Record<string, string>;
+  /** The location where the data may be processed. Defaults to global. */
+  processingLocation?: ProcessingLocation;
+}
+
+/** Optional parameters for the analyzeBinary operation. */
+export interface AnalyzeBinaryOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** Range of the input to analyze (ex. `1-3,5,9-`). Document content uses 1-based page numbers, while audio visual content uses integer milliseconds. */
+  range?: string;
+  /** Request content type. */
+  contentType?: string;
+  /** The location where the data may be processed. Defaults to global. */
+  processingLocation?: ProcessingLocation;
+}
 
 // CUSTOMIZATION: SDK-IMPROVEMENT: Custom poller type that exposes `operationId` for users to call
 // `getResult`, `getResultFile`, and `deleteResult` methods.
@@ -216,7 +229,7 @@ export class ContentUnderstandingClient {
     analyzerId: string,
     binaryInput: Uint8Array,
     contentType: string = "application/octet-stream",
-    options: ContentUnderstandingAnalyzeBinaryOptionalParams = { requestOptions: {} },
+    options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
   ): AnalyzeResultPoller {
     let operationId: string | undefined;
     const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
@@ -266,7 +279,7 @@ export class ContentUnderstandingClient {
   analyze(
     analyzerId: string,
     inputs: AnalyzeInput[],
-    options: ContentUnderstandingAnalyzeOptionalParams = { requestOptions: {} },
+    options: AnalyzeOptionalParams = { requestOptions: {} },
   ): AnalyzeResultPoller {
     let operationId: string | undefined;
     const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
