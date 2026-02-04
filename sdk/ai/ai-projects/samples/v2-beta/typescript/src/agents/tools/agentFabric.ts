@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to create an AI agent with Microsoft Fabric capabilities
- * using the MicrosoftFabricAgentTool and synchronous Azure AI Projects client. The agent can query
+ * using the MicrosoftFabricPreviewTool and synchronous Azure AI Projects client. The agent can query
  * Fabric data sources and provide responses based on data analysis.
  *
  * @summary This sample demonstrates how to create an agent with Microsoft Fabric tool capabilities,

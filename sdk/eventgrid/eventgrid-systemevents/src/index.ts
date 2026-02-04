@@ -101,10 +101,15 @@ export {
   AcsChatThreadParticipant,
   AcsChatThreadEventBase,
   AcsChatThreadCreatedWithUserEventData,
+  AcsChatRetentionPolicy,
+  KnownAcsChatRetentionPolicyKind,
+  AcsChatRetentionPolicyKind,
   AcsChatThreadEventInThreadBase,
   AcsChatThreadCreatedEventData,
   AcsChatThreadWithUserDeletedEventData,
   AcsChatThreadDeletedEventData,
+  KnownAcsChatThreadDeletedReasonType,
+  AcsChatThreadDeletedReasonType,
   AcsChatThreadPropertiesUpdatedPerUserEventData,
   AcsChatThreadPropertiesUpdatedEventData,
   AcsChatParticipantAddedToThreadWithUserEventData,
@@ -348,9 +353,6 @@ export {
   ResourceNotificationsResourceManagementCreatedOrUpdatedEventData,
   ResourceNotificationsResourceManagementDeletedEventData,
   ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
-  ResourceNotificationsAksResourcesFleetGateCreatedEventData,
-  ResourceNotificationsAksResourcesFleetGateUpdatedEventData,
-  ResourceNotificationsAksResourcesFleetGateDeletedEventData,
 } from "./models/index.js";
 
 export { CloudEvent, EventGridEvent } from "./events.js";

@@ -232,7 +232,8 @@
     {
       "filename": "sdk/ai/ai-projects/review/**/*.md",
       "words": [
-        "Agentic"
+        "Agentic",
+        "xhigh"
       ]
     },
     {
@@ -243,7 +244,9 @@
         "Alaw",
         "Ulaw",
         "Webrtc",
-        "webrtc"
+        "webrtc",
+        "xhigh",
+        "Xhigh"
       ]
     },
     {
@@ -417,14 +420,6 @@
         "healthdataaiservices",
         "deidentify",
         "deidentified"
-      ]
-    },
-    {
-      "filename": "sdk/healthinsights/azure-healthinsights-radiologyinsights/**",
-      "words": [
-        "ctxt",
-        "mros",
-        "nify"
       ]
     },
     {

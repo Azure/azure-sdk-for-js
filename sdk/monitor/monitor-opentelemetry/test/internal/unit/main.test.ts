@@ -12,7 +12,7 @@ import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
 import type { StatsbeatEnvironmentConfig } from "../../../src/types.js";
 import {
   AZURE_MONITOR_STATSBEAT_FEATURES,
-  APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
+  APPLICATIONINSIGHTS_SDKSTATS_DISABLED,
   StatsbeatFeature,
   StatsbeatInstrumentation,
   StatsbeatInstrumentationMap,
@@ -116,8 +116,6 @@ describe("Main functions", () => {
         return Promise.resolve();
       },
     };
-    const spyOnStart = vi.spyOn(processor, "onStart");
-    const spyOnEnd = vi.spyOn(processor, "onEnd");
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -125,10 +123,15 @@ describe("Main functions", () => {
       spanProcessors: [processor],
     };
     useAzureMonitor(config);
-    const span = trace.getTracer("testTracer").startSpan("testSpan");
-    span.end();
-    expect(spyOnStart).toHaveBeenCalled();
-    expect(spyOnEnd).toHaveBeenCalled();
+    // Verify the custom processor was added to the SDK configuration
+    // by checking it's in the tracer provider's span processors
+    const internalSdk = _getSdkInstance();
+    const tracerProvider = (internalSdk as any)["_tracerProvider"];
+    const activeSpanProcessor = tracerProvider["_activeSpanProcessor"];
+    // The active span processor should be a MultiSpanProcessor containing our custom processor
+    const spanProcessors = activeSpanProcessor["_spanProcessors"] || [activeSpanProcessor];
+    const hasCustomProcessor = spanProcessors.some((sp: SpanProcessor) => sp === processor);
+    expect(hasCustomProcessor).toBe(true);
   });
 
   it("should add custom logProcessors", () => {
@@ -319,12 +322,14 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    const span = trace.getTracer("testTracer").startSpan("testSpan");
-    span.end();
 
-    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
-    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["attributes"];
+    // Access resource from the SDK's tracer provider instead of from a span
+    // This avoids issues with OTel global state in test environments
+    const internalSdk = _getSdkInstance();
+    const tracerProvider = (internalSdk as any)["_tracerProvider"];
+    const resource =
+      tracerProvider?.["resource"]?.["attributes"] || tracerProvider?.["_resource"]?.["attributes"];
+    assert.isDefined(resource, "Resource should be defined on tracer provider");
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
       assert.isTrue(expectedResourceAttributeNamespaces.has(parts[0]));
@@ -342,13 +347,14 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    const span = trace.getTracer("testTracer").startSpan("testSpan");
-    span.end();
 
-    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
-    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["attributes"];
-    console.log(resource);
+    // Access resource from the SDK's tracer provider instead of from a span
+    // This avoids issues with OTel global state in test environments
+    const internalSdk = _getSdkInstance();
+    const tracerProvider = (internalSdk as any)["_tracerProvider"];
+    const resource =
+      tracerProvider?.["resource"]?.["attributes"] || tracerProvider?.["_resource"]?.["attributes"];
+    assert.isDefined(resource, "Resource should be defined on tracer provider");
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
       assert.isTrue(expectedResourceAttributeNamespaces.has(parts[0]));
@@ -362,13 +368,14 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    const span = trace.getTracer("testTracer").startSpan("testSpan");
-    span.end();
 
-    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
-    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["_rawAttributes"];
-    console.log(resource);
+    // Access resource from the SDK's tracer provider instead of from a span
+    // This avoids issues with OTel global state in test environments
+    const internalSdk = _getSdkInstance();
+    const tracerProvider = (internalSdk as any)["_tracerProvider"];
+    const resource =
+      tracerProvider?.["resource"]?.["attributes"] || tracerProvider?.["_resource"]?.["attributes"];
+    assert.isDefined(resource, "Resource should be defined on tracer provider");
     Object.keys(resource || {}).forEach((attr) => {
       assert.isTrue(!attr.includes("process"));
     });
@@ -451,9 +458,9 @@ describe("Main functions", () => {
     void shutdownAzureMonitor();
   });
 
-  it("should detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW is 'True'", () => {
+  it("should detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_DISABLED is 'true'", () => {
     const env = <{ [id: string]: string }>{};
-    env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "True";
+    env[APPLICATIONINSIGHTS_SDKSTATS_DISABLED] = "true";
     process.env = env;
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
@@ -467,15 +474,15 @@ describe("Main functions", () => {
     const features = Number(output["feature"] || 0);
     assert.ok(
       features & StatsbeatFeature.CUSTOMER_SDKSTATS,
-      "CUSTOMER_SDKSTATS feature should be detected when env var is 'True'",
+      "CUSTOMER_SDKSTATS feature should be detected when customer explicitly disables SDK stats",
     );
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should also be set");
     void shutdownAzureMonitor();
   });
 
-  it("should not detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW is not 'True'", () => {
+  it("should not detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_DISABLED is not 'true'", () => {
     const env = <{ [id: string]: string }>{};
-    env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "false";
+    env[APPLICATIONINSIGHTS_SDKSTATS_DISABLED] = "false";
     process.env = env;
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
@@ -489,15 +496,15 @@ describe("Main functions", () => {
     const features = Number(output["feature"] || 0);
     assert.ok(
       !(features & StatsbeatFeature.CUSTOMER_SDKSTATS),
-      "CUSTOMER_SDKSTATS feature should not be detected when env var is not 'True'",
+      "CUSTOMER_SDKSTATS feature should not be detected when env var is not 'true'",
     );
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should still be set");
     void shutdownAzureMonitor();
   });
 
-  it("should not detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW is not set", () => {
+  it("should not detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_DISABLED is not set", () => {
     const env = <{ [id: string]: string }>{};
-    delete env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+    delete env[APPLICATIONINSIGHTS_SDKSTATS_DISABLED];
     process.env = env;
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
