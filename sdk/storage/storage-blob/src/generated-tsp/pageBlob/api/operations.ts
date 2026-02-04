@@ -42,14 +42,13 @@ export function _copyIncrementalSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.ifModifiedSince !== undefined
           ? {
               "if-modified-since": !options?.ifModifiedSince
@@ -103,7 +102,7 @@ export function _setSequenceNumberSend(
   options: SetSequenceNumberOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=properties&UpdateSequenceNumber{?timeout}",
+    "/?comp=properties{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -111,14 +110,13 @@ export function _setSequenceNumberSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.ifModifiedSince !== undefined
           ? {
@@ -176,7 +174,7 @@ export function _resizeSend(
   options: ResizeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=properties&Resize{?timeout}",
+    "/?comp=properties{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -184,14 +182,13 @@ export function _resizeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.encryptionKey !== undefined
           ? { "x-ms-encryption-key": options?.encryptionKey }
@@ -257,7 +254,7 @@ export function _getPageRangesDiffSend(
   options: GetPageRangesDiffOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=pagelist&diff{?snapshot,timeout,prevsnapshot,marker,maxresults}",
+    "/?comp=pagelist{?snapshot,timeout,prevsnapshot,marker,maxresults}",
     {
       snapshot: options?.snapshot,
       timeout: options?.timeout,
@@ -269,14 +266,13 @@ export function _getPageRangesDiffSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.prevSnapshotUrl !== undefined
           ? { "x-ms-previous-snapshot-url": options?.prevSnapshotUrl }
           : {}),
@@ -346,14 +342,13 @@ export function _getPageRangesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.range !== undefined ? { range: options?.range } : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.ifModifiedSince !== undefined
@@ -411,7 +406,7 @@ export function _uploadPagesFromUrlSend(
   options: UploadPagesFromUrlOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=page&update&fromUrl{?timeout}",
+    "/?comp=page{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -419,13 +414,12 @@ export function _uploadPagesFromUrlSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "x-ms-copy-source": sourceUrl,
         "x-ms-source-range": sourceRange,
         ...(options?.sourceContentMd5 !== undefined
@@ -564,7 +558,7 @@ export function _clearPagesSend(
   options: ClearPagesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=page&clear{?timeout}",
+    "/?comp=page{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -572,13 +566,12 @@ export function _clearPagesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "content-length": 0,
         range: range,
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
@@ -658,7 +651,7 @@ export function _uploadPagesSend(
   options: UploadPagesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=page&update{?timeout}",
+    "/?comp=page{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -666,14 +659,13 @@ export function _uploadPagesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "content-length": contentLength,
         ...(options?.transactionalContentMD5 !== undefined
           ? {
@@ -782,13 +774,12 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.tier !== undefined ? { "x-ms-access-tier": options?.tier } : {}),
         ...(options?.blobContentType !== undefined

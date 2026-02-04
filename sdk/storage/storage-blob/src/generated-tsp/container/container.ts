@@ -5,9 +5,9 @@ import { createContainer, ContainerContext, ContainerOptionalParams } from "./ap
 import {
   FilterBlobSegment,
   SignedIdentifiers,
-  BlobItemInternal,
+  ListBlobsFlatSegmentResponse,
+  ListBlobsHierarchySegmentResponse,
 } from "../models/azure/storage/blobs/models.js";
-import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
   getAccountInfo,
   listBlobHierarchySegment,
@@ -83,14 +83,14 @@ export class Container {
   listBlobHierarchySegment(
     delimiter: string,
     options: ListBlobHierarchySegmentOptionalParams = { requestOptions: {} },
-  ): PagedAsyncIterableIterator<BlobItemInternal> {
+  ): Promise<ListBlobsHierarchySegmentResponse> {
     return listBlobHierarchySegment(this._client, delimiter, options);
   }
 
   /** The List Blobs operation returns a list of the blobs under the specified container. */
   listBlobFlatSegment(
     options: ListBlobFlatSegmentOptionalParams = { requestOptions: {} },
-  ): PagedAsyncIterableIterator<BlobItemInternal> {
+  ): Promise<ListBlobsFlatSegmentResponse> {
     return listBlobFlatSegment(this._client, options);
   }
 

@@ -44,10 +44,7 @@ import type {
   PageRangeInfo,
 } from "../generatedModels.js";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
-import type {
-  FullOperationResponse,
-  OperationOptions,
-} from "@azure-rest/core-client";
+import type { FullOperationResponse, OperationOptions } from "@azure-rest/core-client";
 import type { CommonOptions } from "../index.js";
 import { toCompatResponse } from "../../../../core/core-http-compat/dist/esm/response.js";
 

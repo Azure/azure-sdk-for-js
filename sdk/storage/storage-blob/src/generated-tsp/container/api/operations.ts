@@ -11,16 +11,11 @@ import {
   SignedIdentifiers,
   signedIdentifiersXmlSerializer,
   signedIdentifiersXmlDeserializer,
-  _ListBlobsFlatSegmentResponse,
-  _listBlobsFlatSegmentResponseXmlDeserializer,
-  BlobItemInternal,
-  _ListBlobsHierarchySegmentResponse,
-  _listBlobsHierarchySegmentResponseXmlDeserializer,
+  ListBlobsFlatSegmentResponse,
+  listBlobsFlatSegmentResponseXmlDeserializer,
+  ListBlobsHierarchySegmentResponse,
+  listBlobsHierarchySegmentResponseXmlDeserializer,
 } from "../../models/azure/storage/blobs/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   GetAccountInfoOptionalParams,
@@ -62,14 +57,13 @@ export function _getAccountInfoSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -104,7 +98,7 @@ export function _listBlobHierarchySegmentSend(
   options: ListBlobHierarchySegmentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=container&comp=list&hierarchy{?delimiter,prefix,marker,maxresults,include,timeout,startFrom}",
+    "/?restype=container&comp=list{?delimiter,prefix,marker,maxresults,include,timeout,startFrom}",
     {
       delimiter: delimiter,
       prefix: options?.prefix,
@@ -122,14 +116,13 @@ export function _listBlobHierarchySegmentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -141,7 +134,7 @@ export function _listBlobHierarchySegmentSend(
 
 export async function _listBlobHierarchySegmentDeserialize(
   result: PathUncheckedResponse,
-): Promise<_ListBlobsHierarchySegmentResponse> {
+): Promise<ListBlobsHierarchySegmentResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -149,22 +142,17 @@ export async function _listBlobHierarchySegmentDeserialize(
     throw error;
   }
 
-  return _listBlobsHierarchySegmentResponseXmlDeserializer(result.body);
+  return listBlobsHierarchySegmentResponseXmlDeserializer(result.body);
 }
 
 /** The List Blobs operation returns a list of the blobs under the specified container. A delimiter can be used to traverse a virtual hierarchy of blobs as though it were a file system. */
-export function listBlobHierarchySegment(
+export async function listBlobHierarchySegment(
   context: Client,
   delimiter: string,
   options: ListBlobHierarchySegmentOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<BlobItemInternal> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listBlobHierarchySegmentSend(context, delimiter, options),
-    _listBlobHierarchySegmentDeserialize,
-    ["200"],
-    { itemName: "segment.blobItems" },
-  );
+): Promise<ListBlobsHierarchySegmentResponse> {
+  const result = await _listBlobHierarchySegmentSend(context, delimiter, options);
+  return _listBlobHierarchySegmentDeserialize(result);
 }
 
 export function _listBlobFlatSegmentSend(
@@ -172,7 +160,7 @@ export function _listBlobFlatSegmentSend(
   options: ListBlobFlatSegmentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=container&comp=list&flat{?prefix,marker,maxresults,include,timeout,startFrom}",
+    "/?restype=container&comp=list{?prefix,marker,maxresults,include,timeout,startFrom}",
     {
       prefix: options?.prefix,
       marker: options?.marker,
@@ -189,14 +177,13 @@ export function _listBlobFlatSegmentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -208,7 +195,7 @@ export function _listBlobFlatSegmentSend(
 
 export async function _listBlobFlatSegmentDeserialize(
   result: PathUncheckedResponse,
-): Promise<_ListBlobsFlatSegmentResponse> {
+): Promise<ListBlobsFlatSegmentResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -216,21 +203,16 @@ export async function _listBlobFlatSegmentDeserialize(
     throw error;
   }
 
-  return _listBlobsFlatSegmentResponseXmlDeserializer(result.body);
+  return listBlobsFlatSegmentResponseXmlDeserializer(result.body);
 }
 
 /** The List Blobs operation returns a list of the blobs under the specified container. */
-export function listBlobFlatSegment(
+export async function listBlobFlatSegment(
   context: Client,
   options: ListBlobFlatSegmentOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<BlobItemInternal> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listBlobFlatSegmentSend(context, options),
-    _listBlobFlatSegmentDeserialize,
-    ["200"],
-    { itemName: "segment.blobItems" },
-  );
+): Promise<ListBlobsFlatSegmentResponse> {
+  const result = await _listBlobFlatSegmentSend(context, options);
+  return _listBlobFlatSegmentDeserialize(result);
 }
 
 export function _changeLeaseSend(
@@ -240,7 +222,7 @@ export function _changeLeaseSend(
   options: ChangeLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease&restype=container&change{?timeout}",
+    "/?comp=lease&restype=container{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -248,14 +230,13 @@ export function _changeLeaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "x-ms-lease-id": leaseId,
         "x-ms-proposed-lease-id": proposedLeaseId,
         ...(options?.ifModifiedSince !== undefined
@@ -308,7 +289,7 @@ export function _breakLeaseSend(
   options: BreakLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease&restype=container&break{?timeout}",
+    "/?comp=lease&restype=container{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -316,14 +297,13 @@ export function _breakLeaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.ifModifiedSince !== undefined
           ? {
               "if-modified-since": !options?.ifModifiedSince
@@ -376,7 +356,7 @@ export function _renewLeaseSend(
   options: RenewLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease&restype=container&renew{?timeout}",
+    "/?comp=lease&restype=container{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -384,14 +364,13 @@ export function _renewLeaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "x-ms-lease-id": leaseId,
         ...(options?.ifModifiedSince !== undefined
           ? {
@@ -443,7 +422,7 @@ export function _releaseLeaseSend(
   options: ReleaseLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease&restype=container&release{?timeout}",
+    "/?comp=lease&restype=container{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -451,14 +430,13 @@ export function _releaseLeaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "x-ms-lease-id": leaseId,
         ...(options?.ifModifiedSince !== undefined
           ? {
@@ -510,7 +488,7 @@ export function _acquireLeaseSend(
   options: AcquireLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease&restype=container&acquire{?timeout}",
+    "/?comp=lease&restype=container{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -518,13 +496,12 @@ export function _acquireLeaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "x-ms-lease-duration": duration,
         ...(options?.proposedLeaseId !== undefined
           ? { "x-ms-proposed-lease-id": options?.proposedLeaseId }
@@ -595,14 +572,13 @@ export function _findBlobsByTagsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -653,7 +629,6 @@ export function _submitBatchSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .post({
@@ -661,7 +636,7 @@ export function _submitBatchSend(
       contentType: "multipart/mixed",
       headers: {
         "content-length": contentLength,
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -717,14 +692,13 @@ export function _renameSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "x-ms-source-container-name": sourceContainerName,
         ...(options?.sourceLeaseId !== undefined
           ? { "x-ms-source-lease-id": options?.sourceLeaseId }
@@ -771,14 +745,13 @@ export function _restoreSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.deletedContainerName !== undefined
           ? { "x-ms-deleted-container-name": options?.deletedContainerName }
           : {}),
@@ -827,14 +800,13 @@ export function _setAccessPolicySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.access !== undefined ? { "x-ms-blob-public-access": options?.access } : {}),
         ...(options?.ifModifiedSince !== undefined
@@ -894,14 +866,13 @@ export function _getAccessPolicySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -948,14 +919,13 @@ export function _setMetadataSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         "x-ms-meta": metadata,
         ...(options?.ifModifiedSince !== undefined
@@ -1007,14 +977,13 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .delete({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.ifModifiedSince !== undefined
           ? {
@@ -1076,14 +1045,13 @@ export function _getPropertiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -1126,14 +1094,13 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.access !== undefined ? { "x-ms-blob-public-access": options?.access } : {}),
         ...(options?.defaultEncryptionScope !== undefined

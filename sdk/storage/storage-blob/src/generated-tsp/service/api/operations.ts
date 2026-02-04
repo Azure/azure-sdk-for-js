@@ -9,9 +9,8 @@ import {
   storageErrorDeserializer,
   StorageServiceStats,
   storageServiceStatsXmlDeserializer,
-  _ListContainersSegmentResponse,
-  _listContainersSegmentResponseXmlDeserializer,
-  ContainerItem,
+  ListContainersSegmentResponse,
+  listContainersSegmentResponseXmlDeserializer,
   KeyInfo,
   keyInfoXmlSerializer,
   UserDelegationKey,
@@ -21,10 +20,6 @@ import {
   FilterBlobSegment,
   filterBlobSegmentXmlDeserializer,
 } from "../../models/azure/storage/blobs/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   FindBlobsByTagsOptionalParams,
@@ -65,14 +60,13 @@ export function _findBlobsByTagsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -123,14 +117,13 @@ export function _submitBatchSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "multipart/mixed",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -186,14 +179,13 @@ export function _getAccountInfoSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -236,14 +228,13 @@ export function _getUserDelegationKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -298,14 +289,13 @@ export function _listContainersSegmentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -317,7 +307,7 @@ export function _listContainersSegmentSend(
 
 export async function _listContainersSegmentDeserialize(
   result: PathUncheckedResponse,
-): Promise<_ListContainersSegmentResponse> {
+): Promise<ListContainersSegmentResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -325,21 +315,16 @@ export async function _listContainersSegmentDeserialize(
     throw error;
   }
 
-  return _listContainersSegmentResponseXmlDeserializer(result.body);
+  return listContainersSegmentResponseXmlDeserializer(result.body);
 }
 
 /** The List Containers Segment operation returns a list of the containers under the specified account */
-export function listContainersSegment(
+export async function listContainersSegment(
   context: Client,
   options: ListContainersSegmentOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<ContainerItem> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listContainersSegmentSend(context, options),
-    _listContainersSegmentDeserialize,
-    ["200"],
-    { itemName: "containerItems" },
-  );
+): Promise<ListContainersSegmentResponse> {
+  const result = await _listContainersSegmentSend(context, options);
+  return _listContainersSegmentDeserialize(result);
 }
 
 export function _getStatisticsSend(
@@ -355,14 +340,13 @@ export function _getStatisticsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -407,14 +391,13 @@ export function _getPropertiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -460,14 +443,13 @@ export function _setPropertiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),

@@ -23,6 +23,8 @@ import type {
   BlockBlob,
   PageBlob,
   EncryptionAlgorithmType,
+  FileShareTokenIntent as FileShareTokenIntentInternal,
+  PremiumPageBlobAccessTier,
 } from "./generated-tsp/index.js";
 import type {
   AppendBlobAppendBlockFromUrlHeaders,
@@ -65,7 +67,6 @@ import type {
   BlobCopyFromURLResponse,
   BlobCreateSnapshotResponse,
   BlobDeleteResponse,
-  BlobDownloadOptionalParams,
   BlobDownloadResponseModel,
   BlobGetAccountInfoResponse,
   BlobGetPropertiesResponseModel,
@@ -1843,7 +1844,7 @@ export class BlobClient extends StorageClient {
           legalHold: options.legalHold,
           encryptionScope: options.encryptionScope,
           copySourceTags: options.copySourceTags,
-          fileRequestIntent: options.sourceShareTokenIntent,
+          fileRequestIntent: options.sourceShareTokenIntent as FileShareTokenIntentInternal,
           tracingOptions: updatedOptions.tracingOptions,
         }),
       );
@@ -2956,7 +2957,6 @@ export class AppendBlobClient extends BlobClient {
         return assertResponse<AppendBlobAppendBlockHeaders, AppendBlobAppendBlockHeaders>(
           await this.appendBlobContext.appendBlock(body as any, contentLength, {
             abortSignal: options.abortSignal,
-            appendPositionAccessConditions: options.conditions,
             ...options.conditions,
             ifTags: options.conditions?.tagConditions,
             requestOptions: {
@@ -3011,7 +3011,7 @@ export class AppendBlobClient extends BlobClient {
           await this.appendBlobContext.appendBlockFromUrl(sourceURL, 0, {
             abortSignal: options.abortSignal,
             sourceRange: rangeToString({ offset: sourceOffset, count }),
-            sourceContentMD5: options.sourceContentMD5,
+            sourceContentMd5: options.sourceContentMD5,
             sourceContentCrc64: options.sourceContentCrc64,
             ...options.conditions,
             ifTags: options.conditions?.tagConditions,
@@ -3022,7 +3022,7 @@ export class AppendBlobClient extends BlobClient {
             encryptionAlgorithm: options.customerProvidedKey
               ?.encryptionAlgorithm as EncryptionAlgorithmType,
             encryptionScope: options.encryptionScope,
-            fileRequestIntent: options.sourceShareTokenIntent,
+            fileRequestIntent: options.sourceShareTokenIntent as FileShareTokenIntentInternal,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -3881,7 +3881,7 @@ export class BlockBlobClient extends BlobClient {
       if (isNodeLike) {
         const nodeStream = await streamableMethod.asNodeStream();
         response = assertResponse<BlobQueryResponseInternal, BlobQueryHeaders>({
-          readableStreamBody: nodeStream.body,
+          readableStreamBody: nodeStream.body as any,
         });
       } else {
         const browserStream = await streamableMethod.asBrowserStream();
@@ -4017,7 +4017,7 @@ export class BlockBlobClient extends BlobClient {
             tier: toAccessTier(options.tier),
             blobTagsString: toBlobTagsString(options.tags),
             copySourceTags: options.copySourceTags,
-            fileRequestIntent: options.sourceShareTokenIntent,
+            fileRequestIntent: options.sourceShareTokenIntent as FileShareTokenIntentInternal,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -4103,21 +4103,26 @@ export class BlockBlobClient extends BlobClient {
       options,
       async (updatedOptions) => {
         return assertResponse<BlockBlobStageBlockFromURLHeaders, BlockBlobStageBlockFromURLHeaders>(
-          await this.blockBlobContext.stageBlockFromUrl(stringToUint8Array(blockId), 0, sourceURL, {
-            abortSignal: options.abortSignal,
-            leaseId: options.conditions?.leaseId,
-            sourceContentMD5: options.sourceContentMD5,
-            sourceContentCrc64: options.sourceContentCrc64,
-            sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
-            encryptionKey: options.customerProvidedKey?.encryptionKey,
-            encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
-            encryptionAlgorithm: options.customerProvidedKey
-              ?.encryptionAlgorithm as EncryptionAlgorithmType,
-            encryptionScope: options.encryptionScope,
-            copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-            fileRequestIntent: options.sourceShareTokenIntent,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          await this.blockBlobContext.stageBlockFromUrl(
+            stringToUint8Array(blockId, "utf-8"),
+            0,
+            sourceURL,
+            {
+              abortSignal: options.abortSignal,
+              leaseId: options.conditions?.leaseId,
+              sourceContentMd5: options.sourceContentMD5,
+              sourceContentCrc64: options.sourceContentCrc64,
+              sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
+              encryptionKey: options.customerProvidedKey?.encryptionKey,
+              encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+              encryptionAlgorithm: options.customerProvidedKey
+                ?.encryptionAlgorithm as EncryptionAlgorithmType,
+              encryptionScope: options.encryptionScope,
+              copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
+              fileRequestIntent: options.sourceShareTokenIntent as FileShareTokenIntentInternal,
+              tracingOptions: updatedOptions.tracingOptions,
+            },
+          ),
         );
       },
     );
@@ -5161,7 +5166,7 @@ export class PageBlobClient extends BlobClient {
           immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
           immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
           legalHold: options.legalHold,
-          tier: toAccessTier(options.tier),
+          tier: toAccessTier(options.tier) as PremiumPageBlobAccessTier,
           blobTagsString: toBlobTagsString(options.tags),
           tracingOptions: updatedOptions.tracingOptions,
         }),
@@ -5293,7 +5298,7 @@ export class PageBlobClient extends BlobClient {
             rangeToString({ offset: destOffset, count }),
             {
               abortSignal: options.abortSignal,
-              sourceContentMD5: options.sourceContentMD5,
+              sourceContentMd5: options.sourceContentMD5,
               sourceContentCrc64: options.sourceContentCrc64,
               ...options.conditions,
               ifTags: options.conditions?.tagConditions,
@@ -5304,7 +5309,7 @@ export class PageBlobClient extends BlobClient {
                 ?.encryptionAlgorithm as EncryptionAlgorithmType,
               encryptionScope: options.encryptionScope,
               copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-              fileRequestIntent: options.sourceShareTokenIntent,
+              fileRequestIntent: options.sourceShareTokenIntent as FileShareTokenIntentInternal,
               tracingOptions: updatedOptions.tracingOptions,
             },
           ),

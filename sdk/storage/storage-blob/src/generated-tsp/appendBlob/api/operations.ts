@@ -31,14 +31,13 @@ export function _sealSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.ifModifiedSince !== undefined
           ? {
@@ -94,7 +93,7 @@ export function _appendBlockFromUrlSend(
   options: AppendBlockFromUrlOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=appendblock&fromUrl{?timeout}",
+    "/?comp=appendblock{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -102,14 +101,13 @@ export function _appendBlockFromUrlSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "x-ms-copy-source": sourceUrl,
         ...(options?.sourceRange !== undefined
           ? { "x-ms-source-range": options?.sourceRange }
@@ -252,14 +250,13 @@ export function _appendBlockSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "content-length": contentLength,
         ...(options?.transactionalContentMD5 !== undefined
           ? {
@@ -361,13 +358,12 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.blobContentType !== undefined
           ? { "x-ms-blob-content-type": options?.blobContentType }

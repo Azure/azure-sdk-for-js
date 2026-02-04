@@ -60,14 +60,13 @@ export function _setTagsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.transactionalContentMD5 !== undefined
           ? {
               "content-md5": !options?.transactionalContentMD5
@@ -147,14 +146,13 @@ export function _getTagsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.ifTags !== undefined ? { "x-ms-if-tags": options?.ifTags } : {}),
         ...(options?.ifModifiedSince !== undefined
@@ -209,7 +207,7 @@ export function _getAccountInfoSend(
   options: GetAccountInfoOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=account&comp=properties&blob{?timeout}",
+    "/?restype=account&comp=properties{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -217,14 +215,13 @@ export function _getAccountInfoSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -269,14 +266,13 @@ export function _setTierSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "x-ms-access-tier": tier,
         ...(options?.rehydratePriority !== undefined
           ? { "x-ms-rehydrate-priority": options?.rehydratePriority }
@@ -318,7 +314,7 @@ export function _abortCopyFromUrlSend(
   options: AbortCopyFromUrlOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=copy&copyid{?timeout,copyid}",
+    "/?comp=copy{?timeout,copyid}",
     {
       timeout: options?.timeout,
       copyid: copyId,
@@ -327,14 +323,13 @@ export function _abortCopyFromUrlSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         "x-ms-copy-action": "abort",
         ...(options?.clientRequestId !== undefined
@@ -372,7 +367,7 @@ export function _copyFromUrlSend(
   options: CopyFromUrlOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=copy&sync{?timeout}",
+    "/?comp=copy{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -380,14 +375,13 @@ export function _copyFromUrlSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.tier !== undefined ? { "x-ms-access-tier": options?.tier } : {}),
         ...(options?.sourceIfModifiedSince !== undefined
@@ -504,14 +498,13 @@ export function _startCopyFromUrlSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.tier !== undefined ? { "x-ms-access-tier": options?.tier } : {}),
         ...(options?.rehydratePriority !== undefined
@@ -615,14 +608,13 @@ export function _createSnapshotSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.encryptionKey !== undefined
           ? { "x-ms-encryption-key": options?.encryptionKey }
@@ -687,7 +679,7 @@ export function _breakLeaseSend(
   options: BreakLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease&break{?timeout}",
+    "/?comp=lease{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -695,14 +687,13 @@ export function _breakLeaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.breakPeriod !== undefined
           ? { "x-ms-lease-break-period": options?.breakPeriod }
           : {}),
@@ -759,7 +750,7 @@ export function _changeLeaseSend(
   options: ChangeLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease&change{?timeout}",
+    "/?comp=lease{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -767,14 +758,13 @@ export function _changeLeaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "x-ms-lease-id": leaseId,
         "x-ms-proposed-lease-id": proposedLeaseId,
         ...(options?.ifModifiedSince !== undefined
@@ -831,7 +821,7 @@ export function _renewLeaseSend(
   options: RenewLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease&renew{?timeout}",
+    "/?comp=lease{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -839,14 +829,13 @@ export function _renewLeaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "x-ms-lease-id": leaseId,
         ...(options?.ifModifiedSince !== undefined
           ? {
@@ -901,7 +890,7 @@ export function _releaseLeaseSend(
   options: ReleaseLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease&release{?timeout}",
+    "/?comp=lease{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -909,14 +898,13 @@ export function _releaseLeaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "x-ms-lease-id": leaseId,
         ...(options?.ifModifiedSince !== undefined
           ? {
@@ -971,7 +959,7 @@ export function _acquireLeaseSend(
   options: AcquireLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease&acquire{?timeout}",
+    "/?comp=lease{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -979,13 +967,12 @@ export function _acquireLeaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "x-ms-lease-duration": duration,
         ...(options?.proposedLeaseId !== undefined
           ? { "x-ms-proposed-lease-id": options?.proposedLeaseId }
@@ -1051,14 +1038,13 @@ export function _setMetadataSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "x-ms-meta": metadata,
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.encryptionKey !== undefined
@@ -1135,14 +1121,13 @@ export function _setLegalHoldSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "x-ms-legal-hold": legalHold,
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -1188,14 +1173,13 @@ export function _deleteImmutabilityPolicySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .delete({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1242,14 +1226,13 @@ export function _setImmutabilityPolicySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.ifUnmodifiedSince !== undefined
           ? {
               "if-unmodified-since": !options?.ifUnmodifiedSince
@@ -1297,7 +1280,7 @@ export function _setPropertiesSend(
   options: SetPropertiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=properties&SetHTTPHeaders{?timeout}",
+    "/?comp=properties{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1305,14 +1288,13 @@ export function _setPropertiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.blobCacheControl !== undefined
           ? { "x-ms-blob-cache-control": options?.blobCacheControl }
           : {}),
@@ -1395,14 +1377,13 @@ export function _setExpirySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         "x-ms-expiry-option": expiryOptions,
         ...(options?.expiresOn !== undefined
           ? {
@@ -1453,14 +1434,13 @@ export function _undeleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1505,14 +1485,13 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .delete({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.deleteSnapshots !== undefined
           ? { "x-ms-delete-snapshots": options?.deleteSnapshots }
@@ -1596,13 +1575,12 @@ export function _getPropertiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .head({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.encryptionKey !== undefined
           ? { "x-ms-encryption-key": options?.encryptionKey }
@@ -1673,13 +1651,12 @@ export function _downloadSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version,
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),

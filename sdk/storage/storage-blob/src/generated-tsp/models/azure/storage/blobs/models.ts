@@ -717,7 +717,7 @@ export function geoReplicationXmlDeserializer(xmlString: string): GeoReplication
 export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
 /** The list container segment response */
-export interface _ListContainersSegmentResponse {
+export interface ListContainersSegmentResponse {
   /** The service endpoint. */
   serviceEndpoint: string;
   /** The prefix of the containers. */
@@ -732,9 +732,9 @@ export interface _ListContainersSegmentResponse {
   nextMarker?: string;
 }
 
-export function _listContainersSegmentResponseDeserializer(
+export function listContainersSegmentResponseDeserializer(
   item: any,
-): _ListContainersSegmentResponse {
+): ListContainersSegmentResponse {
   return {
     serviceEndpoint: item["serviceEndpoint"],
     prefix: item["prefix"],
@@ -745,9 +745,9 @@ export function _listContainersSegmentResponseDeserializer(
   };
 }
 
-export function _listContainersSegmentResponseXmlDeserializer(
+export function listContainersSegmentResponseXmlDeserializer(
   xmlString: string,
-): _ListContainersSegmentResponse {
+): ListContainersSegmentResponse {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "serviceEndpoint",
@@ -765,7 +765,7 @@ export function _listContainersSegmentResponseXmlDeserializer(
     },
     { propertyName: "nextMarker", xmlOptions: { name: "NextMarker" }, type: "primitive" },
   ];
-  return deserializeFromXml<_ListContainersSegmentResponse>(
+  return deserializeFromXml<ListContainersSegmentResponse>(
     xmlString,
     properties,
     "EnumerationResults",
@@ -825,7 +825,7 @@ export interface ContainerProperties {
   /** The date-time the container was last modified in RFC1123 format. */
   lastModified: Date;
   /** The ETag of the container. */
-  eTag: string;
+  etag: string;
   /** The lease status of the container. */
   leaseStatus?: LeaseStatus;
   /** The lease state of the container. */
@@ -853,7 +853,7 @@ export interface ContainerProperties {
 export function containerPropertiesDeserializer(item: any): ContainerProperties {
   return {
     lastModified: new Date(item["lastModified"]),
-    eTag: item["eTag"],
+    etag: item["etag"],
     leaseStatus: item["leaseStatus"],
     leaseState: item["leaseState"],
     leaseDuration: item["leaseDuration"],
@@ -876,7 +876,7 @@ export function containerPropertiesXmlDeserializer(xmlString: string): Container
       type: "date",
       dateEncoding: "rfc7231",
     },
-    { propertyName: "eTag", xmlOptions: { name: "ETag" }, type: "primitive" },
+    { propertyName: "etag", xmlOptions: { name: "ETag" }, type: "primitive" },
     { propertyName: "leaseStatus", xmlOptions: { name: "LeaseStatus" }, type: "primitive" },
     { propertyName: "leaseState", xmlOptions: { name: "LeaseState" }, type: "primitive" },
     { propertyName: "leaseDuration", xmlOptions: { name: "LeaseDuration" }, type: "primitive" },
@@ -1351,7 +1351,7 @@ export function accessPolicyXmlDeserializer(xmlString: string): AccessPolicy {
 }
 
 /** An enumeration of blobs. */
-export interface _ListBlobsFlatSegmentResponse {
+export interface ListBlobsFlatSegmentResponse {
   /** The service endpoint. */
   serviceEndpoint: string;
   /** The container name. */
@@ -1368,9 +1368,7 @@ export interface _ListBlobsFlatSegmentResponse {
   nextMarker?: string;
 }
 
-export function _listBlobsFlatSegmentResponseDeserializer(
-  item: any,
-): _ListBlobsFlatSegmentResponse {
+export function listBlobsFlatSegmentResponseDeserializer(item: any): ListBlobsFlatSegmentResponse {
   return {
     serviceEndpoint: item["serviceEndpoint"],
     containerName: item["containerName"],
@@ -1382,9 +1380,9 @@ export function _listBlobsFlatSegmentResponseDeserializer(
   };
 }
 
-export function _listBlobsFlatSegmentResponseXmlDeserializer(
+export function listBlobsFlatSegmentResponseXmlDeserializer(
   xmlString: string,
-): _ListBlobsFlatSegmentResponse {
+): ListBlobsFlatSegmentResponse {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "serviceEndpoint",
@@ -1407,7 +1405,7 @@ export function _listBlobsFlatSegmentResponseXmlDeserializer(
     },
     { propertyName: "nextMarker", xmlOptions: { name: "NextMarker" }, type: "primitive" },
   ];
-  return deserializeFromXml<_ListBlobsFlatSegmentResponse>(
+  return deserializeFromXml<ListBlobsFlatSegmentResponse>(
     xmlString,
     properties,
     "EnumerationResults",
@@ -1568,7 +1566,7 @@ export interface BlobPropertiesInternal {
   /** The date-time the blob was last modified in RFC1123 format. */
   lastModified: Date;
   /** The blob ETag. */
-  eTag: string;
+  etag: string;
   /** The content length of the blob. */
   contentLength?: number;
   /** The content type of the blob. */
@@ -1649,7 +1647,7 @@ export function blobPropertiesInternalDeserializer(item: any): BlobPropertiesInt
   return {
     createdOn: !item["createdOn"] ? item["createdOn"] : new Date(item["createdOn"]),
     lastModified: new Date(item["lastModified"]),
-    eTag: item["eTag"],
+    etag: item["etag"],
     contentLength: item["contentLength"],
     contentType: item["contentType"],
     contentEncoding: item["contentEncoding"],
@@ -1716,7 +1714,7 @@ export function blobPropertiesInternalXmlDeserializer(xmlString: string): BlobPr
       type: "date",
       dateEncoding: "rfc7231",
     },
-    { propertyName: "eTag", xmlOptions: { name: "Etag" }, type: "primitive" },
+    { propertyName: "etag", xmlOptions: { name: "Etag" }, type: "primitive" },
     { propertyName: "contentLength", xmlOptions: { name: "Content-Length" }, type: "primitive" },
     { propertyName: "contentType", xmlOptions: { name: "Content-Type" }, type: "primitive" },
     {
@@ -1910,7 +1908,7 @@ export function objectReplicationMetadataXmlDeserializer(
 }
 
 /** An enumeration of blobs */
-export interface _ListBlobsHierarchySegmentResponse {
+export interface ListBlobsHierarchySegmentResponse {
   /** The service endpoint. */
   serviceEndpoint: string;
   /** The container name. */
@@ -1929,9 +1927,9 @@ export interface _ListBlobsHierarchySegmentResponse {
   nextMarker?: string;
 }
 
-export function _listBlobsHierarchySegmentResponseDeserializer(
+export function listBlobsHierarchySegmentResponseDeserializer(
   item: any,
-): _ListBlobsHierarchySegmentResponse {
+): ListBlobsHierarchySegmentResponse {
   return {
     serviceEndpoint: item["serviceEndpoint"],
     containerName: item["containerName"],
@@ -1944,9 +1942,9 @@ export function _listBlobsHierarchySegmentResponseDeserializer(
   };
 }
 
-export function _listBlobsHierarchySegmentResponseXmlDeserializer(
+export function listBlobsHierarchySegmentResponseXmlDeserializer(
   xmlString: string,
-): _ListBlobsHierarchySegmentResponse {
+): ListBlobsHierarchySegmentResponse {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "serviceEndpoint",
@@ -1970,7 +1968,7 @@ export function _listBlobsHierarchySegmentResponseXmlDeserializer(
     },
     { propertyName: "nextMarker", xmlOptions: { name: "NextMarker" }, type: "primitive" },
   ];
-  return deserializeFromXml<_ListBlobsHierarchySegmentResponse>(
+  return deserializeFromXml<ListBlobsHierarchySegmentResponse>(
     xmlString,
     properties,
     "EnumerationResults",

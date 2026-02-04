@@ -5,12 +5,11 @@ import { createService, ServiceContext, ServiceOptionalParams } from "./api/inde
 import {
   BlobServiceProperties,
   StorageServiceStats,
-  ContainerItem,
+  ListContainersSegmentResponse,
   KeyInfo,
   UserDelegationKey,
   FilterBlobSegment,
 } from "../models/azure/storage/blobs/models.js";
-import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
   findBlobsByTags,
   submitBatch,
@@ -96,7 +95,7 @@ export class Service {
   /** The List Containers Segment operation returns a list of the containers under the specified account */
   listContainersSegment(
     options: ListContainersSegmentOptionalParams = { requestOptions: {} },
-  ): PagedAsyncIterableIterator<ContainerItem> {
+  ): Promise<ListContainersSegmentResponse> {
     return listContainersSegment(this._client, options);
   }
 

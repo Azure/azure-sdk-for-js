@@ -955,7 +955,7 @@ export class ContainerClient extends StorageClient {
         await attachResponse(updatedOptions, (operationsWithOnResponse) =>
           this.containerContext.delete({
             abortSignal: options.abortSignal,
-            leaseAccessConditions: options.conditions,
+            leaseId: options.conditions?.leaseId,
             modifiedAccessConditions: options.conditions,
             onResponse: operationsWithOnResponse.onResponse,
             tracingOptions: updatedOptions.tracingOptions,
@@ -1341,8 +1341,8 @@ export class ContainerClient extends StorageClient {
           ContainerListBlobHierarchySegmentResponseModel,
           ContainerListBlobHierarchySegmentHeaders,
           ListBlobsHierarchySegmentResponseInternal
-        >(() =>
-          this.containerContext.listBlobHierarchySegment(delimiter, {
+        >(
+          await this.containerContext.listBlobHierarchySegment(delimiter, {
             marker,
             ...options,
             tracingOptions: updatedOptions.tracingOptions,
@@ -1492,6 +1492,7 @@ export class ContainerClient extends StorageClient {
    * @returns An asyncIterableIterator that supports paging.
    */
   public listBlobsFlat(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ContainerListBlobsOptions = {},
   ): PagedAsyncIterableIterator<BlobItem, ContainerListBlobFlatSegmentResponse> {
     const include: ListBlobsIncludeItem[] = [];
@@ -1826,8 +1827,8 @@ export class ContainerClient extends StorageClient {
           ContainerFilterBlobsResponse,
           ContainerFilterBlobsHeaders,
           FilterBlobSegmentModel
-        >(() =>
-          this.containerContext.findBlobsByTags(tagFilterSqlExpression, {
+        >(
+          await this.containerContext.findBlobsByTags(tagFilterSqlExpression, {
             abortSignal: options.abortSignal,
             marker,
             maxresults: options.maxPageSize,

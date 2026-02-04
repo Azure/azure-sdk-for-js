@@ -2,11 +2,6 @@
 // Licensed under the MIT License.
 
 import { FileContents } from "./static-helpers/multipartHelpers.js";
-import {
-  PageSettings,
-  ContinuablePage,
-  PagedAsyncIterableIterator,
-} from "./static-helpers/pagingHelpers.js";
 
 export { Service } from "./service/service.js";
 export {
@@ -21,6 +16,7 @@ export {
   StorageServiceStats,
   GeoReplication,
   GeoReplicationStatusType,
+  ListContainersSegmentResponse,
   ContainerItem,
   ContainerProperties,
   LeaseStatus,
@@ -36,6 +32,7 @@ export {
   SignedIdentifiers,
   SignedIdentifier,
   AccessPolicy,
+  ListBlobsFlatSegmentResponse,
   BlobFlatListSegment,
   BlobItemInternal,
   BlobName,
@@ -48,6 +45,7 @@ export {
   ImmutabilityPolicyMode,
   BlobMetadata,
   ObjectReplicationMetadata,
+  ListBlobsHierarchySegmentResponse,
   BlobHierarchyListSegment,
   BlobPrefix,
   PageList,
@@ -93,7 +91,6 @@ export {
   SetPropertiesOptionalParams,
   ServiceOptionalParams,
 } from "./service/api/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { FileContents };
 export { Container } from "./container/container.js";
 export {
