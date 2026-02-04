@@ -140,7 +140,7 @@ import type {
   HttpAuthorization,
   PollerLikeWithCancellation,
 } from "./models.js";
-import { ensureCpkIfSpecified, toAccessTier } from "./models.js";
+import { ensureCpkIfSpecified, toAccessTier, toImmutabilityPolicyMode } from "./models.js";
 import type {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
@@ -1840,7 +1840,7 @@ export class BlobClient extends StorageClient {
           tier: toAccessTier(options.tier),
           blobTagsString: toBlobTagsString(options.tags),
           immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-          immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+          immutabilityPolicyMode: toImmutabilityPolicyMode(options.immutabilityPolicy?.policyMode),
           legalHold: options.legalHold,
           encryptionScope: options.encryptionScope,
           copySourceTags: options.copySourceTags,
@@ -2154,7 +2154,7 @@ export class BlobClient extends StorageClient {
             ...options.sourceConditions,
             ifTags: options.conditions?.tagConditions,
             immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-            immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+            immutabilityPolicyMode: toImmutabilityPolicyMode(options.immutabilityPolicy?.policyMode),
             legalHold: options.legalHold,
             rehydratePriority: options.rehydratePriority,
             tier: toAccessTier(options.tier),
@@ -2338,7 +2338,7 @@ export class BlobClient extends StorageClient {
         }
         return assertResponse<BlobSetImmutabilityPolicyHeaders, BlobSetImmutabilityPolicyHeaders>(
           await this.blobContext.setImmutabilityPolicy(immutabilityPolicy.expiriesOn!, {
-            immutabilityPolicyMode: immutabilityPolicy.policyMode,
+            immutabilityPolicyMode: toImmutabilityPolicyMode(immutabilityPolicy.policyMode),
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -2836,7 +2836,7 @@ export class AppendBlobClient extends BlobClient {
             ?.encryptionAlgorithm as EncryptionAlgorithmType,
           encryptionScope: options.encryptionScope,
           immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-          immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+          immutabilityPolicyMode: toImmutabilityPolicyMode(options.immutabilityPolicy?.policyMode),
           legalHold: options.legalHold,
           blobTagsString: toBlobTagsString(options.tags),
           tracingOptions: updatedOptions.tracingOptions,
@@ -3963,7 +3963,7 @@ export class BlockBlobClient extends BlobClient {
             ?.encryptionAlgorithm as EncryptionAlgorithmType,
           encryptionScope: options.encryptionScope,
           immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-          immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+          immutabilityPolicyMode: toImmutabilityPolicyMode(options.immutabilityPolicy?.policyMode),
           legalHold: options.legalHold,
           tier: toAccessTier(options.tier),
           blobTagsString: toBlobTagsString(options.tags),
@@ -4165,7 +4165,7 @@ export class BlockBlobClient extends BlobClient {
                 ?.encryptionAlgorithm as EncryptionAlgorithmType,
               encryptionScope: options.encryptionScope,
               immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-              immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+              immutabilityPolicyMode: toImmutabilityPolicyMode(options.immutabilityPolicy?.policyMode),
               legalHold: options.legalHold,
               tier: toAccessTier(options.tier),
               blobTagsString: toBlobTagsString(options.tags),
@@ -5164,7 +5164,7 @@ export class PageBlobClient extends BlobClient {
             ?.encryptionAlgorithm as EncryptionAlgorithmType,
           encryptionScope: options.encryptionScope,
           immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-          immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+          immutabilityPolicyMode: toImmutabilityPolicyMode(options.immutabilityPolicy?.policyMode),
           legalHold: options.legalHold,
           tier: toAccessTier(options.tier) as PremiumPageBlobAccessTier,
           blobTagsString: toBlobTagsString(options.tags),

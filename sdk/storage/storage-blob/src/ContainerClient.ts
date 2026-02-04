@@ -21,7 +21,6 @@ import type {
   ContainerFilterBlobsHeaders,
   ContainerFilterBlobsResponse,
   ContainerGetAccessPolicyHeaders,
-  ContainerGetAccessPolicyResponseModel,
   ContainerGetAccountInfoResponse,
   ContainerGetPropertiesResponse,
   ContainerListBlobFlatSegmentHeaders,
@@ -955,8 +954,7 @@ export class ContainerClient extends StorageClient {
         await attachResponse(updatedOptions, (operationsWithOnResponse) =>
           this.containerContext.delete({
             abortSignal: options.abortSignal,
-            leaseId: options.conditions?.leaseId,
-            modifiedAccessConditions: options.conditions,
+            ...options.conditions,
             onResponse: operationsWithOnResponse.onResponse,
             tracingOptions: updatedOptions.tracingOptions,
           }),

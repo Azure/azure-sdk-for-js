@@ -183,6 +183,22 @@ export function toAccessTier(
   return tier as AccessTier; // No more check if string is a valid AccessTier, and left this to underlay logic to decide(service).
 }
 
+export function toImmutabilityPolicyMode(mode: BlobImmutabilityPolicyMode | string | undefined): "mutable" | "unlocked" | "locked" | undefined {
+  if (mode === undefined) {
+    return undefined;
+  }
+  switch (mode) {
+    case "Mutable":
+      return "mutable";
+    case "Unlocked":
+      return "unlocked";
+    case "Locked":
+      return "locked";
+    default:
+      throw new RangeError(`Invalid BlobImmutabilityPolicyMode value: ${mode}`);
+  }
+}
+
 export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean): void {
   if (cpk && !isHttps) {
     throw new RangeError("Customer-provided encryption key must be used over HTTPS.");
