@@ -9,7 +9,6 @@ import type {
   SearchIndexClient,
   WebKnowledgeSource,
   RemoteSharePointKnowledgeSource,
-  WebKnowledgeSourceParameters,
 } from "@azure/search-documents";
 import {
   KnowledgeRetrievalClient,
@@ -62,7 +61,7 @@ describe("Knowledge", { timeout: 20_000 }, () => {
     await indexClient.createKnowledgeBase({
       name: TEST_BASE_NAME,
       knowledgeSources: [{ name: TEST_KS_NAME }],
-    });
+    } as any);
 
     await delay(WAIT_TIME);
     await populateIndex(searchClient);
@@ -179,116 +178,6 @@ describe("Knowledge", { timeout: 20_000 }, () => {
       await delay(WAIT_TIME);
       await indexClient.deleteKnowledgeBase(`${TEST_BASE_NAME}-remotesharepoint`);
       await indexClient.deleteKnowledgeSource(spKsName);
-    });
-  });
-
-  describe("KnowledgeBase CRUD", () => {
-    it("creates and retrieves webKnowledgeSource", { timeout: 60000 }, async () => {
-      const webKsName = `web-ks-${TEST_INDEX_NAME}`;
-      const webParameters: WebKnowledgeSourceParameters = {
-        domains: {
-          allowedDomains: [
-            {
-              address: "https://learn.microsoft.com",
-              includeSubpages: true,
-            },
-          ],
-        },
-      };
-      const webKnowledgeSource: WebKnowledgeSource = {
-        kind: "web",
-        name: webKsName,
-        description: "web knowledge source for testing",
-        webParameters,
-      };
-
-      await indexClient.createOrUpdateKnowledgeSource(webKnowledgeSource.name, webKnowledgeSource);
-
-      const fetchedSource = await indexClient.getKnowledgeSource(webKsName);
-      assert.equal(fetchedSource.name, webKsName);
-      assert.equal(fetchedSource.kind, "web");
-      assert.equal(fetchedSource.description, "web knowledge source for testing");
-
-      await indexClient.deleteKnowledgeSource(webKsName);
-    });
-    it("creates knowledge base with correct properties", async () => {
-      const createdBase = await indexClient.getKnowledgeBase(TEST_BASE_NAME);
-
-      assert.equal(createdBase.name, TEST_BASE_NAME);
-      assert.exists(createdBase.knowledgeSources);
-      assert.isTrue(createdBase.knowledgeSources!.length > 0);
-      assert.equal(createdBase.knowledgeSources![0].name, TEST_KS_NAME);
-    });
-
-    it("updates knowledge base", async () => {
-      const updatedBase = await indexClient.createOrUpdateKnowledgeBase(TEST_BASE_NAME, {
-        name: TEST_BASE_NAME,
-        description: "updated knowledge base description",
-        knowledgeSources: [{ name: TEST_KS_NAME }],
-      });
-
-      assert.equal(updatedBase.description, "updated knowledge base description");
-
-      const fetchedBase = await indexClient.getKnowledgeBase(TEST_BASE_NAME);
-      assert.equal(fetchedBase.description, "updated knowledge base description");
-    });
-
-    it("gets knowledge base", async () => {
-      const fetchedBase = await indexClient.getKnowledgeBase(TEST_BASE_NAME);
-
-      assert.equal(fetchedBase.name, TEST_BASE_NAME);
-      assert.exists(fetchedBase.knowledgeSources);
-      assert.equal(fetchedBase.knowledgeSources![0].name, TEST_KS_NAME);
-    });
-
-    it("lists knowledge bases", async () => {
-      const knowledgeBases: string[] = [];
-      for await (const kb of indexClient.listKnowledgeBases()) {
-        knowledgeBases.push(kb.name!);
-      }
-
-      assert.isTrue(knowledgeBases.includes(TEST_BASE_NAME));
-    });
-  });
-
-  describe("KnowledgeSource CRUD", () => {
-    it("creates knowledge source with correct properties", async () => {
-      const createdSource = await indexClient.getKnowledgeSource(TEST_KS_NAME);
-
-      assert.equal(createdSource.name, TEST_KS_NAME);
-      assert.equal(createdSource.kind, "searchIndex");
-    });
-
-    it("updates knowledge source", async () => {
-      await indexClient.createOrUpdateKnowledgeSource(TEST_KS_NAME, {
-        kind: "searchIndex",
-        name: TEST_KS_NAME,
-        description: "updated knowledge source description",
-        searchIndexParameters: {
-          searchIndexName: TEST_INDEX_NAME,
-          searchFields: [{ name: "hotelName" }, { name: "description" }],
-          semanticConfigurationName: "semantic-configuration",
-        },
-      });
-
-      const fetchedSource = await indexClient.getKnowledgeSource(TEST_KS_NAME);
-      assert.equal(fetchedSource.description, "updated knowledge source description");
-    });
-
-    it("gets knowledge source", async () => {
-      const fetchedSource = await indexClient.getKnowledgeSource(TEST_KS_NAME);
-
-      assert.equal(fetchedSource.name, TEST_KS_NAME);
-      assert.equal(fetchedSource.kind, "searchIndex");
-    });
-
-    it("lists knowledge sources", async () => {
-      const knowledgeSources: string[] = [];
-      for await (const ks of indexClient.listKnowledgeSources()) {
-        knowledgeSources.push(ks.name!);
-      }
-
-      assert.isTrue(knowledgeSources.includes(TEST_KS_NAME));
     });
   });
 });

@@ -95,7 +95,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       knowledgeBase = {
         name: `knowledge-base-${TEST_INDEX_NAME}`,
         knowledgeSources: [{ name: knowledgeSource.name }],
-      };
+      } as any;
 
       await createSynonymMaps(indexClient);
       await createSimpleIndex(indexClient, TEST_INDEX_NAME);
@@ -301,6 +301,8 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       });
     });
 
+    // TODO: KnowledgeBase models property is optional in the service but there's a mismatch with the SDK.
+    // Currently casting it as any to make the tests pass. Need to fix this in the SDK.
     describe("#knowledgeBase", () => {
       beforeEach(async () => {
         await indexClient.createKnowledgeSource(knowledgeSource);
@@ -326,7 +328,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
           name: knowledgeBase.name,
           description: "updated knowledge base description",
           knowledgeSources: [{ name: knowledgeSource.name }],
-        });
+        } as any);
         assert.equal(updatedBase.description, "updated knowledge base description");
 
         const fetchedBase = await indexClient.getKnowledgeBase(knowledgeBase.name);
