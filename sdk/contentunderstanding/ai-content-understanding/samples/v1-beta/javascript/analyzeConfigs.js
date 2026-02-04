@@ -64,7 +64,7 @@ async function main() {
     console.error("Error: Sample file not found. Expected file:");
     console.error(`  - ${filePath}`);
     console.error(
-      "\nPlease ensure sample_invoice.pdf exists in the sample's example-data directory.",
+      "\nPlease ensure sample_document_features.pdf exists in the sample's example-data directory.",
     );
     process.exit(1);
   }
