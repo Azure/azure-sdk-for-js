@@ -83,6 +83,7 @@ export {
   KnowledgeBaseRemoteSharePointReference,
   KnowledgeBaseRetrievalRequest,
   KnowledgeBaseRetrievalResponse,
+  KnowledgeSourceStatus,
   KnowledgeBaseSearchIndexReference,
   KnowledgeBaseWebReference,
   KnowledgeRetrievalIntent,

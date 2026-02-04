@@ -49,6 +49,7 @@ import type {
   GetIndexStatsSummaryOptions,
   GetKnowledgeBaseOptions,
   GetKnowledgeSourceOptions,
+  GetKnowledgeSourceStatusOptions,
   GetServiceStatisticsOptions,
   GetSynonymMapsOptions,
   IndexIterator,
@@ -71,6 +72,7 @@ import type {
 import * as utils from "./serviceUtils.js";
 import { tracingClient } from "./tracing.js";
 import type { ClientOptions } from "@azure-rest/core-client";
+import { KnowledgeSourceStatus } from "./models/azure/search/documents/knowledgeBases/index.js";
 
 /**
  * Client options used to configure AI Search API requests.
@@ -850,24 +852,23 @@ export class SearchIndexClient {
     );
   }
 
-  // /**
-  //  * Returns the current status and synchronization history of a knowledge source.
-  //  * @param sourceName - The name of the knowledge source for which to retrieve status.
-  //  * @param options - The options parameters.
-  //  */
-  // public async getKnowledgeSourceStatus(
-  //   sourceName: string,
-  //   options: GetKnowledgeSourceStatusOptions = {},
-  // ): Promise<KnowledgeSourceStatus> {
-  //   return tracingClient.withSpan(
-  //     "SearchIndexClient-getKnowledgeSourceStatus",
-  //     options,
-  //     async (updatedOptions) => {
-  //       const result = await this.client.knowledgeSources.getStatus(sourceName, updatedOptions);
-  //       return result;
-  //     },
-  //   );
-  // }
+  /**
+   * Returns the current status and synchronization history of a knowledge source.
+   * @param sourceName - The name of the knowledge source for which to retrieve status.
+   * @param options - The options parameters.
+   */
+  public async getKnowledgeSourceStatus(
+    sourceName: string,
+    options: GetKnowledgeSourceStatusOptions = {},
+  ): Promise<KnowledgeSourceStatus> {
+    return tracingClient.withSpan(
+      "SearchIndexClient-getKnowledgeSourceStatus",
+      options,
+      async (updatedOptions) => {
+        return this.client.getKnowledgeSourceStatus(sourceName, updatedOptions);
+      },
+    );
+  }
 
   /**
    * Retrieves the SearchClient corresponding to this SearchIndexClient
