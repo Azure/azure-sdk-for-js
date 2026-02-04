@@ -1463,8 +1463,8 @@ export class BlobClient extends StorageClient {
   public async delete(options: BlobDeleteOptions = {}): Promise<BlobDeleteResponse> {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan("BlobClient-delete", options, async (updatedOptions) => {
-      return assertResponse<BlobDeleteHeaders, BlobDeleteHeaders>(() =>
-        this.blobContext.delete({
+      return assertResponse<BlobDeleteHeaders, BlobDeleteHeaders>(
+        await this.blobContext.delete({
           abortSignal: options.abortSignal,
           deleteSnapshots: options.deleteSnapshots,
           ...options.conditions,
@@ -2332,8 +2332,11 @@ export class BlobClient extends StorageClient {
       "BlobClient-setImmutabilityPolicy",
       options,
       async (updatedOptions) => {
+        if (immutabilityPolicy.expiriesOn === undefined) {
+          throw new Error("immutabilityPolicy.expiriesOn must be a valid Date object");
+        }
         return assertResponse<BlobSetImmutabilityPolicyHeaders, BlobSetImmutabilityPolicyHeaders>(
-          await this.blobContext.setImmutabilityPolicy(immutabilityPolicy.expiriesOn, {
+          await this.blobContext.setImmutabilityPolicy(immutabilityPolicy.expiriesOn!, {
             immutabilityPolicyMode: immutabilityPolicy.policyMode,
             tracingOptions: updatedOptions.tracingOptions,
           }),
@@ -2895,7 +2898,7 @@ export class AppendBlobClient extends BlobClient {
           abortSignal: options.abortSignal,
           // TODO: missing maxSize from appendPositionConditions?
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
+          // (jeremymeng: option not valid) ifTags: options.conditions?.tagConditions,
           tracingOptions: updatedOptions.tracingOptions,
         }),
       );
@@ -3618,14 +3621,6 @@ export type BlobUploadCommonResponse = WithResponse<BlockBlobUploadHeaders>;
  */
 export class BlockBlobClient extends BlobClient {
   /**
-   * blobContext provided by protocol layer.
-   *
-   * Note. Ideally BlobClient should set BlobClient.blobContext to protected. However, API
-   * extractor has issue blocking that. Here we redecelare _blobContext in BlockBlobClient.
-   */
-  private _blobContext: StorageBlob;
-
-  /**
    * blockBlobContext provided by protocol layer.
    */
   private blockBlobContext: BlockBlob;
@@ -3785,7 +3780,6 @@ export class BlockBlobClient extends BlobClient {
     }
     super(url, pipeline);
     this.blockBlobContext = this.storageClientContextTsp.blockBlob;
-    this._blobContext = this.storageClientContextTsp.blob;
   }
 
   /**
@@ -4051,21 +4045,26 @@ export class BlockBlobClient extends BlobClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlockBlobClient-stageBlock", options, async (updatedOptions) => {
       return assertResponse<BlockBlobStageBlockHeaders, BlockBlobStageBlockHeaders>(
-        await this.blockBlobContext.stageBlock(stringToUint8Array(blockId), contentLength, body, {
-          abortSignal: options.abortSignal,
-          leaseId: options.conditions?.leaseId,
-          requestOptions: {
-            onUploadProgress: options.onProgress,
+        await this.blockBlobContext.stageBlock(
+          stringToUint8Array(blockId, "utf-8"),
+          contentLength,
+          body as any,
+          {
+            abortSignal: options.abortSignal,
+            leaseId: options.conditions?.leaseId,
+            requestOptions: {
+              onUploadProgress: options.onProgress,
+            },
+            transactionalContentMD5: options.transactionalContentMD5,
+            transactionalContentCrc64: options.transactionalContentCrc64,
+            encryptionKey: options.customerProvidedKey?.encryptionKey,
+            encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+            encryptionAlgorithm: options.customerProvidedKey
+              ?.encryptionAlgorithm as EncryptionAlgorithmType,
+            encryptionScope: options.encryptionScope,
+            tracingOptions: updatedOptions.tracingOptions,
           },
-          transactionalContentMD5: options.transactionalContentMD5,
-          transactionalContentCrc64: options.transactionalContentCrc64,
-          encryptionKey: options.customerProvidedKey?.encryptionKey,
-          encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
-          encryptionAlgorithm: options.customerProvidedKey
-            ?.encryptionAlgorithm as EncryptionAlgorithmType,
-          encryptionScope: options.encryptionScope,
-          tracingOptions: updatedOptions.tracingOptions,
-        }),
+        ),
       );
     });
   }
@@ -4148,7 +4147,7 @@ export class BlockBlobClient extends BlobClient {
       async (updatedOptions) => {
         return assertResponse<BlockBlobCommitBlockListHeaders, BlockBlobCommitBlockListHeaders>(
           await this.blockBlobContext.commitBlockList(
-            { latest: blocks.map((x) => stringToUint8Array(x)) },
+            { latest: blocks.map((x) => stringToUint8Array(x, "utf-8")) },
             {
               abortSignal: options.abortSignal,
               ...options.blobHTTPHeaders,
@@ -5249,7 +5248,10 @@ export class PageBlobClient extends BlobClient {
             },
             transactionalContentMD5: options.transactionalContentMD5,
             transactionalContentCrc64: options.transactionalContentCrc64,
-            ...options.customerProvidedKey,
+            encryptionKey: options.customerProvidedKey?.encryptionKey,
+            encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+            encryptionAlgorithm: options.customerProvidedKey
+              ?.encryptionAlgorithm as EncryptionAlgorithmType,
             encryptionScope: options.encryptionScope,
             tracingOptions: updatedOptions.tracingOptions,
           },
@@ -5918,7 +5920,6 @@ export class PageBlobClient extends BlobClient {
       return assertResponse<PageBlobResizeHeaders, PageBlobResizeHeaders>(
         await this.pageBlobContext.resize(size, {
           abortSignal: options.abortSignal,
-          leaseAccessConditions: options.conditions,
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
           encryptionScope: options.encryptionScope,

@@ -548,15 +548,13 @@ export class BlobServiceClient extends StorageClient {
           ContainerRestoreHeaders,
           ContainerRestoreHeaders
         >(
-          await attachResponse(
-            updatedOptions,
-            (operationsWithOnResponse) =>
-              await containerContext.restore({
-                deletedContainerName,
-                deletedContainerVersion,
-                onResponse: operationsWithOnResponse.onResponse,
-                tracingOptions: updatedOptions.tracingOptions,
-              }),
+          await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+            containerContext.restore({
+              deletedContainerName,
+              deletedContainerVersion,
+              onResponse: operationsWithOnResponse.onResponse,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
           ),
         );
         return { containerClient, containerUndeleteResponse };

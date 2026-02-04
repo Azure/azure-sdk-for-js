@@ -9,7 +9,7 @@ import { isTokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import type { UserDelegationKey } from "@azure/storage-common";
 import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
-import type { Container } from "./generated-tsp/index.js";
+import type { Container, SignedIdentifiers } from "./generated-tsp/index.js";
 import type {
   BlobDeleteResponse,
   BlobPrefix,
@@ -1171,7 +1171,7 @@ export class ContainerClient extends StorageClient {
 
         return assertResponse<ContainerSetAccessPolicyHeaders, ContainerSetAccessPolicyHeaders>(
           await attachResponse(updatedOptions, (operationsWithOnResponse) =>
-            this.containerContext.setAccessPolicy(acl, {
+            this.containerContext.setAccessPolicy({ items: acl } as SignedIdentifiers, {
               abortSignal: options.abortSignal,
               access,
               ...options.conditions,
