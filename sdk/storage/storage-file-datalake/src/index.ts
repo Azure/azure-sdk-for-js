@@ -55,6 +55,7 @@ export {
   StorageSharedKeyCredentialPolicy,
   BlobServiceProperties as DataLakeServiceProperties,
   ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
+  NodeJSReadableStream,
   CredentialPolicyCreator,
 } from "@azure/storage-blob";
 export { UserDelegationKey } from "@azure/storage-common";
