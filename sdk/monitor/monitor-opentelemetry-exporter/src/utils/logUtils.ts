@@ -122,7 +122,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     time,
     instrumentationKey,
     tags,
-    version: 1,
+    version: 2,
     data: {
       baseType,
       baseData: {

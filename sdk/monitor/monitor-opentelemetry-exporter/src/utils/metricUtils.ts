@@ -133,7 +133,7 @@ export function resourceMetricsToEnvelope(
           sampleRate: 100, // Metrics are never sampled
           instrumentationKey: instrumentationKey,
           tags: tags,
-          version: 1,
+          version: 2,
           data: {
             baseType: "MetricData",
             baseData: {

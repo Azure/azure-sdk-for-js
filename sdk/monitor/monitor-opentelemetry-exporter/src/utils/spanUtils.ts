@@ -420,7 +420,7 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
     time,
     instrumentationKey,
     tags,
-    version: 1,
+    version: 2,
     data: {
       baseType,
       baseData: {
