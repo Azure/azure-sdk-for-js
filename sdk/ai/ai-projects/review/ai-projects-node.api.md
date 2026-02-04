@@ -83,7 +83,7 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 // @public
 export interface AgentsCreateAgentOptionalParams extends OperationOptions {
     description?: string;
-    foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1" | "WorkflowAgents=v1" | "MemoryStores=v1";
+    foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1" | "WorkflowAgents=v1";
     metadata?: Record<string, string>;
 }
 
@@ -96,13 +96,12 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
 // @public
 export interface AgentsCreateAgentVersionOptionalParams extends OperationOptions {
     description?: string;
-    foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1" | "WorkflowAgents=v1" | "MemoryStores=v1";
+    foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1" | "WorkflowAgents=v1";
     metadata?: Record<string, string>;
 }
 
 // @public
 export interface AgentsDeleteAgentOptionalParams extends OperationOptions {
-    foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1";
 }
 
 // @public
@@ -153,14 +152,6 @@ export interface AgentsOperations {
 }
 
 // @public
-export interface AgentsPagedResultAgentObject {
-    data: Agent[];
-    first_id?: string;
-    has_more: boolean;
-    last_id?: string;
-}
-
-// @public
 export interface AgentsStreamAgentContainerLogsOptionalParams extends OperationOptions {
     foundryBeta?: "ContainerAgents=v1";
     kind?: ContainerLogKind;
@@ -171,14 +162,12 @@ export interface AgentsStreamAgentContainerLogsOptionalParams extends OperationO
 // @public
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
     description?: string;
-    foundryBeta?: "MemoryStores=v1";
     metadata?: Record<string, string>;
 }
 
 // @public
 export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
     description?: string;
-    foundryBeta?: "MemoryStores=v1";
     metadata?: Record<string, string>;
 }
 
@@ -217,6 +206,7 @@ export class AIProjectClient {
     readonly insights: InsightsOperations;
     readonly memoryStores: MemoryStoresOperations;
     readonly redTeams: RedTeamsOperations;
+    readonly responses: ResponsesOperations;
     readonly schedules: SchedulesOperations;
     readonly telemetry: TelemetryOperations;
 }
@@ -237,6 +227,18 @@ export interface AISearchIndexResource {
 }
 
 // @public
+export interface Annotation {
+    // (undocumented)
+    type: AnnotationType;
+}
+
+// @public
+export type AnnotationType = "file_citation" | "url_citation" | "container_file_citation" | "file_path";
+
+// @public
+export type AnnotationUnion = FileCitationBody | UrlCitationBody | ContainerFileCitationBody | FilePath | Annotation;
+
+// @public
 export interface ApiErrorResponse {
     // (undocumented)
     error: ErrorModel;
@@ -249,8 +251,46 @@ export interface ApiKeyCredentials extends BaseCredentials {
 }
 
 // @public
+export type ApplyPatchCallOutputStatus = "completed" | "failed";
+
+// @public
+export type ApplyPatchCallStatus = "in_progress" | "completed";
+
+// @public
+export interface ApplyPatchCreateFileOperation extends ApplyPatchFileOperation {
+    diff: string;
+    path: string;
+    type: "create_file";
+}
+
+// @public
+export interface ApplyPatchDeleteFileOperation extends ApplyPatchFileOperation {
+    path: string;
+    type: "delete_file";
+}
+
+// @public
+export interface ApplyPatchFileOperation {
+    // (undocumented)
+    type: ApplyPatchFileOperationType;
+}
+
+// @public
+export type ApplyPatchFileOperationType = "create_file" | "delete_file" | "update_file";
+
+// @public
+export type ApplyPatchFileOperationUnion = ApplyPatchCreateFileOperation | ApplyPatchDeleteFileOperation | ApplyPatchUpdateFileOperation | ApplyPatchFileOperation;
+
+// @public
 export interface ApplyPatchToolParam extends Tool {
     type: "apply_patch";
+}
+
+// @public
+export interface ApplyPatchUpdateFileOperation extends ApplyPatchFileOperation {
+    diff: string;
+    path: string;
+    type: "update_file";
 }
 
 // @public
@@ -428,8 +468,22 @@ export interface ChartCoordinate {
 }
 
 // @public
+export type ChatModel = "gpt-5.2" | "gpt-5.2-2025-12-11" | "gpt-5.2-chat-latest" | "gpt-5.2-pro" | "gpt-5.2-pro-2025-12-11" | "gpt-5.1" | "gpt-5.1-2025-11-13" | "gpt-5.1-codex" | "gpt-5.1-mini" | "gpt-5.1-chat-latest" | "gpt-5" | "gpt-5-mini" | "gpt-5-nano" | "gpt-5-2025-08-07" | "gpt-5-mini-2025-08-07" | "gpt-5-nano-2025-08-07" | "gpt-5-chat-latest" | "gpt-4.1" | "gpt-4.1-mini" | "gpt-4.1-nano" | "gpt-4.1-2025-04-14" | "gpt-4.1-mini-2025-04-14" | "gpt-4.1-nano-2025-04-14" | "o4-mini" | "o4-mini-2025-04-16" | "o3" | "o3-2025-04-16" | "o3-mini" | "o3-mini-2025-01-31" | "o1" | "o1-2024-12-17" | "o1-preview" | "o1-preview-2024-09-12" | "o1-mini" | "o1-mini-2024-09-12" | "gpt-4o" | "gpt-4o-2024-11-20" | "gpt-4o-2024-08-06" | "gpt-4o-2024-05-13" | "gpt-4o-audio-preview" | "gpt-4o-audio-preview-2024-10-01" | "gpt-4o-audio-preview-2024-12-17" | "gpt-4o-audio-preview-2025-06-03" | "gpt-4o-mini-audio-preview" | "gpt-4o-mini-audio-preview-2024-12-17" | "gpt-4o-search-preview" | "gpt-4o-mini-search-preview" | "gpt-4o-search-preview-2025-03-11" | "gpt-4o-mini-search-preview-2025-03-11" | "chatgpt-4o-latest" | "codex-mini-latest" | "gpt-4o-mini" | "gpt-4o-mini-2024-07-18" | "gpt-4-turbo" | "gpt-4-turbo-2024-04-09" | "gpt-4-0125-preview" | "gpt-4-turbo-preview" | "gpt-4-1106-preview" | "gpt-4-vision-preview" | "gpt-4" | "gpt-4-0314" | "gpt-4-0613" | "gpt-4-32k" | "gpt-4-32k-0314" | "gpt-4-32k-0613" | "gpt-3.5-turbo" | "gpt-3.5-turbo-16k" | "gpt-3.5-turbo-0301" | "gpt-3.5-turbo-0613" | "gpt-3.5-turbo-1106" | "gpt-3.5-turbo-0125" | "gpt-3.5-turbo-16k-0613";
+
+// @public
 export interface ChatSummaryMemoryItem extends MemoryItem {
     kind: "chat_summary";
+}
+
+// @public
+export type ClickButtonType = "left" | "right" | "wheel" | "back" | "forward";
+
+// @public
+export interface ClickParam extends ComputerAction {
+    button: ClickButtonType;
+    type: "click";
+    x: number;
+    y: number;
 }
 
 // @public
@@ -462,9 +516,30 @@ export interface CodeInterpreterContainerAuto {
 }
 
 // @public
+export interface CodeInterpreterOutputImage {
+    type: "image";
+    url: string;
+}
+
+// @public
+export interface CodeInterpreterOutputLogs {
+    logs: string;
+    type: "logs";
+}
+
+// @public
 export interface CodeInterpreterTool extends Tool {
     container?: string | CodeInterpreterContainerAuto;
     type: "code_interpreter";
+}
+
+// @public
+export interface CompactResource {
+    created_at: Date;
+    id: string;
+    object: "response.compaction";
+    output: OutputItemUnion[];
+    usage: ResponseUsage;
 }
 
 // @public
@@ -481,6 +556,27 @@ export type ComparisonFilterValueItems = string | number;
 export interface CompoundFilter {
     filters: (ComparisonFilter | any)[];
     type: "and" | "or";
+}
+
+// @public
+export interface ComputerAction {
+    // (undocumented)
+    type: ComputerActionType;
+}
+
+// @public
+export type ComputerActionType = "click" | "double_click" | "drag" | "keypress" | "move" | "screenshot" | "scroll" | "type" | "wait";
+
+// @public
+export type ComputerActionUnion = ClickParam | DoubleClickAction | Drag | KeyPressAction | Move | Screenshot | Scroll | Type | Wait | ComputerAction;
+
+// @public
+export interface ComputerCallSafetyCheckParam {
+    // (undocumented)
+    code?: string | null;
+    id: string;
+    // (undocumented)
+    message?: string | null;
 }
 
 // @public
@@ -540,6 +636,16 @@ export interface ContainerAppAgentDefinition extends AgentDefinition {
     ingress_subdomain_suffix: string;
     // (undocumented)
     kind: "container_app";
+}
+
+// @public
+export interface ContainerFileCitationBody extends Annotation {
+    container_id: string;
+    end_index: number;
+    file_id: string;
+    filename: string;
+    start_index: number;
+    type: "container_file_citation";
 }
 
 // @public
@@ -756,6 +862,25 @@ export type DeploymentType = "ModelDeployment";
 export type DeploymentUnion = ModelDeployment | Deployment;
 
 // @public
+export interface DoubleClickAction extends ComputerAction {
+    type: "double_click";
+    x: number;
+    y: number;
+}
+
+// @public
+export interface Drag extends ComputerAction {
+    path: DragPoint[];
+    type: "drag";
+}
+
+// @public
+export interface DragPoint {
+    x: number;
+    y: number;
+}
+
+// @public
 export interface EasyInputMessage extends InputItem {
     content: string | InputContentUnion[];
     role: "user" | "assistant" | "system" | "developer";
@@ -780,7 +905,6 @@ export interface ErrorModel {
     debugInfo?: Record<string, any>;
     details?: ErrorModel[];
     message: string;
-    // (undocumented)
     param: string;
     type: string;
 }
@@ -1088,8 +1212,23 @@ export interface FieldMapping {
 }
 
 // @public
+export interface FileCitationBody extends Annotation {
+    file_id: string;
+    filename: string;
+    index: number;
+    type: "file_citation";
+}
+
+// @public
 export interface FileDatasetVersion extends DatasetVersion {
     type: "uri_file";
+}
+
+// @public
+export interface FilePath extends Annotation {
+    file_id: string;
+    index: number;
+    type: "file_path";
 }
 
 // @public
@@ -1103,6 +1242,20 @@ export interface FileSearchTool extends Tool {
 }
 
 // @public
+export interface FileSearchToolCallResults {
+    // (undocumented)
+    attributes?: VectorStoreFileAttributes | null;
+    // (undocumented)
+    file_id?: string;
+    // (undocumented)
+    filename?: string;
+    // (undocumented)
+    score?: number;
+    // (undocumented)
+    text?: string;
+}
+
+// @public
 export type Filters = ComparisonFilter | CompoundFilter;
 
 // @public
@@ -1112,6 +1265,50 @@ export interface FolderDatasetVersion extends DatasetVersion {
 
 // @public
 export type FoundryPreviewOptInKeys = "ContainerAgents=v1" | "HostedAgents=v1" | "WorkflowAgents=v1" | "Evaluations=v1" | "RedTeams=v1" | "Insights=v1" | "MemoryStores=v1";
+
+// @public
+export interface FunctionShellAction {
+    // (undocumented)
+    commands: string[];
+    // (undocumented)
+    max_output_length: number | null;
+    // (undocumented)
+    timeout_ms: number | null;
+}
+
+// @public
+export interface FunctionShellCallOutputContent {
+    // (undocumented)
+    created_by?: string;
+    outcome: FunctionShellCallOutputOutcomeUnion;
+    // (undocumented)
+    stderr: string;
+    // (undocumented)
+    stdout: string;
+}
+
+// @public
+export interface FunctionShellCallOutputExitOutcome extends FunctionShellCallOutputOutcome {
+    exit_code: number;
+    type: "exit";
+}
+
+// @public
+export interface FunctionShellCallOutputOutcome {
+    // (undocumented)
+    type: FunctionShellCallOutputOutcomeType;
+}
+
+// @public
+export type FunctionShellCallOutputOutcomeType = "timeout" | "exit";
+
+// @public
+export type FunctionShellCallOutputOutcomeUnion = FunctionShellCallOutputTimeoutOutcome | FunctionShellCallOutputExitOutcome | FunctionShellCallOutputOutcome;
+
+// @public
+export interface FunctionShellCallOutputTimeoutOutcome extends FunctionShellCallOutputOutcome {
+    type: "timeout";
+}
 
 // @public
 export interface FunctionShellToolParam extends Tool {
@@ -1400,8 +1597,30 @@ export interface ItemReferenceParam extends InputItem {
 }
 
 // @public
+export interface KeyPressAction extends ComputerAction {
+    keys: string[];
+    type: "keypress";
+}
+
+// @public
 export enum KnownApiVersions {
     v1 = "v1"
+}
+
+// @public
+export type LocalShellCallStatus = "in_progress" | "completed" | "incomplete";
+
+// @public
+export interface LocalShellExecAction {
+    command: string[];
+    env: Record<string, string>;
+    // (undocumented)
+    timeout_ms?: number | null;
+    type: "exec";
+    // (undocumented)
+    user?: string | null;
+    // (undocumented)
+    working_directory?: string | null;
 }
 
 // @public
@@ -1410,9 +1629,39 @@ export interface LocalShellToolParam extends Tool {
 }
 
 // @public
+export interface LogProb {
+    // (undocumented)
+    bytes: number[];
+    // (undocumented)
+    logprob: number;
+    // (undocumented)
+    token: string;
+    // (undocumented)
+    top_logprobs: TopLogProb[];
+}
+
+// @public
 export interface ManagedAzureAISearchIndex extends Index {
     type: "ManagedAzureSearch";
     vectorStoreId: string;
+}
+
+// @public
+export interface MCPListToolsTool {
+    // (undocumented)
+    annotations?: MCPListToolsToolAnnotations | null;
+    // (undocumented)
+    description?: string | null;
+    input_schema: MCPListToolsToolInputSchema;
+    name: string;
+}
+
+// @public
+export interface MCPListToolsToolAnnotations {
+}
+
+// @public
+export interface MCPListToolsToolInputSchema {
 }
 
 // @public
@@ -1431,6 +1680,9 @@ export interface MCPTool extends Tool {
     server_url?: string;
     type: "mcp";
 }
+
+// @public
+export type MCPToolCallStatus = "in_progress" | "completed" | "incomplete" | "calling" | "failed";
 
 // @public
 export interface MCPToolFilter {
@@ -1675,6 +1927,15 @@ export interface ModelDeploymentSku {
 }
 
 // @public
+export type ModelIdsCompaction = ModelIdsResponses | string;
+
+// @public
+export type ModelIdsResponses = ModelIdsShared | "o1-pro" | "o1-pro-2025-03-19" | "o3-pro" | "o3-pro-2025-06-10" | "o3-deep-research" | "o3-deep-research-2025-06-26" | "o4-mini-deep-research" | "o4-mini-deep-research-2025-06-26" | "computer-use-preview" | "computer-use-preview-2025-03-11" | "gpt-5-codex" | "gpt-5-pro" | "gpt-5-pro-2025-10-06" | "gpt-5.1-codex-max";
+
+// @public
+export type ModelIdsShared = string | ChatModel;
+
+// @public
 export interface ModelSamplingParams {
     max_completion_tokens: number;
     seed: number;
@@ -1686,6 +1947,13 @@ export interface ModelSamplingParams {
 export interface MonthlyRecurrenceSchedule extends RecurrenceSchedule {
     daysOfMonth: number[];
     type: "Monthly";
+}
+
+// @public
+export interface Move extends ComputerAction {
+    type: "move";
+    x: number;
+    y: number;
 }
 
 // @public
@@ -1761,6 +2029,244 @@ export interface OpenApiTool extends Tool {
 
 // @public
 export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
+
+// @public
+export interface OutputContent {
+    // (undocumented)
+    type: OutputContentType;
+}
+
+// @public
+export type OutputContentType = "output_text" | "refusal" | "reasoning_text";
+
+// @public
+export type OutputContentUnion = ReasoningTextContent | OutputContent;
+
+// @public
+export interface OutputItem {
+    // (undocumented)
+    type: OutputItemType;
+}
+
+// @public
+export interface OutputItemApplyPatchToolCall extends OutputItem {
+    call_id: string;
+    created_by?: string;
+    id: string;
+    operation: ApplyPatchFileOperationUnion;
+    status: ApplyPatchCallStatus;
+    type: "apply_patch_call";
+}
+
+// @public
+export interface OutputItemApplyPatchToolCallOutput extends OutputItem {
+    call_id: string;
+    created_by?: string;
+    id: string;
+    // (undocumented)
+    output?: string | null;
+    status: ApplyPatchCallOutputStatus;
+    type: "apply_patch_call_output";
+}
+
+// @public
+export interface OutputItemCodeInterpreterToolCall extends OutputItem {
+    // (undocumented)
+    code: string | null;
+    container_id: string;
+    id: string;
+    // (undocumented)
+    outputs: (CodeInterpreterOutputLogs | CodeInterpreterOutputImage)[] | null;
+    status: "in_progress" | "completed" | "incomplete" | "interpreting" | "failed";
+    type: "code_interpreter_call";
+}
+
+// @public
+export interface OutputItemCompactionBody extends OutputItem {
+    // (undocumented)
+    created_by?: string;
+    // (undocumented)
+    encrypted_content: string;
+    id: string;
+    type: "compaction";
+}
+
+// @public
+export interface OutputItemComputerToolCall extends OutputItem {
+    // (undocumented)
+    action: ComputerActionUnion;
+    call_id: string;
+    id: string;
+    pending_safety_checks: ComputerCallSafetyCheckParam[];
+    status: "in_progress" | "completed" | "incomplete";
+    type: "computer_call";
+}
+
+// @public
+export interface OutputItemCustomToolCall extends OutputItem {
+    call_id: string;
+    id?: string;
+    input: string;
+    name: string;
+    type: "custom_tool_call";
+}
+
+// @public
+export interface OutputItemFileSearchToolCall extends OutputItem {
+    id: string;
+    queries: string[];
+    // (undocumented)
+    results?: FileSearchToolCallResults[] | null;
+    status: "in_progress" | "searching" | "completed" | "incomplete" | "failed";
+    type: "file_search_call";
+}
+
+// @public
+export interface OutputItemFunctionShellCall extends OutputItem {
+    action: FunctionShellAction;
+    call_id: string;
+    created_by?: string;
+    id: string;
+    status: LocalShellCallStatus;
+    type: "shell_call";
+}
+
+// @public
+export interface OutputItemFunctionShellCallOutput extends OutputItem {
+    call_id: string;
+    // (undocumented)
+    created_by?: string;
+    id: string;
+    // (undocumented)
+    max_output_length: number | null;
+    output: FunctionShellCallOutputContent[];
+    type: "shell_call_output";
+}
+
+// @public
+export interface OutputItemFunctionToolCall extends OutputItem {
+    arguments: string;
+    call_id: string;
+    id?: string;
+    name: string;
+    status?: "in_progress" | "completed" | "incomplete";
+    type: "function_call";
+}
+
+// @public
+export interface OutputItemImageGenToolCall extends OutputItem {
+    id: string;
+    // (undocumented)
+    result: string | null;
+    status: "in_progress" | "completed" | "generating" | "failed";
+    type: "image_generation_call";
+}
+
+// @public
+export interface OutputItemLocalShellToolCall extends OutputItem {
+    // (undocumented)
+    action: LocalShellExecAction;
+    call_id: string;
+    id: string;
+    status: "in_progress" | "completed" | "incomplete";
+    type: "local_shell_call";
+}
+
+// @public
+export interface OutputItemMcpApprovalRequest extends OutputItem {
+    arguments: string;
+    id: string;
+    name: string;
+    server_label: string;
+    type: "mcp_approval_request";
+}
+
+// @public
+export interface OutputItemMcpListTools extends OutputItem {
+    // (undocumented)
+    error?: string | null;
+    id: string;
+    server_label: string;
+    tools: MCPListToolsTool[];
+    type: "mcp_list_tools";
+}
+
+// @public
+export interface OutputItemMcpToolCall extends OutputItem {
+    // (undocumented)
+    approval_request_id?: string | null;
+    arguments: string;
+    // (undocumented)
+    error?: string | null;
+    id: string;
+    name: string;
+    // (undocumented)
+    output?: string | null;
+    server_label: string;
+    status?: MCPToolCallStatus;
+    type: "mcp_call";
+}
+
+// @public
+export interface OutputItemOutputMessage extends OutputItem {
+    content: OutputMessageContentUnion[];
+    id: string;
+    role: "assistant";
+    status: "in_progress" | "completed" | "incomplete";
+    type: "output_message";
+}
+
+// @public
+export interface OutputItemReasoningItem extends OutputItem {
+    content?: ReasoningTextContent[];
+    // (undocumented)
+    encrypted_content?: string | null;
+    id: string;
+    status?: "in_progress" | "completed" | "incomplete";
+    summary: Summary[];
+    type: "reasoning";
+}
+
+// @public
+export type OutputItemType = "output_message" | "file_search_call" | "function_call" | "web_search_call" | "computer_call" | "reasoning" | "compaction" | "image_generation_call" | "code_interpreter_call" | "local_shell_call" | "shell_call" | "shell_call_output" | "apply_patch_call" | "apply_patch_call_output" | "mcp_call" | "mcp_list_tools" | "mcp_approval_request" | "custom_tool_call";
+
+// @public
+export type OutputItemUnion = OutputItemOutputMessage | OutputItemFileSearchToolCall | OutputItemFunctionToolCall | OutputItemWebSearchToolCall | OutputItemComputerToolCall | OutputItemReasoningItem | OutputItemCompactionBody | OutputItemImageGenToolCall | OutputItemCodeInterpreterToolCall | OutputItemLocalShellToolCall | OutputItemFunctionShellCall | OutputItemFunctionShellCallOutput | OutputItemApplyPatchToolCall | OutputItemApplyPatchToolCallOutput | OutputItemMcpToolCall | OutputItemMcpListTools | OutputItemMcpApprovalRequest | OutputItemCustomToolCall | OutputItem;
+
+// @public
+export interface OutputItemWebSearchToolCall extends OutputItem {
+    action: WebSearchActionSearch | WebSearchActionOpenPage | WebSearchActionFind;
+    id: string;
+    status: "in_progress" | "searching" | "completed" | "failed";
+    type: "web_search_call";
+}
+
+// @public
+export interface OutputMessageContent {
+    // (undocumented)
+    type: OutputMessageContentType;
+}
+
+// @public
+export interface OutputMessageContentOutputTextContent extends OutputMessageContent {
+    annotations: AnnotationUnion[];
+    // (undocumented)
+    logprobs?: LogProb[];
+    text: string;
+    type: "output_text";
+}
+
+// @public
+export interface OutputMessageContentRefusalContent extends OutputMessageContent {
+    refusal: string;
+    type: "refusal";
+}
+
+// @public
+export type OutputMessageContentType = "output_text" | "refusal";
+
+// @public
+export type OutputMessageContentUnion = OutputMessageContentOutputTextContent | OutputMessageContentRefusalContent | OutputMessageContent;
 
 // @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
@@ -1855,6 +2361,12 @@ export interface Reasoning {
 export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh";
 
 // @public
+export interface ReasoningTextContent extends OutputContent {
+    text: string;
+    type: "reasoning_text";
+}
+
+// @public
 export interface RecurrenceSchedule {
     type: RecurrenceType;
 }
@@ -1910,6 +2422,30 @@ export interface RedTeamsOperations {
     create: (redTeam: RedTeam, options?: RedTeamsCreateOptionalParams) => Promise<RedTeam>;
     get: (name: string, options?: RedTeamsGetOptionalParams) => Promise<RedTeam>;
     list: (options?: RedTeamsListOptionalParams) => PagedAsyncIterableIterator<RedTeam>;
+}
+
+// @public
+export interface ResponsesCompactResponseConversationOptionalParams extends OperationOptions {
+    // (undocumented)
+    input?: (string | InputItemUnion[]) | null;
+    // (undocumented)
+    instructions?: string | null;
+    // (undocumented)
+    previousResponseId?: string | null;
+}
+
+// @public
+export interface ResponsesOperations {
+    compactResponseConversation: (model: ModelIdsCompaction, options?: ResponsesCompactResponseConversationOptionalParams) => Promise<CompactResource>;
+}
+
+// @public
+export interface ResponseUsage {
+    input_tokens: number;
+    input_tokens_details: ResponseUsageInputTokensDetails;
+    output_tokens: number;
+    output_tokens_details: ResponseUsageOutputTokensDetails;
+    total_tokens: number;
 }
 
 // @public
@@ -2031,6 +2567,20 @@ export type ScheduleTaskType = "Evaluation" | "Insight";
 export type ScheduleTaskUnion = EvaluationScheduleTask | InsightScheduleTask | ScheduleTask;
 
 // @public
+export interface Screenshot extends ComputerAction {
+    type: "screenshot";
+}
+
+// @public
+export interface Scroll extends ComputerAction {
+    scroll_x: number;
+    scroll_y: number;
+    type: "scroll";
+    x: number;
+    y: number;
+}
+
+// @public
 export type SearchContextSize = "low" | "medium" | "high";
 
 // @public
@@ -2068,6 +2618,12 @@ export interface StructuredOutputDefinition {
     name: string;
     schema: Record<string, any>;
     strict: boolean;
+}
+
+// @public
+export interface Summary {
+    text: string;
+    type: "summary_text";
 }
 
 // @public
@@ -2239,6 +2795,16 @@ export type ToolType = "function" | "file_search" | "computer_use_preview" | "we
 export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | Tool;
 
 // @public
+export interface TopLogProb {
+    // (undocumented)
+    bytes: number[];
+    // (undocumented)
+    logprob: number;
+    // (undocumented)
+    token: string;
+}
+
+// @public
 export type TreatmentEffectType = "TooFewSamples" | "Inconclusive" | "Changed" | "Improved" | "Degraded";
 
 // @public
@@ -2253,8 +2819,61 @@ export type TriggerType = "Cron" | "Recurrence" | "OneTime";
 export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Trigger;
 
 // @public
+export interface Type extends ComputerAction {
+    text: string;
+    type: "type";
+}
+
+// @public
+export interface UrlCitationBody extends Annotation {
+    end_index: number;
+    start_index: number;
+    title: string;
+    type: "url_citation";
+    url: string;
+}
+
+// @public
 export interface UserProfileMemoryItem extends MemoryItem {
     kind: "user_profile";
+}
+
+// @public
+export interface VectorStoreFileAttributes {
+    additionalProperties?: Record<string, string | number | boolean>;
+}
+
+// @public
+export interface Wait extends ComputerAction {
+    type: "wait";
+}
+
+// @public
+export interface WebSearchActionFind {
+    pattern: string;
+    type: "find";
+    url: string;
+}
+
+// @public
+export interface WebSearchActionOpenPage {
+    type: "open_page";
+    url: string;
+}
+
+// @public
+export interface WebSearchActionSearch {
+    query: string;
+    sources?: WebSearchActionSearchSources[];
+    type: "search";
+}
+
+// @public
+export interface WebSearchActionSearchSources {
+    // (undocumented)
+    type: "url";
+    // (undocumented)
+    url: string;
 }
 
 // @public

@@ -69,7 +69,7 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
 /** Optional parameters. */
 export interface AgentsCreateAgentVersionOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1" | "WorkflowAgents=v1" | "MemoryStores=v1";
+  foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1" | "WorkflowAgents=v1";
   /** A human-readable description of the agent. */
   description?: string;
   /**
@@ -112,15 +112,10 @@ export interface AgentsListAgentsOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AgentsDeleteAgentOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1";
-}
+export interface AgentsDeleteAgentOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryBeta?: "MemoryStores=v1";
   /** A human-readable description of the agent. */
   description?: string;
   /**
@@ -153,8 +148,6 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryBeta?: "MemoryStores=v1";
   /** A human-readable description of the agent. */
   description?: string;
   /**
@@ -171,7 +164,7 @@ export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
 /** Optional parameters. */
 export interface AgentsCreateAgentOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1" | "WorkflowAgents=v1" | "MemoryStores=v1";
+  foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1" | "WorkflowAgents=v1";
   /** A human-readable description of the agent. */
   description?: string;
   /**

@@ -175,7 +175,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   return scheduleDeserializer(result.body);
 }
 
-/** Create or update a schedule by id. */
+/** Create or update operation template. */
 export async function createOrUpdate(
   context: Client,
   id: string,

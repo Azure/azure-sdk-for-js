@@ -27,6 +27,7 @@ import {
 } from "./classic/memoryStores/index.js";
 import { TelemetryOperations, _getTelemetryOperations } from "./classic/telemetry/index.js";
 import { RedTeamsOperations, _getRedTeamsOperations } from "./classic/redTeams/index.js";
+import { ResponsesOperations, _getResponsesOperations } from "./classic/responses/index.js";
 import { SchedulesOperations, _getSchedulesOperations } from "./classic/schedules/index.js";
 import { TokenCredential } from "@azure/core-auth";
 import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
@@ -93,6 +94,7 @@ export class AIProjectClient {
     this.evaluationTaxonomies = _getEvaluationTaxonomiesOperations(this._cognitiveScopeClient);
     this.evaluationRules = _getEvaluationRulesOperations(this._cognitiveScopeClient);
     this.redTeams = _getRedTeamsOperations(this._cognitiveScopeClient);
+    this.responses = _getResponsesOperations(this._azureScopeClient);
     this.deployments = _getDeploymentsOperations(this._azureScopeClient);
     this.indexes = _getIndexesOperations(this._azureScopeClient);
     this.datasets = _getDatasetsOperations(this._azureScopeClient, this._options);
@@ -104,6 +106,8 @@ export class AIProjectClient {
 
   /** The operation groups for schedules */
   public readonly schedules: SchedulesOperations;
+  /** The operation groups for responses */
+  public readonly responses: ResponsesOperations;
   /** The operation groups for insights */
   public readonly insights: InsightsOperations;
   /** The operation groups for evaluators */

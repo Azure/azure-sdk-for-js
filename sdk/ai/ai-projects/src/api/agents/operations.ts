@@ -402,7 +402,6 @@ export function _deleteAgentSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -453,7 +452,6 @@ export function _updateAgentFromManifestSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -585,7 +583,6 @@ export function _updateAgentSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },

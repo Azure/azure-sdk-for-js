@@ -3404,6 +3404,7 @@ export interface ErrorModel {
   code: string;
   /** A human-readable description of the error. */
   message: string;
+  /** The parameter related to the error. */
   param: string;
   /** The error type. */
   type: string;
@@ -5017,6 +5018,1925 @@ export function deploymentUnionArrayDeserializer(result: Array<DeploymentUnion>)
   });
 }
 
+/** Model ID used to generate the response, like `gpt-5` or `o3`. OpenAI offers a wide range of models with different capabilities, performance characteristics, and price points. Refer to the [model guide](https://platform.openai.com/docs/models) to browse and compare available models. */
+export type ModelIdsCompaction = ModelIdsResponses | string;
+/** Model ID used to generate the response, like `gpt-5` or `o3`. OpenAI offers a wide range of models with different capabilities, performance characteristics, and price points. Refer to the [model guide](https://platform.openai.com/docs/models) to browse and compare available models. */
+export type _ModelIdsCompaction = ModelIdsResponses | string;
+
+export function _modelIdsCompactionSerializer(item: _ModelIdsCompaction): any {
+  return item;
+}
+
+/** Alias for ModelIdsResponses */
+export type ModelIdsResponses =
+  | ModelIdsShared
+  | "o1-pro"
+  | "o1-pro-2025-03-19"
+  | "o3-pro"
+  | "o3-pro-2025-06-10"
+  | "o3-deep-research"
+  | "o3-deep-research-2025-06-26"
+  | "o4-mini-deep-research"
+  | "o4-mini-deep-research-2025-06-26"
+  | "computer-use-preview"
+  | "computer-use-preview-2025-03-11"
+  | "gpt-5-codex"
+  | "gpt-5-pro"
+  | "gpt-5-pro-2025-10-06"
+  | "gpt-5.1-codex-max";
+
+export function modelIdsResponsesSerializer(item: ModelIdsResponses): any {
+  return item;
+}
+
+/** Alias for ModelIdsShared */
+export type ModelIdsShared = string | ChatModel;
+
+export function modelIdsSharedSerializer(item: ModelIdsShared): any {
+  return item;
+}
+
+/** Type of ChatModel */
+export type ChatModel =
+  | "gpt-5.2"
+  | "gpt-5.2-2025-12-11"
+  | "gpt-5.2-chat-latest"
+  | "gpt-5.2-pro"
+  | "gpt-5.2-pro-2025-12-11"
+  | "gpt-5.1"
+  | "gpt-5.1-2025-11-13"
+  | "gpt-5.1-codex"
+  | "gpt-5.1-mini"
+  | "gpt-5.1-chat-latest"
+  | "gpt-5"
+  | "gpt-5-mini"
+  | "gpt-5-nano"
+  | "gpt-5-2025-08-07"
+  | "gpt-5-mini-2025-08-07"
+  | "gpt-5-nano-2025-08-07"
+  | "gpt-5-chat-latest"
+  | "gpt-4.1"
+  | "gpt-4.1-mini"
+  | "gpt-4.1-nano"
+  | "gpt-4.1-2025-04-14"
+  | "gpt-4.1-mini-2025-04-14"
+  | "gpt-4.1-nano-2025-04-14"
+  | "o4-mini"
+  | "o4-mini-2025-04-16"
+  | "o3"
+  | "o3-2025-04-16"
+  | "o3-mini"
+  | "o3-mini-2025-01-31"
+  | "o1"
+  | "o1-2024-12-17"
+  | "o1-preview"
+  | "o1-preview-2024-09-12"
+  | "o1-mini"
+  | "o1-mini-2024-09-12"
+  | "gpt-4o"
+  | "gpt-4o-2024-11-20"
+  | "gpt-4o-2024-08-06"
+  | "gpt-4o-2024-05-13"
+  | "gpt-4o-audio-preview"
+  | "gpt-4o-audio-preview-2024-10-01"
+  | "gpt-4o-audio-preview-2024-12-17"
+  | "gpt-4o-audio-preview-2025-06-03"
+  | "gpt-4o-mini-audio-preview"
+  | "gpt-4o-mini-audio-preview-2024-12-17"
+  | "gpt-4o-search-preview"
+  | "gpt-4o-mini-search-preview"
+  | "gpt-4o-search-preview-2025-03-11"
+  | "gpt-4o-mini-search-preview-2025-03-11"
+  | "chatgpt-4o-latest"
+  | "codex-mini-latest"
+  | "gpt-4o-mini"
+  | "gpt-4o-mini-2024-07-18"
+  | "gpt-4-turbo"
+  | "gpt-4-turbo-2024-04-09"
+  | "gpt-4-0125-preview"
+  | "gpt-4-turbo-preview"
+  | "gpt-4-1106-preview"
+  | "gpt-4-vision-preview"
+  | "gpt-4"
+  | "gpt-4-0314"
+  | "gpt-4-0613"
+  | "gpt-4-32k"
+  | "gpt-4-32k-0314"
+  | "gpt-4-32k-0613"
+  | "gpt-3.5-turbo"
+  | "gpt-3.5-turbo-16k"
+  | "gpt-3.5-turbo-0301"
+  | "gpt-3.5-turbo-0613"
+  | "gpt-3.5-turbo-1106"
+  | "gpt-3.5-turbo-0125"
+  | "gpt-3.5-turbo-16k-0613";
+/** Alias for _CompactResponseMethodPublicBodyInput */
+export type _CompactResponseMethodPublicBodyInput = string | InputItemUnion[];
+
+export function _compactResponseMethodPublicBodyInputSerializer(
+  item: _CompactResponseMethodPublicBodyInput,
+): any {
+  return item;
+}
+
+/** model interface CompactResource */
+export interface CompactResource {
+  /** The unique identifier for the compacted response. */
+  id: string;
+  /** The object type. Always `response.compaction`. */
+  object: "response.compaction";
+  /** The compacted list of output items. This is a list of all user messages, followed by a single compaction item. */
+  output: OutputItemUnion[];
+  /** Unix timestamp (in seconds) when the compacted conversation was created. */
+  created_at: Date;
+  /** Token accounting for the compaction pass, including cached, reasoning, and total tokens. */
+  usage: ResponseUsage;
+}
+
+export function compactResourceDeserializer(item: any): CompactResource {
+  return {
+    id: item["id"],
+    object: item["object"],
+    output: outputItemUnionArrayDeserializer(item["output"]),
+    created_at: new Date(item["created_at"] * 1000),
+    usage: responseUsageDeserializer(item["usage"]),
+  };
+}
+
+export function outputItemUnionArrayDeserializer(result: Array<OutputItemUnion>): any[] {
+  return result.map((item) => {
+    return outputItemUnionDeserializer(item);
+  });
+}
+
+/** model interface OutputItem */
+export interface OutputItem {
+  type: OutputItemType;
+}
+
+export function outputItemDeserializer(item: any): OutputItem {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for OutputItemUnion */
+export type OutputItemUnion =
+  | OutputItemOutputMessage
+  | OutputItemFileSearchToolCall
+  | OutputItemFunctionToolCall
+  | OutputItemWebSearchToolCall
+  | OutputItemComputerToolCall
+  | OutputItemReasoningItem
+  | OutputItemCompactionBody
+  | OutputItemImageGenToolCall
+  | OutputItemCodeInterpreterToolCall
+  | OutputItemLocalShellToolCall
+  | OutputItemFunctionShellCall
+  | OutputItemFunctionShellCallOutput
+  | OutputItemApplyPatchToolCall
+  | OutputItemApplyPatchToolCallOutput
+  | OutputItemMcpToolCall
+  | OutputItemMcpListTools
+  | OutputItemMcpApprovalRequest
+  | OutputItemCustomToolCall
+  | OutputItem;
+
+export function outputItemUnionDeserializer(item: any): OutputItemUnion {
+  switch (item.type) {
+    case "output_message":
+      return outputItemOutputMessageDeserializer(item as OutputItemOutputMessage);
+
+    case "file_search_call":
+      return outputItemFileSearchToolCallDeserializer(item as OutputItemFileSearchToolCall);
+
+    case "function_call":
+      return outputItemFunctionToolCallDeserializer(item as OutputItemFunctionToolCall);
+
+    case "web_search_call":
+      return outputItemWebSearchToolCallDeserializer(item as OutputItemWebSearchToolCall);
+
+    case "computer_call":
+      return outputItemComputerToolCallDeserializer(item as OutputItemComputerToolCall);
+
+    case "reasoning":
+      return outputItemReasoningItemDeserializer(item as OutputItemReasoningItem);
+
+    case "compaction":
+      return outputItemCompactionBodyDeserializer(item as OutputItemCompactionBody);
+
+    case "image_generation_call":
+      return outputItemImageGenToolCallDeserializer(item as OutputItemImageGenToolCall);
+
+    case "code_interpreter_call":
+      return outputItemCodeInterpreterToolCallDeserializer(
+        item as OutputItemCodeInterpreterToolCall,
+      );
+
+    case "local_shell_call":
+      return outputItemLocalShellToolCallDeserializer(item as OutputItemLocalShellToolCall);
+
+    case "shell_call":
+      return outputItemFunctionShellCallDeserializer(item as OutputItemFunctionShellCall);
+
+    case "shell_call_output":
+      return outputItemFunctionShellCallOutputDeserializer(
+        item as OutputItemFunctionShellCallOutput,
+      );
+
+    case "apply_patch_call":
+      return outputItemApplyPatchToolCallDeserializer(item as OutputItemApplyPatchToolCall);
+
+    case "apply_patch_call_output":
+      return outputItemApplyPatchToolCallOutputDeserializer(
+        item as OutputItemApplyPatchToolCallOutput,
+      );
+
+    case "mcp_call":
+      return outputItemMcpToolCallDeserializer(item as OutputItemMcpToolCall);
+
+    case "mcp_list_tools":
+      return outputItemMcpListToolsDeserializer(item as OutputItemMcpListTools);
+
+    case "mcp_approval_request":
+      return outputItemMcpApprovalRequestDeserializer(item as OutputItemMcpApprovalRequest);
+
+    case "custom_tool_call":
+      return outputItemCustomToolCallDeserializer(item as OutputItemCustomToolCall);
+
+    default:
+      return outputItemDeserializer(item);
+  }
+}
+
+/** Type of OutputItemType */
+export type OutputItemType =
+  | "output_message"
+  | "file_search_call"
+  | "function_call"
+  | "web_search_call"
+  | "computer_call"
+  | "reasoning"
+  | "compaction"
+  | "image_generation_call"
+  | "code_interpreter_call"
+  | "local_shell_call"
+  | "shell_call"
+  | "shell_call_output"
+  | "apply_patch_call"
+  | "apply_patch_call_output"
+  | "mcp_call"
+  | "mcp_list_tools"
+  | "mcp_approval_request"
+  | "custom_tool_call";
+
+/** An output message from the model. */
+export interface OutputItemOutputMessage extends OutputItem {
+  /** The unique ID of the output message. */
+  id: string;
+  /** The type of the output message. Always `message`. */
+  type: "output_message";
+  /** The role of the output message. Always `assistant`. */
+  role: "assistant";
+  /** The content of the output message. */
+  content: OutputMessageContentUnion[];
+  /**
+   * The status of the message input. One of `in_progress`, `completed`, or
+   *   `incomplete`. Populated when input items are returned via API.
+   */
+  status: "in_progress" | "completed" | "incomplete";
+}
+
+export function outputItemOutputMessageDeserializer(item: any): OutputItemOutputMessage {
+  return {
+    type: item["type"],
+    id: item["id"],
+    role: item["role"],
+    content: outputMessageContentUnionArrayDeserializer(item["content"]),
+    status: item["status"],
+  };
+}
+
+export function outputMessageContentUnionArrayDeserializer(
+  result: Array<OutputMessageContentUnion>,
+): any[] {
+  return result.map((item) => {
+    return outputMessageContentUnionDeserializer(item);
+  });
+}
+
+/** model interface OutputMessageContent */
+export interface OutputMessageContent {
+  type: OutputMessageContentType;
+}
+
+export function outputMessageContentDeserializer(item: any): OutputMessageContent {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for OutputMessageContentUnion */
+export type OutputMessageContentUnion =
+  | OutputMessageContentOutputTextContent
+  | OutputMessageContentRefusalContent
+  | OutputMessageContent;
+
+export function outputMessageContentUnionDeserializer(item: any): OutputMessageContentUnion {
+  switch (item.type) {
+    case "output_text":
+      return outputMessageContentOutputTextContentDeserializer(
+        item as OutputMessageContentOutputTextContent,
+      );
+
+    case "refusal":
+      return outputMessageContentRefusalContentDeserializer(
+        item as OutputMessageContentRefusalContent,
+      );
+
+    default:
+      return outputMessageContentDeserializer(item);
+  }
+}
+
+/** Type of OutputMessageContentType */
+export type OutputMessageContentType = "output_text" | "refusal";
+
+/** A text output from the model. */
+export interface OutputMessageContentOutputTextContent extends OutputMessageContent {
+  /** The type of the output text. Always `output_text`. */
+  type: "output_text";
+  /** The text output from the model. */
+  text: string;
+  /** The annotations of the text output. */
+  annotations: AnnotationUnion[];
+  logprobs?: LogProb[];
+}
+
+export function outputMessageContentOutputTextContentDeserializer(
+  item: any,
+): OutputMessageContentOutputTextContent {
+  return {
+    type: item["type"],
+    text: item["text"],
+    annotations: annotationUnionArrayDeserializer(item["annotations"]),
+    logprobs: !item["logprobs"] ? item["logprobs"] : logProbArrayDeserializer(item["logprobs"]),
+  };
+}
+
+export function annotationUnionArrayDeserializer(result: Array<AnnotationUnion>): any[] {
+  return result.map((item) => {
+    return annotationUnionDeserializer(item);
+  });
+}
+
+/** model interface Annotation */
+export interface Annotation {
+  type: AnnotationType;
+}
+
+export function annotationDeserializer(item: any): Annotation {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for AnnotationUnion */
+export type AnnotationUnion =
+  | FileCitationBody
+  | UrlCitationBody
+  | ContainerFileCitationBody
+  | FilePath
+  | Annotation;
+
+export function annotationUnionDeserializer(item: any): AnnotationUnion {
+  switch (item.type) {
+    case "file_citation":
+      return fileCitationBodyDeserializer(item as FileCitationBody);
+
+    case "url_citation":
+      return urlCitationBodyDeserializer(item as UrlCitationBody);
+
+    case "container_file_citation":
+      return containerFileCitationBodyDeserializer(item as ContainerFileCitationBody);
+
+    case "file_path":
+      return filePathDeserializer(item as FilePath);
+
+    default:
+      return annotationDeserializer(item);
+  }
+}
+
+/** Type of AnnotationType */
+export type AnnotationType =
+  | "file_citation"
+  | "url_citation"
+  | "container_file_citation"
+  | "file_path";
+
+/** A citation to a file. */
+export interface FileCitationBody extends Annotation {
+  /** The type of the file citation. Always `file_citation`. */
+  type: "file_citation";
+  /** The ID of the file. */
+  file_id: string;
+  /** The index of the file in the list of files. */
+  index: number;
+  /** The filename of the file cited. */
+  filename: string;
+}
+
+export function fileCitationBodyDeserializer(item: any): FileCitationBody {
+  return {
+    type: item["type"],
+    file_id: item["file_id"],
+    index: item["index"],
+    filename: item["filename"],
+  };
+}
+
+/** A citation for a web resource used to generate a model response. */
+export interface UrlCitationBody extends Annotation {
+  /** The type of the URL citation. Always `url_citation`. */
+  type: "url_citation";
+  /** The URL of the web resource. */
+  url: string;
+  /** The index of the first character of the URL citation in the message. */
+  start_index: number;
+  /** The index of the last character of the URL citation in the message. */
+  end_index: number;
+  /** The title of the web resource. */
+  title: string;
+}
+
+export function urlCitationBodyDeserializer(item: any): UrlCitationBody {
+  return {
+    type: item["type"],
+    url: item["url"],
+    start_index: item["start_index"],
+    end_index: item["end_index"],
+    title: item["title"],
+  };
+}
+
+/** A citation for a container file used to generate a model response. */
+export interface ContainerFileCitationBody extends Annotation {
+  /** The type of the container file citation. Always `container_file_citation`. */
+  type: "container_file_citation";
+  /** The ID of the container file. */
+  container_id: string;
+  /** The ID of the file. */
+  file_id: string;
+  /** The index of the first character of the container file citation in the message. */
+  start_index: number;
+  /** The index of the last character of the container file citation in the message. */
+  end_index: number;
+  /** The filename of the container file cited. */
+  filename: string;
+}
+
+export function containerFileCitationBodyDeserializer(item: any): ContainerFileCitationBody {
+  return {
+    type: item["type"],
+    container_id: item["container_id"],
+    file_id: item["file_id"],
+    start_index: item["start_index"],
+    end_index: item["end_index"],
+    filename: item["filename"],
+  };
+}
+
+/** A path to a file. */
+export interface FilePath extends Annotation {
+  /** The type of the file path. Always `file_path`. */
+  type: "file_path";
+  /** The ID of the file. */
+  file_id: string;
+  /** The index of the file in the list of files. */
+  index: number;
+}
+
+export function filePathDeserializer(item: any): FilePath {
+  return {
+    type: item["type"],
+    file_id: item["file_id"],
+    index: item["index"],
+  };
+}
+
+export function logProbArrayDeserializer(result: Array<LogProb>): any[] {
+  return result.map((item) => {
+    return logProbDeserializer(item);
+  });
+}
+
+/** The log probability of a token. */
+export interface LogProb {
+  token: string;
+  logprob: number;
+  bytes: number[];
+  top_logprobs: TopLogProb[];
+}
+
+export function logProbDeserializer(item: any): LogProb {
+  return {
+    token: item["token"],
+    logprob: item["logprob"],
+    bytes: item["bytes"].map((p: any) => {
+      return p;
+    }),
+    top_logprobs: topLogProbArrayDeserializer(item["top_logprobs"]),
+  };
+}
+
+export function topLogProbArrayDeserializer(result: Array<TopLogProb>): any[] {
+  return result.map((item) => {
+    return topLogProbDeserializer(item);
+  });
+}
+
+/** The top log probability of a token. */
+export interface TopLogProb {
+  token: string;
+  logprob: number;
+  bytes: number[];
+}
+
+export function topLogProbDeserializer(item: any): TopLogProb {
+  return {
+    token: item["token"],
+    logprob: item["logprob"],
+    bytes: item["bytes"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** A refusal from the model. */
+export interface OutputMessageContentRefusalContent extends OutputMessageContent {
+  /** The type of the refusal. Always `refusal`. */
+  type: "refusal";
+  /** The refusal explanation from the model. */
+  refusal: string;
+}
+
+export function outputMessageContentRefusalContentDeserializer(
+  item: any,
+): OutputMessageContentRefusalContent {
+  return {
+    type: item["type"],
+    refusal: item["refusal"],
+  };
+}
+
+/**
+ * The results of a file search tool call. See the
+ * [file search guide](https://platform.openai.com/docs/guides/tools-file-search) for more information.
+ */
+export interface OutputItemFileSearchToolCall extends OutputItem {
+  /** The unique ID of the file search tool call. */
+  id: string;
+  /** The type of the file search tool call. Always `file_search_call`. */
+  type: "file_search_call";
+  /**
+   * The status of the file search tool call. One of `in_progress`,
+   *   `searching`, `incomplete` or `failed`,
+   */
+  status: "in_progress" | "searching" | "completed" | "incomplete" | "failed";
+  /** The queries used to search for files. */
+  queries: string[];
+  results?: FileSearchToolCallResults[] | null;
+}
+
+export function outputItemFileSearchToolCallDeserializer(item: any): OutputItemFileSearchToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    status: item["status"],
+    queries: item["queries"].map((p: any) => {
+      return p;
+    }),
+    results: !item["results"]
+      ? item["results"]
+      : fileSearchToolCallResultsArrayDeserializer(item["results"]),
+  };
+}
+
+export function fileSearchToolCallResultsArrayDeserializer(
+  result: Array<FileSearchToolCallResults>,
+): any[] {
+  return result.map((item) => {
+    return fileSearchToolCallResultsDeserializer(item);
+  });
+}
+
+/** model interface FileSearchToolCallResults */
+export interface FileSearchToolCallResults {
+  file_id?: string;
+  text?: string;
+  filename?: string;
+  attributes?: VectorStoreFileAttributes | null;
+  score?: number;
+}
+
+export function fileSearchToolCallResultsDeserializer(item: any): FileSearchToolCallResults {
+  return {
+    file_id: item["file_id"],
+    text: item["text"],
+    filename: item["filename"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : vectorStoreFileAttributesDeserializer(item["attributes"]),
+    score: item["score"],
+  };
+}
+
+/**
+ * Set of 16 key-value pairs that can be attached to an object. This can be
+ * useful for storing additional information about the object in a structured
+ * format, and querying for objects via API or the dashboard. Keys are strings
+ * with a maximum length of 64 characters. Values are strings with a maximum
+ * length of 512 characters, booleans, or numbers.
+ */
+export interface VectorStoreFileAttributes {
+  /** Additional properties */
+  additionalProperties?: Record<string, string | number | boolean>;
+}
+
+export function vectorStoreFileAttributesDeserializer(item: any): VectorStoreFileAttributes {
+  return {
+    additionalProperties: serializeRecord(
+      item,
+      [],
+      _vectorStoreFileAttributesAdditionalPropertyDeserializer,
+    ),
+  };
+}
+
+/** Alias for _VectorStoreFileAttributesAdditionalProperty */
+export type _VectorStoreFileAttributesAdditionalProperty = string | number | boolean;
+
+export function _vectorStoreFileAttributesAdditionalPropertyDeserializer(
+  item: any,
+): _VectorStoreFileAttributesAdditionalProperty {
+  return item;
+}
+
+/**
+ * A tool call to run a function. See the
+ * [function calling guide](https://platform.openai.com/docs/guides/function-calling) for more information.
+ */
+export interface OutputItemFunctionToolCall extends OutputItem {
+  /** The unique ID of the function tool call. */
+  id?: string;
+  /** The type of the function tool call. Always `function_call`. */
+  type: "function_call";
+  /** The unique ID of the function tool call generated by the model. */
+  call_id: string;
+  /** The name of the function to run. */
+  name: string;
+  /** A JSON string of the arguments to pass to the function. */
+  arguments: string;
+  /**
+   * The status of the item. One of `in_progress`, `completed`, or
+   *   `incomplete`. Populated when items are returned via API.
+   */
+  status?: "in_progress" | "completed" | "incomplete";
+}
+
+export function outputItemFunctionToolCallDeserializer(item: any): OutputItemFunctionToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    call_id: item["call_id"],
+    name: item["name"],
+    arguments: item["arguments"],
+    status: item["status"],
+  };
+}
+
+/**
+ * The results of a web search tool call. See the
+ * [web search guide](https://platform.openai.com/docs/guides/tools-web-search) for more information.
+ */
+export interface OutputItemWebSearchToolCall extends OutputItem {
+  /** The unique ID of the web search tool call. */
+  id: string;
+  /** The type of the web search tool call. Always `web_search_call`. */
+  type: "web_search_call";
+  /** The status of the web search tool call. */
+  status: "in_progress" | "searching" | "completed" | "failed";
+  /**
+   * An object describing the specific action taken in this web search call.
+   *   Includes details on how the model used the web (search, open_page, find).
+   */
+  action: WebSearchActionSearch | WebSearchActionOpenPage | WebSearchActionFind;
+}
+
+export function outputItemWebSearchToolCallDeserializer(item: any): OutputItemWebSearchToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    status: item["status"],
+    action: _itemResourceWebSearchToolCallActionDeserializer(item["action"]),
+  };
+}
+
+/** Alias for _ItemResourceWebSearchToolCallAction */
+export type _ItemResourceWebSearchToolCallAction =
+  | WebSearchActionSearch
+  | WebSearchActionOpenPage
+  | WebSearchActionFind;
+
+export function _itemResourceWebSearchToolCallActionDeserializer(
+  item: any,
+): _ItemResourceWebSearchToolCallAction {
+  return item;
+}
+
+/** Action type "search" - Performs a web search query. */
+export interface WebSearchActionSearch {
+  /** The action type. */
+  type: "search";
+  /** The search query. */
+  query: string;
+  /** The sources used in the search. */
+  sources?: WebSearchActionSearchSources[];
+}
+
+export function webSearchActionSearchDeserializer(item: any): WebSearchActionSearch {
+  return {
+    type: item["type"],
+    query: item["query"],
+    sources: !item["sources"]
+      ? item["sources"]
+      : webSearchActionSearchSourcesArrayDeserializer(item["sources"]),
+  };
+}
+
+export function webSearchActionSearchSourcesArrayDeserializer(
+  result: Array<WebSearchActionSearchSources>,
+): any[] {
+  return result.map((item) => {
+    return webSearchActionSearchSourcesDeserializer(item);
+  });
+}
+
+/** model interface WebSearchActionSearchSources */
+export interface WebSearchActionSearchSources {
+  type: "url";
+  url: string;
+}
+
+export function webSearchActionSearchSourcesDeserializer(item: any): WebSearchActionSearchSources {
+  return {
+    type: item["type"],
+    url: item["url"],
+  };
+}
+
+/** Action type "open_page" - Opens a specific URL from search results. */
+export interface WebSearchActionOpenPage {
+  /** The action type. */
+  type: "open_page";
+  /** The URL opened by the model. */
+  url: string;
+}
+
+export function webSearchActionOpenPageDeserializer(item: any): WebSearchActionOpenPage {
+  return {
+    type: item["type"],
+    url: item["url"],
+  };
+}
+
+/** Action type "find": Searches for a pattern within a loaded page. */
+export interface WebSearchActionFind {
+  /** The action type. */
+  type: "find";
+  /** The URL of the page searched for the pattern. */
+  url: string;
+  /** The pattern or text to search for within the page. */
+  pattern: string;
+}
+
+export function webSearchActionFindDeserializer(item: any): WebSearchActionFind {
+  return {
+    type: item["type"],
+    url: item["url"],
+    pattern: item["pattern"],
+  };
+}
+
+/**
+ * A tool call to a computer use tool. See the
+ * [computer use guide](https://platform.openai.com/docs/guides/tools-computer-use) for more information.
+ */
+export interface OutputItemComputerToolCall extends OutputItem {
+  /** The type of the computer call. Always `computer_call`. */
+  type: "computer_call";
+  /** The unique ID of the computer call. */
+  id: string;
+  /** An identifier used when responding to the tool call with output. */
+  call_id: string;
+  action: ComputerActionUnion;
+  /** The pending safety checks for the computer call. */
+  pending_safety_checks: ComputerCallSafetyCheckParam[];
+  /**
+   * The status of the item. One of `in_progress`, `completed`, or
+   *   `incomplete`. Populated when items are returned via API.
+   */
+  status: "in_progress" | "completed" | "incomplete";
+}
+
+export function outputItemComputerToolCallDeserializer(item: any): OutputItemComputerToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    call_id: item["call_id"],
+    action: computerActionUnionDeserializer(item["action"]),
+    pending_safety_checks: computerCallSafetyCheckParamArrayDeserializer(
+      item["pending_safety_checks"],
+    ),
+    status: item["status"],
+  };
+}
+
+/** model interface ComputerAction */
+export interface ComputerAction {
+  type: ComputerActionType;
+}
+
+export function computerActionDeserializer(item: any): ComputerAction {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for ComputerActionUnion */
+export type ComputerActionUnion =
+  | ClickParam
+  | DoubleClickAction
+  | Drag
+  | KeyPressAction
+  | Move
+  | Screenshot
+  | Scroll
+  | Type
+  | Wait
+  | ComputerAction;
+
+export function computerActionUnionDeserializer(item: any): ComputerActionUnion {
+  switch (item.type) {
+    case "click":
+      return clickParamDeserializer(item as ClickParam);
+
+    case "double_click":
+      return doubleClickActionDeserializer(item as DoubleClickAction);
+
+    case "drag":
+      return dragDeserializer(item as Drag);
+
+    case "keypress":
+      return keyPressActionDeserializer(item as KeyPressAction);
+
+    case "move":
+      return moveDeserializer(item as Move);
+
+    case "screenshot":
+      return screenshotDeserializer(item as Screenshot);
+
+    case "scroll":
+      return scrollDeserializer(item as Scroll);
+
+    case "type":
+      return typeDeserializer(item as Type);
+
+    case "wait":
+      return waitDeserializer(item as Wait);
+
+    default:
+      return computerActionDeserializer(item);
+  }
+}
+
+/** Type of ComputerActionType */
+export type ComputerActionType =
+  | "click"
+  | "double_click"
+  | "drag"
+  | "keypress"
+  | "move"
+  | "screenshot"
+  | "scroll"
+  | "type"
+  | "wait";
+
+/** A click action. */
+export interface ClickParam extends ComputerAction {
+  /** Specifies the event type. For a click action, this property is always `click`. */
+  type: "click";
+  /** Indicates which mouse button was pressed during the click. One of `left`, `right`, `wheel`, `back`, or `forward`. */
+  button: ClickButtonType;
+  /** The x-coordinate where the click occurred. */
+  x: number;
+  /** The y-coordinate where the click occurred. */
+  y: number;
+}
+
+export function clickParamDeserializer(item: any): ClickParam {
+  return {
+    type: item["type"],
+    button: item["button"],
+    x: item["x"],
+    y: item["y"],
+  };
+}
+
+/** Type of ClickButtonType */
+export type ClickButtonType = "left" | "right" | "wheel" | "back" | "forward";
+
+/** A double click action. */
+export interface DoubleClickAction extends ComputerAction {
+  /** Specifies the event type. For a double click action, this property is always set to `double_click`. */
+  type: "double_click";
+  /** The x-coordinate where the double click occurred. */
+  x: number;
+  /** The y-coordinate where the double click occurred. */
+  y: number;
+}
+
+export function doubleClickActionDeserializer(item: any): DoubleClickAction {
+  return {
+    type: item["type"],
+    x: item["x"],
+    y: item["y"],
+  };
+}
+
+/** A drag action. */
+export interface Drag extends ComputerAction {
+  /**
+   * Specifies the event type. For a drag action, this property is
+   *   always set to `drag`.
+   */
+  type: "drag";
+  /**
+   * An array of coordinates representing the path of the drag action. Coordinates will appear as an array
+   *   of objects, eg
+   *   ```
+   *   [
+   *     { x: 100, y: 200 },
+   *     { x: 200, y: 300 }
+   *   ]
+   *   ```
+   */
+  path: DragPoint[];
+}
+
+export function dragDeserializer(item: any): Drag {
+  return {
+    type: item["type"],
+    path: dragPointArrayDeserializer(item["path"]),
+  };
+}
+
+export function dragPointArrayDeserializer(result: Array<DragPoint>): any[] {
+  return result.map((item) => {
+    return dragPointDeserializer(item);
+  });
+}
+
+/** An x/y coordinate pair, e.g. `{ x: 100, y: 200 }`. */
+export interface DragPoint {
+  /** The x-coordinate. */
+  x: number;
+  /** The y-coordinate. */
+  y: number;
+}
+
+export function dragPointDeserializer(item: any): DragPoint {
+  return {
+    x: item["x"],
+    y: item["y"],
+  };
+}
+
+/** A collection of keypresses the model would like to perform. */
+export interface KeyPressAction extends ComputerAction {
+  /** Specifies the event type. For a keypress action, this property is always set to `keypress`. */
+  type: "keypress";
+  /** The combination of keys the model is requesting to be pressed. This is an array of strings, each representing a key. */
+  keys: string[];
+}
+
+export function keyPressActionDeserializer(item: any): KeyPressAction {
+  return {
+    type: item["type"],
+    keys: item["keys"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** A mouse move action. */
+export interface Move extends ComputerAction {
+  /**
+   * Specifies the event type. For a move action, this property is
+   *   always set to `move`.
+   */
+  type: "move";
+  /** The x-coordinate to move to. */
+  x: number;
+  /** The y-coordinate to move to. */
+  y: number;
+}
+
+export function moveDeserializer(item: any): Move {
+  return {
+    type: item["type"],
+    x: item["x"],
+    y: item["y"],
+  };
+}
+
+/** A screenshot action. */
+export interface Screenshot extends ComputerAction {
+  /**
+   * Specifies the event type. For a screenshot action, this property is
+   *   always set to `screenshot`.
+   */
+  type: "screenshot";
+}
+
+export function screenshotDeserializer(item: any): Screenshot {
+  return {
+    type: item["type"],
+  };
+}
+
+/** A scroll action. */
+export interface Scroll extends ComputerAction {
+  /**
+   * Specifies the event type. For a scroll action, this property is
+   *   always set to `scroll`.
+   */
+  type: "scroll";
+  /** The x-coordinate where the scroll occurred. */
+  x: number;
+  /** The y-coordinate where the scroll occurred. */
+  y: number;
+  /** The horizontal scroll distance. */
+  scroll_x: number;
+  /** The vertical scroll distance. */
+  scroll_y: number;
+}
+
+export function scrollDeserializer(item: any): Scroll {
+  return {
+    type: item["type"],
+    x: item["x"],
+    y: item["y"],
+    scroll_x: item["scroll_x"],
+    scroll_y: item["scroll_y"],
+  };
+}
+
+/** An action to type in text. */
+export interface Type extends ComputerAction {
+  /**
+   * Specifies the event type. For a type action, this property is
+   *   always set to `type`.
+   */
+  type: "type";
+  /** The text to type. */
+  text: string;
+}
+
+export function typeDeserializer(item: any): Type {
+  return {
+    type: item["type"],
+    text: item["text"],
+  };
+}
+
+/** A wait action. */
+export interface Wait extends ComputerAction {
+  /**
+   * Specifies the event type. For a wait action, this property is
+   *   always set to `wait`.
+   */
+  type: "wait";
+}
+
+export function waitDeserializer(item: any): Wait {
+  return {
+    type: item["type"],
+  };
+}
+
+export function computerCallSafetyCheckParamArrayDeserializer(
+  result: Array<ComputerCallSafetyCheckParam>,
+): any[] {
+  return result.map((item) => {
+    return computerCallSafetyCheckParamDeserializer(item);
+  });
+}
+
+/** A pending safety check for the computer call. */
+export interface ComputerCallSafetyCheckParam {
+  /** The ID of the pending safety check. */
+  id: string;
+  code?: string | null;
+  message?: string | null;
+}
+
+export function computerCallSafetyCheckParamDeserializer(item: any): ComputerCallSafetyCheckParam {
+  return {
+    id: item["id"],
+    code: item["code"],
+    message: item["message"],
+  };
+}
+
+/**
+ * A description of the chain of thought used by a reasoning model while generating
+ * a response. Be sure to include these items in your `input` to the Responses API
+ * for subsequent turns of a conversation if you are manually
+ * [managing context](https://platform.openai.com/docs/guides/conversation-state).
+ */
+export interface OutputItemReasoningItem extends OutputItem {
+  /** The type of the object. Always `reasoning`. */
+  type: "reasoning";
+  /** The unique identifier of the reasoning content. */
+  id: string;
+  encrypted_content?: string | null;
+  /** Reasoning summary content. */
+  summary: Summary[];
+  /** Reasoning text content. */
+  content?: ReasoningTextContent[];
+  /**
+   * The status of the item. One of `in_progress`, `completed`, or
+   *   `incomplete`. Populated when items are returned via API.
+   */
+  status?: "in_progress" | "completed" | "incomplete";
+}
+
+export function outputItemReasoningItemDeserializer(item: any): OutputItemReasoningItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+    encrypted_content: item["encrypted_content"],
+    summary: summaryArrayDeserializer(item["summary"]),
+    content: !item["content"]
+      ? item["content"]
+      : reasoningTextContentArrayDeserializer(item["content"]),
+    status: item["status"],
+  };
+}
+
+export function summaryArrayDeserializer(result: Array<Summary>): any[] {
+  return result.map((item) => {
+    return summaryDeserializer(item);
+  });
+}
+
+/** A summary text from the model. */
+export interface Summary {
+  /** The type of the object. Always `summary_text`. */
+  type: "summary_text";
+  /** A summary of the reasoning output from the model so far. */
+  text: string;
+}
+
+export function summaryDeserializer(item: any): Summary {
+  return {
+    type: item["type"],
+    text: item["text"],
+  };
+}
+
+export function reasoningTextContentArrayDeserializer(result: Array<ReasoningTextContent>): any[] {
+  return result.map((item) => {
+    return reasoningTextContentDeserializer(item);
+  });
+}
+
+/** Reasoning text from the model. */
+export interface ReasoningTextContent extends OutputContent {
+  /** The type of the reasoning text. Always `reasoning_text`. */
+  type: "reasoning_text";
+  /** The reasoning text from the model. */
+  text: string;
+}
+
+export function reasoningTextContentDeserializer(item: any): ReasoningTextContent {
+  return {
+    type: item["type"],
+    text: item["text"],
+  };
+}
+
+/** A compaction item generated by the [`v1/responses/compact` API](https://platform.openai.com/docs/api-reference/responses/compact). */
+export interface OutputItemCompactionBody extends OutputItem {
+  /** The type of the item. Always `compaction`. */
+  type: "compaction";
+  /** The unique ID of the compaction item. */
+  id: string;
+  encrypted_content: string;
+  created_by?: string;
+}
+
+export function outputItemCompactionBodyDeserializer(item: any): OutputItemCompactionBody {
+  return {
+    type: item["type"],
+    id: item["id"],
+    encrypted_content: item["encrypted_content"],
+    created_by: item["created_by"],
+  };
+}
+
+/** An image generation request made by the model. */
+export interface OutputItemImageGenToolCall extends OutputItem {
+  /** The type of the image generation call. Always `image_generation_call`. */
+  type: "image_generation_call";
+  /** The unique ID of the image generation call. */
+  id: string;
+  /** The status of the image generation call. */
+  status: "in_progress" | "completed" | "generating" | "failed";
+  result: string | null;
+}
+
+export function outputItemImageGenToolCallDeserializer(item: any): OutputItemImageGenToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    status: item["status"],
+    result: item["result"],
+  };
+}
+
+/** A tool call to run code. */
+export interface OutputItemCodeInterpreterToolCall extends OutputItem {
+  /** The type of the code interpreter tool call. Always `code_interpreter_call`. */
+  type: "code_interpreter_call";
+  /** The unique ID of the code interpreter tool call. */
+  id: string;
+  /** The status of the code interpreter tool call. Valid values are `in_progress`, `completed`, `incomplete`, `interpreting`, and `failed`. */
+  status: "in_progress" | "completed" | "incomplete" | "interpreting" | "failed";
+  /** The ID of the container used to run the code. */
+  container_id: string;
+  code: string | null;
+  outputs: (CodeInterpreterOutputLogs | CodeInterpreterOutputImage)[] | null;
+}
+
+export function outputItemCodeInterpreterToolCallDeserializer(
+  item: any,
+): OutputItemCodeInterpreterToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    status: item["status"],
+    container_id: item["container_id"],
+    code: item["code"],
+    outputs: !item["outputs"]
+      ? item["outputs"]
+      : _itemResourceCodeInterpreterToolCallOutputArrayDeserializer(item["outputs"]),
+  };
+}
+
+export function _itemResourceCodeInterpreterToolCallOutputArrayDeserializer(
+  result: Array<_ItemResourceCodeInterpreterToolCallOutput>,
+): any[] {
+  return result.map((item) => {
+    return _itemResourceCodeInterpreterToolCallOutputDeserializer(item);
+  });
+}
+
+/** Alias for _ItemResourceCodeInterpreterToolCallOutput */
+export type _ItemResourceCodeInterpreterToolCallOutput =
+  | CodeInterpreterOutputLogs
+  | CodeInterpreterOutputImage;
+
+export function _itemResourceCodeInterpreterToolCallOutputDeserializer(
+  item: any,
+): _ItemResourceCodeInterpreterToolCallOutput {
+  return item;
+}
+
+/** The logs output from the code interpreter. */
+export interface CodeInterpreterOutputLogs {
+  /** The type of the output. Always `logs`. */
+  type: "logs";
+  /** The logs output from the code interpreter. */
+  logs: string;
+}
+
+export function codeInterpreterOutputLogsDeserializer(item: any): CodeInterpreterOutputLogs {
+  return {
+    type: item["type"],
+    logs: item["logs"],
+  };
+}
+
+/** The image output from the code interpreter. */
+export interface CodeInterpreterOutputImage {
+  /** The type of the output. Always `image`. */
+  type: "image";
+  /** The URL of the image output from the code interpreter. */
+  url: string;
+}
+
+export function codeInterpreterOutputImageDeserializer(item: any): CodeInterpreterOutputImage {
+  return {
+    type: item["type"],
+    url: item["url"],
+  };
+}
+
+/** A tool call to run a command on the local shell. */
+export interface OutputItemLocalShellToolCall extends OutputItem {
+  /** The type of the local shell call. Always `local_shell_call`. */
+  type: "local_shell_call";
+  /** The unique ID of the local shell call. */
+  id: string;
+  /** The unique ID of the local shell tool call generated by the model. */
+  call_id: string;
+  action: LocalShellExecAction;
+  /** The status of the local shell call. */
+  status: "in_progress" | "completed" | "incomplete";
+}
+
+export function outputItemLocalShellToolCallDeserializer(item: any): OutputItemLocalShellToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    call_id: item["call_id"],
+    action: localShellExecActionDeserializer(item["action"]),
+    status: item["status"],
+  };
+}
+
+/** Execute a shell command on the server. */
+export interface LocalShellExecAction {
+  /** The type of the local shell action. Always `exec`. */
+  type: "exec";
+  /** The command to run. */
+  command: string[];
+  timeout_ms?: number | null;
+  working_directory?: string | null;
+  /** Environment variables to set for the command. */
+  env: Record<string, string>;
+  user?: string | null;
+}
+
+export function localShellExecActionDeserializer(item: any): LocalShellExecAction {
+  return {
+    type: item["type"],
+    command: item["command"].map((p: any) => {
+      return p;
+    }),
+    timeout_ms: item["timeout_ms"],
+    working_directory: item["working_directory"],
+    env: Object.fromEntries(Object.entries(item["env"]).map(([k, p]: [string, any]) => [k, p])),
+    user: item["user"],
+  };
+}
+
+/** A tool call that executes one or more shell commands in a managed environment. */
+export interface OutputItemFunctionShellCall extends OutputItem {
+  /** The type of the item. Always `shell_call`. */
+  type: "shell_call";
+  /** The unique ID of the shell tool call. Populated when this item is returned via API. */
+  id: string;
+  /** The unique ID of the shell tool call generated by the model. */
+  call_id: string;
+  /** The shell commands and limits that describe how to run the tool call. */
+  action: FunctionShellAction;
+  /** The status of the shell call. One of `in_progress`, `completed`, or `incomplete`. */
+  status: LocalShellCallStatus;
+  /** The ID of the entity that created this tool call. */
+  created_by?: string;
+}
+
+export function outputItemFunctionShellCallDeserializer(item: any): OutputItemFunctionShellCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    call_id: item["call_id"],
+    action: functionShellActionDeserializer(item["action"]),
+    status: item["status"],
+    created_by: item["created_by"],
+  };
+}
+
+/** Execute a shell command. */
+export interface FunctionShellAction {
+  commands: string[];
+  timeout_ms: number | null;
+  max_output_length: number | null;
+}
+
+export function functionShellActionDeserializer(item: any): FunctionShellAction {
+  return {
+    commands: item["commands"].map((p: any) => {
+      return p;
+    }),
+    timeout_ms: item["timeout_ms"],
+    max_output_length: item["max_output_length"],
+  };
+}
+
+/** Type of LocalShellCallStatus */
+export type LocalShellCallStatus = "in_progress" | "completed" | "incomplete";
+
+/** The output of a shell tool call. */
+export interface OutputItemFunctionShellCallOutput extends OutputItem {
+  /** The type of the shell call output. Always `shell_call_output`. */
+  type: "shell_call_output";
+  /** The unique ID of the shell call output. Populated when this item is returned via API. */
+  id: string;
+  /** The unique ID of the shell tool call generated by the model. */
+  call_id: string;
+  /** An array of shell call output contents */
+  output: FunctionShellCallOutputContent[];
+  max_output_length: number | null;
+  created_by?: string;
+}
+
+export function outputItemFunctionShellCallOutputDeserializer(
+  item: any,
+): OutputItemFunctionShellCallOutput {
+  return {
+    type: item["type"],
+    id: item["id"],
+    call_id: item["call_id"],
+    output: functionShellCallOutputContentArrayDeserializer(item["output"]),
+    max_output_length: item["max_output_length"],
+    created_by: item["created_by"],
+  };
+}
+
+export function functionShellCallOutputContentArrayDeserializer(
+  result: Array<FunctionShellCallOutputContent>,
+): any[] {
+  return result.map((item) => {
+    return functionShellCallOutputContentDeserializer(item);
+  });
+}
+
+/** The content of a shell call output. */
+export interface FunctionShellCallOutputContent {
+  stdout: string;
+  stderr: string;
+  /** Represents either an exit outcome (with an exit code) or a timeout outcome for a shell call output chunk. */
+  outcome: FunctionShellCallOutputOutcomeUnion;
+  created_by?: string;
+}
+
+export function functionShellCallOutputContentDeserializer(
+  item: any,
+): FunctionShellCallOutputContent {
+  return {
+    stdout: item["stdout"],
+    stderr: item["stderr"],
+    outcome: functionShellCallOutputOutcomeUnionDeserializer(item["outcome"]),
+    created_by: item["created_by"],
+  };
+}
+
+/** Represents either an exit outcome (with an exit code) or a timeout outcome for a shell call output chunk. */
+export interface FunctionShellCallOutputOutcome {
+  type: FunctionShellCallOutputOutcomeType;
+}
+
+export function functionShellCallOutputOutcomeDeserializer(
+  item: any,
+): FunctionShellCallOutputOutcome {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for FunctionShellCallOutputOutcomeUnion */
+export type FunctionShellCallOutputOutcomeUnion =
+  | FunctionShellCallOutputTimeoutOutcome
+  | FunctionShellCallOutputExitOutcome
+  | FunctionShellCallOutputOutcome;
+
+export function functionShellCallOutputOutcomeUnionDeserializer(
+  item: any,
+): FunctionShellCallOutputOutcomeUnion {
+  switch (item.type) {
+    case "timeout":
+      return functionShellCallOutputTimeoutOutcomeDeserializer(
+        item as FunctionShellCallOutputTimeoutOutcome,
+      );
+
+    case "exit":
+      return functionShellCallOutputExitOutcomeDeserializer(
+        item as FunctionShellCallOutputExitOutcome,
+      );
+
+    default:
+      return functionShellCallOutputOutcomeDeserializer(item);
+  }
+}
+
+/** Type of FunctionShellCallOutputOutcomeType */
+export type FunctionShellCallOutputOutcomeType = "timeout" | "exit";
+
+/** Indicates that the shell call exceeded its configured time limit. */
+export interface FunctionShellCallOutputTimeoutOutcome extends FunctionShellCallOutputOutcome {
+  /** The outcome type. Always `timeout`. */
+  type: "timeout";
+}
+
+export function functionShellCallOutputTimeoutOutcomeDeserializer(
+  item: any,
+): FunctionShellCallOutputTimeoutOutcome {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Indicates that the shell commands finished and returned an exit code. */
+export interface FunctionShellCallOutputExitOutcome extends FunctionShellCallOutputOutcome {
+  /** The outcome type. Always `exit`. */
+  type: "exit";
+  /** Exit code from the shell process. */
+  exit_code: number;
+}
+
+export function functionShellCallOutputExitOutcomeDeserializer(
+  item: any,
+): FunctionShellCallOutputExitOutcome {
+  return {
+    type: item["type"],
+    exit_code: item["exit_code"],
+  };
+}
+
+/** A tool call that applies file diffs by creating, deleting, or updating files. */
+export interface OutputItemApplyPatchToolCall extends OutputItem {
+  /** The type of the item. Always `apply_patch_call`. */
+  type: "apply_patch_call";
+  /** The unique ID of the apply patch tool call. Populated when this item is returned via API. */
+  id: string;
+  /** The unique ID of the apply patch tool call generated by the model. */
+  call_id: string;
+  /** The status of the apply patch tool call. One of `in_progress` or `completed`. */
+  status: ApplyPatchCallStatus;
+  /** One of the create_file, delete_file, or update_file operations applied via apply_patch. */
+  operation: ApplyPatchFileOperationUnion;
+  /** The ID of the entity that created this tool call. */
+  created_by?: string;
+}
+
+export function outputItemApplyPatchToolCallDeserializer(item: any): OutputItemApplyPatchToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    call_id: item["call_id"],
+    status: item["status"],
+    operation: applyPatchFileOperationUnionDeserializer(item["operation"]),
+    created_by: item["created_by"],
+  };
+}
+
+/** Type of ApplyPatchCallStatus */
+export type ApplyPatchCallStatus = "in_progress" | "completed";
+
+/** One of the create_file, delete_file, or update_file operations applied via apply_patch. */
+export interface ApplyPatchFileOperation {
+  type: ApplyPatchFileOperationType;
+}
+
+export function applyPatchFileOperationDeserializer(item: any): ApplyPatchFileOperation {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for ApplyPatchFileOperationUnion */
+export type ApplyPatchFileOperationUnion =
+  | ApplyPatchCreateFileOperation
+  | ApplyPatchDeleteFileOperation
+  | ApplyPatchUpdateFileOperation
+  | ApplyPatchFileOperation;
+
+export function applyPatchFileOperationUnionDeserializer(item: any): ApplyPatchFileOperationUnion {
+  switch (item.type) {
+    case "create_file":
+      return applyPatchCreateFileOperationDeserializer(item as ApplyPatchCreateFileOperation);
+
+    case "delete_file":
+      return applyPatchDeleteFileOperationDeserializer(item as ApplyPatchDeleteFileOperation);
+
+    case "update_file":
+      return applyPatchUpdateFileOperationDeserializer(item as ApplyPatchUpdateFileOperation);
+
+    default:
+      return applyPatchFileOperationDeserializer(item);
+  }
+}
+
+/** Type of ApplyPatchFileOperationType */
+export type ApplyPatchFileOperationType = "create_file" | "delete_file" | "update_file";
+
+/** Instruction describing how to create a file via the apply_patch tool. */
+export interface ApplyPatchCreateFileOperation extends ApplyPatchFileOperation {
+  /** Create a new file with the provided diff. */
+  type: "create_file";
+  /** Path of the file to create. */
+  path: string;
+  /** Diff to apply. */
+  diff: string;
+}
+
+export function applyPatchCreateFileOperationDeserializer(
+  item: any,
+): ApplyPatchCreateFileOperation {
+  return {
+    type: item["type"],
+    path: item["path"],
+    diff: item["diff"],
+  };
+}
+
+/** Instruction describing how to delete a file via the apply_patch tool. */
+export interface ApplyPatchDeleteFileOperation extends ApplyPatchFileOperation {
+  /** Delete the specified file. */
+  type: "delete_file";
+  /** Path of the file to delete. */
+  path: string;
+}
+
+export function applyPatchDeleteFileOperationDeserializer(
+  item: any,
+): ApplyPatchDeleteFileOperation {
+  return {
+    type: item["type"],
+    path: item["path"],
+  };
+}
+
+/** Instruction describing how to update a file via the apply_patch tool. */
+export interface ApplyPatchUpdateFileOperation extends ApplyPatchFileOperation {
+  /** Update an existing file with the provided diff. */
+  type: "update_file";
+  /** Path of the file to update. */
+  path: string;
+  /** Diff to apply. */
+  diff: string;
+}
+
+export function applyPatchUpdateFileOperationDeserializer(
+  item: any,
+): ApplyPatchUpdateFileOperation {
+  return {
+    type: item["type"],
+    path: item["path"],
+    diff: item["diff"],
+  };
+}
+
+/** The output emitted by an apply patch tool call. */
+export interface OutputItemApplyPatchToolCallOutput extends OutputItem {
+  /** The type of the item. Always `apply_patch_call_output`. */
+  type: "apply_patch_call_output";
+  /** The unique ID of the apply patch tool call output. Populated when this item is returned via API. */
+  id: string;
+  /** The unique ID of the apply patch tool call generated by the model. */
+  call_id: string;
+  /** The status of the apply patch tool call output. One of `completed` or `failed`. */
+  status: ApplyPatchCallOutputStatus;
+  output?: string | null;
+  /** The ID of the entity that created this tool call output. */
+  created_by?: string;
+}
+
+export function outputItemApplyPatchToolCallOutputDeserializer(
+  item: any,
+): OutputItemApplyPatchToolCallOutput {
+  return {
+    type: item["type"],
+    id: item["id"],
+    call_id: item["call_id"],
+    status: item["status"],
+    output: item["output"],
+    created_by: item["created_by"],
+  };
+}
+
+/** Type of ApplyPatchCallOutputStatus */
+export type ApplyPatchCallOutputStatus = "completed" | "failed";
+
+/** An invocation of a tool on an MCP server. */
+export interface OutputItemMcpToolCall extends OutputItem {
+  /** The type of the item. Always `mcp_call`. */
+  type: "mcp_call";
+  /** The unique ID of the tool call. */
+  id: string;
+  /** The label of the MCP server running the tool. */
+  server_label: string;
+  /** The name of the tool that was run. */
+  name: string;
+  /** A JSON string of the arguments passed to the tool. */
+  arguments: string;
+  output?: string | null;
+  error?: string | null;
+  /** The status of the tool call. One of `in_progress`, `completed`, `incomplete`, `calling`, or `failed`. */
+  status?: MCPToolCallStatus;
+  approval_request_id?: string | null;
+}
+
+export function outputItemMcpToolCallDeserializer(item: any): OutputItemMcpToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    server_label: item["server_label"],
+    name: item["name"],
+    arguments: item["arguments"],
+    output: item["output"],
+    error: item["error"],
+    status: item["status"],
+    approval_request_id: item["approval_request_id"],
+  };
+}
+
+/** Type of MCPToolCallStatus */
+export type MCPToolCallStatus = "in_progress" | "completed" | "incomplete" | "calling" | "failed";
+
+/** A list of tools available on an MCP server. */
+export interface OutputItemMcpListTools extends OutputItem {
+  /** The type of the item. Always `mcp_list_tools`. */
+  type: "mcp_list_tools";
+  /** The unique ID of the list. */
+  id: string;
+  /** The label of the MCP server. */
+  server_label: string;
+  /** The tools available on the server. */
+  tools: MCPListToolsTool[];
+  error?: string | null;
+}
+
+export function outputItemMcpListToolsDeserializer(item: any): OutputItemMcpListTools {
+  return {
+    type: item["type"],
+    id: item["id"],
+    server_label: item["server_label"],
+    tools: mcpListToolsToolArrayDeserializer(item["tools"]),
+    error: item["error"],
+  };
+}
+
+export function mcpListToolsToolArrayDeserializer(result: Array<MCPListToolsTool>): any[] {
+  return result.map((item) => {
+    return mcpListToolsToolDeserializer(item);
+  });
+}
+
+/** A tool available on an MCP server. */
+export interface MCPListToolsTool {
+  /** The name of the tool. */
+  name: string;
+  description?: string | null;
+  /** The JSON schema describing the tool's input. */
+  input_schema: MCPListToolsToolInputSchema;
+  annotations?: MCPListToolsToolAnnotations | null;
+}
+
+export function mcpListToolsToolDeserializer(item: any): MCPListToolsTool {
+  return {
+    name: item["name"],
+    description: item["description"],
+    input_schema: mcpListToolsToolInputSchemaDeserializer(item["input_schema"]),
+    annotations: !item["annotations"]
+      ? item["annotations"]
+      : mcpListToolsToolAnnotationsDeserializer(item["annotations"]),
+  };
+}
+
+/** model interface MCPListToolsToolInputSchema */
+export interface MCPListToolsToolInputSchema {}
+
+export function mcpListToolsToolInputSchemaDeserializer(item: any): MCPListToolsToolInputSchema {
+  return item;
+}
+
+/** model interface MCPListToolsToolAnnotations */
+export interface MCPListToolsToolAnnotations {}
+
+export function mcpListToolsToolAnnotationsDeserializer(item: any): MCPListToolsToolAnnotations {
+  return item;
+}
+
+/** A request for human approval of a tool invocation. */
+export interface OutputItemMcpApprovalRequest extends OutputItem {
+  /** The type of the item. Always `mcp_approval_request`. */
+  type: "mcp_approval_request";
+  /** The unique ID of the approval request. */
+  id: string;
+  /** The label of the MCP server making the request. */
+  server_label: string;
+  /** The name of the tool to run. */
+  name: string;
+  /** A JSON string of arguments for the tool. */
+  arguments: string;
+}
+
+export function outputItemMcpApprovalRequestDeserializer(item: any): OutputItemMcpApprovalRequest {
+  return {
+    type: item["type"],
+    id: item["id"],
+    server_label: item["server_label"],
+    name: item["name"],
+    arguments: item["arguments"],
+  };
+}
+
+/** A call to a custom tool created by the model. */
+export interface OutputItemCustomToolCall extends OutputItem {
+  /** The type of the custom tool call. Always `custom_tool_call`. */
+  type: "custom_tool_call";
+  /** The unique ID of the custom tool call in the OpenAI platform. */
+  id?: string;
+  /** An identifier used to map this custom tool call to a tool call output. */
+  call_id: string;
+  /** The name of the custom tool being called. */
+  name: string;
+  /** The input for the custom tool call generated by the model. */
+  input: string;
+}
+
+export function outputItemCustomToolCallDeserializer(item: any): OutputItemCustomToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    call_id: item["call_id"],
+    name: item["name"],
+    input: item["input"],
+  };
+}
+
+/**
+ * Represents token usage details including input tokens, output tokens,
+ * a breakdown of output tokens, and the total tokens used.
+ */
+export interface ResponseUsage {
+  /** The number of input tokens. */
+  input_tokens: number;
+  /** A detailed breakdown of the input tokens. */
+  input_tokens_details: ResponseUsageInputTokensDetails;
+  /** The number of output tokens. */
+  output_tokens: number;
+  /** A detailed breakdown of the output tokens. */
+  output_tokens_details: ResponseUsageOutputTokensDetails;
+  /** The total number of tokens used. */
+  total_tokens: number;
+}
+
+export function responseUsageDeserializer(item: any): ResponseUsage {
+  return {
+    input_tokens: item["input_tokens"],
+    input_tokens_details: responseUsageInputTokensDetailsDeserializer(item["input_tokens_details"]),
+    output_tokens: item["output_tokens"],
+    output_tokens_details: responseUsageOutputTokensDetailsDeserializer(
+      item["output_tokens_details"],
+    ),
+    total_tokens: item["total_tokens"],
+  };
+}
+
+/** model interface OutputContent */
+export interface OutputContent {
+  type: OutputContentType;
+}
+
+export function outputContentDeserializer(item: any): OutputContent {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for OutputContentUnion */
+export type OutputContentUnion = ReasoningTextContent | OutputContent;
+
+export function outputContentUnionDeserializer(item: any): OutputContentUnion {
+  switch (item.type) {
+    case "reasoning_text":
+      return reasoningTextContentDeserializer(item as ReasoningTextContent);
+
+    default:
+      return outputContentDeserializer(item);
+  }
+}
+
+/** Type of OutputContentType */
+export type OutputContentType = "output_text" | "refusal" | "reasoning_text";
+
 /** Red team details. */
 export interface RedTeam {
   /** Identifier of the red team run. */
@@ -5219,6 +7139,33 @@ export function redTeamArraySerializer(result: Array<RedTeam>): any[] {
 export function redTeamArrayDeserializer(result: Array<RedTeam>): any[] {
   return result.map((item) => {
     return redTeamDeserializer(item);
+  });
+}
+
+/** Paged collection of EvaluationTaxonomy items */
+export interface _PagedEvaluationTaxonomy {
+  /** The EvaluationTaxonomy items on this page */
+  value: EvaluationTaxonomy[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _pagedEvaluationTaxonomyDeserializer(item: any): _PagedEvaluationTaxonomy {
+  return {
+    value: evaluationTaxonomyArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function evaluationTaxonomyArraySerializer(result: Array<EvaluationTaxonomy>): any[] {
+  return result.map((item) => {
+    return evaluationTaxonomySerializer(item);
+  });
+}
+
+export function evaluationTaxonomyArrayDeserializer(result: Array<EvaluationTaxonomy>): any[] {
+  return result.map((item) => {
+    return evaluationTaxonomyDeserializer(item);
   });
 }
 
@@ -5796,33 +7743,6 @@ export function modelSamplingParamsDeserializer(item: any): ModelSamplingParams 
     seed: item["seed"],
     max_completion_tokens: item["max_completion_tokens"],
   };
-}
-
-/** Paged collection of EvaluationTaxonomy items */
-export interface _PagedEvaluationTaxonomy {
-  /** The EvaluationTaxonomy items on this page */
-  value: EvaluationTaxonomy[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _pagedEvaluationTaxonomyDeserializer(item: any): _PagedEvaluationTaxonomy {
-  return {
-    value: evaluationTaxonomyArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function evaluationTaxonomyArraySerializer(result: Array<EvaluationTaxonomy>): any[] {
-  return result.map((item) => {
-    return evaluationTaxonomySerializer(item);
-  });
-}
-
-export function evaluationTaxonomyArrayDeserializer(result: Array<EvaluationTaxonomy>): any[] {
-  return result.map((item) => {
-    return evaluationTaxonomyDeserializer(item);
-  });
 }
 
 /** Paged collection of EvaluatorVersion items */
