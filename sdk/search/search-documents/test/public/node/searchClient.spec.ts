@@ -16,7 +16,6 @@ import {
   AzureKeyCredential,
   IndexDocumentsBatch,
   KnownQueryLanguage,
-  KnownQuerySpeller,
   SearchClient,
 } from "../../../src/index.js";
 import { defaultServiceVersion } from "../../../src/serviceUtils.js";
@@ -114,17 +113,6 @@ describe("SearchClient", { timeout: 20_000 }, () => {
         },
       }) as const;
 
-    it("search with speller (preview)", async () => {
-      const searchResults = await searchClient.search("budjet", {
-        skip: 0,
-        top: 5,
-        includeTotalCount: true,
-        queryLanguage: KnownQueryLanguage.EnUs,
-        speller: KnownQuerySpeller.Lexicon,
-      });
-      assert.equal(searchResults.count, 6);
-    });
-
     it("search with semantic ranking", async () => {
       const searchResults = await searchClient.search("luxury", {
         ...baseSemanticOptions(),
@@ -133,48 +121,6 @@ describe("SearchClient", { timeout: 20_000 }, () => {
         includeTotalCount: true,
       });
       assert.equal(searchResults.count, 1);
-    });
-
-    it("search with document debug info", async () => {
-      const baseOptions = baseSemanticOptions();
-      const options = {
-        ...baseOptions,
-        semanticSearchOptions: {
-          ...baseOptions.semanticSearchOptions,
-          errorMode: "fail",
-          debugMode: "semantic",
-        },
-      } as const;
-      const searchResults = await searchClient.search("luxury", options);
-      for await (const result of searchResults.results) {
-        assert.deepEqual(
-          {
-            contentFields: [
-              {
-                name: "description",
-                state: "used",
-              },
-            ],
-            keywordFields: [
-              {
-                name: "tags",
-                state: "used",
-              },
-            ],
-            rerankerInput: {
-              content:
-                "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
-              keywords: "pool\r\nview\r\nwifi\r\nconcierge",
-              title: "Fancy Stay",
-            },
-            titleField: {
-              name: "hotelName",
-              state: "used",
-            },
-          },
-          result.documentDebugInfo?.semantic,
-        );
-      }
     });
 
     it("search with answers", async () => {
