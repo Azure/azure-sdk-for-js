@@ -69,8 +69,9 @@ export async function createIndex(
     },
   ];
   await Promise.all(vectorSearchProfiles.map((p) => renameUniquelyInPlace("name", p)));
-  const [vectorSearchProfileName, compressedVectorSearchProfileName] =
-    vectorSearchProfiles.map((p) => p.name);
+  const [vectorSearchProfileName, compressedVectorSearchProfileName] = vectorSearchProfiles.map(
+    (p) => p.name,
+  );
 
   const vectorFields: SearchField[] = [
     {

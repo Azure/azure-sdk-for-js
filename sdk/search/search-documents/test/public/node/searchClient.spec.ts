@@ -69,8 +69,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
     });
   });
 
-  // TODO: the preview-only tests are mixed in here when they should be in another describe (and removed in the stable release branch)
-  describe("stable", () => {
+  describe("search scenarios", () => {
     let recorder: Recorder;
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
@@ -115,7 +114,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
         },
       }) as const;
 
-    it("search with speller", async () => {
+    it("search with speller (preview)", async () => {
       const searchResults = await searchClient.search("budjet", {
         skip: 0,
         top: 5,
@@ -150,32 +149,30 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       for await (const result of searchResults.results) {
         assert.deepEqual(
           {
-            semantic: {
-              contentFields: [
-                {
-                  name: "description",
-                  state: "used",
-                },
-              ],
-              keywordFields: [
-                {
-                  name: "tags",
-                  state: "used",
-                },
-              ],
-              rerankerInput: {
-                content:
-                  "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
-                keywords: "pool\r\nview\r\nwifi\r\nconcierge",
-                title: "Fancy Stay",
-              },
-              titleField: {
-                name: "hotelName",
+            contentFields: [
+              {
+                name: "description",
                 state: "used",
               },
+            ],
+            keywordFields: [
+              {
+                name: "tags",
+                state: "used",
+              },
+            ],
+            rerankerInput: {
+              content:
+                "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
+              keywords: "pool\r\nview\r\nwifi\r\nconcierge",
+              title: "Fancy Stay",
+            },
+            titleField: {
+              name: "hotelName",
+              state: "used",
             },
           },
-          result.documentDebugInfo,
+          result.documentDebugInfo?.semantic,
         );
       }
     });

@@ -393,7 +393,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
 
   // TODO: Remove skip and fix recording issues before enabling these tests in PRs
   // To run these tests locally in 'live' mode, remove the skip modifier
-  describe.skip("preview", () => {
+  describe("preview", () => {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
     let index: SearchIndex;

@@ -555,13 +555,13 @@ export function generatedVectorSearchVectorizerToPublicVectorizer(
       const { aIServicesVisionParameters: generatedParameters } = generatedVisionVectorizer;
       const parameters = generatedParameters
         ? {
-          ...generatedParameters,
-          modelVersion: generatedParameters.modelVersion ?? undefined,
-          resourceUri: generatedParameters.resourceUri,
-          authIdentity: convertSearchIndexerDataIdentityToPublic(
-            generatedParameters.authIdentity,
-          ),
-        }
+            ...generatedParameters,
+            modelVersion: generatedParameters.modelVersion ?? undefined,
+            resourceUri: generatedParameters.resourceUri,
+            authIdentity: convertSearchIndexerDataIdentityToPublic(
+              generatedParameters.authIdentity,
+            ),
+          }
         : undefined;
       const vectorizer: AIServicesVisionVectorizer = {
         ...generatedVisionVectorizer,
