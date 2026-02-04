@@ -28359,9 +28359,6 @@ importers:
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
-      '@azure/core-xml':
-        specifier: ^1.4.5
-        version: link:../../core/core-xml
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -28371,6 +28368,9 @@ importers:
       events:
         specifier: ^3.0.0
         version: 3.3.0
+      fast-xml-parser:
+        specifier: ^5.3.4
+        version: 5.3.4
       tslib:
         specifier: ^2.8.1
         version: 2.8.1

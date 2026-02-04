@@ -27,7 +27,6 @@ import type { AccessTier } from "./generatedModels.js";
 import { Mutex } from "./utils/Mutex.js";
 import { Pipeline } from "./Pipeline.js";
 import { getURLPath, getURLPathAndQuery, iEqual } from "./utils/utils.common.js";
-import { stringifyXML } from "@azure/core-xml";
 import {
   HeaderConstants,
   BATCH_MAX_REQUEST,
@@ -364,17 +363,6 @@ class InnerBatchRequest {
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
   ): Pipeline {
     const corePipeline = createEmptyPipeline();
-    corePipeline.addPolicy(
-      serializationPolicy({
-        stringifyXML,
-        serializerOptions: {
-          xml: {
-            xmlCharKey: "#",
-          },
-        },
-      }),
-      { phase: "Serialize" },
-    );
     // Use batch header filter policy to exclude unnecessary headers
     corePipeline.addPolicy(batchHeaderFilterPolicy());
     // Use batch assemble policy to assemble request and intercept request from going to wire
