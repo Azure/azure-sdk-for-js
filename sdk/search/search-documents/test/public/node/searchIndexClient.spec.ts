@@ -18,7 +18,7 @@ import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
 import {
   createRandomIndexName,
-  createSimpleIndex,
+  createIndex,
   createSynonymMaps,
   deleteSynonymMaps,
   WAIT_TIME,
@@ -87,9 +87,11 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       ));
       knowledgeSource = {
         kind: "searchIndex",
-        name: `searchIndex-ks-${TEST_INDEX_NAME}`,
+        name: `search-ks-${TEST_INDEX_NAME}`,
         searchIndexParameters: {
           searchIndexName: TEST_INDEX_NAME,
+          searchFields: [{ name: "hotelName" }, { name: "description" }],
+          semanticConfigurationName: "semantic-configuration",
         },
       };
       knowledgeBase = {
@@ -98,7 +100,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       } as any;
 
       await createSynonymMaps(indexClient);
-      await createSimpleIndex(indexClient, TEST_INDEX_NAME);
+      await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
       await delay(WAIT_TIME);
     });
 
@@ -209,7 +211,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       it("gets the correct index object", async () => {
         const index = await indexClient.getIndex(TEST_INDEX_NAME);
         assert.equal(index.name, TEST_INDEX_NAME);
-        assert.equal(index.fields.length, 5);
+        assert.equal(index.fields.length, 15);
       });
 
       it("throws error for invalid index object", async () => {
@@ -281,7 +283,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         });
         await indexClient.createOrUpdateIndex(index);
         index = await indexClient.getIndex(TEST_INDEX_NAME);
-        assert.equal(index.fields.length, 6);
+        assert.equal(index.fields.length, 16);
       });
 
       it("gets index statistics summary", async () => {

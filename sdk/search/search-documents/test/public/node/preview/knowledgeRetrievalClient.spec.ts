@@ -33,7 +33,6 @@ describe("Knowledge", { timeout: 20_000 }, () => {
     recorder = new Recorder(ctx);
     TEST_INDEX_NAME = createRandomIndexName();
     TEST_BASE_NAME = createRandomIndexName();
-    TEST_KS_NAME = `searchindex-ks-${TEST_INDEX_NAME}`;
     ({
       searchClient,
       indexClient,
@@ -46,6 +45,7 @@ describe("Knowledge", { timeout: 20_000 }, () => {
       TEST_INDEX_NAME,
       TEST_BASE_NAME,
     ));
+    TEST_KS_NAME = `searchindex-ks-${TEST_INDEX_NAME}`;
     await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
 
     await indexClient.createKnowledgeSource({

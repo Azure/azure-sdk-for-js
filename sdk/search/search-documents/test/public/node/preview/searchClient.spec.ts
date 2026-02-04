@@ -159,6 +159,7 @@ describe("content security (preview)", { timeout: 20_000 }, () => {
       indexClient.endpoint,
       index.name,
       createTestCredential(),
+      recorder.configureClientOptions({}),
     );
 
     await searchClient.uploadDocuments(documents);
