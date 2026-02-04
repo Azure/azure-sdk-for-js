@@ -1,14 +1,10 @@
 # Release History
 
-## 0.3.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 0.3.3 (2026-02-05)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fixed an issue where setting `content-type` header was ignored when the request has no body. [#37181](https://github.com/Azure/azure-sdk-for-js/pull/37181)
 
 ## 0.3.2 (2025-11-06)
 

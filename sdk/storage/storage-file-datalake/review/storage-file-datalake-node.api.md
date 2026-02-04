@@ -31,6 +31,7 @@ import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
 import { LeaseOperationResponse } from '@azure/storage-blob';
 import type { ModifiedAccessConditions as ModifiedAccessConditions_3 } from '@azure/storage-blob';
+import { NodeJSReadableStream } from '@azure/storage-blob';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/storage-blob';
@@ -742,7 +743,7 @@ export interface FileReadOptions extends CommonOptions {
 // @public (undocumented)
 export type FileReadResponse = WithResponse<FileReadHeaders & {
     contentAsBlob?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeJSReadableStream;
 }, FileReadHeaders>;
 
 // @public
@@ -1207,6 +1208,8 @@ export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_3, "ifTags"
 
 // @public
 export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+
+export { NodeJSReadableStream }
 
 // @public (undocumented)
 export interface Path {
