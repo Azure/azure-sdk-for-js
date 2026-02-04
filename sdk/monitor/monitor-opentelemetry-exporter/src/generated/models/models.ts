@@ -123,7 +123,7 @@ export interface AvailabilityData extends MonitorDomain {
 export function availabilityDataSerializer(item: AvailabilityData): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["version"],
+    ver: item["ver"],
     id: item["id"],
     name: item["name"],
     duration: item["duration"],
@@ -152,7 +152,7 @@ export interface TelemetryEventData extends MonitorDomain {
 export function telemetryEventDataSerializer(item: TelemetryEventData): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["version"],
+    ver: item["ver"],
     name: item["name"],
     properties: item["properties"],
     measurements: item["measurements"],
@@ -161,8 +161,8 @@ export function telemetryEventDataSerializer(item: TelemetryEventData): any {
 
 export function telemetryEventDataDeserializer(item: any): TelemetryEventData {
   return {
-    additionalProperties: serializeRecord(item, ["version", "name", "properties", "measurements"]),
-    version: item["ver"],
+    additionalProperties: serializeRecord(item, ["ver", "name", "properties", "measurements"]),
+    ver: item["ver"],
     name: item["name"],
     properties: !item["properties"]
       ? item["properties"]
@@ -204,7 +204,7 @@ export interface TelemetryExceptionData extends MonitorDomain {
 export function telemetryExceptionDataSerializer(item: TelemetryExceptionData): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["version"],
+    ver: item["ver"],
     exceptions: telemetryExceptionDetailsArraySerializer(item["exceptions"]),
     severityLevel: item["severityLevel"],
     problemId: item["problemId"],
@@ -216,14 +216,14 @@ export function telemetryExceptionDataSerializer(item: TelemetryExceptionData): 
 export function telemetryExceptionDataDeserializer(item: any): TelemetryExceptionData {
   return {
     additionalProperties: serializeRecord(item, [
-      "version",
+      "ver",
       "exceptions",
       "severityLevel",
       "problemId",
       "properties",
       "measurements",
     ]),
-    version: item["ver"],
+    ver: item["ver"],
     exceptions: telemetryExceptionDetailsArrayDeserializer(item["exceptions"]),
     severityLevel: item["severityLevel"],
     problemId: item["problemId"],
@@ -403,7 +403,7 @@ export interface MessageData extends MonitorDomain {
 export function messageDataSerializer(item: MessageData): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["version"],
+    ver: item["ver"],
     message: item["message"],
     severityLevel: item["severityLevel"],
     properties: item["properties"],
@@ -414,13 +414,13 @@ export function messageDataSerializer(item: MessageData): any {
 export function messageDataDeserializer(item: any): MessageData {
   return {
     additionalProperties: serializeRecord(item, [
-      "version",
+      "ver",
       "message",
       "severityLevel",
       "properties",
       "measurements",
     ]),
-    version: item["ver"],
+    ver: item["ver"],
     message: item["message"],
     severityLevel: item["severityLevel"],
     properties: !item["properties"]
@@ -454,7 +454,7 @@ export interface MetricsData extends MonitorDomain {
 export function metricsDataSerializer(item: MetricsData): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["version"],
+    ver: item["ver"],
     metrics: metricDataPointArraySerializer(item["metrics"]),
     properties: item["properties"],
   };
@@ -462,8 +462,8 @@ export function metricsDataSerializer(item: MetricsData): any {
 
 export function metricsDataDeserializer(item: any): MetricsData {
   return {
-    additionalProperties: serializeRecord(item, ["version", "metrics", "properties"]),
-    version: item["ver"],
+    additionalProperties: serializeRecord(item, ["ver", "metrics", "properties"]),
+    ver: item["ver"],
     metrics: metricDataPointArrayDeserializer(item["metrics"]),
     properties: !item["properties"]
       ? item["properties"]
@@ -586,7 +586,7 @@ export interface PageViewData extends MonitorDomain {
 export function pageViewDataSerializer(item: PageViewData): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["version"],
+    ver: item["ver"],
     id: item["id"],
     name: item["name"],
     url: item["url"],
@@ -600,7 +600,7 @@ export function pageViewDataSerializer(item: PageViewData): any {
 export function pageViewDataDeserializer(item: any): PageViewData {
   return {
     additionalProperties: serializeRecord(item, [
-      "version",
+      "ver",
       "id",
       "name",
       "url",
@@ -609,7 +609,7 @@ export function pageViewDataDeserializer(item: any): PageViewData {
       "properties",
       "measurements",
     ]),
-    version: item["ver"],
+    ver: item["ver"],
     id: item["id"],
     name: item["name"],
     url: item["url"],
@@ -671,7 +671,7 @@ export interface PageViewPerfData extends MonitorDomain {
 export function pageViewPerfDataSerializer(item: PageViewPerfData): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["version"],
+    ver: item["ver"],
     id: item["id"],
     name: item["name"],
     url: item["url"],
@@ -689,7 +689,7 @@ export function pageViewPerfDataSerializer(item: PageViewPerfData): any {
 export function pageViewPerfDataDeserializer(item: any): PageViewPerfData {
   return {
     additionalProperties: serializeRecord(item, [
-      "version",
+      "ver",
       "id",
       "name",
       "url",
@@ -702,7 +702,7 @@ export function pageViewPerfDataDeserializer(item: any): PageViewPerfData {
       "properties",
       "measurements",
     ]),
-    version: item["ver"],
+    ver: item["ver"],
     id: item["id"],
     name: item["name"],
     url: item["url"],
@@ -771,7 +771,7 @@ export interface RemoteDependencyData extends MonitorDomain {
 export function remoteDependencyDataSerializer(item: RemoteDependencyData): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["version"],
+    ver: item["ver"],
     id: item["id"],
     name: item["name"],
     resultCode: item["resultCode"],
@@ -788,7 +788,7 @@ export function remoteDependencyDataSerializer(item: RemoteDependencyData): any 
 export function remoteDependencyDataDeserializer(item: any): RemoteDependencyData {
   return {
     additionalProperties: serializeRecord(item, [
-      "version",
+      "ver",
       "id",
       "name",
       "resultCode",
@@ -800,7 +800,7 @@ export function remoteDependencyDataDeserializer(item: any): RemoteDependencyDat
       "properties",
       "measurements",
     ]),
-    version: item["ver"],
+    ver: item["ver"],
     id: item["id"],
     name: item["name"],
     resultCode: item["resultCode"],
@@ -861,7 +861,7 @@ export interface RequestData extends MonitorDomain {
 export function requestDataSerializer(item: RequestData): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["version"],
+    ver: item["ver"],
     id: item["id"],
     name: item["name"],
     duration: item["duration"],
@@ -877,7 +877,7 @@ export function requestDataSerializer(item: RequestData): any {
 export function requestDataDeserializer(item: any): RequestData {
   return {
     additionalProperties: serializeRecord(item, [
-      "version",
+      "ver",
       "id",
       "name",
       "duration",
@@ -888,7 +888,7 @@ export function requestDataDeserializer(item: any): RequestData {
       "properties",
       "measurements",
     ]),
-    version: item["ver"],
+    ver: item["ver"],
     id: item["id"],
     name: item["name"],
     duration: item["duration"],
@@ -912,19 +912,19 @@ export function requestDataDeserializer(item: any): RequestData {
 /** The abstract common base of all domains. */
 export interface MonitorDomain {
   /** Schema version */
-  version: number;
+  ver: number;
   /** Additional properties */
   additionalProperties?: Record<string, any>;
 }
 
 export function monitorDomainSerializer(item: MonitorDomain): any {
-  return { ...serializeRecord(item.additionalProperties ?? {}), ver: item["version"] };
+  return { ...serializeRecord(item.additionalProperties ?? {}), ver: item["ver"] };
 }
 
 export function monitorDomainDeserializer(item: any): MonitorDomain {
   return {
-    additionalProperties: serializeRecord(item, ["version"]),
-    version: item["ver"],
+    additionalProperties: serializeRecord(item, ["ver"]),
+    ver: item["ver"],
   };
 }
 

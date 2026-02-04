@@ -22,6 +22,12 @@ export const TIME_SINCE_ENQUEUED = "timeSinceEnqueued";
  */
 export const packageVersion = "1.0.0-beta.38";
 
+/**
+ * Telemetry base data version.
+ * @internal
+ */
+export const DEFAULT_BREEZE_DATA_VERSION = 2;
+
 export enum DependencyTypes {
   InProc = "InProc",
   QueueMessage = "Queue Message",

@@ -66,6 +66,7 @@ import {
 import { parseEventHubSpan } from "./eventhub.js";
 import {
   AzureMonitorSampleRate,
+  DEFAULT_BREEZE_DATA_VERSION,
   DependencyTypes,
   MicrosoftClientIp,
   MS_LINKS,
@@ -202,7 +203,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     resultCode: "0",
     type: "Dependency",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-    version: 2,
+    version: DEFAULT_BREEZE_DATA_VERSION,
   };
   if (span.kind === SpanKind.PRODUCER) {
     remoteDependencyData.type = DependencyTypes.QueueMessage;
@@ -315,7 +316,7 @@ function createRequestData(span: ReadableSpan): RequestData {
         : (Number(getHttpStatusCode(span.attributes)) || 0) < 400,
     responseCode: "0",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-    version: 2,
+    version: DEFAULT_BREEZE_DATA_VERSION,
     source: undefined,
   };
   const httpMethod = getHttpMethod(span.attributes);
@@ -420,7 +421,7 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
     time,
     instrumentationKey,
     tags,
-    version: 2,
+    version: DEFAULT_BREEZE_DATA_VERSION,
     data: {
       baseType,
       baseData: {
@@ -484,7 +485,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
         };
         const exceptionData: TelemetryExceptionData = {
           exceptions: [exceptionDetails],
-          version: 2,
+          version: DEFAULT_BREEZE_DATA_VERSION,
           properties: properties,
         };
         baseData = exceptionData;
@@ -493,7 +494,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
         baseType = "MessageData";
         const messageData: MessageData = {
           message: event.name,
-          version: 2,
+          version: DEFAULT_BREEZE_DATA_VERSION,
           properties: properties,
         };
         baseData = messageData;
@@ -513,7 +514,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
         name: name,
         time: time,
         instrumentationKey: ikey,
-        version: 2,
+        version: DEFAULT_BREEZE_DATA_VERSION,
         sampleRate: sampleRate,
         data: {
           baseType: baseType,

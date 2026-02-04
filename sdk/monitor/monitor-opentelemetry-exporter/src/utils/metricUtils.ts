@@ -17,6 +17,7 @@ import type {
 import { createTagsFromResource } from "./common.js";
 import type { Tags } from "../types.js";
 import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../types.js";
+import { DEFAULT_BREEZE_DATA_VERSION } from "./constants/applicationinsights.js";
 import {
   ENV_OTEL_METRICS_EXPORTER,
   ENV_OTLP_METRICS_ENDPOINT,
@@ -84,7 +85,7 @@ export function resourceMetricsToEnvelope(
       metric.dataPoints.forEach((dataPoint) => {
         const baseData: MetricsData = {
           metrics: [],
-          version: 2,
+          version: DEFAULT_BREEZE_DATA_VERSION,
           properties: {},
         };
         baseData.properties = createPropertiesFromMetricAttributes(dataPoint.attributes);
@@ -133,7 +134,7 @@ export function resourceMetricsToEnvelope(
           sampleRate: 100, // Metrics are never sampled
           instrumentationKey: instrumentationKey,
           tags: tags,
-          version: 2,
+          version: DEFAULT_BREEZE_DATA_VERSION,
           data: {
             baseType: "MetricData",
             baseData: {

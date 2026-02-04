@@ -42,6 +42,7 @@ import {
   ApplicationInsightsMessageName,
   ApplicationInsightsPageViewBaseType,
   ApplicationInsightsPageViewName,
+  DEFAULT_BREEZE_DATA_VERSION,
   MicrosoftClientIp,
 } from "./constants/applicationinsights.js";
 
@@ -80,7 +81,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     const exceptionData: TelemetryExceptionData = {
       exceptions: [exceptionDetails],
       severityLevel: String(getSeverity(log.severityNumber)),
-      version: 2,
+      version: DEFAULT_BREEZE_DATA_VERSION,
     };
     baseData = exceptionData;
   } else if (log.attributes[ApplicationInsightsCustomEventName]) {
@@ -88,7 +89,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     baseType = ApplicationInsightsEventBaseType;
     const eventData: TelemetryEventData = {
       name: String(log.attributes[ApplicationInsightsCustomEventName]),
-      version: 2,
+      version: DEFAULT_BREEZE_DATA_VERSION,
     };
     baseData = eventData;
     measurements = getLegacyApplicationInsightsMeasurements(log);
@@ -98,7 +99,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     const messageData: MessageData = {
       message: serializeAttribute(log.body),
       severityLevel: String(getSeverity(log.severityNumber)),
-      version: 2,
+      version: DEFAULT_BREEZE_DATA_VERSION,
     };
     baseData = messageData;
   } else {
@@ -122,7 +123,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     time,
     instrumentationKey,
     tags,
-    version: 2,
+    version: DEFAULT_BREEZE_DATA_VERSION,
     data: {
       baseType,
       baseData: {
@@ -270,7 +271,7 @@ function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): DomainUni
           break;
       }
       if (baseData && baseData.version === undefined) {
-        baseData.version = 2;
+        baseData.version = DEFAULT_BREEZE_DATA_VERSION;
       }
       if (baseData && "message" in baseData && typeof baseData.message === "object") {
         baseData.message = serializeAttribute(baseData.message);
