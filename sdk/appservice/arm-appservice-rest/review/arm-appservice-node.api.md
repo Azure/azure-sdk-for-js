@@ -4879,7 +4879,7 @@ export interface CorsSettingsOutput {
 }
 
 // @public
-function createClient(credentials: TokenCredential, { apiVersion, ...options }?: WebSiteManagementClientOptions): WebSiteManagementClient;
+function createClient(credentials: TokenCredential, input?: WebSiteManagementClientOptions): WebSiteManagementClient;
 export default createClient;
 
 // @public

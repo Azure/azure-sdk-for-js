@@ -42,6 +42,7 @@ export {
   PollerLikeWithCancellation,
   getBlobServiceAccountAudience,
 } from "./models.js";
+export { NodeJSReadableStream } from "@azure/storage-common";
 export {
   Pipeline,
   PipelineLike,

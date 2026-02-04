@@ -1191,7 +1191,7 @@ export interface CascadeDeleteJobOutput {
 }
 
 // @public
-function createClient($host: string, credentials: TokenCredential, { apiVersion, ...options }?: FarmBeatsClientOptions): FarmBeatsClient;
+function createClient($host: string, credentials: TokenCredential, input?: FarmBeatsClientOptions): FarmBeatsClient;
 export default createClient;
 
 // @public

@@ -51,6 +51,9 @@ export function _listRunsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -69,13 +72,18 @@ export async function _listRunsDeserialize(
 }
 
 /** List all schedule runs. */
-export async function listRuns(
+export function listRuns(
   context: Client,
   scheduleId: string,
   options: SchedulesListRunsOptionalParams = { requestOptions: {} },
-): Promise<PagedScheduleRun> {
-  const result = await _listRunsSend(context, scheduleId, options);
-  return _listRunsDeserialize(result);
+): PagedAsyncIterableIterator<ScheduleRun> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listRunsSend(context, scheduleId, options),
+    _listRunsDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
 }
 
 export function _getRunSend(

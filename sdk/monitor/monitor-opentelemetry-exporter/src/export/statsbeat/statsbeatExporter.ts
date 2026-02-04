@@ -90,7 +90,7 @@ export class AzureMonitorStatsbeatExporter
     const filteredEnvelopes = this.filterZeroValueMetrics(envelopes);
 
     // Supress tracing until OpenTelemetry Metrics SDK support it
-    context.with(suppressTracing(context.active()), async () => {
+    await context.with(suppressTracing(context.active()), async () => {
       const sender = await this._getSender();
       resultCallback(await sender.exportEnvelopes(filteredEnvelopes));
     });
