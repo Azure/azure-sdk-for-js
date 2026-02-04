@@ -69,18 +69,18 @@ Verify each fix listed in the "Current Known Fixes" section below is still appli
 - **SERVICE-FIX**: Issues with the service returning incorrect/inconsistent data
 - **SDK-IMPROVEMENT**: Enhancements to the SDK API for better developer experience
 
-| Fix # | Category        | Description                                                      | Check Location                                             | Verification                                                                                           |
-| ----- | --------------- | ---------------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| 1     | EMITTER-FIX     | `serializeRecord` return types + no param reassign               | `src/static-helpers/serialization/serialize-record.ts`     | Has `): Record<string, any>` return type and uses `propertiesToExclude`                                |
-| 2     | SERVICE-FIX     | `keyFrameTimesMs` casing fallback                                | `src/models/models.ts` in `audioVisualContentDeserializer` | Has `item["keyFrameTimesMs"] ?? item["KeyFrameTimesMs"]`                                               |
-| 3     | SDK-IMPROVEMENT | `stringEncoding` always 'utf16' via ContentUnderstandingClient   | `src/contentUnderstandingClient.ts`                        | `analyze` and `analyzeBinary` pass `stringEncoding: "utf16"` internally                                |
-| 4     | EMITTER-FIX     | `path` variable renamed to `urlPath`                             | `src/api/operations.ts` in `_getResultFileSend`            | Uses `const urlPath = expandUrlTemplate(...)`                                                          |
-| 5     | EMITTER-FIX     | Null guard in `contentFieldDefinitionRecordDeserializer`         | `src/models/models.ts`                                     | Has `if (!item) { return item; }`                                                                      |
-| 6     | SDK-IMPROVEMENT | `value` property on ContentField types                           | `src/models/models.ts`                                     | All field types have `value` property                                                                  |
-| 7     | SDK-IMPROVEMENT | ContentUnderstandingClient API customizations                    | `src/contentUnderstandingClient.ts`                        | Explicit `AnalyzeOptionalParams`/`AnalyzeBinaryOptionalParams` interfaces, `analyze` requires `inputs` |
-| 8     | EMITTER-FIX     | `result` variable renamed to `varResults` in urlTemplate         | `src/static-helpers/urlTemplate.ts`                        | Uses `const varResults = []` instead of `const result = []`                                            |
-| 9     | EMITTER-FIX     | Regex character class fix in urlTemplate                         | `src/static-helpers/urlTemplate.ts`                        | Uses `/[.~-]/` instead of `/[\-.~]/`                                                                   |
-| 10    | EMITTER-FIX     | Hide `getOperationStatus` method (Access.internal not respected) | `src/contentUnderstandingClient.ts`                        | Method removed - marked @@access(Access.internal) in TypeSpec but emitter ignores it                   |
+| Fix # | Category        | Description                                                                       | Check Location                                             | Verification                                                                                           |
+| ----- | --------------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| 1     | EMITTER-FIX     | `serializeRecord` return types + no param reassign                                | `src/static-helpers/serialization/serialize-record.ts`     | Has `): Record<string, any>` return type and uses `propertiesToExclude`                                |
+| 2     | SERVICE-FIX     | `keyFrameTimesMs` casing fallback                                                 | `src/models/models.ts` in `audioVisualContentDeserializer` | Has `item["keyFrameTimesMs"] ?? item["KeyFrameTimesMs"]`                                               |
+| 3     | SDK-IMPROVEMENT | `stringEncoding` always 'utf16' via ContentUnderstandingClient                    | `src/contentUnderstandingClient.ts`                        | `analyze` and `analyzeBinary` pass `stringEncoding: "utf16"` internally                                |
+| 4     | EMITTER-FIX     | `path` variable renamed to `urlPath`                                              | `src/api/operations.ts` in `_getResultFileSend`            | Uses `const urlPath = expandUrlTemplate(...)`                                                          |
+| 5     | EMITTER-FIX     | Null guard in `contentFieldDefinitionRecordDeserializer`                          | `src/models/models.ts`                                     | Has `if (!item) { return item; }`                                                                      |
+| 6     | SDK-IMPROVEMENT | `value` property on ContentField types                                            | `src/models/models.ts`                                     | All field types have `value` property                                                                  |
+| 7     | SDK-IMPROVEMENT | ContentUnderstandingClient API customizations                                     | `src/contentUnderstandingClient.ts`                        | Explicit `AnalyzeOptionalParams`/`AnalyzeBinaryOptionalParams` interfaces, `analyze` requires `inputs` |
+| 8     | EMITTER-FIX     | `result` variable renamed to `varResults` in urlTemplate                          | `src/static-helpers/urlTemplate.ts`                        | Uses `const varResults = []` instead of `const result = []`                                            |
+| 9     | EMITTER-FIX     | Regex character class fix in urlTemplate                                          | `src/static-helpers/urlTemplate.ts`                        | Uses `/[.~-]/` instead of `/[\-.~]/`                                                                   |
+| 10    | EMITTER-FIX     | Hide `getResult` and `getOperationStatus` methods (Access.internal not respected) | `src/contentUnderstandingClient.ts`                        | Methods commented out - marked @@access(Access.internal) in TypeSpec but emitter ignores it            |
 
 **If a fix is now included in the generated code upstream, remove it from this skill document.**
 
@@ -420,6 +420,8 @@ Both methods internally always pass `stringEncoding: "utf16"` and expose `operat
 1. Keeps standard type names (`AnalyzeOptionalParams`, `AnalyzeBinaryOptionalParams`) aligned with other option types
 2. Avoids API Extractor warnings like "The symbol 'AnalyzeOptionalParams_2' needs to be exported" that occur when using `Omit<GeneratedType, "prop">`
 
+**After regeneration**: Check if new properties were added to the generated `AnalyzeOptionalParams` or `AnalyzeBinaryOptionalParams` in `generated/api/options.ts`. If so, add them to the custom interfaces in `src/contentUnderstandingClient.ts` (excluding `inputs` and `stringEncoding` which are intentionally hidden).
+
 ---
 
 ### Fix 8 [EMITTER-FIX]: Variable Shadowing in urlTemplate.ts
@@ -475,11 +477,11 @@ function normalizeUnreserved(uri: string): string {
 
 ---
 
-### Fix 10 [EMITTER-FIX]: Hide getOperationStatus Method (Access.internal Not Respected)
+### Fix 10 [EMITTER-FIX]: Hide getResult and getOperationStatus Methods (Access.internal Not Respected)
 
 **File**: `src/contentUnderstandingClient.ts`
 
-**Problem**: The `getOperationStatus` operation is marked with `@@access(ContentUnderstandingClient.getOperationStatus, Access.internal)` in the TypeSpec client.tsp file, but the JavaScript emitter does not respect this decorator and still generates the method in the client.
+**Problem**: The `getResult` and `getOperationStatus` operations are marked with `@@access(Access.internal)` in the TypeSpec client.tsp file, but the JavaScript emitter does not respect this decorator and still generates the methods in the client.
 
 **TypeSpec definition** (from client.tsp):
 
@@ -492,11 +494,46 @@ function normalizeUnreserved(uri: string): string {
 
 **Why this matters**:
 
-- The method should not be exposed in the public API per the TypeSpec definition
-- The poller returned by `createAnalyzer` and `copyAnalyzer` already handles operation status internally
+- These methods should not be exposed in the public API per the TypeSpec definition
+- The poller returned by `analyze`, `analyzeBinary`, `createAnalyzer`, and `copyAnalyzer` already handles operation status and result retrieval internally
 - Reduces API surface area and user confusion
 
-**Fix**: Remove the `getOperationStatus` method from the `ContentUnderstandingClient` class. Also remove the related imports (`getOperationStatus`, `GetOperationStatusOptionalParams`, `ContentAnalyzerOperationStatus`).
+**Fix**: Comment out the `getResult` and `getOperationStatus` methods from the `ContentUnderstandingClient` class. Also comment out the related imports (`getResult`, `getOperationStatus`, `GetResultOptionalParams`, `GetOperationStatusOptionalParams`, `ContentAnalyzerAnalyzeOperationStatus`, `ContentAnalyzerOperationStatus`).
+
+```typescript
+// In imports section:
+import {} from // ...other imports...
+// CUSTOMIZATION: EMITTER-FIX: getResult and getOperationStatus are marked as @@access(Access.internal)
+// in TypeSpec but the JS emitter does not respect this. Keeping imports commented for reference.
+// getResult,
+// getOperationStatus,
+// ...other imports...
+"./api/operations.js";
+
+// In the class:
+// CUSTOMIZATION: EMITTER-FIX: Commented out `getResult` method - it is marked as
+// @@access(Access.internal) in TypeSpec, but the JS emitter does not respect this decorator.
+// The poller handles result retrieval internally.
+// /** Get the result of an analysis operation. */
+// getResult(
+//   operationId: string,
+//   options: GetResultOptionalParams = { requestOptions: {} },
+// ): Promise<ContentAnalyzerAnalyzeOperationStatus> {
+//   return getResult(this._client, operationId, options);
+// }
+
+// CUSTOMIZATION: EMITTER-FIX: Commented out `getOperationStatus` method - it is marked as
+// @@access(Access.internal) in TypeSpec, but the JS emitter does not respect this decorator.
+// The poller handles operation status internally.
+// /** Get the status of an analyzer creation operation. */
+// getOperationStatus(
+//   analyzerId: string,
+//   operationId: string,
+//   options: GetOperationStatusOptionalParams = { requestOptions: {} },
+// ): Promise<ContentAnalyzerOperationStatus> {
+//   return getOperationStatus(this._client, analyzerId, operationId, options);
+// }
+```
 
 **Note**: This is a workaround for the TypeSpec JS emitter not respecting the `@@access(Access.internal)` decorator. When the emitter is fixed upstream, this customization may no longer be needed.
 

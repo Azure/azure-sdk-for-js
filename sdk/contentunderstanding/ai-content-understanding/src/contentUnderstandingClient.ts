@@ -13,7 +13,10 @@ import {
   listAnalyzers,
   grantCopyAuthorization,
   getResultFile,
-  getResult,
+  // CUSTOMIZATION: EMITTER-FIX: getResult and getOperationStatus are marked as @@access(Access.internal)
+  // in TypeSpec but the JS emitter does not respect this. Keeping imports commented for reference.
+  // getResult,
+  // getOperationStatus,
   getDefaults,
   getAnalyzer,
   deleteResult,
@@ -32,7 +35,9 @@ import type {
   ListAnalyzersOptionalParams,
   GrantCopyAuthorizationOptionalParams,
   GetResultFileOptionalParams,
-  GetResultOptionalParams,
+  // CUSTOMIZATION: EMITTER-FIX: Types for internal methods kept commented for reference.
+  // GetResultOptionalParams,
+  // GetOperationStatusOptionalParams,
   GetDefaultsOptionalParams,
   GetAnalyzerOptionalParams,
   DeleteResultOptionalParams,
@@ -43,7 +48,9 @@ import type {
 import type { OperationOptions } from "@azure-rest/core-client";
 import type {
   AnalyzeResult,
-  ContentAnalyzerAnalyzeOperationStatus,
+  // CUSTOMIZATION: EMITTER-FIX: Types for internal methods kept commented for reference.
+  // ContentAnalyzerAnalyzeOperationStatus,
+  // ContentAnalyzerOperationStatus,
   ContentAnalyzer,
   ContentUnderstandingDefaults,
   CopyAuthorization,
@@ -158,17 +165,28 @@ export class ContentUnderstandingClient {
     return getResultFile(this._client, operationId, path, options);
   }
 
-  /** Get the result of an analysis operation. */
-  getResult(
-    operationId: string,
-    options: GetResultOptionalParams = { requestOptions: {} },
-  ): Promise<ContentAnalyzerAnalyzeOperationStatus> {
-    return getResult(this._client, operationId, options);
-  }
+  // CUSTOMIZATION: EMITTER-FIX: Commented out `getResult` method - it is marked as
+  // @@access(Access.internal) in TypeSpec, but the JS emitter does not respect this decorator.
+  // The poller handles result retrieval internally.
+  // /** Get the result of an analysis operation. */
+  // getResult(
+  //   operationId: string,
+  //   options: GetResultOptionalParams = { requestOptions: {} },
+  // ): Promise<ContentAnalyzerAnalyzeOperationStatus> {
+  //   return getResult(this._client, operationId, options);
+  // }
 
-  // CUSTOMIZATION: EMITTER-FIX: Removed `getOperationStatus` method - it is marked as
+  // CUSTOMIZATION: EMITTER-FIX: Commented out `getOperationStatus` method - it is marked as
   // @@access(Access.internal) in TypeSpec, but the JS emitter does not respect this decorator.
   // The poller handles operation status internally.
+  // /** Get the status of an analyzer creation operation. */
+  // getOperationStatus(
+  //   analyzerId: string,
+  //   operationId: string,
+  //   options: GetOperationStatusOptionalParams = { requestOptions: {} },
+  // ): Promise<ContentAnalyzerOperationStatus> {
+  //   return getOperationStatus(this._client, analyzerId, operationId, options);
+  // }
 
   /** Return default settings for this Content Understanding resource. */
   getDefaults(
