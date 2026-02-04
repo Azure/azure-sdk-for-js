@@ -329,7 +329,7 @@ export interface CookieOutput {
 }
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: EasmClientOptions): EasmClient;
+function createClient(endpointParam: string, credentials: TokenCredential, input?: EasmClientOptions): EasmClient;
 export default createClient;
 
 // @public

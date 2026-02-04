@@ -8,6 +8,10 @@
   - **Impact**: Applications with more than 5 requests per second will see fewer traces exported by default.
   - **Migration**: To maintain the previous behavior (100% sampling), explicitly configure the sampler by setting `tracesPerSecond: 0` which will fall back to using `samplingRatio: 1.0`.
 
+### Other Changes
+
+- Changed `CUSTOMER_SDKSTATS` SDK Stats feature to track when customers explicitly disable SDK stats by setting `APPLICATIONINSIGHTS_SDKSTATS_DISABLED=true`.
+
 ### 1.15.1 (2026-01-16)
 
 ### Other Changes
