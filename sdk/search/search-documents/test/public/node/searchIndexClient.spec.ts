@@ -105,7 +105,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         knowledgeSources: [knowledgeSource],
       };
 
-      await indexClient.getKnowledgeSourceStatus(knowledgeSource.name).catch(() => {
+      await indexClient.getKnowledgeSource(knowledgeSource.name).catch(() => {
         // ignore errors in case the knowledge source is not yet created
       });
 

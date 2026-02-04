@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import type {
   KnowledgeRetrievalOutputMode,
-  KnowledgeSourceReference,
   KnowledgeRetrievalReasoningEffort,
-} from "./generated/service/index.js";
+} from "./models/azure/search/documents/knowledgeBases/index.js";
+import type { KnowledgeSourceReference } from "./models/azure/search/documents/indexes/index.js";
 import type { KnowledgeBaseModel, SearchResourceEncryptionKey } from "./serviceModels.js";
 
 export interface RetrieveKnowledgeOptions extends OperationOptions {

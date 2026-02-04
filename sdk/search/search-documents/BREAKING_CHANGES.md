@@ -1,0 +1,263 @@
+# Breaking Changes - TypeSpec Migration
+
+This document summarizes breaking changes introduced by the migration from Swagger to TypeSpec code generation in the `@azure/search-documents` package.
+
+## Summary
+
+The migration from Swagger to TypeSpec introduces several categories of breaking changes:
+
+- **HIGH IMPACT**: Changes likely to break existing code
+- **MEDIUM IMPACT**: Changes that may break some code patterns
+- **LOW IMPACT**: Changes unlikely to break code
+- **BY DESIGN**: Changes intentionally made by the service team
+
+---
+
+## HIGH IMPACT Changes
+
+### Index Signature Changes
+
+The following interfaces previously had an index signature `[property: string]: any` which has been replaced with an explicit `additionalProperties` property:
+
+| Interface            | Old                       | New                                          |
+| -------------------- | ------------------------- | -------------------------------------------- |
+| `FacetResult`        | `[property: string]: any` | `additionalProperties?: Record<string, any>` |
+| `QueryAnswerResult`  | `[property: string]: any` | `additionalProperties?: Record<string, any>` |
+| `QueryCaptionResult` | `[property: string]: any` | `additionalProperties?: Record<string, any>` |
+
+**Hypothesis**: TypeSpec represents additional properties explicitly rather than via index signatures.
+
+**Mitigation**: Update code that accesses dynamic properties to use `result.additionalProperties["propertyName"]` instead of `result["propertyName"]`.
+
+### Property Casing Change
+
+| Interface                   | Property    | Old         | New         |
+| --------------------------- | ----------- | ----------- | ----------- |
+| `ContentUnderstandingSkill` | `odatatype` | `odatatype` | `odataType` |
+
+**Hypothesis**: TypeSpec generates camelCase property names.
+
+**Mitigation**: Update property references in user code.
+
+---
+
+## MEDIUM IMPACT Changes
+
+### Nullable Properties - ✅ MITIGATED
+
+~~Many optional properties now include `| null` in their type signature.~~
+
+**Status**: This has been mitigated by manually removing `| null` from all generated model files. A permanent fix is coming from the TypeSpec codegen side.
+
+No action required from users.
+
+### Interface Property Changes
+
+#### Required to Optional
+
+| Interface           | Property | Change              |
+| ------------------- | -------- | ------------------- |
+| `QueryAnswerResult` | `key`    | Required → Optional |
+| `QueryAnswerResult` | `score`  | Required → Optional |
+| `QueryAnswerResult` | `text`   | Required → Optional |
+
+#### Optional to Required
+
+| Interface                                            | Property           | Change              |
+| ---------------------------------------------------- | ------------------ | ------------------- |
+| `SearchIndexerKnowledgeStoreTableProjectionSelector` | `generatedKeyName` | Optional → Required |
+
+**Hypothesis**: Service schema updates or TypeSpec interpretation differences.
+
+**Mitigation**: Code accessing these properties may need null checks.
+
+### Discriminator Type Loosening
+
+Base interface `odatatype` properties changed from specific literal unions to `string`:
+
+| Interface                         | Old `odatatype` Type                                                                                | New `odatatype` Type |
+| --------------------------------- | --------------------------------------------------------------------------------------------------- | -------------------- |
+| `BaseCharFilter`                  | `"#Microsoft.Azure.Search.MappingCharFilter" \| "#Microsoft.Azure.Search.PatternReplaceCharFilter"` | `string`             |
+| `BaseCognitiveServicesAccount`    | Specific literal union                                                                              | `string`             |
+| `BaseDataChangeDetectionPolicy`   | Specific literal union                                                                              | `string`             |
+| `BaseDataDeletionDetectionPolicy` | Specific literal union                                                                              | `string`             |
+| `BaseLexicalAnalyzer`             | Specific literal union                                                                              | `string`             |
+| `BaseLexicalTokenizer`            | Specific literal union                                                                              | `string`             |
+| `BaseSearchIndexerSkill`          | Specific literal union                                                                              | `string`             |
+| `BaseTokenFilter`                 | Specific literal union                                                                              | `string`             |
+
+**Hypothesis**: TypeSpec generates looser base types, with concrete types having specific literals.
+
+**Mitigation**: Type narrowing code may need updates. Consider using type guards.
+
+---
+
+## LOW IMPACT Changes
+
+### Enum Value Changes
+
+| Enum                                         | Key           | Old Value       | New Value        |
+| -------------------------------------------- | ------------- | --------------- | ---------------- |
+| `KnownChatCompletionExtraParametersBehavior` | `PassThrough` | `"passThrough"` | `"pass-through"` |
+
+**Hypothesis**: Service API changed the wire value.
+
+**Mitigation**: Update any code comparing against this enum value.
+
+---
+
+## Removed Types
+
+The following types have been removed from the public API:
+
+### Deprecated Skill Types (BY DESIGN per [Azure docs](https://learn.microsoft.com/azure/search/cognitive-search-skill-deprecated))
+
+These types are related to deprecated skills and their removal is intentional:
+
+| Type                                  | Reason                           | Replacement                   |
+| ------------------------------------- | -------------------------------- | ----------------------------- |
+| `EntityCategory`                      | Deprecated skill support removed | Use `string[]` for categories |
+| `KnownEntityCategory`                 | Deprecated skill enum            | N/A                           |
+| `EntityRecognitionSkillLanguage`      | Deprecated skill support removed | Use `string`                  |
+| `KnownEntityRecognitionSkillLanguage` | Deprecated skill enum            | N/A                           |
+| `SentimentSkillLanguage`              | Deprecated skill support removed | Use `string`                  |
+| `KnownSentimentSkillLanguage`         | Deprecated skill enum            | N/A                           |
+
+Note: The deprecated skills `EntityRecognitionSkill` and `SentimentSkill` still exist but with simplified types:
+
+| Interface                | Property              | Old Type                         | New Type   |
+| ------------------------ | --------------------- | -------------------------------- | ---------- |
+| `EntityRecognitionSkill` | `categories`          | `EntityCategory[]`               | `string[]` |
+| `EntityRecognitionSkill` | `defaultLanguageCode` | `EntityRecognitionSkillLanguage` | `string`   |
+| `SentimentSkill`         | `defaultLanguageCode` | `SentimentSkillLanguage`         | `string`   |
+
+### Knowledge Source Status Types
+
+These types were removed, likely because the corresponding API endpoint was also removed:
+
+- `KnowledgeSourceStatus`
+- `KnowledgeSourceStatistics`
+- `KnowledgeSourceSynchronizationStatus`
+- `CompletedSynchronizationState`
+- `SynchronizationState`
+
+**Hypothesis**: These types supported the `getKnowledgeSourceStatus()` method which was removed.
+
+### Knowledge Source Retrieval Activity Types
+
+These types were consolidated or removed:
+
+- `BaseKnowledgeBaseRetrievalActivityRecord` (type union changed)
+- `KnowledgeBaseRetrievalActivityRecord` (type union changed)
+- `KnowledgeBaseSearchIndexActivityRecord`
+- `KnowledgeBaseSearchIndexActivityArguments`
+- `KnowledgeBaseSearchIndexFieldReference`
+- `KnowledgeBaseAzureBlobActivityRecord`
+- `KnowledgeBaseAzureBlobActivityArguments`
+- `KnowledgeBaseIndexedSharePointActivityRecord`
+- `KnowledgeBaseIndexedSharePointActivityArguments`
+- `KnowledgeBaseIndexedOneLakeActivityRecord`
+- `KnowledgeBaseIndexedOneLakeActivityArguments`
+- `KnowledgeBaseWebActivityRecord`
+- `KnowledgeBaseWebActivityArguments`
+- `KnowledgeBaseRemoteSharePointActivityRecord`
+- `KnowledgeBaseRemoteSharePointActivityArguments`
+
+**Hypothesis**: TypeSpec models knowledge retrieval activity differently or these are internal types.
+
+### Other Removed Types
+
+| Type                                        | Hypothesis                                          |
+| ------------------------------------------- | --------------------------------------------------- |
+| `AIServices`                                | Replaced or internal-only                           |
+| `CommonModelParameters`                     | Now internal (warning: `ae-forgotten-export`)       |
+| `BaseKnowledgeSourceVectorizer`             | Consolidated into `KnowledgeSourceVectorizer`       |
+| `KnowledgeSourceKind`                       | Now internal (warning: `ae-forgotten-export`)       |
+| `KnownKnowledgeSourceKind`                  | Removed with `KnowledgeSourceKind`                  |
+| `KnowledgeSourceContentExtractionMode`      | Now internal (warning: `ae-forgotten-export`)       |
+| `KnowledgeSourceIngestionPermissionOption`  | Now internal (warning: `ae-forgotten-export`)       |
+| `IndexedSharePointContainerName`            | Now internal (warning: `ae-forgotten-export`)       |
+| `KnowledgeRetrievalOutputMode`              | Use `BaseKnowledgeRetrievalOutputMode` instead      |
+| `KnowledgeRetrievalReasoningEffort`         | Use `BaseKnowledgeRetrievalReasoningEffort` instead |
+| `KnownKnowledgeRetrievalOutputMode`         | Removed                                             |
+| `RemoteSharePointKnowledgeSourceParameters` | Now internal (warning: `ae-forgotten-export`)       |
+| `WebKnowledgeSourceParameters`              | Removed or internal                                 |
+| `WebKnowledgeSourceDomains`                 | Removed                                             |
+| `WebKnowledgeSourceDomain`                  | Removed                                             |
+| `GetIndexStatsSummaryOptionalParams`        | Internal operation params                           |
+| `GetIndexStatsSummaryResponse`              | Internal response type                              |
+| `ListIndexStatsSummary`                     | Internal list type                                  |
+| `IndexersResyncOptionalParams`              | Internal operation params                           |
+
+---
+
+## Removed Methods
+
+| Class               | Method                       | Hypothesis                                         |
+| ------------------- | ---------------------------- | -------------------------------------------------- |
+| `SearchIndexClient` | `getKnowledgeSourceStatus()` | Feature removed or not yet implemented in TypeSpec |
+
+---
+
+## Types with Missing Exports (ae-forgotten-export warnings) - MOSTLY MITIGATED
+
+The following types were previously referenced but not exported from the package entry point. Most have now been added to the package exports:
+
+### Now Exported (✅ Mitigated)
+
+- `KnowledgeBaseActivityRecordType` ✅
+- `KnowledgeBaseMessageContentType` ✅
+- `KnowledgeBaseModelKind` ✅
+- `KnowledgeRetrievalReasoningEffortKind` ✅
+- `KnowledgeRetrievalIntentType` ✅
+- `KnowledgeBaseReferenceType` ✅
+- `KnowledgeSourceKind` ✅
+- `ChatCompletionSchemaProperties` ✅
+- `CommonModelParameters` ✅
+- `AIServices` ✅
+- `KnowledgeSourceContentExtractionMode` ✅
+- `KnowledgeSourceIngestionPermissionOption` ✅
+- `IndexedSharePointContainerName` ✅
+- `RemoteSharePointKnowledgeSourceParameters` ✅
+- `KnowledgeSourceVectorizer_2` ✅ (exported as `KnowledgeSourceVectorizer_2`)
+- `KnowledgeBaseImageContent` ✅
+- `WebKnowledgeSourceParameters` ✅
+- `WebKnowledgeSourceDomains` ✅
+- `WebKnowledgeSourceDomain` ✅
+- `SearchIndexFieldReference` ✅
+
+### Still Internal
+
+- `PagedAsyncIterableIterator` - Now from internal module (use the one from `@azure/core-paging` instead)
+- `SimilarityAlgorithm_2` - Internal type, use `Similarity` or `SimilarityAlgorithm` instead
+
+---
+
+## Migration Guide
+
+### For Index Signature Changes
+
+```typescript
+// Before
+const value = facetResult["myProperty"];
+
+// After
+const value = facetResult.additionalProperties?.["myProperty"];
+```
+
+### For Type Renames
+
+```typescript
+// Before
+const state: IndexerState = ...;
+
+// After
+const state: IndexerCurrentState = ...;
+```
+
+### For Deprecated Skills
+
+Follow the [Azure migration guide](https://learn.microsoft.com/azure/search/cognitive-search-skill-deprecated) to migrate from deprecated skills:
+
+- `EntityRecognitionSkill` → `EntityRecognitionSkillV3`
+- `SentimentSkill` → `SentimentSkillV3`

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createTestCredential } from "@azure-tools/test-credential";
-import { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import type { OpenAIClient } from "@azure/openai";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
@@ -28,6 +28,7 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
   let openAIClient: OpenAIClient;
   let TEST_INDEX_NAME: string;
   let TEST_BASE_NAME: string;
+  let KNOWLEDGE_SOURCE_NAME: string;
   let knowledgeRetrievalClient: KnowledgeRetrievalClient;
   let chatAzureOpenAIParameters: AzureOpenAIParameters;
 
@@ -35,6 +36,7 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
     recorder = new Recorder(ctx);
     TEST_INDEX_NAME = createRandomIndexName();
     TEST_BASE_NAME = createRandomIndexName();
+    KNOWLEDGE_SOURCE_NAME = `${TEST_INDEX_NAME}-ks`;
     ({
       searchClient,
       indexClient,
@@ -53,7 +55,7 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
 
     await indexClient.createKnowledgeSource({
       kind: "searchIndex",
-      name: "searchindex-ks",
+      name: KNOWLEDGE_SOURCE_NAME,
       searchIndexParameters: {
         searchIndexName: TEST_INDEX_NAME,
         searchFields: [{ name: "hotelName" }, { name: "description" }],
@@ -69,7 +71,7 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
           azureOpenAIParameters: chatAzureOpenAIParameters,
         },
       ],
-      knowledgeSources: [{ name: "searchindex-ks" }],
+      knowledgeSources: [{ name: KNOWLEDGE_SOURCE_NAME }],
     });
 
     await delay(WAIT_TIME);
@@ -78,7 +80,7 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
 
   afterEach(async () => {
     await indexClient.deleteKnowledgeBase(TEST_BASE_NAME);
-    await indexClient.deleteKnowledgeSource("searchindex-ks");
+    await indexClient.deleteKnowledgeSource(KNOWLEDGE_SOURCE_NAME);
     await indexClient.deleteIndex(TEST_INDEX_NAME);
     await delay(WAIT_TIME);
     await recorder?.stop();
@@ -101,7 +103,7 @@ describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
       assert.isTrue(result.response.length > 0);
     });
 
-    it("create webKnowledgeSource and query knowledge base", { timeout: 60000 }, async () => {
+    it.todo("create webKnowledgeSource and query knowledge base", { timeout: 60000 }, async () => {
       const webKnowledgeSource: WebKnowledgeSource = {
         kind: "web",
         name: "web-ks",

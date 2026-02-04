@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure/core-client";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
   AIFoundryModelCatalogName,
-  AIServices,
   AIServicesAccountKey,
   AsciiFoldingTokenFilter,
   AzureMachineLearningSkill,
@@ -13,7 +12,6 @@ import type {
   AzureOpenAITokenizerParameters,
   CognitiveServicesAccount as BaseCognitiveServicesAccount,
   KnowledgeBaseModel as BaseKnowledgeBaseModel,
-  KnowledgeSourceVectorizer as BaseKnowledgeSourceVectorizer,
   SearchIndexerSkill as BaseSearchIndexerSkill,
   BinaryQuantizationCompression,
   BM25Similarity,
@@ -63,8 +61,8 @@ import type {
   KnownBlobIndexerPDFTextRotationAlgorithm,
   KnownCharFilterName,
   KnownCustomEntityLookupSkillLanguage,
-  KnownEntityCategory,
-  KnownEntityRecognitionSkillLanguage,
+  // KnownEntityCategory,
+  // KnownEntityRecognitionSkillLanguage,
   KnownImageAnalysisSkillLanguage,
   KnownImageDetail,
   KnownIndexerExecutionEnvironment,
@@ -76,7 +74,7 @@ import type {
   KnownRegexFlags,
   KnownSearchFieldDataType,
   KnownSearchIndexerDataSourceType,
-  KnownSentimentSkillLanguage,
+  // KnownSentimentSkillLanguage,
   KnownSplitSkillLanguage,
   KnownTextSplitMode,
   KnownTextTranslationSkillLanguage,
@@ -118,7 +116,7 @@ import type {
   SearchIndexerKnowledgeStoreProjection,
   SearchIndexKnowledgeSourceParameters,
   SearchIndexPermissionFilterOption,
-  Suggester as SearchSuggester,
+  SearchSuggester,
   SemanticSearch,
   SentimentSkillV3,
   ServiceCounters,
@@ -145,7 +143,11 @@ import type {
   VectorSearchVectorizerKind,
   WebKnowledgeSourceParameters,
   WordDelimiterTokenFilter,
-} from "./generated/service/models/index.js";
+} from "./models/azure/search/documents/indexes/index.js";
+import type {
+  AIServices,
+  KnowledgeSourceVectorizer as BaseKnowledgeSourceVectorizer,
+} from "./models/azure/search/documents/knowledgeBases/index.js";
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 
 /**
@@ -2909,11 +2911,11 @@ export interface EntityRecognitionSkill extends BaseSearchIndexerSkill {
   /**
    * A list of entity categories that should be extracted.
    */
-  categories?: EntityCategory[];
+  categories?: string[];
   /**
    * A value indicating which language code to use. Default is en.
    */
-  defaultLanguageCode?: EntityRecognitionSkillLanguage;
+  defaultLanguageCode?: string;
   /**
    * Determines whether or not to include entities which are well known but don't conform to a
    * pre-defined type. If this configuration is not set (default), set to null or set to false,
@@ -3059,7 +3061,7 @@ export interface SentimentSkill extends BaseSearchIndexerSkill {
   /**
    * A value indicating which language code to use. Default is en.
    */
-  defaultLanguageCode?: SentimentSkillLanguage;
+  defaultLanguageCode?: string;
 }
 
 /**
@@ -3526,8 +3528,9 @@ export type BlobIndexerParsingMode = `${KnownBlobIndexerParsingMode}`;
 export type BlobIndexerPDFTextRotationAlgorithm = `${KnownBlobIndexerPDFTextRotationAlgorithm}`;
 export type CharFilterNames = `${KnownCharFilterName}`;
 export type CustomEntityLookupSkillLanguage = `${KnownCustomEntityLookupSkillLanguage}`;
-export type EntityCategory = `${KnownEntityCategory}`;
-export type EntityRecognitionSkillLanguage = `${KnownEntityRecognitionSkillLanguage}`;
+// TODO: find these enums
+// export type EntityCategory = `${KnownEntityCategory}`;
+// export type EntityRecognitionSkillLanguage = `${KnownEntityRecognitionSkillLanguage}`;
 export type ImageAnalysisSkillLanguage = `${KnownImageAnalysisSkillLanguage}`;
 export type ImageDetail = `${KnownImageDetail}`;
 export type IndexerExecutionEnvironment = `${KnownIndexerExecutionEnvironment}`;
@@ -3579,7 +3582,8 @@ export type SearchFieldDataType = Exclude<
   "Edm.ComplexType" | "Edm.Byte" | "Edm.Half" | "Edm.Int16" | "Edm.SByte" | "Edm.Single"
 >;
 export type SearchIndexerDataSourceType = `${KnownSearchIndexerDataSourceType}`;
-export type SentimentSkillLanguage = `${KnownSentimentSkillLanguage}`;
+// TODO: find this enum
+// export type SentimentSkillLanguage = `${KnownSentimentSkillLanguage}`;
 export type SplitSkillLanguage = `${KnownSplitSkillLanguage}`;
 export type TextSplitMode = `${KnownTextSplitMode}`;
 export type TextTranslationSkillLanguage = `${KnownTextTranslationSkillLanguage}`;
