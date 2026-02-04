@@ -3062,7 +3062,7 @@ export function apiErrorDeserializer(item: any): ApiError {
     details: apiErrorArrayDeserializer(item?.["details"]),
     innererror: !item?.["innererror"]
       ? item?.["innererror"]
-      : apiInnerErrorDeserializer(item["innererror"]),
+      : apiInnerErrorDeserializer(item?.["innererror"]),
   };
 }
 
