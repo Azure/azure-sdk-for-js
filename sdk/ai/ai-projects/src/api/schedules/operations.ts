@@ -36,14 +36,14 @@ import {
 
 export function _listRunsSend(
   context: Client,
-  scheduleId: string,
+  id: string,
   options: SchedulesListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/schedules/{scheduleId}/runs{?api-version}",
+    "/schedules/{id}/runs{?api-version}",
     {
-      scheduleId: scheduleId,
-      "api-version": context.apiVersion,
+      id: id,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,15 +75,15 @@ export async function _listRunsDeserialize(
 /** List all schedule runs. */
 export function listRuns(
   context: Client,
-  scheduleId: string,
+  id: string,
   options: SchedulesListRunsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ScheduleRun> {
   return buildPagedAsyncIterator(
     context,
-    () => _listRunsSend(context, scheduleId, options),
+    () => _listRunsSend(context, id, options),
     _listRunsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
@@ -91,27 +91,28 @@ export function _getRunSend(
   context: Client,
   scheduleId: string,
   runId: string,
+  foundryBeta: "Insights=v1",
   options: SchedulesGetRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/schedules/{scheduleId}/runs/{runId}{?api-version}",
+    "/schedules/{schedule_id}/runs/{run_id}{?api-version}",
     {
-      scheduleId: scheduleId,
-      runId: runId,
-      "api-version": context.apiVersion,
+      schedule_id: scheduleId,
+      run_id: runId,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
   return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-beta": "Insights=v1",
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-beta": foundryBeta,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getRunDeserialize(result: PathUncheckedResponse): Promise<ScheduleRun> {
@@ -130,9 +131,10 @@ export async function getRun(
   context: Client,
   scheduleId: string,
   runId: string,
+  foundryBeta: "Insights=v1",
   options: SchedulesGetRunOptionalParams = { requestOptions: {} },
 ): Promise<ScheduleRun> {
-  const result = await _getRunSend(context, scheduleId, runId, options);
+  const result = await _getRunSend(context, scheduleId, runId, foundryBeta, options);
   return _getRunDeserialize(result);
 }
 
@@ -146,7 +148,7 @@ export function _createOrUpdateSend(
     "/schedules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,22 +195,24 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/schedules{?api-version}",
     {
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listDeserialize(result: PathUncheckedResponse): Promise<_PagedSchedule> {
@@ -230,7 +234,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
@@ -243,22 +247,24 @@ export function _getSend(
     "/schedules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Schedule> {
@@ -289,21 +295,23 @@ export function _$deleteSend(
     "/schedules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {

@@ -12,6 +12,7 @@ import {
 
 import { Client, PathUncheckedResponse, createRestError } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { KnownApiVersions } from "../models/models.js";
 
 export interface GetLongRunningPollerOptions<TResponse> {
   /** Delay to wait until next poll, in milliseconds. */
@@ -33,6 +34,7 @@ export interface GetLongRunningPollerOptions<TResponse> {
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
   restoreFrom?: string;
+  apiVersion?: KnownApiVersions;
   /**
    * The function to get the initial response
    */

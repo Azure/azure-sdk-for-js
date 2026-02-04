@@ -58,22 +58,20 @@ export function _deleteScopeSend(
     "/memory_stores/{name}:delete_scope{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "2025-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "foundry-beta": "MemoryStores=v1",
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: { scope: scope },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: { scope: scope },
+    });
 }
 
 export async function _deleteScopeDeserialize(
@@ -111,20 +109,18 @@ export function _getUpdateResultSend(
     {
       name: name,
       update_id: updateId,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "2025-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-beta": "MemoryStores=v1",
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getUpdateResultDeserialize(
@@ -161,27 +157,25 @@ export function _updateMemoriesSend(
     "/memory_stores/{name}:update_memories{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "2025-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "foundry-beta": "MemoryStores=v1",
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      scope: scope,
-      items: !options?.items ? options?.items : inputItemUnionArraySerializer(options?.items),
-      previous_update_id: options?.previousUpdateId,
-      update_delay: options?.updateDelay,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        scope: scope,
+        items: !options?.items ? options?.items : inputItemUnionArraySerializer(options?.items),
+        previous_update_id: options?.previousUpdateId,
+        update_delay: options?.updateDelay,
+      },
+    });
 }
 
 export async function _updateMemoriesDeserialize(
@@ -215,6 +209,8 @@ export function updateMemories(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
+
+    apiVersion: context.apiVersion ?? "2025-11-15-preview",
   }) as PollerLike<
     OperationState<MemoryStoreUpdateCompletedResult>,
     MemoryStoreUpdateCompletedResult
@@ -231,29 +227,27 @@ export function _searchMemoriesSend(
     "/memory_stores/{name}:search_memories{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "2025-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "foundry-beta": "MemoryStores=v1",
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      scope: scope,
-      items: !options?.items ? options?.items : inputItemUnionArraySerializer(options?.items),
-      previous_search_id: options?.previousSearchId,
-      options: !options?.options
-        ? options?.options
-        : memorySearchOptionsSerializer(options?.options),
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        scope: scope,
+        items: !options?.items ? options?.items : inputItemUnionArraySerializer(options?.items),
+        previous_search_id: options?.previousSearchId,
+        options: !options?.options
+          ? options?.options
+          : memorySearchOptionsSerializer(options?.options),
+      },
+    });
 }
 
 export async function _searchMemoriesDeserialize(
@@ -289,20 +283,18 @@ export function _deleteMemoryStoreSend(
     "/memory_stores/{name}{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "2025-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-beta": "MemoryStores=v1",
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteMemoryStoreDeserialize(
@@ -335,7 +327,7 @@ export function _listMemoryStoresSend(
   const path = expandUrlTemplate(
     "/memory_stores{?api-version,limit,order,after,before}",
     {
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "2025-11-15-preview",
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -345,14 +337,12 @@ export function _listMemoryStoresSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-beta": "MemoryStores=v1",
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listMemoryStoresDeserialize(
@@ -378,7 +368,7 @@ export function listMemoryStores(
     () => _listMemoryStoresSend(context, options),
     _listMemoryStoresDeserialize,
     ["200"],
-    { itemName: "data" },
+    { itemName: "data", apiVersion: context.apiVersion ?? "2025-11-15-preview" },
   );
 }
 
@@ -391,20 +381,18 @@ export function _getMemoryStoreSend(
     "/memory_stores/{name}{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "2025-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-beta": "MemoryStores=v1",
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMemoryStoreDeserialize(
@@ -439,22 +427,20 @@ export function _updateMemoryStoreSend(
     "/memory_stores/{name}{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "2025-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "foundry-beta": "MemoryStores=v1",
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: { description: options?.description, metadata: options?.metadata },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: { description: options?.description, metadata: options?.metadata },
+    });
 }
 
 export async function _updateMemoryStoreDeserialize(
@@ -489,27 +475,25 @@ export function _createMemoryStoreSend(
   const path = expandUrlTemplate(
     "/memory_stores{?api-version}",
     {
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "2025-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "foundry-beta": "MemoryStores=v1",
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      name: name,
-      description: options?.description,
-      metadata: options?.metadata,
-      definition: memoryStoreDefinitionUnionSerializer(definition),
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        name: name,
+        description: options?.description,
+        metadata: options?.metadata,
+        definition: memoryStoreDefinitionUnionSerializer(definition),
+      },
+    });
 }
 
 export async function _createMemoryStoreDeserialize(

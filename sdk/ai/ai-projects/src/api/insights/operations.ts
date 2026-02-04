@@ -33,7 +33,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/insights{?api-version,type,evalId,runId,agentName,includeCoordinates}",
     {
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
       type: options?.typeParam,
       evalId: options?.evalId,
       runId: options?.runId,
@@ -75,7 +75,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
@@ -88,7 +88,7 @@ export function _getSend(
     "/insights/{id}{?api-version,includeCoordinates}",
     {
       id: id,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
       includeCoordinates: options?.includeCoordinates,
     },
     {
@@ -128,38 +128,39 @@ export async function get(
 
 export function _generateSend(
   context: Client,
+  foundryBeta: "Insights=v1",
   insight: Insight,
   options: InsightsGenerateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/insights{?api-version}",
     {
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
   return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "foundry-beta": "Insights=v1",
-      ...(options?.repeatabilityRequestId !== undefined
-        ? { "repeatability-request-id": options?.repeatabilityRequestId }
-        : {}),
-      ...(options?.repeatabilityFirstSent !== undefined
-        ? {
-            "repeatability-first-sent": !options?.repeatabilityFirstSent
-              ? options?.repeatabilityFirstSent
-              : options?.repeatabilityFirstSent.toUTCString(),
-          }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: insightSerializer(insight),
-  });
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "foundry-beta": foundryBeta,
+        ...(options?.repeatabilityRequestId !== undefined
+          ? { "repeatability-request-id": options?.repeatabilityRequestId }
+          : {}),
+        ...(options?.repeatabilityFirstSent !== undefined
+          ? {
+              "repeatability-first-sent": !options?.repeatabilityFirstSent
+                ? options?.repeatabilityFirstSent
+                : options?.repeatabilityFirstSent.toUTCString(),
+            }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: insightSerializer(insight),
+    });
 }
 
 export async function _generateDeserialize(result: PathUncheckedResponse): Promise<Insight> {
@@ -174,9 +175,10 @@ export async function _generateDeserialize(result: PathUncheckedResponse): Promi
 /** Generate Insights */
 export async function generate(
   context: Client,
+  foundryBeta: "Insights=v1",
   insight: Insight,
   options: InsightsGenerateOptionalParams = { requestOptions: {} },
 ): Promise<Insight> {
-  const result = await _generateSend(context, insight, options);
+  const result = await _generateSend(context, foundryBeta, insight, options);
   return _generateDeserialize(result);
 }
