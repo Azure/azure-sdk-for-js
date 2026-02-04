@@ -27,27 +27,15 @@
 
 /sdk/                                                              @Azure/azure-sdk-js-dev @xirzec
 
-# PRLabel: %Farmbeats
-/sdk/agrifood/                                                     @joheredi
-
-# AzureSdkOwners:                                                  @joheredi
-# ServiceLabel: %Farmbeats
-
 /sdk/ai/ai-agents                                                  @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
+
+/sdk/ai/ai-projects                                                @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
 
 # PRLabel: %AI Model Inference
 /sdk/ai/ai-inference-rest                                          @dargilco @glharper
 
 # ServiceLabel: %AI Model Inference
 # ServiceOwners:                                                   @dargilco @glharper
-
-/sdk/ai/ai-projects                                                @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
-
-# PRLabel: %Voice Live
-/sdk/ai/ai-voicelive                                               @amber-yujueWang @rhurey @xitzhang
-
-# ServiceLabel: %Voice Live
-# ServiceOwners:                                                   @amber-yujueWang @rhurey @xitzhang
 
 # PRLabel: %App Configuration
 /sdk/appconfiguration/                                             @jimmyca15 @minhanh-phan @RichardChen820 @zhiyuanliang-ms
@@ -62,13 +50,54 @@
 # ServiceLabel: %Attestation
 # ServiceOwners:                                                   @anilba06 @gkostal
 
+# ServiceLabel: %Azure Load Testing
+# PRLabel: %Azure Load Testing
+/sdk/loadtesting/                                                  @azure/testing-services
+
+# PRLabel: %Azure.Core
+/sdk/core/                                                         @Azure/azure-sdk-for-js-core
+
+# PRLabel: %Azure.Core
+/sdk/core/core-amqp/                                               @Azure/azure-sdk-for-js-core @xirzec
+
+# PRLabel: %Azure.Core
+/sdk/core/core-client-rest/                                        @Azure/azure-sdk-for-js-core @joheredi @timovv
+
+# PRLabel: %Azure.Core
+/sdk/core/core-lro/                                                @Azure/azure-sdk-for-js-core @deyaaeldeen @joheredi
+
+# PRLabel: %Azure.Core
+/sdk/core/core-tracing/                                            @Azure/azure-sdk-for-js-core @maorleger
+
+# AzureSdkOwners:                                                  @Azure/azure-sdk-for-js-core
+# ServiceLabel: %Azure.Core
+
+# PRLabel: %Azure.Identity
+/sdk/identity/                                                     @Azure/azure-sdk-write-identity @KarishmaGhiya @maorleger @minhanh-phan
+
+# AzureSdkOwners:                                                  @KarishmaGhiya @maorleger @minhanh-phan
+# ServiceLabel: %Azure.Identity
+
 # ServiceLabel: %Batch
 # PRLabel: %Batch
 /sdk/batch/                                                        @cRui861 @dpwatrous @skapur12 @wanghoppe @wiboris
 
+# PRLabel: %Cognitive - Form Recognizer
+/sdk/formrecognizer/                                               @jeremymeng
+
+# AzureSdkOwners:                                                  @jeremymeng
+# ServiceLabel: %Cognitive - Form Recognizer
+
 # ServiceLabel: %Cognitive - Language
 # PRLabel: %Cognitive - Language
 /sdk/cognitivelanguage/                                            @quentinRobinson
+
+# ServiceLabel: %Cognitive - Text Analytics
+# PRLabel: %Cognitive - Text Analytics
+/sdk/textanalytics/                                                @quentinRobinson
+
+# PRLabel: %Cognitive - Translator
+/sdk/translation/ai-translation-document-rest/                     @Han-msft @zihyunting
 
 # ServiceLabel: %Communication
 # PRLabel: %Communication
@@ -138,24 +167,6 @@
 # AzureSdkOwners:                                                  @jeremymeng @timovv
 # ServiceLabel: %Container Registry
 
-# PRLabel: %Azure.Core
-/sdk/core/                                                         @Azure/azure-sdk-for-js-core
-
-# PRLabel: %Azure.Core
-/sdk/core/core-amqp/                                               @Azure/azure-sdk-for-js-core @xirzec
-
-# PRLabel: %Azure.Core
-/sdk/core/core-client-rest/                                        @Azure/azure-sdk-for-js-core @joheredi @timovv
-
-# PRLabel: %Azure.Core
-/sdk/core/core-lro/                                                @Azure/azure-sdk-for-js-core @deyaaeldeen @joheredi
-
-# PRLabel: %Azure.Core
-/sdk/core/core-tracing/                                            @Azure/azure-sdk-for-js-core @maorleger
-
-# AzureSdkOwners:                                                  @Azure/azure-sdk-for-js-core
-# ServiceLabel: %Azure.Core
-
 # PRLabel: %Cosmos
 /sdk/cosmosdb/                                                     @aditishree1 @amanrao23 @sajeetharan @topshot99
 
@@ -178,6 +189,12 @@
 # ServiceLabel: %Durable Task Scheduler
 # ServiceOwners:                                                   @berndverst @cgillum @kaibocai @philliphoff @torosent
 
+# PRLabel: %EngSys
+/sdk/template/                                                     @benbp @mikeharder @weshaggard
+
+# AzureSdkOwners:                                                  @benbp @mikeharder @weshaggard
+# ServiceLabel: %EngSys
+
 # PRLabel: %Event Grid
 /sdk/eventgrid/                                                    @rajeshka @shankarsama
 
@@ -191,27 +208,19 @@
 # ServiceLabel: %Event Hubs
 # ServiceOwners:                                                   @axisc @hmlam @j7nw4r @sjkwak
 
-# PRLabel: %Cognitive - Form Recognizer
-/sdk/formrecognizer/                                               @jeremymeng
+# PRLabel: %Farmbeats
+/sdk/agrifood/                                                     @joheredi
 
-# AzureSdkOwners:                                                  @jeremymeng
-# ServiceLabel: %Cognitive - Form Recognizer
+# AzureSdkOwners:                                                  @joheredi
+# ServiceLabel: %Farmbeats
 
 # ServiceLabel: %Health Deidentification
 # PRLabel: %Health Deidentification
 /sdk/healthdataaiservices/                                         @alexathomases @Azure/healthdatadeidentification
 
-# PRLabel: %Azure.Identity
-/sdk/identity/                                                     @Azure/azure-sdk-write-identity @KarishmaGhiya @maorleger @minhanh-phan
-
-# AzureSdkOwners:                                                  @KarishmaGhiya @maorleger @minhanh-phan
-# ServiceLabel: %Azure.Identity
-
-# PRLabel: %OpenTelemetryInstrumentation
-/sdk/instrumentation/                                              @maorleger
-
-# AzureSdkOwners:                                                  @maorleger
-# ServiceLabel: %OpenTelemetryInstrumentation
+# ServiceLabel: %Image Analysis
+# PRLabel: %Image Analysis
+/sdk/vision/ai-vision-image-analysis-rest/                         @dargilco @rhurey
 
 # PRLabel: %KeyVault
 /sdk/keyvault/                                                     @Azure/azure-sdk-write-keyvault
@@ -219,17 +228,9 @@
 # AzureSdkOwners:                                                  @Azure/azure-sdk-write-keyvault
 # ServiceLabel: %KeyVault
 
-# ServiceLabel: %Azure Load Testing
-# PRLabel: %Azure Load Testing
-/sdk/loadtesting/                                                  @azure/testing-services
-
 # ServiceLabel: %Maps
 # PRLabel: %Maps
 /sdk/maps/                                                         @andykao1213 @dubiety
-
-# ServiceLabel: %Operator Nexus - Network Cloud
-# PRLabel: %Operator Nexus - Network Cloud
-/sdk/networkcloud/                                                 @Azure/azure-sdk-write-networkcloud
 
 # PRLabel: %Notification Hub
 /sdk/notificationhubs/notification-hubs                            @jeremymeng
@@ -246,6 +247,16 @@
 
 # ServiceLabel: %OpenAI
 # ServiceOwners:                                                   @trrwilson
+
+# PRLabel: %OpenTelemetryInstrumentation
+/sdk/instrumentation/                                              @maorleger
+
+# AzureSdkOwners:                                                  @maorleger
+# ServiceLabel: %OpenTelemetryInstrumentation
+
+# ServiceLabel: %Operator Nexus - Network Cloud
+# PRLabel: %Operator Nexus - Network Cloud
+/sdk/networkcloud/                                                 @Azure/azure-sdk-write-networkcloud
 
 # PRLabel: %Purview
 /sdk/purview/                                                      @qiaozha
@@ -286,28 +297,17 @@
 # AzureSdkOwners:                                                  @joheredi
 # ServiceLabel: %Tables
 
-# PRLabel: %EngSys
-/sdk/template/                                                     @benbp @mikeharder @weshaggard
-
-# AzureSdkOwners:                                                  @benbp @mikeharder @weshaggard
-# ServiceLabel: %EngSys
-
 # PRLabel: %test-utils
 /sdk/test-utils/                                                   @timovv
 
 # AzureSdkOwners:                                                  @timovv
 # ServiceLabel: %test-utils
 
-# ServiceLabel: %Cognitive - Text Analytics
-# PRLabel: %Cognitive - Text Analytics
-/sdk/textanalytics/                                                @quentinRobinson
+# PRLabel: %Voice Live
+/sdk/ai/ai-voicelive                                               @amber-yujueWang @rhurey @xitzhang
 
-# PRLabel: %Cognitive - Translator
-/sdk/translation/ai-translation-document-rest/                     @Han-msft @zihyunting
-
-# ServiceLabel: %Image Analysis
-# PRLabel: %Image Analysis
-/sdk/vision/ai-vision-image-analysis-rest/                         @dargilco @rhurey
+# ServiceLabel: %Voice Live
+# ServiceOwners:                                                   @amber-yujueWang @rhurey @xitzhang
 
 # ServiceLabel: %WebPubSub
 # PRLabel: %WebPubSub
