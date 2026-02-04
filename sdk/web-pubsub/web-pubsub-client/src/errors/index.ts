@@ -44,7 +44,13 @@ export interface SendMessageErrorOptions {
 }
 
 export interface InvocationErrorOptions {
+  /**
+   * The invocation id of the request.
+   */
   invocationId: string;
+  /**
+   * Error details from the service if available.
+   */
   errorDetail?: InvokeResponseError;
 }
 

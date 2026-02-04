@@ -344,8 +344,17 @@ export interface SequenceAckMessage extends WebPubSubMessageBase {
  * Invoke message
  */
 export interface InvokeMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
   readonly kind: "invoke";
+  /**
+   * The invocation id
+   */
   invocationId: string;
+  /**
+   * The invocation target type. Currently, only upstream events are supported.
+   */
   target?: "event";
   /**
    * The event name when targeting upstream events.
@@ -365,11 +374,29 @@ export interface InvokeMessage extends WebPubSubMessageBase {
  * Invoke response message
  */
 export interface InvokeResponseMessage extends WebPubSubMessageBase {
+  /**
+   * Message type.
+   */
   readonly kind: "invokeResponse";
+  /**
+   * The invocation ID that this response is for.
+   */
   invocationId: string;
+  /**
+   * Indicates whether the invocation was successful.
+   */
   success?: boolean;
+  /**
+   * Data type of the payload.
+   */
   dataType?: WebPubSubDataType;
+  /**
+   * Payload data.
+   */
   data?: JSONTypes | ArrayBuffer;
+  /**
+   * Error details if the invocation failed.
+   */
   error?: InvokeResponseError;
 }
 
@@ -377,7 +404,13 @@ export interface InvokeResponseMessage extends WebPubSubMessageBase {
  * Invoke response error details
  */
 export interface InvokeResponseError {
+  /**
+   * The error name.
+   */
   name: string;
+  /**
+   * The error message.
+   */
   message: string;
 }
 
@@ -385,7 +418,13 @@ export interface InvokeResponseError {
  * Cancel invocation message
  */
 export interface CancelInvocationMessage extends WebPubSubMessageBase {
+  /**
+   * The message kind.
+   */
   readonly kind: "cancelInvocation";
+  /**
+   * The invocation ID to cancel.
+   */
   invocationId: string;
 }
 
