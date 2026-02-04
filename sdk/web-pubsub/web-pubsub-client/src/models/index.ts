@@ -207,7 +207,7 @@ export interface OnDisconnectedArgs {
 /**
  * Parameter of OnStopped callback
  */
-export interface OnStoppedArgs { }
+export interface OnStoppedArgs {}
 
 /**
  * Parameter of OnDataMessage callback
