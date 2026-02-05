@@ -1,6 +1,6 @@
 # Release History
 
-## 13.0.0-beta.1 (2026-02-04)
+## 13.0.0-beta.1 (2026-02-05)
 
 This is the first beta release of the new `@azure/batch` package, a major rewrite built on the Azure SDK for JavaScript modular client architecture.
 
