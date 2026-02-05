@@ -1222,15 +1222,10 @@ export class BlobServiceClient extends StorageClient {
       );
     }
 
-    if (expiresOn === undefined) {
-      const now = new Date();
-      expiresOn = new Date(now.getTime() + 3600 * 1000);
-    }
-
     const sas = generateAccountSASQueryParameters(
       {
         permissions,
-        expiresOn,
+        expiresOn: expiresOn ?? new Date(Date.now() + 3600 * 1000),
         resourceTypes,
         services: AccountSASServices.parse("b").toString(),
         ...options,
@@ -1267,15 +1262,10 @@ export class BlobServiceClient extends StorageClient {
       );
     }
 
-    if (expiresOn === undefined) {
-      const now = new Date();
-      expiresOn = new Date(now.getTime() + 3600 * 1000);
-    }
-
     return generateAccountSASQueryParametersInternal(
       {
         permissions,
-        expiresOn,
+        expiresOn: expiresOn ?? new Date(Date.now() + 3600 * 1000),
         resourceTypes,
         services: AccountSASServices.parse("b").toString(),
         ...options,
