@@ -5,20 +5,13 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import type { Recorder, RecorderStartOptions, SanitizerOptions } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
 import { isDefined } from "@azure/core-util";
-import {
-  KnowledgeRetrievalClient,
-  SearchClient,
-  SearchIndexClient,
-  SearchIndexerClient,
-} from "../../../src/index.js";
+import { SearchClient, SearchIndexClient, SearchIndexerClient } from "../../../src/index.js";
 
 export interface Clients<IndexModel extends object> {
   searchClient: SearchClient<IndexModel>;
   indexClient: SearchIndexClient;
   indexerClient: SearchIndexerClient;
   indexName: string;
-  baseName: string;
-  knowledgeRetrievalClient: KnowledgeRetrievalClient;
 }
 
 interface Env {
@@ -88,13 +81,11 @@ export async function createClients<IndexModel extends object>(
   serviceVersion: string,
   recorder: Recorder,
   indexName: string,
-  baseName: string,
 ): Promise<Clients<IndexModel>> {
   const recorderOptions = createRecorderStartOptions();
   await recorder.start(recorderOptions);
 
   indexName = recorder.variable("TEST_INDEX_NAME", indexName);
-  baseName = recorder.variable("TEST_BASE_NAME", baseName);
 
   const credential = createTestCredential();
 
@@ -122,19 +113,11 @@ export async function createClients<IndexModel extends object>(
       serviceVersion,
     }),
   );
-  const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
-    endPoint,
-    baseName,
-    credential,
-    recorder.configureClientOptions({}),
-  );
 
   return {
     searchClient,
     indexClient,
     indexerClient,
-    knowledgeRetrievalClient,
     indexName,
-    baseName,
   };
 }
