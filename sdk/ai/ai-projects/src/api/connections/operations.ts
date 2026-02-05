@@ -33,7 +33,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/connections{?api-version,connectionType,defaultConnection}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
       connectionType: options?.connectionType,
       defaultConnection: options?.defaultConnection,
     },
@@ -72,7 +72,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 
@@ -85,7 +85,7 @@ export function _getWithCredentialsSend(
     "/connections/{name}/getConnectionWithCredentials{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +133,7 @@ export function _getSend(
     "/connections/{name}{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

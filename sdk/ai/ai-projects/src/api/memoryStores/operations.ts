@@ -59,7 +59,7 @@ export function _deleteScopeSend(
     "/memory_stores/{name}:delete_scope{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -114,7 +114,7 @@ export function _getUpdateResultSend(
     {
       name: name,
       update_id: updateId,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -166,7 +166,7 @@ export function _updateMemoriesSend(
     "/memory_stores/{name}:update_memories{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -222,7 +222,7 @@ export function updateMemories(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateMemoriesSend(context, name, scope, foundryBeta, options),
 
-    apiVersion: context.apiVersion ?? "v1",
+    apiVersion: context.apiVersion,
   }) as PollerLike<
     OperationState<MemoryStoreUpdateCompletedResult>,
     MemoryStoreUpdateCompletedResult
@@ -240,7 +240,7 @@ export function _searchMemoriesSend(
     "/memory_stores/{name}:search_memories{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -300,7 +300,7 @@ export function _deleteMemoryStoreSend(
     "/memory_stores/{name}{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -352,7 +352,7 @@ export function _listMemoryStoresSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -392,7 +392,7 @@ export function listMemoryStores(
     () => _listMemoryStoresSend(context, foundryBeta, options),
     _listMemoryStoresDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    { itemName: "data", apiVersion: context.apiVersion },
   );
 }
 
@@ -406,7 +406,7 @@ export function _getMemoryStoreSend(
     "/memory_stores/{name}{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -456,7 +456,7 @@ export function _updateMemoryStoreSend(
     "/memory_stores/{name}{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -508,7 +508,7 @@ export function _createMemoryStoreSend(
   const path = expandUrlTemplate(
     "/memory_stores{?api-version}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

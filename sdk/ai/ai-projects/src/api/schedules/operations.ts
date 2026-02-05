@@ -43,7 +43,7 @@ export function _listRunsSend(
     "/schedules/{id}/runs{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -83,7 +83,7 @@ export function listRuns(
     () => _listRunsSend(context, id, options),
     _listRunsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 
@@ -99,7 +99,7 @@ export function _getRunSend(
     {
       schedule_id: scheduleId,
       run_id: runId,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -148,7 +148,7 @@ export function _createOrUpdateSend(
     "/schedules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -195,7 +195,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/schedules{?api-version}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -232,7 +232,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 
@@ -245,7 +245,7 @@ export function _getSend(
     "/schedules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -291,7 +291,7 @@ export function _$deleteSend(
     "/schedules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

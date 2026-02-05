@@ -33,7 +33,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/insights{?api-version,type,evalId,runId,agentName,includeCoordinates}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
       type: options?.typeParam,
       evalId: options?.evalId,
       runId: options?.runId,
@@ -75,7 +75,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 
@@ -88,7 +88,7 @@ export function _getSend(
     "/insights/{id}{?api-version,includeCoordinates}",
     {
       id: id,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
       includeCoordinates: options?.includeCoordinates,
     },
     {
@@ -135,7 +135,7 @@ export function _generateSend(
   const path = expandUrlTemplate(
     "/insights{?api-version}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

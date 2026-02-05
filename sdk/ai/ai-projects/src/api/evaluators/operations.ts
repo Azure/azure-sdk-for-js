@@ -42,7 +42,7 @@ export function _updateVersionSend(
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -102,7 +102,7 @@ export function _createVersionSend(
     "/evaluators/{name}/versions{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -155,7 +155,7 @@ export function _deleteVersionSend(
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -200,7 +200,7 @@ export function _getVersionSend(
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -247,7 +247,7 @@ export function _listLatestVersionsSend(
   const path = expandUrlTemplate(
     "/evaluators{?api-version,type,limit}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
       type: options?.typeParam as any,
       limit: options?.limit,
     },
@@ -287,7 +287,7 @@ export function listLatestVersions(
     () => _listLatestVersionsSend(context, foundryBeta, options),
     _listLatestVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 
@@ -301,7 +301,7 @@ export function _listVersionsSend(
     "/evaluators/{name}/versions{?api-version,type,limit}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
       type: options?.typeParam as any,
       limit: options?.limit,
     },
@@ -342,6 +342,6 @@ export function listVersions(
     () => _listVersionsSend(context, name, foundryBeta, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }

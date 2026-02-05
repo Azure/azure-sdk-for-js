@@ -38,7 +38,7 @@ export function _updateSend(
     "/evaluationtaxonomies/{name}{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -88,7 +88,7 @@ export function _createSend(
     "/evaluationtaxonomies/{name}{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -137,7 +137,7 @@ export function _$deleteSend(
     "/evaluationtaxonomies/{name}{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -180,7 +180,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/evaluationtaxonomies{?api-version,inputName,inputType}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
       inputName: options?.inputName,
       inputType: options?.inputType,
     },
@@ -221,7 +221,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 
@@ -234,7 +234,7 @@ export function _getSend(
     "/evaluationtaxonomies/{name}{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
