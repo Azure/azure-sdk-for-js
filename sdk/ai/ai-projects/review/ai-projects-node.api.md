@@ -1164,12 +1164,12 @@ export interface EvaluatorsListVersionsOptionalParams extends OperationOptions {
 
 // @public
 export interface EvaluatorsOperations {
-    createVersion: (name: string, evaluatorVersion: EvaluatorVersion, options?: EvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
-    deleteVersion: (name: string, version: string, options?: EvaluatorsDeleteVersionOptionalParams) => Promise<void>;
-    getVersion: (name: string, version: string, options?: EvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
-    listVersions(name: string, options?: EvaluatorsListVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
-    listVersions(options?: EvaluatorsListLatestVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
-    updateVersion: (name: string, version: string, evaluatorVersion: EvaluatorVersion, options?: EvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
+    createVersion: (name: string, foundryBeta: "Evaluations=v1", evaluatorVersion: EvaluatorVersion, options?: EvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
+    deleteVersion: (name: string, foundryBeta: "Evaluations=v1", version: string, options?: EvaluatorsDeleteVersionOptionalParams) => Promise<void>;
+    getVersion: (name: string, foundryBeta: "Evaluations=v1", version: string, options?: EvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
+    listVersions(name: string, foundryBeta: "Evaluations=v1", options?: EvaluatorsListVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
+    listVersions(foundryBeta: "Evaluations=v1", options?: EvaluatorsListLatestVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
+    updateVersion: (name: string, foundryBeta: "Evaluations=v1", version: string, evaluatorVersion: EvaluatorVersion, options?: EvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
 }
 
 // @public
@@ -1573,7 +1573,7 @@ export interface InsightsMetadata {
 
 // @public
 export interface InsightsOperations {
-    generate: (insight: Insight, options?: InsightsGenerateOptionalParams) => Promise<Insight>;
+    generate: (foundryBeta: "Insights=v1", insight: Insight, options?: InsightsGenerateOptionalParams) => Promise<Insight>;
     get: (id: string, options?: InsightsGetOptionalParams) => Promise<Insight>;
     list: (options?: InsightsListOptionalParams) => PagedAsyncIterableIterator<Insight>;
 }
@@ -1836,15 +1836,15 @@ export interface MemoryStoresListMemoryStoresOptionalParams extends OperationOpt
 
 // @public
 export interface MemoryStoresOperations {
-    create: (name: string, definition: MemoryStoreDefinitionUnion, options?: MemoryStoresCreateMemoryStoreOptionalParams) => Promise<MemoryStore>;
-    delete: (name: string, options?: MemoryStoresDeleteMemoryStoreOptionalParams) => Promise<DeleteMemoryStoreResponse>;
-    deleteScope: (name: string, scope: string, options?: MemoryStoresDeleteScopeOptionalParams) => Promise<MemoryStoreDeleteScopeResponse>;
-    get: (name: string, options?: MemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStore>;
-    getUpdateResult: (name: string, updateId: string, options?: MemoryStoresGetUpdateResultOptionalParams) => Promise<MemoryStoreUpdateResponse>;
-    list: (options?: MemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
-    searchMemories: (name: string, scope: string, options?: MemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
-    update: (name: string, options?: MemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStore>;
-    updateMemories: (name: string, scope: string, options?: MemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult>;
+    createMemoryStore: (name: string, definition: MemoryStoreDefinitionUnion, foundryBeta: "MemoryStores=v1", options?: MemoryStoresCreateMemoryStoreOptionalParams) => Promise<MemoryStore>;
+    deleteMemoryStore: (name: string, foundryBeta: "MemoryStores=v1", options?: MemoryStoresDeleteMemoryStoreOptionalParams) => Promise<DeleteMemoryStoreResponse>;
+    deleteScope: (name: string, scope: string, foundryBeta: "MemoryStores=v1", options?: MemoryStoresDeleteScopeOptionalParams) => Promise<MemoryStoreDeleteScopeResponse>;
+    getMemoryStore: (name: string, foundryBeta: "MemoryStores=v1", options?: MemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStore>;
+    getUpdateResult: (name: string, updateId: string, foundryBeta: "MemoryStores=v1", options?: MemoryStoresGetUpdateResultOptionalParams) => Promise<MemoryStoreUpdateResponse>;
+    listMemoryStores: (foundryBeta: "MemoryStores=v1", options?: MemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
+    searchMemories: (name: string, scope: string, foundryBeta: "MemoryStores=v1", options?: MemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
+    updateMemories: (name: string, scope: string, foundryBeta: "MemoryStores=v1", options?: MemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult>;
+    updateMemoryStore: (name: string, foundryBeta: "MemoryStores=v1", options?: MemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStore>;
 }
 
 // @public
@@ -2549,9 +2549,9 @@ export interface SchedulesOperations {
     createOrUpdate: (id: string, schedule: Schedule, options?: SchedulesCreateOrUpdateOptionalParams) => Promise<Schedule>;
     delete: (id: string, options?: SchedulesDeleteOptionalParams) => Promise<void>;
     get: (id: string, options?: SchedulesGetOptionalParams) => Promise<Schedule>;
-    getRun: (scheduleId: string, runId: string, options?: SchedulesGetRunOptionalParams) => Promise<ScheduleRun>;
+    getRun: (scheduleId: string, runId: string, foundryBeta: "Insights=v1", options?: SchedulesGetRunOptionalParams) => Promise<ScheduleRun>;
     list: (options?: SchedulesListOptionalParams) => PagedAsyncIterableIterator<Schedule>;
-    listRuns: (scheduleId: string, options?: SchedulesListRunsOptionalParams) => PagedAsyncIterableIterator<ScheduleRun>;
+    listRuns: (id: string, options?: SchedulesListRunsOptionalParams) => PagedAsyncIterableIterator<ScheduleRun>;
 }
 
 // @public
