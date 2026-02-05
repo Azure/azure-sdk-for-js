@@ -35,7 +35,7 @@ import {
   StorageOAuthScopes,
 } from "./utils/constants.js";
 import { tracingClient } from "./utils/tracing.js";
-import { authorizeRequestOnTenantChallenge, serializationPolicy } from "@azure/core-client";
+import { authorizeRequestOnTenantChallenge } from "@azure/core-client";
 
 /**
  * A request associated with a batch operation.

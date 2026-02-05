@@ -66,8 +66,8 @@ import type {
   ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel,
   ServiceListContainersSegmentHeaders,
   ServiceSetPropertiesHeaders,
-} from "./generated/src/index.js";
-import { FullOperationResponse } from "@azure-rest/core-client";
+} from "./generated/src/models/index.js";
+import type { FullOperationResponse } from "@azure-rest/core-client";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.

@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// import type { StorageClient as StorageClientContext } from "./generated/src/index.js";
-// import { StorageContextClient } from "./StorageContextClient.js";
 import type { PipelineLike } from "./Pipeline.js";
 import { getCoreClientOptions, getCredentialFromPipeline } from "./Pipeline.js";
 import {
@@ -34,7 +32,7 @@ export interface CommonOptions {
   tracingOptions?: OperationTracingOptions;
 }
 
-class StorageClientContextTsp {
+export class StorageClientContextTsp {
   constructor(url: string, options: ExtendedServiceClientOptions = {}) {
     const cr = {} as TokenCredential;
     this.service = new Service(url, cr, options);

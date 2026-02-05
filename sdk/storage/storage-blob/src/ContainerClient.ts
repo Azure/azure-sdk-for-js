@@ -88,7 +88,7 @@ import type {
   ListBlobsHierarchySegmentResponse as ListBlobsHierarchySegmentResponseInternal,
   ContainerListBlobHierarchySegmentResponse as ContainerListBlobHierarchySegmentResponseModel,
   ContainerGetAccountInfoHeaders,
-} from "./generated/src/index.js";
+} from "./generated/src/models/index.js";
 
 /**
  * Options to configure {@link ContainerClient.create} operation.

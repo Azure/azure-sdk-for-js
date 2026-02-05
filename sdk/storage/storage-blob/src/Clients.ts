@@ -58,7 +58,7 @@ import type {
   PageBlobUpdateSequenceNumberHeaders,
   PageBlobUploadPagesFromURLHeaders,
   PageBlobUploadPagesHeaders,
-} from "./generated/src/index.js";
+} from "./generated/src/models/index.js";
 import type {
   AppendBlobAppendBlockFromUrlResponse,
   AppendBlobAppendBlockResponse,

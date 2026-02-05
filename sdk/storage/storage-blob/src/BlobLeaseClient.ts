@@ -17,7 +17,7 @@ import type {
   ContainerAcquireLeaseHeaders,
   ContainerBreakLeaseHeaders,
   ContainerReleaseLeaseHeaders,
-} from "./generated/src/index.js";
+} from "./generated/src/models/index.js";
 
 /**
  * The details for a specific lease.
