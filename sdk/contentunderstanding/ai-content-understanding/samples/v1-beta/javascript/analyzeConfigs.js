@@ -53,23 +53,11 @@ async function main() {
   // NOTE: This helper handles the SDK sample folder structure. Replace with your own file path directly.
   // e.g., const filePath = "/path/to/your/document.pdf";
   const findExampleData = (filename) => {
-    const scriptDir =
-      typeof __dirname !== "undefined"
-        ? __dirname
-        : typeof process !== "undefined" && process.argv && process.argv[1]
-          ? path.dirname(process.argv[1])
-          : process.cwd();
-
-    const candidates = [
-      path.resolve(scriptDir, "example-data", filename),
-      path.resolve(scriptDir, "..", "src", "example-data", filename), // from dist/
-      path.resolve(scriptDir, "src", "example-data", filename), // from project root
-    ];
-
-    for (const candidate of candidates) {
-      if (fs.existsSync(candidate)) return candidate;
-    }
-    return candidates[0]; // fallback to first candidate for error message
+    const scriptDir = process.argv[1] ? path.dirname(process.argv[1]) : process.cwd();
+    const examplePath = path.resolve(scriptDir, "example-data", filename);
+    if (fs.existsSync(examplePath)) return examplePath;
+    const srcPath = path.resolve(scriptDir, "..", "src", "example-data", filename);
+    return fs.existsSync(srcPath) ? srcPath : examplePath;
   };
   const filePath = findExampleData("sample_document_features.pdf");
   const pdfBytes = fs.readFileSync(filePath);
