@@ -46,7 +46,7 @@ export function isRetriable(statusCode: number): boolean {
  * @internal
  */
 export function isSamplingRejection(error: BreezeError): boolean {
-  return error.message === "Telemetry sampled out.";
+  return error.message.toLowerCase() === "telemetry sampled out.";
 }
 
 //  Convert ms to c# time span format DD.HH:MM:SS.MMMMMM
