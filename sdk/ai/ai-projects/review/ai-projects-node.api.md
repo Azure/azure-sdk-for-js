@@ -1836,15 +1836,15 @@ export interface MemoryStoresListMemoryStoresOptionalParams extends OperationOpt
 
 // @public
 export interface MemoryStoresOperations {
-    createMemoryStore: (name: string, definition: MemoryStoreDefinitionUnion, foundryBeta: "MemoryStores=v1", options?: MemoryStoresCreateMemoryStoreOptionalParams) => Promise<MemoryStore>;
-    deleteMemoryStore: (name: string, foundryBeta: "MemoryStores=v1", options?: MemoryStoresDeleteMemoryStoreOptionalParams) => Promise<DeleteMemoryStoreResponse>;
+    create: (name: string, definition: MemoryStoreDefinitionUnion, foundryBeta: "MemoryStores=v1", options?: MemoryStoresCreateMemoryStoreOptionalParams) => Promise<MemoryStore>;
+    delete: (name: string, foundryBeta: "MemoryStores=v1", options?: MemoryStoresDeleteMemoryStoreOptionalParams) => Promise<DeleteMemoryStoreResponse>;
     deleteScope: (name: string, scope: string, foundryBeta: "MemoryStores=v1", options?: MemoryStoresDeleteScopeOptionalParams) => Promise<MemoryStoreDeleteScopeResponse>;
-    getMemoryStore: (name: string, foundryBeta: "MemoryStores=v1", options?: MemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStore>;
+    get: (name: string, foundryBeta: "MemoryStores=v1", options?: MemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStore>;
     getUpdateResult: (name: string, updateId: string, foundryBeta: "MemoryStores=v1", options?: MemoryStoresGetUpdateResultOptionalParams) => Promise<MemoryStoreUpdateResponse>;
-    listMemoryStores: (foundryBeta: "MemoryStores=v1", options?: MemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
+    list: (foundryBeta: "MemoryStores=v1", options?: MemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
     searchMemories: (name: string, scope: string, foundryBeta: "MemoryStores=v1", options?: MemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
+    update: (name: string, foundryBeta: "MemoryStores=v1", options?: MemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStore>;
     updateMemories: (name: string, scope: string, foundryBeta: "MemoryStores=v1", options?: MemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult>;
-    updateMemoryStore: (name: string, foundryBeta: "MemoryStores=v1", options?: MemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStore>;
 }
 
 // @public
