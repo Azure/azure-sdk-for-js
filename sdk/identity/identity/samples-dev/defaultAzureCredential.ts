@@ -12,7 +12,7 @@ import { KeyClient } from "@azure/keyvault-keys";
 import "dotenv/config";
 
 /**
- * The `DefaultAzureCredential` is appropriate for most scenarios where the application is intended to ultimately be run in the Azure Cloud.
+ * `DefaultAzureCredential` is appropriate for most scenarios where the application is intended to ultimately be run in the Azure Cloud.
  * This is because the `DefaultAzureCredential` combines credentials commonly used to authenticate when deployed,
  * with credentials used to authenticate in a development environment.
  *
