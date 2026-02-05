@@ -93,7 +93,7 @@ await client.sendToGroup(groupName, "hello world", "text");
 
 ### 5. Invoke upstream events (preview)
 
-```ts
+```ts snippet:ReadmeSampleInvokeEvent
 import { WebPubSubClient } from "@azure/web-pubsub-client";
 
 const client = new WebPubSubClient("<client-access-url>");
