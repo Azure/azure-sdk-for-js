@@ -36,7 +36,6 @@ import { isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log.js";
 import type { StorageRetryOptions } from "@azure/storage-blob";
-import {} from "@azure/storage-blob";
 import {
   AnonymousCredential,
   StorageRetryPolicyFactory,
